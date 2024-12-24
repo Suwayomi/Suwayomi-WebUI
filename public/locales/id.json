@@ -13,8 +13,7 @@
             },
             "no_categories_found": {
                 "label": {
-                    "info": "Kategori tak ditemukan.",
-                    "hint": "Buatlah di pengaturan."
+                    "info": "Kategori tak ditemukan."
                 }
             }
         },
@@ -24,7 +23,6 @@
         },
         "title": {
             "set_categories": "Atur kategori",
-            "categories": "Kategori",
             "category_other": "Kategori"
         },
         "settings": {
@@ -187,7 +185,8 @@
                     "value": "{{chapters}} $t(chapter.title)",
                     "unread_chapters_to_download": "Jumlah bab yang belum dibaca untuk diunduh",
                     "while_reading": "Unduh otomatis saat membaca",
-                    "description": "Seberapa banyak bab yang dapat diunduh sembari membaca."
+                    "description": "Seberapa banyak bab yang dapat diunduh sembari membaca.",
+                    "disclaimer": "Hanya berjalan apabila bab sekarang dan bab berikutnya telah diunduh"
                 }
             },
             "file_type": {

@@ -48,9 +48,7 @@
             "global_update": {
                 "categories": {
                     "label": {
-                        "info": "Les entrées dans les catégories exclues ne seront pas mises à jour même si elles sont également dans les catégories incluses",
-                        "include": "Inclure : {{includedCategoriesText}}",
-                        "exclude": "Exclure : {{excludedCategoriesText}}"
+                        "info": "Les entrées dans les catégories exclues ne seront pas mises à jour même si elles sont également dans les catégories incluses"
                     }
                 },
                 "title": "Mise à jour globale",
@@ -238,7 +236,6 @@
             "open_in_browser": "Ouvrir dans le navigateur",
             "password": "Mot de passe",
             "type": "Type",
-            "copied": "Copié",
             "general": "Général",
             "links": "Liens",
             "github": "GitHub",
@@ -407,16 +404,6 @@
     },
     "settings": {
         "backup": {
-            "label": {
-                "restore_backup": "Restaurer la sauvegarde",
-                "restoring_backup": "Restauration de la sauvegarde…",
-                "create_backup": "Créer une sauvegarde",
-                "restored_backup": "La restauration de la sauvegarde est terminée !",
-                "backup_restore_failed": "La restauration de la sauvegarde a échoué !",
-                "restore_backup_info": "Vous pouvez également glisser-déposer un fichier de sauvegarde ici pour le restaurer",
-                "legacy_backup_unsupported": "les anciennes sauvegardes ne sont pas prises en charge !",
-                "create_backup_info": "Sauvegarder la bibliothèque en tant que sauvegarde Tachiyomi"
-            },
             "title": "Sauvegarde",
             "action": {
                 "restore": {
@@ -477,25 +464,14 @@
             }
         },
         "label": {
-            "dark_theme": "Thème sombre",
             "show_nsfw_description": "Masquer les extensions et les sources comportant du contenu explicite",
             "show_nsfw": "Afficher les contenus explicites",
             "manga_item_width": "Largeur des mangas",
-            "image_cache": "Utiliser le cache des images",
-            "image_cache_description": "La désactivation de la mémoire cache des images accélère le chargement des images si vous avez un disque lent, mais utilise en contrepartie beaucoup plus de trafic internet",
             "language_description": "N'hésitez pas à traduire le projet sur",
             "hide_library_entries": "Masquer les éléments déjà dans la bibliothèque"
         },
         "about": {
             "title": "À propos",
-            "label": {
-                "discord": "Discord",
-                "server_address": "Adresse du serveur",
-                "server": "Serveur",
-                "build_time": "Temps d'exécution",
-                "github": "GitHub",
-                "server_version": "Version du serveur"
-            },
             "webui": {
                 "label": {
                     "update_failure": "Impossible de mettre à jour l'$t(settings.webui.title.webui)",
@@ -516,13 +492,6 @@
             }
         },
         "title": "Paramètres",
-        "server_address": {
-            "dialog": {
-                "label": {
-                    "enter_address": "Saisissez l'adresse du serveur"
-                }
-            }
-        },
         "device": {
             "title": {
                 "settings": "Paramètres de l'appareil",
@@ -1055,32 +1024,22 @@
                 "reader_type": "Type de lecteur",
                 "show_page_number": "Afficher le numéro de page",
                 "static_navigation": "Navigation statique",
-                "offset_first_page": "Première page décalée",
                 "skip_dup_chapters": "Ignorer les chapitres en double",
                 "fit_page_to_window": "Ajuster la page à l'écran",
-                "reader_width": "Largeur du lecteur",
-                "scale_page": "Mise à l'échelle des petites pages"
+                "reader_width": "Largeur du lecteur"
             },
             "error": {
                 "label": {
-                    "failed_to_save_settings": "Échec de l'enregistrement des paramètres du lecteur sur le serveur",
-                    "failed_to_save_default_settings": "Échec de l'enregistrement des paramètres par défaut du lecteur sur le serveur"
+                    "failed_to_save_settings": "Échec de l'enregistrement des paramètres du lecteur sur le serveur"
                 }
             },
             "title": {
-                "default_reader_settings": "Paramètres par défaut du lecteur",
                 "reader_settings": "Paramètres du lecteur"
             },
             "reader_type": {
                 "label": {
-                    "continuous_horizontal_rtl": "Horizontale (De droite à gauche)",
                     "continuous_vertical": "Verticale en continu",
-                    "double_page_ltr": "Double page (De gauche à droite)",
-                    "single_page_ltr": "Simple page (De gauche à droite)",
-                    "webtoon": "Webtoon",
-                    "continuous_horizontal_ltr": "Horizontale (De gauche à droite)",
-                    "single_page_rtl": "Simple page (De droite à gauche)",
-                    "double_page_rtl": "Double page (De droite à gauche)"
+                    "webtoon": "Webtoon"
                 }
             }
         },
@@ -1100,8 +1059,6 @@
         },
         "error": {
             "label": {
-                "unable_to_get_next_chapter_skip_dup": "Impossible d'obtenir le chapitre suivant - L'option \"$t(reader.settings.label.skip_dup_chapters)\" est activée",
-                "unable_to_get_prev_chapter_skip_dup": "Impossible d'obtenir le chapitre précédent - L'option \"$t(reader.settings.label.skip_dup_chapters)\" est activée",
                 "no_pages_found": "Aucune page trouvée",
                 "next_chapter_does_not_exist": "Il n'y a pas de chapitre suivant à ouvrir",
                 "prev_chapter_does_not_exist": "Aucun chapitre précédent à ouvrir"
@@ -1112,8 +1069,7 @@
         "error": {
             "no_categories_found": {
                 "label": {
-                    "info": "Aucune catégorie trouvée.",
-                    "hint": "Vous devriez en créer depuis les paramètres."
+                    "info": "Aucune catégorie trouvée."
                 }
             },
             "label": {
@@ -1123,7 +1079,6 @@
         },
         "title": {
             "set_categories": "Définir les catégories",
-            "categories": "Catégories",
             "category_one": "Catégorie",
             "category_many": "Catégories",
             "category_other": "Catégories"
@@ -1258,9 +1213,6 @@
                 "failed_to_save_settings": "Échec de l'enregistrement des paramètres de recherche par défaut sur le serveur",
                 "source_search_failed": "Impossible de rechercher la source"
             }
-        },
-        "label": {
-            "ignore_filters": "Ignorer les filtres lors de la recherche"
         }
     },
     "migrate": {

@@ -17,13 +17,11 @@
             },
             "no_categories_found": {
                 "label": {
-                    "info": "Non sono ancora presenti categorie.",
-                    "hint": "Dovresti crearne alcune dai settaggi."
+                    "info": "Non sono ancora presenti categorie."
                 }
             }
         },
         "title": {
-            "categories": "Categorie",
             "set_categories": "Imposta categorie",
             "category_one": "Categoria",
             "category_many": "Categorie",
@@ -268,17 +266,17 @@
         },
         "label": {
             "update_failed_one": "Impossibile aggiornare l'estensione",
-            "update_failed_many": "",
+            "update_failed_many": "Impossibile aggiornare l'estensioni",
             "update_failed_other": "",
             "installing_file": "Installando il file dell'estensione…",
             "installation_failed_one": "Impossibile installare l'estensione",
-            "installation_failed_many": "",
+            "installation_failed_many": "Impossibile installare l'estensioni",
             "installation_failed_other": "",
             "uninstallation_failed_one": "Impossibile disinstallare l'estensione",
-            "uninstallation_failed_many": "",
+            "uninstallation_failed_many": "Impossibile disinstallare l'estensioni",
             "uninstallation_failed_other": "",
             "installed_successfully_one": "Estensione installata",
-            "installed_successfully_many": "",
+            "installed_successfully_many": "Estensioni installate",
             "installed_successfully_other": "",
             "add_repository_info": "È necessario aggiungere un repository di estensioni per poter installare le estensioni"
         },
@@ -319,8 +317,8 @@
                 }
             }
         },
-        "title_one": "Estensioni",
-        "title_many": "",
+        "title_one": "Estensione",
+        "title_many": "Estensioni",
         "title_other": ""
     },
     "global": {
@@ -414,7 +412,6 @@
             "links": "Collegamenti",
             "advanced": "Avanzate",
             "sort": "Ordina",
-            "copied": "Copiato",
             "display": "Display",
             "filter": "Filtro",
             "logged_in": "Collegato",
@@ -878,7 +875,6 @@
             "hide_library_entries": "Nascondere le voci già presenti nella libreria",
             "manga_item_width": "Larghezza articolo manga",
             "show_nsfw": "Mostra NSFW",
-            "dark_theme": "Tema scuro",
             "language_description": "Sentitevi liberi di tradurre il progetto su",
             "show_nsfw_description": "Nascondere le estensioni e le fonti NSFW"
         },
@@ -1174,7 +1170,6 @@
         "settings": {
             "error": {
                 "label": {
-                    "failed_to_save_default_settings": "Impossibile salvare le impostazioni predefinite del lettore sul server",
                     "failed_to_save_settings": "Impossibile salvare le impostazioni del lettore sul server"
                 }
             },
@@ -1183,27 +1178,18 @@
                 "static_navigation": "Navigazione statica",
                 "skip_dup_chapters": "Salta i capitoli duplicati",
                 "reader_type": "Tipo di lettore",
-                "scale_page": "Scala pagine piccole",
                 "fit_page_to_window": "Adatta la pagina alla finestra",
-                "offset_first_page": "Offset prima pagina",
                 "reader_width": "Larghezza del lettore",
                 "show_page_number": "Mostra il numero di pagina"
             },
             "reader_type": {
                 "label": {
-                    "single_page_rtl": "Pagina singola (RTL) ⬅️",
                     "webtoon": "Webtoon",
-                    "continuous_horizontal_ltr": "Orizzontale (LTR) ➡️",
-                    "continuous_horizontal_rtl": "Orizzontale (RTL) ⬅️",
-                    "double_page_ltr": "Doppia pagina (LTR) ➡️",
-                    "single_page_ltr": "Pagina singola (LTR) ➡️",
-                    "double_page_rtl": "Doppia pagina (RTL) ⬅️",
                     "continuous_vertical": "Continua in verticale"
                 }
             },
             "title": {
-                "reader_settings": "Impostazioni del lettore",
-                "default_reader_settings": "Impostazioni predefinite del lettore"
+                "reader_settings": "Impostazioni del lettore"
             }
         },
         "button": {

@@ -209,7 +209,6 @@
             },
             "no_categories_found": {
                 "label": {
-                    "hint": "Deve fazer alguns partir das configurações.",
                     "info": "Não foram encontradas categorias."
                 }
             }
@@ -219,7 +218,6 @@
             "use_as_default_category": "Categoria padrão quando adicionar um novo manga a biblioteca"
         },
         "title": {
-            "categories": "Categorias",
             "set_categories": "Defina as categorias",
             "category_one": "Categoria",
             "category_many": "Categorias",
@@ -302,7 +300,6 @@
             "close": "Fechar",
             "disabled": "Desativado",
             "general": "Geral",
-            "copied": "Copiado",
             "load_in_progress": "Ainda carregando dados necessários…",
             "discord": "Discord",
             "are_you_sure": "Tem a certeza?",
@@ -991,7 +988,6 @@
         },
         "label": {
             "show_nsfw_description": "Ocultar extensões e fontes NSFW",
-            "dark_theme": "Tema escuro",
             "show_nsfw": "Mostrar NSFW",
             "manga_item_width": "Largura do item do manga",
             "hide_library_entries": "Ocultar entradas já na biblioteca",
@@ -1066,7 +1062,6 @@
                     "success": "Tema \"{{theme}}\" excluído",
                     "action": "Excluindo o tema \"{{theme}}\"…"
                 },
-                "device_theme": "Tema do dispositivo",
                 "title": "Tema",
                 "select": {
                     "fonts": {
@@ -1239,36 +1234,26 @@
         },
         "settings": {
             "title": {
-                "default_reader_settings": "Configurações do leitor padrão",
                 "reader_settings": "Configurações do leitor"
             },
             "reader_type": {
                 "label": {
                     "continuous_vertical": "Continua vertical",
-                    "webtoon": "Webtoon",
-                    "continuous_horizontal_rtl": "Horizontal (RTL) ⬅️",
-                    "double_page_rtl": "Página dupla (RTL)⬅️",
-                    "single_page_rtl": "Página única (RTL) ⬅️",
-                    "double_page_ltr": "Página dupla (LTR) ➡️",
-                    "single_page_ltr": "Página única (LTR) ➡️",
-                    "continuous_horizontal_ltr": "Horizontal (LTR) ➡️"
+                    "webtoon": "Webtoon"
                 }
             },
             "label": {
                 "load_next_chapter": "Carregar o próximo capítulo no final",
                 "fit_page_to_window": "Ajustar página à janela",
-                "scale_page": "Ajustar páginas pequenas",
                 "static_navigation": "Navegação estática",
                 "reader_width": "Largura do leitor",
                 "reader_type": "Tipo de leitor",
                 "skip_dup_chapters": "Pular capítulos duplicados",
-                "show_page_number": "Mostrar número de página",
-                "offset_first_page": "Espaçamento da primeira pagina"
+                "show_page_number": "Mostrar número de página"
             },
             "error": {
                 "label": {
-                    "failed_to_save_settings": "Não foi possível salvar as configurações do leitor no servidor",
-                    "failed_to_save_default_settings": "Não foi possível salvar as configurações do leitor padrão no servidor"
+                    "failed_to_save_settings": "Não foi possível salvar as configurações do leitor no servidor"
                 }
             }
         },

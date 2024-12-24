@@ -158,25 +158,17 @@
             },
             "reader_type": {
                 "label": {
-                    "double_page_rtl": "Doppelseitig (RnL)",
-                    "continuous_horizontal_ltr": "Horizontal (LnR)",
                     "webtoon": "Webtoon",
-                    "single_page_rtl": "Einseitig (RnL)",
-                    "continuous_vertical": "Kontinuierlich Vertikal",
-                    "double_page_ltr": "Doppelseitig (LnR)",
-                    "single_page_ltr": "Einseitig (LnR)",
-                    "continuous_horizontal_rtl": "Horizontal (RnL)"
+                    "continuous_vertical": "Kontinuierlich Vertikal"
                 }
             },
             "error": {
                 "label": {
-                    "failed_to_save_default_settings": "Die Standardleseeinstellungen konnten nicht gespeichert werden",
                     "failed_to_save_settings": "Die Leseeinstellungen konnten nicht gespeichert werden"
                 }
             },
             "title": {
-                "reader_settings": "Leseeinstellungen",
-                "default_reader_settings": "Standardleseeinstellungen"
+                "reader_settings": "Leseeinstellungen"
             }
         },
         "title": "Leser - Manga {{mangaId}} Kapitel {{chapterIndex}}",
@@ -421,8 +413,7 @@
             },
             "no_categories_found": {
                 "label": {
-                    "info": "Du hast noch keine Kategorien.",
-                    "hint": "Kategorien können in den Einstellungn erstellt werden."
+                    "info": "Du hast noch keine Kategorien."
                 }
             }
         },
@@ -431,7 +422,6 @@
             "use_as_default_category": "Standard Kategorie, wenn neue Manga zur Bibliothek hinzugefügt werden"
         },
         "title": {
-            "categories": "Kategorien",
             "set_categories": "Kategorien setzen",
             "category_one": "Kategorie",
             "category_other": "Kategorien"
@@ -447,43 +437,15 @@
     },
     "settings": {
         "backup": {
-            "label": {
-                "restoring_backup": "Sicherung wird wiederhergestellt...",
-                "backup_restore_failed": "Wiederherstellen der Sicherung fehlgeschlagen!",
-                "create_backup": "Sicherung erstellen",
-                "legacy_backup_unsupported": "legacy Sicherungen werden nicht ünterstützt!",
-                "create_backup_info": "Bibliothek als Tachiyomi backup sichern",
-                "restored_backup": "Wiederherstellung der Sicherung fertiggestellt!",
-                "restore_backup": "Sicherung wiederherstellen",
-                "restore_backup_info": "Man kann auch eine Sicherung per Drag-and-drop hereinziehen, um diese wiederherzustellen"
-            },
             "title": "Sicherung"
         },
         "label": {
             "manga_item_width": "Breite von Manga Einträgen",
-            "image_cache": "Bildzwischenspeicher verwenden",
-            "dark_theme": "Dunkles Design",
             "show_nsfw": "NSFW-Inhalte anzeigen",
-            "image_cache_description": "Durch deaktivieren des Bildcaches werden die Bilder schneller geladen, wenn man eine langsame Festplatte hat, dafür wird mehr Internetvolumen verbraucht",
             "show_nsfw_description": "NSFW Erweiterungen und Quellen verstecken"
         },
         "about": {
-            "label": {
-                "build_time": "Build time",
-                "github": "Github",
-                "server_address": "Serveradresse",
-                "server_version": "Serverversion",
-                "server": "Server",
-                "discord": "Discord"
-            },
             "title": "Über"
-        },
-        "server_address": {
-            "dialog": {
-                "label": {
-                    "enter_address": "Serveradresse angeben"
-                }
-            }
         },
         "title": "Einstellungen",
         "server": {
@@ -643,9 +605,6 @@
         }
     },
     "search": {
-        "label": {
-            "ignore_filters": "Filter bei Suche ignorieren"
-        },
         "title": {
             "global_search": "Globale Suche"
         },
