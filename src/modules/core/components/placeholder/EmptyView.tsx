@@ -38,25 +38,33 @@ export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyVi
     return (
         <Stack
             sx={{
+                p: 2,
                 textAlign: 'center',
                 alignItems: 'center',
                 justifyContent: 'center',
                 minWidth: '-webkit-fill-available',
                 maxWidth: '100%',
                 minHeight: '100%',
+                pointerEvents: 'none',
                 ...sx,
             }}
         >
             {!noFaces && (
-                <Typography variant="h3" gutterBottom>
+                <Typography variant="h3" gutterBottom sx={{ pointerEvents: 'all' }}>
                     {errorFace}
                 </Typography>
             )}
-            <Typography variant="h5">{message}</Typography>
-            <Typography variant="body1" sx={{ wordBreak: 'break-word' }}>
+            <Typography variant="h5" sx={{ pointerEvents: 'all' }}>
+                {message}
+            </Typography>
+            <Typography variant="body1" sx={{ wordBreak: 'break-word', pointerEvents: 'all' }}>
                 {messageExtra}
             </Typography>
-            {retry && <Button onClick={retry}>{t('global.button.retry')}</Button>}
+            {retry && (
+                <Button onClick={retry} sx={{ pointerEvents: 'all' }}>
+                    {t('global.button.retry')}
+                </Button>
+            )}
         </Stack>
     );
 }
