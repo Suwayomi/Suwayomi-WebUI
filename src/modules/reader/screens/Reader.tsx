@@ -281,6 +281,7 @@ const BaseReader = ({
             status: true,
             value: (
                 <Box sx={{ position: 'absolute' }}>
+                    <ReaderHotkeys scrollElementRef={scrollElementRef} />
                     <ReaderOverlay isVisible={isOverlayVisible} />
                     {!scrollElementRef.current && (
                         <Box
@@ -360,27 +361,24 @@ const BaseReader = ({
     }
 
     return (
-        <>
-            <ReaderHotkeys scrollElementRef={scrollElementRef} />
-            <Box
-                sx={{
-                    position: 'relative',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: `calc(100vw - ${readerNavBarWidth}px)`,
-                    height: `100vh`,
-                    marginLeft: `${readerNavBarWidth}px`,
-                    transition: (theme) =>
-                        `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s`,
-                    overflow: 'auto',
-                    backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
-                }}
-            >
-                <ReaderViewer ref={scrollElementRef} />
-                <TapZoneLayout />
-                <ReaderRGBAFilter />
-            </Box>
-        </>
+        <Box
+            sx={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                width: `calc(100vw - ${readerNavBarWidth}px)`,
+                height: `100vh`,
+                marginLeft: `${readerNavBarWidth}px`,
+                transition: (theme) =>
+                    `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s`,
+                overflow: 'auto',
+                backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
+            }}
+        >
+            <ReaderViewer ref={scrollElementRef} />
+            <TapZoneLayout />
+            <ReaderRGBAFilter />
+        </Box>
     );
 };
 

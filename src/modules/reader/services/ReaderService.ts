@@ -241,7 +241,7 @@ export class ReaderService {
         isGlobal: boolean = false,
         profile?: ReadingMode,
     ): void {
-        if (!manga) {
+        if (!manga || manga.id === -1) {
             return;
         }
         const key = getMetadataKey(setting, profile !== undefined ? [profile?.toString()] : undefined);
@@ -305,7 +305,7 @@ export class ReaderService {
         isGlobal: boolean = false,
         profile?: string,
     ): void {
-        if (!manga) {
+        if (!manga || manga.id === -1) {
             return;
         }
 
