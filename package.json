@@ -52,7 +52,7 @@
     "html-react-parser": "5.2.1",
     "i18next": "24.2.0",
     "i18next-browser-languagedetector": "8.0.2",
-    "i18next-http-backend": "2.6.1",
+    "i18next-http-backend": "3.0.1",
     "jsonrepair": "3.11.2",
     "material-ui-popup-state": "5.3.3",
     "mui-nested-menu": "3.4.0",
