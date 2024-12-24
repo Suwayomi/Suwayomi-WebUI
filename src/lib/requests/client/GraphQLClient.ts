@@ -14,7 +14,7 @@ import {
     NormalizedCacheObject,
     split,
 } from '@apollo/client';
-import { createUploadLink } from 'apollo-upload-client';
+import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { Client, createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
