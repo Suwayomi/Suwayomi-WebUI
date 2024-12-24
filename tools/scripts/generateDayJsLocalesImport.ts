@@ -9,8 +9,8 @@
 import path from 'path';
 import fs from 'fs';
 
-const outputFilePath = path.join(__dirname, '../../src/lib/dayjs/LocaleImporter.ts');
-const resourcesDirPath = path.join(__dirname, '../../node_modules/dayjs/locale');
+const outputFilePath = path.join(import.meta.dirname, '../../src/lib/dayjs/LocaleImporter.ts');
+const resourcesDirPath = path.join(import.meta.dirname, '../../node_modules/dayjs/locale');
 
 const dayjsLocaleFileNames = fs.readdirSync(resourcesDirPath);
 

@@ -12,7 +12,7 @@ import * as path from 'path';
 const format = (source: string, regex: RegExp | string, replaceValue: string): string =>
     source.replace(regex, replaceValue);
 
-let generatedGraphQLFilePath = path.resolve(__dirname, '../../src/lib/graphql/generated/graphql.ts');
+let generatedGraphQLFilePath = path.resolve(import.meta.dirname, '../../src/lib/graphql/generated/graphql.ts');
 let generatedGraphQLFile = fs.readFileSync(generatedGraphQLFilePath, 'utf8');
 
 // add logic to format the codegen generated graphql file
@@ -33,7 +33,7 @@ fs.writeFileSync(generatedGraphQLFilePath, fixSubscriptionHookNameSuffix);
 /*                                            */
 /* ****************************************** */
 
-generatedGraphQLFilePath = path.resolve(__dirname, '../../src/lib/graphql/generated/apollo-helpers.ts');
+generatedGraphQLFilePath = path.resolve(import.meta.dirname, '../../src/lib/graphql/generated/apollo-helpers.ts');
 generatedGraphQLFile = fs.readFileSync(generatedGraphQLFilePath, 'utf8');
 
 const addImports = format(

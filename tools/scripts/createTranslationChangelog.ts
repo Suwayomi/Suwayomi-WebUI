@@ -284,7 +284,7 @@ const getContributorsForRange = async (url: string, authToken: string): Promise<
 const getLanguageLinesFromChangelog = (): Promise<string[]> => {
     const fileReadPromise = new ControlledPromise<string[]>();
 
-    const changelogFile = path.resolve(__dirname, '../../CHANGELOG.md');
+    const changelogFile = path.resolve(import.meta.dirname, '../../CHANGELOG.md');
     const fileStream = fs.createReadStream(changelogFile);
     const fileLineReader = readline.createInterface({
         input: fileStream,

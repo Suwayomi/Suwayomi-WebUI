@@ -14,8 +14,6 @@ import react from '@vitejs/plugin-react-swc';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import legacy from '@vitejs/plugin-legacy';
 
-// TODO - switch to ESM - with Vite v5.x the CJS build is deprecated (https://vitejs.dev/guide/migration)
-
 // eslint-disable-next-line import/no-default-export
 export default defineConfig(() => ({
     build: {
@@ -26,7 +24,7 @@ export default defineConfig(() => ({
     },
     resolve: {
         alias: {
-            '@': path.resolve(__dirname, './src'),
+            '@': path.resolve(import.meta.dirname, './src'),
         },
     },
     optimizeDeps: {

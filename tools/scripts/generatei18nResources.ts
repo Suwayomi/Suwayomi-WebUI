@@ -9,8 +9,8 @@
 import path from 'path';
 import fs from 'fs';
 
-const outputFilePath = path.join(__dirname, '../../src/i18n/index.ts');
-const resourcesDirPath = path.join(__dirname, '../../public/locales');
+const outputFilePath = path.join(import.meta.dirname, '../../src/i18n/index.ts');
+const resourcesDirPath = path.join(import.meta.dirname, '../../public/locales');
 
 const resourceFileNames = fs.readdirSync(resourcesDirPath);
 
