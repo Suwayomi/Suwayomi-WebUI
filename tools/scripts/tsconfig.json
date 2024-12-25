@@ -5,6 +5,5 @@
   ],
   "compilerOptions": {
     "moduleResolution": "node"
-  },
-  "ts-node": {}
+  }
 }
