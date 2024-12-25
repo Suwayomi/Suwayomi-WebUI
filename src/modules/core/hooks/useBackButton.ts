@@ -7,6 +7,7 @@
  */
 
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useCallback } from 'react';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
@@ -17,7 +18,7 @@ export const useBackButton = () => {
     const location = useLocation();
     const { history } = useNavBarContext();
 
-    return () => {
+    return useCallback(() => {
         const isHistoryEmpty = !history.length;
         const isLastPageInHistoryCurrentPage = history.length === 1 && history[0] === location.pathname;
         const ignorePreviousPage = history.length && PAGES_TO_IGNORE.some((page) => !!history.slice(-2)[0].match(page));
@@ -29,5 +30,5 @@ export const useBackButton = () => {
         }
 
         navigate(AppRoutes.library.path);
-    };
+    }, [history, location.pathname]);
 };
