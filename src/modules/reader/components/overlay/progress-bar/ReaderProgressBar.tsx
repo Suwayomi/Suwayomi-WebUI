@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Box, { BoxProps } from '@mui/material/Box';
-import { memo, ReactNode, useCallback, useMemo, useRef } from 'react';
+import { BoxProps } from '@mui/material/Box';
+import { memo, ReactNode, useCallback, useMemo, useRef, ComponentProps } from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { TypographyProps } from '@mui/material/Typography';
 import { StackProps } from '@mui/material/Stack';
@@ -31,6 +31,7 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
+import { ReaderProgressBarSlotWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlotWrapper.tsx';
 
 const BaseReaderProgressBar = ({
     totalPages,
@@ -46,12 +47,8 @@ const BaseReaderProgressBar = ({
     openPage,
     direction,
 }: ReaderProgressBarProps &
-    Pick<TReaderProgressBarContext, 'isDragging' | 'setIsDragging'> & {
-        createProgressBarSlot: (
-            page: ReaderProgressBarProps['pages'][number],
-            pageLoadStates: ReaderProgressBarProps['pageLoadStates'],
-            pagesIndex: number,
-        ) => ReactNode;
+    Pick<TReaderProgressBarContext, 'isDragging' | 'setIsDragging'> &
+    Pick<ComponentProps<typeof ReaderProgressBarSlotWrapper>, 'createProgressBarSlot'> & {
         slotProps?: {
             container?: StackProps;
             progressBarRoot?: StackProps;
@@ -159,20 +156,16 @@ const BaseReaderProgressBar = ({
                     >
                         <ReaderProgressBarSlotsContainer {...slotProps?.progressBarSlotsContainer}>
                             {pages.map((page, pagesIndex) => (
-                                <Box
+                                <ReaderProgressBarSlotWrapper
                                     key={page.primary.index}
+                                    page={page}
+                                    pagesIndex={pagesIndex}
+                                    pageLoadStates={pageLoadStates}
+                                    createProgressBarSlot={createProgressBarSlot}
                                     {...slotProps?.progressBarSlot}
-                                    sx={{
-                                        flexGrow: 1,
-                                        height: '100%',
-                                        cursor: 'pointer',
-                                        ...slotProps?.progressBarSlot?.sx,
-                                        borderLeftWidth: pagesIndex === 0 ? 0 : undefined,
-                                        borderRightWidth: pagesIndex === pages.length - 1 ? 0 : undefined,
-                                    }}
-                                >
-                                    {createProgressBarSlot(page, pageLoadStates, pagesIndex)}
-                                </Box>
+                                    isFirstPage={pagesIndex === 0}
+                                    isLastPage={pagesIndex === pages.length - 1}
+                                />
                             ))}
                             <ProgressBarHighlightReadPages
                                 {...slotProps?.progressBarReadPages}
