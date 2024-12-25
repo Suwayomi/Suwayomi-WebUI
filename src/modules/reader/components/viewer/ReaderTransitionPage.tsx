@@ -246,5 +246,8 @@ export const ReaderTransitionPage = withPropsFrom(
         'scrollbarYSize',
         'readerNavBarWidth',
         'backgroundColor',
+        'mode',
+        'readingMode',
+        'pageScaleMode',
     ],
 );

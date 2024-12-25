@@ -66,12 +66,7 @@ const BaseBasePager = ({
                 getImageWidthStyling(readingMode, shouldStretchPage, pageScaleMode, false, readerWidth),
             ]}
         >
-            <ReaderTransitionPage
-                type={ReaderTransitionPageMode.PREVIOUS}
-                mode={transitionPageMode}
-                readingMode={readingMode}
-                pageScaleMode={pageScaleMode}
-            />
+            <ReaderTransitionPage type={ReaderTransitionPageMode.PREVIOUS} />
             {pages.map((page, pagesIndex) =>
                 createPage(
                     page,
@@ -81,12 +76,7 @@ const BaseBasePager = ({
                     setRef,
                 ),
             )}
-            <ReaderTransitionPage
-                type={ReaderTransitionPageMode.NEXT}
-                mode={transitionPageMode}
-                readingMode={readingMode}
-                pageScaleMode={pageScaleMode}
-            />
+            <ReaderTransitionPage type={ReaderTransitionPageMode.NEXT} />
         </Box>
     );
 };
