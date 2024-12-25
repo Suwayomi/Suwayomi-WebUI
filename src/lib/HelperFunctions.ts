@@ -31,3 +31,9 @@ export const getErrorMessage = (error: unknown): string => {
 
     return `${error}`;
 };
+
+export const getValueFromObject = <T>(obj: Record<string, any>, key: string): T => {
+    const keys = key.split('.');
+
+    return keys.reduce((acc, curr) => acc?.[curr], obj) as T;
+};
