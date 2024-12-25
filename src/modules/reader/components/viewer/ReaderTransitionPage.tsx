@@ -41,6 +41,8 @@ import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/Read
 import { getValueFromObject } from '@/lib/HelperFunctions.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
+import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
+import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 
 const ChapterInfo = ({
     title,
@@ -79,7 +81,7 @@ const ChapterInfo = ({
 
 const BaseReaderTransitionPage = ({
     type,
-    mode,
+    transitionPageMode,
     readingMode,
     pageScaleMode,
     backgroundColor,
@@ -94,9 +96,9 @@ const BaseReaderTransitionPage = ({
     Pick<TReaderStateMangaContext, 'manga'> &
     Pick<ReaderStateChapters, 'currentChapter' | 'previousChapter' | 'nextChapter'> &
     Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
+    Pick<ReaderStatePages, 'transitionPageMode'> &
     Pick<NavbarContextType, 'readerNavBarWidth'> & {
         type: Exclude<ReaderTransitionPageMode, ReaderTransitionPageMode.NONE | ReaderTransitionPageMode.BOTH>;
-        mode: ReaderTransitionPageMode;
     }) => {
     const { t } = useTranslation();
 
@@ -110,7 +112,7 @@ const BaseReaderTransitionPage = ({
 
     const isFitWidthPageScaleMode = [ReaderPageScaleMode.SCREEN, ReaderPageScaleMode.WIDTH].includes(pageScaleMode);
 
-    if (!isTransitionPageVisible(type, mode, readingMode)) {
+    if (!isTransitionPageVisible(type, transitionPageMode, readingMode)) {
         return null;
     }
 
@@ -235,6 +237,7 @@ export const ReaderTransitionPage = withPropsFrom(
         useReaderStateChaptersContext,
         useReaderScrollbarContext,
         useNavBarContext,
+        userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
     ],
     [
@@ -246,7 +249,7 @@ export const ReaderTransitionPage = withPropsFrom(
         'scrollbarYSize',
         'readerNavBarWidth',
         'backgroundColor',
-        'mode',
+        'transitionPageMode',
         'readingMode',
         'pageScaleMode',
     ],
