@@ -7,13 +7,13 @@
  */
 
 import { useTheme } from '@mui/material/styles';
-import { memo } from 'react';
+import { memo, useCallback } from 'react';
 import { ReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { IReaderSettings, ProgressBarType, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { getPage, getProgressBarPositionInfo } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { getProgressBarPositionInfo } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
 import { TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
@@ -42,9 +42,7 @@ const BaseStandardReaderProgressBar = ({
     }) => {
     const theme = useTheme();
     const pagesState = userReaderStatePagesContext();
-    const { currentPageIndex, pages, totalPages } = pagesState;
-
-    const currentPagesIndex = getPage(currentPageIndex, pages).pagesIndex;
+    const { totalPages } = pagesState;
 
     const { isBottom, isLeft, isRight, isVertical, isHorizontal } = getProgressBarPositionInfo(progressBarPosition);
 
@@ -59,30 +57,34 @@ const BaseStandardReaderProgressBar = ({
             <ReaderProgressBar
                 {...pagesState}
                 progressBarPosition={progressBarPosition}
-                createProgressBarSlot={(page, pageLoadStates, pagesIndex) => {
-                    if (isHidden && isMinimized) {
-                        return null;
-                    }
-
-                    return (
+                createProgressBarSlot={useCallback(
+                    (
+                        page,
+                        pagesIndex,
+                        primaryPageLoadState,
+                        secondaryPageLoadState,
+                        isCurrentPage,
+                        isLeadingPage,
+                        _,
+                        totalPages_,
+                    ) => (
                         <ReaderProgressBarSlotDesktop
                             pageName={page.name}
                             pageUrl={page.primary.url}
-                            primaryPageLoadState={pageLoadStates[page.primary.index].loaded}
-                            secondaryPageLoadState={
-                                page.secondary ? pageLoadStates[page.secondary.index].loaded : undefined
-                            }
+                            primaryPageLoadState={primaryPageLoadState}
+                            secondaryPageLoadState={secondaryPageLoadState}
                             isHorizontal={isHorizontal}
                             isVertical={isVertical}
                             progressBarPosition={progressBarPosition}
-                            isCurrentPage={currentPagesIndex === pagesIndex}
+                            isCurrentPage={isCurrentPage}
                             isFirstPage={pagesIndex === 0}
-                            isLastPage={pagesIndex === pages.length - 1}
-                            isLeadingPage={pagesIndex < currentPagesIndex}
+                            isLastPage={pagesIndex === totalPages_ - 1}
+                            isLeadingPage={isLeadingPage}
                             isDragging={isDragging}
                         />
-                    );
-                }}
+                    ),
+                    [isHorizontal, isVertical, isDragging, progressBarPosition],
+                )}
                 slotProps={{
                     container: {
                         sx: {

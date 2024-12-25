@@ -71,6 +71,8 @@ const BaseReaderProgressBar = ({
     }) => {
     const progressBarRef = useRef<HTMLDivElement | null>(null);
 
+    const currentPagesIndex = useMemo(() => getPage(currentPageIndex, pages).pagesIndex, [currentPageIndex, pages]);
+
     const isHorizontalPosition = getProgressBarPositionInfo(progressBarPosition).isHorizontal;
     const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
     const getOptionForDirection = useCallback(
@@ -157,14 +159,19 @@ const BaseReaderProgressBar = ({
                         <ReaderProgressBarSlotsContainer {...slotProps?.progressBarSlotsContainer}>
                             {pages.map((page, pagesIndex) => (
                                 <ReaderProgressBarSlotWrapper
+                                    {...slotProps?.progressBarSlot}
                                     key={page.primary.index}
                                     page={page}
                                     pagesIndex={pagesIndex}
-                                    pageLoadStates={pageLoadStates}
+                                    isCurrentPage={pagesIndex === currentPagesIndex}
+                                    isLeadingPage={pagesIndex < currentPagesIndex}
+                                    isTrailingPage={pagesIndex > currentPagesIndex}
+                                    totalPages={pages.length}
+                                    primaryPageLoadState={pageLoadStates[page.primary.index].loaded}
+                                    secondaryPageLoadState={
+                                        !!page.secondary && pageLoadStates[page.secondary.index].loaded
+                                    }
                                     createProgressBarSlot={createProgressBarSlot}
-                                    {...slotProps?.progressBarSlot}
-                                    isFirstPage={pagesIndex === 0}
-                                    isLastPage={pagesIndex === pages.length - 1}
                                 />
                             ))}
                             <ProgressBarHighlightReadPages
