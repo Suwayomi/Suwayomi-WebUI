@@ -172,7 +172,12 @@ const BaseReaderViewer = forwardRef(
                 if (readingMode === ReadingMode.DOUBLE_PAGE) {
                     const img = new Image();
                     img.onload = () => {
-                        setPagesToSpreadState((prevState) => prevState.toSpliced(index, 1, isSpreadPage(img)));
+                        const isSpreadPageFlag = isSpreadPage(img);
+                        if (pagesToSpreadState[index] === isSpreadPageFlag) {
+                            return;
+                        }
+
+                        setPagesToSpreadState((prevState) => prevState.toSpliced(index, 1, isSpreadPageFlag));
                     };
                     img.src = url;
                 }
