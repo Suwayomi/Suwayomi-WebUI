@@ -507,3 +507,17 @@ export const getScrollIntoViewInlineOption = (
 
     return getOptionForDirection('end', 'start', themeDirectionForReadingDirection);
 };
+
+export const getScrollToXForReadingDirection = (
+    element: HTMLElement,
+    themeDirection: Direction,
+    readingDirection: ReadingDirection,
+): number => {
+    const themeDirectionForReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
+
+    if (themeDirection === 'ltr') {
+        return getOptionForDirection(0, element.scrollWidth, themeDirectionForReadingDirection);
+    }
+
+    return getOptionForDirection(-element.scrollWidth, 0, themeDirectionForReadingDirection);
+};

@@ -37,6 +37,7 @@ import {
     createPagesData,
     getDoublePageModePages,
     getScrollIntoViewInlineOption,
+    getScrollToXForReadingDirection,
     isSpreadPage,
 } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
@@ -225,6 +226,13 @@ const BaseReaderViewer = forwardRef(
                     block: 'start',
                     inline: getScrollIntoViewInlineOption(directionOffset, themeDirection, readingDirection),
                 });
+            }
+
+            if (!isContinuousReadingModeActive) {
+                scrollElementRef.current?.scrollTo(
+                    getScrollToXForReadingDirection(scrollElementRef.current, themeDirection, readingDirection),
+                    0,
+                );
             }
 
             const newPageIndex = getNextIndexFromPage(pageToScrollTo);
