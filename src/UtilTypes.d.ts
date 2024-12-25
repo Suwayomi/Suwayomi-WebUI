@@ -35,5 +35,5 @@ type TransformRecordToWithDefaultFlag<T extends Record<string, any>> = {
 };
 
 type MergeObjectsArray<T extends object[]> = T extends [infer F, ...infer R]
-    ? F & MergeObjects<R extends object[] ? R : []>
+    ? F & MergeObjectsArray<R extends object[] ? R : []>
     : {};
