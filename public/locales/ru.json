@@ -470,7 +470,6 @@
             "started": "Начато",
             "type": "Тип",
             "unknown": "Неизвестно",
-            "copied": "Скопировано",
             "default": "По умолчанию"
         },
         "time": {
@@ -637,7 +636,6 @@
             "title": "Просмотр настроек"
         },
         "label": {
-            "dark_theme": "Темная тема",
             "manga_item_width": "Ширина обложки манги",
             "show_nsfw_description": "Скрыть NSFW-расширения (18+) и источники",
             "hide_library_entries": "Скрывать имеющиеся в библиотеки записи",
@@ -653,7 +651,6 @@
                     "github": "$t(global.label.github) $t(settings.webui.title.webui)",
                     "update_failure": "Не получилось обновить $t(settings.webui.title.webui)",
                     "channel": "$t(settings.webui.title.webui) канал",
-                    "update_success": "Обновление $t(settings.webui.title.webui) на версию {{version}}.",
                     "updated": "Обновленная версия"
                 }
             },
@@ -973,7 +970,6 @@
                     "action": "Удаление темы \"{{theme}}\"…",
                     "success": "Удаленная тема \"{{theme}}\""
                 },
-                "device_theme": "Тема устройства",
                 "title": "Тема"
             },
             "manga_thumbnail_backdrop": {
@@ -1185,30 +1181,20 @@
                 "fit_page_to_window": "Подогнать страницу по размеру экрана",
                 "show_page_number": "Показывать номера страниц",
                 "skip_dup_chapters": "Пропускать дубликаты глав",
-                "offset_first_page": "Смещение первой страницы",
                 "reader_type": "Тип читалки",
-                "scale_page": "Масштабировать маленькие страницы",
                 "static_navigation": "Статическая перемещение"
             },
             "reader_type": {
                 "label": {
                     "continuous_vertical": "Продолжать вертикально",
-                    "double_page_ltr": "Двойные страницы (слева направо) ➡️",
-                    "continuous_horizontal_ltr": "Горизонтальные (слева направо) ➡️",
-                    "single_page_ltr": "Одиночные страницы (слева направо)➡️",
-                    "continuous_horizontal_rtl": "Горизонтальные (справа налево) ⬅️",
-                    "double_page_rtl": "Двойные страницы (справа налево) ⬅️",
-                    "single_page_rtl": "Одиночные страницы (справа налево) ⬅️",
                     "webtoon": "Веб-комикс"
                 }
             },
             "title": {
-                "reader_settings": "Настройки читалки",
-                "default_reader_settings": "Настройки читалки по умолчанию"
+                "reader_settings": "Настройки читалки"
             },
             "error": {
                 "label": {
-                    "failed_to_save_default_settings": "Не удалось сохранить настройки читалки по умолчанию на сервере",
                     "failed_to_save_settings": "Не удалось сохранить настройки читалки на сервере"
                 }
             }

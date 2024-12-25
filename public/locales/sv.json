@@ -13,7 +13,6 @@
             },
             "no_categories_found": {
                 "label": {
-                    "hint": "Du borde göra några från inställningarna.",
                     "info": "Inga kategorier hittades."
                 }
             }
