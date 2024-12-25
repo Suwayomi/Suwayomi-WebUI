@@ -10,6 +10,7 @@ import fs from 'fs';
 import * as path from 'path';
 import * as readline from 'readline';
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import tokens from './tokens.json';
 
@@ -94,7 +95,7 @@ interface Contributor {
 }
 type ContributionsByLanguage = Record<LanguageName, Contributor[]>;
 
-const { afterDate, beforeDate, requiredContributionCount, keepKnownContributors } = yargs
+const { afterDate, beforeDate, requiredContributionCount, keepKnownContributors } = yargs(hideBin(process.argv))
     .options({
         afterDate: {
             alias: 'ad',
