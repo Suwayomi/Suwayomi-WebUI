@@ -342,7 +342,6 @@
             "submit": "Indienen"
         },
         "label": {
-            "copied": "gekopiëerd",
             "disabled": "Uitgeschakeld",
             "discord": "Discord",
             "links": "Links",
@@ -752,7 +751,6 @@
         "settings": {
             "error": {
                 "label": {
-                    "failed_to_save_default_settings": "Kon de standaardlezerinstellingen niet opslaan op de server",
                     "failed_to_save_settings": "Kon de lezerinstellingen niet opslaan op de server"
                 }
             },

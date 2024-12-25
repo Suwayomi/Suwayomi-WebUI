@@ -104,7 +104,8 @@
             "error": {
                 "label": {
                     "failed_delete_all": "Kuyruktan tüm bölümleri silme işlemi gerçekleştirilemedi",
-                    "failed_to_remove": "Kuyruktan silme işlemi gerçekleştirilemedi."
+                    "failed_to_remove": "Kuyruktan silme işlemi gerçekleştirilemedi.",
+                    "failed_to_retry": "Başarısız indirme yeniden denenemedi."
                 }
             },
             "label": {
@@ -117,7 +118,7 @@
         "state": {
             "label": {
                 "error": "Hata",
-                "finished": "Tamamlandı",
+                "finished": "$t(global.label.finished)",
                 "queued": "Kuyruğa eklendi",
                 "downloading": "İndiriliyor"
             }
@@ -152,20 +153,21 @@
                 "uninstall": "Kaldır",
                 "update": "Güncelle",
                 "install_external": "Harici eklenti yükle",
-                "install": "Yükle"
+                "install": "Yükle",
+                "update_all": "Hepsini Güncelle"
             }
         },
         "label": {
             "add_repository_info": "Eklentileri yükleyebilmek için eklenti deposu eklemelisiniz",
             "installation_failed_one": "Eklenti yüklenemedi",
-            "installation_failed_other": "",
+            "installation_failed_other": "Eklentiler yüklenemedi",
             "installed_successfully_one": "Eklenti yüklendi",
-            "installed_successfully_other": "",
+            "installed_successfully_other": "Eklentiler yüklendi",
             "installing_file": "Eklenti dosyası yükleniyor…",
             "uninstallation_failed_one": "Eklenti kaldırılamadı",
-            "uninstallation_failed_other": "",
+            "uninstallation_failed_other": "Eklentiler kaldırılamadı",
             "update_failed_one": "Eklenti güncellenemedi",
-            "update_failed_other": ""
+            "update_failed_other": "Eklentiler güncellenemedi"
         },
         "language": {
             "all": "Hepsi",
@@ -212,6 +214,9 @@
             "label": {
                 "language": "Dil",
                 "language_with_code": "Dil kodu: {{code}}"
+            },
+            "error": {
+                "load": "Dil yüklenemedi"
             }
         },
         "button": {
@@ -252,7 +257,8 @@
             "remind_later": "Sonra hatırlat",
             "retry": "Tekrar dene",
             "select": "Seç",
-            "save": "Kaydet"
+            "save": "Kaydet",
+            "open": "Aç"
         },
         "date": {
             "value": {
@@ -288,7 +294,6 @@
             "placeholder": "Yer tutucu",
             "sort": "Sırala",
             "username": "Kullanıcı adı",
-            "copied": "Kopyalandı",
             "discord": "Discord",
             "display": "Görüntüle",
             "filter": "Filtrele",
@@ -297,7 +302,30 @@
             "disabled": "Devre dışı",
             "links": "Linkler",
             "load_in_progress": "Gerekli data hala yükleniyor…",
-            "default": "Varsayılan"
+            "default": "Varsayılan",
+            "next": "Sonraki",
+            "horizontal": "Yatay",
+            "warning": "Uyarı",
+            "error": "Hata",
+            "info": "Bilgi",
+            "left": "Sol",
+            "asterisk": "*",
+            "hidden": "Gizli",
+            "menu": "Menü",
+            "mobile": "Mobil",
+            "previous": "Önceki",
+            "right": "Sağ",
+            "share": "Paylaş",
+            "standard": "Standart",
+            "vertical": "Dikey",
+            "copied_clipboard": "Panoya kopyalandı",
+            "desktop": "Masaüstü",
+            "finished": "Tamamlandı",
+            "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
+            "auto": "Otomatik",
+            "success": "Başarılı",
+            "both": "İkisini Birden",
+            "bottom": "Alt"
         },
         "update": {
             "label": {
@@ -324,7 +352,9 @@
                 "by_chapter_number": "Bölüm numarasına göre",
                 "by_upload_date": "Yüklenme tarihine göre",
                 "by_source": "Kaynağa göre",
-                "by_fetch_date": "Getirilen tarihe göre"
+                "by_fetch_date": "Getirilen tarihe göre",
+                "asc": "Artan",
+                "desc": "Azalan"
             }
         },
         "grid_layout": {
@@ -347,6 +377,15 @@
                 "second_other": "Saniye",
                 "value": "{{count}} $t(global.time.seconds.second, lowercase)"
             }
+        },
+        "unit": {
+            "px": "px"
+        },
+        "value": "{{value}}{{unit}}",
+        "colors": {
+            "gray": "Gri",
+            "black": "Siyah",
+            "white": "Beyaz"
         }
     },
     "library": {
@@ -476,7 +515,8 @@
                     "by_date_added": "Son eklenenler",
                     "by_last_read": "Son zamanlarda okunanlar",
                     "by_latest_uploaded_chapter": "Son yüklenen bölüm",
-                    "by_latest_fetched_chapter": "Son getirilen bölüm"
+                    "by_latest_fetched_chapter": "Son getirilen bölüm",
+                    "by_total_chapters": "Toplam bölüm sayısı"
                 }
             }
         },
@@ -537,7 +577,7 @@
                         "duplicate": {
                             "label": {
                                 "failure": "Kütüphanenizde yinelenen manga olup olmadığı kontrol edilemedi.\n\nHata: {{error}}",
-                                "info": "Kütüphanenizde aynı isimde bir girişiniz var."
+                                "info": "Kütüphanenizde aynı isimde bir giriş var."
                             }
                         }
                     }
@@ -591,63 +631,152 @@
             "artist": "Sanatçı",
             "author": "Yazar",
             "status": "Durum"
+        },
+        "status": {
+            "ongoing": "Devam ediyor",
+            "licensed": "Lisanslı",
+            "hiatus": "Molada",
+            "cancelled": "İptal edildi",
+            "completed": "Tamamlandı",
+            "publishing_finished": "Yayımı tamamlandı",
+            "unknown": "$t(global.label.unknown)"
         }
     },
     "reader": {
         "settings": {
             "error": {
                 "label": {
-                    "failed_to_save_default_settings": "Varsayılan okuyucu ayarları sunucuya kaydedilemedi",
                     "failed_to_save_settings": "Okuyucu ayarları sunucuya kaydedilemedi"
                 }
             },
             "title": {
-                "default_reader_settings": "Varsayılan Okuyucu Ayarları",
                 "reader_settings": "Okuyucu Ayarları"
             },
             "label": {
                 "reader_type": "Okuyucu türü",
                 "reader_width": "Okuyucu genişliği",
                 "fit_page_to_window": "Sayfayı pencereye sığdır",
-                "offset_first_page": "İlk sayfayı kaydır",
                 "skip_dup_chapters": "Yinelenen bölümleri atla",
                 "show_page_number": "Sayfa numarasını göster",
                 "load_next_chapter": "Sonraki bölümü bitişte yükle",
-                "scale_page": "Küçük sayfaları ölçeklendirin",
-                "static_navigation": "Statik gezinme"
+                "static_navigation": "Statik gezinme",
+                "reading_direction": "Okuma yönü",
+                "reading_mode": "Okuma modu",
+                "behaviour": "Davranış"
             },
             "reader_type": {
                 "label": {
-                    "double_page_ltr": "Çift sayfa (LTR) ➡️",
                     "webtoon": "Webtoon",
-                    "continuous_horizontal_rtl": "Yatay (RTL) ⬅️",
-                    "double_page_rtl": "Çift sayfa (RTL) ⬅️",
-                    "continuous_horizontal_ltr": "Yatay (LTR) ➡️",
-                    "continuous_vertical": "Dikey devam ediyor",
-                    "single_page_ltr": "Tek sayfa (LTR) ➡️",
-                    "single_page_rtl": "Tek sayfa (RTL) ⬅️"
+                    "continuous_vertical": "Sürekli dikey",
+                    "single_page": "Tek sayfa",
+                    "continuous_horizontal": "Sürekli yatay",
+                    "double_page": "Çift sayfa"
                 }
-            }
+            },
+            "page_scale": {
+                "height": "Yüksekliği sığdır",
+                "width": "Genişliği sığdır",
+                "stretch": "Küçük sayfaları uzat",
+                "screen": "Ekrana sığdır",
+                "original": "Orijinal boyut"
+            },
+            "progress_bar": {
+                "position": "İlerleme çubuğu konumu",
+                "size": "İlerleme çubuğu boyutu",
+                "style": "İlerleme çubuğu stili"
+            },
+            "tap_zones": {
+                "kindle": "Kindle",
+                "l_shape": "L-Şeklinde",
+                "right_left": "Sağ ve sol",
+                "title": "Dokunma bölgeleri"
+            },
+            "custom_filter": {
+                "rgba": {
+                    "green": "Yeşil",
+                    "alpha": "Alfa",
+                    "blue": "Mavi",
+                    "red": "Kırmızı",
+                    "title": "Özel renk filtresi"
+                },
+                "brightness": "Özel parlaklık",
+                "sepia": "Sepya",
+                "contrast": "Özel kontrast",
+                "title": "Özel filtre",
+                "saturate": "Özelleştirilmiş Doygunluk",
+                "invert": "Tersine çevir"
+            },
+            "hotkey": {
+                "next_chapter": "Sonraki bölüm",
+                "previous_page": "Önceki sayfa",
+                "next_page": "Sonraki sayfa",
+                "previous_chapter": "Önceki bölüm",
+                "scroll_backward": "Geri kaydır",
+                "scroll_forward": "İleri kaydır",
+                "reading_direction": "Okuma yönünü değiştir",
+                "reading_mode": "Okuma modunu değiştir",
+                "stretch_image": "Resmi genişlet",
+                "menu": "Menüyü aç/kapat",
+                "scale_type": "Resim ölçek tipini değiştir"
+            },
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
+            "reading_direction": {
+                "ltr": "Soldan sağa",
+                "rtl": "Sağdan sola"
+            },
+            "background_color": "Arkaplan rengi",
+            "image_preload_amount": "Resimleri önceden yükle",
+            "active_setting": "Etkin ayar",
+            "exit_mode": "Çıkışta sayfayı aç"
         },
         "title": "Okuyucu — Manga {{mangaId}} Bölüm {{chapterIndex}}",
         "button": {
             "close_menu": "Menüyü kapat",
             "next_chapter": "Sonraki bölüm",
-            "previous_chapter": "Önceki Bölüm",
+            "previous_chapter": "Önceki bölüm",
             "open_menu": "Menüyü aç",
-            "exit": "Okuyucudan çık"
+            "exit": "Okuyucudan çık",
+            "next_page": "Sonraki sayfa",
+            "previous_page": "Ömceki sayfa",
+            "chapter_list": "Bölüm listesi",
+            "retry_load_pages": "Hatalı sayfaları yeniden yükle"
         },
         "error": {
             "label": {
                 "next_chapter_does_not_exist": "Açılacak bir sonraki bölüm yok",
                 "no_pages_found": "Hiçbir sayfa bulunamadı",
-                "prev_chapter_does_not_exist": "Açılacak önceki bölüm yok"
+                "prev_chapter_does_not_exist": "Açılacak önceki bölüm yok",
+                "chapter_not_found": "Bölüm mevcut değil"
             }
         },
         "page_info": {
             "label": {
                 "currently_on_page": "Bulunduğu sayfa",
-                "of_max_pages": "of {{maxPages}}"
+                "of_max_pages": "of {{maxPages}}",
+                "page": "Sayfa"
+            }
+        },
+        "transition_page": {
+            "first_chapter": "Önceki bölüm yok",
+            "finished": "$t(global.label.finished):",
+            "previous": "$t(global.label.previous):",
+            "next": "$t(global.label.next):",
+            "last_chapter": "Sonraki bölüm yok",
+            "current": "Şimdiki:"
+        },
+        "chapter_transition": {
+            "warning": {
+                "next": {
+                    "chapter_number_one": "Bir eksik bölüm var.\nGeçerli bölüm: {{currentChapter}}\nSonraki bölüm: {{nextChapter}}",
+                    "chapter_number_other": "{{count}} adet eksik bölüm var.\nGeçerli bölüm: {{currentChapter}}\nSonraki bölüm: {{nextChapter}}",
+                    "scanlator": "Sonraki bölüm başka bir ekip tarafından çevrilmiştir.\nMevcut ekip: {{currentScanlator}}\nSonraki ekip: {{nextScanlator}}"
+                },
+                "previous": {
+                    "chapter_number_one": "Bir eksik bölüm var.\nÖnceki bölüm: {{nextChapter}}\nGeçerli bölüm: {{currentChapter}}",
+                    "chapter_number_other": "{{count}} adet eksik bölüm var.\nÖnceki bölüm: {{nextChapter}}\nGeçerli bölüm: {{currentChapter}}",
+                    "scanlator": "Bir önceki bölüm başka bir ekip tarafından çevrilmiştir.\nÖnceki Ekip: {{nextScanlator}}\nŞimdiki Ekip: {{currentScanlator}}"
+                },
+                "title": "Bölüm geçiş uyarısı"
             }
         }
     },
@@ -811,7 +940,7 @@
                     },
                     "file_cleanup": {
                         "title": "Kayıt dosyası temizliği",
-                        "value": "$t(global.date.value.label.day) tarihinden daha eski olan yedekleri sil"
+                        "value": "$t(global.date.value.label.day) tarihinden daha eski olan log dosyalarını sil"
                     },
                     "total_size": {
                         "description": "$t(settings.server.misc.log_files.file_size.description)",
@@ -919,7 +1048,6 @@
             "title": "Arama ayarları"
         },
         "label": {
-            "dark_theme": "Koyu tema",
             "manga_item_width": "Manga öğe genişliği",
             "show_nsfw": "NSFW'yi göster",
             "show_nsfw_description": "NSFW uzantılarını ve kaynaklarını gizle",
@@ -1022,7 +1150,7 @@
                         },
                         "theme_name": "Adı",
                         "info": {
-                            "theme_mode_lock": "Eğer \"mod\" ve ya \"tip\" özelliği \"palet\" nesnesinde tanımlanmışsa, tema bu moda kilitlenir ve uygulamanın seçili cihaz temasına göre değişmez",
+                            "theme_mode_lock": "Eğer \"mod\" veya \"tip\" özelliği, \"palet\" nesnesinde tanımlanmışsa; tema bu moda kilitlenir ve uygulamanın seçili tema moduna göre değişmez",
                             "creating_theme": "<2>MUI Tema Oluşturucu</2> ile özel bir tema oluşturun, \"themeOptions\" kısmından \"{\" ile \"}\" arasındaki her şeyi kopyalayıp \"theme\" metin alanına yapıştırın."
                         }
                     },
@@ -1031,7 +1159,6 @@
                     "success": "Tema oluşturuldu",
                     "title": "Tema oluştur"
                 },
-                "device_theme": "Cihaz teması",
                 "edit": {
                     "action": "Tema değişiklikleri kaydediliyor…",
                     "title": "Temayı güncelle",
@@ -1064,10 +1191,12 @@
                         "loading": "Tema fontları yükleniyor…"
                     },
                     "success": "Seçilen tema"
-                }
+                },
+                "mode": "Tema modu"
             },
             "title": "Görünüm"
-        }
+        },
+        "default_value": "{{value}}<0>($t(global.label.default))</0>"
     },
     "updates": {
         "error": {
@@ -1268,6 +1397,10 @@
         },
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
+        },
+        "sort": {
+            "by_source_name": "Kaynak adına göre",
+            "by_manga_count": "Manga sayısına göre"
         }
     },
     "source": {
@@ -1303,5 +1436,22 @@
         "configuration": {
             "title": "Kaynak Yapılandırması"
         }
+    },
+    "hotkeys": {
+        "create": {
+            "dialog": {
+                "label": "Kaydedilen tuşlar: <Keys/>",
+                "placeholder": "Tuşlara basın",
+                "title": "Tuş atamasını kaydet"
+            },
+            "error": {
+                "exists": "Kısayol zaten mevcut"
+            }
+        },
+        "info": {
+            "delete": "Atamayı kaldırmak için tuşa tıklayın"
+        },
+        "title_one": "Tuş Ataması",
+        "title_other": "Tuş Atamaları"
     }
 }

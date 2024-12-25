@@ -7,7 +7,56 @@
             }
         },
         "label": {
-            "category_name": "ชื่อหมวดหมู่"
+            "category_name": "ชื่อหมวดหมู่",
+            "use_as_default_category": "หมวดหมู่เริ่มต้นเมื่อเพิ่มมังงะใหม่เข้าสู่ห้องสมุด"
+        },
+        "error": {
+            "label": {
+                "request_failure": "ไม่สามารถโหลดหมวดหมู่ได้",
+                "empty": "หมวดหมู่ว่างเปล่า"
+            },
+            "no_categories_found": {
+                "label": {
+                    "info": "คุณยังไม่มีหมวดหมู่ใดๆ"
+                }
+            }
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "ยกเว้น: {{excludedCategoriesText}}",
+                    "include": "รวม: {{includedCategoriesText}}"
+                }
+            }
+        },
+        "title": {
+            "category_other": "Category หมวดหมู่ Categoriesกลุ่มหมวดหมู่",
+            "set_categories": "ชุด"
+        }
+    },
+    "chapter": {
+        "action": {
+            "download": {
+                "add": {
+                    "label": {
+                        "action": "ดาวน์โหลด"
+                    },
+                    "button": {
+                        "selected": "ดาวน์โหลด ที่เลือก"
+                    }
+                },
+                "delete": {
+                    "button": {
+                        "selected": "ลบ ที่เลือก"
+                    },
+                    "label": {
+                        "action": "ลบ"
+                    }
+                }
+            },
+            "label": {
+                "select": "เลือก"
+            }
         }
     }
 }

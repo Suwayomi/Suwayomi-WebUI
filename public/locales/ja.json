@@ -13,7 +13,6 @@
             },
             "no_categories_found": {
                 "label": {
-                    "hint": "設定から作成してください。",
                     "info": "まだカテゴリーがありません。"
                 }
             }
@@ -269,7 +268,6 @@
             "filter": "フィルター",
             "username": "ユーザー名",
             "loading": "読み込み中…",
-            "copied": "コピー済",
             "close": "閉じる",
             "logged_in": "ログイン済",
             "none": "なし",
@@ -653,17 +651,10 @@
             "reader_type": {
                 "label": {
                     "webtoon": "ウェブトゥーン",
-                    "continuous_horizontal_ltr": "水平（左から右）→",
-                    "continuous_horizontal_rtl": "水平（右から左）←",
-                    "continuous_vertical": "垂直に連続",
-                    "single_page_ltr": "1ページ（左から右）→",
-                    "single_page_rtl": "1ページ（右から左）←",
-                    "double_page_rtl": "2ページ（右から左）←",
-                    "double_page_ltr": "2ページ（左から右）→"
+                    "continuous_vertical": "垂直に連続"
                 }
             },
             "title": {
-                "default_reader_settings": "標準リーダー設定",
                 "reader_settings": "リーダー設定"
             },
             "label": {
@@ -675,8 +666,7 @@
             },
             "error": {
                 "label": {
-                    "failed_to_save_settings": "リーダーの設定をサーバーに保存できませんでした",
-                    "failed_to_save_default_settings": "デフォルトのリーダー設定をサーバーに保存できませんでした"
+                    "failed_to_save_settings": "リーダーの設定をサーバーに保存できませんでした"
                 }
             }
         },
@@ -976,7 +966,6 @@
         "label": {
             "manga_item_width": "マンガアイテムの幅",
             "show_nsfw": "NSFWを表示する",
-            "dark_theme": "ダークテーマ",
             "language_description": "プロジェクトの翻訳はお気軽にこちらから",
             "show_nsfw_description": "NSFW拡張機能とソースを隠す",
             "hide_library_entries": "すでにライブラリにあるエントリを非表示にする"
