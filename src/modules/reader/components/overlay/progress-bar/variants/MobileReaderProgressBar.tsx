@@ -12,9 +12,8 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { memo, useCallback, useLayoutEffect } from 'react';
+import { ComponentProps, memo, useCallback, useLayoutEffect } from 'react';
 import { ReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.tsx';
-import { ReaderProgressBarSlot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlot.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
@@ -27,7 +26,7 @@ import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlay
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
-import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
+import { ReaderProgressBarSlotMobile } from '@/modules/reader/components/overlay/progress-bar/mobile/ReaderProgressBarSlotMobile.tsx';
 
 const BaseMobileReaderProgressBar = ({
     previousChapter,
@@ -44,6 +43,13 @@ const BaseMobileReaderProgressBar = ({
 
     const openNextChapter = ReaderService.useNavigateToChapter(nextChapter, ReaderResumeMode.START);
     const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter, ReaderResumeMode.END);
+
+    const createProgressBarSlot: ComponentProps<typeof ReaderProgressBar>['createProgressBarSlot'] = useCallback(
+        (page, _1, _2, _3, _4, _5, isTrailingPage) => (
+            <ReaderProgressBarSlotMobile pageName={page.name} isTrailingPage={isTrailingPage} />
+        ),
+        [],
+    );
 
     useLayoutEffect(() => {
         setIsMaximized(isVisible);
@@ -75,43 +81,7 @@ const BaseMobileReaderProgressBar = ({
                 <ReaderProgressBar
                     progressBarPosition={ProgressBarPosition.BOTTOM}
                     {...pagesState}
-                    createProgressBarSlot={useCallback(
-                        (page, pagesIndex, _, __, ___, ____, isTrailingPage) => (
-                            <ReaderProgressBarSlot
-                                pageName={page.name}
-                                progressBarPosition={ProgressBarPosition.BOTTOM}
-                                slotProps={{
-                                    box: {
-                                        sx: {
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'end',
-                                            position: 'relative',
-                                            backgroundColor: 'background.default',
-                                        },
-                                    },
-                                }}
-                            >
-                                <Box
-                                    sx={{
-                                        position: 'absolute',
-                                        top: '50%',
-                                        transform: 'translateY(-50%)',
-                                        right: '2px',
-                                        width: '2px',
-                                        height: '2px',
-                                        borderRadius: 100,
-                                        backgroundColor: 'background.paper',
-                                        ...applyStyles(isTrailingPage, {
-                                            backgroundColor: 'primary.main',
-                                        }),
-                                        zIndex: 1,
-                                    }}
-                                />
-                            </ReaderProgressBarSlot>
-                        ),
-                        [],
-                    )}
+                    createProgressBarSlot={createProgressBarSlot}
                     slotProps={{
                         container: {
                             sx: {
