@@ -49,7 +49,7 @@ const BaseReaderBottomBarMobile = ({
 
     return (
         <>
-            <Slide direction="up" in={isVisible} mountOnEnter unmountOnExit>
+            <Slide direction="up" in={isVisible}>
                 <Stack
                     sx={{
                         position: 'fixed',

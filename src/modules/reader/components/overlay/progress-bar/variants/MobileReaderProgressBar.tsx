@@ -28,6 +28,71 @@ import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.type
 import { TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { ReaderProgressBarSlotMobile } from '@/modules/reader/components/overlay/progress-bar/mobile/ReaderProgressBarSlotMobile.tsx';
 
+const PROGRESS_BAR_SLOT_PROPS: ComponentProps<typeof ReaderProgressBar>['slotProps'] = {
+    container: {
+        sx: {
+            flexGrow: 1,
+            position: 'relative',
+            display: 'flex',
+            justifyItems: 'center',
+            alignItems: 'stretch',
+            backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85),
+            borderRadius: 100,
+            boxShadow: 2,
+        },
+    },
+    progressBarRoot: {
+        sx: {
+            flexGrow: 1,
+            alignItems: 'stretch',
+            gap: 0,
+        },
+    },
+    progressBarSlotsActionArea: {
+        sx: {
+            height: '100%',
+            alignItems: 'center',
+            py: 2,
+            cursor: 'pointer',
+        },
+    },
+    progressBarSlotsContainer: {
+        sx: {
+            borderRadius: 100,
+        },
+    },
+    progressBarSlot: {
+        sx: {
+            height: '20px',
+        },
+    },
+    progressBarCurrentPageSlot: {
+        sx: {
+            display: 'flex',
+            justifyContent: 'end',
+            alignItems: 'center',
+            zIndex: 1,
+            pointer: 'default',
+        },
+    },
+    progressBarPageTexts: {
+        base: { px: 1 },
+    },
+};
+
+const PROGRESS_BAR_SLOTS: ComponentProps<typeof ReaderProgressBar>['slots'] = {
+    progressBarCurrentPage: (
+        <Box
+            sx={{
+                minWidth: '5px',
+                height: '75%',
+                backgroundColor: 'primary.main',
+                borderRadius: 100,
+            }}
+        />
+    ),
+};
+
 const BaseMobileReaderProgressBar = ({
     previousChapter,
     nextChapter,
@@ -44,22 +109,11 @@ const BaseMobileReaderProgressBar = ({
     const openNextChapter = ReaderService.useNavigateToChapter(nextChapter, ReaderResumeMode.START);
     const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter, ReaderResumeMode.END);
 
-    const createProgressBarSlot: ComponentProps<typeof ReaderProgressBar>['createProgressBarSlot'] = useCallback(
-        (page, _1, _2, _3, _4, _5, isTrailingPage) => (
-            <ReaderProgressBarSlotMobile pageName={page.name} isTrailingPage={isTrailingPage} />
-        ),
-        [],
-    );
-
     useLayoutEffect(() => {
         setIsMaximized(isVisible);
 
         return () => setIsMaximized(false);
     }, [isVisible]);
-
-    if (!isVisible) {
-        return null;
-    }
 
     return (
         <ReaderProgressBarDirectionWrapper>
@@ -81,47 +135,14 @@ const BaseMobileReaderProgressBar = ({
                 <ReaderProgressBar
                     progressBarPosition={ProgressBarPosition.BOTTOM}
                     {...pagesState}
-                    createProgressBarSlot={createProgressBarSlot}
+                    createProgressBarSlot={useCallback(
+                        (page, _1, _2, _3, _4, _5, isTrailingPage) => (
+                            <ReaderProgressBarSlotMobile pageName={page.name} isTrailingPage={isTrailingPage} />
+                        ),
+                        [],
+                    )}
                     slotProps={{
-                        container: {
-                            sx: {
-                                flexGrow: 1,
-                                position: 'relative',
-                                display: 'flex',
-                                justifyItems: 'center',
-                                alignItems: 'stretch',
-                                backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85),
-                                borderRadius: 100,
-                                boxShadow: 2,
-                            },
-                        },
-                        progressBarRoot: {
-                            sx: {
-                                flexGrow: 1,
-                                alignItems: 'stretch',
-                                gap: 0,
-                            },
-                        },
-                        progressBarSlotsActionArea: {
-                            sx: {
-                                height: '100%',
-                                alignItems: 'center',
-                                py: 2,
-                                cursor: 'pointer',
-                            },
-                        },
-
-                        progressBarSlotsContainer: {
-                            sx: {
-                                borderRadius: 100,
-                            },
-                        },
-
-                        progressBarSlot: {
-                            sx: {
-                                height: '20px',
-                            },
-                        },
+                        ...PROGRESS_BAR_SLOT_PROPS,
                         progressBarReadPages: {
                             sx: {
                                 height: '20px',
@@ -130,31 +151,8 @@ const BaseMobileReaderProgressBar = ({
                                 width: `calc(${(Math.max(0, getPage(currentPageIndex, pages).pagesIndex) / pages.length) * 100}% + 100% / ${pages.length})`,
                             },
                         },
-                        progressBarCurrentPageSlot: {
-                            sx: {
-                                display: 'flex',
-                                justifyContent: 'end',
-                                alignItems: 'center',
-                                zIndex: 1,
-                                pointer: 'default',
-                            },
-                        },
-                        progressBarPageTexts: {
-                            base: { px: 1 },
-                        },
                     }}
-                    slots={{
-                        progressBarCurrentPage: (
-                            <Box
-                                sx={{
-                                    minWidth: '5px',
-                                    height: '75%',
-                                    backgroundColor: 'primary.main',
-                                    borderRadius: 100,
-                                }}
-                            />
-                        ),
-                    }}
+                    slots={PROGRESS_BAR_SLOTS}
                 />
                 <IconButton
                     onClick={openNextChapter}
