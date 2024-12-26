@@ -6,11 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { RefObject, useEffect } from 'react';
 import { ReaderProgressBarProps, TReaderProgressCurrentPage } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { getOptionForDirection as getOptionForDirectionImpl } from '@/modules/theme/services/ThemeCreator.ts';
 import { ProgressBarPosition } from '@/modules/reader/types/Reader.types.ts';
-import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 
 export const getPage = (pageIndex: number, pages: ReaderProgressBarProps['pages']): TReaderProgressCurrentPage => {
     const pagesIndex = pages.findIndex(({ primary, secondary }) =>
@@ -87,63 +85,4 @@ export const getProgressBarPositionInfo = (
         isHorizontal,
         isVertical,
     };
-};
-
-export const useHandleProgressDragging = (
-    openPage: ReturnType<(typeof ReaderControls)['useOpenPage']>,
-    progressBarRef: RefObject<HTMLDivElement | null>,
-    isDragging: boolean,
-    currentPage: TReaderProgressCurrentPage,
-    pages: ReaderProgressBarProps['pages'],
-    progressBarPosition: ProgressBarPosition,
-    getOptionForDirection: typeof getOptionForDirectionImpl,
-) => {
-    useEffect(() => {
-        if (!isDragging) {
-            return () => undefined;
-        }
-
-        const { isHorizontal } = getProgressBarPositionInfo(progressBarPosition);
-
-        const handleMove = (coordinates: { clientX: number; clientY: number }) => {
-            if (!progressBarRef.current) {
-                return;
-            }
-
-            const newPageIndex = getNextIndexFromPage(
-                getPageForMousePos(
-                    coordinates,
-                    progressBarRef.current.getBoundingClientRect(),
-                    pages,
-                    isHorizontal,
-                    getOptionForDirection,
-                ),
-            );
-
-            const hasCurrentPageIndexChanged = getNextIndexFromPage(currentPage) !== newPageIndex;
-            if (!hasCurrentPageIndexChanged) {
-                return;
-            }
-
-            openPage(newPageIndex, undefined, false);
-        };
-
-        const handleMouseMove = (e: MouseEvent) => {
-            handleMove(e);
-        };
-
-        const handleTouchMove = (e: TouchEvent) => {
-            if (e.touches.length > 0) {
-                handleMove(e.touches[0]);
-            }
-        };
-
-        document.addEventListener('mousemove', handleMouseMove);
-        document.addEventListener('touchmove', handleTouchMove);
-
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('touchmove', handleTouchMove);
-        };
-    }, [openPage, isDragging, currentPage, pages, progressBarPosition]);
 };

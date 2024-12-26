@@ -23,7 +23,6 @@ import {
     getPage,
     getPageForMousePos,
     getProgressBarPositionInfo,
-    useHandleProgressDragging,
 } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection as getOptionForDirectionImpl } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderProgressBarSlotsActionArea } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlotsActionArea.tsx';
@@ -82,7 +81,7 @@ const BaseReaderProgressBar = ({
         [direction],
     );
 
-    useHandleProgressDragging(
+    ReaderControls.useHandleProgressDragging(
         openPage,
         progressBarRef,
         isDragging,

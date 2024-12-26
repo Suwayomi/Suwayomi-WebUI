@@ -6,17 +6,24 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MutableRefObject, useCallback, useMemo } from 'react';
+import { MutableRefObject, RefObject, useCallback, useEffect, useMemo } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { getNextIndexFromPage, getNextPageIndex, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import {
+    getNextIndexFromPage,
+    getNextPageIndex,
+    getPage,
+    getPageForMousePos,
+    getProgressBarPositionInfo,
+} from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import {
     PageInViewportType,
+    ProgressBarPosition,
     ReaderResumeMode,
     ReaderTransitionPageMode,
     ReadingDirection,
@@ -41,6 +48,7 @@ import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
+import { ReaderProgressBarProps, TReaderProgressCurrentPage } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,
@@ -525,5 +533,64 @@ export class ReaderControls {
                 themeDirection,
             ],
         );
+    }
+
+    static useHandleProgressDragging(
+        openPage: ReturnType<(typeof ReaderControls)['useOpenPage']>,
+        progressBarRef: RefObject<HTMLDivElement | null>,
+        isDragging: boolean,
+        currentPage: TReaderProgressCurrentPage,
+        pages: ReaderProgressBarProps['pages'],
+        progressBarPosition: ProgressBarPosition,
+        getOptionForDirectionFn: typeof getOptionForDirection,
+    ): void {
+        useEffect(() => {
+            if (!isDragging) {
+                return () => undefined;
+            }
+
+            const { isHorizontal } = getProgressBarPositionInfo(progressBarPosition);
+
+            const handleMove = (coordinates: { clientX: number; clientY: number }) => {
+                if (!progressBarRef.current) {
+                    return;
+                }
+
+                const newPageIndex = getNextIndexFromPage(
+                    getPageForMousePos(
+                        coordinates,
+                        progressBarRef.current.getBoundingClientRect(),
+                        pages,
+                        isHorizontal,
+                        getOptionForDirectionFn,
+                    ),
+                );
+
+                const hasCurrentPageIndexChanged = getNextIndexFromPage(currentPage) !== newPageIndex;
+                if (!hasCurrentPageIndexChanged) {
+                    return;
+                }
+
+                openPage(newPageIndex, undefined, false);
+            };
+
+            const handleMouseMove = (e: MouseEvent) => {
+                handleMove(e);
+            };
+
+            const handleTouchMove = (e: TouchEvent) => {
+                if (e.touches.length > 0) {
+                    handleMove(e.touches[0]);
+                }
+            };
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('touchmove', handleTouchMove);
+
+            return () => {
+                document.removeEventListener('mousemove', handleMouseMove);
+                document.removeEventListener('touchmove', handleTouchMove);
+            };
+        }, [openPage, isDragging, currentPage, pages, progressBarPosition]);
     }
 }
