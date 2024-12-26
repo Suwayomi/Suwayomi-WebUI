@@ -50,6 +50,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { Queue } from '@/lib/Queue.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -241,7 +242,7 @@ export class ReaderService {
         isGlobal: boolean = false,
         profile?: ReadingMode,
     ): void {
-        if (!manga || manga.id === -1) {
+        if (!manga || manga.id === FALLBACK_MANGA.id) {
             return;
         }
         const key = getMetadataKey(setting, profile !== undefined ? [profile?.toString()] : undefined);
@@ -305,7 +306,7 @@ export class ReaderService {
         isGlobal: boolean = false,
         profile?: string,
     ): void {
-        if (!manga || manga.id === -1) {
+        if (!manga || manga.id === FALLBACK_MANGA.id) {
             return;
         }
 

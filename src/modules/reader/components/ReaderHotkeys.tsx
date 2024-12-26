@@ -21,11 +21,11 @@ import {
     READING_MODE_VALUES,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
-import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { HotkeyScope } from '@/modules/hotkeys/Hotkeys.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { ScrollDirection, ScrollOffset } from '@/modules/core/Core.types.ts';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
+import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;
@@ -57,8 +57,6 @@ const updateSettingCycleThrough = <Setting extends keyof IReaderSettings>(
     updateSetting(setting, nextValue);
 };
 
-const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
-
 const CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION: Record<ReadingMode, ScrollDirection> = {
     [ReadingMode.SINGLE_PAGE]: ScrollDirection.Y,
     [ReadingMode.DOUBLE_PAGE]: ScrollDirection.Y,
@@ -83,8 +81,8 @@ export const ReaderHotkeys = ({
     const openChapter = ReaderControls.useOpenChapter();
     const openPage = ReaderControls.useOpenPage();
 
-    const updateSetting = ReaderService.useCreateUpdateSetting(manga ?? DEFAULT_MANGA);
-    const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? DEFAULT_MANGA);
+    const updateSetting = ReaderService.useCreateUpdateSetting(manga ?? FALLBACK_MANGA);
+    const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? FALLBACK_MANGA);
 
     useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_PAGE], () => openPage('previous'), [openPage]);
     useHotkeys(hotkeys[ReaderHotkey.NEXT_PAGE], () => openPage('next'), [openPage]);

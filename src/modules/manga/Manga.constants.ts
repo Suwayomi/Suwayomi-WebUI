@@ -8,7 +8,11 @@
 
 import { MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { TranslationKey } from '@/Base.types.ts';
-import { MangaAction } from '@/modules/manga/Manga.types.ts';
+import { MangaAction, MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+
+export const FALLBACK_MANGA: MangaIdInfo = { id: -1 };
+
+export const GLOBAL_READER_SETTINGS_MANGA: MangaIdInfo = { id: -2 };
 
 export const MANGA_COVER_ASPECT_RATIO = '1 / 1.5';
 

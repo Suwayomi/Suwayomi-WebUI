@@ -17,6 +17,7 @@ import { IReaderSettings, ReadingMode } from '@/modules/reader/types/Reader.type
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/modules/reader/components/settings/ReaderSettingsTabs.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { GLOBAL_READER_SETTINGS_MANGA } from '@/modules/manga/Manga.constants.ts';
 
 export const GlobalReaderSettings = () => {
     const { t } = useTranslation();
@@ -45,7 +46,7 @@ export const GlobalReaderSettings = () => {
         commit?: boolean,
         profile?: ReadingMode,
     ) => {
-        ReaderService.updateSetting({ id: -1 }, key, value, commit, true, profile);
+        ReaderService.updateSetting(GLOBAL_READER_SETTINGS_MANGA, key, value, commit, true, profile);
     };
 
     if (loading) {
@@ -69,7 +70,7 @@ export const GlobalReaderSettings = () => {
             areDefaultSettings
             settings={settings}
             updateSetting={(setting, value, commit, _, profile) => updateSetting(setting, value, commit, profile)}
-            deleteSetting={(setting) => ReaderService.deleteSetting({ id: -1 }, setting, true)}
+            deleteSetting={(setting) => ReaderService.deleteSetting(GLOBAL_READER_SETTINGS_MANGA, setting, true)}
         />
     );
 };

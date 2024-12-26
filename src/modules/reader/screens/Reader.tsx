@@ -52,6 +52,7 @@ import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.type
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
+import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 
 const BaseReader = ({
     setTitle,
@@ -225,7 +226,7 @@ const BaseReader = ({
         }
 
         const settingsWithDefaultProfileFallback = getReaderSettingsFor(
-            mangaResponse.data?.manga ?? { id: -1 },
+            mangaResponse.data?.manga ?? FALLBACK_MANGA,
             defaultSettings,
         );
 

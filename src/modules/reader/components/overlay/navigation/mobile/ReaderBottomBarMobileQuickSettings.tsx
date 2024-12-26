@@ -12,19 +12,18 @@ import { ReaderSettingReadingMode } from '@/modules/reader/components/settings/l
 import { ReaderSettingReadingDirection } from '@/modules/reader/components/settings/layout/ReaderSettingReadingDirection.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
-import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { DefaultSettingFootnote } from '@/modules/reader/components/settings/DefaultSettingFootnote.tsx';
 import { IReaderSettingsWithDefaultFlag, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 
-const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
 const BaseReaderBottomBarMobileQuickSettings = ({
     manga,
     readingMode,
     readingDirection,
 }: Pick<TReaderStateMangaContext, 'manga'> &
     Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'readingDirection'>) => {
-    const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? DEFAULT_MANGA);
+    const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? FALLBACK_MANGA);
 
     if (!manga) {
         return null;

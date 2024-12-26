@@ -31,10 +31,10 @@ import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/Rea
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
-import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 import { IReaderSettings, ReaderStateChapters, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 
 const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolean) => {
     const wasNavBarStaticRef = useRef(isStaticNav);
@@ -54,7 +54,6 @@ const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolea
     return wasNavBarStaticRef.current;
 };
 
-const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
 const BaseReaderNavBarDesktop = ({
     isVisible,
     openSettings,
@@ -77,7 +76,7 @@ const BaseReaderNavBarDesktop = ({
 
     const getOptionForDirection = useGetOptionForDirection();
 
-    const updateReaderSettings = ReaderService.useCreateUpdateSetting(manga ?? DEFAULT_MANGA);
+    const updateReaderSettings = ReaderService.useCreateUpdateSetting(manga ?? FALLBACK_MANGA);
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(

@@ -17,11 +17,10 @@ import { ReaderNavBarDesktopReadingDirection } from '@/modules/reader/components
 import { IReaderSettingsWithDefaultFlag, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderNavBarDesktopProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
+import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 
-const DEFAULT_MANGA: MangaIdInfo = { id: -1 };
 const BaseReaderNavBarDesktopQuickSettings = ({
     manga,
     readingMode,
@@ -38,8 +37,8 @@ const BaseReaderNavBarDesktopQuickSettings = ({
     >) => {
     const { t } = useTranslation();
 
-    const updateSetting = ReaderService.useCreateUpdateSetting(manga ?? DEFAULT_MANGA);
-    const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? DEFAULT_MANGA);
+    const updateSetting = ReaderService.useCreateUpdateSetting(manga ?? FALLBACK_MANGA);
+    const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? FALLBACK_MANGA);
 
     return (
         <Stack sx={{ gap: 1 }}>
