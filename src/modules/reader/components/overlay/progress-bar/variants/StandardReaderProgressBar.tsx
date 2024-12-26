@@ -15,7 +15,7 @@ import { IReaderSettings, ProgressBarType, TReaderScrollbarContext } from '@/mod
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
-import { TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { ReaderProgressBarProps, TReaderProgressBarContext } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
@@ -34,15 +34,15 @@ const BaseStandardReaderProgressBar = ({
     readerDirection,
     scrollbarXSize,
     scrollbarYSize,
+    totalPages,
 }: Pick<NavbarContextType, 'readerNavBarWidth'> &
     Pick<TReaderProgressBarContext, 'isMaximized' | 'setIsMaximized' | 'isDragging'> &
     Pick<IReaderSettings, 'progressBarType' | 'progressBarSize' | 'progressBarPosition'> &
-    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & {
+    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
+    Pick<ReaderProgressBarProps, 'totalPages'> & {
         readerDirection: ReturnType<typeof ReaderService.useGetThemeDirection>;
     }) => {
     const theme = useTheme();
-    const pagesState = userReaderStatePagesContext();
-    const { totalPages } = pagesState;
 
     const { isBottom, isLeft, isRight, isVertical, isHorizontal } = getProgressBarPositionInfo(progressBarPosition);
 
@@ -55,8 +55,6 @@ const BaseStandardReaderProgressBar = ({
     return (
         <ReaderProgressBarDirectionWrapper>
             <ReaderProgressBar
-                {...pagesState}
-                progressBarPosition={progressBarPosition}
                 createProgressBarSlot={useCallback(
                     (
                         page,
@@ -236,6 +234,7 @@ export const StandardReaderProgressBar = withPropsFrom(
         ReaderService.useSettingsWithoutDefaultFlag,
         () => ({ readerDirection: ReaderService.useGetThemeDirection() }),
         useReaderScrollbarContext,
+        userReaderStatePagesContext,
     ],
     [
         'readerNavBarWidth',
@@ -248,5 +247,6 @@ export const StandardReaderProgressBar = withPropsFrom(
         'readerDirection',
         'scrollbarXSize',
         'scrollbarYSize',
+        'totalPages',
     ],
 );

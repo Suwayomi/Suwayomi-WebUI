@@ -32,6 +32,7 @@ import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 import { ReaderProgressBarSlotWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlotWrapper.tsx';
+import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 
 const BaseReaderProgressBar = ({
     totalPages,
@@ -225,6 +226,18 @@ export const ReaderProgressBar = withPropsFrom(
         () => ({
             direction: ReaderService.useGetThemeDirection(),
         }),
+        userReaderStatePagesContext,
+        ReaderService.useSettingsWithoutDefaultFlag,
     ],
-    ['isDragging', 'setIsDragging', 'openPage', 'direction'],
+    [
+        'isDragging',
+        'setIsDragging',
+        'openPage',
+        'direction',
+        'pages',
+        'pageLoadStates',
+        'totalPages',
+        'currentPageIndex',
+        'progressBarPosition',
+    ],
 );

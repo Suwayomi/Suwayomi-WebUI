@@ -42,7 +42,7 @@ export interface ReaderStatePages {
 }
 
 export interface ReaderProgressBarProps
-    extends Omit<ReaderStatePages, 'setTotalPages' | 'setPages' | 'setPageLoadStates'>,
+    extends Pick<ReaderStatePages, 'totalPages' | 'pages' | 'pageLoadStates' | 'currentPageIndex'>,
         Pick<IReaderSettings, 'progressBarPosition'> {}
 
 export interface TReaderProgressCurrentPage extends PageData {
