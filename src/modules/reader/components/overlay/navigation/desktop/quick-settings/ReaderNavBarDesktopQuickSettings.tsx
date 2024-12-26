@@ -20,6 +20,7 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
+import { ReaderNavBarDesktopAutoScroll } from '@/modules/reader/components/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopAutoScroll.tsx';
 
 const BaseReaderNavBarDesktopQuickSettings = ({
     manga,
@@ -28,12 +29,18 @@ const BaseReaderNavBarDesktopQuickSettings = ({
     pageScaleMode,
     shouldStretchPage,
     readingDirection,
+    autoScroll,
     openSettings,
 }: Pick<TReaderStateMangaContext, 'manga'> &
     Pick<ReaderNavBarDesktopProps, 'openSettings'> &
     Pick<
         IReaderSettingsWithDefaultFlag,
-        'readingMode' | 'shouldOffsetDoubleSpreads' | 'pageScaleMode' | 'shouldStretchPage' | 'readingDirection'
+        | 'readingMode'
+        | 'shouldOffsetDoubleSpreads'
+        | 'pageScaleMode'
+        | 'shouldStretchPage'
+        | 'readingDirection'
+        | 'autoScroll'
     >) => {
     const { t } = useTranslation();
 
@@ -66,6 +73,10 @@ const BaseReaderNavBarDesktopQuickSettings = ({
                 isDefaultable
                 onDefault={() => deleteSetting('readingDirection')}
             />
+            <ReaderNavBarDesktopAutoScroll
+                autoScroll={autoScroll}
+                setAutoScroll={(...args) => updateSetting('autoScroll', ...args)}
+            />
             <Button
                 onClick={() => openSettings()}
                 size="large"
@@ -82,5 +93,13 @@ const BaseReaderNavBarDesktopQuickSettings = ({
 export const ReaderNavBarDesktopQuickSettings = withPropsFrom(
     BaseReaderNavBarDesktopQuickSettings,
     [useReaderStateMangaContext, ReaderService.useSettings],
-    ['manga', 'readingMode', 'shouldOffsetDoubleSpreads', 'pageScaleMode', 'shouldStretchPage', 'readingDirection'],
+    [
+        'manga',
+        'readingMode',
+        'shouldOffsetDoubleSpreads',
+        'pageScaleMode',
+        'shouldStretchPage',
+        'readingDirection',
+        'autoScroll',
+    ],
 );

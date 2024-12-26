@@ -12,13 +12,16 @@ import { ReaderProgressBarContextProvider } from '@/modules/reader/contexts/Read
 import { ReaderOverlayContextProvider } from '@/modules/reader/contexts/ReaderOverlayContextProvider.tsx';
 import { ReaderStateContextProvider } from '@/modules/reader/contexts/state/ReaderStateContextProvider.tsx';
 import { ReaderScrollbarContextProvider } from '@/modules/reader/contexts/ReaderScrollbarContextProvider.tsx';
+import { ReaderAutoScrollContextProvider } from '@/modules/reader/contexts/ReaderAutoScrollContextProvider.tsx';
 
 export const ReaderContextProvider = ({ children }: { children?: ReactNode }) => (
     <ReaderStateContextProvider>
         <ReaderTapZoneContextProvider>
             <ReaderOverlayContextProvider>
                 <ReaderProgressBarContextProvider>
-                    <ReaderScrollbarContextProvider>{children}</ReaderScrollbarContextProvider>
+                    <ReaderScrollbarContextProvider>
+                        <ReaderAutoScrollContextProvider>{children}</ReaderAutoScrollContextProvider>
+                    </ReaderScrollbarContextProvider>
                 </ReaderProgressBarContextProvider>
             </ReaderOverlayContextProvider>
         </ReaderTapZoneContextProvider>

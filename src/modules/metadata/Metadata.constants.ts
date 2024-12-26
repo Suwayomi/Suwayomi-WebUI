@@ -69,6 +69,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     hotkeys: undefined,
     imagePreLoadAmount: undefined,
     shouldUseAutoWebtoonMode: undefined,
+    autoScroll: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);

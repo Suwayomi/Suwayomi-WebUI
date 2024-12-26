@@ -11,10 +11,11 @@ import { useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { HOTKEY_SCOPES } from '@/modules/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { IReaderSettings, ReaderHotkey, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderHotkey } from '@/modules/reader/types/Reader.types.ts';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.utils.ts';
 import {
+    CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION,
     READER_PAGE_SCALE_MODE_VALUES,
     ReaderScrollAmount,
     READING_DIRECTION_VALUES,
@@ -23,9 +24,10 @@ import {
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { HotkeyScope } from '@/modules/hotkeys/Hotkeys.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
-import { ScrollDirection, ScrollOffset } from '@/modules/core/Core.types.ts';
+import { ScrollOffset } from '@/modules/core/Core.types.ts';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
+import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;
@@ -57,14 +59,6 @@ const updateSettingCycleThrough = <Setting extends keyof IReaderSettings>(
     updateSetting(setting, nextValue);
 };
 
-const CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION: Record<ReadingMode, ScrollDirection> = {
-    [ReadingMode.SINGLE_PAGE]: ScrollDirection.Y,
-    [ReadingMode.DOUBLE_PAGE]: ScrollDirection.Y,
-    [ReadingMode.CONTINUOUS_VERTICAL]: ScrollDirection.Y,
-    [ReadingMode.CONTINUOUS_HORIZONTAL]: ScrollDirection.X,
-    [ReadingMode.WEBTOON]: ScrollDirection.Y,
-};
-
 export const ReaderHotkeys = ({
     scrollElementRef,
 }: {
@@ -77,6 +71,7 @@ export const ReaderHotkeys = ({
     const { isVisible, setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
     const { hotkeys, pageScaleMode, shouldStretchPage, shouldOffsetDoubleSpreads, readingMode, readingDirection } =
         ReaderService.useSettings();
+    const automaticScrolling = useReaderAutoScrollContext();
 
     const openChapter = ReaderControls.useOpenChapter();
     const openPage = ReaderControls.useOpenPage();
@@ -188,6 +183,10 @@ export const ReaderHotkeys = ({
         },
         [updateSetting, deleteSetting, readingDirection.value, readingDirection.isDefault],
     );
+    useHotkeys(hotkeys[ReaderHotkey.TOGGLE_AUTO_SCROLL], automaticScrolling.toggleActive, { preventDefault: true }, [
+        updateSetting,
+        automaticScrolling.toggleActive,
+    ]);
 
     useEffect(() => {
         enableScope(HotkeyScope.READER);

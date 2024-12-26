@@ -1,0 +1,75 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { useTranslation } from 'react-i18next';
+import Button from '@mui/material/Button';
+import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
+import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import { useRef } from 'react';
+import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
+import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
+import { AUTO_SCROLL_SPEED } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+
+export const ReaderNavBarDesktopAutoScroll = ({
+    autoScroll,
+    setAutoScroll,
+}: Pick<IReaderSettings, 'autoScroll'> & {
+    setAutoScroll: (newAutoScroll: IReaderSettings['autoScroll'], commit: boolean) => void;
+}) => {
+    const { t } = useTranslation();
+    const { isActive, toggleActive } = useReaderAutoScrollContext();
+
+    const updateTimeout = useRef<NodeJS.Timeout>();
+
+    return (
+        <Stack sx={{ flexDirection: 'row', gap: 1 }}>
+            <Button
+                sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
+                size="large"
+                onClick={toggleActive}
+                color={isActive ? 'secondary' : 'primary'}
+                variant="contained"
+                startIcon={isActive ? <PauseCircleFilledIcon /> : <PlayCircleFilledIcon />}
+            >
+                {t('reader.settings.auto_scroll.title')}
+            </Button>
+            <TextField
+                value={autoScroll.value}
+                type="number"
+                onBlur={(e) => {
+                    const value = +e.target.value;
+
+                    if (value !== autoScroll.value) {
+                        clearTimeout(updateTimeout.current);
+                        setAutoScroll({ ...autoScroll, value }, true);
+                    }
+                }}
+                onChange={(e) => {
+                    const value = +e.target.value;
+                    setAutoScroll({ ...autoScroll, value }, false);
+
+                    clearTimeout(updateTimeout.current);
+                    updateTimeout.current = setTimeout(() => setAutoScroll({ ...autoScroll, value }, true), 1000);
+                }}
+                slotProps={{
+                    input: {
+                        inputProps: AUTO_SCROLL_SPEED,
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                {t('global.time.seconds.second', { count: autoScroll.value })}
+                            </InputAdornment>
+                        ),
+                    },
+                }}
+            />
+        </Stack>
+    );
+};

@@ -8,21 +8,34 @@
 
 import Stack from '@mui/material/Stack';
 import { memo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReaderSettingReadingMode } from '@/modules/reader/components/settings/layout/ReaderSettingReadingMode.tsx';
 import { ReaderSettingReadingDirection } from '@/modules/reader/components/settings/layout/ReaderSettingReadingDirection.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { DefaultSettingFootnote } from '@/modules/reader/components/settings/DefaultSettingFootnote.tsx';
-import { IReaderSettingsWithDefaultFlag, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
+import {
+    IReaderSettingsWithDefaultFlag,
+    TReaderAutoScrollContext,
+    TReaderStateMangaContext,
+} from '@/modules/reader/types/Reader.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
+import { ReaderSettingAutoScroll } from '@/modules/reader/components/settings/behaviour/ReaderSettingAutoScroll.tsx';
+import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
+import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
 
 const BaseReaderBottomBarMobileQuickSettings = ({
     manga,
     readingMode,
     readingDirection,
+    autoScroll,
+    isActive,
+    toggleActive,
 }: Pick<TReaderStateMangaContext, 'manga'> &
-    Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'readingDirection'>) => {
+    Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'readingDirection' | 'autoScroll'> &
+    Pick<TReaderAutoScrollContext, 'isActive' | 'toggleActive'>) => {
+    const { t } = useTranslation();
     const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? FALLBACK_MANGA);
 
     if (!manga) {
@@ -44,12 +57,21 @@ const BaseReaderBottomBarMobileQuickSettings = ({
                 isDefaultable
                 onDefault={() => deleteSetting('readingDirection')}
             />
+            <CheckboxInput
+                label={t('reader.settings.auto_scroll.title')}
+                checked={isActive}
+                onChange={() => toggleActive()}
+            />
+            <ReaderSettingAutoScroll
+                autoScroll={autoScroll}
+                setAutoScroll={(...args) => ReaderService.updateSetting(manga, 'autoScroll', ...args)}
+            />
         </Stack>
     );
 };
 
 export const ReaderBottomBarMobileQuickSettings = withPropsFrom(
     memo(BaseReaderBottomBarMobileQuickSettings),
-    [useReaderStateMangaContext, ReaderService.useSettings],
-    ['manga', 'readingMode', 'readingDirection'],
+    [useReaderStateMangaContext, ReaderService.useSettings, useReaderAutoScrollContext],
+    ['manga', 'readingMode', 'readingDirection', 'autoScroll', 'isActive', 'toggleActive'],
 );

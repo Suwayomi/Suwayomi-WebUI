@@ -84,7 +84,7 @@ const BaseReaderBottomBarMobile = ({
                                     <FormatListBulletedIcon />
                                 </IconButton>
                             </Tooltip>
-                            <Tooltip title={t('reader.settings.label.reader_type')}>
+                            <Tooltip title={t('reader.settings.title.quick_settings')}>
                                 <IconButton {...bindTrigger(quickSettingsPopupState)} size="large" color="inherit">
                                     <AppSettingsAltIcon />
                                 </IconButton>

@@ -17,6 +17,7 @@ import { ReaderSettingExitMode } from '@/modules/reader/components/settings/beha
 import { isOffsetDoubleSpreadPagesEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { ReaderSettingAutoScroll } from '@/modules/reader/components/settings/behaviour/ReaderSettingAutoScroll.tsx';
 
 export const ReaderBehaviourSettings = ({
     settings,
@@ -59,6 +60,10 @@ export const ReaderBehaviourSettings = ({
                 }
                 checked={settings.shouldUseAutoWebtoonMode}
                 onChange={(_, checked) => updateSetting('shouldUseAutoWebtoonMode', checked)}
+            />
+            <ReaderSettingAutoScroll
+                autoScroll={settings.autoScroll}
+                setAutoScroll={(...args) => updateSetting('autoScroll', ...args)}
             />
             <SliderInput
                 label={t('reader.settings.image_preload_amount')}

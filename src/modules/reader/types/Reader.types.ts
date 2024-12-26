@@ -12,6 +12,7 @@ import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { TMangaReader } from '@/modules/manga/Manga.types.ts';
+import { useAutomaticScrolling } from '@/modules/core/hooks/useAutomaticScrolling.ts';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -124,6 +125,13 @@ export interface IReaderSettingsGlobal {
     hotkeys: Record<ReaderHotkey, string[]>;
     imagePreLoadAmount: number;
     shouldUseAutoWebtoonMode: boolean;
+    autoScroll: {
+        /**
+         * interval in seconds
+         */
+        value: number;
+        smooth: boolean;
+    };
 }
 
 export interface IReaderSettingsManga {
@@ -208,6 +216,7 @@ export enum ReaderHotkey {
     OFFSET_SPREAD_PAGES,
     CYCLE_READING_MODE,
     CYCLE_READING_DIRECTION,
+    TOGGLE_AUTO_SCROLL,
 }
 
 export interface ReaderPagerProps
@@ -258,4 +267,10 @@ export type TReaderStateMangaContext = {
 export type TReaderStateSettingsContext = {
     settings: IReaderSettingsWithDefaultFlag;
     setSettings: (settings: IReaderSettingsWithDefaultFlag) => void;
+};
+
+export type TReaderAutoScrollContext = ReturnType<typeof useAutomaticScrolling> & {
+    isActive: boolean;
+    scrollRef?: MutableRefObject<HTMLElement | null> | (() => void);
+    setScrollRef: (scrollRef?: MutableRefObject<HTMLElement | null>) => void;
 };

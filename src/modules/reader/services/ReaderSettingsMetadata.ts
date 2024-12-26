@@ -91,6 +91,7 @@ const convertSettingsToMetadata = (
     customFilter: JSON.stringify(settings.customFilter),
     readerWidth: JSON.stringify(settings.readerWidth),
     hotkeys: JSON.stringify(settings.hotkeys),
+    autoScroll: JSON.stringify(settings.autoScroll),
 });
 
 export const DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG = convertToSettingsWithDefaultFlag(
@@ -117,6 +118,9 @@ const convertMetadataToSettings = (
         ...defaultSettings.hotkeys,
         ...(jsonSaveParse<IReaderSettings['hotkeys']>((metadata.hotkeys as string) ?? '') ?? defaultSettings.hotkeys),
     },
+    autoScroll:
+        jsonSaveParse<IReaderSettings['autoScroll']>((metadata.autoScroll as string) ?? '') ??
+        defaultSettings.autoScroll,
 });
 
 export const getReaderSettings = (

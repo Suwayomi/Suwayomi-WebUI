@@ -55,6 +55,7 @@ import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -113,6 +114,9 @@ const BaseReaderViewer = forwardRef(
 
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
         const isDragging = useMouseDragScroll(isContinuousReadingModeActive ? scrollElementRef : undefined);
+
+        const automaticScrolling = useReaderAutoScrollContext();
+        useEffect(() => automaticScrolling.setScrollRef(scrollElementRef), []);
 
         const scrollbarXSize = MediaQuery.useGetScrollbarSize('width', scrollElementRef.current);
         const scrollbarYSize = MediaQuery.useGetScrollbarSize('height', scrollElementRef.current);
@@ -319,6 +323,16 @@ const BaseReaderViewer = forwardRef(
                 scrollElementRef.current?.removeEventListener('touchmove', handleScroll);
             };
         }, [isOverlayVisible]);
+
+        // handle auto scrolling
+        useEffect(() => {
+            if (isOverlayVisible) {
+                automaticScrolling.pause();
+                return;
+            }
+
+            automaticScrolling.resume();
+        }, [isOverlayVisible, automaticScrolling.isPaused]);
 
         return (
             <Stack

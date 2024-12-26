@@ -13,7 +13,7 @@ import ExpandIcon from '@mui/icons-material/Expand';
 import CropOriginalIcon from '@mui/icons-material/CropOriginal';
 import { TooltipProps } from '@mui/material/Tooltip';
 import { Direction } from '@mui/material/styles';
-import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
+import { ScrollDirection, ValueToDisplayData } from '@/modules/core/Core.types.ts';
 import {
     IReaderSettings,
     IReaderSettingsGlobal,
@@ -56,6 +56,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     hotkeys: undefined,
     imagePreLoadAmount: undefined,
     shouldUseAutoWebtoonMode: undefined,
+    autoScroll: undefined,
 };
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
@@ -122,9 +123,14 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         [ReaderHotkey.OFFSET_SPREAD_PAGES]: ['o'],
         [ReaderHotkey.CYCLE_READING_MODE]: ['r'],
         [ReaderHotkey.CYCLE_READING_DIRECTION]: ['t'],
+        [ReaderHotkey.TOGGLE_AUTO_SCROLL]: ['space'],
     },
     imagePreLoadAmount: 5,
     shouldUseAutoWebtoonMode: true,
+    autoScroll: {
+        value: 5,
+        smooth: true,
+    },
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {
@@ -249,6 +255,7 @@ export const READER_SETTING_TABS: Record<
  */
 export enum ReaderScrollAmount {
     SMALL = 25,
+    MEDIUM = 75,
     LARGE = 95,
 }
 
@@ -262,3 +269,20 @@ export const READER_BACKGROUND_TO_COLOR = {
     [ReaderBackgroundColor.GRAY]: 'grey.200',
     [ReaderBackgroundColor.WHITE]: 'common.white',
 } as const satisfies Record<ReaderBackgroundColor, string>;
+
+export const CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION: Record<
+    ReadingMode,
+    Exclude<ScrollDirection, ScrollDirection.XY>
+> = {
+    [ReadingMode.SINGLE_PAGE]: ScrollDirection.Y,
+    [ReadingMode.DOUBLE_PAGE]: ScrollDirection.Y,
+    [ReadingMode.CONTINUOUS_VERTICAL]: ScrollDirection.Y,
+    [ReadingMode.CONTINUOUS_HORIZONTAL]: ScrollDirection.X,
+    [ReadingMode.WEBTOON]: ScrollDirection.Y,
+};
+
+export const AUTO_SCROLL_SPEED = {
+    MIN: 0.5,
+    MAX: 60,
+    STEP: 0.5,
+};

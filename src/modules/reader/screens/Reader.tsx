@@ -43,6 +43,7 @@ import {
     ReaderStateChapters,
     ReaderTransitionPageMode,
     ReadingMode,
+    TReaderAutoScrollContext,
     TReaderStateMangaContext,
     TReaderStateSettingsContext,
 } from '@/modules/reader/types/Reader.types.ts';
@@ -54,6 +55,7 @@ import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { isAutoWebtoonMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
 
 const BaseReader = ({
     setTitle,
@@ -79,6 +81,7 @@ const BaseReader = ({
     setPageUrls,
     setPageLoadStates,
     setTransitionPageMode,
+    cancelAutoScroll,
 }: Pick<NavbarContextType, 'setTitle' | 'setOverride' | 'readerNavBarWidth'> &
     Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
     Pick<TReaderStateMangaContext, 'manga' | 'setManga'> &
@@ -97,6 +100,7 @@ const BaseReader = ({
         | 'setTransitionPageMode'
     > & {
         firstPageUrl?: string;
+        cancelAutoScroll: TReaderAutoScrollContext['cancel'];
     }) => {
     const { t } = useTranslation();
     const { resumeMode } = useLocation<{
@@ -184,6 +188,8 @@ const BaseReader = ({
             setPageLoadStates([{ loaded: false }]);
 
             setIsOverlayVisible(false);
+
+            cancelAutoScroll();
         },
         [],
     );
@@ -411,6 +417,7 @@ export const Reader = withPropsFrom(
         () => ({
             firstPageUrl: userReaderStatePagesContext().pages[0].primary.url,
         }),
+        () => ({ cancelAutoScroll: useReaderAutoScrollContext().cancel }),
     ],
     [
         'setTitle',
@@ -436,5 +443,6 @@ export const Reader = withPropsFrom(
         'setPageUrls',
         'setPageLoadStates',
         'setTransitionPageMode',
+        'cancelAutoScroll',
     ],
 );

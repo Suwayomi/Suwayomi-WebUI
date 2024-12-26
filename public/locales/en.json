@@ -844,6 +844,11 @@
     },
     "settings": {
       "active_setting": "Active setting",
+      "auto_scroll": {
+        "smooth": "Smooth auto scrolling",
+        "speed": "Auto scroll speed",
+        "title": "Auto scroll"
+      },
       "auto_webtoon_mode": {
         "description": "Automatically use webtoon mode for entries that are detected to likely use the long strip format",
         "title": "Auto webtoon mode"
@@ -940,6 +945,7 @@
         "title": "Tap zones"
       },
       "title": {
+        "quick_settings": "Quick settings",
         "reader_settings": "Reader Settings"
       }
     },
