@@ -8,7 +8,7 @@
 
 import { MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { TranslationKey } from '@/Base.types.ts';
-import { MangaAction, MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { MangaAction, MangaIdInfo, MangaType } from '@/modules/manga/Manga.types.ts';
 
 export const FALLBACK_MANGA: MangaIdInfo = { id: -1 };
 
@@ -100,4 +100,47 @@ export const actionToTranslationKey: {
         success: 'manga.action.track.add.label.success',
         error: 'manga.action.track.add.label.error',
     },
+};
+
+export const SOURCES_BY_MANGA_TYPE: Record<MangaType, string[]> = {
+    [MangaType.MANGA]: [],
+    [MangaType.COMIC]: [],
+    [MangaType.WEBTOON]: ['mangatoon', 'manmanga', 'toomics', 'webcomics', 'webtoons', 'webtoon'],
+    [MangaType.MANHWA]: [
+        'hiperdex',
+        'hmanhwa',
+        'instamanhwa',
+        'manhwa18',
+        'manhwa68',
+        'manhwa365',
+        'manhwahentaime',
+        'manhwamanga',
+        'manhwatop',
+        'manhwa',
+        'manytoon',
+        'manwha',
+        'readmanhwa',
+        'skymanga',
+        'toonily',
+        'webtoonxyz',
+    ],
+    [MangaType.MANHUA]: [
+        '1st kiss manhua',
+        'hero manhua',
+        'manhuabox',
+        'manhuaus',
+        'manhuas',
+        'manhuas',
+        'readmanhua',
+        'wuxiaworld',
+        'manhua',
+    ],
+};
+
+export const MANGA_TAGS_BY_MANGA_TYPE: Record<MangaType, string[]> = {
+    [MangaType.MANGA]: ['manga'],
+    [MangaType.COMIC]: ['comic'],
+    [MangaType.WEBTOON]: ['webtoon', 'long strip'],
+    [MangaType.MANHWA]: ['manhwa'],
+    [MangaType.MANHUA]: ['manhua'],
 };

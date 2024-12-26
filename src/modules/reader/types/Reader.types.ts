@@ -123,6 +123,7 @@ export interface IReaderSettingsGlobal {
     backgroundColor: ReaderBackgroundColor;
     hotkeys: Record<ReaderHotkey, string[]>;
     imagePreLoadAmount: number;
+    shouldUseAutoWebtoonMode: boolean;
 }
 
 export interface IReaderSettingsManga {

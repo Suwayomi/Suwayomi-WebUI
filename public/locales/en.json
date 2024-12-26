@@ -844,6 +844,10 @@
     },
     "settings": {
       "active_setting": "Active setting",
+      "auto_webtoon_mode": {
+        "description": "Automatically use webtoon mode for entries that are detected to likely use the long strip format",
+        "title": "Auto webtoon mode"
+      },
       "background_color": "Background color",
       "custom_filter": {
         "brightness": "Custom brightness",

@@ -28,12 +28,19 @@ import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.t
 import {
     MangaAction,
     MangaDownloadInfo,
+    MangaGenreInfo,
     MangaIdInfo,
+    MangaSourceNameInfo,
     MangaThumbnailInfo,
+    MangaType,
     MangaUnreadInfo,
     MigrateMode,
 } from '@/modules/manga/Manga.types.ts';
-import { actionToTranslationKey } from '@/modules/manga/Manga.constants.ts';
+import {
+    actionToTranslationKey,
+    MANGA_TAGS_BY_MANGA_TYPE,
+    SOURCES_BY_MANGA_TYPE,
+} from '@/modules/manga/Manga.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
@@ -523,5 +530,44 @@ export class Mangas {
             default:
                 throw new Error(`Mangas::performAction: unknown action "${action}"`);
         }
+    }
+
+    static getType(manga: MangaGenreInfo & MangaSourceNameInfo): MangaType {
+        if (Mangas.isType(manga, MangaType.MANGA)) {
+            return MangaType.MANGA;
+        }
+
+        if (Mangas.isType(manga, MangaType.COMIC)) {
+            return MangaType.COMIC;
+        }
+
+        if (Mangas.isType(manga, MangaType.WEBTOON)) {
+            return MangaType.WEBTOON;
+        }
+
+        if (Mangas.isType(manga, MangaType.MANHWA)) {
+            return MangaType.MANHWA;
+        }
+
+        if (Mangas.isType(manga, MangaType.MANHUA)) {
+            return MangaType.MANHUA;
+        }
+
+        return MangaType.MANGA;
+    }
+
+    static isType(manga: MangaGenreInfo & MangaSourceNameInfo, type: MangaType): boolean {
+        return (
+            manga.genre.some((genre) => MANGA_TAGS_BY_MANGA_TYPE[type].includes(genre.toLowerCase())) ||
+            SOURCES_BY_MANGA_TYPE[type].includes(manga.source?.name.toLowerCase() ?? '')
+        );
+    }
+
+    static isLongStripType(manga: MangaGenreInfo & MangaSourceNameInfo): boolean {
+        return (
+            Mangas.isType(manga, MangaType.WEBTOON) ||
+            Mangas.isType(manga, MangaType.MANHWA) ||
+            Mangas.isType(manga, MangaType.MANHUA)
+        );
     }
 }

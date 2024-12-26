@@ -55,6 +55,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     backgroundColor: undefined,
     hotkeys: undefined,
     imagePreLoadAmount: undefined,
+    shouldUseAutoWebtoonMode: undefined,
 };
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
@@ -123,6 +124,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         [ReaderHotkey.CYCLE_READING_DIRECTION]: ['t'],
     },
     imagePreLoadAmount: 5,
+    shouldUseAutoWebtoonMode: true,
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {

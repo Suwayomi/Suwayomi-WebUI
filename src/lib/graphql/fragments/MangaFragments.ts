@@ -7,6 +7,7 @@
  */
 
 import gql from 'graphql-tag';
+import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 
 export const MANGA_META_FIELDS = gql`
     fragment MANGA_META_FIELDS on MangaMetaType {
@@ -75,9 +76,15 @@ export const MANGA_CHAPTER_NODE_FIELDS = gql`
 export const MANGA_READER_FIELDS = gql`
     ${MANGA_BASE_FIELDS}
     ${MANGA_META_FIELDS}
+    ${SOURCE_BASE_FIELDS}
 
     fragment MANGA_READER_FIELDS on MangaType {
         ...MANGA_BASE_FIELDS
+
+        genre
+        source {
+            ...SOURCE_BASE_FIELDS
+        }
 
         meta {
             ...MANGA_META_FIELDS

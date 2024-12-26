@@ -42,6 +42,7 @@ import {
     ReaderResumeMode,
     ReaderStateChapters,
     ReaderTransitionPageMode,
+    ReadingMode,
     TReaderStateMangaContext,
     TReaderStateSettingsContext,
 } from '@/modules/reader/types/Reader.types.ts';
@@ -52,7 +53,7 @@ import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.type
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
+import { isAutoWebtoonMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 const BaseReader = ({
     setTitle,
@@ -221,25 +222,36 @@ const BaseReader = ({
 
     // set settings state
     useEffect(() => {
-        if (!mangaResponse.data?.manga || defaultSettingsResponse.loading || defaultSettingsResponse.error) {
+        const mangaFromResponse = mangaResponse.data?.manga;
+        if (!mangaFromResponse || defaultSettingsResponse.loading || defaultSettingsResponse.error) {
             return;
         }
 
-        const settingsWithDefaultProfileFallback = getReaderSettingsFor(
-            mangaResponse.data?.manga ?? FALLBACK_MANGA,
-            defaultSettings,
+        const settingsWithDefaultProfileFallback = getReaderSettingsFor(mangaFromResponse, defaultSettings);
+
+        const shouldUseWebtoonMode = isAutoWebtoonMode(
+            mangaFromResponse,
+            settingsWithDefaultProfileFallback.shouldUseAutoWebtoonMode,
+            settingsWithDefaultProfileFallback.readingMode,
         );
 
-        const profile = settingsWithDefaultProfileFallback.readingMode.value;
+        const defaultSettingsWithAutoReadingMode = {
+            ...defaultSettings,
+            readingMode: shouldUseWebtoonMode ? ReadingMode.WEBTOON : defaultSettings.readingMode,
+        };
+
+        const profile = shouldUseWebtoonMode
+            ? ReadingMode.WEBTOON
+            : settingsWithDefaultProfileFallback.readingMode.value;
         const profileSettings = getReaderSettings(
             'global',
             { meta: defaultSettingsMetadata! },
-            defaultSettings,
+            defaultSettingsWithAutoReadingMode,
             undefined,
             profile,
         );
 
-        setSettings(getReaderSettingsFor(mangaResponse.data!.manga, profileSettings));
+        setSettings(getReaderSettingsFor(mangaFromResponse, profileSettings));
     }, [mangaResponse.data?.manga, defaultSettings]);
 
     // set chapters state

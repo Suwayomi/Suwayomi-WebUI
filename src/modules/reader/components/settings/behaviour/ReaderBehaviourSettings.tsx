@@ -8,6 +8,8 @@
 
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { IReaderSettingsWithDefaultFlag, ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
@@ -46,6 +48,18 @@ export const ReaderBehaviourSettings = ({
                     onChange={(_, checked) => updateSetting('shouldOffsetDoubleSpreads', checked)}
                 />
             )}
+            <CheckboxInput
+                label={
+                    <Box>
+                        <Typography>{t('reader.settings.auto_webtoon_mode.title')}</Typography>
+                        <Typography variant="body2" color="textDisabled">
+                            {t('reader.settings.auto_webtoon_mode.description')}
+                        </Typography>
+                    </Box>
+                }
+                checked={settings.shouldUseAutoWebtoonMode}
+                onChange={(_, checked) => updateSetting('shouldUseAutoWebtoonMode', checked)}
+            />
             <SliderInput
                 label={t('reader.settings.image_preload_amount')}
                 value={settings.imagePreLoadAmount}

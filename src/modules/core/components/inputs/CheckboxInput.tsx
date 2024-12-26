@@ -7,11 +7,11 @@
  */
 
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import React from 'react';
 
 interface IProps extends CheckboxProps {
-    label?: string;
+    label?: FormControlLabelProps['label'];
 }
 
 export const CheckboxInput: React.FC<IProps> = ({ label, sx, ...rest }) => (
