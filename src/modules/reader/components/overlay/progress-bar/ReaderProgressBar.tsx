@@ -169,7 +169,7 @@ const BaseReaderProgressBar = ({
                                     totalPages={pages.length}
                                     primaryPageLoadState={pageLoadStates[page.primary.index].loaded}
                                     secondaryPageLoadState={
-                                        !!page.secondary && pageLoadStates[page.secondary.index].loaded
+                                        page.secondary ? pageLoadStates[page.secondary.index].loaded : undefined
                                     }
                                     createProgressBarSlot={createProgressBarSlot}
                                 />

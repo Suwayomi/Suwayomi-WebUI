@@ -48,12 +48,12 @@ export const ReaderProgressBarSlotWrapper = memo(
         isTrailingPage: boolean;
         totalPages: number;
         primaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'];
-        secondaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'];
+        secondaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'] | undefined;
         createProgressBarSlot: (
             page: ReaderProgressBarProps['pages'][number],
             pagesIndex: number,
             primaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'],
-            secondaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'],
+            secondaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'] | undefined,
             isCurrentPage: boolean,
             isLeadingPage: boolean,
             isTrailingPage: boolean,
