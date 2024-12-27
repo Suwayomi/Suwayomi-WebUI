@@ -33,6 +33,7 @@ const READER_HOTKEY_TO_TITLE: Record<ReaderHotkey, TranslationKey> = {
     [ReaderHotkey.OFFSET_SPREAD_PAGES]: 'reader.settings.hotkey.offset_spread_pages',
     [ReaderHotkey.CYCLE_READING_MODE]: 'reader.settings.hotkey.reading_mode',
     [ReaderHotkey.CYCLE_READING_DIRECTION]: 'reader.settings.hotkey.reading_direction',
+    [ReaderHotkey.TOGGLE_AUTO_SCROLL]: 'reader.settings.hotkey.auto_scroll',
 };
 
 export const ReaderSettingHotkey = ({

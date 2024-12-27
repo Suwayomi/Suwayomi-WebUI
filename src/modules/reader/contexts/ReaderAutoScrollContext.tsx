@@ -11,9 +11,13 @@ import { TReaderAutoScrollContext } from '@/modules/reader/types/Reader.types.ts
 
 export const ReaderAutoScrollContext = createContext<TReaderAutoScrollContext>({
     isActive: false,
+    isPaused: false,
     setScrollRef: () => {},
     start: () => {},
     cancel: () => {},
+    toggleActive: () => {},
+    pause: () => {},
+    resume: () => {},
 });
 
 export const useReaderAutoScrollContext = () => useContext(ReaderAutoScrollContext);
