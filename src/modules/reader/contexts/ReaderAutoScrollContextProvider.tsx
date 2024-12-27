@@ -9,7 +9,7 @@
 import { memo, ReactNode, useCallback, useMemo, useState } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
 import { useAutomaticScrolling } from '@/modules/core/hooks/useAutomaticScrolling.ts';
-import { IReaderSettings, TReaderAutoScrollContext } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReadingMode, TReaderAutoScrollContext } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
@@ -35,7 +35,7 @@ const BaseReaderAutoScrollContextProvider = ({
 }) => {
     const [scrollRef, setScrollRef] = useState<TReaderAutoScrollContext['scrollRef']>();
 
-    const invertScrolling = themeDirection !== combinedDirection;
+    const invertScrolling = readingMode === ReadingMode.CONTINUOUS_HORIZONTAL && themeDirection !== combinedDirection;
     const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
 
     const changePage = useCallback(() => {
