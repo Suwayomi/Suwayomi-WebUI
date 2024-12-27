@@ -26,6 +26,7 @@ export const LibraryToolbarMenu = ({
     const active =
         options.hasDownloadedChapters != null ||
         options.hasUnreadChapters != null ||
+        options.hasReadChapters != null ||
         options.hasBookmarkedChapters != null ||
         options.hasDuplicateChapters != null ||
         Object.values(options.hasStatus).some((hasStatus) => hasStatus != null) ||

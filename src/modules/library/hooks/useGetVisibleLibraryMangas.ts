@@ -103,6 +103,7 @@ const statusFilter = (statusFilters: LibraryOptions['hasStatus'], manga: TMangaS
 type TMangaFilterOptions = Pick<
     LibraryOptions,
     | 'hasUnreadChapters'
+    | 'hasReadChapters'
     | 'hasDownloadedChapters'
     | 'hasBookmarkedChapters'
     | 'hasDuplicateChapters'
@@ -111,12 +112,14 @@ type TMangaFilterOptions = Pick<
 >;
 type TMangaFilter = Pick<MangaType, 'downloadCount' | 'unreadCount' | 'bookmarkCount' | 'hasDuplicateChapters'> &
     TMangaTrackerFilter &
-    TMangaStatusFilter;
+    TMangaStatusFilter &
+    MangaChapterCountInfo;
 const filterManga = (
     manga: TMangaFilter,
     {
         hasDownloadedChapters,
         hasUnreadChapters,
+        hasReadChapters,
         hasBookmarkedChapters,
         hasDuplicateChapters,
         hasTrackerBinding,
@@ -125,6 +128,7 @@ const filterManga = (
 ): boolean =>
     triStateFilterNumber(hasDownloadedChapters, manga.downloadCount) &&
     triStateFilterNumber(hasUnreadChapters, manga.unreadCount) &&
+    triStateFilterNumber(hasReadChapters, manga.chapters.totalCount - manga.unreadCount) &&
     triStateFilterNumber(hasBookmarkedChapters, manga.bookmarkCount) &&
     triStateFilterBoolean(hasDuplicateChapters, manga.hasDuplicateChapters) &&
     trackerFilter(hasTrackerBinding, manga) &&
@@ -210,6 +214,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     const options = useGetCategoryMetadata(category ?? DEFAULT_CATEGORY);
     const {
         hasUnreadChapters,
+        hasReadChapters,
         hasDownloadedChapters,
         hasBookmarkedChapters,
         hasTrackerBinding,
@@ -228,6 +233,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             mangas,
             query,
             hasUnreadChapters,
+            hasReadChapters,
             hasDownloadedChapters,
             hasBookmarkedChapters,
             hasTrackerBinding,
@@ -246,6 +252,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     );
     const showFilteredOutMessage =
         (hasUnreadChapters != null ||
+            hasReadChapters != null ||
             hasDownloadedChapters != null ||
             hasBookmarkedChapters != null ||
             !!query ||

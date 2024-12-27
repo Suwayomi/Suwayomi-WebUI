@@ -380,6 +380,7 @@
         "bookmarked": "Bookmarked",
         "downloaded": "Downloaded",
         "duplicate_chapters": "Duplicate chapters",
+        "started": "Started",
         "tracked": "Tracked",
         "unread": "Unread"
       }

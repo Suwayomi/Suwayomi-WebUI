@@ -89,6 +89,11 @@ export const LibraryOptionsPanel = ({
                                 onChange={(c) => updateCategoryLibraryOptions('hasUnreadChapters', c)}
                             />
                             <ThreeStateCheckboxInput
+                                label={t('global.filter.label.started')}
+                                checked={categoryLibraryOptions.hasReadChapters}
+                                onChange={(c) => updateCategoryLibraryOptions('hasReadChapters', c)}
+                            />
+                            <ThreeStateCheckboxInput
                                 label={t('global.filter.label.downloaded')}
                                 checked={categoryLibraryOptions.hasDownloadedChapters}
                                 onChange={(c) => updateCategoryLibraryOptions('hasDownloadedChapters', c)}

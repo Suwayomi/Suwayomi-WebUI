@@ -40,6 +40,7 @@ export interface LibraryOptions {
     hasDownloadedChapters: NullAndUndefined<boolean>;
     hasBookmarkedChapters: NullAndUndefined<boolean>;
     hasUnreadChapters: NullAndUndefined<boolean>;
+    hasReadChapters: NullAndUndefined<boolean>;
     hasDuplicateChapters: NullAndUndefined<boolean>;
     hasTrackerBinding: Record<TrackerType['id'], NullAndUndefined<boolean>>;
     hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
