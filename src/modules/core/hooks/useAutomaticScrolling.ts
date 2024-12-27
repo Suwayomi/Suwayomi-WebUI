@@ -134,8 +134,8 @@ export const useAutomaticScrolling = (
 
         const timeoutMs = handleScrollX ? timeoutMsX : timeoutMsY;
 
-        const scrollTopByBase = handleScrollY ? pxScrollAmountX : 0;
-        const scrollLeftByBase = handleScrollX ? pxScrollAmountY : 0;
+        const scrollTopByBase = handleScrollY ? pxScrollAmountY : 0;
+        const scrollLeftByBase = handleScrollX ? pxScrollAmountX : 0;
         const scrollTopByReadingMode = scrollTopByBase;
         const scrollLeftByReadingMode = isRTL ? -Math.abs(scrollLeftByBase) : scrollLeftByBase;
         const scrollTopByInverted = invert ? -Math.abs(scrollTopByReadingMode) : scrollTopByReadingMode;
