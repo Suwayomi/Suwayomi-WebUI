@@ -20,27 +20,26 @@ export const ReaderProgressBarSlotDesktop = memo(
         pageUrl,
         primaryPageLoadState,
         secondaryPageLoadState,
-        isHorizontal,
-        isVertical,
         progressBarPosition,
         isCurrentPage,
         isFirstPage,
         isLastPage,
         isLeadingPage,
         isDragging,
-    }: Pick<IReaderSettings, 'progressBarPosition'> &
-        Pick<ReturnType<typeof getProgressBarPositionInfo>, 'isHorizontal' | 'isVertical'> & {
-            pageName: string;
-            pageUrl: string;
-            primaryPageLoadState: boolean;
-            secondaryPageLoadState?: boolean;
-            isCurrentPage: boolean;
-            isFirstPage: boolean;
-            isLastPage: boolean;
-            isLeadingPage: boolean;
-            isDragging: boolean;
-        }) => {
+    }: Pick<IReaderSettings, 'progressBarPosition'> & {
+        pageName: string;
+        pageUrl: string;
+        primaryPageLoadState: boolean;
+        secondaryPageLoadState?: boolean;
+        isCurrentPage: boolean;
+        isFirstPage: boolean;
+        isLastPage: boolean;
+        isLeadingPage: boolean;
+        isDragging: boolean;
+    }) => {
         const theme = useTheme();
+
+        const { isVertical, isHorizontal } = getProgressBarPositionInfo(progressBarPosition);
 
         return (
             <ReaderProgressBarSlot

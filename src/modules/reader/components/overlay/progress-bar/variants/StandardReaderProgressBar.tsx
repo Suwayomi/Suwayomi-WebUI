@@ -71,8 +71,6 @@ const BaseStandardReaderProgressBar = ({
                             pageUrl={page.primary.url}
                             primaryPageLoadState={primaryPageLoadState}
                             secondaryPageLoadState={secondaryPageLoadState}
-                            isHorizontal={isHorizontal}
-                            isVertical={isVertical}
                             progressBarPosition={progressBarPosition}
                             isCurrentPage={isCurrentPage}
                             isFirstPage={pagesIndex === 0}
@@ -81,7 +79,7 @@ const BaseStandardReaderProgressBar = ({
                             isDragging={isDragging}
                         />
                     ),
-                    [isHorizontal, isVertical, isDragging, progressBarPosition],
+                    [progressBarPosition, isDragging],
                 )}
                 slotProps={{
                     container: {

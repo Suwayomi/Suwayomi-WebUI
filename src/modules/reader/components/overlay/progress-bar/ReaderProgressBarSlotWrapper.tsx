@@ -73,6 +73,7 @@ export const ReaderProgressBarSlotWrapper = memo(
                     totalPages,
                 ),
             [
+                createProgressBarSlot,
                 page,
                 pagesIndex,
                 primaryPageLoadState,
