@@ -44,6 +44,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
             <TextField
                 value={autoScroll.value}
                 type="number"
+                size="small"
                 onBlur={(e) => {
                     const value = +e.target.value;
 
