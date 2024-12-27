@@ -7,7 +7,7 @@
  */
 
 import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useQueryParam, StringParam } from 'use-query-params';
@@ -208,6 +208,7 @@ export function SourceMangas() {
 
     const { sourceId } = useParams<{ sourceId: string }>();
 
+    const [searchParams, setSearchParams] = useSearchParams();
     const navigate = useNavigate();
     const location = useLocation();
     const { key: locationKey, state: locationState } = location;
@@ -220,7 +221,7 @@ export function SourceMangas() {
     const {
         settings: { hideLibraryEntries },
     } = useMetadataServerSettings();
-
+    console.log('@asdf', locationKey);
     const [sourceGridLayout] = useLocalStorage('source-grid-layout', GridLayout.Compact);
     const [query] = useQueryParam('query', StringParam);
     const [currentFiltersToApply, setCurrentFiltersToApply] = useSessionStorage<IPos[] | undefined>(
@@ -304,13 +305,10 @@ export function SourceMangas() {
                 setFiltersToApply(savedSearchFilters);
             }
 
-            navigate(
-                {
-                    pathname: '',
-                    search: savedSearchQuery ? `query=${savedSearchQuery}` : undefined,
-                },
-                { state: { ...locationState, contentType: SourceContentType.SEARCH } },
-            );
+            if (savedSearchQuery) {
+                searchParams.set('query', savedSearchQuery);
+                setSearchParams(searchParams);
+            }
         },
         [savedSearches, locationState],
     );
