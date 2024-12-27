@@ -186,9 +186,13 @@ const BaseReaderViewer = forwardRef(
                     img.src = url;
                 }
 
+                if (pageLoadStates[index]) {
+                    return;
+                }
+
                 setPageLoadStates((statePageLoadStates) => statePageLoadStates.toSpliced(index, 1, { loaded: true }));
             },
-            [actualPages, readingMode],
+            [actualPages, readingMode, pageLoadStates],
         );
 
         const onError = useCallback((pageIndex: number) => {
