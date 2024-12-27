@@ -282,7 +282,7 @@ export const CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION: Record<
 };
 
 export const AUTO_SCROLL_SPEED = {
-    MIN: 0.5,
-    MAX: 60,
-    STEP: 0.5,
+    min: 0.5,
+    max: 60,
+    step: 0.5,
 };

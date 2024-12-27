@@ -221,7 +221,7 @@ export function SourceMangas() {
     const {
         settings: { hideLibraryEntries },
     } = useMetadataServerSettings();
-    console.log('@asdf', locationKey);
+
     const [sourceGridLayout] = useLocalStorage('source-grid-layout', GridLayout.Compact);
     const [query] = useQueryParam('query', StringParam);
     const [currentFiltersToApply, setCurrentFiltersToApply] = useSessionStorage<IPos[] | undefined>(
