@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography';
 
 export const ReaderProgressBarPageNumber = styled(Typography)({
     boxSizing: 'content-box',
-    minWidth: '45px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

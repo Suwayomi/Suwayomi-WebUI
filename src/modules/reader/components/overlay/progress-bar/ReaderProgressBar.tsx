@@ -7,7 +7,7 @@
  */
 
 import { BoxProps } from '@mui/material/Box';
-import { memo, ReactNode, useCallback, useMemo, useRef, ComponentProps } from 'react';
+import { memo, ReactNode, useCallback, useMemo, useRef, ComponentProps, useState } from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { TypographyProps } from '@mui/material/Typography';
 import { StackProps } from '@mui/material/Stack';
@@ -32,6 +32,7 @@ import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 import { ReaderProgressBarSlotWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlotWrapper.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 const BaseReaderProgressBar = ({
     totalPages,
@@ -71,6 +72,22 @@ const BaseReaderProgressBar = ({
     }) => {
     const progressBarRef = useRef<HTMLDivElement | null>(null);
 
+    const [totalPagesTextWidth, setTotalPagesTextWidth] = useState(0);
+    const totalPagesTextRef = useRef<HTMLSpanElement | null>(null);
+    useResizeObserver(
+        totalPagesTextRef,
+        useCallback(() => {
+            const element = totalPagesTextRef.current;
+            if (!element) {
+                return;
+            }
+
+            const { paddingLeft, paddingRight } = getComputedStyle(element);
+
+            setTotalPagesTextWidth(element.clientWidth - parseFloat(paddingLeft) - parseFloat(paddingRight));
+        }, []),
+    );
+
     const currentPagesIndex = useMemo(() => getPage(currentPageIndex, pages).pagesIndex, [currentPageIndex, pages]);
 
     const isHorizontalPosition = getProgressBarPositionInfo(progressBarPosition).isHorizontal;
@@ -98,6 +115,7 @@ const BaseReaderProgressBar = ({
                     {...slotProps?.progressBarPageTexts?.base}
                     {...slotProps?.progressBarPageTexts?.current}
                     sx={[
+                        { width: `${totalPagesTextWidth}px` },
                         ...(Array.isArray(slotProps?.progressBarPageTexts?.base?.sx)
                             ? (slotProps?.progressBarPageTexts?.base?.sx ?? [])
                             : [slotProps?.progressBarPageTexts?.base?.sx]),
@@ -195,6 +213,7 @@ const BaseReaderProgressBar = ({
                     </ReaderProgressBarSlotsActionArea>
                 </ClickAwayListener>
                 <ReaderProgressBarPageNumber
+                    ref={totalPagesTextRef}
                     {...slotProps?.progressBarPageTexts?.base}
                     {...slotProps?.progressBarPageTexts?.total}
                     sx={[
