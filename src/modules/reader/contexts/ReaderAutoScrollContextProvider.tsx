@@ -39,7 +39,7 @@ const BaseReaderAutoScrollContextProvider = ({
     const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
 
     const changePage = useCallback(() => {
-        openPage('next');
+        openPage('next', 'ltr');
     }, []);
 
     const automaticScrolling = useAutomaticScrolling(
