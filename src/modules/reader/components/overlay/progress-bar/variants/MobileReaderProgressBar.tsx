@@ -145,6 +145,7 @@ const BaseMobileReaderProgressBar = ({
                     {getOptionForDirection(<SkipPreviousIcon />, <SkipNextIcon />, direction)}
                 </IconButton>
                 <ReaderProgressBar
+                    fullSegmentClicks={false}
                     createProgressBarSlot={useCallback(
                         (page, pagesIndex, _2, _3, _4, _5, isTrailingPage, totalPages) => (
                             <ReaderProgressBarSlotMobile

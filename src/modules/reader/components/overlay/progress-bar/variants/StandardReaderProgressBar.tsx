@@ -55,6 +55,7 @@ const BaseStandardReaderProgressBar = ({
     return (
         <ReaderProgressBarDirectionWrapper>
             <ReaderProgressBar
+                fullSegmentClicks
                 createProgressBarSlot={useCallback(
                     (
                         page,

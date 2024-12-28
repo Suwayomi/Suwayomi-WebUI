@@ -48,17 +48,26 @@ export const getPageForMousePos = (
     elementRect: DOMRect,
     pages: ReaderProgressBarProps['pages'],
     isHorizontalPosition: boolean,
+    fullSegmentClicks: boolean,
     getOptionForDirection: typeof getOptionForDirectionImpl,
 ): ReaderProgressBarProps['pages'][number] => {
     const pos = isHorizontalPosition ? coordinates.clientX : coordinates.clientY;
     const rectPos = isHorizontalPosition ? elementRect.left : elementRect.top;
     const rectSize = isHorizontalPosition ? elementRect.width : elementRect.height;
 
-    const mouseXPosRelativeToProgressBar = pos - rectPos;
-    const pageForMouseXPos = Math.ceil((mouseXPosRelativeToProgressBar / rectSize) * pages.length);
-    const minPage = Math.max(1, pageForMouseXPos);
-    const maxPage = Math.min(minPage, pages.length);
-    const newPageIndex = getOptionForDirection(maxPage - 1, pages.length - maxPage);
+    const mousePosRelativeToProgressBar = pos - rectPos;
+
+    const totalPages = pages.length - Number(!fullSegmentClicks);
+
+    const segmentWidth = rectSize / totalPages;
+    const clickedSegmentIndex = Math.floor(mousePosRelativeToProgressBar / segmentWidth);
+    const segmentMiddlePoint = (clickedSegmentIndex + (fullSegmentClicks ? 1 : 0.5)) * segmentWidth;
+    const actualClickedSegmentIndex =
+        mousePosRelativeToProgressBar <= segmentMiddlePoint ? clickedSegmentIndex : clickedSegmentIndex + 1;
+
+    const minPageIndex = Math.max(0, actualClickedSegmentIndex);
+    const maxPageIndex = Math.min(minPageIndex, pages.length - 1);
+    const newPageIndex = getOptionForDirection(maxPageIndex, pages.length - 1 - maxPageIndex);
 
     return pages[newPageIndex];
 };

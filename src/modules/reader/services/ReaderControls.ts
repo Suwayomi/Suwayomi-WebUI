@@ -543,6 +543,7 @@ export class ReaderControls {
         pages: ReaderProgressBarProps['pages'],
         progressBarPosition: ProgressBarPosition,
         getOptionForDirectionFn: typeof getOptionForDirection,
+        fullSegmentClicks: boolean,
     ): void {
         useEffect(() => {
             if (!isDragging) {
@@ -562,6 +563,7 @@ export class ReaderControls {
                         progressBarRef.current.getBoundingClientRect(),
                         pages,
                         isHorizontal,
+                        fullSegmentClicks,
                         getOptionForDirectionFn,
                     ),
                 );

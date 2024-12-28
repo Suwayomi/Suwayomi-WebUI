@@ -47,6 +47,7 @@ const BaseReaderProgressBar = ({
     setIsDragging,
     openPage,
     direction,
+    fullSegmentClicks,
 }: ReaderProgressBarProps &
     Pick<TReaderProgressBarContext, 'isDragging' | 'setIsDragging'> &
     Pick<ComponentProps<typeof ReaderProgressBarSlotWrapper>, 'createProgressBarSlot'> & {
@@ -69,6 +70,7 @@ const BaseReaderProgressBar = ({
         };
         openPage: ReturnType<typeof ReaderControls.useOpenPage>;
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
+        fullSegmentClicks: boolean;
     }) => {
     const progressBarRef = useRef<HTMLDivElement | null>(null);
     const draggingDetectionTimeout = useRef<NodeJS.Timeout>();
@@ -107,6 +109,7 @@ const BaseReaderProgressBar = ({
         pages,
         progressBarPosition,
         getOptionForDirection,
+        fullSegmentClicks,
     );
 
     const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
@@ -123,6 +126,7 @@ const BaseReaderProgressBar = ({
                     progressBarRef.current.getBoundingClientRect(),
                     pages,
                     isHorizontalPosition,
+                    fullSegmentClicks,
                     getOptionForDirection,
                 ),
             ),
