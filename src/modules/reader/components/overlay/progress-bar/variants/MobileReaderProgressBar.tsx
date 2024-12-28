@@ -73,7 +73,7 @@ const PROGRESS_BAR_SLOT_PROPS: ComponentProps<typeof ReaderProgressBar>['slotPro
             display: 'flex',
             alignItems: 'center',
             zIndex: 1,
-            pointer: 'default',
+            cursor: 'inherit',
         },
     },
     progressBarPageTexts: {
@@ -86,12 +86,13 @@ const BaseMobileReaderProgressBar = ({
     nextChapter,
     isVisible,
     setIsMaximized,
+    isDragging,
     currentPageIndex,
     pages,
     direction,
 }: Pick<ReaderStateChapters, 'previousChapter' | 'nextChapter'> &
     Pick<TReaderOverlayContext, 'isVisible'> &
-    Pick<TReaderProgressBarContext, 'setIsMaximized'> &
+    Pick<TReaderProgressBarContext, 'setIsMaximized' | 'isDragging'> &
     Pick<ReaderProgressBarProps, 'currentPageIndex' | 'pages'> & {
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
     }) => {
@@ -114,11 +115,12 @@ const BaseMobileReaderProgressBar = ({
                         height: '75%',
                         backgroundColor: 'primary.main',
                         borderRadius: 100,
+                        cursor: isDragging ? 'grabbing' : 'grab',
                     }}
                 />
             ),
         }),
-        [currentPagesIndex, pages.length],
+        [currentPagesIndex, pages.length, isDragging],
     );
 
     useLayoutEffect(() => {
@@ -191,5 +193,14 @@ export const MobileReaderProgressBar = withPropsFrom(
         userReaderStatePagesContext,
         () => ({ direction: ReaderService.useGetThemeDirection() }),
     ],
-    ['previousChapter', 'nextChapter', 'isVisible', 'setIsMaximized', 'currentPageIndex', 'pages', 'direction'],
+    [
+        'previousChapter',
+        'nextChapter',
+        'isVisible',
+        'setIsMaximized',
+        'isDragging',
+        'currentPageIndex',
+        'pages',
+        'direction',
+    ],
 );
