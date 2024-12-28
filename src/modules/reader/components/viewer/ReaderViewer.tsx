@@ -70,6 +70,7 @@ const BaseReaderViewer = forwardRef(
         {
             currentPageIndex,
             pageToScrollToIndex,
+            setPageToScrollToIndex,
             pages,
             setPages,
             totalPages,
@@ -90,6 +91,7 @@ const BaseReaderViewer = forwardRef(
             ReaderStatePages,
             | 'currentPageIndex'
             | 'pageToScrollToIndex'
+            | 'setPageToScrollToIndex'
             | 'pages'
             | 'setPages'
             | 'totalPages'
@@ -228,6 +230,10 @@ const BaseReaderViewer = forwardRef(
 
         // handle user page selection
         useLayoutEffect(() => {
+            if (pageToScrollToIndex == null) {
+                return;
+            }
+
             const pageToScrollTo = getPage(pageToScrollToIndex, pages);
 
             if (isContinuousReadingModeActive) {
@@ -251,6 +257,7 @@ const BaseReaderViewer = forwardRef(
             const newPageIndex = getNextIndexFromPage(pageToScrollTo);
             const isLastPage = newPageIndex === totalPages - 1;
 
+            setPageToScrollToIndex(null);
             updateCurrentPageIndex(newPageIndex, !isLastPage);
         }, [pageToScrollToIndex]);
 
@@ -386,6 +393,7 @@ export const ReaderViewer = withPropsFrom(
     [
         'currentPageIndex',
         'pageToScrollToIndex',
+        'setPageToScrollToIndex',
         'pages',
         'setPages',
         'totalPages',

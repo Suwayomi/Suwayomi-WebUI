@@ -15,7 +15,7 @@ import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types
 export const ReaderStatePagesContextProvider = ({ children }: { children: ReactNode }) => {
     const [totalPages, setTotalPages] = useState<ReaderStatePages['totalPages']>(0);
     const [currentPageIndex, setCurrentPageIndex] = useState<ReaderStatePages['currentPageIndex']>(0);
-    const [pageToScrollToIndex, setPageToScrollToIndex] = useState<ReaderStatePages['pageToScrollToIndex']>(0);
+    const [pageToScrollToIndex, setPageToScrollToIndex] = useState<ReaderStatePages['pageToScrollToIndex']>(null);
     const [pageUrls, setPageUrls] = useState<ReaderStatePages['pageUrls']>([]);
     const [pageLoadStates, setPageLoadStates] = useState<ReaderStatePages['pageLoadStates']>([{ loaded: false }]);
     const [pages, setPages] = useState<ReaderStatePages['pages']>([createPageData('', 0)]);

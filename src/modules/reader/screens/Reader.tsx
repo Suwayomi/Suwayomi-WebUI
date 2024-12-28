@@ -181,7 +181,7 @@ const BaseReader = ({
             });
 
             setCurrentPageIndex(0);
-            setPageToScrollToIndex(0);
+            setPageToScrollToIndex(null);
             setTotalPages(0);
             setPages([createPageData('', 0)]);
             setPageUrls([]);
@@ -216,7 +216,7 @@ const BaseReader = ({
         } else {
             setArePagesFetched(false);
             setCurrentPageIndex(0);
-            setPageToScrollToIndex(0);
+            setPageToScrollToIndex(null);
             setTotalPages(0);
             setPages([createPageData('', 0)]);
             setPageUrls([]);

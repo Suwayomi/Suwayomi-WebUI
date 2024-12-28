@@ -14,7 +14,7 @@ export const ReaderStatePagesContext = createContext<ReaderStatePages>({
     totalPages: 0,
     currentPageIndex: 0,
     setCurrentPageIndex: () => undefined,
-    pageToScrollToIndex: 0,
+    pageToScrollToIndex: null,
     setPageToScrollToIndex: () => undefined,
     setTotalPages: () => undefined,
     pageUrls: [],
