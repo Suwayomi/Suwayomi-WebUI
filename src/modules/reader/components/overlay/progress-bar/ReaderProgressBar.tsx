@@ -109,6 +109,36 @@ const BaseReaderProgressBar = ({
         getOptionForDirection,
     );
 
+    const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+        if (!progressBarRef.current) {
+            return;
+        }
+
+        const isTouchEvent = 'touches' in e;
+
+        openPage(
+            getNextIndexFromPage(
+                getPageForMousePos(
+                    isTouchEvent ? e.touches[0] : e,
+                    progressBarRef.current.getBoundingClientRect(),
+                    pages,
+                    isHorizontalPosition,
+                    getOptionForDirection,
+                ),
+            ),
+            undefined,
+            false,
+        );
+
+        clearTimeout(draggingDetectionTimeout.current);
+        draggingDetectionTimeout.current = setTimeout(() => setIsDragging(true), 250);
+    };
+
+    const handleMouseUp = () => {
+        setIsDragging(false);
+        clearTimeout(draggingDetectionTimeout.current);
+    };
+
     return (
         <ReaderProgressBarContainer {...slotProps?.container} progressBarPosition={progressBarPosition}>
             <ReaderProgressBarRoot {...slotProps?.progressBarRoot}>
@@ -132,58 +162,10 @@ const BaseReaderProgressBar = ({
                     <ReaderProgressBarSlotsActionArea
                         {...slotProps?.progressBarSlotsActionArea}
                         ref={progressBarRef}
-                        onTouchEnd={() => {
-                            setIsDragging(false);
-                            clearTimeout(draggingDetectionTimeout.current);
-                        }}
-                        onTouchStart={(event) => {
-                            if (!progressBarRef.current) {
-                                return;
-                            }
-
-                            openPage(
-                                getNextIndexFromPage(
-                                    getPageForMousePos(
-                                        event.touches[0],
-                                        progressBarRef.current.getBoundingClientRect(),
-                                        pages,
-                                        isHorizontalPosition,
-                                        getOptionForDirection,
-                                    ),
-                                ),
-                                undefined,
-                                false,
-                            );
-
-                            clearTimeout(draggingDetectionTimeout.current);
-                            draggingDetectionTimeout.current = setTimeout(() => setIsDragging(true), 250);
-                        }}
-                        onMouseUp={() => {
-                            setIsDragging(false);
-                            clearTimeout(draggingDetectionTimeout.current);
-                        }}
-                        onMouseDown={(event) => {
-                            if (!progressBarRef.current) {
-                                return;
-                            }
-
-                            openPage(
-                                getNextIndexFromPage(
-                                    getPageForMousePos(
-                                        event,
-                                        progressBarRef.current.getBoundingClientRect(),
-                                        pages,
-                                        isHorizontalPosition,
-                                        getOptionForDirection,
-                                    ),
-                                ),
-                                undefined,
-                                false,
-                            );
-
-                            clearTimeout(draggingDetectionTimeout.current);
-                            draggingDetectionTimeout.current = setTimeout(() => setIsDragging(true), 250);
-                        }}
+                        onMouseDown={handleMouseDown}
+                        onMouseUp={handleMouseUp}
+                        onTouchStart={handleMouseDown}
+                        onTouchEnd={handleMouseUp}
                     >
                         <ReaderProgressBarSlotsContainer {...slotProps?.progressBarSlotsContainer}>
                             {pages.map((page, pagesIndex) => (
