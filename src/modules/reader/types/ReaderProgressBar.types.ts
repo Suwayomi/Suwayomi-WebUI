@@ -62,7 +62,6 @@ export interface CurrentPageSlotProps extends Pick<IReaderSettings, 'progressBar
     currentPagesIndex: number;
     pagesLength: number;
     isDragging: boolean;
-    setIsDragging: (isDragging: boolean) => void;
     boxProps?: BoxProps;
 }
 

@@ -19,7 +19,6 @@ export const ReaderProgressBarCurrentPageSlot = ({
     currentPagesIndex,
     pagesLength,
     isDragging,
-    setIsDragging,
     boxProps,
     children,
     progressBarPosition,
@@ -47,22 +46,6 @@ export const ReaderProgressBarCurrentPageSlot = ({
                     height: `calc(100% / ${pagesLength - 1})`,
                 }),
                 ...boxProps?.sx,
-            }}
-            onTouchEnd={(e) => {
-                e.stopPropagation();
-                setIsDragging(false);
-            }}
-            onTouchStart={(e) => {
-                e.stopPropagation();
-                setIsDragging(true);
-            }}
-            onMouseUp={(e) => {
-                e.stopPropagation();
-                setIsDragging(false);
-            }}
-            onMouseDown={(e) => {
-                e.stopPropagation();
-                setIsDragging(true);
             }}
         >
             {children}

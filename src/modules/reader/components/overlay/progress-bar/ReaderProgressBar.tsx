@@ -71,6 +71,7 @@ const BaseReaderProgressBar = ({
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
     }) => {
     const progressBarRef = useRef<HTMLDivElement | null>(null);
+    const draggingDetectionTimeout = useRef<NodeJS.Timeout>();
 
     const [totalPagesTextWidth, setTotalPagesTextWidth] = useState(0);
     const totalPagesTextRef = useRef<HTMLSpanElement | null>(null);
@@ -131,7 +132,10 @@ const BaseReaderProgressBar = ({
                     <ReaderProgressBarSlotsActionArea
                         {...slotProps?.progressBarSlotsActionArea}
                         ref={progressBarRef}
-                        onTouchEnd={() => setIsDragging(false)}
+                        onTouchEnd={() => {
+                            setIsDragging(false);
+                            clearTimeout(draggingDetectionTimeout.current);
+                        }}
                         onTouchStart={(event) => {
                             if (!progressBarRef.current) {
                                 return;
@@ -150,9 +154,14 @@ const BaseReaderProgressBar = ({
                                 undefined,
                                 false,
                             );
-                            setIsDragging(true);
+
+                            clearTimeout(draggingDetectionTimeout.current);
+                            draggingDetectionTimeout.current = setTimeout(() => setIsDragging(true), 250);
                         }}
-                        onMouseUp={() => setIsDragging(false)}
+                        onMouseUp={() => {
+                            setIsDragging(false);
+                            clearTimeout(draggingDetectionTimeout.current);
+                        }}
                         onMouseDown={(event) => {
                             if (!progressBarRef.current) {
                                 return;
@@ -171,7 +180,9 @@ const BaseReaderProgressBar = ({
                                 undefined,
                                 false,
                             );
-                            setIsDragging(true);
+
+                            clearTimeout(draggingDetectionTimeout.current);
+                            draggingDetectionTimeout.current = setTimeout(() => setIsDragging(true), 250);
                         }}
                     >
                         <ReaderProgressBarSlotsContainer {...slotProps?.progressBarSlotsContainer}>
@@ -206,7 +217,6 @@ const BaseReaderProgressBar = ({
                             currentPagesIndex={currentPage.pagesIndex}
                             pagesLength={pages.length}
                             isDragging={isDragging}
-                            setIsDragging={setIsDragging}
                             progressBarPosition={progressBarPosition}
                         >
                             {slots?.progressBarCurrentPage}
