@@ -36,6 +36,7 @@ export const ReaderProgressBarSlotWrapper = memo(
         isLeadingPage,
         isTrailingPage,
         totalPages,
+        showDraggingStyle,
         primaryPageLoadState,
         secondaryPageLoadState,
         createProgressBarSlot,
@@ -47,6 +48,7 @@ export const ReaderProgressBarSlotWrapper = memo(
         isLeadingPage: boolean;
         isTrailingPage: boolean;
         totalPages: number;
+        showDraggingStyle: boolean;
         primaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'];
         secondaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'] | undefined;
         createProgressBarSlot: (
@@ -58,6 +60,7 @@ export const ReaderProgressBarSlotWrapper = memo(
             isLeadingPage: boolean,
             isTrailingPage: boolean,
             totalPages: number,
+            handleDragging: boolean,
         ) => ReactNode;
     } & BoxProps) => {
         const slot = useMemo(
@@ -71,6 +74,7 @@ export const ReaderProgressBarSlotWrapper = memo(
                     isLeadingPage,
                     isTrailingPage,
                     totalPages,
+                    showDraggingStyle,
                 ),
             [
                 createProgressBarSlot,
@@ -82,6 +86,7 @@ export const ReaderProgressBarSlotWrapper = memo(
                 isLeadingPage,
                 isTrailingPage,
                 totalPages,
+                showDraggingStyle,
             ],
         );
 

@@ -190,6 +190,7 @@ const BaseReaderProgressBar = ({
                                         page.secondary ? pageLoadStates[page.secondary.index].loaded : undefined
                                     }
                                     createProgressBarSlot={createProgressBarSlot}
+                                    showDraggingStyle={pagesIndex === currentPagesIndex && isDragging}
                                 />
                             ))}
                             <ProgressBarHighlightReadPages

@@ -65,6 +65,7 @@ const BaseStandardReaderProgressBar = ({
                         isLeadingPage,
                         _,
                         totalPages_,
+                        showDraggingStyle,
                     ) => (
                         <ReaderProgressBarSlotDesktop
                             pageName={page.name}
@@ -76,10 +77,10 @@ const BaseStandardReaderProgressBar = ({
                             isFirstPage={pagesIndex === 0}
                             isLastPage={pagesIndex === totalPages_ - 1}
                             isLeadingPage={isLeadingPage}
-                            isDragging={isDragging}
+                            showDraggingStyle={showDraggingStyle}
                         />
                     ),
-                    [progressBarPosition, isDragging],
+                    [progressBarPosition],
                 )}
                 slotProps={{
                     container: {

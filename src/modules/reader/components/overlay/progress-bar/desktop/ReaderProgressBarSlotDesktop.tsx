@@ -25,7 +25,7 @@ export const ReaderProgressBarSlotDesktop = memo(
         isFirstPage,
         isLastPage,
         isLeadingPage,
-        isDragging,
+        showDraggingStyle,
     }: Pick<IReaderSettings, 'progressBarPosition'> & {
         pageName: string;
         pageUrl: string;
@@ -35,7 +35,7 @@ export const ReaderProgressBarSlotDesktop = memo(
         isFirstPage: boolean;
         isLastPage: boolean;
         isLeadingPage: boolean;
-        isDragging: boolean;
+        showDraggingStyle: boolean;
     }) => {
         const theme = useTheme();
 
@@ -99,7 +99,7 @@ export const ReaderProgressBarSlotDesktop = memo(
                             backgroundColor: alpha(theme.palette.primary.main, 0.5),
                         }),
                         ...applyStyles(isCurrentPage, {
-                            cursor: isDragging ? 'grabbing' : 'grab',
+                            cursor: showDraggingStyle ? 'grabbing' : 'grab',
                             pointer: 'grabbing',
                             borderRadius: 2,
                             backgroundColor: 'primary.dark',
