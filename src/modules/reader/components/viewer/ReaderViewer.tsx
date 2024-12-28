@@ -188,7 +188,7 @@ const BaseReaderViewer = forwardRef(
                     img.src = url;
                 }
 
-                if (pageLoadStates[index]) {
+                if (pageLoadStates[index].loaded) {
                     return;
                 }
 
