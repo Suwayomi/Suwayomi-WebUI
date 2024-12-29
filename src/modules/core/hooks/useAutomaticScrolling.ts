@@ -109,7 +109,7 @@ export const useAutomaticScrolling = (
 
         if (isCallback) {
             startScrolling(refOrCallback, scrollSpeedMs);
-            return () => {};
+            return () => clearInterval(scrollTriggerTimer.current);
         }
 
         const element = refOrCallback.current;
