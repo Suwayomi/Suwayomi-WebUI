@@ -6,14 +6,20 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { ForwardRefExoticComponent, MemoExoticComponent, RefAttributes } from 'react';
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
+    ReaderPagerProps,
     ReaderPageScaleMode,
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { MangaGenreInfo, MangaSourceNameInfo } from '@/modules/manga/Manga.types.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
+import { ReaderPagedPager } from '@/modules/reader/components/viewer/pager/ReaderPagedPager.tsx';
+import { ReaderDoublePagedPager } from '@/modules/reader/components/viewer/pager/ReaderDoublePagedPager.tsx';
+import { ReaderVerticalPager } from '@/modules/reader/components/viewer/pager/ReaderVerticalPager.tsx';
+import { ReaderHorizontalPager } from '@/modules/reader/components/viewer/pager/ReaderHorizontalPager.tsx';
 
 export const isOffsetDoubleSpreadPagesEditable = (readingMode: IReaderSettings['readingMode']): boolean =>
     readingMode === ReadingMode.DOUBLE_PAGE;
@@ -32,3 +38,21 @@ export const isAutoWebtoonMode = (
     shouldUseAutoWebtoonMode: IReaderSettings['shouldUseAutoWebtoonMode'],
     readingMode: IReaderSettingsWithDefaultFlag['readingMode'],
 ): boolean => shouldUseAutoWebtoonMode && readingMode.isDefault && Mangas.isLongStripType(manga);
+
+export const getPagerForReadingMode = (
+    readingMode: ReadingMode,
+): MemoExoticComponent<ForwardRefExoticComponent<Omit<ReaderPagerProps, never> & RefAttributes<HTMLElement>>> => {
+    switch (readingMode) {
+        case ReadingMode.SINGLE_PAGE:
+            return ReaderPagedPager;
+        case ReadingMode.DOUBLE_PAGE:
+            return ReaderDoublePagedPager;
+        case ReadingMode.CONTINUOUS_VERTICAL:
+        case ReadingMode.WEBTOON:
+            return ReaderVerticalPager;
+        case ReadingMode.CONTINUOUS_HORIZONTAL:
+            return ReaderHorizontalPager;
+        default:
+            throw new Error(`Unexpected "ReadingMode" (${readingMode})`);
+    }
+};

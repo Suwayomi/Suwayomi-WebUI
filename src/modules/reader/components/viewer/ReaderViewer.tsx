@@ -24,38 +24,35 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import {
     IReaderSettings,
     PageInViewportType,
-    ReadingDirection,
     ReadingMode,
     TReaderScrollbarContext,
 } from '@/modules/reader/types/Reader.types.ts';
-import { ReaderPagedPager } from '@/modules/reader/components/viewer/pager/ReaderPagedPager.tsx';
-import { ReaderDoublePagedPager } from '@/modules/reader/components/viewer/pager/ReaderDoublePagedPager.tsx';
-import { ReaderHorizontalPager } from '@/modules/reader/components/viewer/pager/ReaderHorizontalPager.tsx';
-import { ReaderVerticalPager } from '@/modules/reader/components/viewer/pager/ReaderVerticalPager.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
-import {
-    createPagesData,
-    getDoublePageModePages,
-    getScrollIntoViewInlineOption,
-    getScrollToXForReadingDirection,
-    isSpreadPage,
-} from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { getDoublePageModePages } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
-import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import {
+    getPagerForReadingMode,
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
 } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useMouseDragScroll } from '@/modules/core/hooks/useMouseDragScroll.tsx';
-import { DirectionOffset } from '@/Base.types.ts';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
+import {
+    createUpdateReaderPageLoadState,
+    useReaderAutoScroll,
+    useReaderConvertPagesForReadingMode,
+    useReaderHandlePageSelection,
+    useReaderHideCursorOnInactivity,
+    useReaderHideOverlayOnUserScroll,
+    useReaderHorizontalModeInvertXYScrolling,
+} from '@/modules/reader/utils/Reader.utils.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -129,7 +126,6 @@ const BaseReaderViewer = forwardRef(
 
         const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);
 
-        const [wasDoublePageMode, setWasDoublePageMode] = useState(readingMode === ReadingMode.DOUBLE_PAGE);
         const [pagesToSpreadState, setPagesToSpreadState] = useState(Array(totalPages).fill(false));
 
         const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
@@ -152,60 +148,19 @@ const BaseReaderViewer = forwardRef(
             return pages;
         }, [pagesToSpreadState, readingMode, shouldOffsetDoubleSpreads, readingDirection]);
 
-        const Pager = useMemo(() => {
-            switch (readingMode) {
-                case ReadingMode.SINGLE_PAGE:
-                    return ReaderPagedPager;
-                case ReadingMode.DOUBLE_PAGE:
-                    return ReaderDoublePagedPager;
-                case ReadingMode.CONTINUOUS_VERTICAL:
-                case ReadingMode.WEBTOON:
-                    return ReaderVerticalPager;
-                case ReadingMode.CONTINUOUS_HORIZONTAL:
-                    return ReaderHorizontalPager;
-                default:
-                    throw new Error(`Unexpected "ReadingMode" (${readingMode})`);
-            }
-        }, [readingMode]);
-
+        const Pager = useMemo(() => getPagerForReadingMode(readingMode), [readingMode]);
         const inViewportType = READING_MODE_TO_IN_VIEWPORT_TYPE[readingMode];
 
-        const onLoad = useCallback(
-            (pagesIndex: number, isPrimary: boolean = true) => {
-                const page = actualPages[pagesIndex];
-                const { index, url } = isPrimary ? page.primary : page.secondary!;
-
-                if (readingMode === ReadingMode.DOUBLE_PAGE) {
-                    const img = new Image();
-                    img.onload = () => {
-                        const isSpreadPageFlag = isSpreadPage(img);
-                        if (!isSpreadPageFlag || pagesToSpreadState[index] === isSpreadPageFlag) {
-                            return;
-                        }
-
-                        setPagesToSpreadState((prevState) => {
-                            if (pagesToSpreadState[index] === isSpreadPageFlag) {
-                                return prevState;
-                            }
-
-                            return prevState.toSpliced(index, 1, isSpreadPageFlag);
-                        });
-                    };
-                    img.src = url;
-                }
-
-                if (pageLoadStates[index].loaded) {
-                    return;
-                }
-
-                setPageLoadStates((statePageLoadStates) => {
-                    if (statePageLoadStates[index].loaded) {
-                        return statePageLoadStates;
-                    }
-
-                    return statePageLoadStates.toSpliced(index, 1, { loaded: true });
-                });
-            },
+        const onLoad = useMemo(
+            () =>
+                createUpdateReaderPageLoadState(
+                    actualPages,
+                    pagesToSpreadState,
+                    setPagesToSpreadState,
+                    pageLoadStates,
+                    setPageLoadStates,
+                    readingMode,
+                ),
             // do not add "pagesToSpreadState" and "pageLoadStates" as a dependency, otherwise, every page gets re-rendered
             // when they change which impacts the performance massively (depending on the total page count)
             [actualPages, readingMode],
@@ -222,142 +177,33 @@ const BaseReaderViewer = forwardRef(
             setPagesToSpreadState(Array(totalPages).fill(false));
         }, [totalPages]);
 
-        // optionally convert pages to normal or double page mode
-        useLayoutEffect(() => {
-            const convertPagesToNormalPageMode = wasDoublePageMode && readingMode !== ReadingMode.DOUBLE_PAGE;
-            if (convertPagesToNormalPageMode) {
-                setWasDoublePageMode(false);
-                setPages(createPagesData(pageUrls));
-                setPagesToSpreadState(Array(totalPages).fill(false));
-                return;
-            }
-
-            const convertPagesToDoublePageMode = readingMode === ReadingMode.DOUBLE_PAGE;
-            if (convertPagesToDoublePageMode) {
-                if (!wasDoublePageMode) {
-                    updateCurrentPageIndex(getNextIndexFromPage(getPage(currentPageIndex, actualPages)));
-                }
-                setPages(actualPages);
-                setWasDoublePageMode(readingMode === ReadingMode.DOUBLE_PAGE);
-            }
-        }, [actualPages, readingMode]);
-
-        // handle user page selection
-        useLayoutEffect(() => {
-            if (pageToScrollToIndex == null) {
-                return;
-            }
-
-            const pageToScrollTo = getPage(pageToScrollToIndex, pages);
-
-            if (isContinuousReadingModeActive) {
-                const directionOffset =
-                    pageToScrollToIndex > currentPageIndex ? DirectionOffset.PREVIOUS : DirectionOffset.NEXT;
-                const imageRef = imageRefs.current[pageToScrollTo.pagesIndex];
-
-                imageRef?.scrollIntoView({
-                    block: 'start',
-                    inline: getScrollIntoViewInlineOption(directionOffset, themeDirection, readingDirection),
-                });
-            }
-
-            if (!isContinuousReadingModeActive) {
-                scrollElementRef.current?.scrollTo(
-                    getScrollToXForReadingDirection(scrollElementRef.current, themeDirection, readingDirection),
-                    0,
-                );
-            }
-
-            const newPageIndex = getNextIndexFromPage(pageToScrollTo);
-            const isLastPage = newPageIndex === totalPages - 1;
-
-            setPageToScrollToIndex(null);
-            updateCurrentPageIndex(newPageIndex, !isLastPage);
-        }, [pageToScrollToIndex]);
-
-        // hide cursor on mouse inactivity
-        const mouseInactiveTimeout = useRef<NodeJS.Timeout>();
-        useEffect(() => {
-            const setCursorVisibility = (visible: boolean) => {
-                const scrollElement = scrollElementRef.current;
-                if (!scrollElement) {
-                    return;
-                }
-
-                scrollElement.style.cursor = visible ? 'default' : 'none';
-            };
-
-            const handleMouseMove = () => {
-                setCursorVisibility(true);
-                clearTimeout(mouseInactiveTimeout.current);
-                mouseInactiveTimeout.current = setTimeout(() => {
-                    setCursorVisibility(false);
-                }, 5000);
-            };
-
-            handleMouseMove();
-            window.addEventListener('mousemove', handleMouseMove);
-            return () => {
-                setCursorVisibility(true);
-                window.removeEventListener('mousemove', handleMouseMove);
-                clearTimeout(mouseInactiveTimeout.current);
-            };
-        }, []);
-
-        // invert x and y scrolling for the continuous horizontal reading mode
-        useEffect(() => {
-            if (readingMode !== ReadingMode.CONTINUOUS_HORIZONTAL) {
-                return () => {};
-            }
-
-            if (!scrollElementRef.current) {
-                return () => {};
-            }
-
-            const handleScroll = (e: WheelEvent) => {
-                e.preventDefault();
-
-                if (e.shiftKey) {
-                    scrollElementRef.current?.scrollBy({
-                        top: e.deltaY,
-                    });
-                    return;
-                }
-
-                scrollElementRef.current?.scrollBy({
-                    left: readingDirection === ReadingDirection.LTR ? e.deltaY : e.deltaY * -1,
-                });
-            };
-
-            scrollElementRef.current.addEventListener('wheel', handleScroll);
-            return () => scrollElementRef.current?.removeEventListener('wheel', handleScroll);
-        }, [readingMode, readingDirection]);
-
-        // hide overlay on user triggered scroll
-        useEffect(() => {
-            const handleScroll = () => {
-                if (isOverlayVisible) {
-                    setIsOverlayVisible(false);
-                }
-            };
-
-            scrollElementRef.current?.addEventListener('wheel', handleScroll);
-            scrollElementRef.current?.addEventListener('touchmove', handleScroll);
-            return () => {
-                scrollElementRef.current?.removeEventListener('wheel', handleScroll);
-                scrollElementRef.current?.removeEventListener('touchmove', handleScroll);
-            };
-        }, [isOverlayVisible]);
-
-        // handle auto scrolling
-        useEffect(() => {
-            if (isOverlayVisible) {
-                automaticScrolling.pause();
-                return;
-            }
-
-            automaticScrolling.resume();
-        }, [isOverlayVisible, automaticScrolling.isPaused]);
+        useReaderConvertPagesForReadingMode(
+            currentPageIndex,
+            totalPages,
+            actualPages,
+            pageUrls,
+            setPages,
+            setPagesToSpreadState,
+            updateCurrentPageIndex,
+            readingMode,
+        );
+        useReaderHandlePageSelection(
+            pageToScrollToIndex,
+            currentPageIndex,
+            pages,
+            totalPages,
+            setPageToScrollToIndex,
+            updateCurrentPageIndex,
+            isContinuousReadingModeActive,
+            imageRefs,
+            themeDirection,
+            readingDirection,
+            scrollElementRef,
+        );
+        useReaderHideCursorOnInactivity(scrollElementRef);
+        useReaderHorizontalModeInvertXYScrolling(readingMode, readingDirection, scrollElementRef);
+        useReaderHideOverlayOnUserScroll(isOverlayVisible, setIsOverlayVisible, scrollElementRef);
+        useReaderAutoScroll(isOverlayVisible, automaticScrolling);
 
         return (
             <Stack
