@@ -17,6 +17,7 @@ import { useRef } from 'react';
 import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
 import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 import { AUTO_SCROLL_SPEED } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 export const ReaderNavBarDesktopAutoScroll = ({
     autoScroll,
@@ -46,7 +47,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
                 type="number"
                 size="small"
                 onBlur={(e) => {
-                    const value = +e.target.value;
+                    const value = coerceIn(+e.target.value, AUTO_SCROLL_SPEED.min, AUTO_SCROLL_SPEED.max);
 
                     if (value !== autoScroll.value) {
                         clearTimeout(updateTimeout.current);
@@ -54,7 +55,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
                     }
                 }}
                 onChange={(e) => {
-                    const value = +e.target.value;
+                    const value = coerceIn(+e.target.value, AUTO_SCROLL_SPEED.min, AUTO_SCROLL_SPEED.max);
                     setAutoScroll({ ...autoScroll, value }, false);
 
                     clearTimeout(updateTimeout.current);

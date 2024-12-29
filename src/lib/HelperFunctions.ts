@@ -37,3 +37,5 @@ export const getValueFromObject = <T>(obj: Record<string, any>, key: string): T 
 
     return keys.reduce((acc, curr) => acc?.[curr], obj) as T;
 };
+
+export const coerceIn = (value: number, min: number, max: number): number => Math.min(Math.max(value, min), max);
