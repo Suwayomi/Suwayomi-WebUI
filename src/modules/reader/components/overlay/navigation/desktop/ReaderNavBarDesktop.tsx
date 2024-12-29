@@ -100,6 +100,9 @@ const BaseReaderNavBarDesktop = ({
             variant={isStaticNav ? 'permanent' : 'persistent'}
             open={isVisible || isStaticNav}
             transitionDuration={drawerTransitionDuration}
+            SlideProps={{
+                unmountOnExit: true,
+            }}
             PaperProps={{
                 ref: (ref: HTMLDivElement | null) => setNavBarElement(ref),
             }}
