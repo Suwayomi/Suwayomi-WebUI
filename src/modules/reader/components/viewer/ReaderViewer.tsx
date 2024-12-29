@@ -179,11 +179,17 @@ const BaseReaderViewer = forwardRef(
                     const img = new Image();
                     img.onload = () => {
                         const isSpreadPageFlag = isSpreadPage(img);
-                        if (pagesToSpreadState[index] === isSpreadPageFlag) {
+                        if (!isSpreadPageFlag || pagesToSpreadState[index] === isSpreadPageFlag) {
                             return;
                         }
 
-                        setPagesToSpreadState((prevState) => prevState.toSpliced(index, 1, isSpreadPageFlag));
+                        setPagesToSpreadState((prevState) => {
+                            if (pagesToSpreadState[index] === isSpreadPageFlag) {
+                                return prevState;
+                            }
+
+                            return prevState.toSpliced(index, 1, isSpreadPageFlag);
+                        });
                     };
                     img.src = url;
                 }
@@ -200,6 +206,8 @@ const BaseReaderViewer = forwardRef(
                     return statePageLoadStates.toSpliced(index, 1, { loaded: true });
                 });
             },
+            // do not add "pagesToSpreadState" and "pageLoadStates" as a dependency, otherwise, every page gets re-rendered
+            // when they change which impacts the performance massively (depending on the total page count)
             [actualPages, readingMode],
         );
 
