@@ -192,9 +192,15 @@ const BaseReaderViewer = forwardRef(
                     return;
                 }
 
-                setPageLoadStates((statePageLoadStates) => statePageLoadStates.toSpliced(index, 1, { loaded: true }));
+                setPageLoadStates((statePageLoadStates) => {
+                    if (statePageLoadStates[index].loaded) {
+                        return statePageLoadStates;
+                    }
+
+                    return statePageLoadStates.toSpliced(index, 1, { loaded: true });
+                });
             },
-            [actualPages, readingMode, pageLoadStates],
+            [actualPages, readingMode],
         );
 
         const onError = useCallback((pageIndex: number) => {
