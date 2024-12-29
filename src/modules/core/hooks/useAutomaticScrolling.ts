@@ -121,7 +121,7 @@ export const useAutomaticScrolling = (
             elementStyle.current = getComputedStyle(element);
         }
 
-        const isRTL = elementStyle.current.direction;
+        const isRTL = elementStyle.current.direction === 'rtl';
         const handleScrollX = scrollDirection !== ScrollDirection.Y;
         const handleScrollY = scrollDirection !== ScrollDirection.X;
 
