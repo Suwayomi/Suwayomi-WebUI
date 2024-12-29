@@ -25,6 +25,7 @@ import {
 } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
+import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 export const getInitialReaderPageIndex = (
     resumeMode: ReaderResumeMode,
@@ -39,7 +40,7 @@ export const getInitialReaderPageIndex = (
         return lastPageIndex;
     }
 
-    return Math.max(0, Math.min(lastPageIndex, lastReadPageIndex));
+    return coerceIn(lastReadPageIndex, 0, lastPageIndex);
 };
 
 export const getReaderChapterFromCache = (id: ChapterIdInfo['id']): TChapterReader | null =>

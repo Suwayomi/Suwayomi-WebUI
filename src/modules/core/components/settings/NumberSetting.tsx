@@ -25,6 +25,7 @@ import Slider from '@mui/material/Slider';
 import DialogContentText from '@mui/material/DialogContentText';
 import InfoIcon from '@mui/icons-material/Info';
 import { SxProps, Theme } from '@mui/material/styles';
+import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 type BaseProps = {
     settingTitle: string;
@@ -170,10 +171,8 @@ export const NumberSetting = ({
                         type="number"
                         onChange={(e) => {
                             const newValue = Number(e.target.value);
-                            const newValueMinLimit = Math.min(newValue, maxValue ?? newValue);
-                            const newValueMaxLimit = Math.max(newValueMinLimit, minValue ?? newValueMinLimit);
-
-                            updateValue(newValueMaxLimit, false);
+                            const newValueCoerced = coerceIn(newValue, minValue ?? newValue, maxValue ?? newValue);
+                            updateValue(newValueCoerced, false);
                         }}
                         slotProps={{
                             input: {

@@ -14,6 +14,7 @@
 
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { ScrollDirection } from '@/modules/core/Core.types.ts';
+import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 type Positions = [OldestPos: number, SecondOldestPos: number, LatestPos: number];
 type ClickTimes = [OldestTime: number, SecondOldestTime: number, LatestTime: number];
@@ -80,7 +81,7 @@ export const useMouseDragScroll = (
                 return Math.abs(v0[X]);
             })();
             const unitVector = [v0[X] / a0V, v0[Y] / a0V];
-            const a0VCoerced = Math.min(12, Math.max(-12, 1.2 * a0V));
+            const a0VCoerced = coerceIn(1.2 * a0V, -12, 12);
 
             const t = (Date.now() - previousClickTime.current[LATEST]) / 1000;
             const v =
@@ -109,8 +110,8 @@ export const useMouseDragScroll = (
                 element.scrollHeight - element.clientHeight,
             ];
             const newScrollPos = [
-                Math.min(maxScrollPos[X], Math.max(isRTL ? -maxScrollPos[X] : 0, scrollAtT0.current[X] - delta[X])),
-                Math.min(maxScrollPos[Y], Math.max(0, scrollAtT0.current[Y] - delta[Y])),
+                coerceIn(scrollAtT0.current[X] - delta[X], isRTL ? -maxScrollPos[X] : 0, maxScrollPos[X]),
+                coerceIn(scrollAtT0.current[Y] - delta[Y], 0, maxScrollPos[Y]),
             ];
 
             const isScrollXPossible = newScrollPos[X] !== 0 || newScrollPos[X] !== maxScrollPos[X];
