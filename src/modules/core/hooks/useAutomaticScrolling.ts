@@ -137,9 +137,9 @@ export const useAutomaticScrolling = (
         const scrollTopByBase = handleScrollY ? pxScrollAmountY : 0;
         const scrollLeftByBase = handleScrollX ? pxScrollAmountX : 0;
         const scrollTopByReadingMode = scrollTopByBase;
-        const scrollLeftByReadingMode = isRTL ? -Math.abs(scrollLeftByBase) : scrollLeftByBase;
-        const scrollTopByInverted = invert ? -Math.abs(scrollTopByReadingMode) : scrollTopByReadingMode;
-        const scrollLeftByInverted = invert ? -Math.abs(scrollLeftByReadingMode) : scrollLeftByReadingMode;
+        const scrollLeftByReadingMode = isRTL ? -scrollLeftByBase : scrollLeftByBase;
+        const scrollTopByInverted = invert ? scrollTopByReadingMode * -1 : scrollTopByReadingMode;
+        const scrollLeftByInverted = invert ? scrollLeftByReadingMode * -1 : scrollLeftByReadingMode;
 
         startScrolling(() => {
             element.scrollBy({
