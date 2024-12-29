@@ -151,7 +151,7 @@ export const useAutomaticScrolling = (
         }, timeoutMs);
 
         return () => clearInterval(scrollTriggerTimer.current);
-    }, [refOrCallback, scrollPerSecond, scrollAmountPercentage, screenDimensions, isActive, isPaused]);
+    }, [refOrCallback, scrollPerSecond, scrollAmountPercentage, screenDimensions, isActive, isPaused, invert, smooth]);
 
     return useMemo(
         () => ({ isActive, isPaused, start, cancel, toggleActive, pause, resume }),
