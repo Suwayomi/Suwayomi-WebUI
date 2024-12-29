@@ -34,6 +34,8 @@ const READER_HOTKEY_TO_TITLE: Record<ReaderHotkey, TranslationKey> = {
     [ReaderHotkey.CYCLE_READING_MODE]: 'reader.settings.hotkey.reading_mode',
     [ReaderHotkey.CYCLE_READING_DIRECTION]: 'reader.settings.hotkey.reading_direction',
     [ReaderHotkey.TOGGLE_AUTO_SCROLL]: 'reader.settings.hotkey.auto_scroll',
+    [ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE]: 'reader.settings.hotkey.auto_scroll_speed_increase',
+    [ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE]: 'reader.settings.hotkey.auto_scroll_speed_decrease',
 };
 
 export const ReaderSettingHotkey = ({

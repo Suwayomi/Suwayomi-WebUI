@@ -15,6 +15,7 @@ import { IReaderSettings, ReaderHotkey } from '@/modules/reader/types/Reader.typ
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.utils.ts';
 import {
+    AUTO_SCROLL_SPEED,
     CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION,
     READER_PAGE_SCALE_MODE_VALUES,
     ReaderScrollAmount,
@@ -69,8 +70,15 @@ export const ReaderHotkeys = ({
     const { enableScope, disableScope } = useHotkeysContext();
     const { manga } = useReaderStateMangaContext();
     const { isVisible, setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
-    const { hotkeys, pageScaleMode, shouldStretchPage, shouldOffsetDoubleSpreads, readingMode, readingDirection } =
-        ReaderService.useSettings();
+    const {
+        hotkeys,
+        pageScaleMode,
+        shouldStretchPage,
+        shouldOffsetDoubleSpreads,
+        readingMode,
+        readingDirection,
+        autoScroll,
+    } = ReaderService.useSettings();
     const automaticScrolling = useReaderAutoScrollContext();
 
     const openChapter = ReaderControls.useOpenChapter();
@@ -184,9 +192,26 @@ export const ReaderHotkeys = ({
         [updateSetting, deleteSetting, readingDirection.value, readingDirection.isDefault],
     );
     useHotkeys(hotkeys[ReaderHotkey.TOGGLE_AUTO_SCROLL], automaticScrolling.toggleActive, { preventDefault: true }, [
-        updateSetting,
         automaticScrolling.toggleActive,
     ]);
+    useHotkeys(
+        hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE],
+        () =>
+            updateSetting('autoScroll', {
+                ...autoScroll,
+                value: Math.min(AUTO_SCROLL_SPEED.max, autoScroll.value + AUTO_SCROLL_SPEED.step),
+            }),
+        [updateSetting, autoScroll.value],
+    );
+    useHotkeys(
+        hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE],
+        () =>
+            updateSetting('autoScroll', {
+                ...autoScroll,
+                value: Math.max(AUTO_SCROLL_SPEED.min, autoScroll.value - AUTO_SCROLL_SPEED.step),
+            }),
+        [updateSetting, autoScroll.value],
+    );
 
     useEffect(() => {
         enableScope(HotkeyScope.READER);

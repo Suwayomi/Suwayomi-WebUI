@@ -217,6 +217,8 @@ export enum ReaderHotkey {
     CYCLE_READING_MODE,
     CYCLE_READING_DIRECTION,
     TOGGLE_AUTO_SCROLL,
+    AUTO_SCROLL_SPEED_INCREASE,
+    AUTO_SCROLL_SPEED_DECREASE,
 }
 
 export interface ReaderPagerProps

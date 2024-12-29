@@ -124,6 +124,8 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         [ReaderHotkey.CYCLE_READING_MODE]: ['r'],
         [ReaderHotkey.CYCLE_READING_DIRECTION]: ['t'],
         [ReaderHotkey.TOGGLE_AUTO_SCROLL]: ['space'],
+        [ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE]: ['b'],
+        [ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE]: ['v'],
     },
     imagePreLoadAmount: 5,
     shouldUseAutoWebtoonMode: true,

@@ -881,6 +881,8 @@
       "exit_mode": "Open page on exit",
       "hotkey": {
         "auto_scroll": "Toggle auto scroll",
+        "auto_scroll_speed_decrease": "Decrease auto scroll speed",
+        "auto_scroll_speed_increase": "Increase auto scroll speed",
         "menu": "Toggle menu",
         "next_chapter": "Next chapter",
         "next_page": "Next page",
