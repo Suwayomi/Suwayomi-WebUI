@@ -12,6 +12,7 @@ import {
     IReaderSettings,
     PageInViewportType,
     ReaderPageScaleMode,
+    ReaderPageSpreadState,
     ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
@@ -366,7 +367,7 @@ export const isEndOfPageInViewport = (
 
 export const getDoublePageModePages = (
     pageUrls: ReaderStatePages['pageUrls'],
-    pagesToSpreadState: boolean[],
+    pagesToSpreadState: ReaderPageSpreadState[],
     shouldOffsetDoubleSpreads: IReaderSettings['shouldOffsetDoubleSpreads'],
     direction: ReadingDirection,
 ): ReaderStatePages['pages'] => {

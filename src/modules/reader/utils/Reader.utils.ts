@@ -8,7 +8,12 @@
 
 import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Direction } from '@mui/material/styles';
-import { ReaderResumeMode, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import {
+    ReaderPageSpreadState,
+    ReaderResumeMode,
+    ReadingDirection,
+    ReadingMode,
+} from '@/modules/reader/types/Reader.types.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
@@ -125,8 +130,8 @@ export const getChapterIdsForDownloadAhead = (
 export const createUpdateReaderPageLoadState =
     (
         actualPages: ReaderStatePages['pages'],
-        pagesToSpreadState: boolean[],
-        setPagesToSpreadState: React.Dispatch<React.SetStateAction<boolean[]>>,
+        pagesToSpreadState: ReaderPageSpreadState[],
+        setPagesToSpreadState: React.Dispatch<React.SetStateAction<ReaderPageSpreadState[]>>,
         pageLoadStates: ReaderStatePages['pageLoadStates'],
         setPageLoadStates: ReaderStatePages['setPageLoadStates'],
         readingMode: ReadingMode,
@@ -143,16 +148,22 @@ export const createUpdateReaderPageLoadState =
             const img = new Image();
             img.onload = () => {
                 const isSpreadPageFlag = isSpreadPage(img);
-                if (!isSpreadPageFlag || pagesToSpreadState[index] === isSpreadPageFlag) {
+                const pageSpreadState = pagesToSpreadState[index];
+                if (!isSpreadPageFlag || pageSpreadState.isSpread === isSpreadPageFlag) {
                     return;
                 }
 
                 setPagesToSpreadState((prevState) => {
-                    if (pagesToSpreadState[index] === isSpreadPageFlag) {
+                    const isOfOutdatedSpreadState = prevState[index] === undefined || prevState[index].url !== url;
+                    if (isOfOutdatedSpreadState) {
                         return prevState;
                     }
 
-                    return prevState.toSpliced(index, 1, isSpreadPageFlag);
+                    if (pageSpreadState.isSpread === isSpreadPageFlag) {
+                        return prevState;
+                    }
+
+                    return prevState.toSpliced(index, 1, { url, isSpread: isSpreadPageFlag });
                 });
             };
             img.src = url;
@@ -179,11 +190,10 @@ export const createUpdateReaderPageLoadState =
 
 export const useReaderConvertPagesForReadingMode = (
     currentPageIndex: number,
-    totalPages: number,
     actualPages: ReaderStatePages['pages'],
     pageUrls: ReaderStatePages['pageUrls'],
     setPages: ReaderStatePages['setPages'],
-    setPagesToSpreadState: (states: boolean[]) => void,
+    setPagesToSpreadState: (states: ReaderPageSpreadState[]) => void,
     updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>,
     readingMode: ReadingMode,
 ) => {
@@ -193,8 +203,10 @@ export const useReaderConvertPagesForReadingMode = (
         const convertPagesToNormalPageMode = wasDoublePageMode && readingMode !== ReadingMode.DOUBLE_PAGE;
         if (convertPagesToNormalPageMode) {
             setWasDoublePageMode(false);
-            setPages(createPagesData(pageUrls));
-            setPagesToSpreadState(Array(totalPages).fill(false));
+
+            const newPageData = createPagesData(pageUrls);
+            setPages(newPageData);
+            setPagesToSpreadState(newPageData.map(({ primary: { url } }) => ({ url, isSpread: false })));
             return;
         }
 

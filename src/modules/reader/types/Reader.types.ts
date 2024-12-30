@@ -278,3 +278,5 @@ export type TReaderAutoScrollContext = ReturnType<typeof useAutomaticScrolling> 
     scrollRef?: MutableRefObject<HTMLElement | null> | (() => void);
     setScrollRef: (scrollRef?: MutableRefObject<HTMLElement | null>) => void;
 };
+
+export type ReaderPageSpreadState = { url: string; isSpread: boolean };

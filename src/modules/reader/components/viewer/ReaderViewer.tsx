@@ -24,6 +24,7 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import {
     IReaderSettings,
     PageInViewportType,
+    ReaderPageSpreadState,
     ReadingMode,
     TReaderScrollbarContext,
 } from '@/modules/reader/types/Reader.types.ts';
@@ -131,7 +132,9 @@ const BaseReaderViewer = forwardRef(
 
         const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);
 
-        const [pagesToSpreadState, setPagesToSpreadState] = useState(Array(totalPages).fill(false));
+        const [pagesToSpreadState, setPagesToSpreadState] = useState<ReaderPageSpreadState[]>(
+            pageLoadStates.map(({ url }) => ({ url, isSpread: false })),
+        );
 
         const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
 
@@ -194,7 +197,6 @@ const BaseReaderViewer = forwardRef(
 
         useReaderConvertPagesForReadingMode(
             currentPageIndex,
-            totalPages,
             actualPages,
             pageUrls,
             setPages,
