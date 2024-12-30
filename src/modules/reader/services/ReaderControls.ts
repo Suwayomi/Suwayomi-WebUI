@@ -34,7 +34,11 @@ import {
     ReaderScrollAmount,
     READING_DIRECTION_TO_THEME_DIRECTION,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
-import { isEndOfPageInViewport, isPageInViewport } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import {
+    isEndOfPageInViewport,
+    isPageInViewport,
+    isTransitionPageVisible,
+} from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
 import { TapZoneRegionType } from '@/modules/reader/types/TapZoneLayout.types.ts';
@@ -273,7 +277,7 @@ export class ReaderControls {
 
         const isFirstPage = currentPage.primary.index === 0;
         const isLastPage = currentPageIndex === indexOfLastPage;
-        const isATransitionPageVisible = transitionPageMode !== ReaderTransitionPageMode.NONE;
+        const isATransitionPageVisible = isTransitionPageVisible(transitionPageMode, readingMode.value);
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
 
         return useCallback(
