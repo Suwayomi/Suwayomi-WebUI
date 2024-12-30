@@ -22,6 +22,9 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     ignoreFilters: false,
     removeMangaFromCategories: false,
     showTabSize: false,
+    showContinueReadingButton: false,
+    showDownloadBadge: false,
+    showUnreadBadge: false,
 
     // client
     devices: [DEFAULT_DEVICE],

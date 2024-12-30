@@ -15,6 +15,9 @@ export type MetadataLibrarySettings = {
     ignoreFilters: boolean;
     removeMangaFromCategories: boolean;
     showTabSize: boolean;
+    showContinueReadingButton: boolean;
+    showDownloadBadge: boolean;
+    showUnreadBadge: boolean;
 };
 export type LibrarySortMode =
     | 'unreadChapters'
@@ -27,9 +30,6 @@ export type LibrarySortMode =
 
 export interface LibraryOptions {
     // display options
-    showContinueReadingButton: boolean;
-    showDownloadBadge: boolean;
-    showUnreadBadge: boolean;
     gridLayout: GridLayout;
 
     // sort options

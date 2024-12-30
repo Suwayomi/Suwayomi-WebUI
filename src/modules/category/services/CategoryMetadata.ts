@@ -25,9 +25,6 @@ import { GridLayout } from '@/modules/core/Core.types.ts';
 
 export const DEFAULT_CATEGORY_METADATA: ICategoryMetadata = {
     // display options
-    showContinueReadingButton: false,
-    showDownloadBadge: false,
-    showUnreadBadge: false,
     gridLayout: GridLayout.Compact,
 
     // sort options

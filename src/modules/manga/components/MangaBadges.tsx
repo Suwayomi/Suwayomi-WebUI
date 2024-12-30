@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { MangaCardMode } from '@/modules/manga/Manga.types.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
-import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 const BadgeContainer = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -46,8 +46,8 @@ export const MangaBadges = ({
     const isTouchDevice = MediaQuery.useIsTouchDevice();
 
     const {
-        options: { showUnreadBadge, showDownloadBadge },
-    } = useLibraryOptionsContext();
+        settings: { showUnreadBadge, showDownloadBadge },
+    } = useMetadataServerSettings();
 
     return (
         <BadgeContainer>

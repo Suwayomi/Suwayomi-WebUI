@@ -9,7 +9,6 @@
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { useMemo, useState } from 'react';
 import { useLongPress } from 'use-long-press';
-import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { MangaActionMenuItems, SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/modules/migration/components/MigrateDialog.tsx';
@@ -21,6 +20,7 @@ import { ContinueReadingButton } from '@/modules/manga/components/ContinueReadin
 import { MangaBadges } from '@/modules/manga/components/MangaBadges.tsx';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 const getMangaLinkTo = (
     mode: MangaCardMode,
@@ -46,8 +46,8 @@ export const MangaCard = (props: MangaCardProps) => {
     const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
     const { id, firstUnreadChapter, downloadCount, unreadCount } = manga;
     const {
-        options: { showContinueReadingButton },
-    } = useLibraryOptionsContext();
+        settings: { showContinueReadingButton },
+    } = useMetadataServerSettings();
 
     const { CategorySelectComponent, updateLibraryState, isInLibrary } = useManageMangaLibraryState(
         manga,

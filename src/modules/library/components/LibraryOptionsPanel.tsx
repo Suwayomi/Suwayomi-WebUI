@@ -22,6 +22,7 @@ import { createUpdateCategoryMetadata, useGetCategoryMetadata } from '@/modules/
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
+    updateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { TranslationKey } from '@/Base.types.ts';
@@ -67,9 +68,9 @@ export const LibraryOptionsPanel = ({
     );
 
     const {
-        settings: { showTabSize },
+        settings: { showTabSize, showContinueReadingButton, showDownloadBadge, showUnreadBadge },
     } = useMetadataServerSettings();
-    const setSettingValue = createUpdateMetadataServerSettings<'showTabSize'>((e) =>
+    const setSettingValue = createUpdateMetadataServerSettings((e) =>
         makeToast(t('search.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
     );
 
@@ -155,8 +156,7 @@ export const LibraryOptionsPanel = ({
                     ));
                 }
                 if (key === 'display') {
-                    const { gridLayout, showContinueReadingButton, showDownloadBadge, showUnreadBadge } =
-                        categoryLibraryOptions;
+                    const { gridLayout } = categoryLibraryOptions;
                     return (
                         <>
                             <FormLabel>{t('global.grid_layout.title')}</FormLabel>
@@ -185,12 +185,12 @@ export const LibraryOptionsPanel = ({
                             <CheckboxInput
                                 label={t('library.option.display.badge.label.unread_badges')}
                                 checked={showUnreadBadge}
-                                onChange={() => updateCategoryLibraryOptions('showUnreadBadge', !showUnreadBadge)}
+                                onChange={() => updateMetadataServerSettings('showUnreadBadge', !showUnreadBadge)}
                             />
                             <CheckboxInput
                                 label={t('library.option.display.badge.label.download_badges')}
                                 checked={showDownloadBadge}
-                                onChange={() => updateCategoryLibraryOptions('showDownloadBadge', !showDownloadBadge)}
+                                onChange={() => updateMetadataServerSettings('showDownloadBadge', !showDownloadBadge)}
                             />
 
                             <FormLabel sx={{ mt: 2 }}>{t('library.option.display.tab.title')}</FormLabel>
@@ -205,7 +205,7 @@ export const LibraryOptionsPanel = ({
                                 label={t('library.option.display.other.label.show_continue_reading_button')}
                                 checked={showContinueReadingButton}
                                 onChange={() =>
-                                    updateCategoryLibraryOptions(
+                                    updateMetadataServerSettings(
                                         'showContinueReadingButton',
                                         !showContinueReadingButton,
                                     )
