@@ -52,6 +52,30 @@ export const ReaderBehaviourSettings = ({
             <CheckboxInput
                 label={
                     <Box>
+                        <Typography>{t('reader.settings.preview.reading_mode.title')}</Typography>
+                        <Typography variant="body2" color="textDisabled">
+                            {t('reader.settings.preview.reading_mode.description')}
+                        </Typography>
+                    </Box>
+                }
+                checked={settings.shouldShowReadingModePreview}
+                onChange={(_, checked) => updateSetting('shouldShowReadingModePreview', checked)}
+            />
+            <CheckboxInput
+                label={
+                    <Box>
+                        <Typography>{t('reader.settings.preview.tap_zones.title')}</Typography>
+                        <Typography variant="body2" color="textDisabled">
+                            {t('reader.settings.preview.tap_zones.description')}
+                        </Typography>
+                    </Box>
+                }
+                checked={settings.shouldShowTapZoneLayoutPreview}
+                onChange={(_, checked) => updateSetting('shouldShowTapZoneLayoutPreview', checked)}
+            />
+            <CheckboxInput
+                label={
+                    <Box>
                         <Typography>{t('reader.settings.auto_webtoon_mode.title')}</Typography>
                         <Typography variant="body2" color="textDisabled">
                             {t('reader.settings.auto_webtoon_mode.description')}

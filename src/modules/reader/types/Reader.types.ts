@@ -132,6 +132,8 @@ export interface IReaderSettingsGlobal {
         value: number;
         smooth: boolean;
     };
+    shouldShowReadingModePreview: boolean;
+    shouldShowTapZoneLayoutPreview: boolean;
 }
 
 export interface IReaderSettingsManga {

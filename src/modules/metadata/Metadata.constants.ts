@@ -71,6 +71,8 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     imagePreLoadAmount: undefined,
     shouldUseAutoWebtoonMode: undefined,
     autoScroll: undefined,
+    shouldShowReadingModePreview: undefined,
+    shouldShowTapZoneLayoutPreview: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);

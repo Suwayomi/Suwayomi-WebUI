@@ -53,6 +53,8 @@ import {
     useReaderHideOverlayOnUserScroll,
     useReaderHorizontalModeInvertXYScrolling,
 } from '@/modules/reader/utils/Reader.utils.ts';
+import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
+import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -84,6 +86,8 @@ const BaseReaderViewer = forwardRef(
             isVisible: isOverlayVisible,
             setIsVisible: setIsOverlayVisible,
             updateCurrentPageIndex,
+            showPreview,
+            setShowPreview,
         }: Pick<
             ReaderStatePages,
             | 'currentPageIndex'
@@ -100,7 +104,8 @@ const BaseReaderViewer = forwardRef(
         > &
             Pick<IReaderSettings, 'readingMode' | 'shouldOffsetDoubleSpreads' | 'readingDirection'> &
             Pick<TReaderScrollbarContext, 'setScrollbarXSize' | 'setScrollbarYSize'> &
-            Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> & {
+            Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
+            TReaderTapZoneContext & {
                 updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
             },
 
@@ -202,7 +207,13 @@ const BaseReaderViewer = forwardRef(
         );
         useReaderHideCursorOnInactivity(scrollElementRef);
         useReaderHorizontalModeInvertXYScrolling(readingMode, readingDirection, scrollElementRef);
-        useReaderHideOverlayOnUserScroll(isOverlayVisible, setIsOverlayVisible, scrollElementRef);
+        useReaderHideOverlayOnUserScroll(
+            isOverlayVisible,
+            setIsOverlayVisible,
+            showPreview,
+            setShowPreview,
+            scrollElementRef,
+        );
         useReaderAutoScroll(isOverlayVisible, automaticScrolling);
 
         return (
@@ -249,6 +260,7 @@ export const ReaderViewer = withPropsFrom(
         useReaderScrollbarContext,
         useReaderOverlayContext,
         () => ({ updateCurrentPageIndex: ReaderControls.useUpdateCurrentPageIndex() }),
+        useReaderTapZoneContext,
     ],
     [
         'currentPageIndex',
@@ -270,5 +282,7 @@ export const ReaderViewer = withPropsFrom(
         'isVisible',
         'setIsVisible',
         'updateCurrentPageIndex',
+        'showPreview',
+        'setShowPreview',
     ],
 );

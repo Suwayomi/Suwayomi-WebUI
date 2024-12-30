@@ -922,6 +922,16 @@
         "title": "Scale type",
         "width": "Fit width"
       },
+      "preview": {
+        "reading_mode": {
+          "description": "Briefly show current mode when reader is opened or mode got changed",
+          "title": "Show reading mode"
+        },
+        "tap_zones": {
+          "description": "Briefly show tap zone layout preview when reader is opened or layout got changed",
+          "title": "Show tap zones overlay"
+        }
+      },
       "progress_bar": {
         "position": "Progress bar position",
         "size": "Progress bar size",

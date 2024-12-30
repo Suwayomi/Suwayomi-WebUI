@@ -26,7 +26,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
-import { DirectionOffset } from '@/Base.types.ts';
+import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { TapZoneLayout } from '@/modules/reader/components/TapZoneLayout.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { ReaderRGBAFilter } from '@/modules/reader/components/ReaderRGBAFilter.tsx';
@@ -34,11 +34,15 @@ import { useReaderStateSettingsContext } from '@/modules/reader/contexts/state/R
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { ReaderViewer } from '@/modules/reader/components/viewer/ReaderViewer.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { READER_BACKGROUND_TO_COLOR } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import {
+    READER_BACKGROUND_TO_COLOR,
+    READING_MODE_VALUE_TO_DISPLAY_DATA,
+} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { createPageData, createPagesData } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderHotkeys } from '@/modules/reader/components/ReaderHotkeys.tsx';
 import {
     IReaderSettings,
+    IReaderSettingsWithDefaultFlag,
     ReaderResumeMode,
     ReaderStateChapters,
     ReaderTransitionPageMode,
@@ -56,6 +60,9 @@ import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { isAutoWebtoonMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
+import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
 
 const BaseReader = ({
     setTitle,
@@ -67,6 +74,11 @@ const BaseReader = ({
     setManga,
     shouldSkipDupChapters,
     backgroundColor,
+    readingMode,
+    tapZoneLayout,
+    tapZoneInvertMode,
+    shouldShowReadingModePreview,
+    shouldShowTapZoneLayoutPreview,
     setSettings,
     initialChapter,
     currentChapter,
@@ -82,11 +94,16 @@ const BaseReader = ({
     setPageLoadStates,
     setTransitionPageMode,
     cancelAutoScroll,
+    setShowPreview,
 }: Pick<NavbarContextType, 'setTitle' | 'setOverride' | 'readerNavBarWidth'> &
     Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
     Pick<TReaderStateMangaContext, 'manga' | 'setManga'> &
     Pick<TReaderStateSettingsContext, 'setSettings'> &
-    Pick<IReaderSettings, 'shouldSkipDupChapters' | 'backgroundColor'> &
+    Pick<
+        IReaderSettings,
+        'shouldSkipDupChapters' | 'backgroundColor' | 'shouldShowReadingModePreview' | 'shouldShowTapZoneLayoutPreview'
+    > &
+    Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'tapZoneLayout' | 'tapZoneInvertMode'> &
     Pick<ReaderStateChapters, 'initialChapter' | 'currentChapter' | 'chapters' | 'setReaderStateChapters'> &
     Pick<
         ReaderStatePages,
@@ -98,7 +115,8 @@ const BaseReader = ({
         | 'setPageUrls'
         | 'setPageLoadStates'
         | 'setTransitionPageMode'
-    > & {
+    > &
+    Pick<TReaderTapZoneContext, 'setShowPreview'> & {
         firstPageUrl?: string;
         cancelAutoScroll: TReaderAutoScrollContext['cancel'];
     }) => {
@@ -257,8 +275,37 @@ const BaseReader = ({
             profile,
         );
 
-        setSettings(getReaderSettingsFor(mangaFromResponse, profileSettings));
+        const finalSettings = getReaderSettingsFor(mangaFromResponse, profileSettings);
+        setSettings(finalSettings);
     }, [mangaResponse.data?.manga, defaultSettings]);
+
+    // show setting previews on change or when open reader
+    const previousReadingMode = useRef<IReaderSettingsWithDefaultFlag['readingMode']>();
+    const previousTapZoneLayout = useRef<IReaderSettingsWithDefaultFlag['tapZoneLayout']>();
+    const previousTapZoneInvertMode = useRef<IReaderSettingsWithDefaultFlag['tapZoneInvertMode']>();
+    useEffect(() => {
+        const mangaFromResponse = mangaResponse.data?.manga;
+        if (!mangaFromResponse || defaultSettingsResponse.loading || defaultSettingsResponse.error) {
+            return;
+        }
+
+        const didReadingModeChange = JSON.stringify(readingMode) !== JSON.stringify(previousReadingMode.current);
+        const showReadingModePreview = shouldShowReadingModePreview && didReadingModeChange;
+        if (showReadingModePreview) {
+            previousReadingMode.current = readingMode;
+            makeToast(t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].title as TranslationKey));
+        }
+
+        const didTapZoneLayoutChange =
+            JSON.stringify(tapZoneLayout.value) !== JSON.stringify(previousTapZoneLayout.current) ||
+            JSON.stringify(tapZoneInvertMode.value) !== JSON.stringify(previousTapZoneInvertMode.current);
+        const showTapZoneLayoutPreview = shouldShowTapZoneLayoutPreview && didTapZoneLayoutChange;
+        if (showTapZoneLayoutPreview) {
+            previousTapZoneLayout.current = tapZoneLayout;
+            previousTapZoneInvertMode.current = tapZoneInvertMode;
+            setShowPreview(true);
+        }
+    }, [readingMode, tapZoneInvertMode, shouldShowReadingModePreview, shouldShowTapZoneLayoutPreview]);
 
     // set chapters state
     useEffect(() => {
@@ -412,12 +459,30 @@ export const Reader = withPropsFrom(
         useReaderStateMangaContext,
         useReaderStateChaptersContext,
         useReaderStateSettingsContext,
-        ReaderService.useSettingsWithoutDefaultFlag,
+        () => {
+            const {
+                shouldSkipDupChapters,
+                backgroundColor,
+                shouldShowReadingModePreview,
+                shouldShowTapZoneLayoutPreview,
+            } = ReaderService.useSettingsWithoutDefaultFlag();
+            return {
+                shouldSkipDupChapters,
+                backgroundColor,
+                shouldShowReadingModePreview,
+                shouldShowTapZoneLayoutPreview,
+            };
+        },
+        () => {
+            const { readingMode, tapZoneLayout, tapZoneInvertMode } = ReaderService.useSettings();
+            return { readingMode, tapZoneLayout, tapZoneInvertMode };
+        },
         userReaderStatePagesContext,
         () => ({
             firstPageUrl: userReaderStatePagesContext().pages[0].primary.url,
         }),
         () => ({ cancelAutoScroll: useReaderAutoScrollContext().cancel }),
+        useReaderTapZoneContext,
     ],
     [
         'setTitle',
@@ -429,6 +494,11 @@ export const Reader = withPropsFrom(
         'setManga',
         'shouldSkipDupChapters',
         'backgroundColor',
+        'readingMode',
+        'tapZoneLayout',
+        'tapZoneInvertMode',
+        'shouldShowReadingModePreview',
+        'shouldShowTapZoneLayoutPreview',
         'setSettings',
         'initialChapter',
         'currentChapter',
@@ -444,5 +514,6 @@ export const Reader = withPropsFrom(
         'setPageLoadStates',
         'setTransitionPageMode',
         'cancelAutoScroll',
+        'setShowPreview',
     ],
 );
