@@ -26,6 +26,7 @@ import {
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
+import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
 export const getInitialReaderPageIndex = (
     resumeMode: ReaderResumeMode,
@@ -312,12 +313,18 @@ export const useReaderHorizontalModeInvertXYScrolling = (
 export const useReaderHideOverlayOnUserScroll = (
     isOverlayVisible: boolean,
     setIsOverlayVisible: TReaderOverlayContext['setIsVisible'],
+    showPreview: TReaderTapZoneContext['showPreview'],
+    setShowPreview: TReaderTapZoneContext['setShowPreview'],
     scrollElementRef: MutableRefObject<HTMLDivElement | null>,
 ) => {
     useEffect(() => {
         const handleScroll = () => {
             if (isOverlayVisible) {
                 setIsOverlayVisible(false);
+            }
+
+            if (showPreview) {
+                setShowPreview(false);
             }
         };
 
@@ -327,7 +334,7 @@ export const useReaderHideOverlayOnUserScroll = (
             scrollElementRef.current?.removeEventListener('wheel', handleScroll);
             scrollElementRef.current?.removeEventListener('touchmove', handleScroll);
         };
-    }, [isOverlayVisible]);
+    }, [isOverlayVisible, showPreview]);
 };
 
 export const useReaderAutoScroll = (

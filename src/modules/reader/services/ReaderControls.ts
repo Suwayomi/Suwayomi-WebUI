@@ -41,7 +41,7 @@ import {
 } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
-import { TapZoneRegionType } from '@/modules/reader/types/TapZoneLayout.types.ts';
+import { TapZoneRegionType, TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { ReaderTapZoneService } from '@/modules/reader/services/ReaderTapZoneService.ts';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { getReaderChapterFromCache } from '@/modules/reader/utils/Reader.utils.ts';
@@ -97,6 +97,7 @@ export class ReaderControls {
         element: HTMLElement,
         openChapter: ReturnType<(typeof ReaderControls)['useOpenChapter']>,
         setIsOverlayVisible: TReaderOverlayContext['setIsVisible'],
+        setShowPreview: TReaderTapZoneContext['setShowPreview'],
         scrollAmountPercentage: number = ReaderScrollAmount.LARGE,
     ): void {
         if (!element) {
@@ -125,6 +126,7 @@ export class ReaderControls {
             currentPos + elementSize * scrollAmount * scrollDirection;
 
         setIsOverlayVisible(false);
+        setShowPreview(false);
 
         switch (direction) {
             case ScrollDirection.X:
@@ -259,6 +261,7 @@ export class ReaderControls {
             userReaderStatePagesContext();
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
         const { setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
+        const { setShowPreview } = useReaderTapZoneContext();
         const { readingDirection, readingMode } = ReaderService.useSettings();
         const openChapter = ReaderControls.useOpenChapter();
 
@@ -290,6 +293,7 @@ export class ReaderControls {
 
                 if (hideOverlay) {
                     setIsOverlayVisible(false);
+                    setShowPreview(false);
                 }
 
                 const hideTransitionPage = () => setTransitionPageMode(ReaderTransitionPageMode.NONE);
@@ -501,6 +505,7 @@ export class ReaderControls {
                                 scrollElement,
                                 openChapter,
                                 setIsOverlayVisible,
+                                setShowPreview,
                             );
                         } else {
                             openPage('previous', 'ltr');
@@ -517,6 +522,7 @@ export class ReaderControls {
                                 scrollElement,
                                 openChapter,
                                 setIsOverlayVisible,
+                                setShowPreview,
                             );
                         } else {
                             openPage('next', 'ltr');

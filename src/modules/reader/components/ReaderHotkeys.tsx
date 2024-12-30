@@ -29,6 +29,7 @@ import { ScrollOffset } from '@/modules/core/Core.types.ts';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
+import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;
@@ -80,6 +81,7 @@ export const ReaderHotkeys = ({
         autoScroll,
     } = ReaderService.useSettings();
     const automaticScrolling = useReaderAutoScrollContext();
+    const { setShowPreview } = useReaderTapZoneContext();
 
     const openChapter = ReaderControls.useOpenChapter();
     const openPage = ReaderControls.useOpenPage();
@@ -102,6 +104,7 @@ export const ReaderHotkeys = ({
                 scrollElementRef.current,
                 openChapter,
                 setIsOverlayVisible,
+                setShowPreview,
                 ReaderScrollAmount.SMALL,
             ),
         { preventDefault: true },
@@ -120,6 +123,7 @@ export const ReaderHotkeys = ({
                 scrollElementRef.current,
                 openChapter,
                 setIsOverlayVisible,
+                setShowPreview,
                 ReaderScrollAmount.SMALL,
             ),
         { preventDefault: true },
