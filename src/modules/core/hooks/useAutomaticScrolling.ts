@@ -10,23 +10,19 @@ import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } f
 import { ScrollDirection } from '@/modules/core/Core.types.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
+// "scrollBy" and "scrollTo" both require at least a change of 1px, otherwise, nothing happens
 const MIN_SCROLL_AMOUNT_PX = 1.5;
 const getScrollAmount = (
     amountPerMs: number,
     speedMs: number,
     isRTL: boolean = false,
     invert: boolean = false,
-): { amountPx: number; speedMs: number } => {
-    const amountPx = amountPerMs * speedMs;
+): number => {
+    const pxPerMs = Math.max(amountPerMs * speedMs, MIN_SCROLL_AMOUNT_PX);
+    const pxPerMsReadingMode = isRTL ? -pxPerMs : pxPerMs;
+    const pxPerMsInverted = invert ? pxPerMsReadingMode * -1 : pxPerMsReadingMode;
 
-    if (amountPx >= MIN_SCROLL_AMOUNT_PX) {
-        const pxPerMsReadingMode = isRTL ? -amountPx : amountPx;
-        const pxPerMsInverted = invert ? pxPerMsReadingMode * -1 : pxPerMsReadingMode;
-
-        return { amountPx: pxPerMsInverted, speedMs };
-    }
-
-    return getScrollAmount(amountPerMs, speedMs + 1);
+    return pxPerMsInverted;
 };
 
 const getPxPerMs = (size: number, scrollAmountPercentage: number, scrollSpeedMs: number): number =>
