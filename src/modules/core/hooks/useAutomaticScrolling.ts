@@ -10,20 +10,57 @@ import { MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } f
 import { ScrollDirection } from '@/modules/core/Core.types.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
-// in case the scroll amount is not enough "scrollBy" just does not do anything
 const MIN_SCROLL_AMOUNT_PX = 1.5;
-const getScrollAmount = (amountPerMs: number, speedMs: number): { amountPx: number; speedMs: number } => {
+const getScrollAmount = (
+    amountPerMs: number,
+    speedMs: number,
+    isRTL: boolean = false,
+    invert: boolean = false,
+): { amountPx: number; speedMs: number } => {
     const amountPx = amountPerMs * speedMs;
 
     if (amountPx >= MIN_SCROLL_AMOUNT_PX) {
-        return { amountPx, speedMs };
+        const pxPerMsReadingMode = isRTL ? -amountPx : amountPx;
+        const pxPerMsInverted = invert ? pxPerMsReadingMode * -1 : pxPerMsReadingMode;
+
+        return { amountPx: pxPerMsInverted, speedMs };
     }
 
     return getScrollAmount(amountPerMs, speedMs + 1);
 };
 
-function getPxPerMs(size: number, scrollAmountPercentage: number, scrollSpeedMs: number) {
-    return (size * (scrollAmountPercentage / 100)) / scrollSpeedMs;
+const getPxPerMs = (size: number, scrollAmountPercentage: number, scrollSpeedMs: number): number =>
+    (size * (scrollAmountPercentage / 100)) / scrollSpeedMs;
+
+function handleScrolling(
+    smooth: boolean,
+    scrollSpeedMs: number,
+    setScrollTriggerId: (id: NodeJS.Timeout | number, type: 'interval' | 'animationFrame') => void,
+    performScroll: (elapsedTime: number) => void,
+    clearScrollTriggers: () => void,
+): void {
+    clearScrollTriggers();
+
+    if (!smooth) {
+        setScrollTriggerId(
+            setInterval(() => {
+                performScroll(scrollSpeedMs);
+            }, scrollSpeedMs),
+            'interval',
+        );
+        return;
+    }
+
+    let startTime: number;
+    const triggerScroll = (timestamp: DOMHighResTimeStamp) => {
+        const elapsedTime = timestamp - (startTime ?? timestamp);
+        startTime = timestamp;
+
+        performScroll(elapsedTime);
+        setScrollTriggerId(requestAnimationFrame(triggerScroll), 'animationFrame');
+    };
+
+    setScrollTriggerId(requestAnimationFrame(triggerScroll), 'animationFrame');
 }
 
 export const useAutomaticScrolling = (
@@ -46,6 +83,7 @@ export const useAutomaticScrolling = (
 
     const elementStyle = useRef<CSSStyleDeclaration>();
     const scrollTriggerTimer = useRef<NodeJS.Timeout>();
+    const scrollTriggerAnimationFrameId = useRef(-1);
 
     const [isActive, setIsActive] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -64,13 +102,18 @@ export const useAutomaticScrolling = (
         }, []),
     );
 
+    const clearScrollTriggers = useCallback(() => {
+        clearTimeout(scrollTriggerTimer.current);
+        cancelAnimationFrame(scrollTriggerAnimationFrameId.current);
+    }, []);
+
     const start = useCallback(() => {
         setIsActive(true);
     }, []);
     const cancel = useCallback(() => {
         setIsActive(false);
         setIsPaused(false);
-        clearInterval(scrollTriggerTimer.current);
+        clearScrollTriggers();
     }, []);
     const toggleActive = useCallback(() => {
         if (isActive) {
@@ -88,28 +131,28 @@ export const useAutomaticScrolling = (
     }, []);
 
     useEffect(() => {
-        if (!refOrCallback) {
+        if (!refOrCallback || !isActive) {
             return () => {};
         }
 
-        if (!isActive) {
+        if (isPaused) {
+            clearScrollTriggers();
             return () => {};
         }
 
         const scrollSpeedMs = scrollPerSecond * 1000;
 
-        const startScrolling = (callback: () => void, timeout: number) => {
-            clearInterval(scrollTriggerTimer.current);
-            scrollTriggerTimer.current = setInterval(() => {
-                if (isActive && !isPaused) {
-                    callback();
-                }
-            }, timeout);
-        };
-
         if (isCallback) {
-            startScrolling(refOrCallback, scrollSpeedMs);
-            return () => clearInterval(scrollTriggerTimer.current);
+            handleScrolling(
+                false,
+                scrollSpeedMs,
+                (id) => {
+                    scrollTriggerTimer.current = id as NodeJS.Timeout;
+                },
+                refOrCallback,
+                clearScrollTriggers,
+            );
+            return () => clearScrollTriggers();
         }
 
         const element = refOrCallback.current;
@@ -128,29 +171,33 @@ export const useAutomaticScrolling = (
         const pxPerMsX = getPxPerMs(window.innerWidth, scrollAmountPercentage, scrollSpeedMs);
         const pxPerMsY = getPxPerMs(window.innerHeight, scrollAmountPercentage, scrollSpeedMs);
 
-        const tmpScrollSpeedMs = smooth ? 1 : scrollSpeedMs;
-        const { amountPx: pxScrollAmountX, speedMs: timeoutMsX } = getScrollAmount(pxPerMsX, tmpScrollSpeedMs);
-        const { amountPx: pxScrollAmountY, speedMs: timeoutMsY } = getScrollAmount(pxPerMsY, tmpScrollSpeedMs);
+        handleScrolling(
+            smooth,
+            scrollSpeedMs,
+            (id, type) => {
+                switch (type) {
+                    case 'interval':
+                        scrollTriggerTimer.current = id as NodeJS.Timeout;
+                        break;
+                    case 'animationFrame':
+                        scrollTriggerAnimationFrameId.current = id as number;
+                        break;
+                    default:
+                        throw new Error(`Unexpected "type" (${type})`);
+                }
+            },
+            (elapsedTime) => {
+                element.scrollBy({
+                    top: Number(handleScrollY) * getScrollAmount(pxPerMsY, elapsedTime, false, invert),
+                    left: Number(handleScrollX) * getScrollAmount(pxPerMsX, elapsedTime, isRTL, invert),
+                    // arg "smooth" triggers the interval so fast that using "behavior smooth" doesn't look smooth and also slows down the scrolling
+                    behavior: smooth ? undefined : 'smooth',
+                });
+            },
+            clearScrollTriggers,
+        );
 
-        const timeoutMs = handleScrollX ? timeoutMsX : timeoutMsY;
-
-        const scrollTopByBase = handleScrollY ? pxScrollAmountY : 0;
-        const scrollLeftByBase = handleScrollX ? pxScrollAmountX : 0;
-        const scrollTopByReadingMode = scrollTopByBase;
-        const scrollLeftByReadingMode = isRTL ? -scrollLeftByBase : scrollLeftByBase;
-        const scrollTopByInverted = invert ? scrollTopByReadingMode * -1 : scrollTopByReadingMode;
-        const scrollLeftByInverted = invert ? scrollLeftByReadingMode * -1 : scrollLeftByReadingMode;
-
-        startScrolling(() => {
-            element.scrollBy({
-                top: scrollTopByInverted,
-                left: scrollLeftByInverted,
-                // arg "smooth" triggers the interval so fast that using "behavior smooth" doesn't look smooth and also slows down the scrolling
-                behavior: smooth ? undefined : 'smooth',
-            });
-        }, timeoutMs);
-
-        return () => clearInterval(scrollTriggerTimer.current);
+        return () => clearScrollTriggers();
     }, [refOrCallback, scrollPerSecond, scrollAmountPercentage, screenDimensions, isActive, isPaused, invert, smooth]);
 
     return useMemo(
