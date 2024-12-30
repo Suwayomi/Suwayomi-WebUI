@@ -52,7 +52,7 @@ const BaseTapZoneLayout = ({
     useLayoutEffect(() => {
         const canvasContainerElement = document.getElementById(CANVAS_ID);
         canvasContainerElement?.replaceChildren(canvas);
-    }, [canvas]);
+    }, [canvas, showPreview]);
 
     return (
         <Box
