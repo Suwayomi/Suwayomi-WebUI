@@ -287,8 +287,7 @@ const BaseReader = ({
     const previousTapZoneInvertMode = useRef<IReaderSettingsWithDefaultFlag['tapZoneInvertMode']>();
     const isInitialPreview = useRef(true);
     useEffect(() => {
-        const mangaFromResponse = mangaResponse.data?.manga;
-        if (!mangaFromResponse || defaultSettingsResponse.loading || defaultSettingsResponse.error) {
+        if (isLoading || error) {
             return;
         }
 
@@ -314,6 +313,8 @@ const BaseReader = ({
 
         isInitialPreview.current = false;
     }, [
+        isLoading,
+        error,
         readingMode.value,
         readingMode.isDefault,
         tapZoneLayout.value,
