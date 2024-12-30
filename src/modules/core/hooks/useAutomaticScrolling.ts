@@ -11,7 +11,7 @@ import { ScrollDirection } from '@/modules/core/Core.types.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 // "scrollBy" and "scrollTo" both require at least a change of 1px, otherwise, nothing happens
-const MIN_SCROLL_AMOUNT_PX = 1.5;
+const MIN_SCROLL_AMOUNT_PX = 1;
 const getScrollAmount = (
     amountPerMs: number,
     speedMs: number,
