@@ -292,20 +292,27 @@ const BaseReader = ({
         const didReadingModeChange = JSON.stringify(readingMode) !== JSON.stringify(previousReadingMode.current);
         const showReadingModePreview = shouldShowReadingModePreview && didReadingModeChange;
         if (showReadingModePreview) {
-            previousReadingMode.current = readingMode;
             makeToast(t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].title as TranslationKey));
         }
+        previousReadingMode.current = readingMode;
 
         const didTapZoneLayoutChange =
-            JSON.stringify(tapZoneLayout.value) !== JSON.stringify(previousTapZoneLayout.current) ||
-            JSON.stringify(tapZoneInvertMode.value) !== JSON.stringify(previousTapZoneInvertMode.current);
+            JSON.stringify(tapZoneLayout) !== JSON.stringify(previousTapZoneLayout.current) ||
+            JSON.stringify(tapZoneInvertMode) !== JSON.stringify(previousTapZoneInvertMode.current);
         const showTapZoneLayoutPreview = shouldShowTapZoneLayoutPreview && didTapZoneLayoutChange;
         if (showTapZoneLayoutPreview) {
-            previousTapZoneLayout.current = tapZoneLayout;
-            previousTapZoneInvertMode.current = tapZoneInvertMode;
             setShowPreview(true);
         }
-    }, [readingMode, tapZoneInvertMode, shouldShowReadingModePreview, shouldShowTapZoneLayoutPreview]);
+        previousTapZoneLayout.current = tapZoneLayout;
+        previousTapZoneInvertMode.current = tapZoneInvertMode;
+    }, [
+        readingMode.value,
+        readingMode.isDefault,
+        tapZoneLayout.value,
+        tapZoneLayout.isDefault,
+        tapZoneInvertMode.value,
+        tapZoneInvertMode.isDefault,
+    ]);
 
     // set chapters state
     useEffect(() => {
