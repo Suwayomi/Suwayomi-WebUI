@@ -16,27 +16,35 @@ import {
     READING_MODE_VALUES,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { ReaderSettingReadingMode } from '@/modules/reader/components/settings/layout/ReaderSettingReadingMode.tsx';
+import { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 
-export const ReaderDefaultLayoutSettings = (
-    props: Omit<ComponentProps<typeof ReaderLayoutSettings>, 'setShowPreview'>,
-) => {
-    const { settings, updateSetting } = props;
+export const ReaderDefaultLayoutSettings = ({
+    profiles = READING_MODE_VALUES,
+    readingMode,
+    ...props
+}: Omit<ComponentProps<typeof ReaderLayoutSettings>, 'setShowPreview' | 'settings'> & {
+    profiles?: ReadingMode[];
+    readingMode?: IReaderSettingsWithDefaultFlag['readingMode'];
+}) => {
+    const { updateSetting, isSeriesMode } = props;
 
     const { t } = useTranslation();
 
     return (
-        <Stack sx={{ gap: 2, pb: 2 }}>
-            <Stack sx={{ pt: 2, px: 2 }}>
-                <ReaderSettingReadingMode
-                    readingMode={settings.readingMode}
-                    setReadingMode={(value) => updateSetting('readingMode', value)}
-                />
-            </Stack>
-            {READING_MODE_VALUES.map((readingMode) => (
+        <Stack sx={{ gap: 2, pb: Number(!isSeriesMode) * 2 }}>
+            {readingMode !== undefined && (
+                <Stack sx={{ pt: 2, px: 2 }}>
+                    <ReaderSettingReadingMode
+                        readingMode={readingMode}
+                        setReadingMode={(value) => updateSetting('readingMode', value)}
+                    />
+                </Stack>
+            )}
+            {profiles.map((profile) => (
                 <ReaderSettingProfileSettings
-                    key={readingMode}
-                    profile={readingMode}
-                    title={t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode].title)}
+                    key={profile}
+                    profile={profile}
+                    title={t(READING_MODE_VALUE_TO_DISPLAY_DATA[profile].title)}
                     {...props}
                 />
             ))}

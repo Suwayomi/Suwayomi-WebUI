@@ -940,6 +940,7 @@
         "ltr": "Left to right",
         "rtl": "Right to left"
       },
+      "source_series": "Series settings",
       "tap_zones": {
         "edge": "Edge",
         "invert": "Invert tap zones",

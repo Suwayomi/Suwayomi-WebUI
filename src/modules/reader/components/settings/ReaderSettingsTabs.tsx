@@ -87,7 +87,6 @@ const BaseReaderSettingsTabs = ({
                                 return (
                                     <TabPanel key={id} index={id} currentIndex={activeTab}>
                                         <ReaderDefaultLayoutSettings
-                                            settings={settings}
                                             updateSetting={(...args) => updateSetting(...args)}
                                         />
                                     </TabPanel>
@@ -102,6 +101,7 @@ const BaseReaderSettingsTabs = ({
                                         setShowPreview={setShowPreview!}
                                         isDefaultable={!areDefaultSettings}
                                         onDefault={(...args) => deleteSetting?.(...args)}
+                                        isSeriesMode
                                     />
                                 </TabPanel>
                             );
