@@ -88,10 +88,15 @@ const BaseReaderPage = ({
         onError: ReaderPagerProps['onError'];
         setRef?: (pagesIndex: number, ref: HTMLElement | null) => void;
     }) => {
+    const { src } = props;
+
     const isTabletWidth = MediaQuery.useIsTabletWidth();
 
-    const handleLoad = useCallback(() => onLoad?.(pagesIndex, isPrimaryPage), [onLoad, pagesIndex, isPrimaryPage]);
-    const handleError = useCallback(() => onError?.(pageIndex), [onError, pageIndex]);
+    const handleLoad = useCallback(
+        () => onLoad?.(pagesIndex, src, isPrimaryPage),
+        [onLoad, pagesIndex, src, isPrimaryPage],
+    );
+    const handleError = useCallback(() => onError?.(pageIndex, src), [onError, pageIndex, src]);
     const updateRef = useCallback((element: HTMLElement | null) => setRef?.(pagesIndex, element), [pagesIndex, setRef]);
 
     if (!display && !shouldLoad) {

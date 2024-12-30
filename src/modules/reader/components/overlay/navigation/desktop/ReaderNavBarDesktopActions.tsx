@@ -104,7 +104,10 @@ const BaseReaderNavBarDesktopActions = memo(
                     <IconButton
                         onClick={() => {
                             setPageLoadStates((statePageLoadStates) =>
-                                statePageLoadStates.map((pageLoadState) => ({ loaded: pageLoadState.loaded })),
+                                statePageLoadStates.map((pageLoadState) => ({
+                                    url: pageLoadState.url,
+                                    loaded: pageLoadState.loaded,
+                                })),
                             );
                             setRetryFailedPagesKeyPrefix(`${pageRetryKeyPrefix.current}`);
                             pageRetryKeyPrefix.current = (pageRetryKeyPrefix.current + 1) % 1000;

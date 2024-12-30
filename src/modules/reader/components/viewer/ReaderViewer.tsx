@@ -28,7 +28,7 @@ import {
     TReaderScrollbarContext,
 } from '@/modules/reader/types/Reader.types.ts';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { getDoublePageModePages } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { getDoublePageModePages, isPageOfOutdatedPageLoadStates } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
@@ -171,10 +171,20 @@ const BaseReaderViewer = forwardRef(
             [actualPages, readingMode],
         );
 
-        const onError = useCallback((pageIndex: number) => {
-            setPageLoadStates((statePageLoadStates) =>
-                statePageLoadStates.toSpliced(pageIndex, 1, { loaded: false, error: true }),
-            );
+        const onError = useCallback((pageIndex: number, url: string) => {
+            setPageLoadStates((statePageLoadStates) => {
+                const pageLoadState = statePageLoadStates[pageIndex];
+
+                if (isPageOfOutdatedPageLoadStates(url, pageLoadState)) {
+                    return statePageLoadStates;
+                }
+
+                return statePageLoadStates.toSpliced(pageIndex, 1, {
+                    ...pageLoadState,
+                    loaded: false,
+                    error: true,
+                });
+            });
         }, []);
 
         // reset spread state

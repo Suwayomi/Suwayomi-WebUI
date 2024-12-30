@@ -234,8 +234,8 @@ export interface ReaderPagerProps
         | 'retryFailedPagesKeyPrefix'
     > {
     imageRefs: MutableRefObject<(HTMLElement | null)[]>;
-    onLoad?: (pagesIndex: number, isPrimary?: boolean) => void;
-    onError?: (pageIndex: number) => void;
+    onLoad?: (pagesIndex: number, url: string, isPrimary?: boolean) => void;
+    onError?: (pageIndex: number, url: string) => void;
 }
 
 export enum PageInViewportType {

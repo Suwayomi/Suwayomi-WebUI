@@ -203,7 +203,7 @@ const BaseReader = ({
             setTotalPages(0);
             setPages([createPageData('', 0)]);
             setPageUrls([]);
-            setPageLoadStates([{ loaded: false }]);
+            setPageLoadStates([{ url: '', loaded: false }]);
 
             setIsOverlayVisible(false);
 
@@ -224,11 +224,13 @@ const BaseReader = ({
                 newPages.length - 1,
             );
 
+            const newPageData = createPagesData(newPages);
+
             setArePagesFetched(true);
             setTotalPages(pagesPayload.chapter.pageCount);
-            setPages(createPagesData(newPages));
+            setPages(newPageData);
             setPageUrls(newPages);
-            setPageLoadStates(newPages.map(() => ({ loaded: false })));
+            setPageLoadStates(newPageData.map(({ primary: { url } }) => ({ url, loaded: false })));
             setCurrentPageIndex(initialReaderPageIndex);
             setPageToScrollToIndex(initialReaderPageIndex);
         } else {
@@ -238,7 +240,7 @@ const BaseReader = ({
             setTotalPages(0);
             setPages([createPageData('', 0)]);
             setPageUrls([]);
-            setPageLoadStates([{ loaded: false }]);
+            setPageLoadStates([{ url: '', loaded: false }]);
         }
 
         setTransitionPageMode(ReaderTransitionPageMode.NONE);

@@ -31,8 +31,8 @@ export interface ReaderStatePages {
     setPageToScrollToIndex: React.Dispatch<React.SetStateAction<number | null>>;
     pageUrls: string[];
     setPageUrls: React.Dispatch<React.SetStateAction<string[]>>;
-    pageLoadStates: { loaded: boolean; error?: boolean }[];
-    setPageLoadStates: React.Dispatch<React.SetStateAction<{ loaded: boolean; error?: boolean }[]>>;
+    pageLoadStates: { url: string; loaded: boolean; error?: boolean }[];
+    setPageLoadStates: React.Dispatch<React.SetStateAction<{ url: string; loaded: boolean; error?: boolean }[]>>;
     pages: PageData[];
     setPages: React.Dispatch<React.SetStateAction<PageData[]>>;
     transitionPageMode: ReaderTransitionPageMode;

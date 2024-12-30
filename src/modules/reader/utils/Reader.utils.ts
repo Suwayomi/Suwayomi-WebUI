@@ -21,6 +21,7 @@ import {
     createPagesData,
     getScrollIntoViewInlineOption,
     getScrollToXForReadingDirection,
+    isPageOfOutdatedPageLoadStates,
     isSpreadPage,
 } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
@@ -130,9 +131,13 @@ export const createUpdateReaderPageLoadState =
         setPageLoadStates: ReaderStatePages['setPageLoadStates'],
         readingMode: ReadingMode,
     ) =>
-    (pagesIndex: number, isPrimary: boolean = true) => {
+    (pagesIndex: number, url: string, isPrimary: boolean = true) => {
+        if (pagesIndex > actualPages.length - 1) {
+            return;
+        }
+
         const page = actualPages[pagesIndex];
-        const { index, url } = isPrimary ? page.primary : page.secondary!;
+        const { index } = isPrimary ? page.primary : page.secondary!;
 
         if (readingMode === ReadingMode.DOUBLE_PAGE) {
             const img = new Image();
@@ -158,11 +163,17 @@ export const createUpdateReaderPageLoadState =
         }
 
         setPageLoadStates((statePageLoadStates) => {
-            if (statePageLoadStates[index].loaded) {
+            const pageLoadState = statePageLoadStates[index];
+
+            if (isPageOfOutdatedPageLoadStates(url, pageLoadState)) {
                 return statePageLoadStates;
             }
 
-            return statePageLoadStates.toSpliced(index, 1, { loaded: true });
+            if (pageLoadState.loaded) {
+                return statePageLoadStates;
+            }
+
+            return statePageLoadStates.toSpliced(index, 1, { url: pageLoadState.url, loaded: true });
         });
     };
 
