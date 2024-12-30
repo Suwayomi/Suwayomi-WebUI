@@ -283,6 +283,7 @@ const BaseReader = ({
     const previousReadingMode = useRef<IReaderSettingsWithDefaultFlag['readingMode']>();
     const previousTapZoneLayout = useRef<IReaderSettingsWithDefaultFlag['tapZoneLayout']>();
     const previousTapZoneInvertMode = useRef<IReaderSettingsWithDefaultFlag['tapZoneInvertMode']>();
+    const isInitialPreview = useRef(true);
     useEffect(() => {
         const mangaFromResponse = mangaResponse.data?.manga;
         if (!mangaFromResponse || defaultSettingsResponse.loading || defaultSettingsResponse.error) {
@@ -302,9 +303,14 @@ const BaseReader = ({
         const showTapZoneLayoutPreview = shouldShowTapZoneLayoutPreview && didTapZoneLayoutChange;
         if (showTapZoneLayoutPreview) {
             setShowPreview(true);
+            if (isInitialPreview.current) {
+                setTimeout(() => setShowPreview(false), 5000);
+            }
         }
         previousTapZoneLayout.current = tapZoneLayout;
         previousTapZoneInvertMode.current = tapZoneInvertMode;
+
+        isInitialPreview.current = false;
     }, [
         readingMode.value,
         readingMode.isDefault,
