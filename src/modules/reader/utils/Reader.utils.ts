@@ -148,13 +148,14 @@ export const createUpdateReaderPageLoadState =
             const img = new Image();
             img.onload = () => {
                 const isSpreadPageFlag = isSpreadPage(img);
-                const pageSpreadState = pagesToSpreadState[index];
-                if (!isSpreadPageFlag || pageSpreadState.isSpread === isSpreadPageFlag) {
+                if (!isSpreadPageFlag) {
                     return;
                 }
 
                 setPagesToSpreadState((prevState) => {
-                    const isOfOutdatedSpreadState = prevState[index] === undefined || prevState[index].url !== url;
+                    const pageSpreadState = prevState[index];
+
+                    const isOfOutdatedSpreadState = pageSpreadState === undefined || pageSpreadState.url !== url;
                     if (isOfOutdatedSpreadState) {
                         return prevState;
                     }
@@ -167,10 +168,6 @@ export const createUpdateReaderPageLoadState =
                 });
             };
             img.src = url;
-        }
-
-        if (pageLoadStates[index].loaded) {
-            return;
         }
 
         setPageLoadStates((statePageLoadStates) => {
