@@ -281,7 +281,6 @@ export class ReaderControls {
         const isFirstPage = currentPage.primary.index === 0;
         const isLastPage = currentPageIndex === indexOfLastPage;
         const isATransitionPageVisible = isTransitionPageVisible(transitionPageMode, readingMode.value);
-        const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
 
         return useCallback(
             (page, forceDirection = direction, hideOverlay: boolean = true) => {
@@ -318,7 +317,7 @@ export class ReaderControls {
                     return;
                 }
 
-                const needToHideTransitionPage = isATransitionPageVisible && !isContinuousReadingModeActive;
+                const needToHideTransitionPage = isATransitionPageVisible;
                 switch (convertedPage) {
                     case 'previous':
                         if (isFirstPage) {
@@ -360,7 +359,6 @@ export class ReaderControls {
                 nextPageIndex,
                 indexOfLastPage,
                 isATransitionPageVisible,
-                isContinuousReadingModeActive,
                 isFirstPage,
                 isLastPage,
                 openChapter,
