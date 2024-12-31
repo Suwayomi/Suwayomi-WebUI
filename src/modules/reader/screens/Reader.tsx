@@ -127,6 +127,8 @@ const BaseReader = ({
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 
+    const [areSettingsSet, setAreSettingsSet] = useState(false);
+
     const { chapterIndex: paramChapterIndex, mangaId: paramMangaId } = useParams<{
         chapterIndex: string;
         mangaId: string;
@@ -164,6 +166,7 @@ const BaseReader = ({
         chapterIndex <= chapters.length - 1;
 
     const isLoading =
+        !areSettingsSet ||
         mangaResponse.loading ||
         chaptersResponse.loading ||
         defaultSettingsResponse.loading ||
@@ -248,7 +251,6 @@ const BaseReader = ({
     }, [pagesResponse.data?.fetchChapterPages?.pages]);
 
     // set settings state
-    const [areSettingsSet, setAreSettingsSet] = useState(false);
     useEffect(() => {
         const mangaFromResponse = mangaResponse.data?.manga;
         if (!mangaFromResponse || defaultSettingsResponse.loading || defaultSettingsResponse.error) {
@@ -389,21 +391,6 @@ const BaseReader = ({
         return () => setOverride({ status: false, value: null });
     }, [isOverlayVisible, setIsOverlayVisible, scrollElementRef.current]);
 
-    if (isLoading) {
-        return (
-            <Box
-                sx={{
-                    height: '100vh',
-                    width: '100vw',
-                    display: 'grid',
-                    placeItems: 'center',
-                }}
-            >
-                <LoadingPlaceholder />
-            </Box>
-        );
-    }
-
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
@@ -429,6 +416,21 @@ const BaseReader = ({
                     }
                 }}
             />
+        );
+    }
+
+    if (isLoading) {
+        return (
+            <Box
+                sx={{
+                    height: '100vh',
+                    width: '100vw',
+                    display: 'grid',
+                    placeItems: 'center',
+                }}
+            >
+                <LoadingPlaceholder />
+            </Box>
         );
     }
 
