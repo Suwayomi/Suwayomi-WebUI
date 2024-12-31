@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MutableRefObject, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Direction } from '@mui/material/styles';
 import {
     ReaderPageSpreadState,
@@ -33,6 +33,7 @@ import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 export const getInitialReaderPageIndex = (
     resumeMode: ReaderResumeMode,
@@ -231,37 +232,46 @@ export const useReaderHandlePageSelection = (
     readingDirection: ReadingDirection,
     scrollElementRef: MutableRefObject<HTMLDivElement | null>,
 ) => {
-    useLayoutEffect(() => {
-        if (pageToScrollToIndex == null) {
-            return;
-        }
+    const pageToScrollTo = useMemo(() => getPage(pageToScrollToIndex ?? 0, pages), [pageToScrollToIndex, pages]);
 
-        const pageToScrollTo = getPage(pageToScrollToIndex, pages);
+    const imageRef = imageRefs.current[pageToScrollTo.pagesIndex];
+    const ref = isContinuousReadingModeActive ? imageRef : scrollElementRef;
 
-        if (isContinuousReadingModeActive) {
-            const directionOffset =
-                pageToScrollToIndex > currentPageIndex ? DirectionOffset.PREVIOUS : DirectionOffset.NEXT;
-            const imageRef = imageRefs.current[pageToScrollTo.pagesIndex];
+    useResizeObserver(
+        ref,
+        useCallback(
+            (entries, observer) => {
+                if (pageToScrollToIndex == null) {
+                    return;
+                }
 
-            imageRef?.scrollIntoView({
-                block: 'start',
-                inline: getScrollIntoViewInlineOption(directionOffset, themeDirection, readingDirection),
-            });
-        }
+                const element = entries[0].target as HTMLElement;
 
-        if (!isContinuousReadingModeActive) {
-            scrollElementRef.current?.scrollTo(
-                getScrollToXForReadingDirection(scrollElementRef.current, themeDirection, readingDirection),
-                0,
-            );
-        }
+                if (isContinuousReadingModeActive) {
+                    const directionOffset =
+                        pageToScrollToIndex > currentPageIndex ? DirectionOffset.PREVIOUS : DirectionOffset.NEXT;
 
-        const newPageIndex = getNextIndexFromPage(pageToScrollTo);
-        const isLastPage = newPageIndex === totalPages - 1;
+                    element.scrollIntoView({
+                        block: 'start',
+                        inline: getScrollIntoViewInlineOption(directionOffset, themeDirection, readingDirection),
+                    });
+                }
 
-        setPageToScrollToIndex(null);
-        updateCurrentPageIndex(newPageIndex, !isLastPage);
-    }, [pageToScrollToIndex]);
+                if (!isContinuousReadingModeActive) {
+                    element.scrollTo(getScrollToXForReadingDirection(element, themeDirection, readingDirection), 0);
+                }
+
+                const newPageIndex = getNextIndexFromPage(pageToScrollTo);
+                const isLastPage = newPageIndex === totalPages - 1;
+
+                setPageToScrollToIndex(null);
+                updateCurrentPageIndex(newPageIndex, !isLastPage);
+
+                observer.disconnect();
+            },
+            [pageToScrollToIndex],
+        ),
+    );
 };
 
 export const useReaderHideCursorOnInactivity = (scrollElementRef: MutableRefObject<HTMLDivElement | null>) => {
