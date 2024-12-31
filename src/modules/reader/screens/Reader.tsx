@@ -129,11 +129,11 @@ const BaseReader = ({
 
     const [areSettingsSet, setAreSettingsSet] = useState(false);
 
-    const { chapterIndex: paramChapterIndex, mangaId: paramMangaId } = useParams<{
-        chapterIndex: string;
+    const { chapterSourceOrder: paramChapterSourceOrder, mangaId: paramMangaId } = useParams<{
+        chapterSourceOrder: string;
         mangaId: string;
     }>();
-    const chapterIndex = Number(paramChapterIndex);
+    const chapterSourceOrder = Number(paramChapterSourceOrder);
     const mangaId = Number(paramMangaId);
 
     const mangaResponse = requestManager.useGetManga<GetMangaReaderQuery>(GET_MANGA_READER, mangaId);
@@ -162,8 +162,8 @@ const BaseReader = ({
     const doesChapterExist =
         !chaptersResponse.loading &&
         !chaptersResponse.error &&
-        chapterIndex >= 0 &&
-        chapterIndex <= chapters.length - 1;
+        chapterSourceOrder >= 0 &&
+        chapterSourceOrder <= chapters.length - 1;
 
     const isLoading =
         !areSettingsSet ||
@@ -176,12 +176,12 @@ const BaseReader = ({
 
     useLayoutEffect(() => {
         if (!manga || !currentChapter) {
-            setTitle(t('reader.title', { mangaId, chapterIndex }));
+            setTitle(t('reader.title', { mangaId, chapterIndex: chapterSourceOrder }));
             return;
         }
 
         setTitle(`${manga.title}: ${currentChapter.name}`);
-    }, [t, mangaId, chapterIndex, manga, currentChapter]);
+    }, [t, mangaId, chapterSourceOrder, manga, currentChapter]);
 
     useEffect(() => {
         doFetchPages();
@@ -333,7 +333,7 @@ const BaseReader = ({
     useEffect(() => {
         const newMangaChapters = chaptersResponse.data?.chapters.nodes;
         const newCurrentChapter = newMangaChapters
-            ? (newMangaChapters[newMangaChapters.length - chapterIndex] ?? null)
+            ? (newMangaChapters[newMangaChapters.length - chapterSourceOrder] ?? null)
             : undefined;
         const newInitialChapter = initialChapter ?? newCurrentChapter;
 
@@ -362,7 +362,7 @@ const BaseReader = ({
                     skipDupeChapter: newInitialChapter,
                 }),
         });
-    }, [chaptersResponse.data?.chapters.nodes, chapterIndex, shouldSkipDupChapters]);
+    }, [chaptersResponse.data?.chapters.nodes, chapterSourceOrder, shouldSkipDupChapters]);
 
     useLayoutEffect(() => {
         setOverride({

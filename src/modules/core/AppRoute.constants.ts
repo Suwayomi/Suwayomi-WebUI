@@ -150,8 +150,8 @@ export const AppRoutes = {
         path: '/tracker/login/oauth',
     },
     reader: {
-        match: '/manga/:mangaId/chapter/:chapterIndex/*',
-        path: (mangaId: MangaIdInfo['id'], chapterIndex: ChapterSourceOrderInfo['sourceOrder']) =>
-            `/manga/${mangaId}/chapter/${chapterIndex}`,
+        match: '/manga/:mangaId/chapter/:chapterSourceOrder/*',
+        path: (mangaId: MangaIdInfo['id'], chapterSourceOrder: ChapterSourceOrderInfo['sourceOrder']) =>
+            `/manga/${mangaId}/chapter/${chapterSourceOrder}`,
     },
 } satisfies TAppRoutes;
