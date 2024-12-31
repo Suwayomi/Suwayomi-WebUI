@@ -87,6 +87,7 @@ const BaseReaderSettingsTabs = ({
                                 return (
                                     <TabPanel key={id} index={id} currentIndex={activeTab}>
                                         <ReaderDefaultLayoutSettings
+                                            readingMode={settings.readingMode}
                                             updateSetting={(...args) => updateSetting(...args)}
                                         />
                                     </TabPanel>
