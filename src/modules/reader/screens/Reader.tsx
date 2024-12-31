@@ -163,7 +163,7 @@ const BaseReader = ({
         !chaptersResponse.loading &&
         !chaptersResponse.error &&
         chapterSourceOrder >= 0 &&
-        chapterSourceOrder <= chapters.length - 1;
+        chapterSourceOrder <= chapters.length;
 
     const isLoading =
         !areSettingsSet ||
