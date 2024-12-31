@@ -204,6 +204,7 @@ const BaseReader = ({
             setPages([createPageData('', 0)]);
             setPageUrls([]);
             setPageLoadStates([{ url: '', loaded: false }]);
+            setTransitionPageMode(ReaderTransitionPageMode.NONE);
 
             setIsOverlayVisible(false);
 
