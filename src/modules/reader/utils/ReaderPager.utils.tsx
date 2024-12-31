@@ -299,6 +299,10 @@ type InViewportThresholds = {
 };
 const getIsPageInViewportInfo = (
     element: HTMLElement,
+    /**
+     * Thresholds are not considered for the detection of an image filling the whole viewport.
+     * They are only used for detecting if a specific side of an image is inside the viewport
+     */
     argThresholds?: InViewportThresholds,
 ): {
     isLeftInViewport: boolean;
@@ -320,11 +324,11 @@ const getIsPageInViewportInfo = (
 
     const isLeftInViewport = left >= thresholds.left && left <= window.innerWidth;
     const isRightInViewport = right >= thresholds.right && right <= window.innerWidth;
-    const isFillingWidthViewportCompletely = left <= thresholds.left && right >= window.innerWidth;
+    const isFillingWidthViewportCompletely = left <= 0 && right >= window.innerWidth;
 
     const isTopInViewport = top >= thresholds.top && top <= window.innerHeight;
     const isBottomInViewport = bottom >= thresholds.bottom && bottom <= window.innerHeight;
-    const isFillingHeightViewportCompletely = top <= thresholds.top && bottom >= window.innerHeight;
+    const isFillingHeightViewportCompletely = top <= 0 && bottom >= window.innerHeight;
 
     return {
         isLeftInViewport,
