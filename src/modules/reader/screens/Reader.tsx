@@ -166,6 +166,7 @@ const BaseReader = ({
         chapterSourceOrder <= chapters.length;
 
     const isLoading =
+        currentChapter === undefined ||
         !areSettingsSet ||
         mangaResponse.loading ||
         chaptersResponse.loading ||
