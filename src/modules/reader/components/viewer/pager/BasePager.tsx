@@ -43,8 +43,15 @@ const BaseBasePager = ({
     }) => {
     const previousCurrentPageIndex = useRef(-1);
     const pagesIndexesToRender = useMemo(
-        () => getPageIndexesToLoad(currentPageIndex, pages, previousCurrentPageIndex.current, imagePreLoadAmount),
-        [currentPageIndex, pages, imagePreLoadAmount],
+        () =>
+            getPageIndexesToLoad(
+                currentPageIndex,
+                pages,
+                previousCurrentPageIndex.current,
+                imagePreLoadAmount,
+                readingMode,
+            ),
+        [currentPageIndex, pages, imagePreLoadAmount, readingMode],
     );
     useEffect(() => {
         previousCurrentPageIndex.current = currentPageIndex;

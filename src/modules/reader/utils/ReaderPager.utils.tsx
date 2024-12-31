@@ -462,16 +462,19 @@ export const getPageIndexesToLoad = (
     pages: ReaderStatePages['pages'],
     previousCurrentPageIndex: number,
     imagePreLoadAmount: number,
+    readingMode: ReadingMode,
 ): number[] => {
     const currentPagesIndex = getPage(currentPageIndex, pages).pagesIndex;
 
     const directionInvert = previousCurrentPageIndex <= currentPageIndex ? 1 : -1;
     // load at most PREVIOUS_IMAGE_LOAD_AMOUNT of the previous pages to ensure that you do not have to wait too long
     // when going back to the previous pages
-    const startPagesIndex = Math.max(
+    const startPagesIndexTrailingIncluded = Math.max(
         0,
         currentPagesIndex - Math.min(PREVIOUS_IMAGE_LOAD_AMOUNT, imagePreLoadAmount) * directionInvert,
     );
+    // do not load previous pages for continuous pagers to prevent layout shifts due to leading pages getting loaded
+    const startPagesIndex = !isContinuousReadingMode(readingMode) ? startPagesIndexTrailingIncluded : currentPageIndex;
     const endPagesIndex = currentPagesIndex + imagePreLoadAmount * directionInvert;
     const pagesToRenderLength = Math.abs(endPagesIndex - startPagesIndex) + 1;
 
