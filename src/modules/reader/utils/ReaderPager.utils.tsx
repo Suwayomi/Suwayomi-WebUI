@@ -303,9 +303,7 @@ const getIsPageInViewportInfo = (
 } => {
     const { top, bottom, left, right } = element.getBoundingClientRect();
 
-    // for some reason using "scrollIntoView" to scroll a page into view does not always result in the page to be at top,
-    // left/right 0px and instead at something like -0.25px
-    const MIN_VISIBLE_PX = 1;
+    const MIN_VISIBLE_PX = 0;
 
     const isLeftInViewport = left >= MIN_VISIBLE_PX && left <= window.innerWidth;
     const isRightInViewport = right >= MIN_VISIBLE_PX && right <= window.innerWidth;
