@@ -132,9 +132,16 @@ const BaseReaderViewer = forwardRef(
 
         const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);
 
+        const previousTotalPages = useRef(totalPages);
         const [pagesToSpreadState, setPagesToSpreadState] = useState<ReaderPageSpreadState[]>(
             pageLoadStates.map(({ url }) => ({ url, isSpread: false })),
         );
+
+        const resetPagesSpreadState = previousTotalPages.current !== totalPages;
+        if (resetPagesSpreadState) {
+            previousTotalPages.current = totalPages;
+            setPagesToSpreadState(pageLoadStates.map(({ url }) => ({ url, isSpread: false })));
+        }
 
         const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
 
@@ -189,11 +196,6 @@ const BaseReaderViewer = forwardRef(
                 });
             });
         }, []);
-
-        // reset spread state
-        useLayoutEffect(() => {
-            setPagesToSpreadState(Array(totalPages).fill(false));
-        }, [totalPages]);
 
         useReaderConvertPagesForReadingMode(
             currentPageIndex,
