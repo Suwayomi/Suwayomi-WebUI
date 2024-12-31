@@ -465,15 +465,17 @@ export class ReaderControls {
         const lastPage = imageRefs.current?.[imageRefs.current.length - 1];
         const isEndReached = lastPage && isEndOfPageInViewport(lastPage, type, readingDirection);
 
+        if (firstVisibleImageIndex === -1) {
+            return;
+        }
+
         // handle cases where the last page is too small to ever be the "firstVisibleImageIndex"
         if (isEndReached) {
             updateCurrentPageIndex(firstVisibleImageIndex, false, true);
             return;
         }
 
-        if (firstVisibleImageIndex !== -1) {
-            updateCurrentPageIndex(firstVisibleImageIndex, firstVisibleImageIndex !== lastPageIndex);
-        }
+        updateCurrentPageIndex(firstVisibleImageIndex, firstVisibleImageIndex !== lastPageIndex);
     }
 
     static useHandleClick(
