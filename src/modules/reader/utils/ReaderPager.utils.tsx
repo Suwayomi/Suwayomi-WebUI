@@ -291,8 +291,15 @@ export const createReaderPage = (
     />
 );
 
+type InViewportThresholds = {
+    top?: number;
+    bottom?: number;
+    left?: number;
+    right?: number;
+};
 const getIsPageInViewportInfo = (
     element: HTMLElement,
+    argThresholds?: InViewportThresholds,
 ): {
     isLeftInViewport: boolean;
     isRightInViewport: boolean;
@@ -303,15 +310,21 @@ const getIsPageInViewportInfo = (
 } => {
     const { top, bottom, left, right } = element.getBoundingClientRect();
 
-    const MIN_VISIBLE_PX = 0;
+    const thresholds = {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        ...argThresholds,
+    };
 
-    const isLeftInViewport = left >= MIN_VISIBLE_PX && left <= window.innerWidth;
-    const isRightInViewport = right >= MIN_VISIBLE_PX && right <= window.innerWidth;
-    const isFillingWidthViewportCompletely = left <= MIN_VISIBLE_PX && right >= window.innerWidth;
+    const isLeftInViewport = left >= thresholds.left && left <= window.innerWidth;
+    const isRightInViewport = right >= thresholds.right && right <= window.innerWidth;
+    const isFillingWidthViewportCompletely = left <= thresholds.left && right >= window.innerWidth;
 
-    const isTopInViewport = top >= MIN_VISIBLE_PX && top <= window.innerHeight;
-    const isBottomInViewport = bottom >= MIN_VISIBLE_PX && bottom <= window.innerHeight;
-    const isFillingHeightViewportCompletely = top <= MIN_VISIBLE_PX && bottom >= window.innerHeight;
+    const isTopInViewport = top >= thresholds.top && top <= window.innerHeight;
+    const isBottomInViewport = bottom >= thresholds.bottom && bottom <= window.innerHeight;
+    const isFillingHeightViewportCompletely = top <= thresholds.top && bottom >= window.innerHeight;
 
     return {
         isLeftInViewport,
@@ -323,7 +336,11 @@ const getIsPageInViewportInfo = (
     };
 };
 
-export const isPageInViewport = (element: HTMLElement, type: PageInViewportType): boolean => {
+export const isPageInViewport = (
+    element: HTMLElement,
+    type: PageInViewportType,
+    thresholds?: InViewportThresholds,
+): boolean => {
     const {
         isLeftInViewport,
         isRightInViewport,
@@ -331,7 +348,7 @@ export const isPageInViewport = (element: HTMLElement, type: PageInViewportType)
         isTopInViewport,
         isBottomInViewport,
         isFillingHeightViewportCompletely,
-    } = getIsPageInViewportInfo(element);
+    } = getIsPageInViewportInfo(element, thresholds);
 
     const isInViewportX = isLeftInViewport || isRightInViewport || isFillingWidthViewportCompletely;
     const isInViewportY = isTopInViewport || isBottomInViewport || isFillingHeightViewportCompletely;
