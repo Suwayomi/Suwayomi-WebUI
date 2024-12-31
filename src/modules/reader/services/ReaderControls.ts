@@ -262,7 +262,7 @@ export class ReaderControls {
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
         const { setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
         const { setShowPreview } = useReaderTapZoneContext();
-        const { readingDirection } = ReaderService.useSettings();
+        const { readingDirection, readingMode } = ReaderService.useSettings();
         const openChapter = ReaderControls.useOpenChapter();
 
         const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
@@ -280,7 +280,8 @@ export class ReaderControls {
 
         const isFirstPage = currentPage.primary.index === 0;
         const isLastPage = currentPageIndex === indexOfLastPage;
-        const isATransitionPageVisibleFlag = isATransitionPageVisible(transitionPageMode);
+        const isATransitionPageVisibleFlag = isATransitionPageVisible(transitionPageMode, readingMode.value);
+        const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
 
         return useCallback(
             (page, forceDirection = direction, hideOverlay: boolean = true) => {
@@ -317,7 +318,7 @@ export class ReaderControls {
                     return;
                 }
 
-                const needToHideTransitionPage = isATransitionPageVisibleFlag;
+                const needToHideTransitionPage = isATransitionPageVisibleFlag && !isContinuousReadingModeActive;
                 switch (convertedPage) {
                     case 'previous':
                         if (isFirstPage) {
@@ -359,6 +360,7 @@ export class ReaderControls {
                 nextPageIndex,
                 indexOfLastPage,
                 isATransitionPageVisibleFlag,
+                isContinuousReadingModeActive,
                 isFirstPage,
                 isLastPage,
                 openChapter,

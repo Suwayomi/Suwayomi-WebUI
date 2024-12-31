@@ -510,8 +510,8 @@ export const isTransitionPageVisible = (
     readingMode: IReaderSettings['readingMode'],
 ): boolean => [ReaderTransitionPageMode.BOTH, type].includes(activeMode) || isContinuousReadingMode(readingMode);
 
-export const isATransitionPageVisible = (activeMode: ReaderTransitionPageMode): boolean =>
-    activeMode !== ReaderTransitionPageMode.NONE;
+export const isATransitionPageVisible = (activeMode: ReaderTransitionPageMode, readingMode: ReadingMode): boolean =>
+    activeMode !== ReaderTransitionPageMode.NONE || isContinuousReadingMode(readingMode);
 
 export const getScrollIntoViewInlineOption = (
     offset: DirectionOffset,
