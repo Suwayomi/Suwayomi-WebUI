@@ -35,9 +35,9 @@ import {
     READING_DIRECTION_TO_THEME_DIRECTION,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import {
+    isATransitionPageVisible,
     isEndOfPageInViewport,
     isPageInViewport,
-    isTransitionPageVisible,
 } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
@@ -262,7 +262,7 @@ export class ReaderControls {
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
         const { setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
         const { setShowPreview } = useReaderTapZoneContext();
-        const { readingDirection, readingMode } = ReaderService.useSettings();
+        const { readingDirection } = ReaderService.useSettings();
         const openChapter = ReaderControls.useOpenChapter();
 
         const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
@@ -280,7 +280,7 @@ export class ReaderControls {
 
         const isFirstPage = currentPage.primary.index === 0;
         const isLastPage = currentPageIndex === indexOfLastPage;
-        const isATransitionPageVisible = isTransitionPageVisible(transitionPageMode, readingMode.value);
+        const isATransitionPageVisibleFlag = isATransitionPageVisible(transitionPageMode);
 
         return useCallback(
             (page, forceDirection = direction, hideOverlay: boolean = true) => {
@@ -304,20 +304,20 @@ export class ReaderControls {
                 }
 
                 const shouldOpenPreviousChapter =
-                    isFirstPage && isATransitionPageVisible && convertedPage === 'previous' && !!previousChapter;
+                    isFirstPage && isATransitionPageVisibleFlag && convertedPage === 'previous' && !!previousChapter;
                 if (shouldOpenPreviousChapter) {
                     openChapter('previous');
                     return;
                 }
 
                 const shouldOpenNextChapter =
-                    isLastPage && isATransitionPageVisible && convertedPage === 'next' && !!nextChapter;
+                    isLastPage && isATransitionPageVisibleFlag && convertedPage === 'next' && !!nextChapter;
                 if (shouldOpenNextChapter) {
                     openChapter('next');
                     return;
                 }
 
-                const needToHideTransitionPage = isATransitionPageVisible;
+                const needToHideTransitionPage = isATransitionPageVisibleFlag;
                 switch (convertedPage) {
                     case 'previous':
                         if (isFirstPage) {
@@ -358,7 +358,7 @@ export class ReaderControls {
                 previousPageIndex,
                 nextPageIndex,
                 indexOfLastPage,
-                isATransitionPageVisible,
+                isATransitionPageVisibleFlag,
                 isFirstPage,
                 isLastPage,
                 openChapter,

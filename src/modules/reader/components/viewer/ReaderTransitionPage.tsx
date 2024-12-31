@@ -112,7 +112,7 @@ const BaseReaderTransitionPage = ({
 
     const isFitWidthPageScaleMode = [ReaderPageScaleMode.SCREEN, ReaderPageScaleMode.WIDTH].includes(pageScaleMode);
 
-    if (!isTransitionPageVisible(transitionPageMode, readingMode, type)) {
+    if (!isTransitionPageVisible(type, transitionPageMode, readingMode)) {
         return null;
     }
 
