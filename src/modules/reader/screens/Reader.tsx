@@ -248,6 +248,7 @@ const BaseReader = ({
     }, [pagesResponse.data?.fetchChapterPages?.pages]);
 
     // set settings state
+    const [areSettingsSet, setAreSettingsSet] = useState(false);
     useEffect(() => {
         const mangaFromResponse = mangaResponse.data?.manga;
         if (!mangaFromResponse || defaultSettingsResponse.loading || defaultSettingsResponse.error) {
@@ -280,6 +281,7 @@ const BaseReader = ({
 
         const finalSettings = getReaderSettingsFor(mangaFromResponse, profileSettings);
         setSettings(finalSettings);
+        setAreSettingsSet(true);
     }, [mangaResponse.data?.manga, defaultSettings]);
 
     // show setting previews on change or when open reader
@@ -288,7 +290,7 @@ const BaseReader = ({
     const previousTapZoneInvertMode = useRef<IReaderSettingsWithDefaultFlag['tapZoneInvertMode']>();
     const isInitialPreview = useRef(true);
     useEffect(() => {
-        if (isLoading || error) {
+        if (isLoading || error || !areSettingsSet) {
             return;
         }
 
@@ -316,6 +318,7 @@ const BaseReader = ({
     }, [
         isLoading,
         error,
+        areSettingsSet,
         readingMode.value,
         readingMode.isDefault,
         tapZoneLayout.value,
