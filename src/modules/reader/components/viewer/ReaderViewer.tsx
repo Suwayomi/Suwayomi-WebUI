@@ -139,7 +139,7 @@ const BaseReaderViewer = forwardRef(
         const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
 
         const actualPages = useMemo(() => {
-            const arePagesLoaded = pageUrls.length;
+            const arePagesLoaded = !!totalPages;
             if (!arePagesLoaded) {
                 return pages;
             }
@@ -154,7 +154,7 @@ const BaseReaderViewer = forwardRef(
             }
 
             return pages;
-        }, [pagesToSpreadState, readingMode, shouldOffsetDoubleSpreads, readingDirection]);
+        }, [pagesToSpreadState, readingMode, shouldOffsetDoubleSpreads, readingDirection, totalPages]);
 
         const Pager = useMemo(() => getPagerForReadingMode(readingMode), [readingMode]);
         const inViewportType = READING_MODE_TO_IN_VIEWPORT_TYPE[readingMode];
