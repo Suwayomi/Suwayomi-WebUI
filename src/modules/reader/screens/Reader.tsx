@@ -11,6 +11,7 @@ import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 
 import { useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
+    DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
     getReaderSettings,
     getReaderSettingsFor,
     useDefaultReaderSettings,
@@ -211,6 +212,8 @@ const BaseReader = ({
             setTransitionPageMode(ReaderTransitionPageMode.NONE);
 
             setIsOverlayVisible(false);
+
+            setSettings(DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG);
 
             cancelAutoScroll();
         },
