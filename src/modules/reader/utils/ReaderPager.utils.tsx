@@ -395,7 +395,7 @@ export const getDoublePageModePages = (
     // each spread page has to be counted as 2 pages and all trailing page numbers have to be increased by the count
     // of leading spread pages
     const pageToActualPageIndex = pagesToSpreadState.map(
-        (_, page) => page + pagesToSpreadState.slice(0, page).filter(Boolean).length,
+        (_, page) => page + pagesToSpreadState.slice(0, page).filter(({ isSpread }) => isSpread).length,
     );
 
     pageUrls.forEach((url, index) => {
@@ -443,8 +443,8 @@ export const getDoublePageModePages = (
         const isLastPage = index === pageUrls.length - 1;
         const hasSecondPage = isPrimaryPage && !isLastPage;
 
-        const isPrimaryPageSpreadPage = pagesToSpreadState[index];
-        const isSecondPageSpreadPage = pagesToSpreadState[secondPageIndex];
+        const isPrimaryPageSpreadPage = pagesToSpreadState[index].isSpread;
+        const isSecondPageSpreadPage = !!pagesToSpreadState[secondPageIndex]?.isSpread;
         const hasSpreadPage = isPrimaryPageSpreadPage || isSecondPageSpreadPage;
 
         const ignoreSecondPageDueToOffset = isFirstPage && shouldOffsetDoubleSpreads;
