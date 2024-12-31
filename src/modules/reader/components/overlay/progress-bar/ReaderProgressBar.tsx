@@ -7,7 +7,7 @@
  */
 
 import { BoxProps } from '@mui/material/Box';
-import { memo, ReactNode, useCallback, useMemo, useRef, ComponentProps, useState } from 'react';
+import { ComponentProps, memo, ReactNode, useCallback, useMemo, useRef, useState } from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { TypographyProps } from '@mui/material/Typography';
 import { StackProps } from '@mui/material/Stack';
@@ -33,6 +33,7 @@ import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderPro
 import { ReaderProgressBarSlotWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlotWrapper.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
+import { IReaderSettings, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 
 const BaseReaderProgressBar = ({
     totalPages,
@@ -43,12 +44,14 @@ const BaseReaderProgressBar = ({
     slots,
     createProgressBarSlot,
     progressBarPosition,
+    readingMode,
     isDragging,
     setIsDragging,
     openPage,
     direction,
     fullSegmentClicks,
 }: ReaderProgressBarProps &
+    Pick<IReaderSettings, 'readingMode'> &
     Pick<TReaderProgressBarContext, 'isDragging' | 'setIsDragging'> &
     Pick<ComponentProps<typeof ReaderProgressBarSlotWrapper>, 'createProgressBarSlot'> & {
         slotProps?: {
@@ -87,8 +90,15 @@ const BaseReaderProgressBar = ({
 
             const { paddingLeft, paddingRight } = getComputedStyle(element);
 
-            setTotalPagesTextWidth(element.clientWidth - parseFloat(paddingLeft) - parseFloat(paddingRight));
-        }, []),
+            const PAGE_NAME_SEPARATOR_LENGTH = 6; // <primaryPage>-<secondaryPage>
+            const widthOfTotalPageText = element.clientWidth - parseFloat(paddingLeft) - parseFloat(paddingRight);
+            const newWidth =
+                readingMode === ReadingMode.DOUBLE_PAGE
+                    ? widthOfTotalPageText * 2 + PAGE_NAME_SEPARATOR_LENGTH
+                    : widthOfTotalPageText;
+
+            setTotalPagesTextWidth(newWidth);
+        }, [readingMode]),
     );
 
     const currentPagesIndex = useMemo(() => getPage(currentPageIndex, pages).pagesIndex, [currentPageIndex, pages]);
@@ -254,5 +264,6 @@ export const ReaderProgressBar = withPropsFrom(
         'totalPages',
         'currentPageIndex',
         'progressBarPosition',
+        'readingMode',
     ],
 );
