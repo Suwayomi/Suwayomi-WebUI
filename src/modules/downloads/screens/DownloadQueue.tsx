@@ -238,7 +238,7 @@ export const DownloadQueue: React.FC = () => {
                 requestManager.deleteDownloadedChapter(chapter.id).response,
             ]);
         } catch (e) {
-            makeToast(t('download.queue.error.label.failed_to_retry'), 'error', getErrorMessage(e));
+            makeToast(t('download.queue.error.label.failed_to_remove'), 'error', getErrorMessage(e));
         }
 
         if (!isRunning) {
