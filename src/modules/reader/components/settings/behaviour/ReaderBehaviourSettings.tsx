@@ -85,6 +85,16 @@ export const ReaderBehaviourSettings = ({
                 checked={settings.shouldUseAutoWebtoonMode}
                 onChange={(_, checked) => updateSetting('shouldUseAutoWebtoonMode', checked)}
             />
+            <CheckboxInput
+                label={t('reader.settings.chapter_transition.warning.missing_chapter')}
+                checked={settings.shouldInformAboutMissingChapter}
+                onChange={(_, checked) => updateSetting('shouldInformAboutMissingChapter', checked)}
+            />
+            <CheckboxInput
+                label={t('reader.settings.chapter_transition.warning.scanlator_change')}
+                checked={settings.shouldInformAboutScanlatorChange}
+                onChange={(_, checked) => updateSetting('shouldInformAboutScanlatorChange', checked)}
+            />
             <ReaderSettingAutoScroll
                 autoScroll={settings.autoScroll}
                 setAutoScroll={(...args) => updateSetting('autoScroll', ...args)}

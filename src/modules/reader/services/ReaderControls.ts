@@ -168,7 +168,8 @@ export class ReaderControls {
 
     static useOpenChapter(): (offset: 'previous' | 'next') => void {
         const { t } = useTranslation();
-        const { readingMode } = ReaderService.useSettings();
+        const { readingMode, shouldInformAboutMissingChapter, shouldInformAboutScanlatorChange } =
+            ReaderService.useSettings();
         const { currentChapter, previousChapter, nextChapter } = useReaderStateChaptersContext();
 
         const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter, ReaderResumeMode.END);
@@ -178,12 +179,26 @@ export class ReaderControls {
             (offset) => {
                 switch (offset) {
                     case 'previous':
-                        ReaderControls.checkNextChapterConsistency(t, offset, currentChapter, previousChapter)
+                        ReaderControls.checkNextChapterConsistency(
+                            t,
+                            offset,
+                            currentChapter,
+                            previousChapter,
+                            shouldInformAboutMissingChapter,
+                            shouldInformAboutScanlatorChange,
+                        )
                             .then(openPreviousChapter)
                             .catch(defaultPromiseErrorHandler('ReaderControls::checkNextChapterConsistency: previous'));
                         break;
                     case 'next':
-                        ReaderControls.checkNextChapterConsistency(t, offset, currentChapter, nextChapter)
+                        ReaderControls.checkNextChapterConsistency(
+                            t,
+                            offset,
+                            currentChapter,
+                            nextChapter,
+                            shouldInformAboutMissingChapter,
+                            shouldInformAboutScanlatorChange,
+                        )
                             .then(openNextChapter)
                             .catch(defaultPromiseErrorHandler('ReaderControls::checkNextChapterConsistency: next'));
                         break;
@@ -191,23 +206,34 @@ export class ReaderControls {
                         throw new Error(`Unexpected "offset" (${offset})`);
                 }
             },
-            [t, currentChapter?.id, openPreviousChapter, openNextChapter, readingMode.value],
+            [
+                t,
+                currentChapter?.id,
+                openPreviousChapter,
+                openNextChapter,
+                readingMode.value,
+                shouldInformAboutMissingChapter,
+                shouldInformAboutScanlatorChange,
+            ],
         );
     }
 
     private static async checkNextChapterConsistency(
         t: TFunction,
         offset: 'previous' | 'next',
-        currentChapter?: TChapterReader | null,
-        chapterToOpen?: TChapterReader | null,
+        currentChapter: TChapterReader | null | undefined,
+        chapterToOpen: TChapterReader | null | undefined,
+        shouldInformAboutMissingChapter: boolean,
+        shouldInformAboutScanlatorChange: boolean,
     ): Promise<void> {
         if (!currentChapter || !chapterToOpen) {
             return;
         }
 
         const missingChapters = Math.abs(currentChapter.chapterNumber - chapterToOpen.chapterNumber);
-        const isSameScanlator = currentChapter.scanlator === chapterToOpen.scanlator;
-        const isContinuousChapter = missingChapters <= 1;
+        const isSameScanlator =
+            !shouldInformAboutScanlatorChange || currentChapter.scanlator === chapterToOpen.scanlator;
+        const isContinuousChapter = !shouldInformAboutMissingChapter || missingChapters <= 1;
 
         const showWarning = !isSameScanlator || !isContinuousChapter;
         if (!showWarning) {

@@ -855,6 +855,12 @@
         "title": "Auto webtoon mode"
       },
       "background_color": "Background color",
+      "chapter_transition": {
+        "warning": {
+          "missing_chapter": "Inform about missing chapters on chapter transition",
+          "scanlator_change": "Inform about changing scanlator on chapter transition"
+        }
+      },
       "custom_filter": {
         "brightness": "Custom brightness",
         "contrast": "Custom contrast",

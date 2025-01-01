@@ -59,6 +59,8 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     autoScroll: undefined,
     shouldShowReadingModePreview: undefined,
     shouldShowTapZoneLayoutPreview: undefined,
+    shouldInformAboutMissingChapter: undefined,
+    shouldInformAboutScanlatorChange: undefined,
 };
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
@@ -137,6 +139,8 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     },
     shouldShowReadingModePreview: true,
     shouldShowTapZoneLayoutPreview: true,
+    shouldInformAboutMissingChapter: true,
+    shouldInformAboutScanlatorChange: true,
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {

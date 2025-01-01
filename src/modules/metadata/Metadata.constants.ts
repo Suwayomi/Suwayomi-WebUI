@@ -73,6 +73,8 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     autoScroll: undefined,
     shouldShowReadingModePreview: undefined,
     shouldShowTapZoneLayoutPreview: undefined,
+    shouldInformAboutMissingChapter: undefined,
+    shouldInformAboutScanlatorChange: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);

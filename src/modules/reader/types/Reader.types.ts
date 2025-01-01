@@ -134,6 +134,8 @@ export interface IReaderSettingsGlobal {
     };
     shouldShowReadingModePreview: boolean;
     shouldShowTapZoneLayoutPreview: boolean;
+    shouldInformAboutMissingChapter: boolean;
+    shouldInformAboutScanlatorChange: boolean;
 }
 
 export interface IReaderSettingsManga {
