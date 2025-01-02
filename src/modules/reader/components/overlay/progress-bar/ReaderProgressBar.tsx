@@ -133,7 +133,7 @@ const BaseReaderProgressBar = ({
             getNextIndexFromPage(
                 getPageForMousePos(
                     isTouchEvent ? e.touches[0] : e,
-                    progressBarRef.current.getBoundingClientRect(),
+                    progressBarRef.current,
                     pages,
                     isHorizontalPosition,
                     fullSegmentClicks,
@@ -175,13 +175,12 @@ const BaseReaderProgressBar = ({
                 <ClickAwayListener onClickAway={() => setIsDragging(false)}>
                     <ReaderProgressBarSlotsActionArea
                         {...slotProps?.progressBarSlotsActionArea}
-                        ref={progressBarRef}
                         onMouseDown={handleMouseDown}
                         onMouseUp={handleMouseUp}
                         onTouchStart={handleMouseDown}
                         onTouchEnd={handleMouseUp}
                     >
-                        <ReaderProgressBarSlotsContainer {...slotProps?.progressBarSlotsContainer}>
+                        <ReaderProgressBarSlotsContainer ref={progressBarRef} {...slotProps?.progressBarSlotsContainer}>
                             {pages.map((page, pagesIndex) => (
                                 <ReaderProgressBarSlotWrapper
                                     {...slotProps?.progressBarSlot}

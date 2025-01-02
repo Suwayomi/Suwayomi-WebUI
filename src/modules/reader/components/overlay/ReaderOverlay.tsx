@@ -7,7 +7,7 @@
  */
 
 import Box from '@mui/material/Box';
-import { memo, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import { BaseReaderOverlayProps, MobileHeaderProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { ReaderSettings } from '@/modules/reader/components/settings/ReaderSettings.tsx';
 import { ReaderPageNumber } from '@/modules/reader/components/ReaderPageNumber.tsx';
@@ -17,6 +17,7 @@ import { ReaderOverlayHeaderMobile } from '@/modules/reader/components/overlay/R
 import { ReaderBottomBarMobile } from '@/modules/reader/components/overlay/navigation/mobile/ReaderBottomBarMobile.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 const BaseReaderOverlay = ({
     isVisible,
@@ -26,6 +27,13 @@ const BaseReaderOverlay = ({
     MobileHeaderProps &
     Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop' | 'isMobile'>) => {
     const [areSettingsOpen, setAreSettingsOpen] = useState(false);
+
+    const [mobileHeaderHeight, setMobileHeaderHeight] = useState(0);
+    const mobileHeaderRef = useRef<HTMLDivElement>(null);
+    useResizeObserver(
+        mobileHeaderRef,
+        useCallback(() => setMobileHeaderHeight(mobileHeaderRef.current?.clientHeight ?? 0), [isMobile]),
+    );
 
     return (
         <Box sx={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
@@ -38,8 +46,12 @@ const BaseReaderOverlay = ({
 
             {isMobile && (
                 <>
-                    <ReaderOverlayHeaderMobile isVisible={isVisible} />
-                    <ReaderBottomBarMobile openSettings={() => setAreSettingsOpen(true)} isVisible={isVisible} />
+                    <ReaderOverlayHeaderMobile ref={mobileHeaderRef} isVisible={isVisible} />
+                    <ReaderBottomBarMobile
+                        openSettings={() => setAreSettingsOpen(true)}
+                        isVisible={isVisible}
+                        topOffset={mobileHeaderHeight}
+                    />
                 </>
             )}
 

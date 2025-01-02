@@ -18,7 +18,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
 import Slide from '@mui/material/Slide';
-import { memo, useLayoutEffect } from 'react';
+import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { ReaderBottomBarMobileProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { MobileReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/variants/MobileReaderProgressBar.tsx';
 import { ReaderChapterList } from '@/modules/reader/components/overlay/navigation/ReaderChapterList.tsx';
@@ -27,6 +27,7 @@ import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/R
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { ReaderStateChapters, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 const BaseReaderBottomBarMobile = ({
     openSettings,
@@ -35,13 +36,21 @@ const BaseReaderBottomBarMobile = ({
     chapters,
     scrollbarXSize,
     scrollbarYSize,
+    topOffset = 0,
 }: ReaderBottomBarMobileProps &
     Pick<ReaderStateChapters, 'currentChapter' | 'chapters'> &
-    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'>) => {
+    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & { topOffset?: number }) => {
     const { t } = useTranslation();
 
     const chapterListPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-chapter-list-dialog' });
     const quickSettingsPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-quick-settings-dialog' });
+
+    const [bottomBarRefHeight, setBottomBarRefHeight] = useState(0);
+    const bottomBarRef = useRef<HTMLDivElement>(null);
+    useResizeObserver(
+        bottomBarRef,
+        useCallback(() => setBottomBarRefHeight(bottomBarRef.current?.clientHeight ?? 0), [bottomBarRefHeight]),
+    );
 
     useLayoutEffect(() => {
         chapterListPopupState.close();
@@ -49,24 +58,25 @@ const BaseReaderBottomBarMobile = ({
 
     return (
         <>
-            <Slide direction="up" in={isVisible}>
-                <Stack
-                    sx={{
-                        position: 'fixed',
-                        right: `${scrollbarYSize}px`,
-                        bottom: 0,
-                        left: 0,
-                        gap: 2,
-                        pointerEvents: 'all',
-                    }}
-                >
-                    <MobileReaderProgressBar />
+            <Stack
+                sx={{
+                    position: 'fixed',
+                    right: `${scrollbarYSize}px`,
+                    bottom: 0,
+                    left: 0,
+                    height: `calc(100% - ${topOffset}px)`,
+                }}
+            >
+                <MobileReaderProgressBar topOffset={topOffset} bottomOffset={bottomBarRefHeight} />
+                <Slide direction="up" in={isVisible}>
                     <Stack
+                        ref={bottomBarRef}
                         sx={{
                             alignItems: 'center',
                             backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.95),
                             pb: `max(${scrollbarXSize}px, env(safe-area-inset-bottom))`,
                             boxShadow: 2,
+                            pointerEvents: 'all',
                         }}
                     >
                         <Stack
@@ -96,8 +106,8 @@ const BaseReaderBottomBarMobile = ({
                             </Tooltip>
                         </Stack>
                     </Stack>
-                </Stack>
-            </Slide>
+                </Slide>
+            </Stack>
             {chapterListPopupState.isOpen && (
                 <Dialog {...bindDialog(chapterListPopupState)} fullWidth maxWidth="md" scroll="paper">
                     <DialogContent sx={{ p: 0, pb: 1 }}>

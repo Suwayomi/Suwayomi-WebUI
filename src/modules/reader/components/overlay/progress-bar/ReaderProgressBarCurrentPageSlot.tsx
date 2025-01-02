@@ -41,7 +41,7 @@ export const ReaderProgressBarCurrentPageSlot = ({
                     height: '100%',
                 }),
                 ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isVertical, {
-                    top: `${(Math.max(0, currentPagesIndex - 1) / pagesLength - 1) * 100}%`,
+                    top: `${(Math.max(0, currentPagesIndex - 1) / (pagesLength - 1)) * 100}%`,
                     width: '100%',
                     height: `calc(100% / ${pagesLength - 1})`,
                 }),

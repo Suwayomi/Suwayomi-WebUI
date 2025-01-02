@@ -20,34 +20,34 @@ const SLOT_SX_PROP: NonNullable<NonNullable<ComponentProps<typeof ReaderProgress
     backgroundColor: 'background.default',
 };
 
-const START_END_GAP = '4px';
 const POINT_SIZE = '3px';
 const ProgressBarPagePoint = memo(
     ({
         isTrailingPage,
         pagesIndex,
         totalPages,
+        isVertical,
+        isHorizontal,
     }: {
         isTrailingPage: boolean;
         pagesIndex: number;
         totalPages: number;
+        isVertical: boolean;
+        isHorizontal: boolean;
     }) => {
-        const isFirstPage = pagesIndex === 0;
-        const isLastPage = pagesIndex === totalPages - 1;
-
-        const left = `${(pagesIndex / (totalPages - 1)) * 100}%`;
+        const position = `${(pagesIndex / (totalPages - 1)) * 100}%`;
 
         return (
             <Box
                 sx={{
                     position: 'absolute',
-                    top: '50%',
-                    left,
-                    ...applyStyles(isFirstPage, {
-                        left: START_END_GAP,
+                    ...applyStyles(isVertical, {
+                        top: position,
+                        left: '50%',
                     }),
-                    ...applyStyles(isLastPage, {
-                        left: `calc(${left} - ${START_END_GAP})`,
+                    ...applyStyles(isHorizontal, {
+                        top: '50%',
+                        left: position,
                     }),
                     transform: 'translate(-50%, -50%)',
                     width: POINT_SIZE,
@@ -68,20 +68,34 @@ export const ReaderProgressBarSlotMobile = memo(
     ({
         pageName,
         isTrailingPage,
+        isCurrentPage,
         pagesIndex,
         totalPages,
+        isVertical,
+        isHorizontal,
     }: {
         pageName: string;
         isTrailingPage: boolean;
+        isCurrentPage: boolean;
         pagesIndex: number;
         totalPages: number;
+        isVertical: boolean;
+        isHorizontal: boolean;
     }) => (
         <ReaderProgressBarSlot
             pageName={pageName}
             progressBarPosition={ProgressBarPosition.BOTTOM}
             slotProps={{ box: { sx: SLOT_SX_PROP } }}
         >
-            <ProgressBarPagePoint isTrailingPage={isTrailingPage} pagesIndex={pagesIndex} totalPages={totalPages} />
+            {!isCurrentPage && (
+                <ProgressBarPagePoint
+                    isTrailingPage={isTrailingPage}
+                    pagesIndex={pagesIndex}
+                    totalPages={totalPages}
+                    isVertical={isVertical}
+                    isHorizontal={isHorizontal}
+                />
+            )}
         </ReaderProgressBarSlot>
     ),
 );

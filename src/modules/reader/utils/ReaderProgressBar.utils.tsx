@@ -45,17 +45,25 @@ export const getNextPageIndex = (
 
 export const getPageForMousePos = (
     coordinates: { clientX: number; clientY: number },
-    elementRect: DOMRect,
+    element: HTMLElement,
     pages: ReaderProgressBarProps['pages'],
     isHorizontalPosition: boolean,
     fullSegmentClicks: boolean,
     getOptionForDirection: typeof getOptionForDirectionImpl,
 ): ReaderProgressBarProps['pages'][number] => {
     const pos = isHorizontalPosition ? coordinates.clientX : coordinates.clientY;
-    const rectPos = isHorizontalPosition ? elementRect.left : elementRect.top;
-    const rectSize = isHorizontalPosition ? elementRect.width : elementRect.height;
 
-    const mousePosRelativeToProgressBar = pos - rectPos;
+    const { paddingTop, paddingBottom, paddingLeft, paddingRight } = getComputedStyle(element);
+    const elementRect = element.getBoundingClientRect();
+    const padding = isHorizontalPosition
+        ? parseFloat(paddingLeft) + parseFloat(paddingRight)
+        : parseFloat(paddingTop) + parseFloat(paddingBottom);
+
+    const rectPos = isHorizontalPosition ? elementRect.left : elementRect.top;
+    const rectSizeWithPadding = isHorizontalPosition ? elementRect.width : elementRect.height;
+    const rectSize = rectSizeWithPadding - padding;
+
+    const mousePosRelativeToProgressBar = pos - rectPos - padding / 2;
 
     const totalPages = pages.length - Number(!fullSegmentClicks);
 

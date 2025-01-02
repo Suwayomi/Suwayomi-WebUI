@@ -22,7 +22,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import Tooltip from '@mui/material/Tooltip';
 import Slide from '@mui/material/Slide';
-import { memo } from 'react';
+import { forwardRef, memo } from 'react';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
@@ -44,15 +44,13 @@ import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrol
 const DEFAULT_MANGA = { id: -1, title: '' };
 const DEFAULT_CHAPTER = { id: -1, name: '', realUrl: '', isBookmarked: false };
 
-const BaseReaderOverlayHeaderMobile = ({
-    isVisible,
-    manga,
-    currentChapter,
-    scrollbarYSize,
-}: MobileHeaderProps &
-    Pick<TReaderStateMangaContext, 'manga'> &
-    Pick<ReaderStateChapters, 'currentChapter'> &
-    Pick<TReaderScrollbarContext, 'scrollbarYSize'>) => {
+const BaseReaderOverlayHeaderMobile = forwardRef<
+    HTMLDivElement,
+    MobileHeaderProps &
+        Pick<TReaderStateMangaContext, 'manga'> &
+        Pick<ReaderStateChapters, 'currentChapter'> &
+        Pick<TReaderScrollbarContext, 'scrollbarYSize'>
+>(({ isVisible, manga, currentChapter, scrollbarYSize }, ref) => {
     const { t } = useTranslation();
     const getOptionForDirection = useGetOptionForDirection();
     const handleBack = useBackButton();
@@ -66,7 +64,7 @@ const BaseReaderOverlayHeaderMobile = ({
         : 'bookmark';
 
     return (
-        <Slide direction="down" in={isVisible} mountOnEnter unmountOnExit>
+        <Slide direction="down" in={isVisible} ref={ref}>
             <Stack
                 sx={{
                     flexDirection: 'row',
@@ -140,7 +138,7 @@ const BaseReaderOverlayHeaderMobile = ({
             </Stack>
         </Slide>
     );
-};
+});
 
 export const ReaderOverlayHeaderMobile = withPropsFrom(
     memo(BaseReaderOverlayHeaderMobile),

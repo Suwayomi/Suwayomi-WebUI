@@ -614,7 +614,7 @@ export class ReaderControls {
                 const newPageIndex = getNextIndexFromPage(
                     getPageForMousePos(
                         coordinates,
-                        progressBarRef.current.getBoundingClientRect(),
+                        progressBarRef.current,
                         pages,
                         isHorizontal,
                         fullSegmentClicks,

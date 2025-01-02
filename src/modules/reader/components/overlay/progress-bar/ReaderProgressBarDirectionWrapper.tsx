@@ -6,9 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactNode, useMemo } from 'react';
+import { forwardRef, useMemo } from 'react';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
+import Box, { BoxProps } from '@mui/material/Box';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
@@ -18,13 +19,12 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
-const BaseReaderProgressBarDirectionWrapper = ({
-    children,
-    direction,
-}: {
-    children: ReactNode;
-    direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
-}) => {
+const BaseReaderProgressBarDirectionWrapper = forwardRef<
+    HTMLElement,
+    BoxProps & {
+        direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
+    }
+>(({ direction, ...boxProps }, ref) => {
     const [appTheme] = useLocalStorage<AppThemes>('appTheme', 'default');
     const [themeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
     const [pureBlackMode] = useLocalStorage<boolean>('pureBlackMode', false);
@@ -41,11 +41,11 @@ const BaseReaderProgressBarDirectionWrapper = ({
     return (
         <CacheProvider value={DIRECTION_TO_CACHE[direction]}>
             <ThemeProvider theme={readerTheme}>
-                <div dir={direction}>{children}</div>
+                <Box {...boxProps} ref={ref} dir={direction} />
             </ThemeProvider>
         </CacheProvider>
     );
-};
+});
 
 export const ReaderProgressBarDirectionWrapper = withPropsFrom(
     BaseReaderProgressBarDirectionWrapper,
