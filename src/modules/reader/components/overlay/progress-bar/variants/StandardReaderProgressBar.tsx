@@ -79,6 +79,7 @@ const BaseStandardReaderProgressBar = ({
     return (
         <ReaderProgressBarDirectionWrapper>
             <ReaderProgressBar
+                direction={isHorizontal ? readerDirection : 'ltr'}
                 progressBarPosition={finalProgressBarPosition}
                 fullSegmentClicks
                 createProgressBarSlot={useCallback(

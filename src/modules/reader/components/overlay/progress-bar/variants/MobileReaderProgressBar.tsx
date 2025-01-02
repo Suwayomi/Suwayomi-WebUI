@@ -182,6 +182,7 @@ const BaseMobileReaderProgressBar = ({
                         )}
                     </IconButton>
                     <ReaderProgressBar
+                        direction={finalReaderDirection}
                         progressBarPosition={finalProgressBarPosition}
                         fullSegmentClicks={false}
                         createProgressBarSlot={useCallback(

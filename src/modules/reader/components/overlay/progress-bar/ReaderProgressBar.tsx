@@ -247,9 +247,6 @@ export const ReaderProgressBar = withPropsFrom(
     [
         useReaderProgressBarContext,
         () => ({ openPage: ReaderControls.useOpenPage() }),
-        () => ({
-            direction: ReaderService.useGetThemeDirection(),
-        }),
         userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
     ],
@@ -257,7 +254,6 @@ export const ReaderProgressBar = withPropsFrom(
         'isDragging',
         'setIsDragging',
         'openPage',
-        'direction',
         'pages',
         'pageLoadStates',
         'totalPages',
