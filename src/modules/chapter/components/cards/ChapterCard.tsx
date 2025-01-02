@@ -185,7 +185,6 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                                 ref={menuButtonRef}
                                                 {...bindTrigger(popupState)}
                                                 onClick={(e) => handleClickOpenMenu(e, popupState.open)}
-                                                onTouchStart={(e) => handleClickOpenMenu(e, popupState.open)}
                                                 aria-label="more"
                                                 size="large"
                                             >

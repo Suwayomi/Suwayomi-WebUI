@@ -56,7 +56,6 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
                         size="medium"
                         disabled={trackerList.loading || !!trackerList.error}
                         onClick={() => handleClick(popupState.open)}
-                        onTouchStart={() => handleClick(popupState.open)}
                         variant={trackersInUse.length ? 'contained' : 'outlined'}
                     >
                         {trackersInUse.length ? <CheckIcon /> : <SyncIcon />}

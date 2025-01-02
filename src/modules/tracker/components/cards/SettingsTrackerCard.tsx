@@ -80,11 +80,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
         <PopupState variant="popover" popupId="tracker-dialog">
             {(popupState) => (
                 <>
-                    <ListItemButton
-                        {...bindTrigger(popupState)}
-                        onClick={() => onClick(popupState.open)}
-                        // onTouchStart={() => onClick(popupState.open)}
-                    >
+                    <ListItemButton {...bindTrigger(popupState)} onClick={() => onClick(popupState.open)}>
                         <ListItemAvatar sx={{ paddingRight: '20px' }}>
                             <Avatar
                                 alt={`${tracker.name}`}

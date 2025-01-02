@@ -83,10 +83,6 @@ const TrackerActiveRemoveBind = ({
                             onClick();
                             popupState.open();
                         }}
-                        onTouchStart={() => {
-                            onClick();
-                            popupState.open();
-                        }}
                     >
                         {t('global.button.remove')}
                     </MenuItem>

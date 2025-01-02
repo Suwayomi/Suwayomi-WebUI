@@ -84,7 +84,6 @@ export const MangaOptionButton = forwardRef(
                         ref={ref}
                         {...bindTriggerProps}
                         onClick={handleClick}
-                        onTouchStart={handleClick}
                         aria-label="more"
                         size="large"
                         onMouseDown={preventDefaultAction}
@@ -101,7 +100,6 @@ export const MangaOptionButton = forwardRef(
                     ref={ref}
                     {...bindTriggerProps}
                     onClick={handleClick}
-                    onTouchStart={handleClick}
                     className="manga-option-button"
                     size="small"
                     variant="contained"
