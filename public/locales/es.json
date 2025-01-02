@@ -733,7 +733,8 @@
                 "downloaded": "Descargado",
                 "unread": "No leído",
                 "tracked": "Rastreado",
-                "duplicate_chapters": "Capítulos duplicados"
+                "duplicate_chapters": "Capítulos duplicados",
+                "started": "Empezado"
             }
         },
         "time": {
@@ -939,7 +940,8 @@
                 "page_gap": "Separación de páginas"
             },
             "title": {
-                "reader_settings": "Configuración del lector"
+                "reader_settings": "Configuración del lector",
+                "quick_settings": "Configuración rápida"
             },
             "error": {
                 "label": {
@@ -977,7 +979,8 @@
                 "scroll_forward": "Avanzar",
                 "stretch_image": "Alternar estirar imagen",
                 "reading_mode": "Modo de lectura del ciclo",
-                "reading_direction": "Dirección de lectura del ciclo"
+                "reading_direction": "Dirección de lectura del ciclo",
+                "auto_scroll": "Alternar desplazamiento automático"
             },
             "image_preload_amount": "Precargar imágenes",
             "overlay_mode": "Modo de superposición",
@@ -1007,7 +1010,16 @@
                 "l_shape": "Forma de L"
             },
             "active_setting": "Opción activa",
-            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)"
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
+            "auto_scroll": {
+                "speed": "Velocidad de desplazamiento automático",
+                "smooth": "Desplazamiento automático suave",
+                "title": "Desplazamiento automático"
+            },
+            "auto_webtoon_mode": {
+                "title": "Modo webtoon automático",
+                "description": "Usa el modo webtoon automáticamente para las entradas que se han detectado que probablemente usan el formato de banda larga"
+            }
         },
         "title": "Lector — Manga {{mangaId}} Capítulo {{chapterIndex}}",
         "button": {
