@@ -59,13 +59,13 @@ const BaseStandardReaderProgressBar = ({
                 createProgressBarSlot={useCallback(
                     (
                         page,
-                        pagesIndex,
+                        _pagesIndex,
                         primaryPageLoadState,
                         secondaryPageLoadState,
                         isCurrentPage,
                         isLeadingPage,
-                        _,
-                        totalPages_,
+                        _isTrailingPage,
+                        _totalPages,
                         showDraggingStyle,
                     ) => (
                         <ReaderProgressBarSlotDesktop
@@ -75,8 +75,6 @@ const BaseStandardReaderProgressBar = ({
                             secondaryPageLoadState={secondaryPageLoadState}
                             progressBarPosition={progressBarPosition}
                             isCurrentPage={isCurrentPage}
-                            isFirstPage={pagesIndex === 0}
-                            isLastPage={pagesIndex === totalPages_ - 1}
                             isLeadingPage={isLeadingPage}
                             showDraggingStyle={showDraggingStyle}
                         />
@@ -182,6 +180,7 @@ const BaseStandardReaderProgressBar = ({
                     },
                     progressBarSlotsContainer: {
                         sx: {
+                            gap: 0.25,
                             borderRadius: 2,
                             transition: 'height 0.1s ease-in-out',
                             ...applyStyles(isHorizontal, {

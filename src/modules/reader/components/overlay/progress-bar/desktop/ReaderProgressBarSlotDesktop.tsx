@@ -12,7 +12,6 @@ import { memo } from 'react';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { ReaderProgressBarSlot } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarSlot.tsx';
 import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
-import { getProgressBarPositionInfo } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 
 export const ReaderProgressBarSlotDesktop = memo(
     ({
@@ -22,8 +21,6 @@ export const ReaderProgressBarSlotDesktop = memo(
         secondaryPageLoadState,
         progressBarPosition,
         isCurrentPage,
-        isFirstPage,
-        isLastPage,
         isLeadingPage,
         showDraggingStyle,
     }: Pick<IReaderSettings, 'progressBarPosition'> & {
@@ -32,14 +29,10 @@ export const ReaderProgressBarSlotDesktop = memo(
         primaryPageLoadState: boolean;
         secondaryPageLoadState?: boolean;
         isCurrentPage: boolean;
-        isFirstPage: boolean;
-        isLastPage: boolean;
         isLeadingPage: boolean;
         showDraggingStyle: boolean;
     }) => {
         const theme = useTheme();
-
-        const { isVertical, isHorizontal } = getProgressBarPositionInfo(progressBarPosition);
 
         return (
             <ReaderProgressBarSlot
@@ -51,16 +44,6 @@ export const ReaderProgressBarSlotDesktop = memo(
                         sx: {
                             cursor: 'pointer',
                             backgroundColor: darken(theme.palette.background.paper, 0.2),
-                            ...applyStyles(isHorizontal, {
-                                borderLeftWidth: 2,
-                                borderLeftColor: 'background.paper',
-                                borderLeftStyle: 'solid',
-                            }),
-                            ...applyStyles(isVertical, {
-                                borderTopWidth: 2,
-                                borderTopColor: 'background.paper',
-                                borderTopStyle: 'solid',
-                            }),
                             ...theme.applyStyles('dark', {
                                 backgroundColor: lighten(theme.palette.background.paper, 0.1),
                             }),
@@ -73,8 +56,6 @@ export const ReaderProgressBarSlotDesktop = memo(
                                     }),
                                 },
                             ),
-                            borderLeftWidth: isFirstPage ? 0 : undefined,
-                            borderRightWidth: isLastPage ? 0 : undefined,
                         },
                     },
                     tooltip: {
