@@ -10,6 +10,8 @@ import { ForwardRefExoticComponent, MemoExoticComponent, RefAttributes } from 'r
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
+    ProgressBarPosition,
+    ProgressBarPositionAutoVertical,
     ReaderPagerProps,
     ReaderPageScaleMode,
     ReadingMode,
@@ -55,4 +57,23 @@ export const getPagerForReadingMode = (
         default:
             throw new Error(`Unexpected "ReadingMode" (${readingMode})`);
     }
+};
+
+export const getProgressBarPosition = (
+    progressBarPosition: ProgressBarPosition,
+    progressBarPositionAutoVertical: ProgressBarPositionAutoVertical,
+    topOffset: number = 0,
+    bottomOffset: number = 0,
+): ProgressBarPosition => {
+    const isAutoVerticalEnabled =
+        progressBarPositionAutoVertical !== ProgressBarPositionAutoVertical.OFF &&
+        progressBarPosition === ProgressBarPosition.BOTTOM;
+    const isVerticalSpaceLarger = window.innerHeight - topOffset - bottomOffset > window.innerWidth;
+
+    const shouldUseVerticalPosition = isAutoVerticalEnabled && isVerticalSpaceLarger;
+    if (shouldUseVerticalPosition) {
+        return progressBarPositionAutoVertical as unknown as ProgressBarPosition;
+    }
+
+    return progressBarPosition;
 };

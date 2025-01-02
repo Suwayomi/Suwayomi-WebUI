@@ -11,13 +11,7 @@ import { memo, useCallback, useState } from 'react';
 import { ReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import {
-    IReaderSettings,
-    ProgressBarPosition,
-    ProgressBarPositionAutoVertical,
-    ProgressBarType,
-    TReaderScrollbarContext,
-} from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ProgressBarType, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
@@ -29,6 +23,7 @@ import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderPro
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { ReaderProgressBarSlotDesktop } from '@/modules/reader/components/overlay/progress-bar/desktop/ReaderProgressBarSlotDesktop.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
+import { getProgressBarPosition } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 const BaseStandardReaderProgressBar = ({
     readerNavBarWidth,
@@ -61,12 +56,7 @@ const BaseStandardReaderProgressBar = ({
         useCallback(() => setRefreshProgressBarPosition({}), []),
     );
 
-    const finalProgressBarPosition =
-        window.innerHeight > window.innerWidth &&
-        progressBarPositionAutoVertical !== ProgressBarPositionAutoVertical.OFF
-            ? (progressBarPositionAutoVertical as unknown as ProgressBarPosition)
-            : progressBarPosition;
-
+    const finalProgressBarPosition = getProgressBarPosition(progressBarPosition, progressBarPositionAutoVertical);
     const { isBottom, isLeft, isRight, isVertical, isHorizontal } =
         getProgressBarPositionInfo(finalProgressBarPosition);
 

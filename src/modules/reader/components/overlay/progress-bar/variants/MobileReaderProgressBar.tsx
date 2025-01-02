@@ -22,7 +22,6 @@ import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts'
 import {
     IReaderSettings,
     ProgressBarPosition,
-    ProgressBarPositionAutoVertical,
     ReaderResumeMode,
     ReaderStateChapters,
 } from '@/modules/reader/types/Reader.types.ts';
@@ -36,6 +35,7 @@ import { ReaderProgressBarSlotMobile } from '@/modules/reader/components/overlay
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
+import { getProgressBarPosition } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, SlideProps['direction']> = {
     [ProgressBarPosition.BOTTOM]: 'up',
@@ -74,11 +74,12 @@ const BaseMobileReaderProgressBar = ({
         useCallback(() => setRefreshProgressBarPosition({}), []),
     );
 
-    const finalProgressBarPosition =
-        window.innerHeight - topOffset - bottomOffset > window.innerWidth &&
-        progressBarPositionAutoVertical !== ProgressBarPositionAutoVertical.OFF
-            ? (progressBarPositionAutoVertical as unknown as ProgressBarPosition)
-            : progressBarPosition;
+    const finalProgressBarPosition = getProgressBarPosition(
+        progressBarPosition,
+        progressBarPositionAutoVertical,
+        topOffset,
+        bottomOffset,
+    );
 
     const { isLeft, isRight, isVertical, isHorizontal } = getProgressBarPositionInfo(finalProgressBarPosition);
     const finalReaderDirection = isHorizontal ? readerDirection : 'ltr';
