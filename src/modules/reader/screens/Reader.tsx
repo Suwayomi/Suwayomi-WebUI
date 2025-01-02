@@ -300,10 +300,14 @@ const BaseReader = ({
             return;
         }
 
+        const HIDE_PREVIEW_TIMEOUT = 5000;
+
         const didReadingModeChange = JSON.stringify(readingMode) !== JSON.stringify(previousReadingMode.current);
         const showReadingModePreview = shouldShowReadingModePreview && didReadingModeChange;
         if (showReadingModePreview) {
-            makeToast(t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].title as TranslationKey));
+            makeToast(t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].title as TranslationKey), {
+                autoHideDuration: HIDE_PREVIEW_TIMEOUT,
+            });
         }
         previousReadingMode.current = readingMode;
 
@@ -314,7 +318,7 @@ const BaseReader = ({
         if (showTapZoneLayoutPreview) {
             setShowPreview(true);
             if (isInitialPreview.current) {
-                setTimeout(() => setShowPreview(false), 5000);
+                setTimeout(() => setShowPreview(false), HIDE_PREVIEW_TIMEOUT);
             }
         }
         previousTapZoneLayout.current = tapZoneLayout;
