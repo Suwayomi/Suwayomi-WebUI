@@ -12,7 +12,7 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import Stack from '@mui/material/Stack';
 import { alpha } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import { memo, useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import { ComponentProps, memo, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import { ReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBar.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
@@ -83,6 +83,99 @@ const BaseMobileReaderProgressBar = ({
     const { isLeft, isRight, isVertical, isHorizontal } = getProgressBarPositionInfo(finalProgressBarPosition);
     const finalReaderDirection = isHorizontal ? readerDirection : 'ltr';
     const currentPagesIndex = useMemo(() => getPage(currentPageIndex, pages).pagesIndex, [currentPageIndex, pages]);
+
+    const progressBarSlotProps: ComponentProps<typeof ReaderProgressBar>['slotProps'] = useMemo(
+        () => ({
+            container: {
+                sx: {
+                    flexGrow: 1,
+                    position: 'relative',
+                    display: 'flex',
+                    justifyItems: 'center',
+                    alignItems: 'stretch',
+                    backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85),
+                    borderRadius: 100,
+                    boxShadow: 2,
+                },
+            },
+            progressBarRoot: {
+                sx: {
+                    flexGrow: 1,
+                    gap: 0,
+                    ...applyStyles(isVertical, {
+                        flexDirection: 'column',
+                    }),
+                    ...applyStyles(isHorizontal, {
+                        alignItems: 'stretch',
+                    }),
+                },
+            },
+            progressBarSlotsActionArea: {
+                sx: {
+                    alignItems: 'center',
+                    cursor: 'pointer',
+                    ...applyStyles(isVertical, {
+                        width: '100%',
+                        flexDirection: 'column',
+                        px: 2,
+                    }),
+                    ...applyStyles(isHorizontal, {
+                        height: '100%',
+                        py: 2,
+                    }),
+                },
+            },
+            progressBarSlotsContainer: {
+                sx: {
+                    borderRadius: 100,
+                    backgroundColor: 'background.default',
+                    ...applyStyles(isVertical, {
+                        flexDirection: 'column',
+                        py: 1,
+                    }),
+                    ...applyStyles(isHorizontal, {
+                        px: 1,
+                    }),
+                },
+            },
+            progressBarSlot: {
+                sx: {
+                    ...applyStyles(isVertical, {
+                        width: '20px',
+                    }),
+                    ...applyStyles(isHorizontal, {
+                        height: '20px',
+                    }),
+                },
+            },
+            progressBarCurrentPageSlot: {
+                sx: {
+                    display: 'flex',
+                    zIndex: 1,
+                    cursor: 'inherit',
+                    ...applyStyles(isVertical, {
+                        justifyContent: 'center',
+                    }),
+                    ...applyStyles(isHorizontal, {
+                        alignItems: 'center',
+                    }),
+                },
+            },
+            progressBarPageTexts: {
+                base: {
+                    sx: {
+                        ...applyStyles(isVertical, {
+                            py: 1,
+                        }),
+                        ...applyStyles(isHorizontal, {
+                            px: 1,
+                        }),
+                    },
+                },
+            },
+        }),
+        [isVertical, isHorizontal],
+    );
 
     const progressBarCurrentPage = useMemo(
         () => ({
@@ -209,93 +302,7 @@ const BaseMobileReaderProgressBar = ({
                             [isVertical, isHorizontal],
                         )}
                         slotProps={{
-                            container: {
-                                sx: {
-                                    flexGrow: 1,
-                                    position: 'relative',
-                                    display: 'flex',
-                                    justifyItems: 'center',
-                                    alignItems: 'stretch',
-                                    backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85),
-                                    borderRadius: 100,
-                                    boxShadow: 2,
-                                },
-                            },
-                            progressBarRoot: {
-                                sx: {
-                                    flexGrow: 1,
-                                    gap: 0,
-                                    ...applyStyles(isVertical, {
-                                        flexDirection: 'column',
-                                    }),
-                                    ...applyStyles(isHorizontal, {
-                                        alignItems: 'stretch',
-                                    }),
-                                },
-                            },
-                            progressBarSlotsActionArea: {
-                                sx: {
-                                    alignItems: 'center',
-                                    cursor: 'pointer',
-                                    ...applyStyles(isVertical, {
-                                        width: '100%',
-                                        flexDirection: 'column',
-                                        px: 2,
-                                    }),
-                                    ...applyStyles(isHorizontal, {
-                                        height: '100%',
-                                        py: 2,
-                                    }),
-                                },
-                            },
-                            progressBarSlotsContainer: {
-                                sx: {
-                                    borderRadius: 100,
-                                    backgroundColor: 'background.default',
-                                    ...applyStyles(isVertical, {
-                                        flexDirection: 'column',
-                                        py: 1,
-                                    }),
-                                    ...applyStyles(isHorizontal, {
-                                        px: 1,
-                                    }),
-                                },
-                            },
-                            progressBarSlot: {
-                                sx: {
-                                    ...applyStyles(isVertical, {
-                                        width: '20px',
-                                    }),
-                                    ...applyStyles(isHorizontal, {
-                                        height: '20px',
-                                    }),
-                                },
-                            },
-                            progressBarCurrentPageSlot: {
-                                sx: {
-                                    display: 'flex',
-                                    zIndex: 1,
-                                    cursor: 'inherit',
-                                    ...applyStyles(isVertical, {
-                                        justifyContent: 'center',
-                                    }),
-                                    ...applyStyles(isHorizontal, {
-                                        alignItems: 'center',
-                                    }),
-                                },
-                            },
-                            progressBarPageTexts: {
-                                base: {
-                                    sx: {
-                                        ...applyStyles(isVertical, {
-                                            py: 1,
-                                        }),
-                                        ...applyStyles(isHorizontal, {
-                                            px: 1,
-                                        }),
-                                    },
-                                },
-                            },
+                            ...progressBarSlotProps,
                             progressBarReadPages: {
                                 sx: {
                                     backgroundColor: 'primary.main',
