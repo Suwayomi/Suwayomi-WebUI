@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CustomContentProps, SnackbarContent, VariantType } from 'notistack';
+import { closeSnackbar, CustomContentProps, SnackbarContent, VariantType } from 'notistack';
 import { ForwardedRef, forwardRef, Fragment, memo } from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -55,7 +55,13 @@ export const SnackbarWithDescription = memo(
 
             return (
                 <SnackbarContent ref={ref}>
-                    <Alert elevation={1} severity={severity} action={finalAction}>
+                    <Alert
+                        elevation={1}
+                        severity={severity}
+                        action={finalAction}
+                        sx={{ minWidth: '100%' }}
+                        onClose={() => closeSnackbar(id)}
+                    >
                         <TitleComponent>{message}</TitleComponent>
                         {actualDescription}
                         {isDescriptionTooLong ? (
