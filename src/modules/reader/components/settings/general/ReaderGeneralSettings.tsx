@@ -52,9 +52,9 @@ export const ReaderGeneralSettings = ({
                 onDefault={() => onDefault?.('progressBarSize')}
             />
             <ReaderSettingProgressBarPosition
-                overlayMode={overlayMode}
                 progressBarPosition={settings.progressBarPosition}
-                setProgressBarPosition={(value) => updateSetting('progressBarPosition', value)}
+                progressBarPositionAutoVertical={settings.progressBarPositionAutoVertical}
+                updateSetting={updateSetting}
             />
             {(settings.progressBarType === ProgressBarType.HIDDEN || overlayMode === ReaderOverlayMode.MOBILE) && (
                 <CheckboxInput

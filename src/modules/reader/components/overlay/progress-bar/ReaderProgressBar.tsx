@@ -263,7 +263,6 @@ export const ReaderProgressBar = withPropsFrom(
         'pageLoadStates',
         'totalPages',
         'currentPageIndex',
-        'progressBarPosition',
         'readingMode',
     ],
 );

@@ -25,6 +25,12 @@ export enum ProgressBarPosition {
     RIGHT,
 }
 
+export enum ProgressBarPositionAutoVertical {
+    OFF = -1,
+    LEFT = ProgressBarPosition.LEFT,
+    RIGHT = ProgressBarPosition.RIGHT,
+}
+
 export enum ReadingDirection {
     LTR,
     RTL,
@@ -119,6 +125,7 @@ export interface IReaderSettingsGlobal {
      */
     progressBarSize: number;
     progressBarPosition: ProgressBarPosition;
+    progressBarPositionAutoVertical: ProgressBarPositionAutoVertical;
     shouldShowPageNumber: boolean;
     isStaticNav: boolean;
     backgroundColor: ReaderBackgroundColor;

@@ -939,6 +939,10 @@
         }
       },
       "progress_bar": {
+        "auto_vertical_position": {
+          "description": "Automatically change the progress bar to a vertical position depending on the available space",
+          "title": "Automatic progress bar vertical position"
+        },
         "position": "Progress bar position",
         "size": "Progress bar size",
         "style": "Progress bar style"

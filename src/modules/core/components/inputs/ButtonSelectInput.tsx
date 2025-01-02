@@ -14,10 +14,16 @@ import { ButtonSelect } from '@/modules/core/components/buttons/ButtonSelect.tsx
 
 export const ButtonSelectInput = <Value extends string | number>({
     label,
+    description,
     ...buttonSelectProps
-}: ComponentProps<typeof ButtonSelect<Value>> & { label: string }) => (
+}: ComponentProps<typeof ButtonSelect<Value>> & { label: string; description?: string }) => (
     <Stack>
         <Typography>{label}</Typography>
+        {description && (
+            <Typography variant="body2" color="textDisabled">
+                {description}
+            </Typography>
+        )}
         <ButtonSelect {...buttonSelectProps} />
     </Stack>
 );

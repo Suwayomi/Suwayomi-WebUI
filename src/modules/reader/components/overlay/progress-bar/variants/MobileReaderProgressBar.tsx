@@ -18,7 +18,7 @@ import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/R
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
-import { ReaderResumeMode, ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
+import { ProgressBarPosition, ReaderResumeMode, ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
@@ -147,6 +147,7 @@ const BaseMobileReaderProgressBar = ({
                     {getOptionForDirection(<SkipPreviousIcon />, <SkipNextIcon />, direction)}
                 </IconButton>
                 <ReaderProgressBar
+                    progressBarPosition={ProgressBarPosition.BOTTOM}
                     fullSegmentClicks={false}
                     createProgressBarSlot={useCallback(
                         (page, pagesIndex, _2, _3, _4, _5, isTrailingPage, totalPages) => (
