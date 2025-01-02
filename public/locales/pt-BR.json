@@ -1,0 +1,428 @@
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "new_category": "Nova categoria",
+                "edit_category": "Editar categoria"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "A categoria está vazia",
+                "request_failure": "Não foi possível carregar categorias"
+            },
+            "no_categories_found": {
+                "label": {
+                    "info": "Você não tem categorias ainda."
+                }
+            }
+        },
+        "label": {
+            "category_name": "Nome da Categoria",
+            "use_as_default_category": "Categoria padrão ao adicionar um novo mangá à biblioteca"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "Excluir: {{excludedCategoriesText}}",
+                    "include": "Incluir: {{includedCategoriesText}}"
+                }
+            }
+        },
+        "title": {
+            "set_categories": "Definir categorias",
+            "category_one": "Categoria",
+            "category_many": "Categorias",
+            "category_other": "Categorias"
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "button": {
+                        "selected": "Marcador selecionado"
+                    },
+                    "label": {
+                        "action": "Adicionar marcador",
+                        "error_one": "Não pôde adicionar marcador ao capítulo",
+                        "error_many": "Não pôde adicionar marcadores aos capítulos",
+                        "error_other": "Não pôde adicionar marcadores aos capítulos",
+                        "success_one": "Adicionado marcador ao capítulo",
+                        "success_many": "Adicionado marcadores a {{count}} capítulos",
+                        "success_other": "Adicionado marcadores a {{count}} capítulos"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "Remover marcadores dos selecionados"
+                    },
+                    "label": {
+                        "action": "Remover marcador",
+                        "error_one": "Não pôde remover o marcador",
+                        "error_many": "Não pôde remover os marcadores",
+                        "error_other": "Não pôde remover os marcadores",
+                        "success_one": "Marcador removido do capítulo",
+                        "success_many": "Marcador removido de {{count}} capítulos",
+                        "success_other": "Marcador removido de {{count}} capítulos"
+                    }
+                }
+            },
+            "download": {
+                "add": {
+                    "label": {
+                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
+                        "all": "$t(extension.language.all)",
+                        "action": "Transferir",
+                        "error_one": "Não pôde adicionar a transferência",
+                        "error_many": "Não pôde adicionar as transferências",
+                        "error_other": "Não pôde adicionar as transferências",
+                        "next": "$t(reader.button.next_chapter)",
+                        "next_five": "Próximos 5 capítulos",
+                        "next_ten": "Próximos 10 capítulos",
+                        "next_twentyfive": "Próximos 25 capítulos",
+                        "success_one": "Transferência adicionada",
+                        "success_many": "{{count}} transferências adicionadas",
+                        "success_other": "{{count}} transferências adicionadas",
+                        "unread": "$t(global.filter.label.unread)"
+                    },
+                    "button": {
+                        "selected": "Transferir selecionados"
+                    }
+                },
+                "delete": {
+                    "button": {
+                        "selected": "Apagar selecionados"
+                    },
+                    "label": {
+                        "action": "Apagar",
+                        "success_one": "Capítulo apagado",
+                        "success_many": "{{count}} capítulos apagados",
+                        "success_other": "{{count}} capítulos apagados",
+                        "error_one": "Não pôde apagar o capítulo",
+                        "error_many": "Não pôde apagar os capítulos",
+                        "error_other": "Não pôde apagar os capítulos"
+                    }
+                }
+            },
+            "label": {
+                "select": "Selecionar",
+                "open_on_source": "Abrir na fonte"
+            },
+            "mark_as_read": {
+                "add": {
+                    "label": {
+                        "action": {
+                            "current": "Marcar como lido",
+                            "previous": "Marcar anteriores como lidos"
+                        },
+                        "success_one": "Capítulo marcado como lido",
+                        "success_many": "{{count}} capítulos marcados como lidos",
+                        "success_other": "{{count}} capítulos marcados como lidos",
+                        "error_one": "Não pôde marcar o capítulo como lido",
+                        "error_many": "Não pôde marcar os capítulos como lidos",
+                        "error_other": "Não pôde marcar os capítulos como lidos"
+                    },
+                    "button": {
+                        "selected": "Marcar selecionados como lidos"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "Marcar selecionados como não lidos"
+                    },
+                    "label": {
+                        "action": "Marcar como não lido",
+                        "error_one": "Não pôde marcar o capítulo como não lido",
+                        "error_many": "Não pôde marcar os capítulos como não lidos",
+                        "error_other": "Não pôde marcar os capítulos como não lidos",
+                        "success_one": "Capítulo marcado como não lido",
+                        "success_many": "{{count}} capítulos marcados como não lidos",
+                        "success_other": "{{count}} capítulos marcados como não lidos"
+                    }
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "Nenhum capítulo encontrado",
+                "no_matches": "Nenhum capítulo correspondente ao filtro"
+            }
+        },
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "Número do capítulo",
+                    "source_title": "Título na fonte"
+                }
+            }
+        },
+        "title_one": "Capítulo",
+        "title_many": "Capítulos",
+        "title_other": "Capítulos",
+        "status": {
+            "label": {
+                "downloaded": "Transferido"
+            }
+        }
+    },
+    "download": {
+        "queue": {
+            "error": {
+                "label": {
+                    "failed_to_retry": "Não pôde repetir a transferência malsucedida.",
+                    "failed_to_remove": "Não pôde remover a transferências da fila.",
+                    "failed_delete_all": "Não pôde remover todas as transferências da fila"
+                }
+            },
+            "label": {
+                "no_downloads": "Nenhuma transferência",
+                "delete_all": "Apagar todos"
+            },
+            "title": "Fila de Transferências"
+        },
+        "settings": {
+            "auto_download": {
+                "download_limit": {
+                    "label": {
+                        "description": "Limitar a quantidade de novos capítulos que serão transferidos.",
+                        "title": "Limite de transferências de capítulos"
+                    }
+                },
+                "label": {
+                    "ignore_re_uploads": "Ignorar capítulos re-submetidos",
+                    "ignore_with_unread_chapters": "Ignorar transferência automática de capítulos para entradas com capítulos não lidos",
+                    "new_chapters": "Transferir novos capítulos"
+                },
+                "title": "Transferir automaticamente",
+                "categories": {
+                    "label": {
+                        "include_in_download": "Entradas nas categorias excluídas não serão transferidas mesmo que elas também estejam em categorias incluídas"
+                    }
+                }
+            },
+            "delete_chapters": {
+                "label": {
+                    "allow_deletion_of_bookmarked": "Permitir que capítulos marcados sejam apagados",
+                    "manually_marked_as_read": "Apagar capítulo depois de marcar manualmente como lido"
+                },
+                "while_reading": {
+                    "option": {
+                        "label": {
+                            "fifth": "Quinto capítulo antes do último lido",
+                            "first": "Último capítulo lido",
+                            "third": "Antepenúltimo capítulo lido",
+                            "second": "Penúltimo capítulo lido",
+                            "fourth": "Quarto capítulo antes do último lido"
+                        }
+                    },
+                    "label": {
+                        "title": "Apagar capítulos concluídos durante a leitura"
+                    }
+                },
+                "title": "Apagar capítulos"
+            },
+            "download_ahead": {
+                "label": {
+                    "description": "Quantos capítulos devem ser transferidos durante a leitura.",
+                    "unread_chapters_to_download": "Número de capítulos não lidos para transferir",
+                    "value": "{{chapters}} $t(chapter.title)",
+                    "while_reading": "Transferir automaticamente durante a leitura",
+                    "disclaimer": "Apenas funciona se o capítulo atual e o subsequente já foram transferidos."
+                },
+                "title": "Transferir preemptivamente"
+            },
+            "download_path": {
+                "label": {
+                    "title": "Diretório de transferência",
+                    "description": "O caminho para o diretório no servidor onde os arquivos transferidos devem ser salvos"
+                }
+            },
+            "title": "Configurações de transferência",
+            "file_type": {
+                "label": {
+                    "cbz": "Salvar como arquivo CBZ"
+                }
+            }
+        },
+        "state": {
+            "label": {
+                "error": "Erro",
+                "queued": "Adicionado à fila",
+                "finished": "$t(global.label.finished)",
+                "downloading": "Transferindo"
+            }
+        },
+        "title": "Transferências"
+    },
+    "extension": {
+        "action": {
+            "label": {
+                "install_external": "Instalar extensão externa",
+                "uninstall": "Desinstalar",
+                "update_all": "Atualizar todos",
+                "update": "Atualizar",
+                "install": "Instalar"
+            }
+        },
+        "label": {
+            "installation_failed_one": "Não pôde instalar a extensão",
+            "installation_failed_many": "Não pôde instalar as extensões",
+            "installation_failed_other": "Não pôde instalar as extensões",
+            "installed_successfully_one": "Extensão instalada",
+            "installed_successfully_many": "Extensões instaladas",
+            "installed_successfully_other": "Extensões instaladas",
+            "installing_file": "Instalando arquivo de extensão…",
+            "update_failed_one": "Não pôde atualizar a extensão",
+            "update_failed_many": "Não pôde atualizar as extensões",
+            "update_failed_other": "Não pôde atualizar as extensões",
+            "uninstallation_failed_one": "Não pôde desinstalar a extensão",
+            "uninstallation_failed_many": "Não pôde desinstalar as extensões",
+            "uninstallation_failed_other": "Não pôde desinstalar as extensões",
+            "add_repository_info": "Você precisa adicionar um repositório de extensões para poder instalar extensões"
+        },
+        "language": {
+            "other": "Outros",
+            "all": "Todos"
+        },
+        "settings": {
+            "repositories": {
+                "custom": {
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "Adicionar repositório"
+                            }
+                        }
+                    },
+                    "error": {
+                        "label": {
+                            "invalid_url": "Url de repositório inválida"
+                        }
+                    },
+                    "label": {
+                        "description": "Adicionar repositórios de onde extensões podem ser instaladas",
+                        "disclaimer": "<strong>Suwayomi não provê nenhuma assistência para repositóries ou extensões de terceiros!</strong><br/>Use com cuidado pois podem existir agentes mal-intencionados criando esses repositórios.<br/>Você como usuário precisa verificar a segurança destes repositórios e extensões, e certificar sua confiabilidade.",
+                        "title": "Repositórios de extensões"
+                    }
+                }
+            }
+        },
+        "state": {
+            "label": {
+                "installed": "Instalado",
+                "obsolete": "Obsoleto",
+                "installing": "Instalando",
+                "uninstalling": "Deinstalando",
+                "update_pending": "Atualização pendente",
+                "updating": "Atualizando"
+            }
+        },
+        "title_one": "Extensão",
+        "title_many": "Extensões",
+        "title_other": "Extensões"
+    },
+    "global": {
+        "button": {
+            "delete": "Apagar",
+            "deselect": "Deselecionar",
+            "edit": "Editar",
+            "reset_to_default": "Redefinir para o Padrão",
+            "restore": "Restaurar",
+            "resume": "Continuar",
+            "retry": "Repetir",
+            "save": "Salvar",
+            "select": "Selecionar",
+            "select_all": "Selecionar todos",
+            "set": "Definir",
+            "show_less": "Mostrar menos",
+            "show_more": "Mostrar mais",
+            "stop": "Parar",
+            "refresh": "Atualizar",
+            "latest": "Mais recentes",
+            "popular": "Populares",
+            "create": "Criar",
+            "open_site": "Abrir Site",
+            "remove": "Remover",
+            "filter": "Filtro",
+            "changelog": "Mudança",
+            "add": "Adicionar",
+            "copy": "Copiar",
+            "browse": "Navegar",
+            "cancel": "Cancelar",
+            "submit": "Submeter",
+            "clear": "Limpar",
+            "dont_show_dialog_again": "Não mostre esta caixa de diálogo novamente",
+            "ignore": "Ignorar",
+            "log_in": "Entrar",
+            "log_out": "Sair",
+            "migrate": "Migrar",
+            "open": "Abrir",
+            "options": "Opções",
+            "remind_later": "Lembrar depois",
+            "start": "Começar",
+            "ok": "Ok",
+            "reset": "Redefinir"
+        },
+        "colors": {
+            "black": "Preto",
+            "gray": "Cinza",
+            "white": "Branco"
+        },
+        "date": {
+            "label": {
+                "day_one": "Dia",
+                "day_many": "Dias",
+                "day_other": "Dias",
+                "today": "Hoje",
+                "today_at": "Hoje às {{timeString}}",
+                "yesterday": "Ontem",
+                "yesterday_at": "Ontem às {{timeString}}"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "failed_to_load_data": "Incapaz de carregar dados",
+                "failed_to_save_changes": "Falhou ao salvar mudanças",
+                "update_failed": "Não foi possível verificar as atualizações",
+                "invalid_file_type": "Tipo de arquivo inválido",
+                "invalid_action": "Esta não é uma ação válida",
+                "invalid_input": "Entrada inválida"
+            }
+        },
+        "filter": {
+            "label": {
+                "duplicate_chapters": "Capítulos duplicados",
+                "started": "Iniciado",
+                "tracked": "Rastreado",
+                "unread": "Não lido",
+                "downloaded": "Transferido",
+                "bookmarked": "Marcado"
+            }
+        },
+        "grid_layout": {
+            "label": {
+                "comfortable_grid": "Grade confortável",
+                "list": "Lista",
+                "compact_grid": "Grade compacta"
+            },
+            "title": "Modo de exibição"
+        },
+        "label": {
+            "are_you_sure": "Você tem certeza?",
+            "both": "Ambos",
+            "advanced": "Avançado",
+            "asterisk": "*"
+        }
+    },
+    "reader": {
+        "button": {
+            "next_chapter": "Próximo capítulo"
+        }
+    }
+}

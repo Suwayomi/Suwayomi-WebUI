@@ -234,6 +234,14 @@
         },
         "title": {
             "set_categories": "카테고리 설정"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "제외: {{excludedCategoriesText}}",
+                    "include": "포함: {{includedCategoriesText}}"
+                }
+            }
         }
     }
 }
