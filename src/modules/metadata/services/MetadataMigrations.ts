@@ -7,12 +7,8 @@
  */
 
 import { APP_METADATA_KEY_PREFIX, METADATA_MIGRATIONS } from '@/modules/metadata/Metadata.constants.ts';
-import {
-    doesMetadataKeyExistIn,
-    getAppMetadataFrom,
-    getMetadataKey,
-} from '@/modules/metadata/services/MetadataReader.ts';
 import { IMetadataMigration, Metadata } from '@/modules/metadata/Metadata.types.ts';
+import { doesMetadataKeyExistIn, getMetadataKey } from '@/modules/metadata/services/MetadataReader.ts';
 
 export const getAppKeyPrefixForMigration = (migrationId: number): string => {
     const appKeyPrefix = METADATA_MIGRATIONS.slice(0, migrationId)
@@ -20,6 +16,22 @@ export const getAppKeyPrefixForMigration = (migrationId: number): string => {
         .find((migration) => !!migration.appKeyPrefix);
 
     return appKeyPrefix?.appKeyPrefix?.newPrefix ?? APP_METADATA_KEY_PREFIX;
+};
+
+const getAppMetadataFrom = (
+    meta: Metadata,
+    prefixes: string[] = [],
+    appPrefix: string = APP_METADATA_KEY_PREFIX,
+): Metadata => {
+    const appMetadata: Metadata = {};
+
+    Object.entries(meta).forEach(([key, value]) => {
+        if (key.startsWith([appPrefix, ...prefixes].join('_'))) {
+            appMetadata[key] = value;
+        }
+    });
+
+    return appMetadata;
 };
 
 export const applyAppKeyPrefixMigration = (meta: Metadata, migration: IMetadataMigration): Metadata => {

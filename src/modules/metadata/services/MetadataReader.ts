@@ -276,19 +276,3 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
 
     return appMetadata;
 }
-
-export const getAppMetadataFrom = (
-    meta: Metadata,
-    prefixes: string[] = [],
-    appPrefix: string = APP_METADATA_KEY_PREFIX,
-): Metadata => {
-    const appMetadata: Metadata = {};
-
-    Object.entries(meta).forEach(([key, value]) => {
-        if (key.startsWith([appPrefix, ...prefixes].join('_'))) {
-            appMetadata[key] = value;
-        }
-    });
-
-    return appMetadata;
-};
