@@ -81,6 +81,9 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
 
 export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
+    // metadata applied migration id
+    'migration',
+
     // downloads
     'deleteChaptersManuallyMarkedRead',
     'deleteChaptersWhileReading',
