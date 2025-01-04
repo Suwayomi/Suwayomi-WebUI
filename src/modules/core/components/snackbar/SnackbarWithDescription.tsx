@@ -43,7 +43,7 @@ export const SnackbarWithDescription = memo(
         ) => {
             const { t } = useTranslation();
 
-            const severity = variant === 'default' ? undefined : variant;
+            const severity = variant === 'default' ? 'info' : variant;
             const finalAction = typeof action === 'function' ? action(id) : action;
 
             const isDescriptionTooLong = (description?.length ?? 0) > MAX_DESCRIPTION_LENGTH;
