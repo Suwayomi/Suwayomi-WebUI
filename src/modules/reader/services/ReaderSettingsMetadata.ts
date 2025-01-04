@@ -15,7 +15,7 @@ import {
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
-import { extractOriginalKey, getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
+import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
 import {
     AllowedMetadataValueTypes,
     AppMetadataKeys,
@@ -33,6 +33,7 @@ import {
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { DEFAULT_DEVICE, getActiveDevice } from '@/modules/device/services/Device.ts';
 import { APP_METADATA_KEY_PREFIX } from '@/modules/metadata/Metadata.constants.ts';
+import { extractOriginalKey } from '@/modules/metadata/Metadata.utils.ts';
 
 export const convertFromReaderSettingsWithDefaultFlag = (settings: IReaderSettingsWithDefaultFlag): IReaderSettings =>
     Object.fromEntries(

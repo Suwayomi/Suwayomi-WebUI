@@ -8,7 +8,7 @@
 
 import { APP_METADATA_KEY_PREFIX, METADATA_MIGRATIONS } from '@/modules/metadata/Metadata.constants.ts';
 import { IMetadataMigration, Metadata } from '@/modules/metadata/Metadata.types.ts';
-import { doesMetadataKeyExistIn, getMetadataKey } from '@/modules/metadata/services/MetadataReader.ts';
+import { doesMetadataKeyExistIn, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 
 export const getAppKeyPrefixForMigration = (migrationId: number): string => {
     const appKeyPrefix = METADATA_MIGRATIONS.slice(0, migrationId)

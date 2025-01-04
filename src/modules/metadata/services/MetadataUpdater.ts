@@ -10,7 +10,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
-import { getMetadataKey } from '@/modules/metadata/services/MetadataReader.ts';
 import {
     AllowedMetadataValueTypes,
     AppMetadataKeys,
@@ -19,6 +18,7 @@ import {
     MetadataKeyValuePair,
 } from '@/modules/metadata/Metadata.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 
 export const requestUpdateMetadataValue = async (
     metadataHolder: GqlMetaHolder,

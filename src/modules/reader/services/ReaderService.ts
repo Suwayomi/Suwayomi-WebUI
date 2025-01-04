@@ -27,7 +27,6 @@ import {
     updateReaderSettings,
 } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
-import { getMetadataKey } from '@/modules/metadata/services/MetadataReader.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -51,6 +50,7 @@ import { Queue } from '@/lib/Queue.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
+import { getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
