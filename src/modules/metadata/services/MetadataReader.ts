@@ -81,11 +81,9 @@ export const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends 
     key: Key,
     defaultValue?: Value,
     prefixes?: string[],
-    applyMigrations?: boolean,
 ): Value | undefined => {
     const requiresMigration = Number(meta?.migration) !== METADATA_MIGRATIONS.length;
-    const doMigration = requiresMigration && applyMigrations;
-    const metadata = doMigration ? applyMetadataMigrations(meta) : meta;
+    const metadata = requiresMigration ? applyMetadataMigrations(meta) : meta;
 
     if (
         metadata === undefined ||
@@ -196,7 +194,6 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     metadataHolder: MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
-    applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
 export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
@@ -204,7 +201,6 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     metadataHolder: MangaIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
-    applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
 export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
@@ -212,7 +208,6 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     metadataHolder: ChapterIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
-    applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
 export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
@@ -220,7 +215,6 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     metadataHolder: CategoryIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
-    applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
 export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
@@ -228,7 +222,6 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     metadataHolder: Pick<SourceType, 'id'> & MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
-    applyMigrations?: boolean,
     useEffectFn?: typeof useEffect,
 ): METADATA;
 export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
@@ -241,13 +234,11 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
         | (Pick<SourceType, 'id'> & MetadataHolder),
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
-    applyMigrations: boolean = true,
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),
 ): METADATA {
     const wasMigrated =
         !!metadataHolder?.meta &&
-        applyMigrations &&
-        Number(getMetadataValueFrom(metadataHolder, 'migration', 0, undefined, true)) !== METADATA_MIGRATIONS.length;
+        Number(getMetadataValueFrom(metadataHolder, 'migration', 0)) !== METADATA_MIGRATIONS.length;
     const appMetadata = {} as METADATA;
 
     Object.entries(metadataWithDefaultValues).forEach(([key, defaultValue]) => {
@@ -256,7 +247,6 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
             key as AppMetadataKeys,
             defaultValue,
             prefixes,
-            applyMigrations,
         );
     });
 

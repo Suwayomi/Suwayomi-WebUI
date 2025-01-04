@@ -49,7 +49,6 @@ const getMetadata = (
             { ...metaHolder, meta: convertFromGqlMeta(metaHolder.meta) },
             convertAppMetadataToGqlMetadata(DEFAULT_SOURCE_METADATA),
             undefined,
-            true,
             useEffectFn,
         ),
     );

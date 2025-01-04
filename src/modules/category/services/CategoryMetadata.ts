@@ -65,14 +65,7 @@ const getCategoryMetadataWithDefaultValueFallback = (
     useEffectFn?: typeof useEffect,
 ): ICategoryMetadata =>
     convertGqlMetadataToAppMetadata(
-        getMetadataFrom(
-            'category',
-            meta,
-            convertAppMetadataToGqlMetadata(defaultMetadata),
-            undefined,
-            true,
-            useEffectFn,
-        ),
+        getMetadataFrom('category', meta, convertAppMetadataToGqlMetadata(defaultMetadata), undefined, useEffectFn),
     );
 
 const getMetadata = (

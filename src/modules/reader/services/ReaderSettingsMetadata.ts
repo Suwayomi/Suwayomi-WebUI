@@ -136,7 +136,6 @@ export const getReaderSettings = (
             metadataHolder as Parameters<typeof getMetadataFrom>[1],
             convertSettingsToMetadata(defaultSettings),
             profile !== undefined ? [profile.toString()] : undefined,
-            true,
             useEffectFn,
         ),
         defaultSettings as IReaderSettings,
