@@ -55,6 +55,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     progressBarType: undefined,
     progressBarSize: undefined,
     progressBarPosition: undefined,
+    progressBarPositionAutoVertical: undefined,
     readingMode: undefined,
     pageScaleMode: undefined,
     shouldOffsetDoubleSpreads: undefined,
