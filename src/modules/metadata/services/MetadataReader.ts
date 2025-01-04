@@ -8,7 +8,6 @@
 
 import { useEffect } from 'react';
 import { METADATA_MIGRATIONS, VALID_APP_METADATA_KEYS } from '@/modules/metadata/Metadata.constants.ts';
-import { applyMetadataMigrations } from '@/modules/metadata/services/MetadataMigrations.ts';
 import { convertToGqlMeta, convertValueFromMetadata } from '@/modules/metadata/services/MetadataConverter.ts';
 import {
     AllowedMetadataValueTypes,
@@ -36,16 +35,14 @@ import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { doesMetadataKeyExistIn, extractOriginalKey, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
+import { applyMetadataMigrations } from '@/modules/metadata/services/MetadataMigrations.ts';
 
 const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(
-    { meta }: MetadataHolder,
+    metadata: Metadata | undefined,
     key: Key,
     defaultValue?: Value,
     prefixes?: string[],
 ): Value | undefined => {
-    const requiresMigration = Number(meta?.migration) !== METADATA_MIGRATIONS.length;
-    const metadata = requiresMigration ? applyMetadataMigrations(meta) : meta;
-
     if (
         metadata === undefined ||
         !doesMetadataKeyExistIn(metadata, key, prefixes) ||
@@ -199,12 +196,14 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
 ): METADATA {
     const wasMigrated =
         !!metadataHolder?.meta &&
-        Number(getMetadataValueFrom(metadataHolder, 'migration', 0)) !== METADATA_MIGRATIONS.length;
+        Number(getMetadataValueFrom(metadataHolder.meta, 'migration', 0)) !== METADATA_MIGRATIONS.length;
+
+    const migratedMetadata = applyMetadataMigrations(metadataHolder.meta);
     const appMetadata = {} as METADATA;
 
     Object.entries(metadataWithDefaultValues).forEach(([key, defaultValue]) => {
         appMetadata[key as AppMetadataKeys] = getMetadataValueFrom(
-            metadataHolder,
+            migratedMetadata,
             key as AppMetadataKeys,
             defaultValue,
             prefixes,
