@@ -305,4 +305,14 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
             },
         ],
     },
+    {
+        values: [
+            {
+                key: 'readerType',
+                oldValue: 'Webtoon',
+                newValue: `${ReadingMode.WEBTOON}`,
+            },
+        ],
+        deleteKeys: ['pageScaleMode', 'shouldStretchPage', 'readerWidth'],
+    },
 ];
