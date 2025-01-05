@@ -132,6 +132,32 @@ const applyMetadataKeyMigration = (meta: Metadata, migration: IMetadataMigration
     return migratedMetadata;
 };
 
+const applyMetadataDeleteKeysMigration = (
+    meta: Metadata,
+    migration: IMetadataMigration,
+    appKeyPrefix: string,
+): Metadata => {
+    const migratedMetadata: Metadata = {};
+
+    if (!migration.deleteKeys) {
+        return migratedMetadata;
+    }
+
+    const appMetadata = getAppMetadataFrom(meta, undefined, appKeyPrefix);
+
+    migration.deleteKeys.forEach((keyToDelete) => {
+        Object.keys(appMetadata).forEach((key) => {
+            if (key.endsWith(keyToDelete)) {
+                return;
+            }
+
+            migratedMetadata[key] = appMetadata[key];
+        });
+    });
+
+    return migratedMetadata;
+};
+
 const getOutdatedMetadataKeys = (metadata?: Metadata): AppMetadataKeys[] => {
     if (!metadata) {
         return [];
@@ -146,6 +172,11 @@ const getOutdatedMetadataKeys = (metadata?: Metadata): AppMetadataKeys[] => {
         return [...acc, oldPrefix];
     }, [] as string[]);
 
+    const keyToDeleteInMigrations = METADATA_MIGRATIONS.reduce(
+        (acc, migration) => [...acc, ...(migration.deleteKeys ?? [])],
+        [] as string[],
+    );
+
     return Object.keys(metadata).filter((key) => {
         const appKeyPrefixOfKey = key.split('_')[0];
 
@@ -159,7 +190,13 @@ const getOutdatedMetadataKeys = (metadata?: Metadata): AppMetadataKeys[] => {
             return true;
         }
 
-        return !VALID_APP_METADATA_KEYS.includes(extractOriginalKey(key));
+        const extractedKey = extractOriginalKey(key);
+
+        if (keyToDeleteInMigrations.includes(extractedKey)) {
+            return true;
+        }
+
+        return !VALID_APP_METADATA_KEYS.includes(extractedKey);
     }) as AppMetadataKeys[];
 };
 
@@ -297,8 +334,13 @@ export const applyMetadataMigrations = (
             migration,
             appKeyPrefixForMigration,
         );
+        const metadataKeysDeletedMigrated = applyMetadataDeleteKeysMigration(
+            metadataKeysMigrated,
+            migration,
+            appKeyPrefixForMigration,
+        );
 
-        migrationToMetadata.push([migrationId, metadataKeysMigrated]);
+        migrationToMetadata.push([migrationId, metadataKeysDeletedMigrated]);
     });
 
     const migratedMetadata = migrationToMetadata.pop()?.[1] ?? meta;

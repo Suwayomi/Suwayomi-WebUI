@@ -160,6 +160,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
  * 1. app metadata key prefix
  * 2. app metadata values
  * 3. app metadata keys
+ * 4. app metadata keys deletion
  *
  * @example
  * // changes:

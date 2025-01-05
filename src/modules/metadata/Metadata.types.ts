@@ -24,6 +24,7 @@ export interface IMetadataMigration {
         newValue: string | ((oldValue: string) => string);
     }[];
     keys?: { oldKey: string; newKey: string }[];
+    deleteKeys?: string[];
 }
 
 export type Metadata<Keys extends string = string, Values = string> = {
