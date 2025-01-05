@@ -7,34 +7,20 @@
  */
 
 import { useEffect } from 'react';
-import { METADATA_MIGRATIONS, VALID_APP_METADATA_KEYS } from '@/modules/metadata/Metadata.constants.ts';
-import { convertToGqlMeta, convertValueFromMetadata } from '@/modules/metadata/services/MetadataConverter.ts';
+import { convertValueFromMetadata } from '@/modules/metadata/services/MetadataConverter.ts';
 import {
     AllowedMetadataValueTypes,
     AppMetadataKeys,
     Metadata,
     MetadataHolder,
     MetadataHolderType,
-    MetadataKeyValuePair,
 } from '@/modules/metadata/Metadata.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
-import {
-    requestDeleteCategoryMetadata,
-    requestDeleteChapterMetadata,
-    requestDeleteMangaMetadata,
-    requestDeleteServerMetadata,
-    requestDeleteSourceMetadata,
-    requestUpdateCategoryMetadata,
-    requestUpdateChapterMetadata,
-    requestUpdateMangaMetadata,
-    requestUpdateServerMetadata,
-    requestUpdateSourceMetadata,
-} from '@/modules/metadata/services/MetadataUpdater.ts';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
-import { doesMetadataKeyExistIn, extractOriginalKey, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
+import { doesMetadataKeyExistIn, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 import { applyMetadataMigrations } from '@/modules/metadata/services/MetadataMigrations.ts';
 
 const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(
@@ -53,99 +39,6 @@ const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends Allowed
 
     return convertValueFromMetadata(metadata[getMetadataKey(key, prefixes)]);
 };
-
-const getMetadataUpdateFunction = (
-    type: MetadataHolderType,
-    metadataHolder:
-        | MetadataHolder
-        | (MangaIdInfo & MetadataHolder)
-        | (ChapterIdInfo & MetadataHolder)
-        | (CategoryIdInfo & MetadataHolder)
-        | (Pick<SourceType, 'id'> & MetadataHolder),
-): ((appliedMigration: [MetadataKeyValuePair]) => Promise<void[]>) => {
-    switch (type) {
-        case 'global':
-            return (appliedMigration) => requestUpdateServerMetadata(appliedMigration);
-        case 'manga':
-            return (appliedMigration) =>
-                requestUpdateMangaMetadata(
-                    { id: (metadataHolder as MangaIdInfo).id, meta: convertToGqlMeta(metadataHolder.meta) },
-                    appliedMigration,
-                );
-        case 'chapter':
-            return (appliedMigration) =>
-                requestUpdateChapterMetadata(
-                    { id: (metadataHolder as ChapterIdInfo).id, meta: convertToGqlMeta(metadataHolder.meta) },
-                    appliedMigration,
-                );
-        case 'category':
-            return (appliedMigration) =>
-                requestUpdateCategoryMetadata(
-                    { id: (metadataHolder as CategoryIdInfo).id, meta: convertToGqlMeta(metadataHolder.meta) },
-                    appliedMigration,
-                );
-        case 'source':
-            return (appliedMigration) =>
-                requestUpdateSourceMetadata(
-                    {
-                        id: (metadataHolder as Pick<SourceType, 'id'>).id,
-                        meta: convertToGqlMeta(metadataHolder.meta),
-                    },
-                    appliedMigration,
-                );
-        default:
-            throw new Error(`Unexpected "type" (${type})`);
-    }
-};
-
-const getMetadataDeleteFunction = (
-    type: MetadataHolderType,
-    metadataHolder:
-        | MetadataHolder
-        | (MangaIdInfo & MetadataHolder)
-        | (ChapterIdInfo & MetadataHolder)
-        | (CategoryIdInfo & MetadataHolder)
-        | (Pick<SourceType, 'id'> & MetadataHolder),
-): ((metadataToDelete: AppMetadataKeys[]) => Promise<void[]>) => {
-    switch (type) {
-        case 'global':
-            return (appliedMigration) => requestDeleteServerMetadata(appliedMigration);
-        case 'manga':
-            return (appliedMigration) =>
-                requestDeleteMangaMetadata(
-                    { id: (metadataHolder as MangaIdInfo).id, meta: convertToGqlMeta(metadataHolder.meta) },
-                    appliedMigration,
-                );
-        case 'chapter':
-            return (appliedMigration) =>
-                requestDeleteChapterMetadata(
-                    { id: (metadataHolder as ChapterIdInfo).id, meta: convertToGqlMeta(metadataHolder.meta) },
-                    appliedMigration,
-                );
-        case 'category':
-            return (appliedMigration) =>
-                requestDeleteCategoryMetadata(
-                    { id: (metadataHolder as CategoryIdInfo).id, meta: convertToGqlMeta(metadataHolder.meta) },
-                    appliedMigration,
-                );
-        case 'source':
-            return (appliedMigration) =>
-                requestDeleteSourceMetadata(
-                    {
-                        id: (metadataHolder as Pick<SourceType, 'id'>).id,
-                        meta: convertToGqlMeta(metadataHolder.meta),
-                    },
-                    appliedMigration,
-                );
-        default:
-            throw new Error(`Unexpected "type" (${type})`);
-    }
-};
-
-/**
- * Prevent spamming requests due to frequent metadata reads while the migration hasn't been commited to the server yet
- */
-const commitedMigrations = new Set<string>();
 
 export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
     type: 'global',
@@ -194,11 +87,7 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
     prefixes?: string[],
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),
 ): METADATA {
-    const wasMigrated =
-        !!metadataHolder?.meta &&
-        Number(getMetadataValueFrom(metadataHolder.meta, 'migration', 0)) !== METADATA_MIGRATIONS.length;
-
-    const migratedMetadata = applyMetadataMigrations(metadataHolder.meta);
+    const migratedMetadata = applyMetadataMigrations(type, metadataHolder, useEffectFn);
     const appMetadata = {} as METADATA;
 
     Object.entries(metadataWithDefaultValues).forEach(([key, defaultValue]) => {
@@ -208,30 +97,6 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
             defaultValue,
             prefixes,
         );
-    });
-
-    useEffectFn(() => {
-        const itemMigrationKey = `${type}_${type === 'global' ? '' : (metadataHolder as { id: any }).id}`;
-        const commitMigration = !commitedMigrations.has(itemMigrationKey);
-        if (wasMigrated && commitMigration) {
-            const metadataToDelete = Object.keys(metadataHolder.meta ?? {})
-                .map(extractOriginalKey)
-                .filter((key) => !VALID_APP_METADATA_KEYS.includes(key)) as AppMetadataKeys[];
-
-            commitedMigrations.add(itemMigrationKey);
-
-            getMetadataDeleteFunction(
-                type,
-                metadataHolder,
-            )(metadataToDelete)
-                .then(() =>
-                    getMetadataUpdateFunction(type, metadataHolder)([['migration', METADATA_MIGRATIONS.length]]),
-                )
-                .catch((error) => {
-                    defaultPromiseErrorHandler(`MetadataReader#getMetadataFromServer`)(error);
-                    commitedMigrations.delete(itemMigrationKey);
-                });
-        }
     });
 
     return appMetadata;
