@@ -20,7 +20,7 @@ import {
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 
-export const requestUpdateMetadataValue = async (
+const requestUpdateMetadataValue = async (
     metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
     key: AppMetadataKeys,
@@ -51,7 +51,7 @@ export const requestUpdateMetadataValue = async (
     }
 };
 
-export const requestUpdateMetadata = async (
+const requestUpdateMetadata = async (
     metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
     keysToValues: MetadataKeyValuePair[],
@@ -121,7 +121,7 @@ export const requestDeleteMetadataValue = async (
     }
 };
 
-export async function requestDeleteMetadata(
+async function requestDeleteMetadata(
     metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
     keys: AppMetadataKeys[],

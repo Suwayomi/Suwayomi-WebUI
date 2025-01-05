@@ -37,7 +37,7 @@ import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { doesMetadataKeyExistIn, extractOriginalKey, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 
-export const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(
+const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(
     { meta }: MetadataHolder,
     key: Key,
     defaultValue?: Value,

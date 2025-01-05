@@ -10,7 +10,7 @@ import { APP_METADATA_KEY_PREFIX, METADATA_MIGRATIONS } from '@/modules/metadata
 import { IMetadataMigration, Metadata } from '@/modules/metadata/Metadata.types.ts';
 import { doesMetadataKeyExistIn, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 
-export const getAppKeyPrefixForMigration = (migrationId: number): string => {
+const getAppKeyPrefixForMigration = (migrationId: number): string => {
     const appKeyPrefix = METADATA_MIGRATIONS.slice(0, migrationId)
         .reverse()
         .find((migration) => !!migration.appKeyPrefix);
@@ -34,7 +34,7 @@ const getAppMetadataFrom = (
     return appMetadata;
 };
 
-export const applyAppKeyPrefixMigration = (meta: Metadata, migration: IMetadataMigration): Metadata => {
+const applyAppKeyPrefixMigration = (meta: Metadata, migration: IMetadataMigration): Metadata => {
     const migratedMetadata: Metadata = { ...meta };
 
     if (!migration.appKeyPrefix) {
