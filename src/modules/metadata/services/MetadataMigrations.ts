@@ -95,18 +95,11 @@ const applyMetadataValueMigration = (meta: Metadata, migration: IMetadataMigrati
         };
 
         const migrateValueOfAllAppKeys = key === undefined;
-        if (migrateValueOfAllAppKeys) {
-            Object.keys(appMetadata).forEach((metaKey) => {
+        Object.keys(appMetadata).forEach((metaKey) => {
+            if (migrateValueOfAllAppKeys || metaKey.endsWith(key)) {
                 migrateValue(metaKey);
-            });
-            return;
-        }
-
-        if (!doesMetadataKeyExistIn(meta, key, undefined, appKeyPrefix)) {
-            return;
-        }
-
-        migrateValue(getMetadataKey(key, undefined, appKeyPrefix));
+            }
+        });
     });
 
     return migratedMetadata;
