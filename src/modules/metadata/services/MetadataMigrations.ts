@@ -123,7 +123,10 @@ export const applyMetadataMigrations = (meta?: Metadata): Metadata | undefined =
         return undefined;
     }
 
-    const appliedMigrationId = Number.isNaN(Number(meta.migration)) ? 0 : Math.max(0, Number(meta.migration) - 1);
+    const migrationIdKey = getMetadataKey('migration');
+    const appliedMigrationId = Number.isNaN(Number(meta[migrationIdKey]))
+        ? 0
+        : Math.max(0, Number(meta[migrationIdKey]) - 1);
     const migrationToMetadata: [number, Metadata][] = [[appliedMigrationId, meta]];
 
     METADATA_MIGRATIONS.forEach((migration, index) => {
