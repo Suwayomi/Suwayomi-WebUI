@@ -20,7 +20,7 @@ import {
     MetadataHolderType,
     MetadataKeyValuePair,
 } from '@/modules/metadata/Metadata.types.ts';
-import { doesMetadataKeyExistIn, extractOriginalKey, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
+import { extractOriginalKey, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
@@ -105,25 +105,28 @@ const applyMetadataValueMigration = (meta: Metadata, migration: IMetadataMigrati
     return migratedMetadata;
 };
 
-const applyMetadataKeyMigration = (meta: Metadata, migration: IMetadataMigration): Metadata => {
+const applyMetadataKeyMigration = (meta: Metadata, migration: IMetadataMigration, appKeyPrefix: string): Metadata => {
     const migratedMetadata: Metadata = { ...meta };
 
     if (!migration.keys) {
         return migratedMetadata;
     }
 
-    const metadataKeyChanges = migration.keys;
+    const appMetadata = getAppMetadataFrom(meta, undefined, appKeyPrefix);
 
-    metadataKeyChanges.forEach(({ oldKey, newKey }) => {
-        if (!doesMetadataKeyExistIn(meta, oldKey)) {
-            return;
-        }
+    migration.keys.forEach(({ oldKey, newKey }) => {
+        Object.keys(appMetadata).forEach((key) => {
+            if (!key.endsWith(oldKey)) {
+                return;
+            }
 
-        if (doesMetadataKeyExistIn(meta, newKey)) {
-            return;
-        }
+            const prefixes = key.split('_');
+            const prefix = prefixes.slice(0, prefixes.length - 1).join('_');
 
-        migratedMetadata[getMetadataKey(newKey)] = meta[getMetadataKey(oldKey)];
+            const newKeyWithOldKeysPrefix = `${prefix}_${newKey}`;
+
+            migratedMetadata[newKeyWithOldKeysPrefix] = appMetadata[key];
+        });
     });
 
     return migratedMetadata;
@@ -282,13 +285,18 @@ export const applyMetadataMigrations = (
             return;
         }
 
+        const appKeyPrefixForMigration = getAppKeyPrefixForMigration(migrationId);
         const appKeyPrefixMigrated = applyAppKeyPrefixMigration(metadataToMigrate, migration);
         const metadataValuesMigrated = applyMetadataValueMigration(
             appKeyPrefixMigrated,
             migration,
-            getAppKeyPrefixForMigration(migrationId),
+            appKeyPrefixForMigration,
         );
-        const metadataKeysMigrated = applyMetadataKeyMigration(metadataValuesMigrated, migration);
+        const metadataKeysMigrated = applyMetadataKeyMigration(
+            metadataValuesMigrated,
+            migration,
+            appKeyPrefixForMigration,
+        );
 
         migrationToMetadata.push([migrationId, metadataKeysMigrated]);
     });
