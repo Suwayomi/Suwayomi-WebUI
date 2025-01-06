@@ -268,7 +268,7 @@ const commitMigratedMetadata = (
                 !metadata || Number(metadata[getMetadataKey('migration')]) === METADATA_MIGRATIONS.length;
 
             const isCommitRequired =
-                !isMetadataAlreadyMigrated || !!metadataKeysToDelete.length || !!metadataToUpdate.length;
+                !isMetadataAlreadyMigrated && (!!metadataKeysToDelete.length || !!metadataToUpdate.length);
             if (!isCommitRequired) {
                 return;
             }
