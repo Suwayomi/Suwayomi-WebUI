@@ -253,7 +253,7 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
             {
                 key: 'readerType',
                 oldValue: 'Webtoon',
-                newValue: `${ReadingMode.CONTINUOUS_VERTICAL}`,
+                newValue: `${ReadingMode.WEBTOON}`,
             },
             {
                 key: 'readerType',
@@ -306,13 +306,6 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
         ],
     },
     {
-        values: [
-            {
-                key: 'readerType',
-                oldValue: 'Webtoon',
-                newValue: `${ReadingMode.WEBTOON}`,
-            },
-        ],
         deleteKeys: ['pageScaleMode', 'shouldStretchPage', 'readerWidth'],
     },
 ];
