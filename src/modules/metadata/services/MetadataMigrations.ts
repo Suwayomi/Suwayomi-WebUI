@@ -308,7 +308,7 @@ export const applyMetadataMigrations = (
     const migrationIdKey = getMetadataKey('migration');
     const appliedMigrationId = Number.isNaN(Number(meta[migrationIdKey]))
         ? 0
-        : Math.max(0, Number(meta[migrationIdKey]) - 1);
+        : Math.max(0, Number(meta[migrationIdKey]));
 
     const migrationToMetadata: [number, Metadata][] = [[0, meta]];
 
