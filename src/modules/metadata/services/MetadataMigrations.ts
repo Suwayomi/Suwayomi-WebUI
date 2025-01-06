@@ -139,14 +139,12 @@ const applyMetadataDeleteKeysMigration = (
 
     const appMetadata = getAppMetadataFrom(meta, undefined, appKeyPrefix);
 
-    migration.deleteKeys.forEach((keyToDelete) => {
-        Object.keys(appMetadata).forEach((key) => {
-            if (key.endsWith(keyToDelete)) {
-                return;
-            }
+    Object.keys(appMetadata).forEach((key) => {
+        if (migration.deleteKeys?.includes(extractOriginalKey(key))) {
+            return;
+        }
 
-            migratedMetadata[key] = appMetadata[key];
-        });
+        migratedMetadata[key] = appMetadata[key];
     });
 
     return migratedMetadata;
