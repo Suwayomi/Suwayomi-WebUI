@@ -62,17 +62,11 @@ const applyAppKeyPrefixMigration = (meta: Metadata, migration: IMetadataMigratio
     const { oldPrefix, newPrefix } = migration.appKeyPrefix;
 
     const oldAppMetadata = getAppMetadataFrom(meta, undefined, oldPrefix);
-    const newAppMetadata = getAppMetadataFrom(meta, undefined, newPrefix);
 
-    const missingMetadataKeys = Object.keys(oldAppMetadata).filter((key) => !Object.keys(newAppMetadata).includes(key));
-
-    const isMissingOldMetadata = missingMetadataKeys.length;
-    if (isMissingOldMetadata) {
-        missingMetadataKeys.forEach((oldKey) => {
-            const keyWithNewPrefix = oldKey.replace(oldPrefix, newPrefix);
-            migratedMetadata[keyWithNewPrefix] = oldAppMetadata[oldKey];
-        });
-    }
+    Object.keys(oldAppMetadata).forEach((oldKey) => {
+        const keyWithNewPrefix = oldKey.replace(oldPrefix, newPrefix);
+        migratedMetadata[keyWithNewPrefix] = oldAppMetadata[oldKey];
+    });
 
     return migratedMetadata;
 };
