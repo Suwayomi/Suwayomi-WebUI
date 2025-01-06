@@ -140,7 +140,7 @@ const applyMetadataDeleteKeysMigration = (
     const migratedMetadata: Metadata = {};
 
     if (!migration.deleteKeys) {
-        return migratedMetadata;
+        return { ...meta };
     }
 
     const appMetadata = getAppMetadataFrom(meta, undefined, appKeyPrefix);
