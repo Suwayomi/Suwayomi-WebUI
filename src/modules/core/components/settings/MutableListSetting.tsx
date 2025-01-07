@@ -41,7 +41,7 @@ const MutableListItem = ({
     const { t } = useTranslation();
 
     return (
-        <Stack direction="row">
+        <Stack sx={{ flexDirection: 'row', alignItems: 'center' }}>
             {mutable ? (
                 <TextSetting {...textSettingProps} dialogTitle="" />
             ) : (
