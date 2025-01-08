@@ -21,6 +21,7 @@ import { ThemeMode } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { AppTheme, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 
 const SCROLLBAR_SIZE = 14;
 
@@ -89,15 +90,15 @@ export const createTheme = (
                     typeof appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides === 'object'
                         ? {
                               ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides,
-                              '*::-webkit-scrollbar': {
+                              '*::-webkit-scrollbar': applyStyles(CSS.supports('-webkit-touch-callout', 'none'), {
                                   width: `${SCROLLBAR_SIZE}px`,
                                   height: `${SCROLLBAR_SIZE}px`,
                                   // @ts-ignore - '*::-webkit-scrollbar' is a valid key
                                   ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
                                       '*::-webkit-scrollbar'
                                   ],
-                              },
-                              '*::-webkit-scrollbar-thumb': {
+                              }),
+                              '*::-webkit-scrollbar-thumb': applyStyles(CSS.supports('-webkit-touch-callout', 'none'), {
                                   border: '4px solid rgba(0, 0, 0, 0)',
                                   backgroundClip: 'padding-box',
                                   borderRadius: '9999px',
@@ -106,31 +107,37 @@ export const createTheme = (
                                   ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
                                       '*::-webkit-scrollbar-thumb'
                                   ],
-                              },
-                              '*::-webkit-scrollbar-thumb:hover': {
-                                  borderWidth: '2px',
-                                  // @ts-ignore - '*::-webkit-scrollbar-thumb:hover' is a valid key
-                                  ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
-                                      '*::-webkit-scrollbar-thumb:hover'
-                                  ],
-                              },
+                              }),
+                              '*::-webkit-scrollbar-thumb:hover': applyStyles(
+                                  CSS.supports('-webkit-touch-callout', 'none'),
+                                  {
+                                      borderWidth: '2px',
+                                      // @ts-ignore - '*::-webkit-scrollbar-thumb:hover' is a valid key
+                                      ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
+                                          '*::-webkit-scrollbar-thumb:hover'
+                                      ],
+                                  },
+                              ),
                           }
                         : `
-                        *::-webkit-scrollbar {
-                          width: ${SCROLLBAR_SIZE}px;
-                          height: ${SCROLLBAR_SIZE}px;
+                        @supports not (-webkit-touch-callout: none) {
+                          /* CSS for other than iOS devices */ 
+                          *::-webkit-scrollbar {
+                            width: ${SCROLLBAR_SIZE}px;
+                            height: ${SCROLLBAR_SIZE}px;
+                          }
+                          *::-webkit-scrollbar-thumb {
+                            border: 4px solid rgba(0, 0, 0, 0);
+                            background-clip: padding-box;
+                            border-radius: 9999px;
+                            background-color: ${colorTheme.palette.primary[isDarkMode ? 'dark' : 'light']};
+                          }
+                          *::-webkit-scrollbar-thumb:hover {
+                            border-width: 2px;
+                          }
+                          
+                          ${appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides ?? ''}
                         }
-                        *::-webkit-scrollbar-thumb {
-                          border: 4px solid rgba(0, 0, 0, 0);
-                          background-clip: padding-box;
-                          border-radius: 9999px;
-                          background-color: ${colorTheme.palette.primary[isDarkMode ? 'dark' : 'light']};
-                        }
-                        *::-webkit-scrollbar-thumb:hover {
-                          border-width: 2px;
-                        }
-                        
-                        ${appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides ?? ''}
                     `,
             },
         },
