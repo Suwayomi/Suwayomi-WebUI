@@ -109,6 +109,7 @@ const MainApp = () => {
                 position: 'relative',
                 mt: `${appBarHeight}px`,
                 pb: `calc(${bottomBarHeight}px + ${!bottomBarHeight ? 'env(safe-area-inset-bottom)' : '0px'})`,
+                pr: 'env(safe-area-inset-right)',
             }}
         >
             <ErrorBoundary>
