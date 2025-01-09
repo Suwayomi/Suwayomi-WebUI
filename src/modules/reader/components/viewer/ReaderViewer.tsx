@@ -37,6 +37,7 @@ import {
     getPagerForReadingMode,
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
+    shouldApplyReaderWidth,
 } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useMouseDragScroll } from '@/modules/core/hooks/useMouseDragScroll.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
@@ -82,6 +83,8 @@ const BaseReaderViewer = forwardRef(
             readingMode,
             shouldOffsetDoubleSpreads,
             readingDirection,
+            readerWidth,
+            pageScaleMode,
             setScrollbarXSize,
             setScrollbarYSize,
             isVisible: isOverlayVisible,
@@ -103,7 +106,10 @@ const BaseReaderViewer = forwardRef(
             | 'transitionPageMode'
             | 'retryFailedPagesKeyPrefix'
         > &
-            Pick<IReaderSettings, 'readingMode' | 'shouldOffsetDoubleSpreads' | 'readingDirection'> &
+            Pick<
+                IReaderSettings,
+                'readingMode' | 'shouldOffsetDoubleSpreads' | 'readingDirection' | 'readerWidth' | 'pageScaleMode'
+            > &
             Pick<TReaderScrollbarContext, 'setScrollbarXSize' | 'setScrollbarYSize'> &
             Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
             TReaderTapZoneContext & {
@@ -237,7 +243,11 @@ const BaseReaderViewer = forwardRef(
                     width: '100%',
                     height: '100%',
                     overflow: 'auto',
-                    ...applyStyles(isContinuousVerticalReadingMode(readingMode), { alignItems: 'center' }),
+                    ...applyStyles(
+                        isContinuousVerticalReadingMode(readingMode) &&
+                            shouldApplyReaderWidth(readerWidth, pageScaleMode),
+                        { alignItems: 'center' },
+                    ),
                 }}
                 onClick={(e) => !isDragging && handleClick(e)}
                 onScroll={() =>
@@ -291,6 +301,8 @@ export const ReaderViewer = withPropsFrom(
         'readingMode',
         'shouldOffsetDoubleSpreads',
         'readingDirection',
+        'readerWidth',
+        'pageScaleMode',
         'setScrollbarXSize',
         'setScrollbarYSize',
         'isVisible',
