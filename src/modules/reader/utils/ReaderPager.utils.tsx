@@ -21,7 +21,7 @@ import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import {
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
-    isReaderWidthEditable,
+    shouldApplyReaderWidth,
 } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -47,8 +47,8 @@ const getPageWidth = (
     }
 
     // the image wrapper gets applied the reader width limit and therefore the images can take up 100%
-    if (!isImage && readerWidth?.enabled && isReaderWidthEditable(pageScaleMode)) {
-        return `${readerWidth.value}%`;
+    if (!isImage && shouldApplyReaderWidth(readerWidth, pageScaleMode)) {
+        return `${readerWidth?.value}%`;
     }
 
     return '100%';
@@ -90,7 +90,7 @@ export const getImagePlaceholderStyling = (
         case ReaderPageScaleMode.WIDTH:
             return {
                 ...defaultStyling,
-                ...applyStyles(readerWidth.enabled && isReaderWidthEditable(pageScaleMode), {
+                ...applyStyles(shouldApplyReaderWidth(readerWidth, pageScaleMode), {
                     minWidth: minWidthForStretch,
                 }),
                 ...applyStyles(shouldStretchPage, {
@@ -114,7 +114,7 @@ export const getImagePlaceholderStyling = (
         case ReaderPageScaleMode.SCREEN:
             return {
                 ...defaultStyling,
-                ...applyStyles(readerWidth.enabled && isReaderWidthEditable(pageScaleMode), {
+                ...applyStyles(shouldApplyReaderWidth(readerWidth, pageScaleMode), {
                     minWidth: minWidthForStretch,
                 }),
                 ...applyStyles(shouldStretchPage, {
@@ -148,10 +148,9 @@ export const getImageWidthStyling = (
     const width = getPageWidth(pageScaleMode, isDoublePage, readerWidth, shouldStretchPage, isImage);
 
     // setting the "width" of the wrapper is required for being able to properly size the image placeholders
-    const staticReaderWidthForWrapper = applyStyles(
-        !isImage && !!readerWidth?.enabled && isReaderWidthEditable(pageScaleMode),
-        { width },
-    );
+    const staticReaderWidthForWrapper = applyStyles(!isImage && shouldApplyReaderWidth(readerWidth, pageScaleMode), {
+        width,
+    });
     const readerWidthStretchForWrapper = applyStyles(!isImage && shouldStretchPage, { width: '100%' });
 
     switch (pageScaleMode) {

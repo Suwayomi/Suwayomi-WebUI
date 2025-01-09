@@ -29,6 +29,11 @@ export const isOffsetDoubleSpreadPagesEditable = (readingMode: IReaderSettings['
 export const isReaderWidthEditable = (pageScaleMode: IReaderSettings['pageScaleMode']): boolean =>
     [ReaderPageScaleMode.WIDTH, ReaderPageScaleMode.SCREEN].includes(pageScaleMode);
 
+export const shouldApplyReaderWidth = (
+    readerWidth: IReaderSettings['readerWidth'] | undefined,
+    pageScaleMode: IReaderSettings['pageScaleMode'],
+): boolean => !!readerWidth?.enabled && isReaderWidthEditable(pageScaleMode);
+
 export const isContinuousReadingMode = (readingMode: IReaderSettings['readingMode']): boolean =>
     [ReadingMode.CONTINUOUS_VERTICAL, ReadingMode.CONTINUOUS_HORIZONTAL, ReadingMode.WEBTOON].includes(readingMode);
 
