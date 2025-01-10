@@ -207,7 +207,7 @@ export const Updates: React.FC = () => {
                                             padding: 1.5,
                                         }}
                                     >
-                                        <Box sx={{ display: 'flex' }}>
+                                        <Box sx={{ display: 'flex', flexGrow: 1 }}>
                                             <Link
                                                 to={AppRoutes.manga.path(chapter.manga.id)}
                                                 style={{ textDecoration: 'none' }}
