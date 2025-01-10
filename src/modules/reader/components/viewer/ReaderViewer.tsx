@@ -54,6 +54,7 @@ import {
     useReaderHideCursorOnInactivity,
     useReaderHideOverlayOnUserScroll,
     useReaderHorizontalModeInvertXYScrolling,
+    useReaderScrollToStartOnPageChange,
 } from '@/modules/reader/utils/Reader.utils.ts';
 import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
@@ -221,6 +222,12 @@ const BaseReaderViewer = forwardRef(
             updateCurrentPageIndex,
             isContinuousReadingModeActive,
             imageRefs,
+            themeDirection,
+            readingDirection,
+        );
+        useReaderScrollToStartOnPageChange(
+            currentPageIndex,
+            isContinuousReadingModeActive,
             themeDirection,
             readingDirection,
             scrollElementRef,

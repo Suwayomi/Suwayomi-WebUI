@@ -229,7 +229,6 @@ export const useReaderHandlePageSelection = (
     imageRefs: MutableRefObject<(HTMLElement | null)[]>,
     themeDirection: Direction,
     readingDirection: ReadingDirection,
-    scrollElementRef: MutableRefObject<HTMLDivElement | null>,
 ) => {
     useLayoutEffect(() => {
         if (pageToScrollToIndex == null) {
@@ -249,19 +248,29 @@ export const useReaderHandlePageSelection = (
             });
         }
 
-        if (!isContinuousReadingModeActive) {
-            scrollElementRef.current?.scrollTo(
-                getScrollToXForReadingDirection(scrollElementRef.current, themeDirection, readingDirection),
-                0,
-            );
-        }
-
         const newPageIndex = getNextIndexFromPage(pageToScrollTo);
         const isLastPage = newPageIndex === totalPages - 1;
 
         setPageToScrollToIndex(null);
         updateCurrentPageIndex(newPageIndex, !isLastPage);
     }, [pageToScrollToIndex]);
+};
+
+export const useReaderScrollToStartOnPageChange = (
+    currentPageIndex: ReaderStatePages['currentPageIndex'],
+    isContinuousReadingModeActive: boolean,
+    themeDirection: Direction,
+    readingDirection: ReadingDirection,
+    scrollElementRef: MutableRefObject<HTMLDivElement | null>,
+): void => {
+    useLayoutEffect(() => {
+        if (!isContinuousReadingModeActive) {
+            scrollElementRef.current?.scrollTo(
+                getScrollToXForReadingDirection(scrollElementRef.current, themeDirection, readingDirection),
+                0,
+            );
+        }
+    }, [currentPageIndex]);
 };
 
 export const useReaderHideCursorOnInactivity = (scrollElementRef: MutableRefObject<HTMLDivElement | null>) => {
