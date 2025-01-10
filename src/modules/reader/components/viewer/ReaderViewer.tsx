@@ -125,7 +125,7 @@ const BaseReaderViewer = forwardRef(
         useImperativeHandle(ref, () => scrollElementRef.current!);
 
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
-        const isDragging = useMouseDragScroll(isContinuousReadingModeActive ? scrollElementRef : undefined);
+        const isDragging = useMouseDragScroll(scrollElementRef);
 
         const automaticScrolling = useReaderAutoScrollContext();
         useEffect(() => automaticScrolling.setScrollRef(scrollElementRef), []);
