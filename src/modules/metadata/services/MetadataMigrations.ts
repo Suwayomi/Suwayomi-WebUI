@@ -222,6 +222,40 @@ const getNewMetadataKeys = (
     });
 };
 
+const getMetadataKeysWithUpdatedValues = (
+    metadata: Metadata | undefined,
+    newAndDeletedMetadataKeys: string[],
+): string[] => {
+    if (!metadata) {
+        return [];
+    }
+
+    const keysWithUpdatedValues = METADATA_MIGRATIONS.reduce((acc, migration) => {
+        const keysWithUpdatedValuesOfMigration = Object.keys(metadata).filter((metadataKey) =>
+            migration.values?.some(({ key: migrationKey, oldValue }) => {
+                const isMigrationForAllKeys = !migrationKey;
+                const doesValueMatch = metadata[metadataKey] === oldValue;
+
+                if (isMigrationForAllKeys) {
+                    return doesValueMatch;
+                }
+
+                return metadataKey.endsWith(migrationKey) && doesValueMatch;
+            }),
+        );
+
+        return [...acc, ...keysWithUpdatedValuesOfMigration];
+    }, [] as string[]);
+
+    return [
+        ...new Set([
+            ...keysWithUpdatedValues.filter(
+                (keyWithUpdatedValue) => !newAndDeletedMetadataKeys.includes(keyWithUpdatedValue),
+            ),
+        ]),
+    ];
+};
+
 /**
  * Prevent spamming requests due to frequent metadata reads while the migration hasn't been commited to the server yet
  */
@@ -241,8 +275,15 @@ const commitMigratedMetadata = (
     const metadata = metadataHolder?.meta;
 
     const metadataKeysToDelete = getOutdatedMetadataKeys(metadata);
-    const metadataKeysToCommit = getNewMetadataKeys(metadata, migratedMetadata, metadataKeysToDelete);
-    const metadataToUpdate = metadataKeysToCommit.map((key) => [key, migratedMetadata[key]]) as MetadataKeyValuePair[];
+    const newMetadataKeys = getNewMetadataKeys(metadata, migratedMetadata, metadataKeysToDelete);
+    const metadataKeysWithUpdatedValues = getMetadataKeysWithUpdatedValues(metadata, [
+        ...metadataKeysToDelete,
+        ...newMetadataKeys,
+    ]);
+    const metadataToUpdate = [...newMetadataKeys, ...metadataKeysWithUpdatedValues].map((key) => [
+        key,
+        migratedMetadata[key],
+    ]) as MetadataKeyValuePair[];
 
     const updateMetadata = getMetadataUpdateFunction(type, metadataHolder ?? { id: -1, meta: {} });
     const deleteMetadata = getMetadataDeleteFunction(type, metadataHolder ?? { id: -1, meta: {} });
