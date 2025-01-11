@@ -230,10 +230,13 @@ export class ReaderControls {
             return;
         }
 
-        const missingChapters = Math.abs(currentChapter.chapterNumber - chapterToOpen.chapterNumber);
+        const missingChapters = Math.max(
+            0,
+            Math.trunc(currentChapter.chapterNumber) - Math.trunc(chapterToOpen.chapterNumber) - 1,
+        );
         const isSameScanlator =
             !shouldInformAboutScanlatorChange || currentChapter.scanlator === chapterToOpen.scanlator;
-        const isContinuousChapter = !shouldInformAboutMissingChapter || missingChapters <= 1;
+        const isContinuousChapter = !shouldInformAboutMissingChapter || !missingChapters;
 
         const showWarning = !isSameScanlator || !isContinuousChapter;
         if (!showWarning) {
@@ -260,7 +263,7 @@ export class ReaderControls {
         const continuousChapter = isContinuousChapter
             ? ''
             : t(offsetToTranslationKeys[offset].chapter_number, {
-                  count: missingChapters - 1,
+                  count: missingChapters,
                   nextChapter: `#${chapterToOpen.chapterNumber} ${chapterToOpen.name}`,
                   currentChapter: `#${currentChapter.chapterNumber} ${currentChapter.name}`,
               });
