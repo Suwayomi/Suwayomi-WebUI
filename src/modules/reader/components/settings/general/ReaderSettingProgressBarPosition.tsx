@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import NotInterestedIcon from '@mui/icons-material/NotInterested';
+import AutoModeIcon from '@mui/icons-material/AutoMode';
 import {
     IReaderSettings,
     ProgressBarPosition,
@@ -19,6 +19,10 @@ import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
 import { ButtonSelectInput } from '@/modules/core/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ProgressBarPosition> = {
+    [ProgressBarPosition.AUTO]: {
+        title: 'global.label.auto',
+        icon: <AutoModeIcon />,
+    },
     [ProgressBarPosition.BOTTOM]: {
         title: 'global.label.bottom',
         icon: <ArrowBackIosNewIcon sx={{ transform: 'rotate(90deg)' }} />,
@@ -35,17 +39,9 @@ const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ProgressBarPosition> = {
 
 const PROGRESS_BAR_POSITION_VALUES = Object.values(ProgressBarPosition).filter((value) => typeof value === 'number');
 
-const VALUE_TO_DISPLAY_DATA_AUTO_VERTICAL: ValueToDisplayData<ProgressBarPositionAutoVertical> = {
-    ...VALUE_TO_DISPLAY_DATA,
-    [ProgressBarPositionAutoVertical.OFF]: {
-        title: 'global.label.disabled',
-        icon: <NotInterestedIcon />,
-    },
-};
-
-const PROGRESS_BAR_AUTO_VERTICAL_POSITION_VALUES = Object.values(ProgressBarPositionAutoVertical).filter(
-    (value) => typeof value === 'number',
-);
+const PROGRESS_BAR_AUTO_VERTICAL_POSITION_VALUES = Object.values(
+    ProgressBarPositionAutoVertical,
+) as unknown as TupleUnion<keyof typeof ProgressBarPositionAutoVertical>;
 
 export const ReaderSettingProgressBarPosition = ({
     progressBarPosition,
@@ -61,7 +57,7 @@ export const ReaderSettingProgressBarPosition = ({
 }) => {
     const { t } = useTranslation();
 
-    const supportsAutoVerticalPosition = progressBarPosition === ProgressBarPosition.BOTTOM;
+    const isAutoPosition = progressBarPosition === ProgressBarPosition.AUTO;
 
     return (
         <>
@@ -72,14 +68,13 @@ export const ReaderSettingProgressBarPosition = ({
                 setValue={(position) => updateSetting('progressBarPosition', position)}
                 valueToDisplayData={VALUE_TO_DISPLAY_DATA}
             />
-            {supportsAutoVerticalPosition && (
+            {isAutoPosition && (
                 <ButtonSelectInput
                     label={t('reader.settings.progress_bar.auto_vertical_position.title')}
-                    description={t('reader.settings.progress_bar.auto_vertical_position.description')}
                     value={progressBarPositionAutoVertical}
                     values={PROGRESS_BAR_AUTO_VERTICAL_POSITION_VALUES}
                     setValue={(position) => updateSetting('progressBarPositionAutoVertical', position)}
-                    valueToDisplayData={VALUE_TO_DISPLAY_DATA_AUTO_VERTICAL}
+                    valueToDisplayData={VALUE_TO_DISPLAY_DATA}
                 />
             )}
         </>

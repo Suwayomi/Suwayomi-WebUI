@@ -66,19 +66,19 @@ export const getPagerForReadingMode = (
 
 export const getProgressBarPosition = (
     progressBarPosition: ProgressBarPosition,
-    progressBarPositionAutoVertical: ProgressBarPositionAutoVertical,
+    progressBarPositionAutoVertical: keyof typeof ProgressBarPositionAutoVertical,
     topOffset: number = 0,
     bottomOffset: number = 0,
-): ProgressBarPosition => {
-    const isAutoVerticalEnabled =
-        progressBarPositionAutoVertical !== ProgressBarPositionAutoVertical.OFF &&
-        progressBarPosition === ProgressBarPosition.BOTTOM;
-    const isVerticalSpaceLarger = window.innerHeight - topOffset - bottomOffset > window.innerWidth;
-
-    const shouldUseVerticalPosition = isAutoVerticalEnabled && isVerticalSpaceLarger;
-    if (shouldUseVerticalPosition) {
-        return progressBarPositionAutoVertical as unknown as ProgressBarPosition;
+): Exclude<ProgressBarPosition, ProgressBarPosition.AUTO> => {
+    if (progressBarPosition !== ProgressBarPosition.AUTO) {
+        return progressBarPosition;
     }
 
-    return progressBarPosition;
+    const isVerticalSpaceLarger = window.innerHeight - topOffset - bottomOffset > window.innerWidth;
+
+    if (isVerticalSpaceLarger) {
+        return progressBarPositionAutoVertical;
+    }
+
+    return ProgressBarPosition.BOTTOM;
 };

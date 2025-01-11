@@ -18,7 +18,6 @@ import {
     IReaderSettings,
     IReaderSettingsGlobal,
     ProgressBarPosition,
-    ProgressBarPositionAutoVertical,
     ProgressBarType,
     ReaderBackgroundColor,
     ReaderExitMode,
@@ -74,8 +73,8 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     tapZoneInvertMode: { vertical: false, horizontal: false },
     progressBarType: ProgressBarType.STANDARD,
     progressBarSize: 4,
-    progressBarPosition: ProgressBarPosition.BOTTOM,
-    progressBarPositionAutoVertical: ProgressBarPositionAutoVertical.RIGHT,
+    progressBarPosition: ProgressBarPosition.AUTO,
+    progressBarPositionAutoVertical: ProgressBarPosition.RIGHT,
     pageScaleMode: ReaderPageScaleMode.ORIGINAL,
     shouldStretchPage: false,
     shouldOffsetDoubleSpreads: false,
@@ -150,6 +149,8 @@ export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPositi
     [ProgressBarPosition.BOTTOM]: 'top',
     [ProgressBarPosition.LEFT]: 'right',
     [ProgressBarPosition.RIGHT]: 'left',
+    // should never get accessed
+    [ProgressBarPosition.AUTO]: 'left',
 };
 
 export const READING_DIRECTION_VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingDirection> = {

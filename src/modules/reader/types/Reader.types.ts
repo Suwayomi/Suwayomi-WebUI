@@ -20,16 +20,20 @@ export enum ProgressBarType {
 }
 
 export enum ProgressBarPosition {
+    AUTO,
     BOTTOM,
     LEFT,
     RIGHT,
 }
 
-export enum ProgressBarPositionAutoVertical {
-    OFF = -1,
-    LEFT = ProgressBarPosition.LEFT,
-    RIGHT = ProgressBarPosition.RIGHT,
-}
+type TProgressBarPositionAutoVertical = Exclude<
+    ProgressBarPosition,
+    ProgressBarPosition.BOTTOM | ProgressBarPosition.AUTO
+>;
+export const ProgressBarPositionAutoVertical = {
+    [ProgressBarPosition.LEFT]: ProgressBarPosition.LEFT,
+    [ProgressBarPosition.RIGHT]: ProgressBarPosition.RIGHT,
+} satisfies Record<TProgressBarPositionAutoVertical, TProgressBarPositionAutoVertical>;
 
 export enum ReadingDirection {
     LTR,
@@ -125,7 +129,7 @@ export interface IReaderSettingsGlobal {
      */
     progressBarSize: number;
     progressBarPosition: ProgressBarPosition;
-    progressBarPositionAutoVertical: ProgressBarPositionAutoVertical;
+    progressBarPositionAutoVertical: TProgressBarPositionAutoVertical;
     shouldShowPageNumber: boolean;
     isStaticNav: boolean;
     backgroundColor: ReaderBackgroundColor;

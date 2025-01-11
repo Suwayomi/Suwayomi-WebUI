@@ -7,7 +7,8 @@
  */
 
 import { AppMetadataKeys, IMetadataMigration } from '@/modules/metadata/Metadata.types.ts';
-import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { ProgressBarPosition, ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI';
 
@@ -307,5 +308,29 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
     },
     {
         deleteKeys: ['pageScaleMode', 'shouldStretchPage', 'readerWidth'],
+    },
+    {
+        values: [
+            {
+                key: 'progressBarPositionAutoVertical',
+                oldValue: '-1',
+                newValue: `${DEFAULT_READER_SETTINGS.progressBarPositionAutoVertical}`,
+            },
+            {
+                key: 'progressBarPosition',
+                oldValue: '0',
+                newValue: `${ProgressBarPosition.BOTTOM}`,
+            },
+            {
+                key: 'progressBarPosition',
+                oldValue: '1',
+                newValue: `${ProgressBarPosition.LEFT}`,
+            },
+            {
+                key: 'progressBarPosition',
+                oldValue: '2',
+                newValue: `${ProgressBarPosition.RIGHT}`,
+            },
+        ],
     },
 ];

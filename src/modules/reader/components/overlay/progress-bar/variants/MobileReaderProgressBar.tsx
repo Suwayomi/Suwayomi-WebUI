@@ -41,6 +41,8 @@ const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, Slid
     [ProgressBarPosition.BOTTOM]: 'up',
     [ProgressBarPosition.LEFT]: 'right',
     [ProgressBarPosition.RIGHT]: 'left',
+    // should never get accessed
+    [ProgressBarPosition.AUTO]: 'left',
 };
 
 const BaseMobileReaderProgressBar = ({
