@@ -309,12 +309,9 @@ const commitMigratedMetadata = (
             commitedMigrations.add(itemMigrationKey);
 
             try {
+                await updateMetadata([...metadataToUpdate], undefined, true);
                 await deleteMetadata(metadataKeysToDelete, undefined, true);
-                await updateMetadata(
-                    [...metadataToUpdate, [getMetadataKey('migration') as AppMetadataKeys, METADATA_MIGRATIONS.length]],
-                    undefined,
-                    true,
-                );
+                await updateMetadata([['migration', METADATA_MIGRATIONS.length]]);
             } catch (e) {
                 commitedMigrations.delete(itemMigrationKey);
 
