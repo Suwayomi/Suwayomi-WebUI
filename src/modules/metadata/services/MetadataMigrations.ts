@@ -150,12 +150,12 @@ const applyMetadataDeleteKeysMigration = (
     return migratedMetadata;
 };
 
-const getOutdatedMetadataKeys = (metadata?: Metadata): AppMetadataKeys[] => {
+const getOutdatedMetadataKeys = (metadata: Metadata | undefined, migrationId: number): AppMetadataKeys[] => {
     if (!metadata) {
         return [];
     }
 
-    const oldAppKeyPrefixes = METADATA_MIGRATIONS.reduce((acc, migration) => {
+    const oldAppKeyPrefixes = METADATA_MIGRATIONS.slice(migrationId).reduce((acc, migration) => {
         const oldPrefix = migration.appKeyPrefix?.oldPrefix;
         if (!oldPrefix) {
             return acc;
@@ -164,7 +164,7 @@ const getOutdatedMetadataKeys = (metadata?: Metadata): AppMetadataKeys[] => {
         return [...acc, oldPrefix];
     }, [] as string[]);
 
-    const keyToDeleteInMigrations = METADATA_MIGRATIONS.reduce(
+    const keyToDeleteInMigrations = METADATA_MIGRATIONS.slice(migrationId).reduce(
         (acc, migration) => [...acc, ...(migration.deleteKeys ?? [])],
         [] as string[],
     );
@@ -196,12 +196,13 @@ const getNewMetadataKeys = (
     metadata: Metadata | undefined,
     migratedMetadata: Metadata,
     metadataKeyToDelete: string[],
+    migrationId: number,
 ): string[] => {
     if (!metadata) {
         return [];
     }
 
-    const newKeys = METADATA_MIGRATIONS.reduce((acc, migration) => {
+    const newKeys = METADATA_MIGRATIONS.slice(migrationId).reduce((acc, migration) => {
         if (!migration.keys) {
             return acc;
         }
@@ -225,12 +226,13 @@ const getNewMetadataKeys = (
 const getMetadataKeysWithUpdatedValues = (
     metadata: Metadata | undefined,
     newAndDeletedMetadataKeys: string[],
+    migrationId: number,
 ): string[] => {
     if (!metadata) {
         return [];
     }
 
-    const keysWithUpdatedValues = METADATA_MIGRATIONS.reduce((acc, migration) => {
+    const keysWithUpdatedValues = METADATA_MIGRATIONS.slice(migrationId).reduce((acc, migration) => {
         const keysWithUpdatedValuesOfMigration = Object.keys(metadata).filter((metadataKey) =>
             migration.values?.some(({ key: migrationKey, oldValue }) => {
                 const isMigrationForAllKeys = !migrationKey;
@@ -274,12 +276,15 @@ const commitMigratedMetadata = (
 ): void => {
     const metadata = metadataHolder?.meta;
 
-    const metadataKeysToDelete = getOutdatedMetadataKeys(metadata);
-    const newMetadataKeys = getNewMetadataKeys(metadata, migratedMetadata, metadataKeysToDelete);
-    const metadataKeysWithUpdatedValues = getMetadataKeysWithUpdatedValues(metadata, [
-        ...metadataKeysToDelete,
-        ...newMetadataKeys,
-    ]);
+    const migrationId = Number(metadata?.[getMetadataKey('migration')] ?? 1);
+
+    const metadataKeysToDelete = getOutdatedMetadataKeys(metadata, migrationId);
+    const newMetadataKeys = getNewMetadataKeys(metadata, migratedMetadata, metadataKeysToDelete, migrationId);
+    const metadataKeysWithUpdatedValues = getMetadataKeysWithUpdatedValues(
+        metadata,
+        [...metadataKeysToDelete, ...newMetadataKeys],
+        migrationId,
+    );
     const metadataToUpdate = [...newMetadataKeys, ...metadataKeysWithUpdatedValues].map((key) => [
         key,
         migratedMetadata[key],
@@ -297,8 +302,7 @@ const commitMigratedMetadata = (
                 return;
             }
 
-            const isMetadataAlreadyMigrated =
-                !metadata || Number(metadata[getMetadataKey('migration')]) === METADATA_MIGRATIONS.length;
+            const isMetadataAlreadyMigrated = !metadata || migrationId === METADATA_MIGRATIONS.length;
 
             const isCommitRequired =
                 !isMetadataAlreadyMigrated && (!!metadataKeysToDelete.length || !!metadataToUpdate.length);
