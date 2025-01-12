@@ -2931,10 +2931,29 @@ export class RequestManager {
                     const { cache } = this.graphQLClient.client;
 
                     if (downloadChanged?.omittedUpdates) {
-                        cache.evict({ broadcast: true, fieldName: 'downloadStatus' });
+                        cache.gc();
                         cache.evict({ broadcast: true, id: 'DownloadStatus:{}' });
+                        cache.evict({ broadcast: true, fieldName: 'downloadStatus' });
                         return;
                     }
+
+                    downloadChanged?.updates.forEach((update) => {
+                        if (![DownloadUpdateType.Dequeued, DownloadUpdateType.Finished].includes(update.type)) {
+                            return;
+                        }
+
+                        cache.evict({
+                            id: cache.identify({
+                                __typename: 'DownloadType',
+                                chapter: {
+                                    __ref: cache.identify({
+                                        __typename: 'ChapterType',
+                                        id: update.download.chapter.id,
+                                    }),
+                                },
+                            }),
+                        });
+                    });
 
                     const downloadsToRemove =
                         downloadChanged?.updates
