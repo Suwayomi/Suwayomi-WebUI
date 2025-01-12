@@ -8,53 +8,33 @@
 
 import { Virtuoso, VirtuosoProps } from 'react-virtuoso';
 import { useMemo } from 'react';
-import { IChapterWithMeta } from '@/modules/chapter/components/ChapterList.tsx';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
-import { Chapters } from '@/modules/chapter/services/Chapters';
 
 export const ReaderChapterList = ({
     currentChapter,
     chapters,
     style,
 }: Pick<ReaderStateChapters, 'chapters' | 'currentChapter'> & Pick<VirtuosoProps<any, any>, 'style'>) => {
-    const downloadSubscription = requestManager.useDownloadSubscription();
-
     const currentChapterIndex = useMemo(
         () => currentChapter && chapters.findIndex((chapter) => chapter.id === currentChapter.id),
         [currentChapter, chapters],
     );
 
-    const chaptersWithMeta: IChapterWithMeta[] = useMemo(
-        () =>
-            chapters.map((chapter) => {
-                const downloadChapter = Chapters.getDownloadStatusFromCache(chapter.id);
-
-                return {
-                    chapter,
-                    downloadChapter,
-                    selected: null,
-                };
-            }),
-        [downloadSubscription.data?.downloadStatusChanged, chapters],
-    );
-
     return (
         <Virtuoso
             style={{
-                height: `calc(${chaptersWithMeta.length} * 100px)`,
+                height: `calc(${chapters.length} * 100px)`,
                 ...style,
             }}
             initialTopMostItemIndex={currentChapterIndex ?? 0}
-            totalCount={chaptersWithMeta.length}
-            computeItemKey={(index) => chaptersWithMeta[index].chapter.id}
+            totalCount={chapters.length}
+            computeItemKey={(index) => chapters[index].id}
             itemContent={(index) => (
                 <ChapterCard
-                    key={chaptersWithMeta[index].chapter.id}
+                    key={chapters[index].id}
                     mode="reader"
-                    chapter={chaptersWithMeta[index].chapter}
-                    downloadChapter={chaptersWithMeta[index].downloadChapter}
+                    chapter={chapters[index]}
                     allChapters={chapters}
                     showChapterNumber={false}
                     selected={null}

@@ -58,8 +58,6 @@ export const Updates: React.FC = () => {
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
 
-    requestManager.useDownloadSubscription();
-
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
         useCallback((index) => groupedUpdates[index][0], [groupedUpdates]),

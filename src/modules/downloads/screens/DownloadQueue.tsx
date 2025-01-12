@@ -85,7 +85,7 @@ const DownloadChapterItem = ({
                                 {item.chapter.name}
                             </Typography>
                         </Stack>
-                        <DownloadStateIndicator download={item} />
+                        <DownloadStateIndicator chapterId={item.chapter.id} />
                         {item.state === DownloadState.Error && (
                             <Tooltip title={t('global.button.retry')}>
                                 <IconButton

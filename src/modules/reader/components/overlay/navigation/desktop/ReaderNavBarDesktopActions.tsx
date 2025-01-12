@@ -19,19 +19,16 @@ import { memo, useMemo, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { ChapterWithMetaType } from '@/modules/chapter/services/ChaptersWithMeta.ts';
 
-const DownloadButton = ({
-    currentChapter,
-    downloadChapter,
-}: Required<Pick<ReaderStateChapters, 'currentChapter'>> & Pick<ChapterWithMetaType, 'downloadChapter'>) => {
+const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
     const { t } = useTranslation();
+
+    const downloadChapter = Chapters.getDownloadStatusFromCache(currentChapter?.id ?? -1);
 
     if (currentChapter && Chapters.isDownloaded(currentChapter)) {
         return (
@@ -44,7 +41,7 @@ const DownloadButton = ({
     }
 
     if (downloadChapter) {
-        return <DownloadStateIndicator download={downloadChapter} />;
+        return <DownloadStateIndicator chapterId={downloadChapter.chapter.id} />;
     }
 
     return (
@@ -73,16 +70,6 @@ const BaseReaderNavBarDesktopActions = memo(
         const { t } = useTranslation();
 
         const pageRetryKeyPrefix = useRef<number>(0);
-
-        const downloadSubscription = requestManager.useDownloadSubscription();
-
-        const downloadChapter = useMemo(() => {
-            if (!currentChapter) {
-                return null;
-            }
-
-            return Chapters.getDownloadStatusFromCache(currentChapter?.id);
-        }, [downloadSubscription.data?.downloadStatusChanged, id]);
 
         const haveSomePagesFailedToLoad = useMemo(
             () => pageLoadStates.some((pageLoadState) => pageLoadState.error),
@@ -118,7 +105,7 @@ const BaseReaderNavBarDesktopActions = memo(
                         <ReplayIcon />
                     </IconButton>
                 </Tooltip>
-                <DownloadButton currentChapter={currentChapter} downloadChapter={downloadChapter} />
+                <DownloadButton currentChapter={currentChapter} />
                 <Tooltip title={t('chapter.action.label.open_on_source')}>
                     <IconButton
                         disabled={!realUrl}

@@ -8,13 +8,14 @@
 
 import { t as translate } from 'i18next';
 import gql from 'graphql-tag';
-import { DocumentNode, Unmasked } from '@apollo/client';
+import { DocumentNode, MaybeMasked, Unmasked, useFragment } from '@apollo/client';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import {
     ChapterListFieldsFragment,
     ChapterType,
+    DownloadState,
     DownloadStatusFieldsFragment,
     DownloadTypeFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -138,6 +139,30 @@ export class Chapters {
         });
     }
 
+    static useDownloadStatusFromCache<T = DownloadTypeFieldsFragment>(
+        id: number,
+        fragment: DocumentNode = DOWNLOAD_TYPE_FIELDS,
+        fragmentName: string = 'DOWNLOAD_TYPE_FIELDS',
+    ): MaybeMasked<T> | null {
+        const downloadStatus = useFragment<T>({
+            from: {
+                __typename: 'DownloadType',
+                chapter: {
+                    __ref: requestManager.graphQLClient.client.cache.identify({ __typename: 'ChapterType', id }),
+                },
+            },
+            fragment,
+            fragmentName,
+            client: requestManager.graphQLClient.client,
+        });
+
+        if (!downloadStatus.complete || !Object.keys(downloadStatus.data ?? {}).length) {
+            return null;
+        }
+
+        return downloadStatus.data;
+    }
+
     static getReaderUrl<Chapter extends ChapterMangaInfo & ChapterSourceOrderInfo>(chapter: Chapter): string {
         return AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder);
     }
@@ -168,6 +193,15 @@ export class Chapters {
 
     static getDownloaded<Chapter extends ChapterDownloadInfo>(chapters: Chapter[]): Chapter[] {
         return chapters.filter(Chapters.isDownloaded);
+    }
+
+    static isDownloadable<Chapter extends ChapterDownloadInfo>(chapter: Chapter): boolean {
+        const downloadStatus = Chapters.getDownloadStatusFromCache(chapter.id);
+        return !Chapters.isDownloaded(chapter) && (!downloadStatus || downloadStatus.state === DownloadState.Error);
+    }
+
+    static getDownloadable<Chapter extends ChapterDownloadInfo>(chapters: Chapter[]): Chapter[] {
+        return chapters.filter(this.isDownloadable);
     }
 
     static isDeletable(

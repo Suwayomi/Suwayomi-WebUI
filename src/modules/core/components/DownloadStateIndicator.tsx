@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
-import { ChapterDownloadStatus } from '@/modules/chapter/services/Chapters.ts';
+import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { TranslationKey } from '@/Base.types.ts';
 
 const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in DownloadState]: TranslationKey } = {
@@ -21,8 +21,14 @@ const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in DownloadState]: Transla
     QUEUED: 'download.state.label.queued',
 } as const;
 
-export const DownloadStateIndicator = ({ download }: { download: ChapterDownloadStatus }) => {
+export const DownloadStateIndicator = ({ chapterId }: { chapterId: ChapterIdInfo['id'] }) => {
     const { t } = useTranslation();
+
+    const download = Chapters.useDownloadStatusFromCache(chapterId);
+
+    if (!download) {
+        return null;
+    }
 
     const isDownloading = download.state === DownloadState.Downloading;
     const isPartiallyDownloaded = download.progress !== 0;

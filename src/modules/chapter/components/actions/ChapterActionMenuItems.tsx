@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import DoneAll from '@mui/icons-material/DoneAll';
-import { useMemo } from 'react';
+import { ComponentProps, useMemo } from 'react';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import {
@@ -30,8 +30,6 @@ import {
     Chapters,
 } from '@/modules/chapter/services/Chapters.ts';
 import { MenuItem } from '@/modules/core/components/menu/MenuItem.tsx';
-import { IChapterWithMeta } from '@/modules/chapter/components/ChapterList.tsx';
-import { ChaptersWithMeta } from '@/modules/chapter/services/ChaptersWithMeta.ts';
 import {
     createGetMenuItemTitle,
     createIsMenuItemDisabled,
@@ -39,6 +37,7 @@ import {
 } from '@/modules/core/components/menu/Menu.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 
 type BaseProps = { onClose: () => void; selectable?: boolean };
 
@@ -57,7 +56,7 @@ type SingleModeProps = {
 };
 
 type SelectModeProps = {
-    selectedChapters: IChapterWithMeta[];
+    selectedChapters: ComponentProps<typeof ChapterCard>['chapter'][];
 };
 
 type Props =
@@ -95,12 +94,12 @@ export const ChapterActionMenuItems = ({
         readChapters,
     } = useMemo(
         () => ({
-            downloadableChapters: ChaptersWithMeta.getDownloadable(selectedChapters),
-            downloadedChapters: ChaptersWithMeta.getDownloaded(selectedChapters),
-            unbookmarkedChapters: ChaptersWithMeta.getNonBookmarked(selectedChapters),
-            bookmarkedChapters: ChaptersWithMeta.getBookmarked(selectedChapters),
-            unreadChapters: ChaptersWithMeta.getNonRead(selectedChapters),
-            readChapters: ChaptersWithMeta.getRead(selectedChapters),
+            downloadableChapters: Chapters.getDownloadable(selectedChapters),
+            downloadedChapters: Chapters.getDownloaded(selectedChapters),
+            unbookmarkedChapters: Chapters.getNonBookmarked(selectedChapters),
+            bookmarkedChapters: Chapters.getBookmarked(selectedChapters),
+            unreadChapters: Chapters.getNonRead(selectedChapters),
+            readChapters: Chapters.getRead(selectedChapters),
         }),
         [selectedChapters],
     );
@@ -110,7 +109,7 @@ export const ChapterActionMenuItems = ({
         onClose();
     };
 
-    const performAction = (action: ChapterAction | 'mark_prev_as_read', chaptersWithMeta: IChapterWithMeta[]) => {
+    const performAction = (action: ChapterAction | 'mark_prev_as_read', chapters: TChapter[]) => {
         const isMarkPrevAsRead = action === 'mark_prev_as_read';
         const actualAction: ChapterAction = isMarkPrevAsRead ? 'mark_as_read' : action;
 
@@ -125,7 +124,7 @@ export const ChapterActionMenuItems = ({
         const getChapters = (): SingleModeProps['chapter'][] => {
             // select mode
             if (!chapter) {
-                return ChaptersWithMeta.getChapters(chaptersWithMeta);
+                return chapters;
             }
 
             if (!isMarkPrevAsRead) {
@@ -142,17 +141,17 @@ export const ChapterActionMenuItems = ({
             return allChapters.slice(index + 1);
         };
 
-        const chapters = getChapters();
+        const chaptersToUpdate = getChapters();
 
-        if (!chapters.length) {
+        if (!chaptersToUpdate.length) {
             onClose();
             return;
         }
 
-        Chapters.performAction(actualAction, Chapters.getIds(chapters), {
-            chapters,
+        Chapters.performAction(actualAction, Chapters.getIds(chaptersToUpdate), {
+            chapters: chaptersToUpdate,
             wasManuallyMarkedAsRead: true,
-            trackProgressMangaId: chapters[0]?.mangaId,
+            trackProgressMangaId: chaptersToUpdate[0]?.mangaId,
         }).catch(defaultPromiseErrorHandler('ChapterActionMenuItems::performAction'));
         onClose();
     };
@@ -186,10 +185,7 @@ export const ChapterActionMenuItems = ({
                     Icon={Delete}
                     disabled={isMenuItemDisabled(!downloadedChapters.length)}
                     onClick={() =>
-                        performAction(
-                            'delete',
-                            ChaptersWithMeta.getDeletable(downloadedChapters, deleteChaptersWithBookmark),
-                        )
+                        performAction('delete', Chapters.getDeletable(downloadedChapters, deleteChaptersWithBookmark))
                     }
                     title={getMenuItemTitle('delete', downloadedChapters.length)}
                 />

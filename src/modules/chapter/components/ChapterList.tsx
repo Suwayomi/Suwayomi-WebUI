@@ -28,6 +28,7 @@ import { ChaptersToolbarMenu } from '@/modules/chapter/components/ChaptersToolba
 import { SelectionFAB } from '@/modules/collection/components/SelectionFAB.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
 import {
+    ChapterListFieldsFragment,
     GetChaptersMangaQuery,
     GetChaptersMangaQueryVariables,
     MangaScreenFieldsFragment,
@@ -35,7 +36,6 @@ import {
 import { useSelectableCollection } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { SelectableCollectionSelectAll } from '@/modules/collection/components/SelectableCollectionSelectAll.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
-import { ChaptersWithMeta, ChapterWithMetaType } from '@/modules/chapter/services/ChaptersWithMeta.ts';
 import { ChapterActionMenuItems } from '@/modules/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/modules/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -75,9 +75,27 @@ const StyledVirtuoso = styled(Virtuoso, {
     },
 }));
 
-export interface IChapterWithMeta extends ChapterWithMetaType<ComponentProps<typeof ChapterCard>['chapter']> {
-    selected: boolean | null;
-}
+const ChapterListFAB = ({
+    selectedChapters,
+    firstUnreadChapter,
+}: {
+    selectedChapters: ChapterListFieldsFragment[];
+    firstUnreadChapter: ComponentProps<typeof ResumeFab>['chapter'] | null | undefined;
+}) => {
+    if (selectedChapters.length) {
+        return (
+            <SelectionFAB selectedItemsCount={selectedChapters.length} title="chapter.title_one">
+                {(handleClose) => <ChapterActionMenuItems selectedChapters={selectedChapters} onClose={handleClose} />}
+            </SelectionFAB>
+        );
+    }
+
+    if (firstUnreadChapter) {
+        return <ResumeFab chapter={firstUnreadChapter} />;
+    }
+
+    return null;
+};
 
 export const ChapterList = ({
     manga,
@@ -99,8 +117,6 @@ export const ChapterList = ({
     );
 
     const scrollbarWidth = MediaQuery.useGetScrollbarSize('width');
-
-    const downloadSubscription = requestManager.useDownloadSubscription();
 
     const [options, dispatch] = useChapterOptions(manga.id);
     const {
@@ -127,39 +143,6 @@ export const ChapterList = ({
 
     const noChaptersFound = chapters.length === 0;
     const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
-
-    const chaptersWithMeta: IChapterWithMeta[] = useMemo(
-        () =>
-            visibleChapters.map((chapter) => {
-                const selected = !areNoItemsSelected ? selectedItemIds.includes(chapter.id) : null;
-                return {
-                    chapter,
-                    downloadChapter: Chapters.getDownloadStatusFromCache(chapter.id),
-                    selected,
-                };
-            }),
-        [downloadSubscription.data?.downloadStatusChanged, selectedItemIds, visibleChapters],
-    );
-
-    const chapterListFAB = useMemo(() => {
-        const selectedChapters = chaptersWithMeta.filter((chapter) => chapter.selected);
-
-        if (selectedChapters.length) {
-            return (
-                <SelectionFAB selectedItemsCount={selectedChapters.length} title="chapter.title_one">
-                    {(handleClose) => (
-                        <ChapterActionMenuItems selectedChapters={selectedChapters} onClose={handleClose} />
-                    )}
-                </SelectionFAB>
-            );
-        }
-
-        if (manga.firstUnreadChapter) {
-            return <ResumeFab chapter={manga.firstUnreadChapter} />;
-        }
-
-        return null;
-    }, [chaptersWithMeta]);
 
     if (isLoading || (noChaptersFound && isRefreshing)) {
         return (
@@ -201,13 +184,7 @@ export const ChapterList = ({
                         <Tooltip title={t('chapter.action.mark_as_read.add.label.action.current')}>
                             <IconButton
                                 disabled={areAllChaptersRead}
-                                onClick={() =>
-                                    Chapters.markAsRead(
-                                        ChaptersWithMeta.getChapters(ChaptersWithMeta.getNonRead(chaptersWithMeta)),
-                                        true,
-                                        manga.id,
-                                    )
-                                }
+                                onClick={() => Chapters.markAsRead(Chapters.getNonRead(chapters), true, manga.id)}
                             >
                                 <DoneAllIcon />
                             </IconButton>
@@ -259,11 +236,12 @@ export const ChapterList = ({
                     computeItemKey={(index) => visibleChapters[index].id}
                     itemContent={(index: number) => (
                         <ChapterCard
-                            {...chaptersWithMeta[index]}
+                            chapter={chapters[index]}
+                            selected={!areNoItemsSelected ? selectedItemIds.includes(chapters[index].id) : null}
                             allChapters={chapters}
                             showChapterNumber={options.showChapterNumber}
                             onSelect={(selected, selectRange) =>
-                                handleSelection(chaptersWithMeta[index].chapter.id, selected, { selectRange })
+                                handleSelection(chapters[index].id, selected, { selectRange })
                             }
                         />
                     )}
@@ -271,7 +249,12 @@ export const ChapterList = ({
                     overscan={window.innerHeight * 0.5}
                 />
             </Stack>
-            {chapterListFAB}
+            <ChapterListFAB
+                selectedChapters={selectedItemIds
+                    .map((id) => chapters.find((chapter) => chapter.id === id))
+                    .filter((chapter) => chapter != null)}
+                firstUnreadChapter={manga.firstUnreadChapter}
+            />
         </>
     );
 };

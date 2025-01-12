@@ -30,7 +30,7 @@ import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 
 export const ChapterUpdateCard = ({ chapter }: { chapter: ChapterUpdateListFieldsFragment }) => {
     const { manga } = chapter;
-    const download = Chapters.getDownloadStatusFromCache(chapter.id);
+    const download = Chapters.useDownloadStatusFromCache(chapter.id);
 
     const { t } = useTranslation();
     const location = useLocation();
@@ -112,7 +112,7 @@ export const ChapterUpdateCard = ({ chapter }: { chapter: ChapterUpdateListField
                             </TypographyMaxLines>
                         </Box>
                     </Box>
-                    {download && <DownloadStateIndicator download={download} />}
+                    <DownloadStateIndicator chapterId={chapter.id} />
                     {download?.state === DownloadState.Error && (
                         <Tooltip title={t('global.button.retry')}>
                             <IconButton

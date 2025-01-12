@@ -38,7 +38,6 @@ import {
     Chapters,
     ChapterScanlatorInfo,
 } from '@/modules/chapter/services/Chapters.ts';
-import { ChaptersWithMeta, ChapterWithMetaType } from '@/modules/chapter/services/ChaptersWithMeta.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -53,7 +52,6 @@ interface IProps {
     mode?: 'manga.page' | 'reader';
     chapter: TChapter;
     allChapters: TChapter[];
-    downloadChapter: ChapterWithMetaType['downloadChapter'];
     showChapterNumber: boolean;
     onSelect: (selected: boolean, isShiftKey?: boolean) => void;
     selected: boolean | null;
@@ -71,7 +69,6 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
         mode = 'manga.page',
         chapter,
         allChapters,
-        downloadChapter: dc,
         showChapterNumber,
         onSelect,
         selected,
@@ -175,7 +172,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                     </Typography>
                                 </Stack>
 
-                                {dc && <DownloadStateIndicator download={dc} />}
+                                <DownloadStateIndicator chapterId={chapter.id} />
 
                                 <Stack sx={{ minHeight: '48px' }}>
                                     {selected === null ? (
@@ -209,10 +206,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                     chapter={chapter}
                                     allChapters={allChapters}
                                     handleSelection={() => onSelect(true)}
-                                    canBeDownloaded={ChaptersWithMeta.isDownloadable({
-                                        chapter,
-                                        downloadChapter: dc,
-                                    })}
+                                    canBeDownloaded={Chapters.isDownloadable(chapter)}
                                     selectable={selectable}
                                 />
                             )}
