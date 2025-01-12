@@ -6,39 +6,23 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import DownloadIcon from '@mui/icons-material/Download';
-import Box from '@mui/material/Box';
-import CardActionArea from '@mui/material/CardActionArea';
-import Tooltip from '@mui/material/Tooltip';
-import Avatar from '@mui/material/Avatar';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useContext, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import Refresh from '@mui/icons-material/Refresh';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
-import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
-import { ChapterType, DownloadState } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { Mangas } from '@/modules/manga/services/Mangas.ts';
-import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { dateTimeFormatter, epochToDate, getDateString } from '@/util/DateHelper.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
-import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
-import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
-import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { ChapterUpdateCard } from '@/modules/updates/components/ChapterUpdateCard.tsx';
 
 const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
     if (!updates.length) {
@@ -56,7 +40,6 @@ const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, 
 
 export const Updates: React.FC = () => {
     const { t } = useTranslation();
-    const location = useLocation();
 
     const { setTitle, setAction } = useContext(NavBarContext);
     const {
@@ -106,22 +89,6 @@ export const Updates: React.FC = () => {
             setAction(null);
         };
     }, [t, lastUpdateTimestamp]);
-
-    const handleRetry = async (chapter: ChapterIdInfo) => {
-        try {
-            await requestManager.addChapterToDownloadQueue(chapter.id).response;
-        } catch (e) {
-            makeToast(t('download.queue.error.label.failed_to_remove'), 'error', getErrorMessage(e));
-        }
-    };
-
-    const downloadChapter = (chapter: ChapterIdInfo) => {
-        requestManager
-            .addChapterToDownloadQueue(chapter.id)
-            .response.catch((e) =>
-                makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
-            );
-    };
 
     const loadMore = useCallback(() => {
         if (!hasNextPage) {
@@ -178,111 +145,11 @@ export const Updates: React.FC = () => {
                     </StyledGroupHeader>
                 )}
                 computeItemKey={computeItemKey}
-                itemContent={(index) => {
-                    const chapter = updateEntries[index];
-                    const { manga } = chapter;
-                    const download = Chapters.getDownloadStatusFromCache(chapter.id);
-
-                    return (
-                        <StyledGroupItemWrapper>
-                            <Card>
-                                <CardActionArea
-                                    component={Link}
-                                    to={AppRoutes.reader.path(chapter.manga.id, chapter.sourceOrder)}
-                                    state={location.state}
-                                    sx={{
-                                        color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
-                                    }}
-                                >
-                                    <CardContent
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'space-between',
-                                            alignItems: 'center',
-                                            padding: 1.5,
-                                        }}
-                                    >
-                                        <Box sx={{ display: 'flex', flexGrow: 1 }}>
-                                            <Link
-                                                to={AppRoutes.manga.path(chapter.manga.id)}
-                                                style={{ textDecoration: 'none' }}
-                                            >
-                                                <Avatar
-                                                    variant="rounded"
-                                                    sx={{
-                                                        width: 56,
-                                                        height: 56,
-                                                        flex: '0 0 auto',
-                                                        marginRight: 1,
-                                                        background: 'transparent',
-                                                    }}
-                                                >
-                                                    <SpinnerImage
-                                                        imgStyle={{
-                                                            objectFit: 'cover',
-                                                            width: '100%',
-                                                            height: '100%',
-                                                            imageRendering: 'pixelated',
-                                                        }}
-                                                        spinnerStyle={{ small: true }}
-                                                        alt={manga.title}
-                                                        src={Mangas.getThumbnailUrl(manga)}
-                                                    />
-                                                </Avatar>
-                                            </Link>
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    justifyContent: 'center',
-                                                    flexGrow: 1,
-                                                    flexShrink: 1,
-                                                    wordBreak: 'break-word',
-                                                }}
-                                            >
-                                                <TypographyMaxLines variant="h6" component="h3">
-                                                    {manga.title}
-                                                </TypographyMaxLines>
-                                                <TypographyMaxLines variant="caption" display="block" lines={1}>
-                                                    {chapter.name}
-                                                </TypographyMaxLines>
-                                            </Box>
-                                        </Box>
-                                        {download && <DownloadStateIndicator download={download} />}
-                                        {download?.state === DownloadState.Error && (
-                                            <Tooltip title={t('global.button.retry')}>
-                                                <IconButton
-                                                    onClick={(e) => {
-                                                        e.preventDefault();
-                                                        e.stopPropagation();
-                                                        handleRetry(download.chapter);
-                                                    }}
-                                                    size="large"
-                                                >
-                                                    <Refresh />
-                                                </IconButton>
-                                            </Tooltip>
-                                        )}
-                                        {download == null && !chapter.isDownloaded && (
-                                            <Tooltip title={t('chapter.action.download.add.label.action')}>
-                                                <IconButton
-                                                    onClick={(e) => {
-                                                        e.stopPropagation();
-                                                        e.preventDefault();
-                                                        downloadChapter(chapter);
-                                                    }}
-                                                    size="large"
-                                                >
-                                                    <DownloadIcon />
-                                                </IconButton>
-                                            </Tooltip>
-                                        )}
-                                    </CardContent>
-                                </CardActionArea>
-                            </Card>
-                        </StyledGroupItemWrapper>
-                    );
-                }}
+                itemContent={(index) => (
+                    <StyledGroupItemWrapper>
+                        <ChapterUpdateCard chapter={updateEntries[index]} />
+                    </StyledGroupItemWrapper>
+                )}
             />
         </>
     );
