@@ -51,7 +51,16 @@ const typePolicies: StrictTypedTypePolicies = {
     WebUIUpdateInfo: { keyFields: [] },
     WebUIUpdateCheck: { keyFields: [] },
     SettingsType: { keyFields: [] },
-    DownloadStatus: { keyFields: [] },
+    DownloadStatus: {
+        keyFields: [],
+        fields: {
+            queue: {
+                merge(_existing, incoming) {
+                    return incoming;
+                },
+            },
+        },
+    },
     DownloadType: { keyFields: ['chapter'] },
     WebUIUpdateStatus: { keyFields: [] },
     UpdateStatus: { keyFields: [] },
