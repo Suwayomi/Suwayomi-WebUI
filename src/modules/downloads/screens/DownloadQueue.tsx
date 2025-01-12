@@ -16,7 +16,7 @@ import Stack from '@mui/material/Stack';
 import Box, { BoxProps } from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import React, { useContext, useEffect, useLayoutEffect } from 'react';
+import React, { memo, useCallback, useContext, useEffect, useLayoutEffect } from 'react';
 import { DragDropContext, Draggable, DraggableProvided, DropResult } from 'react-beautiful-dnd';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
@@ -45,79 +45,86 @@ const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     </Box>
 );
 
-const DownloadChapterItem = ({
-    provided,
-    item,
-    handleDelete,
-    handleRetry,
-}: {
-    provided: DraggableProvided;
-    item: ChapterDownloadStatus;
-    handleDelete: (chapter: ChapterIdInfo) => void;
-    handleRetry: (chapter: ChapterIdInfo) => void;
-}) => {
-    const { t } = useTranslation();
+const DownloadChapterItem = memo(
+    ({
+        provided,
+        item,
+        handleDelete,
+        handleRetry,
+    }: {
+        provided: DraggableProvided;
+        item: ChapterDownloadStatus;
+        handleDelete: (chapter: ChapterIdInfo) => void;
+        handleRetry: (chapter: ChapterIdInfo) => void;
+    }) => {
+        const { t } = useTranslation();
 
-    return (
-        <Box {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef} sx={{ p: 1, pb: 0 }}>
-            <Card>
-                <CardActionArea component={Link} to={AppRoutes.manga.path(item.manga.id)}>
-                    <CardContent
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            p: 1.5,
-                        }}
-                    >
-                        <IconButton sx={{ pointerEvents: 'none' }}>
-                            <DragHandle />
-                        </IconButton>
-                        <Stack sx={{ flex: 1, ml: 1 }} direction="column">
-                            <Typography variant="h6" component="h3">
-                                {item.manga.title}
-                            </Typography>
-                            <Typography
-                                variant="caption"
-                                sx={{
-                                    display: 'block',
-                                }}
-                            >
-                                {item.chapter.name}
-                            </Typography>
-                        </Stack>
-                        <DownloadStateIndicator chapterId={item.chapter.id} />
-                        {item.state === DownloadState.Error && (
-                            <Tooltip title={t('global.button.retry')}>
+        return (
+            <Box
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                ref={provided.innerRef}
+                sx={{ p: 1, pb: 0 }}
+            >
+                <Card>
+                    <CardActionArea component={Link} to={AppRoutes.manga.path(item.manga.id)}>
+                        <CardContent
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                p: 1.5,
+                            }}
+                        >
+                            <IconButton sx={{ pointerEvents: 'none' }}>
+                                <DragHandle />
+                            </IconButton>
+                            <Stack sx={{ flex: 1, ml: 1 }} direction="column">
+                                <Typography variant="h6" component="h3">
+                                    {item.manga.title}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
+                                    sx={{
+                                        display: 'block',
+                                    }}
+                                >
+                                    {item.chapter.name}
+                                </Typography>
+                            </Stack>
+                            <DownloadStateIndicator chapterId={item.chapter.id} />
+                            {item.state === DownloadState.Error && (
+                                <Tooltip title={t('global.button.retry')}>
+                                    <IconButton
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            handleRetry(item.chapter);
+                                        }}
+                                        size="large"
+                                    >
+                                        <Refresh />
+                                    </IconButton>
+                                </Tooltip>
+                            )}
+                            <Tooltip title={t('chapter.action.download.delete.label.action')}>
                                 <IconButton
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
-                                        handleRetry(item.chapter);
+                                        handleDelete(item.chapter);
                                     }}
                                     size="large"
                                 >
-                                    <Refresh />
+                                    <DeleteIcon />
                                 </IconButton>
                             </Tooltip>
-                        )}
-                        <Tooltip title={t('chapter.action.download.delete.label.action')}>
-                            <IconButton
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    handleDelete(item.chapter);
-                                }}
-                                size="large"
-                            >
-                                <DeleteIcon />
-                            </IconButton>
-                        </Tooltip>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-        </Box>
-    );
-};
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
+            </Box>
+        );
+    },
+);
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
@@ -213,15 +220,15 @@ export const DownloadQueue: React.FC = () => {
         categoryReorder(queue, result.source.index, result.destination.index);
     };
 
-    const handleRetry = async (chapter: ChapterIdInfo) => {
+    const handleRetry = useCallback(async (chapter: ChapterIdInfo) => {
         try {
             await requestManager.addChapterToDownloadQueue(chapter.id).response;
         } catch (e) {
             makeToast(t('download.queue.error.label.failed_to_remove'), 'error', getErrorMessage(e));
         }
-    };
+    }, []);
 
-    const handleDelete = async (chapter: ChapterIdInfo) => {
+    const handleDelete = useCallback(async (chapter: ChapterIdInfo) => {
         const isRunning = status === DownloaderState.Started;
 
         try {
@@ -246,7 +253,7 @@ export const DownloadQueue: React.FC = () => {
         }
 
         requestManager.startDownloads().response.catch(defaultPromiseErrorHandler('DownloadQueue::startDownloads'));
-    };
+    }, []);
 
     if (isLoading) {
         return <LoadingPlaceholder />;
@@ -285,17 +292,17 @@ export const DownloadQueue: React.FC = () => {
                         <Virtuoso
                             useWindowScroll
                             overscan={window.innerHeight * 0.5}
-                            data={queue}
                             components={{
                                 Item: HeightPreservingItem,
                             }}
-                            computeItemKey={(_, item) => item.chapter.id}
-                            itemContent={(index, item) => (
-                                <Draggable draggableId={`${item.chapter.id}`} index={index}>
+                            totalCount={queue.length}
+                            computeItemKey={(index) => queue[index].chapter.id}
+                            itemContent={(index) => (
+                                <Draggable draggableId={`${queue[index].chapter.id}`} index={index}>
                                     {(draggableProvided) => (
                                         <DownloadChapterItem
                                             provided={draggableProvided}
-                                            item={item}
+                                            item={queue[index]}
                                             handleDelete={handleDelete}
                                             handleRetry={handleRetry}
                                         />
