@@ -63,9 +63,11 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
                             ? t('manga.button.track.active', { count: trackersInUse.length })
                             : t('manga.button.track.start')}
                     </CustomIconButton>
-                    <Dialog {...bindDialog(popupState)} maxWidth="md" fullWidth scroll="paper">
-                        <TrackManga manga={manga} />
-                    </Dialog>
+                    {popupState.isOpen && (
+                        <Dialog {...bindDialog(popupState)} maxWidth="md" fullWidth scroll="paper">
+                            <TrackManga manga={manga} />
+                        </Dialog>
+                    )}
                 </>
             )}
         </PopupState>
