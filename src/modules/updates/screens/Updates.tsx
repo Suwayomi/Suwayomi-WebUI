@@ -34,7 +34,7 @@ import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { dateTimeFormatter, epochToDate, getDateString } from '@/util/DateHelper.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
-import { ChapterIdInfo, ChapterMangaInfo } from '@/modules/chapter/services/Chapters.ts';
+import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
@@ -74,8 +74,8 @@ export const Updates: React.FC = () => {
     const updateEntries = chapterUpdateData?.chapters.nodes ?? [];
     const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
-    const { data: downloaderData } = requestManager.useGetDownloadStatus();
-    const queue = downloaderData?.downloadStatus.queue ?? [];
+
+    requestManager.useDownloadSubscription();
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
@@ -106,11 +106,6 @@ export const Updates: React.FC = () => {
             setAction(null);
         };
     }, [t, lastUpdateTimestamp]);
-
-    const downloadForChapter = (chapter: Pick<ChapterType, 'sourceOrder'> & ChapterMangaInfo) => {
-        const { sourceOrder, mangaId } = chapter;
-        return queue.find((q) => sourceOrder === q.chapter.sourceOrder && mangaId === q.manga.id);
-    };
 
     const handleRetry = async (chapter: ChapterIdInfo) => {
         try {
@@ -186,7 +181,7 @@ export const Updates: React.FC = () => {
                 itemContent={(index) => {
                     const chapter = updateEntries[index];
                     const { manga } = chapter;
-                    const download = downloadForChapter(chapter);
+                    const download = Chapters.getDownloadStatusFromCache(chapter.id);
 
                     return (
                         <StyledGroupItemWrapper>

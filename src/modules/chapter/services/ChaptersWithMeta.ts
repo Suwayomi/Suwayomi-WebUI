@@ -21,7 +21,7 @@ export type ChapterWithMetaType<
         ChapterBookmarkInfo,
 > = {
     chapter: Chapter;
-    downloadChapter: ChapterDownloadStatus | undefined;
+    downloadChapter: ChapterDownloadStatus | undefined | null;
 };
 
 export class ChaptersWithMeta {

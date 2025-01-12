@@ -16,6 +16,7 @@ import {
     ChapterListFieldsFragment,
     ChapterType,
     DownloadStatusFieldsFragment,
+    DownloadTypeFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 
@@ -24,6 +25,7 @@ import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -113,6 +115,23 @@ export class Chapters {
             id: requestManager.graphQLClient.client.cache.identify({
                 __typename: 'ChapterType',
                 id,
+            }),
+            fragment,
+            fragmentName,
+        });
+    }
+
+    static getDownloadStatusFromCache<T = DownloadTypeFieldsFragment>(
+        id: number,
+        fragment: DocumentNode = DOWNLOAD_TYPE_FIELDS,
+        fragmentName: string = 'DOWNLOAD_TYPE_FIELDS',
+    ): Unmasked<T> | null {
+        return requestManager.graphQLClient.client.cache.readFragment<T>({
+            id: requestManager.graphQLClient.client.cache.identify({
+                __typename: 'DownloadType',
+                chapter: {
+                    __ref: requestManager.graphQLClient.client.cache.identify({ __typename: 'ChapterType', id }),
+                },
             }),
             fragment,
             fragmentName,

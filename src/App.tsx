@@ -87,6 +87,8 @@ const ScrollToTop = () => {
  * and thus, data of existing chapters/mangas in the cache get outdated
  */
 const BackgroundSubscriptions = () => {
+    // load the full download status once on startup to fill the cache
+    requestManager.useGetDownloadStatus({ nextFetchPolicy: 'standby' });
     requestManager.useDownloadSubscription();
     requestManager.useUpdaterSubscription();
     requestManager.useWebUIUpdateSubscription();

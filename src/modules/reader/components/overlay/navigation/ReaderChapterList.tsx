@@ -12,14 +12,14 @@ import { IChapterWithMeta } from '@/modules/chapter/components/ChapterList.tsx';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters';
 
 export const ReaderChapterList = ({
     currentChapter,
     chapters,
     style,
 }: Pick<ReaderStateChapters, 'chapters' | 'currentChapter'> & Pick<VirtuosoProps<any, any>, 'style'>) => {
-    const { data: downloaderData } = requestManager.useGetDownloadStatus();
-    const queue = downloaderData?.downloadStatus.queue ?? [];
+    const downloadSubscription = requestManager.useDownloadSubscription();
 
     const currentChapterIndex = useMemo(
         () => currentChapter && chapters.findIndex((chapter) => chapter.id === currentChapter.id),
@@ -29,7 +29,7 @@ export const ReaderChapterList = ({
     const chaptersWithMeta: IChapterWithMeta[] = useMemo(
         () =>
             chapters.map((chapter) => {
-                const downloadChapter = queue?.find((cd) => cd.chapter.id === chapter.id);
+                const downloadChapter = Chapters.getDownloadStatusFromCache(chapter.id);
 
                 return {
                     chapter,
@@ -37,7 +37,7 @@ export const ReaderChapterList = ({
                     selected: null,
                 };
             }),
-        [queue, chapters],
+        [downloadSubscription.data?.downloadStatusChanged, chapters],
     );
 
     return (

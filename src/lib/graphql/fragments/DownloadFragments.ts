@@ -8,7 +8,7 @@
 
 import gql from 'graphql-tag';
 
-const DOWNLOAD_TYPE_FIELDS = gql`
+export const DOWNLOAD_TYPE_FIELDS = gql`
     fragment DOWNLOAD_TYPE_FIELDS on DownloadType {
         chapter {
             id

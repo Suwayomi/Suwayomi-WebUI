@@ -31,7 +31,6 @@ import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines
 import {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
-    ChapterDownloadStatus,
     ChapterIdInfo,
     ChapterMangaInfo,
     ChapterNumberInfo,
@@ -39,7 +38,7 @@ import {
     Chapters,
     ChapterScanlatorInfo,
 } from '@/modules/chapter/services/Chapters.ts';
-import { ChaptersWithMeta } from '@/modules/chapter/services/ChaptersWithMeta.ts';
+import { ChaptersWithMeta, ChapterWithMetaType } from '@/modules/chapter/services/ChaptersWithMeta.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -54,7 +53,7 @@ interface IProps {
     mode?: 'manga.page' | 'reader';
     chapter: TChapter;
     allChapters: TChapter[];
-    downloadChapter: ChapterDownloadStatus | undefined;
+    downloadChapter: ChapterWithMetaType['downloadChapter'];
     showChapterNumber: boolean;
     onSelect: (selected: boolean, isShiftKey?: boolean) => void;
     selected: boolean | null;

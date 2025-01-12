@@ -100,8 +100,7 @@ export const ChapterList = ({
 
     const scrollbarWidth = MediaQuery.useGetScrollbarSize('width');
 
-    const { data: downloaderData } = requestManager.useGetDownloadStatus();
-    const queue = downloaderData?.downloadStatus.queue ?? [];
+    const downloadSubscription = requestManager.useDownloadSubscription();
 
     const [options, dispatch] = useChapterOptions(manga.id);
     const {
@@ -132,15 +131,14 @@ export const ChapterList = ({
     const chaptersWithMeta: IChapterWithMeta[] = useMemo(
         () =>
             visibleChapters.map((chapter) => {
-                const downloadChapter = queue?.find((cd) => cd.chapter.id === chapter.id);
                 const selected = !areNoItemsSelected ? selectedItemIds.includes(chapter.id) : null;
                 return {
                     chapter,
-                    downloadChapter,
+                    downloadChapter: Chapters.getDownloadStatusFromCache(chapter.id),
                     selected,
                 };
             }),
-        [queue, selectedItemIds, visibleChapters],
+        [downloadSubscription.data?.downloadStatusChanged, selectedItemIds, visibleChapters],
     );
 
     const chapterListFAB = useMemo(() => {

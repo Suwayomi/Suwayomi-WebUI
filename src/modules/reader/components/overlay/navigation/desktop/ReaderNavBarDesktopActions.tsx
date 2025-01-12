@@ -21,18 +21,16 @@ import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapt
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
-import { DownloadStatusFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
+import { ChapterWithMetaType } from '@/modules/chapter/services/ChaptersWithMeta.ts';
 
 const DownloadButton = ({
     currentChapter,
     downloadChapter,
-}: Required<Pick<ReaderStateChapters, 'currentChapter'>> & {
-    downloadChapter?: DownloadStatusFieldsFragment['queue'][number];
-}) => {
+}: Required<Pick<ReaderStateChapters, 'currentChapter'>> & Pick<ChapterWithMetaType, 'downloadChapter'>) => {
     const { t } = useTranslation();
 
     if (currentChapter && Chapters.isDownloaded(currentChapter)) {
@@ -76,13 +74,15 @@ const BaseReaderNavBarDesktopActions = memo(
 
         const pageRetryKeyPrefix = useRef<number>(0);
 
-        const { data: downloaderData } = requestManager.useGetDownloadStatus();
-        const queue = downloaderData?.downloadStatus.queue ?? [];
+        const downloadSubscription = requestManager.useDownloadSubscription();
 
-        const downloadChapter = useMemo(
-            () => queue.find((queueItem) => queueItem.chapter.id === currentChapter?.id),
-            [queue, id],
-        );
+        const downloadChapter = useMemo(() => {
+            if (!currentChapter) {
+                return null;
+            }
+
+            return Chapters.getDownloadStatusFromCache(currentChapter?.id);
+        }, [downloadSubscription.data?.downloadStatusChanged, id]);
 
         const haveSomePagesFailedToLoad = useMemo(
             () => pageLoadStates.some((pageLoadState) => pageLoadState.error),
