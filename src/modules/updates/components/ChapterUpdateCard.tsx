@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import { Link, useLocation } from 'react-router-dom';
 import Refresh from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
+import { memo } from 'react';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterUpdateListFieldsFragment, DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
@@ -28,7 +29,7 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 
-export const ChapterUpdateCard = ({ chapter }: { chapter: ChapterUpdateListFieldsFragment }) => {
+export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateListFieldsFragment }) => {
     const { manga } = chapter;
     const download = Chapters.useDownloadStatusFromCache(chapter.id);
 
@@ -145,4 +146,4 @@ export const ChapterUpdateCard = ({ chapter }: { chapter: ChapterUpdateListField
             </CardActionArea>
         </Card>
     );
-};
+});
