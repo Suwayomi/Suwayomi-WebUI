@@ -33,6 +33,8 @@ export const DownloadStateIndicator = ({ chapterId }: { chapterId: ChapterIdInfo
     const isDownloading = download.state === DownloadState.Downloading;
     const isPartiallyDownloaded = download.progress !== 0;
 
+    const progress = `${Math.round(download.progress * 100)}%`;
+
     return (
         <Box
             sx={{
@@ -63,10 +65,12 @@ export const DownloadStateIndicator = ({ chapterId }: { chapterId: ChapterIdInfo
                     }}
                 >
                     <>
-                        {(isDownloading || isPartiallyDownloaded) && `${Math.round(download.progress * 100)}%`}
+                        {isDownloading && progress}
                         {!isDownloading &&
-                            !isPartiallyDownloaded &&
-                            t(DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP[download.state])}
+                            t('global.value', {
+                                value: t(DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP[download.state]),
+                                unit: isPartiallyDownloaded ? ` (${progress})` : '',
+                            })}
                     </>
                 </Typography>
             </Box>
