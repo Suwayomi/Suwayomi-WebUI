@@ -11,6 +11,8 @@ import { useMemo } from 'react';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 
+const onSelectNoop = () => {};
+
 export const ReaderChapterList = ({
     currentChapter,
     chapters,
@@ -35,10 +37,9 @@ export const ReaderChapterList = ({
                     key={chapters[index].id}
                     mode="reader"
                     chapter={chapters[index]}
-                    allChapters={chapters}
                     showChapterNumber={false}
                     selected={null}
-                    onSelect={() => undefined}
+                    onSelect={onSelectNoop}
                     selectable={false}
                     isActiveChapter={index === currentChapterIndex}
                 />

@@ -17,7 +17,7 @@ import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import React, { MouseEvent, TouchEvent, useRef } from 'react';
+import React, { memo, MouseEvent, TouchEvent, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
@@ -51,15 +51,14 @@ type TChapter = ChapterIdInfo &
 interface IProps {
     mode?: 'manga.page' | 'reader';
     chapter: TChapter;
-    allChapters: TChapter[];
     showChapterNumber: boolean;
-    onSelect: (selected: boolean, isShiftKey?: boolean) => void;
+    onSelect: (id: number, selected: boolean, isShiftKey?: boolean) => void;
     selected: boolean | null;
     selectable?: boolean;
     isActiveChapter?: boolean; // reader
 }
 
-export const ChapterCard: React.FC<IProps> = (props: IProps) => {
+export const ChapterCard = memo((props: IProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
 
@@ -68,7 +67,6 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
     const {
         mode = 'manga.page',
         chapter,
-        allChapters,
         showChapterNumber,
         onSelect,
         selected,
@@ -84,7 +82,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
 
         event.preventDefault();
         event.stopPropagation();
-        onSelect(!selected, event.shiftKey);
+        onSelect(chapter.id, !selected, event.shiftKey);
     };
 
     const handleClickOpenMenu = (
@@ -204,8 +202,7 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
                                 <ChapterActionMenuItems
                                     onClose={onClose}
                                     chapter={chapter}
-                                    allChapters={allChapters}
-                                    handleSelection={() => onSelect(true)}
+                                    handleSelection={() => onSelect(chapter.id, true)}
                                     canBeDownloaded={Chapters.isDownloadable(chapter)}
                                     selectable={selectable}
                                 />
@@ -216,4 +213,4 @@ export const ChapterCard: React.FC<IProps> = (props: IProps) => {
             )}
         </PopupState>
     );
-};
+});

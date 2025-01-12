@@ -38,6 +38,9 @@ import {
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { GetChaptersMangaQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
 
 type BaseProps = { onClose: () => void; selectable?: boolean };
 
@@ -50,7 +53,6 @@ type TChapter = ChapterIdInfo &
 
 type SingleModeProps = {
     chapter: TChapter;
-    allChapters: TChapter[];
     handleSelection?: SelectableCollectionReturnType<TChapter['id']>['handleSelection'];
     canBeDownloaded: boolean;
 };
@@ -65,7 +67,6 @@ type Props =
 
 export const ChapterActionMenuItems = ({
     chapter,
-    allChapters,
     handleSelection,
     canBeDownloaded = false,
     selectedChapters = [],
@@ -76,6 +77,16 @@ export const ChapterActionMenuItems = ({
 
     const isSingleMode = !!chapter;
     const { isDownloaded, isRead, isBookmarked } = chapter ?? {};
+
+    const mangaChaptersResponse = requestManager.useGetMangaChapters<GetChaptersMangaQuery>(
+        GET_CHAPTERS_MANGA,
+        chapter?.mangaId ?? -1,
+        {
+            skip: !chapter,
+            fetchPolicy: 'cache-only',
+        },
+    );
+    const allChapters = mangaChaptersResponse.data?.chapters.nodes ?? [];
 
     const {
         settings: { deleteChaptersWithBookmark },

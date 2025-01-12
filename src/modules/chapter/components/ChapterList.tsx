@@ -144,6 +144,11 @@ export const ChapterList = ({
     const noChaptersFound = chapters.length === 0;
     const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
 
+    const onSelect = useCallback(
+        (id: number, selected: boolean, selectRange?: boolean) => handleSelection(id, selected, { selectRange }),
+        [],
+    );
+
     if (isLoading || (noChaptersFound && isRefreshing)) {
         return (
             <Stack sx={{ justifyContent: 'center', alignItems: 'center', position: 'relative', flexGrow: 1 }}>
@@ -238,11 +243,8 @@ export const ChapterList = ({
                         <ChapterCard
                             chapter={chapters[index]}
                             selected={!areNoItemsSelected ? selectedItemIds.includes(chapters[index].id) : null}
-                            allChapters={chapters}
                             showChapterNumber={options.showChapterNumber}
-                            onSelect={(selected, selectRange) =>
-                                handleSelection(chapters[index].id, selected, { selectRange })
-                            }
+                            onSelect={onSelect}
                         />
                     )}
                     useWindowScroll={isMobileWidth}
