@@ -356,7 +356,8 @@
                 "downloaded": "Tải về",
                 "unread": "Chưa đọc",
                 "duplicate_chapters": "Chương bị trùng",
-                "tracked": "Đã theo dõi"
+                "tracked": "Đã theo dõi",
+                "started": "Đã bắt đầu đọc"
             }
         },
         "grid_layout": {
@@ -790,7 +791,8 @@
                 }
             },
             "title": {
-                "reader_settings": "Trình đọc"
+                "reader_settings": "Trình đọc",
+                "quick_settings": "Cài đặt nhanh"
             },
             "background_color": "Màu nền",
             "custom_filter": {
@@ -822,7 +824,10 @@
                 "stretch_image": "Bật/Tắt kéo dãn hình ảnh",
                 "offset_spread_pages": "Bật/Tắt bù trừ trang đôi",
                 "reading_mode": "Thay đổi kiểu đọc",
-                "reading_direction": "Thay đổi hướng đọc"
+                "reading_direction": "Thay đổi hướng đọc",
+                "auto_scroll": "Bật/tắt tự động cuộn",
+                "auto_scroll_speed_increase": "Tăng tốc độ cuộn tự động",
+                "auto_scroll_speed_decrease": "Giảm tốc độ cuộn tự động"
             },
             "exit_mode": "Sau khi thoát mở trang",
             "image_preload_amount": "Tải trước hình ảnh",
@@ -838,7 +843,10 @@
             "progress_bar": {
                 "position": "Vị trí thanh tiến trình",
                 "size": "Kích thước thanh tiến trình",
-                "style": "Kiểu thanh tiến trình"
+                "style": "Kiểu thanh tiến trình",
+                "auto_vertical_position": {
+                    "title": "Tự động định vị thanh tiến trình"
+                }
             },
             "reading_direction": {
                 "ltr": "Từ trái sang phải",
@@ -853,15 +861,41 @@
                 "title": "Vùng nhấn"
             },
             "active_setting": "Cài đặt đang hoạt động",
-            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)"
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
+            "auto_scroll": {
+                "smooth": "Cuộn tự động mượt mà",
+                "speed": "Tốc độ cuộn tự động",
+                "title": "Tự động cuộn"
+            },
+            "auto_webtoon_mode": {
+                "description": "Tự động dùng chế độ cuộn dọc cho các mục được phát hiện có khả năng sử dụng định dạng cuộn dọc",
+                "title": "Tự động dùng cuộn dọc"
+            },
+            "preview": {
+                "reading_mode": {
+                    "description": "Hiển thị tóm tắt chế độ hiện tại khi trình đọc được mở hoặc chế độ đã thay đổi",
+                    "title": "Hiển thị chế độ đọc"
+                },
+                "tap_zones": {
+                    "description": "Hiển thị tóm tắt bản xem trước bố cục vùng chạm khi trình đọc được mở hoặc bố cục đã thay đổi",
+                    "title": "Hiển thị lớp phủ vùng nhấn"
+                }
+            },
+            "chapter_transition": {
+                "warning": {
+                    "scanlator_change": "Thông báo về việc thay đổi nhóm dịch khi chuyển chương",
+                    "missing_chapter": "Thông báo về các chương bị thiếu trong quá trình chuyển đổi chương"
+                }
+            },
+            "source_series": "Loạt cài đặt"
         },
         "title": "Đọc - Truyện {{mangaId}} Chương {{chapterIndex}}",
         "transition_page": {
             "first_chapter": "Không có chương trước",
             "current": "Hiện tại:",
             "exit": {
-                "manga_page": "Thoát về trang manga",
-                "previous_page": "Thoát về trang trước"
+                "manga_page": "Thoát đến trang manga",
+                "previous_page": "Quay về trang trước"
             },
             "finished": "$t(global.label.finished):",
             "last_chapter": "Không có chương sau",
