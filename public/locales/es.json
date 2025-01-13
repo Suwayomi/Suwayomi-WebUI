@@ -733,7 +733,8 @@
                 "downloaded": "Descargado",
                 "unread": "No leído",
                 "tracked": "Rastreado",
-                "duplicate_chapters": "Capítulos duplicados"
+                "duplicate_chapters": "Capítulos duplicados",
+                "started": "Empezado"
             }
         },
         "time": {
@@ -939,7 +940,8 @@
                 "page_gap": "Separación de páginas"
             },
             "title": {
-                "reader_settings": "Configuración del lector"
+                "reader_settings": "Configuración del lector",
+                "quick_settings": "Configuración rápida"
             },
             "error": {
                 "label": {
@@ -977,7 +979,10 @@
                 "scroll_forward": "Avanzar",
                 "stretch_image": "Alternar estirar imagen",
                 "reading_mode": "Modo de lectura del ciclo",
-                "reading_direction": "Dirección de lectura del ciclo"
+                "reading_direction": "Dirección de lectura del ciclo",
+                "auto_scroll": "Alternar desplazamiento automático",
+                "auto_scroll_speed_decrease": "Reducir la velocidad de desplazamiento automático",
+                "auto_scroll_speed_increase": "Aumentar la velocidad de desplazamiento automático"
             },
             "image_preload_amount": "Precargar imágenes",
             "overlay_mode": "Modo de superposición",
@@ -992,22 +997,51 @@
             "progress_bar": {
                 "size": "Tamaño de la barra de progreso",
                 "style": "Estilo de la barra de progreso",
-                "position": "Posición de la barra de progreso"
+                "position": "Posición de la barra de progreso",
+                "auto_vertical_position": {
+                    "title": "Posición vertical automática de la barra de progreso"
+                }
             },
             "reading_direction": {
                 "ltr": "De izquierda a derecha",
                 "rtl": "De derecha a izquierda"
             },
             "tap_zones": {
-                "invert": "Invertir zonas de toque",
-                "title": "Zonas de toque",
+                "invert": "Invertir zonas de pulsación",
+                "title": "Zonas de pulsación",
                 "right_left": "Derecha e izquierda",
                 "edge": "Borde",
                 "kindle": "Kindle",
                 "l_shape": "Forma de L"
             },
             "active_setting": "Opción activa",
-            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)"
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
+            "auto_scroll": {
+                "speed": "Velocidad de desplazamiento automático",
+                "smooth": "Desplazamiento automático suave",
+                "title": "Desplazamiento automático"
+            },
+            "auto_webtoon_mode": {
+                "title": "Modo webtoon automático",
+                "description": "Usa el modo webtoon automáticamente para las entradas que se han detectado que probablemente usan el formato de banda larga"
+            },
+            "chapter_transition": {
+                "warning": {
+                    "scanlator_change": "Informar sobre un cambio de scanlator en la transición de capítulos",
+                    "missing_chapter": "Informar sobre capítulos faltantes en la transición de capítulos"
+                }
+            },
+            "preview": {
+                "tap_zones": {
+                    "title": "Mostrar superposición de zonas de pulsación",
+                    "description": "Muestra brevemente una vista previa del diseño de la zona de pulsación cuando el lector se abra o el diseño haya cambiado"
+                },
+                "reading_mode": {
+                    "title": "Mostrar modo de lectura",
+                    "description": "Muestra brevemente el modo actual cuando el lector se abra o el modo haya cambiado"
+                }
+            },
+            "source_series": "Configuración de la serie"
         },
         "title": "Lector — Manga {{mangaId}} Capítulo {{chapterIndex}}",
         "button": {
