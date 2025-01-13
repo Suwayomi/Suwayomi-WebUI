@@ -185,7 +185,7 @@ const VerticalGrid = forwardRef(
                 <Box ref={ref}>
                     <VirtuosoGrid
                         useWindowScroll
-                        overscan={window.innerHeight * 0.25}
+                        increaseViewportBy={window.innerHeight * 0.5}
                         totalCount={mangas.length}
                         components={{
                             List: GridContainer,
