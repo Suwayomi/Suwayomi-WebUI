@@ -14,7 +14,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
-import { useRef } from 'react';
+import { memo, useRef } from 'react';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
@@ -39,166 +39,169 @@ const BottomGradientDoubledDown = styled('div')({
     background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%)',
 });
 
-export const MangaGridCard = ({
-    manga,
-    longPressBind,
-    popupState,
-    handleClick,
-    mangaLinkTo,
-    selected,
-    inLibraryIndicator,
-    isInLibrary,
-    gridLayout,
-    handleSelection,
-    continueReadingButton,
-    mangaBadges,
-    mode,
-}: SpecificMangaCardProps) => {
-    const optionButtonRef = useRef<HTMLButtonElement>(null);
+export const MangaGridCard = memo(
+    ({
+        manga,
+        longPressBind,
+        popupState,
+        handleClick,
+        mangaLinkTo,
+        selected,
+        inLibraryIndicator,
+        isInLibrary,
+        gridLayout,
+        handleSelection,
+        continueReadingButton,
+        mangaBadges,
+        mode,
+    }: SpecificMangaCardProps) => {
+        const optionButtonRef = useRef<HTMLButtonElement>(null);
 
-    const { id, title } = manga;
+        const { id, title } = manga;
 
-    return (
-        <Link
-            component={RouterLink}
-            {...longPressBind(() => popupState.open(optionButtonRef.current))}
-            onClick={handleClick}
-            to={mangaLinkTo}
-            state={{ mangaTitle: title }}
-            sx={{ textDecoration: 'none', touchCallout: 'none' }}
-        >
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    m: 0.25,
-                    outline: selected ? '4px solid' : undefined,
-                    borderRadius: selected ? '1px' : undefined,
-                    outlineColor: (theme) => theme.palette.primary.main,
-                    backgroundColor: (theme) => (selected ? theme.palette.primary.main : undefined),
-                    '@media (hover: hover) and (pointer: fine)': {
-                        '&:hover .manga-option-button': {
-                            visibility: 'visible',
-                            pointerEvents: 'all',
-                        },
-                        '&:hover .source-manga-library-state-button': {
-                            display: 'inline-flex',
-                        },
-                        '&:hover .source-manga-library-state-indicator': {
-                            display: mode === 'source' ? 'none' : 'flex',
-                        },
-                    },
-                }}
+        return (
+            <Link
+                component={RouterLink}
+                {...longPressBind(() => popupState.open(optionButtonRef.current))}
+                onClick={handleClick}
+                to={mangaLinkTo}
+                state={{ mangaTitle: title }}
+                sx={{ textDecoration: 'none', touchCallout: 'none' }}
             >
-                <Card
+                <Box
                     sx={{
-                        // force standard aspect ratio of manga covers
-                        aspectRatio: MANGA_COVER_ASPECT_RATIO,
                         display: 'flex',
+                        flexDirection: 'column',
+                        m: 0.25,
+                        outline: selected ? '4px solid' : undefined,
+                        borderRadius: selected ? '1px' : undefined,
+                        outlineColor: (theme) => theme.palette.primary.main,
+                        backgroundColor: (theme) => (selected ? theme.palette.primary.main : undefined),
+                        '@media (hover: hover) and (pointer: fine)': {
+                            '&:hover .manga-option-button': {
+                                visibility: 'visible',
+                                pointerEvents: 'all',
+                            },
+                            '&:hover .source-manga-library-state-button': {
+                                display: 'inline-flex',
+                            },
+                            '&:hover .source-manga-library-state-indicator': {
+                                display: mode === 'source' ? 'none' : 'flex',
+                            },
+                        },
                     }}
                 >
-                    <CardActionArea
+                    <Card
                         sx={{
-                            position: 'relative',
-                            height: '100%',
+                            // force standard aspect ratio of manga covers
+                            aspectRatio: MANGA_COVER_ASPECT_RATIO,
+                            display: 'flex',
                         }}
                     >
-                        <SpinnerImage
-                            alt={title}
-                            src={Mangas.getThumbnailUrl(manga)}
-                            imgStyle={
-                                inLibraryIndicator && isInLibrary
-                                    ? {
-                                          height: '100%',
-                                          width: '100%',
-                                          objectFit: 'cover',
-                                          filter: 'brightness(0.4)',
-                                      }
-                                    : {
-                                          height: '100%',
-                                          width: '100%',
-                                          objectFit: 'cover',
-                                      }
-                            }
-                            spinnerStyle={{
-                                display: 'grid',
-                                placeItems: 'center',
-                            }}
-                        />
-                        <Stack
-                            direction="row"
+                        <CardActionArea
                             sx={{
-                                alignItems: 'start',
-                                justifyContent: 'space-between',
-                                position: 'absolute',
-                                top: (theme) => theme.spacing(1),
-                                left: (theme) => theme.spacing(1),
-                                right: (theme) => theme.spacing(1),
+                                position: 'relative',
+                                height: '100%',
                             }}
                         >
-                            {mangaBadges}
-                            <MangaOptionButton
-                                ref={optionButtonRef}
-                                popupState={popupState}
-                                id={id}
-                                selected={selected}
-                                handleSelection={handleSelection}
+                            <SpinnerImage
+                                alt={title}
+                                src={Mangas.getThumbnailUrl(manga)}
+                                imgStyle={
+                                    inLibraryIndicator && isInLibrary
+                                        ? {
+                                              height: '100%',
+                                              width: '100%',
+                                              objectFit: 'cover',
+                                              filter: 'brightness(0.4)',
+                                          }
+                                        : {
+                                              height: '100%',
+                                              width: '100%',
+                                              objectFit: 'cover',
+                                          }
+                                }
+                                spinnerStyle={{
+                                    display: 'grid',
+                                    placeItems: 'center',
+                                }}
                             />
-                        </Stack>
-                        <>
-                            {gridLayout !== GridLayout.Comfortable && (
-                                <>
-                                    <BottomGradient />
-                                    <BottomGradientDoubledDown />
-                                </>
-                            )}
                             <Stack
                                 direction="row"
                                 sx={{
-                                    justifyContent: gridLayout !== GridLayout.Comfortable ? 'space-between' : 'end',
-                                    alignItems: 'end',
+                                    alignItems: 'start',
+                                    justifyContent: 'space-between',
                                     position: 'absolute',
-                                    bottom: 0,
-                                    width: '100%',
-                                    p: 1,
-                                    gap: 1,
+                                    top: (theme) => theme.spacing(1),
+                                    left: (theme) => theme.spacing(1),
+                                    right: (theme) => theme.spacing(1),
                                 }}
                             >
-                                {gridLayout !== GridLayout.Comfortable && (
-                                    <Tooltip title={title} placement="top">
-                                        <TypographyMaxLines
-                                            component="h3"
-                                            sx={{
-                                                color: 'white',
-                                                textShadow: '0px 0px 3px #000000',
-                                            }}
-                                        >
-                                            {title}
-                                        </TypographyMaxLines>
-                                    </Tooltip>
-                                )}
-                                {continueReadingButton}
+                                {mangaBadges}
+                                <MangaOptionButton
+                                    ref={optionButtonRef}
+                                    popupState={popupState}
+                                    id={id}
+                                    selected={selected}
+                                    handleSelection={handleSelection}
+                                />
                             </Stack>
-                        </>
-                    </CardActionArea>
-                </Card>
-                {gridLayout === GridLayout.Comfortable && (
-                    <Stack sx={{ pb: 1 }}>
-                        <Tooltip title={title} placement="top">
-                            <TypographyMaxLines
-                                component="h3"
-                                sx={{
-                                    color: (theme) => (selected ? theme.palette.primary.contrastText : 'text.primary'),
-                                    height: '3rem',
-                                    pt: 0.5,
-                                }}
-                            >
-                                {title}
-                            </TypographyMaxLines>
-                        </Tooltip>
-                    </Stack>
-                )}
-            </Box>
-        </Link>
-    );
-};
+                            <>
+                                {gridLayout !== GridLayout.Comfortable && (
+                                    <>
+                                        <BottomGradient />
+                                        <BottomGradientDoubledDown />
+                                    </>
+                                )}
+                                <Stack
+                                    direction="row"
+                                    sx={{
+                                        justifyContent: gridLayout !== GridLayout.Comfortable ? 'space-between' : 'end',
+                                        alignItems: 'end',
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        width: '100%',
+                                        p: 1,
+                                        gap: 1,
+                                    }}
+                                >
+                                    {gridLayout !== GridLayout.Comfortable && (
+                                        <Tooltip title={title} placement="top">
+                                            <TypographyMaxLines
+                                                component="h3"
+                                                sx={{
+                                                    color: 'white',
+                                                    textShadow: '0px 0px 3px #000000',
+                                                }}
+                                            >
+                                                {title}
+                                            </TypographyMaxLines>
+                                        </Tooltip>
+                                    )}
+                                    {continueReadingButton}
+                                </Stack>
+                            </>
+                        </CardActionArea>
+                    </Card>
+                    {gridLayout === GridLayout.Comfortable && (
+                        <Stack sx={{ pb: 1 }}>
+                            <Tooltip title={title} placement="top">
+                                <TypographyMaxLines
+                                    component="h3"
+                                    sx={{
+                                        color: (theme) =>
+                                            selected ? theme.palette.primary.contrastText : 'text.primary',
+                                        height: '3rem',
+                                        pt: 0.5,
+                                    }}
+                                >
+                                    {title}
+                                </TypographyMaxLines>
+                            </Tooltip>
+                        </Stack>
+                    )}
+                </Box>
+            </Link>
+        );
+    },
+);

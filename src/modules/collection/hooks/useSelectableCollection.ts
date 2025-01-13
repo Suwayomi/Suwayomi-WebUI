@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 export type SelectableCollectionReturnType<Id extends number | string, Key extends string = string> = {
     selectedItemIds: Id[];
@@ -52,73 +52,75 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
         lastSelectedItemInfoRef.current = undefined;
     }
 
-    const handleSelection: SelectableCollectionReturnType<Id, Key>['handleSelection'] = (
-        id,
-        selected,
-        { selectRange = false, key = currentKey } = {},
-    ) => {
-        const deselect = !selected;
+    const handleSelection: SelectableCollectionReturnType<Id, Key>['handleSelection'] = useCallback(
+        (id, selected, { selectRange = false, key = currentKey } = {}) => {
+            const deselect = !selected;
 
-        const { id: lastSelectedItemId, key: lastSelectedItemIdKey } = lastSelectedItemInfoRef.current ?? {};
-        lastSelectedItemInfoRef.current = { id, key };
+            const { id: lastSelectedItemId, key: lastSelectedItemIdKey } = lastSelectedItemInfoRef.current ?? {};
+            lastSelectedItemInfoRef.current = { id, key };
 
-        const isSelectRange = selectRange && key === lastSelectedItemIdKey && lastSelectedItemId !== undefined;
+            const isSelectRange = selectRange && key === lastSelectedItemIdKey && lastSelectedItemId !== undefined;
 
-        const indexOfLastSelectedItemId = isSelectRange ? itemIds.indexOf(lastSelectedItemId) : -1;
-        const indexOfSelectedId = isSelectRange ? itemIds.indexOf(id) : -1;
+            const indexOfLastSelectedItemId = isSelectRange ? itemIds.indexOf(lastSelectedItemId) : -1;
+            const indexOfSelectedId = isSelectRange ? itemIds.indexOf(id) : -1;
 
-        const selectedIds = isSelectRange
-            ? itemIds.slice(
-                  Math.min(indexOfLastSelectedItemId, indexOfSelectedId),
-                  Math.max(indexOfLastSelectedItemId, indexOfSelectedId) + 1,
-              )
-            : [id];
+            const selectedIds = isSelectRange
+                ? itemIds.slice(
+                      Math.min(indexOfLastSelectedItemId, indexOfSelectedId),
+                      Math.max(indexOfLastSelectedItemId, indexOfSelectedId) + 1,
+                  )
+                : [id];
 
-        if (deselect) {
+            if (deselect) {
+                setKeyToSelectedItemIds((prevState) => ({
+                    ...prevState,
+                    [key]: prevState[key]?.filter((selectedItemId) => !selectedIds.includes(selectedItemId)) ?? [],
+                }));
+                return;
+            }
+
             setKeyToSelectedItemIds((prevState) => ({
                 ...prevState,
-                [key]: prevState[key]?.filter((selectedItemId) => !selectedIds.includes(selectedItemId)) ?? [],
+                [key]: [...new Set([...(prevState[key] ?? []), ...selectedIds])],
             }));
-            return;
-        }
+        },
+        [currentKey, itemIds],
+    );
 
-        setKeyToSelectedItemIds((prevState) => ({
-            ...prevState,
-            [key]: [...new Set([...(prevState[key] ?? []), ...selectedIds])],
-        }));
-    };
+    const handleSelectAll = useCallback(
+        (selectAll: boolean, ids: Id[], key: Key = currentKey) => {
+            switch (selectAll) {
+                case true:
+                    setKeyToSelectedItemIds((prevState) => ({
+                        ...prevState,
+                        [key]: [...ids],
+                    }));
+                    break;
+                case false:
+                    setKeyToSelectedItemIds((prevState) => ({
+                        ...prevState,
+                        [key]: [],
+                    }));
+                    break;
+                default:
+                    break;
+            }
+        },
+        [currentKey],
+    );
 
-    const handleSelectAll = (selectAll: boolean, ids: Id[], key: Key = currentKey) => {
-        switch (selectAll) {
-            case true:
-                setKeyToSelectedItemIds((prevState) => ({
-                    ...prevState,
-                    [key]: [...ids],
-                }));
-                break;
-            case false:
-                setKeyToSelectedItemIds((prevState) => ({
-                    ...prevState,
-                    [key]: [],
-                }));
-                break;
-            default:
-                break;
-        }
-    };
-
-    const setSelectionForKey = (key: Key, ids: Id[]) => {
+    const setSelectionForKey = useCallback((key: Key, ids: Id[]) => {
         setKeyToSelectedItemIds((prevState) => ({
             ...prevState,
             [key]: [...ids],
         }));
-    };
+    }, []);
 
-    const getSelectionForKey = (key: Key) => keyToSelectedItemIds[key];
+    const getSelectionForKey = useCallback((key: Key) => keyToSelectedItemIds[key], [keyToSelectedItemIds]);
 
-    const clearSelection = () => {
+    const clearSelection = useCallback(() => {
         setKeyToSelectedItemIds({});
-    };
+    }, []);
 
     return {
         selectedItemIds,

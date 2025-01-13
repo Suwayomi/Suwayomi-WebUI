@@ -7,7 +7,7 @@
  */
 
 import PopupState, { bindMenu } from 'material-ui-popup-state';
-import { useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import { useLongPress } from 'use-long-press';
 import { MangaActionMenuItems, SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
@@ -42,7 +42,7 @@ const getMangaLinkTo = (
     }
 };
 
-export const MangaCard = (props: MangaCardProps) => {
+export const MangaCard = memo((props: MangaCardProps) => {
     const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
     const { id, firstUnreadChapter, downloadCount, unreadCount } = manga;
     const {
@@ -58,74 +58,57 @@ export const MangaCard = (props: MangaCardProps) => {
 
     const [isMigrateDialogOpen, setIsMigrateDialogOpen] = useState(false);
 
-    const handleClick = (event: React.MouseEvent | React.TouchEvent, openMenu?: () => void) => {
-        const isDefaultMode = mode === 'default';
-        const isSourceMode = mode === 'source';
-        const isMigrateSelectMode = mode === 'migrate.select';
-        const isSelectionMode = selected !== null;
-        const isLongPress = !!openMenu;
+    const handleClick = useCallback(
+        (event: React.MouseEvent | React.TouchEvent, openMenu?: () => void) => {
+            const isDefaultMode = mode === 'default';
+            const isSourceMode = mode === 'source';
+            const isMigrateSelectMode = mode === 'migrate.select';
+            const isSelectionMode = selected !== null;
+            const isLongPress = !!openMenu;
 
-        const shouldHandleClick =
-            isMigrateSelectMode || isSelectionMode || ((isDefaultMode || isSourceMode) && isLongPress);
-        if (!shouldHandleClick) {
-            return;
-        }
+            const shouldHandleClick =
+                isMigrateSelectMode || isSelectionMode || ((isDefaultMode || isSourceMode) && isLongPress);
+            if (!shouldHandleClick) {
+                return;
+            }
 
-        event.preventDefault();
+            event.preventDefault();
 
-        if (isSourceMode) {
-            updateLibraryState();
-            return;
-        }
+            if (isSourceMode) {
+                updateLibraryState();
+                return;
+            }
 
-        if (isSelectionMode) {
-            handleSelection?.(id, !selected, { selectRange: event.shiftKey });
-            return;
-        }
+            if (isSelectionMode) {
+                handleSelection?.(id, !selected, { selectRange: event.shiftKey });
+                return;
+            }
 
-        if (isDefaultMode) {
-            openMenu?.();
-            return;
-        }
+            if (isDefaultMode) {
+                openMenu?.();
+                return;
+            }
 
-        if (isMigrateSelectMode) {
-            setIsMigrateDialogOpen(true);
-        }
-    };
+            if (isMigrateSelectMode) {
+                setIsMigrateDialogOpen(true);
+            }
+        },
+        [mode, selected, updateLibraryState, handleSelection],
+    );
 
-    const longPressBind = useLongPress((e, { context }) => {
-        e.shiftKey = true;
-        handleClick(e, context as () => {});
-    });
+    const longPressBind = useLongPress(
+        useCallback(
+            (e: any, { context }: any) => {
+                e.shiftKey = true;
+                handleClick(e, context as () => {});
+            },
+            [handleClick],
+        ),
+    );
 
     const MangaCardComponent = useMemo(
         () => (gridLayout === GridLayout.List ? MangaListCard : MangaGridCard),
         [gridLayout],
-    );
-
-    const continueReadingButton = useMemo(
-        () => (
-            <ContinueReadingButton
-                showContinueReadingButton={showContinueReadingButton && mode === 'default'}
-                chapter={firstUnreadChapter}
-                mangaLinkTo={mangaLinkTo}
-            />
-        ),
-        [showContinueReadingButton, firstUnreadChapter, mangaLinkTo],
-    );
-
-    const mangaBadges = useMemo(
-        () => (
-            <MangaBadges
-                inLibraryIndicator={inLibraryIndicator}
-                isInLibrary={isInLibrary}
-                unread={unreadCount}
-                downloadCount={downloadCount}
-                updateLibraryState={updateLibraryState}
-                mode={mode}
-            />
-        ),
-        [inLibraryIndicator, isInLibrary, unreadCount, downloadCount, updateLibraryState],
     );
 
     return (
@@ -144,8 +127,23 @@ export const MangaCard = (props: MangaCardProps) => {
                             mangaLinkTo={mangaLinkTo}
                             isInLibrary={isInLibrary}
                             inLibraryIndicator={inLibraryIndicator}
-                            continueReadingButton={continueReadingButton}
-                            mangaBadges={mangaBadges}
+                            continueReadingButton={
+                                <ContinueReadingButton
+                                    showContinueReadingButton={showContinueReadingButton && mode === 'default'}
+                                    chapter={firstUnreadChapter}
+                                    mangaLinkTo={mangaLinkTo}
+                                />
+                            }
+                            mangaBadges={
+                                <MangaBadges
+                                    inLibraryIndicator={inLibraryIndicator}
+                                    isInLibrary={isInLibrary}
+                                    unread={unreadCount}
+                                    downloadCount={downloadCount}
+                                    updateLibraryState={updateLibraryState}
+                                    mode={mode}
+                                />
+                            }
                         />
                         {!!handleSelection && popupState.isOpen && (
                             <Menu {...bindMenu(popupState)}>
@@ -165,4 +163,4 @@ export const MangaCard = (props: MangaCardProps) => {
             </PopupState>
         </>
     );
-};
+});

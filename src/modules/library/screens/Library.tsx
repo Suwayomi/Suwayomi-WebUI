@@ -122,10 +122,13 @@ export function Library() {
         currentKey: activeTab?.id.toString(),
     });
 
-    const handleSelect: typeof handleSelection = (id, selected, selectOptions) => {
-        setIsSelectModeActive(!!(selectedItemIds.length + (selected ? 1 : -1)));
-        handleSelection(id, selected, selectOptions);
-    };
+    const handleSelect: typeof handleSelection = useCallback(
+        (id, selected, selectOptions) => {
+            setIsSelectModeActive(!!(selectedItemIds.length + (selected ? 1 : -1)));
+            handleSelection(id, selected, selectOptions);
+        },
+        [setIsSelectModeActive, handleSelection],
+    );
 
     const selectedMangas = useMemo(
         () =>
@@ -212,7 +215,6 @@ export function Library() {
         isSelectModeActive,
         areNoItemsSelected,
         areAllItemsSelected,
-        selectedItemIds.length,
         mangas.length,
         activeTab,
         showTabSize,

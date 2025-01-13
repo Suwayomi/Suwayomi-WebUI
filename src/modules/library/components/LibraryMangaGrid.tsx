@@ -19,6 +19,8 @@ interface LibraryMangaGridProps
     isLoading: boolean;
 }
 
+const loadMoreNoop = () => undefined;
+
 export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
     showFilteredOutMessage,
     message,
@@ -41,7 +43,7 @@ export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
             gridWrapperProps={{ sx: { p: 1 } }}
             {...gridProps}
             hasNextPage={false}
-            loadMore={() => undefined}
+            loadMore={loadMoreNoop}
             message={showFilteredOutMessage ? t('library.error.label.no_matches') : message}
             messageExtra={showFilteredOutMessage ? undefined : messageExtra}
             gridLayout={options.gridLayout}
