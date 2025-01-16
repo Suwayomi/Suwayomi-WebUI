@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Direction, StyledEngineProvider, ThemeProvider } from '@mui/material/styles';
+import { Direction, StyledEngineProvider, ThemeProvider, useColorScheme } from '@mui/material/styles';
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
@@ -58,6 +58,9 @@ export const AppContext: React.FC<Props> = ({ children }) => {
     const [themeMode, setThemeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
     const [pureBlackMode, setPureBlackMode] = useLocalStorage<boolean>('pureBlackMode', false);
 
+    const { mode } = useColorScheme();
+    const actualThemeMode = mode ?? themeMode ?? 'dark';
+
     const darkThemeContext = useMemo(
         () => ({
             appTheme,
@@ -71,8 +74,14 @@ export const AppContext: React.FC<Props> = ({ children }) => {
     );
 
     const theme = useMemo(
-        () => createAndSetTheme(themeMode, getTheme(appTheme, customThemes), pureBlackMode, currentDirection),
-        [themeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme, customThemes],
+        () =>
+            createAndSetTheme(
+                actualThemeMode as ThemeMode,
+                getTheme(appTheme, customThemes),
+                pureBlackMode,
+                currentDirection,
+            ),
+        [actualThemeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme, customThemes],
     );
 
     return (

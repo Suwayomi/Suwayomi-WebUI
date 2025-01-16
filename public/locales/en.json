@@ -1034,10 +1034,7 @@
               "invalid_json": "Invalid json",
               "invalid_name": "The theme name must be unique and has a limit of 16 characters"
             },
-            "info": {
-              "creating_theme": "Create a custom theme with the <2>MUI Theme Creator</2>, copy everything after \"themeOptions\" from \"{\" to \"}\" and paste it into the \"theme\" text field.",
-              "theme_mode_lock": "In case \"mode\" or \"type\" is defined in the \"palette\" object, the theme will be locked into this mode and will not change regardless of the selected apps theme mode"
-            },
+            "description": "See the official <0>MUI documentation</0> for how to customize the theme.\nThe palette API is not supported, you have to use the new <1>color schemes API</1>.\n\nYou can use theme creators like <2>MUI Theme Creator</2>, however, you have to adjust the created object according to the new color schemes API.\n\nIn case no background is defined, a background will be calculated based on the primary color",
             "theme_name": "Name"
           },
           "failure": "Could not create theme",

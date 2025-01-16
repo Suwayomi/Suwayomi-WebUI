@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useContext, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import { styled, ThemeProvider } from '@mui/material/styles';
+import { styled, ThemeProvider, useTheme } from '@mui/material/styles';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
@@ -32,17 +32,21 @@ const ThemePreviewBadge = styled(Box)(() => ({
     height: '20px',
 }));
 
-export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: () => void }) => {
-    const { getName } = theme;
+export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDelete: () => void }) => {
+    const { getName } = appTheme;
 
     const { t } = useTranslation();
-    const { themeMode, setAppTheme, appTheme, pureBlackMode } = useContext(ThemeModeContext);
+    const theme = useTheme();
+    const { themeMode, setAppTheme, appTheme: activeAppTheme, pureBlackMode } = useContext(ThemeModeContext);
 
-    const popupState = usePopupState({ variant: 'popover', popupId: `theme-edit-dialog-${theme.id}` });
+    const popupState = usePopupState({ variant: 'popover', popupId: `theme-edit-dialog-${appTheme.id}` });
 
-    const isSelected = theme.id === appTheme;
+    const isSelected = appTheme.id === activeAppTheme;
 
-    const muiTheme = useMemo(() => createTheme(themeMode, theme, pureBlackMode), [theme, themeMode, pureBlackMode]);
+    const muiTheme = useMemo(
+        () => createTheme(themeMode, appTheme, pureBlackMode),
+        [appTheme, themeMode, pureBlackMode],
+    );
 
     return (
         <>
@@ -71,12 +75,15 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                 bottom: 0,
                                 left: 0,
                                 border: '4px solid',
-                                borderColor: isSelected
-                                    ? muiTheme.palette.primary.light
-                                    : muiTheme.palette.background.paper,
+                                borderColor: isSelected ? muiTheme.palette.primary.light : muiTheme.palette.grey['100'],
                                 zIndex: 1,
                                 pointerEvents: 'none',
                                 borderRadius: 1,
+                                ...theme.applyStyles('dark', {
+                                    borderColor: isSelected
+                                        ? muiTheme.palette.primary.light
+                                        : muiTheme.palette.grey['900'],
+                                }),
                             }}
                         />
                         <CardActionArea
@@ -85,15 +92,15 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                 backgroundColor: 'background.default',
                             }}
                             onClick={() => {
-                                const needToLoadFonts = hasMissingFonts(theme.muiTheme);
+                                const needToLoadFonts = hasMissingFonts(appTheme.muiTheme);
                                 if (!needToLoadFonts) {
-                                    setAppTheme(theme.id);
+                                    setAppTheme(appTheme.id);
                                     return;
                                 }
 
                                 makeToast(t('settings.appearance.theme.select.fonts.loading'), 'info');
-                                loadThemeFonts(theme.muiTheme)
-                                    .then(() => setAppTheme(theme.id))
+                                loadThemeFonts(appTheme.muiTheme)
+                                    .then(() => setAppTheme(appTheme.id))
                                     .catch((e) =>
                                         makeToast(
                                             t('settings.appearance.theme.select.fonts.error'),
@@ -136,7 +143,7 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                                     }}
                                                 />
                                             )}
-                                            {!isSelected && theme.isCustom && (
+                                            {!isSelected && appTheme.isCustom && (
                                                 <IconButton
                                                     onClick={(e) => {
                                                         e.preventDefault();
@@ -152,7 +159,7 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                                     </Tooltip>
                                                 </IconButton>
                                             )}
-                                            {theme.isCustom && (
+                                            {appTheme.isCustom && (
                                                 <IconButton
                                                     onClick={(e) => {
                                                         e.preventDefault();
@@ -194,7 +201,7 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                                 <Stack
                                     sx={{
                                         height: '25%',
-                                        backgroundColor: muiTheme.palette.background.paper,
+                                        backgroundColor: 'background.paper',
                                         alignItems: 'center',
                                         flexDirection: 'row',
                                         gap: 2,
@@ -226,7 +233,7 @@ export const ThemePreview = ({ theme, onDelete }: { theme: AppTheme; onDelete: (
                     <TypographyMaxLines sx={{ maxWidth: '100%' }}>{getName()}</TypographyMaxLines>
                 </Tooltip>
             </Stack>
-            <ThemeCreationDialog bindDialogProps={bindDialog(popupState)} mode="edit" appTheme={theme} />
+            <ThemeCreationDialog bindDialogProps={bindDialog(popupState)} mode="edit" appTheme={appTheme} />
         </>
     );
 };

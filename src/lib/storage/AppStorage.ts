@@ -26,7 +26,9 @@ export class Storage {
         return this.parseValue(this.getItem(key), defaultValue);
     }
 
-    setItem(key: string, value: unknown, emitEvent: boolean = true): void {
+    setItem(key: string, value: unknown, emitEvent: boolean = true, stringify: boolean = true): void {
+        const currentValue = this.getItem(key);
+
         const fireEvent = (valueToStore: string | undefined) => {
             if (!emitEvent) {
                 return;
@@ -35,7 +37,7 @@ export class Storage {
             window.dispatchEvent(
                 new StorageEvent('storage', {
                     key,
-                    oldValue: this.getItem(key),
+                    oldValue: currentValue,
                     newValue: valueToStore,
                 }),
             );
@@ -47,10 +49,10 @@ export class Storage {
             return;
         }
 
-        const valueToStore = JSON.stringify(value);
+        const valueToStore = stringify ? JSON.stringify(value) : value;
 
-        this.storage.setItem(key, valueToStore);
-        fireEvent(valueToStore);
+        this.storage.setItem(key, valueToStore as string);
+        fireEvent(valueToStore as string);
     }
 }
 

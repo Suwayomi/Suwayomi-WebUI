@@ -85,7 +85,7 @@ export class MediaQuery {
     }
 
     static getThemeMode(): Exclude<ThemeMode, 'system'> {
-        const themeMode = AppStorage.local.getItemParsed<ThemeMode>('themeMode', ThemeMode.SYSTEM);
+        const themeMode = AppStorage.local.getItem('mui-mode') as ThemeMode;
 
         const isSystemMode = themeMode === ThemeMode.SYSTEM;
         if (isSystemMode) {

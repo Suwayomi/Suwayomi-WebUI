@@ -41,6 +41,7 @@
     "@mui/icons-material": "6.3.0",
     "@mui/material": "6.3.0",
     "@mui/system": "6.3.0",
+    "@mui/utils": "^6.4.0",
     "@mui/x-date-pickers": "7.23.3",
     "apollo-upload-client": "18.0.1",
     "csstype": "3.1.3",

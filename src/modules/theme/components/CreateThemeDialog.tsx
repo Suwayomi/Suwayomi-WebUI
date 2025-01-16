@@ -37,12 +37,26 @@ const baseCustomTheme: AppTheme = {
     isCustom: true,
     getName: () => '',
     muiTheme: {
-        palette: {
-            primary: {
-                main: '#1976d2',
+        colorSchemes: {
+            light: {
+                palette: {
+                    primary: {
+                        main: '#1976d2',
+                    },
+                    secondary: {
+                        main: '#9c27b0',
+                    },
+                },
             },
-            secondary: {
-                main: '#9c27b0',
+            dark: {
+                palette: {
+                    primary: {
+                        main: '#1976d2',
+                    },
+                    secondary: {
+                        main: '#9c27b0',
+                    },
+                },
             },
         },
     },
@@ -115,10 +129,23 @@ export const ThemeCreationDialog = ({
                     />
                 )}
                 {!error && (
-                    <Stack sx={{ gap: 2 }}>
+                    <Stack sx={{ gap: 2, whiteSpace: 'pre-line' }}>
                         <Typography>
-                            <Trans i18nKey="settings.appearance.theme.create.dialog.info.creating_theme">
-                                Create a custom theme with the{' '}
+                            <Trans i18nKey="settings.appearance.theme.create.dialog.description">
+                                <Link
+                                    href="https://mui.com/material-ui/customization/how-to-customize/"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    MUI documentation
+                                </Link>
+                                <Link
+                                    href="https://mui.com/material-ui/customization/palette/#color-schemes"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    MUI documentation
+                                </Link>
                                 <Link
                                     href="https://zenoo.github.io/mui-theme-creator/"
                                     target="_blank"
@@ -130,7 +157,6 @@ export const ThemeCreationDialog = ({
                                 &quot; and paste it into the &quot;theme&quot; text field.
                             </Trans>
                         </Typography>
-                        <Typography>{t('settings.appearance.theme.create.dialog.info.theme_mode_lock')}</Typography>
                         <TextField
                             disabled={mode === 'edit'}
                             label={t('settings.appearance.theme.create.dialog.theme_name')}

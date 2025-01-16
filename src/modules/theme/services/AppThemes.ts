@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ThemeOptions } from '@mui/material/styles';
+import { CssVarsThemeOptions } from '@mui/material/styles';
 import WebFont from 'webfontloader';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
@@ -66,12 +66,12 @@ const getFontsFromTheme = (obj: Record<string, any>, fonts: string[] = []): stri
 
 const loadedFonts: string[] = [];
 
-export const hasMissingFonts = (theme: ThemeOptions): boolean => {
+export const hasMissingFonts = (theme: CssVarsThemeOptions): boolean => {
     const themeFonts = getFontsFromTheme(theme.typography ?? {});
     return !!themeFonts.length && themeFonts.some((font) => !loadedFonts.includes(font));
 };
 
-export const loadThemeFonts = async (theme: ThemeOptions): Promise<void> => {
+export const loadThemeFonts = async (theme: CssVarsThemeOptions): Promise<void> => {
     const themeFonts = getFontsFromTheme(theme.typography ?? {});
     const missingThemeFonts = themeFonts.filter((font) => !loadedFonts.includes(font));
 

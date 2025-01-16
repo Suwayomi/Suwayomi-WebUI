@@ -15,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
+import { useColorScheme } from '@mui/material/styles';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
@@ -23,7 +24,6 @@ import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { I18nResourceCode, i18nResources } from '@/i18n';
 import { langCodeToName } from '@/modules/core/utils/Languages.ts';
-import { getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { ThemeList } from '@/modules/theme/components/ThemeList.tsx';
 import {
     createUpdateMetadataServerSettings,
@@ -35,10 +35,13 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
-    const { themeMode, setThemeMode, pureBlackMode, setPureBlackMode, appTheme } = useContext(ThemeModeContext);
+    const { themeMode, setThemeMode, pureBlackMode, setPureBlackMode } = useContext(ThemeModeContext);
+    const { mode, setMode } = useColorScheme();
+    const actualThemeMode = (mode ?? themeMode) as ThemeMode;
 
     const { setTitle, setAction } = useContext(NavBarContext);
     useLayoutEffect(() => {
@@ -59,8 +62,7 @@ export const Appearance = () => {
         makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
 
-    const isDarkMode =
-        getTheme(appTheme).muiTheme.palette?.mode === 'dark' || MediaQuery.getThemeMode() === ThemeMode.DARK;
+    const isDarkMode = MediaQuery.getThemeMode() === ThemeMode.DARK;
 
     const DEFAULT_ITEM_WIDTH = 300;
     const [itemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', DEFAULT_ITEM_WIDTH);
@@ -89,7 +91,17 @@ export const Appearance = () => {
         >
             <ListItem>
                 <ListItemText primary={t('settings.appearance.theme.mode')} />
-                <Select<ThemeMode> value={themeMode} onChange={(e) => setThemeMode(e.target.value as ThemeMode)}>
+                <Select<ThemeMode>
+                    value={actualThemeMode}
+                    onChange={(e) => {
+                        const newMode = e.target.value as 'system' | 'light' | 'dark';
+
+                        setThemeMode(newMode as ThemeMode);
+                        setMode(newMode);
+                        // in case a non "colorSchemes" mui theme is active, "setMode" does not update the mode ("mui-mode") value
+                        AppStorage.local.setItem('mui-mode', newMode, true, false);
+                    }}
+                >
                     <MenuItem key={ThemeMode.SYSTEM} value={ThemeMode.SYSTEM}>
                         System
                     </MenuItem>
