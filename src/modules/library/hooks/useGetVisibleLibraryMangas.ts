@@ -61,12 +61,12 @@ const performSearch = (
     return cleanedUpQueries.every((query) => cleanedUpStrings.includes(query));
 };
 
-type TMangaQueryFilter = Pick<MangaType, 'title' | 'genre' | 'description' | 'artist' | 'author'> & {
+type TMangaQueryFilter = Pick<MangaType, 'title' | 'genre' | 'description' | 'artist' | 'author' | 'sourceId'> & {
     source?: NullAndUndefined<Pick<SourceType, 'displayName'>>;
 };
 const querySearchManga = (
     query: NullAndUndefined<string>,
-    { title, genre: genres, description, artist, author, source }: TMangaQueryFilter,
+    { title, genre: genres, description, artist, author, source, sourceId }: TMangaQueryFilter,
 ): boolean =>
     performSearch([query], [title]) ||
     performSearch(
@@ -76,7 +76,8 @@ const querySearchManga = (
     performSearch([query], [description]) ||
     performSearch([query], [artist]) ||
     performSearch([query], [author]) ||
-    performSearch([query], [source?.displayName]);
+    performSearch([query], [source?.displayName]) ||
+    performSearch([query], [sourceId]);
 
 type TMangaTrackerFilter = { trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] } };
 const trackerFilter = (trackFilters: LibraryOptions['hasTrackerBinding'], manga: TMangaTrackerFilter): boolean =>
