@@ -28,7 +28,7 @@ import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/Rea
 const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
     const { t } = useTranslation();
 
-    const downloadChapter = Chapters.getDownloadStatusFromCache(currentChapter?.id ?? -1);
+    const downloadStatus = Chapters.useDownloadStatusFromCache(currentChapter?.id ?? -1);
 
     if (currentChapter && Chapters.isDownloaded(currentChapter)) {
         return (
@@ -40,8 +40,8 @@ const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, '
         );
     }
 
-    if (downloadChapter) {
-        return <DownloadStateIndicator chapterId={downloadChapter.chapter.id} />;
+    if (downloadStatus) {
+        return <DownloadStateIndicator chapterId={downloadStatus.chapter.id} />;
     }
 
     return (
