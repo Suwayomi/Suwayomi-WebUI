@@ -441,18 +441,10 @@ export class ReaderControls {
                     }
 
                     const actualPageIndex = endReached ? currentChapterUpToDate.pageCount - 1 : pageIndex;
-
-                    const hasLastPageReadChanged = actualPageIndex !== currentChapterUpToDate.lastPageRead;
                     const isLastPage = actualPageIndex === currentChapterUpToDate.pageCount - 1;
-                    const hasIsReadChanged = (isLastPage || endReached) && !currentChapterUpToDate.isRead;
-
-                    const shouldUpdateChapter = hasLastPageReadChanged || hasIsReadChanged;
-                    if (!shouldUpdateChapter) {
-                        return;
-                    }
 
                     updateChapter({
-                        lastPageRead: hasLastPageReadChanged ? actualPageIndex : undefined,
+                        lastPageRead: actualPageIndex,
                         isRead: isLastPage ? true : undefined,
                     });
                 };

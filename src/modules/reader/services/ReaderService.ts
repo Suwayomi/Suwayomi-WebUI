@@ -153,24 +153,6 @@ export class ReaderService {
                             : [currentChapter],
                     );
 
-                    const isUpdateRequired = chapterIdsToUpdate.some((id) => {
-                        const chapterUpToDateData = getReaderChapterFromCache(id);
-                        if (!chapterUpToDateData) {
-                            return false;
-                        }
-
-                        return (
-                            (patch.isRead !== undefined && patch.isRead !== chapterUpToDateData.isRead) ||
-                            (patch.lastPageRead !== undefined &&
-                                patch.lastPageRead !== chapterUpToDateData.lastPageRead) ||
-                            (patch.isBookmarked !== undefined &&
-                                patch.isBookmarked !== chapterUpToDateData.isBookmarked)
-                        );
-                    });
-                    if (!isUpdateRequired) {
-                        return;
-                    }
-
                     const chapterIdsToDelete = getChapterIdsToDeleteForChapterUpdate(
                         currentChapter,
                         mangaChapters,
@@ -180,6 +162,26 @@ export class ReaderService {
                         deleteChaptersWithBookmark,
                         shouldSkipDupChapters,
                     );
+
+                    const isUpdateRequired =
+                        !!chapterIdsToDelete.length ||
+                        chapterIdsToUpdate.some((id) => {
+                            const chapterUpToDateData = getReaderChapterFromCache(id);
+                            if (!chapterUpToDateData) {
+                                return false;
+                            }
+
+                            return (
+                                (patch.isRead !== undefined && patch.isRead !== chapterUpToDateData.isRead) ||
+                                (patch.lastPageRead !== undefined &&
+                                    patch.lastPageRead !== chapterUpToDateData.lastPageRead) ||
+                                (patch.isBookmarked !== undefined &&
+                                    patch.isBookmarked !== chapterUpToDateData.isBookmarked)
+                            );
+                        });
+                    if (!isUpdateRequired) {
+                        return;
+                    }
 
                     await requestManager
                         .updateChapters(
@@ -197,9 +199,7 @@ export class ReaderService {
                         .response.catch(defaultPromiseErrorHandler('ReaderService::useUpdateChapter'));
                 };
 
-                ReaderService.getOrCreateChapterUpdateQueue(currentChapter.id).enqueue(`${currentChapter.id}`, () =>
-                    update(),
-                );
+                ReaderService.getOrCreateChapterUpdateQueue(currentChapter.id).enqueue(`${currentChapter.id}`, update);
             },
             [
                 manga?.id,
