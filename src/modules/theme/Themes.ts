@@ -268,10 +268,14 @@ export const themes = {
                 light: {
                     palette: {
                         primary: {
-                            main: '#ffb546',
+                            main: '#e74c00',
                         },
                         secondary: {
-                            main: '#4690ff',
+                            main: '#009ae7',
+                        },
+                        background: {
+                            paper: '#ede3d3',
+                            default: '#f5f0e8',
                         },
                     },
                 },
