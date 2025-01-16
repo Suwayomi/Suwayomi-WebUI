@@ -78,8 +78,7 @@ export const getChapterIdsToDeleteForChapterUpdate = (
     }
 
     const shouldDeleteChapter =
-        chapterToDeleteUpToDateData.isRead &&
-        Chapters.isDeletable(chapterToDeleteUpToDateData, deleteChaptersWithBookmark);
+        patch.isRead && Chapters.isDeletable(chapterToDeleteUpToDateData, deleteChaptersWithBookmark);
     if (!shouldDeleteChapter) {
         return [];
     }
