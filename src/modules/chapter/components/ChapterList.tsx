@@ -241,8 +241,8 @@ export const ChapterList = ({
                     computeItemKey={(index) => visibleChapters[index].id}
                     itemContent={(index: number) => (
                         <ChapterCard
-                            chapter={chapters[index]}
-                            selected={!areNoItemsSelected ? selectedItemIds.includes(chapters[index].id) : null}
+                            chapter={visibleChapters[index]}
+                            selected={!areNoItemsSelected ? selectedItemIds.includes(visibleChapters[index].id) : null}
                             showChapterNumber={options.showChapterNumber}
                             onSelect={onSelect}
                         />
