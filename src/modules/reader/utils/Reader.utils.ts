@@ -104,7 +104,7 @@ export const getChapterIdsForDownloadAhead = (
     }
 
     const isDownloadAheadEnabled = !!downloadAheadLimit;
-    const inDownloadRange = currentPageIndex / chapterUpToDateData.pageCount > 0.25;
+    const inDownloadRange = (currentPageIndex + 1) / chapterUpToDateData.pageCount > 0.25;
     const shouldCheckDownloadAhead = isDownloadAheadEnabled && chapterUpToDateData.isDownloaded && inDownloadRange;
     if (!shouldCheckDownloadAhead) {
         return [];
