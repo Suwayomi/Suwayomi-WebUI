@@ -116,10 +116,14 @@ export const themes = {
                 light: {
                     palette: {
                         primary: {
-                            main: '#E9A7A1',
+                            main: '#C07F7A',
                         },
                         secondary: {
-                            main: '#A1E3E9',
+                            main: '#7ABBC0',
+                        },
+                        background: {
+                            paper: '#EAE1E0',
+                            default: '#F3EFEE',
                         },
                     },
                 },
