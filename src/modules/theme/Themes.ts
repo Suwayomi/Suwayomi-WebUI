@@ -356,10 +356,14 @@ export const themes = {
                 light: {
                     palette: {
                         primary: {
-                            main: '#8ace31',
+                            main: '#4f9513',
                         },
                         secondary: {
-                            main: '#7531CE',
+                            main: '#581395',
+                        },
+                        background: {
+                            paper: '#dde6d0',
+                            default: '#edf1e6',
                         },
                     },
                 },
