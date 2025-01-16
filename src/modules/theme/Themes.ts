@@ -380,4 +380,32 @@ export const themes = {
             },
         },
     },
+    'ying and yang': {
+        isCustom: false,
+        getName: () => translate('settings.appearance.theme.themes.ying_and_yang'),
+        muiTheme: {
+            colorSchemes: {
+                light: {
+                    palette: {
+                        primary: {
+                            main: '#000',
+                        },
+                        secondary: {
+                            main: '#fff',
+                        },
+                    },
+                },
+                dark: {
+                    palette: {
+                        primary: {
+                            main: '#fff',
+                        },
+                        secondary: {
+                            main: '#000',
+                        },
+                    },
+                },
+            },
+        },
+    },
 } as const satisfies Record<string, TBaseTheme>;
