@@ -21,7 +21,7 @@ const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in DownloadState]: Transla
     QUEUED: 'download.state.label.queued',
 } as const;
 
-export const DownloadStateIndicator = ({ chapterId }: { chapterId: ChapterIdInfo['id'] }) => {
+export const DownloadStateIndicator = ({ chapterId, color }: { chapterId: ChapterIdInfo['id']; color?: string }) => {
     const { t } = useTranslation();
 
     const download = Chapters.useDownloadStatusFromCache(chapterId);
@@ -44,7 +44,7 @@ export const DownloadStateIndicator = ({ chapterId }: { chapterId: ChapterIdInfo
                 justifyContent: 'center',
             }}
         >
-            {isDownloading && <CircularProgress variant="determinate" value={download.progress * 100} />}
+            {isDownloading && <CircularProgress variant="determinate" value={download.progress * 100} sx={{ color }} />}
             <Box
                 sx={{
                     top: 0,
@@ -57,13 +57,7 @@ export const DownloadStateIndicator = ({ chapterId }: { chapterId: ChapterIdInfo
                     justifyContent: 'center',
                 }}
             >
-                <Typography
-                    variant="caption"
-                    component="div"
-                    sx={{
-                        color: 'text.secondary',
-                    }}
-                >
+                <Typography variant="caption" component="div" sx={{ color }}>
                     <>
                         {isDownloading && progress}
                         {!isDownloading &&

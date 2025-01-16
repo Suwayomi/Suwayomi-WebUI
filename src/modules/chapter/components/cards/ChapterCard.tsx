@@ -38,6 +38,7 @@ import {
     Chapters,
     ChapterScanlatorInfo,
 } from '@/modules/chapter/services/Chapters.ts';
+import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -112,13 +113,9 @@ export const ChapterCard = memo((props: IProps) => {
                     <Card
                         sx={{
                             touchCallout: 'none',
-                            backgroundColor:
-                                // eslint-disable-next-line no-nested-ternary
-                                mode === 'reader'
-                                    ? isActiveChapter
-                                        ? 'primary.main'
-                                        : 'background.default'
-                                    : undefined,
+                            ...applyStyles(mode === 'reader' && isActiveChapter, {
+                                backgroundColor: 'primary.main',
+                            }),
                         }}
                     >
                         <CardActionArea
@@ -155,22 +152,55 @@ export const ChapterCard = memo((props: IProps) => {
                                         }}
                                     >
                                         {chapter.isBookmarked && (
-                                            <BookmarkIcon color={isActiveChapter ? 'secondary' : 'primary'} />
+                                            <BookmarkIcon
+                                                color={mode === 'reader' && isActiveChapter ? 'secondary' : 'primary'}
+                                            />
                                         )}
-                                        <TypographyMaxLines variant="h6" component="h4">
+                                        <TypographyMaxLines
+                                            variant="h6"
+                                            component="h4"
+                                            sx={{
+                                                ...applyStyles(mode === 'reader' && isActiveChapter, {
+                                                    color: theme.palette.primary.contrastText,
+                                                }),
+                                            }}
+                                        >
                                             {showChapterNumber
                                                 ? `${t('chapter.title_one')} ${chapter.chapterNumber}`
                                                 : chapter.name}
                                         </TypographyMaxLines>
                                     </Stack>
-                                    <Typography variant="caption">{chapter.scanlator}</Typography>
-                                    <Typography variant="caption">
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            ...applyStyles(mode === 'reader' && isActiveChapter, {
+                                                color: theme.palette.primary.contrastText,
+                                            }),
+                                        }}
+                                    >
+                                        {chapter.scanlator}
+                                    </Typography>
+                                    <Typography
+                                        variant="caption"
+                                        sx={{
+                                            ...applyStyles(mode === 'reader' && isActiveChapter, {
+                                                color: theme.palette.primary.contrastText,
+                                            }),
+                                        }}
+                                    >
                                         {getDateString(Number(chapter.uploadDate ?? 0), true)}
                                         {isDownloaded && ` • ${t('chapter.status.label.downloaded')}`}
                                     </Typography>
                                 </Stack>
 
-                                <DownloadStateIndicator chapterId={chapter.id} />
+                                <DownloadStateIndicator
+                                    chapterId={chapter.id}
+                                    color={
+                                        mode === 'reader' && isActiveChapter
+                                            ? theme.palette.primary.contrastText
+                                            : undefined
+                                    }
+                                />
 
                                 <Stack sx={{ minHeight: '48px' }}>
                                     {selected === null ? (
@@ -181,6 +211,7 @@ export const ChapterCard = memo((props: IProps) => {
                                                 onClick={(e) => handleClickOpenMenu(e, popupState.open)}
                                                 aria-label="more"
                                                 size="large"
+                                                color={mode === 'reader' && isActiveChapter ? 'secondary' : 'primary'}
                                             >
                                                 <MoreVertIcon />
                                             </IconButton>
