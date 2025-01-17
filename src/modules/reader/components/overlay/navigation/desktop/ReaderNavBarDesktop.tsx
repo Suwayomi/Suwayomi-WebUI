@@ -13,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PushPinIcon from '@mui/icons-material/PushPin';
+import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import Divider from '@mui/material/Divider';
 import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
@@ -123,7 +124,7 @@ const BaseReaderNavBarDesktop = ({
                                 }}
                                 color={isStaticNav ? 'primary' : 'inherit'}
                             >
-                                <PushPinIcon />
+                                {isStaticNav ? <PushPinIcon /> : <PushPinOutlinedIcon />}
                             </IconButton>
                         </Tooltip>
                     </Stack>
