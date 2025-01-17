@@ -24,6 +24,7 @@ import {
     ProgressBarPosition,
     ReaderResumeMode,
     ReaderStateChapters,
+    TReaderScrollbarContext,
 } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/modules/reader/components/overlay/progress-bar/ReaderProgressBarDirectionWrapper.tsx';
 import { useReaderProgressBarContext } from '@/modules/reader/contexts/ReaderProgressBarContext.tsx';
@@ -36,6 +37,7 @@ import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/Rea
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { getProgressBarPosition } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 
 const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, SlideProps['direction']> = {
     [ProgressBarPosition.BOTTOM]: 'up',
@@ -58,11 +60,13 @@ const BaseMobileReaderProgressBar = ({
     progressBarPositionAutoVertical,
     topOffset = 0,
     bottomOffset = 0,
+    scrollbarXSize,
 }: Pick<ReaderStateChapters, 'previousChapter' | 'nextChapter'> &
     Pick<TReaderOverlayContext, 'isVisible'> &
     Pick<TReaderProgressBarContext, 'setIsMaximized' | 'isDragging'> &
     Pick<ReaderProgressBarProps, 'currentPageIndex' | 'pages'> &
-    Pick<IReaderSettings, 'progressBarPosition' | 'progressBarPositionAutoVertical'> & {
+    Pick<IReaderSettings, 'progressBarPosition' | 'progressBarPositionAutoVertical'> &
+    Pick<TReaderScrollbarContext, 'scrollbarXSize'> & {
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
         topOffset?: number;
         bottomOffset?: number;
@@ -79,8 +83,9 @@ const BaseMobileReaderProgressBar = ({
     const finalProgressBarPosition = getProgressBarPosition(
         progressBarPosition,
         progressBarPositionAutoVertical,
-        topOffset,
-        bottomOffset,
+        // scrollbar x size is already included in the top/bottom offset due to the progress bar being placed in the reader mobile bottom bar
+        topOffset + bottomOffset,
+        scrollbarXSize,
     );
 
     const { isLeft, isRight, isVertical, isHorizontal } = getProgressBarPositionInfo(finalProgressBarPosition);
@@ -362,6 +367,7 @@ export const MobileReaderProgressBar = withPropsFrom(
         userReaderStatePagesContext,
         () => ({ direction: ReaderService.useGetThemeDirection() }),
         ReaderService.useSettingsWithoutDefaultFlag,
+        useReaderScrollbarContext,
     ],
     [
         'previousChapter',
@@ -374,5 +380,6 @@ export const MobileReaderProgressBar = withPropsFrom(
         'direction',
         'progressBarPosition',
         'progressBarPositionAutoVertical',
+        'scrollbarXSize',
     ],
 );

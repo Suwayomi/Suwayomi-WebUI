@@ -56,7 +56,12 @@ const BaseStandardReaderProgressBar = ({
         useCallback(() => setRefreshProgressBarPosition({}), []),
     );
 
-    const finalProgressBarPosition = getProgressBarPosition(progressBarPosition, progressBarPositionAutoVertical);
+    const finalProgressBarPosition = getProgressBarPosition(
+        progressBarPosition,
+        progressBarPositionAutoVertical,
+        scrollbarYSize,
+        readerNavBarWidth + scrollbarXSize,
+    );
     const { isBottom, isLeft, isRight, isVertical, isHorizontal } =
         getProgressBarPositionInfo(finalProgressBarPosition);
 
