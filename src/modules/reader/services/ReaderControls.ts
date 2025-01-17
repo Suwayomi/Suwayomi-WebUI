@@ -580,6 +580,7 @@ export class ReaderControls {
                 readingDirection.value,
                 openChapter,
                 themeDirection,
+                isStaticNav,
             ],
         );
     }
