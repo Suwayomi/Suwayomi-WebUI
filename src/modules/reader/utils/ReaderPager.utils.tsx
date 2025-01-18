@@ -137,7 +137,7 @@ export const getImagePlaceholderStyling = (
     }
 };
 
-export const getImageWidthStyling = (
+export const getReaderImageStyling = (
     readingMode: IReaderSettings['readingMode'],
     shouldStretchPage: IReaderSettings['shouldStretchPage'],
     pageScaleMode: IReaderSettings['pageScaleMode'],

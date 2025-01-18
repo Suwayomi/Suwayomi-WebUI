@@ -18,7 +18,7 @@ import {
 import {
     getImageMarginStyling,
     getImagePlaceholderStyling,
-    getImageWidthStyling,
+    getReaderImageStyling,
 } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
@@ -129,7 +129,7 @@ const BaseReaderPage = ({
                 ...getImageMarginStyling(doublePage, position),
             }}
             imgStyle={{
-                ...getImageWidthStyling(readingMode, shouldStretchPage, pageScaleMode, doublePage, readerWidth, true),
+                ...getReaderImageStyling(readingMode, shouldStretchPage, pageScaleMode, doublePage, readerWidth, true),
                 display: 'block',
                 ...applyStyles(!display, {
                     display: 'none',
