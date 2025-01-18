@@ -10,12 +10,7 @@ import Box from '@mui/material/Box';
 import { memo, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import {
-    DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
-    getReaderSettings,
-    getReaderSettingsFor,
-    useDefaultReaderSettings,
-} from '@/modules/reader/services/ReaderSettingsMetadata.ts';
+import { useDefaultReaderSettings } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ReaderOverlay } from '@/modules/reader/components/overlay/ReaderOverlay.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -26,8 +21,6 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
-import { Chapters } from '@/modules/chapter/services/Chapters.ts';
-import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { TapZoneLayout } from '@/modules/reader/components/TapZoneLayout.tsx';
 import { useReaderOverlayContext } from '@/modules/reader/contexts/ReaderOverlayContext.tsx';
 import { ReaderRGBAFilter } from '@/modules/reader/components/ReaderRGBAFilter.tsx';
@@ -35,35 +28,31 @@ import { useReaderStateSettingsContext } from '@/modules/reader/contexts/state/R
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { ReaderViewer } from '@/modules/reader/components/viewer/ReaderViewer.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import {
-    READER_BACKGROUND_TO_COLOR,
-    READING_MODE_VALUE_TO_DISPLAY_DATA,
-} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
-import { createPageData, createPagesData } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { READER_BACKGROUND_TO_COLOR } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { ReaderHotkeys } from '@/modules/reader/components/ReaderHotkeys.tsx';
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
     ReaderResumeMode,
     ReaderStateChapters,
-    ReaderTransitionPageMode,
-    ReadingMode,
     TReaderAutoScrollContext,
     TReaderStateMangaContext,
     TReaderStateSettingsContext,
 } from '@/modules/reader/types/Reader.types.ts';
-import { getInitialReaderPageIndex } from '@/modules/reader/utils/Reader.utils.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { isAutoWebtoonMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
-import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
+import { useReaderResetStates } from '@/modules/reader/hooks/useReaderResetStates.ts';
+import { useReaderSetPagesState } from '@/modules/reader/hooks/useReaderSetPagesState.ts';
+import { useReaderSetSettingsState } from '@/modules/reader/hooks/useReaderSetSettingsState.ts';
+import { useReaderShowSettingPreviewOnChange } from '@/modules/reader/hooks/useReaderShowSettingPreviewOnChange.ts';
+import { useReaderSetChaptersState } from '@/modules/reader/hooks/useReaderSetChaptersState.ts';
 
 const BaseReader = ({
     setTitle,
@@ -194,183 +183,59 @@ const BaseReader = ({
         setManga(mangaResponse.data?.manga);
     }, [mangaResponse.data?.manga]);
 
-    // reset states
-    useEffect(
-        () => () => {
-            setManga(undefined);
-            setReaderStateChapters({
-                mangaChapters: [],
-                chapters: [],
-            });
-
-            setCurrentPageIndex(0);
-            setPageToScrollToIndex(null);
-            setTotalPages(0);
-            setPages([createPageData('', 0)]);
-            setPageUrls([]);
-            setPageLoadStates([{ url: '', loaded: false }]);
-            setTransitionPageMode(ReaderTransitionPageMode.NONE);
-
-            setIsOverlayVisible(false);
-
-            setSettings(DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG);
-
-            cancelAutoScroll();
-        },
-        [],
+    useReaderResetStates(
+        setManga,
+        setReaderStateChapters,
+        setCurrentPageIndex,
+        setPageToScrollToIndex,
+        setTotalPages,
+        setPages,
+        setPageUrls,
+        setPageLoadStates,
+        setTransitionPageMode,
+        setIsOverlayVisible,
+        setSettings,
+        cancelAutoScroll,
     );
-
-    // set pages state
-    useEffect(() => {
-        const pagesPayload = pagesResponse.data?.fetchChapterPages;
-        if (pagesPayload) {
-            const { pages: newPages } = pagesPayload;
-
-            const initialReaderPageIndex = getInitialReaderPageIndex(
-                resumeMode,
-                currentChapter?.lastPageRead ?? 0,
-                newPages.length - 1,
-            );
-
-            const newPageData = createPagesData(newPages);
-
-            setArePagesFetched(true);
-            setTotalPages(pagesPayload.chapter.pageCount);
-            setPages(newPageData);
-            setPageUrls(newPages);
-            setPageLoadStates(newPageData.map(({ primary: { url } }) => ({ url, loaded: false })));
-            setCurrentPageIndex(initialReaderPageIndex);
-            setPageToScrollToIndex(initialReaderPageIndex);
-        } else {
-            setArePagesFetched(false);
-            setCurrentPageIndex(0);
-            setPageToScrollToIndex(null);
-            setTotalPages(0);
-            setPages([createPageData('', 0)]);
-            setPageUrls([]);
-            setPageLoadStates([{ url: '', loaded: false }]);
-        }
-
-        setTransitionPageMode(ReaderTransitionPageMode.NONE);
-    }, [pagesResponse.data?.fetchChapterPages?.pages]);
-
-    // set settings state
-    useEffect(() => {
-        const mangaFromResponse = mangaResponse.data?.manga;
-        if (!mangaFromResponse || defaultSettingsResponse.loading || defaultSettingsResponse.error) {
-            return;
-        }
-
-        const settingsWithDefaultProfileFallback = getReaderSettingsFor(mangaFromResponse, defaultSettings);
-
-        const shouldUseWebtoonMode = isAutoWebtoonMode(
-            mangaFromResponse,
-            settingsWithDefaultProfileFallback.shouldUseAutoWebtoonMode,
-            settingsWithDefaultProfileFallback.readingMode,
-        );
-
-        const defaultSettingsWithAutoReadingMode = {
-            ...defaultSettings,
-            readingMode: shouldUseWebtoonMode ? ReadingMode.WEBTOON : defaultSettings.readingMode,
-        };
-
-        const profile = shouldUseWebtoonMode
-            ? ReadingMode.WEBTOON
-            : settingsWithDefaultProfileFallback.readingMode.value;
-        const profileSettings = getReaderSettings(
-            'global',
-            { meta: defaultSettingsMetadata! },
-            defaultSettingsWithAutoReadingMode,
-            undefined,
-            profile,
-        );
-
-        const finalSettings = getReaderSettingsFor(mangaFromResponse, profileSettings);
-        setSettings(finalSettings);
-        setAreSettingsSet(true);
-    }, [mangaResponse.data?.manga, defaultSettings]);
-
-    // show setting previews on change or when open reader
-    const previousReadingMode = useRef<IReaderSettingsWithDefaultFlag['readingMode']>();
-    const previousTapZoneLayout = useRef<IReaderSettingsWithDefaultFlag['tapZoneLayout']>();
-    const previousTapZoneInvertMode = useRef<IReaderSettingsWithDefaultFlag['tapZoneInvertMode']>();
-    const isInitialPreview = useRef(true);
-    useEffect(() => {
-        if (isLoading || error || !areSettingsSet) {
-            return;
-        }
-
-        const HIDE_PREVIEW_TIMEOUT = 5000;
-
-        const didReadingModeChange = JSON.stringify(readingMode) !== JSON.stringify(previousReadingMode.current);
-        const showReadingModePreview = shouldShowReadingModePreview && didReadingModeChange;
-        if (showReadingModePreview) {
-            makeToast(t(READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].title as TranslationKey), {
-                autoHideDuration: HIDE_PREVIEW_TIMEOUT,
-            });
-        }
-        previousReadingMode.current = readingMode;
-
-        const didTapZoneLayoutChange =
-            JSON.stringify(tapZoneLayout) !== JSON.stringify(previousTapZoneLayout.current) ||
-            JSON.stringify(tapZoneInvertMode) !== JSON.stringify(previousTapZoneInvertMode.current);
-        const showTapZoneLayoutPreview = shouldShowTapZoneLayoutPreview && didTapZoneLayoutChange;
-        if (showTapZoneLayoutPreview) {
-            setShowPreview(true);
-            if (isInitialPreview.current) {
-                setTimeout(() => setShowPreview(false), HIDE_PREVIEW_TIMEOUT);
-            }
-        }
-        previousTapZoneLayout.current = tapZoneLayout;
-        previousTapZoneInvertMode.current = tapZoneInvertMode;
-
-        isInitialPreview.current = false;
-    }, [
+    useReaderSetPagesState(
+        pagesResponse,
+        resumeMode,
+        currentChapter,
+        setArePagesFetched,
+        setTotalPages,
+        setPages,
+        setPageUrls,
+        setPageLoadStates,
+        setCurrentPageIndex,
+        setPageToScrollToIndex,
+        setTransitionPageMode,
+    );
+    useReaderSetSettingsState(
+        mangaResponse,
+        defaultSettingsResponse,
+        defaultSettings,
+        defaultSettingsMetadata,
+        setSettings,
+        setAreSettingsSet,
+    );
+    useReaderShowSettingPreviewOnChange(
         isLoading,
         error,
         areSettingsSet,
-        readingMode.value,
-        readingMode.isDefault,
-        tapZoneLayout.value,
-        tapZoneLayout.isDefault,
-        tapZoneInvertMode.value,
-        tapZoneInvertMode.isDefault,
-    ]);
-
-    // set chapters state
-    useEffect(() => {
-        const newMangaChapters = chaptersResponse.data?.chapters.nodes;
-        const newCurrentChapter = newMangaChapters
-            ? (newMangaChapters[newMangaChapters.length - chapterSourceOrder] ?? null)
-            : undefined;
-        const newInitialChapter = initialChapter ?? newCurrentChapter;
-
-        setReaderStateChapters({
-            mangaChapters: newMangaChapters ?? [],
-            chapters:
-                newInitialChapter && newMangaChapters
-                    ? Chapters.removeDuplicates(newInitialChapter, newMangaChapters)
-                    : [],
-            initialChapter: newInitialChapter,
-            currentChapter: newCurrentChapter,
-            nextChapter:
-                newMangaChapters &&
-                newCurrentChapter &&
-                Chapters.getNextChapter(newCurrentChapter, newMangaChapters, {
-                    offset: DirectionOffset.NEXT,
-                    skipDupe: shouldSkipDupChapters,
-                    skipDupeChapter: newInitialChapter,
-                }),
-            previousChapter:
-                newMangaChapters &&
-                newCurrentChapter &&
-                Chapters.getNextChapter(newCurrentChapter, newMangaChapters, {
-                    offset: DirectionOffset.PREVIOUS,
-                    skipDupe: shouldSkipDupChapters,
-                    skipDupeChapter: newInitialChapter,
-                }),
-        });
-    }, [chaptersResponse.data?.chapters.nodes, chapterSourceOrder, shouldSkipDupChapters]);
+        readingMode,
+        tapZoneLayout,
+        tapZoneInvertMode,
+        shouldShowReadingModePreview,
+        shouldShowTapZoneLayoutPreview,
+        setShowPreview,
+    );
+    useReaderSetChaptersState(
+        chaptersResponse,
+        chapterSourceOrder,
+        initialChapter,
+        setReaderStateChapters,
+        shouldSkipDupChapters,
+    );
 
     useLayoutEffect(() => {
         setOverride({
