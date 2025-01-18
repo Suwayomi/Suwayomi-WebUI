@@ -46,18 +46,16 @@ import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.type
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
-import {
-    createUpdateReaderPageLoadState,
-    useReaderAutoScroll,
-    useReaderConvertPagesForReadingMode,
-    useReaderHandlePageSelection,
-    useReaderHideCursorOnInactivity,
-    useReaderHideOverlayOnUserScroll,
-    useReaderHorizontalModeInvertXYScrolling,
-    useReaderScrollToStartOnPageChange,
-} from '@/modules/reader/utils/Reader.utils.ts';
+import { createUpdateReaderPageLoadState } from '@/modules/reader/utils/Reader.utils.ts';
 import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { useReaderTapZoneContext } from '@/modules/reader/contexts/ReaderTapZoneContext.tsx';
+import { useReaderAutoScroll } from '@/modules/reader/hooks/useReaderAutoScroll.ts';
+import { useReaderHideOverlayOnUserScroll } from '@/modules/reader/hooks/useReaderHideOverlayOnUserScroll.ts';
+import { useReaderHorizontalModeInvertXYScrolling } from '@/modules/reader/hooks/useReaderHorizontalModeInvertXYScrolling.ts';
+import { useReaderHideCursorOnInactivity } from '@/modules/reader/hooks/useReaderHideCursorOnInactivity.ts';
+import { useReaderScrollToStartOnPageChange } from '@/modules/reader/hooks/useReaderScrollToStartOnPageChange.ts';
+import { useReaderHandlePageSelection } from '@/modules/reader/hooks/useReaderHandlePageSelection.ts';
+import { useReaderConvertPagesForReadingMode } from '@/modules/reader/hooks/useReaderConvertPagesForReadingMode.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
