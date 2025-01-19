@@ -129,7 +129,7 @@ const BaseReaderPage = ({
                 ...getImageMarginStyling(doublePage, position),
             }}
             imgStyle={{
-                ...getReaderImageStyling(readingMode, shouldStretchPage, pageScaleMode, doublePage, readerWidth, true),
+                ...getReaderImageStyling(readingMode, shouldStretchPage, pageScaleMode, doublePage, readerWidth),
                 display: 'block',
                 ...applyStyles(!display, {
                     display: 'none',

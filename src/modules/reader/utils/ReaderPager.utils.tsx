@@ -36,10 +36,10 @@ type CSSObject = ReturnType<Theme['applyStyles']>;
 
 const getPageWidth = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
-    isDoublePage?: boolean,
-    readerWidth?: IReaderSettings['readerWidth'],
-    shouldStretchPage?: IReaderSettings['shouldStretchPage'],
-    isImage?: boolean,
+    isDoublePage: boolean,
+    readerWidth: IReaderSettings['readerWidth'],
+    shouldStretchPage: IReaderSettings['shouldStretchPage'],
+    isImage: boolean,
 ): string => {
     // only return 50% in case pages should get stretched, otherwise, pages might unintentionally shrink in size (e.g. 2 pages with different dimensions, the bigger page will shrink due to taking up more than 50%)
     if (isImage && isDoublePage && shouldStretchPage) {
@@ -137,22 +137,12 @@ export const getImagePlaceholderStyling = (
     }
 };
 
-export const getReaderImageStyling = (
+const getReaderDimensionStyling = (
+    width: string,
     readingMode: IReaderSettings['readingMode'],
     shouldStretchPage: IReaderSettings['shouldStretchPage'],
     pageScaleMode: IReaderSettings['pageScaleMode'],
-    isDoublePage?: boolean,
-    readerWidth?: IReaderSettings['readerWidth'],
-    isImage?: boolean,
 ): CSSObject => {
-    const width = getPageWidth(pageScaleMode, isDoublePage, readerWidth, shouldStretchPage, isImage);
-
-    // setting the "width" of the wrapper is required for being able to properly size the image placeholders
-    const staticReaderWidthForWrapper = applyStyles(!isImage && shouldApplyReaderWidth(readerWidth, pageScaleMode), {
-        width,
-    });
-    const readerWidthStretchForWrapper = applyStyles(!isImage && shouldStretchPage, { width: '100%' });
-
     switch (pageScaleMode) {
         case ReaderPageScaleMode.WIDTH:
             return {
@@ -162,9 +152,7 @@ export const getReaderImageStyling = (
                 }),
                 ...applyStyles(shouldStretchPage, {
                     minWidth: width,
-                    ...readerWidthStretchForWrapper,
                 }),
-                ...staticReaderWidthForWrapper,
                 maxWidth: width,
             };
         case ReaderPageScaleMode.HEIGHT:
@@ -197,9 +185,7 @@ export const getReaderImageStyling = (
                         minWidth: width,
                         minHeight: 'unset',
                     }),
-                    ...readerWidthStretchForWrapper,
                 }),
-                ...staticReaderWidthForWrapper,
                 maxWidth: width,
                 maxHeight: `100%`,
             };
@@ -208,6 +194,49 @@ export const getReaderImageStyling = (
         default:
             throw new Error(`Unexpected "PageScaleMode" (${pageScaleMode})`);
     }
+};
+
+export const getReaderImageWrapperStyling = (
+    readingMode: IReaderSettings['readingMode'],
+    shouldStretchPage: IReaderSettings['shouldStretchPage'],
+    pageScaleMode: IReaderSettings['pageScaleMode'],
+    readerWidth: IReaderSettings['readerWidth'],
+): CSSObject => {
+    const width = getPageWidth(pageScaleMode, false, readerWidth, shouldStretchPage, false);
+    const readerImageStyling = getReaderDimensionStyling(width, readingMode, shouldStretchPage, pageScaleMode);
+
+    switch (pageScaleMode) {
+        case ReaderPageScaleMode.WIDTH:
+        case ReaderPageScaleMode.SCREEN:
+            return {
+                ...readerImageStyling,
+                ...applyStyles(shouldStretchPage, {
+                    width: '100%',
+                }),
+                // setting the "width" of the wrapper is required for being able to properly size the image placeholders
+                ...applyStyles(shouldApplyReaderWidth(readerWidth, pageScaleMode), {
+                    width,
+                }),
+            };
+        case ReaderPageScaleMode.HEIGHT:
+        case ReaderPageScaleMode.ORIGINAL:
+            return {
+                ...readerImageStyling,
+            };
+        default:
+            throw new Error(`Unexpected "PageScaleMode" (${pageScaleMode})`);
+    }
+};
+
+export const getReaderImageStyling = (
+    readingMode: IReaderSettings['readingMode'],
+    shouldStretchPage: IReaderSettings['shouldStretchPage'],
+    pageScaleMode: IReaderSettings['pageScaleMode'],
+    isDoublePage: boolean,
+    readerWidth: IReaderSettings['readerWidth'],
+): CSSObject => {
+    const width = getPageWidth(pageScaleMode, isDoublePage, readerWidth, shouldStretchPage, true);
+    return getReaderDimensionStyling(width, readingMode, shouldStretchPage, pageScaleMode);
 };
 
 export const getImageMarginStyling = (doublePage: boolean, objectFitPosition?: 'left' | 'right'): CSSObject => ({

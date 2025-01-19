@@ -9,7 +9,7 @@
 import { memo, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { getReaderImageStyling, getPageIndexesToLoad } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { getPageIndexesToLoad, getReaderImageWrapperStyling } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { IReaderSettings, ReaderPagerProps, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderTransitionPage } from '@/modules/reader/components/viewer/ReaderTransitionPage.tsx';
@@ -70,7 +70,7 @@ const BaseBasePager = ({
             {...slots?.boxProps}
             sx={[
                 ...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx]),
-                getReaderImageStyling(readingMode, shouldStretchPage, pageScaleMode, false, readerWidth),
+                getReaderImageWrapperStyling(readingMode, shouldStretchPage, pageScaleMode, readerWidth),
             ]}
         >
             <ReaderTransitionPage type={ReaderTransitionPageMode.PREVIOUS} />
