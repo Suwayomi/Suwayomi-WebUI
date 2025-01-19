@@ -38,20 +38,22 @@ const getPageWidth = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
     isDoublePage: boolean,
     readerWidth: IReaderSettings['readerWidth'],
-    shouldStretchPage: IReaderSettings['shouldStretchPage'],
     isImage: boolean,
 ): string => {
-    // only return 50% in case pages should get stretched, otherwise, pages might unintentionally shrink in size (e.g. 2 pages with different dimensions, the bigger page will shrink due to taking up more than 50%)
-    if (isImage && isDoublePage && shouldStretchPage) {
-        return '50%';
+    if (shouldApplyReaderWidth(readerWidth, pageScaleMode)) {
+        const width = readerWidth.value;
+        if (isImage && isDoublePage) {
+            return `${width / 2}vw`;
+        }
+
+        return `${width}vw`;
     }
 
-    // the image wrapper gets applied the reader width limit and therefore the images can take up 100%
-    if (!isImage && shouldApplyReaderWidth(readerWidth, pageScaleMode)) {
-        return `${readerWidth?.value}%`;
+    if (isImage && isDoublePage) {
+        return `50vw`;
     }
 
-    return '100%';
+    return `100vw`;
 };
 
 export const getImagePlaceholderStyling = (
@@ -142,7 +144,13 @@ const getReaderDimensionStyling = (
     readingMode: IReaderSettings['readingMode'],
     shouldStretchPage: IReaderSettings['shouldStretchPage'],
     pageScaleMode: IReaderSettings['pageScaleMode'],
+    widthOffset: number,
+    heightOffset: number,
 ): CSSObject => {
+    const finalWidthOffset = readingMode === ReadingMode.DOUBLE_PAGE ? widthOffset / 2 : widthOffset;
+    const fullWidth = `calc(${width} - ${finalWidthOffset}px)`;
+    const fullHeight = `calc(100vh - ${heightOffset}px)`;
+
     switch (pageScaleMode) {
         case ReaderPageScaleMode.WIDTH:
             return {
@@ -151,9 +159,9 @@ const getReaderDimensionStyling = (
                     minWidth: 'unset',
                 }),
                 ...applyStyles(shouldStretchPage, {
-                    minWidth: width,
+                    minWidth: fullWidth,
                 }),
-                maxWidth: width,
+                maxWidth: fullWidth,
             };
         case ReaderPageScaleMode.HEIGHT:
             return {
@@ -162,9 +170,9 @@ const getReaderDimensionStyling = (
                     minHeight: 'unset',
                 }),
                 ...applyStyles(shouldStretchPage, {
-                    minHeight: '100%',
+                    minHeight: fullHeight,
                 }),
-                maxHeight: `100%`,
+                maxHeight: fullHeight,
             };
         case ReaderPageScaleMode.SCREEN:
             return {
@@ -175,54 +183,22 @@ const getReaderDimensionStyling = (
                     minHeight: 'unset',
                 }),
                 ...applyStyles(shouldStretchPage, {
-                    minWidth: width,
-                    minHeight: '100%',
+                    minWidth: fullWidth,
+                    minHeight: fullHeight,
                     ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
                         minWidth: 'unset',
-                        minHeight: '100%',
+                        minHeight: fullHeight,
                     }),
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
-                        minWidth: width,
+                        minWidth: fullWidth,
                         minHeight: 'unset',
                     }),
                 }),
-                maxWidth: width,
-                maxHeight: `100%`,
+                maxWidth: fullWidth,
+                maxHeight: fullHeight,
             };
         case ReaderPageScaleMode.ORIGINAL:
             return {};
-        default:
-            throw new Error(`Unexpected "PageScaleMode" (${pageScaleMode})`);
-    }
-};
-
-export const getReaderImageWrapperStyling = (
-    readingMode: IReaderSettings['readingMode'],
-    shouldStretchPage: IReaderSettings['shouldStretchPage'],
-    pageScaleMode: IReaderSettings['pageScaleMode'],
-    readerWidth: IReaderSettings['readerWidth'],
-): CSSObject => {
-    const width = getPageWidth(pageScaleMode, false, readerWidth, shouldStretchPage, false);
-    const readerImageStyling = getReaderDimensionStyling(width, readingMode, shouldStretchPage, pageScaleMode);
-
-    switch (pageScaleMode) {
-        case ReaderPageScaleMode.WIDTH:
-        case ReaderPageScaleMode.SCREEN:
-            return {
-                ...readerImageStyling,
-                ...applyStyles(shouldStretchPage, {
-                    width: '100%',
-                }),
-                // setting the "width" of the wrapper is required for being able to properly size the image placeholders
-                ...applyStyles(shouldApplyReaderWidth(readerWidth, pageScaleMode), {
-                    width,
-                }),
-            };
-        case ReaderPageScaleMode.HEIGHT:
-        case ReaderPageScaleMode.ORIGINAL:
-            return {
-                ...readerImageStyling,
-            };
         default:
             throw new Error(`Unexpected "PageScaleMode" (${pageScaleMode})`);
     }
@@ -234,18 +210,19 @@ export const getReaderImageStyling = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
     isDoublePage: boolean,
     readerWidth: IReaderSettings['readerWidth'],
+    widthOffset: number,
+    heightOffset: number,
 ): CSSObject => {
-    const width = getPageWidth(pageScaleMode, isDoublePage, readerWidth, shouldStretchPage, true);
-    return getReaderDimensionStyling(width, readingMode, shouldStretchPage, pageScaleMode);
+    const width = getPageWidth(pageScaleMode, isDoublePage, readerWidth, true);
+    return getReaderDimensionStyling(width, readingMode, shouldStretchPage, pageScaleMode, widthOffset, heightOffset);
 };
 
 export const getImageMarginStyling = (doublePage: boolean, objectFitPosition?: 'left' | 'right'): CSSObject => ({
     m: 'auto',
     ...applyStyles(doublePage, {
-        m: 'unset',
-        // the applied margin is the opposite of the objectFitPosition
-        ...applyStyles(objectFitPosition === 'right', { ml: 'auto ' }),
-        ...applyStyles(objectFitPosition === 'left', { mr: 'auto ' }),
+        // the margin on the object fit position needs to be removed so that there is no space between both images
+        ...applyStyles(objectFitPosition === 'right', { mr: 'unset ' }),
+        ...applyStyles(objectFitPosition === 'left', { ml: 'unset ' }),
     }),
 });
 

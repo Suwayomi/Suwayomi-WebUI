@@ -9,7 +9,7 @@
 import { memo, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { getPageIndexesToLoad, getReaderImageWrapperStyling } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { getPageIndexesToLoad } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { IReaderSettings, ReaderPagerProps, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderTransitionPage } from '@/modules/reader/components/viewer/ReaderTransitionPage.tsx';
@@ -23,15 +23,9 @@ const BaseBasePager = ({
     createPage,
     slots,
     readingMode,
-    pageScaleMode,
-    shouldStretchPage,
-    readerWidth,
     imagePreLoadAmount,
 }: Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix'> &
-    Pick<
-        IReaderSettings,
-        'readingMode' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth' | 'imagePreLoadAmount'
-    > & {
+    Pick<IReaderSettings, 'readingMode' | 'imagePreLoadAmount'> & {
         createPage: (
             page: ReaderStatePages['pages'][number],
             pagesIndex: number,
@@ -68,10 +62,7 @@ const BaseBasePager = ({
     return (
         <Box
             {...slots?.boxProps}
-            sx={[
-                ...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx]),
-                getReaderImageWrapperStyling(readingMode, shouldStretchPage, pageScaleMode, readerWidth),
-            ]}
+            sx={[...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx])]}
         >
             <ReaderTransitionPage type={ReaderTransitionPageMode.PREVIOUS} />
             {pages.map((page, pagesIndex) =>
@@ -91,5 +82,5 @@ const BaseBasePager = ({
 export const BasePager = withPropsFrom(
     memo(BaseBasePager),
     [ReaderService.useSettingsWithoutDefaultFlag],
-    ['readingMode', 'pageScaleMode', 'shouldStretchPage', 'readerWidth', 'imagePreLoadAmount'],
+    ['readingMode', 'imagePreLoadAmount'],
 );

@@ -24,6 +24,8 @@ import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
     Object.keys(customFilter)
@@ -73,10 +75,12 @@ const BaseReaderPage = ({
     onLoad,
     onError,
     setRef,
+    readerNavBarWidth,
     ...props
 }: Omit<ComponentProps<typeof SpinnerImage>, 'ref' | 'spinnerStyle' | 'imgStyle' | 'onLoad' | 'onError'> &
     Pick<IReaderSettings, 'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth'> &
-    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & {
+    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
+    Pick<NavbarContextType, 'readerNavBarWidth'> & {
         pageIndex: number;
         pagesIndex: number;
         isPrimaryPage: boolean;
@@ -129,7 +133,15 @@ const BaseReaderPage = ({
                 ...getImageMarginStyling(doublePage, position),
             }}
             imgStyle={{
-                ...getReaderImageStyling(readingMode, shouldStretchPage, pageScaleMode, doublePage, readerWidth),
+                ...getReaderImageStyling(
+                    readingMode,
+                    shouldStretchPage,
+                    pageScaleMode,
+                    doublePage,
+                    readerWidth,
+                    readerNavBarWidth + scrollbarYSize,
+                    scrollbarXSize,
+                ),
                 display: 'block',
                 ...applyStyles(!display, {
                     display: 'none',
@@ -156,7 +168,7 @@ const BaseReaderPage = ({
 
 export const ReaderPage = withPropsFrom(
     memo(BaseReaderPage),
-    [ReaderService.useSettingsWithoutDefaultFlag, useReaderScrollbarContext],
+    [ReaderService.useSettingsWithoutDefaultFlag, useReaderScrollbarContext, useNavBarContext],
     [
         'readingMode',
         'customFilter',
@@ -165,5 +177,6 @@ export const ReaderPage = withPropsFrom(
         'readerWidth',
         'scrollbarXSize',
         'scrollbarYSize',
+        'readerNavBarWidth',
     ],
 );

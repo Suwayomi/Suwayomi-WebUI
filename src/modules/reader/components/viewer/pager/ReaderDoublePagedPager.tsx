@@ -10,7 +10,12 @@ import { Direction, useTheme } from '@mui/material/styles';
 import { Fragment, memo, useMemo } from 'react';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { IReaderSettings, ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import {
+    IReaderSettings,
+    ReaderPagerProps,
+    ReaderPageScaleMode,
+    ReadingDirection,
+} from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
@@ -44,8 +49,9 @@ const BaseReaderDoublePagedPager = ({
     pageLoadStates,
     retryFailedPagesKeyPrefix,
     readingDirection,
+    pageScaleMode,
     ...props
-}: ReaderPagerProps & Pick<IReaderSettings, 'readingDirection'>) => {
+}: ReaderPagerProps & Pick<IReaderSettings, 'readingDirection' | 'pageScaleMode'>) => {
     const { currentPageIndex, pages, totalPages } = props;
 
     const { direction: themeDirection } = useTheme();
@@ -102,7 +108,13 @@ const BaseReaderDoublePagedPager = ({
             slots={{
                 boxProps: {
                     sx: {
-                        margin: 'auto',
+                        ...applyStyles(pageScaleMode === ReaderPageScaleMode.ORIGINAL, {
+                            margin: 'auto',
+                        }),
+                        width: '100%',
+                        minWidth: 'fit-content',
+                        height: '100%',
+                        minHeight: 'fit-content',
                         display: 'flex',
                         flexDirection: 'row',
                         flexWrap: 'nowrap',
@@ -122,5 +134,5 @@ const BaseReaderDoublePagedPager = ({
 export const ReaderDoublePagedPager = withPropsFrom(
     memo(BaseReaderDoublePagedPager),
     [ReaderService.useSettingsWithoutDefaultFlag],
-    ['readingDirection'],
+    ['readingDirection', 'pageScaleMode'],
 );
