@@ -22,7 +22,6 @@ import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts'
 import {
     IReaderSettings,
     ProgressBarPosition,
-    ReaderResumeMode,
     ReaderStateChapters,
     TReaderScrollbarContext,
 } from '@/modules/reader/types/Reader.types.ts';
@@ -38,6 +37,7 @@ import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { getProgressBarPosition } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
+import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 
 const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, SlideProps['direction']> = {
     [ProgressBarPosition.BOTTOM]: 'up',
@@ -71,8 +71,7 @@ const BaseMobileReaderProgressBar = ({
         topOffset?: number;
         bottomOffset?: number;
     }) => {
-    const openNextChapter = ReaderService.useNavigateToChapter(nextChapter, ReaderResumeMode.START);
-    const openPreviousChapter = ReaderService.useNavigateToChapter(previousChapter, ReaderResumeMode.END);
+    const openChapter = ReaderControls.useOpenChapter();
 
     const [, setRefreshProgressBarPosition] = useState({});
     useResizeObserver(
@@ -257,7 +256,7 @@ const BaseMobileReaderProgressBar = ({
                     }}
                 >
                     <IconButton
-                        onClick={openPreviousChapter}
+                        onClick={() => openChapter('previous')}
                         disabled={!previousChapter}
                         sx={{
                             backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85),
@@ -330,7 +329,7 @@ const BaseMobileReaderProgressBar = ({
                         slots={progressBarCurrentPage}
                     />
                     <IconButton
-                        onClick={openNextChapter}
+                        onClick={() => openChapter('next')}
                         disabled={!nextChapter}
                         sx={{ backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.85), boxShadow: 2 }}
                     >
