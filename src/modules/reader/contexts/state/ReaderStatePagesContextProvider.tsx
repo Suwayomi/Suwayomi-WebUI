@@ -8,24 +8,30 @@
 
 import { ReactNode, useMemo, useState } from 'react';
 import { ReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { createPageData } from '@/modules/reader/utils/ReaderPager.utils.tsx';
-import { ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
+import { READER_STATE_PAGES_DEFAULTS } from '@/modules/reader/constants/ReaderContext.constants.ts';
 
 export const ReaderStatePagesContextProvider = ({ children }: { children: ReactNode }) => {
-    const [totalPages, setTotalPages] = useState<ReaderStatePages['totalPages']>(0);
-    const [currentPageIndex, setCurrentPageIndex] = useState<ReaderStatePages['currentPageIndex']>(0);
-    const [pageToScrollToIndex, setPageToScrollToIndex] = useState<ReaderStatePages['pageToScrollToIndex']>(null);
-    const [pageUrls, setPageUrls] = useState<ReaderStatePages['pageUrls']>([]);
-    const [pageLoadStates, setPageLoadStates] = useState<ReaderStatePages['pageLoadStates']>([
-        { url: '', loaded: false },
-    ]);
-    const [pages, setPages] = useState<ReaderStatePages['pages']>([createPageData('', 0)]);
-    const [transitionPageMode, setTransitionPageMode] = useState<ReaderStatePages['transitionPageMode']>(
-        ReaderTransitionPageMode.NONE,
+    const [totalPages, setTotalPages] = useState<ReaderStatePages['totalPages']>(
+        READER_STATE_PAGES_DEFAULTS.totalPages,
     );
-    const [retryFailedPagesKeyPrefix, setRetryFailedPagesKeyPrefix] =
-        useState<ReaderStatePages['retryFailedPagesKeyPrefix']>('');
+    const [currentPageIndex, setCurrentPageIndex] = useState<ReaderStatePages['currentPageIndex']>(
+        READER_STATE_PAGES_DEFAULTS.currentPageIndex,
+    );
+    const [pageToScrollToIndex, setPageToScrollToIndex] = useState<ReaderStatePages['pageToScrollToIndex']>(
+        READER_STATE_PAGES_DEFAULTS.pageToScrollToIndex,
+    );
+    const [pageUrls, setPageUrls] = useState<ReaderStatePages['pageUrls']>(READER_STATE_PAGES_DEFAULTS.pageUrls);
+    const [pageLoadStates, setPageLoadStates] = useState<ReaderStatePages['pageLoadStates']>(
+        READER_STATE_PAGES_DEFAULTS.pageLoadStates,
+    );
+    const [pages, setPages] = useState<ReaderStatePages['pages']>(READER_STATE_PAGES_DEFAULTS.pages);
+    const [transitionPageMode, setTransitionPageMode] = useState<ReaderStatePages['transitionPageMode']>(
+        READER_STATE_PAGES_DEFAULTS.transitionPageMode,
+    );
+    const [retryFailedPagesKeyPrefix, setRetryFailedPagesKeyPrefix] = useState<
+        ReaderStatePages['retryFailedPagesKeyPrefix']
+    >(READER_STATE_PAGES_DEFAULTS.retryFailedPagesKeyPrefix);
 
     const value = useMemo(
         () => ({
