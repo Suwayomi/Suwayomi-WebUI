@@ -25,6 +25,8 @@ import {
     IReaderSettings,
     PageInViewportType,
     ReaderPageSpreadState,
+    ReaderTransitionPageMode,
+    ReadingDirection,
     ReadingMode,
     TReaderScrollbarContext,
 } from '@/modules/reader/types/Reader.types.ts';
@@ -56,6 +58,7 @@ import { useReaderHideCursorOnInactivity } from '@/modules/reader/hooks/useReade
 import { useReaderScrollToStartOnPageChange } from '@/modules/reader/hooks/useReaderScrollToStartOnPageChange.ts';
 import { useReaderHandlePageSelection } from '@/modules/reader/hooks/useReaderHandlePageSelection.ts';
 import { useReaderConvertPagesForReadingMode } from '@/modules/reader/hooks/useReaderConvertPagesForReadingMode.ts';
+import { ReaderTransitionPage } from '@/modules/reader/components/viewer/ReaderTransitionPage.tsx';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -170,6 +173,7 @@ const BaseReaderViewer = forwardRef(
 
         const Pager = useMemo(() => getPagerForReadingMode(readingMode), [readingMode]);
         const inViewportType = READING_MODE_TO_IN_VIEWPORT_TYPE[readingMode];
+        const isLtrReadingDirection = readingDirection === ReadingDirection.LTR;
 
         const onLoad = useMemo(
             () =>
@@ -248,11 +252,20 @@ const BaseReaderViewer = forwardRef(
                     width: '100%',
                     height: '100%',
                     overflow: 'auto',
+                    flexWrap: 'nowrap',
                     ...applyStyles(
                         isContinuousVerticalReadingMode(readingMode) &&
                             shouldApplyReaderWidth(readerWidth, pageScaleMode),
                         { alignItems: 'center' },
                     ),
+                    ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
+                        ...applyStyles(themeDirection === 'ltr', {
+                            flexDirection: isLtrReadingDirection ? 'row' : 'row-reverse',
+                        }),
+                        ...applyStyles(themeDirection === 'rtl', {
+                            flexDirection: isLtrReadingDirection ? 'row-reverse' : 'row',
+                        }),
+                    }),
                 }}
                 onClick={(e) => !isDragging && handleClick(e)}
                 onScroll={() =>
@@ -265,6 +278,7 @@ const BaseReaderViewer = forwardRef(
                     )
                 }
             >
+                <ReaderTransitionPage type={ReaderTransitionPageMode.PREVIOUS} />
                 <Pager
                     totalPages={totalPages}
                     currentPageIndex={currentPageIndex}
@@ -276,6 +290,7 @@ const BaseReaderViewer = forwardRef(
                     onLoad={onLoad}
                     onError={onError}
                 />
+                <ReaderTransitionPage type={ReaderTransitionPageMode.NEXT} />
             </Stack>
         );
     },

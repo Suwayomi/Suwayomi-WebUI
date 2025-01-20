@@ -49,6 +49,7 @@ const BaseReaderVerticalPager = ({
                     setRef,
                 )
             }
+            slots={{ boxProps: { sx: { margin: 'auto' } } }}
         />
     );
 };

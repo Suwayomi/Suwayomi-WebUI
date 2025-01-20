@@ -12,7 +12,6 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getPageIndexesToLoad } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { IReaderSettings, ReaderPagerProps, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
-import { ReaderTransitionPage } from '@/modules/reader/components/viewer/ReaderTransitionPage.tsx';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const BaseBasePager = ({
@@ -62,9 +61,11 @@ const BaseBasePager = ({
     return (
         <Box
             {...slots?.boxProps}
-            sx={[...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx])]}
+            sx={[
+                { width: 'fit-content', height: 'fit-content' },
+                ...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx]),
+            ]}
         >
-            <ReaderTransitionPage type={ReaderTransitionPageMode.PREVIOUS} />
             {pages.map((page, pagesIndex) =>
                 createPage(
                     page,
@@ -74,7 +75,6 @@ const BaseBasePager = ({
                     setRef,
                 ),
             )}
-            <ReaderTransitionPage type={ReaderTransitionPageMode.NEXT} />
         </Box>
     );
 };
