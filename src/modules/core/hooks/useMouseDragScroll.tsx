@@ -56,6 +56,15 @@ export const useMouseDragScroll = (
 
             return isRTLDirection || (!isRTLDirection && isFlexDirectionReversed);
         };
+
+        const isTopReversed = () => {
+            if (!elementStyle.current) {
+                elementStyle.current = getComputedStyle(element);
+            }
+
+            return elementStyle.current.flexDirection === 'column-reverse';
+        };
+
         const handleScrollX = scrollDirection !== ScrollDirection.Y;
         const handleScrollY = scrollDirection !== ScrollDirection.X;
 
@@ -116,7 +125,7 @@ export const useMouseDragScroll = (
             ];
             const newScrollPos = [
                 coerceIn(scrollAtT0.current[X] - delta[X], isRTL() ? -maxScrollPos[X] : 0, maxScrollPos[X]),
-                coerceIn(scrollAtT0.current[Y] - delta[Y], 0, maxScrollPos[Y]),
+                coerceIn(scrollAtT0.current[Y] - delta[Y], isTopReversed() ? -maxScrollPos[Y] : 0, maxScrollPos[Y]),
             ];
 
             const isScrollXPossible = newScrollPos[X] !== 0 || newScrollPos[X] !== maxScrollPos[X];
