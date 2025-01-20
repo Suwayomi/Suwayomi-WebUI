@@ -46,11 +46,16 @@ export const useMouseDragScroll = (
             return () => {};
         }
 
-        if (!elementStyle.current) {
-            elementStyle.current = getComputedStyle(element);
-        }
+        const isRTL = () => {
+            if (!elementStyle.current) {
+                elementStyle.current = getComputedStyle(element);
+            }
 
-        const isRTL = elementStyle.current.direction === 'rtl';
+            const isRTLDirection = elementStyle.current.direction === 'rtl';
+            const isFlexDirectionReversed = elementStyle.current.flexDirection === 'row-reverse';
+
+            return isRTLDirection || (!isRTLDirection && isFlexDirectionReversed);
+        };
         const handleScrollX = scrollDirection !== ScrollDirection.Y;
         const handleScrollY = scrollDirection !== ScrollDirection.X;
 
@@ -110,7 +115,7 @@ export const useMouseDragScroll = (
                 element.scrollHeight - element.clientHeight,
             ];
             const newScrollPos = [
-                coerceIn(scrollAtT0.current[X] - delta[X], isRTL ? -maxScrollPos[X] : 0, maxScrollPos[X]),
+                coerceIn(scrollAtT0.current[X] - delta[X], isRTL() ? -maxScrollPos[X] : 0, maxScrollPos[X]),
                 coerceIn(scrollAtT0.current[Y] - delta[Y], 0, maxScrollPos[Y]),
             ];
 
