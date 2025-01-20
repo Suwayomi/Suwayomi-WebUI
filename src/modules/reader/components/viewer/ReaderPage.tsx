@@ -76,6 +76,7 @@ const BaseReaderPage = ({
     onError,
     setRef,
     readerNavBarWidth,
+    isLoaded,
     ...props
 }: Omit<ComponentProps<typeof SpinnerImage>, 'ref' | 'spinnerStyle' | 'imgStyle' | 'onLoad' | 'onError'> &
     Pick<IReaderSettings, 'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth'> &
@@ -91,6 +92,7 @@ const BaseReaderPage = ({
         onLoad: ReaderPagerProps['onLoad'];
         onError: ReaderPagerProps['onError'];
         setRef?: (pagesIndex: number, ref: HTMLElement | null) => void;
+        isLoaded?: boolean;
     }) => {
     const { src } = props;
 
@@ -122,8 +124,8 @@ const BaseReaderPage = ({
                     shouldStretchPage,
                     pageScaleMode,
                     readerWidth,
+                    readerNavBarWidth + scrollbarYSize,
                     scrollbarXSize,
-                    scrollbarYSize,
                     doublePage,
                     isTabletWidth,
                 ),
@@ -142,10 +144,6 @@ const BaseReaderPage = ({
                     readerNavBarWidth + scrollbarYSize,
                     scrollbarXSize,
                 ),
-                display: 'block',
-                ...applyStyles(!display, {
-                    display: 'none',
-                }),
                 filter: getCustomFilterString(customFilter),
                 objectFit: 'contain',
                 objectPosition: position,
@@ -153,6 +151,13 @@ const BaseReaderPage = ({
                 ...getImageMarginStyling(doublePage, position),
                 ...applyStyles(marginTop !== undefined, {
                     mt: `${marginTop}px`,
+                }),
+                display: 'block',
+                ...applyStyles(!display, {
+                    display: 'none',
+                }),
+                ...applyStyles(!isLoaded, {
+                    margin: 'unset',
                 }),
             }}
             hideImgStyle={{

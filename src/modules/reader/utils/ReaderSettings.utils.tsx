@@ -34,6 +34,17 @@ export const shouldApplyReaderWidth = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
 ): boolean => !!readerWidth?.enabled && isReaderWidthEditable(pageScaleMode);
 
+export const getSetReaderWidth = (
+    readerWidth: IReaderSettings['readerWidth'] | undefined,
+    pageScaleMode: IReaderSettings['pageScaleMode'],
+): number | undefined => {
+    if (!shouldApplyReaderWidth(readerWidth, pageScaleMode)) {
+        return undefined;
+    }
+
+    return readerWidth?.value;
+};
+
 export const isContinuousReadingMode = (readingMode: IReaderSettings['readingMode']): boolean =>
     [ReadingMode.CONTINUOUS_VERTICAL, ReadingMode.CONTINUOUS_HORIZONTAL, ReadingMode.WEBTOON].includes(readingMode);
 

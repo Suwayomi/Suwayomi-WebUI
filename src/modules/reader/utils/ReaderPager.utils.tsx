@@ -19,6 +19,7 @@ import {
 } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import {
+    getSetReaderWidth,
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
     shouldApplyReaderWidth,
@@ -31,6 +32,7 @@ import { getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
 import { DirectionOffset } from '@/Base.types.ts';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 type CSSObject = ReturnType<Theme['applyStyles']>;
 
@@ -61,53 +63,69 @@ export const getImagePlaceholderStyling = (
     shouldStretchPage: IReaderSettings['shouldStretchPage'],
     pageScaleMode: IReaderSettings['pageScaleMode'],
     readerWidth: IReaderSettings['readerWidth'],
-    scrollbarXSize: number,
-    scrollbarYSize: number,
+    widthOffset: number,
+    heightOffset: number,
     isDoublePage?: boolean,
     isTabletWidth?: boolean,
 ): CSSObject => {
-    const DEFAULT_SINGLE_PAGE_WIDTH = isTabletWidth ? '100vw' : '40vw';
-    const DEFAULT_SINGLE_PAGE_HEIGHT = isTabletWidth ? '100vh' : '85vh';
+    const OVER_9000 = 9000;
+
+    const getMaxWidth = (width: string) => {
+        if (width === '100vw') {
+            return `calc(${width} - ${widthOffset}px)`;
+        }
+
+        return width;
+    };
+    const getDesktopWidth = (width: number, readerWidthValue?: number) =>
+        getMaxWidth(`${coerceIn(readerWidthValue ?? width, Math.min(width, readerWidthValue ?? OVER_9000), width)}vw`);
+
+    const setReaderWidth = getSetReaderWidth(readerWidth, pageScaleMode);
+    const fullWidth = getMaxWidth(`${Math.min(100, setReaderWidth ?? OVER_9000)}vw`);
+    const fullHeight = `calc(100vh - ${heightOffset}px)`;
+
+    const DEFAULT_SINGLE_PAGE_WIDTH = isTabletWidth ? fullWidth : getDesktopWidth(40, setReaderWidth);
+    const DEFAULT_SINGLE_PAGE_HEIGHT = isTabletWidth ? fullHeight : '85vh';
 
     const READING_MODE_TO_PLACEHOLDER_SIZE: Record<ReadingMode, { minWidth: string; minHeight: string }> = {
         [ReadingMode.SINGLE_PAGE]: { minWidth: DEFAULT_SINGLE_PAGE_WIDTH, minHeight: DEFAULT_SINGLE_PAGE_HEIGHT },
-        [ReadingMode.DOUBLE_PAGE]: { minWidth: isTabletWidth ? '50vw' : '35vw', minHeight: DEFAULT_SINGLE_PAGE_HEIGHT },
+        [ReadingMode.DOUBLE_PAGE]: {
+            minWidth: isTabletWidth ? '50vw' : getDesktopWidth(35, setReaderWidth ? setReaderWidth / 2 : undefined),
+            minHeight: DEFAULT_SINGLE_PAGE_HEIGHT,
+        },
         [ReadingMode.CONTINUOUS_VERTICAL]: {
-            minWidth: `calc(${DEFAULT_SINGLE_PAGE_WIDTH} - ${scrollbarYSize}px)`,
+            minWidth: DEFAULT_SINGLE_PAGE_WIDTH,
             minHeight: '100vh',
         },
         [ReadingMode.CONTINUOUS_HORIZONTAL]: {
             minWidth: DEFAULT_SINGLE_PAGE_WIDTH,
-            minHeight: `calc(${DEFAULT_SINGLE_PAGE_HEIGHT} - ${scrollbarXSize}px)`,
+            minHeight: DEFAULT_SINGLE_PAGE_HEIGHT,
         },
         [ReadingMode.WEBTOON]: {
-            minWidth: `calc(${DEFAULT_SINGLE_PAGE_WIDTH} - ${scrollbarYSize}px)`,
+            minWidth: DEFAULT_SINGLE_PAGE_WIDTH,
             minHeight: '100vh',
         },
     };
-    const defaultStyling = READING_MODE_TO_PLACEHOLDER_SIZE[readingMode];
-    const minWidthForStretch = isDoublePage ? '50%' : '100%';
+    const defaultStyling = {
+        ...READING_MODE_TO_PLACEHOLDER_SIZE[readingMode],
+        // the SpinnerImage placeholder has a default height of 100%, this causes the placeholder to take always take up 100% of the viewport
+        height: 'unset',
+    };
+    const minWidthForStretch = isDoublePage ? `calc(${getMaxWidth(`${setReaderWidth ?? 100}vw`)} / 2)` : fullWidth;
 
     switch (pageScaleMode) {
         case ReaderPageScaleMode.WIDTH:
             return {
                 ...defaultStyling,
-                ...applyStyles(shouldApplyReaderWidth(readerWidth, pageScaleMode), {
-                    minWidth: minWidthForStretch,
-                }),
                 ...applyStyles(shouldStretchPage, {
                     minWidth: minWidthForStretch,
-                }),
-                // the SpinnerImage placeholder has a default height of 100%, this caused the placeholder due take up 100% of the readers full scrollable height instead of only 100% of the viewport
-                ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
-                    height: 'unset',
                 }),
             };
         case ReaderPageScaleMode.HEIGHT:
             return {
                 ...defaultStyling,
                 ...applyStyles(shouldStretchPage, {
-                    minHeight: `calc(100vh - ${scrollbarXSize}px)`,
+                    minHeight: fullHeight,
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         minHeight: '100vh',
                     }),
@@ -116,12 +134,9 @@ export const getImagePlaceholderStyling = (
         case ReaderPageScaleMode.SCREEN:
             return {
                 ...defaultStyling,
-                ...applyStyles(shouldApplyReaderWidth(readerWidth, pageScaleMode), {
-                    minWidth: minWidthForStretch,
-                }),
                 ...applyStyles(shouldStretchPage, {
                     minWidth: minWidthForStretch,
-                    minHeight: `calc(100vh - ${scrollbarXSize}px)`,
+                    minHeight: fullHeight,
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         minHeight: '100vh',
                     }),
@@ -264,6 +279,7 @@ export const createReaderPage = (
     { primary: { index, alt, url } }: ReaderStatePages['pages'][number],
     pagesIndex: number,
     isPrimaryPage: boolean,
+    isLoaded: boolean,
     onLoad: ComponentProps<typeof ReaderPage>['onLoad'],
     onError: ComponentProps<typeof ReaderPage>['onError'],
     shouldLoad: boolean,
@@ -293,6 +309,7 @@ export const createReaderPage = (
         shouldLoad={shouldLoad}
         retryKeyPrefix={retryKeyPrefix}
         marginTop={marginTop}
+        isLoaded={isLoaded}
     />
 );
 

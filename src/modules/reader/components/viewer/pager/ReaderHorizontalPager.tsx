@@ -38,6 +38,7 @@ const BaseReaderHorizontalPager = ({
                     page,
                     pagesIndex,
                     true,
+                    pageLoadStates[page.primary.index].loaded,
                     onLoad,
                     onError,
                     shouldLoad,
