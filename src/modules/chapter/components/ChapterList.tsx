@@ -146,7 +146,7 @@ export const ChapterList = ({
 
     const onSelect = useCallback(
         (id: number, selected: boolean, selectRange?: boolean) => handleSelection(id, selected, { selectRange }),
-        [],
+        [handleSelection],
     );
 
     if (isLoading || (noChaptersFound && isRefreshing)) {
