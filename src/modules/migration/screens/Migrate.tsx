@@ -6,10 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TMigratableSource } from '@/modules/migration/components/MigrationCard.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
@@ -23,10 +22,11 @@ import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export const Migrate = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     const { sourceId: paramSourceId } = useParams<{ sourceId: string }>();
 

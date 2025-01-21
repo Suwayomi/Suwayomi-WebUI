@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
@@ -16,7 +16,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { GridLayouts } from '@/modules/core/components/GridLayouts.tsx';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
@@ -35,6 +34,7 @@ import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { LibraryDuplicatesWorkerInput, TMangaDuplicate, TMangaDuplicates } from '@/modules/library/Library.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export const LibraryDuplicates = () => {
     const { t } = useTranslation();
@@ -45,7 +45,7 @@ export const LibraryDuplicates = () => {
         false,
     );
 
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
     useLayoutEffect(() => {
         setTitle(t('library.settings.advanced.duplicates.label.title'));
         setAction(

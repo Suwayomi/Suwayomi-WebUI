@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -15,7 +15,6 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Divider from '@mui/material/Divider';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { UpdateState } from '@/lib/graphql/generated/graphql.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -23,10 +22,11 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { getBuildTime, getVersion } from '@/modules/app-updates/services/AppUpdateChecker.tsx';
 import { VersionInfo } from '@/modules/app-updates/components/VersionInfo.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export function About() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
         setTitle(t('settings.about.title'));

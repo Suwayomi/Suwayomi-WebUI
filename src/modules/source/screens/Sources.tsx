@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Fragment, useContext, useEffect, useLayoutEffect, useMemo } from 'react';
+import { Fragment, useEffect, useLayoutEffect, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
@@ -24,13 +24,13 @@ import {
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 function sourceToLangList(sources: Pick<SourceType, 'id' | 'lang'>[]) {
     const result = new Set<string>();
@@ -65,7 +65,7 @@ function groupByLang<Source extends Pick<SourceType, 'id' | 'name' | 'lang'>>(
 
 export function Sources() {
     const { t } = useTranslation();
-    const { setAction } = useContext(NavBarContext);
+    const { setAction } = useNavBarContext();
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);

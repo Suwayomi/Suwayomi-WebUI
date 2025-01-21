@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,7 +15,6 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { GlobalUpdateSettings } from '@/modules/settings/components/globalUpdate/GlobalUpdateSettings.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
@@ -39,6 +38,7 @@ import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -64,7 +64,7 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
 
 export function LibrarySettings() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
         setTitle(t('library.settings.title'));

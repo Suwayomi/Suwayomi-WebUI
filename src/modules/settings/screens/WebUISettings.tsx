@@ -7,12 +7,12 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/modules/settings/components/webUI/WebUIUpdateIntervalSetting.tsx';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
@@ -120,7 +120,7 @@ const extractWebUISettings = (settings: ServerSettings): WebUISettingsType => ({
 
 export const WebUISettings = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
         setTitle(t('settings.webui.title.settings'));

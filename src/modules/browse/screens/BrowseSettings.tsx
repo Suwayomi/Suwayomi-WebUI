@@ -7,12 +7,11 @@
  */
 
 import { Trans, useTranslation } from 'react-i18next';
-import { useContext, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
@@ -29,6 +28,7 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
@@ -40,7 +40,7 @@ const extractBrowseSettings = (settings: GqlServerSettings): ExtensionsSettings 
 
 export const BrowseSettings = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
         setTitle(t('settings.browse.title'));

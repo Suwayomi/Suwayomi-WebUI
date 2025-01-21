@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -36,7 +36,6 @@ import {
     GetSourceMangasFetchMutationVariables,
     SourceType,
 } from '@/lib/graphql/generated/graphql.ts';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
@@ -53,6 +52,7 @@ import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const DEFAULT_SOURCE: Pick<SourceType, 'id'> = { id: '-1' };
 
@@ -204,7 +204,7 @@ const useSourceManga = (
 
 export function SourceMangas() {
     const { t } = useTranslation();
-    const { setTitle, setAction, appBarHeight } = useContext(NavBarContext);
+    const { setTitle, setAction, appBarHeight } = useNavBarContext();
 
     const { sourceId } = useParams<{ sourceId: string }>();
 

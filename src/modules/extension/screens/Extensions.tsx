@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -25,7 +25,6 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { ExtensionCard } from '@/modules/extension/components/ExtensionCard.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
@@ -41,13 +40,14 @@ import { ExtensionAction, ExtensionGroupState, ExtensionState } from '@/modules/
 import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/modules/extension/Extensions.constants.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
 
 export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
-    const { setAction } = useContext(NavBarContext);
+    const { setAction } = useNavBarContext();
 
     const {
         data: serverSettingsData,

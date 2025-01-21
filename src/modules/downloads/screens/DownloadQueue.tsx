@@ -16,7 +16,7 @@ import Stack from '@mui/material/Stack';
 import Box, { BoxProps } from '@mui/material/Box';
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
-import React, { memo, useCallback, useContext, useEffect, useLayoutEffect } from 'react';
+import React, { memo, useCallback, useEffect, useLayoutEffect } from 'react';
 import { DragDropContext, Draggable, DraggableProvided, DropResult } from 'react-beautiful-dnd';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
@@ -30,13 +30,13 @@ import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppab
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ChapterDownloadStatus, ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { DownloaderState, DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
@@ -143,7 +143,7 @@ export const DownloadQueue: React.FC = () => {
     const status = downloaderData?.state ?? 'STARTED';
     const isQueueEmpty = !queue.length;
 
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     const clearQueue = async () => {
         try {

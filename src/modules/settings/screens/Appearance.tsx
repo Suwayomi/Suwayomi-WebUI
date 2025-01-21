@@ -16,7 +16,6 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import { useColorScheme } from '@mui/material/styles';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
@@ -36,6 +35,7 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
@@ -43,7 +43,7 @@ export const Appearance = () => {
     const { mode, setMode } = useColorScheme();
     const actualThemeMode = (mode ?? themeMode) as ThemeMode;
 
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
     useLayoutEffect(() => {
         setTitle(t('settings.appearance.title'));
         setAction(null);

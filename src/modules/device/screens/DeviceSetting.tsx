@@ -18,7 +18,6 @@ import {
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { DeviceContext } from '@/modules/device/contexts/DeviceContext.tsx';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
@@ -27,10 +26,11 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { DEFAULT_DEVICE } from '@/modules/device/services/Device.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
         setTitle(t('settings.device.title.settings'));

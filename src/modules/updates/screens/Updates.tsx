@@ -7,13 +7,12 @@
  */
 
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useContext, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
@@ -23,6 +22,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ChapterUpdateCard } from '@/modules/updates/components/ChapterUpdateCard.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
     if (!updates.length) {
@@ -41,7 +41,7 @@ const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, 
 export const Updates: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
     const {
         data: chapterUpdateData,
         loading: isLoading,

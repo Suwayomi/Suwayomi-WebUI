@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createElement, useContext, useLayoutEffect } from 'react';
+import { createElement, useLayoutEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,6 @@ import {
 import { ListPreference } from '@/modules/source/components/sourceConfiguration/ListPreference.tsx';
 import { EditTextPreference } from '@/modules/source/components/sourceConfiguration/EditTextPreference.tsx';
 import { MultiSelectListPreference } from '@/modules/source/components/sourceConfiguration/MultiSelectListPreference.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -28,6 +27,7 @@ import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { PreferenceProps } from '@/modules/source/Source.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -48,7 +48,7 @@ function getPrefComponent(type: string) {
 
 export function SourceConfigure() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
         setTitle(t('source.configuration.title'));

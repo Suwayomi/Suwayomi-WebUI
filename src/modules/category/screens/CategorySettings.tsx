@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useLayoutEffect, useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useState } from 'react';
 import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
 import { useTheme } from '@mui/material/styles';
 import Fab from '@mui/material/Fab';
@@ -24,7 +24,6 @@ import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppable.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -33,11 +32,12 @@ import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts'
 import { CategorySettingsCard } from '@/modules/category/components/CategorySettingsCard.tsx';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export function CategorySettings() {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
     useLayoutEffect(() => {
         setTitle(t('category.title.category_other'));
         setAction(null);

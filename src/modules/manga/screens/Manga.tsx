@@ -12,12 +12,11 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
-import React, { useContext, useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ChapterList } from '@/modules/chapter/components/ChapterList.tsx';
 import { useRefreshManga } from '@/modules/manga/hooks/useRefreshManga.ts';
 import { MangaDetails } from '@/modules/manga/components/MangaDetails.tsx';
@@ -27,11 +26,12 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_SCREEN } from '@/lib/graphql/queries/MangaQuery.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export const Manga: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 

@@ -7,14 +7,13 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
-
 import ListSubheader from '@mui/material/ListSubheader';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
@@ -32,7 +31,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const TrackingSettings = () => {
     const { t } = useTranslation();
-    const { setTitle } = useContext(NavBarContext);
+    const { setTitle } = useNavBarContext();
 
     useLayoutEffect(() => {
         setTitle(t('tracking.settings.title.settings'));

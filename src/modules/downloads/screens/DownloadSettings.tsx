@@ -7,14 +7,13 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/modules/downloads/components/DownloadAheadSetting.tsx';
 import {
@@ -33,6 +32,7 @@ import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts'
 import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -55,7 +55,7 @@ const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType
 
 export const DownloadSettings = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
         setTitle(t('download.settings.title'));

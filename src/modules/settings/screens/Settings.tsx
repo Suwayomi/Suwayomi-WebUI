@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useContext, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import List from '@mui/material/List';
 import ListAltIcon from '@mui/icons-material/ListAlt';
@@ -26,16 +26,16 @@ import DevicesIcon from '@mui/icons-material/Devices';
 import SyncIcon from '@mui/icons-material/Sync';
 import PaletteIcon from '@mui/icons-material/Palette';
 import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 export function Settings() {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
     useLayoutEffect(() => {
         setTitle(t('settings.title'));
         setAction(null);

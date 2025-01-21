@@ -9,7 +9,7 @@
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,6 @@ import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/mod
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -31,6 +30,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -197,7 +197,7 @@ const SourceSearchPreview = React.memo(
 export const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
 
     const { pathname, state } = useLocation<{ mangaTitle?: string }>();
     const isMigrateMode = pathname.startsWith('/migrate/source');

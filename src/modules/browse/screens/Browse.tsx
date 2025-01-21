@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
 import { StringParam, useQueryParam } from 'use-query-params';
@@ -16,8 +16,8 @@ import { TabPanel } from '@/modules/core/components/tabs/TabPanel.tsx';
 import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
 import { Migration } from '@/modules/migration/screens/Migration.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 enum Tabs {
     SOURCE = 'source',
@@ -27,7 +27,7 @@ enum Tabs {
 
 export function Browse() {
     const { t } = useTranslation();
-    const { setTitle } = useContext(NavBarContext);
+    const { setTitle } = useNavBarContext();
 
     useLayoutEffect(() => {
         setTitle(t('global.label.browse'));

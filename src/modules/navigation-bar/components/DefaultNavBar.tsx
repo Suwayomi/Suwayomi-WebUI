@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useContext, useLayoutEffect, useMemo, useRef } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -26,7 +26,6 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
@@ -35,6 +34,7 @@ import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MobileBottomBar } from '@/modules/navigation-bar/components/MobileBottomBar.tsx';
 import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const navbarItems: Array<NavbarItem> = [
     {
@@ -76,7 +76,7 @@ const navbarItems: Array<NavbarItem> = [
 
 export function DefaultNavBar() {
     const { title, action, override, isCollapsed, setIsCollapsed, setAppBarHeight, navBarWidth, setNavBarWidth } =
-        useContext(NavBarContext);
+        useNavBarContext();
 
     const theme = useTheme();
     const getOptionForDirection = useGetOptionForDirection();

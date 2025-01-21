@@ -9,7 +9,7 @@
 import Chip, { ChipProps } from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material/styles';
-import { useCallback, useContext, useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -20,7 +20,6 @@ import { LibraryToolbarMenu } from '@/modules/library/components/LibraryToolbarM
 import { LibraryMangaGrid } from '@/modules/library/components/LibraryMangaGrid.tsx';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
-import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useSelectableCollection } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/modules/collection/components/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/modules/library/hooks/useGetVisibleLibraryMangas.ts';
@@ -44,6 +43,7 @@ import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOpti
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/queries/MangaQuery.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -166,7 +166,7 @@ export function Library() {
         );
     }, [isSelectModeActive, selectedMangas]);
 
-    const { setTitle, setAction } = useContext(NavBarContext);
+    const { setTitle, setAction } = useNavBarContext();
     useLayoutEffect(() => {
         const title = t('library.title');
         const navBarTitle = (
