@@ -27,6 +27,7 @@ import { ReaderContextProvider } from '@/modules/reader/contexts/ReaderContextPr
 import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
 import { AppHotkeysProvider } from '@/modules/hotkeys/contexts/AppHotkeysProvider.tsx';
 import { SnackbarWithDescription } from '@/modules/core/components/snackbar/SnackbarWithDescription.tsx';
+import { AppPageHistoryContextProvider } from '@/modules/core/contexts/AppPageHistoryContextProvider.tsx';
 
 interface Props {
     children: React.ReactNode;
@@ -93,21 +94,23 @@ export const AppContext: React.FC<Props> = ({ children }) => {
                             <QueryParamProvider adapter={ReactRouter6Adapter}>
                                 <LibraryOptionsContextProvider>
                                     <NavBarContextProvider>
-                                        <ActiveDeviceContextProvider>
-                                            <SnackbarProvider
-                                                Components={{
-                                                    default: SnackbarWithDescription,
-                                                    info: SnackbarWithDescription,
-                                                    success: SnackbarWithDescription,
-                                                    warning: SnackbarWithDescription,
-                                                    error: SnackbarWithDescription,
-                                                }}
-                                            >
-                                                <ReaderContextProvider>
-                                                    <AppHotkeysProvider>{children}</AppHotkeysProvider>
-                                                </ReaderContextProvider>
-                                            </SnackbarProvider>
-                                        </ActiveDeviceContextProvider>
+                                        <AppPageHistoryContextProvider>
+                                            <ActiveDeviceContextProvider>
+                                                <SnackbarProvider
+                                                    Components={{
+                                                        default: SnackbarWithDescription,
+                                                        info: SnackbarWithDescription,
+                                                        success: SnackbarWithDescription,
+                                                        warning: SnackbarWithDescription,
+                                                        error: SnackbarWithDescription,
+                                                    }}
+                                                >
+                                                    <ReaderContextProvider>
+                                                        <AppHotkeysProvider>{children}</AppHotkeysProvider>
+                                                    </ReaderContextProvider>
+                                                </SnackbarProvider>
+                                            </ActiveDeviceContextProvider>
+                                        </AppPageHistoryContextProvider>
                                     </NavBarContextProvider>
                                 </LibraryOptionsContextProvider>
                             </QueryParamProvider>

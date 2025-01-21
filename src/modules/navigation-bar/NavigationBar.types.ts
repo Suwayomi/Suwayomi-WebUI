@@ -24,8 +24,6 @@ export interface NavbarItem {
 }
 
 export type NavbarContextType = {
-    history: string[];
-
     // AppBar title
     title: string | React.ReactNode;
     setTitle: (title: NavbarContextType['title'], browserTitle?: string) => void;

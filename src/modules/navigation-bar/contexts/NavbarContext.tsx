@@ -11,7 +11,6 @@ import React, { useContext } from 'react';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 export const NavBarContext = React.createContext<NavbarContextType>({
-    history: [],
     title: 'Suwayomi',
     setTitle: (): void => {},
     appBarHeight: 0,

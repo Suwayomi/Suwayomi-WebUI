@@ -8,15 +8,15 @@
 
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { useAppPageHistoryContext } from '@/modules/core/contexts/AppPageHistoryContext.tsx';
 
 const PAGES_TO_IGNORE: readonly RegExp[] = [/\/manga\/[0-9]+\/chapter\/[0-9]+/g];
 
 export const useBackButton = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const { history } = useNavBarContext();
+    const history = useAppPageHistoryContext();
 
     return useCallback(() => {
         const isHistoryEmpty = !history.length;

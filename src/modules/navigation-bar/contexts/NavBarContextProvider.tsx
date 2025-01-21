@@ -8,7 +8,6 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 import { NavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { useHistory } from '@/modules/core/hooks/useHistory.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { INavbarOverride } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
@@ -29,8 +28,6 @@ export function NavBarContextProvider({ children }: IProps) {
     const [readerNavBarWidth, setReaderNavBarWidth] = useState(0);
     const [bottomBarHeight, setBottomBarHeight] = useState(0);
 
-    const history = useHistory();
-
     const updateTitle = useCallback(
         (newTitle: string | React.ReactNode, browserTitle: string = typeof newTitle === 'string' ? newTitle : '') => {
             document.title = `${browserTitle} - Suwayomi`;
@@ -41,7 +38,6 @@ export function NavBarContextProvider({ children }: IProps) {
 
     const value = useMemo(
         () => ({
-            history,
             title,
             setTitle: updateTitle,
             appBarHeight,
@@ -60,7 +56,6 @@ export function NavBarContextProvider({ children }: IProps) {
             setBottomBarHeight,
         }),
         [
-            history,
             title,
             updateTitle,
             appBarHeight,
