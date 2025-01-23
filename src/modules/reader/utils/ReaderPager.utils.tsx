@@ -36,26 +36,26 @@ import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 type CSSObject = ReturnType<Theme['applyStyles']>;
 
-const getPageWidth = (
+const getPageWidthPercentage = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
     isDoublePage: boolean,
     readerWidth: IReaderSettings['readerWidth'],
     isImage: boolean,
-): string => {
+): number => {
     if (shouldApplyReaderWidth(readerWidth, pageScaleMode)) {
         const width = readerWidth.value;
         if (isImage && isDoublePage) {
-            return `${width / 2}vw`;
+            return width / 100 / 2;
         }
 
-        return `${width}vw`;
+        return width / 100;
     }
 
     if (isImage && isDoublePage) {
-        return `50vw`;
+        return 0.5;
     }
 
-    return `100vw`;
+    return 1;
 };
 
 export const getImagePlaceholderStyling = (
@@ -155,15 +155,14 @@ export const getImagePlaceholderStyling = (
 };
 
 const getReaderDimensionStyling = (
-    width: string,
+    widthPercentage: number,
     readingMode: IReaderSettings['readingMode'],
     shouldStretchPage: IReaderSettings['shouldStretchPage'],
     pageScaleMode: IReaderSettings['pageScaleMode'],
     widthOffset: number,
     heightOffset: number,
 ): CSSObject => {
-    const finalWidthOffset = readingMode === ReadingMode.DOUBLE_PAGE ? widthOffset / 2 : widthOffset;
-    const fullWidth = `calc(${width} - ${finalWidthOffset}px)`;
+    const fullWidth = `calc((100vw - ${widthOffset}px) * ${widthPercentage})`;
     const fullHeight = `calc(100vh - ${heightOffset}px)`;
 
     switch (pageScaleMode) {
@@ -228,8 +227,15 @@ export const getReaderImageStyling = (
     widthOffset: number,
     heightOffset: number,
 ): CSSObject => {
-    const width = getPageWidth(pageScaleMode, isDoublePage, readerWidth, true);
-    return getReaderDimensionStyling(width, readingMode, shouldStretchPage, pageScaleMode, widthOffset, heightOffset);
+    const widthPercentage = getPageWidthPercentage(pageScaleMode, isDoublePage, readerWidth, true);
+    return getReaderDimensionStyling(
+        widthPercentage,
+        readingMode,
+        shouldStretchPage,
+        pageScaleMode,
+        widthOffset,
+        heightOffset,
+    );
 };
 
 export const getImageMarginStyling = (doublePage: boolean, objectFitPosition?: 'left' | 'right'): CSSObject => ({
