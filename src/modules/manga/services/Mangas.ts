@@ -558,8 +558,9 @@ export class Mangas {
 
     static isType(manga: MangaGenreInfo & MangaSourceNameInfo, type: MangaType): boolean {
         return (
-            manga.genre.some((genre) => MANGA_TAGS_BY_MANGA_TYPE[type].includes(genre.toLowerCase())) ||
-            SOURCES_BY_MANGA_TYPE[type].includes(manga.source?.name.toLowerCase() ?? '')
+            manga.genre.some((genre) =>
+                MANGA_TAGS_BY_MANGA_TYPE[type].some((tag) => genre.toLowerCase().includes(tag)),
+            ) || SOURCES_BY_MANGA_TYPE[type].includes(manga.source?.name.toLowerCase() ?? '')
         );
     }
 
