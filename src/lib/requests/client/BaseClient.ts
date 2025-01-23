@@ -17,7 +17,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
         const { hostname, port, protocol } = window.location;
 
         // if port is 3000 it's probably running from webpack development server
-        const inferredPort = port === '3000' ? '4567' : port;
+        const inferredPort = import.meta.env.DEV && port === '3000' ? '4567' : port;
         return AppStorage.local.getItemParsed('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`);
     }
 

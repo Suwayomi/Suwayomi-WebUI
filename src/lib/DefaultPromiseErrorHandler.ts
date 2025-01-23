@@ -7,7 +7,7 @@
  */
 
 export const defaultPromiseErrorHandler = (name: string) => (error: any) => {
-    if (process.env.NODE_ENV === 'production') {
+    if (import.meta.env.PROD) {
         return;
     }
 
