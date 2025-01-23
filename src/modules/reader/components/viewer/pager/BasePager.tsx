@@ -9,10 +9,12 @@
 import { memo, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { getPageIndexesToLoad } from '@/modules/reader/utils/ReaderPager.utils.tsx';
+import { getPageIndexesToLoad, isATransitionPageVisible } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { IReaderSettings, ReaderPagerProps, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
+import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
+import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 const BaseBasePager = ({
     currentPageIndex,
@@ -62,8 +64,22 @@ const BaseBasePager = ({
         <Box
             {...slots?.boxProps}
             sx={[
-                { width: 'fit-content', height: 'fit-content' },
+                {
+                    width: 'fit-content',
+                    height: 'fit-content',
+                },
                 ...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx]),
+                // hide pager, without actually unmounting it to prevent re-renders, while a chapter transition page is taking up the full screen
+                applyStyles(
+                    !isContinuousReadingMode(readingMode) && isATransitionPageVisible(transitionPageMode, readingMode),
+                    {
+                        visibility: 'hidden',
+                        width: 0,
+                        height: 0,
+                        m: 0,
+                        p: 0,
+                    },
+                ),
             ]}
         >
             {pages.map((page, pagesIndex) =>
