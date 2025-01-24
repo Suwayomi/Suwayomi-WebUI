@@ -18,6 +18,7 @@ export type MetadataLibrarySettings = {
     showContinueReadingButton: boolean;
     showDownloadBadge: boolean;
     showUnreadBadge: boolean;
+    gridLayout: GridLayout;
 };
 export type LibrarySortMode =
     | 'unreadChapters'
@@ -29,9 +30,6 @@ export type LibrarySortMode =
     | 'latestUploadedChapter';
 
 export interface LibraryOptions {
-    // display options
-    gridLayout: GridLayout;
-
     // sort options
     sortBy: NullAndUndefined<LibrarySortMode>;
     sortDesc: NullAndUndefined<boolean>;

@@ -8,9 +8,9 @@
 
 import React, { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { IMangaGridProps, MangaGrid } from '@/modules/manga/components/MangaGrid.tsx';
 import { GridLayout } from '@/modules/core/Core.types.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 interface LibraryMangaGridProps
     extends Required<Pick<IMangaGridProps, 'isSelectModeActive' | 'selectedMangaIds' | 'handleSelection' | 'mangas'>>,
@@ -29,10 +29,12 @@ export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
 }) => {
     const { t } = useTranslation();
 
-    const { options } = useLibraryOptionsContext();
+    const {
+        settings: { gridLayout },
+    } = useMetadataServerSettings();
 
     useLayoutEffect(() => {
-        document.body.style.overflowY = options.gridLayout === GridLayout.List ? 'auto' : 'scroll';
+        document.body.style.overflowY = gridLayout === GridLayout.List ? 'auto' : 'scroll';
         return () => {
             document.body.style.overflowY = 'auto';
         };
@@ -46,7 +48,7 @@ export const LibraryMangaGrid: React.FC<LibraryMangaGridProps> = ({
             loadMore={loadMoreNoop}
             message={showFilteredOutMessage ? t('library.error.label.no_matches') : message}
             messageExtra={showFilteredOutMessage ? undefined : messageExtra}
-            gridLayout={options.gridLayout}
+            gridLayout={gridLayout}
         />
     );
 };

@@ -68,7 +68,7 @@ export const LibraryOptionsPanel = ({
     );
 
     const {
-        settings: { showTabSize, showContinueReadingButton, showDownloadBadge, showUnreadBadge },
+        settings: { showTabSize, showContinueReadingButton, showDownloadBadge, showUnreadBadge, gridLayout },
     } = useMetadataServerSettings();
     const setSettingValue = createUpdateMetadataServerSettings((e) =>
         makeToast(t('search.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
@@ -156,12 +156,11 @@ export const LibraryOptionsPanel = ({
                     ));
                 }
                 if (key === 'display') {
-                    const { gridLayout } = categoryLibraryOptions;
                     return (
                         <>
                             <FormLabel>{t('global.grid_layout.title')}</FormLabel>
                             <RadioGroup
-                                onChange={(e) => updateCategoryLibraryOptions('gridLayout', Number(e.target.value))}
+                                onChange={(e) => updateMetadataServerSettings('gridLayout', Number(e.target.value))}
                                 value={gridLayout}
                             >
                                 <RadioInput

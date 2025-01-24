@@ -21,12 +21,8 @@ import {
     Metadata,
     MetadataHolder,
 } from '@/modules/metadata/Metadata.types.ts';
-import { GridLayout } from '@/modules/core/Core.types.ts';
 
 export const DEFAULT_CATEGORY_METADATA: ICategoryMetadata = {
-    // display options
-    gridLayout: GridLayout.Compact,
-
     // sort options
     sortDesc: undefined,
     sortBy: undefined,
