@@ -21,7 +21,7 @@ import { useCallback } from 'react';
 import { deepmerge } from '@mui/utils';
 // eslint-disable-next-line no-restricted-imports
 import { PaletteBackgroundChannel } from '@mui/material/styles/createThemeWithVars';
-import { ThemeMode } from '@/modules/theme/contexts/ThemeModeContext.tsx';
+import { ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { AppTheme, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -29,15 +29,9 @@ import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 
 const SCROLLBAR_SIZE = 14;
 
-declare module '@mui/material/styles' {
-    interface CssThemeVariables {
-        enabled: true;
-    }
-}
-
 const getBackgroundColor = (
     type: 'light' | 'dark',
-    appTheme: AppTheme,
+    appTheme: AppTheme['muiTheme'],
     theme: Theme,
     setPureBlackMode: boolean = false,
 ): (Partial<TypeBackground> & Partial<PaletteBackgroundChannel>) | undefined => {
@@ -49,11 +43,8 @@ const getBackgroundColor = (
     }
 
     if (type === 'light' && !!theme.colorSchemes.light) {
-        if (
-            typeof appTheme.muiTheme.colorSchemes?.light === 'object' &&
-            appTheme.muiTheme.colorSchemes.light.palette?.background
-        ) {
-            return appTheme.muiTheme.colorSchemes.light.palette.background;
+        if (typeof appTheme.colorSchemes?.light === 'object' && appTheme.colorSchemes.light.palette?.background) {
+            return appTheme.colorSchemes.light.palette.background;
         }
 
         return {
@@ -63,11 +54,8 @@ const getBackgroundColor = (
     }
 
     if (type === 'dark' && !!theme.colorSchemes.dark) {
-        if (
-            typeof appTheme.muiTheme.colorSchemes?.dark === 'object' &&
-            appTheme.muiTheme.colorSchemes.dark.palette?.background
-        ) {
-            return appTheme.muiTheme.colorSchemes.dark.palette.background;
+        if (typeof appTheme.colorSchemes?.dark === 'object' && appTheme.colorSchemes.dark.palette?.background) {
+            return appTheme.colorSchemes.dark.palette.background;
         }
 
         return {
@@ -84,12 +72,20 @@ export const createTheme = (
     appTheme: AppTheme,
     pureBlackMode: boolean = false,
     direction: Direction = 'ltr',
+    dynamicColor: string | null = null,
 ) => {
     const systemMode = MediaQuery.getSystemThemeMode();
 
     const mode = themeMode === ThemeMode.SYSTEM ? systemMode : themeMode;
     const isDarkMode = mode === ThemeMode.DARK;
     const setPureBlackMode = isDarkMode && pureBlackMode;
+
+    const themeDynamicColor = {
+        ...appTheme.muiTheme,
+        light: { palette: { primary: { main: dynamicColor } } },
+        dark: { palette: { primary: { main: dynamicColor } } },
+    };
+    const themeFinalColor = dynamicColor ? themeDynamicColor : appTheme.muiTheme;
 
     const themeForColors = createMuiTheme({ ...appTheme.muiTheme, defaultColorScheme: mode });
 
@@ -101,14 +97,14 @@ export const createTheme = (
                 light: appTheme.muiTheme.colorSchemes?.light
                     ? {
                           palette: {
-                              background: getBackgroundColor('light', appTheme, themeForColors),
+                              background: getBackgroundColor('light', themeFinalColor, themeForColors),
                           },
                       }
                     : undefined,
                 dark: appTheme.muiTheme.colorSchemes?.dark
                     ? {
                           palette: {
-                              background: getBackgroundColor('dark', appTheme, themeForColors, setPureBlackMode),
+                              background: getBackgroundColor('dark', themeFinalColor, themeForColors, setPureBlackMode),
                           },
                       }
                     : undefined,

@@ -15,7 +15,7 @@ export enum ThemeMode {
     LIGHT = 'light',
 }
 
-type ThemeModeContextType = {
+export type TAppThemeContext = {
     appTheme: AppThemes;
     setAppTheme: React.Dispatch<React.SetStateAction<AppThemes>>;
     themeMode: ThemeMode;
@@ -24,7 +24,7 @@ type ThemeModeContextType = {
     setPureBlackMode: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const ThemeModeContext = React.createContext<ThemeModeContextType>({
+export const AppThemeContext = React.createContext<TAppThemeContext>({
     appTheme: 'default',
     setAppTheme: (): void => {},
     themeMode: ThemeMode.SYSTEM,

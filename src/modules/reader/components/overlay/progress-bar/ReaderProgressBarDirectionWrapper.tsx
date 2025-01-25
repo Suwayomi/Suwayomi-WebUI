@@ -13,7 +13,7 @@ import Box, { BoxProps } from '@mui/material/Box';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
-import { ThemeMode } from '@/modules/theme/contexts/ThemeModeContext.tsx';
+import { ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { createTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';

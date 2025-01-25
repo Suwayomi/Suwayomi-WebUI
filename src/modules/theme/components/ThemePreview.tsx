@@ -19,7 +19,7 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
-import { ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
+import { AppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
 import { createTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { ThemeCreationDialog } from '@/modules/theme/components/CreateThemeDialog.tsx';
@@ -37,7 +37,7 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
 
     const { t } = useTranslation();
     const theme = useTheme();
-    const { themeMode, setAppTheme, appTheme: activeAppTheme, pureBlackMode } = useContext(ThemeModeContext);
+    const { themeMode, setAppTheme, appTheme: activeAppTheme, pureBlackMode } = useContext(AppThemeContext);
 
     const popupState = usePopupState({ variant: 'popover', popupId: `theme-edit-dialog-${appTheme.id}` });
 

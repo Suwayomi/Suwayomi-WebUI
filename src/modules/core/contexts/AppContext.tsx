@@ -6,118 +6,53 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Direction, StyledEngineProvider, ThemeProvider, useColorScheme } from '@mui/material/styles';
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { StyledEngineProvider } from '@mui/material/styles';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
-import { useTranslation } from 'react-i18next';
-import { CacheProvider } from '@emotion/react';
 import { SnackbarProvider } from 'notistack';
-import { createAndSetTheme } from '@/modules/theme/services/ThemeCreator.ts';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { ThemeMode, ThemeModeContext } from '@/modules/theme/contexts/ThemeModeContext.tsx';
 import { NavBarContextProvider } from '@/modules/navigation-bar/contexts/NavBarContextProvider.tsx';
 import { LibraryOptionsContextProvider } from '@/modules/library/contexts/LibraryOptionsProvider.tsx';
 import { ActiveDeviceContextProvider } from '@/modules/device/contexts/DeviceContext.tsx';
-import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
-import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
-import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { ReaderContextProvider } from '@/modules/reader/contexts/ReaderContextProvider.tsx';
-import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
 import { AppHotkeysProvider } from '@/modules/hotkeys/contexts/AppHotkeysProvider.tsx';
 import { SnackbarWithDescription } from '@/modules/core/components/snackbar/SnackbarWithDescription.tsx';
 import { AppPageHistoryContextProvider } from '@/modules/core/contexts/AppPageHistoryContextProvider.tsx';
+import { AppThemeContextProvider } from '@/modules/theme/contexts/AppThemeContextProvider.tsx';
 
 interface Props {
     children: React.ReactNode;
 }
 
-export const AppContext: React.FC<Props> = ({ children }) => {
-    const directionRef = useRef<Direction>('ltr');
-    const { i18n } = useTranslation();
-
-    const currentDirection = i18n.dir();
-
-    if (directionRef.current !== currentDirection) {
-        document.dir = currentDirection;
-        directionRef.current = currentDirection;
-    }
-
-    const {
-        settings: { customThemes },
-    } = useMetadataServerSettings();
-
-    const [systemThemeMode, setSystemThemeMode] = useState<ThemeMode>(MediaQuery.getSystemThemeMode());
-    useLayoutEffect(() => {
-        const unsubscribe = MediaQuery.listenToSystemThemeChange(setSystemThemeMode);
-
-        return () => unsubscribe();
-    }, []);
-
-    const [appTheme, setAppTheme] = useLocalStorage<AppThemes>('appTheme', 'default');
-    const [themeMode, setThemeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
-    const [pureBlackMode, setPureBlackMode] = useLocalStorage<boolean>('pureBlackMode', false);
-
-    const { mode } = useColorScheme();
-    const actualThemeMode = mode ?? themeMode ?? 'dark';
-
-    const darkThemeContext = useMemo(
-        () => ({
-            appTheme,
-            setAppTheme,
-            themeMode,
-            setThemeMode,
-            pureBlackMode,
-            setPureBlackMode,
-        }),
-        [themeMode, pureBlackMode, appTheme],
-    );
-
-    const theme = useMemo(
-        () =>
-            createAndSetTheme(
-                actualThemeMode as ThemeMode,
-                getTheme(appTheme, customThemes),
-                pureBlackMode,
-                currentDirection,
-            ),
-        [actualThemeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme, customThemes],
-    );
-
-    return (
-        <Router>
-            <StyledEngineProvider injectFirst>
-                <CacheProvider value={DIRECTION_TO_CACHE[currentDirection]}>
-                    <ThemeProvider theme={theme}>
-                        <ThemeModeContext.Provider value={darkThemeContext}>
-                            <QueryParamProvider adapter={ReactRouter6Adapter}>
-                                <LibraryOptionsContextProvider>
-                                    <NavBarContextProvider>
-                                        <AppPageHistoryContextProvider>
-                                            <ActiveDeviceContextProvider>
-                                                <SnackbarProvider
-                                                    Components={{
-                                                        default: SnackbarWithDescription,
-                                                        info: SnackbarWithDescription,
-                                                        success: SnackbarWithDescription,
-                                                        warning: SnackbarWithDescription,
-                                                        error: SnackbarWithDescription,
-                                                    }}
-                                                >
-                                                    <ReaderContextProvider>
-                                                        <AppHotkeysProvider>{children}</AppHotkeysProvider>
-                                                    </ReaderContextProvider>
-                                                </SnackbarProvider>
-                                            </ActiveDeviceContextProvider>
-                                        </AppPageHistoryContextProvider>
-                                    </NavBarContextProvider>
-                                </LibraryOptionsContextProvider>
-                            </QueryParamProvider>
-                        </ThemeModeContext.Provider>
-                    </ThemeProvider>
-                </CacheProvider>
-            </StyledEngineProvider>
-        </Router>
-    );
-};
+export const AppContext: React.FC<Props> = ({ children }) => (
+    <Router>
+        <StyledEngineProvider injectFirst>
+            <AppThemeContextProvider>
+                <QueryParamProvider adapter={ReactRouter6Adapter}>
+                    <LibraryOptionsContextProvider>
+                        <NavBarContextProvider>
+                            <AppPageHistoryContextProvider>
+                                <ActiveDeviceContextProvider>
+                                    <SnackbarProvider
+                                        Components={{
+                                            default: SnackbarWithDescription,
+                                            info: SnackbarWithDescription,
+                                            success: SnackbarWithDescription,
+                                            warning: SnackbarWithDescription,
+                                            error: SnackbarWithDescription,
+                                        }}
+                                    >
+                                        <ReaderContextProvider>
+                                            <AppHotkeysProvider>{children}</AppHotkeysProvider>
+                                        </ReaderContextProvider>
+                                    </SnackbarProvider>
+                                </ActiveDeviceContextProvider>
+                            </AppPageHistoryContextProvider>
+                        </NavBarContextProvider>
+                    </LibraryOptionsContextProvider>
+                </QueryParamProvider>
+            </AppThemeContextProvider>
+        </StyledEngineProvider>
+    </Router>
+);
