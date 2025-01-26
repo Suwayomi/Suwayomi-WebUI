@@ -147,6 +147,7 @@ export const createUpdateReaderPageLoadState =
                     return prevState.toSpliced(index, 1, { url, isSpread: isSpreadPageFlag });
                 });
             };
+            img.crossOrigin = 'anonymous';
             img.src = url;
         }
 

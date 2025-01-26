@@ -860,7 +860,7 @@ export class RequestManager {
         abort();
     }
 
-    private async optionallyDecodeImage(url: string, shouldDecode?: boolean): Promise<string> {
+    private async optionallyDecodeImage(url: string, shouldDecode?: boolean, allowCors?: boolean): Promise<string> {
         if (!shouldDecode) {
             return url;
         }
@@ -868,6 +868,10 @@ export class RequestManager {
         const decodePromise = new ControlledPromise();
 
         const img = new Image();
+
+        if (allowCors) {
+            img.crossOrigin = 'anonymous';
+        }
         img.src = url;
 
         img.onload = async () => {
@@ -890,7 +894,11 @@ export class RequestManager {
 
     private fetchImageViaTag(
         url: string,
-        { priority, shouldDecode }: { priority?: QueuePriority; shouldDecode?: boolean } = {},
+        {
+            priority,
+            shouldDecode,
+            allowCors,
+        }: { priority?: QueuePriority; shouldDecode?: boolean; allowCors?: boolean } = {},
     ): ImageRequest {
         const imgRequest = new ControlledPromise<string>();
         imgRequest.promise.catch(() => {});
@@ -910,6 +918,9 @@ export class RequestManager {
                 // throws error in case request was already aborted
                 await Promise.race([imgRequest.promise, Promise.resolve()]);
 
+                if (allowCors) {
+                    img.crossOrigin = 'anonymous';
+                }
                 img.src = url;
 
                 img.onload = async () => {
@@ -993,21 +1004,25 @@ export class RequestManager {
      */
     public requestImage(
         url: string,
-        options: { priority?: QueuePriority; useFetchApi?: boolean; shouldDecode?: boolean } = {
+        options: { priority?: QueuePriority; useFetchApi?: boolean; shouldDecode?: boolean; allowCors?: boolean } = {},
+    ): ImageRequest {
+        const finalOptions = {
             useFetchApi: false,
             shouldDecode: false,
-        },
-    ): ImageRequest {
+            allowCors: true,
+            ...Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined)),
+        };
+
         // on firefox images are decoded async which causes a "flicker/blinking" when they're getting visible for the first time
         // this is an issue especially in the reader because pages that should not be shown are rendered but
         // not displayed, which then causes this issue once they get displayed
-        const shouldDecode = !!options.shouldDecode && navigator.userAgent.toLowerCase().includes('firefox');
+        const shouldDecode = finalOptions.shouldDecode && navigator.userAgent.toLowerCase().includes('firefox');
 
-        if (options.useFetchApi) {
-            return this.fetchImageViaFetchApi(url, { ...options, shouldDecode });
+        if (finalOptions.useFetchApi) {
+            return this.fetchImageViaFetchApi(url, { ...finalOptions, shouldDecode });
         }
 
-        return this.fetchImageViaTag(url, { ...options, shouldDecode });
+        return this.fetchImageViaTag(url, { ...finalOptions, shouldDecode });
     }
 
     private doRequest<Data, Variables extends OperationVariables = OperationVariables>(

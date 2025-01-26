@@ -152,6 +152,7 @@ export const TrackerMangaCard = ({
                                 <TrackerMangaCardLink url={manga.trackingUrl}>
                                     <SpinnerImage
                                         useFetchApi={false}
+                                        allowCors={false}
                                         alt={manga.title}
                                         src={manga.coverUrl}
                                         spinnerStyle={{ width: '100%', height: '100%' }}
