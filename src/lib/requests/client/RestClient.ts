@@ -70,7 +70,7 @@ export class RestClient
         }
 
         if (result.status !== 200) {
-            throw new Error(result.statusText);
+            throw new Error(`status ${result.status}: ${result.statusText}`);
         }
 
         if (checkResponseIsJson && result.headers.get('content-type') !== 'application/json') {
