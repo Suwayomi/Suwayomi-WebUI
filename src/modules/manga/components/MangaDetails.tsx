@@ -9,7 +9,7 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled, useTheme } from '@mui/material/styles';
-import { ComponentProps, useCallback, useEffect, useMemo, useState } from 'react';
+import { ComponentProps, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
@@ -38,9 +38,9 @@ import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
 import { MANGA_COVER_ASPECT_RATIO, statusToTranslationKey } from '@/modules/manga/Manga.constants.ts';
 import { MangaThumbnailInfo, MangaTrackRecordInfo } from '@/modules/manga/Manga.types.ts';
+import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -54,30 +54,56 @@ const DetailsWrapper = styled('div')(({ theme }) => ({
     },
 }));
 
-type TopContentWrapperProps = {
+const TopContentWrapper = ({
+    url,
+    mangaThumbnailBackdrop,
+    children,
+}: {
     url: string;
     mangaThumbnailBackdrop: boolean;
-};
-const TopContentWrapper = styled('div', {
-    shouldForwardProp: shouldForwardProp<TopContentWrapperProps>(['url', 'mangaThumbnailBackdrop']),
-})<TopContentWrapperProps>(({ theme, url, mangaThumbnailBackdrop }) => ({
-    position: 'relative',
-    backgroundImage: mangaThumbnailBackdrop ? `url(${url})` : undefined,
-    backgroundRepeat: mangaThumbnailBackdrop ? 'no-repeat' : undefined,
-    backgroundSize: mangaThumbnailBackdrop ? 'cover' : undefined,
-    borderRadius: mangaThumbnailBackdrop ? theme.shape.borderRadius : undefined,
-    '&::before': mangaThumbnailBackdrop && {
-        position: 'absolute',
-        display: 'inline-block',
-        content: '""',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        background: `linear-gradient(to top, ${theme.palette.background.default}, transparent 100%, transparent 1px),linear-gradient(to right, ${theme.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to bottom, ${theme.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to left, ${theme.palette.background.default}, transparent 50%, transparent 1px)`,
-        backdropFilter: 'blur(4.5px) brightness(0.75)',
-    },
-}));
+    children: ReactNode;
+}) => (
+    <Stack
+        sx={{
+            position: 'relative',
+        }}
+    >
+        {mangaThumbnailBackdrop && (
+            <>
+                <SpinnerImage
+                    spinnerStyle={{ display: 'none' }}
+                    imgStyle={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                    }}
+                    src={url}
+                    alt="Manga Thumbnail"
+                />
+                <Stack
+                    sx={{
+                        '&::before': (theme) =>
+                            applyStyles(mangaThumbnailBackdrop, {
+                                position: 'absolute',
+                                display: 'inline-block',
+                                content: '""',
+                                top: 0,
+                                left: 0,
+                                width: '100%',
+                                height: '100%',
+                                background: `linear-gradient(to top, ${theme.palette.background.default}, transparent 100%, transparent 1px),linear-gradient(to right, ${theme.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to bottom, ${theme.palette.background.default}, transparent 50%, transparent 1px),linear-gradient(to left, ${theme.palette.background.default}, transparent 50%, transparent 1px)`,
+                                backdropFilter: 'blur(4.5px) brightness(0.75)',
+                            }),
+                    }}
+                />
+            </>
+        )}
+        {children}
+    </Stack>
+);
 
 const ThumbnailMetadataWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
