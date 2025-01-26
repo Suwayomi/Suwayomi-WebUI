@@ -29,7 +29,7 @@ export const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
     return (
         <>
             <Tooltip title={t('settings.title')}>
-                <IconButton onClick={() => setOpen(true)}>
+                <IconButton onClick={() => setOpen(true)} color="inherit">
                     <FilterList color={isFiltered ? 'warning' : undefined} />
                 </IconButton>
             </Tooltip>

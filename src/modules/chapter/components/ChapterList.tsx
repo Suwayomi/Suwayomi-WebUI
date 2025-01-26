@@ -190,6 +190,7 @@ export const ChapterList = ({
                             <IconButton
                                 disabled={areAllChaptersRead}
                                 onClick={() => Chapters.markAsRead(Chapters.getNonRead(chapters), true, manga.id)}
+                                color="inherit"
                             >
                                 <DoneAllIcon />
                             </IconButton>
@@ -198,7 +199,11 @@ export const ChapterList = ({
                             {(popupState) => (
                                 <>
                                     <Tooltip title={t('chapter.action.download.add.label.action')}>
-                                        <IconButton disabled={areAllChaptersDownloaded} {...bindTrigger(popupState)}>
+                                        <IconButton
+                                            disabled={areAllChaptersDownloaded}
+                                            {...bindTrigger(popupState)}
+                                            color="inherit"
+                                        >
                                             <DownloadIcon />
                                         </IconButton>
                                     </Tooltip>
