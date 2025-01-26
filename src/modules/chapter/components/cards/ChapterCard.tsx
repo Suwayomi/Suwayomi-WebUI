@@ -211,9 +211,12 @@ export const ChapterCard = memo((props: IProps) => {
                                                 onClick={(e) => handleClickOpenMenu(e, popupState.open)}
                                                 aria-label="more"
                                                 size="large"
-                                                sx={applyStyles(mode === 'reader' && isActiveChapter, {
-                                                    color: 'secondary',
-                                                })}
+                                                sx={{
+                                                    color: 'inherit',
+                                                    ...applyStyles(mode === 'reader' && isActiveChapter, {
+                                                        color: 'primary.contrastText',
+                                                    }),
+                                                }}
                                             >
                                                 <MoreVertIcon />
                                             </IconButton>
