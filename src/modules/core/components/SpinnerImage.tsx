@@ -35,7 +35,7 @@ interface IProps {
 
     shouldDecode?: boolean;
     useFetchApi?: boolean;
-    allowCors?: boolean;
+    disableCors?: boolean;
 
     priority?: Priority;
 
@@ -47,7 +47,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
         shouldLoad = true,
         shouldDecode,
         useFetchApi,
-        allowCors,
+        disableCors,
         src,
         alt,
         onLoad,
@@ -86,7 +86,12 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
             return () => {};
         }
 
-        const imageRequest = requestManager.requestImage(src, { priority, shouldDecode, useFetchApi, allowCors });
+        const imageRequest = requestManager.requestImage(src, {
+            priority,
+            shouldDecode,
+            useFetchApi,
+            disableCors,
+        });
         let cacheTimeout: NodeJS.Timeout;
 
         const fetchImage = async () => {
@@ -158,7 +163,7 @@ export const SpinnerImage = forwardRef((props: IProps, imgRef: ForwardedRef<HTML
                         }),
                     ]}
                     ref={imgRef}
-                    crossOrigin={allowCors ? 'anonymous' : undefined}
+                    crossOrigin={disableCors ? undefined : 'anonymous'}
                     src={imageSourceUrl}
                     alt={alt}
                     draggable={false}

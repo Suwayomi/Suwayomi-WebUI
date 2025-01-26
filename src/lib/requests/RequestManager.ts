@@ -860,7 +860,7 @@ export class RequestManager {
         abort();
     }
 
-    private async optionallyDecodeImage(url: string, shouldDecode?: boolean, allowCors?: boolean): Promise<string> {
+    private async optionallyDecodeImage(url: string, shouldDecode?: boolean, disableCors?: boolean): Promise<string> {
         if (!shouldDecode) {
             return url;
         }
@@ -869,7 +869,7 @@ export class RequestManager {
 
         const img = new Image();
 
-        if (allowCors) {
+        if (!disableCors) {
             img.crossOrigin = 'anonymous';
         }
         img.src = url;
@@ -897,8 +897,8 @@ export class RequestManager {
         {
             priority,
             shouldDecode,
-            allowCors,
-        }: { priority?: QueuePriority; shouldDecode?: boolean; allowCors?: boolean } = {},
+            disableCors,
+        }: { priority?: QueuePriority; shouldDecode?: boolean; disableCors?: boolean } = {},
     ): ImageRequest {
         const imgRequest = new ControlledPromise<string>();
         imgRequest.promise.catch(() => {});
@@ -918,7 +918,7 @@ export class RequestManager {
                 // throws error in case request was already aborted
                 await Promise.race([imgRequest.promise, Promise.resolve()]);
 
-                if (allowCors) {
+                if (!disableCors) {
                     img.crossOrigin = 'anonymous';
                 }
                 img.src = url;
@@ -962,7 +962,11 @@ export class RequestManager {
      */
     private fetchImageViaFetchApi(
         url: string,
-        { priority, shouldDecode }: { priority?: QueuePriority; shouldDecode?: boolean } = {},
+        {
+            priority,
+            shouldDecode,
+            disableCors,
+        }: { priority?: QueuePriority; shouldDecode?: boolean; disableCors?: boolean } = {},
     ): ImageRequest {
         let objectUrl: string = '';
         const { abortRequest, signal } = this.createAbortController();
@@ -982,7 +986,7 @@ export class RequestManager {
                     .then(async (imageUrl) => {
                         objectUrl = imageUrl;
 
-                        await this.optionallyDecodeImage(imageUrl, shouldDecode);
+                        await this.optionallyDecodeImage(imageUrl, shouldDecode, disableCors);
 
                         return imageUrl;
                     }),
@@ -1004,12 +1008,17 @@ export class RequestManager {
      */
     public requestImage(
         url: string,
-        options: { priority?: QueuePriority; useFetchApi?: boolean; shouldDecode?: boolean; allowCors?: boolean } = {},
+        options: {
+            priority?: QueuePriority;
+            useFetchApi?: boolean;
+            shouldDecode?: boolean;
+            disableCors?: boolean;
+        } = {},
     ): ImageRequest {
         const finalOptions = {
             useFetchApi: false,
             shouldDecode: false,
-            allowCors: true,
+            disableCors: false,
             ...Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined)),
         };
 
