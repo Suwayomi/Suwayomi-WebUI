@@ -52,4 +52,5 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     // themes
     customThemes: {},
     mangaThumbnailBackdrop: true,
+    mangaDynamicColorSchemes: true,
 };

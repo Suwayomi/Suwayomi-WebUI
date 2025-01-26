@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React from 'react';
+import React, { useContext } from 'react';
+import { Palette } from '@vibrant/color';
+import { FastAverageColorResult } from 'fast-average-color';
 import { AppThemes } from '@/modules/theme/services/AppThemes.ts';
 
 export enum ThemeMode {
@@ -22,6 +24,10 @@ export type TAppThemeContext = {
     setThemeMode: React.Dispatch<React.SetStateAction<ThemeMode>>;
     pureBlackMode: boolean;
     setPureBlackMode: React.Dispatch<React.SetStateAction<boolean>>;
+    dynamicColor: (NonNullableProperties<Palette> & { average: FastAverageColorResult }) | null;
+    setDynamicColor: React.Dispatch<
+        React.SetStateAction<(NonNullableProperties<Palette> & { average: FastAverageColorResult }) | null>
+    >;
 };
 
 export const AppThemeContext = React.createContext<TAppThemeContext>({
@@ -31,4 +37,8 @@ export const AppThemeContext = React.createContext<TAppThemeContext>({
     setThemeMode: (): void => {},
     pureBlackMode: false,
     setPureBlackMode: (): void => {},
+    dynamicColor: null,
+    setDynamicColor: (): void => {},
 });
+
+export const useAppThemeContext = () => useContext(AppThemeContext);

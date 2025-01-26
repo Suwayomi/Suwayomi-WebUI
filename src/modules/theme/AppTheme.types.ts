@@ -11,4 +11,5 @@ import { AppTheme } from '@/modules/theme/services/AppThemes.ts';
 export type MetadataThemeSettings = {
     customThemes: Record<string, AppTheme>;
     mangaThumbnailBackdrop: boolean;
+    mangaDynamicColorSchemes: boolean;
 };

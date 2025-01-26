@@ -10,7 +10,7 @@ import { ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Direction, ThemeProvider, useColorScheme } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
-import { AppThemeContext, ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
+import { AppThemeContext, TAppThemeContext, ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
@@ -31,6 +31,7 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
     const directionRef = useRef<Direction>('ltr');
 
     const [systemThemeMode, setSystemThemeMode] = useState<ThemeMode>(MediaQuery.getSystemThemeMode());
+    const [dynamicColor, setDynamicColor] = useState<TAppThemeContext['dynamicColor']>(null);
 
     const actualThemeMode = mode ?? themeMode ?? 'dark';
     const currentDirection = i18n.dir();
@@ -43,8 +44,10 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
             setThemeMode,
             pureBlackMode,
             setPureBlackMode,
+            dynamicColor,
+            setDynamicColor,
         }),
-        [themeMode, pureBlackMode, appTheme],
+        [themeMode, pureBlackMode, appTheme, dynamicColor],
     );
 
     const theme = useMemo(
@@ -54,8 +57,9 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
                 getTheme(appTheme, customThemes),
                 pureBlackMode,
                 currentDirection,
+                dynamicColor,
             ),
-        [actualThemeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme, customThemes],
+        [actualThemeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme, customThemes, dynamicColor],
     );
 
     useLayoutEffect(() => {

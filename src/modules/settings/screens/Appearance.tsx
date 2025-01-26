@@ -184,6 +184,18 @@ export const Appearance = () => {
                         onChange={(e) => updateMetadataSetting('mangaThumbnailBackdrop', e.target.checked)}
                     />
                 </ListItem>
+
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.appearance.manga_dynamic_color_schemes.title')}
+                        secondary={t('settings.appearance.manga_dynamic_color_schemes.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.mangaDynamicColorSchemes}
+                        onChange={(e) => updateMetadataSetting('mangaDynamicColorSchemes', e.target.checked)}
+                    />
+                </ListItem>
             </List>
         </List>
     );

@@ -50,6 +50,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     hasStatus: undefined,
     customThemes: undefined,
     mangaThumbnailBackdrop: undefined,
+    mangaDynamicColorSchemes: undefined,
     tapZoneLayout: undefined,
     tapZoneInvertMode: undefined,
     readingDirection: undefined,
@@ -141,6 +142,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // themes
     'customThemes',
     'mangaThumbnailBackdrop',
+    'mangaDynamicColorSchemes',
 
     // reader
     'exitMode',

@@ -9,7 +9,7 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled, useTheme } from '@mui/material/styles';
-import { ComponentProps, ReactNode, useCallback, useEffect, useMemo, useState } from 'react';
+import { ComponentProps, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
@@ -26,6 +26,8 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import Modal from '@mui/material/Modal';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import { Vibrant } from 'node-vibrant/browser';
+import { FastAverageColor } from 'fast-average-color';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
@@ -40,6 +42,7 @@ import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { MANGA_COVER_ASPECT_RATIO, statusToTranslationKey } from '@/modules/manga/Manga.constants.ts';
 import { MangaThumbnailInfo, MangaTrackRecordInfo } from '@/modules/manga/Manga.types.ts';
+import { TAppThemeContext, useAppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
@@ -159,12 +162,56 @@ function getValueOrUnknown(val?: string | null) {
     return val ?? translate('global.label.unknown');
 }
 
-const Thumbnail = ({ manga }: { manga: Partial<MangaThumbnailInfo> }) => {
+const Thumbnail = ({
+    manga,
+    mangaDynamicColorSchemes,
+}: {
+    manga: Partial<MangaThumbnailInfo>;
+    mangaDynamicColorSchemes: boolean;
+}) => {
     const theme = useTheme();
+    const { setDynamicColor } = useAppThemeContext();
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'manga-thumbnail-fullscreen' });
 
     const [isImageReady, setIsImageReady] = useState(false);
+
+    useLayoutEffect(() => {
+        if (!mangaDynamicColorSchemes) {
+            return () => {};
+        }
+
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.src = Mangas.getThumbnailUrl(manga);
+
+        img.onload = () => {
+            Promise.all([
+                Vibrant.from(img).getPalette(),
+                new FastAverageColor().getColorAsync(img, { algorithm: 'sqrt' }),
+            ]).then(([palette, averageColor]) => {
+                if (
+                    !palette.Vibrant ||
+                    !palette.DarkVibrant ||
+                    !palette.LightVibrant ||
+                    !palette.LightMuted ||
+                    !palette.Muted ||
+                    !palette.DarkMuted
+                ) {
+                    return;
+                }
+
+                setDynamicColor({
+                    ...palette,
+                    average: averageColor,
+                } as TAppThemeContext['dynamicColor']);
+            });
+        };
+
+        return () => {
+            setDynamicColor(null);
+        };
+    }, []);
 
     return (
         <>
@@ -313,7 +360,7 @@ export const MangaDetails = ({
     const { t } = useTranslation();
 
     const {
-        settings: { mangaThumbnailBackdrop },
+        settings: { mangaThumbnailBackdrop, mangaDynamicColorSchemes },
     } = useMetadataServerSettings();
 
     useEffect(() => {
@@ -338,7 +385,7 @@ export const MangaDetails = ({
             <DetailsWrapper>
                 <TopContentWrapper url={Mangas.getThumbnailUrl(manga)} mangaThumbnailBackdrop={mangaThumbnailBackdrop}>
                     <ThumbnailMetadataWrapper>
-                        <Thumbnail manga={manga} />
+                        <Thumbnail manga={manga} mangaDynamicColorSchemes={mangaDynamicColorSchemes} />
                         <MetadataContainer>
                             <Stack sx={{ flexDirection: 'row', gap: 1, alignItems: 'flex-start', mb: 1 }}>
                                 <Typography variant="h5" component="h2" sx={{ wordBreak: 'break-word' }}>

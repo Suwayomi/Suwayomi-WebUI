@@ -1022,6 +1022,10 @@
       }
     },
     "appearance": {
+      "manga_dynamic_color_schemes": {
+        "description": "Changes the theme colors on the manga page based on the thumbnail",
+        "title": "Dynamic theme colors on manga page"
+      },
       "manga_thumbnail_backdrop": {
         "description": "Sets the manga thumbnail as the background image on the manga page",
         "title": "Manga thumbnail as background"
@@ -1030,11 +1034,11 @@
         "create": {
           "action": "Creating theme…",
           "dialog": {
+            "description": "See the official <0>MUI documentation</0> for how to customize the theme.\nThe palette API is not supported, you have to use the new <1>color schemes API</1>.\n\nYou can use theme creators like <2>MUI Theme Creator</2>, however, you have to adjust the created object according to the new color schemes API.\n\nIn case no background is defined, a background will be calculated based on the primary color",
             "error": {
               "invalid_json": "Invalid json",
               "invalid_name": "The theme name must be unique and has a limit of 16 characters"
             },
-            "description": "See the official <0>MUI documentation</0> for how to customize the theme.\nThe palette API is not supported, you have to use the new <1>color schemes API</1>.\n\nYou can use theme creators like <2>MUI Theme Creator</2>, however, you have to adjust the created object according to the new color schemes API.\n\nIn case no background is defined, a background will be calculated based on the primary color",
             "theme_name": "Name"
           },
           "failure": "Could not create theme",
