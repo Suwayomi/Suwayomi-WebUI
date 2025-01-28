@@ -33,7 +33,7 @@ const BaseReaderPagedPager = ({
                     onLoad,
                     onError,
                     shouldLoad,
-                    shouldDisplay && currentPageIndex === page.primary.index,
+                    shouldDisplay && shouldLoad && currentPageIndex === page.primary.index,
                     currentPageIndex,
                     totalPages,
                     pageLoadStates[page.primary.index].error ? retryFailedPagesKeyPrefix : undefined,

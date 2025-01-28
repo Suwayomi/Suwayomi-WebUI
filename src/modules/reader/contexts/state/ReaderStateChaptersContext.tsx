@@ -9,9 +9,22 @@
 import { createContext, useContext } from 'react';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 
-export const ReaderStateChaptersContext = createContext<ReaderStateChapters>({
+export const READER_STATE_CHAPTERS_DEFAULTS: Omit<ReaderStateChapters, 'setReaderStateChapters'> = {
     mangaChapters: [],
     chapters: [],
+    isCurrentChapterReady: false,
+    visibleChapters: {
+        leading: 0,
+        trailing: 0,
+        lastLeadingChapterSourceOrder: 99999,
+        lastTrailingChapterSourceOrder: -1,
+        scrollIntoView: false,
+        resumeMode: undefined,
+    },
+};
+
+export const ReaderStateChaptersContext = createContext<ReaderStateChapters>({
+    ...READER_STATE_CHAPTERS_DEFAULTS,
     setReaderStateChapters: () => {},
 });
 
