@@ -12,10 +12,12 @@ import { DirectionOffset } from '@/Base.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetChaptersReaderQuery } from '@/lib/graphql/generated/graphql.ts';
 import { IReaderSettings, ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
+import { READER_STATE_CHAPTERS_DEFAULTS } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 
 export const useReaderSetChaptersState = (
     chaptersResponse: ReturnType<typeof requestManager.useGetMangaChapters<GetChaptersReaderQuery>>,
     chapterSourceOrder: number,
+    initialChapter: ReaderStateChapters['initialChapter'],
     chapterForDuplicatesHandling: ReaderStateChapters['chapterForDuplicatesHandling'],
     setReaderStateChapters: ReaderStateChapters['setReaderStateChapters'],
     shouldSkipDupChapters: IReaderSettings['shouldSkipDupChapters'],
@@ -25,32 +27,55 @@ export const useReaderSetChaptersState = (
         const newCurrentChapter = newMangaChapters
             ? (newMangaChapters[newMangaChapters.length - chapterSourceOrder] ?? null)
             : undefined;
+        const newInitialChapter = initialChapter ?? newCurrentChapter;
         const newChapterForDuplicatesHandling = chapterForDuplicatesHandling ?? newCurrentChapter;
 
-        setReaderStateChapters({
-            mangaChapters: newMangaChapters ?? [],
-            chapters:
-                newChapterForDuplicatesHandling && newMangaChapters
-                    ? Chapters.removeDuplicates(newChapterForDuplicatesHandling, newMangaChapters)
-                    : [],
-            chapterForDuplicatesHandling: newChapterForDuplicatesHandling,
-            currentChapter: newCurrentChapter,
-            nextChapter:
-                newMangaChapters &&
-                newCurrentChapter &&
-                Chapters.getNextChapter(newCurrentChapter, newMangaChapters, {
-                    offset: DirectionOffset.NEXT,
-                    skipDupe: shouldSkipDupChapters,
-                    skipDupeChapter: newChapterForDuplicatesHandling,
-                }),
-            previousChapter:
-                newMangaChapters &&
-                newCurrentChapter &&
-                Chapters.getNextChapter(newCurrentChapter, newMangaChapters, {
-                    offset: DirectionOffset.PREVIOUS,
-                    skipDupe: shouldSkipDupChapters,
-                    skipDupeChapter: newChapterForDuplicatesHandling,
-                }),
+        const nextChapter =
+            newMangaChapters &&
+            newCurrentChapter &&
+            Chapters.getNextChapter(newCurrentChapter, newMangaChapters, {
+                offset: DirectionOffset.NEXT,
+                skipDupe: shouldSkipDupChapters,
+                skipDupeChapter: newChapterForDuplicatesHandling,
+            });
+        const previousChapter =
+            newMangaChapters &&
+            newCurrentChapter &&
+            Chapters.getNextChapter(newCurrentChapter, newMangaChapters, {
+                offset: DirectionOffset.PREVIOUS,
+                skipDupe: shouldSkipDupChapters,
+                skipDupeChapter: newChapterForDuplicatesHandling,
+            });
+
+        const hasInitialChapterChanged = newInitialChapter != null && newInitialChapter.id !== initialChapter?.id;
+
+        setReaderStateChapters((prevState) => {
+            const hasCurrentChapterChanged = newCurrentChapter?.id !== prevState.currentChapter?.id;
+            return {
+                ...prevState,
+                mangaChapters: newMangaChapters ?? [],
+                chapters:
+                    newChapterForDuplicatesHandling && newMangaChapters
+                        ? Chapters.removeDuplicates(newChapterForDuplicatesHandling, newMangaChapters)
+                        : [],
+                initialChapter: newInitialChapter,
+                chapterForDuplicatesHandling: newChapterForDuplicatesHandling,
+                currentChapter: newCurrentChapter,
+                nextChapter,
+                previousChapter,
+                isCurrentChapterReady: hasCurrentChapterChanged ? false : prevState.isCurrentChapterReady,
+                visibleChapters: hasInitialChapterChanged
+                    ? {
+                          ...READER_STATE_CHAPTERS_DEFAULTS.visibleChapters,
+                          lastLeadingChapterSourceOrder:
+                              newInitialChapter?.sourceOrder ??
+                              READER_STATE_CHAPTERS_DEFAULTS.visibleChapters.lastLeadingChapterSourceOrder,
+                          lastTrailingChapterSourceOrder:
+                              newInitialChapter?.sourceOrder ??
+                              READER_STATE_CHAPTERS_DEFAULTS.visibleChapters.lastTrailingChapterSourceOrder,
+                      }
+                    : prevState.visibleChapters,
+            };
         });
-    }, [chaptersResponse.data?.chapters.nodes, chapterSourceOrder, shouldSkipDupChapters]);
+    }, [chaptersResponse.data?.chapters.nodes, chapterSourceOrder, shouldSkipDupChapters, initialChapter]);
 };

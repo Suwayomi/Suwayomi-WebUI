@@ -25,6 +25,9 @@ const BaseBasePager = ({
     slots,
     readingMode,
     imagePreLoadAmount,
+    isCurrentChapter,
+    isPreviousChapter,
+    isNextChapter,
 }: Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix'> &
     Pick<IReaderSettings, 'readingMode' | 'imagePreLoadAmount'> & {
         createPage: (
@@ -45,8 +48,11 @@ const BaseBasePager = ({
                 previousCurrentPageIndex.current,
                 imagePreLoadAmount,
                 readingMode,
+                isCurrentChapter,
+                isPreviousChapter,
+                isNextChapter,
             ),
-        [currentPageIndex, pages, imagePreLoadAmount, readingMode],
+        [currentPageIndex, pages, imagePreLoadAmount, readingMode, isCurrentChapter, isPreviousChapter, isNextChapter],
     );
     useEffect(() => {
         previousCurrentPageIndex.current = currentPageIndex;

@@ -6,7 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReaderPageSpreadState, ReaderResumeMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import {
+    ReaderPageSpreadState,
+    ReaderResumeMode,
+    ReaderStateChapters,
+    ReadingMode,
+} from '@/modules/reader/types/Reader.types.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
@@ -176,6 +181,115 @@ export const getReaderOpenChapterResumeMode = (
 
     if (isPreviousChapter) {
         return ReaderResumeMode.END;
+    }
+
+    return ReaderResumeMode.START;
+};
+
+export const createHandleReaderPageLoadError =
+    (setPageLoadStates: ReaderStatePages['setPageLoadStates']) => (pageIndex: number, url: string) => {
+        setPageLoadStates((statePageLoadStates) => {
+            const pageLoadState = statePageLoadStates[pageIndex];
+
+            if (isPageOfOutdatedPageLoadStates(url, pageLoadState)) {
+                return statePageLoadStates;
+            }
+
+            return statePageLoadStates.toSpliced(pageIndex, 1, {
+                ...pageLoadState,
+                loaded: false,
+                error: true,
+            });
+        });
+    };
+
+export const updateReaderStateVisibleChapters = (
+    isPreviousChapter: boolean,
+    state: Omit<ReaderStateChapters, 'setReaderStateChapters'>,
+    chapterToOpenSourceOrder: TChapterReader['sourceOrder'],
+    scrollIntoView: boolean,
+): Omit<ReaderStateChapters, 'setReaderStateChapters'> => {
+    const { leading, trailing, lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder } = state.visibleChapters;
+
+    const isNewLeadingChapter = isPreviousChapter && chapterToOpenSourceOrder < lastLeadingChapterSourceOrder;
+    const isNewTrailingChapter = !isPreviousChapter && chapterToOpenSourceOrder > lastTrailingChapterSourceOrder;
+
+    return {
+        ...state,
+        visibleChapters: {
+            ...state.visibleChapters,
+            leading: leading + Number(isNewLeadingChapter),
+            trailing: trailing + Number(isNewTrailingChapter),
+            lastLeadingChapterSourceOrder: isNewLeadingChapter
+                ? chapterToOpenSourceOrder
+                : lastLeadingChapterSourceOrder,
+            lastTrailingChapterSourceOrder: isNewTrailingChapter
+                ? chapterToOpenSourceOrder
+                : lastTrailingChapterSourceOrder,
+            scrollIntoView,
+            resumeMode: isPreviousChapter ? ReaderResumeMode.END : ReaderResumeMode.START,
+        },
+    };
+};
+
+export const getReaderChapterViewerCurrentPageIndex = (
+    currentPageIndex: number,
+    chapter: TChapterReader,
+    currentChapter: TChapterReader,
+    isCurrentChapter: boolean,
+    isCurrentChapterReady: boolean,
+    isLeadingChapter: boolean,
+    isTrailingChapter: boolean,
+    visibleChapters: ReaderStateChapters['visibleChapters'],
+): number => {
+    if (isCurrentChapter) {
+        if (isCurrentChapterReady) {
+            return coerceIn(currentPageIndex, 0, chapter.pageCount - 1);
+        }
+
+        if (visibleChapters.scrollIntoView && visibleChapters.resumeMode !== undefined) {
+            return getInitialReaderPageIndex(visibleChapters.resumeMode, 0, chapter.pageCount - 1);
+        }
+
+        if (isTrailingChapter) {
+            return Math.max(0, chapter.pageCount - 1);
+        }
+
+        if (isLeadingChapter) {
+            return 0;
+        }
+    }
+
+    const isPreviousChapter = chapter.sourceOrder < currentChapter.sourceOrder;
+    if (isPreviousChapter) {
+        return Math.max(chapter.pageCount - 1, 0);
+    }
+
+    return 0;
+};
+
+export const getReaderChapterViewResumeMode = (
+    isCurrentChapter: boolean,
+    isInitialChapter: boolean,
+    isLeadingChapter: boolean,
+    isTrailingChapter: boolean,
+    forcedResumeMode: ReaderResumeMode | undefined,
+    resumeMode: ReaderResumeMode = ReaderResumeMode.START,
+): ReaderResumeMode => {
+    if (isCurrentChapter && forcedResumeMode !== undefined) {
+        return forcedResumeMode;
+    }
+
+    if (isInitialChapter) {
+        return resumeMode;
+    }
+
+    if (isLeadingChapter) {
+        return ReaderResumeMode.END;
+    }
+
+    if (isTrailingChapter) {
+        return ReaderResumeMode.START;
     }
 
     return ReaderResumeMode.START;

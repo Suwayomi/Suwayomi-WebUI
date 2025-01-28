@@ -23,7 +23,7 @@ import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts
 
 import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
-import { ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderOpenChapterLocationState, ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
@@ -460,9 +460,13 @@ export class Chapters {
         return ReaderResumeMode.LAST_READ;
     }
 
-    static getReaderOpenChapterLocationState(chapter: ChapterReadInfo): { resumeMode: ReaderResumeMode } {
+    static getReaderOpenChapterLocationState(
+        chapter: ChapterReadInfo,
+        updateInitialChapter?: boolean,
+    ): ReaderOpenChapterLocationState {
         return {
             resumeMode: Chapters.getReaderResumeMode(chapter),
+            updateInitialChapter,
         };
     }
 }

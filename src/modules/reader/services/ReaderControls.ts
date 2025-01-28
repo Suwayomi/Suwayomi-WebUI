@@ -169,7 +169,11 @@ export class ReaderControls {
         }
     }
 
-    static useOpenChapter(): (offset: 'previous' | 'next' | ChapterIdInfo['id'], doTransitionCheck?: boolean) => void {
+    static useOpenChapter(): (
+        offset: 'previous' | 'next' | ChapterIdInfo['id'],
+        doTransitionCheck?: boolean,
+        scrollIntoView?: boolean,
+    ) => void {
         const { t } = useTranslation();
         const { readingMode, shouldInformAboutMissingChapter, shouldInformAboutScanlatorChange } =
             ReaderService.useSettings();
@@ -179,7 +183,7 @@ export class ReaderControls {
         const openChapter = ReaderService.useNavigateToChapter();
 
         return useCallback(
-            (offset, doTransitionCheck = true) => {
+            (offset, doTransitionCheck = true, scrollIntoView = true) => {
                 if (!currentChapter) {
                     return;
                 }
@@ -227,7 +231,12 @@ export class ReaderControls {
                         }
 
                         setReaderStateChapters((prevState) =>
-                            updateReaderStateVisibleChapters(isPreviousChapter, prevState, chapterToOpen.sourceOrder),
+                            updateReaderStateVisibleChapters(
+                                isPreviousChapter,
+                                prevState,
+                                chapterToOpen.sourceOrder,
+                                scrollIntoView,
+                            ),
                         );
 
                         openChapter(
