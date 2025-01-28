@@ -165,3 +165,18 @@ export const createUpdateReaderPageLoadState =
             return statePageLoadStates.toSpliced(index, 1, { url: pageLoadState.url, loaded: true });
         });
     };
+
+export const getReaderOpenChapterResumeMode = (
+    isSpecificChapterMode: boolean,
+    isPreviousChapter: boolean,
+): ReaderResumeMode | undefined => {
+    if (!isSpecificChapterMode) {
+        return undefined;
+    }
+
+    if (isPreviousChapter) {
+        return ReaderResumeMode.END;
+    }
+
+    return ReaderResumeMode.START;
+};
