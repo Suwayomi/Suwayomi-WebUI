@@ -34,7 +34,8 @@ export const useReaderSetPagesState = (
     useEffect(() => {
         const pagesPayload = pagesResponse.data?.fetchChapterPages;
         if (pagesPayload) {
-            const { pages: newPages } = pagesPayload;
+            const { pages } = pagesPayload;
+            const newPages = pages.length ? pages : [''];
 
             const initialReaderPageIndex = getInitialReaderPageIndex(
                 resumeMode,
