@@ -37,6 +37,8 @@ export class MediaQuery {
 
     private static getScrollbarSize(type: 'height' | 'width'): number {
         const outer = document.createElement('div');
+        outer.style.position = 'absolute';
+        outer.style.top = '-9999px';
         outer.style.visibility = 'hidden';
         outer.style.overflow = 'scroll';
         document.body.appendChild(outer);
@@ -49,7 +51,7 @@ export class MediaQuery {
         const width = outer.offsetWidth - inner.offsetWidth;
         const height = outer.offsetHeight - inner.offsetHeight;
 
-        outer.parentNode?.removeChild(outer);
+        document.body.removeChild(outer);
 
         return type === 'height' ? height : width;
     }
