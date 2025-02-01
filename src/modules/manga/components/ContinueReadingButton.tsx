@@ -39,7 +39,7 @@ export const ContinueReadingButton = ({
                 sx={{ minWidth: 'unset', py: 0.5, px: 0.75 }}
                 component={Link}
                 to={`${mangaLinkTo}/chapter/${chapter.sourceOrder}`}
-                state={{ resumeMode: Chapters.getReaderResumeMode(chapter) }}
+                state={Chapters.getReaderOpenChapterLocationState(chapter)}
                 onClick={(e) => e.stopPropagation()}
                 onMouseDown={(e) => e.stopPropagation()}
             >

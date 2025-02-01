@@ -459,4 +459,10 @@ export class Chapters {
 
         return ReaderResumeMode.LAST_READ;
     }
+
+    static getReaderOpenChapterLocationState(chapter: ChapterReadInfo): { resumeMode: ReaderResumeMode } {
+        return {
+            resumeMode: Chapters.getReaderResumeMode(chapter),
+        };
+    }
 }
