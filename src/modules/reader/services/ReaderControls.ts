@@ -405,7 +405,8 @@ export class ReaderControls {
         endReached?: boolean,
     ) => void {
         const { currentPageIndex, setCurrentPageIndex } = userReaderStatePagesContext();
-        const { initialChapter, currentChapter, nextChapter, mangaChapters } = useReaderStateChaptersContext();
+        const { chapterForDuplicatesHandling, currentChapter, nextChapter, mangaChapters } =
+            useReaderStateChaptersContext();
         const updateChapter = ReaderService.useUpdateChapter();
         const { shouldSkipDupChapters } = ReaderService.useSettings();
         const {
@@ -413,16 +414,16 @@ export class ReaderControls {
         } = useMetadataServerSettings();
 
         const nextChapters = useMemo(() => {
-            if (!initialChapter || !currentChapter) {
+            if (!chapterForDuplicatesHandling || !currentChapter) {
                 return [];
             }
 
             return Chapters.getNextChapters(currentChapter, mangaChapters, {
                 offset: DirectionOffset.NEXT,
                 skipDupe: shouldSkipDupChapters,
-                skipDupeChapter: initialChapter,
+                skipDupeChapter: chapterForDuplicatesHandling,
             });
-        }, [initialChapter?.id, currentChapter?.id, mangaChapters, shouldSkipDupChapters]);
+        }, [chapterForDuplicatesHandling?.id, currentChapter?.id, mangaChapters, shouldSkipDupChapters]);
 
         return useCallback(
             (pageIndex, debounceChapterUpdate = true, endReached = false) => {

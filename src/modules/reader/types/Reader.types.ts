@@ -188,7 +188,7 @@ export interface ReaderStateChapters {
      *  - removed duplicate chapters
      */
     chapters: TChapterReader[];
-    initialChapter?: TChapterReader | null;
+    chapterForDuplicatesHandling?: TChapterReader | null;
     currentChapter?: TChapterReader | null;
     nextChapter?: TChapterReader;
     previousChapter?: TChapterReader;

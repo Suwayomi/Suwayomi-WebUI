@@ -122,23 +122,23 @@ export class ReaderService {
 
     static useUpdateChapter(): (patch: UpdateChapterPatchInput) => void {
         const { manga } = useReaderStateMangaContext();
-        const { initialChapter, currentChapter, mangaChapters } = useReaderStateChaptersContext();
+        const { chapterForDuplicatesHandling, currentChapter, mangaChapters } = useReaderStateChaptersContext();
         const { shouldSkipDupChapters } = ReaderService.useSettings();
         const {
             settings: { deleteChaptersWhileReading, deleteChaptersWithBookmark, updateProgressAfterReading },
         } = useMetadataServerSettings();
 
         const previousChapters = useMemo(() => {
-            if (!initialChapter || !currentChapter) {
+            if (!chapterForDuplicatesHandling || !currentChapter) {
                 return [];
             }
 
             return Chapters.getNextChapters(currentChapter, mangaChapters, {
                 offset: DirectionOffset.PREVIOUS,
                 skipDupe: shouldSkipDupChapters,
-                skipDupeChapter: initialChapter,
+                skipDupeChapter: chapterForDuplicatesHandling,
             });
-        }, [initialChapter?.id, currentChapter?.id, mangaChapters, shouldSkipDupChapters]);
+        }, [chapterForDuplicatesHandling?.id, currentChapter?.id, mangaChapters, shouldSkipDupChapters]);
 
         return useCallback(
             (patch) => {
