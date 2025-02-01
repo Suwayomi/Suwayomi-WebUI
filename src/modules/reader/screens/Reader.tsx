@@ -70,7 +70,7 @@ const BaseReader = ({
     shouldShowReadingModePreview,
     shouldShowTapZoneLayoutPreview,
     setSettings,
-    initialChapter,
+    chapterForDuplicatesHandling,
     currentChapter,
     mangaChapters,
     setReaderStateChapters,
@@ -94,7 +94,7 @@ const BaseReader = ({
         'shouldSkipDupChapters' | 'backgroundColor' | 'shouldShowReadingModePreview' | 'shouldShowTapZoneLayoutPreview'
     > &
     Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'tapZoneLayout' | 'tapZoneInvertMode'> &
-    Pick<ReaderStateChapters, 'initialChapter' | 'currentChapter' | 'mangaChapters' | 'setReaderStateChapters'> &
+    Pick<ReaderStateChapters, 'chapterForDuplicatesHandling' | 'currentChapter' | 'mangaChapters' | 'setReaderStateChapters'> &
     Pick<
         ReaderStatePages,
         | 'totalPages'
@@ -232,7 +232,7 @@ const BaseReader = ({
     useReaderSetChaptersState(
         chaptersResponse,
         chapterSourceOrder,
-        initialChapter,
+        chapterForDuplicatesHandling,
         setReaderStateChapters,
         shouldSkipDupChapters,
     );
@@ -395,7 +395,7 @@ export const Reader = withPropsFrom(
         'shouldShowReadingModePreview',
         'shouldShowTapZoneLayoutPreview',
         'setSettings',
-        'initialChapter',
+        'chapterForDuplicatesHandling',
         'currentChapter',
         'mangaChapters',
         'setReaderStateChapters',

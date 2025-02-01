@@ -16,7 +16,7 @@ import { IReaderSettings, ReaderStateChapters } from '@/modules/reader/types/Rea
 export const useReaderSetChaptersState = (
     chaptersResponse: ReturnType<typeof requestManager.useGetMangaChapters<GetChaptersReaderQuery>>,
     chapterSourceOrder: number,
-    initialChapter: ReaderStateChapters['initialChapter'],
+    chapterForDuplicatesHandling: ReaderStateChapters['chapterForDuplicatesHandling'],
     setReaderStateChapters: ReaderStateChapters['setReaderStateChapters'],
     shouldSkipDupChapters: IReaderSettings['shouldSkipDupChapters'],
 ) => {
@@ -25,15 +25,15 @@ export const useReaderSetChaptersState = (
         const newCurrentChapter = newMangaChapters
             ? (newMangaChapters[newMangaChapters.length - chapterSourceOrder] ?? null)
             : undefined;
-        const newInitialChapter = initialChapter ?? newCurrentChapter;
+        const newChapterForDuplicatesHandling = chapterForDuplicatesHandling ?? newCurrentChapter;
 
         setReaderStateChapters({
             mangaChapters: newMangaChapters ?? [],
             chapters:
-                newInitialChapter && newMangaChapters
-                    ? Chapters.removeDuplicates(newInitialChapter, newMangaChapters)
+                newChapterForDuplicatesHandling && newMangaChapters
+                    ? Chapters.removeDuplicates(newChapterForDuplicatesHandling, newMangaChapters)
                     : [],
-            initialChapter: newInitialChapter,
+            chapterForDuplicatesHandling: newChapterForDuplicatesHandling,
             currentChapter: newCurrentChapter,
             nextChapter:
                 newMangaChapters &&
@@ -41,7 +41,7 @@ export const useReaderSetChaptersState = (
                 Chapters.getNextChapter(newCurrentChapter, newMangaChapters, {
                     offset: DirectionOffset.NEXT,
                     skipDupe: shouldSkipDupChapters,
-                    skipDupeChapter: newInitialChapter,
+                    skipDupeChapter: newChapterForDuplicatesHandling,
                 }),
             previousChapter:
                 newMangaChapters &&
@@ -49,7 +49,7 @@ export const useReaderSetChaptersState = (
                 Chapters.getNextChapter(newCurrentChapter, newMangaChapters, {
                     offset: DirectionOffset.PREVIOUS,
                     skipDupe: shouldSkipDupChapters,
-                    skipDupeChapter: newInitialChapter,
+                    skipDupeChapter: newChapterForDuplicatesHandling,
                 }),
         });
     }, [chaptersResponse.data?.chapters.nodes, chapterSourceOrder, shouldSkipDupChapters]);
