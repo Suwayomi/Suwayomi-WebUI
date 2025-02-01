@@ -8,9 +8,9 @@
 
 import FilterList from '@mui/icons-material/FilterList';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ChapterOptions } from '@/modules/chapter/components/ChapterOptions.tsx';
 import { isFilterActive } from '@/modules/chapter/utils/ChapterList.util.tsx';
 import { ChapterListOptions, ChapterOptionsReducerAction } from '@/modules/chapter/Chapter.types.ts';
@@ -28,11 +28,11 @@ export const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
 
     return (
         <>
-            <Tooltip title={t('settings.title')}>
+            <CustomTooltip title={t('settings.title')}>
                 <IconButton onClick={() => setOpen(true)} color="inherit">
                     <FilterList color={isFiltered ? 'warning' : undefined} />
                 </IconButton>
-            </Tooltip>
+            </CustomTooltip>
             <ChapterOptions
                 open={open}
                 onClose={() => setOpen(false)}

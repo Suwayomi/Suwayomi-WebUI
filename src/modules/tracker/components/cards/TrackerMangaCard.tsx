@@ -16,12 +16,12 @@ import CardMedia from '@mui/material/CardMedia';
 import Collapse from '@mui/material/Collapse';
 import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useLayoutEffect, useRef, useState } from 'react';
 import parseHtml from 'html-react-parser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import sanitizeHtml from 'sanitize-html';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { Metadata } from '@/modules/core/components/Metadata.tsx';
@@ -37,11 +37,11 @@ const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: b
             justifyContent: 'space-between',
         }}
     >
-        <Tooltip title={title}>
+        <CustomTooltip title={title}>
             <TypographyMaxLines variant="h5" component="h1">
                 {title}
             </TypographyMaxLines>
-        </Tooltip>
+        </CustomTooltip>
         <CheckCircleIcon sx={{ visibility: selected ? 'visible' : 'hidden' }} color="primary" />
     </Stack>
 );

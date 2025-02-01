@@ -11,10 +11,10 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Radio from '@mui/material/Radio';
-import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import { useTranslation } from 'react-i18next';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 
 import { GridLayout } from '@/modules/core/Core.types.ts';
 
@@ -43,7 +43,7 @@ export function GridLayouts({
 
     return (
         <>
-            <Tooltip title={t('global.label.display')}>
+            <CustomTooltip title={t('global.label.display')}>
                 <IconButton
                     onClick={handleClick}
                     size="small"
@@ -55,7 +55,7 @@ export function GridLayouts({
                 >
                     <ViewModuleIcon />
                 </IconButton>
-            </Tooltip>
+            </CustomTooltip>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}

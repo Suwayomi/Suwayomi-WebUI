@@ -7,7 +7,6 @@
  */
 
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import ArrowBack from '@mui/icons-material/ArrowBack';
@@ -17,6 +16,7 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import Divider from '@mui/material/Divider';
 import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderNavBarDesktopProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { ReaderNavContainer } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavContainer.tsx';
@@ -111,12 +111,12 @@ const BaseReaderNavBarDesktop = ({
             <ReaderNavContainer sx={{ backgroundColor: 'background.paper', pointerEvents: 'all' }}>
                 <Stack sx={{ p: 2, gap: 2, backgroundColor: 'action.hover' }}>
                     <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <Tooltip title={t('reader.button.exit')}>
+                        <CustomTooltip title={t('reader.button.exit')}>
                             <IconButton onClick={exit} color="inherit">
                                 {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
                             </IconButton>
-                        </Tooltip>
-                        <Tooltip title={t('reader.settings.label.static_navigation')}>
+                        </CustomTooltip>
+                        <CustomTooltip title={t('reader.settings.label.static_navigation')}>
                             <IconButton
                                 onClick={() => {
                                     setReaderNavBarWidth(0);
@@ -126,7 +126,7 @@ const BaseReaderNavBarDesktop = ({
                             >
                                 {isStaticNav ? <PushPinIcon /> : <PushPinOutlinedIcon />}
                             </IconButton>
-                        </Tooltip>
+                        </CustomTooltip>
                     </Stack>
                     {manga && currentChapter ? (
                         <>

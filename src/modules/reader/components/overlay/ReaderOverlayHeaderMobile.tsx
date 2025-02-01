@@ -20,9 +20,9 @@ import Menu from '@mui/material/Menu';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
-import Tooltip from '@mui/material/Tooltip';
 import Slide from '@mui/material/Slide';
 import { forwardRef, memo } from 'react';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
@@ -80,15 +80,15 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
                     boxShadow: 2,
                 }}
             >
-                <Tooltip title={t('reader.button.exit')}>
+                <CustomTooltip title={t('reader.button.exit')}>
                     <IconButton sx={{ marginRight: 2 }} onClick={handleBack} color="inherit">
                         {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
                 <Stack sx={{ flexGrow: 1 }}>
                     {manga && currentChapter ? (
                         <>
-                            <Tooltip title={title}>
+                            <CustomTooltip title={title}>
                                 <TypographyMaxLines lines={1} component="h1" variant="h5">
                                     <Link
                                         component={RouterLink}
@@ -98,20 +98,20 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
                                         {title}
                                     </Link>
                                 </TypographyMaxLines>
-                            </Tooltip>
-                            <Tooltip title={name}>
+                            </CustomTooltip>
+                            <CustomTooltip title={name}>
                                 <TypographyMaxLines lines={1}>{name}</TypographyMaxLines>
-                            </Tooltip>
+                            </CustomTooltip>
                         </>
                     ) : (
                         <LoadingPlaceholder />
                     )}
                 </Stack>
-                <Tooltip title={t(actionToTranslationKey[bookmarkAction].action.single)}>
+                <CustomTooltip title={t(actionToTranslationKey[bookmarkAction].action.single)}>
                     <IconButton onClick={() => Chapters.performAction(bookmarkAction, [chapterId], {})} color="inherit">
                         {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
                 <IconButton {...bindTrigger(popupState)} color="inherit">
                     <MoreVertIcon />
                 </IconButton>

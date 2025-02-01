@@ -8,9 +8,9 @@
 
 import FilterList from '@mui/icons-material/FilterList';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import { ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { LibraryOptionsPanel } from '@/modules/library/components/LibraryOptionsPanel.tsx';
 import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 
@@ -34,11 +34,11 @@ export const LibraryToolbarMenu = ({
 
     return (
         <>
-            <Tooltip title={t('settings.title')}>
+            <CustomTooltip title={t('settings.title')}>
                 <IconButton onClick={() => setOpen(!open)} color={active ? 'warning' : 'inherit'}>
                     <FilterList />
                 </IconButton>
-            </Tooltip>
+            </CustomTooltip>
             <LibraryOptionsPanel category={category} open={open} onClose={() => setOpen(false)} />
         </>
     );

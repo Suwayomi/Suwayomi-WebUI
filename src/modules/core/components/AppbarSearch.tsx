@@ -9,11 +9,11 @@
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SearchTextField } from '@/modules/core/components/inputs/SearchTextField.tsx';
 
 interface IProps {
@@ -124,10 +124,10 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     }
 
     return (
-        <Tooltip title={t('search.title.search')}>
+        <CustomTooltip title={t('search.title.search')}>
             <IconButton onClick={() => updateSearchOpenState(true)} color="inherit">
                 <SearchIcon />
             </IconButton>
-        </Tooltip>
+        </CustomTooltip>
     );
 };

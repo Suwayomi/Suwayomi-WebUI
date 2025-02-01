@@ -9,12 +9,12 @@
 import { useTranslation } from 'react-i18next';
 import { BaseSyntheticEvent, MouseEvent, TouchEvent, ChangeEvent, useMemo, forwardRef, ForwardedRef } from 'react';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
@@ -71,15 +71,15 @@ export const MangaOptionButton = forwardRef(
             }
 
             return (
-                <Tooltip title={t(selected ? 'global.button.deselect' : 'global.button.select')}>
+                <CustomTooltip title={t(selected ? 'global.button.deselect' : 'global.button.select')}>
                     <Checkbox checked={selected} onMouseDown={preventDefaultAction} onChange={handleSelectionChange} />
-                </Tooltip>
+                </CustomTooltip>
             );
         }
 
         if (asCheckbox) {
             return (
-                <Tooltip title={t('global.button.options')}>
+                <CustomTooltip title={t('global.button.options')}>
                     <IconButton
                         ref={ref}
                         {...bindTriggerProps}
@@ -90,12 +90,12 @@ export const MangaOptionButton = forwardRef(
                     >
                         <MoreVertIcon />
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
             );
         }
 
         return (
-            <Tooltip title={t('global.button.options')}>
+            <CustomTooltip title={t('global.button.options')}>
                 <Button
                     ref={ref}
                     {...bindTriggerProps}
@@ -118,7 +118,7 @@ export const MangaOptionButton = forwardRef(
                 >
                     <MoreVertIcon />
                 </Button>
-            </Tooltip>
+            </CustomTooltip>
         );
     },
 );

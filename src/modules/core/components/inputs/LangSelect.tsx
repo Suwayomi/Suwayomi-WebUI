@@ -17,9 +17,9 @@ import IconButton from '@mui/material/IconButton';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
-import Tooltip from '@mui/material/Tooltip';
 import ListItem from '@mui/material/ListItem';
 import { useTranslation } from 'react-i18next';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { cloneObject } from '@/util/cloneObject.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 
@@ -72,7 +72,7 @@ export function LangSelect(props: IProps) {
 
     return (
         <>
-            <Tooltip title={t('settings.title')}>
+            <CustomTooltip title={t('settings.title')}>
                 <IconButton
                     onClick={() => setOpen(true)}
                     aria-label="display more actions"
@@ -82,7 +82,7 @@ export function LangSelect(props: IProps) {
                 >
                     <FilterListIcon />
                 </IconButton>
-            </Tooltip>
+            </CustomTooltip>
             <Dialog
                 sx={{
                     '.MuiDialog-paper': {

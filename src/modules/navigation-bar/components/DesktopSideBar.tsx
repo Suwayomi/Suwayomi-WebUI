@@ -20,7 +20,7 @@ import { styled, useTheme } from '@mui/material/styles';
 import { useCallback, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
-import Tooltip from '@mui/material/Tooltip';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
@@ -55,7 +55,7 @@ const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }
 
     return (
         <ListItemLink selected={!isCollapsed && isActive} sx={{ p: 0, m: 0 }} to={path}>
-            <Tooltip title={t(title)} placement="right">
+            <CustomTooltip title={t(title)} placement="right">
                 <ListItem sx={listItemProps}>
                     <ListItemIcon sx={listItemIconProps}>
                         <Icon
@@ -84,7 +84,7 @@ const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }
                         }}
                     />
                 </ListItem>
-            </Tooltip>
+            </CustomTooltip>
         </ListItemLink>
     );
 };

@@ -9,8 +9,8 @@
 import Button, { ButtonProps } from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import Tooltip from '@mui/material/Tooltip';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 
 type PropsIconButton = { asIconButton: true } & IconButtonProps;
 type PropsButton = { asIconButton?: false } & ButtonProps;
@@ -21,11 +21,11 @@ export const ResetButton = ({ asIconButton, ...props }: Props) => {
 
     if (asIconButton) {
         return (
-            <Tooltip title={t('global.button.reset')}>
+            <CustomTooltip title={t('global.button.reset')}>
                 <IconButton color="inherit" {...props}>
                     <RestartAltIcon />
                 </IconButton>
-            </Tooltip>
+            </CustomTooltip>
         );
     }
 

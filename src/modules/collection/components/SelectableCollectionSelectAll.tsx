@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Tooltip from '@mui/material/Tooltip';
 import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from 'react-i18next';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 
 export const SelectableCollectionSelectAll = ({
     areAllItemsSelected,
@@ -22,7 +22,7 @@ export const SelectableCollectionSelectAll = ({
     const { t } = useTranslation();
 
     return (
-        <Tooltip title={t(!areAllItemsSelected ? 'global.button.select_all' : 'global.button.clear')}>
+        <CustomTooltip title={t(!areAllItemsSelected ? 'global.button.select_all' : 'global.button.clear')}>
             <Checkbox
                 sx={{
                     padding: '8px',
@@ -35,6 +35,6 @@ export const SelectableCollectionSelectAll = ({
                 indeterminate={!areNoItemsSelected && !areAllItemsSelected}
                 onChange={(_, checked) => onChange(checked)}
             />
-        </Tooltip>
+        </CustomTooltip>
     );
 };

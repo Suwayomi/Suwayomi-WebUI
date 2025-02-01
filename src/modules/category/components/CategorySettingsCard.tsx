@@ -7,7 +7,6 @@
  */
 
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import { DraggableProvided } from 'react-beautiful-dnd';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import EditIcon from '@mui/icons-material/Edit';
@@ -18,6 +17,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CategoryType } from '@/lib/graphql/generated/graphql.ts';
 
@@ -56,16 +56,16 @@ export const CategorySettingsCard = ({
                         {category.name}
                     </Typography>
                     <Stack sx={{ flexDirection: 'row' }}>
-                        <Tooltip title={t('global.button.edit')}>
+                        <CustomTooltip title={t('global.button.edit')}>
                             <IconButton component={Box} onClick={onEdit} size="large">
                                 <EditIcon />
                             </IconButton>
-                        </Tooltip>
-                        <Tooltip title={t('chapter.action.download.delete.label.action')}>
+                        </CustomTooltip>
+                        <CustomTooltip title={t('chapter.action.download.delete.label.action')}>
                             <IconButton component={Box} onClick={deleteCategory} size="large">
                                 <DeleteIcon />
                             </IconButton>
-                        </Tooltip>
+                        </CustomTooltip>
                     </Stack>
                 </CardContent>
             </Card>

@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Tooltip from '@mui/material/Tooltip';
 import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from 'react-i18next';
 import ClearIcon from '@mui/icons-material/Clear';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SelectableCollectionSelectAll } from '@/modules/collection/components/SelectableCollectionSelectAll.tsx';
 
 export const SelectableCollectionSelectMode = ({
@@ -36,7 +36,7 @@ export const SelectableCollectionSelectMode = ({
                     onChange={onSelectAll}
                 />
             )}
-            <Tooltip title={t(!isActive ? 'global.button.select_all' : 'global.button.cancel')}>
+            <CustomTooltip title={t(!isActive ? 'global.button.select_all' : 'global.button.cancel')}>
                 <Checkbox
                     checkedIcon={<ClearIcon />}
                     sx={{
@@ -49,7 +49,7 @@ export const SelectableCollectionSelectMode = ({
                     checked={isActive}
                     onChange={(_, checked) => onModeChange(checked)}
                 />
-            </Tooltip>
+            </CustomTooltip>
         </>
     );
 };

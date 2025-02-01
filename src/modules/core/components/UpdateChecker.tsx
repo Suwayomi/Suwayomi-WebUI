@@ -10,12 +10,12 @@ import { useEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
-import Tooltip from '@mui/material/Tooltip';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ClearIcon from '@mui/icons-material/Clear';
 import Stack from '@mui/material/Stack';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
@@ -118,7 +118,7 @@ export function UpdateChecker({
         <PopupState variant="popover" popupId="library-update-checker-menu">
             {(popupState) => (
                 <>
-                    <Tooltip
+                    <CustomTooltip
                         title={
                             isRunning
                                 ? t('library.action.label.stop_update')
@@ -151,7 +151,7 @@ export function UpdateChecker({
                                 </>
                             )}
                         </IconButton>
-                    </Tooltip>
+                    </CustomTooltip>
                     <Menu {...bindMenu(popupState)}>
                         <MenuItem
                             onClick={() => {

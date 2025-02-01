@@ -15,10 +15,10 @@ import { alpha } from '@mui/material/styles';
 import { bindDialog, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
 import Slide from '@mui/material/Slide';
 import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ReaderBottomBarMobileProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { MobileReaderProgressBar } from '@/modules/reader/components/overlay/progress-bar/variants/MobileReaderProgressBar.tsx';
 import { ReaderChapterList } from '@/modules/reader/components/overlay/navigation/ReaderChapterList.tsx';
@@ -89,21 +89,21 @@ const BaseReaderBottomBarMobile = ({
                                 alignItems: 'center',
                             }}
                         >
-                            <Tooltip title={t('reader.button.chapter_list')}>
+                            <CustomTooltip title={t('reader.button.chapter_list')}>
                                 <IconButton {...bindTrigger(chapterListPopupState)} size="large" color="inherit">
                                     <FormatListBulletedIcon />
                                 </IconButton>
-                            </Tooltip>
-                            <Tooltip title={t('reader.settings.title.quick_settings')}>
+                            </CustomTooltip>
+                            <CustomTooltip title={t('reader.settings.title.quick_settings')}>
                                 <IconButton {...bindTrigger(quickSettingsPopupState)} size="large" color="inherit">
                                     <AppSettingsAltIcon />
                                 </IconButton>
-                            </Tooltip>
-                            <Tooltip title={t('settings.title')}>
+                            </CustomTooltip>
+                            <CustomTooltip title={t('settings.title')}>
                                 <IconButton onClick={openSettings} size="large" color="inherit">
                                     <SettingsIcon />
                                 </IconButton>
-                            </Tooltip>
+                            </CustomTooltip>
                         </Stack>
                     </Stack>
                 </Slide>

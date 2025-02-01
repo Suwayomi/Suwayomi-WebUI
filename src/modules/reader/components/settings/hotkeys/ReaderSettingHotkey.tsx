@@ -10,9 +10,9 @@ import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
 import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import IconButton from '@mui/material/IconButton';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ReaderHotkey } from '@/modules/reader/types/Reader.types.ts';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { TranslationKey } from '@/Base.types.ts';
@@ -60,11 +60,11 @@ export const ReaderSettingHotkey = ({
                     keys={keys}
                     removeKey={(keyToRemove) => updateSetting(keys.filter((key) => key !== keyToRemove))}
                 />
-                <Tooltip title={t('global.button.add')}>
+                <CustomTooltip title={t('global.button.add')}>
                     <IconButton {...bindTrigger(popupState)} color="inherit">
                         <AddIcon />
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
                 <ResetButton asIconButton onClick={() => updateSetting(DEFAULT_READER_SETTINGS.hotkeys[hotkey])} />
             </Stack>
             {popupState.isOpen && (

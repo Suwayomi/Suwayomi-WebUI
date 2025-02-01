@@ -23,7 +23,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
-import Tooltip from '@mui/material/Tooltip';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { OptionsPanel } from '@/modules/core/components/OptionsPanel.tsx';
 import { CheckBoxFilter } from '@/modules/source/components/filters/CheckBoxFilter.tsx';
 import { HeaderFilter } from '@/modules/source/components/filters/HeaderFilter.tsx';
@@ -199,11 +199,11 @@ export function SourceOptions({
                         <PopupState variant="dialog" popupId="source-browse-save-search">
                             {(popupState) => (
                                 <>
-                                    <Tooltip title={t('source.filter.save_search.label.save')}>
+                                    <CustomTooltip title={t('source.filter.save_search.label.save')}>
                                         <IconButton sx={{ marginLeft: 'auto' }} {...bindTrigger(popupState)}>
                                             <SaveIcon />
                                         </IconButton>
-                                    </Tooltip>
+                                    </CustomTooltip>
                                     <Dialog {...bindDialog(popupState)} maxWidth="xs" fullWidth>
                                         <DialogTitle>{t('source.filter.save_search.dialog.label.title')}</DialogTitle>
                                         <DialogContent>
@@ -269,9 +269,9 @@ export function SourceOptions({
                                                 .catch(defaultPromiseErrorHandler('SourceOptions::deleteSavedSearch'));
                                         }}
                                         deleteIcon={
-                                            <Tooltip title={t('source.filter.save_search.label.delete')}>
+                                            <CustomTooltip title={t('source.filter.save_search.label.delete')}>
                                                 <DeleteIcon />
-                                            </Tooltip>
+                                            </CustomTooltip>
                                         }
                                         variant="outlined"
                                     />

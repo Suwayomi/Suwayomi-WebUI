@@ -6,23 +6,29 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Tooltip from '@mui/material/Tooltip';
 import { ComponentProps } from 'react';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton';
 
 export const ReaderNavBarDesktopNextPreviousButton = ({
     title,
     type,
+    disabled,
     ...customIconButtonProps
 }: Omit<ComponentProps<typeof CustomIconButton>, 'children'> & {
     title: string;
     type: 'previous' | 'next';
 }) => (
-    <Tooltip title={title}>
-        <CustomIconButton sx={{ minWidth: 0, px: 1, flexBasis: '15%' }} variant="contained" {...customIconButtonProps}>
+    <CustomTooltip title={title} disabled={disabled}>
+        <CustomIconButton
+            sx={{ minWidth: 0, px: 1, flexBasis: '15%' }}
+            variant="contained"
+            disabled={disabled}
+            {...customIconButtonProps}
+        >
             {type === 'previous' ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
         </CustomIconButton>
-    </Tooltip>
+    </CustomTooltip>
 );

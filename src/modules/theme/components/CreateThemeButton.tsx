@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { bindDialog, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
-import Tooltip from '@mui/material/Tooltip';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ThemeCreationDialog } from '@/modules/theme/components/CreateThemeDialog.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 
@@ -34,11 +34,11 @@ export const CreateThemeButton = () => {
                 >
                     <AddCircleIcon fontSize="large" />
                 </Button>
-                <Tooltip title={t('settings.appearance.theme.create.title')} placement="top">
+                <CustomTooltip title={t('settings.appearance.theme.create.title')} placement="top">
                     <TypographyMaxLines sx={{ maxWidth: '100%' }}>
                         {t('settings.appearance.theme.create.title')}
                     </TypographyMaxLines>
-                </Tooltip>
+                </CustomTooltip>
             </Stack>
             {popupState.isOpen && <ThemeCreationDialog bindDialogProps={bindDialog(popupState)} mode="create" />}
         </>

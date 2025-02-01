@@ -7,9 +7,9 @@
  */
 
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
 import FitScreenIcon from '@mui/icons-material/FitScreen';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
 import { ValueRotationButton } from '@/modules/core/components/buttons/ValueRotationButton.tsx';
 import {
@@ -51,7 +51,7 @@ export const ReaderNavBarDesktopPageScale = ({
                 defaultIcon={PAGE_SCALE_VALUE_TO_DISPLAY_DATA[pageScaleMode.value].icon}
             />
             {READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED[pageScaleMode.value] && (
-                <Tooltip title={t('reader.settings.page_scale.stretch')}>
+                <CustomTooltip title={t('reader.settings.page_scale.stretch')}>
                     <CustomIconButton
                         onClick={() => updateSetting('shouldStretchPage', !shouldStretchPage.value)}
                         sx={{ minWidth: 0 }}
@@ -60,7 +60,7 @@ export const ReaderNavBarDesktopPageScale = ({
                     >
                         <FitScreenIcon />
                     </CustomIconButton>
-                </Tooltip>
+                </CustomTooltip>
             )}
         </Stack>
     );

@@ -7,15 +7,15 @@
  */
 
 import Box from '@mui/material/Box';
-import Tooltip from '@mui/material/Tooltip';
 import { memo, ReactNode } from 'react';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ReaderProgressBarSlotProps } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 
 import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const ReaderProgressBarSlot = memo(
     ({ pageName, progressBarPosition, slotProps, children }: ReaderProgressBarSlotProps & { children?: ReactNode }) => (
-        <Tooltip
+        <CustomTooltip
             {...slotProps?.tooltip}
             key={pageName}
             title={pageName}
@@ -24,6 +24,6 @@ export const ReaderProgressBarSlot = memo(
             <Box {...slotProps?.box} sx={{ width: '100%', height: '100%', ...slotProps?.box?.sx }}>
                 {children}
             </Box>
-        </Tooltip>
+        </CustomTooltip>
     ),
 );

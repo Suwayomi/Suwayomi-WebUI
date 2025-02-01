@@ -23,11 +23,11 @@ import Link from '@mui/material/Link';
 import ListItemButton from '@mui/material/ListItemButton';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useMemo, useState } from 'react';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers, TTrackerBind, TTrackRecordBind, UNSET_DATE } from '@/modules/tracker/services/Trackers.ts';
 import { ListPreference } from '@/modules/source/components/sourceConfiguration/ListPreference.tsx';
@@ -167,11 +167,11 @@ const TrackerActiveHeader = ({
             </TrackerActiveLink>
 
             <ListItemButton sx={{ flexGrow: 1 }} onClick={openSearch}>
-                <Tooltip title={trackRecord.title}>
+                <CustomTooltip title={trackRecord.title}>
                     <TypographyMaxLines flexGrow={1} lines={1}>
                         {trackRecord.title}
                     </TypographyMaxLines>
-                </Tooltip>
+                </CustomTooltip>
             </ListItemButton>
             <Stack
                 sx={{

@@ -8,9 +8,9 @@
 
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Link } from 'react-router-dom';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ChapterReadInfo, Chapters, ChapterSourceOrderInfo } from '@/modules/chapter/services/Chapters.ts';
 
 export const ContinueReadingButton = ({
@@ -32,7 +32,7 @@ export const ContinueReadingButton = ({
     const isFirstChapter = sourceOrder === 1;
 
     return (
-        <Tooltip title={t(isFirstChapter ? 'global.button.start' : 'global.button.resume')}>
+        <CustomTooltip title={t(isFirstChapter ? 'global.button.start' : 'global.button.resume')}>
             <Button
                 variant="contained"
                 size="small"
@@ -45,6 +45,6 @@ export const ContinueReadingButton = ({
             >
                 <PlayArrowIcon />
             </Button>
-        </Tooltip>
+        </CustomTooltip>
     );
 };

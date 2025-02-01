@@ -7,8 +7,8 @@
  */
 
 import Box from '@mui/material/Box';
-import Tooltip from '@mui/material/Tooltip';
 import { ReactNode } from 'react';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { CurrentPageSlotProps } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
@@ -23,7 +23,7 @@ export const ReaderProgressBarCurrentPageSlot = ({
     children,
     progressBarPosition,
 }: CurrentPageSlotProps & { children?: ReactNode }) => (
-    <Tooltip
+    <CustomTooltip
         title={pageName}
         slotProps={{
             tooltip: { sx: { backgroundColor: 'primary.main', color: 'primary.contrastText' } },
@@ -50,5 +50,5 @@ export const ReaderProgressBarCurrentPageSlot = ({
         >
             {children}
         </Box>
-    </Tooltip>
+    </CustomTooltip>
 );

@@ -10,12 +10,12 @@ import Warning from '@mui/icons-material/Warning';
 import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import Box from '@mui/material/Box';
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterList } from '@/modules/chapter/components/ChapterList.tsx';
 import { useRefreshManga } from '@/modules/manga/hooks/useRefreshManga.ts';
@@ -78,7 +78,7 @@ export const Manga: React.FC = () => {
                 }}
             >
                 {error && !isValidating && !refreshing && (
-                    <Tooltip
+                    <CustomTooltip
                         title={
                             <>
                                 {t('manga.error.label.request_failure')}
@@ -90,7 +90,7 @@ export const Manga: React.FC = () => {
                         <IconButton onClick={() => refetch()}>
                             <Warning color="error" />
                         </IconButton>
-                    </Tooltip>
+                    </CustomTooltip>
                 )}
                 {manga && (refreshing || isValidating) && (
                     <IconButton disabled>

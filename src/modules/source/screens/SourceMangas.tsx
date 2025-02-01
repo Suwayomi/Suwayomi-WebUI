@@ -15,11 +15,11 @@ import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import {
     requestManager,
     AbortableApolloUseMutationPaginatedResponse,
@@ -405,7 +405,7 @@ export function SourceMangas() {
                 <AppbarSearch />
                 <SourceGridLayout />
                 {source?.isConfigurable && (
-                    <Tooltip title={t('settings.title')}>
+                    <CustomTooltip title={t('settings.title')}>
                         <IconButton
                             onClick={() => navigate(AppRoutes.sources.childRoutes.configure.path(sourceId))}
                             aria-label="display more actions"
@@ -415,7 +415,7 @@ export function SourceMangas() {
                         >
                             <SettingsIcon />
                         </IconButton>
-                    </Tooltip>
+                    </CustomTooltip>
                 )}
             </>,
         );

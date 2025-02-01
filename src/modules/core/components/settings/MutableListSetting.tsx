@@ -13,7 +13,6 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
@@ -24,6 +23,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import DialogContentText from '@mui/material/DialogContentText';
 import InfoIcon from '@mui/icons-material/Info';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { TextSetting, TextSettingProps } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { TextSettingDialog } from '@/modules/core/components/settings/text/TextSettingDialog.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -49,11 +49,11 @@ const MutableListItem = ({
                     <ListItemText secondary={textSettingProps.value} />
                 </ListItem>
             )}
-            <Tooltip title={t('chapter.action.download.delete.label.action')}>
+            <CustomTooltip title={t('chapter.action.download.delete.label.action')} disabled={!deletable}>
                 <IconButton disabled={!deletable} size="large" onClick={handleDelete}>
                     <DeleteIcon />
                 </IconButton>
-            </Tooltip>
+            </CustomTooltip>
         </Stack>
     );
 };

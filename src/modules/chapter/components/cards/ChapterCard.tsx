@@ -11,7 +11,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CardActionArea from '@mui/material/CardActionArea';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
@@ -22,6 +21,7 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLongPress } from 'use-long-press';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { getDateString } from '@/util/DateHelper.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
@@ -204,7 +204,7 @@ export const ChapterCard = memo((props: IProps) => {
 
                                 <Stack sx={{ minHeight: '48px' }}>
                                     {selected === null ? (
-                                        <Tooltip title={t('global.button.options')}>
+                                        <CustomTooltip title={t('global.button.options')}>
                                             <IconButton
                                                 ref={menuButtonRef}
                                                 {...bindTrigger(popupState)}
@@ -220,13 +220,13 @@ export const ChapterCard = memo((props: IProps) => {
                                             >
                                                 <MoreVertIcon />
                                             </IconButton>
-                                        </Tooltip>
+                                        </CustomTooltip>
                                     ) : (
-                                        <Tooltip
+                                        <CustomTooltip
                                             title={t(selected ? 'global.button.deselect' : 'global.button.select')}
                                         >
                                             <Checkbox checked={selected} />
-                                        </Tooltip>
+                                        </CustomTooltip>
                                     )}
                                 </Stack>
                             </CardContent>

@@ -14,7 +14,6 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
 import Box, { BoxProps } from '@mui/material/Box';
-import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import React, { memo, useCallback, useEffect, useLayoutEffect } from 'react';
 import { DragDropContext, Draggable, DraggableProvided, DropResult } from 'react-beautiful-dnd';
@@ -25,6 +24,7 @@ import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { Virtuoso } from 'react-virtuoso';
 import CardContent from '@mui/material/CardContent';
 import Refresh from '@mui/icons-material/Refresh';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppable.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -93,7 +93,7 @@ const DownloadChapterItem = memo(
                             </Stack>
                             <DownloadStateIndicator chapterId={item.chapter.id} />
                             {item.state === DownloadState.Error && (
-                                <Tooltip title={t('global.button.retry')}>
+                                <CustomTooltip title={t('global.button.retry')}>
                                     <IconButton
                                         onClick={(e) => {
                                             e.preventDefault();
@@ -104,9 +104,9 @@ const DownloadChapterItem = memo(
                                     >
                                         <Refresh />
                                     </IconButton>
-                                </Tooltip>
+                                </CustomTooltip>
                             )}
-                            <Tooltip title={t('chapter.action.download.delete.label.action')}>
+                            <CustomTooltip title={t('chapter.action.download.delete.label.action')}>
                                 <IconButton
                                     onClick={(e) => {
                                         e.preventDefault();
@@ -117,7 +117,7 @@ const DownloadChapterItem = memo(
                                 >
                                     <DeleteIcon />
                                 </IconButton>
-                            </Tooltip>
+                            </CustomTooltip>
                         </CardContent>
                     </CardActionArea>
                 </Card>
@@ -165,17 +165,20 @@ export const DownloadQueue: React.FC = () => {
         setTitle(t('download.queue.title'));
         setAction(
             <>
-                <Tooltip title={t('download.queue.label.delete_all')}>
+                <CustomTooltip title={t('download.queue.label.delete_all')}>
                     <IconButton onClick={clearQueue} size="large" color="inherit">
                         <DeleteSweepIcon />
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
 
-                <Tooltip title={t(status === DownloaderState.Started ? 'global.button.start' : 'global.button.stop')}>
+                <CustomTooltip
+                    title={t(status === DownloaderState.Started ? 'global.button.start' : 'global.button.stop')}
+                    disabled={isQueueEmpty}
+                >
                     <IconButton onClick={toggleQueueStatus} size="large" disabled={isQueueEmpty} color="inherit">
                         {status === DownloaderState.Stopped ? <PlayArrowIcon /> : <PauseIcon />}
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
             </>,
         );
 

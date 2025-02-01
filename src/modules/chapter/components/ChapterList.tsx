@@ -8,7 +8,6 @@
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { ComponentProps, useCallback, useMemo, useState } from 'react';
@@ -19,6 +18,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 import { ResumeFab } from '@/modules/manga/components/ResumeFAB.tsx';
@@ -186,7 +186,10 @@ export const ChapterList = ({
                     </Typography>
 
                     <Stack direction="row">
-                        <Tooltip title={t('chapter.action.mark_as_read.add.label.action.current')}>
+                        <CustomTooltip
+                            title={t('chapter.action.mark_as_read.add.label.action.current')}
+                            disabled={areAllChaptersRead}
+                        >
                             <IconButton
                                 disabled={areAllChaptersRead}
                                 onClick={() => Chapters.markAsRead(Chapters.getNonRead(chapters), true, manga.id)}
@@ -194,11 +197,14 @@ export const ChapterList = ({
                             >
                                 <DoneAllIcon />
                             </IconButton>
-                        </Tooltip>
+                        </CustomTooltip>
                         <PopupState variant="popover" popupId="chapterlist-download-button">
                             {(popupState) => (
                                 <>
-                                    <Tooltip title={t('chapter.action.download.add.label.action')}>
+                                    <CustomTooltip
+                                        title={t('chapter.action.download.add.label.action')}
+                                        disabled={areAllChaptersRead}
+                                    >
                                         <IconButton
                                             disabled={areAllChaptersDownloaded}
                                             {...bindTrigger(popupState)}
@@ -206,7 +212,7 @@ export const ChapterList = ({
                                         >
                                             <DownloadIcon />
                                         </IconButton>
-                                    </Tooltip>
+                                    </CustomTooltip>
                                     {popupState.isOpen && (
                                         <Menu {...bindMenu(popupState)}>
                                             <ChaptersDownloadActionMenuItems

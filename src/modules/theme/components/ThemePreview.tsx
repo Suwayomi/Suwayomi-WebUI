@@ -16,9 +16,9 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { AppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
 import { createTheme } from '@/modules/theme/services/ThemeCreator.ts';
@@ -154,9 +154,9 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                                     size="small"
                                                     sx={{ mt: -0.5 }}
                                                 >
-                                                    <Tooltip title={t('global.button.delete')}>
+                                                    <CustomTooltip title={t('global.button.delete')}>
                                                         <DeleteIcon />
-                                                    </Tooltip>
+                                                    </CustomTooltip>
                                                 </IconButton>
                                             )}
                                             {appTheme.isCustom && (
@@ -169,9 +169,9 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                                     component="div"
                                                     size="small"
                                                 >
-                                                    <Tooltip title={t('global.button.edit')}>
+                                                    <CustomTooltip title={t('global.button.edit')}>
                                                         <EditIcon />
-                                                    </Tooltip>
+                                                    </CustomTooltip>
                                                 </IconButton>
                                             )}
                                         </Stack>
@@ -229,9 +229,9 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                         </CardActionArea>
                     </Card>
                 </ThemeProvider>
-                <Tooltip title={getName()} placement="top">
+                <CustomTooltip title={getName()} placement="top">
                     <TypographyMaxLines sx={{ maxWidth: '100%' }}>{getName()}</TypographyMaxLines>
-                </Tooltip>
+                </CustomTooltip>
             </Stack>
             <ThemeCreationDialog bindDialogProps={bindDialog(popupState)} mode="edit" appTheme={appTheme} />
         </>

@@ -13,10 +13,10 @@ import AddIcon from '@mui/icons-material/Add';
 import { StringParam, useQueryParam } from 'use-query-params';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs } from '@/modules/core/utils/Languages.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
@@ -134,11 +134,11 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         setAction(
             <>
                 <AppbarSearch />
-                <Tooltip title={t('extension.action.label.install_external')}>
+                <CustomTooltip title={t('extension.action.label.install_external')}>
                     <IconButton onClick={() => inputRef.current?.click()} size="large" color="inherit">
                         <AddIcon />
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
 
                 <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={allLangs} />
             </>,

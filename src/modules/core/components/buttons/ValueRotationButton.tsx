@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { ReactNode, useMemo } from 'react';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { MultiValueButtonProps } from '@/modules/core/Core.types.ts';
 import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.utils.ts';
 import { Superscript } from '@/modules/core/components/Superscript.tsx';
@@ -37,7 +37,7 @@ export const ValueRotationButton = <Value extends string | number>({
     }, [value, values]);
 
     return (
-        <Tooltip title={tooltip}>
+        <CustomTooltip title={tooltip}>
             {isDefault ? (
                 <Button
                     onClick={() => setValue(values[0])}
@@ -81,6 +81,6 @@ export const ValueRotationButton = <Value extends string | number>({
                         : t(valueToDisplayData[value].title)}
                 </Button>
             )}
-        </Tooltip>
+        </CustomTooltip>
     );
 };

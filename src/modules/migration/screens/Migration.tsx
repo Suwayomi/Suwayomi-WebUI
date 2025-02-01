@@ -15,7 +15,7 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import TagIcon from '@mui/icons-material/Tag';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import Tooltip from '@mui/material/Tooltip';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
@@ -123,7 +123,7 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
                     zIndex: 1,
                 }}
             >
-                <Tooltip title={t(sortByToTranslationKey[sortBy])}>
+                <CustomTooltip title={t(sortByToTranslationKey[sortBy])}>
                     <IconButton
                         size="large"
                         color="inherit"
@@ -133,8 +133,8 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
                     >
                         {sortBy ? <TagIcon /> : <SortByAlphaIcon />}
                     </IconButton>
-                </Tooltip>
-                <Tooltip title={t(sortOrderToTranslationKey[sortOrder])}>
+                </CustomTooltip>
+                <CustomTooltip title={t(sortOrderToTranslationKey[sortOrder])}>
                     <IconButton
                         size="large"
                         color="inherit"
@@ -147,7 +147,7 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
                     >
                         {sortOrder ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
             </Stack>
             <List sx={{ p: 0 }}>
                 {migratableSources.map((migratableSource) => (

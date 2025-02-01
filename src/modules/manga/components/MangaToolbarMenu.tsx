@@ -14,13 +14,13 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { useCategorySelect } from '@/modules/category/hooks/useCategorySelect.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
@@ -51,7 +51,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         <>
             {isLargeScreen && (
                 <>
-                    <Tooltip title={t('manga.label.reload_from_source')}>
+                    <CustomTooltip title={t('manga.label.reload_from_source')} disabled={refreshing}>
                         <IconButton
                             onClick={() => {
                                 onRefresh();
@@ -61,10 +61,10 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         >
                             <Refresh />
                         </IconButton>
-                    </Tooltip>
+                    </CustomTooltip>
                     {manga.inLibrary && (
                         <>
-                            <Tooltip title={t('global.button.migrate')}>
+                            <CustomTooltip title={t('global.button.migrate')}>
                                 <Link
                                     to={`${AppRoutes.migrate.childRoutes.search.path(manga.sourceId, manga.id)}?query=${manga.title}`}
                                     state={{ mangaTitle: manga.title }}
@@ -74,8 +74,8 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                         <SyncAltIcon />
                                     </IconButton>
                                 </Link>
-                            </Tooltip>
-                            <Tooltip title={t('manga.label.edit_categories')}>
+                            </CustomTooltip>
+                            <CustomTooltip title={t('manga.label.edit_categories')}>
                                 <IconButton
                                     onClick={() => {
                                         openCategorySelect(true);
@@ -84,7 +84,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                 >
                                     <Label />
                                 </IconButton>
-                            </Tooltip>
+                            </CustomTooltip>
                         </>
                     )}
                 </>

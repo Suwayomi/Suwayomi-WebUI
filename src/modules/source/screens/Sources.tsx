@@ -8,11 +8,11 @@
 
 import { Fragment, useEffect, useLayoutEffect, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
-import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import {
@@ -108,7 +108,7 @@ export function Sources() {
     useLayoutEffect(() => {
         setAction(
             <>
-                <Tooltip title={t('search.title.global_search')}>
+                <CustomTooltip title={t('search.title.global_search')}>
                     <IconButton
                         onClick={() => navigate(AppRoutes.sources.childRoutes.searchAll.path)}
                         size="large"
@@ -116,7 +116,7 @@ export function Sources() {
                     >
                         <TravelExploreIcon />
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
                 <LangSelect
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}

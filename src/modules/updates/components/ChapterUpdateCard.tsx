@@ -9,7 +9,6 @@
 import DownloadIcon from '@mui/icons-material/Download';
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
-import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -18,6 +17,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Refresh from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
 import { memo } from 'react';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterUpdateListFieldsFragment, DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
@@ -115,7 +115,7 @@ export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateList
                     </Box>
                     <DownloadStateIndicator chapterId={chapter.id} />
                     {download?.state === DownloadState.Error && (
-                        <Tooltip title={t('global.button.retry')}>
+                        <CustomTooltip title={t('global.button.retry')}>
                             <IconButton
                                 onClick={(e) => {
                                     e.preventDefault();
@@ -126,10 +126,10 @@ export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateList
                             >
                                 <Refresh />
                             </IconButton>
-                        </Tooltip>
+                        </CustomTooltip>
                     )}
                     {download == null && !chapter.isDownloaded && (
-                        <Tooltip title={t('chapter.action.download.add.label.action')}>
+                        <CustomTooltip title={t('chapter.action.download.add.label.action')}>
                             <IconButton
                                 onClick={(e) => {
                                     e.stopPropagation();
@@ -140,7 +140,7 @@ export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateList
                             >
                                 <DownloadIcon />
                             </IconButton>
-                        </Tooltip>
+                        </CustomTooltip>
                     )}
                 </CardContent>
             </CardActionArea>

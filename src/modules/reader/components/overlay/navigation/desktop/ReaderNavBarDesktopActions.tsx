@@ -7,7 +7,6 @@
  */
 
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
@@ -17,6 +16,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { memo, useMemo, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
@@ -32,11 +32,11 @@ const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, '
 
     if (currentChapter && Chapters.isDownloaded(currentChapter)) {
         return (
-            <Tooltip title={t(actionToTranslationKey.delete.action.single)}>
+            <CustomTooltip title={t(actionToTranslationKey.delete.action.single)}>
                 <IconButton onClick={() => Chapters.performAction('delete', [currentChapter.id], {})} color="inherit">
                     <DeleteIcon />
                 </IconButton>
-            </Tooltip>
+            </CustomTooltip>
         );
     }
 
@@ -45,7 +45,7 @@ const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, '
     }
 
     return (
-        <Tooltip title={t(actionToTranslationKey.download.action.single)}>
+        <CustomTooltip title={t(actionToTranslationKey.download.action.single)} disabled={!currentChapter}>
             <IconButton
                 disabled={!currentChapter}
                 onClick={() => Chapters.performAction('download', [currentChapter?.id ?? -1], {})}
@@ -53,7 +53,7 @@ const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, '
             >
                 <DownloadIcon />
             </IconButton>
-        </Tooltip>
+        </CustomTooltip>
     );
 };
 
@@ -82,12 +82,12 @@ const BaseReaderNavBarDesktopActions = memo(
 
         return (
             <Stack sx={{ flexDirection: 'row', justifyContent: 'center', gap: 1 }}>
-                <Tooltip title={t(actionToTranslationKey[bookmarkAction].action.single)}>
+                <CustomTooltip title={t(actionToTranslationKey[bookmarkAction].action.single)}>
                     <IconButton onClick={() => Chapters.performAction(bookmarkAction, [id], {})} color="inherit">
                         {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
                     </IconButton>
-                </Tooltip>
-                <Tooltip title={t('reader.button.retry_load_pages')}>
+                </CustomTooltip>
+                <CustomTooltip title={t('reader.button.retry_load_pages')} disabled={!haveSomePagesFailedToLoad}>
                     <IconButton
                         onClick={() => {
                             setPageLoadStates((statePageLoadStates) =>
@@ -104,9 +104,9 @@ const BaseReaderNavBarDesktopActions = memo(
                     >
                         <ReplayIcon />
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
                 <DownloadButton currentChapter={currentChapter} />
-                <Tooltip title={t('chapter.action.label.open_on_source')}>
+                <CustomTooltip title={t('chapter.action.label.open_on_source')} disabled={!realUrl}>
                     <IconButton
                         disabled={!realUrl}
                         href={realUrl ?? ''}
@@ -116,7 +116,7 @@ const BaseReaderNavBarDesktopActions = memo(
                     >
                         <OpenInNewIcon />
                     </IconButton>
-                </Tooltip>
+                </CustomTooltip>
             </Stack>
         );
     },

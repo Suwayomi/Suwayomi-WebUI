@@ -9,7 +9,7 @@
 import { Fragment } from 'react';
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
-import Tooltip from '@mui/material/Tooltip';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { Kbd } from '@/modules/core/components/Kbd.tsx';
 
 export const Hotkey = ({ keys, removeKey }: { keys: string[]; removeKey?: (key: string) => void }) => {
@@ -19,7 +19,7 @@ export const Hotkey = ({ keys, removeKey }: { keys: string[]; removeKey?: (key: 
         <Stack sx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 1 }}>
             {keys.map((key, index) => (
                 <Fragment key={key}>
-                    <Tooltip title={t('global.button.delete')} hidden={!removeKey}>
+                    <CustomTooltip title={t('global.button.delete')} hidden={!removeKey}>
                         <Stack
                             sx={{
                                 flexDirection: 'row',
@@ -36,7 +36,7 @@ export const Hotkey = ({ keys, removeKey }: { keys: string[]; removeKey?: (key: 
                                 </Fragment>
                             ))}
                         </Stack>
-                    </Tooltip>
+                    </CustomTooltip>
                     {index === keys.length - 1 ? '' : ','}
                 </Fragment>
             ))}

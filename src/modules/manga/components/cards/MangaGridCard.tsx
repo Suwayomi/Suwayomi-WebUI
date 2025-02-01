@@ -12,9 +12,9 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import { memo, useRef } from 'react';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
@@ -166,7 +166,7 @@ export const MangaGridCard = memo(
                                     }}
                                 >
                                     {gridLayout !== GridLayout.Comfortable && (
-                                        <Tooltip title={title} placement="top">
+                                        <CustomTooltip title={title} placement="top">
                                             <TypographyMaxLines
                                                 component="h3"
                                                 sx={{
@@ -176,7 +176,7 @@ export const MangaGridCard = memo(
                                             >
                                                 {title}
                                             </TypographyMaxLines>
-                                        </Tooltip>
+                                        </CustomTooltip>
                                     )}
                                     {continueReadingButton}
                                 </Stack>
@@ -185,7 +185,7 @@ export const MangaGridCard = memo(
                     </Card>
                     {gridLayout === GridLayout.Comfortable && (
                         <Stack sx={{ pb: 1 }}>
-                            <Tooltip title={title} placement="top">
+                            <CustomTooltip title={title} placement="top">
                                 <TypographyMaxLines
                                     component="h3"
                                     sx={{
@@ -197,7 +197,7 @@ export const MangaGridCard = memo(
                                 >
                                     {title}
                                 </TypographyMaxLines>
-                            </Tooltip>
+                            </CustomTooltip>
                         </Stack>
                     )}
                 </Box>

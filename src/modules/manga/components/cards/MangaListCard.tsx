@@ -12,9 +12,9 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
 import { Link as RouterLink } from 'react-router-dom';
 import { memo, useRef } from 'react';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { SpecificMangaCardProps } from '@/modules/manga/Manga.types.ts';
@@ -103,11 +103,11 @@ export const MangaListCard = memo(
                                 width: 'min-content',
                             }}
                         >
-                            <Tooltip title={title} placement="top">
+                            <CustomTooltip title={title} placement="top">
                                 <TypographyMaxLines variant="h6" component="h3">
                                     {title}
                                 </TypographyMaxLines>
-                            </Tooltip>
+                            </CustomTooltip>
                         </Box>
                         <Stack
                             direction="row"
