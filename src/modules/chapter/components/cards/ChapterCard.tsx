@@ -124,7 +124,7 @@ export const ChapterCard = memo((props: IProps) => {
                             style={{
                                 color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                             }}
-                            state={{ resumeMode: Chapters.getReaderResumeMode(chapter) }}
+                            state={Chapters.getReaderOpenChapterLocationState(chapter)}
                             replace={mode === 'reader'}
                             onClick={(e) => handleClick(e)}
                             {...longPressBind(popupState.open)}

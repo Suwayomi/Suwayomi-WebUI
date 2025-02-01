@@ -27,7 +27,7 @@ export function ResumeFab({ chapter }: { chapter: ChapterMangaInfo & ChapterSour
             variant="extended"
             color="primary"
             to={Chapters.getReaderUrl(chapter)}
-            state={{ resumeMode: Chapters.getReaderResumeMode(chapter) }}
+            state={Chapters.getReaderOpenChapterLocationState(chapter)}
         >
             <PlayArrow />
             {sourceOrder === 1 ? t('global.button.start') : t('global.button.resume')}
