@@ -184,6 +184,7 @@ export const useMouseDragScroll = (
             element.removeEventListener('mousemove', handleMouseMove);
             element.removeEventListener('mouseup', handleMouseUp);
 
+            // move disabling drag handling to next event loop cycle so that e.g. the resulting mouse click at the end of the dragging can be ignored
             setTimeout(() => {
                 isHandlingMouseMoveEvents = false;
                 setIsDragging(false);
