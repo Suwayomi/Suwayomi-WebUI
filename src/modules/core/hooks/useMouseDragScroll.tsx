@@ -144,7 +144,27 @@ export const useMouseDragScroll = (
             }
         };
 
+        let isHandlingMouseMoveEvents = false;
+        const shouldStartHandlingMouseMoveEvents = (e: MouseEvent) => {
+            if (isHandlingMouseMoveEvents) {
+                return true;
+            }
+
+            const hasScrollBar = [element.clientWidth >= window.innerWidth, element.clientHeight >= window.innerHeight];
+            const didPosChange = [
+                Math.abs(previousClickPosX.current[LATEST] - e.pageX) > 0,
+                Math.abs(previousClickPosY.current[LATEST] - e.pageY) > 0,
+            ];
+
+            return (hasScrollBar[X] && didPosChange[X]) || (hasScrollBar[Y] && didPosChange[Y]);
+        };
+
         const handleMouseMove = (e: MouseEvent) => {
+            if (!shouldStartHandlingMouseMoveEvents(e)) {
+                return;
+            }
+
+            isHandlingMouseMoveEvents = true;
             setIsDragging(true);
 
             previousClickPosX.current = [...(previousClickPosX.current.slice(1) as [number, number]), e.pageX];
@@ -164,7 +184,10 @@ export const useMouseDragScroll = (
             element.removeEventListener('mousemove', handleMouseMove);
             element.removeEventListener('mouseup', handleMouseUp);
 
-            setTimeout(() => setIsDragging(false), 0);
+            setTimeout(() => {
+                isHandlingMouseMoveEvents = false;
+                setIsDragging(false);
+            }, 0);
 
             scrollAtT0.current = [element.scrollLeft, element.scrollTop];
             inertiaTimeInterval.current = setInterval(inertiaMove, 16);
