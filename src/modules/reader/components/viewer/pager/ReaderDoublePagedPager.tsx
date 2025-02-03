@@ -58,7 +58,7 @@ const BaseReaderDoublePagedPager = ({
     return (
         <BasePager
             {...props}
-            createPage={(page, pagesIndex, shouldLoad, shouldDisplay) => {
+            createPage={(page, pagesIndex, shouldLoad, shouldDisplay, _setRef, ...baseProps) => {
                 const { primary, secondary } = page;
 
                 const currentSecondaryPageIndex = getNextIndexFromPage(currentPage);
@@ -80,6 +80,7 @@ const BaseReaderDoublePagedPager = ({
                             shouldDisplay && isPrimaryPage && shouldLoad,
                             currentPage.primary.index,
                             totalPages,
+                            ...baseProps,
                             pageLoadStates[primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                             hasSecondaryPage ? getPagePosition('first', themeDirection, readingDirection) : undefined,
                             hasSecondaryPage,
@@ -96,6 +97,7 @@ const BaseReaderDoublePagedPager = ({
                                 shouldDisplay && isSecondaryPage && shouldLoad,
                                 currentSecondaryPageIndex,
                                 totalPages,
+                                ...baseProps,
                                 pageLoadStates[secondary.index].error ? retryFailedPagesKeyPrefix : undefined,
                                 getPagePosition('second', themeDirection, readingDirection),
                                 true,
