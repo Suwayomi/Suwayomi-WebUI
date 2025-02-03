@@ -10,7 +10,6 @@ import { memo } from 'react';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { ReaderPagerProps } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
-import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom';
 
 const BaseReaderPagedPager = ({
     onLoad,
@@ -50,4 +49,4 @@ const BaseReaderPagedPager = ({
     );
 };
 
-export const ReaderPagedPager = withPropsFrom(memo(BaseReaderPagedPager), [], []);
+export const ReaderPagedPager = memo(BaseReaderPagedPager);

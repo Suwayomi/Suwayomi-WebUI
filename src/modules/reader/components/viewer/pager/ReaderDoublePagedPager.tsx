@@ -9,7 +9,6 @@
 import { Direction, useTheme } from '@mui/material/styles';
 import { Fragment, memo, useMemo } from 'react';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
-import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import {
     IReaderSettings,
     ReaderPagerProps,
@@ -19,7 +18,6 @@ import {
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { getNextIndexFromPage, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
-import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const getPagePosition = (
     pageType: 'first' | 'second',
@@ -48,11 +46,9 @@ const BaseReaderDoublePagedPager = ({
     onError,
     pageLoadStates,
     retryFailedPagesKeyPrefix,
-    readingDirection,
-    pageScaleMode,
     ...props
 }: ReaderPagerProps & Pick<IReaderSettings, 'readingDirection' | 'pageScaleMode'>) => {
-    const { currentPageIndex, pages, totalPages } = props;
+    const { currentPageIndex, pages, totalPages, readingDirection, pageScaleMode } = props;
 
     const { direction: themeDirection } = useTheme();
 
@@ -133,8 +129,4 @@ const BaseReaderDoublePagedPager = ({
     );
 };
 
-export const ReaderDoublePagedPager = withPropsFrom(
-    memo(BaseReaderDoublePagedPager),
-    [ReaderService.useSettingsWithoutDefaultFlag],
-    ['readingDirection', 'pageScaleMode'],
-);
+export const ReaderDoublePagedPager = memo(BaseReaderDoublePagedPager);

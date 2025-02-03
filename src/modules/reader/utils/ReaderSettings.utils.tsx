@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ForwardRefExoticComponent, MemoExoticComponent, RefAttributes } from 'react';
+import { ComponentType, MemoExoticComponent } from 'react';
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
@@ -59,7 +59,7 @@ export const isAutoWebtoonMode = (
 
 export const getPagerForReadingMode = (
     readingMode: ReadingMode,
-): MemoExoticComponent<ForwardRefExoticComponent<Omit<ReaderPagerProps, never> & RefAttributes<HTMLElement>>> => {
+): MemoExoticComponent<ComponentType<ReaderPagerProps>> => {
     switch (readingMode) {
         case ReadingMode.SINGLE_PAGE:
             return ReaderPagedPager;

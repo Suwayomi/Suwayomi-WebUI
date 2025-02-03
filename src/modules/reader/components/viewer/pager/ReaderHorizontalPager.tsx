@@ -8,23 +8,19 @@
 
 import { useTheme } from '@mui/material/styles';
 import { memo } from 'react';
-import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { IReaderSettings, ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
-import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const BaseReaderHorizontalPager = ({
     onLoad,
     onError,
     pageLoadStates,
     retryFailedPagesKeyPrefix,
-    pageGap,
-    readingDirection,
     ...props
 }: ReaderPagerProps & Pick<IReaderSettings, 'pageGap' | 'readingDirection'>) => {
-    const { currentPageIndex, totalPages } = props;
+    const { currentPageIndex, totalPages, pageGap, readingDirection } = props;
 
     const { direction: themeDirection } = useTheme();
 
@@ -75,8 +71,4 @@ const BaseReaderHorizontalPager = ({
     );
 };
 
-export const ReaderHorizontalPager = withPropsFrom(
-    memo(BaseReaderHorizontalPager),
-    [ReaderService.useSettingsWithoutDefaultFlag],
-    ['pageGap', 'readingDirection'],
-);
+export const ReaderHorizontalPager = memo(BaseReaderHorizontalPager);

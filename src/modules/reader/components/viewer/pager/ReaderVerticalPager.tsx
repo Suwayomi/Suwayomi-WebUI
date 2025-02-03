@@ -8,21 +8,17 @@
 
 import { memo } from 'react';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
-import { IReaderSettings, ReaderPagerProps, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderPagerProps, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
-import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 
 const BaseReaderVerticalPager = ({
     onLoad,
     onError,
     pageLoadStates,
     retryFailedPagesKeyPrefix,
-    readingMode,
-    pageGap,
     ...props
-}: ReaderPagerProps & Pick<IReaderSettings, 'pageGap' | 'readingMode'>) => {
-    const { currentPageIndex, totalPages } = props;
+}: ReaderPagerProps) => {
+    const { currentPageIndex, totalPages, readingMode, pageGap } = props;
 
     const isWebtoonMode = readingMode === ReadingMode.WEBTOON;
     const actualPageGap = isWebtoonMode ? 0 : pageGap;
@@ -54,8 +50,4 @@ const BaseReaderVerticalPager = ({
     );
 };
 
-export const ReaderVerticalPager = withPropsFrom(
-    memo(BaseReaderVerticalPager),
-    [ReaderService.useSettingsWithoutDefaultFlag],
-    ['pageGap', 'readingMode'],
-);
+export const ReaderVerticalPager = memo(BaseReaderVerticalPager);
