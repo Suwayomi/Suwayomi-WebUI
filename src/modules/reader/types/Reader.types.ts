@@ -251,14 +251,15 @@ export enum ReaderHotkey {
 
 export interface ReaderPagerProps
     extends Pick<
-        ReaderStatePages,
-        | 'currentPageIndex'
-        | 'pages'
-        | 'totalPages'
-        | 'transitionPageMode'
-        | 'pageLoadStates'
-        | 'retryFailedPagesKeyPrefix'
-    > {
+            ReaderStatePages,
+            | 'currentPageIndex'
+            | 'pages'
+            | 'totalPages'
+            | 'transitionPageMode'
+            | 'pageLoadStates'
+            | 'retryFailedPagesKeyPrefix'
+        >,
+        Pick<IReaderSettings, 'readingMode' | 'imagePreLoadAmount' | 'readingDirection' | 'pageScaleMode' | 'pageGap'> {
     onLoad?: (pagesIndex: number, url: string, isPrimary?: boolean) => void;
     onError?: (pageIndex: number, url: string) => void;
     imageRefs: MutableRefObject<(HTMLElement | null)[]>;

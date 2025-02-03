@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import {
     IReaderSettings,
+    ReaderPagerProps,
     ReaderPageSpreadState,
     ReaderResumeMode,
     ReaderStateChapters,
@@ -62,6 +63,8 @@ const BaseReaderChapterViewer = ({
     pageScaleMode,
     shouldOffsetDoubleSpreads,
     readingDirection,
+    imagePreLoadAmount,
+    pageGap,
     chapterId,
     previousChapterId,
     nextChapterId,
@@ -90,6 +93,7 @@ const BaseReaderChapterViewer = ({
     | 'retryFailedPagesKeyPrefix'
     | 'setTransitionPageMode'
 > &
+    Omit<ReaderPagerProps, 'pages' | 'totalPages' | 'pageLoadStates'> &
     Pick<
         IReaderSettings,
         'readingMode' | 'shouldOffsetDoubleSpreads' | 'readingDirection' | 'readerWidth' | 'pageScaleMode'
@@ -391,6 +395,11 @@ const BaseReaderChapterViewer = ({
                 isCurrentChapter={isCurrentChapter}
                 isPreviousChapter={isPreviousChapter}
                 isNextChapter={isNextChapter}
+                readingMode={readingMode}
+                imagePreLoadAmount={imagePreLoadAmount}
+                readingDirection={readingDirection}
+                pageScaleMode={pageScaleMode}
+                pageGap={pageGap}
             />
             {((!isContinuousReadingModeActive && isCurrentChapter) ||
                 (isContinuousReadingModeActive && (isInitialChapter || isTrailingChapter))) && (

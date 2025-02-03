@@ -8,11 +8,9 @@
 
 import { memo, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
-import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { getPageIndexesToLoad, isATransitionPageVisible } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { IReaderSettings, ReaderPagerProps, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
-import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
@@ -101,8 +99,4 @@ const BaseBasePager = ({
     );
 };
 
-export const BasePager = withPropsFrom(
-    memo(BaseBasePager),
-    [ReaderService.useSettingsWithoutDefaultFlag],
-    ['readingMode', 'imagePreLoadAmount'],
-);
+export const BasePager = memo(BaseBasePager);

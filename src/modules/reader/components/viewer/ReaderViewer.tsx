@@ -90,6 +90,8 @@ const BaseReaderViewer = forwardRef(
             readerWidth,
             pageScaleMode,
             shouldOffsetDoubleSpreads,
+            imagePreLoadAmount,
+            pageGap,
             setScrollbarXSize,
             setScrollbarYSize,
             isVisible: isOverlayVisible,
@@ -120,7 +122,13 @@ const BaseReaderViewer = forwardRef(
         > &
             Pick<
                 IReaderSettings,
-                'readingMode' | 'readingDirection' | 'readerWidth' | 'pageScaleMode' | 'shouldOffsetDoubleSpreads'
+                | 'readingMode'
+                | 'readingDirection'
+                | 'readerWidth'
+                | 'pageScaleMode'
+                | 'shouldOffsetDoubleSpreads'
+                | 'imagePreLoadAmount'
+                | 'pageGap'
             > &
             Pick<TReaderScrollbarContext, 'setScrollbarXSize' | 'setScrollbarYSize'> &
             Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
@@ -319,6 +327,8 @@ const BaseReaderViewer = forwardRef(
                             )}
                             setReaderStateChapters={setReaderStateChapters}
                             setTransitionPageMode={setTransitionPageMode}
+                            pageGap={pageGap}
+                            imagePreLoadAmount={imagePreLoadAmount}
                         />
                     );
                 })}
@@ -355,6 +365,8 @@ export const ReaderViewer = withPropsFrom(
         'readerWidth',
         'pageScaleMode',
         'shouldOffsetDoubleSpreads',
+        'imagePreLoadAmount',
+        'pageGap',
         'transitionPageMode',
         'setScrollbarXSize',
         'setScrollbarYSize',
