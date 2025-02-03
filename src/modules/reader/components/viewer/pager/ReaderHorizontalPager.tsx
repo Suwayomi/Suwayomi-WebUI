@@ -29,7 +29,7 @@ const BaseReaderHorizontalPager = ({
     return (
         <BasePager
             {...props}
-            createPage={(page, pagesIndex, shouldLoad, _, setRef) =>
+            createPage={(page, pagesIndex, shouldLoad, _, setRef, ...baseProps) =>
                 createReaderPage(
                     page,
                     pagesIndex,
@@ -41,6 +41,7 @@ const BaseReaderHorizontalPager = ({
                     true,
                     currentPageIndex,
                     totalPages,
+                    ...baseProps,
                     pageLoadStates[page.primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                     undefined,
                     undefined,

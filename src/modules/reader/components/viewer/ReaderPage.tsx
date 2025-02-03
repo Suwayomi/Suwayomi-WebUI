@@ -8,7 +8,6 @@
 
 import { ComponentProps, memo, useCallback } from 'react';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
-import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import {
     IReaderSettings,
     ReaderCustomFilter,
@@ -21,10 +20,7 @@ import {
     getReaderImageStyling,
 } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
-import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
@@ -171,17 +167,4 @@ const BaseReaderPage = ({
     );
 };
 
-export const ReaderPage = withPropsFrom(
-    memo(BaseReaderPage),
-    [ReaderService.useSettingsWithoutDefaultFlag, useReaderScrollbarContext, useNavBarContext],
-    [
-        'readingMode',
-        'customFilter',
-        'pageScaleMode',
-        'shouldStretchPage',
-        'readerWidth',
-        'scrollbarXSize',
-        'scrollbarYSize',
-        'readerNavBarWidth',
-    ],
-);
+export const ReaderPage = memo(BaseReaderPage);

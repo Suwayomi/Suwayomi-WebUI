@@ -81,6 +81,11 @@ const BaseReaderChapterViewer = ({
     scrollIntoView,
     setReaderStateChapters,
     resumeMode,
+    customFilter,
+    shouldStretchPage,
+    scrollbarXSize,
+    scrollbarYSize,
+    readerNavBarWidth,
 }: Pick<
     ReaderStatePages,
     | 'currentPageIndex'
@@ -400,6 +405,12 @@ const BaseReaderChapterViewer = ({
                 readingDirection={readingDirection}
                 pageScaleMode={pageScaleMode}
                 pageGap={pageGap}
+                customFilter={customFilter}
+                shouldStretchPage={shouldStretchPage}
+                readerWidth={readerWidth}
+                scrollbarXSize={scrollbarXSize}
+                scrollbarYSize={scrollbarYSize}
+                readerNavBarWidth={readerNavBarWidth}
             />
             {((!isContinuousReadingModeActive && isCurrentChapter) ||
                 (isContinuousReadingModeActive && (isInitialChapter || isTrailingChapter))) && (

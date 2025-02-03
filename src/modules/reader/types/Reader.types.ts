@@ -13,6 +13,7 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { TMangaReader } from '@/modules/manga/Manga.types.ts';
 import { useAutomaticScrolling } from '@/modules/core/hooks/useAutomaticScrolling.ts';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -259,7 +260,19 @@ export interface ReaderPagerProps
             | 'pageLoadStates'
             | 'retryFailedPagesKeyPrefix'
         >,
-        Pick<IReaderSettings, 'readingMode' | 'imagePreLoadAmount' | 'readingDirection' | 'pageScaleMode' | 'pageGap'> {
+        Pick<
+            IReaderSettings,
+            | 'readingMode'
+            | 'imagePreLoadAmount'
+            | 'readingDirection'
+            | 'pageScaleMode'
+            | 'pageGap'
+            | 'customFilter'
+            | 'shouldStretchPage'
+            | 'readerWidth'
+        >,
+        Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'>,
+        Pick<NavbarContextType, 'readerNavBarWidth'> {
     onLoad?: (pagesIndex: number, url: string, isPrimary?: boolean) => void;
     onError?: (pageIndex: number, url: string) => void;
     imageRefs: MutableRefObject<(HTMLElement | null)[]>;

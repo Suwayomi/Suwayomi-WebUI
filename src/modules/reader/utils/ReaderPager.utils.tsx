@@ -16,6 +16,7 @@ import {
     ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
+    TReaderScrollbarContext,
 } from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import {
@@ -33,6 +34,7 @@ import { DirectionOffset } from '@/Base.types.ts';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 type CSSObject = ReturnType<Theme['applyStyles']>;
 
@@ -292,6 +294,14 @@ export const createReaderPage = (
     display: boolean,
     currentPageIndex: number,
     totalPages: number,
+    readingMode: IReaderSettings['readingMode'],
+    customFilter: IReaderSettings['customFilter'],
+    pageScaleMode: IReaderSettings['pageScaleMode'],
+    shouldStretchPage: IReaderSettings['shouldStretchPage'],
+    readerWidth: IReaderSettings['readerWidth'],
+    scrollbarXSize: TReaderScrollbarContext['scrollbarXSize'],
+    scrollbarYSize: TReaderScrollbarContext['scrollbarYSize'],
+    readerNavBarWidth: NavbarContextType['readerNavBarWidth'],
     retryKeyPrefix?: string,
     position?: 'left' | 'right',
     isDoublePage?: boolean,
@@ -316,6 +326,14 @@ export const createReaderPage = (
         retryKeyPrefix={retryKeyPrefix}
         marginTop={marginTop}
         isLoaded={isLoaded}
+        readingMode={readingMode}
+        customFilter={customFilter}
+        pageScaleMode={pageScaleMode}
+        shouldStretchPage={shouldStretchPage}
+        readerWidth={readerWidth}
+        scrollbarXSize={scrollbarXSize}
+        scrollbarYSize={scrollbarYSize}
+        readerNavBarWidth={readerNavBarWidth}
     />
 );
 

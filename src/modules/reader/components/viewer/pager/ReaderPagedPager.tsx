@@ -23,7 +23,7 @@ const BaseReaderPagedPager = ({
     return (
         <BasePager
             {...props}
-            createPage={(page, pagesIndex, shouldLoad, shouldDisplay) =>
+            createPage={(page, pagesIndex, shouldLoad, shouldDisplay, _setRef, ...baseProps) =>
                 createReaderPage(
                     page,
                     pagesIndex,
@@ -35,6 +35,7 @@ const BaseReaderPagedPager = ({
                     shouldDisplay && shouldLoad && currentPageIndex === page.primary.index,
                     currentPageIndex,
                     totalPages,
+                    ...baseProps,
                     pageLoadStates[page.primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                 )
             }

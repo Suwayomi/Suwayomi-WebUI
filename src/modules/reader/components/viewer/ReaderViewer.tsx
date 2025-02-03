@@ -61,6 +61,8 @@ import {
     getReaderChapterViewResumeMode,
 } from '@/modules/reader/utils/Reader.utils.ts';
 import { noOp } from '@/lib/HelperFunctions.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -92,6 +94,9 @@ const BaseReaderViewer = forwardRef(
             shouldOffsetDoubleSpreads,
             imagePreLoadAmount,
             pageGap,
+            customFilter,
+            shouldStretchPage,
+            readerNavBarWidth,
             setScrollbarXSize,
             setScrollbarYSize,
             isVisible: isOverlayVisible,
@@ -129,8 +134,11 @@ const BaseReaderViewer = forwardRef(
                 | 'shouldOffsetDoubleSpreads'
                 | 'imagePreLoadAmount'
                 | 'pageGap'
+                | 'customFilter'
+                | 'shouldStretchPage'
             > &
             Pick<TReaderScrollbarContext, 'setScrollbarXSize' | 'setScrollbarYSize'> &
+            Pick<NavbarContextType, 'readerNavBarWidth'> &
             Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
             Pick<
                 ReaderStateChapters,
@@ -329,6 +337,11 @@ const BaseReaderViewer = forwardRef(
                             setTransitionPageMode={setTransitionPageMode}
                             pageGap={pageGap}
                             imagePreLoadAmount={imagePreLoadAmount}
+                            customFilter={customFilter}
+                            shouldStretchPage={shouldStretchPage}
+                            scrollbarXSize={scrollbarXSize}
+                            scrollbarYSize={scrollbarYSize}
+                            readerNavBarWidth={readerNavBarWidth}
                         />
                     );
                 })}
@@ -347,6 +360,7 @@ export const ReaderViewer = withPropsFrom(
         () => ({ updateCurrentPageIndex: ReaderControls.useUpdateCurrentPageIndex() }),
         useReaderTapZoneContext,
         useReaderStateChaptersContext,
+        useNavBarContext,
     ],
     [
         'currentPageIndex',
@@ -367,6 +381,9 @@ export const ReaderViewer = withPropsFrom(
         'shouldOffsetDoubleSpreads',
         'imagePreLoadAmount',
         'pageGap',
+        'customFilter',
+        'shouldStretchPage',
+        'readerNavBarWidth',
         'transitionPageMode',
         'setScrollbarXSize',
         'setScrollbarYSize',
