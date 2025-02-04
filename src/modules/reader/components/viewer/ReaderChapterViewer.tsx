@@ -46,6 +46,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { ReaderInfiniteScrollUpdateChapter } from '@/modules/reader/components/viewer/ReaderInfiniteScrollUpdateChapter.tsx';
+import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 const BaseReaderChapterViewer = ({
     currentPageIndex,
@@ -86,6 +87,9 @@ const BaseReaderChapterViewer = ({
     scrollbarXSize,
     scrollbarYSize,
     readerNavBarWidth,
+    onSizeChange,
+    minWidth,
+    minHeight,
 }: Pick<
     ReaderStatePages,
     | 'currentPageIndex'
@@ -120,6 +124,9 @@ const BaseReaderChapterViewer = ({
         imageRefs: MutableRefObject<(HTMLElement | null)[]>;
         scrollIntoView: boolean;
         resumeMode: ReaderResumeMode;
+        onSizeChange: (width: number, height: number) => void;
+        minWidth: number;
+        minHeight: number;
     }) => {
     const { t } = useTranslation();
     const { direction: themeDirection } = useTheme();
@@ -139,6 +146,7 @@ const BaseReaderChapterViewer = ({
         pageLoadStates.map(({ url }) => ({ url, isSpread: false })),
     );
 
+    const ref = useRef<HTMLDivElement>(null);
     const isCurrentChapterRef = useRef(isCurrentChapter);
     const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
 
@@ -219,6 +227,17 @@ const BaseReaderChapterViewer = ({
     useEffect(() => {
         doFetchPages();
     }, [chapterId]);
+
+    useResizeObserver(
+        ref,
+        useCallback(
+            (entries) => {
+                const { clientWidth, clientHeight } = entries[0].target;
+                onSizeChange(clientWidth, clientHeight);
+            },
+            [onSizeChange, ref.current],
+        ),
+    );
 
     const updatePageState = <T,>(
         value: T,
@@ -343,9 +362,16 @@ const BaseReaderChapterViewer = ({
 
     return (
         <Stack
+            ref={ref}
             sx={{
                 width: 'fit-content',
                 height: 'fit-content',
+                ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
+                    minHeight,
+                }),
+                ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                    minWidth,
+                }),
                 margin: 'auto',
                 flexWrap: 'nowrap',
                 ...applyStyles(shouldHideChapter, {

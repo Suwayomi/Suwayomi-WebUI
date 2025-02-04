@@ -10,11 +10,13 @@ import {
     ForwardedRef,
     forwardRef,
     memo,
+    useCallback,
     useEffect,
     useImperativeHandle,
     useLayoutEffect,
     useMemo,
     useRef,
+    useState,
 } from 'react';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
@@ -180,6 +182,10 @@ const BaseReaderViewer = forwardRef(
         const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);
 
         const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
+        const chapterViewerSize = useRef({ minChapterViewWidth: 0, minChapterViewHeight: 0 });
+        const { minChapterViewWidth, minChapterViewHeight } = chapterViewerSize.current;
+
+        const [, setTriggerReRender] = useState({});
 
         const inViewportType = READING_MODE_TO_IN_VIEWPORT_TYPE[readingMode];
         const isLtrReadingDirection = readingDirection === ReadingDirection.LTR;
@@ -198,6 +204,25 @@ const BaseReaderViewer = forwardRef(
         const currentChapterIndex = useMemo(
             () => chaptersToRender.findIndex((chapter) => chapter.id === currentChapter?.id),
             [currentChapter, chaptersToRender],
+        );
+
+        const onChapterViewSizeChange = useCallback(
+            (width: number, height: number) => {
+                if (!isContinuousReadingModeActive) {
+                    return;
+                }
+
+                if (isContinuousVerticalReadingModeActive && minChapterViewWidth < width) {
+                    chapterViewerSize.current.minChapterViewWidth = width;
+                    setTriggerReRender({});
+                }
+
+                if (minChapterViewHeight < height) {
+                    chapterViewerSize.current.minChapterViewHeight = height;
+                    setTriggerReRender({});
+                }
+            },
+            [isContinuousReadingModeActive, isContinuousVerticalReadingModeActive],
         );
 
         useReaderHandlePageSelection(
@@ -342,6 +367,9 @@ const BaseReaderViewer = forwardRef(
                             scrollbarXSize={scrollbarXSize}
                             scrollbarYSize={scrollbarYSize}
                             readerNavBarWidth={readerNavBarWidth}
+                            onSizeChange={onChapterViewSizeChange}
+                            minWidth={minChapterViewWidth}
+                            minHeight={minChapterViewHeight}
                         />
                     );
                 })}
