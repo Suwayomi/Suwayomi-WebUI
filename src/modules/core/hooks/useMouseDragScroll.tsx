@@ -150,7 +150,10 @@ export const useMouseDragScroll = (
                 return true;
             }
 
-            const hasScrollBar = [element.clientWidth >= window.innerWidth, element.clientHeight >= window.innerHeight];
+            const hasScrollBar = [
+                element.clientHeight < element.scrollHeight,
+                element.clientWidth < element.scrollWidth,
+            ];
             const didPosChange = [
                 Math.abs(previousClickPosX.current[LATEST] - e.pageX) > 0,
                 Math.abs(previousClickPosY.current[LATEST] - e.pageY) > 0,
