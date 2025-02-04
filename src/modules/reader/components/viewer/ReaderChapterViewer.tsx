@@ -344,10 +344,8 @@ const BaseReaderChapterViewer = ({
     return (
         <Stack
             sx={{
-                width: '100%',
-                minWidth: 'fit-content',
-                height: '100%',
-                minHeight: 'fit-content',
+                width: 'fit-content',
+                height: 'fit-content',
                 margin: 'auto',
                 flexWrap: 'nowrap',
                 ...applyStyles(shouldHideChapter, {
