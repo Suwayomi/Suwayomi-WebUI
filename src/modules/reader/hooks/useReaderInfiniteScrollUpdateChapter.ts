@@ -16,32 +16,67 @@ import {
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 
+interface ScrollingDirection {
+    backward: boolean;
+    forward: boolean;
+}
+interface ScrollingDirectionInfo {
+    [ReadingMode.CONTINUOUS_VERTICAL]: ScrollingDirection;
+    [ReadingMode.CONTINUOUS_HORIZONTAL]: ScrollingDirection;
+}
+
 const OPEN_CHAPTER_INTERSECTION_RATIO = 0.1;
 
-const getScrollingDirection = (
-    readingMode: ReadingMode,
+const getScrollingDirectionInfo = (
     readingDirection: ReadingDirection,
-    { bottom, left, right }: DOMRect,
-): 'backward' | 'forward' => {
-    if (isContinuousVerticalReadingMode(readingMode)) {
-        const isScrollingBackward = bottom >= window.innerHeight;
-        if (isScrollingBackward) {
-            return 'backward';
-        }
-
-        return 'forward';
-    }
-
+    { top, right, bottom, left }: DOMRect,
+): ScrollingDirectionInfo => {
     const themeDirectionOfReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
-    const endOfElement = getOptionForDirection(right, left, themeDirectionOfReadingDirection);
 
-    const isScrollingBackward =
-        endOfElement >= getOptionForDirection(window.innerWidth, 0, themeDirectionOfReadingDirection);
-    if (isScrollingBackward) {
-        return 'backward';
+    const startOfViewportHorizontal = getOptionForDirection(0, window.innerWidth, themeDirectionOfReadingDirection);
+    const endOfViewportHorizontal = getOptionForDirection(window.innerWidth, 0, themeDirectionOfReadingDirection);
+
+    const startOfElementHorizontal = getOptionForDirection(left, right, themeDirectionOfReadingDirection);
+    const endOfElementHorizontal = getOptionForDirection(right, left, themeDirectionOfReadingDirection);
+
+    return {
+        [ReadingMode.CONTINUOUS_VERTICAL]: {
+            backward: bottom >= window.innerHeight,
+            forward: top < 0,
+        },
+        [ReadingMode.CONTINUOUS_HORIZONTAL]: {
+            backward: endOfElementHorizontal >= endOfViewportHorizontal,
+            forward: startOfElementHorizontal < startOfViewportHorizontal,
+        },
+    };
+};
+
+const shouldHandleIntersectionEvent = (
+    {
+        [ReadingMode.CONTINUOUS_VERTICAL]: verticalInfo,
+        [ReadingMode.CONTINUOUS_HORIZONTAL]: horizontalInfo,
+    }: ScrollingDirectionInfo,
+    readingMode: ReadingMode,
+): boolean => {
+    if (isContinuousVerticalReadingMode(readingMode)) {
+        return verticalInfo.backward || verticalInfo.forward;
     }
 
-    return 'forward';
+    return horizontalInfo.backward || horizontalInfo.forward;
+};
+
+const getScrollDirection = (
+    {
+        [ReadingMode.CONTINUOUS_VERTICAL]: verticalInfo,
+        [ReadingMode.CONTINUOUS_HORIZONTAL]: horizontalInfo,
+    }: ScrollingDirectionInfo,
+    readingMode: ReadingMode,
+): ScrollingDirection => {
+    if (isContinuousVerticalReadingMode(readingMode)) {
+        return verticalInfo;
+    }
+
+    return horizontalInfo;
 };
 
 export const useReaderInfiniteScrollUpdateChapter = (
@@ -76,11 +111,19 @@ export const useReaderInfiniteScrollUpdateChapter = (
 
                 const entry = entries[entries.length - 1];
 
+                const scrollingDirectionInfo = getScrollingDirectionInfo(
+                    readingDirection,
+                    entry.target.getBoundingClientRect(),
+                );
+                const { backward: isScrollingBackward, forward: isScrollingForward } = getScrollDirection(
+                    scrollingDirectionInfo,
+                    readingMode,
+                );
                 const wasPageScrolledOutOfView = entry.intersectionRatio < OPEN_CHAPTER_INTERSECTION_RATIO;
-                const isScrollingBackward =
-                    getScrollingDirection(readingMode, readingDirection, entry.target.getBoundingClientRect()) ===
-                    'backward';
-                const isScrollingForward = !isScrollingBackward;
+
+                if (!shouldHandleIntersectionEvent(scrollingDirectionInfo, readingMode)) {
+                    return;
+                }
 
                 // the first page only opens the previous chapter in case it hasn't been loaded yet, otherwise, the last
                 // page handles setting the correct chapter
