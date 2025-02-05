@@ -7,19 +7,16 @@
  */
 
 import { useTheme } from '@mui/material/styles';
-import { memo } from 'react';
+import { forwardRef, memo } from 'react';
 import { BasePager } from '@/modules/reader/components/viewer/pager/BasePager.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { IReaderSettings, ReaderPagerProps, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 
-const BaseReaderHorizontalPager = ({
-    onLoad,
-    onError,
-    pageLoadStates,
-    retryFailedPagesKeyPrefix,
-    ...props
-}: ReaderPagerProps & Pick<IReaderSettings, 'pageGap' | 'readingDirection'>) => {
+const BaseReaderHorizontalPager = forwardRef<
+    HTMLDivElement,
+    ReaderPagerProps & Pick<IReaderSettings, 'pageGap' | 'readingDirection'>
+>(({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, ...props }, ref) => {
     const { currentPageIndex, totalPages, pageGap, readingDirection } = props;
 
     const { direction: themeDirection } = useTheme();
@@ -28,6 +25,7 @@ const BaseReaderHorizontalPager = ({
 
     return (
         <BasePager
+            ref={ref}
             {...props}
             createPage={(page, pagesIndex, shouldLoad, _, setRef, ...baseProps) =>
                 createReaderPage(
@@ -70,6 +68,6 @@ const BaseReaderHorizontalPager = ({
             }}
         />
     );
-};
+});
 
 export const ReaderHorizontalPager = memo(BaseReaderHorizontalPager);

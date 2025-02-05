@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { memo, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
+import { forwardRef, memo, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import { getPageIndexesToLoad, isATransitionPageVisible } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
@@ -14,112 +14,130 @@ import { IReaderSettings, ReaderPagerProps, ReaderTransitionPageMode } from '@/m
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
-const BaseBasePager = ({
-    currentPageIndex,
-    pages,
-    transitionPageMode,
-    imageRefs,
-    createPage,
-    slots,
-    readingMode,
-    imagePreLoadAmount,
-    isCurrentChapter,
-    isPreviousChapter,
-    isNextChapter,
-    customFilter,
-    pageScaleMode,
-    shouldStretchPage,
-    readerWidth,
-    scrollbarXSize,
-    scrollbarYSize,
-    readerNavBarWidth,
-}: Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix'> &
-    Pick<IReaderSettings, 'readingMode' | 'imagePreLoadAmount'> & {
-        createPage: (
-            page: ReaderStatePages['pages'][number],
-            pagesIndex: number,
-            shouldLoad: boolean,
-            shouldDisplay: boolean,
-            setRef: (pagesIndex: number, element: HTMLElement | null) => void,
-            readingMode: ReaderPagerProps['readingMode'],
-            customFilter: ReaderPagerProps['customFilter'],
-            pageScaleMode: ReaderPagerProps['pageScaleMode'],
-            shouldStretchPage: ReaderPagerProps['shouldStretchPage'],
-            readerWidth: ReaderPagerProps['readerWidth'],
-            scrollbarXSize: ReaderPagerProps['scrollbarXSize'],
-            scrollbarYSize: ReaderPagerProps['scrollbarYSize'],
-            readerNavBarWidth: ReaderPagerProps['readerNavBarWidth'],
-        ) => ReactNode;
-        slots?: { boxProps?: BoxProps };
-    }) => {
-    const previousCurrentPageIndex = useRef(-1);
-    const pagesIndexesToRender = useMemo(
-        () =>
-            getPageIndexesToLoad(
+const BaseBasePager = forwardRef<
+    HTMLDivElement,
+    Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix'> &
+        Pick<IReaderSettings, 'readingMode' | 'imagePreLoadAmount'> & {
+            createPage: (
+                page: ReaderStatePages['pages'][number],
+                pagesIndex: number,
+                shouldLoad: boolean,
+                shouldDisplay: boolean,
+                setRef: (pagesIndex: number, element: HTMLElement | null) => void,
+                readingMode: ReaderPagerProps['readingMode'],
+                customFilter: ReaderPagerProps['customFilter'],
+                pageScaleMode: ReaderPagerProps['pageScaleMode'],
+                shouldStretchPage: ReaderPagerProps['shouldStretchPage'],
+                readerWidth: ReaderPagerProps['readerWidth'],
+                scrollbarXSize: ReaderPagerProps['scrollbarXSize'],
+                scrollbarYSize: ReaderPagerProps['scrollbarYSize'],
+                readerNavBarWidth: ReaderPagerProps['readerNavBarWidth'],
+            ) => ReactNode;
+            slots?: { boxProps?: BoxProps };
+        }
+>(
+    (
+        {
+            currentPageIndex,
+            pages,
+            transitionPageMode,
+            imageRefs,
+            createPage,
+            slots,
+            readingMode,
+            imagePreLoadAmount,
+            isCurrentChapter,
+            isPreviousChapter,
+            isNextChapter,
+            customFilter,
+            pageScaleMode,
+            shouldStretchPage,
+            readerWidth,
+            scrollbarXSize,
+            scrollbarYSize,
+            readerNavBarWidth,
+        },
+        ref,
+    ) => {
+        const previousCurrentPageIndex = useRef(-1);
+        const pagesIndexesToRender = useMemo(
+            () =>
+                getPageIndexesToLoad(
+                    currentPageIndex,
+                    pages,
+                    previousCurrentPageIndex.current,
+                    imagePreLoadAmount,
+                    readingMode,
+                    isCurrentChapter,
+                    isPreviousChapter,
+                    isNextChapter,
+                ),
+            [
                 currentPageIndex,
                 pages,
-                previousCurrentPageIndex.current,
                 imagePreLoadAmount,
                 readingMode,
                 isCurrentChapter,
                 isPreviousChapter,
                 isNextChapter,
-            ),
-        [currentPageIndex, pages, imagePreLoadAmount, readingMode, isCurrentChapter, isPreviousChapter, isNextChapter],
-    );
-    useEffect(() => {
-        previousCurrentPageIndex.current = currentPageIndex;
-    }, [pagesIndexesToRender]);
+            ],
+        );
+        useEffect(() => {
+            previousCurrentPageIndex.current = currentPageIndex;
+        }, [pagesIndexesToRender]);
 
-    const setRef = useCallback(
-        (pagesIndex: number, element: HTMLElement | null) => {
-            // eslint-disable-next-line no-param-reassign
-            imageRefs.current[pagesIndex] = element;
-        },
-        [imageRefs],
-    );
+        const setRef = useCallback(
+            (pagesIndex: number, element: HTMLElement | null) => {
+                // eslint-disable-next-line no-param-reassign
+                imageRefs.current[pagesIndex] = element;
+            },
+            [imageRefs],
+        );
 
-    return (
-        <Box
-            {...slots?.boxProps}
-            sx={[
-                {
-                    width: 'fit-content',
-                    height: 'fit-content',
-                },
-                ...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx]),
-                // hide pager, without actually unmounting it to prevent re-renders, while a chapter transition page is taking up the full screen
-                applyStyles(
-                    !isContinuousReadingMode(readingMode) && isATransitionPageVisible(transitionPageMode, readingMode),
+        return (
+            <Box
+                ref={ref}
+                {...slots?.boxProps}
+                sx={[
                     {
-                        visibility: 'hidden',
-                        width: 0,
-                        height: 0,
-                        m: 0,
-                        p: 0,
+                        width: 'fit-content',
+                        height: 'fit-content',
                     },
-                ),
-            ]}
-        >
-            {pages.map((page, pagesIndex) =>
-                createPage(
-                    page,
-                    pagesIndex,
-                    pagesIndexesToRender.includes(pagesIndex),
-                    [ReaderTransitionPageMode.NONE, ReaderTransitionPageMode.BOTH].includes(transitionPageMode),
-                    setRef,
-                    readingMode,
-                    customFilter,
-                    pageScaleMode,
-                    shouldStretchPage,
-                    readerWidth,
-                    scrollbarXSize,
-                    scrollbarYSize,
-                    readerNavBarWidth,
-                ),
-            )}
-        </Box>
-    );
-};
+                    ...(Array.isArray(slots?.boxProps?.sx) ? (slots?.boxProps?.sx ?? []) : [slots?.boxProps?.sx]),
+                    // hide pager, without actually unmounting it to prevent re-renders, while a chapter transition page is taking up the full screen
+                    applyStyles(
+                        !isContinuousReadingMode(readingMode) &&
+                            isATransitionPageVisible(transitionPageMode, readingMode),
+                        {
+                            visibility: 'hidden',
+                            width: 0,
+                            height: 0,
+                            m: 0,
+                            p: 0,
+                        },
+                    ),
+                ]}
+            >
+                {pages.map((page, pagesIndex) =>
+                    createPage(
+                        page,
+                        pagesIndex,
+                        pagesIndexesToRender.includes(pagesIndex),
+                        [ReaderTransitionPageMode.NONE, ReaderTransitionPageMode.BOTH].includes(transitionPageMode),
+                        setRef,
+                        readingMode,
+                        customFilter,
+                        pageScaleMode,
+                        shouldStretchPage,
+                        readerWidth,
+                        scrollbarXSize,
+                        scrollbarYSize,
+                        readerNavBarWidth,
+                    ),
+                )}
+            </Box>
+        );
+    },
+);
 
 export const BasePager = memo(BaseBasePager);

@@ -195,15 +195,10 @@ export const useReaderInfiniteScrollUpdateChapter = (
 
         // gets immediately observed once on initial render
         let isInitialObserve = true;
-        let wasNextChapterOpened = false;
         const intersectionObserver = new IntersectionObserver(
             (entries) => {
                 if (isInitialObserve) {
                     isInitialObserve = false;
-                    return;
-                }
-
-                if (wasNextChapterOpened) {
                     return;
                 }
 
@@ -233,16 +228,17 @@ export const useReaderInfiniteScrollUpdateChapter = (
                 const openChapterToOpen = initialOpenPreviousChapter || openNextChapter;
                 if (openChapterToOpen) {
                     openChapter(chapterToOpenId, !isChapterToOpenVisible, false);
-                    wasNextChapterOpened = true;
                     return;
                 }
 
                 if (openPreviousChapter) {
                     openChapter(chapterId, false, false);
-                    wasNextChapterOpened = true;
                 }
             },
-            { threshold: [OPEN_CHAPTER_INTERSECTION_RATIO], rootMargin: '-10px 0px 0px 0px' },
+            {
+                threshold: [OPEN_CHAPTER_INTERSECTION_RATIO],
+                rootMargin: pageType === 'first' ? '0px 0px -10px 0px' : '-10px 0px 0px 0px',
+            },
         );
         intersectionObserver.observe(image);
 

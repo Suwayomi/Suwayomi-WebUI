@@ -149,6 +149,7 @@ const BaseReaderChapterViewer = ({
     const ref = useRef<HTMLDivElement>(null);
     const isCurrentChapterRef = useRef(isCurrentChapter);
     const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
+    const pagerRef = useRef<HTMLDivElement>(null);
 
     const actualPages = useMemo(() => {
         const arePagesLoaded = !!totalPages;
@@ -404,14 +405,14 @@ const BaseReaderChapterViewer = ({
                 isCurrentChapter={isCurrentChapter}
                 isPreviousChapterVisible={isPreviousChapterVisible}
                 isNextChapterVisible={isNextChapterVisible}
-                firstImage={imageRefs.current[0]}
-                lastImage={imageRefs.current[imageRefs.current.length - 1]}
+                imageWrapper={pagerRef.current}
             />
             {((!isContinuousReadingModeActive && isCurrentChapter) ||
                 (isContinuousReadingModeActive && (isInitialChapter || isLeadingChapter))) && (
                 <ReaderTransitionPage chapterId={chapterId} type={ReaderTransitionPageMode.PREVIOUS} />
             )}
             <Pager
+                ref={pagerRef}
                 totalPages={totalPages}
                 currentPageIndex={currentPageIndex}
                 pages={actualPages}

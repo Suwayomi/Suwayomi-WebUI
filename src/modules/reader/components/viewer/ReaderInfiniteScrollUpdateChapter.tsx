@@ -22,8 +22,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     isPreviousChapterVisible,
     isCurrentChapter,
     isNextChapterVisible,
-    firstImage,
-    lastImage,
+    imageWrapper,
     openChapter,
 }: {
     readingMode: ReadingMode;
@@ -34,8 +33,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     isPreviousChapterVisible: boolean;
     isCurrentChapter: boolean;
     isNextChapterVisible: boolean;
-    firstImage: HTMLElement | null;
-    lastImage: HTMLElement | null;
+    imageWrapper: HTMLElement | null;
     openChapter: ReturnType<typeof ReaderControls.useOpenChapter>;
 }) => {
     useReaderInfiniteScrollUpdateChapter(
@@ -47,7 +45,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         readingMode,
         readingDirection,
         openChapter,
-        firstImage,
+        imageWrapper,
     );
     useReaderInfiniteScrollUpdateChapter(
         'last',
@@ -58,7 +56,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         readingMode,
         readingDirection,
         openChapter,
-        lastImage,
+        imageWrapper,
     );
 
     return null;
