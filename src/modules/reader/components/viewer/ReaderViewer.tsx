@@ -255,6 +255,11 @@ const BaseReaderViewer = forwardRef(
         );
         useReaderAutoScroll(isOverlayVisible, automaticScrolling);
 
+        useLayoutEffect(() => {
+            chapterViewerSize.current = { minChapterViewWidth: 0, minChapterViewHeight: 0 };
+            setTriggerReRender({});
+        }, [readingMode]);
+
         if (!initialChapter || !currentChapter) {
             throw new Error('ReaderViewer: illegal state - initialChapter and currentChapter should not be undefined');
         }
