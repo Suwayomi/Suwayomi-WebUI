@@ -25,7 +25,7 @@ interface ElementIntersectionInfo {
     [ReadingMode.CONTINUOUS_HORIZONTAL]: ElementIntersection;
 }
 
-const OPEN_CHAPTER_INTERSECTION_RATIO = 0.1;
+const OPEN_CHAPTER_INTERSECTION_RATIO = 0;
 
 /**
  * Returns info about if the start or end of an element is intersecting.
@@ -217,7 +217,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
                     elementIntersectionInfo,
                     readingMode,
                 );
-                const wasPageScrolledOutOfView = entry.intersectionRatio < OPEN_CHAPTER_INTERSECTION_RATIO;
+                const wasPageScrolledOutOfView = entry.intersectionRatio <= OPEN_CHAPTER_INTERSECTION_RATIO;
 
                 if (!shouldHandleIntersectionEvent(elementIntersectionInfo, readingMode)) {
                     return;
@@ -242,7 +242,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
                     wasNextChapterOpened = true;
                 }
             },
-            { threshold: [OPEN_CHAPTER_INTERSECTION_RATIO] },
+            { threshold: [OPEN_CHAPTER_INTERSECTION_RATIO], rootMargin: '-10px 0px 0px 0px' },
         );
         intersectionObserver.observe(image);
 
