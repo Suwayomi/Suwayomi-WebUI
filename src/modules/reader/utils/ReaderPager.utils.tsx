@@ -579,7 +579,8 @@ export const getPageIndexesToLoad = (
     // do not load previous pages for continuous pagers to prevent layout shifts due to leading pages getting loaded
     const startPagesIndex = !isContinuousReadingMode(readingMode) ? startPagesIndexTrailingIncluded : currentPageIndex;
     const endPagesIndex = currentPagesIndex + finalImagePreLoadAmount * directionInvert;
-    const pagesToRenderLength = Math.max(1, Math.abs(endPagesIndex - startPagesIndex));
+    // add 1 for the current page in case it's the current chapter, otherwise, only the preload amount should get rendered
+    const pagesToRenderLength = Math.max(1, Math.abs(endPagesIndex - startPagesIndex) + Number(isCurrentChapter));
 
     return Array(pagesToRenderLength)
         .fill(1)
