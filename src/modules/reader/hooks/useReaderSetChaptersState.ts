@@ -46,6 +46,17 @@ export const useReaderSetChaptersState = (
                 skipDupe: shouldSkipDupChapters,
                 skipDupeChapter: newChapterForDuplicatesHandling,
             });
+        const newChapters = (() => {
+            if (!newMangaChapters || !newChapterForDuplicatesHandling) {
+                return [];
+            }
+
+            if (shouldSkipDupChapters) {
+                return Chapters.removeDuplicates(newChapterForDuplicatesHandling, newMangaChapters);
+            }
+
+            return newMangaChapters;
+        })();
 
         const hasInitialChapterChanged = newInitialChapter != null && newInitialChapter.id !== initialChapter?.id;
 
@@ -54,10 +65,7 @@ export const useReaderSetChaptersState = (
             return {
                 ...prevState,
                 mangaChapters: newMangaChapters ?? [],
-                chapters:
-                    newChapterForDuplicatesHandling && newMangaChapters
-                        ? Chapters.removeDuplicates(newChapterForDuplicatesHandling, newMangaChapters)
-                        : [],
+                chapters: newChapters,
                 initialChapter: newInitialChapter,
                 chapterForDuplicatesHandling: newChapterForDuplicatesHandling,
                 currentChapter: newCurrentChapter,

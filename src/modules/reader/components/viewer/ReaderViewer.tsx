@@ -191,7 +191,7 @@ const BaseReaderViewer = forwardRef(
         const isLtrReadingDirection = readingDirection === ReadingDirection.LTR;
         const initialChapterIndex = useMemo(
             () => chapters.findIndex((chapter) => chapter.id === initialChapter?.id),
-            [initialChapter?.id],
+            [chapters, initialChapter?.id],
         );
         const chaptersToRender = useMemo(
             () =>
@@ -199,7 +199,7 @@ const BaseReaderViewer = forwardRef(
                     Math.max(0, initialChapterIndex - visibleChapters.trailing),
                     Math.min(chapters.length, initialChapterIndex + visibleChapters.leading + 1),
                 ),
-            [chapters, initialChapterIndex, visibleChapters.trailing, visibleChapters.leading, chapters.length],
+            [chapters, initialChapterIndex, visibleChapters.trailing, visibleChapters.leading],
         );
         const currentChapterIndex = useMemo(
             () => chaptersToRender.findIndex((chapter) => chapter.id === currentChapter?.id),
