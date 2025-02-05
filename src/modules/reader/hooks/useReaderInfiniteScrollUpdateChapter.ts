@@ -27,6 +27,11 @@ interface ElementIntersectionInfo {
 
 const OPEN_CHAPTER_INTERSECTION_RATIO = 0.1;
 
+/**
+ * Returns info about if the start or end of an element is intersecting.
+ *
+ * The info is mapped to the ReadingMode since depending on the selected mode, the start and end of the element changes
+ */
 const getElementIntersectionInfo = (
     readingDirection: ReadingDirection,
     { top, right, bottom, left }: DOMRect,
@@ -79,6 +84,99 @@ const getElementIntersection = (
     return horizontalInfo;
 };
 
+/**
+ * Will change the chapter to the previous or next one depending on the intersection of the first or last page.
+ *
+ * For the initial load of the previous chapter, the intersection of the first page is used, after the initial load
+ * of the previous chapter the intersection of the last page handles changing the chapter
+ *
+ * @example
+ * How it works:
+ *  |, _ = viewport
+ *  #    = page
+ *
+ * initial open previous chapter (start of first page intersecting, chapter of page is current chapter, previous chapter not yet loaded):
+ *
+ *  vertical pager:
+ *        |----------------|
+ *        |                |          ↑
+ *        |                |          ↑ Scroll direction: backward
+ *        |    #######     |          ↑
+ *        |----#######-----|
+ *             #######
+ *             #######
+ *
+ *  horizontal pager (ltr):
+ *        |----------------|
+ *        |               ########    ←
+ *        |               ########    ← Scroll direction: backward
+ *        |               ########    ←
+ *        |----------------|
+ *
+ * horizontal pager (rtl):
+ *        |----------------|
+ *  ########               |          →
+ *  ########               |          → Scroll direction: backward
+ *  ########               |          →
+ *        |----------------|
+ *
+ *
+ *
+ *
+ * open previous chapter (chapter of intersecting page) (end of last page intersecting):
+ *
+ *  vertical pager:
+ *             #######
+ *             #######
+ *        |----#######-----|
+ *        |    #######     |          ↑
+ *        |                |          ↑ Scroll direction: backward
+ *        |                |          ↑
+ *        |________________|
+ *
+ *  horizontal pager (ltr):
+ *        |----------------|
+ *  ########               |          ←
+ *  ########               |          ← Scroll direction: backward
+ *  ########               |          ←
+ *        |----------------|
+ *
+ *  horizontal pager (rtl):
+ *        |----------------|
+ *        |               ########    →
+ *        |               ########    → Scroll direction: backward
+ *        |               ########    →
+ *        |----------------|
+ *
+ *
+ *
+ *
+ * open next chapter (end of last page intersecting):
+ *
+ *  vertical pager:
+ *             #######
+ *             #######
+ *        |----#######-----|
+ *        |    #######     |          ↓
+ *        |                |          ↓ Scroll direction: forward
+ *        |                |          ↓
+ *        |________________|
+ *
+ *  horizontal pager (ltr):
+ *        |----------------|
+ *  ########               |          →
+ *  ########               |          → Scroll direction: forward
+ *  ########               |          →
+ *        |----------------|
+ *
+ *  horizontal pager (rtl):
+ *        |----------------|
+ *        |               ########    ←
+ *        |               ########    ← Scroll direction: forward
+ *        |               ########    ←
+ *        |----------------|
+ *
+ */
 export const useReaderInfiniteScrollUpdateChapter = (
     pageType: 'first' | 'last',
     chapterId: number,
