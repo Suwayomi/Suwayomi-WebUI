@@ -7,6 +7,8 @@
  */
 
 import { useEffect, useMemo } from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
+import { deepmerge } from '@mui/utils';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     requestUpdateMangaMetadata,
@@ -109,9 +111,11 @@ const convertMetadataToSettings = (
     tapZoneInvertMode:
         jsonSaveParse<IReaderSettings['tapZoneInvertMode']>((metadata.tapZoneInvertMode as string) ?? '') ??
         defaultSettings.tapZoneInvertMode,
-    customFilter:
-        jsonSaveParse<IReaderSettings['customFilter']>((metadata.customFilter as string) ?? '') ??
+    customFilter: deepmerge(
         defaultSettings.customFilter,
+        jsonSaveParse<IReaderSettings['customFilter']>((metadata.customFilter as string) ?? '') ??
+            defaultSettings.customFilter,
+    ),
     readerWidth:
         jsonSaveParse<IReaderSettings['readerWidth']>((metadata.readerWidth as string) ?? '') ??
         defaultSettings.readerWidth,

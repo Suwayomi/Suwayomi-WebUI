@@ -17,7 +17,7 @@ const BaseReaderRGBAFilter = ({
     readerNavBarWidth,
     customFilter: {
         rgba: {
-            value: { red, green, blue, alpha },
+            value: { red, green, blue, alpha, blendMode },
             enabled,
         },
     },
@@ -36,6 +36,7 @@ const BaseReaderRGBAFilter = ({
                 bottom: 0,
                 pointerEvents: 'none',
                 background: `rgba(${red} ${green} ${blue} / ${alpha}%)`,
+                mixBlendMode: `${blendMode}`,
             }}
         />
     );

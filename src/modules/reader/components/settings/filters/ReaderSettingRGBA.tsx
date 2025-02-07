@@ -13,9 +13,14 @@ import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.ts
 import { TranslationKey } from '@/Base.types.ts';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
 
-import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import {
+    DEFAULT_READER_SETTINGS,
+    READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA,
+    READER_BLEND_MODE_VALUES,
+} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { ButtonSelectInput } from '@/modules/core/components/inputs/ButtonSelectInput.tsx';
 
-type RGBAType = keyof IReaderSettings['customFilter']['rgba']['value'];
+type RGBAType = Exclude<keyof IReaderSettings['customFilter']['rgba']['value'], 'blendMode'>;
 
 const RGBA_TYPE_TO_TRANSLATION_KEY: Record<RGBAType, TranslationKey> = {
     red: 'reader.settings.custom_filter.rgba.red',
@@ -52,49 +57,71 @@ export const ReaderSettingRGBA = ({
             />
             {rgba.enabled && (
                 <Stack sx={{ gap: 1 }}>
-                    {Object.entries(rgba.value).map(([key, value]) => (
-                        <SliderInput
-                            key={key}
-                            label={t(RGBA_TYPE_TO_TRANSLATION_KEY[key as RGBAType])}
-                            value={value}
-                            onDefault={() =>
-                                updateSetting(
-                                    'rgba',
-                                    {
-                                        ...rgba,
-                                        value: {
-                                            ...rgba.value,
-                                            [key]: DEFAULT_READER_SETTINGS.customFilter.rgba.value[key as RGBAType],
+                    {Object.entries(rgba.value).map(([key, value]) => {
+                        if (key === 'blendMode') {
+                            return null;
+                        }
+
+                        return (
+                            <SliderInput
+                                key={key}
+                                label={t(RGBA_TYPE_TO_TRANSLATION_KEY[key as RGBAType])}
+                                value={value}
+                                onDefault={() =>
+                                    updateSetting(
+                                        'rgba',
+                                        {
+                                            ...rgba,
+                                            value: {
+                                                ...rgba.value,
+                                                [key]: DEFAULT_READER_SETTINGS.customFilter.rgba.value[key as RGBAType],
+                                            },
+                                        },
+                                        true,
+                                    )
+                                }
+                                slotProps={{
+                                    slider: {
+                                        value,
+                                        defaultValue: DEFAULT_READER_SETTINGS.customFilter.rgba.value[key as RGBAType],
+                                        step: 1,
+                                        min: 0,
+                                        max: RGBA_TYPE_TO_MAX_VALUE[key as RGBAType],
+                                        onChange: (_, newValue) => {
+                                            updateSetting(
+                                                'rgba',
+                                                { ...rgba, value: { ...rgba.value, [key]: newValue } },
+                                                false,
+                                            );
+                                        },
+                                        onChangeCommitted: (_, newValue) => {
+                                            updateSetting(
+                                                'rgba',
+                                                { ...rgba, value: { ...rgba.value, [key]: newValue } },
+                                                true,
+                                            );
                                         },
                                     },
-                                    true,
-                                )
-                            }
-                            slotProps={{
-                                slider: {
-                                    value,
-                                    defaultValue: DEFAULT_READER_SETTINGS.customFilter.rgba.value[key as RGBAType],
-                                    step: 1,
-                                    min: 0,
-                                    max: RGBA_TYPE_TO_MAX_VALUE[key as RGBAType],
-                                    onChange: (_, newValue) => {
-                                        updateSetting(
-                                            'rgba',
-                                            { ...rgba, value: { ...rgba.value, [key]: newValue } },
-                                            false,
-                                        );
-                                    },
-                                    onChangeCommitted: (_, newValue) => {
-                                        updateSetting(
-                                            'rgba',
-                                            { ...rgba, value: { ...rgba.value, [key]: newValue } },
-                                            true,
-                                        );
-                                    },
+                                }}
+                            />
+                        );
+                    })}
+                    <ButtonSelectInput
+                        label={t('reader.settings.custom_filter.rgba.blend_mode.title')}
+                        value={rgba.value.blendMode}
+                        values={READER_BLEND_MODE_VALUES}
+                        setValue={(value) =>
+                            updateSetting(
+                                'rgba',
+                                {
+                                    ...rgba,
+                                    value: { ...rgba.value, blendMode: value },
                                 },
-                            }}
-                        />
-                    ))}
+                                true,
+                            )
+                        }
+                        valueToDisplayData={READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA}
+                    />
                 </Stack>
             )}
         </Stack>

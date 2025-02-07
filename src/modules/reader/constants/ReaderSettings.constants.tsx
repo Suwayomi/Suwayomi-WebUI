@@ -20,6 +20,7 @@ import {
     ProgressBarPosition,
     ProgressBarType,
     ReaderBackgroundColor,
+    ReaderBlendMode,
     ReaderExitMode,
     ReaderHotkey,
     ReaderOverlayMode,
@@ -108,6 +109,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
                 green: 0,
                 blue: 0,
                 alpha: 0,
+                blendMode: ReaderBlendMode.DEFAULT,
             },
             enabled: false,
         },
@@ -300,3 +302,32 @@ export const AUTO_SCROLL_SPEED = {
     max: 60,
     step: 0.5,
 };
+
+export const READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA = {
+    [ReaderBlendMode.DEFAULT]: {
+        title: 'reader.settings.custom_filter.rgba.blend_mode.default',
+        icon: null,
+    },
+    [ReaderBlendMode.MULTIPLY]: {
+        title: 'reader.settings.custom_filter.rgba.blend_mode.multiply',
+        icon: null,
+    },
+    [ReaderBlendMode.SCREEN]: {
+        title: 'reader.settings.custom_filter.rgba.blend_mode.screen',
+        icon: null,
+    },
+    [ReaderBlendMode.OVERLAY]: {
+        title: 'reader.settings.custom_filter.rgba.blend_mode.overlay',
+        icon: null,
+    },
+    [ReaderBlendMode.DARKEN]: {
+        title: 'reader.settings.custom_filter.rgba.blend_mode.darken',
+        icon: null,
+    },
+    [ReaderBlendMode.LIGHTEN]: {
+        title: 'reader.settings.custom_filter.rgba.blend_mode.lighten',
+        icon: null,
+    },
+} satisfies ValueToDisplayData<ReaderBlendMode>;
+
+export const READER_BLEND_MODE_VALUES = Object.values(ReaderBlendMode);

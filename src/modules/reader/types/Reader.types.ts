@@ -79,6 +79,16 @@ export interface ReaderFilterRGBA {
     green: number;
     blue: number;
     alpha: number;
+    blendMode: ReaderBlendMode;
+}
+
+export enum ReaderBlendMode {
+    DEFAULT = 'normal',
+    MULTIPLY = 'multiply',
+    SCREEN = 'screen',
+    OVERLAY = 'overlay',
+    DARKEN = 'darken',
+    LIGHTEN = 'lighten',
 }
 
 export interface ReaderCustomFilter {

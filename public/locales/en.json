@@ -869,6 +869,15 @@
         "invert": "Invert",
         "rgba": {
           "alpha": "Alpha",
+          "blend_mode": {
+            "darken": "Darken",
+            "default": "$t(global.label.default)",
+            "lighten": "Lighten",
+            "multiply": "Multiply",
+            "overlay": "Overlay",
+            "screen": "Screen",
+            "title": "Color filter blend mode"
+          },
           "blue": "Blue",
           "green": "Green",
           "red": "Red",
