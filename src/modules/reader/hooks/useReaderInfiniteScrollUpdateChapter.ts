@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useLayoutEffect } from 'react';
+import { useCallback, useMemo } from 'react';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import {
@@ -15,6 +15,7 @@ import {
 } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
+import { useIntersectionObserver } from '@/modules/core/hooks/useIntersectionObserver.tsx';
 
 interface ElementIntersection {
     start: boolean;
@@ -188,17 +189,11 @@ export const useReaderInfiniteScrollUpdateChapter = (
     openChapter: ReturnType<typeof ReaderControls.useOpenChapter>,
     image: HTMLElement | null,
 ) => {
-    useLayoutEffect(() => {
-        if (!image || !isContinuousReadingMode(readingMode) || chapterToOpenId === undefined) {
-            return () => {};
-        }
-
-        // gets immediately observed once on initial render
-        let isInitialObserve = true;
-        const intersectionObserver = new IntersectionObserver(
+    useIntersectionObserver(
+        image,
+        useCallback(
             (entries) => {
-                if (isInitialObserve) {
-                    isInitialObserve = false;
+                if (!isContinuousReadingMode(readingMode) || chapterToOpenId === undefined) {
                     return;
                 }
 
@@ -235,23 +230,25 @@ export const useReaderInfiniteScrollUpdateChapter = (
                     openChapter(chapterId, false, false);
                 }
             },
-            {
+            [
+                pageType,
+                chapterId,
+                chapterToOpenId,
+                isCurrentChapter,
+                isChapterToOpenVisible,
+                readingMode,
+                readingDirection,
+                openChapter,
+            ],
+        ),
+        useMemo(
+            () => ({
                 threshold: [OPEN_CHAPTER_INTERSECTION_RATIO],
                 rootMargin: pageType === 'first' ? '0px 0px -10px 0px' : '-10px 0px 0px 0px',
-            },
-        );
-        intersectionObserver.observe(image);
-
-        return () => intersectionObserver.unobserve(image);
-    }, [
-        pageType,
-        chapterId,
-        chapterToOpenId,
-        isCurrentChapter,
-        isChapterToOpenVisible,
-        readingMode,
-        readingDirection,
-        openChapter,
-        image,
-    ]);
+                // gets immediately observed once on initial render
+                ignoreInitialObserve: true,
+            }),
+            [pageType],
+        ),
+    );
 };
