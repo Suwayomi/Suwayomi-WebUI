@@ -10,25 +10,20 @@ import { ComponentProps } from 'react';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { CustomButton } from '@/modules/core/components/buttons/CustomButton.tsx';
+import { CustomButtonIcon } from '@/modules/core/components/buttons/CustomButtonIcon.tsx';
 
 export const ReaderNavBarDesktopNextPreviousButton = ({
     title,
     type,
     disabled,
     ...customIconButtonProps
-}: Omit<ComponentProps<typeof CustomButton>, 'children'> & {
+}: Omit<ComponentProps<typeof CustomButtonIcon>, 'children'> & {
     title: string;
     type: 'previous' | 'next';
 }) => (
     <CustomTooltip title={title} disabled={disabled}>
-        <CustomButton
-            sx={{ minWidth: 0, px: 1, flexBasis: '15%' }}
-            variant="contained"
-            disabled={disabled}
-            {...customIconButtonProps}
-        >
+        <CustomButtonIcon sx={{ flexBasis: '15%' }} variant="contained" disabled={disabled} {...customIconButtonProps}>
             {type === 'previous' ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
-        </CustomButton>
+        </CustomButtonIcon>
     </CustomTooltip>
 );

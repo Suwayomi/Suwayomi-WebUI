@@ -10,7 +10,6 @@ import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import FitScreenIcon from '@mui/icons-material/FitScreen';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { CustomButton } from '@/modules/core/components/buttons/CustomButton.tsx';
 import { ValueRotationButton } from '@/modules/core/components/buttons/ValueRotationButton.tsx';
 import {
     IReaderSettings,
@@ -23,6 +22,7 @@ import {
     READER_PAGE_SCALE_MODE_VALUES,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { MultiValueButtonDefaultableProps } from '@/modules/core/Core.types.ts';
+import { CustomButtonIcon } from '@/modules/core/components/buttons/CustomButtonIcon.tsx';
 
 export const ReaderNavBarDesktopPageScale = ({
     pageScaleMode,
@@ -52,14 +52,14 @@ export const ReaderNavBarDesktopPageScale = ({
             />
             {READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED[pageScaleMode.value] && (
                 <CustomTooltip title={t('reader.settings.page_scale.stretch')}>
-                    <CustomButton
+                    <CustomButtonIcon
                         onClick={() => updateSetting('shouldStretchPage', !shouldStretchPage.value)}
-                        sx={{ minWidth: 0 }}
+                        sx={{ px: undefined }}
                         variant="contained"
                         color={shouldStretchPage.value ? 'secondary' : 'primary'}
                     >
                         <FitScreenIcon />
-                    </CustomButton>
+                    </CustomButtonIcon>
                 </CustomTooltip>
             )}
         </Stack>

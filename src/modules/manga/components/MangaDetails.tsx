@@ -44,6 +44,7 @@ import { MANGA_COVER_ASPECT_RATIO, statusToTranslationKey } from '@/modules/mang
 import { MangaThumbnailInfo, MangaTrackRecordInfo } from '@/modules/manga/Manga.types.ts';
 import { TAppThemeContext, useAppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
+import { CustomButtonIcon } from '@/modules/core/components/buttons/CustomButtonIcon.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -130,7 +131,7 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
 
     return (
         <CustomTooltip title={t('global.button.open_site')} disabled={!url}>
-            <CustomButton
+            <CustomButtonIcon
                 size="medium"
                 disabled={!url}
                 component={Link}
@@ -138,13 +139,9 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
                 target="_blank"
                 rel="noreferrer"
                 variant="outlined"
-                sx={{
-                    minWidth: 'unset',
-                    px: '10px',
-                }}
             >
                 <LaunchIcon />
-            </CustomButton>
+            </CustomButtonIcon>
         </CustomTooltip>
     );
 };
