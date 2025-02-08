@@ -16,7 +16,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { TrackManga } from '@/modules/tracker/components/TrackManga.tsx';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
-import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
+import { CustomButton } from '@/modules/core/components/buttons/CustomButton.tsx';
 import { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { MangaTrackRecordInfo } from '@/modules/manga/Manga.types.ts';
@@ -51,7 +51,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
         <PopupState variant="dialog" popupId="manga-track-modal">
             {(popupState) => (
                 <>
-                    <CustomIconButton
+                    <CustomButton
                         {...bindTrigger(popupState)}
                         size="medium"
                         disabled={trackerList.loading || !!trackerList.error}
@@ -62,7 +62,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
                         {trackersInUse.length
                             ? t('manga.button.track.active', { count: trackersInUse.length })
                             : t('manga.button.track.start')}
-                    </CustomIconButton>
+                    </CustomButton>
                     {popupState.isOpen && (
                         <Dialog {...bindDialog(popupState)} maxWidth="md" fullWidth scroll="paper">
                             <TrackManga manga={manga} />

@@ -10,7 +10,7 @@ import Button, { ButtonProps } from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { ForwardedRef, forwardRef } from 'react';
 
-export const CustomIconButton = forwardRef(
+export const CustomButton = forwardRef(
     <C extends React.ElementType>(
         { children, ...props }: ButtonProps<C, { component?: C }>,
         ref: ForwardedRef<HTMLButtonElement | null>,

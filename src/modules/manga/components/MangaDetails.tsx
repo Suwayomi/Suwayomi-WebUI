@@ -31,7 +31,7 @@ import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
-import { CustomIconButton } from '@/modules/core/components/buttons/CustomIconButton.tsx';
+import { CustomButton } from '@/modules/core/components/buttons/CustomButton.tsx';
 import { TrackMangaButton } from '@/modules/manga/components/TrackMangaButton.tsx';
 import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
 import { Metadata as BaseMetadata } from '@/modules/core/components/Metadata.tsx';
@@ -130,7 +130,7 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
 
     return (
         <CustomTooltip title={t('global.button.open_site')} disabled={!url}>
-            <CustomIconButton
+            <CustomButton
                 size="medium"
                 disabled={!url}
                 component={Link}
@@ -138,9 +138,13 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
                 target="_blank"
                 rel="noreferrer"
                 variant="outlined"
+                sx={{
+                    minWidth: 'unset',
+                    px: '10px',
+                }}
             >
                 <LaunchIcon />
-            </CustomIconButton>
+            </CustomButton>
         </CustomTooltip>
     );
 };
@@ -404,14 +408,14 @@ export const MangaDetails = ({
                         </MetadataContainer>
                     </ThumbnailMetadataWrapper>
                     <MangaButtonsContainer>
-                        <CustomIconButton
+                        <CustomButton
                             size="medium"
                             onClick={updateLibraryState}
                             variant={manga.inLibrary ? 'contained' : 'outlined'}
                         >
                             {manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                             {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
-                        </CustomIconButton>
+                        </CustomButton>
                         <TrackMangaButton manga={manga} />
                         <OpenSourceButton url={manga.realUrl} />
                     </MangaButtonsContainer>
