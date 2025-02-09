@@ -14,6 +14,7 @@
     "lint": "eslint src --ext .ts,.tsx,.js,.jsx --max-warnings=0 --cache",
     "createCommitChangelog": "tsx tools/scripts/createCommitChangelog.ts",
     "createTranslationChangelog": "tsx tools/scripts/createTranslationChangelog.ts",
+    "createReleaseChangelog": "tsx tools/scripts/createReleaseChangelog.ts",
     "updateDeps": "tsx tools/scripts/updateDependencies.ts",
     "gql:codegen-base": "graphql-codegen --config gql_codegen.ts",
     "gql:codegen-formatter": "tsx tools/scripts/codegenFormatter.ts",

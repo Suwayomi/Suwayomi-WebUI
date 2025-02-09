@@ -99,8 +99,6 @@ export const TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT = {
     keepKnownContributors: true,
 };
 
-const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g;
-
 const fetchData = async <T = any>(url: string, authToken: string): Promise<T> => {
     const response = await fetch(url, {
         method: 'GET',
@@ -307,17 +305,24 @@ const getKnownContributorsByLanguage = async (): Promise<Record<string, string[]
     return contributorByLanguage;
 };
 
+const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g;
+const isValidIS08601Date = (date: string): boolean => !!date.match(dateRegex);
+
+export const validateWeblateDates = (afterDate: string, beforeDate: string) => {
+    if (!isValidIS08601Date(afterDate) || !isValidIS08601Date(beforeDate)) {
+        throw new Error(
+            `The passed timestamps are not properly formatted. They have to match "${dateRegex}" (e.g. 2024-05-11)`,
+        );
+    }
+};
+
 export const createTranslationChangelog = async (
     afterDate: string,
     beforeDate: string,
     requiredContributionCount: number = TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT.requiredContributionCount,
     keepKnownContributors: boolean = TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT.keepKnownContributors,
 ): Promise<string> => {
-    if (!afterDate.match(dateRegex) || !beforeDate.match(dateRegex)) {
-        throw new Error(
-            `The passed timestamps are not properly formatted. They have to match "${dateRegex}" (e.g. 2024-05-11)`,
-        );
-    }
+    validateWeblateDates(afterDate, beforeDate);
 
     const timestampAfter = `${afterDate}T00:00:00.000Z`;
     const timestampBefore = `${beforeDate}T00:00:00.000Z`;
