@@ -1,0 +1,80 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Release version'
+        required: true
+
+defaults:
+  run:
+    working-directory: master
+
+jobs:
+  release:
+    name: Create changelog, build artifacts and publish release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.12.1
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout master branch
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          path: master
+          fetch-depth: 0
+
+      - name: Set up NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: './master/package.json'
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Generate Tag Name
+        id: GenTagName
+        run: |
+          genTag="v${{ github.event.inputs.release_version }}"
+          echo "::set-output name=value::$genTag"
+
+      - name: Build webUI
+        run: |
+          yarn ci
+          yarn build
+          yarn build-zip
+          yarn build-md5
+
+      - name: Rename artifact
+        run: |
+          cd buildZip
+          for file in *.zip; do
+            mv "$file" "${file%-r$(git rev-list HEAD --count).zip}-${{ steps.GenTagName.outputs.value }}.zip"
+          done
+
+      - name: Create Tag
+        run: |
+          TAG="${{ steps.GenTagName.outputs.value }}"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+          git tag $TAG
+          git push origin $TAG
+
+      - name: Upload Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "master/buildZip/*"
+          owner: "suwayomi"
+          repo: "Suwayomi-WebUI"
+          tag: ${{ steps.GenTagName.outputs.value }}
+          draft: true
