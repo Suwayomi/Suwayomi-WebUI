@@ -7,9 +7,10 @@
  */
 
 import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import tokens from './tokens.json';
 
-const { sha } = yargs
+const { sha } = yargs(hideBin(process.argv))
     .options({
         sha: {
             description: 'The hash of the last commit of the previous release',
