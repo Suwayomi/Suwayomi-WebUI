@@ -103,13 +103,13 @@ export const Appearance = () => {
                     }}
                 >
                     <MenuItem key={ThemeMode.SYSTEM} value={ThemeMode.SYSTEM}>
-                        System
+                        {t('global.label.system')}
                     </MenuItem>
                     <MenuItem key={ThemeMode.DARK} value={ThemeMode.DARK}>
-                        Dark
+                        {t('global.label.dark')}
                     </MenuItem>
                     <MenuItem key={ThemeMode.LIGHT} value={ThemeMode.LIGHT}>
-                        Light
+                        {t('global.label.light')}
                     </MenuItem>
                 </Select>
             </ListItem>
