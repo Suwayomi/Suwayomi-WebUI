@@ -9,7 +9,7 @@
 import { memo } from 'react';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderInfiniteScrollUpdateChapter } from '@/modules/reader/hooks/useReaderInfiniteScrollUpdateChapter.ts';
-import { ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { ReadingDirection, ReadingMode, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 
@@ -24,7 +24,9 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     isNextChapterVisible,
     imageWrapper,
     openChapter,
-}: {
+    scrollbarXSize,
+    scrollbarYSize,
+}: Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & {
     readingMode: ReadingMode;
     readingDirection: ReadingDirection;
     chapterId: ChapterIdInfo['id'];
@@ -46,6 +48,8 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         readingDirection,
         openChapter,
         imageWrapper,
+        scrollbarXSize,
+        scrollbarYSize,
     );
     useReaderInfiniteScrollUpdateChapter(
         'last',
@@ -57,6 +61,8 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         readingDirection,
         openChapter,
         imageWrapper,
+        scrollbarXSize,
+        scrollbarYSize,
     );
 
     return null;

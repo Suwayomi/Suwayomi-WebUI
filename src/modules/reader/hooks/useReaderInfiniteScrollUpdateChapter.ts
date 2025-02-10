@@ -36,18 +36,23 @@ const OPEN_CHAPTER_INTERSECTION_RATIO = 0;
 const getElementIntersectionInfo = (
     readingDirection: ReadingDirection,
     { top, right, bottom, left }: DOMRect,
+    scrollbarXSize: number,
+    scrollbarYSize: number,
 ): ElementIntersectionInfo => {
     const themeDirectionOfReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
 
-    const startOfViewportHorizontal = getOptionForDirection(0, window.innerWidth, themeDirectionOfReadingDirection);
-    const endOfViewportHorizontal = getOptionForDirection(window.innerWidth, 0, themeDirectionOfReadingDirection);
+    const viewportWidth = window.innerWidth - scrollbarYSize;
+    const viewportHeight = window.innerHeight - scrollbarXSize;
+
+    const startOfViewportHorizontal = getOptionForDirection(0, viewportWidth, themeDirectionOfReadingDirection);
+    const endOfViewportHorizontal = getOptionForDirection(viewportWidth, 0, themeDirectionOfReadingDirection);
 
     const startOfElementHorizontal = getOptionForDirection(left, right, themeDirectionOfReadingDirection);
     const endOfElementHorizontal = getOptionForDirection(right, left, themeDirectionOfReadingDirection);
 
     return {
         [ReadingMode.CONTINUOUS_VERTICAL]: {
-            start: bottom >= window.innerHeight,
+            start: bottom >= viewportHeight,
             end: top < 0,
         },
         [ReadingMode.CONTINUOUS_HORIZONTAL]: {
@@ -188,6 +193,8 @@ export const useReaderInfiniteScrollUpdateChapter = (
     readingDirection: ReadingDirection,
     openChapter: ReturnType<typeof ReaderControls.useOpenChapter>,
     image: HTMLElement | null,
+    scrollbarXSize: number,
+    scrollbarYSize: number,
 ) => {
     useIntersectionObserver(
         image,
@@ -202,6 +209,8 @@ export const useReaderInfiniteScrollUpdateChapter = (
                 const elementIntersectionInfo = getElementIntersectionInfo(
                     readingDirection,
                     entry.target.getBoundingClientRect(),
+                    scrollbarXSize,
+                    scrollbarYSize,
                 );
                 const { start: isStartIntersecting, end: isEndIntersecting } = getElementIntersection(
                     elementIntersectionInfo,
@@ -239,6 +248,8 @@ export const useReaderInfiniteScrollUpdateChapter = (
                 readingMode,
                 readingDirection,
                 openChapter,
+                scrollbarXSize,
+                scrollbarYSize,
             ],
         ),
         useMemo(

@@ -416,6 +416,8 @@ const BaseReaderChapterViewer = ({
                     isPreviousChapterVisible={isPreviousChapterVisible}
                     isNextChapterVisible={isNextChapterVisible}
                     imageWrapper={pagerRef.current}
+                    scrollbarXSize={scrollbarXSize}
+                    scrollbarYSize={scrollbarYSize}
                 />
             )}
             {showPreviousTransitionPage && (
