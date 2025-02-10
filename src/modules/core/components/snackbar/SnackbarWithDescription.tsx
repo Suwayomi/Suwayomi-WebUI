@@ -16,7 +16,7 @@ import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { TranslationKey } from '@/Base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
-const MAX_DESCRIPTION_LENGTH = 75;
+const MAX_DESCRIPTION_LENGTH = 255;
 
 const SNACKBAR_VARIANT_TO_TRANSLATION_KEY: Record<VariantType, TranslationKey> = {
     default: 'global.label.info',
@@ -59,7 +59,7 @@ export const SnackbarWithDescription = memo(
                         elevation={1}
                         severity={severity}
                         action={finalAction}
-                        sx={{ minWidth: '100%' }}
+                        sx={{ minWidth: '100%', wordBreak: 'break-word' }}
                         onClose={() => closeSnackbar(id)}
                     >
                         <TitleComponent>{message}</TitleComponent>
