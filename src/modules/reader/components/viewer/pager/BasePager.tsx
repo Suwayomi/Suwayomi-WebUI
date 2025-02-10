@@ -59,7 +59,7 @@ const BaseBasePager = forwardRef<
         },
         ref,
     ) => {
-        const previousCurrentPageIndex = useRef(-1);
+        const previousCurrentPageIndex = useRef(currentPageIndex > 0 ? Number.MAX_SAFE_INTEGER : -1);
         const pagesIndexesToRender = useMemo(
             () =>
                 getPageIndexesToLoad(
@@ -83,8 +83,10 @@ const BaseBasePager = forwardRef<
             ],
         );
         useEffect(() => {
-            previousCurrentPageIndex.current = currentPageIndex;
-        }, [pagesIndexesToRender]);
+            if (isCurrentChapter) {
+                previousCurrentPageIndex.current = currentPageIndex;
+            }
+        }, [pagesIndexesToRender, isCurrentChapter]);
 
         const setRef = useCallback(
             (pagesIndex: number, element: HTMLElement | null) => {
