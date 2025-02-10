@@ -16,7 +16,7 @@ import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 const BaseReaderHorizontalPager = forwardRef<
     HTMLDivElement,
     ReaderPagerProps & Pick<IReaderSettings, 'pageGap' | 'readingDirection'>
->(({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, ...props }, ref) => {
+>(({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, isPreloadMode, ...props }, ref) => {
     const { currentPageIndex, totalPages, pageGap, readingDirection } = props;
 
     const { direction: themeDirection } = useTheme();
@@ -33,10 +33,11 @@ const BaseReaderHorizontalPager = forwardRef<
                     pagesIndex,
                     true,
                     pageLoadStates[page.primary.index].loaded,
+                    isPreloadMode,
                     onLoad,
                     onError,
                     shouldLoad,
-                    true,
+                    !isPreloadMode,
                     currentPageIndex,
                     totalPages,
                     ...baseProps,

@@ -18,6 +18,7 @@ import {
     ReaderExitMode,
     ReaderOverlayMode,
     ReaderResumeMode,
+    ReaderStateChapters,
     ReadingDirection,
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
@@ -44,6 +45,8 @@ import {
     getChapterIdsForDownloadAhead,
     getChapterIdsToDeleteForChapterUpdate,
     getReaderChapterFromCache,
+    isInDownloadAheadRange,
+    updateReaderStateVisibleChapters,
 } from '@/modules/reader/utils/Reader.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Queue } from '@/lib/Queue.ts';
@@ -116,6 +119,42 @@ export class ReaderService {
                 defaultPromiseErrorHandler('ReaderService::useUpdateCurrentPageIndex: download ahead');
             }
         });
+    }
+
+    static preloadChapter(
+        pageIndex: number,
+        pageCount: number,
+        chapter: TChapterReader | undefined | null,
+        lastLeadingChapterSourceOrder: number,
+        lastTrailingChapterSourceOrder: number,
+        setReaderStateChapters: ReaderStateChapters['setReaderStateChapters'],
+        direction: DirectionOffset,
+    ): void {
+        if (!chapter) {
+            return;
+        }
+
+        const isPreviousChapter = direction === DirectionOffset.PREVIOUS;
+        const isNextChapter = direction === DirectionOffset.NEXT;
+
+        const isAlreadyPreloaded =
+            (isPreviousChapter && lastLeadingChapterSourceOrder <= chapter.sourceOrder) ||
+            (isNextChapter && lastTrailingChapterSourceOrder >= chapter.sourceOrder);
+        const shouldPreload = !isAlreadyPreloaded && isInDownloadAheadRange(pageIndex, pageCount, direction);
+        if (!shouldPreload) {
+            return;
+        }
+
+        setReaderStateChapters((state) =>
+            updateReaderStateVisibleChapters(
+                isPreviousChapter,
+                state,
+                chapter.sourceOrder,
+                false,
+                isPreviousChapter ? true : undefined,
+                isNextChapter ? true : undefined,
+            ),
+        );
     }
 
     static useUpdateChapter(): (patch: UpdateChapterPatchInput) => void {

@@ -44,7 +44,7 @@ const getPagePosition = (
 const BaseReaderDoublePagedPager = forwardRef<
     HTMLDivElement,
     ReaderPagerProps & Pick<IReaderSettings, 'readingDirection' | 'pageScaleMode'>
->(({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, ...props }, ref) => {
+>(({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, isPreloadMode, ...props }, ref) => {
     const { currentPageIndex, pages, totalPages, readingDirection, pageScaleMode } = props;
 
     const { direction: themeDirection } = useTheme();
@@ -72,6 +72,7 @@ const BaseReaderDoublePagedPager = forwardRef<
                             pagesIndex,
                             true,
                             pageLoadStates[primary.index].loaded,
+                            isPreloadMode,
                             onLoad,
                             onError,
                             shouldLoad,
@@ -89,6 +90,7 @@ const BaseReaderDoublePagedPager = forwardRef<
                                 pagesIndex,
                                 false,
                                 pageLoadStates[secondary.index].loaded,
+                                isPreloadMode,
                                 onLoad,
                                 onError,
                                 shouldLoad,

@@ -236,6 +236,8 @@ export class ReaderControls {
                                 prevState,
                                 chapterToOpen.sourceOrder,
                                 scrollIntoView,
+                                isPreviousChapter ? false : undefined,
+                                !isPreviousChapter ? false : undefined,
                             ),
                         );
 
@@ -448,8 +450,15 @@ export class ReaderControls {
         endReached?: boolean,
     ) => void {
         const { currentPageIndex, setCurrentPageIndex } = userReaderStatePagesContext();
-        const { chapterForDuplicatesHandling, currentChapter, nextChapter, mangaChapters } =
-            useReaderStateChaptersContext();
+        const {
+            chapterForDuplicatesHandling,
+            currentChapter,
+            previousChapter,
+            nextChapter,
+            mangaChapters,
+            visibleChapters,
+            setReaderStateChapters,
+        } = useReaderStateChaptersContext();
         const updateChapter = ReaderService.useUpdateChapter();
         const { shouldSkipDupChapters } = ReaderService.useSettings();
         const {
@@ -470,13 +479,28 @@ export class ReaderControls {
 
         return useCallback(
             (pageIndex, debounceChapterUpdate = true, endReached = false) => {
+                if (pageIndex === currentPageIndex) {
+                    return;
+                }
+
                 setCurrentPageIndex(pageIndex);
 
                 if (!currentChapter) {
                     return;
                 }
 
+                const direction = currentPageIndex > pageIndex ? DirectionOffset.PREVIOUS : DirectionOffset.NEXT;
+
                 ReaderService.downloadAhead(currentChapter, nextChapter, nextChapters, pageIndex, downloadAheadLimit);
+                ReaderService.preloadChapter(
+                    pageIndex,
+                    currentChapter.pageCount,
+                    direction === DirectionOffset.NEXT ? nextChapter : previousChapter,
+                    visibleChapters.lastLeadingChapterSourceOrder,
+                    visibleChapters.lastTrailingChapterSourceOrder,
+                    setReaderStateChapters,
+                    direction,
+                );
 
                 const handleCurrentPageIndexChange = () => {
                     const currentChapterUpToDate = getReaderChapterFromCache(currentChapter.id);
@@ -501,7 +525,15 @@ export class ReaderControls {
 
                 handleCurrentPageIndexChange();
             },
-            [currentChapter?.id, nextChapter?.id, nextChapters, currentPageIndex, downloadAheadLimit],
+            [
+                currentChapter?.id,
+                previousChapter?.id,
+                nextChapter?.id,
+                nextChapters,
+                currentPageIndex,
+                downloadAheadLimit,
+                visibleChapters,
+            ],
         );
     }
 

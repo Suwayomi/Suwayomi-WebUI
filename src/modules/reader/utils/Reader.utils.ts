@@ -19,6 +19,7 @@ import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.
 import { isPageOfOutdatedPageLoadStates, isSpreadPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
+import { DirectionOffset } from '@/Base.types.ts';
 
 export const getInitialReaderPageIndex = (
     resumeMode: ReaderResumeMode,
@@ -76,6 +77,20 @@ export const getChapterIdsToDeleteForChapterUpdate = (
     return Chapters.getIds(Chapters.addDuplicates([chapterToDelete], chapters));
 };
 
+export const isInDownloadAheadRange = (
+    currentPageIndex: number,
+    pageCount: number,
+    direction: DirectionOffset = DirectionOffset.NEXT,
+): boolean => {
+    const progress = (currentPageIndex + 1) / pageCount;
+
+    if (direction === DirectionOffset.PREVIOUS) {
+        return progress < 0.75;
+    }
+
+    return progress > 0.25;
+};
+
 export const getChapterIdsForDownloadAhead = (
     chapter: TChapterReader,
     nextChapter: TChapterReader | undefined,
@@ -89,8 +104,10 @@ export const getChapterIdsForDownloadAhead = (
     }
 
     const isDownloadAheadEnabled = !!downloadAheadLimit;
-    const inDownloadRange = (currentPageIndex + 1) / chapterUpToDateData.pageCount > 0.25;
-    const shouldCheckDownloadAhead = isDownloadAheadEnabled && chapterUpToDateData.isDownloaded && inDownloadRange;
+    const shouldCheckDownloadAhead =
+        isDownloadAheadEnabled &&
+        chapterUpToDateData.isDownloaded &&
+        isInDownloadAheadRange(currentPageIndex, chapterUpToDateData.pageCount);
     if (!shouldCheckDownloadAhead) {
         return [];
     }
@@ -208,6 +225,8 @@ export const updateReaderStateVisibleChapters = (
     state: Omit<ReaderStateChapters, 'setReaderStateChapters'>,
     chapterToOpenSourceOrder: TChapterReader['sourceOrder'],
     scrollIntoView: boolean,
+    isLeadingChapterPreloadMode?: boolean,
+    isTrailingChapterPreloadMode?: boolean,
 ): Omit<ReaderStateChapters, 'setReaderStateChapters'> => {
     const { leading, trailing, lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder } = state.visibleChapters;
 
@@ -226,6 +245,14 @@ export const updateReaderStateVisibleChapters = (
             lastTrailingChapterSourceOrder: isNewTrailingChapter
                 ? chapterToOpenSourceOrder
                 : lastTrailingChapterSourceOrder,
+            isLeadingChapterPreloadMode:
+                isLeadingChapterPreloadMode !== undefined
+                    ? isLeadingChapterPreloadMode
+                    : state.visibleChapters.isLeadingChapterPreloadMode,
+            isTrailingChapterPreloadMode:
+                isTrailingChapterPreloadMode !== undefined
+                    ? isTrailingChapterPreloadMode
+                    : state.visibleChapters.isTrailingChapterPreloadMode,
             scrollIntoView,
             resumeMode: isPreviousChapter ? ReaderResumeMode.END : ReaderResumeMode.START,
         },

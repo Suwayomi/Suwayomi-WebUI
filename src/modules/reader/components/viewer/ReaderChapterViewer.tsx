@@ -78,6 +78,7 @@ const BaseReaderChapterViewer = ({
     isNextChapter,
     isLeadingChapter,
     isTrailingChapter,
+    isPreloadMode,
     imageRefs: globalImageRefs,
     scrollIntoView,
     setReaderStateChapters,
@@ -172,7 +173,15 @@ const BaseReaderChapterViewer = ({
     const Pager = useMemo(() => getPagerForReadingMode(readingMode), [readingMode]);
     const isLtrReadingDirection = readingDirection === ReadingDirection.LTR;
     const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
-    const shouldHideChapter = !isContinuousReadingModeActive && !isCurrentChapter;
+    const shouldHideChapter = (!isContinuousReadingModeActive && !isCurrentChapter) || isPreloadMode;
+
+    const isCurrentChapterInSinglePager = !isContinuousReadingModeActive && isCurrentChapter;
+    const showPreviousTransitionPage =
+        !shouldHideChapter &&
+        (isCurrentChapterInSinglePager || (isContinuousReadingModeActive && (isInitialChapter || isLeadingChapter)));
+    const showNextTransitionPage =
+        !shouldHideChapter &&
+        (isCurrentChapterInSinglePager || (isContinuousReadingModeActive && (isInitialChapter || isTrailingChapter)));
 
     isCurrentChapterRef.current = isCurrentChapter;
     if (isCurrentChapter) {
@@ -240,7 +249,7 @@ const BaseReaderChapterViewer = ({
         ),
     );
 
-    const updatePageState = <T,>(
+    const updateState = <T,>(
         value: T,
         setLocalState: (value: T) => void,
         setGlobalState: (value: T) => void,
@@ -264,13 +273,13 @@ const BaseReaderChapterViewer = ({
         pagesToSpreadState,
         arePagesFetched,
         setArePagesFetched,
-        setReaderStateChapters,
-        (value) => updatePageState(value, setTotalPages, setContextTotalPages),
-        (value) => updatePageState(value, setPages, setContextPages),
-        (value) => updatePageState(value, setPageUrls, noOp),
-        (value) => updatePageState(value, setPageLoadStates, setContextPageLoadStates),
-        (value) => updatePageState(value, setPagesToSpreadState, noOp),
-        (value) => updatePageState(value, noOp, setContextCurrentPageIndex),
+        (value) => updateState(value, noOp, setReaderStateChapters),
+        (value) => updateState(value, setTotalPages, setContextTotalPages),
+        (value) => updateState(value, setPages, setContextPages),
+        (value) => updateState(value, setPageUrls, noOp),
+        (value) => updateState(value, setPageLoadStates, setContextPageLoadStates),
+        (value) => updateState(value, setPagesToSpreadState, noOp),
+        (value) => updateState(value, noOp, setContextCurrentPageIndex),
         (value) => {
             if ((isInitialChapter && !arePagesFetched) || scrollIntoView) {
                 setPageToScrollToIndex(value);
@@ -280,16 +289,16 @@ const BaseReaderChapterViewer = ({
                 }));
             }
         },
-        (value) => updatePageState(value, noOp, setTransitionPageMode),
+        (value) => updateState(value, noOp, setTransitionPageMode),
     );
 
     useReaderConvertPagesForReadingMode(
         currentPageIndex,
         actualPages,
         pageUrls,
-        (value) => updatePageState(value, setPages, setContextPages, true),
-        (value) => updatePageState(value, setPagesToSpreadState, noOp, true),
-        (value) => updatePageState(value, noOp, updateCurrentPageIndex),
+        (value) => updateState(value, setPages, setContextPages, true),
+        (value) => updateState(value, setPagesToSpreadState, noOp, true),
+        (value) => updateState(value, noOp, updateCurrentPageIndex),
         readingMode,
     );
 
@@ -396,19 +405,20 @@ const BaseReaderChapterViewer = ({
                 }),
             }}
         >
-            <ReaderInfiniteScrollUpdateChapter
-                readingMode={readingMode}
-                readingDirection={readingDirection}
-                chapterId={chapterId}
-                previousChapterId={previousChapterId}
-                nextChapterId={nextChapterId}
-                isCurrentChapter={isCurrentChapter}
-                isPreviousChapterVisible={isPreviousChapterVisible}
-                isNextChapterVisible={isNextChapterVisible}
-                imageWrapper={pagerRef.current}
-            />
-            {((!isContinuousReadingModeActive && isCurrentChapter) ||
-                (isContinuousReadingModeActive && (isInitialChapter || isLeadingChapter))) && (
+            {!isPreloadMode && (
+                <ReaderInfiniteScrollUpdateChapter
+                    readingMode={readingMode}
+                    readingDirection={readingDirection}
+                    chapterId={chapterId}
+                    previousChapterId={previousChapterId}
+                    nextChapterId={nextChapterId}
+                    isCurrentChapter={isCurrentChapter}
+                    isPreviousChapterVisible={isPreviousChapterVisible}
+                    isNextChapterVisible={isNextChapterVisible}
+                    imageWrapper={pagerRef.current}
+                />
+            )}
+            {showPreviousTransitionPage && (
                 <ReaderTransitionPage chapterId={chapterId} type={ReaderTransitionPageMode.PREVIOUS} />
             )}
             <Pager
@@ -436,9 +446,9 @@ const BaseReaderChapterViewer = ({
                 scrollbarXSize={scrollbarXSize}
                 scrollbarYSize={scrollbarYSize}
                 readerNavBarWidth={readerNavBarWidth}
+                isPreloadMode={isPreloadMode}
             />
-            {((!isContinuousReadingModeActive && isCurrentChapter) ||
-                (isContinuousReadingModeActive && (isInitialChapter || isTrailingChapter))) && (
+            {showNextTransitionPage && (
                 <ReaderTransitionPage chapterId={chapterId} type={ReaderTransitionPageMode.NEXT} />
             )}
         </Stack>

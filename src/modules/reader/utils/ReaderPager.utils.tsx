@@ -267,8 +267,9 @@ const getPageDownloadPriority = (
     pageIndex: number,
     totalPages: number,
     shouldLoad: boolean,
+    isPreloadMode: boolean,
 ): number => {
-    if (!shouldLoad) {
+    if (!shouldLoad || isPreloadMode) {
         return Number.MAX_SAFE_INTEGER;
     }
 
@@ -288,6 +289,7 @@ export const createReaderPage = (
     pagesIndex: number,
     isPrimaryPage: boolean,
     isLoaded: boolean,
+    isPreloadMode: boolean,
     onLoad: ComponentProps<typeof ReaderPage>['onLoad'],
     onError: ComponentProps<typeof ReaderPage>['onError'],
     shouldLoad: boolean,
@@ -317,7 +319,7 @@ export const createReaderPage = (
         src={url}
         alt={alt}
         display={display}
-        priority={getPageDownloadPriority(currentPageIndex, index, totalPages, shouldLoad)}
+        priority={getPageDownloadPriority(currentPageIndex, index, totalPages, shouldLoad, isPreloadMode)}
         position={position}
         onLoad={onLoad}
         onError={onError}

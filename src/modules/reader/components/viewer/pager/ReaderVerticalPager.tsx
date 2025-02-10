@@ -12,7 +12,7 @@ import { ReaderPagerProps, ReadingMode } from '@/modules/reader/types/Reader.typ
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 
 const BaseReaderVerticalPager = forwardRef<HTMLDivElement, ReaderPagerProps>(
-    ({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, ...props }, ref) => {
+    ({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, isPreloadMode, ...props }, ref) => {
         const { currentPageIndex, totalPages, readingMode, pageGap } = props;
 
         const isWebtoonMode = readingMode === ReadingMode.WEBTOON;
@@ -28,10 +28,11 @@ const BaseReaderVerticalPager = forwardRef<HTMLDivElement, ReaderPagerProps>(
                         pagesIndex,
                         true,
                         pageLoadStates[page.primary.index].loaded,
+                        isPreloadMode,
                         onLoad,
                         onError,
                         shouldLoad,
-                        true,
+                        !isPreloadMode,
                         currentPageIndex,
                         totalPages,
                         ...baseProps,

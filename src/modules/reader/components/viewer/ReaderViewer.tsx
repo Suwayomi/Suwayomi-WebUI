@@ -314,6 +314,24 @@ const BaseReaderViewer = forwardRef(
                     const isNextChapter = chapter.id === chaptersToRender[currentChapterIndex - 1]?.id;
                     const isLeadingChapter = initialChapter.sourceOrder > chapter.sourceOrder;
                     const isTrailingChapter = initialChapter.sourceOrder < chapter.sourceOrder;
+                    const isLastLeadingChapter = visibleChapters.lastLeadingChapterSourceOrder === chapter.sourceOrder;
+                    const isLastTrailingChapter =
+                        visibleChapters.lastTrailingChapterSourceOrder === chapter.sourceOrder;
+                    const isPreloadMode =
+                        (isLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode) ||
+                        (isLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode);
+
+                    const isPreviousChapterLoaded = !!chaptersToRender[currentChapterIndex + 1];
+                    const isPreviousChapterLastLeadingChapter = chapterIndex + 1 >= chaptersToRender.length - 1;
+                    const isPreviousChapterPreloading =
+                        isPreviousChapterLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode;
+                    const isPreviousChapterVisible = isPreviousChapterLoaded && !isPreviousChapterPreloading;
+
+                    const isNextChapterLoaded = !!chaptersToRender[chapterIndex - 1];
+                    const isNextChapterLastTrailingChapter = chapterIndex - 1 < 0;
+                    const isNextChapterPreloading =
+                        isNextChapterLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode;
+                    const isNextChapterVisible = isNextChapterLoaded && !isNextChapterPreloading;
 
                     return (
                         <ReaderChapterViewer
@@ -321,8 +339,8 @@ const BaseReaderViewer = forwardRef(
                             chapterId={chapter.id}
                             previousChapterId={previousChapter?.id}
                             nextChapterId={nextChapter?.id}
-                            isPreviousChapterVisible={!!chaptersToRender[chapterIndex + 1]}
-                            isNextChapterVisible={!!chaptersToRender[chapterIndex - 1]}
+                            isPreviousChapterVisible={isPreviousChapterVisible}
+                            isNextChapterVisible={isNextChapterVisible}
                             lastPageRead={chapter.lastPageRead}
                             currentPageIndex={getReaderChapterViewerCurrentPageIndex(
                                 currentPageIndex,
@@ -340,6 +358,7 @@ const BaseReaderViewer = forwardRef(
                             isNextChapter={isNextChapter}
                             isLeadingChapter={isLeadingChapter}
                             isTrailingChapter={isTrailingChapter}
+                            isPreloadMode={isPreloadMode}
                             imageRefs={imageRefs}
                             setPages={setPages}
                             setPageLoadStates={setPageLoadStates}

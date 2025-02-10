@@ -81,6 +81,8 @@ export const useReaderSetChaptersState = (
                           lastTrailingChapterSourceOrder:
                               newInitialChapter?.sourceOrder ??
                               READER_STATE_CHAPTERS_DEFAULTS.visibleChapters.lastTrailingChapterSourceOrder,
+                          isLeadingChapterPreloadMode: false,
+                          isTrailingChapterPreloadMode: false,
                       }
                     : prevState.visibleChapters,
             };

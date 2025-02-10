@@ -12,7 +12,7 @@ import { ReaderPagerProps } from '@/modules/reader/types/Reader.types.ts';
 import { createReaderPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 
 const BaseReaderPagedPager = forwardRef<HTMLDivElement, ReaderPagerProps>(
-    ({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, ...props }, ref) => {
+    ({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, isPreloadMode, ...props }, ref) => {
         const { currentPageIndex, totalPages } = props;
 
         return (
@@ -25,6 +25,7 @@ const BaseReaderPagedPager = forwardRef<HTMLDivElement, ReaderPagerProps>(
                         pagesIndex,
                         true,
                         pageLoadStates[page.primary.index].loaded,
+                        isPreloadMode,
                         onLoad,
                         onError,
                         shouldLoad,

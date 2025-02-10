@@ -18,6 +18,8 @@ export const READER_STATE_CHAPTERS_DEFAULTS: Omit<ReaderStateChapters, 'setReade
         trailing: 0,
         lastLeadingChapterSourceOrder: 99999,
         lastTrailingChapterSourceOrder: -1,
+        isLeadingChapterPreloadMode: true,
+        isTrailingChapterPreloadMode: true,
         scrollIntoView: false,
         resumeMode: undefined,
     },

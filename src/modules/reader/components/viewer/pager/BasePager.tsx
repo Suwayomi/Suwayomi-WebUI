@@ -16,7 +16,7 @@ import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.u
 
 const BaseBasePager = forwardRef<
     HTMLDivElement,
-    Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix'> &
+    Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix' | 'isPreloadMode'> &
         Pick<IReaderSettings, 'readingMode' | 'imagePreLoadAmount'> & {
             createPage: (
                 page: ReaderStatePages['pages'][number],

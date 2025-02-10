@@ -213,6 +213,8 @@ export interface ReaderStateChapters {
         trailing: number;
         lastLeadingChapterSourceOrder: number;
         lastTrailingChapterSourceOrder: number;
+        isLeadingChapterPreloadMode: boolean;
+        isTrailingChapterPreloadMode: boolean;
         scrollIntoView: boolean;
         resumeMode?: ReaderResumeMode;
     };
@@ -289,6 +291,7 @@ export interface ReaderPagerProps
     isCurrentChapter: boolean;
     isPreviousChapter: boolean;
     isNextChapter: boolean;
+    isPreloadMode: boolean;
 }
 
 export enum PageInViewportType {
