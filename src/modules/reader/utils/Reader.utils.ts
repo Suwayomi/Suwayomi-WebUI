@@ -278,11 +278,11 @@ export const getReaderChapterViewerCurrentPageIndex = (
             return getInitialReaderPageIndex(visibleChapters.resumeMode, 0, chapter.pageCount - 1);
         }
 
-        if (isTrailingChapter) {
+        if (isLeadingChapter) {
             return Math.max(0, chapter.pageCount - 1);
         }
 
-        if (isLeadingChapter) {
+        if (isTrailingChapter) {
             return 0;
         }
     }
