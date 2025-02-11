@@ -7,6 +7,7 @@
  */
 
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { DirectionOffset } from '@/Base.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -22,6 +23,8 @@ export const useReaderSetChaptersState = (
     setReaderStateChapters: ReaderStateChapters['setReaderStateChapters'],
     shouldSkipDupChapters: IReaderSettings['shouldSkipDupChapters'],
 ) => {
+    const navigate = useNavigate();
+
     useEffect(() => {
         const newMangaChapters = chaptersResponse.data?.chapters.nodes;
         const newCurrentChapter = newMangaChapters
@@ -59,6 +62,10 @@ export const useReaderSetChaptersState = (
         })();
 
         const hasInitialChapterChanged = newInitialChapter != null && newInitialChapter.id !== initialChapter?.id;
+
+        if (hasInitialChapterChanged) {
+            navigate('', { replace: true });
+        }
 
         setReaderStateChapters((prevState) => {
             const hasCurrentChapterChanged = newCurrentChapter?.id !== prevState.currentChapter?.id;
