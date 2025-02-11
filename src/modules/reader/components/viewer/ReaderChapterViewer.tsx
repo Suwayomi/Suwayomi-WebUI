@@ -390,6 +390,7 @@ const BaseReaderChapterViewer = ({
                     minWidth: 'unset',
                     minHeight: 'unset',
                     overflow: 'hidden',
+                    margin: 'unset',
                 }),
                 ...applyStyles(
                     isContinuousVerticalReadingMode(readingMode) && shouldApplyReaderWidth(readerWidth, pageScaleMode),
