@@ -49,8 +49,8 @@ const getBackgroundColor = (
         }
 
         return {
-            paper: lighten(theme.colorSchemes.light.palette.primary.dark, 0.8),
-            default: lighten(theme.colorSchemes.light.palette.primary.dark, 0.9),
+            paper: lighten(theme.colorSchemes.light.palette.primary.dark, 0.7),
+            default: lighten(theme.colorSchemes.light.palette.primary.dark, 0.8),
         };
     }
 
