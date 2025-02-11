@@ -393,6 +393,10 @@ export const themes = {
                         secondary: {
                             main: '#fff',
                         },
+                        background: {
+                            paper: '#efefef',
+                            default: '#fff',
+                        },
                     },
                 },
                 dark: {
