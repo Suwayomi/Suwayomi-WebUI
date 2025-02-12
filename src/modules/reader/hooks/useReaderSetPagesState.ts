@@ -48,7 +48,7 @@ export const useReaderSetPagesState = (
         }
 
         const { pages: pagesFromResponse } = pagesPayload;
-        const newPages = pages.length ? pagesFromResponse : [''];
+        const newPages = pagesFromResponse.length ? pagesFromResponse : [''];
         const initialReaderPageIndex = getInitialReaderPageIndex(resumeMode, lastPageRead ?? 0, newPages.length - 1);
 
         const didPagesChange = previousPageData.current !== pagesPayload?.pages;
