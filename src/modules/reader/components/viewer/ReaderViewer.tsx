@@ -62,7 +62,7 @@ import {
     getReaderChapterViewerCurrentPageIndex,
     getReaderChapterViewResumeMode,
 } from '@/modules/reader/utils/Reader.utils.ts';
-import { noOp } from '@/lib/HelperFunctions.ts';
+import { coerceIn, noOp } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 
@@ -341,7 +341,7 @@ const BaseReaderViewer = forwardRef(
                             nextChapterId={nextChapter?.id}
                             isPreviousChapterVisible={isPreviousChapterVisible}
                             isNextChapterVisible={isNextChapterVisible}
-                            lastPageRead={chapter.lastPageRead}
+                            lastPageRead={coerceIn(chapter.lastPageRead, 0, chapter.pageCount - 1)}
                             currentPageIndex={getReaderChapterViewerCurrentPageIndex(
                                 currentPageIndex,
                                 chapter,
