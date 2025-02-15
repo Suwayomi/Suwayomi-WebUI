@@ -49,6 +49,6 @@ export const useReaderHandlePageSelection = (
         const isLastPage = newPageIndex === totalPages - 1;
 
         setPageToScrollToIndex(null);
-        updateCurrentPageIndex(newPageIndex, !isLastPage);
+        updateCurrentPageIndex(newPageIndex, !isLastPage, isLastPage);
     }, [pageToScrollToIndex]);
 };

@@ -473,7 +473,7 @@ export class ReaderControls {
 
         return useCallback(
             (pageIndex, debounceChapterUpdate = true, endReached = false) => {
-                if (pageIndex === currentPageIndex) {
+                if (pageIndex === currentPageIndex && !endReached) {
                     return;
                 }
 
