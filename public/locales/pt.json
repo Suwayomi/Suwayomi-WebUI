@@ -145,7 +145,8 @@
                 "install": "Instalar",
                 "uninstall": "desinstalar",
                 "update": "atualizar",
-                "install_external": "Instalar extensão externa"
+                "install_external": "Instalar extensão externa",
+                "update_all": "Atualizar tudo"
             }
         },
         "label": {
@@ -271,7 +272,8 @@
             "retry": "Tentar novamente",
             "select": "Selecionar",
             "set": "Definir",
-            "save": "Salvar"
+            "save": "Salvar",
+            "open": "Abrir"
         },
         "date": {
             "label": {
@@ -316,7 +318,22 @@
             "type": "Tipo",
             "logged_in": "Logado",
             "open_in_browser": "Abra no navegador",
-            "default": "Padrão"
+            "default": "Padrão",
+            "copied_clipboard": "Copiado para a área de transferência",
+            "bottom": "parte de baixo",
+            "success": "Sucesso",
+            "light": "Leve",
+            "previous": "Anterior",
+            "right": "Direita",
+            "share": "Compartilhar",
+            "standard": "Padrão",
+            "system": "Sistema",
+            "info": "Informação",
+            "auto": "Auto",
+            "finished": "Finalizado",
+            "hidden": "Oculto",
+            "left": "Esquerda",
+            "next": "Próximo"
         },
         "error": {
             "label": {
@@ -342,7 +359,8 @@
                 "unread": "Não lido",
                 "tracked": "Rastreado",
                 "downloaded": "Baixado",
-                "duplicate_chapters": "Capítulos duplicados"
+                "duplicate_chapters": "Capítulos duplicados",
+                "started": "Iniciado"
             }
         },
         "language": {
@@ -370,7 +388,7 @@
                 "inform": {
                     "label": {
                         "description": "Mostra uma caixa de diálogo caso uma nova versão esteja disponível",
-                        "title": "Informe sobre a atualização disponível"
+                        "title": "Informar sobre a atualização disponível"
                     }
                 }
             }
@@ -399,6 +417,11 @@
                 "minute_many": "Minutos",
                 "minute_other": "Minutos"
             }
+        },
+        "colors": {
+            "black": "Preto",
+            "gray": "Cinza",
+            "white": "Branco"
         }
     },
     "download": {
@@ -1026,11 +1049,7 @@
                             "invalid_json": "Json inválido",
                             "invalid_name": "O nome do tema deve ser único e tem um limite de 16 caracteres"
                         },
-                        "theme_name": "Nome",
-                        "info": {
-                            "creating_theme": "Crie um tema personalizado com o <2>Criador de tema MUI</2>, copie tudo após \"themeOptions\" de \"{\" até \"}\" e cole-o no campo de texto \"tema\".",
-                            "theme_mode_lock": "No caso de \"modo\" ou \"tipo\" é definido no objeto \"palette\", o tema será bloqueado neste modo e não mudará, independentemente do tema do dispositivo de aplicativos selecionado"
-                        }
+                        "theme_name": "Nome"
                     },
                     "title": "Criar tema",
                     "success": "Tema criado",
@@ -1254,6 +1273,11 @@
             "error": {
                 "label": {
                     "failed_to_save_settings": "Não foi possível salvar as configurações do leitor no servidor"
+                }
+            },
+            "chapter_transition": {
+                "warning": {
+                    "missing_chapter": "Informar sobre capítulos faltando na transição de capítulos"
                 }
             }
         },

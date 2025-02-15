@@ -85,7 +85,7 @@
             "show_nsfw_description": "Esconder extensiones y fuentes NSFW",
             "manga_item_width": "Anchura del manga",
             "show_nsfw": "Mostrar NSFW",
-            "language_description": "No dude en traducir el proyecto en",
+            "language_description": "Puedes traducir el proyecto en",
             "hide_library_entries": "Ocultar entradas en biblioteca",
             "theme": "Tema"
         },
@@ -355,11 +355,8 @@
                             "invalid_json": "Json incorrecto",
                             "invalid_name": "El nombre del tema debe ser único y tiene un límite de 16 caracteres"
                         },
-                        "info": {
-                            "creating_theme": "Crea un tema personalizado con el <2>Creador de temas MUI</2>, copia todo lo que hay después de \"themeOptions\" de \"{\" a \"}\" y pégalo en el campo de texto \"theme\".",
-                            "theme_mode_lock": "En caso de que \"modo\" o \"tipo\" se defina en el objeto \"paleta\", el tema se bloqueará en este modo y no cambiará independientemente del tema de las aplicaciones seleccionadas"
-                        },
-                        "theme_name": "Nombre"
+                        "theme_name": "Nombre",
+                        "description": "Ver la <0>documentación de MUI</0> oficial para ver cómo customizar el tema.\nLa paleta API no está soportada, tienes que usar la nueva <1>API de esquemas de color</1>.\n\nPuedes usar creadores de tema como <2>Creador de Temas MUI</2>, sin embargo, tienes que ajustar el objeto creado acorde a la nueva API de esquemas de color.\n\nEn caso de que no se defina ningún fondo, será calculado uno en base al color principal"
                     },
                     "action": "Creando un tema…",
                     "success": "Tema creado",
@@ -367,17 +364,18 @@
                     "title": "Crear tema"
                 },
                 "themes": {
-                    "orange_juice": "Zumo de Naranja",
+                    "orange_juice": "Zumo de naranja",
                     "rosegold": "Oro rosa",
                     "crimson": "Carmesí",
                     "forest_dew": "Rocío del Bosque",
-                    "mountain_sunset": "Puesta de Sol en la Montaña",
+                    "mountain_sunset": "Atardecer de montaña",
                     "dune": "Duna",
                     "lavender": "Lavanda",
-                    "minty_miracles": "Minty Miracles",
-                    "tree_frog_green": "Rana de Árbol Verde",
+                    "minty_miracles": "Milagros de menta",
+                    "tree_frog_green": "Verde de rana arborícola",
                     "veronica": "Verónica",
-                    "bright_pink": "Rosa Brillante"
+                    "bright_pink": "Rosa brillante",
+                    "ying_and_yang": "Ying & Yang"
                 },
                 "title": "Tema",
                 "delete": {
@@ -391,7 +389,7 @@
                     "action": "Guardando cambios en el tema…",
                     "failure": "No se han podido guardar los cambios del tema"
                 },
-                "pure_black_mode": "Modo oscuro, negro puro",
+                "pure_black_mode": "Modo oscuro profundo",
                 "select": {
                     "fonts": {
                         "error": "No se pudo cargar las fuentes del tema",
@@ -403,8 +401,11 @@
             },
             "title": "Apariencia",
             "manga_thumbnail_backdrop": {
-                "description": "Establece la miniatura del manga como imagen de fondo en la página del manga",
-                "title": "Miniatura del manga como fondo"
+                "description": "Establece la portada del manga como imagen de fondo en la página del manga",
+                "title": "Portada del manga como fondo"
+            },
+            "manga_dynamic_color_schemes": {
+                "description": "Cambia los colores del tema en la página del manga basándose en la portada"
             }
         },
         "default_value": "{{value}}<0>($t(global.label.default))</0>"
@@ -715,7 +716,10 @@
             "error": "Error",
             "info": "Información",
             "warning": "Aviso",
-            "success": "Éxito"
+            "success": "Éxito",
+            "dark": "Oscuro",
+            "system": "Sistema",
+            "light": "Claro"
         },
         "error": {
             "label": {
@@ -917,8 +921,8 @@
             "reader_type": {
                 "label": {
                     "webtoon": "Webtoon",
-                    "continuous_vertical": "Continuamente vertical",
-                    "continuous_horizontal": "Continuamente horizontal",
+                    "continuous_vertical": "Vertical continuo",
+                    "continuous_horizontal": "Horizontal continuo",
                     "double_page": "Página doble",
                     "single_page": "Página simple"
                 }
@@ -940,7 +944,7 @@
                 "page_gap": "Separación de páginas"
             },
             "title": {
-                "reader_settings": "Configuración del lector",
+                "reader_settings": "Ajustes del lector",
                 "quick_settings": "Configuración rápida"
             },
             "error": {
@@ -960,7 +964,10 @@
                     "blue": "Azul",
                     "green": "Verde",
                     "red": "Rojo",
-                    "title": "Filtros de color personalizados"
+                    "title": "Filtros de color personalizados",
+                    "blend_mode": {
+                        "default": "$t(global.label.default)"
+                    }
                 },
                 "saturate": "Saturación personalizada",
                 "sepia": "Sepia",
@@ -1126,7 +1133,7 @@
         },
         "label": {
             "category_name": "Nombre de categoría",
-            "use_as_default_category": "Categoría predeterminada cuando se añade un nuevo manga a la biblioteca"
+            "use_as_default_category": "Categoría predeterminada al añadir nuevos mangas a la biblioteca"
         },
         "settings": {
             "inclusion": {
@@ -1459,7 +1466,7 @@
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
         },
-        "title": "Migrar",
+        "title": "Migración",
         "sort": {
             "by_source_name": "Por nombre de la fuente",
             "by_manga_count": "Por número de manga"
