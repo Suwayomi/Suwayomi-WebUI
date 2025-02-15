@@ -378,53 +378,47 @@ export class ReaderControls {
                     return;
                 }
 
+                const areContinuousPagerTransitionPagesVisible =
+                    isContinuousReadingModeActive && isATransitionPageVisibleFlag;
+                const isPreviousTransitionPageVisible =
+                    (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.PREVIOUS) ||
+                    areContinuousPagerTransitionPagesVisible;
+                const isNextTransitionPageVisible =
+                    (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.NEXT) ||
+                    areContinuousPagerTransitionPagesVisible;
+
                 const shouldOpenPreviousChapter =
-                    isFirstPage && isATransitionPageVisibleFlag && convertedPage === 'previous' && !!previousChapter;
+                    isFirstPage && isPreviousTransitionPageVisible && convertedPage === 'previous' && !!previousChapter;
                 if (shouldOpenPreviousChapter) {
                     openChapter('previous');
                     return;
                 }
 
                 const shouldOpenNextChapter =
-                    isLastPage && isATransitionPageVisibleFlag && convertedPage === 'next' && !!nextChapter;
+                    isLastPage && isNextTransitionPageVisible && convertedPage === 'next' && !!nextChapter;
                 if (shouldOpenNextChapter) {
                     openChapter('next');
                     return;
                 }
 
+                const isPreviousMode = convertedPage === 'previous';
+
                 const needToHideTransitionPage = isATransitionPageVisibleFlag && !isContinuousReadingModeActive;
-                switch (convertedPage) {
-                    case 'previous':
-                        if (isFirstPage) {
-                            setTransitionPageMode(ReaderTransitionPageMode.PREVIOUS);
-                            return;
-                        }
-
-                        if (needToHideTransitionPage) {
-                            hideTransitionPage();
-                            setPageToScrollToIndex(indexOfLastPage);
-                            return;
-                        }
-
-                        setPageToScrollToIndex(previousPageIndex);
-                        break;
-                    case 'next':
-                        if (isLastPage) {
-                            setTransitionPageMode(ReaderTransitionPageMode.NEXT);
-                            return;
-                        }
-
-                        if (needToHideTransitionPage) {
-                            hideTransitionPage();
-                            setPageToScrollToIndex(indexOfFirstPage);
-                            return;
-                        }
-
-                        setPageToScrollToIndex(nextPageIndex);
-                        break;
-                    default:
-                        throw new Error(`Unexpected "offset" (${page})`);
+                if (needToHideTransitionPage) {
+                    hideTransitionPage();
+                    setPageToScrollToIndex(isPreviousMode ? indexOfLastPage : indexOfFirstPage);
+                    return;
                 }
+
+                const needToOpenTransitionPage = isFirstPage || isLastPage;
+                if (needToOpenTransitionPage) {
+                    setTransitionPageMode(
+                        isPreviousMode ? ReaderTransitionPageMode.PREVIOUS : ReaderTransitionPageMode.NEXT,
+                    );
+                    return;
+                }
+
+                setPageToScrollToIndex(isPreviousMode ? previousPageIndex : nextPageIndex);
             },
             [
                 direction,
