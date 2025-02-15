@@ -194,7 +194,7 @@
                 "label": {
                     "new_chapters": "Tải chương mới",
                     "ignore_re_uploads": "Bỏ qua chương được tải lên lại",
-                    "ignore_with_unread_chapters": "Bỏ qua tự động tải chương về cho truyện có chương chưa đọc"
+                    "ignore_with_unread_chapters": "Không tự động tải chương các truyện đang có chương chưa đọc"
                 },
                 "title": "Tự động tải xuống",
                 "categories": {
@@ -418,7 +418,10 @@
             "error": "Lỗi",
             "info": "Thông tin",
             "success": "Thành công",
-            "warning": "Cảnh báo"
+            "warning": "Cảnh báo",
+            "dark": "Tối",
+            "light": "Sáng",
+            "system": "Hệ thống"
         },
         "language": {
             "label": {
@@ -541,7 +544,7 @@
                 },
                 "metadata": {
                     "label": {
-                        "title": "Tự động làm mới metadata",
+                        "title": "Tự động làm mới siêu dữ liệu",
                         "description": "Kiểm tra bìa truyện và chi tiết khi cập nhật thư viện"
                     }
                 },
@@ -558,8 +561,8 @@
                 },
                 "entries": {
                     "label": {
-                        "completed": "Với trạng thái \"Hoàn thành\"",
-                        "unread_chapters": "Với chương chưa đọc",
+                        "completed": "Với trạng thái \"Đã hoàn thành\"",
+                        "unread_chapters": "Có chương chưa đọc",
                         "not_started": "Chưa bắt đầu đọc"
                     },
                     "title": "Bỏ qua cập nhật các mục"
@@ -806,7 +809,16 @@
                     "blue": "Xanh lam",
                     "red": "Đỏ",
                     "alpha": "Độ mờ đục",
-                    "title": "Tùy chỉnh bộ lọc màu"
+                    "title": "Tùy chỉnh bộ lọc màu",
+                    "blend_mode": {
+                        "title": "Chế độ pha trộn bộ lọc màu",
+                        "screen": "Màn hình",
+                        "default": "$t(global.label.default)",
+                        "lighten": "Làm sáng",
+                        "multiply": "Làm nhiều",
+                        "overlay": "Lớp phủ",
+                        "darken": "Làm tối"
+                    }
                 },
                 "saturate": "Tùy chỉnh bão hòa",
                 "sepia": "Ảnh nâu đỏ",
@@ -1285,10 +1297,7 @@
                             "invalid_name": "Tên chủ đề phải là duy nhất và có giới hạn 16 ký tự"
                         },
                         "theme_name": "Tên",
-                        "info": {
-                            "creating_theme": "Tạo một chủ đề tùy chỉnh với <2>MUI Theme Creator</2>, sao chép mọi thứ sau \"themeOptions\" from \"{\" to \"}\" và dán vào trường văn bản có nhãn \"Chủ đề\".",
-                            "theme_mode_lock": "Nếu \"mode\" hoặc \"type\" được thiết lập trong \"palette\", chủ đề sẽ bị khóa vào chế độ này và sẽ không thay đổi bất kể chế độ chủ đề của ứng dụng được chọn"
-                        }
+                        "description": "Xem <0>tài liệu MUI</0> chính thức để biết cách tùy chỉnh chủ đề.\nAPI bảng màu không được hỗ trợ, bạn phải sử dụng <1>API bảng phối màu</1> mới.\n\nBạn có thể sử dụng các trình tạo chủ đề như <2>MUI Theme Creator</2>, tuy nhiên, bạn phải điều chỉnh đối tượng đã tạo theo API phối màu mới.\n\nTrong trường hợp không xác định được nền thì nền sẽ được tính dựa trên màu chính"
                     },
                     "success": "Đã tạo chủ đề",
                     "action": "Đang tạo chủ đề…",
@@ -1318,7 +1327,8 @@
                     "orange_juice": "Cam ép",
                     "bright_pink": "Hồng tươi",
                     "tree_frog_green": "Ếch xanh",
-                    "veronica": "Hoa tím"
+                    "veronica": "Hoa tím",
+                    "ying_and_yang": "Trắng & Đen"
                 },
                 "title": "Chủ đề",
                 "select": {
@@ -1334,6 +1344,10 @@
             "manga_thumbnail_backdrop": {
                 "description": "Đặt ảnh bìa truyện làm hình nền trên trang truyện",
                 "title": "Ảnh bìa truyện làm hình nền"
+            },
+            "manga_dynamic_color_schemes": {
+                "description": "Thay đổi chủ đề trang manga dựa trên ảnh bìa",
+                "title": "Chủ đề động trên trang manga"
             }
         },
         "default_value": "{{value}}<0>($t(global.label.default))</0>"
