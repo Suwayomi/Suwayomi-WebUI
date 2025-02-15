@@ -29,7 +29,8 @@
                     "by_latest_fetched_chapter": "أحدث الفصل الذي تم جلبه",
                     "by_latest_uploaded_chapter": "آخر فصل تم تحميله",
                     "by_unread_chapters": "فصول غير مقروءة",
-                    "by_date_added": "أضيف مؤخرا"
+                    "by_date_added": "أضيف مؤخرا",
+                    "by_total_chapters": "مجموع الفصول"
                 }
             }
         },
@@ -82,6 +83,17 @@
                             "error": "تعذرت إزالة المانجا غير التابعة للمكتبة من الفئات"
                         }
                     }
+                },
+                "duplicates": {
+                    "label": {
+                        "description": "إظهار جميع الإدخالات المكررة في مكتبتك",
+                        "title": "الإدخالات المكررة"
+                    },
+                    "settings": {
+                        "label": {
+                            "check_description": "التحقق من الوصف"
+                        }
+                    }
                 }
             },
             "general": {
@@ -100,6 +112,14 @@
                             "title": "تجاهل المرشحات عند البحث"
                         }
                     }
+                },
+                "remove_from_library": {
+                    "remove_from_categories": {
+                        "label": {
+                            "description": "قم بإزالة المانجا من الفئات عند إزالتها من المكتبة",
+                            "title": "انسى فئات المانجا"
+                        }
+                    }
                 }
             }
         },
@@ -108,13 +128,21 @@
                 "no_matches": "لا توجد مانغا تتطابق مع هذا الفلتر",
                 "remove_from_library": "لا يمكن إزالة المانجا من المكتبة!",
                 "empty": "مكتبتك فارغة",
-                "add_to_library": "لا يمكن إضافة المانجا إلى المكتبة!"
+                "add_to_library": "لا يمكن إضافة المانجا إلى المكتبة!",
+                "stop_global_update": "لم نتمكن من إيقاف التحديث العالمي"
             }
         },
         "info": {
             "label": {
                 "added_to_library": "تمت إضافة المانجا إلى المكتبة!",
                 "removed_from_library": "تمت إزالة المانجا من المكتبة!"
+            }
+        },
+        "action": {
+            "label": {
+                "stop_update": "إيقاف التحديث العالمي",
+                "update_category": "فئة التحديث",
+                "update_library": "تحديث المكتبة"
             }
         }
     },
@@ -474,7 +502,21 @@
             "clear": "واضح",
             "filter": "منقي",
             "ok": "نعم",
-            "start": "يبدأ"
+            "start": "يبدأ",
+            "save": "حفظ",
+            "open": "فتح",
+            "show_more": "عرض المزيد",
+            "refresh": "انعاش",
+            "remind_later": "تذكير لاحقا",
+            "delete": "حذف",
+            "ignore": "تجاهل",
+            "remove": "إزالة",
+            "show_less": "إظهار أقل",
+            "log_out": "تسجيل الخروج",
+            "changelog": "سجل التغييرات",
+            "create": "إنشاء",
+            "dont_show_dialog_again": "لا تظهر هذا الحوار مرة أخرى",
+            "log_in": "تسجيل الدخول"
         },
         "label": {
             "browse": "تصفح",
@@ -496,19 +538,56 @@
             "sort": "نوع",
             "close": "يغلق",
             "disabled": "عاجز",
-            "discord": "الفتنة"
+            "discord": "الفتنة",
+            "standard": "المعيار",
+            "started": "بدأت",
+            "default": "افتراضي",
+            "logged_in": "تم تسجيل الدخول",
+            "auto": "تلقائي",
+            "copied_clipboard": "تم نسخها إلى الحافظة",
+            "desktop": "سطح المكتب",
+            "finished": "منتهي",
+            "share": "شارك",
+            "bottom": "أسفل",
+            "both": "كلاهما",
+            "left": "يسار",
+            "menu": "القائمة",
+            "success": "نجاح",
+            "vertical": "عمودي",
+            "warning": "تحذير",
+            "asterisk": "*",
+            "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
+            "hidden": "مخفي",
+            "load_in_progress": "لا يزال يحمل البيانات المطلوبة…",
+            "type": "كتب",
+            "mobile": "متنقل",
+            "error": "خطأ",
+            "info": "معلومة",
+            "next": "التالي",
+            "are_you_sure": "هل أنت متأكد؟",
+            "horizontal": "أفقي",
+            "open_in_browser": "فتح في المتصفح",
+            "previous": "سابق",
+            "right": "يمين"
         },
         "sort": {
             "label": {
                 "by_source": "حسب المصدر",
-                "by_fetch_date": "حسب تاريخ الجلب"
+                "by_fetch_date": "حسب تاريخ الجلب",
+                "by_chapter_number": "حسب رقم الفصل",
+                "desc": "تنازلي",
+                "by_upload_date": "حسب تاريخ التحميل",
+                "asc": "تصاعدي"
             }
         },
         "filter": {
             "label": {
                 "bookmarked": "إشارة مرجعية",
                 "downloaded": "تم التنزيل",
-                "unread": "غير مقروءة"
+                "unread": "غير مقروءة",
+                "tracked": "تم تعقبها",
+                "duplicate_chapters": "الفصول المكررة",
+                "started": "بدأت"
             }
         },
         "date": {
@@ -517,11 +596,11 @@
                 "yesterday": "أمس",
                 "today": "اليوم",
                 "day_zero": "يوم",
-                "day_one": "",
-                "day_two": "",
-                "day_few": "",
-                "day_many": "",
-                "day_other": "",
+                "day_one": "يوم",
+                "day_two": "يومان",
+                "day_few": "أيام",
+                "day_many": "أيام",
+                "day_other": "أيام",
                 "yesterday_at": "أمس الساعة {{timeString}}"
             },
             "value": {
@@ -569,7 +648,16 @@
                 "check_failure": "لا يمكن التحقق من التحديث",
                 "up_to_date": "هذا آخر إصدار",
                 "update_failure": "فشل التحديث",
-                "updating": "{{progress}}% | جارٍ التحديث…"
+                "updating": "{{progress}}% | جارٍ التحديث…",
+                "update_success": "{{channel}}{{version}}تم تحديثه إلى الإصدار{{name}}"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "title": "إبلاغ عن التحديثات المتاحة",
+                        "description": "يظهر مربع حوار في حالة توفر إصدار جديد"
+                    }
+                }
             }
         },
         "grid_layout": {
@@ -588,7 +676,19 @@
             "label": {
                 "language_with_code": "اللغة ذات الكود: {{code}}",
                 "language": "لغة"
+            },
+            "error": {
+                "load": "لم يتمكن من تحميل اللغة"
             }
+        },
+        "value": "{{unit}}{{value}}",
+        "unit": {
+            "px": "px"
+        },
+        "colors": {
+            "black": "أسود",
+            "gray": "رمادي",
+            "white": "أبيض"
         }
     },
     "chapter": {
@@ -681,7 +781,8 @@
                 }
             },
             "label": {
-                "select": "يختار"
+                "select": "اختيار",
+                "open_on_source": "مفتوح المصدر"
             },
             "download": {
                 "delete": {
@@ -721,7 +822,8 @@
                         "error_two": "",
                         "error_few": "",
                         "error_many": "",
-                        "error_other": ""
+                        "error_other": "",
+                        "next_twentyfive": "الفصول الـ 25 القادمة"
                     }
                 }
             }
@@ -746,11 +848,11 @@
             }
         },
         "title_zero": "الفصل",
-        "title_one": "",
-        "title_two": "",
-        "title_few": "",
-        "title_many": "",
-        "title_other": ""
+        "title_one": "فصل",
+        "title_two": "فصلان",
+        "title_few": "فصول",
+        "title_many": "فصول",
+        "title_other": "فصول"
     },
     "download": {
         "settings": {
@@ -773,12 +875,19 @@
             "auto_download": {
                 "label": {
                     "ignore_with_unread_chapters": "تجاهل التنزيلات التلقائية للفصول للإدخالات ذات الفصول غير المقروءة",
-                    "new_chapters": "تحميل فصول جديدة"
+                    "new_chapters": "تحميل فصول جديدة",
+                    "ignore_re_uploads": "تجاهل الفصول التي تم إعادة تحميلها"
                 },
                 "title": "التنزيل التلقائي",
                 "categories": {
                     "label": {
                         "include_in_download": "لن يتم تنزيل الإدخالات الموجودة في الفئات المستبعدة حتى لو كانت موجودة أيضًا في الفئات المضمنة"
+                    }
+                },
+                "download_limit": {
+                    "label": {
+                        "description": "تحديد عدد الفصول الجديدة التي سيتم تنزيلها.",
+                        "title": "حد تنزيل الفصل"
                     }
                 }
             },
@@ -826,7 +935,8 @@
             "error": {
                 "label": {
                     "failed_delete_all": "تعذر إزالة كافة التنزيلات من قائمة الانتظار",
-                    "failed_to_remove": "تعذر إزالة التنزيل من قائمة الانتظار."
+                    "failed_to_remove": "تعذر إزالة التنزيل من قائمة الانتظار.",
+                    "failed_to_retry": "لم نتمكن من إعادة محاولة التنزيل الفاشل."
                 }
             },
             "title": "تحميل قائمة الانتظار"
@@ -880,31 +990,31 @@
     "extension": {
         "label": {
             "installing_file": "جارٍ تثبيت ملف الامتداد…",
-            "uninstallation_failed_zero": "تعذر إلغاء تثبيت الامتداد",
-            "uninstallation_failed_one": "",
-            "uninstallation_failed_two": "",
-            "uninstallation_failed_few": "",
-            "uninstallation_failed_many": "",
-            "uninstallation_failed_other": "",
-            "update_failed_zero": "تعذر تحديث الامتداد",
-            "update_failed_one": "",
-            "update_failed_two": "",
-            "update_failed_few": "",
-            "update_failed_many": "",
-            "update_failed_other": "",
+            "uninstallation_failed_zero": "تعذر إلغاء تثبيت الملحق",
+            "uninstallation_failed_one": "تعذر إلغاء تثبيت الملحق",
+            "uninstallation_failed_two": "تعذر إلغاء تثبيت الملحقان",
+            "uninstallation_failed_few": "تعذر إلغاء تثبيت الملحقات",
+            "uninstallation_failed_many": "تعذر إلغاء تثبيت الملحقات",
+            "uninstallation_failed_other": "تعذر إلغاء تثبيت الملحقات",
+            "update_failed_zero": "تعذر تحديث الملحق",
+            "update_failed_one": "تعذر تحديث الملحق",
+            "update_failed_two": "تعذر تحديث الملحقان",
+            "update_failed_few": "تعذر تحديث الملحقات",
+            "update_failed_many": "تعذر تحديث الملحقات",
+            "update_failed_other": "تعذر تحديث الملحقات",
             "add_repository_info": "يجب عليك إضافة مستودع ملحقات لتتمكن من تثبيت الملحقات",
-            "installed_successfully_zero": "تم تثبيت الامتداد",
-            "installed_successfully_one": "",
-            "installed_successfully_two": "",
-            "installed_successfully_few": "",
-            "installed_successfully_many": "",
-            "installed_successfully_other": "",
-            "installation_failed_zero": "تعذر تثبيت الامتداد",
-            "installation_failed_one": "",
-            "installation_failed_two": "",
-            "installation_failed_few": "",
-            "installation_failed_many": "",
-            "installation_failed_other": ""
+            "installed_successfully_zero": "تم تثبيت الملحق",
+            "installed_successfully_one": "تم تثبيت الملحق",
+            "installed_successfully_two": "تم تثبيت الملحقان",
+            "installed_successfully_few": "تم تثبيت الملحقات",
+            "installed_successfully_many": "تم تثبيت الملحقات",
+            "installed_successfully_other": "تم تثبيت الملحقات",
+            "installation_failed_zero": "تعذر تثبيت الملحق",
+            "installation_failed_one": "تعذر تثبيت الملحق",
+            "installation_failed_two": "تعذر تثبيت الملحقان",
+            "installation_failed_few": "تعذر تثبيت الملحقات",
+            "installation_failed_many": "تعذر تثبيت الملحقات",
+            "installation_failed_other": "تعذر تثبيت الملحقات"
         },
         "state": {
             "label": {
@@ -917,17 +1027,18 @@
             }
         },
         "title_zero": "ملحقات",
-        "title_one": "",
-        "title_two": "",
-        "title_few": "",
-        "title_many": "",
-        "title_other": "",
+        "title_one": "ملحق",
+        "title_two": "ملحقان",
+        "title_few": "ملحقات",
+        "title_many": "ملحقات",
+        "title_other": "ملحقات",
         "action": {
             "label": {
                 "update": "تحديث",
                 "uninstall": "الغاء التثبيت",
                 "install": "ثَبَّتَ",
-                "install_external": "تثبيت ملحق خارجي"
+                "install_external": "تثبيت ملحق خارجي",
+                "update_all": "تحديث الكل"
             }
         },
         "language": {
@@ -982,12 +1093,29 @@
             },
             "title": {
                 "reader_settings": "إعدادات القارئ"
+            },
+            "active_setting": "الإعداد النشط",
+            "background_color": "لون الخلفية",
+            "auto_scroll": {
+                "smooth": "التمرير التلقائي السلس",
+                "speed": "سرعة التمرير التلقائي",
+                "title": "التمرير التلقائي"
+            },
+            "auto_webtoon_mode": {
+                "title": "وضع الويبتون التلقائي",
+                "description": "استخدم وضع webtoon تلقائيًا للإدخالات التي تم اكتشاف أنها من المحتمل أن تستخدم تنسيق الشريط الطويل"
+            },
+            "chapter_transition": {
+                "warning": {
+                    "missing_chapter": "إبلاغ عن الفصول المفقودة عند انتقال الفصل"
+                }
             }
         },
         "page_info": {
             "label": {
                 "currently_on_page": "حاليا على الصفحة",
-                "of_max_pages": "من {{maxPages}}"
+                "of_max_pages": "من {{maxPages}}",
+                "page": "صفحة"
             }
         },
         "button": {
@@ -995,9 +1123,44 @@
             "close_menu": "إغلاق القائمة",
             "exit": "خروج القارئ",
             "open_menu": "فتح القائمة",
-            "previous_chapter": "الفصل السابق"
+            "previous_chapter": "الفصل السابق",
+            "previous_page": "الصفحة السابقة",
+            "retry_load_pages": "إعادة محاولة الصفحات الخاطئة",
+            "next_page": "الصفحة التالية",
+            "chapter_list": "قائمة الفصول"
         },
-        "title": "القارئ — مانغا {{mangaId}} الفصل {{chapterIndex}}"
+        "title": "القارئ — مانغا {{mangaId}} الفصل {{chapterIndex}}",
+        "error": {
+            "label": {
+                "next_chapter_does_not_exist": "لا يوجد فصل آخر ليتم فتحه",
+                "no_pages_found": "لم يتم العثور على صفحات",
+                "prev_chapter_does_not_exist": "لا يوجد فصل سابق لفتحه",
+                "chapter_not_found": "الفصل غير موجود"
+            }
+        },
+        "chapter_transition": {
+            "warning": {
+                "next": {
+                    "scanlator": "الفصل التالي لديه ماسح ضوئي مختلف عن الحالي.\nالحالي:{{currentScanlator}}\nالتالي:{{nextScanlator}}",
+                    "chapter_number_zero": "هناك{{count}}فصول مفقودة.\nالحالي:{{currentChapter}}\nالتالي:{{nextChapter}}",
+                    "chapter_number_one": "هناك{{count}}فصل مفقود.\nالحالي:{{currentChapter}}\nالتالي:{{nextChapter}}",
+                    "chapter_number_two": "هناك{{count}}فصلان مفقودان.\nالحالي:{{currentChapter}}\nالتالي:{{nextChapter}}",
+                    "chapter_number_few": "هناك{{count}}فصول مفقودة.\nالحالي:{{currentChapter}}\nالتالي:{{nextChapter}}",
+                    "chapter_number_many": "هناك{{count}}فصل مفقودا.\nالحالي:{{currentChapter}}\nالتالي:{{nextChapter}}",
+                    "chapter_number_other": "هناك{{count}}فصل مفقود.\nالحالي:{{currentChapter}}\nالتالي:{{nextChapter}}"
+                },
+                "previous": {
+                    "scanlator": "الفصل السابق لديه ماسح ضوئي مختلف عن الفصل الحالي.\nالسابق:{{nextScanlator}}\nالحالي:{{currentScanlator}}",
+                    "chapter_number_zero": "هناك فصل مفقود.\nالسابق:{{nextChapter}}\nالحالي:{{currentChapter}}",
+                    "chapter_number_one": "هناك فصل مفقود.\nالسابق:{{nextChapter}}\nالحالي:{{currentChapter}}",
+                    "chapter_number_two": "هناك فصلان مفقودان.\nالسابق:{{nextChapter}}\nالحالي:{{currentChapter}}",
+                    "chapter_number_few": "هناك {{count}}فصول مفقودة.\nالسابق:{{nextChapter}}\nالحالي:{{currentChapter}}",
+                    "chapter_number_many": "هناك{{count}} فصلا مفقودا.\nالسابق:{{nextChapter}}\nالحالي:{{currentChapter}}",
+                    "chapter_number_other": "هناك {{count}}فصل مفقود.\nالسابق:{{nextChapter}}\nالحالي:{{currentChapter}}"
+                },
+                "title": "تحذير انتقال الفصل"
+            }
+        }
     },
     "manga": {
         "error": {
@@ -1015,11 +1178,11 @@
             "reload_from_source": "إعادة تحميل البيانات من المصدر"
         },
         "title_zero": "مانغا",
-        "title_one": "",
-        "title_two": "",
-        "title_few": "",
-        "title_many": "",
-        "title_other": "",
+        "title_one": "مانغا",
+        "title_two": "مانغتان",
+        "title_few": "مانغات",
+        "title_many": "مانغا",
+        "title_other": "مانغا",
         "action": {
             "category": {
                 "button": {
@@ -1060,6 +1223,21 @@
                         "success_few": "",
                         "success_many": "",
                         "success_other": ""
+                    },
+                    "dialog": {
+                        "label": {
+                            "message": "أنت على وشك إزالة {{title}} من مكتبتك"
+                        }
+                    }
+                },
+                "add": {
+                    "dialog": {
+                        "duplicate": {
+                            "label": {
+                                "info": "لديك إدخال في مكتبتك يحمل نفس الاسم.",
+                                "failure": "لم نتمكن من التحقق من وجود المانجا المكررة في مكتبتك.\n\n خطأ:{{error}}"
+                            }
+                        }
                     }
                 }
             },
@@ -1068,11 +1246,51 @@
                     "error": "لا يمكن ترحيل المانجا",
                     "success": "تم ترحيل المانجا بنجاح"
                 }
+            },
+            "track": {
+                "remove": {
+                    "label": {
+                        "error": "لم نتمكن من إلغاء تعقب المانجا",
+                        "success": "مانجا غير متتبعة"
+                    },
+                    "dialog": {
+                        "label": {
+                            "delete_remote_track": "قم أيضًا بإزالة من {{tracker}}",
+                            "title": "إزالة {{tracker}} التتبع؟",
+                            "description": "سيؤدي هذا إلى إزالة التتبع محليًا."
+                        }
+                    }
+                },
+                "add": {
+                    "label": {
+                        "error": "لم نتمكن من تتبع المانجا",
+                        "action": "تعقب",
+                        "success": "مانجا متتبعة"
+                    }
+                }
             }
         },
         "button": {
             "in_library": "في المكتبة",
-            "add_to_library": "إضافة إلى مكتبة"
+            "add_to_library": "إضافة إلى مكتبة",
+            "track": {
+                "active_zero": "{{count}}المتعقب",
+                "active_one": "{{count}}المتعقب",
+                "active_two": "{{count}}المتعقبان",
+                "active_few": "{{count}}المتعقبات",
+                "active_many": "{{count}}المتعقبات",
+                "active_other": "{{count}}المتعقبات",
+                "start": "التتبع"
+            }
+        },
+        "status": {
+            "licensed": "مرخصة",
+            "ongoing": "جارية",
+            "cancelled": "تم الإلغاء",
+            "completed": "مكتمل",
+            "hiatus": "توقف",
+            "publishing_finished": "تم الانتهاء من النشر",
+            "unknown": "$t(global.label.unknown)"
         }
     },
     "migrate": {
@@ -1083,13 +1301,41 @@
                     "show_entry": "إظهار الإدخال"
                 }
             },
-            "title": "حدد البيانات المراد تضمينها"
+            "title": "حدد البيانات المراد تضمينها",
+            "label": {
+                "delete_downloaded": "حذف ما تم تنزيله"
+            }
         },
         "label": {
             "info": "هجرة المانجا…"
         },
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
+        },
+        "sort": {
+            "by_manga_count": "حسب عدد المانجا",
+            "by_source_name": "حسب اسم المصدر"
+        }
+    },
+    "hotkeys": {
+        "create": {
+            "error": {
+                "exists": "مفتاح التشغيل السريع موجود بالفعل"
+            },
+            "dialog": {
+                "placeholder": "اضغط على المفاتيح",
+                "title": "تسجيل مفتاح الربط",
+                "label": "المفاتيح المسجلة:<Keys/>"
+            }
+        },
+        "title_zero": "رابط المفتاح",
+        "title_one": "رابط المفتاح",
+        "title_two": "رابط المفتاحين",
+        "title_few": "رابط المفاتيح",
+        "title_many": "رابط المفاتيح",
+        "title_other": "رابط المفاتيح",
+        "info": {
+            "delete": "انقر على المفتاح لإزالة الارتباط"
         }
     }
 }
