@@ -321,7 +321,7 @@ const BaseReaderViewer = forwardRef(
                         (isLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode) ||
                         (isLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode);
 
-                    const isPreviousChapterLoaded = !!chaptersToRender[currentChapterIndex + 1];
+                    const isPreviousChapterLoaded = !!chaptersToRender[chapterIndex + 1];
                     const isPreviousChapterLastLeadingChapter = chapterIndex + 1 >= chaptersToRender.length - 1;
                     const isPreviousChapterPreloading =
                         isPreviousChapterLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode;
