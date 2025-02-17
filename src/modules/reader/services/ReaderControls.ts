@@ -606,26 +606,10 @@ export class ReaderControls {
                         setIsOverlayVisible((isVisible) => isStaticNav || !isVisible);
                         break;
                     case TapZoneRegionType.PREVIOUS:
-                        if (isContinuousReadingModeActive) {
-                            ReaderControls.scroll(
-                                ScrollOffset.BACKWARD,
-                                scrollDirection,
-                                readingMode.value,
-                                readingDirection.value,
-                                themeDirection,
-                                scrollElement,
-                                openChapter,
-                                setIsOverlayVisible,
-                                setShowPreview,
-                            );
-                        } else {
-                            openPage('previous', 'ltr');
-                        }
-                        break;
                     case TapZoneRegionType.NEXT:
                         if (isContinuousReadingModeActive) {
                             ReaderControls.scroll(
-                                ScrollOffset.FORWARD,
+                                action === TapZoneRegionType.PREVIOUS ? ScrollOffset.BACKWARD : ScrollOffset.FORWARD,
                                 scrollDirection,
                                 readingMode.value,
                                 readingDirection.value,
@@ -636,7 +620,7 @@ export class ReaderControls {
                                 setShowPreview,
                             );
                         } else {
-                            openPage('next', 'ltr');
+                            openPage(action === TapZoneRegionType.PREVIOUS ? 'previous' : 'next', 'ltr');
                         }
                         break;
                     default:
