@@ -40,6 +40,7 @@ import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
+import { ReaderLibraryButton } from '@/modules/reader/components/overlay/navigation/ReaderLibraryButton.tsx';
 
 const DEFAULT_MANGA = { id: -1, title: '' };
 const DEFAULT_CHAPTER = { id: -1, name: '', realUrl: '', isBookmarked: false };
@@ -107,6 +108,7 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
                         <LoadingPlaceholder />
                     )}
                 </Stack>
+                <ReaderLibraryButton />
                 <CustomTooltip title={t(actionToTranslationKey[bookmarkAction].action.single)}>
                     <IconButton onClick={() => Chapters.performAction(bookmarkAction, [chapterId], {})} color="inherit">
                         {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
