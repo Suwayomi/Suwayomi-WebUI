@@ -9,9 +9,9 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import dayjs from 'dayjs';
-import { createCommitChangelog } from './release/CommitChangelog.utils.ts';
-import { createTranslationChangelog } from './release/TranslationChangelog.utils.ts';
-import { validateWeblateDates } from './weblate/Weblate.utils.ts';
+import { createCommitChangelog } from './CommitChangelog.utils.ts';
+import { createTranslationChangelog } from './TranslationChangelog.utils.ts';
+import { validateWeblateDates } from '../weblate/Weblate.utils.ts';
 
 const { sha, date } = yargs(hideBin(process.argv))
     .options({

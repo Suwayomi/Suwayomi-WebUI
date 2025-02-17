@@ -8,7 +8,7 @@
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { createCommitChangelog } from './release/CommitChangelog.utils.ts';
+import { createCommitChangelog } from './CommitChangelog.utils.ts';
 
 const { sha } = yargs(hideBin(process.argv))
     .options({

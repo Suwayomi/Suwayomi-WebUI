@@ -93,7 +93,7 @@ module.exports = {
             },
         },
         {
-            files: ['tools/scripts/*'],
+            files: ['tools/scripts/**/*'],
             rules: {
                 'no-relative-import-paths/no-relative-import-paths': 'off',
                 'import/no-extraneous-dependencies': ['error', { devDependencies: true }],

@@ -12,12 +12,12 @@ import {
     fetchWeblateLanguageStats,
     getWeblateLanguageStatsFor,
     meetsTranslatedPercentThreshold as meetsTranslatedPercentThresholdBase,
-} from './weblate/Weblate.utils.ts';
-import { WeblateLanguageStatistic } from './weblate/Weblate.types.ts';
-import { TRANSLATED_PERCENT_THRESHOLD } from './weblate/Weblate.constants.ts';
+} from './Weblate.utils.ts';
+import { WeblateLanguageStatistic } from './Weblate.types.ts';
+import { TRANSLATED_PERCENT_THRESHOLD } from './Weblate.constants.ts';
 
-const outputFilePath = path.join(import.meta.dirname, '../../src/i18n/index.ts');
-const resourcesDirPath = path.join(import.meta.dirname, '../../public/locales');
+const outputFilePath = path.join(import.meta.dirname, '../../../src/i18n/index.ts');
+const resourcesDirPath = path.join(import.meta.dirname, '../../../public/locales');
 
 const extractLanguageCode = (resourceFileNames: string): string =>
     path.basename(resourceFileNames, path.extname(resourceFileNames));
