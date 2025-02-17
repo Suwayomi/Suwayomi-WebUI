@@ -64,6 +64,25 @@ const getRootMargin = (
     return getOptionForDirection(lastPageMarginHorizontal, firstPageMarginHorizontal, themeDirectionOfReadingDirection);
 };
 
+const getElementIntersectionInfoHorizontal = (
+    readingDirection: ReadingDirection,
+    left: number,
+    right: number,
+    viewportWidth: number,
+): ElementIntersectionInfo[ReadingMode.CONTINUOUS_HORIZONTAL] => {
+    if (readingDirection === ReadingDirection.LTR) {
+        return {
+            start: right >= viewportWidth,
+            end: left < 0,
+        };
+    }
+
+    return {
+        start: left < 0,
+        end: right >= viewportWidth,
+    };
+};
+
 /**
  * Returns info about if the start or end of an element is intersecting.
  *
@@ -75,26 +94,20 @@ const getElementIntersectionInfo = (
     scrollbarXSize: number,
     scrollbarYSize: number,
 ): ElementIntersectionInfo => {
-    const themeDirectionOfReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
-
     const viewportWidth = window.innerWidth - scrollbarYSize;
     const viewportHeight = window.innerHeight - scrollbarXSize;
-
-    const startOfViewportHorizontal = getOptionForDirection(0, viewportWidth, themeDirectionOfReadingDirection);
-    const endOfViewportHorizontal = getOptionForDirection(viewportWidth, 0, themeDirectionOfReadingDirection);
-
-    const startOfElementHorizontal = getOptionForDirection(left, right, themeDirectionOfReadingDirection);
-    const endOfElementHorizontal = getOptionForDirection(right, left, themeDirectionOfReadingDirection);
 
     return {
         [ReadingMode.CONTINUOUS_VERTICAL]: {
             start: bottom >= viewportHeight,
             end: top < 0,
         },
-        [ReadingMode.CONTINUOUS_HORIZONTAL]: {
-            start: endOfElementHorizontal >= endOfViewportHorizontal,
-            end: startOfElementHorizontal < startOfViewportHorizontal,
-        },
+        [ReadingMode.CONTINUOUS_HORIZONTAL]: getElementIntersectionInfoHorizontal(
+            readingDirection,
+            left,
+            right,
+            viewportWidth,
+        ),
     };
 };
 
