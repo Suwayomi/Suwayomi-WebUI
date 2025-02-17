@@ -9,15 +9,12 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
-import ArrowBack from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import Divider from '@mui/material/Divider';
 import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderNavBarDesktopProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { ReaderNavContainer } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavContainer.tsx';
 import { ReaderNavBarDesktopMetadata } from '@/modules/reader/components/overlay/navigation/desktop/ReaderNavBarDesktopMetadata.tsx';
@@ -36,6 +33,7 @@ import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.
 import { IReaderSettings, ReaderStateChapters, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
+import { ReaderExitButton } from '@/modules/reader/components/overlay/navigation/ReaderExitButton.tsx';
 
 const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolean) => {
     const wasNavBarStaticRef = useRef(isStaticNav);
@@ -65,17 +63,12 @@ const BaseReaderNavBarDesktop = ({
     previousChapter,
     nextChapter,
     isStaticNav,
-    exit,
 }: ReaderNavBarDesktopProps &
     Pick<NavbarContextType, 'setReaderNavBarWidth'> &
     Pick<TReaderStateMangaContext, 'manga'> &
     Pick<ReaderStateChapters, 'currentChapter' | 'previousChapter' | 'nextChapter' | 'chapters'> &
-    Pick<IReaderSettings, 'isStaticNav'> & {
-        exit: ReturnType<typeof ReaderService.useExit>;
-    }) => {
+    Pick<IReaderSettings, 'isStaticNav'>) => {
     const { t } = useTranslation();
-
-    const getOptionForDirection = useGetOptionForDirection();
 
     const updateReaderSettings = ReaderService.useCreateUpdateSetting(manga ?? FALLBACK_MANGA);
 
@@ -111,11 +104,7 @@ const BaseReaderNavBarDesktop = ({
             <ReaderNavContainer sx={{ backgroundColor: 'background.paper', pointerEvents: 'all' }}>
                 <Stack sx={{ p: 2, gap: 2, backgroundColor: 'action.hover' }}>
                     <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <CustomTooltip title={t('reader.button.exit')}>
-                            <IconButton onClick={exit} color="inherit">
-                                {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
-                            </IconButton>
-                        </CustomTooltip>
+                        <ReaderExitButton />
                         <CustomTooltip title={t('reader.settings.label.static_navigation')}>
                             <IconButton
                                 onClick={() => {
@@ -168,16 +157,6 @@ export const ReaderNavBarDesktop = withPropsFrom(
         useReaderStateChaptersContext,
         userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
-        () => ({ exit: ReaderService.useExit() }),
     ],
-    [
-        'setReaderNavBarWidth',
-        'manga',
-        'chapters',
-        'currentChapter',
-        'previousChapter',
-        'nextChapter',
-        'isStaticNav',
-        'exit',
-    ],
+    ['setReaderNavBarWidth', 'manga', 'chapters', 'currentChapter', 'previousChapter', 'nextChapter', 'isStaticNav'],
 );

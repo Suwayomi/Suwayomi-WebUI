@@ -8,8 +8,6 @@
 
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
-import ArrowBack from '@mui/icons-material/ArrowBack';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import MenuItem from '@mui/material/MenuItem';
@@ -21,9 +19,7 @@ import { alpha } from '@mui/material/styles';
 import Slide from '@mui/material/Slide';
 import { forwardRef, memo } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
-import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MobileHeaderProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder';
@@ -41,6 +37,7 @@ import { ReaderLibraryButton } from '@/modules/reader/components/overlay/navigat
 import { ReaderBookmarkButton } from '@/modules/reader/components/overlay/navigation/ReaderBookmarkButton.tsx';
 import { FALLBACK_CHAPTER } from '@/modules/chapter/Chapter.constants.ts';
 import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
+import { ReaderExitButton } from '@/modules/reader/components/overlay/navigation/ReaderExitButton.tsx';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
@@ -52,8 +49,6 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
         Pick<TReaderScrollbarContext, 'scrollbarYSize'>
 >(({ isVisible, manga, currentChapter, scrollbarYSize }, ref) => {
     const { t } = useTranslation();
-    const getOptionForDirection = useGetOptionForDirection();
-    const handleBack = useBackButton();
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
 
     const { id: mangaId, title } = manga ?? DEFAULT_MANGA;
@@ -76,11 +71,7 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
                     boxShadow: 2,
                 }}
             >
-                <CustomTooltip title={t('reader.button.exit')}>
-                    <IconButton sx={{ marginRight: 2 }} onClick={handleBack} color="inherit">
-                        {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
-                    </IconButton>
-                </CustomTooltip>
+                <ReaderExitButton />
                 <Stack sx={{ flexGrow: 1 }}>
                     {manga && currentChapter ? (
                         <>
