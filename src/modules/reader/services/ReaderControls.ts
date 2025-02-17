@@ -410,7 +410,9 @@ export class ReaderControls {
                     return;
                 }
 
-                const needToOpenTransitionPage = isFirstPage || isLastPage;
+                const needToOpenTransitionPage =
+                    ((isFirstPage && isPreviousMode) || (isLastPage && !isPreviousMode)) &&
+                    !isContinuousReadingModeActive;
                 if (needToOpenTransitionPage) {
                     setTransitionPageMode(
                         isPreviousMode ? ReaderTransitionPageMode.PREVIOUS : ReaderTransitionPageMode.NEXT,
