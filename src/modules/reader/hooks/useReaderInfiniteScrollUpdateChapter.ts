@@ -26,7 +26,43 @@ interface ElementIntersectionInfo {
     [ReadingMode.CONTINUOUS_HORIZONTAL]: ElementIntersection;
 }
 
+type PageType = 'first' | 'last';
+
 const OPEN_CHAPTER_INTERSECTION_RATIO = 0;
+const INTERSECTION_THRESHOLD = '-10px';
+
+const getRootMargin = (
+    pageType: PageType,
+    readingMode: ReadingMode,
+    readingDirection: ReadingDirection,
+): string | undefined => {
+    if (!isContinuousReadingMode(readingMode)) {
+        return undefined;
+    }
+
+    const themeDirectionOfReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
+
+    const firstPageMarginHorizontal = `0px ${INTERSECTION_THRESHOLD} 0px 0px`;
+    const lastPageMarginHorizontal = `0px 0px 0px ${INTERSECTION_THRESHOLD}`;
+
+    if (isContinuousVerticalReadingMode(readingMode)) {
+        if (pageType === 'first') {
+            return `0px 0px ${INTERSECTION_THRESHOLD} 0px`;
+        }
+
+        return `${INTERSECTION_THRESHOLD} 0px 0px 0px`;
+    }
+
+    if (pageType === 'first') {
+        return getOptionForDirection(
+            firstPageMarginHorizontal,
+            lastPageMarginHorizontal,
+            themeDirectionOfReadingDirection,
+        );
+    }
+
+    return getOptionForDirection(lastPageMarginHorizontal, firstPageMarginHorizontal, themeDirectionOfReadingDirection);
+};
 
 /**
  * Returns info about if the start or end of an element is intersecting.
@@ -184,7 +220,7 @@ const getElementIntersection = (
  *
  */
 export const useReaderInfiniteScrollUpdateChapter = (
-    pageType: 'first' | 'last',
+    pageType: PageType,
     chapterId: number,
     chapterToOpenId: number | undefined,
     isCurrentChapter: boolean,
@@ -255,11 +291,11 @@ export const useReaderInfiniteScrollUpdateChapter = (
         useMemo(
             () => ({
                 threshold: [OPEN_CHAPTER_INTERSECTION_RATIO],
-                rootMargin: pageType === 'first' ? '0px 0px -10px 0px' : '-10px 0px 0px 0px',
+                rootMargin: getRootMargin(pageType, readingMode, readingDirection),
                 // gets immediately observed once on initial render
                 ignoreInitialObserve: true,
             }),
-            [pageType],
+            [pageType, readingMode, readingDirection],
         ),
     );
 };
