@@ -9,15 +9,13 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DownloadIcon from '@mui/icons-material/Download';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { memo, useMemo, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { actionToTranslationKey, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
@@ -25,6 +23,8 @@ import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ReaderLibraryButton } from '@/modules/reader/components/overlay/navigation/ReaderLibraryButton.tsx';
+import { ReaderBookmarkButton } from '@/modules/reader/components/overlay/navigation/ReaderBookmarkButton.tsx';
+import { FALLBACK_CHAPTER } from '@/modules/chapter/Chapter.constants.ts';
 
 const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
     const { t } = useTranslation();
@@ -66,7 +66,7 @@ const BaseReaderNavBarDesktopActions = memo(
         setRetryFailedPagesKeyPrefix,
     }: Required<Pick<ReaderStateChapters, 'currentChapter'>> &
         Pick<ReaderStatePages, 'pageLoadStates' | 'setPageLoadStates' | 'setRetryFailedPagesKeyPrefix'>) => {
-        const { id, isBookmarked, realUrl } = currentChapter ?? { id: -1, isBookmarked: false, realUrl: '' };
+        const { id, isBookmarked, realUrl } = currentChapter ?? FALLBACK_CHAPTER;
 
         const { t } = useTranslation();
 
@@ -77,18 +77,10 @@ const BaseReaderNavBarDesktopActions = memo(
             [pageLoadStates],
         );
 
-        const bookmarkAction: Extract<ChapterAction, 'unbookmark' | 'bookmark'> = isBookmarked
-            ? 'unbookmark'
-            : 'bookmark';
-
         return (
             <Stack sx={{ flexDirection: 'row', justifyContent: 'center', gap: 1 }}>
                 <ReaderLibraryButton />
-                <CustomTooltip title={t(actionToTranslationKey[bookmarkAction].action.single)}>
-                    <IconButton onClick={() => Chapters.performAction(bookmarkAction, [id], {})} color="inherit">
-                        {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-                    </IconButton>
-                </CustomTooltip>
+                <ReaderBookmarkButton id={id} isBookmarked={isBookmarked} />
                 <CustomTooltip title={t('reader.button.retry_load_pages')} disabled={!haveSomePagesFailedToLoad}>
                     <IconButton
                         onClick={() => {

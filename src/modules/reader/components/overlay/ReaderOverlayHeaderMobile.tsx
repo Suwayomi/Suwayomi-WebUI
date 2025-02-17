@@ -10,8 +10,6 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import BookmarkIcon from '@mui/icons-material/Bookmark';
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import MenuItem from '@mui/material/MenuItem';
@@ -25,7 +23,6 @@ import { forwardRef, memo } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
-import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MobileHeaderProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
@@ -41,9 +38,11 @@ import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/Read
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { ReaderLibraryButton } from '@/modules/reader/components/overlay/navigation/ReaderLibraryButton.tsx';
+import { ReaderBookmarkButton } from '@/modules/reader/components/overlay/navigation/ReaderBookmarkButton.tsx';
+import { FALLBACK_CHAPTER } from '@/modules/chapter/Chapter.constants.ts';
+import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 
-const DEFAULT_MANGA = { id: -1, title: '' };
-const DEFAULT_CHAPTER = { id: -1, name: '', realUrl: '', isBookmarked: false };
+const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
 const BaseReaderOverlayHeaderMobile = forwardRef<
     HTMLDivElement,
@@ -58,11 +57,7 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
 
     const { id: mangaId, title } = manga ?? DEFAULT_MANGA;
-    const { id: chapterId, name, realUrl, isBookmarked } = currentChapter ?? DEFAULT_CHAPTER;
-
-    const bookmarkAction: Extract<ChapterAction, 'unbookmark' | 'bookmark'> = currentChapter?.isBookmarked
-        ? 'unbookmark'
-        : 'bookmark';
+    const { id: chapterId, name, realUrl, isBookmarked } = currentChapter ?? FALLBACK_CHAPTER;
 
     return (
         <Slide direction="down" in={isVisible} ref={ref}>
@@ -109,11 +104,7 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
                     )}
                 </Stack>
                 <ReaderLibraryButton />
-                <CustomTooltip title={t(actionToTranslationKey[bookmarkAction].action.single)}>
-                    <IconButton onClick={() => Chapters.performAction(bookmarkAction, [chapterId], {})} color="inherit">
-                        {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-                    </IconButton>
-                </CustomTooltip>
+                <ReaderBookmarkButton id={chapterId} isBookmarked={isBookmarked} />
                 <IconButton {...bindTrigger(popupState)} color="inherit">
                     <MoreVertIcon />
                 </IconButton>
