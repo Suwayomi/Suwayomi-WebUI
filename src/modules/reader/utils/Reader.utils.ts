@@ -321,3 +321,25 @@ export const getReaderChapterViewResumeMode = (
 
     return ReaderResumeMode.START;
 };
+
+export const getPreviousNextChapterVisibility = (
+    chapterIndex: number,
+    chaptersToRender: TChapterReader[],
+    visibleChapters: ReaderStateChapters['visibleChapters'],
+): { previous: boolean; next: boolean } => {
+    const isPreviousChapterLoaded = !!chaptersToRender[chapterIndex + 1];
+    const isPreviousChapterLastLeadingChapter = chapterIndex + 1 >= chaptersToRender.length - 1;
+    const isPreviousChapterPreloading =
+        isPreviousChapterLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode;
+    const isPreviousChapterVisible = isPreviousChapterLoaded && !isPreviousChapterPreloading;
+
+    const isNextChapterLoaded = !!chaptersToRender[chapterIndex - 1];
+    const isNextChapterLastTrailingChapter = chapterIndex - 1 < 0;
+    const isNextChapterPreloading = isNextChapterLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode;
+    const isNextChapterVisible = isNextChapterLoaded && !isNextChapterPreloading;
+
+    return {
+        previous: isPreviousChapterVisible,
+        next: isNextChapterVisible,
+    };
+};

@@ -59,12 +59,14 @@ import { useReaderHandlePageSelection } from '@/modules/reader/hooks/useReaderHa
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderChapterViewer } from '@/modules/reader/components/viewer/ReaderChapterViewer.tsx';
 import {
+    getPreviousNextChapterVisibility,
     getReaderChapterViewerCurrentPageIndex,
     getReaderChapterViewResumeMode,
 } from '@/modules/reader/utils/Reader.utils.ts';
 import { coerceIn, noOp } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { useReaderPreserveScrollPosition } from '@/modules/reader/hooks/useReaderPreserveScrollPosition.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -254,6 +256,15 @@ const BaseReaderViewer = forwardRef(
             scrollElementRef,
         );
         useReaderAutoScroll(isOverlayVisible, automaticScrolling);
+        useReaderPreserveScrollPosition(
+            scrollElementRef,
+            currentChapter?.id,
+            currentChapterIndex,
+            chaptersToRender,
+            visibleChapters,
+            isContinuousReadingModeActive,
+            readingDirection,
+        );
 
         useLayoutEffect(() => {
             chapterViewerSize.current = { minChapterViewWidth: 0, minChapterViewHeight: 0 };
@@ -321,17 +332,11 @@ const BaseReaderViewer = forwardRef(
                         (isLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode) ||
                         (isLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode);
 
-                    const isPreviousChapterLoaded = !!chaptersToRender[chapterIndex + 1];
-                    const isPreviousChapterLastLeadingChapter = chapterIndex + 1 >= chaptersToRender.length - 1;
-                    const isPreviousChapterPreloading =
-                        isPreviousChapterLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode;
-                    const isPreviousChapterVisible = isPreviousChapterLoaded && !isPreviousChapterPreloading;
-
-                    const isNextChapterLoaded = !!chaptersToRender[chapterIndex - 1];
-                    const isNextChapterLastTrailingChapter = chapterIndex - 1 < 0;
-                    const isNextChapterPreloading =
-                        isNextChapterLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode;
-                    const isNextChapterVisible = isNextChapterLoaded && !isNextChapterPreloading;
+                    const previousNextChapterVisibility = getPreviousNextChapterVisibility(
+                        chapterIndex,
+                        chaptersToRender,
+                        visibleChapters,
+                    );
 
                     return (
                         <ReaderChapterViewer
@@ -339,8 +344,8 @@ const BaseReaderViewer = forwardRef(
                             chapterId={chapter.id}
                             previousChapterId={previousChapter?.id}
                             nextChapterId={nextChapter?.id}
-                            isPreviousChapterVisible={isPreviousChapterVisible}
-                            isNextChapterVisible={isNextChapterVisible}
+                            isPreviousChapterVisible={previousNextChapterVisibility.previous}
+                            isNextChapterVisible={previousNextChapterVisibility.next}
                             lastPageRead={coerceIn(chapter.lastPageRead, 0, chapter.pageCount - 1)}
                             currentPageIndex={getReaderChapterViewerCurrentPageIndex(
                                 currentPageIndex,
