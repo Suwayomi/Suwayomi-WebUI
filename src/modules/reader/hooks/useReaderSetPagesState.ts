@@ -61,8 +61,6 @@ export const useReaderSetPagesState = (
             setPageUrls(newPages);
             setPageLoadStates(newPageData.map(({ primary: { url } }) => ({ url, loaded: false })));
             setPagesToSpreadState(newPageData.map(({ primary: { url } }) => ({ url, isSpread: false })));
-            setCurrentPageIndex(initialReaderPageIndex);
-            setPageToScrollToIndex(initialReaderPageIndex);
         } else {
             setPages(pages);
             setPageLoadStates(pageLoadStates);
