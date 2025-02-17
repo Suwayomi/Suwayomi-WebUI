@@ -33,7 +33,7 @@ jobs:
               },
               {
                 "type": "title",
-                "regex": "^\\[(Feature Request|Bug)\\] (?!.{0,75}$)",
+                "regex": "^\\[(Feature Request|Bug)\\] (?!.{0,100}$)",
                 "message": "The title is too long, keep it short and descriptive"
               },
               {
