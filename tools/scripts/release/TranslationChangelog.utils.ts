@@ -11,136 +11,16 @@ import fs from 'fs';
 import readline from 'readline';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import tokens from '../tokens.json';
-
-enum WeblateChangeActions {
-    RESOURCE_UPDATED = 0,
-    TRANSLATION_COMPLETED = 1,
-    TRANSLATION_CHANGED = 2,
-    COMMENT_ADDED = 3,
-    SUGGESTION_ADDED = 4,
-    TRANSLATION_ADDED = 5,
-    SUGGESTION_ACCEPTED = 7,
-    TRANSLATION_REVERTED = 8,
-    TRANSLATION_UPLOADED = 9,
-    COMPONENT_LOCKED = 14,
-    COMPONENT_UNLOCKED = 15,
-    CHANGES_COMMITTED = 17,
-    CHANGES_PUSHED = 18,
-    REPOSITORY_RESET = 19,
-    REPOSITORY_MERGED = 20,
-    REPOSITORY_REBASED = 21,
-    REPOSITORY_MERGE_FAILED = 22,
-    REPOSITORY_REBASE_FAILED = 23,
-    PARSING_FAILED = 24,
-    TRANSLATION_REMOVED = 25,
-    SUGGESTION_REMOVED = 26,
-    MARKED_FOR_EDIT = 37,
-    COMPONENT_RENAMED = 42,
-    CONTRIBUTOR_JOINED = 45,
-    LANGUAGE_ADDED = 48,
-    COMPONENT_CREATED = 51,
-    ADD_ON_CONFIGURATION_CHANGED = 61,
-}
-
-const creditRelevantActions: WeblateChangeActions[] = [
-    WeblateChangeActions.TRANSLATION_CHANGED,
-    WeblateChangeActions.TRANSLATION_ADDED,
-    WeblateChangeActions.TRANSLATION_REVERTED,
-    WeblateChangeActions.TRANSLATION_UPLOADED,
-    WeblateChangeActions.TRANSLATION_REMOVED,
-    WeblateChangeActions.MARKED_FOR_EDIT,
-];
-
-interface WeblateChangeResult {
-    translation: string;
-    action: WeblateChangeActions;
-    action_name: keyof WeblateChangeActions;
-    user: string;
-}
-
-interface WeblateChangePayload {
-    next: string;
-    results: WeblateChangeResult[];
-}
-
-interface WeblateUserPayload {
-    full_name: string;
-}
-
-interface WeblateLanguagePayload {
-    language: {
-        name: string;
-    };
-}
-
-type Username = string;
-type UserUrl = string;
-
-type LanguageName = string;
-type TranslationUrl = string;
-
-type UsernameByUserUrl = Record<UserUrl, Username>;
-type LanguageNameByTranslationUrl = Record<TranslationUrl, LanguageName>;
-type UserUrlsByTranslationUrl = Record<TranslationUrl, UserUrl[]>;
-type ActionByTranslationUrlByUserUrl = Record<
-    UserUrl,
-    Record<TranslationUrl, { count: number; actions: Record<WeblateChangeActions, number> }>
->;
-
-interface Contributor {
-    username: Username;
-    contributionCount: number;
-}
-
-type ContributionsByLanguage = Record<LanguageName, Contributor[]>;
-
-export const TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT = {
-    requiredContributionCount: 10,
-    keepKnownContributors: true,
-};
-
-const fetchData = async <T = any>(url: string, authToken: string): Promise<T> => {
-    const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-            Authorization: `Token ${authToken}`,
-            Accept: 'application/json',
-        },
-    });
-
-    if (!response.ok) {
-        throw new Error(`Weblate request failed with status ${response.status} - ${response.statusText}`);
-    }
-
-    return response.json();
-};
-
-const fetchWeblateChanges = async (
-    url: string,
-    authToken: string,
-    weblateChangeResults: WeblateChangeResult[] = [],
-): Promise<WeblateChangeResult[]> => {
-    const weblateChangePage = await fetchData<WeblateChangePayload>(url, authToken);
-
-    if (!weblateChangePage.next) {
-        return [...weblateChangePage.results, ...weblateChangeResults];
-    }
-
-    return fetchWeblateChanges(weblateChangePage.next, authToken, [
-        ...weblateChangePage.results,
-        ...weblateChangeResults,
-    ]);
-};
-
-const getUsername = async (url: string, authToken: string): Promise<string> => {
-    const userPayload = await fetchData<WeblateUserPayload>(url, authToken);
-    return userPayload.full_name;
-};
-
-const getLanguageName = async (url: string, authToken: string): Promise<string> => {
-    const languagePayload = await fetchData<WeblateLanguagePayload>(url, authToken);
-    return languagePayload.language.name.replace(/\(([a-zA-Z]+) Han script\)/g, '($1)');
-};
+import {
+    ActionByTranslationUrlByUserUrl,
+    ContributionsByLanguage,
+    LanguageNameByTranslationUrl,
+    UsernameByUserUrl,
+    UserUrlsByTranslationUrl,
+    WeblateChangeResult,
+} from '../weblate/Weblate.types.ts';
+import { fetchWeblateChanges, getLanguageName, getUsername, validateWeblateDates } from '../weblate/Weblate.utils.ts';
+import { creditRelevantActions, TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT } from '../weblate/Weblate.constants.ts';
 
 const extractContributionInfoFromChanges = (
     changes: WeblateChangeResult[],
@@ -303,17 +183,6 @@ const getKnownContributorsByLanguage = async (): Promise<Record<string, string[]
     });
 
     return contributorByLanguage;
-};
-
-const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g;
-const isValidIS08601Date = (date: string): boolean => !!date.match(dateRegex);
-
-export const validateWeblateDates = (afterDate: string, beforeDate: string) => {
-    if (!isValidIS08601Date(afterDate) || !isValidIS08601Date(beforeDate)) {
-        throw new Error(
-            `The passed timestamps are not properly formatted. They have to match "${dateRegex}" (e.g. 2024-05-11)`,
-        );
-    }
 };
 
 export const createTranslationChangelog = async (

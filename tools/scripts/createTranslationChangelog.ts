@@ -8,10 +8,8 @@
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import {
-    createTranslationChangelog,
-    TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT,
-} from './release/TranslationChangelog.utils.ts';
+import { createTranslationChangelog } from './release/TranslationChangelog.utils.ts';
+import { TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT } from './weblate/Weblate.constants.ts';
 
 const { afterDate, beforeDate, requiredContributionCount, keepKnownContributors } = yargs(hideBin(process.argv))
     .options({
