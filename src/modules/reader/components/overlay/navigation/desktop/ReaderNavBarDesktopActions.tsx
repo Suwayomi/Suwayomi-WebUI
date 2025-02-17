@@ -16,14 +16,19 @@ import DownloadIcon from '@mui/icons-material/Download';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { memo, useMemo, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { actionToTranslationKey, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
-import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderStateChapters, TReaderStateMangaContext } from '@/modules/reader/types/Reader.types.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
+import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
+import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
+import { useReaderStateMangaContext } from '@/modules/reader/contexts/state/ReaderStateMangaContext.tsx';
 
 const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
     const { t } = useTranslation();
@@ -57,17 +62,29 @@ const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, '
     );
 };
 
+const ACTION_FALLBACK_MANGA = {
+    ...FALLBACK_MANGA,
+    title: 'Fallback',
+    inLibrary: false,
+};
+
 const BaseReaderNavBarDesktopActions = memo(
     ({
+        manga,
         currentChapter,
         pageLoadStates,
         setPageLoadStates,
         setRetryFailedPagesKeyPrefix,
     }: Required<Pick<ReaderStateChapters, 'currentChapter'>> &
+        Pick<TReaderStateMangaContext, 'manga'> &
         Pick<ReaderStatePages, 'pageLoadStates' | 'setPageLoadStates' | 'setRetryFailedPagesKeyPrefix'>) => {
         const { id, isBookmarked, realUrl } = currentChapter ?? { id: -1, isBookmarked: false, realUrl: '' };
+        const { inLibrary } = manga ?? ACTION_FALLBACK_MANGA;
 
         const { t } = useTranslation();
+        const { CategorySelectComponent, updateLibraryState } = useManageMangaLibraryState(
+            manga ?? ACTION_FALLBACK_MANGA,
+        );
 
         const pageRetryKeyPrefix = useRef<number>(0);
 
@@ -81,49 +98,61 @@ const BaseReaderNavBarDesktopActions = memo(
             : 'bookmark';
 
         return (
-            <Stack sx={{ flexDirection: 'row', justifyContent: 'center', gap: 1 }}>
-                <CustomTooltip title={t(actionToTranslationKey[bookmarkAction].action.single)}>
-                    <IconButton onClick={() => Chapters.performAction(bookmarkAction, [id], {})} color="inherit">
-                        {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
-                    </IconButton>
-                </CustomTooltip>
-                <CustomTooltip title={t('reader.button.retry_load_pages')} disabled={!haveSomePagesFailedToLoad}>
-                    <IconButton
-                        onClick={() => {
-                            setPageLoadStates((statePageLoadStates) =>
-                                statePageLoadStates.map((pageLoadState) => ({
-                                    url: pageLoadState.url,
-                                    loaded: pageLoadState.loaded,
-                                })),
-                            );
-                            setRetryFailedPagesKeyPrefix(`${pageRetryKeyPrefix.current}`);
-                            pageRetryKeyPrefix.current = (pageRetryKeyPrefix.current + 1) % 1000;
-                        }}
-                        disabled={!haveSomePagesFailedToLoad}
-                        color="inherit"
+            <>
+                <Stack sx={{ flexDirection: 'row', justifyContent: 'center', gap: 1 }}>
+                    <CustomTooltip
+                        title={
+                            inLibrary ? t('manga.action.library.remove.label.action') : t('manga.button.add_to_library')
+                        }
                     >
-                        <ReplayIcon />
-                    </IconButton>
-                </CustomTooltip>
-                <DownloadButton currentChapter={currentChapter} />
-                <CustomTooltip title={t('chapter.action.label.open_on_source')} disabled={!realUrl}>
-                    <IconButton
-                        disabled={!realUrl}
-                        href={realUrl ?? ''}
-                        rel="noreferrer"
-                        target="_blank"
-                        color="inherit"
-                    >
-                        <OpenInNewIcon />
-                    </IconButton>
-                </CustomTooltip>
-            </Stack>
+                        <IconButton onClick={updateLibraryState} color="inherit">
+                            {inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                        </IconButton>
+                    </CustomTooltip>
+                    <CustomTooltip title={t(actionToTranslationKey[bookmarkAction].action.single)}>
+                        <IconButton onClick={() => Chapters.performAction(bookmarkAction, [id], {})} color="inherit">
+                            {isBookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
+                        </IconButton>
+                    </CustomTooltip>
+                    <CustomTooltip title={t('reader.button.retry_load_pages')} disabled={!haveSomePagesFailedToLoad}>
+                        <IconButton
+                            onClick={() => {
+                                setPageLoadStates((statePageLoadStates) =>
+                                    statePageLoadStates.map((pageLoadState) => ({
+                                        url: pageLoadState.url,
+                                        loaded: pageLoadState.loaded,
+                                    })),
+                                );
+                                setRetryFailedPagesKeyPrefix(`${pageRetryKeyPrefix.current}`);
+                                pageRetryKeyPrefix.current = (pageRetryKeyPrefix.current + 1) % 1000;
+                            }}
+                            disabled={!haveSomePagesFailedToLoad}
+                            color="inherit"
+                        >
+                            <ReplayIcon />
+                        </IconButton>
+                    </CustomTooltip>
+                    <DownloadButton currentChapter={currentChapter} />
+                    <CustomTooltip title={t('chapter.action.label.open_on_source')} disabled={!realUrl}>
+                        <IconButton
+                            disabled={!realUrl}
+                            href={realUrl ?? ''}
+                            rel="noreferrer"
+                            target="_blank"
+                            color="inherit"
+                        >
+                            <OpenInNewIcon />
+                        </IconButton>
+                    </CustomTooltip>
+                </Stack>
+                {CategorySelectComponent}
+            </>
         );
     },
 );
 
 export const ReaderNavBarDesktopActions = withPropsFrom(
     BaseReaderNavBarDesktopActions,
-    [useReaderStateChaptersContext, userReaderStatePagesContext],
-    ['currentChapter', 'pageLoadStates', 'setPageLoadStates', 'setRetryFailedPagesKeyPrefix'],
+    [useReaderStateChaptersContext, userReaderStatePagesContext, useReaderStateMangaContext],
+    ['currentChapter', 'pageLoadStates', 'setPageLoadStates', 'setRetryFailedPagesKeyPrefix', 'manga'],
 );
