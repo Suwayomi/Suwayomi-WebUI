@@ -18,9 +18,22 @@ import {
     UsernameByUserUrl,
     UserUrlsByTranslationUrl,
     WeblateChangeResult,
+    WeblateLanguageStatistic,
 } from '../weblate/Weblate.types.ts';
-import { fetchWeblateChanges, getLanguageName, getUsername, validateWeblateDates } from '../weblate/Weblate.utils.ts';
-import { creditRelevantActions, TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT } from '../weblate/Weblate.constants.ts';
+import {
+    fetchWeblateChanges,
+    fetchWeblateLanguageStats,
+    getLanguageName,
+    getUsername,
+    getWeblateLanguageStatsFor,
+    meetsTranslatedPercentThreshold,
+    validateWeblateDates,
+} from '../weblate/Weblate.utils.ts';
+import {
+    creditRelevantActions,
+    TRANSLATED_PERCENT_THRESHOLD,
+    TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT,
+} from '../weblate/Weblate.constants.ts';
 
 const extractContributionInfoFromChanges = (
     changes: WeblateChangeResult[],
@@ -105,11 +118,34 @@ const getUserContributionByLanguage = (
         }),
     );
 
+const doesLanguageOfChangeMeetTranslatePercentThreshold = (
+    change: WeblateChangeResult,
+    stats: WeblateLanguageStatistic[],
+): boolean => {
+    // format: 'https://hosted.weblate.org/api/translations/suwayomi/suwayomi-webui/ar/'
+    const code = change.translation.split('/').slice(-2)[0];
+    const langaugeStats = getWeblateLanguageStatsFor(code, stats);
+
+    return meetsTranslatedPercentThreshold(langaugeStats.translated_percent);
+};
+
 const getContributorsForRange = async (url: string, authToken: string): Promise<ContributionsByLanguage> => {
     const weblateChanges = await fetchWeblateChanges(url, authToken);
+    const weblateLanguageStats = await fetchWeblateLanguageStats();
+
+    const validWeblateChanges = weblateChanges.filter((change) =>
+        doesLanguageOfChangeMeetTranslatePercentThreshold(change, weblateLanguageStats),
+    );
+
+    const invalidWeblateChangesAmount = Math.abs(validWeblateChanges.length - weblateChanges.length);
+    if (invalidWeblateChangesAmount > 0) {
+        console.log(
+            `Filtered out ${invalidWeblateChangesAmount} invalid change(s) due languages not meeting the translated percent threshold (${TRANSLATED_PERCENT_THRESHOLD})`,
+        );
+    }
 
     const { userUrlsByTranslationUrl, actionsByTranslationUrlByUserUrl } =
-        extractContributionInfoFromChanges(weblateChanges);
+        extractContributionInfoFromChanges(validWeblateChanges);
 
     const usernameByUserUrl = await getUsernameByUserUrlMap(userUrlsByTranslationUrl, authToken);
     const languageNameByTranslationUrl = await getLanguageNameByTranslationUrl(userUrlsByTranslationUrl, authToken);

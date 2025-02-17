@@ -55,7 +55,9 @@ export interface WeblateUserPayload {
 export interface WeblateLanguagePayload {
     language: {
         name: string;
+        code: string;
     };
+    translated_percent: number;
 }
 
 export type Username = string;
@@ -78,3 +80,9 @@ export interface Contributor {
 }
 
 export type ContributionsByLanguage = Record<LanguageName, Contributor[]>;
+
+export interface WeblateLanguageStatistic {
+    translated_percent: number;
+    code: string;
+    name: string;
+}

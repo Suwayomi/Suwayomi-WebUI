@@ -10,8 +10,11 @@ import {
     WeblateChangePayload,
     WeblateChangeResult,
     WeblateLanguagePayload,
+    WeblateLanguageStatistic,
     WeblateUserPayload,
 } from '@/../tools/scripts/weblate/Weblate.types.ts';
+import tokens from '../tokens.json';
+import { TRANSLATED_PERCENT_THRESHOLD } from '@/../tools/scripts/weblate/Weblate.constants.ts';
 
 export const fetchData = async <T = any>(url: string, authToken: string): Promise<T> => {
     const response = await fetch(url, {
@@ -56,6 +59,12 @@ export const getLanguageName = async (url: string, authToken: string): Promise<s
     return languagePayload.language.name.replace(/\(([a-zA-Z]+) Han script\)/g, '($1)');
 };
 
+export const fetchWeblateLanguageStats = async () =>
+    fetchData(
+        'https://hosted.weblate.org/api/components/suwayomi/suwayomi-webui/statistics/?format=json-flat',
+        tokens.weblateToken,
+    );
+
 const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g;
 const isValidIS08601Date = (date: string): boolean => !!date.match(dateRegex);
 export const validateWeblateDates = (afterDate: string, beforeDate: string) => {
@@ -65,3 +74,23 @@ export const validateWeblateDates = (afterDate: string, beforeDate: string) => {
         );
     }
 };
+
+export const normalizeCode = (code: string): string => code.replace(/[-_]/g, '');
+
+export const getWeblateLanguageStatsFor = (
+    code: string,
+    stats: WeblateLanguageStatistic[],
+): WeblateLanguageStatistic => {
+    const langaugeStats = stats.find((stat) => normalizeCode(stat.code) === normalizeCode(code));
+
+    if (!langaugeStats) {
+        throw new Error(`Weblate language stats for "${code} do not exist`);
+    }
+
+    return langaugeStats;
+};
+
+export const meetsTranslatedPercentThreshold = (
+    translatedPercent: number,
+    threshold: number = TRANSLATED_PERCENT_THRESHOLD,
+): boolean => translatedPercent >= threshold;

@@ -21,3 +21,5 @@ export const TRANSLATION_CHANGELOG_YARG_OPTIONS_DEFAULT = {
     requiredContributionCount: 10,
     keepKnownContributors: true,
 };
+
+export const TRANSLATED_PERCENT_THRESHOLD = 75;
