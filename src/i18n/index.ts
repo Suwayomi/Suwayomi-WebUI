@@ -27,6 +27,7 @@ export const i18n = use(initReactI18next)
     .use(HttpBackend)
     .use(LanguageDetector)
     .init({
+        supportedLngs: i18nResources,
         fallbackLng: 'en',
 
         backend: {
