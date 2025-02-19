@@ -7,7 +7,6 @@
  */
 
 import { t as translate } from 'i18next';
-import gql from 'graphql-tag';
 import { DocumentNode, MaybeMasked, Unmasked, useFragment } from '@apollo/client';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -168,23 +167,10 @@ export class Chapters {
     }
 
     static isDownloading(id: number): boolean {
-        return !!requestManager.graphQLClient.client.cache.readFragment<ChapterType>({
-            id: requestManager.graphQLClient.client.cache.identify({
-                __typename: 'DownloadType',
-                chapter: {
-                    __ref: requestManager.graphQLClient.client.cache.identify({
-                        __typename: 'ChapterType',
-                        id,
-                    }),
-                },
-            }),
-            fragment: gql`
-                fragment CHAPTER_DOWNLOAD_QUEUE_CHECK on ChapterType {
-                    id
-                }
-            `,
-            fragmentName: 'CHAPTER_DOWNLOAD_QUEUE_CHECK',
-        });
+        const activeDownloadStates = [DownloadState.Downloading, DownloadState.Queued];
+        const downloadStatus = Chapters.getDownloadStatusFromCache(id);
+
+        return activeDownloadStates.includes(downloadStatus?.state as DownloadState);
     }
 
     static isDownloaded({ isDownloaded }: ChapterDownloadInfo): boolean {
