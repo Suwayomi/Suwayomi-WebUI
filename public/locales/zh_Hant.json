@@ -460,7 +460,11 @@
             "info": "資訊",
             "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
             "warning": "警告",
-            "success": "成功"
+            "success": "成功",
+            "dark": "深色",
+            "light": "淺色",
+            "system": "系統",
+            "asterisk": "*"
         },
         "language": {
             "label": {
