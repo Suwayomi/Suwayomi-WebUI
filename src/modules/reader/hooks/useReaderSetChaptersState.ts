@@ -7,12 +7,16 @@
  */
 
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { DirectionOffset } from '@/Base.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetChaptersReaderQuery } from '@/lib/graphql/generated/graphql.ts';
-import { IReaderSettings, ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
+import {
+    IReaderSettings,
+    ReaderOpenChapterLocationState,
+    ReaderStateChapters,
+} from '@/modules/reader/types/Reader.types.ts';
 import { READER_STATE_CHAPTERS_DEFAULTS } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
 
 export const useReaderSetChaptersState = (
@@ -24,13 +28,17 @@ export const useReaderSetChaptersState = (
     shouldSkipDupChapters: IReaderSettings['shouldSkipDupChapters'],
 ) => {
     const navigate = useNavigate();
+    const locationState = useLocation<ReaderOpenChapterLocationState>().state;
+
+    const { updateInitialChapter } = locationState ?? {};
+    const finalInitialChapter = updateInitialChapter ? undefined : initialChapter;
 
     useEffect(() => {
         const newMangaChapters = chaptersResponse.data?.chapters.nodes;
         const newCurrentChapter = newMangaChapters
             ? (newMangaChapters[newMangaChapters.length - chapterSourceOrder] ?? null)
             : undefined;
-        const newInitialChapter = initialChapter ?? newCurrentChapter;
+        const newInitialChapter = finalInitialChapter ?? newCurrentChapter;
         const newChapterForDuplicatesHandling = chapterForDuplicatesHandling ?? newCurrentChapter;
 
         const nextChapter =
@@ -61,10 +69,10 @@ export const useReaderSetChaptersState = (
             return newMangaChapters;
         })();
 
-        const hasInitialChapterChanged = newInitialChapter != null && newInitialChapter.id !== initialChapter?.id;
+        const hasInitialChapterChanged = newInitialChapter != null && newInitialChapter.id !== finalInitialChapter?.id;
 
         if (hasInitialChapterChanged) {
-            navigate('', { replace: true });
+            navigate('', { replace: true, state: { ...locationState, updateInitialChapter: undefined } });
         }
 
         setReaderStateChapters((prevState) => {
@@ -94,5 +102,5 @@ export const useReaderSetChaptersState = (
                     : prevState.visibleChapters,
             };
         });
-    }, [chaptersResponse.data?.chapters.nodes, chapterSourceOrder, shouldSkipDupChapters, initialChapter]);
+    }, [chaptersResponse.data?.chapters.nodes, chapterSourceOrder, shouldSkipDupChapters, finalInitialChapter]);
 };

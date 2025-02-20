@@ -8,7 +8,7 @@
 
 import Box from '@mui/material/Box';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useDefaultReaderSettings } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
@@ -33,7 +33,6 @@ import { ReaderHotkeys } from '@/modules/reader/components/ReaderHotkeys.tsx';
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
-    ReaderOpenChapterLocationState,
     ReaderStateChapters,
     TReaderAutoScrollContext,
     TReaderStateMangaContext,
@@ -113,7 +112,6 @@ const BaseReader = ({
         cancelAutoScroll: TReaderAutoScrollContext['cancel'];
     }) => {
     const { t } = useTranslation();
-    const { updateInitialChapter } = useLocation<ReaderOpenChapterLocationState>().state ?? {};
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -192,7 +190,7 @@ const BaseReader = ({
     useReaderSetChaptersState(
         chaptersResponse,
         chapterSourceOrder,
-        updateInitialChapter ? undefined : initialChapter,
+        initialChapter,
         chapterForDuplicatesHandling,
         setReaderStateChapters,
         shouldSkipDupChapters,
