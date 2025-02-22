@@ -133,11 +133,11 @@
         "state": {
             "label": {
                 "installed": "Instalada",
-                "updating": "atualizando",
+                "updating": "Atualizando",
                 "installing": "Instalando",
-                "uninstalling": "desinstalando",
-                "obsolete": "obsoleta",
-                "update_pending": "atualização pendente"
+                "uninstalling": "Desinstalando",
+                "obsolete": "Obsoleta",
+                "update_pending": "Atualização pendente"
             }
         },
         "action": {
@@ -151,23 +151,23 @@
         },
         "label": {
             "installed_successfully_one": "Extensão instalada com sucesso",
-            "installed_successfully_many": "",
+            "installed_successfully_many": "Extensões instaladas com sucesso",
             "installed_successfully_other": "",
             "installing_file": "Instalando arquivo da extensão…",
             "installation_failed_one": "Falha na instalação da extensão",
-            "installation_failed_many": "",
+            "installation_failed_many": "Falha na instalação das extensões",
             "installation_failed_other": "",
             "add_repository_info": "Você precisa adicionar um repositório de extensões para instalar extensões",
             "uninstallation_failed_one": "Falha ao desinstalar a extensão",
-            "uninstallation_failed_many": "",
+            "uninstallation_failed_many": "Falha ao desinstalar as extensões",
             "uninstallation_failed_other": "",
             "update_failed_one": "Falha ao atualizar a extensão",
-            "update_failed_many": "",
+            "update_failed_many": "Falha ao atualizar as extensões",
             "update_failed_other": ""
         },
         "language": {
-            "all": "Todos",
-            "other": "Outros"
+            "all": "Todas",
+            "other": "Outras"
         },
         "title_one": "Extensão",
         "title_many": "Extensões",
@@ -184,12 +184,12 @@
                     },
                     "error": {
                         "label": {
-                            "invalid_url": "URL do repositório invalida"
+                            "invalid_url": "URL do repositório inválida"
                         }
                     },
                     "label": {
-                        "title": "Repositórios de extensões",
-                        "description": "Adicionar um repositório de onde as extensões podem ser instaladas",
+                        "title": "Repositórios da extensão",
+                        "description": "Adicionar repositórios de onde as extensões podem ser instaladas",
                         "disclaimer": "<strong>Suwayomi não fornece suporte para repositórios ou extensões de terceiros!</strong><br/>Use com cuidado, pois pode haver autores mal-intencionados criando esses repositórios.<br/>Você, como usuário, precisa verificar a segurança e confiar em qualquer repositório ou extensão."
                     }
                 }
@@ -333,7 +333,18 @@
             "finished": "Finalizado",
             "hidden": "Oculto",
             "left": "Esquerda",
-            "next": "Próximo"
+            "next": "Próximo",
+            "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
+            "desktop": "Área de trabalho",
+            "vertical": "Vertical",
+            "warning": "Aviso",
+            "asterisk": "*",
+            "dark": "Escuro",
+            "error": "Erro",
+            "menu": "Menu",
+            "mobile": "Móvel",
+            "horizontal": "Horizontal",
+            "both": "Ambos"
         },
         "error": {
             "label": {
@@ -371,6 +382,9 @@
             "title": {
                 "weblate": "Weblate",
                 "enabled_languages": "Línguas permitidas"
+            },
+            "error": {
+                "load": "Não foi possível carregar a linguagem"
             }
         },
         "update": {
@@ -422,6 +436,10 @@
             "black": "Preto",
             "gray": "Cinza",
             "white": "Branco"
+        },
+        "value": "{{value}}{{unit}}",
+        "unit": {
+            "px": "pixel"
         }
     },
     "download": {
@@ -443,7 +461,7 @@
             "label": {
                 "downloading": "Baixando",
                 "error": "Erro",
-                "finished": "Finalizado",
+                "finished": "$t(global.label.finished)",
                 "queued": "Na fila"
             }
         },
@@ -1248,7 +1266,8 @@
         "page_info": {
             "label": {
                 "of_max_pages": "de {{maxPages}}",
-                "currently_on_page": "Atualmente na página"
+                "currently_on_page": "Atualmente na página",
+                "page": "Página"
             }
         },
         "settings": {
@@ -1277,8 +1296,54 @@
             },
             "chapter_transition": {
                 "warning": {
-                    "missing_chapter": "Informar sobre capítulos faltando na transição de capítulos"
+                    "missing_chapter": "Informar sobre capítulos faltando na transição de capítulos",
+                    "scanlator_change": "Informe sobre mudança de scanlador na transição de capítulo"
                 }
+            },
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
+            "active_setting": "Configuração ativa",
+            "custom_filter": {
+                "brightness": "Nível de brilho personalizado",
+                "contrast": "Nível de contraste personalizado",
+                "rgba": {
+                    "blend_mode": {
+                        "darken": "Escurecer",
+                        "default": "$t(global.label.default)",
+                        "lighten": "Clarear",
+                        "multiply": "Multiplicar",
+                        "overlay": "Sobrepor",
+                        "screen": "Tela",
+                        "title": "Modo de mistura de filtro de cor"
+                    },
+                    "red": "Vermelho",
+                    "title": "Filtros de cor personalizados",
+                    "green": "Verde",
+                    "alpha": "Alfa",
+                    "blue": "Azul"
+                },
+                "saturate": "Saturação personalizada",
+                "sepia": "Sépia",
+                "title": "Filtro personalizado",
+                "grayscale": "Escala de cinza",
+                "hue": "Matiz personalizada",
+                "invert": "Inverter"
+            },
+            "hotkey": {
+                "menu": "Ativar menu",
+                "auto_scroll_speed_decrease": "Diminuir velocidade do auto scroll",
+                "auto_scroll_speed_increase": "Aumentar velocidade do auto scroll",
+                "auto_scroll": "Ativar scroll automático"
+            },
+            "background_color": "Cor do plano de fundo",
+            "exit_mode": "Abrir página ao sair",
+            "auto_scroll": {
+                "smooth": "Rolagem automática suave",
+                "speed": "Velocidade de scroll automático",
+                "title": "Scroll automático"
+            },
+            "auto_webtoon_mode": {
+                "description": "Usar modo webtoon automaticamente para entradas detectadas como provavelmente usando o formato de tira longa",
+                "title": "Modo webtoon automático"
             }
         },
         "button": {
@@ -1286,14 +1351,36 @@
             "previous_chapter": "Capítulo anterior",
             "open_menu": "Abrir menu",
             "close_menu": "Fechar menu",
-            "next_chapter": "Próximo capítulo"
+            "next_chapter": "Próximo capítulo",
+            "next_page": "Próxima página",
+            "chapter_list": "Lista de capítulos",
+            "previous_page": "Página anterior",
+            "retry_load_pages": "Tente novamente as páginas com erro"
         },
         "title": "Leitor — Manga {{mangaId}} Capítulo {{chapterIndex}}",
         "error": {
             "label": {
                 "no_pages_found": "Nenhuma página encontrada",
                 "prev_chapter_does_not_exist": "Não há capítulo anterior para abrir",
-                "next_chapter_does_not_exist": "Não há próximo capítulo para abrir"
+                "next_chapter_does_not_exist": "Não há próximo capítulo para abrir",
+                "chapter_not_found": "Capítulo não existe"
+            }
+        },
+        "chapter_transition": {
+            "warning": {
+                "previous": {
+                    "chapter_number_one": "Existe um capítulo faltando.\nAnterior: {{nextChapter}}\nAtual: {{currentChapter}}",
+                    "chapter_number_many": "Existem {{count}} capítulos faltando.\nAnterior: {{nextChapter}}\nAtual: {{currentChapter}}",
+                    "chapter_number_other": "",
+                    "scanlator": "O capítulo anterior tem um scanlador diferente do capítulo atual.\nAnterior: {{nextScanlator}}\nAtual: {{currentScanlator}}"
+                },
+                "next": {
+                    "scanlator": "O próximo capítulo tem um scanlador diferente do capítulo atual.\nAtual: {{currentScanlator}}\nPróximo: {{nextScanlator}}",
+                    "chapter_number_one": "Existe um cápitulo faltando.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}",
+                    "chapter_number_many": "Existem {{count}} capítulos faltando.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}",
+                    "chapter_number_other": ""
+                },
+                "title": "Aviso de transição de capítulo"
             }
         }
     },
@@ -1364,5 +1451,23 @@
             }
         },
         "title": "Acompanhando"
+    },
+    "hotkeys": {
+        "title_one": "Atalho",
+        "title_many": "Atalhos",
+        "title_other": "",
+        "create": {
+            "dialog": {
+                "label": "Teclas gravadas:<Keys/>",
+                "placeholder": "Pressione teclas",
+                "title": "Registre atalho de teclado"
+            },
+            "error": {
+                "exists": "Atalho já existe"
+            }
+        },
+        "info": {
+            "delete": "Pressione tecla para remover atalho"
+        }
     }
 }
