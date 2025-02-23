@@ -72,8 +72,6 @@ const BaseReader = ({
     chapterForDuplicatesHandling,
     currentChapter,
     setReaderStateChapters,
-    firstPageUrl,
-    totalPages,
     setTotalPages,
     setCurrentPageIndex,
     setPageToScrollToIndex,
@@ -108,7 +106,6 @@ const BaseReader = ({
         | 'setTransitionPageMode'
     > &
     Pick<TReaderTapZoneContext, 'setShowPreview'> & {
-        firstPageUrl?: string;
         cancelAutoScroll: TReaderAutoScrollContext['cancel'];
     }) => {
     const { t } = useTranslation();
@@ -270,11 +267,6 @@ const BaseReader = ({
         return null;
     }
 
-    const isPlaceholderPageState = totalPages === 1 && firstPageUrl === requestManager.getBaseUrl();
-    if (isPlaceholderPageState) {
-        return null;
-    }
-
     return (
         <Box
             sx={{
@@ -350,8 +342,6 @@ export const Reader = withPropsFrom(
         'chapterForDuplicatesHandling',
         'currentChapter',
         'setReaderStateChapters',
-        'firstPageUrl',
-        'totalPages',
         'setTotalPages',
         'setCurrentPageIndex',
         'setPageToScrollToIndex',
