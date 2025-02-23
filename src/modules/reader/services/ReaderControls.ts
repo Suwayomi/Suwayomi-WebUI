@@ -402,17 +402,24 @@ export class ReaderControls {
                 }
 
                 const isPreviousMode = convertedPage === 'previous';
+                const isNextMode = convertedPage === 'next';
 
-                const needToHideTransitionPage = isATransitionPageVisibleFlag && !isContinuousReadingModeActive;
+                const closePreviousTransitionPage = isPreviousTransitionPageVisible && isNextMode;
+                const closeNextTransitionPage = isNextTransitionPageVisible && isPreviousMode;
+
+                const needToHideTransitionPage =
+                    isATransitionPageVisibleFlag &&
+                    !isContinuousReadingModeActive &&
+                    (closePreviousTransitionPage || closeNextTransitionPage);
                 if (needToHideTransitionPage) {
                     hideTransitionPage();
-                    setPageToScrollToIndex(isPreviousMode ? indexOfLastPage : indexOfFirstPage);
+                    setPageToScrollToIndex(isPreviousTransitionPageVisible ? indexOfFirstPage : indexOfLastPage);
+
                     return;
                 }
 
                 const needToOpenTransitionPage =
-                    ((isFirstPage && isPreviousMode) || (isLastPage && !isPreviousMode)) &&
-                    !isContinuousReadingModeActive;
+                    ((isFirstPage && isPreviousMode) || (isLastPage && isNextMode)) && !isContinuousReadingModeActive;
                 if (needToOpenTransitionPage) {
                     setTransitionPageMode(
                         isPreviousMode ? ReaderTransitionPageMode.PREVIOUS : ReaderTransitionPageMode.NEXT,
