@@ -11,7 +11,7 @@ export const baseCleanup = (str: string) => str.toLowerCase().trim();
 export const enhancedCleanup = (str: string): string =>
     baseCleanup(str)
         .normalize('NFKC')
-        .replace(/[^\p{L}\p{N}\s]+/gu, ' ')
+        .replace(/[^\p{L}\p{N}]+/gu, ' ')
         .trim();
 
 export const reverseString = (str: string, separator: string = ''): string =>
