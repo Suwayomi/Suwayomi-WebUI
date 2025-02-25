@@ -96,7 +96,6 @@ const BaseReader = ({
     > &
     Pick<
         ReaderStatePages,
-        | 'totalPages'
         | 'setTotalPages'
         | 'setCurrentPageIndex'
         | 'setPageToScrollToIndex'
