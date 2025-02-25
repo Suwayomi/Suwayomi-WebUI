@@ -315,9 +315,6 @@ export const Reader = withPropsFrom(
             return { readingMode, tapZoneLayout, tapZoneInvertMode };
         },
         userReaderStatePagesContext,
-        () => ({
-            firstPageUrl: userReaderStatePagesContext().pages[0].primary.url,
-        }),
         () => ({ cancelAutoScroll: useReaderAutoScrollContext().cancel }),
         useReaderTapZoneContext,
     ],
