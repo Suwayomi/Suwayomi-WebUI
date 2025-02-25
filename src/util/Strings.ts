@@ -10,7 +10,8 @@ export const baseCleanup = (str: string) => str.toLowerCase().trim();
 
 export const enhancedCleanup = (str: string): string =>
     baseCleanup(str)
-        .replace(/[^a-zA-Z0-9\\s]+/g, ' ')
+        .normalize('NFKC')
+        .replace(/[^\p{L}\p{N}\s]+/gu, ' ')
         .trim();
 
 export const reverseString = (str: string, separator: string = ''): string =>
