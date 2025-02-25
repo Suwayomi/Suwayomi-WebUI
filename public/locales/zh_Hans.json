@@ -3,7 +3,7 @@
         "dialog": {
             "title": {
                 "edit_category": "编辑分类",
-                "new_category": "新分类"
+                "new_category": "编辑分类"
             }
         },
         "error": {
