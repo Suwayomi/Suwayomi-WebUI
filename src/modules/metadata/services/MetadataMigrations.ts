@@ -321,7 +321,7 @@ const commitMigratedMetadata = (
 
                 defaultPromiseErrorHandler(
                     `MetadataMigrations#commitMigrateMetadata(${type}, ${(metadataHolder as { id: any })?.id})`,
-                );
+                )(e);
             }
         })();
     });

@@ -246,7 +246,7 @@ export class ReaderControls {
                             getReaderOpenChapterResumeMode(isSpecificChapterMode, isPreviousChapter),
                         );
                     } catch (error) {
-                        defaultPromiseErrorHandler('ReaderControls#useOpenChapter#doOpenChapter: ');
+                        defaultPromiseErrorHandler('ReaderControls#useOpenChapter#doOpenChapter:')(error);
                     }
                 };
 

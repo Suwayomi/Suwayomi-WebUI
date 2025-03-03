@@ -116,7 +116,7 @@ export class ReaderService {
             try {
                 await Chapters.download(chapterIdsForDownloadAhead);
             } catch (e) {
-                defaultPromiseErrorHandler('ReaderService::useUpdateCurrentPageIndex: download ahead');
+                defaultPromiseErrorHandler('ReaderService::useUpdateCurrentPageIndex: download ahead')(e);
             }
         });
     }
