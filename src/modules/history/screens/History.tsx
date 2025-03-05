@@ -29,7 +29,6 @@ const groupByDate = (histories: Pick<ChapterType, 'lastReadAt'>[]): [date: strin
         return [];
     }
 
-    console.log({ histories });
     const dateToItemMap = new Map<string, number>();
     histories.forEach((item) => {
         const date = getDateString(epochToDate(Number(item.lastReadAt)));
