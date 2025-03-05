@@ -65,9 +65,9 @@ export const Updates = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
     );
 
     const lastUpdateTimestampCompRef = useRef<HTMLElement>(null);
-    const [lastUpdateTimestampCompHeight, setlastUpdateTimestampCompHeight] = useState(0);
+    const [listPadding, setListPadding] = useState(tabsMenuHeight ?? 0);
     useLayoutEffect(() => {
-        setlastUpdateTimestampCompHeight(tabsMenuHeight + (lastUpdateTimestampCompRef.current?.clientHeight ?? 0));
+        setListPadding(tabsMenuHeight + (lastUpdateTimestampCompRef.current?.clientHeight ?? 0));
     }, [lastUpdateTimestampCompRef.current]);
 
     const { data: lastUpdateTimestampData } = requestManager.useGetLastGlobalUpdateTimestamp({
@@ -124,7 +124,7 @@ export const Updates = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
                 })}
             </Typography>
             <StyledGroupedVirtuoso
-                heightToSubtract={lastUpdateTimestampCompHeight}
+                heightToSubtract={listPadding}
                 style={{
                     // override Virtuoso default values and set them with class
                     height: 'undefined',
