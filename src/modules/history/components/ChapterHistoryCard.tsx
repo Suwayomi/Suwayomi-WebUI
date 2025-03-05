@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { memo } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
-import { ChapterUpdateListFieldsFragment, DownloadState } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterHistoryListFieldsFragment, DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
@@ -29,7 +29,7 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 
-export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterUpdateListFieldsFragment }) => {
+export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryListFieldsFragment }) => {
     const { manga } = chapter;
     const download = Chapters.useDownloadStatusFromCache(chapter.id);
 

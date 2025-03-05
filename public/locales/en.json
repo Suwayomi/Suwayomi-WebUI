@@ -1513,6 +1513,9 @@
       }
     }
   },
+  "recent": {
+    "title": "Recent"
+  },
   "updates": {
     "error": {
       "label": {
@@ -1520,5 +1523,13 @@
       }
     },
     "title": "Updates"
+  },
+  "history": {
+    "error": {
+      "label": {
+        "no_history_available": "You have not read any series yet."
+      }
+    },
+    "title": "History"
   }
 }

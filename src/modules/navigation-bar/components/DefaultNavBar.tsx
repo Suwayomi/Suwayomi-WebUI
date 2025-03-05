@@ -13,8 +13,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
+import ScheduleIcon from '@mui/icons-material/Schedule';
+import ScheduleOutlinedIcon from '@mui/icons-material/ScheduleOutlined';
 import ExploreIcon from '@mui/icons-material/Explore';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import GetAppIcon from '@mui/icons-material/GetApp';
@@ -45,10 +45,10 @@ const navbarItems: Array<NavbarItem> = [
         show: 'both',
     },
     {
-        path: AppRoutes.updates.path,
-        title: 'updates.title',
-        SelectedIconComponent: NewReleasesIcon,
-        IconComponent: NewReleasesOutlinedIcon,
+        path: AppRoutes.recent.path,
+        title: 'recent.title',
+        SelectedIconComponent: ScheduleIcon,
+        IconComponent: ScheduleOutlinedIcon,
         show: 'both',
     },
     {
