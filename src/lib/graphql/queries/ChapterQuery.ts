@@ -9,11 +9,11 @@
 import gql from 'graphql-tag';
 import { PAGE_INFO } from '@/lib/graphql/fragments/Fragments.ts';
 import {
-    CHAPTER_HISTORY_LIST_FIELDS,
     CHAPTER_LIST_FIELDS,
     CHAPTER_READER_FIELDS,
     CHAPTER_STATE_FIELDS,
     CHAPTER_UPDATE_LIST_FIELDS,
+    CHAPTER_HISTORY_LIST_FIELDS,
 } from '@/lib/graphql/fragments/ChapterFragments.ts';
 
 // returns the current chapters from the database
