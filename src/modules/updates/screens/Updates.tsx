@@ -7,7 +7,7 @@
  */
 
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
@@ -38,7 +38,7 @@ const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, 
     return [...dateToItemMap.entries()];
 };
 
-export const Updates: React.FC = () => {
+export const Updates = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useNavBarContext();
@@ -65,9 +65,9 @@ export const Updates: React.FC = () => {
     );
 
     const lastUpdateTimestampCompRef = useRef<HTMLElement>(null);
-    const [lastUpdateTimestampCompHeight, setLastUpdateTimestampCompHeight] = useState(0);
+    const [lastUpdateTimestampCompHeight, setlastUpdateTimestampCompHeight] = useState(0);
     useLayoutEffect(() => {
-        setLastUpdateTimestampCompHeight(lastUpdateTimestampCompRef.current?.clientHeight ?? 0);
+        setlastUpdateTimestampCompHeight(tabsMenuHeight + (lastUpdateTimestampCompRef.current?.clientHeight ?? 0));
     }, [lastUpdateTimestampCompRef.current]);
 
     const { data: lastUpdateTimestampData } = requestManager.useGetLastGlobalUpdateTimestamp({
