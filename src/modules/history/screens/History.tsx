@@ -24,13 +24,14 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ChapterHistoryCard } from '@/modules/history/components/ChapterHistoryCard.tsx';
 
-const groupByDate = (updates: Pick<ChapterType, 'lastReadAt'>[]): [date: string, items: number][] => {
-    if (!updates.length) {
+const groupByDate = (histories: Pick<ChapterType, 'lastReadAt'>[]): [date: string, items: number][] => {
+    if (!histories.length) {
         return [];
     }
 
+    console.log({ histories });
     const dateToItemMap = new Map<string, number>();
-    updates.forEach((item) => {
+    histories.forEach((item) => {
         const date = getDateString(epochToDate(Number(item.lastReadAt)));
         dateToItemMap.set(date, (dateToItemMap.get(date) ?? 0) + 1);
     });
