@@ -7,7 +7,7 @@
  */
 
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useLayoutEffect, useMemo } from 'react';
+import { useCallback, useLayoutEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
@@ -37,7 +37,7 @@ const groupByDate = (histories: Pick<ChapterType, 'lastReadAt'>[]): [date: strin
     return [...dateToItemMap.entries()];
 };
 
-export const History: React.FC = () => {
+export const History = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
     const { t } = useTranslation();
 
     const { setTitle } = useNavBarContext();
@@ -95,6 +95,7 @@ export const History: React.FC = () => {
 
     return (
         <StyledGroupedVirtuoso
+            heightToSubtract={tabsMenuHeight}
             style={{
                 // override Virtuoso default values and set them with class
                 height: 'undefined',

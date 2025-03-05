@@ -60,7 +60,7 @@ export function Recent() {
                 <Updates tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
             <TabPanel index={Tabs.HISTORY} currentIndex={tabName}>
-                <History />
+                <History tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
         </TabsWrapper>
     );
