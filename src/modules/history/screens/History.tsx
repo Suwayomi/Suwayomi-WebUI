@@ -13,7 +13,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
@@ -41,7 +40,7 @@ const groupByDate = (histories: Pick<ChapterType, 'lastReadAt'>[]): [date: strin
 export const History: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useNavBarContext();
+    const { setTitle } = useNavBarContext();
     const {
         data: chapterHistoryData,
         loading: isLoading,
@@ -66,11 +65,9 @@ export const History: React.FC = () => {
 
     useLayoutEffect(() => {
         setTitle(t('history.title'));
-        setAction(<UpdateChecker />);
 
         return () => {
             setTitle('');
-            setAction(null);
         };
     }, [t]);
 
