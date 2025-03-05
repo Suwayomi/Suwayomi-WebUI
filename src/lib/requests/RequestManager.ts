@@ -2902,7 +2902,7 @@ export class RequestManager {
         const result = this.useGetChapters<GetChaptersHistoryQuery, GetChaptersHistoryQueryVariables>(
             GET_CHAPTERS_HISTORY,
             {
-                filter: { lastReadAt: { notEqualToAll: [null, '0'] } },
+                filter: { lastReadAt: { isNull: false, notEqualToAll: ['0'] } },
                 order: [
                     { by: ChapterOrderBy.LastReadAt, byType: SortOrder.Desc },
                     { by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc },
