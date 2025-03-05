@@ -129,6 +129,10 @@ export const AppRoutes = {
         match: 'updates',
         path: '/updates',
     },
+    history: {
+        match: 'history',
+        path: '/history',
+    },
     browse: {
         match: 'browse',
         path: '/browse',

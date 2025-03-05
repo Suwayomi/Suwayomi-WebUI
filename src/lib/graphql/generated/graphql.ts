@@ -3379,6 +3379,58 @@ export type GetChaptersUpdatesQueryVariables = Exact<{
 
 export type GetChaptersUpdatesQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
+
+export type GetChaptersHistoryQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  condition?: InputMaybe<ChapterConditionInput>;
+  filter?: InputMaybe<ChapterFilterInput>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<Array<ChapterOrderInput> | ChapterOrderInput>;
+}>;
+
+export type GetChaptersHistoryQuery = {
+    __typename?: 'Query';
+    chapters: {
+        __typename?: 'ChapterNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename?: 'ChapterType';
+            lastReadAt: string;
+            uploadDate: string;
+            id: number;
+            name: string;
+            mangaId: number;
+            scanlator?: string | null;
+            realUrl?: string | null;
+            sourceOrder: number;
+            chapterNumber: number;
+            isRead: boolean;
+            isDownloaded: boolean;
+            isBookmarked: boolean;
+            manga: {
+                __typename?: 'MangaType';
+                id: number;
+                title: string;
+                thumbnailUrl?: string | null;
+                thumbnailUrlLastFetched?: string | null;
+                inLibrary: boolean;
+                initialized: boolean;
+                sourceId: string;
+            };
+        }>;
+        pageInfo: {
+            __typename?: 'PageInfo';
+            endCursor?: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor?: string | null;
+        };
+    };
+};
+
 export type GetMangasChapterIdsWithStateQueryVariables = Exact<{
   mangaIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
   isDownloaded?: InputMaybe<Scalars['Boolean']['input']>;

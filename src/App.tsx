@@ -64,6 +64,8 @@ const { GlobalReaderSettings } = loadable(
     lazyLoadFallback,
 );
 
+const { History } = loadable(() => import('@/modules/history/screens/History.tsx'), lazyLoadFallback);
+
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
     loadDevMessages();
@@ -156,6 +158,7 @@ const MainApp = () => {
                     </Route>
                     <Route path={AppRoutes.library.match} element={<Library />} />
                     <Route path={AppRoutes.updates.match} element={<Updates />} />
+                    <Route path={AppRoutes.history.match} element={<History />} />
                     <Route path={AppRoutes.browse.match} element={<Browse />} />
                     <Route path={AppRoutes.migrate.match}>
                         <Route index element={<Migrate />} />
