@@ -1,1 +1,116 @@
-{}
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "edit_category": "I-edit ang kategorya",
+                "new_category": "Bagong kategorya"
+            }
+        },
+        "error": {
+            "label": {
+                "empty": "Walang laman ang kategorya",
+                "request_failure": "Hindi ma-load ang mga kategorya"
+            },
+            "no_categories_found": {
+                "label": {
+                    "info": "Wala ka pang mga kategorya."
+                }
+            }
+        },
+        "label": {
+            "category_name": "Pangalan ng Kategorya",
+            "use_as_default_category": "Default na kategorya kung magdagdag ng bagong manga sa aklatan"
+        },
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "Ibukod: {{excludedCategoriesText}}",
+                    "include": "Isama: {{includedCategoriesText}}"
+                }
+            }
+        },
+        "title": {
+            "category_one": "Kategorya",
+            "category_other": "Mga Kategorya",
+            "set_categories": "I-set ang mga kategorya"
+        }
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "label": {
+                        "success_one": "Na-bookmark ang kabanata",
+                        "success_other": "{{count}} na kabanata ay na-bookmark",
+                        "action": "Magdagdag ng bookmark",
+                        "error_one": "Hindi ma-bookmark ang kabanata",
+                        "error_other": "Hindi ma-bookmark ang mga kabanata"
+                    },
+                    "button": {
+                        "selected": "Napili ang bookmark"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "Alisin ang mga bookmark sa napili"
+                    },
+                    "label": {
+                        "action": "Alisin ang bookmark",
+                        "error_one": "Hindi maalis ang bookmark",
+                        "error_other": "Hindi maalis ang mga bookmark",
+                        "success_one": "Natanggal ang bookmark ng kabanata",
+                        "success_other": "{{count}} na kabanata ay natanggal"
+                    }
+                }
+            },
+            "download": {
+                "add": {
+                    "label": {
+                        "error_one": "Hindi maidagdag ang pag-download",
+                        "error_other": "Hindi maidagdag ang mga pag-download",
+                        "action": "I-download",
+                        "next_five": "Susunod na 5 kabanata",
+                        "next_ten": "Susunod na 10 kabanata",
+                        "next_twentyfive": "Susunod na 25 kabanata",
+                        "success_one": "Idinagdag ang pag-download",
+                        "success_other": "{{count}} na download ang nadagdag"
+                    },
+                    "button": {
+                        "selected": "Napili ang pag-download"
+                    }
+                },
+                "delete": {
+                    "label": {
+                        "action": "Tanggalin",
+                        "error_one": "Hindi matanggal ang kabanata",
+                        "error_other": "Hindi matanggal ang mga kabanata",
+                        "success_one": "Natanggal ang kabanata",
+                        "success_other": "{{count}} na kabanata ang natanggal"
+                    },
+                    "button": {
+                        "selected": "Tanggalin ang napili"
+                    }
+                }
+            },
+            "label": {
+                "open_on_source": "Buksan sa source",
+                "select": "Pumili"
+            },
+            "mark_as_read": {
+                "add": {
+                    "button": {
+                        "selected": "Markahan ang napili bilang nabasa na"
+                    },
+                    "label": {
+                        "action": {
+                            "current": "Markahan bilang nabasa na",
+                            "previous": "Markahan ang nakaraan bilang nabasa na"
+                        },
+                        "error_one": "Hindi namarkahan ang kabanata bilang nabasa na",
+                        "error_other": "Hindi namarkahan ang mga kabanata bilang nabasa na"
+                    }
+                }
+            }
+        }
+    }
+}
