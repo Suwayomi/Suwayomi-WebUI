@@ -3,7 +3,7 @@
         "dialog": {
             "title": {
                 "edit_category": "编辑分类",
-                "new_category": "新分类"
+                "new_category": "编辑分类"
             }
         },
         "error": {
@@ -420,7 +420,8 @@
             "success": "成功",
             "warning": "警告",
             "system": "系统",
-            "dark": "深色"
+            "dark": "深色",
+            "light": "浅色"
         },
         "language": {
             "label": {
@@ -801,7 +802,12 @@
                     "title": "自定义颜色滤镜",
                     "blend_mode": {
                         "darken": "变暗",
-                        "overlay": "覆盖"
+                        "overlay": "覆盖",
+                        "default": "$t(global.label.default)",
+                        "lighten": "变亮",
+                        "multiply": "相乘",
+                        "screen": "滤色",
+                        "title": "颜色滤镜混合模式"
                     }
                 },
                 "saturate": "自定义饱和度",
