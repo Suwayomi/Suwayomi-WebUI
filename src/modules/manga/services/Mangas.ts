@@ -285,6 +285,7 @@ export class Mangas {
         mode: MigrateMode,
         mangaToMigrate: GetMangaToMigrateQuery['manga'],
         mangaToMigrateToInfo: GetMangaToMigrateToFetchMutation,
+        deleteChapters: boolean,
     ): MigrateFuncReturn {
         if (!mangaToMigrate.chapters || !mangaToMigrateToInfo.fetchChapters?.chapters) {
             throw new Error('Chapters are missing');
@@ -320,9 +321,11 @@ export class Mangas {
             cleanup: () =>
                 mode === 'migrate'
                     ? [
-                          requestManager.deleteDownloadedChapters(
-                              Chapters.getIds(Chapters.getDownloaded(mangaToMigrate.chapters?.nodes ?? [])),
-                          ).response,
+                          deleteChapters
+                              ? requestManager.deleteDownloadedChapters(
+                                    Chapters.getIds(Chapters.getDownloaded(mangaToMigrate.chapters?.nodes ?? [])),
+                                ).response
+                              : Promise.resolve(),
                       ]
                     : [],
         };
@@ -461,7 +464,10 @@ export class Mangas {
             };
 
             await performMigrationActions(
-                [migrateChapters, Mangas.migrateChapters(mode, mangaToMigrateData.manga, mangaToMigrateToData)],
+                [
+                    migrateChapters,
+                    Mangas.migrateChapters(mode, mangaToMigrateData.manga, mangaToMigrateToData, !!deleteChapters),
+                ],
                 [
                     migrateTracking,
                     Mangas.migrateTracking(mode, mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga),
