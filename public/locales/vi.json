@@ -1402,7 +1402,8 @@
                 "no_history_available": "Bạn chưa đọc series nào."
             }
         },
-        "title": "Lịch sử"
+        "title": "Lịch sử",
+        "page": "Trang"
     },
     "migrate": {
         "dialog": {

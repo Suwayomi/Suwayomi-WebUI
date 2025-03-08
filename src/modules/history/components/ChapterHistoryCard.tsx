@@ -111,6 +111,9 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                             <TypographyMaxLines variant="caption" display="block" lines={1}>
                                 {chapter.name}
                             </TypographyMaxLines>
+                            <TypographyMaxLines variant="caption" display="block" lines={1}>
+                                {t('history.page')}: {chapter.lastPageRead}/{chapter.pageCount}
+                            </TypographyMaxLines>
                         </Box>
                     </Box>
                     <DownloadStateIndicator chapterId={chapter.id} />
