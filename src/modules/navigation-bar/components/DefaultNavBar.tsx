@@ -82,11 +82,7 @@ export function DefaultNavBar() {
     const getOptionForDirection = useGetOptionForDirection();
     const { pathname } = useLocation();
     const handleBack = useBackButton();
-
     const isMobileWidth = MediaQuery.useIsMobileWidth();
-    const isMainRoute = navbarItems.some(({ path }) => path === pathname);
-
-    const actualNavBarWidth = isMobileWidth || isCollapsed ? 0 : navBarWidth;
 
     const appBarRef = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
@@ -103,12 +99,30 @@ export function DefaultNavBar() {
         return () => setAppBarHeight(0);
     }, [override.status]);
 
+    const isMainRoute = navbarItems.some(({ path, show }) => {
+        if (isMobileWidth && show === 'desktop') {
+            return false;
+        }
+
+        if (!isMobileWidth && show === 'mobile') {
+            return false;
+        }
+
+        return path === pathname;
+    });
+    const actualNavBarWidth = isMobileWidth || isCollapsed ? 0 : navBarWidth;
+
     const activeNavBar: NavbarItem['show'] = isMobileWidth ? 'mobile' : 'desktop';
     const visibleNavBarItems = useMemo(
         () => navbarItems.filter(({ show }) => ['both', activeNavBar].includes(show)),
         [isMobileWidth],
     );
     const NavBarComponent = useMemo(() => (isMobileWidth ? MobileBottomBar : DesktopSideBar), [isMobileWidth]);
+
+    const navBar = useMemo(
+        () => <NavBarComponent navBarItems={visibleNavBarItems} />,
+        [NavBarComponent, visibleNavBarItems],
+    );
 
     useLayoutEffect(() => {
         if (!isMobileWidth) {
@@ -118,11 +132,6 @@ export function DefaultNavBar() {
 
         setNavBarWidth(0);
     }, [isMobileWidth]);
-
-    const navBar = useMemo(
-        () => <NavBarComponent navBarItems={visibleNavBarItems} />,
-        [NavBarComponent, visibleNavBarItems],
-    );
 
     // Allow default navbar to be overrided
     if (override.status) return override.value;
