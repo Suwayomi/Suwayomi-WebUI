@@ -90,6 +90,9 @@ export function LibrarySettings() {
         makeToast(t('search.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
     );
 
+    // -1 for the DEFAULT category
+    const categoryCount = (categories.data?.categories.nodes.length ?? 1) - 1;
+
     const loading = serverSettings.loading || areMetadataServerSettingsLoading || categories.loading;
     if (loading) {
         return <LoadingPlaceholder />;
@@ -126,22 +129,20 @@ export function LibrarySettings() {
         <List sx={{ pt: 0 }}>
             <List
                 subheader={
-                    <ListSubheader component="div" id="library-general-settings">
-                        {t('global.label.general')}
+                    <ListSubheader component="div" id="library-category-settings">
+                        {t('category.title.category_other')}
                     </ListSubheader>
                 }
             >
-                <ListItem>
+                <ListItemLink to={AppRoutes.settings.childRoutes.categories.path}>
                     <ListItemText
-                        primary={t('library.settings.general.search.ignore_filters.label.title')}
-                        secondary={t('library.settings.general.search.ignore_filters.label.description')}
+                        primary={t('category.dialog.title.edit_category_other')}
+                        secondary={t('global.value', {
+                            value: categoryCount,
+                            unit: ` ${t('category.title.category', { count: categoryCount })}`.toLocaleLowerCase(),
+                        })}
                     />
-                    <Switch
-                        edge="end"
-                        checked={settings.ignoreFilters}
-                        onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
-                    />
-                </ListItem>
+                </ListItemLink>
                 <ListItem>
                     <ListItemText
                         primary={t('library.settings.general.add_to_library.category_selection.label.title')}
@@ -164,6 +165,25 @@ export function LibrarySettings() {
                         edge="end"
                         checked={settings.removeMangaFromCategories}
                         onChange={(e) => setSettingValue('removeMangaFromCategories', e.target.checked)}
+                    />
+                </ListItem>
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="library-general-settings">
+                        {t('global.label.general')}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText
+                        primary={t('library.settings.general.search.ignore_filters.label.title')}
+                        secondary={t('library.settings.general.search.ignore_filters.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.ignoreFilters}
+                        onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
                     />
                 </ListItem>
             </List>

@@ -154,4 +154,8 @@ export const AppRoutes = {
         path: (mangaId: MangaIdInfo['id'], chapterSourceOrder: ChapterSourceOrderInfo['sourceOrder']) =>
             `/manga/${mangaId}/chapter/${chapterSourceOrder}`,
     },
+    more: {
+        match: '/more',
+        path: '/more',
+    },
 } satisfies TAppRoutes;

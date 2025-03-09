@@ -1342,7 +1342,7 @@
                 },
                 "add": {
                     "label": {
-                        "action": "Pista",
+                        "action": "Rastrear",
                         "error": "No se puede rastrear el manga",
                         "success": "Manga rastreado"
                     }

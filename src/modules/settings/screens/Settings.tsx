@@ -9,9 +9,7 @@
 import { useLayoutEffect } from 'react';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import List from '@mui/material/List';
-import ListAltIcon from '@mui/icons-material/ListAlt';
 import BackupIcon from '@mui/icons-material/Backup';
-import InfoIcon from '@mui/icons-material/Info';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -64,12 +62,6 @@ export function Settings() {
                     <PaletteIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('settings.appearance.title')} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.categories.path}>
-                <ListItemIcon>
-                    <ListAltIcon />
-                </ListItemIcon>
-                <ListItemText primary={t('category.title.category_other')} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.reader.path}>
                 <ListItemIcon>
@@ -134,12 +126,6 @@ export function Settings() {
                     <DnsIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('settings.server.title.server')} />
-            </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.about.path}>
-                <ListItemIcon>
-                    <InfoIcon />
-                </ListItemIcon>
-                <ListItemText primary={t('settings.about.title')} />
             </ListItemLink>
         </List>
     );

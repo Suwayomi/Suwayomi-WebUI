@@ -19,13 +19,13 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
-import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useLocation } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
@@ -63,13 +63,13 @@ const navbarItems: Array<NavbarItem> = [
         title: 'download.title',
         SelectedIconComponent: GetAppIcon,
         IconComponent: GetAppOutlinedIcon,
-        show: 'both',
+        show: 'desktop',
     },
     {
-        path: AppRoutes.settings.path,
-        title: 'settings.title',
-        SelectedIconComponent: SettingsIcon,
-        IconComponent: SettingsIcon,
+        path: AppRoutes.more.path,
+        title: 'global.label.more',
+        SelectedIconComponent: MoreHorizIcon,
+        IconComponent: MoreHorizIcon,
         show: 'both',
     },
 ];
@@ -82,11 +82,7 @@ export function DefaultNavBar() {
     const getOptionForDirection = useGetOptionForDirection();
     const { pathname } = useLocation();
     const handleBack = useBackButton();
-
     const isMobileWidth = MediaQuery.useIsMobileWidth();
-    const isMainRoute = navbarItems.some(({ path }) => path === pathname);
-
-    const actualNavBarWidth = isMobileWidth || isCollapsed ? 0 : navBarWidth;
 
     const appBarRef = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
@@ -103,12 +99,30 @@ export function DefaultNavBar() {
         return () => setAppBarHeight(0);
     }, [override.status]);
 
+    const isMainRoute = navbarItems.some(({ path, show }) => {
+        if (isMobileWidth && show === 'desktop') {
+            return false;
+        }
+
+        if (!isMobileWidth && show === 'mobile') {
+            return false;
+        }
+
+        return path === pathname;
+    });
+    const actualNavBarWidth = isMobileWidth || isCollapsed ? 0 : navBarWidth;
+
     const activeNavBar: NavbarItem['show'] = isMobileWidth ? 'mobile' : 'desktop';
     const visibleNavBarItems = useMemo(
         () => navbarItems.filter(({ show }) => ['both', activeNavBar].includes(show)),
         [isMobileWidth],
     );
     const NavBarComponent = useMemo(() => (isMobileWidth ? MobileBottomBar : DesktopSideBar), [isMobileWidth]);
+
+    const navBar = useMemo(
+        () => <NavBarComponent navBarItems={visibleNavBarItems} />,
+        [NavBarComponent, visibleNavBarItems],
+    );
 
     useLayoutEffect(() => {
         if (!isMobileWidth) {
@@ -118,11 +132,6 @@ export function DefaultNavBar() {
 
         setNavBarWidth(0);
     }, [isMobileWidth]);
-
-    const navBar = useMemo(
-        () => <NavBarComponent navBarItems={visibleNavBarItems} />,
-        [NavBarComponent, visibleNavBarItems],
-    );
 
     // Allow default navbar to be overrided
     if (override.status) return override.value;

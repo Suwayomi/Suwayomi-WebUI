@@ -2,7 +2,8 @@
   "category": {
     "dialog": {
       "title": {
-        "edit_category": "Edit category",
+        "edit_category_one": "Edit category",
+        "edit_category_other": "Edit categories",
         "new_category": "New category"
       }
     },
@@ -239,7 +240,7 @@
         "queued": "Queued"
       }
     },
-    "title": "Downloads"
+    "title": "Download queue"
   },
   "extension": {
     "action": {
@@ -427,6 +428,7 @@
       "logged_in": "Logged in",
       "menu": "Menu",
       "mobile": "Mobile",
+      "more": "More",
       "never": "Never",
       "next": "Next",
       "none": "None",
