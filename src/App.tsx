@@ -38,6 +38,8 @@ const { CategorySettings } = loadable(
 );
 const { SourceConfigure } = loadable(() => import('@/modules/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
 const { SourceMangas } = loadable(() => import('@/modules/source/screens/SourceMangas.tsx'), lazyLoadFallback);
+const { Updates } = loadable(() => import('@/modules/updates/screens/Updates.tsx'), lazyLoadFallback);
+const { History } = loadable(() => import('@/modules/history/screens/History.tsx'), lazyLoadFallback);
 const { LibrarySettings } = loadable(() => import('@/modules/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
 const { DownloadSettings } = loadable(
     () => import('@/modules/downloads/screens/DownloadSettings.tsx'),
@@ -63,8 +65,6 @@ const { GlobalReaderSettings } = loadable(
     lazyLoadFallback,
 );
 const { More } = loadable(() => import('@/modules/settings/screens/More.tsx'), lazyLoadFallback);
-
-const { Recent } = loadable(() => import('@/modules/recent/screens/Recent.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -158,7 +158,8 @@ const MainApp = () => {
                         <Route index element={<Manga />} />
                     </Route>
                     <Route path={AppRoutes.library.match} element={<Library />} />
-                    <Route path={AppRoutes.recent.match} element={<Recent />} />
+                    <Route path={AppRoutes.updates.match} element={<Updates />} />
+                    <Route path={AppRoutes.history.match} element={<History />} />
                     <Route path={AppRoutes.browse.match} element={<Browse />} />
                     <Route path={AppRoutes.migrate.match}>
                         <Route index element={<Migrate />} />

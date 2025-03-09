@@ -7,7 +7,7 @@
  */
 
 import Typography from '@mui/material/Typography';
-import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
@@ -38,7 +38,7 @@ const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, 
     return [...dateToItemMap.entries()];
 };
 
-export const Updates = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
+export const Updates: React.FC = () => {
     const { t } = useTranslation();
 
     const { setTitle, setAction } = useNavBarContext();
@@ -65,9 +65,9 @@ export const Updates = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
     );
 
     const lastUpdateTimestampCompRef = useRef<HTMLElement>(null);
-    const [listPadding, setListPadding] = useState(tabsMenuHeight ?? 0);
+    const [lastUpdateTimestampCompHeight, setLastUpdateTimestampCompHeight] = useState(0);
     useLayoutEffect(() => {
-        setListPadding(tabsMenuHeight + (lastUpdateTimestampCompRef.current?.clientHeight ?? 0));
+        setLastUpdateTimestampCompHeight(lastUpdateTimestampCompRef.current?.clientHeight ?? 0);
     }, [lastUpdateTimestampCompRef.current]);
 
     const { data: lastUpdateTimestampData } = requestManager.useGetLastGlobalUpdateTimestamp({
@@ -124,7 +124,7 @@ export const Updates = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
                 })}
             </Typography>
             <StyledGroupedVirtuoso
-                heightToSubtract={listPadding}
+                heightToSubtract={lastUpdateTimestampCompHeight}
                 style={{
                     // override Virtuoso default values and set them with class
                     height: 'undefined',

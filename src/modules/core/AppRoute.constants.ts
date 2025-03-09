@@ -125,6 +125,14 @@ export const AppRoutes = {
         match: 'library',
         path: '/library',
     },
+    updates: {
+        match: 'updates',
+        path: '/updates',
+    },
+    history: {
+        match: 'history',
+        path: '/history',
+    },
     recent: {
         match: 'recent',
         path: '/recent',
