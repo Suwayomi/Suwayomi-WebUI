@@ -2,7 +2,8 @@
   "category": {
     "dialog": {
       "title": {
-        "edit_category": "Edit category",
+        "edit_category_one": "Edit category",
+        "edit_category_other": "Edit categories",
         "new_category": "New category"
       }
     },

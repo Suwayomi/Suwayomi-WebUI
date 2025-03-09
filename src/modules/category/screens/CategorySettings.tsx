@@ -39,7 +39,7 @@ export function CategorySettings() {
 
     const { setTitle, setAction } = useNavBarContext();
     useLayoutEffect(() => {
-        setTitle(t('category.title.category_other'));
+        setTitle(t('category.dialog.title.edit_category_other'));
         setAction(null);
 
         return () => {
@@ -169,7 +169,7 @@ export function CategorySettings() {
                 <DialogTitle id="form-dialog-title">
                     {categoryToEdit === -1
                         ? t('category.dialog.title.new_category')
-                        : t('category.dialog.title.edit_category')}
+                        : t('category.dialog.title.edit_category_one')}
                 </DialogTitle>
                 <DialogContent>
                     <TextField
