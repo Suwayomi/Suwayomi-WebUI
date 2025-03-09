@@ -63,6 +63,7 @@ const { GlobalReaderSettings } = loadable(
     () => import('@/modules/reader/screens/GlobalReaderSettings.tsx'),
     lazyLoadFallback,
 );
+const { More } = loadable(() => import('@/modules/settings/screens/More.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
@@ -119,6 +120,7 @@ const MainApp = () => {
                     {/* General Routes */}
                     <Route path={AppRoutes.root.match} element={<Navigate to={AppRoutes.library.path} replace />} />
                     <Route path={AppRoutes.matchAll.match} element={<Navigate to={AppRoutes.root.path} replace />} />
+                    <Route path={AppRoutes.more.match} element={<More />} />
                     <Route path={AppRoutes.settings.match}>
                         <Route index element={<Settings />} />
                         <Route path={AppRoutes.settings.childRoutes.about.match} element={<About />} />

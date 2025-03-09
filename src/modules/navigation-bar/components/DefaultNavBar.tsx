@@ -19,13 +19,13 @@ import ExploreIcon from '@mui/icons-material/Explore';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import GetAppIcon from '@mui/icons-material/GetApp';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
-import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useLocation } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
@@ -66,10 +66,10 @@ const navbarItems: Array<NavbarItem> = [
         show: 'both',
     },
     {
-        path: AppRoutes.settings.path,
-        title: 'settings.title',
-        SelectedIconComponent: SettingsIcon,
-        IconComponent: SettingsIcon,
+        path: AppRoutes.more.path,
+        title: 'global.label.more',
+        SelectedIconComponent: MoreHorizIcon,
+        IconComponent: MoreHorizIcon,
         show: 'both',
     },
 ];
