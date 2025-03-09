@@ -87,7 +87,7 @@ export function Library() {
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
 
     const { setOptions } = useLibraryOptionsContext();
-    const activeTab: (typeof tabs)[number] | undefined = tabs.find((tab) => tab.order === tabSearchParam) ?? tabs[0];
+    const activeTab: (typeof tabs)[number] | undefined = tabs.find((tab) => tab.id === tabSearchParam) ?? tabs[0];
 
     useLayoutEffect(() => {
         setOptions(getCategoryMetadata(activeTab ?? { id: -1 }));
@@ -271,7 +271,7 @@ export function Library() {
 
     return (
         <TabsWrapper>
-            <TabsMenu value={activeTab.order} onChange={(e, newTab) => handleTabChange(newTab)}>
+            <TabsMenu value={activeTab.id} onChange={(e, newTab) => handleTabChange(newTab)}>
                 {tabs.map((tab) => (
                     <Tab
                         sx={{ flexGrow: 1, maxWidth: 'unset' }}
@@ -282,7 +282,7 @@ export function Library() {
                                 {showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
                             </TitleWithSizeTag>
                         }
-                        value={tab.order}
+                        value={tab.id}
                     />
                 ))}
             </TabsMenu>
