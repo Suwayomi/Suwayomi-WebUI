@@ -12,31 +12,17 @@ import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
-import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { UpdateChecker } from '@/modules/core/components/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { dateTimeFormatter, epochToDate, getDateString } from '@/util/DateHelper.ts';
+import { dateTimeFormatter } from '@/util/DateHelper.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ChapterUpdateCard } from '@/modules/updates/components/ChapterUpdateCard.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-
-const groupByDate = (updates: Pick<ChapterType, 'fetchedAt'>[]): [date: string, items: number][] => {
-    if (!updates.length) {
-        return [];
-    }
-
-    const dateToItemMap = new Map<string, number>();
-    updates.forEach((item) => {
-        const date = getDateString(epochToDate(Number(item.fetchedAt)));
-        dateToItemMap.set(date, (dateToItemMap.get(date) ?? 0) + 1);
-    });
-
-    return [...dateToItemMap.entries()];
-};
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 
 export const Updates: React.FC = () => {
     const { t } = useTranslation();
@@ -55,7 +41,14 @@ export const Updates: React.FC = () => {
     const hasNextPage = !!chapterUpdateData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterUpdateData?.chapters.pageInfo.endCursor;
     const updateEntries = chapterUpdateData?.chapters.nodes ?? [];
-    const groupedUpdates = useMemo(() => groupByDate(updateEntries), [updateEntries]);
+    const groupedUpdates = useMemo(
+        () =>
+            Object.entries(Chapters.groupByDate(updateEntries, 'fetchedAt')).map(([date, chapters]) => [
+                date,
+                chapters.length,
+            ]) satisfies [date: string, itemCount: number][],
+        [updateEntries],
+    );
     const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(

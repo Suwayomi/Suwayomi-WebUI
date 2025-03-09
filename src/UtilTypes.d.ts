@@ -39,3 +39,11 @@ type TransformRecordToWithDefaultFlag<T extends Record<string, any>> = {
 type MergeObjectsArray<T extends object[]> = T extends [infer F, ...infer R]
     ? F & MergeObjectsArray<R extends object[] ? R : []>
     : {};
+
+type OmitNotMatching<T, K extends keyof T> = {
+    [P in K]: T[K];
+};
+
+type ExtractCommon<T, U> = {
+    [K in keyof T & keyof U]: T[K] extends U[K] ? T[K] : never;
+};

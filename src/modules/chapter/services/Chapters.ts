@@ -26,6 +26,7 @@ import { ReaderOpenChapterLocationState, ReaderResumeMode } from '@/modules/read
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
+import { epochToDate, getDateString } from '@/util/DateHelper.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
@@ -454,5 +455,20 @@ export class Chapters {
             resumeMode: Chapters.getReaderResumeMode(chapter),
             updateInitialChapter,
         };
+    }
+
+    /**
+     * Returns the chapters grouped by the passed key representing a timestamp.
+     *
+     * The timestamp gets mapped to a string via {@link getDateString}
+     */
+    static groupByDate<
+        T extends Pick<ChapterType, 'lastReadAt'> | Pick<ChapterType, 'fetchedAt'> | Pick<ChapterType, 'uploadDate'>,
+        K extends keyof ExtractCommon<OmitNotMatching<ChapterType, 'lastReadAt' | 'fetchedAt' | 'uploadDate'>, T>,
+    >(chapters: T[], key: K): Record<string, T[]> {
+        return Object.groupBy(chapters, (chapter) => getDateString(epochToDate(Number(chapter[key])))) as Record<
+            string,
+            T[]
+        >;
     }
 }

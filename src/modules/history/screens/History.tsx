@@ -12,30 +12,15 @@ import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
-import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { epochToDate, getDateString } from '@/util/DateHelper.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ChapterHistoryCard } from '@/modules/history/components/ChapterHistoryCard.tsx';
-
-const groupByDate = (histories: Pick<ChapterType, 'lastReadAt'>[]): [date: string, items: number][] => {
-    if (!histories.length) {
-        return [];
-    }
-
-    const dateToItemMap = new Map<string, number>();
-    histories.forEach((item) => {
-        const date = getDateString(epochToDate(Number(item.lastReadAt)));
-        dateToItemMap.set(date, (dateToItemMap.get(date) ?? 0) + 1);
-    });
-
-    return [...dateToItemMap.entries()];
-};
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 
 export const History: React.FC = () => {
     const { t } = useTranslation();
@@ -54,7 +39,14 @@ export const History: React.FC = () => {
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterHistoryData?.chapters.pageInfo.endCursor;
     const readEntries = chapterHistoryData?.chapters.nodes ?? [];
-    const groupedHistory = useMemo(() => groupByDate(readEntries), [readEntries]);
+    const groupedHistory = useMemo(
+        () =>
+            Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')).map(([date, chapters]) => [
+                date,
+                chapters.length,
+            ]) satisfies [date: string, itemCount: number][],
+        [readEntries],
+    );
     const groupCounts: number[] = useMemo(() => groupedHistory.map((group) => group[1]), [groupedHistory]);
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
