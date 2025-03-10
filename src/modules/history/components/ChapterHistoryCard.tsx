@@ -13,7 +13,7 @@ import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Refresh from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
 import { memo } from 'react';
@@ -34,7 +34,6 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
     const download = Chapters.useDownloadStatusFromCache(chapter.id);
 
     const { t } = useTranslation();
-    const location = useLocation();
 
     const handleRetry = async () => {
         try {
@@ -57,7 +56,7 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
             <CardActionArea
                 component={Link}
                 to={AppRoutes.reader.path(chapter.manga.id, chapter.sourceOrder)}
-                state={location.state}
+                state={Chapters.getReaderOpenChapterLocationState(chapter)}
                 sx={{
                     color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                 }}
