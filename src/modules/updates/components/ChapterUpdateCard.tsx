@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { memo } from 'react';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterUpdateListFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
@@ -19,17 +19,17 @@ import { ChapterCardThumbnail } from '@/modules/chapter/components/cards/Chapter
 import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
 import { ChapterDownloadButton } from '@/modules/chapter/components/buttons/ChapterDownloadButton.tsx';
 import { ChapterDownloadRetryButton } from '@/modules/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 
 export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateListFieldsFragment }) => {
     const { manga } = chapter;
-    const location = useLocation();
 
     return (
         <Card>
             <CardActionArea
                 component={Link}
                 to={AppRoutes.reader.path(chapter.manga.id, chapter.sourceOrder)}
-                state={location.state}
+                state={Chapters.getReaderOpenChapterLocationState(chapter)}
                 sx={{
                     color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                 }}
