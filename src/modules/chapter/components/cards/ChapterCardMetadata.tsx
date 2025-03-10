@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import { ComponentProps, ReactNode } from 'react';
 import Stack from '@mui/material/Stack';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 
 export const ChapterCardMetadata = ({
     title,
@@ -46,19 +47,37 @@ export const ChapterCardMetadata = ({
             }}
         >
             {infoIcons}
-            <TypographyMaxLines variant="h6" component="h3" {...slotProps?.title}>
-                {title}
-            </TypographyMaxLines>
+            <CustomTooltip title={title}>
+                <TypographyMaxLines variant="h6" component="h3" {...slotProps?.title}>
+                    {title}
+                </TypographyMaxLines>
+            </CustomTooltip>
         </Stack>
         {secondaryText && (
-            <TypographyMaxLines variant="caption" display="block" lines={1} {...slotProps?.secondaryText}>
-                {secondaryText}
-            </TypographyMaxLines>
+            <CustomTooltip title={secondaryText}>
+                <TypographyMaxLines
+                    variant="caption"
+                    display="block"
+                    lines={1}
+                    {...slotProps?.secondaryText}
+                    sx={{ maxWidth: 'fit-content', ...slotProps?.secondaryText?.sx }}
+                >
+                    {secondaryText}
+                </TypographyMaxLines>
+            </CustomTooltip>
         )}
         {ternaryText && (
-            <TypographyMaxLines variant="caption" display="block" lines={1} {...slotProps?.ternaryText}>
-                {ternaryText}
-            </TypographyMaxLines>
+            <CustomTooltip title={ternaryText}>
+                <TypographyMaxLines
+                    variant="caption"
+                    display="block"
+                    lines={1}
+                    {...slotProps?.ternaryText}
+                    sx={{ maxWidth: 'fit-content', ...slotProps?.ternaryText?.sx }}
+                >
+                    {ternaryText}
+                </TypographyMaxLines>
+            </CustomTooltip>
         )}
     </Box>
 );
