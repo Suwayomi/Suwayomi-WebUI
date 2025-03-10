@@ -28,6 +28,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { epochToDate, timeFormatter } from '@/util/DateHelper.ts';
 
 export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryListFieldsFragment }) => {
     const { manga } = chapter;
@@ -108,7 +109,7 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                                 {manga.title}
                             </TypographyMaxLines>
                             <TypographyMaxLines variant="caption" display="block" lines={1}>
-                                {chapter.name}
+                                {`${chapter.name} — ${timeFormatter.format(epochToDate(Number(chapter.lastReadAt)).valueOf())}`}
                             </TypographyMaxLines>
                         </Box>
                     </Box>
