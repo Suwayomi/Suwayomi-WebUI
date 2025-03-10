@@ -39,6 +39,7 @@ const { CategorySettings } = loadable(
 const { SourceConfigure } = loadable(() => import('@/modules/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
 const { SourceMangas } = loadable(() => import('@/modules/source/screens/SourceMangas.tsx'), lazyLoadFallback);
 const { Updates } = loadable(() => import('@/modules/updates/screens/Updates.tsx'), lazyLoadFallback);
+const { History } = loadable(() => import('@/modules/history/screens/History.tsx'), lazyLoadFallback);
 const { LibrarySettings } = loadable(() => import('@/modules/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
 const { DownloadSettings } = loadable(
     () => import('@/modules/downloads/screens/DownloadSettings.tsx'),
@@ -158,6 +159,7 @@ const MainApp = () => {
                     </Route>
                     <Route path={AppRoutes.library.match} element={<Library />} />
                     <Route path={AppRoutes.updates.match} element={<Updates />} />
+                    <Route path={AppRoutes.history.match} element={<History />} />
                     <Route path={AppRoutes.browse.match} element={<Browse />} />
                     <Route path={AppRoutes.migrate.match}>
                         <Route index element={<Migrate />} />

@@ -87,6 +87,8 @@ import {
     GetChaptersMangaQueryVariables,
     GetChaptersUpdatesQuery,
     GetChaptersUpdatesQueryVariables,
+    GetChaptersHistoryQuery,
+    GetChaptersHistoryQueryVariables,
     GetDownloadStatusQuery,
     GetDownloadStatusQueryVariables,
     GetExtensionsFetchMutation,
@@ -267,6 +269,7 @@ import {
     STOP_DOWNLOADER,
 } from '@/lib/graphql/mutations/DownloaderMutation.ts';
 import {
+    GET_CHAPTERS_HISTORY,
     GET_CHAPTERS_MANGA,
     GET_CHAPTERS_UPDATES,
     GET_MANGAS_CHAPTER_IDS_WITH_STATE,
@@ -2866,6 +2869,42 @@ export class RequestManager {
                 filter: { inLibrary: { equalTo: true } },
                 order: [
                     { by: ChapterOrderBy.FetchedAt, byType: SortOrder.Desc },
+                    { by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc },
+                ],
+                first: initialPages * PAGE_SIZE + lastOffset,
+            },
+            options,
+        );
+
+        return {
+            ...result,
+            fetchMore: (...args: Parameters<(typeof result)['fetchMore']>) => {
+                const fetchMoreOptions = args[0] ?? {};
+                this.cache.cacheResponse(CACHE_KEY, undefined, fetchMoreOptions.variables?.offset);
+                return result.fetchMore({
+                    ...fetchMoreOptions,
+                    variables: { first: PAGE_SIZE, ...fetchMoreOptions.variables },
+                });
+            },
+        } as typeof result;
+    }
+
+    public useGetRecentlyReadChapters(
+        initialPages: number = 1,
+        options?: QueryHookOptions<GetChaptersHistoryQuery, GetChaptersHistoryQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetChaptersHistoryQuery, GetChaptersHistoryQueryVariables> {
+        const PAGE_SIZE = 50;
+        const CACHE_KEY = 'useGetRecentlyReadChapters';
+
+        const offset = this.cache.getResponseFor<number>(CACHE_KEY, undefined) ?? 0;
+        const [lastOffset] = useState(offset);
+
+        const result = this.useGetChapters<GetChaptersHistoryQuery, GetChaptersHistoryQueryVariables>(
+            GET_CHAPTERS_HISTORY,
+            {
+                filter: { lastReadAt: { isNull: false, notEqualToAll: ['0'] } },
+                order: [
+                    { by: ChapterOrderBy.LastReadAt, byType: SortOrder.Desc },
                     { by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc },
                 ],
                 first: initialPages * PAGE_SIZE + lastOffset,

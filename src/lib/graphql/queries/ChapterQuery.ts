@@ -13,6 +13,7 @@ import {
     CHAPTER_READER_FIELDS,
     CHAPTER_STATE_FIELDS,
     CHAPTER_UPDATE_LIST_FIELDS,
+    CHAPTER_HISTORY_LIST_FIELDS,
 } from '@/lib/graphql/fragments/ChapterFragments.ts';
 
 // returns the current chapters from the database
@@ -114,6 +115,42 @@ export const GET_CHAPTERS_UPDATES = gql`
         ) {
             nodes {
                 ...CHAPTER_UPDATE_LIST_FIELDS
+            }
+            pageInfo {
+                ...PAGE_INFO
+            }
+            totalCount
+        }
+    }
+`;
+
+// returns the current chapters from the database
+export const GET_CHAPTERS_HISTORY = gql`
+    ${CHAPTER_HISTORY_LIST_FIELDS}
+    ${PAGE_INFO}
+
+    query GET_CHAPTERS_HISTORY(
+        $after: Cursor
+        $before: Cursor
+        $condition: ChapterConditionInput
+        $filter: ChapterFilterInput
+        $first: Int
+        $last: Int
+        $offset: Int
+        $order: [ChapterOrderInput!]
+    ) {
+        chapters(
+            after: $after
+            before: $before
+            condition: $condition
+            filter: $filter
+            first: $first
+            last: $last
+            offset: $offset
+            order: $order
+        ) {
+            nodes {
+                ...CHAPTER_HISTORY_LIST_FIELDS
             }
             pageInfo {
                 ...PAGE_INFO
