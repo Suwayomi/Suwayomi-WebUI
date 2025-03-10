@@ -1393,15 +1393,6 @@
         },
         "title": "Cập nhật"
     },
-    "history": {
-        "error": {
-            "label": {
-                "no_history_available": "Bạn chưa đọc series nào."
-            }
-        },
-        "title": "Lịch sử",
-        "page": "Trang"
-    },
     "migrate": {
         "dialog": {
             "label": {
