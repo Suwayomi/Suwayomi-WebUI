@@ -9,7 +9,6 @@
 import DownloadIcon from '@mui/icons-material/Download';
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
-import Avatar from '@mui/material/Avatar';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
@@ -20,8 +19,6 @@ import { memo } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterHistoryListFieldsFragment, DownloadState } from '@/lib/graphql/generated/graphql.ts';
-import { Mangas } from '@/modules/manga/services/Mangas.ts';
-import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -29,6 +26,7 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { epochToDate, timeFormatter } from '@/util/DateHelper.ts';
+import { ChapterCardThumbnail } from '@/modules/chapter/components/cards/ChapterCardThumbnail.tsx';
 
 export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryListFieldsFragment }) => {
     const { manga } = chapter;
@@ -71,30 +69,12 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                     }}
                 >
                     <Box sx={{ display: 'flex', flexGrow: 1 }}>
-                        <Link to={AppRoutes.manga.path(chapter.manga.id)} style={{ textDecoration: 'none' }}>
-                            <Avatar
-                                variant="rounded"
-                                sx={{
-                                    width: 56,
-                                    height: 56,
-                                    flex: '0 0 auto',
-                                    marginRight: 1,
-                                    background: 'transparent',
-                                }}
-                            >
-                                <SpinnerImage
-                                    imgStyle={{
-                                        objectFit: 'cover',
-                                        width: '100%',
-                                        height: '100%',
-                                        imageRendering: 'pixelated',
-                                    }}
-                                    spinnerStyle={{ small: true }}
-                                    alt={manga.title}
-                                    src={Mangas.getThumbnailUrl(manga)}
-                                />
-                            </Avatar>
-                        </Link>
+                        <ChapterCardThumbnail
+                            mangaId={manga.id}
+                            mangaTitle={manga.title}
+                            thumbnailUrl={manga.thumbnailUrl}
+                            thumbnailUrlLastFetched={manga.thumbnailUrlLastFetched}
+                        />
                         <Box
                             sx={{
                                 display: 'flex',
