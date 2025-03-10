@@ -64,6 +64,7 @@ export const CHAPTER_LIST_FIELDS = gql`
 
         fetchedAt
         uploadDate
+        lastReadAt
     }
 `;
 
@@ -72,6 +73,19 @@ export const CHAPTER_UPDATE_LIST_FIELDS = gql`
     ${MANGA_BASE_FIELDS}
 
     fragment CHAPTER_UPDATE_LIST_FIELDS on ChapterType {
+        ...CHAPTER_LIST_FIELDS
+
+        manga {
+            ...MANGA_BASE_FIELDS
+        }
+    }
+`;
+
+export const CHAPTER_HISTORY_LIST_FIELDS = gql`
+    ${CHAPTER_LIST_FIELDS}
+    ${MANGA_BASE_FIELDS}
+
+    fragment CHAPTER_HISTORY_LIST_FIELDS on ChapterType {
         ...CHAPTER_LIST_FIELDS
 
         manga {
