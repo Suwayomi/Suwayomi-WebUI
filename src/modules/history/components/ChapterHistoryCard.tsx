@@ -10,37 +10,20 @@ import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import IconButton from '@mui/material/IconButton';
 import { Link } from 'react-router-dom';
-import Refresh from '@mui/icons-material/Refresh';
-import { useTranslation } from 'react-i18next';
 import { memo } from 'react';
-import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
-import { ChapterHistoryListFieldsFragment, DownloadState } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterHistoryListFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { epochToDate, timeFormatter } from '@/util/DateHelper.ts';
 import { ChapterCardThumbnail } from '@/modules/chapter/components/cards/ChapterCardThumbnail.tsx';
 import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
 import { ChapterDownloadButton } from '@/modules/chapter/components/buttons/ChapterDownloadButton.tsx';
+import { ChapterDownloadRetryButton } from '@/modules/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
 
 export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryListFieldsFragment }) => {
     const { manga } = chapter;
-    const download = Chapters.useDownloadStatusFromCache(chapter.id);
-
-    const { t } = useTranslation();
-
-    const handleRetry = async () => {
-        try {
-            await requestManager.addChapterToDownloadQueue(chapter.id).response;
-        } catch (e) {
-            makeToast(t('download.queue.error.label.failed_to_retry'), 'error', getErrorMessage(e));
-        }
-    };
 
     return (
         <Card>
@@ -73,20 +56,7 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                         />
                     </Box>
                     <DownloadStateIndicator chapterId={chapter.id} />
-                    {download?.state === DownloadState.Error && (
-                        <CustomTooltip title={t('global.button.retry')}>
-                            <IconButton
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    handleRetry();
-                                }}
-                                size="large"
-                            >
-                                <Refresh />
-                            </IconButton>
-                        </CustomTooltip>
-                    )}
+                    <ChapterDownloadRetryButton chapterId={chapter.id} />
                     <ChapterDownloadButton chapterId={chapter.id} isDownloaded={chapter.isDownloaded} />
                 </CardContent>
             </CardActionArea>
