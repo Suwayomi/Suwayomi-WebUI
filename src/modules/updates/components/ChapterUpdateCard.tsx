@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import DownloadIcon from '@mui/icons-material/Download';
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import Card from '@mui/material/Card';
@@ -26,6 +25,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ChapterCardThumbnail } from '@/modules/chapter/components/cards/ChapterCardThumbnail.tsx';
 import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
+import { ChapterDownloadButton } from '@/modules/chapter/components/buttons/ChapterDownloadButton.tsx';
 
 export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateListFieldsFragment }) => {
     const { manga } = chapter;
@@ -40,14 +40,6 @@ export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateList
         } catch (e) {
             makeToast(t('download.queue.error.label.failed_to_retry'), 'error', getErrorMessage(e));
         }
-    };
-
-    const downloadChapter = () => {
-        requestManager
-            .addChapterToDownloadQueue(chapter.id)
-            .response.catch((e) =>
-                makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
-            );
     };
 
     return (
@@ -92,20 +84,7 @@ export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateList
                             </IconButton>
                         </CustomTooltip>
                     )}
-                    {download == null && !chapter.isDownloaded && (
-                        <CustomTooltip title={t('chapter.action.download.add.label.action')}>
-                            <IconButton
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    e.preventDefault();
-                                    downloadChapter();
-                                }}
-                                size="large"
-                            >
-                                <DownloadIcon />
-                            </IconButton>
-                        </CustomTooltip>
-                    )}
+                    <ChapterDownloadButton chapterId={chapter.id} isDownloaded={chapter.isDownloaded} />
                 </CardContent>
             </CardActionArea>
         </Card>
