@@ -15,7 +15,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography';
 import React, { memo, MouseEvent, TouchEvent, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +26,6 @@ import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateI
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterActionMenuItems } from '@/modules/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
@@ -39,6 +37,7 @@ import {
     ChapterScanlatorInfo,
 } from '@/modules/chapter/services/Chapters.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
+import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -138,60 +137,41 @@ export const ChapterCard = memo((props: IProps) => {
                                     '&:last-child': { pb: 1.5 },
                                 }}
                             >
-                                <Stack
-                                    direction="column"
-                                    sx={{
-                                        flex: 1,
-                                    }}
-                                >
-                                    <Stack
-                                        sx={{
-                                            flexDirection: 'row',
-                                            gap: 0.5,
-                                            alignItems: 'center',
-                                        }}
-                                    >
-                                        {chapter.isBookmarked && (
+                                <ChapterCardMetadata
+                                    title={
+                                        showChapterNumber
+                                            ? `${t('chapter.title_one')} ${chapter.chapterNumber}`
+                                            : chapter.name
+                                    }
+                                    secondaryText={chapter.scanlator}
+                                    ternaryText={`${getDateString(Number(chapter.uploadDate ?? 0), true)}${isDownloaded ? ` • ${t('chapter.status.label.downloaded')}` : ''}`}
+                                    infoIcons={
+                                        chapter.isBookmarked && (
                                             <BookmarkIcon
                                                 color={mode === 'reader' && isActiveChapter ? 'secondary' : 'primary'}
                                             />
-                                        )}
-                                        <TypographyMaxLines
-                                            variant="h6"
-                                            component="h4"
-                                            sx={{
-                                                ...applyStyles(mode === 'reader' && isActiveChapter, {
-                                                    color: theme.palette.primary.contrastText,
-                                                }),
-                                            }}
-                                        >
-                                            {showChapterNumber
-                                                ? `${t('chapter.title_one')} ${chapter.chapterNumber}`
-                                                : chapter.name}
-                                        </TypographyMaxLines>
-                                    </Stack>
-                                    <Typography
-                                        variant="caption"
-                                        sx={{
-                                            ...applyStyles(mode === 'reader' && isActiveChapter, {
+                                        )
+                                    }
+                                    slotProps={{
+                                        title: {
+                                            variant: 'h6',
+                                            component: 'h3',
+                                            sx: applyStyles(mode === 'reader' && isActiveChapter, {
                                                 color: theme.palette.primary.contrastText,
                                             }),
-                                        }}
-                                    >
-                                        {chapter.scanlator}
-                                    </Typography>
-                                    <Typography
-                                        variant="caption"
-                                        sx={{
-                                            ...applyStyles(mode === 'reader' && isActiveChapter, {
+                                        },
+                                        secondaryText: {
+                                            sx: applyStyles(mode === 'reader' && isActiveChapter, {
                                                 color: theme.palette.primary.contrastText,
                                             }),
-                                        }}
-                                    >
-                                        {getDateString(Number(chapter.uploadDate ?? 0), true)}
-                                        {isDownloaded && ` • ${t('chapter.status.label.downloaded')}`}
-                                    </Typography>
-                                </Stack>
+                                        },
+                                        ternaryText: {
+                                            sx: applyStyles(mode === 'reader' && isActiveChapter, {
+                                                color: theme.palette.primary.contrastText,
+                                            }),
+                                        },
+                                    }}
+                                />
 
                                 <DownloadStateIndicator
                                     chapterId={chapter.id}

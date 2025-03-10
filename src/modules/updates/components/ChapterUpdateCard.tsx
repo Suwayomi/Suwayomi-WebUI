@@ -19,13 +19,13 @@ import { memo } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { ChapterUpdateListFieldsFragment, DownloadState } from '@/lib/graphql/generated/graphql.ts';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ChapterCardThumbnail } from '@/modules/chapter/components/cards/ChapterCardThumbnail.tsx';
+import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
 
 export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateListFieldsFragment }) => {
     const { manga } = chapter;
@@ -75,23 +75,7 @@ export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateList
                             thumbnailUrl={manga.thumbnailUrl}
                             thumbnailUrlLastFetched={manga.thumbnailUrlLastFetched}
                         />
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                flexGrow: 1,
-                                flexShrink: 1,
-                                wordBreak: 'break-word',
-                            }}
-                        >
-                            <TypographyMaxLines variant="h6" component="h3">
-                                {manga.title}
-                            </TypographyMaxLines>
-                            <TypographyMaxLines variant="caption" display="block" lines={1}>
-                                {chapter.name}
-                            </TypographyMaxLines>
-                        </Box>
+                        <ChapterCardMetadata title={manga.title} secondaryText={chapter.name} />
                     </Box>
                     <DownloadStateIndicator chapterId={chapter.id} />
                     {download?.state === DownloadState.Error && (
