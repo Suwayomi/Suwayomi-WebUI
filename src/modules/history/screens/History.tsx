@@ -40,18 +40,17 @@ export const History: React.FC = () => {
     const endCursor = chapterHistoryData?.chapters.pageInfo.endCursor;
     const readEntries = chapterHistoryData?.chapters.nodes ?? [];
     const groupedHistory = useMemo(
-        () =>
-            Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')).map(([date, chapters]) => [
-                date,
-                chapters.length,
-            ]) satisfies [date: string, itemCount: number][],
+        () => Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')),
         [readEntries],
     );
-    const groupCounts: number[] = useMemo(() => groupedHistory.map((group) => group[1]), [groupedHistory]);
+    const groupCounts: number[] = useMemo(
+        () => groupedHistory.map((group) => group[VirtuosoUtil.ITEMS].length),
+        [groupedHistory],
+    );
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
-        useCallback((index) => groupedHistory[index][0], [groupedHistory]),
+        useCallback((index) => groupedHistory[index][VirtuosoUtil.GROUP], [groupedHistory]),
         useCallback((index) => readEntries[index].id, [readEntries]),
     );
 
@@ -100,7 +99,7 @@ export const History: React.FC = () => {
             groupContent={(index) => (
                 <StyledGroupHeader isFirstItem={index === 0}>
                     <Typography variant="h5" component="h2">
-                        {groupedHistory[index][0]}
+                        {groupedHistory[index][VirtuosoUtil.GROUP]}
                     </Typography>
                 </StyledGroupHeader>
             )}

@@ -42,18 +42,17 @@ export const Updates: React.FC = () => {
     const endCursor = chapterUpdateData?.chapters.pageInfo.endCursor;
     const updateEntries = chapterUpdateData?.chapters.nodes ?? [];
     const groupedUpdates = useMemo(
-        () =>
-            Object.entries(Chapters.groupByDate(updateEntries, 'fetchedAt')).map(([date, chapters]) => [
-                date,
-                chapters.length,
-            ]) satisfies [date: string, itemCount: number][],
+        () => Object.entries(Chapters.groupByDate(updateEntries, 'fetchedAt')),
         [updateEntries],
     );
-    const groupCounts: number[] = useMemo(() => groupedUpdates.map((group) => group[1]), [groupedUpdates]);
+    const groupCounts: number[] = useMemo(
+        () => groupedUpdates.map((group) => group[VirtuosoUtil.ITEMS].length),
+        [groupedUpdates],
+    );
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
-        useCallback((index) => groupedUpdates[index][0], [groupedUpdates]),
+        useCallback((index) => groupedUpdates[index][VirtuosoUtil.GROUP], [groupedUpdates]),
         useCallback((index) => updateEntries[index].id, [updateEntries]),
     );
 
@@ -131,7 +130,7 @@ export const Updates: React.FC = () => {
                 groupContent={(index) => (
                     <StyledGroupHeader isFirstItem={index === 0}>
                         <Typography variant="h5" component="h2">
-                            {groupedUpdates[index][0]}
+                            {groupedUpdates[index][VirtuosoUtil.GROUP]}
                         </Typography>
                     </StyledGroupHeader>
                 )}

@@ -9,6 +9,10 @@
 import { useCallback, useMemo } from 'react';
 
 export class VirtuosoUtil {
+    static readonly GROUP = 0;
+
+    static readonly ITEMS = 1;
+
     /**
      * Returns the index converted to the index of the list of group or normal items.
      *

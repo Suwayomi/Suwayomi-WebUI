@@ -107,7 +107,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
-        useCallback((index) => filteredGroupedExtensions[index][0], [filteredGroupedExtensions]),
+        useCallback((index) => filteredGroupedExtensions[index][LANGUAGE], [filteredGroupedExtensions]),
         useCallback((index) => visibleExtensions[index].pkgName, [visibleExtensions]),
     );
 
