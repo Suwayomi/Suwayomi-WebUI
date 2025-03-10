@@ -40,7 +40,7 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
         try {
             await requestManager.addChapterToDownloadQueue(chapter.id).response;
         } catch (e) {
-            makeToast(t('download.queue.error.label.failed_to_remove'), 'error', getErrorMessage(e));
+            makeToast(t('download.queue.error.label.failed_to_retry'), 'error', getErrorMessage(e));
         }
     };
 
