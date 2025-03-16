@@ -9,6 +9,7 @@
     },
     "error": {
       "label": {
+        "create_failure": "Could not create category",
         "empty": "The category is empty",
         "request_failure": "Could not load categories"
       },
@@ -510,6 +511,14 @@
       }
     },
     "value": "{{value}}{{unit}}"
+  },
+  "history": {
+    "error": {
+      "label": {
+        "no_history_available": "You have not read any series yet."
+      }
+    },
+    "title": "History"
   },
   "hotkeys": {
     "create": {
@@ -1522,13 +1531,5 @@
       }
     },
     "title": "Updates"
-  },
-  "history": {
-    "error": {
-      "label": {
-        "no_history_available": "You have not read any series yet."
-      }
-    },
-    "title": "History"
   }
 }

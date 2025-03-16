@@ -33,6 +33,7 @@ import { CategorySettingsCard } from '@/modules/category/components/CategorySett
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 
 export function CategorySettings() {
     const { t } = useTranslation();
@@ -110,10 +111,18 @@ export function CategorySettings() {
         setDialogOpen(false);
 
         if (categoryToEdit === -1) {
-            requestManager.createCategory({ name: dialogName, default: dialogDefault });
+            requestManager
+                .createCategory({ name: dialogName, default: dialogDefault })
+                .response.catch((e) =>
+                    makeToast(t('category.error.label.create_failure'), 'error', getErrorMessage(e)),
+                );
         } else {
             const category = categories[categoryToEdit];
-            requestManager.updateCategory(category.id, { name: dialogName, default: dialogDefault });
+            requestManager
+                .updateCategory(category.id, { name: dialogName, default: dialogDefault })
+                .response.catch((e) =>
+                    makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+                );
         }
     };
 
