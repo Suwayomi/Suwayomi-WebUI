@@ -69,7 +69,7 @@ const navbarItems: Array<NavbarItem> = [
     },
     {
         path: AppRoutes.downloads.path,
-        title: 'download.title',
+        title: 'download.title.queue',
         SelectedIconComponent: GetAppIcon,
         IconComponent: GetAppOutlinedIcon,
         show: 'desktop',

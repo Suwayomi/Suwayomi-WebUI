@@ -79,7 +79,7 @@ export function Settings() {
                 <ListItemIcon>
                     <GetAppOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('download.title')} />
+                <ListItemText primary={t('download.title.download')} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.tracking.path}>
                 <ListItemIcon>

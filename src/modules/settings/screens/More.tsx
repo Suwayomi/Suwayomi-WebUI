@@ -40,7 +40,7 @@ export const More = () => {
                 <ListItemIcon>
                     <GetAppOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('download.title')} />
+                <ListItemText primary={t('download.title.queue')} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.categories.path}>
                 <ListItemIcon>

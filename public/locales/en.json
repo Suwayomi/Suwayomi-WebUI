@@ -241,7 +241,10 @@
         "queued": "Queued"
       }
     },
-    "title": "Download queue"
+    "title": {
+      "queue": "Downloads queue",
+      "download": "Downloads"
+    }
   },
   "extension": {
     "action": {
