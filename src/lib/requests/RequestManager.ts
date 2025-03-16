@@ -170,8 +170,6 @@ import {
     TrackerUnbindMutationVariables,
     TrackerUpdateBindMutation,
     TrackerUpdateBindMutationVariables,
-    UpdateCategoryMangasMutation,
-    UpdateCategoryMangasMutationVariables,
     UpdateCategoryMutation,
     UpdateCategoryMutationVariables,
     UpdateCategoryOrderMutation,
@@ -187,8 +185,6 @@ import {
     UpdateExtensionPatchInput,
     UpdateExtensionsMutation,
     UpdateExtensionsMutationVariables,
-    UpdateLibraryMangasMutation,
-    UpdateLibraryMangasMutationVariables,
     UpdateMangaCategoriesMutation,
     UpdateMangaCategoriesMutationVariables,
     UpdateMangaCategoriesPatchInput,
@@ -211,6 +207,8 @@ import {
     ValidateBackupQuery,
     ValidateBackupQueryVariables,
     WebuiUpdateSubscription,
+    UpdateLibraryMutation,
+    UpdateLibraryMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -290,11 +288,7 @@ import {
     UPDATE_CATEGORY,
     UPDATE_CATEGORY_ORDER,
 } from '@/lib/graphql/mutations/CategoryMutation.ts';
-import {
-    STOP_UPDATER,
-    UPDATE_CATEGORY_MANGAS,
-    UPDATE_LIBRARY_MANGAS,
-} from '@/lib/graphql/mutations/UpdaterMutation.ts';
+import { STOP_UPDATER, UPDATE_LIBRARY } from '@/lib/graphql/mutations/UpdaterMutation.ts';
 import { GET_LAST_UPDATE_TIMESTAMP, GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/storage/CustomCache.ts';
 import { RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
@@ -2926,34 +2920,10 @@ export class RequestManager {
     }
 
     public startGlobalUpdate(
-        categories?: undefined,
-        options?: MutationOptions<UpdateLibraryMangasMutation, UpdateLibraryMangasMutationVariables>,
-    ): AbortableApolloMutationResponse<UpdateLibraryMangasMutation>;
-
-    public startGlobalUpdate(
         categories?: number[],
-        options?: MutationOptions<UpdateCategoryMangasMutation, UpdateCategoryMangasMutationVariables>,
-    ): AbortableApolloMutationResponse<UpdateCategoryMangasMutation>;
-
-    public startGlobalUpdate<
-        Data extends UpdateLibraryMangasMutation | UpdateCategoryMangasMutation,
-        Variables extends UpdateLibraryMangasMutationVariables | UpdateCategoryMangasMutationVariables,
-    >(categories?: number[], options?: MutationOptions<Data, Variables>): AbortableApolloMutationResponse<Data> {
-        if (categories?.length) {
-            return this.doRequest<UpdateCategoryMangasMutation, UpdateCategoryMangasMutationVariables>(
-                GQLMethod.MUTATION,
-                UPDATE_CATEGORY_MANGAS,
-                { input: { categories } },
-                options as MutationOptions<UpdateCategoryMangasMutation, UpdateCategoryMangasMutationVariables>,
-            ) as AbortableApolloMutationResponse<Data>;
-        }
-
-        return this.doRequest<UpdateLibraryMangasMutation, UpdateLibraryMangasMutationVariables>(
-            GQLMethod.MUTATION,
-            UPDATE_LIBRARY_MANGAS,
-            {},
-            options as MutationOptions<UpdateLibraryMangasMutation, UpdateLibraryMangasMutationVariables>,
-        ) as AbortableApolloMutationResponse<Data>;
+        options?: MutationOptions<UpdateLibraryMutation, UpdateLibraryMutationVariables>,
+    ): AbortableApolloMutationResponse<UpdateLibraryMutation> {
+        return this.doRequest(GQLMethod.MUTATION, UPDATE_LIBRARY, { input: { categories } }, options);
     }
 
     public resetGlobalUpdate(
@@ -3025,7 +2995,27 @@ export class RequestManager {
     public useUpdaterSubscription(
         options?: SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
     ): SubscriptionResult<UpdaterSubscription, UpdaterSubscriptionVariables> {
-        return this.doRequest(GQLMethod.USE_SUBSCRIPTION, UPDATER_SUBSCRIPTION, {}, options);
+        return this.doRequest(
+            GQLMethod.USE_SUBSCRIPTION,
+            UPDATER_SUBSCRIPTION,
+            { input: { maxUpdates: 30 } },
+            {
+                ...options,
+                onData: (onDataOptions) => {
+                    const updatesChanged = onDataOptions.data.data?.libraryUpdateStatusChanged;
+
+                    if (!updatesChanged?.omittedUpdates) {
+                        return;
+                    }
+
+                    const { cache } = this.graphQLClient.client;
+
+                    cache.gc();
+                    cache.evict({ broadcast: true, id: 'LibraryUpdateStatus' });
+                    cache.evict({ broadcast: true, fieldName: 'libraryUpdateStatus' });
+                },
+            },
+        );
     }
 
     public useGetServerSettings(

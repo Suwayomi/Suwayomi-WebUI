@@ -63,6 +63,7 @@ const fixTypingOfQueryTypePolicies = format(
 \textensions?: FieldPolicy<any> | FieldReadFunction<any>,
 \tgetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 \tlastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
+\tlibraryUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 \tmanga?: FieldPolicy<any> | FieldReadFunction<any>,
 \tmangas?: FieldPolicy<any> | FieldReadFunction<any>,
 \tmeta?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -93,6 +94,7 @@ const fixTypingOfQueryTypePolicies = format(
 \textensions?: FieldPolicy<any> | FieldReadFunction<any>,
 \tgetWebUIUpdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetWebuiUpdateStatusQueryVariables>>,
 \tlastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>,
+\tlibraryUpdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetUpdateStatusQueryVariables>>,
 \tmanga?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetMangaScreenQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetMangaScreenQueryVariables>>,
 \tmangas?: FieldPolicy<any> | FieldReadFunction<any>,
 \tmeta?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetGlobalMetadataQueryVariables>>,
@@ -106,7 +108,7 @@ const fixTypingOfQueryTypePolicies = format(
 \ttrackRecords?: FieldPolicy<any> | FieldReadFunction<any>,
 \ttracker?: FieldPolicy<any> | FieldReadFunction<any>,
 \ttrackers?: FieldPolicy<any> | FieldReadFunction<any>,
-\tupdateStatus?: FieldPolicy<Reference, Reference, Reference, FieldFunctionOptions<GetUpdateStatusQueryVariables>> | FieldReadFunction<Reference, Reference, FieldFunctionOptions<GetUpdateStatusQueryVariables>>,
+\tupdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 \tvalidateBackup?: FieldPolicy<any> | FieldReadFunction<any>
 };`,
 );

@@ -27,7 +27,7 @@ function getTwoStateType(type: TwoStatePreferenceProps['twoStateType']) {
 const getTwoStateValues = (
     props: TwoStatePreferenceProps,
 ): {
-    title: string;
+    title: string | null | undefined;
     defaultValue: boolean;
     currentValue?: boolean | null | undefined;
 } => {

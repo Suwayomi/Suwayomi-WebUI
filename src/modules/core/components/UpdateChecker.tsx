@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,6 @@ import Stack from '@mui/material/Stack';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { UpdaterSubscription } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/modules/core/components/Progress.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { dateTimeFormatter } from '@/util/DateHelper.ts';
@@ -26,19 +25,6 @@ import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-
-const calcProgress = (status: UpdaterSubscription['updateStatusChanged'] | undefined) => {
-    if (!status) {
-        return 0;
-    }
-
-    const finishedUpdates = status.failedJobs.mangas.totalCount + status.completeJobs.mangas.totalCount;
-    const totalMangas = finishedUpdates + status.pendingJobs.mangas.totalCount + status.runningJobs.mangas.totalCount;
-
-    const progress = 100 * (finishedUpdates / totalMangas);
-
-    return Number.isNaN(progress) ? 0 : progress;
-};
 
 let lastRunningState = false;
 
@@ -58,21 +44,13 @@ export function UpdateChecker({
         requestManager.useGetLastGlobalUpdateTimestamp();
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
     const { data: updaterData } = requestManager.useGetGlobalUpdateSummary();
-    const status = updaterData?.updateStatus;
+    const status = updaterData?.libraryUpdateStatus;
 
-    const isRunning = !!status?.isRunning;
-    const progress = useMemo(
-        () => calcProgress(status),
-        [
-            status?.failedJobs.mangas.totalCount,
-            status?.completeJobs.mangas.totalCount,
-            status?.pendingJobs.mangas.totalCount,
-            status?.runningJobs.mangas.totalCount,
-        ],
-    );
+    const isRunning = !!status?.jobsInfo.isRunning;
+    const progress = status ? (status.jobsInfo.finishedJobs / status.jobsInfo.totalJobs) * 100 : 0;
 
     useEffect(() => {
-        if (!lastRunningState && status?.isRunning) {
+        if (!lastRunningState && isRunning) {
             lastRunningState = true;
         }
 
@@ -85,7 +63,7 @@ export function UpdateChecker({
         handleFinishedUpdate?.();
         // this re-fetch is necessary since a running update could have been triggered by the server or another client
         reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
-    }, [status?.isRunning]);
+    }, [isRunning]);
 
     const startUpdate = async (category?: CategoryIdInfo['id']) => {
         try {

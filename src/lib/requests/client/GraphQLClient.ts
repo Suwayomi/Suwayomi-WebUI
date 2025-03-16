@@ -62,6 +62,9 @@ const typePolicies: StrictTypedTypePolicies = {
         },
     },
     DownloadType: { keyFields: ['chapter'] },
+    CategoryUpdateType: { keyFields: ['category'] },
+    MangaUpdateType: { keyFields: ['manga'] },
+    UpdaterJobsInfoType: { keyFields: [] },
     WebUIUpdateStatus: { keyFields: [] },
     UpdateStatus: { keyFields: [] },
     Query: {

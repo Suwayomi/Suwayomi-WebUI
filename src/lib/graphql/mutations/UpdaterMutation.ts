@@ -7,27 +7,15 @@
  */
 
 import gql from 'graphql-tag';
-import { UPDATER_START_STOP_FIELDS } from '@/lib/graphql/fragments/UpdaterFragments.ts';
+import { UPDATER_STATUS_FIELDS } from '@/lib/graphql/fragments/UpdaterFragments.ts';
 
-export const UPDATE_CATEGORY_MANGAS = gql`
-    ${UPDATER_START_STOP_FIELDS}
+export const UPDATE_LIBRARY = gql`
+    ${UPDATER_STATUS_FIELDS}
 
-    mutation UPDATE_CATEGORY_MANGAS($input: UpdateCategoryMangaInput!) {
-        updateCategoryManga(input: $input) {
+    mutation UPDATE_LIBRARY($input: UpdateLibraryInput = {}) {
+        updateLibrary(input: $input) {
             updateStatus {
-                ...UPDATER_START_STOP_FIELDS
-            }
-        }
-    }
-`;
-
-export const UPDATE_LIBRARY_MANGAS = gql`
-    ${UPDATER_START_STOP_FIELDS}
-
-    mutation UPDATE_LIBRARY_MANGAS($input: UpdateLibraryMangaInput = {}) {
-        updateLibraryManga(input: $input) {
-            updateStatus {
-                ...UPDATER_START_STOP_FIELDS
+                ...UPDATER_STATUS_FIELDS
             }
         }
     }

@@ -7,77 +7,76 @@
  */
 
 import gql from 'graphql-tag';
-import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 const UPDATER_MANGA_FIELDS = gql`
-    fragment UPDATER_MANGA_FIELDS on MangaType {
-        id
-        title
-        thumbnailUrl
+    fragment UPDATER_MANGA_FIELDS on MangaUpdateType {
+        status
+        manga {
+            id
+            title
+            thumbnailUrl
+        }
+    }
+`;
+
+const UPDATER_CATEGORY_FIELDS = gql`
+    fragment UPDATER_CATEGORY_FIELDS on CategoryUpdateType {
+        status
+        category {
+            id
+            name
+        }
+    }
+`;
+
+const UPDATER_JOB_INFO_FIELDS = gql`
+    fragment UPDATER_JOB_INFO_FIELDS on UpdaterJobsInfoType {
+        isRunning
+        totalJobs
+        finishedJobs
+        skippedCategoriesCount
+        skippedMangasCount
+    }
+`;
+
+export const UPDATER_STATUS_FIELDS = gql`
+    ${UPDATER_JOB_INFO_FIELDS}
+    ${UPDATER_CATEGORY_FIELDS}
+    ${UPDATER_MANGA_FIELDS}
+
+    fragment UPDATER_STATUS_FIELDS on LibraryUpdateStatus {
+        jobsInfo {
+            ...UPDATER_JOB_INFO_FIELDS
+        }
+
+        categoryUpdates {
+            ...UPDATER_CATEGORY_FIELDS
+        }
+
+        mangaUpdates {
+            ...UPDATER_MANGA_FIELDS
+        }
     }
 `;
 
 export const UPDATER_SUBSCRIPTION_FIELDS = gql`
+    ${UPDATER_JOB_INFO_FIELDS}
+    ${UPDATER_CATEGORY_FIELDS}
     ${UPDATER_MANGA_FIELDS}
-    ${MANGA_CHAPTER_STAT_FIELDS}
 
-    fragment UPDATER_SUBSCRIPTION_FIELDS on UpdateStatus {
-        isRunning
+    fragment UPDATER_SUBSCRIPTION_FIELDS on UpdaterUpdates {
+        omittedUpdates
 
-        completeJobs {
-            mangas {
-                totalCount
-                nodes {
-                    ...MANGA_CHAPTER_STAT_FIELDS
+        jobsInfo {
+            ...UPDATER_JOB_INFO_FIELDS
+        }
 
-                    firstUnreadChapter {
-                        id
-                        sourceOrder
-                    }
-                    lastReadChapter {
-                        id
-                        sourceOrder
-                        lastReadAt
-                    }
-                    latestReadChapter {
-                        id
-                        sourceOrder
-                        lastReadAt
-                    }
-                    latestFetchedChapter {
-                        id
-                        fetchedAt
-                    }
-                    latestUploadedChapter {
-                        id
-                        uploadDate
-                    }
-                }
-            }
+        categoryUpdates {
+            ...UPDATER_CATEGORY_FIELDS
         }
-        failedJobs {
-            mangas {
-                totalCount
-                nodes {
-                    ...UPDATER_MANGA_FIELDS
-                }
-            }
-        }
-        pendingJobs {
-            mangas {
-                totalCount
-                nodes {
-                    ...UPDATER_MANGA_FIELDS
-                }
-            }
-        }
-        runningJobs {
-            mangas {
-                totalCount
-                nodes {
-                    ...UPDATER_MANGA_FIELDS
-                }
-            }
+
+        mangaUpdates {
+            ...UPDATER_MANGA_FIELDS
         }
     }
 `;

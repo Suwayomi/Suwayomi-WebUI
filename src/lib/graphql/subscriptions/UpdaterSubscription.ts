@@ -12,8 +12,8 @@ import { UPDATER_SUBSCRIPTION_FIELDS } from '@/lib/graphql/fragments/UpdaterFrag
 export const UPDATER_SUBSCRIPTION = gql`
     ${UPDATER_SUBSCRIPTION_FIELDS}
 
-    subscription UPDATER_SUBSCRIPTION {
-        updateStatusChanged {
+    subscription UPDATER_SUBSCRIPTION($input: LibraryUpdateStatusChangedInput!) {
+        libraryUpdateStatusChanged(input: $input) {
             ...UPDATER_SUBSCRIPTION_FIELDS
         }
     }

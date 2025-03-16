@@ -103,6 +103,11 @@ export type CategoryFilterInput = {
   order?: InputMaybe<IntFilterInput>;
 };
 
+export enum CategoryJobStatus {
+  Skipped = 'SKIPPED',
+  Updating = 'UPDATING'
+}
+
 export type CategoryMetaType = MetaType & {
   __typename?: 'CategoryMetaType';
   category: CategoryType;
@@ -146,6 +151,12 @@ export type CategoryType = {
   meta: Array<CategoryMetaType>;
   name: Scalars['String']['output'];
   order: Scalars['Int']['output'];
+};
+
+export type CategoryUpdateType = {
+  __typename?: 'CategoryUpdateType';
+  category: CategoryType;
+  status: CategoryJobStatus;
 };
 
 export type ChapterConditionInput = {
@@ -267,7 +278,7 @@ export type CheckBoxPreference = {
   default: Scalars['Boolean']['output'];
   key: Scalars['String']['output'];
   summary?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
   visible: Scalars['Boolean']['output'];
 };
 
@@ -835,6 +846,18 @@ export type LastUpdateTimestampPayload = {
   timestamp: Scalars['LongString']['output'];
 };
 
+export type LibraryUpdateStatus = {
+  __typename?: 'LibraryUpdateStatus';
+  categoryUpdates: Array<CategoryUpdateType>;
+  jobsInfo: UpdaterJobsInfoType;
+  mangaUpdates: Array<MangaUpdateType>;
+};
+
+export type LibraryUpdateStatusChangedInput = {
+  /** Sets a max number of updates that can be contained in a updater update message.Everything above this limit will be omitted and the "updateStatus" should be re-fetched via the corresponding query. Due to the graphql subscription execution strategy not supporting batching for data loaders, the data loaders run into the n+1 problem, which can cause the server to get unresponsive until the status update has been handled. This is an issue e.g. when starting an update. */
+  maxUpdates?: InputMaybe<Scalars['Int']['input']>;
+};
+
 export type ListPreference = {
   __typename?: 'ListPreference';
   currentValue?: Maybe<Scalars['String']['output']>;
@@ -953,6 +976,14 @@ export type MangaFilterInput = {
   url?: InputMaybe<StringFilterInput>;
 };
 
+export enum MangaJobStatus {
+  Complete = 'COMPLETE',
+  Failed = 'FAILED',
+  Pending = 'PENDING',
+  Running = 'RUNNING',
+  Skipped = 'SKIPPED'
+}
+
 export type MangaMetaType = MetaType & {
   __typename?: 'MangaMetaType';
   key: Scalars['String']['output'];
@@ -1051,6 +1082,12 @@ export type MangaType = {
   unreadCount: Scalars['Int']['output'];
   updateStrategy: UpdateStrategy;
   url: Scalars['String']['output'];
+};
+
+export type MangaUpdateType = {
+  __typename?: 'MangaUpdateType';
+  manga: MangaType;
+  status: MangaJobStatus;
 };
 
 export type MetaConditionInput = {
@@ -1152,6 +1189,7 @@ export type Mutation = {
   updateChapters?: Maybe<UpdateChaptersPayload>;
   updateExtension?: Maybe<UpdateExtensionPayload>;
   updateExtensions?: Maybe<UpdateExtensionsPayload>;
+  updateLibrary?: Maybe<UpdateLibraryPayload>;
   updateLibraryManga?: Maybe<UpdateLibraryMangaPayload>;
   updateManga?: Maybe<UpdateMangaPayload>;
   updateMangaCategories?: Maybe<UpdateMangaCategoriesPayload>;
@@ -1404,6 +1442,11 @@ export type MutationUpdateExtensionsArgs = {
 };
 
 
+export type MutationUpdateLibraryArgs = {
+  input: UpdateLibraryInput;
+};
+
+
 export type MutationUpdateLibraryMangaArgs = {
   input: UpdateLibraryMangaInput;
 };
@@ -1593,6 +1636,7 @@ export type Query = {
   extensions: ExtensionNodeList;
   getWebUIUpdateStatus: WebUiUpdateStatus;
   lastUpdateTimestamp: LastUpdateTimestampPayload;
+  libraryUpdateStatus: LibraryUpdateStatus;
   manga: MangaType;
   mangas: MangaNodeList;
   meta: GlobalMetaType;
@@ -1606,6 +1650,7 @@ export type Query = {
   trackRecords: TrackRecordNodeList;
   tracker: TrackerType;
   trackers: TrackerNodeList;
+  /** @deprecated Replaced with libraryUpdateStatus, replace with libraryUpdateStatus */
   updateStatus: UpdateStatus;
   validateBackup: ValidateBackupResult;
 };
@@ -1620,8 +1665,6 @@ export type QueryCategoriesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<CategoryOrderInput>>;
-  orderBy?: InputMaybe<CategoryOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1644,8 +1687,6 @@ export type QueryChaptersArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<ChapterOrderInput>>;
-  orderBy?: InputMaybe<ChapterOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1663,8 +1704,6 @@ export type QueryExtensionsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<ExtensionOrderInput>>;
-  orderBy?: InputMaybe<ExtensionOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1682,8 +1721,6 @@ export type QueryMangasArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<MangaOrderInput>>;
-  orderBy?: InputMaybe<MangaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1701,8 +1738,6 @@ export type QueryMetasArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<MetaOrderInput>>;
-  orderBy?: InputMaybe<MetaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1730,8 +1765,6 @@ export type QuerySourcesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<SourceOrderInput>>;
-  orderBy?: InputMaybe<SourceOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1749,8 +1782,6 @@ export type QueryTrackRecordsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<TrackRecordOrderInput>>;
-  orderBy?: InputMaybe<TrackRecordOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1767,8 +1798,6 @@ export type QueryTrackersArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<TrackerOrderInput>>;
-  orderBy?: InputMaybe<TrackerOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -2212,9 +2241,11 @@ export type StringFilterInput = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  /** @deprecated Replaced width downloadStatusChanged, replace with downloadStatusChanged(input) */
+  /** @deprecated Replaced with downloadStatusChanged, replace with downloadStatusChanged(input) */
   downloadChanged: DownloadStatus;
   downloadStatusChanged: DownloadUpdates;
+  libraryUpdateStatusChanged: UpdaterUpdates;
+  /** @deprecated Replaced with updates, replace with updates(input) */
   updateStatusChanged: UpdateStatus;
   webUIUpdateStatusChange: WebUiUpdateStatus;
 };
@@ -2224,13 +2255,18 @@ export type SubscriptionDownloadStatusChangedArgs = {
   input: DownloadChangedInput;
 };
 
+
+export type SubscriptionLibraryUpdateStatusChangedArgs = {
+  input: LibraryUpdateStatusChangedInput;
+};
+
 export type SwitchPreference = {
   __typename?: 'SwitchPreference';
   currentValue?: Maybe<Scalars['Boolean']['output']>;
   default: Scalars['Boolean']['output'];
   key: Scalars['String']['output'];
   summary?: Maybe<Scalars['String']['output']>;
-  title: Scalars['String']['output'];
+  title?: Maybe<Scalars['String']['output']>;
   visible: Scalars['Boolean']['output'];
 };
 
@@ -2545,6 +2581,11 @@ export type UpdateExtensionsPayload = {
   extensions: Array<ExtensionType>;
 };
 
+export type UpdateLibraryInput = {
+  categories?: InputMaybe<Array<Scalars['Int']['input']>>;
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+};
+
 export type UpdateLibraryMangaInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2553,6 +2594,12 @@ export type UpdateLibraryMangaPayload = {
   __typename?: 'UpdateLibraryMangaPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
   updateStatus: UpdateStatus;
+};
+
+export type UpdateLibraryPayload = {
+  __typename?: 'UpdateLibraryPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  updateStatus: LibraryUpdateStatus;
 };
 
 export type UpdateMangaCategoriesInput = {
@@ -2685,6 +2732,26 @@ export type UpdateTrackPayload = {
   trackRecord?: Maybe<TrackRecordType>;
 };
 
+export type UpdaterJobsInfoType = {
+  __typename?: 'UpdaterJobsInfoType';
+  finishedJobs: Scalars['Int']['output'];
+  isRunning: Scalars['Boolean']['output'];
+  skippedCategoriesCount: Scalars['Int']['output'];
+  skippedMangasCount: Scalars['Int']['output'];
+  totalJobs: Scalars['Int']['output'];
+};
+
+export type UpdaterUpdates = {
+  __typename?: 'UpdaterUpdates';
+  categoryUpdates: Array<CategoryUpdateType>;
+  /** The current update status at the time of sending the initial message. Is null for all following messages */
+  initial?: Maybe<LibraryUpdateStatus>;
+  jobsInfo: UpdaterJobsInfoType;
+  mangaUpdates: Array<MangaUpdateType>;
+  /** Indicates whether updates have been omitted based on the "maxUpdates" subscription variable. In case updates have been omitted, the "updateStatus" query should be re-fetched. */
+  omittedUpdates: Scalars['Boolean']['output'];
+};
+
 export type ValidateBackupInput = {
   backup: Scalars['Upload']['input'];
 };
@@ -2769,11 +2836,11 @@ export type ChapterStateFieldsFragment = { __typename?: 'ChapterType', id: numbe
 
 export type ChapterReaderFieldsFragment = { __typename?: 'ChapterType', uploadDate: string, lastPageRead: number, pageCount: number, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean };
 
-export type ChapterListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean };
+export type ChapterListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean };
 
-export type ChapterUpdateListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } };
+export type ChapterUpdateListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } };
 
-export type ChapterHistoryListFieldsFragment = { __typename?: 'ChapterType', lastReadAt: string, lastPageRead: number, pageCount: number, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } };
+export type ChapterHistoryListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } };
 
 export type DownloadTypeFieldsFragment = { __typename?: 'DownloadType', progress: number, state: DownloadState, tries: number, chapter: { __typename?: 'ChapterType', id: number, name: string, sourceOrder: number, isDownloaded: boolean }, manga: { __typename?: 'MangaType', id: number, title: string, downloadCount: number } };
 
@@ -2823,7 +2890,7 @@ export type SourceListFieldsFragment = { __typename?: 'SourceType', lang: string
 
 export type SourceBrowseFieldsFragment = { __typename?: 'SourceType', isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, meta: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> };
 
-export type SourceSettingFieldsFragment = { __typename?: 'SourceType', id: string, name: string, displayName: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }> };
+export type SourceSettingFieldsFragment = { __typename?: 'SourceType', id: string, name: string, displayName: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> };
 
 export type TrackerBaseFieldsFragment = { __typename?: 'TrackerType', id: number, name: string, icon: string, isLoggedIn: boolean, isTokenExpired: boolean };
 
@@ -2835,9 +2902,15 @@ export type TrackRecordSearchFieldsFragment = { __typename?: 'TrackSearchType', 
 
 export type TrackRecordBindFieldsFragment = { __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string };
 
-export type UpdaterMangaFieldsFragment = { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null };
+export type UpdaterMangaFieldsFragment = { __typename?: 'MangaUpdateType', status: MangaJobStatus, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null } };
 
-export type UpdaterSubscriptionFieldsFragment = { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, firstUnreadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number } | null, lastReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestFetchedChapter?: { __typename?: 'ChapterType', id: number, fetchedAt: string } | null, latestUploadedChapter?: { __typename?: 'ChapterType', id: number, uploadDate: string } | null, chapters: { __typename?: 'ChapterNodeList', totalCount: number } }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } } };
+export type UpdaterCategoryFieldsFragment = { __typename?: 'CategoryUpdateType', status: CategoryJobStatus, category: { __typename?: 'CategoryType', id: number, name: string } };
+
+export type UpdaterJobInfoFieldsFragment = { __typename?: 'UpdaterJobsInfoType', isRunning: boolean, totalJobs: number, finishedJobs: number, skippedCategoriesCount: number, skippedMangasCount: number };
+
+export type UpdaterStatusFieldsFragment = { __typename?: 'LibraryUpdateStatus', jobsInfo: { __typename?: 'UpdaterJobsInfoType', isRunning: boolean, totalJobs: number, finishedJobs: number, skippedCategoriesCount: number, skippedMangasCount: number }, categoryUpdates: Array<{ __typename?: 'CategoryUpdateType', status: CategoryJobStatus, category: { __typename?: 'CategoryType', id: number, name: string } }>, mangaUpdates: Array<{ __typename?: 'MangaUpdateType', status: MangaJobStatus, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null } }> };
+
+export type UpdaterSubscriptionFieldsFragment = { __typename?: 'UpdaterUpdates', omittedUpdates: boolean, jobsInfo: { __typename?: 'UpdaterJobsInfoType', isRunning: boolean, totalJobs: number, finishedJobs: number, skippedCategoriesCount: number, skippedMangasCount: number }, categoryUpdates: Array<{ __typename?: 'CategoryUpdateType', status: CategoryJobStatus, category: { __typename?: 'CategoryType', id: number, name: string } }>, mangaUpdates: Array<{ __typename?: 'MangaUpdateType', status: MangaJobStatus, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null } }> };
 
 export type UpdaterStartStopFieldsFragment = { __typename?: 'UpdateStatus', isRunning: boolean };
 
@@ -2931,7 +3004,7 @@ export type GetMangaChaptersFetchMutationVariables = Exact<{
 }>;
 
 
-export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, firstUnreadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, isRead: boolean, mangaId: number } | null, lastReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestFetchedChapter?: { __typename?: 'ChapterType', id: number, fetchedAt: string } | null, latestUploadedChapter?: { __typename?: 'ChapterType', id: number, uploadDate: string } | null } }> } | null };
+export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, firstUnreadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, isRead: boolean, mangaId: number } | null, lastReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestFetchedChapter?: { __typename?: 'ChapterType', id: number, fetchedAt: string } | null, latestUploadedChapter?: { __typename?: 'ChapterType', id: number, uploadDate: string } | null } }> } | null };
 
 export type SetChapterMetadataMutationVariables = Exact<{
   input: SetChapterMetaInput;
@@ -3188,7 +3261,7 @@ export type UpdateSourcePreferencesMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference?: { __typename?: 'UpdateSourcePreferencePayload', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }> } } | null };
+export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference?: { __typename?: 'UpdateSourcePreferencePayload', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } } | null };
 
 export type SetSourceMetadataMutationVariables = Exact<{
   input: SetSourceMetaInput;
@@ -3255,19 +3328,12 @@ export type TrackerFetchBindMutationVariables = Exact<{
 
 export type TrackerFetchBindMutation = { __typename?: 'Mutation', fetchTrack: { __typename?: 'FetchTrackPayload', trackRecord: { __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string } } };
 
-export type UpdateCategoryMangasMutationVariables = Exact<{
-  input: UpdateCategoryMangaInput;
+export type UpdateLibraryMutationVariables = Exact<{
+  input?: InputMaybe<UpdateLibraryInput>;
 }>;
 
 
-export type UpdateCategoryMangasMutation = { __typename?: 'Mutation', updateCategoryManga?: { __typename?: 'UpdateCategoryMangaPayload', updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean } } | null };
-
-export type UpdateLibraryMangasMutationVariables = Exact<{
-  input?: InputMaybe<UpdateLibraryMangaInput>;
-}>;
-
-
-export type UpdateLibraryMangasMutation = { __typename?: 'Mutation', updateLibraryManga?: { __typename?: 'UpdateLibraryMangaPayload', updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean } } | null };
+export type UpdateLibraryMutation = { __typename?: 'Mutation', updateLibrary?: { __typename?: 'UpdateLibraryPayload', updateStatus: { __typename?: 'LibraryUpdateStatus', jobsInfo: { __typename?: 'UpdaterJobsInfoType', isRunning: boolean, totalJobs: number, finishedJobs: number, skippedCategoriesCount: number, skippedMangasCount: number }, categoryUpdates: Array<{ __typename?: 'CategoryUpdateType', status: CategoryJobStatus, category: { __typename?: 'CategoryType', id: number, name: string } }>, mangaUpdates: Array<{ __typename?: 'MangaUpdateType', status: MangaJobStatus, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null } }> } } | null };
 
 export type StopUpdaterMutationVariables = Exact<{
   input?: InputMaybe<UpdateStopInput>;
@@ -3365,7 +3431,7 @@ export type GetChaptersMangaQueryVariables = Exact<{
 }>;
 
 
-export type GetChaptersMangaQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+export type GetChaptersMangaQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
 export type GetChaptersUpdatesQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3378,7 +3444,8 @@ export type GetChaptersUpdatesQueryVariables = Exact<{
   order?: InputMaybe<Array<ChapterOrderInput> | ChapterOrderInput>;
 }>;
 
-export type GetChaptersUpdatesQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+
+export type GetChaptersUpdatesQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
 export type GetChaptersHistoryQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3391,7 +3458,8 @@ export type GetChaptersHistoryQueryVariables = Exact<{
   order?: InputMaybe<Array<ChapterOrderInput> | ChapterOrderInput>;
 }>;
 
-export type GetChaptersHistoryQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', lastReadAt: string, lastPageRead: number, pageCount: number, uploadDate: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
+
+export type GetChaptersHistoryQuery = { __typename?: 'Query', chapters: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
 export type GetMangasChapterIdsWithStateQueryVariables = Exact<{
   mangaIds: Array<Scalars['Int']['input']> | Scalars['Int']['input'];
@@ -3572,7 +3640,7 @@ export type GetSourceSettingsQueryVariables = Exact<{
 }>;
 
 
-export type GetSourceSettingsQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle: string } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle: string }> } };
+export type GetSourceSettingsQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } };
 
 export type GetSourceMigratableQueryVariables = Exact<{
   id: Scalars['LongString']['input'];
@@ -3612,7 +3680,7 @@ export type TrackerSearchQuery = { __typename?: 'Query', searchTracker: { __type
 export type GetUpdateStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetUpdateStatusQuery = { __typename?: 'Query', updateStatus: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, firstUnreadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number } | null, lastReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestFetchedChapter?: { __typename?: 'ChapterType', id: number, fetchedAt: string } | null, latestUploadedChapter?: { __typename?: 'ChapterType', id: number, uploadDate: string } | null, chapters: { __typename?: 'ChapterNodeList', totalCount: number } }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } } } };
+export type GetUpdateStatusQuery = { __typename?: 'Query', libraryUpdateStatus: { __typename?: 'LibraryUpdateStatus', jobsInfo: { __typename?: 'UpdaterJobsInfoType', isRunning: boolean, totalJobs: number, finishedJobs: number, skippedCategoriesCount: number, skippedMangasCount: number }, categoryUpdates: Array<{ __typename?: 'CategoryUpdateType', status: CategoryJobStatus, category: { __typename?: 'CategoryType', id: number, name: string } }>, mangaUpdates: Array<{ __typename?: 'MangaUpdateType', status: MangaJobStatus, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null } }> } };
 
 export type GetLastUpdateTimestampQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3631,7 +3699,9 @@ export type WebuiUpdateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 export type WebuiUpdateSubscription = { __typename?: 'Subscription', webUIUpdateStatusChange: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
 
-export type UpdaterSubscriptionVariables = Exact<{ [key: string]: never; }>;
+export type UpdaterSubscriptionVariables = Exact<{
+  input: LibraryUpdateStatusChangedInput;
+}>;
 
 
-export type UpdaterSubscription = { __typename?: 'Subscription', updateStatusChanged: { __typename?: 'UpdateStatus', isRunning: boolean, completeJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, firstUnreadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number } | null, lastReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestFetchedChapter?: { __typename?: 'ChapterType', id: number, fetchedAt: string } | null, latestUploadedChapter?: { __typename?: 'ChapterType', id: number, uploadDate: string } | null, chapters: { __typename?: 'ChapterNodeList', totalCount: number } }> } }, failedJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, pendingJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } }, runningJobs: { __typename?: 'UpdateStatusType', mangas: { __typename?: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null }> } } } };
+export type UpdaterSubscription = { __typename?: 'Subscription', libraryUpdateStatusChanged: { __typename?: 'UpdaterUpdates', omittedUpdates: boolean, jobsInfo: { __typename?: 'UpdaterJobsInfoType', isRunning: boolean, totalJobs: number, finishedJobs: number, skippedCategoriesCount: number, skippedMangasCount: number }, categoryUpdates: Array<{ __typename?: 'CategoryUpdateType', status: CategoryJobStatus, category: { __typename?: 'CategoryType', id: number, name: string } }>, mangaUpdates: Array<{ __typename?: 'MangaUpdateType', status: MangaJobStatus, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null } }> } };
