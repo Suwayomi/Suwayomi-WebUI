@@ -34,7 +34,7 @@ export const TrackingSettings = () => {
     const { setTitle } = useNavBarContext();
 
     useLayoutEffect(() => {
-        setTitle(t('tracking.settings.title.settings'));
+        setTitle(t('tracking.title'));
     }, [t]);
 
     const {

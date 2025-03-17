@@ -84,7 +84,7 @@ const BaseReaderNavBarDesktopQuickSettings = ({
                 variant="contained"
                 startIcon={<SettingsIcon />}
             >
-                {t('reader.settings.title.reader_settings')}
+                {t('reader.settings.title.reader')}
             </Button>
         </Stack>
     );

@@ -67,7 +67,7 @@ export function Settings() {
                 <ListItemIcon>
                     <AutoStoriesIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('reader.settings.title.reader_settings')} />
+                <ListItemText primary={t('reader.settings.title.reader')} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.library.path}>
                 <ListItemIcon>

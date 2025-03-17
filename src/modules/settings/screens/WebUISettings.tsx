@@ -123,7 +123,7 @@ export const WebUISettings = () => {
     const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
-        setTitle(t('settings.webui.title.settings'));
+        setTitle(t('settings.webui.title.webui'));
         setAction(null);
 
         return () => {

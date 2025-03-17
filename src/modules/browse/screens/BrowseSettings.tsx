@@ -43,7 +43,7 @@ export const BrowseSettings = () => {
     const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
-        setTitle(t('settings.browse.title'));
+        setTitle(t('global.label.browse'));
         setAction(null);
     }, [t]);
 

@@ -58,7 +58,7 @@ export const DownloadSettings = () => {
     const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
-        setTitle(t('download.settings.title'));
+        setTitle(t('download.title.download'));
         setAction(null);
 
         return () => {

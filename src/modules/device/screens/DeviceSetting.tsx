@@ -33,7 +33,7 @@ export const DeviceSetting = () => {
     const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
-        setTitle(t('settings.device.title.settings'));
+        setTitle(t('settings.device.title.device'));
         setAction(null);
 
         return () => {

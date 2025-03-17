@@ -230,8 +230,7 @@
         "label": {
           "cbz": "Save as CBZ archive"
         }
-      },
-      "title": "Download settings"
+      }
     },
     "state": {
       "label": {
@@ -682,8 +681,7 @@
           }
         },
         "title": "Global update"
-      },
-      "title": "Library Settings"
+      }
     },
     "title": "Library"
   },
@@ -996,7 +994,7 @@
       },
       "title": {
         "quick_settings": "Quick settings",
-        "reader_settings": "Reader Settings"
+        "reader": "Reader"
       }
     },
     "title": "Reader — Manga {{mangaId}} Chapter {{chapterIndex}}",
@@ -1169,9 +1167,6 @@
       },
       "title": "Backup"
     },
-    "browse": {
-      "title": "Browse settings"
-    },
     "clear_cache": {
       "label": {
         "description": "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used",
@@ -1198,8 +1193,7 @@
         "placeholder": "Smartphone_Name-1 | length: 16, chars: letters, numbers, -, _"
       },
       "title": {
-        "device": "Device",
-        "settings": "Device settings"
+        "device": "Device"
       }
     },
     "label": {
@@ -1347,8 +1341,7 @@
         "title": "SOCKS proxy"
       },
       "title": {
-        "server": "Server",
-        "settings": "Server Settings"
+        "server": "Server"
       }
     },
     "title": "Settings",
@@ -1432,7 +1425,6 @@
         "initial_open_browser": "Open the $t(settings.webui.title.webui) when starting the server"
       },
       "title": {
-        "settings": "$t(settings.webui.title.webui) Settings",
         "webui": "WebUI"
       }
     }
@@ -1514,7 +1506,6 @@
         "update_progress_reading_description": "Does not work when marking multiple manga as read at once"
       },
       "title": {
-        "settings": "Tracking settings",
         "trackers": "Trackers"
       }
     },

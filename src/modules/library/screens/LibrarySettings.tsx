@@ -67,7 +67,7 @@ export function LibrarySettings() {
     const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
-        setTitle(t('library.settings.title'));
+        setTitle(t('library.title'));
         setAction(null);
 
         return () => {

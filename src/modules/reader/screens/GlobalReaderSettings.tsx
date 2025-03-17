@@ -24,7 +24,7 @@ export const GlobalReaderSettings = () => {
     const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
-        setTitle(t('reader.settings.title.reader_settings'));
+        setTitle(t('reader.settings.title.reader'));
         setAction(null);
 
         return () => {

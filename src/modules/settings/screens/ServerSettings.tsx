@@ -97,7 +97,7 @@ export const ServerSettings = () => {
     const { setTitle, setAction } = useNavBarContext();
 
     useLayoutEffect(() => {
-        setTitle(t('settings.server.title.settings'));
+        setTitle(t('settings.server.title.server'));
         setAction(null);
 
         return () => {
