@@ -242,8 +242,8 @@
       }
     },
     "title": {
-      "queue": "Downloads queue",
-      "download": "Downloads"
+      "download": "Downloads",
+      "queue": "Downloads queue"
     }
   },
   "extension": {
