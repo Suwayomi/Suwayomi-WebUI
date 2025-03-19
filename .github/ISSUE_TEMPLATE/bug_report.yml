@@ -60,9 +60,9 @@ body:
   id: client-browser
   attributes:
     label: Used web browser
-    description: The web browser which
+    description: The browser which is used to open Suwayomi-WebUI
     placeholder: |
-      Example: "Windows 11 Pro 24H2 | Ubuntu 24.04.2 LTS"
+      Example: "Chrome 134.0.6998.118 (64-Bit) | FireFox 136.0.2 (64-Bit) | Electron v35.0.2"
   validations:
     required: true
 
@@ -80,9 +80,9 @@ body:
   id: server-os
   attributes:
     label: Server operating system
-    description: The version of the browser which is used to open Suwayomi-WebUI
+    description: The operating system on which Suwayomi-Server is running on
     placeholder: |
-      Example: "Microsoft Edge 134.0.3124.72 (Official build) (64-Bit) | FireFox 136.0.2 (64-Bit) | Electron v35.0.2"
+      Example: "Windows 11 Pro 24H2 | Ubuntu 24.04.2 LTS"
   validations:
     required: true
 
@@ -100,7 +100,7 @@ body:
   id: other-details
   attributes:
     label: Other details
-    description: The more information especially via videos and images can be provided the better
+    description: The more information that gets provided the better, especially via videos and images
     placeholder: |
       Additional details and attachments.
 
