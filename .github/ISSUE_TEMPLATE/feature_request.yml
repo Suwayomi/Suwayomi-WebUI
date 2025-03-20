@@ -1,6 +1,6 @@
 name: 🌟 Feature request
 description: Suggest a feature to improve Suwayomi-WebUI
-labels: [Bug]
+labels: [enhancement]
 body:
 
   - type: textarea

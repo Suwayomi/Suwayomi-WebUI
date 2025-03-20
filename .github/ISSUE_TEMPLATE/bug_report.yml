@@ -1,6 +1,6 @@
 name: 🐞 Bug report
 description: Report a bug in Suwayomi-WebUI
-labels: [Bug]
+labels: [bug]
 body:
 
 - type: textarea
