@@ -44,7 +44,6 @@
             }
         },
         "settings": {
-            "title": "Paramètres de la bibliothèque",
             "global_update": {
                 "categories": {
                     "label": {
@@ -336,7 +335,6 @@
                 }
             }
         },
-        "title": "Téléchargements",
         "settings": {
             "auto_download": {
                 "categories": {
@@ -393,7 +391,6 @@
                 },
                 "title": "Téléchargement en amont"
             },
-            "title": "Paramètres de téléchargement",
             "download_path": {
                 "label": {
                     "title": "Emplacement de téléchargement",
@@ -494,7 +491,6 @@
         "title": "Paramètres",
         "device": {
             "title": {
-                "settings": "Paramètres de l'appareil",
                 "device": "Appareil"
             },
             "devices": {
@@ -636,8 +632,7 @@
                 }
             },
             "title": {
-                "server": "Serveur",
-                "settings": "Paramètres du serveur"
+                "server": "Serveur"
             }
         },
         "webui": {
@@ -717,8 +712,7 @@
                 }
             },
             "title": {
-                "webui": "Interface web",
-                "settings": "Paramètres de l'$t(settings.webui.title.webui)"
+                "webui": "Interface web"
             },
             "label": {
                 "initial_open_browser": "Ouvrir l'$t(settings.webui.title.webui) au lancement du serveur"
@@ -731,9 +725,6 @@
                 "title": "Vider le cache du serveur",
                 "description": "Le cache du client (navigateur, Electron) doit également être vidé en même temps, sinon le cache du client continuera à être utilisé"
             }
-        },
-        "browse": {
-            "title": "Paramètres de navigation"
         },
         "appearance": {
             "theme": {
@@ -1029,9 +1020,6 @@
                     "failed_to_save_settings": "Échec de l'enregistrement des paramètres du lecteur sur le serveur"
                 }
             },
-            "title": {
-                "reader_settings": "Paramètres du lecteur"
-            },
             "reader_type": {
                 "label": {
                     "continuous_vertical": "Verticale en continu",
@@ -1081,7 +1069,9 @@
         },
         "dialog": {
             "title": {
-                "edit_category": "Modifier la catégorie",
+                "edit_category_one": "Modifier la catégorie",
+                "edit_category_many": "",
+                "edit_category_other": "",
                 "new_category": "Nouvelle catégorie"
             }
         },
@@ -1250,8 +1240,7 @@
         },
         "settings": {
             "title": {
-                "trackers": "Trackers",
-                "settings": "Paramètres de tracking"
+                "trackers": "Trackers"
             },
             "dialog": {
                 "title": {

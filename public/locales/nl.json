@@ -2,7 +2,8 @@
     "category": {
         "dialog": {
             "title": {
-                "edit_category": "Categorie bewerken",
+                "edit_category_one": "Categorie bewerken",
+                "edit_category_other": "",
                 "new_category": "Nieuw categorie"
             }
         },
@@ -110,8 +111,7 @@
                 "label": {
                     "cbz": "Opslaan als CBZ archief"
                 }
-            },
-            "title": "Download instellingen"
+            }
         },
         "state": {
             "label": {
@@ -120,8 +120,7 @@
                 "finished": "Afgerond",
                 "queued": "Wachtrij"
             }
-        },
-        "title": "Downloads"
+        }
     },
     "chapter": {
         "title_one": "Hoofdstuk",
@@ -565,8 +564,7 @@
                         }
                     }
                 }
-            },
-            "title": "Bibliotheekinstellingen"
+            }
         },
         "action": {
             "label": {

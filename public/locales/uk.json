@@ -125,7 +125,9 @@
     "category": {
         "dialog": {
             "title": {
-                "edit_category": "Редагувати категорію",
+                "edit_category_one": "Редагувати категорію",
+                "edit_category_few": "",
+                "edit_category_many": "",
                 "new_category": "Нова категорія"
             }
         },
@@ -181,7 +183,6 @@
                 "error": "Помилка"
             }
         },
-        "title": "Завантаження",
         "settings": {
             "auto_download": {
                 "title": "Автоматичне завантаження",
@@ -217,7 +218,6 @@
                     "title": "Місце завантаження"
                 }
             },
-            "title": "Налаштування завантаження",
             "file_type": {
                 "label": {
                     "cbz": "Зберегти як CBZ архів"
@@ -528,7 +528,6 @@
                     }
                 }
             },
-            "title": "Налаштування бібліотеки",
             "advanced": {
                 "database": {
                     "cleanup": {
@@ -672,9 +671,6 @@
                     "continuous_vertical": "Вертикальний безперервний",
                     "webtoon": "Вебтун"
                 }
-            },
-            "title": {
-                "reader_settings": "Налаштування читача"
             },
             "error": {
                 "label": {
@@ -881,7 +877,6 @@
                 "title": "Проксі SOCKS"
             },
             "title": {
-                "settings": "Налаштування сервера",
                 "server": "Сервер"
             },
             "local_source": {
@@ -962,7 +957,6 @@
                 }
             },
             "title": {
-                "settings": "Налаштування $t(settings.webui.title.webui)",
                 "webui": "WebUI"
             },
             "interface": {
@@ -987,9 +981,6 @@
                 "initial_open_browser": "Відкривати $t(settings.webui.title.webui) під час запуску сервера"
             }
         },
-        "browse": {
-            "title": "Налаштування огляду"
-        },
         "clear_cache": {
             "label": {
                 "description": "Кеш клієнта (браузер, electron) також повинен очищатися, інакше кеш клієнта буде продовжувати використовуватися",
@@ -1012,8 +1003,7 @@
                 }
             },
             "title": {
-                "device": "Пристрій",
-                "settings": "Налаштування пристрою"
+                "device": "Пристрій"
             },
             "label": {
                 "placeholder": "Ім'я_Смартфона-1 | довжина: 16, символи: літери, цифри, -, _"

@@ -2,7 +2,8 @@
     "category": {
         "dialog": {
             "title": {
-                "edit_category": "I-edit ang kategorya",
+                "edit_category_one": "I-edit ang kategorya",
+                "edit_category_other": "",
                 "new_category": "Bagong kategorya"
             }
         },
