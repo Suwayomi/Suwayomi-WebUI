@@ -26,6 +26,7 @@ import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -68,20 +69,21 @@ const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }
                         />
                     </ListItemIcon>
                     <ListItemText
-                        primary={t(title)}
-                        sx={{ maxWidth: '100%' }}
-                        primaryTypographyProps={{
-                            sx: {
-                                maxWidth: '100%',
-                                overflow: 'hidden',
-                                textOverflow: 'ellipsis',
-                                ...(isCollapsed ? theme.typography.caption : {}),
-                                color: isActive ? 'primary.dark' : undefined,
-                                ...theme.applyStyles('dark', {
-                                    color: isActive ? 'primary.light' : undefined,
-                                }),
-                            },
-                        }}
+                        primary={
+                            <TypographyMaxLines
+                                lines={1}
+                                variant={isCollapsed ? 'caption' : undefined}
+                                sx={{
+                                    color: isActive ? 'primary.dark' : undefined,
+                                    ...theme.applyStyles('dark', {
+                                        color: isActive ? 'primary.light' : undefined,
+                                    }),
+                                }}
+                            >
+                                {t(title)}
+                            </TypographyMaxLines>
+                        }
+                        sx={{ maxWidth: '100%', m: 0 }}
                     />
                 </ListItem>
             </CustomTooltip>
