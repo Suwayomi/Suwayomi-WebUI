@@ -166,9 +166,6 @@
                 "label": {
                     "failed_to_save_settings": "Die Leseeinstellungen konnten nicht gespeichert werden"
                 }
-            },
-            "title": {
-                "reader_settings": "Leseeinstellungen"
             }
         },
         "title": "Leser - Manga {{mangaId}} Kapitel {{chapterIndex}}",
@@ -403,7 +400,8 @@
         "dialog": {
             "title": {
                 "new_category": "Neue Kategorie erstellen",
-                "edit_category": "Kategorie bearbeiten"
+                "edit_category_one": "Kategorie bearbeiten",
+                "edit_category_other": ""
             }
         },
         "error": {
@@ -461,8 +459,7 @@
                 "title": "SOCKS Proxy"
             },
             "title": {
-                "server": "Server",
-                "settings": "Server Einstellungen"
+                "server": "Server"
             }
         },
         "webui": {
@@ -511,7 +508,6 @@
                 "queued": "Eingereiht"
             }
         },
-        "title": "Downloads",
         "settings": {
             "auto_download": {
                 "download_limit": {
@@ -570,8 +566,7 @@
                 "label": {
                     "cbz": "Als CBZ-Archiv speichern"
                 }
-            },
-            "title": "Download-Einstellungen"
+            }
         }
     },
     "source": {
@@ -606,7 +601,6 @@
     "tracking": {
         "settings": {
             "title": {
-                "settings": "Tracking-Einstellungen",
                 "trackers": "Tracker"
             },
             "label": {

@@ -148,7 +148,9 @@
         "dialog": {
             "title": {
                 "new_category": "Новая категория",
-                "edit_category": "Отредактировать категорию"
+                "edit_category_one": "Отредактировать категорию",
+                "edit_category_few": "",
+                "edit_category_many": ""
             }
         },
         "settings": {
@@ -242,8 +244,7 @@
                 "label": {
                     "cbz": "Сохранить как архив CBZ"
                 }
-            },
-            "title": "Настройки скачивания"
+            }
         },
         "state": {
             "label": {
@@ -252,12 +253,10 @@
                 "finished": "Завершено",
                 "queued": "В очереди"
             }
-        },
-        "title": "Загрузки"
+        }
     },
     "library": {
         "settings": {
-            "title": "Настройки библиотеки",
             "global_update": {
                 "label": {
                     "last_update": "Последнее обновление: {{date}}",
@@ -632,9 +631,6 @@
                 }
             }
         },
-        "browse": {
-            "title": "Просмотр настроек"
-        },
         "label": {
             "manga_item_width": "Ширина обложки манги",
             "show_nsfw_description": "Скрыть NSFW-расширения (18+) и источники",
@@ -678,8 +674,7 @@
                 }
             },
             "title": {
-                "device": "Устройство",
-                "settings": "Настройки устройства"
+                "device": "Устройство"
             },
             "label": {
                 "placeholder": "Название_телефона-1 | длина: 16, разрешенные символы: буквы, цифры, -, _"
@@ -770,7 +765,6 @@
                 "title": "Прокси SOCKS"
             },
             "title": {
-                "settings": "Настройки сервера",
                 "server": "Сервер"
             },
             "auth": {
@@ -900,7 +894,6 @@
                 }
             },
             "title": {
-                "settings": "$t(settings.webui.title.webui) Настройки",
                 "webui": "WebUI"
             },
             "electron_path": {
@@ -1186,9 +1179,6 @@
                     "webtoon": "Веб-комикс"
                 }
             },
-            "title": {
-                "reader_settings": "Настройки читалки"
-            },
             "error": {
                 "label": {
                     "failed_to_save_settings": "Не удалось сохранить настройки читалки на сервере"
@@ -1290,8 +1280,7 @@
                 "update_progress_reading_description": "Не работает при пометке нескольких манг как прочитанных одновременно"
             },
             "title": {
-                "trackers": "Отслеживания",
-                "settings": "Настройки отслеживания"
+                "trackers": "Отслеживания"
             },
             "dialog": {
                 "title": {

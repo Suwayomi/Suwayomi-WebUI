@@ -129,7 +129,6 @@
                 }
             },
             "title": {
-                "settings": "Ajustes del servidor",
                 "server": "Servidor"
             },
             "socks_proxy": {
@@ -268,8 +267,7 @@
                 }
             },
             "title": {
-                "webui": "WebUI",
-                "settings": "Ajustes de $t(settings.webui.title.webui)"
+                "webui": "WebUI"
             },
             "interface": {
                 "label": {
@@ -323,9 +321,6 @@
                 "failure": "No se ha podido borrar la caché del servidor"
             }
         },
-        "browse": {
-            "title": "Opciones de búsqueda"
-        },
         "device": {
             "active_device": {
                 "label": {
@@ -340,8 +335,7 @@
                 }
             },
             "title": {
-                "device": "Dispositivo",
-                "settings": "Opciones de dispositivo"
+                "device": "Dispositivo"
             },
             "label": {
                 "placeholder": "Nombre_movil-1 | longitud: 16, caracteres: letras, números, -, _"
@@ -512,7 +506,6 @@
                     "last_update": "Última actualización: {{date}}"
                 }
             },
-            "title": "Configuración de la biblioteca",
             "advanced": {
                 "database": {
                     "cleanup": {
@@ -944,7 +937,6 @@
                 "page_gap": "Separación de páginas"
             },
             "title": {
-                "reader_settings": "Ajustes del lector",
                 "quick_settings": "Configuración rápida"
             },
             "error": {
@@ -1117,7 +1109,9 @@
         "dialog": {
             "title": {
                 "new_category": "Nueva categoría",
-                "edit_category": "Editar la categoría"
+                "edit_category_one": "Editar la categoría",
+                "edit_category_many": "",
+                "edit_category_other": ""
             }
         },
         "error": {
@@ -1360,7 +1354,6 @@
         }
     },
     "download": {
-        "title": "Descargas",
         "queue": {
             "title": "Cola de descargas",
             "label": {
@@ -1424,7 +1417,6 @@
                     "title": "Ubicación para las descargas"
                 }
             },
-            "title": "Descargar los ajustes",
             "delete_chapters": {
                 "while_reading": {
                     "label": {
@@ -1503,7 +1495,6 @@
                 }
             },
             "title": {
-                "settings": "Ajustes del rastreo",
                 "trackers": "Rastreadores"
             },
             "label": {

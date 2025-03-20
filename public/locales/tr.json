@@ -2,7 +2,8 @@
     "category": {
         "dialog": {
             "title": {
-                "edit_category": "Kategoriyi düzenle",
+                "edit_category_one": "Kategoriyi düzenle",
+                "edit_category_other": "",
                 "new_category": "Yeni kategori"
             }
         },
@@ -97,8 +98,7 @@
                 "label": {
                     "cbz": "CBZ arşivi olarak kaydet"
                 }
-            },
-            "title": "İndirme ayarları"
+            }
         },
         "queue": {
             "error": {
@@ -114,7 +114,6 @@
             },
             "title": "İndirme kuyruğu"
         },
-        "title": "İndirmeler",
         "state": {
             "label": {
                 "error": "Hata",
@@ -436,7 +435,6 @@
                     }
                 }
             },
-            "title": "Kütüphane Ayarları",
             "advanced": {
                 "duplicates": {
                     "label": {
@@ -648,9 +646,6 @@
                 "label": {
                     "failed_to_save_settings": "Okuyucu ayarları sunucuya kaydedilemedi"
                 }
-            },
-            "title": {
-                "reader_settings": "Okuyucu Ayarları"
             },
             "label": {
                 "reader_type": "Okuyucu türü",
@@ -971,8 +966,7 @@
                 "title": "SOCKS proxy'si"
             },
             "title": {
-                "server": "Sunucu",
-                "settings": "Sunucu Ayarları"
+                "server": "Sunucu"
             },
             "local_source": {
                 "path": {
@@ -1040,12 +1034,8 @@
                 "placeholder": "Smartphone_Name-1 | length: 16, chars: letters, numbers, -, _"
             },
             "title": {
-                "device": "Cihaz",
-                "settings": "Cihaz ayarları"
+                "device": "Cihaz"
             }
-        },
-        "browse": {
-            "title": "Arama ayarları"
         },
         "label": {
             "manga_item_width": "Manga öğe genişliği",
@@ -1135,7 +1125,6 @@
                 "initial_open_browser": "Sunucuyu başlatırken $t(settings.webui.title.webui) dosyasını açın"
             },
             "title": {
-                "settings": "$t(settings.webui.title.webui) Ayarlar",
                 "webui": "WebUI"
             }
         },
@@ -1216,8 +1205,7 @@
                 }
             },
             "title": {
-                "trackers": "İzleyiciler",
-                "settings": "İzleme ayarları"
+                "trackers": "İzleyiciler"
             }
         },
         "track_record": {

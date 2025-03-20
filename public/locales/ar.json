@@ -72,7 +72,6 @@
                 },
                 "title": "التحديث العالمي"
             },
-            "title": "إعدادات المكتبة",
             "advanced": {
                 "database": {
                     "cleanup": {
@@ -174,7 +173,12 @@
         "dialog": {
             "title": {
                 "new_category": "فئة جديدة",
-                "edit_category": "تحرير الفئة"
+                "edit_category_zero": "تحرير الفئة",
+                "edit_category_one": "",
+                "edit_category_two": "",
+                "edit_category_few": "",
+                "edit_category_many": "",
+                "edit_category_other": ""
             }
         },
         "settings": {
@@ -324,7 +328,6 @@
                 "title": "وكيل الجوارب"
             },
             "title": {
-                "settings": "اعدادات الخادم",
                 "server": "الخادم"
             },
             "cloudflare": {
@@ -441,8 +444,7 @@
                 }
             },
             "title": {
-                "webui": "واجهة مستخدم الويب",
-                "settings": "$t(settings.webui.title.webui) الإعدادات"
+                "webui": "واجهة مستخدم الويب"
             },
             "interface": {
                 "label": {
@@ -896,7 +898,6 @@
                     "cbz": "حفظ كأرشيف CBZ"
                 }
             },
-            "title": "تحميل الإعدادات",
             "delete_chapters": {
                 "label": {
                     "allow_deletion_of_bookmarked": "السماح بحذف الفصول ذات الإشارة المرجعية",
@@ -940,8 +941,7 @@
                 }
             },
             "title": "تحميل قائمة الانتظار"
-        },
-        "title": "التحميلات"
+        }
     },
     "source": {
         "configuration": {
@@ -1090,9 +1090,6 @@
                     "webtoon": "ويبتون",
                     "continuous_vertical": "يستمر عموديا"
                 }
-            },
-            "title": {
-                "reader_settings": "إعدادات القارئ"
             },
             "active_setting": "الإعداد النشط",
             "background_color": "لون الخلفية",

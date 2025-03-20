@@ -3,7 +3,7 @@
         "dialog": {
             "title": {
                 "new_category": "新しいカテゴリー",
-                "edit_category": "カテゴリーを編集"
+                "edit_category_other": "カテゴリーを編集"
             }
         },
         "error": {
@@ -178,7 +178,6 @@
                     "description": "読書中にダウンロードするチャプターの数。"
                 }
             },
-            "title": "ダウンロード設定",
             "download_path": {
                 "label": {
                     "description": "ダウンロードしたファイルが保存されるサーバーのディレクトリへのパス",
@@ -210,8 +209,7 @@
                 "delete_all": "全てを削除",
                 "no_downloads": "ダウンロードがありません"
             }
-        },
-        "title": "ダウンロード"
+        }
     },
     "global": {
         "error": {
@@ -449,8 +447,7 @@
                         }
                     }
                 }
-            },
-            "title": "ライブラリ設定"
+            }
         },
         "option": {
             "sort": {
@@ -654,9 +651,6 @@
                     "continuous_vertical": "垂直に連続"
                 }
             },
-            "title": {
-                "reader_settings": "リーダー設定"
-            },
             "label": {
                 "fit_page_to_window": "ページをウィンドウに合わせる",
                 "skip_dup_chapters": "重複した章をスキップする",
@@ -789,8 +783,7 @@
                 "title": "その他"
             },
             "title": {
-                "server": "サーバー",
-                "settings": "サーバー設定"
+                "server": "サーバー"
             },
             "requests": {
                 "sources": {
@@ -866,9 +859,6 @@
             },
             "label": {
                 "initial_open_browser": "サーバ起動時に $t(settings.webui.title.webui) を開きます"
-            },
-            "title": {
-                "settings": "$t(settings.webui.title.webui) 設定"
             },
             "electron_path": {
                 "label": {
@@ -978,7 +968,6 @@
                 }
             },
             "title": {
-                "settings": "デバイス設定",
                 "device": "デバイス"
             },
             "active_device": {
@@ -1063,7 +1052,6 @@
                 }
             },
             "title": {
-                "settings": "トラッキング設定",
                 "trackers": "トラッカー"
             }
         },

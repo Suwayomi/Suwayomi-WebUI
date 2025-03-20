@@ -3,7 +3,7 @@
         "dialog": {
             "title": {
                 "new_category": "Kategori baru",
-                "edit_category": "Ubah kategori"
+                "edit_category_other": "Ubah kategori"
             }
         },
         "error": {
@@ -194,7 +194,6 @@
                     "cbz": "Simpan sebagai arsip CBZ"
                 }
             },
-            "title": "Pengaturan unduhan",
             "delete_chapters": {
                 "title": "Hapus bab",
                 "label": {
@@ -224,8 +223,7 @@
                 "downloading": "Mengunduh",
                 "error": "Terjadi kesalahan"
             }
-        },
-        "title": "Unduhan"
+        }
     },
     "global": {
         "button": {

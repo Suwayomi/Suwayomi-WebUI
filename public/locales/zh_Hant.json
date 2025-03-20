@@ -26,7 +26,6 @@
                 }
             },
             "title": {
-                "reader_settings": "閱讀器設定",
                 "quick_settings": "快速設定"
             },
             "error": {
@@ -155,7 +154,15 @@
         },
         "chapter_transition": {
             "warning": {
-                "title": "章節切換警告"
+                "title": "章節切換警告",
+                "previous": {
+                    "scanlator": "上一章節的掃譯者與目前的不同。\n上一章節：{{nextScanlator}}\n目前章節：{{currentScanlator}}",
+                    "chapter_number_other": "遺失 {{count}} 個章節。\n上一章節：{{nextChapter}}\n目前章節：{{currentChapter}}"
+                },
+                "next": {
+                    "chapter_number_other": "遺失 {{count}} 個章節。\n目前章節：{{currentChapter}}\n下一章節：{{nextChapter}}",
+                    "scanlator": "下一章節的掃譯者與目前的不同。\n目前章節：{{currentScanlator}}\n下一章節：{{nextScanlator}}"
+                }
             }
         }
     },
@@ -181,7 +188,7 @@
         },
         "dialog": {
             "title": {
-                "edit_category": "編輯分類",
+                "edit_category_other": "編輯分類",
                 "new_category": "新分類"
             }
         },
@@ -464,7 +471,8 @@
             "dark": "深色",
             "light": "淺色",
             "system": "系統",
-            "asterisk": "*"
+            "asterisk": "*",
+            "more": "更多"
         },
         "language": {
             "label": {
@@ -639,7 +647,6 @@
                     "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))"
                 }
             },
-            "title": "書櫃設定",
             "general": {
                 "add_to_library": {
                     "category_selection": {
@@ -921,8 +928,7 @@
                 "title": "認證"
             },
             "title": {
-                "server": "伺服器",
-                "settings": "伺服器設定"
+                "server": "伺服器"
             },
             "misc": {
                 "log_level": {
@@ -1093,7 +1099,6 @@
                 "initial_open_browser": "伺服器啟動時開啟 $t(settings.webui.title.webui)"
             },
             "title": {
-                "settings": "$t(settings.webui.title.webui) 設定",
                 "webui": "WebUI"
             },
             "flavor": {
@@ -1142,12 +1147,8 @@
                 "title": "清除伺服器快取"
             }
         },
-        "browse": {
-            "title": "瀏覽設定"
-        },
         "device": {
             "title": {
-                "settings": "設備設定",
                 "device": "設備"
             },
             "devices": {
@@ -1287,7 +1288,6 @@
                 "queued": "排隊中"
             }
         },
-        "title": "下載",
         "settings": {
             "auto_download": {
                 "label": {
@@ -1349,8 +1349,7 @@
                 "label": {
                     "cbz": "儲存為 CBZ 壓縮檔"
                 }
-            },
-            "title": "下載設定"
+            }
         }
     },
     "migrate": {
@@ -1386,7 +1385,6 @@
                 }
             },
             "title": {
-                "settings": "追蹤設定",
                 "trackers": "追蹤器"
             },
             "label": {
