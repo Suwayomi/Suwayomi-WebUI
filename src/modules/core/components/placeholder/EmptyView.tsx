@@ -54,10 +54,10 @@ export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyVi
                     {errorFace}
                 </Typography>
             )}
-            <Typography variant="h5" sx={{ pointerEvents: 'all' }}>
+            <Typography variant="h5" sx={{ wordBreak: 'break-word', whiteSpace: 'pre-line', pointerEvents: 'all' }}>
                 {message}
             </Typography>
-            <Typography variant="body1" sx={{ wordBreak: 'break-word', pointerEvents: 'all' }}>
+            <Typography variant="body1" sx={{ wordBreak: 'break-word', whiteSpace: 'pre-line', pointerEvents: 'all' }}>
                 {messageExtra}
             </Typography>
             {retry && (
