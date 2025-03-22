@@ -41,6 +41,9 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     // browse
     hideLibraryEntries: false,
 
+    // history
+    hideHistory: false,
+
     // tracking
     updateProgressAfterReading: true,
     updateProgressManualMarkRead: false,

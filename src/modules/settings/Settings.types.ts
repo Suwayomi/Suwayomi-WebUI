@@ -15,6 +15,7 @@ import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import { MetadataHistorySettings } from '@/modules/history/History.types.ts';
 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
 
@@ -27,7 +28,8 @@ export type MetadataServerSettings = MetadataDownloadSettings &
     MetadataBrowseSettings &
     MetadataTrackingSettings &
     MetadataUpdateSettings &
-    MetadataThemeSettings;
+    MetadataThemeSettings &
+    MetadataHistorySettings;
 
 export interface ISearchSettings {
     ignoreFilters: boolean;

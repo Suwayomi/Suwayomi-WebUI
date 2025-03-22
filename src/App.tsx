@@ -23,6 +23,8 @@ import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Reader } from '@/modules/reader/screens/Reader.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { HistorySettings } from '@/modules/history/screens/HistorySettings.tsx';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -101,6 +103,10 @@ const BackgroundSubscriptions = () => {
 const MainApp = () => {
     const { navBarWidth, appBarHeight, bottomBarHeight } = useNavBarContext();
 
+    const {
+        settings: { hideHistory },
+    } = useMetadataServerSettings();
+
     return (
         <Box
             id="appMainContainer"
@@ -139,6 +145,7 @@ const MainApp = () => {
                         <Route path={AppRoutes.settings.childRoutes.server.match} element={<ServerSettings />} />
                         <Route path={AppRoutes.settings.childRoutes.webui.match} element={<WebUISettings />} />
                         <Route path={AppRoutes.settings.childRoutes.browse.match} element={<BrowseSettings />} />
+                        <Route path={AppRoutes.settings.childRoutes.history.match} element={<HistorySettings />} />
                         <Route path={AppRoutes.settings.childRoutes.device.match} element={<DeviceSetting />} />
                         <Route path={AppRoutes.settings.childRoutes.tracking.match} element={<TrackingSettings />} />
                         <Route path={AppRoutes.settings.childRoutes.appearance.match} element={<Appearance />} />
@@ -159,7 +166,7 @@ const MainApp = () => {
                     </Route>
                     <Route path={AppRoutes.library.match} element={<Library />} />
                     <Route path={AppRoutes.updates.match} element={<Updates />} />
-                    <Route path={AppRoutes.history.match} element={<History />} />
+                    {!hideHistory && <Route path={AppRoutes.history.match} element={<History />} />}
                     <Route path={AppRoutes.browse.match} element={<Browse />} />
                     <Route path={AppRoutes.migrate.match}>
                         <Route index element={<Migrate />} />

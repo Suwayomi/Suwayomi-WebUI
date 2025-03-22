@@ -37,6 +37,7 @@ import { MobileBottomBar } from '@/modules/navigation-bar/components/MobileBotto
 import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 const navbarItems: Array<NavbarItem> = [
     {
@@ -93,6 +94,10 @@ export function DefaultNavBar() {
     const handleBack = useBackButton();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
 
+    const {
+        settings: { hideHistory },
+    } = useMetadataServerSettings();
+
     const appBarRef = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
         appBarRef,
@@ -123,8 +128,15 @@ export function DefaultNavBar() {
 
     const activeNavBar: NavbarItem['show'] = isMobileWidth ? 'mobile' : 'desktop';
     const visibleNavBarItems = useMemo(
-        () => navbarItems.filter(({ show }) => ['both', activeNavBar].includes(show)),
-        [isMobileWidth],
+        () =>
+            navbarItems
+                .filter((item) => {
+                    const isHistory = item.title === 'history.title';
+
+                    return !isHistory || !hideHistory;
+                })
+                .filter(({ show }) => ['both', activeNavBar].includes(show)),
+        [isMobileWidth, hideHistory],
     );
     const NavBarComponent = useMemo(() => (isMobileWidth ? MobileBottomBar : DesktopSideBar), [isMobileWidth]);
 

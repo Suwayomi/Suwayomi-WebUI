@@ -23,6 +23,7 @@ import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
 import DevicesIcon from '@mui/icons-material/Devices';
 import SyncIcon from '@mui/icons-material/Sync';
 import PaletteIcon from '@mui/icons-material/Palette';
+import HistoryIcon from '@mui/icons-material/History';
 import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -108,6 +109,12 @@ export function Settings() {
                     <ExploreOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('global.label.browse')} />
+            </ListItemLink>
+            <ListItemLink to={AppRoutes.settings.childRoutes.history.path}>
+                <ListItemIcon>
+                    <HistoryIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('history.title')} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.device.path}>
                 <ListItemIcon>

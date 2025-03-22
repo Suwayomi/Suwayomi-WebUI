@@ -520,6 +520,9 @@
         "no_history_available": "You have not read any series yet."
       }
     },
+    "settings": {
+      "hide": "Hide history"
+    },
     "title": "History"
   },
   "hotkeys": {

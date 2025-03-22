@@ -84,6 +84,10 @@ export const AppRoutes = {
                 match: 'appearance',
                 path: '/settings/appearance',
             },
+            history: {
+                match: 'history',
+                path: '/settings/history',
+            },
         },
     },
     sources: {
