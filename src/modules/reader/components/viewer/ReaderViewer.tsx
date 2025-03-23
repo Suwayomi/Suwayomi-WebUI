@@ -228,7 +228,7 @@ const BaseReaderViewer = forwardRef(
 
                     // convert chapterViewerSize to state, since it doesn't make sense for it to be a ref
                     setChapterViewerSize({
-                        minChapterViewWidth,
+                        minChapterViewWidth: width,
                         minChapterViewHeight: 0,
                         minChapterSizeSourceChapterId: chapterId,
                     });
@@ -238,7 +238,7 @@ const BaseReaderViewer = forwardRef(
                 if (isSameChapterId || minChapterViewHeight < height) {
                     setChapterViewerSize({
                         minChapterViewWidth: 0,
-                        minChapterViewHeight,
+                        minChapterViewHeight: height,
                         minChapterSizeSourceChapterId: chapterId,
                     });
                 }
