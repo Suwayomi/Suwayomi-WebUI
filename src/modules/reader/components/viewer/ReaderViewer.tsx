@@ -260,19 +260,18 @@ const BaseReaderViewer = forwardRef(
             scrollElementRef,
             currentChapter?.id,
             currentChapterIndex,
+            currentPageIndex,
             chaptersToRender,
             visibleChapters,
+            readingMode,
             isContinuousReadingModeActive,
             readingDirection,
+            setPageToScrollToIndex,
         );
 
         useLayoutEffect(() => {
             chapterViewerSize.current = { minChapterViewWidth: 0, minChapterViewHeight: 0 };
             setTriggerReRender({});
-        }, [readingMode]);
-
-        useLayoutEffect(() => {
-            setPageToScrollToIndex(currentPageIndex);
         }, [readingMode]);
 
         if (!initialChapter || !currentChapter) {
