@@ -24,7 +24,7 @@ import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
 import { AppRoutes } from '@/modules/core/AppRoute.constants';
 
 interface IExtensionOptions {
-    extensionId: string;
+    extensionId: string | null;
     closeDialog: () => void;
 }
 
@@ -41,7 +41,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
 
     if (isLoading || !data) {
         return (
-            <OptionsPanel open onClose={closeDialog}>
+            <OptionsPanel open={!!extensionId} onClose={closeDialog}>
                 <LoadingPlaceholder />;
             </OptionsPanel>
         );
@@ -49,7 +49,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
 
     if (error) {
         return (
-            <OptionsPanel open onClose={closeDialog}>
+            <OptionsPanel open={!!extensionId} onClose={closeDialog}>
                 <EmptyViewAbsoluteCentered
                     message={t('global.error.label.failed_to_load_data')}
                     messageExtra={getErrorMessage(error)}
@@ -62,7 +62,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
     const relevantSources = data.sources.nodes.filter((s) => s.extension.pkgName === extensionId);
 
     return (
-        <OptionsPanel open onClose={closeDialog}>
+        <OptionsPanel open={!!extensionId} onClose={closeDialog}>
             <Box
                 sx={{
                     pb: 2,

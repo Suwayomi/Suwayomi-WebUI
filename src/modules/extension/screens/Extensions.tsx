@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { extensionDefaultLangs } from '@/modules/core/utils/Languages.ts';
@@ -49,6 +49,17 @@ const EXTENSIONS = 1;
 export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
     const { setAction } = useNavBarContext();
+    const navigate = useNavigate();
+    const { pathname, search, state } = useLocation<{ selectedExtensionPkg?: string }>();
+    const selectedExtensionPkg = state?.selectedExtensionPkg;
+    const setSelectedExtensionPkg = (newPkg: string | null) => {
+        navigate(pathname + search, {
+            replace: true,
+            state: {
+                selectedExtensionPkg: newPkg,
+            },
+        });
+    };
 
     const {
         data: serverSettingsData,
@@ -70,7 +81,6 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const allExtensions = data?.fetchExtensions?.extensions;
 
     const [updatingExtensionIds, setUpdatingExtensionIds] = useState<string[]>([]);
-    const [selectedExtensionPkg, setSelectedExtensionPkg] = useState<string | null>(null);
 
     const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
 
@@ -306,12 +316,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     );
                 }}
             />
-            {selectedExtensionPkg && (
-                <ExtensionOptions
-                    extensionId={selectedExtensionPkg}
-                    closeDialog={() => setSelectedExtensionPkg(null)}
-                />
-            )}
+            <ExtensionOptions extensionId={selectedExtensionPkg} closeDialog={() => setSelectedExtensionPkg(null)} />
         </>
     );
 }
