@@ -240,10 +240,11 @@ const BaseReaderViewer = forwardRef(
             [isContinuousReadingModeActive, isContinuousVerticalReadingModeActive, currentChapter],
         );
 
-        const onChapterViewSizeReset = () => {
+        const onChapterViewSizeReset = useCallback(() => {
+            if (!isContinuousReadingModeActive) return;
             setTriggerReRender({});
             setPageToScrollToIndex(currentPageIndex);
-        };
+        }, [isContinuousReadingModeActive, currentPageIndex]);
 
         useReaderHandlePageSelection(
             pageToScrollToIndex,
