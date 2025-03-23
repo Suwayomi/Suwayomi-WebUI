@@ -22,6 +22,7 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { getErrorMessage } from '@/lib/HelperFunctions';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
 import { AppRoutes } from '@/modules/core/AppRoute.constants';
+import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils';
 
 interface IExtensionOptions {
     extensionId: string | null;
@@ -59,7 +60,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
         );
     }
 
-    const relevantSources = data.sources.nodes.filter((s) => s.extension.pkgName === extensionId);
+    const relevantSources = data?.sources.nodes.filter((s) => s.extension.pkgName === extensionId);
 
     return (
         <OptionsPanel open={!!extensionId} onClose={closeDialog}>
@@ -70,7 +71,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                     mx: 2,
                 }}
             >
-                {relevantSources.map((source) => (
+                {relevantSources?.map((source) => (
                     <Card key={source.id}>
                         <CardContent
                             sx={{
@@ -94,7 +95,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                                 }}
                             >
                                 <Typography variant="h6" component="h3">
-                                   {translateExtensionLanguage(lang)}
+                                    {translateExtensionLanguage(source.lang)}
                                 </Typography>
                                 <Typography
                                     variant="caption"
