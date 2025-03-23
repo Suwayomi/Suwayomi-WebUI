@@ -94,7 +94,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                                 }}
                             >
                                 <Typography variant="h6" component="h3">
-                                    {source.lang}
+                                   {translateExtensionLanguage(lang)}
                                 </Typography>
                                 <Typography
                                     variant="caption"
