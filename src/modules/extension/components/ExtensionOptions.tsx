@@ -39,7 +39,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
         refetch,
     } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
 
-    if (isLoading || !data) {
+    if (isLoading) {
         return (
             <OptionsPanel open={!!extensionId} onClose={closeDialog}>
                 <LoadingPlaceholder />;
