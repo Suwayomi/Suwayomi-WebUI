@@ -89,8 +89,6 @@ const BaseReaderChapterViewer = ({
     scrollbarYSize,
     readerNavBarWidth,
     onSizeChange,
-    minWidth,
-    minHeight,
 }: Pick<
     ReaderStatePages,
     | 'currentPageIndex'
@@ -126,8 +124,6 @@ const BaseReaderChapterViewer = ({
         scrollIntoView: boolean;
         resumeMode: ReaderResumeMode;
         onSizeChange: (width: number, height: number) => void;
-        minWidth: number;
-        minHeight: number;
     }) => {
     const { t } = useTranslation();
     const { direction: themeDirection } = useTheme();
@@ -376,12 +372,6 @@ const BaseReaderChapterViewer = ({
             sx={{
                 width: 'fit-content',
                 height: 'fit-content',
-                ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
-                    minHeight,
-                }),
-                ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
-                    minWidth,
-                }),
                 margin: 'auto',
                 flexWrap: 'nowrap',
                 ...applyStyles(shouldHideChapter, {
