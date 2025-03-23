@@ -20,8 +20,6 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered';
 import { getErrorMessage } from '@/lib/HelperFunctions';
-import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery';
-import { GetSourceBrowseQuery, GetSourceBrowseQueryVariables } from '@/lib/graphql/generated/graphql';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
 import { AppRoutes } from '@/modules/core/AppRoute.constants';
 
@@ -41,7 +39,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
         refetch,
     } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
 
-    if (isLoading) {
+    if (isLoading || !data) {
         return (
             <OptionsPanel open onClose={closeDialog}>
                 <LoadingPlaceholder />;
@@ -61,25 +59,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
         );
     }
 
-    console.log(extensionId);
-
-    const relevantSources = data?.sources.nodes
-        .filter((s) => s.extension.pkgName === extensionId)
-        .map((s) => {
-            const { data: sourceData } = requestManager.useGetSource<
-                GetSourceBrowseQuery,
-                GetSourceBrowseQueryVariables
-            >(GET_SOURCE_BROWSE, s.id);
-            return { source: s, sourceData: sourceData?.source };
-        });
-
-    if (!relevantSources || relevantSources.filter((s) => !s.sourceData).length > 0) {
-        return (
-            <OptionsPanel open onClose={closeDialog}>
-                <LoadingPlaceholder />;
-            </OptionsPanel>
-        );
-    }
+    const relevantSources = data.sources.nodes.filter((s) => s.extension.pkgName === extensionId);
 
     return (
         <OptionsPanel open onClose={closeDialog}>
@@ -90,72 +70,69 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                     mx: 2,
                 }}
             >
-                {relevantSources.map((s) => {
-                    const { source, sourceData } = s;
-                    return (
-                        <Card key={source.id}>
-                            <CardContent
+                {relevantSources.map((source) => (
+                    <Card key={source.id}>
+                        <CardContent
+                            sx={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: 1,
+                                p: 1.5,
+                                '&:last-child': {
+                                    paddingBottom: 1.5,
+                                },
+                            }}
+                        >
+                            <Box
                                 sx={{
                                     display: 'flex',
-                                    alignItems: 'center',
-                                    gap: 1,
-                                    p: 1.5,
-                                    '&:last-child': {
-                                        paddingBottom: 1.5,
-                                    },
+                                    flexDirection: 'column',
+                                    flexGrow: 1,
+                                    flexShrink: 1,
+                                    wordBreak: 'break-word',
+                                    justifyContent: 'center',
                                 }}
                             >
-                                <Box
+                                <Typography variant="h6" component="h3">
+                                    {source.lang}
+                                </Typography>
+                                <Typography
+                                    variant="caption"
                                     sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        flexGrow: 1,
-                                        flexShrink: 1,
-                                        wordBreak: 'break-word',
-                                        justifyContent: 'center',
+                                        display: 'block',
                                     }}
                                 >
-                                    <Typography variant="h6" component="h3">
-                                        {source.lang}
-                                    </Typography>
-                                    <Typography
-                                        variant="caption"
-                                        sx={{
-                                            display: 'block',
-                                        }}
-                                    >
-                                        {source.isNsfw && (
-                                            <Typography
-                                                variant="caption"
-                                                color="error"
-                                                sx={{
-                                                    display: 'inline',
-                                                }}
-                                            >
-                                                {' 18+'}
-                                            </Typography>
-                                        )}
-                                    </Typography>
-                                </Box>
-                                {sourceData?.isConfigurable && (
-                                    <CustomTooltip title={t('settings.title')}>
-                                        <IconButton
-                                            onClick={() =>
-                                                navigate(AppRoutes.sources.childRoutes.configure.path(source.id))
-                                            }
-                                            aria-label="display more actions"
-                                            edge="end"
-                                            color="inherit"
-                                            size="large"
+                                    {source.isNsfw && (
+                                        <Typography
+                                            variant="caption"
+                                            color="error"
+                                            sx={{
+                                                display: 'inline',
+                                            }}
                                         >
-                                            <SettingsIcon />
-                                        </IconButton>
-                                    </CustomTooltip>
-                                )}
-                            </CardContent>
-                        </Card>
-                    );
-                })}
+                                            {' 18+'}
+                                        </Typography>
+                                    )}
+                                </Typography>
+                            </Box>
+                            {source.isConfigurable && (
+                                <CustomTooltip title={t('settings.title')}>
+                                    <IconButton
+                                        onClick={() =>
+                                            navigate(AppRoutes.sources.childRoutes.configure.path(source.id))
+                                        }
+                                        aria-label="display more actions"
+                                        edge="end"
+                                        color="inherit"
+                                        size="large"
+                                    >
+                                        <SettingsIcon />
+                                    </IconButton>
+                                </CustomTooltip>
+                            )}
+                        </CardContent>
+                    </Card>
+                ))}
             </Box>
         </OptionsPanel>
     );
