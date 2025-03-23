@@ -320,12 +320,6 @@ const BaseReaderViewer = forwardRef(
                     height: '100%',
                     overflow: 'auto',
                     flexWrap: 'nowrap',
-                    ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
-                        minHeight: minChapterViewHeight,
-                    }),
-                    ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
-                        minWidth: minChapterViewWidth,
-                    }),
                     ...applyStyles(
                         isContinuousVerticalReadingModeActive && shouldApplyReaderWidth(readerWidth, pageScaleMode),
                         { alignItems: 'center' },
@@ -440,6 +434,8 @@ const BaseReaderViewer = forwardRef(
                             scrollbarYSize={scrollbarYSize}
                             readerNavBarWidth={readerNavBarWidth}
                             onSizeChange={onChapterViewSizeChange}
+                            minWidth={chapter.id === minChapterSizeSourceChapterId ? 0 : minChapterViewWidth}
+                            minHeight={chapter.id === minChapterSizeSourceChapterId ? 0 : minChapterViewHeight}
                         />
                     );
                 })}
