@@ -271,6 +271,17 @@ const BaseReaderViewer = forwardRef(
             setTriggerReRender({});
         }, [readingMode]);
 
+        useEffect(() => {
+            setReaderStateChapters((prevState) => ({
+                ...prevState,
+                visibleChapters: {
+                    ...prevState.visibleChapters,
+                    scrollIntoView: true,
+                },
+            }));
+            setPageToScrollToIndex(currentPageIndex);
+        }, [readingMode]);
+
         if (!initialChapter || !currentChapter) {
             throw new Error('ReaderViewer: illegal state - initialChapter and currentChapter should not be undefined');
         }
