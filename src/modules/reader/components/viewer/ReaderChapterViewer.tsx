@@ -103,7 +103,7 @@ const BaseReaderChapterViewer = ({
     | 'retryFailedPagesKeyPrefix'
     | 'setTransitionPageMode'
 > &
-    Omit<ReaderPagerProps, 'pages' | 'totalPages' | 'pageLoadStates'> &
+    Omit<ReaderPagerProps, 'pages' | 'totalPages' | 'pageLoadStates' | 'handleAsInitialRender' | 'resumeMode'> &
     Pick<
         IReaderSettings,
         'readingMode' | 'shouldOffsetDoubleSpreads' | 'readingDirection' | 'readerWidth' | 'pageScaleMode'
@@ -450,6 +450,8 @@ const BaseReaderChapterViewer = ({
                 scrollbarYSize={scrollbarYSize}
                 readerNavBarWidth={readerNavBarWidth}
                 isPreloadMode={isPreloadMode}
+                resumeMode={resumeMode}
+                handleAsInitialRender={scrollIntoView}
             />
             {showNextTransitionPage && (
                 <ReaderTransitionPage chapterId={chapterId} type={ReaderTransitionPageMode.NEXT} />

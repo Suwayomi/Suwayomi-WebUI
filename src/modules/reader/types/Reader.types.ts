@@ -292,6 +292,8 @@ export interface ReaderPagerProps
     isPreviousChapter: boolean;
     isNextChapter: boolean;
     isPreloadMode: boolean;
+    resumeMode: ReaderResumeMode;
+    handleAsInitialRender: boolean;
 }
 
 export enum PageInViewportType {
