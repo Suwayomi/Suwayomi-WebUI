@@ -231,6 +231,7 @@ const BaseReaderViewer = forwardRef(
             chapterViewerSize.current.minChapterViewWidth = width;
             chapterViewerSize.current.minChapterViewHeight = height;
             setTriggerReRender({});
+            setPageToScrollToIndex(currentPageIndex);
         };
 
         useReaderHandlePageSelection(
