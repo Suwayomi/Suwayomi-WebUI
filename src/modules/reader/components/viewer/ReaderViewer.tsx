@@ -227,6 +227,12 @@ const BaseReaderViewer = forwardRef(
             [isContinuousReadingModeActive, isContinuousVerticalReadingModeActive],
         );
 
+        const onChapterViewSizeReset = (width: number, height: number) => {
+            chapterViewerSize.current.minChapterViewWidth = width;
+            chapterViewerSize.current.minChapterViewHeight = height;
+            setTriggerReRender({});
+        };
+
         useReaderHandlePageSelection(
             pageToScrollToIndex,
             currentPageIndex,
@@ -397,6 +403,7 @@ const BaseReaderViewer = forwardRef(
                             scrollbarYSize={scrollbarYSize}
                             readerNavBarWidth={readerNavBarWidth}
                             onSizeChange={onChapterViewSizeChange}
+                            onSizeReset={onChapterViewSizeReset}
                             minWidth={minChapterViewWidth}
                             minHeight={minChapterViewHeight}
                         />

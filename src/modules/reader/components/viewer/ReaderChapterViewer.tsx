@@ -89,6 +89,7 @@ const BaseReaderChapterViewer = ({
     scrollbarYSize,
     readerNavBarWidth,
     onSizeChange,
+    onSizeReset,
     minWidth,
     minHeight,
 }: Pick<
@@ -126,6 +127,7 @@ const BaseReaderChapterViewer = ({
         scrollIntoView: boolean;
         resumeMode: ReaderResumeMode;
         onSizeChange: (width: number, height: number) => void;
+        onSizeReset: (width: number, height: number) => void;
         minWidth: number;
         minHeight: number;
     }) => {
@@ -248,6 +250,17 @@ const BaseReaderChapterViewer = ({
             [onSizeChange, ref.current],
         ),
     );
+
+    useEffect(() => {
+        const f = () => {
+            if (!ref.current || !ref.current.parentElement) return;
+            const { clientWidth, clientHeight } = ref.current.parentElement;
+            onSizeReset(clientWidth, clientHeight);
+        };
+
+        window.addEventListener('resize', f);
+        return () => window.removeEventListener('resize', f);
+    }, [onSizeReset, ref.current]);
 
     const updateState = <T,>(
         value: T,
