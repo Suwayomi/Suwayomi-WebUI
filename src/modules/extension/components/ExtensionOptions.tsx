@@ -54,7 +54,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                 <EmptyViewAbsoluteCentered
                     message={t('global.error.label.failed_to_load_data')}
                     messageExtra={getErrorMessage(error)}
-                    retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
+                    retry={() => refetch().catch(defaultPromiseErrorHandler('ExtensionOptions::refetch'))}
                 />
             </Dialog>
         );

@@ -190,9 +190,7 @@ export function ExtensionCard(props: IProps) {
                         </Typography>
                     )}
                 </Box>
-                {(installedState === InstalledState.UNINSTALL ||
-                    installedState === InstalledState.OBSOLETE ||
-                    installedState === InstalledState.UPDATE) && (
+                {isInstalled && (
                     <CustomTooltip title={t('settings.title')}>
                         <IconButton
                             onClick={showOptions}
