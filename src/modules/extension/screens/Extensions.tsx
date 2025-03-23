@@ -41,6 +41,7 @@ import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/modules/exten
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { ExtensionOptions } from '@/modules/extension/components/ExtensionOptions';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -69,6 +70,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const allExtensions = data?.fetchExtensions?.extensions;
 
     const [updatingExtensionIds, setUpdatingExtensionIds] = useState<string[]>([]);
+    const [selectedExtensionPkg, setSelectedExtensionPkg] = useState<string | null>(null);
 
     const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
 
@@ -298,11 +300,18 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                                 forcedState={
                                     updatingExtensionIds.includes(item.pkgName) ? ExtensionState.UPDATING : undefined
                                 }
+                                showOptions={() => setSelectedExtensionPkg(item.pkgName)}
                             />
                         </StyledGroupItemWrapper>
                     );
                 }}
             />
+            {selectedExtensionPkg && (
+                <ExtensionOptions
+                    extensionId={selectedExtensionPkg}
+                    closeDialog={() => setSelectedExtensionPkg(null)}
+                />
+            )}
         </>
     );
 }
