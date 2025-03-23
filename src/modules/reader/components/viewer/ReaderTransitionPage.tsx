@@ -153,7 +153,7 @@ const BaseReaderTransitionPage = ({
             <Stack
                 sx={{
                     gap: 2,
-                    maxWidth: `calc(100vw - ${scrollbarYSize}px)`,
+                    maxWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px - 16px)`,
                     maxHeight: `calc(100vh - ${scrollbarXSize}px)`,
                     width: 'max-content',
                     p: 1,
@@ -165,8 +165,7 @@ const BaseReaderTransitionPage = ({
                             // only a small part of it being visible
                             !isFitWidthPageScaleMode && isContinuousVerticalReadingMode(readingMode),
                             {
-                                left: '50%',
-                                transform: 'translateX(-50%)',
+                                alignSelf: 'center',
                             },
                         ),
                         ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {

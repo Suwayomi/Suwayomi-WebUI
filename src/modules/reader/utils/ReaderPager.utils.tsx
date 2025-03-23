@@ -72,13 +72,7 @@ export const getImagePlaceholderStyling = (
 ): CSSObject => {
     const OVER_9000 = 9000;
 
-    const getMaxWidth = (width: string) => {
-        if (width === '100vw') {
-            return `calc(${width} - ${widthOffset}px)`;
-        }
-
-        return width;
-    };
+    const getMaxWidth = (width: string) => `calc(${width} - ${widthOffset}px)`;
     const getDesktopWidth = (width: number, readerWidthValue?: number) =>
         getMaxWidth(`${coerceIn(readerWidthValue ?? width, Math.min(width, readerWidthValue ?? OVER_9000), width)}vw`);
 
