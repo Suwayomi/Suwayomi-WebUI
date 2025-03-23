@@ -89,7 +89,6 @@ const BaseReaderChapterViewer = ({
     scrollbarYSize,
     readerNavBarWidth,
     onSizeChange,
-    onSizeReset,
     minWidth,
     minHeight,
 }: Pick<
@@ -127,7 +126,6 @@ const BaseReaderChapterViewer = ({
         scrollIntoView: boolean;
         resumeMode: ReaderResumeMode;
         onSizeChange: (width: number, height: number) => void;
-        onSizeReset: (width: number, height: number) => void;
         minWidth: number;
         minHeight: number;
     }) => {
@@ -153,7 +151,6 @@ const BaseReaderChapterViewer = ({
     const isCurrentChapterRef = useRef(isCurrentChapter);
     const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
     const pagerRef = useRef<HTMLDivElement>(null);
-    const readerNavBarWidthRef = useRef<number>(readerNavBarWidth);
 
     const actualPages = useMemo(() => {
         const arePagesLoaded = !!totalPages;
@@ -251,24 +248,6 @@ const BaseReaderChapterViewer = ({
             [onSizeChange, ref.current],
         ),
     );
-
-    useEffect(() => {
-        const f = () => {
-            if (!ref.current || !ref.current.parentElement) return;
-            const { clientWidth, clientHeight } = ref.current.parentElement;
-            onSizeReset(clientWidth, clientHeight);
-        };
-
-        window.addEventListener('resize', f);
-        return () => window.removeEventListener('resize', f);
-    }, [onSizeReset, ref.current]);
-
-    useEffect(() => {
-        if (readerNavBarWidthRef.current === readerNavBarWidth) return;
-        // setting to 0x0 resets the entire state, so on next render the resize observer will re-init with the correct size
-        onSizeReset(0, 0);
-        readerNavBarWidthRef.current = readerNavBarWidth;
-    }, [onSizeReset, readerNavBarWidth]);
 
     const updateState = <T,>(
         value: T,

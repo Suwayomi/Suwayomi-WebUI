@@ -22,8 +22,11 @@ export const useReaderPreserveScrollPosition = (
     visibleChapters: ReaderStateChapters['visibleChapters'],
     isContinuousReadingModeActive: boolean,
     readingDirection: ReadingDirection,
+    readerNavBarWidth: number,
+    onSizeReset: () => void,
 ) => {
     const scrollPosition = useRef({ left: 0, top: 0, scrollWidth: 0, scrollHeight: 0 });
+    const readerNavBarWidthRef = useRef<number>(readerNavBarWidth);
 
     useEffect(() => {
         const element = scrollElementRef.current;
@@ -91,4 +94,15 @@ export const useReaderPreserveScrollPosition = (
 
         scrollElement.scrollTo(newLeft, newTop);
     }, [currentChapterId]);
+
+    useEffect(() => {
+        window.addEventListener('resize', onSizeReset);
+        return () => window.removeEventListener('resize', onSizeReset);
+    }, [onSizeReset]);
+
+    useEffect(() => {
+        if (readerNavBarWidthRef.current === readerNavBarWidth) return;
+        onSizeReset();
+        readerNavBarWidthRef.current = readerNavBarWidth;
+    }, [onSizeReset, readerNavBarWidth]);
 };
