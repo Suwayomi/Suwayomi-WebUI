@@ -271,14 +271,7 @@ const BaseReaderViewer = forwardRef(
             setTriggerReRender({});
         }, [readingMode]);
 
-        useEffect(() => {
-            setReaderStateChapters((prevState) => ({
-                ...prevState,
-                visibleChapters: {
-                    ...prevState.visibleChapters,
-                    scrollIntoView: true,
-                },
-            }));
+        useLayoutEffect(() => {
             setPageToScrollToIndex(currentPageIndex);
         }, [readingMode]);
 
