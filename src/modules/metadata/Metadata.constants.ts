@@ -78,6 +78,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     shouldShowTapZoneLayoutPreview: undefined,
     shouldInformAboutMissingChapter: undefined,
     shouldInformAboutScanlatorChange: undefined,
+    hideHistory: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -127,6 +128,9 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // browse
     'hideLibraryEntries',
+
+    // history
+    'hideHistory',
 
     // tracking
     'updateProgressAfterReading',
