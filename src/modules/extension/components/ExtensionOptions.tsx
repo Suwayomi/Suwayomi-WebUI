@@ -15,6 +15,8 @@ import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigate } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder';
@@ -40,72 +42,69 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
         refetch,
     } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
 
-    if (isLoading) {
-        return (
-            <Dialog open={!!extensionId} onClose={closeDialog}>
-                <LoadingPlaceholder />;
-            </Dialog>
-        );
-    }
-
     if (error) {
-        return (
-            <Dialog open={!!extensionId} onClose={closeDialog}>
-                <EmptyViewAbsoluteCentered
-                    message={t('global.error.label.failed_to_load_data')}
-                    messageExtra={getErrorMessage(error)}
-                    retry={() => refetch().catch(defaultPromiseErrorHandler('ExtensionOptions::refetch'))}
-                />
-            </Dialog>
-        );
+        return <Dialog open={!!extensionId} onClose={closeDialog} />;
     }
 
     const relevantSources = data?.sources.nodes.filter((s) => s.extension.pkgName === extensionId);
 
     return (
         <Dialog open={!!extensionId} onClose={closeDialog}>
-            <Box
-                sx={{
-                    pb: 2,
-                    pt: 2,
-                    mx: 2,
-                }}
-            >
-                {relevantSources?.map((source) => (
-                    <Card key={source.id}>
-                        <CardContent
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1,
-                                p: 1.5,
-                                '&:last-child': {
-                                    paddingBottom: 1.5,
-                                },
-                            }}
-                        >
-                            <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
-                                {translateExtensionLanguage(source.lang)}
-                            </Typography>
-                            {source.isConfigurable && (
-                                <CustomTooltip title={t('settings.title')}>
-                                    <IconButton
-                                        onClick={() =>
-                                            navigate(AppRoutes.sources.childRoutes.configure.path(source.id))
-                                        }
-                                        aria-label="display more actions"
-                                        edge="end"
-                                        color="inherit"
-                                        size="large"
-                                    >
-                                        <SettingsIcon />
-                                    </IconButton>
-                                </CustomTooltip>
-                            )}
-                        </CardContent>
-                    </Card>
-                ))}
-            </Box>
+            <DialogTitle>{t('extension.settings.dialog.title')}</DialogTitle>
+            <DialogContent>
+                {isLoading && <LoadingPlaceholder />}
+                {error && (
+                    <EmptyViewAbsoluteCentered
+                        message={t('global.error.label.failed_to_load_data')}
+                        messageExtra={getErrorMessage(error)}
+                        retry={() => refetch().catch(defaultPromiseErrorHandler('ExtensionOptions::refetch'))}
+                    />
+                )}
+                {!isLoading && !error && (
+                    <Box
+                        sx={{
+                            pb: 2,
+                            pt: 2,
+                            mx: 2,
+                        }}
+                    >
+                        {relevantSources?.map((source) => (
+                            <Card key={source.id}>
+                                <CardContent
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 1,
+                                        p: 1.5,
+                                        '&:last-child': {
+                                            paddingBottom: 1.5,
+                                        },
+                                    }}
+                                >
+                                    <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
+                                        {translateExtensionLanguage(source.lang)}
+                                    </Typography>
+                                    {source.isConfigurable && (
+                                        <CustomTooltip title={t('settings.title')}>
+                                            <IconButton
+                                                onClick={() =>
+                                                    navigate(AppRoutes.sources.childRoutes.configure.path(source.id))
+                                                }
+                                                aria-label="display more actions"
+                                                edge="end"
+                                                color="inherit"
+                                                size="large"
+                                            >
+                                                <SettingsIcon />
+                                            </IconButton>
+                                        </CustomTooltip>
+                                    )}
+                                </CardContent>
+                            </Card>
+                        ))}
+                    </Box>
+                )}
+            </DialogContent>
         </Dialog>
     );
 }
