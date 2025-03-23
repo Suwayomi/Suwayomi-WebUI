@@ -67,6 +67,7 @@ import { coerceIn, noOp } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
 import { useReaderPreserveScrollPosition } from '@/modules/reader/hooks/useReaderPreserveScrollPosition.ts';
+import { ChapterIdInfo } from '@/modules/chapter/services/Chapters';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -184,12 +185,12 @@ const BaseReaderViewer = forwardRef(
         const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);
 
         const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
-        const chapterViewerSize = useRef({
+        const [chapterViewerSize, setChapterViewerSize] = useState({
             minChapterViewWidth: 0,
             minChapterViewHeight: 0,
-            chapterId: null as number | null,
+            minChapterSizeSourceChapterId: null as number | null,
         });
-        const { minChapterViewWidth, minChapterViewHeight } = chapterViewerSize.current;
+        const { minChapterViewWidth, minChapterViewHeight, minChapterSizeSourceChapterId } = chapterViewerSize;
 
         const [, setTriggerReRender] = useState({});
 
@@ -213,31 +214,42 @@ const BaseReaderViewer = forwardRef(
         );
 
         const onChapterViewSizeChange = useCallback(
-            (width: number, height: number) => {
-                if (currentChapter?.id === chapterViewerSize.current.chapterId) {
-                    chapterViewerSize.current.minChapterViewWidth = width;
-                    chapterViewerSize.current.minChapterViewHeight = height;
-                    setTriggerReRender({});
-                    return;
-                }
-
+            (width: number, height: number, chapterId: ChapterIdInfo['id']) => {
                 if (!isContinuousReadingModeActive) {
                     return;
                 }
 
-                chapterViewerSize.current.chapterId = currentChapter?.id ?? null;
+                const isSameChapterId = chapterId === minChapterSizeSourceChapterId;
 
-                if (isContinuousVerticalReadingModeActive && minChapterViewWidth < width) {
-                    chapterViewerSize.current.minChapterViewWidth = width;
-                    setTriggerReRender({});
+                if (isContinuousVerticalReadingModeActive) {
+                    if (!isSameChapterId && minChapterViewWidth >= width) {
+                        return;
+                    }
+
+                    // convert chapterViewerSize to state, since it doesn't make sense for it to be a ref
+                    setChapterViewerSize({
+                        minChapterViewWidth,
+                        minChapterViewHeight: 0,
+                        minChapterSizeSourceChapterId: chapterId,
+                    });
+                    return;
                 }
 
-                if (minChapterViewHeight < height) {
-                    chapterViewerSize.current.minChapterViewHeight = height;
-                    setTriggerReRender({});
+                if (isSameChapterId || minChapterViewHeight < height) {
+                    setChapterViewerSize({
+                        minChapterViewWidth: 0,
+                        minChapterViewHeight,
+                        minChapterSizeSourceChapterId: chapterId,
+                    });
                 }
             },
-            [isContinuousReadingModeActive, isContinuousVerticalReadingModeActive, currentChapter],
+            [
+                isContinuousReadingModeActive,
+                isContinuousVerticalReadingModeActive,
+                minChapterViewWidth,
+                minChapterViewHeight,
+                minChapterSizeSourceChapterId,
+            ],
         );
 
         const onChapterViewSizeReset = useCallback(() => {
@@ -288,7 +300,11 @@ const BaseReaderViewer = forwardRef(
         );
 
         useLayoutEffect(() => {
-            chapterViewerSize.current = { minChapterViewWidth: 0, minChapterViewHeight: 0, chapterId: null };
+            setChapterViewerSize({
+                minChapterViewWidth: 0,
+                minChapterViewHeight: 0,
+                minChapterSizeSourceChapterId: null,
+            });
             setTriggerReRender({});
         }, [readingMode]);
 

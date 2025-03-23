@@ -123,7 +123,7 @@ const BaseReaderChapterViewer = ({
         imageRefs: MutableRefObject<(HTMLElement | null)[]>;
         scrollIntoView: boolean;
         resumeMode: ReaderResumeMode;
-        onSizeChange: (width: number, height: number) => void;
+        onSizeChange: (width: number, height: number, chapterId: ChapterIdInfo['id']) => void;
     }) => {
     const { t } = useTranslation();
     const { direction: themeDirection } = useTheme();
@@ -239,9 +239,9 @@ const BaseReaderChapterViewer = ({
         useCallback(
             (entries) => {
                 const { clientWidth, clientHeight } = entries[0].target;
-                onSizeChange(clientWidth, clientHeight);
+                onSizeChange(clientWidth, clientHeight, chapterId);
             },
-            [onSizeChange, ref.current],
+            [onSizeChange, ref.current, chapterId],
         ),
     );
 
