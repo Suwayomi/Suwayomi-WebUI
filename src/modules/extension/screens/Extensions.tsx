@@ -52,7 +52,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const navigate = useNavigate();
     const { pathname, search, state } = useLocation<{ selectedExtensionPkg?: string }>();
     const selectedExtensionPkg = state?.selectedExtensionPkg;
-    const setSelectedExtensionPkg = (newPkg: string | null) => {
+    const setSelectedExtensionPkg = (newPkg: string | undefined) => {
         navigate(pathname + search, {
             replace: true,
             state: {
@@ -316,7 +316,10 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     );
                 }}
             />
-            <ExtensionOptions extensionId={selectedExtensionPkg} closeDialog={() => setSelectedExtensionPkg(null)} />
+            <ExtensionOptions
+                extensionId={selectedExtensionPkg}
+                closeDialog={() => setSelectedExtensionPkg(undefined)}
+            />
         </>
     );
 }

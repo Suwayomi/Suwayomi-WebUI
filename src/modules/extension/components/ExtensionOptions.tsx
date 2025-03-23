@@ -27,7 +27,7 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils';
 
 interface IExtensionOptions {
-    extensionId: string | null;
+    extensionId: string | undefined;
     closeDialog: () => void;
 }
 
