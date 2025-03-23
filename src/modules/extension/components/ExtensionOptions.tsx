@@ -14,8 +14,8 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigate } from 'react-router-dom';
+import Dialog from '@mui/material/Dialog';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { OptionsPanel } from '@/modules/core/components/OptionsPanel.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered';
@@ -42,28 +42,28 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
 
     if (isLoading) {
         return (
-            <OptionsPanel open={!!extensionId} onClose={closeDialog}>
+            <Dialog open={!!extensionId} onClose={closeDialog}>
                 <LoadingPlaceholder />;
-            </OptionsPanel>
+            </Dialog>
         );
     }
 
     if (error) {
         return (
-            <OptionsPanel open={!!extensionId} onClose={closeDialog}>
+            <Dialog open={!!extensionId} onClose={closeDialog}>
                 <EmptyViewAbsoluteCentered
                     message={t('global.error.label.failed_to_load_data')}
                     messageExtra={getErrorMessage(error)}
                     retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
                 />
-            </OptionsPanel>
+            </Dialog>
         );
     }
 
     const relevantSources = data?.sources.nodes.filter((s) => s.extension.pkgName === extensionId);
 
     return (
-        <OptionsPanel open={!!extensionId} onClose={closeDialog}>
+        <Dialog open={!!extensionId} onClose={closeDialog}>
             <Box
                 sx={{
                     pb: 2,
@@ -135,6 +135,6 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                     </Card>
                 ))}
             </Box>
-        </OptionsPanel>
+        </Dialog>
     );
 }
