@@ -84,38 +84,9 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                                 },
                             }}
                         >
-                            <Box
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    flexGrow: 1,
-                                    flexShrink: 1,
-                                    wordBreak: 'break-word',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                <Typography variant="h6" component="h3">
-                                    {translateExtensionLanguage(source.lang)}
-                                </Typography>
-                                <Typography
-                                    variant="caption"
-                                    sx={{
-                                        display: 'block',
-                                    }}
-                                >
-                                    {source.isNsfw && (
-                                        <Typography
-                                            variant="caption"
-                                            color="error"
-                                            sx={{
-                                                display: 'inline',
-                                            }}
-                                        >
-                                            {' 18+'}
-                                        </Typography>
-                                    )}
-                                </Typography>
-                            </Box>
+                            <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
+                                {translateExtensionLanguage(source.lang)}
+                            </Typography>
                             {source.isConfigurable && (
                                 <CustomTooltip title={t('settings.title')}>
                                     <IconButton
