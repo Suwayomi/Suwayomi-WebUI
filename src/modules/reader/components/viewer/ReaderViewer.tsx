@@ -185,12 +185,12 @@ const BaseReaderViewer = forwardRef(
         const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);
 
         const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
-        const [chapterViewerSize, setChapterViewerSize] = useState({
-            minChapterViewWidth: 0,
-            minChapterViewHeight: 0,
-            minChapterSizeSourceChapterId: -1,
-        });
-        const { minChapterViewWidth, minChapterViewHeight, minChapterSizeSourceChapterId } = chapterViewerSize;
+        const [{ minChapterViewWidth, minChapterViewHeight, minChapterSizeSourceChapterId }, setChapterViewerSize] =
+            useState({
+                minChapterViewWidth: 0,
+                minChapterViewHeight: 0,
+                minChapterSizeSourceChapterId: -1,
+            });
 
         const [, setTriggerReRender] = useState({});
 
@@ -374,6 +374,8 @@ const BaseReaderViewer = forwardRef(
                         visibleChapters,
                     );
 
+                    const isChapterSizeSourceChapter = chapter.id === minChapterSizeSourceChapterId;
+
                     return (
                         <ReaderChapterViewer
                             key={chapter.id}
@@ -433,8 +435,8 @@ const BaseReaderViewer = forwardRef(
                             scrollbarYSize={scrollbarYSize}
                             readerNavBarWidth={readerNavBarWidth}
                             onSizeChange={onChapterViewSizeChange}
-                            minWidth={chapter.id === minChapterSizeSourceChapterId ? 0 : minChapterViewWidth}
-                            minHeight={chapter.id === minChapterSizeSourceChapterId ? 0 : minChapterViewHeight}
+                            minWidth={isChapterSizeSourceChapter ? 0 : minChapterViewWidth}
+                            minHeight={isChapterSizeSourceChapter ? 0 : minChapterViewHeight}
                         />
                     );
                 })}
