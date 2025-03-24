@@ -251,12 +251,6 @@ const BaseReaderViewer = forwardRef(
             ],
         );
 
-        const onChapterViewSizeReset = useCallback(() => {
-            if (!isContinuousReadingModeActive) return;
-            setTriggerReRender({});
-            setPageToScrollToIndex(currentPageIndex);
-        }, [isContinuousReadingModeActive, currentPageIndex]);
-
         useReaderHandlePageSelection(
             pageToScrollToIndex,
             currentPageIndex,
@@ -290,12 +284,13 @@ const BaseReaderViewer = forwardRef(
             scrollElementRef,
             currentChapter?.id,
             currentChapterIndex,
+            currentPageIndex,
             chaptersToRender,
             visibleChapters,
             isContinuousReadingModeActive,
             readingDirection,
             readerNavBarWidth,
-            onChapterViewSizeReset,
+            setPageToScrollToIndex,
         );
 
         useLayoutEffect(() => {
