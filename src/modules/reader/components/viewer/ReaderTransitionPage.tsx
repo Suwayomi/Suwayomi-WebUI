@@ -140,12 +140,18 @@ const BaseReaderTransitionPage = ({
                     position: 'relative',
                     transform: 'scale(1)',
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                        maxWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px)`,
+                        position: 'sticky',
+                        left: 0,
                         minHeight: `calc(100vh - ${scrollbarXSize}px)`,
                         ...applyStyles(!isFitWidthPageScaleMode, { alignItems: 'baseline' }),
                     }),
                     ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
+                        flexDirection: 'row',
+                        maxHeight: `calc(100vh - ${scrollbarXSize}px)`,
+                        position: 'sticky',
+                        top: 0,
                         minWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px)`,
-                        justifyContent: 'unset',
                     }),
                 }),
             }}
@@ -153,26 +159,14 @@ const BaseReaderTransitionPage = ({
             <Stack
                 sx={{
                     gap: 2,
-                    maxWidth: `calc(100vw - ${scrollbarYSize}px)`,
+                    maxWidth: (theme) =>
+                        // spacing = added padding left + right
+                        `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px - ${theme.spacing(2)})`,
                     maxHeight: `calc(100vh - ${scrollbarXSize}px)`,
                     width: 'max-content',
                     p: 1,
                     ...applyStyles(isContinuousReadingMode(readingMode), {
-                        position: 'sticky',
-                        ...applyStyles(
-                            // on small screens with "fit to with" enabled, "left 50%" does not center the element in the
-                            // viewport which then causes "translate" to move the element mostly outside the viewport with
-                            // only a small part of it being visible
-                            !isFitWidthPageScaleMode && isContinuousVerticalReadingMode(readingMode),
-                            {
-                                left: '50%',
-                                transform: 'translateX(-50%)',
-                            },
-                        ),
-                        ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
-                            top: '50%',
-                            transform: 'translateY(-50%)',
-                        }),
+                        alignSelf: 'center',
                     }),
                 }}
             >
