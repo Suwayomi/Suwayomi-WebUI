@@ -156,7 +156,9 @@ const BaseReaderTransitionPage = ({
             <Stack
                 sx={{
                     gap: 2,
-                    maxWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px - 16px)`,
+                    maxWidth: (theme) =>
+                        // spacing = added padding left + right
+                        `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px - ${theme.spacing(2)}px)`,
                     maxHeight: `calc(100vh - ${scrollbarXSize}px)`,
                     width: 'max-content',
                     p: 1,
