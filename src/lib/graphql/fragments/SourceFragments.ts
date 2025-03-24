@@ -44,6 +44,7 @@ export const SOURCE_LIST_FIELDS = gql`
         lang
         iconUrl
         isNsfw
+        isConfigurable
         supportsLatest
 
         extension {

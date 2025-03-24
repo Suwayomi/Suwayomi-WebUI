@@ -14,6 +14,8 @@ import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
+import IconButton from '@mui/material/IconButton';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -33,12 +35,14 @@ import {
 } from '@/modules/extension/Extensions.constants.ts';
 import { getInstalledState } from '@/modules/extension/Extensions.utils.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
 
 interface IProps {
     extension: TExtension;
     handleUpdate: () => void;
     showSourceRepo: boolean;
     forcedState?: ExtensionState;
+    showOptions: () => void;
 }
 
 export function ExtensionCard(props: IProps) {
@@ -47,6 +51,7 @@ export function ExtensionCard(props: IProps) {
     const {
         extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw, repo },
         handleUpdate,
+        showOptions,
         showSourceRepo,
         forcedState,
     } = props;
@@ -185,6 +190,19 @@ export function ExtensionCard(props: IProps) {
                         </Typography>
                     )}
                 </Box>
+                {isInstalled && (
+                    <CustomTooltip title={t('settings.title')}>
+                        <IconButton
+                            onClick={showOptions}
+                            aria-label="display more actions"
+                            edge="end"
+                            color="inherit"
+                            size="large"
+                        >
+                            <SettingsIcon />
+                        </IconButton>
+                    </CustomTooltip>
+                )}
                 <Button
                     variant="outlined"
                     sx={{
