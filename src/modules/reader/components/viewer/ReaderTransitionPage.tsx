@@ -18,7 +18,6 @@ import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/R
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import {
     IReaderSettings,
-    ReaderPageScaleMode,
     ReaderTransitionPageMode,
     ReadingMode,
     TReaderScrollbarContext,
@@ -84,7 +83,6 @@ const BaseReaderTransitionPage = ({
     type,
     transitionPageMode,
     readingMode,
-    pageScaleMode,
     backgroundColor,
     manga,
     currentChapterName,
@@ -97,7 +95,7 @@ const BaseReaderTransitionPage = ({
     scrollbarYSize,
     readerNavBarWidth,
     handleBack,
-}: Pick<IReaderSettings, 'readingMode' | 'pageScaleMode' | 'backgroundColor'> &
+}: Pick<IReaderSettings, 'readingMode' | 'backgroundColor'> &
     Pick<TReaderStateMangaContext, 'manga'> &
     Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
     Pick<ReaderStatePages, 'transitionPageMode'> &
@@ -121,7 +119,6 @@ const BaseReaderTransitionPage = ({
 
     const isFirstChapter = !!currentChapterName && !previousChapterName;
     const isLastChapter = !!currentChapterName && !nextChapterName;
-    const isFitWidthPageScaleMode = [ReaderPageScaleMode.SCREEN, ReaderPageScaleMode.WIDTH].includes(pageScaleMode);
 
     if (!isTransitionPageVisible(type, transitionPageMode, readingMode)) {
         return null;
@@ -142,7 +139,6 @@ const BaseReaderTransitionPage = ({
                         left: 0,
                         maxWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px)`,
                         minHeight: `calc(100vh - ${scrollbarXSize}px)`,
-                        ...applyStyles(!isFitWidthPageScaleMode, { alignItems: 'baseline' }),
                     }),
                     ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
                         top: 0,
@@ -293,7 +289,6 @@ export const ReaderTransitionPage = withPropsFrom(
         'backgroundColor',
         'transitionPageMode',
         'readingMode',
-        'pageScaleMode',
         'handleBack',
     ],
 );
