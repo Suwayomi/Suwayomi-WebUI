@@ -83,7 +83,7 @@ export const getImagePlaceholderStyling = (
         getMaxWidth(`${coerceIn(readerWidthValue ?? width, Math.min(width, readerWidthValue ?? OVER_9000), width)}vw`);
 
     const setReaderWidth = getSetReaderWidth(readerWidth, pageScaleMode);
-    const fullWidth = `calc(${Math.min(100, setReaderWidth ?? OVER_9000)}vw - ${widthOffset}px)`;
+    const fullWidth = getMaxWidth(`${Math.min(100, setReaderWidth ?? OVER_9000)}vw`);
     const fullHeight = `calc(100vh - ${heightOffset}px)`;
 
     const DEFAULT_SINGLE_PAGE_WIDTH = isTabletWidth ? fullWidth : getDesktopWidth(40, setReaderWidth);
