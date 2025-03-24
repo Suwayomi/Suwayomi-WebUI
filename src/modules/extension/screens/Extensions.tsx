@@ -36,7 +36,12 @@ import {
     isExtensionStateOrLanguage,
     translateExtensionLanguage,
 } from '@/modules/extension/Extensions.utils.ts';
-import { ExtensionAction, ExtensionGroupState, ExtensionState } from '@/modules/extension/Extensions.types.ts';
+import {
+    ExtensionAction,
+    ExtensionGroupState,
+    ExtensionState,
+    TExtension,
+} from '@/modules/extension/Extensions.types.ts';
 import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/modules/extension/Extensions.constants.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -50,9 +55,10 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
     const { setAction } = useNavBarContext();
     const navigate = useNavigate();
-    const { pathname, search, state } = useLocation<{ selectedExtensionPkg?: string }>();
+    const { pathname, search, state } = useLocation<{ selectedExtensionPkg?: TExtension['pkgName'] }>();
     const selectedExtensionPkg = state?.selectedExtensionPkg;
-    const setSelectedExtensionPkg = (newPkg: string | undefined) => {
+
+    const setSelectedExtensionPkg = (newPkg: TExtension['pkgName'] | undefined) => {
         navigate(pathname + search, {
             replace: true,
             state: {

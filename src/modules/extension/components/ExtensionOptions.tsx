@@ -17,6 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
+import { useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder';
@@ -25,9 +26,11 @@ import { getErrorMessage } from '@/lib/HelperFunctions';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
 import { AppRoutes } from '@/modules/core/AppRoute.constants';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils';
+import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { TExtension } from '@/modules/extension/Extensions.types.ts';
 
 interface IExtensionOptions {
-    extensionId: string | undefined;
+    extensionId: TExtension['pkgName'] | undefined;
     closeDialog: () => void;
 }
 
@@ -46,10 +49,14 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
         return <Dialog open={!!extensionId} onClose={closeDialog} />;
     }
 
-    const relevantSources = data?.sources.nodes.filter((s) => s.extension.pkgName === extensionId);
+    const relevantSources = useMemo(() => {
+        if (!extensionId) return [];
 
+        return data?.sources.nodes.filter((source) => source.extension.pkgName === extensionId);
+    }, [data?.sources.nodes, extensionId]);
+    console.log('@asdf', extensionId, relevantSources);
     return (
-        <Dialog open={!!extensionId} onClose={closeDialog}>
+        <Dialog open={!!extensionId} onClose={closeDialog} maxWidth="md" fullWidth>
             <DialogTitle>{t('extension.settings.dialog.title')}</DialogTitle>
             <DialogContent>
                 {isLoading && <LoadingPlaceholder />}
@@ -61,46 +68,41 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                     />
                 )}
                 {!isLoading && !error && (
-                    <Box
-                        sx={{
-                            pb: 2,
-                            pt: 2,
-                            mx: 2,
-                        }}
-                    >
+                    <Box>
                         {relevantSources?.map((source) => (
-                            <Card key={source.id}>
-                                <CardContent
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        gap: 1,
-                                        p: 1.5,
-                                        '&:last-child': {
-                                            paddingBottom: 1.5,
-                                        },
-                                    }}
-                                >
-                                    <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
-                                        {translateExtensionLanguage(source.lang)}
-                                    </Typography>
-                                    {source.isConfigurable && (
-                                        <CustomTooltip title={t('settings.title')}>
-                                            <IconButton
-                                                onClick={() =>
-                                                    navigate(AppRoutes.sources.childRoutes.configure.path(source.id))
-                                                }
-                                                aria-label="display more actions"
-                                                edge="end"
-                                                color="inherit"
-                                                size="large"
-                                            >
-                                                <SettingsIcon />
-                                            </IconButton>
-                                        </CustomTooltip>
-                                    )}
-                                </CardContent>
-                            </Card>
+                            <StyledGroupItemWrapper key={source.id} sx={{ px: 0 }}>
+                                <Card>
+                                    <CardContent
+                                        sx={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: 1,
+                                            p: 1.5,
+                                            '&:last-child': {
+                                                paddingBottom: 1.5,
+                                            },
+                                        }}
+                                    >
+                                        <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
+                                            {translateExtensionLanguage(source.lang)}
+                                        </Typography>
+                                        {source.isConfigurable && (
+                                            <CustomTooltip title={t('settings.title')}>
+                                                <IconButton
+                                                    onClick={() =>
+                                                        navigate(
+                                                            AppRoutes.sources.childRoutes.configure.path(source.id),
+                                                        )
+                                                    }
+                                                    color="inherit"
+                                                >
+                                                    <SettingsIcon />
+                                                </IconButton>
+                                            </CustomTooltip>
+                                        )}
+                                    </CardContent>
+                                </Card>
+                            </StyledGroupItemWrapper>
                         ))}
                     </Box>
                 )}

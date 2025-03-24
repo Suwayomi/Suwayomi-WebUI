@@ -192,13 +192,7 @@ export function ExtensionCard(props: IProps) {
                 </Box>
                 {isInstalled && (
                     <CustomTooltip title={t('settings.title')}>
-                        <IconButton
-                            onClick={showOptions}
-                            aria-label="display more actions"
-                            edge="end"
-                            color="inherit"
-                            size="large"
-                        >
+                        <IconButton onClick={showOptions} color="inherit">
                             <SettingsIcon />
                         </IconButton>
                     </CustomTooltip>
