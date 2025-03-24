@@ -125,7 +125,7 @@ const BaseReaderChapterViewer = ({
         imageRefs: MutableRefObject<(HTMLElement | null)[]>;
         scrollIntoView: boolean;
         resumeMode: ReaderResumeMode;
-        onSizeChange: (width: number, height: number) => void;
+        onSizeChange: (width: number, height: number, chapterId: ChapterIdInfo['id']) => void;
         minWidth: number;
         minHeight: number;
     }) => {
@@ -243,9 +243,9 @@ const BaseReaderChapterViewer = ({
         useCallback(
             (entries) => {
                 const { clientWidth, clientHeight } = entries[0].target;
-                onSizeChange(clientWidth, clientHeight);
+                onSizeChange(clientWidth, clientHeight, chapterId);
             },
-            [onSizeChange, ref.current],
+            [onSizeChange, ref.current, chapterId],
         ),
     );
 
@@ -376,14 +376,14 @@ const BaseReaderChapterViewer = ({
             sx={{
                 width: 'fit-content',
                 height: 'fit-content',
+                margin: 'auto',
+                flexWrap: 'nowrap',
                 ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
                     minHeight,
                 }),
                 ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                     minWidth,
                 }),
-                margin: 'auto',
-                flexWrap: 'nowrap',
                 ...applyStyles(shouldHideChapter, {
                     maxWidth: 0,
                     maxHeight: 0,

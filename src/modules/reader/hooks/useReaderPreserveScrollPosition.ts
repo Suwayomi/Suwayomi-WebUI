@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { RefObject, useEffect, useLayoutEffect, useRef } from 'react';
+import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChapters, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
@@ -19,15 +19,17 @@ export const useReaderPreserveScrollPosition = (
     scrollElementRef: RefObject<HTMLElement | null>,
     currentChapterId: ChapterIdInfo['id'] | undefined,
     chapterIndex: number,
-    currentPageIndex: number,
+    pageIndex: number,
     chaptersToRender: TChapterReader[],
     visibleChapters: ReaderStateChapters['visibleChapters'],
     readingMode: ReadingMode,
     isContinuousReadingModeActive: boolean,
     readingDirection: ReadingDirection,
+    readerNavBarWidth: number,
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
 ) => {
     const scrollPosition = useRef({ left: 0, top: 0, scrollWidth: 0, scrollHeight: 0 });
+    const readerNavBarWidthRef = useRef<number>(readerNavBarWidth);
 
     useEffect(() => {
         const element = scrollElementRef.current;
@@ -96,7 +98,23 @@ export const useReaderPreserveScrollPosition = (
         scrollElement.scrollTo(newLeft, newTop);
     }, [currentChapterId]);
 
+    const onSizeReset = useCallback(() => {
+        if (!isContinuousReadingModeActive) return;
+        setPageToScrollToIndex(pageIndex);
+    }, [isContinuousReadingModeActive, pageIndex]);
+
+    useEffect(() => {
+        window.addEventListener('resize', onSizeReset);
+        return () => window.removeEventListener('resize', onSizeReset);
+    }, [onSizeReset]);
+
+    useEffect(() => {
+        if (readerNavBarWidthRef.current === readerNavBarWidth) return;
+        onSizeReset();
+        readerNavBarWidthRef.current = readerNavBarWidth;
+    }, [onSizeReset, readerNavBarWidth]);
+
     useLayoutEffect(() => {
-        setPageToScrollToIndex(currentPageIndex);
+        setPageToScrollToIndex(pageIndex);
     }, [readingMode]);
 };
