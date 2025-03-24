@@ -260,10 +260,13 @@ const BaseReaderViewer = forwardRef(
             scrollElementRef,
             currentChapter?.id,
             currentChapterIndex,
+            currentPageIndex,
             chaptersToRender,
             visibleChapters,
+            readingMode,
             isContinuousReadingModeActive,
             readingDirection,
+            setPageToScrollToIndex,
         );
 
         useLayoutEffect(() => {
