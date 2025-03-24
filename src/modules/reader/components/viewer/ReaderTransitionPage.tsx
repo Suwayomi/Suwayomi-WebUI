@@ -140,6 +140,9 @@ const BaseReaderTransitionPage = ({
                     position: 'relative',
                     transform: 'scale(1)',
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
+                        maxWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px)`,
+                        position: 'sticky',
+                        left: 0,
                         minHeight: `calc(100vh - ${scrollbarXSize}px)`,
                         ...applyStyles(!isFitWidthPageScaleMode, { alignItems: 'baseline' }),
                     }),
@@ -158,7 +161,6 @@ const BaseReaderTransitionPage = ({
                     width: 'max-content',
                     p: 1,
                     ...applyStyles(isContinuousReadingMode(readingMode), {
-                        position: 'sticky',
                         ...applyStyles(
                             // on small screens with "fit to with" enabled, "left 50%" does not center the element in the
                             // viewport which then causes "translate" to move the element mostly outside the viewport with
@@ -169,6 +171,7 @@ const BaseReaderTransitionPage = ({
                             },
                         ),
                         ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
+                            position: 'sticky',
                             top: '50%',
                             transform: 'translateY(-50%)',
                         }),
