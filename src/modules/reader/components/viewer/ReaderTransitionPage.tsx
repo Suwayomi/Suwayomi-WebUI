@@ -137,21 +137,17 @@ const BaseReaderTransitionPage = ({
                     height: '100%',
                 }),
                 ...applyStyles(isContinuousReadingMode(readingMode), {
-                    position: 'relative',
-                    transform: 'scale(1)',
+                    position: 'sticky',
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
-                        maxWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px)`,
-                        position: 'sticky',
                         left: 0,
+                        maxWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px)`,
                         minHeight: `calc(100vh - ${scrollbarXSize}px)`,
                         ...applyStyles(!isFitWidthPageScaleMode, { alignItems: 'baseline' }),
                     }),
                     ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
-                        flexDirection: 'row',
-                        maxHeight: `calc(100vh - ${scrollbarXSize}px)`,
-                        position: 'sticky',
                         top: 0,
                         minWidth: `calc(100vw - ${scrollbarYSize}px - ${readerNavBarWidth}px)`,
+                        maxHeight: `calc(100vh - ${scrollbarXSize}px)`,
                     }),
                 }),
             }}
@@ -165,9 +161,6 @@ const BaseReaderTransitionPage = ({
                     maxHeight: `calc(100vh - ${scrollbarXSize}px)`,
                     width: 'max-content',
                     p: 1,
-                    ...applyStyles(isContinuousReadingMode(readingMode), {
-                        alignSelf: 'center',
-                    }),
                 }}
             >
                 {isPreviousType && isFirstChapter && (
