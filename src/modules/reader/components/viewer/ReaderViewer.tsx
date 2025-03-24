@@ -188,7 +188,7 @@ const BaseReaderViewer = forwardRef(
         const [chapterViewerSize, setChapterViewerSize] = useState({
             minChapterViewWidth: 0,
             minChapterViewHeight: 0,
-            minChapterSizeSourceChapterId: null as number | null,
+            minChapterSizeSourceChapterId: -1,
         });
         const { minChapterViewWidth, minChapterViewHeight, minChapterSizeSourceChapterId } = chapterViewerSize;
 
@@ -226,7 +226,6 @@ const BaseReaderViewer = forwardRef(
                         return;
                     }
 
-                    // convert chapterViewerSize to state, since it doesn't make sense for it to be a ref
                     setChapterViewerSize({
                         minChapterViewWidth: width,
                         minChapterViewHeight: 0,
@@ -303,7 +302,7 @@ const BaseReaderViewer = forwardRef(
             setChapterViewerSize({
                 minChapterViewWidth: 0,
                 minChapterViewHeight: 0,
-                minChapterSizeSourceChapterId: null,
+                minChapterSizeSourceChapterId: -1,
             });
             setTriggerReRender({});
         }, [readingMode]);
