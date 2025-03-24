@@ -8,7 +8,7 @@
 
 import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
-import { ReaderStateChapters, ReadingDirection } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderStateChapters, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { getPreviousNextChapterVisibility } from '@/modules/reader/utils/Reader.utils.ts';
@@ -22,6 +22,7 @@ export const useReaderPreserveScrollPosition = (
     pageIndex: number,
     chaptersToRender: TChapterReader[],
     visibleChapters: ReaderStateChapters['visibleChapters'],
+    readingMode: ReadingMode,
     isContinuousReadingModeActive: boolean,
     readingDirection: ReadingDirection,
     readerNavBarWidth: number,
@@ -112,4 +113,8 @@ export const useReaderPreserveScrollPosition = (
         onSizeReset();
         readerNavBarWidthRef.current = readerNavBarWidth;
     }, [onSizeReset, readerNavBarWidth]);
+
+    useLayoutEffect(() => {
+        setPageToScrollToIndex(pageIndex);
+    }, [readingMode]);
 };

@@ -292,6 +292,9 @@
             "title": "Extension repositories"
           }
         }
+      },
+      "dialog": {
+        "title": "Per-language extension settings"
       }
     },
     "state": {

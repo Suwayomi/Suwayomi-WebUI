@@ -10,9 +10,17 @@ import { forwardRef, memo, ReactNode, useCallback, useEffect, useMemo, useRef } 
 import Box, { BoxProps } from '@mui/material/Box';
 import { getPageIndexesToLoad, isATransitionPageVisible } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
-import { IReaderSettings, ReaderPagerProps, ReaderTransitionPageMode } from '@/modules/reader/types/Reader.types.ts';
+import {
+    IReaderSettings,
+    ReaderPagerProps,
+    ReaderResumeMode,
+    ReaderTransitionPageMode,
+} from '@/modules/reader/types/Reader.types.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+
+const getPreviousCurrentPageIndex = (resumeMode: ReaderResumeMode): number =>
+    resumeMode === ReaderResumeMode.END ? Number.MAX_SAFE_INTEGER : -1;
 
 const BaseBasePager = forwardRef<
     HTMLDivElement,
@@ -56,10 +64,17 @@ const BaseBasePager = forwardRef<
             scrollbarXSize,
             scrollbarYSize,
             readerNavBarWidth,
+            resumeMode,
+            handleAsInitialRender,
         },
         ref,
     ) => {
-        const previousCurrentPageIndex = useRef(currentPageIndex > 0 ? Number.MAX_SAFE_INTEGER : -1);
+        const previousCurrentPageIndex = useRef(getPreviousCurrentPageIndex(resumeMode));
+
+        if (handleAsInitialRender) {
+            previousCurrentPageIndex.current = getPreviousCurrentPageIndex(resumeMode);
+        }
+
         const pagesIndexesToRender = useMemo(
             () =>
                 getPageIndexesToLoad(

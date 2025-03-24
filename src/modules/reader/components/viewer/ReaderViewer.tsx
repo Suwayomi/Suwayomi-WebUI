@@ -287,6 +287,7 @@ const BaseReaderViewer = forwardRef(
             currentPageIndex,
             chaptersToRender,
             visibleChapters,
+            readingMode,
             isContinuousReadingModeActive,
             readingDirection,
             readerNavBarWidth,
