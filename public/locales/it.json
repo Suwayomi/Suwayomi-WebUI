@@ -2,7 +2,9 @@
     "category": {
         "dialog": {
             "title": {
-                "edit_category": "Modifica categoria",
+                "edit_category_one": "Modifica categoria",
+                "edit_category_many": "",
+                "edit_category_other": "",
                 "new_category": "Nuova categoria"
             }
         },
@@ -218,7 +220,6 @@
                 },
                 "title": "Scarica avanti"
             },
-            "title": "Impostazioni di download",
             "file_type": {
                 "label": {
                     "cbz": "Salva come archivio CBZ"
@@ -252,8 +253,7 @@
                 "queued": "In coda",
                 "downloading": "Scaricamento"
             }
-        },
-        "title": "Downloads"
+        }
     },
     "extension": {
         "action": {
@@ -511,7 +511,6 @@
                 "update_progress_reading_description": "Non funziona quando si contrassegnano più manga come letti contemporaneamente"
             },
             "title": {
-                "settings": "Impostazioni tracking",
                 "trackers": "Trackers"
             },
             "dialog": {
@@ -772,8 +771,7 @@
                 "title": "Varie"
             },
             "title": {
-                "server": "Server",
-                "settings": "Impostazioni del server"
+                "server": "Server"
             },
             "auth": {
                 "basic": {
@@ -882,8 +880,7 @@
                 }
             },
             "title": {
-                "device": "Dispositivo",
-                "settings": "Impostazioni del dispositivo"
+                "device": "Dispositivo"
             }
         },
         "label": {
@@ -921,7 +918,6 @@
                 }
             },
             "title": {
-                "settings": "Impostazioni $t(settings.webui.title.webui)",
                 "webui": "WebUI"
             },
             "interface": {
@@ -1006,9 +1002,6 @@
                 "success": "Cancellata la cache del server",
                 "failure": "Impossibile cancellare la cache del server"
             }
-        },
-        "browse": {
-            "title": "Sfoglia le impostazioni"
         },
         "appearance": {
             "theme": {
@@ -1110,8 +1103,7 @@
                         }
                     }
                 }
-            },
-            "title": "Impostazioni della libreria"
+            }
         },
         "option": {
             "display": {
@@ -1202,9 +1194,6 @@
                     "webtoon": "Webtoon",
                     "continuous_vertical": "Continua in verticale"
                 }
-            },
-            "title": {
-                "reader_settings": "Impostazioni del lettore"
             }
         },
         "button": {

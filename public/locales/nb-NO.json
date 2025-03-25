@@ -14,7 +14,8 @@
         },
         "dialog": {
             "title": {
-                "edit_category": "Rediger kategori",
+                "edit_category_one": "Rediger kategori",
+                "edit_category_other": "",
                 "new_category": "Ny kategori"
             }
         },

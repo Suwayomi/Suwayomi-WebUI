@@ -3,7 +3,9 @@
         "dialog": {
             "title": {
                 "new_category": "Nova categoria",
-                "edit_category": "Editar categoria"
+                "edit_category_one": "Editar categoria",
+                "edit_category_many": "",
+                "edit_category_other": ""
             }
         },
         "error": {
@@ -238,7 +240,6 @@
                     "description": "O caminho para o diretório no servidor onde os arquivos transferidos devem ser salvos"
                 }
             },
-            "title": "Configurações de transferência",
             "file_type": {
                 "label": {
                     "cbz": "Salvar como arquivo CBZ"
@@ -252,8 +253,7 @@
                 "finished": "$t(global.label.finished)",
                 "downloading": "Transferindo"
             }
-        },
-        "title": "Transferências"
+        }
     },
     "extension": {
         "action": {
@@ -417,7 +417,44 @@
             "are_you_sure": "Você tem certeza?",
             "both": "Ambos",
             "advanced": "Avançado",
-            "asterisk": "*"
+            "asterisk": "*",
+            "desktop": "Área de trabalho",
+            "display": "Tela",
+            "error": "Erro",
+            "filter": "Filtro",
+            "dark": "Escuro",
+            "disabled": "Desabilitado",
+            "discord": "Discord",
+            "finished": "Finalizado",
+            "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
+            "light": "Claro",
+            "auto": "Automática",
+            "bottom": "Fundo",
+            "browse": "Navegar",
+            "client": "Cliente",
+            "close": "Fechar",
+            "copied_clipboard": "Copiado para área de transferencia",
+            "default": "Padrão",
+            "general": "Geral",
+            "github": "GitHub",
+            "hidden": "Escondido",
+            "horizontal": "Horizontal",
+            "links": "Links",
+            "load_in_progress": "Ainda carregando dados necessários…",
+            "loading": "Carregando…",
+            "info": "Informação",
+            "left": "Esquerda",
+            "none": "Nenhum",
+            "logged_in": "logado",
+            "menu": "Menu",
+            "mobile": "Móvel",
+            "never": "Nunca",
+            "next": "Próximo",
+            "placeholder": "Espaço reservado",
+            "open_in_browser": "Abra no navegador",
+            "other": "Outros",
+            "password": "Senha",
+            "previous": "Anterior"
         }
     },
     "reader": {

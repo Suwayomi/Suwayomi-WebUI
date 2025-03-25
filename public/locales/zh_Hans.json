@@ -2,14 +2,15 @@
     "category": {
         "dialog": {
             "title": {
-                "edit_category": "编辑分类",
+                "edit_category_other": "编辑分类",
                 "new_category": "编辑分类"
             }
         },
         "error": {
             "label": {
-                "empty": "翻译",
-                "request_failure": "无法加载分类"
+                "empty": "分类为空",
+                "request_failure": "无法加载分类",
+                "create_failure": "无法创建分类"
             },
             "no_categories_found": {
                 "label": {
@@ -161,7 +162,6 @@
                 "error": "错误"
             }
         },
-        "title": "下载",
         "settings": {
             "file_type": {
                 "label": {
@@ -203,7 +203,6 @@
                     "title": "下载位置"
                 }
             },
-            "title": "下载设置",
             "delete_chapters": {
                 "while_reading": {
                     "label": {
@@ -225,6 +224,10 @@
                 },
                 "title": "删除章节"
             }
+        },
+        "title": {
+            "download": "下载",
+            "queue": "下载队列"
         }
     },
     "extension": {
@@ -421,7 +424,8 @@
             "warning": "警告",
             "system": "系统",
             "dark": "深色",
-            "light": "浅色"
+            "light": "浅色",
+            "more": "更多"
         },
         "language": {
             "label": {
@@ -569,7 +573,6 @@
                     "last_update": "最近更新： {{date}}"
                 }
             },
-            "title": "书架",
             "general": {
                 "search": {
                     "ignore_filters": {
@@ -786,8 +789,8 @@
                 }
             },
             "title": {
-                "reader_settings": "阅读器设置",
-                "quick_settings": "快捷设置"
+                "quick_settings": "快捷设置",
+                "reader": "阅读"
             },
             "background_color": "背景色",
             "custom_filter": {
@@ -1021,7 +1024,6 @@
         },
         "server": {
             "title": {
-                "settings": "服务器设置",
                 "server": "服务器"
             },
             "local_source": {
@@ -1197,8 +1199,7 @@
                 }
             },
             "title": {
-                "webui": "Web面板",
-                "settings": "$t(settings.webui.title.webui) 设置"
+                "webui": "Web面板"
             },
             "interface": {
                 "label": {
@@ -1252,9 +1253,6 @@
                 "failure": "无法清除服务器缓存"
             }
         },
-        "browse": {
-            "title": "浏览设置"
-        },
         "device": {
             "active_device": {
                 "label": {
@@ -1269,8 +1267,7 @@
                 }
             },
             "title": {
-                "device": "设备",
-                "settings": "设备设置"
+                "device": "设备"
             },
             "label": {
                 "placeholder": "移动端_Name-1 | length: 16, chars: letters, numbers, -, _"
@@ -1426,7 +1423,6 @@
                 }
             },
             "title": {
-                "settings": "追踪设置",
                 "trackers": "追踪列表"
             },
             "label": {
@@ -1488,5 +1484,16 @@
             "delete": "单击按键以解除绑定"
         },
         "title_other": "按键绑定"
+    },
+    "history": {
+        "title": "历史",
+        "error": {
+            "label": {
+                "no_history_available": "最近没有阅读。"
+            }
+        },
+        "settings": {
+            "hide": "隐藏历史"
+        }
     }
 }
