@@ -189,7 +189,14 @@ const Thumbnail = ({
         img.onload = () => {
             Promise.all([
                 Vibrant.from(img).getPalette(),
-                new FastAverageColor().getColorAsync(img, { algorithm: 'dominant' }),
+                new FastAverageColor().getColorAsync(img, {
+                    algorithm: 'dominant',
+                    mode: 'precision',
+                    ignoredColor: [
+                        [255, 255, 255, 255, 75],
+                        [0, 0, 0, 255, 75],
+                    ],
+                }),
             ]).then(([palette, averageColor]) => {
                 if (
                     !palette.Vibrant ||
