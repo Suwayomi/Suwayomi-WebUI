@@ -54,7 +54,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
 
         return data?.sources.nodes.filter((source) => source.extension.pkgName === extensionId);
     }, [data?.sources.nodes, extensionId]);
-    console.log('@asdf', extensionId, relevantSources);
+
     return (
         <Dialog open={!!extensionId} onClose={closeDialog} maxWidth="md" fullWidth>
             <DialogTitle>{t('extension.settings.dialog.title')}</DialogTitle>
