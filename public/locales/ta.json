@@ -178,8 +178,7 @@
                 "label": {
                     "cbz": "சிபிஇசட் காப்பகமாக சேமிக்கவும்"
                 }
-            },
-            "title": "அமைப்புகளை பதிவிறக்கவும்"
+            }
         },
         "queue": {
             "error": {
@@ -202,8 +201,7 @@
                 "finished": "$ t (global.label.finished)",
                 "queued": "வரிசையில்"
             }
-        },
-        "title": "பதிவிறக்கங்கள்"
+        }
     },
     "extension": {
         "label": {
@@ -545,7 +543,6 @@
                 },
                 "title": "உலகளாவிய புதுப்பிப்பு"
             },
-            "title": "நூலக அமைப்புகள்",
             "advanced": {
                 "database": {
                     "cleanup": {
@@ -874,8 +871,7 @@
                 "right_left": "வலது மற்றும் இடது"
             },
             "title": {
-                "quick_settings": "விரைவான அமைப்புகள்",
-                "reader_settings": "வாசகர் அமைப்புகள்"
+                "quick_settings": "விரைவான அமைப்புகள்"
             }
         },
         "chapter_transition": {
@@ -1062,8 +1058,7 @@
                 "placeholder": "ச்மார்ட்போன்_நாம் -1 | நீளம்: 16, எழுத்துக்கள்: கடிதங்கள், எண்கள், -, _"
             },
             "title": {
-                "device": "சாதனம்",
-                "settings": "சாதன அமைப்புகள்"
+                "device": "சாதனம்"
             }
         },
         "server": {
@@ -1203,8 +1198,7 @@
                 "title": "கோரிக்கைகள்"
             },
             "title": {
-                "server": "சேவையகம்",
-                "settings": "சேவையக அமைப்புகள்"
+                "server": "சேவையகம்"
             }
         },
         "about": {
@@ -1227,9 +1221,6 @@
                     "version": "$ t (settings.webii.title.webui) பதிப்பு"
                 }
             }
-        },
-        "browse": {
-            "title": "அமைப்புகளை உலாவுக"
         },
         "clear_cache": {
             "label": {
@@ -1329,7 +1320,6 @@
                 "initial_open_browser": "சேவையகத்தைத் தொடங்கும்போது $ t (settings.webui.title.webui) ஐத் திறக்கவும்"
             },
             "title": {
-                "settings": "$ t (settings.webui.title.webui) அமைப்புகள்",
                 "webui": "பின்னப்பட்ட"
             }
         }
@@ -1418,7 +1408,6 @@
                 "update_progress_reading_description": "பல மங்காவை ஒரே நேரத்தில் படிக்கும்போது வேலை செய்யாது"
             },
             "title": {
-                "settings": "கண்காணிப்பு அமைப்புகள்",
                 "trackers": "டிராக்கர்கள்"
             }
         },
@@ -1435,7 +1424,8 @@
     "category": {
         "dialog": {
             "title": {
-                "edit_category": "வகையைத் திருத்து",
+                "edit_category_one": "வகையைத் திருத்து",
+                "edit_category_other": "",
                 "new_category": "புதிய வகை"
             }
         },

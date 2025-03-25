@@ -44,7 +44,6 @@
             }
         },
         "settings": {
-            "title": "Paramètres de la bibliothèque",
             "global_update": {
                 "categories": {
                     "label": {
@@ -153,7 +152,8 @@
                 "bookmarked": "Avec marque-page",
                 "downloaded": "Téléchargé",
                 "tracked": "Suivi",
-                "duplicate_chapters": "Chapitres en double"
+                "duplicate_chapters": "Chapitres en double",
+                "started": "Commencé"
             }
         },
         "grid_layout": {
@@ -202,7 +202,8 @@
             "remind_later": "Rappeler plus tard",
             "changelog": "Journal des modifications",
             "ignore": "Ignorer",
-            "save": "Sauvegarder"
+            "save": "Sauvegarder",
+            "open": "Ouvrir"
         },
         "language": {
             "label": {
@@ -212,6 +213,9 @@
             "title": {
                 "enabled_languages": "Langues activées",
                 "weblate": "Weblate"
+            },
+            "error": {
+                "load": "Impossible de charger la langue"
             }
         },
         "label": {
@@ -241,7 +245,34 @@
             "github": "GitHub",
             "started": "Commencé",
             "username": "Nom d'utilisateur",
-            "default": "Défaut"
+            "default": "Défaut",
+            "warning": "Attention",
+            "standard": "Standard",
+            "vertical": "Verticale",
+            "auto": "Auto",
+            "both": "Les deux",
+            "bottom": "Le bas",
+            "hidden": "Caché",
+            "finished": "Terminé",
+            "success": "Réussie",
+            "more": "plus",
+            "left": "Gauche",
+            "dark": "Sombre",
+            "error": "Erreur",
+            "light": "Lumière",
+            "info": "Information",
+            "share": "Partager",
+            "menu": "Menu",
+            "mobile": "Mobile",
+            "previous": "Précédent",
+            "right": "Droit",
+            "next": "Suivant",
+            "system": "Système",
+            "copied_clipboard": "Copié dans le presse-papiers",
+            "desktop": "Bureau",
+            "asterisk": "*",
+            "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
+            "horizontal": "Horizontal"
         },
         "date": {
             "label": {
@@ -264,7 +295,9 @@
                 "by_source": "Par source",
                 "by_fetch_date": "Par date de récupération",
                 "by_chapter_number": "Par numéro de chapitre",
-                "by_upload_date": "Par date de mise en ligne"
+                "by_upload_date": "Par date de mise en ligne",
+                "asc": "ascendant",
+                "desc": "descendant"
             }
         },
         "error": {
@@ -311,12 +344,21 @@
                 "update_failure": "La mise à jour à échouée",
                 "updating": "{{progress}} % | Mise à jour…"
             }
-        }
+        },
+        "colors": {
+            "gray": "Gris",
+            "white": "Blanc",
+            "black": "Noir"
+        },
+        "unit": {
+            "px": "px"
+        },
+        "value": "{{value}}{{unit}}"
     },
     "download": {
         "state": {
             "label": {
-                "finished": "Terminé",
+                "finished": "$t(global.label.finished)",
                 "downloading": "En cours de téléchargement",
                 "queued": "En attente",
                 "error": "Erreur"
@@ -336,7 +378,6 @@
                 }
             }
         },
-        "title": "Téléchargements",
         "settings": {
             "auto_download": {
                 "categories": {
@@ -393,13 +434,16 @@
                 },
                 "title": "Téléchargement en amont"
             },
-            "title": "Paramètres de téléchargement",
             "download_path": {
                 "label": {
                     "title": "Emplacement de téléchargement",
                     "description": "Le chemin d’accès au dossier sur le serveur où les fichiers téléchargés doivent être enregistrés"
                 }
             }
+        },
+        "title": {
+            "download": "Téléchargements",
+            "queue": "File d'attente de téléchargement"
         }
     },
     "settings": {
@@ -468,7 +512,8 @@
             "show_nsfw": "Afficher les contenus explicites",
             "manga_item_width": "Largeur des mangas",
             "language_description": "N'hésitez pas à traduire le projet sur",
-            "hide_library_entries": "Masquer les éléments déjà dans la bibliothèque"
+            "hide_library_entries": "Masquer les éléments déjà dans la bibliothèque",
+            "theme": "Thème"
         },
         "about": {
             "title": "À propos",
@@ -494,7 +539,6 @@
         "title": "Paramètres",
         "device": {
             "title": {
-                "settings": "Paramètres de l'appareil",
                 "device": "Appareil"
             },
             "devices": {
@@ -633,11 +677,24 @@
                     "label": {
                         "server": "Activer les journaux de débogage"
                     }
+                },
+                "log_files": {
+                    "total_size": {
+                        "description": "$t(settings.server.misc.log_files.file_size.description)",
+                        "title": "Taille maximale de tous les fichiers journaux"
+                    },
+                    "file_cleanup": {
+                        "value": "Supprimer les fichiers journaux plus anciens que $t(global.date.value.label.day)",
+                        "title": "Nettoyage du fichier journal"
+                    },
+                    "file_size": {
+                        "description": "Exemple de valeurs possibles: 1KB (kilo-octets), 1MB (méga-octets), 1GB (giga-octets)",
+                        "title": "Taille maximale du fichier journal"
+                    }
                 }
             },
             "title": {
-                "server": "Serveur",
-                "settings": "Paramètres du serveur"
+                "server": "Serveur"
             }
         },
         "webui": {
@@ -717,8 +774,7 @@
                 }
             },
             "title": {
-                "webui": "Interface web",
-                "settings": "Paramètres de l'$t(settings.webui.title.webui)"
+                "webui": "Interface web"
             },
             "label": {
                 "initial_open_browser": "Ouvrir l'$t(settings.webui.title.webui) au lancement du serveur"
@@ -732,9 +788,6 @@
                 "description": "Le cache du client (navigateur, Electron) doit également être vidé en même temps, sinon le cache du client continuera à être utilisé"
             }
         },
-        "browse": {
-            "title": "Paramètres de navigation"
-        },
         "appearance": {
             "theme": {
                 "create": {
@@ -743,7 +796,8 @@
                             "invalid_name": "Le nom du thème doit être unique et ne peut pas dépasser 16 caractères",
                             "invalid_json": "JSON invalide"
                         },
-                        "theme_name": "Nom"
+                        "theme_name": "Nom",
+                        "description": "Voir la documentation officielle <0>MUI</0> pour savoir comment personnaliser le thème.\nL'API palette n'est pas prise en charge, vous devez utiliser la nouvelle  <1>L'API systèmes de couleurs</1>.\n\nVous pouvez utiliser des créateurs de thèmes comme <2>MUI Theme Creator</2>, mais vous devez adapter l'objet créé en fonction de la nouvelle API de systèmes de couleurs.\n\nSi aucun arrière-plan n'est défini, un arrière-plan sera calculé sur la base de la couleur primaire."
                     },
                     "failure": "Impossible de créer le thème",
                     "success": "Thème créé",
@@ -754,13 +808,49 @@
                     "action": "Suppression du thème \"{{theme}}\"…",
                     "failure": "Impossible de supprimer le thème \"{{theme}}\"",
                     "success": "Thème \"{{theme}}\" supprimé"
-                }
+                },
+                "select": {
+                    "fonts": {
+                        "error": "Impossible de charger les polices du thème",
+                        "loading": "Chargement des polices du thème…"
+                    },
+                    "success": "Thème choisi"
+                },
+                "themes": {
+                    "lavender": "Lavande",
+                    "minty_miracles": "Miracles à la menthe",
+                    "tree_frog_green": "Grenouille verte",
+                    "dune": "Dune",
+                    "crimson": "Cramoisie",
+                    "forest_dew": "Rosée de la forêt",
+                    "orange_juice": "Jus d'orange",
+                    "veronica": "Veronica",
+                    "mountain_sunset": "Coucher de soleil sur la montagne",
+                    "ying_and_yang": "Ying & Yang",
+                    "rosegold": "Or rose",
+                    "bright_pink": "Rose vif"
+                },
+                "edit": {
+                    "failure": "Impossible d'enregistrer les modifications apportées au thème",
+                    "success": "Sauvegarde des modifications apportées au thème",
+                    "action": "Enregistrer les changements du thème…",
+                    "title": "Modifier le thème"
+                },
+                "mode": "Thème mode",
+                "pure_black_mode": "Mode noir pur",
+                "title": "Thème"
             },
             "manga_thumbnail_backdrop": {
                 "description": "Définit la vignette du manga comme image de fond sur la page du manga",
                 "title": "Miniature de manga en arrière-plan"
-            }
-        }
+            },
+            "manga_dynamic_color_schemes": {
+                "description": "Modifie les couleurs du thème sur la page Manga basée sur la vignette",
+                "title": "Couleurs de thème dynamique sur la page des mangas"
+            },
+            "title": "Apparence"
+        },
+        "default_value": "{{value}}<0>($t(global.label.default))</0>"
     },
     "chapter": {
         "error": {
@@ -1022,22 +1112,136 @@
                 "static_navigation": "Navigation statique",
                 "skip_dup_chapters": "Ignorer les chapitres en double",
                 "fit_page_to_window": "Ajuster la page à l'écran",
-                "reader_width": "Largeur du lecteur"
+                "reader_width": "Largeur du lecteur",
+                "reading_mode": "Mode lecture",
+                "behaviour": "Comportement",
+                "reading_direction": "Sens de lecture",
+                "page_gap": "Écart de page",
+                "limit_reader_width": "Limiter la largeur du lecteur",
+                "layout": "Mise en page",
+                "offset_double_spread": "Décalage double page"
             },
             "error": {
                 "label": {
                     "failed_to_save_settings": "Échec de l'enregistrement des paramètres du lecteur sur le serveur"
                 }
             },
-            "title": {
-                "reader_settings": "Paramètres du lecteur"
-            },
             "reader_type": {
                 "label": {
                     "continuous_vertical": "Verticale en continu",
-                    "webtoon": "Webtoon"
+                    "webtoon": "Webtoon",
+                    "continuous_horizontal": "Horizontal continu",
+                    "single_page": "Page unique",
+                    "double_page": "Double page"
                 }
-            }
+            },
+            "preview": {
+                "tap_zones": {
+                    "description": "Afficher brièvement l'aperçu de la disposition de la zone de contact lorsque le lecteur est ouvert ou que la disposition a été modifiée",
+                    "title": "Afficher la superposition des zones d'interaction"
+                },
+                "reading_mode": {
+                    "description": "Affiche brièvement le mode actuel lorsque le lecteur est ouvert ou que le mode a été modifié.",
+                    "title": "Afficher le mode de lecture"
+                }
+            },
+            "custom_filter": {
+                "grayscale": "Niveaux de gris",
+                "hue": "Teinte personnalisée",
+                "rgba": {
+                    "blue": "Bleu",
+                    "blend_mode": {
+                        "lighten": "Éclaircir",
+                        "darken": "Obscurcir",
+                        "default": "$t(global.label.default)",
+                        "multiply": "Multiplier",
+                        "overlay": "Superposition",
+                        "screen": "Écran",
+                        "title": "Mode de fusion du filtre de couleur"
+                    },
+                    "green": "Vert",
+                    "red": "Rouge",
+                    "title": "Filtres de couleur personnalisés",
+                    "alpha": "Alpha"
+                },
+                "contrast": "Contraste personnalisé",
+                "sepia": "Sépia",
+                "saturate": "Saturation personnalisée",
+                "brightness": "Luminosité personnalisée",
+                "invert": "Inverser",
+                "title": "Filtre personnalisé"
+            },
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
+            "overlay_mode": "Mode superposition",
+            "page_scale": {
+                "title": "Type d'échelle",
+                "height": "Hauteur d'ajustement",
+                "original": "Taille originale",
+                "screen": "Ajuster à l'ecran",
+                "stretch": "Etirer les petites pages",
+                "width": "Ajuster à la largeur"
+            },
+            "hotkey": {
+                "menu": "Menu à bascule",
+                "next_chapter": "Chapitre suivant",
+                "next_page": "Page suivante",
+                "offset_spread_pages": "Activer la compensation de pages à rallonge",
+                "previous_chapter": "Chapitre précédent",
+                "previous_page": "Page précédente",
+                "reading_mode": "Mode de lecture du cycle",
+                "stretch_image": "Basculer vers l'étirement de l'image",
+                "auto_scroll_speed_decrease": "Diminuer la vitesse de défilement automatique",
+                "auto_scroll": "Activer le défilement automatique",
+                "reading_direction": "Sens de lecture du cycle",
+                "scroll_forward": "Défilement vers l'avant",
+                "auto_scroll_speed_increase": "Augmenter la vitesse de défilement automatique",
+                "scale_type": "Type d'échelle de l'image du cycle",
+                "scroll_backward": "Défilement vers l'arrière"
+            },
+            "auto_scroll": {
+                "smooth": "Défilement automatique fluide",
+                "speed": "Vitesse de défilement automatique",
+                "title": "Défilement automatique"
+            },
+            "reading_direction": {
+                "ltr": "De gauche à droite",
+                "rtl": "De droite à gauche"
+            },
+            "tap_zones": {
+                "invert": "Inverser les zones d'interaction",
+                "edge": "Bord",
+                "l_shape": "En L",
+                "right_left": "Droit et gauche",
+                "kindle": "Kindle",
+                "title": "Zone d'interaction"
+            },
+            "source_series": "Paramètres de la série",
+            "image_preload_amount": "Précharger les images",
+            "progress_bar": {
+                "size": "Taille de la barre de progression",
+                "style": "Style de la barre de progression",
+                "position": "Position de la barre de progression",
+                "auto_vertical_position": {
+                    "title": "Position verticale automatique de la barre de progression"
+                }
+            },
+            "title": {
+                "quick_settings": "Paramètres rapides",
+                "reader": "Lecteur"
+            },
+            "chapter_transition": {
+                "warning": {
+                    "scanlator_change": "Informer du changement de traducteur lors du passage d'un chapitre à l'autre",
+                    "missing_chapter": "Informer sur les chapitres manquants lors de la transition des chapitres"
+                }
+            },
+            "active_setting": "Paramètre actif",
+            "auto_webtoon_mode": {
+                "description": "Utiliser automatiquement le mode webtoon pour les entrées qui sont détectées comme étant susceptibles d'utiliser le format en longeur.",
+                "title": "Mode webtoon automatique"
+            },
+            "background_color": "Couleur d'arrière-plan",
+            "exit_mode": "Ouvrir la page en sortant"
         },
         "title": "Lecteur - Manga {{mangaId}} Chapitre {{chapterIndex}}",
         "button": {
@@ -1045,20 +1249,55 @@
             "previous_chapter": "Chapitre précédent",
             "exit": "Quitter le lecteur",
             "close_menu": "Fermer le menu",
-            "open_menu": "Ouvrir le menu"
+            "open_menu": "Ouvrir le menu",
+            "chapter_list": "Liste des chapitres",
+            "previous_page": "Page précédente",
+            "next_page": "Page suivante",
+            "retry_load_pages": "Réessayer erreur sur la page"
         },
         "page_info": {
             "label": {
                 "of_max_pages": "sur {{maxPages}}",
-                "currently_on_page": "Actuellement sur la page"
+                "currently_on_page": "Actuellement sur la page",
+                "page": "Page"
             }
         },
         "error": {
             "label": {
                 "no_pages_found": "Aucune page trouvée",
                 "next_chapter_does_not_exist": "Il n'y a pas de chapitre suivant à ouvrir",
-                "prev_chapter_does_not_exist": "Aucun chapitre précédent à ouvrir"
+                "prev_chapter_does_not_exist": "Aucun chapitre précédent à ouvrir",
+                "chapter_not_found": "Le chapitre n'existe pas"
             }
+        },
+        "chapter_transition": {
+            "warning": {
+                "title": "Avertissement de transition de chapitre",
+                "previous": {
+                    "chapter_number_one": "Il manque un chapitre.\nPrécédent: {{nextChapter}}\nActuel: {{currentChapter}}",
+                    "chapter_number_many": "Il y a {{count}} chapitres manquants.\nPrécédent: {{nextChapter}}\nActuel: {{currentChapter}}",
+                    "chapter_number_other": "",
+                    "scanlator": "Le chapitre précédent a un traducteur différent de celui en cours.\nPrécédent: {{nextScanlator}}\nActuel: {{currentScanlator}}"
+                },
+                "next": {
+                    "chapter_number_one": "Il manque un chapitre.\nActuel : {{currentChapter}}\nSuivant : {{nextChapter}}",
+                    "chapter_number_many": "Il y a {{count}} chapitres manquants.\nActuel : {{currentChapter}}\nSuivant : {{nextChapter}}",
+                    "chapter_number_other": "",
+                    "scanlator": "Le chapitre suivant a un traducteur différent de celui du chapitre actuel.\nActuel: {{currentScanlator}}\nSuivant: {{nextScanlator}}"
+                }
+            }
+        },
+        "transition_page": {
+            "next": "$t(global.label.next):",
+            "exit": {
+                "manga_page": "Revenir à la page du mangas",
+                "previous_page": "Revenir à la page précédente"
+            },
+            "first_chapter": "Il n'y a pas de chapitre précédent",
+            "finished": "$t(global.label.finished):",
+            "current": "Actuel:",
+            "last_chapter": "Il n'y a pas de prochain chapitre",
+            "previous": "$t(global.label.previous):"
         }
     },
     "category": {
@@ -1070,7 +1309,8 @@
             },
             "label": {
                 "empty": "La catégorie est vide",
-                "request_failure": "Impossible de charger les catégories"
+                "request_failure": "Impossible de charger les catégories",
+                "create_failure": "Impossible de créer une catégorie"
             }
         },
         "title": {
@@ -1081,7 +1321,9 @@
         },
         "dialog": {
             "title": {
-                "edit_category": "Modifier la catégorie",
+                "edit_category_one": "Modifier la catégorie",
+                "edit_category_many": "Modifier les catégories",
+                "edit_category_other": "",
                 "new_category": "Nouvelle catégorie"
             }
         },
@@ -1104,7 +1346,8 @@
                 "update": "mettre à jour",
                 "uninstall": "désinstaller",
                 "install": "installer",
-                "install_external": "Installer une extension externe"
+                "install_external": "Installer une extension externe",
+                "update_all": "Tout mettre à jour"
             }
         },
         "title_one": "Extension",
@@ -1113,16 +1356,16 @@
         "label": {
             "installing_file": "Installation de l'extension à partir du fichier…",
             "installation_failed_one": "Échec de l'installation de l'extension",
-            "installation_failed_many": "",
+            "installation_failed_many": "Échec de l'installation des l'extensions",
             "installation_failed_other": "",
             "installed_successfully_one": "L'extension a bien été installée",
-            "installed_successfully_many": "",
+            "installed_successfully_many": "Les extensions ont bien été installées",
             "installed_successfully_other": "",
             "uninstallation_failed_one": "Impossible de désinstaller l'extension",
-            "uninstallation_failed_many": "",
+            "uninstallation_failed_many": "Impossible de désinstaller les extensions",
             "uninstallation_failed_other": "",
             "update_failed_one": "Impossible de mettre à jour l'extension",
-            "update_failed_many": "",
+            "update_failed_many": "Impossible de mettre à jour les extensions",
             "update_failed_other": "",
             "add_repository_info": "Vous devez ajouter un dépôt d’extensions pour pouvoir installer des extensions"
         },
@@ -1161,6 +1404,9 @@
                         }
                     }
                 }
+            },
+            "dialog": {
+                "title": "Paramètres d'extension par langue"
             }
         }
     },
@@ -1229,7 +1475,11 @@
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
         },
-        "title": "Migrer"
+        "title": "Migrer",
+        "sort": {
+            "by_source_name": "Par nom de source",
+            "by_manga_count": "Par le nombre de mangas"
+        }
     },
     "tracking": {
         "action": {
@@ -1250,8 +1500,7 @@
         },
         "settings": {
             "title": {
-                "trackers": "Trackers",
-                "settings": "Paramètres de tracking"
+                "trackers": "Trackers"
             },
             "dialog": {
                 "title": {
@@ -1285,6 +1534,35 @@
                 "finish_date": "Date de fin",
                 "score": "Score"
             }
+        }
+    },
+    "hotkeys": {
+        "create": {
+            "dialog": {
+                "label": "Touches enregistrées : <Keys/>",
+                "title": "Enregistrer le raccourci clavier",
+                "placeholder": "Appuyer sur les touches"
+            },
+            "error": {
+                "exists": "Le raccourci clavier existe déjà"
+            }
+        },
+        "info": {
+            "delete": "Cliquez sur la touche pour supprimer la liaison"
+        },
+        "title_one": "Raccourci clavier",
+        "title_many": "Raccourcis clavier",
+        "title_other": ""
+    },
+    "history": {
+        "error": {
+            "label": {
+                "no_history_available": "Vous n'avez pas encore lu de série."
+            }
+        },
+        "title": "historique",
+        "settings": {
+            "hide": "Cacher l'historique"
         }
     }
 }

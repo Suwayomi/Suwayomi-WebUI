@@ -22,7 +22,8 @@
         },
         "dialog": {
             "title": {
-                "edit_category": "ক্যাটাগরি সংশোধন"
+                "edit_category_one": "ক্যাটাগরি সংশোধন",
+                "edit_category_other": ""
             }
         },
         "settings": {

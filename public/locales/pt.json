@@ -199,7 +199,9 @@
     "category": {
         "dialog": {
             "title": {
-                "edit_category": "Editar catálogo",
+                "edit_category_one": "Editar catálogo",
+                "edit_category_many": "",
+                "edit_category_other": "",
                 "new_category": "Nova Categoria"
             }
         },
@@ -465,7 +467,6 @@
                 "queued": "Na fila"
             }
         },
-        "title": "Baixados",
         "settings": {
             "auto_download": {
                 "download_limit": {
@@ -517,7 +518,6 @@
                 },
                 "title": "Baixe com antecedência"
             },
-            "title": "Configurações de download",
             "download_path": {
                 "label": {
                     "title": "Local do download",
@@ -850,8 +850,7 @@
                 }
             },
             "title": {
-                "webui": "Interface Web",
-                "settings": "$t(settings.webui.title.webui) Configurações"
+                "webui": "Interface Web"
             },
             "label": {
                 "initial_open_browser": "Abra o $t(settings.webui.title.webui) ao iniciar o servidor"
@@ -867,8 +866,7 @@
         },
         "server": {
             "title": {
-                "server": "Servidor",
-                "settings": "Configurações do servidor"
+                "server": "Servidor"
             },
             "auth": {
                 "basic": {
@@ -1017,8 +1015,7 @@
                 "placeholder": "Nome_do_Smartphone-1 | comprimento: 16, caracteres: letras, números, -, _"
             },
             "title": {
-                "device": "Dispositivo",
-                "settings": "Definições do dispositivo"
+                "device": "Dispositivo"
             },
             "active_device": {
                 "label": {
@@ -1034,9 +1031,6 @@
             "hide_library_entries": "Ocultar entradas já na biblioteca",
             "language_description": "Sinta-se livre para traduzir o projeto em",
             "theme": "Tema"
-        },
-        "browse": {
-            "title": "Configurações de busca"
         },
         "about": {
             "server": {
@@ -1244,8 +1238,7 @@
                         }
                     }
                 }
-            },
-            "title": "Configurações da biblioteca"
+            }
         },
         "info": {
             "label": {
@@ -1271,9 +1264,6 @@
             }
         },
         "settings": {
-            "title": {
-                "reader_settings": "Configurações do leitor"
-            },
             "reader_type": {
                 "label": {
                     "continuous_vertical": "Continua vertical",
@@ -1439,8 +1429,7 @@
                 "update_progress_reading_description": "Não funciona ao marcar vários mangas como lido ao mesmo tempo"
             },
             "title": {
-                "trackers": "Rastreadores",
-                "settings": "Configurações de rastreamento"
+                "trackers": "Rastreadores"
             }
         },
         "my_anime_list": {

@@ -11,13 +11,14 @@
         "dialog": {
             "title": {
                 "new_category": "Danh mục mới",
-                "edit_category": "Chỉnh sửa danh mục"
+                "edit_category_other": "Chỉnh sửa danh mục"
             }
         },
         "error": {
             "label": {
                 "empty": "Danh mục trống",
-                "request_failure": "Không thể tải danh mục"
+                "request_failure": "Không thể tải danh mục",
+                "create_failure": "Không thể tạo danh mục"
             },
             "no_categories_found": {
                 "label": {
@@ -147,7 +148,7 @@
                     "failed_to_retry": "Không thể thử lại tải xuống không thành công."
                 }
             },
-            "title": "Danh sách tải xuống",
+            "title": "Hàng chờ tải xuống",
             "label": {
                 "no_downloads": "Không tải xuống",
                 "delete_all": "Xóa tất cả"
@@ -161,7 +162,6 @@
                 "queued": "Xếp hàng"
             }
         },
-        "title": "Tải xuống",
         "settings": {
             "delete_chapters": {
                 "while_reading": {
@@ -223,8 +223,11 @@
                 "label": {
                     "cbz": "Lưu bằng định dạng nén CBZ"
                 }
-            },
-            "title": "Tải xuống"
+            }
+        },
+        "title": {
+            "download": "Tải xuống",
+            "queue": "Tải xuống"
         }
     },
     "extension": {
@@ -421,7 +424,8 @@
             "warning": "Cảnh báo",
             "dark": "Tối",
             "light": "Sáng",
-            "system": "Hệ thống"
+            "system": "Hệ thống",
+            "more": "Thêm"
         },
         "language": {
             "label": {
@@ -568,7 +572,6 @@
                     "title": "Bỏ qua cập nhật các mục"
                 }
             },
-            "title": "Cài đặt thư viện",
             "general": {
                 "search": {
                     "ignore_filters": {
@@ -794,8 +797,8 @@
                 }
             },
             "title": {
-                "reader_settings": "Trình đọc",
-                "quick_settings": "Cài đặt nhanh"
+                "quick_settings": "Cài đặt nhanh",
+                "reader": "Trình đọc"
             },
             "background_color": "Màu nền",
             "custom_filter": {
@@ -1112,7 +1115,6 @@
                 }
             },
             "title": {
-                "settings": "Máy chủ",
                 "server": "Máy chủ"
             },
             "misc": {
@@ -1180,7 +1182,6 @@
                 }
             },
             "title": {
-                "settings": "Thiết bị",
                 "device": "Thiết bị"
             },
             "label": {
@@ -1281,12 +1282,8 @@
                 "initial_open_browser": "Mở $t(settings.webui.title.webui) khi khởi động máy chủ"
             },
             "title": {
-                "settings": "Cài đặt $t(settings.webui.title.webui)",
                 "webui": "Giao diện Web"
             }
-        },
-        "browse": {
-            "title": "Duyệt"
         },
         "appearance": {
             "theme": {
@@ -1427,7 +1424,6 @@
         },
         "settings": {
             "title": {
-                "settings": "Theo dõi",
                 "trackers": "Dịch vụ"
             },
             "label": {
@@ -1488,5 +1484,16 @@
             "delete": "Nhấn vào phím để xóa ràng buộc"
         },
         "title_other": "Phím tắt"
+    },
+    "history": {
+        "title": "Lịch sử",
+        "error": {
+            "label": {
+                "no_history_available": "Bạn chưa đọc bất kỳ bộ truyện nào."
+            }
+        },
+        "settings": {
+            "hide": "Ẩn lịch sử"
+        }
     }
 }

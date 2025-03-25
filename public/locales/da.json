@@ -3,7 +3,8 @@
         "dialog": {
             "title": {
                 "new_category": "Ny kategori",
-                "edit_category": "Rediger kategori"
+                "edit_category_one": "Rediger kategori",
+                "edit_category_other": ""
             }
         },
         "error": {
@@ -218,7 +219,6 @@
                     "title": "Downloadlokation"
                 }
             },
-            "title": "Downloadindstillinger",
             "file_type": {
                 "label": {
                     "cbz": "Gem som CBZ arkiv"
