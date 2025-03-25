@@ -187,11 +187,13 @@ const Thumbnail = ({
         img.src = Mangas.getThumbnailUrl(manga);
 
         img.onload = () => {
+            const isLargeImage = img.width > 600 && img.height > 600;
+
             Promise.all([
                 Vibrant.from(img).getPalette(),
-                new FastAverageColor().getColorAsync(img, {
+                new FastAverageColor().getColor(img, {
                     algorithm: 'dominant',
-                    mode: 'precision',
+                    mode: isLargeImage ? 'speed' : 'precision',
                     ignoredColor: [
                         [255, 255, 255, 255, 75],
                         [0, 0, 0, 255, 75],
