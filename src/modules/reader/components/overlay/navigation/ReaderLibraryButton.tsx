@@ -28,7 +28,10 @@ const BaseReaderLibraryButton = ({ manga }: Pick<TReaderStateMangaContext, 'mang
     const { inLibrary } = manga ?? ACTION_FALLBACK_MANGA;
 
     const { t } = useTranslation();
-    const { CategorySelectComponent, updateLibraryState } = useManageMangaLibraryState(manga ?? ACTION_FALLBACK_MANGA);
+    const { CategorySelectComponent, updateLibraryState } = useManageMangaLibraryState(
+        manga ?? ACTION_FALLBACK_MANGA,
+        true,
+    );
 
     return (
         <>
