@@ -35,7 +35,8 @@
       "category_one": "Category",
       "category_other": "Categories",
       "set_categories": "Set categories"
-    }
+    },
+    "value": "{{count}} $t(category.title.category, lowercase)"
   },
   "chapter": {
     "action": {

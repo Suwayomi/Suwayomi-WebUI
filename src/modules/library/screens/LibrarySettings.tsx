@@ -137,10 +137,7 @@ export function LibrarySettings() {
                 <ListItemLink to={AppRoutes.settings.childRoutes.categories.path}>
                     <ListItemText
                         primary={t('category.dialog.title.edit_category_other')}
-                        secondary={t('global.value', {
-                            value: categoryCount,
-                            unit: ` ${t('category.title.category', { count: categoryCount })}`.toLocaleLowerCase(),
-                        })}
+                        secondary={t('category.value', { count: categoryCount })}
                     />
                 </ListItemLink>
                 <ListItem>
