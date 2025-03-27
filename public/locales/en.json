@@ -273,6 +273,9 @@
       "other": "Other"
     },
     "settings": {
+      "dialog": {
+        "title": "Per-language extension settings"
+      },
       "repositories": {
         "custom": {
           "dialog": {
@@ -293,9 +296,6 @@
             "title": "Extension repositories"
           }
         }
-      },
-      "dialog": {
-        "title": "Per-language extension settings"
       }
     },
     "state": {
@@ -427,12 +427,14 @@
       "hidden": "Hidden",
       "horizontal": "Horizontal",
       "info": "Information",
+      "large": "Large",
       "left": "Left",
       "light": "Light",
       "links": "Links",
       "load_in_progress": "Still loading required data…",
       "loading": "Loading…",
       "logged_in": "Logged in",
+      "medium": "Medium",
       "menu": "Menu",
       "mobile": "Mobile",
       "more": "More",
@@ -446,6 +448,7 @@
       "previous": "Previous",
       "right": "Right",
       "share": "Share",
+      "small": "Small",
       "sort": "Sort",
       "standard": "Standard",
       "started": "Started",
@@ -990,6 +993,7 @@
         "ltr": "Left to right",
         "rtl": "Right to left"
       },
+      "scroll_amount": "Scroll amount",
       "source_series": "Series settings",
       "tap_zones": {
         "edge": "Edge",

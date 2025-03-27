@@ -14,6 +14,7 @@ import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types
 import { TMangaReader } from '@/modules/manga/Manga.types.ts';
 import { useAutomaticScrolling } from '@/modules/core/hooks/useAutomaticScrolling.ts';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { ReaderScrollAmount } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -158,6 +159,7 @@ export interface IReaderSettingsGlobal {
     shouldShowTapZoneLayoutPreview: boolean;
     shouldInformAboutMissingChapter: boolean;
     shouldInformAboutScanlatorChange: boolean;
+    scrollAmount: ReaderScrollAmount;
 }
 
 export interface IReaderSettingsManga {

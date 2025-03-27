@@ -587,7 +587,7 @@ export class ReaderControls {
         const { setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
         const { currentPageIndex, pages } = userReaderStatePagesContext();
         const { setShowPreview } = useReaderTapZoneContext();
-        const { readingMode, readingDirection, isStaticNav } = ReaderService.useSettings();
+        const { readingMode, readingDirection, isStaticNav, scrollAmount } = ReaderService.useSettings();
         const openPage = ReaderControls.useOpenPage();
         const openChapter = ReaderControls.useOpenChapter();
 
@@ -625,6 +625,7 @@ export class ReaderControls {
                                 openChapter,
                                 setIsOverlayVisible,
                                 setShowPreview,
+                                scrollAmount,
                             );
                         } else {
                             openPage(action === TapZoneRegionType.PREVIOUS ? 'previous' : 'next', 'ltr');
@@ -644,6 +645,7 @@ export class ReaderControls {
                 openChapter,
                 themeDirection,
                 isStaticNav,
+                scrollAmount,
             ],
         );
     }

@@ -18,6 +18,7 @@ import { isOffsetDoubleSpreadPagesEditable } from '@/modules/reader/utils/Reader
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { ReaderSettingAutoScroll } from '@/modules/reader/components/settings/behaviour/ReaderSettingAutoScroll.tsx';
+import { ReaderSettingScrollAmount } from '@/modules/reader/components/settings/behaviour/ReaderSettingScrollAmount.tsx';
 
 export const ReaderBehaviourSettings = ({
     settings,
@@ -36,6 +37,10 @@ export const ReaderBehaviourSettings = ({
             <ReaderSettingExitMode
                 exitMode={settings.exitMode}
                 setExitMode={(value) => updateSetting('exitMode', value)}
+            />
+            <ReaderSettingScrollAmount
+                scrollAmount={settings.scrollAmount}
+                setScrollAmount={(value) => updateSetting('scrollAmount', value)}
             />
             <CheckboxInput
                 label={t('reader.settings.label.skip_dup_chapters')}

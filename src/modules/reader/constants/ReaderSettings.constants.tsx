@@ -36,7 +36,14 @@ import { TranslationKey } from '@/Base.types.ts';
 import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { WebtoonPageIcon } from '@/assets/icons/svg/WebtoonPageIcon.tsx';
 
-export const DEFAULT_READER_PROFILE = ReadingMode.SINGLE_PAGE;
+/**
+ * percentage values
+ */
+export enum ReaderScrollAmount {
+    SMALL = 25,
+    MEDIUM = 75,
+    LARGE = 95,
+}
 
 export const READING_DIRECTION_TO_THEME_DIRECTION: Record<ReadingDirection, Direction> = {
     [ReadingDirection.LTR]: 'ltr',
@@ -63,6 +70,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     shouldShowTapZoneLayoutPreview: undefined,
     shouldInformAboutMissingChapter: undefined,
     shouldInformAboutScanlatorChange: undefined,
+    scrollAmount: undefined,
 };
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
@@ -146,6 +154,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     shouldShowTapZoneLayoutPreview: true,
     shouldInformAboutMissingChapter: true,
     shouldInformAboutScanlatorChange: true,
+    scrollAmount: ReaderScrollAmount.LARGE,
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {
@@ -266,15 +275,6 @@ export const READER_SETTING_TABS: Record<
         supportsTouchDevices: false,
     },
 };
-
-/**
- * percentage values
- */
-export enum ReaderScrollAmount {
-    SMALL = 25,
-    MEDIUM = 75,
-    LARGE = 95,
-}
 
 export const READER_HOTKEYS = Object.values(ReaderHotkey).filter(
     (hotkey) => typeof hotkey === 'number',
