@@ -77,10 +77,11 @@ export const ConfirmDialog = ({
             </DialogContent>
             <DialogActions>
                 <Stack
-                    direction="row"
                     sx={{
+                        flexDirection: 'row',
                         justifyContent: actions.extra.show ? 'space-between' : 'end',
                         width: '100%',
+                        gap: 1,
                     }}
                 >
                     {actions.extra.show && (
@@ -88,7 +89,12 @@ export const ConfirmDialog = ({
                             {actions.extra.title}
                         </Button>
                     )}
-                    <Stack direction="row">
+                    <Stack
+                        sx={{
+                            flexDirection: 'row',
+                            gap: 1,
+                        }}
+                    >
                         {actions.cancel.show && (
                             <Button onClick={onCancel} variant={actions.cancel.contain ? 'contained' : undefined}>
                                 {actions.cancel.title}
