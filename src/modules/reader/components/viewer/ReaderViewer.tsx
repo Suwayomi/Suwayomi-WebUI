@@ -292,6 +292,7 @@ const BaseReaderViewer = forwardRef(
             readingDirection,
             readerNavBarWidth,
             setPageToScrollToIndex,
+            pageScaleMode,
         );
 
         useLayoutEffect(() => {

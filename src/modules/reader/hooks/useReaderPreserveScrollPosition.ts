@@ -8,12 +8,18 @@
 
 import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
-import { ReaderStateChapters, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import {
+    ReaderPageScaleMode,
+    ReaderStateChapters,
+    ReadingDirection,
+    ReadingMode,
+} from '@/modules/reader/types/Reader.types.ts';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { getPreviousNextChapterVisibility } from '@/modules/reader/utils/Reader.utils.ts';
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
+import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 export const useReaderPreserveScrollPosition = (
     scrollElementRef: RefObject<HTMLElement | null>,
@@ -27,6 +33,7 @@ export const useReaderPreserveScrollPosition = (
     readingDirection: ReadingDirection,
     readerNavBarWidth: number,
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
+    pageScaleMode: ReaderPageScaleMode,
 ) => {
     const scrollPosition = useRef({ left: 0, top: 0, scrollWidth: 0, scrollHeight: 0 });
     const readerNavBarWidthRef = useRef<number>(readerNavBarWidth);
@@ -51,6 +58,7 @@ export const useReaderPreserveScrollPosition = (
         return () => element.removeEventListener('scroll', onScroll);
     }, []);
 
+    // on rendering previous chapter (infinite scroll in continuous reading modes)
     useLayoutEffect(() => {
         const scrollElement = scrollElementRef.current;
         const { left, top, scrollWidth, scrollHeight } = scrollPosition.current;
@@ -98,22 +106,35 @@ export const useReaderPreserveScrollPosition = (
         scrollElement.scrollTo(newLeft, newTop);
     }, [currentChapterId]);
 
-    const onSizeReset = useCallback(() => {
-        if (!isContinuousReadingModeActive) return;
+    const onAvailableReaderWidthChange = useCallback(() => {
+        if (!isContinuousReadingModeActive) {
+            return;
+        }
+
+        if (!isReaderWidthEditable(pageScaleMode)) {
+            return;
+        }
+
         setPageToScrollToIndex(pageIndex);
-    }, [isContinuousReadingModeActive, pageIndex]);
+    }, [isContinuousReadingModeActive, pageIndex, pageScaleMode]);
 
+    // on window resize
     useEffect(() => {
-        window.addEventListener('resize', onSizeReset);
-        return () => window.removeEventListener('resize', onSizeReset);
-    }, [onSizeReset]);
+        window.addEventListener('resize', onAvailableReaderWidthChange);
+        return () => window.removeEventListener('resize', onAvailableReaderWidthChange);
+    }, [onAvailableReaderWidthChange]);
 
+    // on reader nav bar static setting change
     useEffect(() => {
-        if (readerNavBarWidthRef.current === readerNavBarWidth) return;
-        onSizeReset();
+        if (readerNavBarWidthRef.current === readerNavBarWidth) {
+            return;
+        }
+
         readerNavBarWidthRef.current = readerNavBarWidth;
-    }, [onSizeReset, readerNavBarWidth]);
+        onAvailableReaderWidthChange();
+    }, [onAvailableReaderWidthChange, readerNavBarWidth]);
 
+    // on reading mode change
     useLayoutEffect(() => {
         setPageToScrollToIndex(pageIndex);
     }, [readingMode]);
