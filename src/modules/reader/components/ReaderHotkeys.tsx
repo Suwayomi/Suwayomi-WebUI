@@ -82,6 +82,7 @@ export const ReaderHotkeys = ({
     } = ReaderService.useSettings();
     const automaticScrolling = useReaderAutoScrollContext();
     const { setShowPreview } = useReaderTapZoneContext();
+    const exitReader = ReaderService.useExit();
 
     const openChapter = ReaderControls.useOpenChapter();
     const openPage = ReaderControls.useOpenPage();
@@ -216,6 +217,7 @@ export const ReaderHotkeys = ({
             }),
         [updateSetting, autoScroll.value],
     );
+    useHotkeys(hotkeys[ReaderHotkey.EXIT_READER], exitReader, [exitReader]);
 
     useEffect(() => {
         enableScope(HotkeyScope.READER);

@@ -260,6 +260,7 @@ export enum ReaderHotkey {
     TOGGLE_AUTO_SCROLL,
     AUTO_SCROLL_SPEED_INCREASE,
     AUTO_SCROLL_SPEED_DECREASE,
+    EXIT_READER,
 }
 
 export interface ReaderPagerProps
