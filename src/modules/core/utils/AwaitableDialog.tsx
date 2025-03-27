@@ -43,7 +43,6 @@ export const awaitConfirmation = async (
                 onCancel={() => handleConfirmation(false)}
                 onConfirm={() => handleConfirmation(true)}
             />
-            ,
         </ThemeProvider>,
     );
 
