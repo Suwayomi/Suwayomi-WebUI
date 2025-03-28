@@ -68,7 +68,11 @@ const ExtraMessage = ({ messageExtra }: Pick<EmptyViewProps, 'messageExtra'>) =>
 
     if (!isGraphqlException) {
         return (
-            <Typography variant="body1" sx={{ wordBreak: 'break-word', whiteSpace: 'pre-line', pointerEvents: 'all' }}>
+            <Typography
+                variant="body1"
+                sx={{ wordBreak: 'break-word', whiteSpace: 'pre-line', pointerEvents: 'all' }}
+                color="textSecondary"
+            >
                 {messageExtra}
             </Typography>
         );
@@ -98,6 +102,7 @@ const ExtraMessage = ({ messageExtra }: Pick<EmptyViewProps, 'messageExtra'>) =>
             <Collapse in={showFullError}>
                 <Typography
                     variant="body1"
+                    color="textSecondary"
                     sx={{ wordBreak: 'break-word', whiteSpace: 'pre-line', pointerEvents: 'all' }}
                 >
                     {graphqlStackTrace}

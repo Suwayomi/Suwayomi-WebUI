@@ -380,6 +380,7 @@
         "invalid_action": "This is not a valid action",
         "invalid_file_type": "Invalid filetype",
         "invalid_input": "Invalid input",
+        "unrecoverable_error": "Something went wrong\nAn error occurred that we cannot recover from",
         "update_failed": "Could not check for updates"
       }
     },
