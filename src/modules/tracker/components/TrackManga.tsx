@@ -12,7 +12,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { TrackerCard, TrackerMode } from '@/modules/tracker/components/cards/TrackerCard.tsx';
@@ -24,6 +23,7 @@ import { GET_MANGA_TRACK_RECORDS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
@@ -109,7 +109,7 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
 
     if (error) {
         return (
-            <EmptyViewAbsoluteCentered
+            <EmptyView
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={getErrorMessage(error)}
                 retry={() => {
