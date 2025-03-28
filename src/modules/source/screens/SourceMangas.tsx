@@ -411,7 +411,6 @@ export function SourceMangas() {
                             aria-label="display more actions"
                             edge="end"
                             color="inherit"
-                            size="large"
                         >
                             <SettingsIcon />
                         </IconButton>

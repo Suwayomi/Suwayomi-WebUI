@@ -90,17 +90,17 @@ const BaseReaderBottomBarMobile = ({
                             }}
                         >
                             <CustomTooltip title={t('reader.button.chapter_list')}>
-                                <IconButton {...bindTrigger(chapterListPopupState)} size="large" color="inherit">
+                                <IconButton {...bindTrigger(chapterListPopupState)} color="inherit">
                                     <FormatListBulletedIcon />
                                 </IconButton>
                             </CustomTooltip>
                             <CustomTooltip title={t('reader.settings.title.quick_settings')}>
-                                <IconButton {...bindTrigger(quickSettingsPopupState)} size="large" color="inherit">
+                                <IconButton {...bindTrigger(quickSettingsPopupState)} color="inherit">
                                     <AppSettingsAltIcon />
                                 </IconButton>
                             </CustomTooltip>
                             <CustomTooltip title={t('settings.title')}>
-                                <IconButton onClick={openSettings} size="large" color="inherit">
+                                <IconButton onClick={openSettings} color="inherit">
                                     <SettingsIcon />
                                 </IconButton>
                             </CustomTooltip>

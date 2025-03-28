@@ -85,7 +85,6 @@ export const MangaOptionButton = forwardRef(
                         {...bindTriggerProps}
                         onClick={handleClick}
                         aria-label="more"
-                        size="large"
                         onMouseDown={preventDefaultAction}
                     >
                         <MoreVertIcon />

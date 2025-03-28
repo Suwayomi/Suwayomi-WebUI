@@ -125,7 +125,6 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
             >
                 <CustomTooltip title={t(sortByToTranslationKey[sortBy])}>
                     <IconButton
-                        size="large"
                         color="inherit"
                         onClick={() =>
                             updateMetadataServerSettings('migrateSortSettings', { sortBy: (sortBy + 1) % 2, sortOrder })
@@ -136,7 +135,6 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
                 </CustomTooltip>
                 <CustomTooltip title={t(sortOrderToTranslationKey[sortOrder])}>
                     <IconButton
-                        size="large"
                         color="inherit"
                         onClick={() =>
                             updateMetadataServerSettings('migrateSortSettings', {

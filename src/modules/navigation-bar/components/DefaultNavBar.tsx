@@ -198,7 +198,6 @@ export function DefaultNavBar() {
                                 edge="start"
                                 component="button"
                                 sx={{ marginRight: 2 }}
-                                size="large"
                                 aria-label="menu"
                                 onClick={handleBack}
                                 color="inherit"

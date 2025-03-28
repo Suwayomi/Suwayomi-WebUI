@@ -153,7 +153,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
             <>
                 <AppbarSearch />
                 <CustomTooltip title={t('extension.action.label.install_external')}>
-                    <IconButton onClick={() => inputRef.current?.click()} size="large" color="inherit">
+                    <IconButton onClick={() => inputRef.current?.click()} color="inherit">
                         <AddIcon />
                     </IconButton>
                 </CustomTooltip>

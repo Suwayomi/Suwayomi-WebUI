@@ -50,7 +50,7 @@ const MutableListItem = ({
                 </ListItem>
             )}
             <CustomTooltip title={t('chapter.action.download.delete.label.action')} disabled={!deletable}>
-                <IconButton disabled={!deletable} size="large" onClick={handleDelete}>
+                <IconButton disabled={!deletable} onClick={handleDelete}>
                     <DeleteIcon />
                 </IconButton>
             </CustomTooltip>

@@ -73,13 +73,7 @@ export function LangSelect(props: IProps) {
     return (
         <>
             <CustomTooltip title={t('settings.title')}>
-                <IconButton
-                    onClick={() => setOpen(true)}
-                    aria-label="display more actions"
-                    edge="end"
-                    color="inherit"
-                    size="large"
-                >
+                <IconButton onClick={() => setOpen(true)} aria-label="display more actions" edge="end" color="inherit">
                     <FilterListIcon />
                 </IconButton>
             </CustomTooltip>

@@ -57,12 +57,12 @@ export const CategorySettingsCard = ({
                     </Typography>
                     <Stack sx={{ flexDirection: 'row' }}>
                         <CustomTooltip title={t('global.button.edit')}>
-                            <IconButton component={Box} onClick={onEdit} size="large">
+                            <IconButton component={Box} onClick={onEdit}>
                                 <EditIcon />
                             </IconButton>
                         </CustomTooltip>
                         <CustomTooltip title={t('chapter.action.download.delete.label.action')}>
-                            <IconButton component={Box} onClick={deleteCategory} size="large">
+                            <IconButton component={Box} onClick={deleteCategory}>
                                 <DeleteIcon />
                             </IconButton>
                         </CustomTooltip>

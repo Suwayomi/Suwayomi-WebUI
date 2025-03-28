@@ -40,7 +40,6 @@ export const ChapterDownloadRetryButton = ({ chapterId }: { chapterId: ChapterId
                     e.stopPropagation();
                     handleRetry();
                 }}
-                size="large"
             >
                 <Refresh />
             </IconButton>

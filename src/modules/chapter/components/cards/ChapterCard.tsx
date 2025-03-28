@@ -190,7 +190,6 @@ export const ChapterCard = memo((props: IProps) => {
                                                 {...bindTrigger(popupState)}
                                                 onClick={(e) => handleClickOpenMenu(e, popupState.open)}
                                                 aria-label="more"
-                                                size="large"
                                                 sx={{
                                                     color: 'inherit',
                                                     ...applyStyles(mode === 'reader' && isActiveChapter, {

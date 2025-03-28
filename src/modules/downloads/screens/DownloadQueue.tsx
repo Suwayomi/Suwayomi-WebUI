@@ -100,7 +100,6 @@ const DownloadChapterItem = memo(
                                             e.stopPropagation();
                                             handleRetry(item.chapter);
                                         }}
-                                        size="large"
                                     >
                                         <Refresh />
                                     </IconButton>
@@ -113,7 +112,6 @@ const DownloadChapterItem = memo(
                                         e.stopPropagation();
                                         handleDelete(item.chapter);
                                     }}
-                                    size="large"
                                 >
                                     <DeleteIcon />
                                 </IconButton>
@@ -166,7 +164,7 @@ export const DownloadQueue: React.FC = () => {
         setAction(
             <>
                 <CustomTooltip title={t('download.queue.label.delete_all')}>
-                    <IconButton onClick={clearQueue} size="large" color="inherit">
+                    <IconButton onClick={clearQueue} color="inherit">
                         <DeleteSweepIcon />
                     </IconButton>
                 </CustomTooltip>
@@ -175,7 +173,7 @@ export const DownloadQueue: React.FC = () => {
                     title={t(status === DownloaderState.Started ? 'global.button.start' : 'global.button.stop')}
                     disabled={isQueueEmpty}
                 >
-                    <IconButton onClick={toggleQueueStatus} size="large" disabled={isQueueEmpty} color="inherit">
+                    <IconButton onClick={toggleQueueStatus} disabled={isQueueEmpty} color="inherit">
                         {status === DownloaderState.Stopped ? <PlayArrowIcon /> : <PauseIcon />}
                     </IconButton>
                 </CustomTooltip>

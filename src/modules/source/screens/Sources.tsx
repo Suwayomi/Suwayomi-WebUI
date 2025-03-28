@@ -109,11 +109,7 @@ export function Sources() {
         setAction(
             <>
                 <CustomTooltip title={t('search.title.global_search')}>
-                    <IconButton
-                        onClick={() => navigate(AppRoutes.sources.childRoutes.searchAll.path)}
-                        size="large"
-                        color="inherit"
-                    >
+                    <IconButton onClick={() => navigate(AppRoutes.sources.childRoutes.searchAll.path)} color="inherit">
                         <TravelExploreIcon />
                     </IconButton>
                 </CustomTooltip>

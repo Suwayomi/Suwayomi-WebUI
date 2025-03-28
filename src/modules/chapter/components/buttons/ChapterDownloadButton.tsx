@@ -45,7 +45,6 @@ export const ChapterDownloadButton = ({
                     e.preventDefault();
                     downloadChapter();
                 }}
-                size="large"
             >
                 <DownloadIcon />
             </IconButton>
