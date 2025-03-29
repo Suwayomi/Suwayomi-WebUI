@@ -16,7 +16,6 @@ import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
-import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 export const MangaOptionButton = forwardRef(
@@ -38,8 +37,6 @@ export const MangaOptionButton = forwardRef(
     ) => {
         const { t } = useTranslation();
 
-        const isTouchDevice = MediaQuery.useIsTouchDevice();
-
         const bindTriggerProps = useMemo(() => bindTrigger(popupState), [popupState]);
 
         const preventDefaultAction = (e: BaseSyntheticEvent) => {
@@ -53,8 +50,6 @@ export const MangaOptionButton = forwardRef(
         };
 
         const handleClick = (e: MouseEvent | TouchEvent) => {
-            if (isTouchDevice) return;
-
             preventDefaultAction(e);
             popupState.open(e);
             bindTriggerProps.onClick(e as any);
@@ -109,8 +104,7 @@ export const MangaOptionButton = forwardRef(
                         visibility: popupState.isOpen ? 'visible' : 'hidden',
                         pointerEvents: 'none',
                         '@media not (pointer: fine)': {
-                            visibility: 'hidden',
-                            pointerEvents: undefined,
+                            display: 'none',
                         },
                     }}
                     onMouseDown={(e) => e.stopPropagation()}
