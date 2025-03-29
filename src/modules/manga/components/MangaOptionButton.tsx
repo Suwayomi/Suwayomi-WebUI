@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { BaseSyntheticEvent, MouseEvent, TouchEvent, ChangeEvent, useMemo, forwardRef, ForwardedRef } from 'react';
+import { BaseSyntheticEvent, ChangeEvent, useMemo, forwardRef, ForwardedRef } from 'react';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
@@ -17,6 +17,7 @@ import { bindTrigger } from 'material-ui-popup-state';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const MangaOptionButton = forwardRef(
     (
@@ -49,12 +50,6 @@ export const MangaOptionButton = forwardRef(
             handleSelection?.(id, isSelected);
         };
 
-        const handleClick = (e: MouseEvent | TouchEvent) => {
-            preventDefaultAction(e);
-            popupState.open(e);
-            bindTriggerProps.onClick(e as any);
-        };
-
         if (!handleSelection) {
             return null;
         }
@@ -67,7 +62,7 @@ export const MangaOptionButton = forwardRef(
 
             return (
                 <CustomTooltip title={t(selected ? 'global.button.deselect' : 'global.button.select')}>
-                    <Checkbox checked={selected} onMouseDown={preventDefaultAction} onChange={handleSelectionChange} />
+                    <Checkbox {...MUIUtil.preventRippleProp()} checked={selected} onChange={handleSelectionChange} />
                 </CustomTooltip>
             );
         }
@@ -77,10 +72,8 @@ export const MangaOptionButton = forwardRef(
                 <CustomTooltip title={t('global.button.options')}>
                     <IconButton
                         ref={ref}
-                        {...bindTriggerProps}
-                        onClick={handleClick}
+                        {...MUIUtil.preventRippleProp(bindTriggerProps, { onClick: preventDefaultAction })}
                         aria-label="more"
-                        onMouseDown={preventDefaultAction}
                     >
                         <MoreVertIcon />
                     </IconButton>
@@ -92,8 +85,7 @@ export const MangaOptionButton = forwardRef(
             <CustomTooltip title={t('global.button.options')}>
                 <Button
                     ref={ref}
-                    {...bindTriggerProps}
-                    onClick={handleClick}
+                    {...MUIUtil.preventRippleProp(bindTriggerProps, { onClick: preventDefaultAction })}
                     className="manga-option-button"
                     size="small"
                     variant="contained"
@@ -107,7 +99,6 @@ export const MangaOptionButton = forwardRef(
                             display: 'none',
                         },
                     }}
-                    onMouseDown={(e) => e.stopPropagation()}
                 >
                     <MoreVertIcon />
                 </Button>

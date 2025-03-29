@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import { MangaCardMode } from '@/modules/manga/Manga.types.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const BadgeContainer = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -57,7 +58,7 @@ export const MangaBadges = ({
                     component="div"
                     variant="contained"
                     size="small"
-                    onMouseDown={(e) => e.stopPropagation()}
+                    {...MUIUtil.preventRippleProp()}
                     onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();

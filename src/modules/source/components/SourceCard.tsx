@@ -24,6 +24,7 @@ import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];
@@ -134,6 +135,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                     <Stack sx={{ flexDirection: 'row', gap: 1 }}>
                         {supportsLatest && (
                             <Button
+                                {...MUIUtil.preventRippleProp()}
                                 variant="outlined"
                                 component={Link}
                                 to={AppRoutes.sources.childRoutes.browse.path(id)}
@@ -144,6 +146,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                         )}
                         {!isMobileWidth && (
                             <Button
+                                {...MUIUtil.preventRippleProp()}
                                 variant="outlined"
                                 component={Link}
                                 to={AppRoutes.sources.childRoutes.browse.path(id)}

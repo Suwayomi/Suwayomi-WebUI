@@ -28,6 +28,7 @@ import { Metadata } from '@/modules/core/components/Metadata.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { TTrackerManga } from '@/modules/tracker/services/Trackers.ts';
 import { MANGA_COVER_ASPECT_RATIO } from '@/modules/manga/Manga.constants.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack
@@ -75,12 +76,11 @@ const TrackerMangaCardSummary = ({ summary }: { summary: string }) => {
             {summary.length && showSummaryExpandButton && (
                 <Button
                     component="div"
+                    {...MUIUtil.preventRippleProp()}
                     onClick={(e) => {
                         e.stopPropagation();
                         setIsSummaryExpanded(!isSummaryExpanded);
                     }}
-                    onTouchStart={(e) => e.stopPropagation()}
-                    onMouseDown={(e) => e.stopPropagation()}
                 >
                     {t(isSummaryExpanded ? 'global.button.show_less' : 'global.button.show_more')}
                 </Button>
@@ -91,13 +91,13 @@ const TrackerMangaCardSummary = ({ summary }: { summary: string }) => {
 
 const TrackerMangaCardLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link
+        {...MUIUtil.preventRippleProp()}
         href={url}
         rel="noreferrer"
         target="_blank"
         underline="none"
         color="inherit"
         onClick={(e) => e.stopPropagation()}
-        onMouseDown={(e) => e.stopPropagation()}
     >
         {children}
     </Link>

@@ -14,6 +14,7 @@ import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts'
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const ChapterDownloadButton = ({
     chapterId,
@@ -40,6 +41,7 @@ export const ChapterDownloadButton = ({
     return (
         <CustomTooltip title={t('chapter.action.download.add.label.action')}>
             <IconButton
+                {...MUIUtil.preventRippleProp()}
                 onClick={(e) => {
                     e.stopPropagation();
                     e.preventDefault();

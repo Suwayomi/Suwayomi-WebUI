@@ -38,6 +38,7 @@ import {
 } from '@/modules/chapter/services/Chapters.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -87,11 +88,11 @@ export const ChapterCard = memo((props: IProps) => {
 
     const handleClickOpenMenu = (
         event: React.MouseEvent | React.TouchEvent,
-        openMenu: (e: React.SyntheticEvent) => void,
+        openMenu?: (e: React.SyntheticEvent) => void,
     ) => {
         event.stopPropagation();
         event.preventDefault();
-        openMenu(event);
+        openMenu?.(event);
     };
 
     const longPressBind = useLongPress((event, { context: openMenu }) => {
@@ -187,8 +188,9 @@ export const ChapterCard = memo((props: IProps) => {
                                         <CustomTooltip title={t('global.button.options')}>
                                             <IconButton
                                                 ref={menuButtonRef}
-                                                {...bindTrigger(popupState)}
-                                                onClick={(e) => handleClickOpenMenu(e, popupState.open)}
+                                                {...MUIUtil.preventRippleProp(bindTrigger(popupState), {
+                                                    onClick: (e: MouseEvent) => handleClickOpenMenu(e),
+                                                })}
                                                 aria-label="more"
                                                 sx={{
                                                     color: 'inherit',

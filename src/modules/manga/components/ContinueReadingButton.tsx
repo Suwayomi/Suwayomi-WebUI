@@ -12,6 +12,7 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Link } from 'react-router-dom';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ChapterReadInfo, Chapters, ChapterSourceOrderInfo } from '@/modules/chapter/services/Chapters.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const ContinueReadingButton = ({
     showContinueReadingButton,
@@ -34,6 +35,7 @@ export const ContinueReadingButton = ({
     return (
         <CustomTooltip title={t(isFirstChapter ? 'global.button.start' : 'global.button.resume')}>
             <Button
+                {...MUIUtil.preventRippleProp()}
                 variant="contained"
                 size="small"
                 sx={{ minWidth: 'unset', py: 0.5, px: 0.75 }}
@@ -41,7 +43,6 @@ export const ContinueReadingButton = ({
                 to={`${mangaLinkTo}/chapter/${chapter.sourceOrder}`}
                 state={Chapters.getReaderOpenChapterLocationState(chapter)}
                 onClick={(e) => e.stopPropagation()}
-                onMouseDown={(e) => e.stopPropagation()}
             >
                 <PlayArrowIcon />
             </Button>

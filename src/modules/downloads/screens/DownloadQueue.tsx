@@ -37,6 +37,7 @@ import { DownloaderState, DownloadState } from '@/lib/graphql/generated/graphql.
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
     // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
@@ -75,7 +76,7 @@ const DownloadChapterItem = memo(
                                 p: 1.5,
                             }}
                         >
-                            <IconButton sx={{ pointerEvents: 'none' }}>
+                            <IconButton {...MUIUtil.preventRippleProp()} sx={{ pointerEvents: 'none' }}>
                                 <DragHandle />
                             </IconButton>
                             <Stack sx={{ flex: 1, ml: 1 }} direction="column">
@@ -95,6 +96,7 @@ const DownloadChapterItem = memo(
                             {item.state === DownloadState.Error && (
                                 <CustomTooltip title={t('global.button.retry')}>
                                     <IconButton
+                                        {...MUIUtil.preventRippleProp()}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             e.stopPropagation();
@@ -107,6 +109,7 @@ const DownloadChapterItem = memo(
                             )}
                             <CustomTooltip title={t('chapter.action.download.delete.label.action')}>
                                 <IconButton
+                                    {...MUIUtil.preventRippleProp()}
                                     onClick={(e) => {
                                         e.preventDefault();
                                         e.stopPropagation();
