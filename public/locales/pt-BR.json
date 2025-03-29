@@ -4,14 +4,15 @@
             "title": {
                 "new_category": "Nova categoria",
                 "edit_category_one": "Editar categoria",
-                "edit_category_many": "",
-                "edit_category_other": ""
+                "edit_category_many": "Editar categorias",
+                "edit_category_other": "Editar categorias"
             }
         },
         "error": {
             "label": {
                 "empty": "A categoria está vazia",
-                "request_failure": "Não foi possível carregar categorias"
+                "request_failure": "Não foi possível carregar categorias",
+                "create_failure": "Não foi possível criar a categoria"
             },
             "no_categories_found": {
                 "label": {
@@ -253,6 +254,10 @@
                 "finished": "$t(global.label.finished)",
                 "downloading": "Transferindo"
             }
+        },
+        "title": {
+            "download": "Downloads",
+            "queue": "fila de download"
         }
     },
     "extension": {
@@ -306,6 +311,9 @@
                         "title": "Repositórios de extensões"
                     }
                 }
+            },
+            "dialog": {
+                "title": "Configurações de extensão por idioma"
             }
         },
         "state": {
@@ -454,7 +462,20 @@
             "open_in_browser": "Abra no navegador",
             "other": "Outros",
             "password": "Senha",
-            "previous": "Anterior"
+            "previous": "Anterior",
+            "more": "Mais",
+            "system": "Sistema",
+            "right": "Direita",
+            "share": "Compartilhar",
+            "started": "Iniciado",
+            "success": "Sucesso",
+            "type": "Tipo",
+            "unknown": "Desconhecido",
+            "sort": "ordenar",
+            "standard": "Padrão",
+            "username": "Nome de usuário",
+            "vertical": "Vertical",
+            "warning": "Aviso"
         }
     },
     "reader": {

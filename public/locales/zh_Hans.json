@@ -145,7 +145,7 @@
                 "no_downloads": "没有下载",
                 "delete_all": "全部删除"
             },
-            "title": "下载列表",
+            "title": "下载队列",
             "error": {
                 "label": {
                     "failed_to_remove": "无法从队列中删除下载。",
@@ -284,6 +284,9 @@
                         }
                     }
                 }
+            },
+            "dialog": {
+                "title": "分语言扩展设置"
             }
         }
     },
