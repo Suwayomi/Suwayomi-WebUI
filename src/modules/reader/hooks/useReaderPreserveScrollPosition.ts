@@ -7,14 +7,7 @@
  */
 
 import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
-import {
-    ReaderPageScaleMode,
-    ReaderStateChapters,
-    ReadingDirection,
-    ReadingMode,
-} from '@/modules/reader/types/Reader.types.ts';
-import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
 import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
@@ -35,14 +28,9 @@ const getActiveScrollElement = (root: HTMLElement): HTMLElement | undefined => {
 
 export const useReaderPreserveScrollPosition = (
     scrollElementRef: RefObject<HTMLElement | null>,
-    currentChapterId: ChapterIdInfo['id'] | undefined,
-    chapterIndex: number,
     pageIndex: number,
-    chaptersToRender: TChapterReader[],
-    visibleChapters: ReaderStateChapters['visibleChapters'],
     readingMode: ReadingMode,
     isContinuousReadingModeActive: boolean,
-    readingDirection: ReadingDirection,
     readerNavBarWidth: number,
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
