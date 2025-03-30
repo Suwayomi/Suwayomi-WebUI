@@ -79,6 +79,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     shouldInformAboutMissingChapter: undefined,
     shouldInformAboutScanlatorChange: undefined,
     hideHistory: undefined,
+    scrollAmount: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
