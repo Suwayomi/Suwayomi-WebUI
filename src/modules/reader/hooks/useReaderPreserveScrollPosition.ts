@@ -14,12 +14,24 @@ import {
     ReadingDirection,
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
-import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
-import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
-import { getPreviousNextChapterVisibility } from '@/modules/reader/utils/Reader.utils.ts';
 import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
 import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+
+const getActiveScrollElement = (root: HTMLElement): HTMLElement | undefined => {
+    const stack = [root];
+    while (stack.length) {
+        const which = stack.splice(0, 1)[0]; // pop front
+        if (
+            which.childElementCount === 0 &&
+            which.offsetTop + which.offsetHeight >= root.scrollTop &&
+            which.offsetLeft + which.offsetWidth >= root.scrollLeft
+        )
+            return which;
+        stack.splice(-1, 0, ...Array.from(which.children).filter((x) => x instanceof HTMLElement));
+    }
+    return undefined;
+};
 
 export const useReaderPreserveScrollPosition = (
     scrollElementRef: RefObject<HTMLElement | null>,
@@ -35,7 +47,13 @@ export const useReaderPreserveScrollPosition = (
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
 ) => {
-    const scrollPosition = useRef({ left: 0, top: 0, scrollWidth: 0, scrollHeight: 0 });
+    const scrollPosition = useRef({
+        left: 0,
+        top: 0,
+        active: undefined as HTMLElement | undefined,
+        activeLeft: 0,
+        activeTop: 0,
+    });
     const readerNavBarWidthRef = useRef<number>(readerNavBarWidth);
 
     useEffect(() => {
@@ -46,10 +64,14 @@ export const useReaderPreserveScrollPosition = (
         }
 
         const onScroll = () => {
+            const active = getActiveScrollElement(element);
             scrollPosition.current = {
                 ...scrollPosition.current,
                 left: element.scrollLeft,
                 top: element.scrollTop,
+                active,
+                activeLeft: active?.offsetLeft ?? 0,
+                activeTop: active?.offsetTop ?? 0,
             };
         };
 
@@ -59,52 +81,57 @@ export const useReaderPreserveScrollPosition = (
     }, []);
 
     // on rendering previous chapter (infinite scroll in continuous reading modes)
-    useLayoutEffect(() => {
+    const onDoPreserveScroll = useCallback(() => {
         const scrollElement = scrollElementRef.current;
-        const { left, top, scrollWidth, scrollHeight } = scrollPosition.current;
+        const { left, top, active, activeLeft, activeTop } = scrollPosition.current;
 
         if (!scrollElement || !isContinuousReadingModeActive) {
             return;
         }
 
-        scrollPosition.current = {
-            ...scrollPosition.current,
-            scrollWidth: scrollElement.scrollWidth,
-            scrollHeight: scrollElement.scrollHeight,
-        };
+        if (!active) return;
 
-        const themeDirectionForReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
+        const newLeft = left - activeLeft + active.offsetLeft;
+        const newTop = top - activeTop + active.offsetTop;
+        scrollElement.scrollTo(newLeft, newTop);
+    }, [scrollElementRef, isContinuousReadingModeActive]);
 
-        const previousNextChapterVisibility = getPreviousNextChapterVisibility(
-            chapterIndex,
-            chaptersToRender,
-            visibleChapters,
-        );
+    useLayoutEffect(() => {
+        const element = scrollElementRef.current;
 
-        const wasScrolledBackwardHorizontal = Math.abs(left) < window.innerWidth * 1.5;
-        const wasScrolledBackwardVertical = top < window.innerHeight * 1.5;
-
-        const widthOfPrependedContent = scrollElement.scrollWidth - scrollWidth;
-        const heightOfPrependedContent = scrollElement.scrollHeight - scrollHeight;
-
-        const newLeft = wasScrolledBackwardHorizontal
-            ? getOptionForDirection(
-                  widthOfPrependedContent,
-                  -widthOfPrependedContent,
-                  themeDirectionForReadingDirection,
-              ) + left
-            : left;
-        const newTop = wasScrolledBackwardVertical ? heightOfPrependedContent + top : top;
-
-        // only relevant when prepending content to the dom due to the resulting layout shift
-        const isFirstRenderOfPreviousChapter =
-            !previousNextChapterVisibility.previous && (wasScrolledBackwardHorizontal || wasScrolledBackwardVertical);
-        if (!isFirstRenderOfPreviousChapter) {
-            return;
+        if (!element) {
+            return () => {};
         }
 
-        scrollElement.scrollTo(newLeft, newTop);
-    }, [currentChapterId]);
+        const resizeObserver = new ResizeObserver(onDoPreserveScroll);
+        const mutationObserver = new MutationObserver((entries) => {
+            for (const entry of entries) {
+                for (const added of entry.addedNodes) {
+                    if (added instanceof HTMLElement) {
+                        for (const img of added.querySelectorAll('img')) {
+                            resizeObserver.observe(img);
+                        }
+                    }
+                }
+                for (const removed of entry.removedNodes) {
+                    if (removed instanceof HTMLElement) {
+                        for (const img of removed.querySelectorAll('img')) {
+                            resizeObserver.unobserve(img);
+                        }
+                    }
+                }
+            }
+        });
+        mutationObserver.observe(element, {
+            childList: true,
+            subtree: true,
+        });
+
+        return () => {
+            mutationObserver.disconnect();
+            resizeObserver.disconnect();
+        };
+    }, [scrollElementRef, onDoPreserveScroll]);
 
     const onAvailableReaderWidthChange = useCallback(() => {
         if (!isContinuousReadingModeActive) {
