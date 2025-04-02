@@ -239,8 +239,9 @@ export class ReaderControls {
                         const isAlreadyLoaded =
                             lastLeadingChapterSourceOrder <= chapterToOpen.sourceOrder &&
                             lastTrailingChapterSourceOrder >= chapterToOpen.sourceOrder;
+                        const keepRenderedChapters = !scrollIntoView || isAlreadyLoaded;
 
-                        if (isAlreadyLoaded) {
+                        if (keepRenderedChapters) {
                             setReaderStateChapters((prevState) =>
                                 updateReaderStateVisibleChapters(
                                     isPreviousChapter,
@@ -255,7 +256,7 @@ export class ReaderControls {
 
                         openChapter(chapterToOpen, {
                             resumeMode: getReaderOpenChapterResumeMode(isSpecificChapterMode, isPreviousChapter),
-                            updateInitialChapter: !isAlreadyLoaded,
+                            updateInitialChapter: !keepRenderedChapters,
                         });
                     } catch (error) {
                         defaultPromiseErrorHandler('ReaderControls#useOpenChapter#doOpenChapter:')(error);
