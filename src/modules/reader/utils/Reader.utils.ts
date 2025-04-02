@@ -301,7 +301,7 @@ export const getReaderChapterViewResumeMode = (
     isLeadingChapter: boolean,
     isTrailingChapter: boolean,
     forcedResumeMode: ReaderResumeMode | undefined,
-    resumeMode: ReaderResumeMode = ReaderResumeMode.START,
+    resumeMode: ReaderResumeMode,
 ): ReaderResumeMode => {
     if (isCurrentChapter && forcedResumeMode !== undefined) {
         return forcedResumeMode;

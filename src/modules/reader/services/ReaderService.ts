@@ -16,8 +16,8 @@ import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
     ReaderExitMode,
+    ReaderOpenChapterLocationState,
     ReaderOverlayMode,
-    ReaderResumeMode,
     ReaderStateChapters,
     ReadingDirection,
     ReadingMode,
@@ -78,15 +78,13 @@ export class ReaderService {
         return ReaderService.chapterUpdateQueues.get(id)!;
     }
 
-    static useNavigateToChapter(): (chapter: TChapterReader, resumeMode?: ReaderResumeMode) => void {
+    static useNavigateToChapter(): (chapter: TChapterReader, state?: ReaderOpenChapterLocationState) => void {
         const navigate = useNavigate();
 
-        return useCallback((chapter, resumeMode) => {
+        return useCallback((chapter, state) => {
             navigate(Chapters.getReaderUrl(chapter), {
                 replace: true,
-                state: {
-                    resumeMode,
-                },
+                state,
             });
         }, []);
     }

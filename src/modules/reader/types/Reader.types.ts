@@ -318,7 +318,7 @@ export enum ReaderResumeMode {
 }
 
 export interface ReaderOpenChapterLocationState {
-    resumeMode: ReaderResumeMode;
+    resumeMode?: ReaderResumeMode;
     updateInitialChapter?: boolean;
 }
 

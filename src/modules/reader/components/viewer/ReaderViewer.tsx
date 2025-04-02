@@ -161,7 +161,7 @@ const BaseReaderViewer = forwardRef(
         ref: ForwardedRef<HTMLDivElement | null>,
     ) => {
         const { direction: themeDirection } = useTheme();
-        const { resumeMode } = useLocation<ReaderOpenChapterLocationState>().state ?? {
+        const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
             resumeMode: ReaderResumeMode.START,
         };
 
