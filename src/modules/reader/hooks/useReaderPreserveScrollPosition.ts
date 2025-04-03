@@ -11,21 +11,6 @@ import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
 import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
-const getActiveScrollElement = (root: HTMLElement): HTMLElement | undefined => {
-    const stack = [root];
-    while (stack.length) {
-        const which = stack.splice(0, 1)[0]; // pop front
-        if (
-            which.childElementCount === 0 &&
-            which.offsetTop + which.offsetHeight >= root.scrollTop &&
-            which.offsetLeft + which.offsetWidth >= root.scrollLeft
-        )
-            return which;
-        stack.splice(-1, 0, ...Array.from(which.children).filter((x) => x instanceof HTMLElement));
-    }
-    return undefined;
-};
-
 export const useReaderPreserveScrollPosition = (
     scrollElementRef: RefObject<HTMLElement | null>,
     pageIndex: number,
@@ -52,12 +37,11 @@ export const useReaderPreserveScrollPosition = (
         }
 
         const onScroll = () => {
-            const active = getActiveScrollElement(element);
+            const { active } = scrollPosition.current;
             scrollPosition.current = {
                 ...scrollPosition.current,
                 left: element.scrollLeft,
                 top: element.scrollTop,
-                active,
                 activeLeft: active?.offsetLeft ?? 0,
                 activeTop: active?.offsetTop ?? 0,
             };
@@ -92,16 +76,33 @@ export const useReaderPreserveScrollPosition = (
         }
 
         const resizeObserver = new ResizeObserver(onDoPreserveScroll);
+        const intersectionObserver = new IntersectionObserver((entries) => {
+            // find the first visible image inside the viewport
+            const first = entries.filter((e) => e.isIntersecting).shift();
+            if (!first || !(first.target instanceof HTMLElement)) return;
+            scrollPosition.current = {
+                ...scrollPosition.current,
+                active: first.target,
+                activeLeft: first.target.offsetLeft,
+                activeTop: first.target.offsetTop,
+            };
+        });
         const mutationObserver = new MutationObserver((entries) => {
             for (const entry of entries) {
                 for (const added of entry.addedNodes) {
                     if (added instanceof HTMLElement) {
                         resizeObserver.observe(added);
+                        for (const img of added.querySelectorAll('img')) {
+                            intersectionObserver.observe(img);
+                        }
                     }
                 }
                 for (const removed of entry.removedNodes) {
                     if (removed instanceof HTMLElement) {
                         resizeObserver.unobserve(removed);
+                        for (const img of removed.querySelectorAll('img')) {
+                            intersectionObserver.unobserve(img);
+                        }
                     }
                 }
             }
@@ -114,6 +115,7 @@ export const useReaderPreserveScrollPosition = (
         return () => {
             mutationObserver.disconnect();
             resizeObserver.disconnect();
+            intersectionObserver.disconnect();
         };
     }, [scrollElementRef, onDoPreserveScroll]);
 
