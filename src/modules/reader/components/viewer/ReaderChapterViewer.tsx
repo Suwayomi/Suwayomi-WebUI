@@ -91,6 +91,7 @@ const BaseReaderChapterViewer = ({
     onSizeChange,
     minWidth,
     minHeight,
+    scrollElement,
 }: Pick<
     ReaderStatePages,
     | 'currentPageIndex'
@@ -128,6 +129,7 @@ const BaseReaderChapterViewer = ({
         onSizeChange: (width: number, height: number, chapterId: ChapterIdInfo['id']) => void;
         minWidth: number;
         minHeight: number;
+        scrollElement: HTMLElement | null;
     }) => {
     const { t } = useTranslation();
     const { direction: themeDirection } = useTheme();
@@ -419,6 +421,7 @@ const BaseReaderChapterViewer = ({
                     imageWrapper={pagerRef.current}
                     scrollbarXSize={scrollbarXSize}
                     scrollbarYSize={scrollbarYSize}
+                    scrollElement={scrollElement}
                 />
             )}
             {showPreviousTransitionPage && (

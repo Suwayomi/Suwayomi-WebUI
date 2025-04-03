@@ -434,6 +434,7 @@ const BaseReaderViewer = forwardRef(
                             onSizeChange={onChapterViewSizeChange}
                             minWidth={isChapterSizeSourceChapter ? 0 : minChapterViewWidth}
                             minHeight={isChapterSizeSourceChapter ? 0 : minChapterViewHeight}
+                            scrollElement={scrollElementRef.current}
                         />
                     );
                 })}

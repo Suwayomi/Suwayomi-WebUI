@@ -244,6 +244,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
     image: HTMLElement | null,
     scrollbarXSize: number,
     scrollbarYSize: number,
+    scrollElement: HTMLElement | null,
 ) => {
     useIntersectionObserver(
         image,
@@ -303,6 +304,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
         ),
         useMemo(
             () => ({
+                root: scrollElement,
                 threshold: [OPEN_CHAPTER_INTERSECTION_RATIO],
                 rootMargin: getRootMargin(pageType, readingMode, readingDirection),
                 // gets immediately observed once on initial render

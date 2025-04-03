@@ -26,6 +26,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     openChapter,
     scrollbarXSize,
     scrollbarYSize,
+    scrollElement,
 }: Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & {
     readingMode: ReadingMode;
     readingDirection: ReadingDirection;
@@ -37,6 +38,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     isNextChapterVisible: boolean;
     imageWrapper: HTMLElement | null;
     openChapter: ReturnType<typeof ReaderControls.useOpenChapter>;
+    scrollElement: HTMLElement | null;
 }) => {
     useReaderInfiniteScrollUpdateChapter(
         'first',
@@ -50,6 +52,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         imageWrapper,
         scrollbarXSize,
         scrollbarYSize,
+        scrollElement,
     );
     useReaderInfiniteScrollUpdateChapter(
         'last',
@@ -63,6 +66,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         imageWrapper,
         scrollbarXSize,
         scrollbarYSize,
+        scrollElement,
     );
 
     return null;
