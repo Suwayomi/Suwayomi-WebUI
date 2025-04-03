@@ -96,16 +96,12 @@ export const useReaderPreserveScrollPosition = (
             for (const entry of entries) {
                 for (const added of entry.addedNodes) {
                     if (added instanceof HTMLElement) {
-                        for (const img of added.querySelectorAll('img')) {
-                            resizeObserver.observe(img);
-                        }
+                        resizeObserver.observe(added);
                     }
                 }
                 for (const removed of entry.removedNodes) {
                     if (removed instanceof HTMLElement) {
-                        for (const img of removed.querySelectorAll('img')) {
-                            resizeObserver.unobserve(img);
-                        }
+                        resizeObserver.unobserve(removed);
                     }
                 }
             }
