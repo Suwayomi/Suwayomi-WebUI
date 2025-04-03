@@ -75,6 +75,19 @@ export const useReaderPreserveScrollPosition = (
             return () => {};
         }
 
+        const updateObservation = (
+            nodes: NodeList,
+            resizeAction: (n: Element) => void,
+            intersectionAction: (n: Element) => void,
+        ) =>
+            Array.from(nodes)
+                .filter((n) => n instanceof HTMLElement)
+                .flatMap((n) => {
+                    resizeAction(n);
+                    return Array.from(n.querySelectorAll('img'));
+                })
+                .forEach(intersectionAction);
+
         const resizeObserver = new ResizeObserver(onDoPreserveScroll);
         const intersectionObserver = new IntersectionObserver((entries) => {
             // find the first visible image inside the viewport
@@ -89,22 +102,16 @@ export const useReaderPreserveScrollPosition = (
         });
         const mutationObserver = new MutationObserver((entries) => {
             for (const entry of entries) {
-                for (const added of entry.addedNodes) {
-                    if (added instanceof HTMLElement) {
-                        resizeObserver.observe(added);
-                        for (const img of added.querySelectorAll('img')) {
-                            intersectionObserver.observe(img);
-                        }
-                    }
-                }
-                for (const removed of entry.removedNodes) {
-                    if (removed instanceof HTMLElement) {
-                        resizeObserver.unobserve(removed);
-                        for (const img of removed.querySelectorAll('img')) {
-                            intersectionObserver.unobserve(img);
-                        }
-                    }
-                }
+                updateObservation(
+                    entry.addedNodes,
+                    (n) => resizeObserver.observe(n),
+                    (n) => intersectionObserver.observe(n),
+                );
+                updateObservation(
+                    entry.removedNodes,
+                    (n) => resizeObserver.unobserve(n),
+                    (n) => intersectionObserver.unobserve(n),
+                );
             }
         });
         mutationObserver.observe(element, {
