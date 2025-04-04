@@ -134,8 +134,8 @@ export const useReaderPreserveScrollPosition = (
         onAvailableReaderWidthChange();
     }, [onAvailableReaderWidthChange, readerNavBarWidth]);
 
-    // on reading mode change
+    // on "reading mode" or "reading direction" change
     useLayoutEffect(() => {
         setPageToScrollToIndex(pageIndex);
-    }, [readingMode]);
+    }, [readingMode, readingDirection]);
 };
