@@ -101,7 +101,8 @@
                     }
                 },
                 "label": {
-                    "last_update": "Letzte Aktualisierung: {{date}}"
+                    "last_update": "Letzte Aktualisierung: {{date}}",
+                    "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update))"
                 },
                 "metadata": {
                     "label": {
@@ -767,6 +768,11 @@
                 "today": "Heute",
                 "day_one": "Tag",
                 "day_other": "Tage"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day)"
+                }
             }
         },
         "update": {
@@ -792,12 +798,12 @@
         "time": {
             "hour_short": "h",
             "seconds": {
-                "value": "{{count}} $t(global.time.seconds.second, lowercase)",
+                "value": "{{count}} $t(global.time.seconds.second)",
                 "second_one": "Sekunde",
                 "second_other": "Sekunden"
             },
             "minutes": {
-                "value": "{{count}} $t(global.time.minutes.minute, lowercase)",
+                "value": "{{count}} $t(global.time.minutes.minute)",
                 "minute_one": "Minute",
                 "minute_other": "Minuten"
             }
@@ -844,7 +850,8 @@
                     "exclude": "Ausgeschlossen: {{excludedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category)"
     },
     "settings": {
         "backup": {
@@ -953,9 +960,9 @@
                 "title": "Authentifizierung",
                 "basic": {
                     "label": {
-                        "password": "Basic Authentication $t(global.label.password, lowercase)",
+                        "password": "Basic Authentication $t(global.label.password)",
                         "enable": "Nutze Basic Authentication",
-                        "username": "Basic Authentication $t(global.label.username, lowercase)"
+                        "username": "Basic Authentication $t(global.label.username)"
                     }
                 }
             },
@@ -1323,7 +1330,7 @@
         "local_source": {
             "label": {
                 "guide": "Anleitung zum Einrichten der lokalen Quelle",
-                "checkout": "Lese die"
+                "checkout": "Lies die"
             },
             "title": "Lokale Quelle"
         },

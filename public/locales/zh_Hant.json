@@ -26,7 +26,8 @@
                 }
             },
             "title": {
-                "quick_settings": "快速設定"
+                "quick_settings": "快速設定",
+                "reader": "閱讀器"
             },
             "error": {
                 "label": {
@@ -39,9 +40,18 @@
                     "red": "紅色",
                     "title": "自訂色彩濾鏡",
                     "blue": "藍色",
-                    "green": "綠色"
+                    "green": "綠色",
+                    "blend_mode": {
+                        "overlay": "覆蓋",
+                        "lighten": "變亮",
+                        "screen": "濾色",
+                        "title": "色彩濾鏡混合模式",
+                        "multiply": "相乘",
+                        "darken": "變暗",
+                        "default": "$t(global.label.default)"
+                    }
                 },
-                "grayscale": "灰度",
+                "grayscale": "灰階",
                 "invert": "反轉",
                 "sepia": "深褐色",
                 "contrast": "自訂對比度",
@@ -60,7 +70,10 @@
                 "scale_type": "循環切換圖片縮放類型",
                 "auto_scroll_speed_decrease": "降低自動捲動速度",
                 "auto_scroll_speed_increase": "增加自動捲動速度",
-                "auto_scroll": "開關自動捲動"
+                "auto_scroll": "開關自動捲動",
+                "scroll_backward": "向後捲動",
+                "scroll_forward": "向前捲動",
+                "stretch_image": "開關拉伸圖片"
             },
             "reading_direction": {
                 "rtl": "由右至左",
@@ -77,7 +90,10 @@
             "progress_bar": {
                 "position": "進度列位置",
                 "size": "進度列大小",
-                "style": "進度列樣式"
+                "style": "進度列樣式",
+                "auto_vertical_position": {
+                    "title": "自動進度列垂直位置"
+                }
             },
             "background_color": "背景色",
             "tap_zones": {
@@ -85,7 +101,8 @@
                 "edge": "邊緣",
                 "kindle": "Kindle",
                 "right_left": "左右",
-                "title": "觸控區域"
+                "title": "觸控區域",
+                "l_shape": "L 式"
             },
             "image_preload_amount": "預載圖片",
             "overlay_mode": "覆蓋模式",
@@ -93,7 +110,12 @@
             "source_series": "系列設定",
             "preview": {
                 "reading_mode": {
-                    "title": "顯示閱讀模式"
+                    "title": "顯示閱讀模式",
+                    "description": "當閱讀器開啟或變更模式時短暫地顯示目前模式"
+                },
+                "tap_zones": {
+                    "title": "顯示觸控區域",
+                    "description": "當閱讀器開啟或變更佈局時短暫地顯示目前觸控區域佈局預覽"
                 }
             },
             "chapter_transition": {
@@ -111,7 +133,8 @@
             "auto_webtoon_mode": {
                 "title": "自動條漫模式",
                 "description": "對於檢測為可能是長條格式的作品，自動使用條慢模式"
-            }
+            },
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)"
         },
         "title": "瀏覽 - 漫畫 {{mangaId}} 章節 {{chapterIndex}}",
         "error": {
@@ -175,7 +198,8 @@
             },
             "label": {
                 "empty": "分類為空",
-                "request_failure": "無法載入分類"
+                "request_failure": "無法載入分類",
+                "create_failure": "無法建立分類"
             }
         },
         "label": {
@@ -199,7 +223,8 @@
                     "include": "包含：{{includedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "chapter": {
         "action": {
@@ -472,7 +497,10 @@
             "light": "淺色",
             "system": "系統",
             "asterisk": "*",
-            "more": "更多"
+            "more": "更多",
+            "medium": "中",
+            "large": "大",
+            "small": "小"
         },
         "language": {
             "label": {
@@ -631,7 +659,7 @@
                 "entries": {
                     "label": {
                         "unread_chapters": "包含未讀章節",
-                        "not_started": "這尚未開始",
+                        "not_started": "尚未開始",
                         "completed": "狀態為「已讀」"
                     },
                     "title": "略過更新作品"
@@ -1175,7 +1203,8 @@
                             "invalid_json": "無效的 JSON",
                             "invalid_name": "主題名稱必須是唯一且限制為 16 字元以下"
                         },
-                        "theme_name": "名稱"
+                        "theme_name": "名稱",
+                        "description": "參見官方的 <0>MUI 文件</0> 以得知如何自訂主題。\n尚不支援調色盤 API，您必須使用新的 <1>色彩方案 API</1>.\n\n您可以使用主題建立器，例如 <2>MUI Theme Creator</2>。然而，您必須根據新色彩方案 API 調整建立的物件。\n\n如果沒有定義背景，將基於主要顏色演算出背景"
                     },
                     "action": "建立主題…",
                     "failure": "無法建立主題",
@@ -1213,7 +1242,8 @@
                     "lavender": "紫氣薰衣",
                     "orange_juice": "橙味橘香",
                     "tree_frog_green": "翠蛙青綠",
-                    "veronica": "幽藍婉柔"
+                    "veronica": "幽藍婉柔",
+                    "ying_and_yang": "陰陽"
                 },
                 "mode": "主題模式"
             },
@@ -1221,8 +1251,13 @@
             "manga_thumbnail_backdrop": {
                 "description": "將漫畫縮圖設定為漫畫頁面背景",
                 "title": "漫畫縮圖設為背景"
+            },
+            "manga_dynamic_color_schemes": {
+                "description": "根據縮圖變更漫畫頁面的主題色彩",
+                "title": "動態變更漫畫頁面的主題色彩"
             }
-        }
+        },
+        "default_value": "{{value}}<0>($t(global.label.default))</0>"
     },
     "source": {
         "configuration": {
@@ -1350,6 +1385,10 @@
                     "cbz": "儲存為 CBZ 壓縮檔"
                 }
             }
+        },
+        "title": {
+            "download": "下載",
+            "queue": "下載隊列"
         }
     },
     "migrate": {
@@ -1445,6 +1484,17 @@
         },
         "info": {
             "delete": "點擊按鍵以移除綁定"
+        }
+    },
+    "history": {
+        "title": "歷史記錄",
+        "settings": {
+            "hide": "隱藏歷史記錄"
+        },
+        "error": {
+            "label": {
+                "no_history_available": "您尚未閱讀任何系列。"
+            }
         }
     }
 }

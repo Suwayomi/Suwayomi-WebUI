@@ -33,7 +33,8 @@
                     "include": "Bao gồm: {{includedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "chapter": {
         "action": {
@@ -284,6 +285,9 @@
                         "disclaimer": "<strong>Suwayomi không cung cấp bất cứ hỗ trờ gì cho kho tiện ích hay tiện ích của bên thứ 3!</strong><br/>Cẩn trọng với những tiện ích vì chúng có thể được tạo bởi những kẻ xấu. <br/>Bạn với tư cách là người dùng nên kiểm tra trước khi tin tưởng bất kì kho tiện ích hay tiện ích nào."
                     }
                 }
+            },
+            "dialog": {
+                "title": "Cài đặt phần mở rộng mở rộng theo ngôn ngữ"
             }
         }
     },
@@ -425,7 +429,10 @@
             "dark": "Tối",
             "light": "Sáng",
             "system": "Hệ thống",
-            "more": "Thêm"
+            "more": "Thêm",
+            "large": "Lớn",
+            "medium": "Trung bình",
+            "small": "Nhỏ"
         },
         "language": {
             "label": {
@@ -902,7 +909,8 @@
                     "missing_chapter": "Thông báo về các chương bị thiếu trong quá trình chuyển đổi chương"
                 }
             },
-            "source_series": "Loạt cài đặt"
+            "source_series": "Loạt cài đặt",
+            "scroll_amount": "Số lượng cuộn"
         },
         "title": "Đọc - Truyện {{mangaId}} Chương {{chapterIndex}}",
         "transition_page": {
