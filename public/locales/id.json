@@ -223,6 +223,9 @@
                 "downloading": "Mengunduh",
                 "error": "Terjadi kesalahan"
             }
+        },
+        "title": {
+            "queue": "Unduh antrian"
         }
     },
     "global": {
@@ -260,7 +263,10 @@
             "clear": "Hapus",
             "edit": "Sunting",
             "filter": "Saring",
-            "ignore": "Abaikan"
+            "ignore": "Abaikan",
+            "browse": "Browser",
+            "migrate": "Bermigasi",
+            "changelog": "Catatan Perubahan"
         },
         "date": {
             "label": {
@@ -299,7 +305,8 @@
             "uninstallation_failed_other": "Tidak dapat memasang file ekstensi",
             "installation_failed_other": "Tidak dapat memasang file ekstensi",
             "installing_file": "Memasang file ekstensi…",
-            "installed_successfully_other": "File ekstensi terpasang"
+            "installed_successfully_other": "File ekstensi terpasang",
+            "add_repository_info": "Anda harus menambahkan repositori ekstensi untuk dapat menginstal ekstensi"
         },
         "language": {
             "other": "Lainnya",
@@ -330,9 +337,14 @@
                         }
                     },
                     "label": {
-                        "disclaimer": "<strong>Suwayomi tidak  mendukung repositori atau file tambahan pihak ketiga!</strong><br/>Gunakan dengan hati-hati karena ada kemungkinan adanya aktor jahat yang membuat repositori tersebut .<br/>Anda sebagai pengguna harus memverifikasi keamanan dan mempercayai repositori dan ekstensi apapun."
+                        "disclaimer": "<strong>Suwayomi tidak  mendukung repositori atau file tambahan pihak ketiga!</strong><br/>Gunakan dengan hati-hati karena ada kemungkinan adanya aktor jahat yang membuat repositori tersebut .<br/>Anda sebagai pengguna harus memverifikasi keamanan dan mempercayai repositori dan ekstensi apapun.",
+                        "title": "Repositori ekstensi",
+                        "description": "Tambahkan repositori tempat ekstensi dapat diinstal"
                     }
                 }
+            },
+            "dialog": {
+                "title": "Pengaturan ekstensi per bahasa"
             }
         },
         "state": {
