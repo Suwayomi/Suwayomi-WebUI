@@ -170,4 +170,14 @@ export const AppRoutes = {
         match: '/more',
         path: '/more',
     },
-} satisfies TAppRoutes;
+} as const satisfies TAppRoutes;
+
+type ExtractChildRouteStringPaths<T> = T extends { childRoutes: infer U } ? ExtractStringPaths<U[keyof U]> : never;
+
+type ExtractStringPaths<T> = T extends { path: infer P }
+    ? P extends string
+        ? P | ExtractChildRouteStringPaths<T>
+        : ExtractChildRouteStringPaths<T>
+    : ExtractChildRouteStringPaths<T>;
+
+export type StaticAppRoute = ExtractStringPaths<(typeof AppRoutes)[keyof typeof AppRoutes]>;

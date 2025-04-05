@@ -16,6 +16,7 @@ import { CSSObject, useTheme } from '@mui/material/styles';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { StaticAppRoute } from '@/modules/core/AppRoute.constants.ts';
 
 export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const { t } = useTranslation();
@@ -58,7 +59,7 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
             <BottomNavigation
                 showLabels
                 value={selectedNavBarItem}
-                onChange={(_, newValue: string) => {
+                onChange={(_, newValue: StaticAppRoute) => {
                     setSelectedNavBarItem(newValue);
                     navigate(newValue);
                 }}

@@ -11,78 +11,22 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
-import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
-import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
-import HistoryIcon from '@mui/icons-material/History';
-import HistoryOutlinedIcon from '@mui/icons-material/HistoryOutlined';
-import ExploreIcon from '@mui/icons-material/Explore';
-import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
-import GetAppIcon from '@mui/icons-material/GetApp';
-import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import { useLocation } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import MenuIcon from '@mui/icons-material/Menu';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { DesktopSideBar } from '@/modules/navigation-bar/components/DesktopSideBar.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MobileBottomBar } from '@/modules/navigation-bar/components/MobileBottomBar.tsx';
-import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
-import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-
-const navbarItems: Array<NavbarItem> = [
-    {
-        path: AppRoutes.library.path,
-        title: 'library.title',
-        SelectedIconComponent: CollectionsBookmarkIcon,
-        IconComponent: CollectionsOutlinedBookmarkIcon,
-        show: 'both',
-    },
-    {
-        path: AppRoutes.updates.path,
-        title: 'updates.title',
-        SelectedIconComponent: NewReleasesIcon,
-        IconComponent: NewReleasesOutlinedIcon,
-        show: 'both',
-    },
-    {
-        path: AppRoutes.history.path,
-        title: 'history.title',
-        SelectedIconComponent: HistoryIcon,
-        IconComponent: HistoryOutlinedIcon,
-        show: 'both',
-    },
-    {
-        path: AppRoutes.browse.path,
-        title: 'global.label.browse',
-        SelectedIconComponent: ExploreIcon,
-        IconComponent: ExploreOutlinedIcon,
-        show: 'both',
-    },
-    {
-        path: AppRoutes.downloads.path,
-        title: 'download.title.queue',
-        SelectedIconComponent: GetAppIcon,
-        IconComponent: GetAppOutlinedIcon,
-        show: 'desktop',
-    },
-    {
-        path: AppRoutes.more.path,
-        title: 'global.label.more',
-        SelectedIconComponent: MoreHorizIcon,
-        IconComponent: MoreHorizIcon,
-        show: 'both',
-    },
-];
+import { NAVIGATION_BAR_ITEMS } from '@/modules/navigation-bar/NavigationBar.constants.ts';
+import { NavigationBarUtil } from '@/modules/navigation-bar/NavigationBar.util.ts';
 
 export function DefaultNavBar() {
     const { title, action, override, isCollapsed, setIsCollapsed, setAppBarHeight, navBarWidth, setNavBarWidth } =
@@ -113,7 +57,7 @@ export function DefaultNavBar() {
         return () => setAppBarHeight(0);
     }, [override.status]);
 
-    const isMainRoute = navbarItems.some(({ path, show }) => {
+    const isMainRoute = NAVIGATION_BAR_ITEMS.some(({ path, show }) => {
         if (isMobileWidth && show === 'desktop') {
             return false;
         }
@@ -126,16 +70,14 @@ export function DefaultNavBar() {
     });
     const actualNavBarWidth = isMobileWidth || isCollapsed ? 0 : navBarWidth;
 
-    const activeNavBar: NavbarItem['show'] = isMobileWidth ? 'mobile' : 'desktop';
     const visibleNavBarItems = useMemo(
         () =>
-            navbarItems
-                .filter((item) => {
-                    const isHistory = item.title === 'history.title';
-
-                    return !isHistory || !hideHistory;
-                })
-                .filter(({ show }) => ['both', activeNavBar].includes(show)),
+            NavigationBarUtil.filterItems(NAVIGATION_BAR_ITEMS, {
+                hideHistory,
+                hideBoth: false,
+                hideDesktop: isMobileWidth,
+                hideMobile: !isMobileWidth,
+            }),
         [isMobileWidth, hideHistory],
     );
     const NavBarComponent = useMemo(() => (isMobileWidth ? MobileBottomBar : DesktopSideBar), [isMobileWidth]);

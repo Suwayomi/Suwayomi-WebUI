@@ -9,18 +9,26 @@
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { TranslationKey } from '@/Base.types.ts';
+import { StaticAppRoute } from '@/modules/core/AppRoute.constants.ts';
 
 export interface INavbarOverride {
     status: boolean;
     value: any;
 }
 
+export enum NavBarItemMoreGroup {
+    GENERAL,
+    HIDDEN_ITEM,
+    SETTING_INFO,
+}
+
 export interface NavbarItem {
-    path: string;
+    path: StaticAppRoute;
     title: TranslationKey;
     SelectedIconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';
+    moreGroup: NavBarItemMoreGroup;
 }
 
 export type NavbarContextType = {
