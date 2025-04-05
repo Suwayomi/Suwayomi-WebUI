@@ -7,35 +7,26 @@
  */
 
 import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
-import {
-    ReaderPageScaleMode,
-    ReaderStateChapters,
-    ReadingDirection,
-    ReadingMode,
-} from '@/modules/reader/types/Reader.types.ts';
-import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
-import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
-import { getPreviousNextChapterVisibility } from '@/modules/reader/utils/Reader.utils.ts';
-import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
 import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 export const useReaderPreserveScrollPosition = (
     scrollElementRef: RefObject<HTMLElement | null>,
-    currentChapterId: ChapterIdInfo['id'] | undefined,
-    chapterIndex: number,
     pageIndex: number,
-    chaptersToRender: TChapterReader[],
-    visibleChapters: ReaderStateChapters['visibleChapters'],
     readingMode: ReadingMode,
     isContinuousReadingModeActive: boolean,
-    readingDirection: ReadingDirection,
     readerNavBarWidth: number,
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
 ) => {
-    const scrollPosition = useRef({ left: 0, top: 0, scrollWidth: 0, scrollHeight: 0 });
+    const scrollPosition = useRef({
+        left: 0,
+        top: 0,
+        active: undefined as HTMLElement | undefined,
+        activeLeft: 0,
+        activeTop: 0,
+    });
     const readerNavBarWidthRef = useRef<number>(readerNavBarWidth);
 
     useEffect(() => {
@@ -46,10 +37,13 @@ export const useReaderPreserveScrollPosition = (
         }
 
         const onScroll = () => {
+            const { active } = scrollPosition.current;
             scrollPosition.current = {
                 ...scrollPosition.current,
                 left: element.scrollLeft,
                 top: element.scrollTop,
+                activeLeft: active?.offsetLeft ?? 0,
+                activeTop: active?.offsetTop ?? 0,
             };
         };
 
@@ -59,52 +53,78 @@ export const useReaderPreserveScrollPosition = (
     }, []);
 
     // on rendering previous chapter (infinite scroll in continuous reading modes)
-    useLayoutEffect(() => {
+    const onDoPreserveScroll = useCallback(() => {
         const scrollElement = scrollElementRef.current;
-        const { left, top, scrollWidth, scrollHeight } = scrollPosition.current;
+        const { left, top, active, activeLeft, activeTop } = scrollPosition.current;
 
         if (!scrollElement || !isContinuousReadingModeActive) {
             return;
         }
 
-        scrollPosition.current = {
-            ...scrollPosition.current,
-            scrollWidth: scrollElement.scrollWidth,
-            scrollHeight: scrollElement.scrollHeight,
-        };
+        if (!active) return;
 
-        const themeDirectionForReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
+        const newLeft = left - activeLeft + active.offsetLeft;
+        const newTop = top - activeTop + active.offsetTop;
+        scrollElement.scrollTo(newLeft, newTop);
+    }, [scrollElementRef, isContinuousReadingModeActive]);
 
-        const previousNextChapterVisibility = getPreviousNextChapterVisibility(
-            chapterIndex,
-            chaptersToRender,
-            visibleChapters,
-        );
+    useLayoutEffect(() => {
+        const element = scrollElementRef.current;
 
-        const wasScrolledBackwardHorizontal = Math.abs(left) < window.innerWidth * 1.5;
-        const wasScrolledBackwardVertical = top < window.innerHeight * 1.5;
-
-        const widthOfPrependedContent = scrollElement.scrollWidth - scrollWidth;
-        const heightOfPrependedContent = scrollElement.scrollHeight - scrollHeight;
-
-        const newLeft = wasScrolledBackwardHorizontal
-            ? getOptionForDirection(
-                  widthOfPrependedContent,
-                  -widthOfPrependedContent,
-                  themeDirectionForReadingDirection,
-              ) + left
-            : left;
-        const newTop = wasScrolledBackwardVertical ? heightOfPrependedContent + top : top;
-
-        // only relevant when prepending content to the dom due to the resulting layout shift
-        const isFirstRenderOfPreviousChapter =
-            !previousNextChapterVisibility.previous && (wasScrolledBackwardHorizontal || wasScrolledBackwardVertical);
-        if (!isFirstRenderOfPreviousChapter) {
-            return;
+        if (!element) {
+            return () => {};
         }
 
-        scrollElement.scrollTo(newLeft, newTop);
-    }, [currentChapterId]);
+        const updateObservation = (
+            nodes: NodeList,
+            resizeAction: (n: Element) => void,
+            intersectionAction: (n: Element) => void,
+        ) =>
+            Array.from(nodes)
+                .filter((n) => n instanceof HTMLElement)
+                .flatMap((n) => {
+                    resizeAction(n);
+                    return Array.from(n.querySelectorAll('img'));
+                })
+                .forEach(intersectionAction);
+
+        const resizeObserver = new ResizeObserver(onDoPreserveScroll);
+        const intersectionObserver = new IntersectionObserver((entries) => {
+            // find the first visible image inside the viewport
+            const first = entries.filter((e) => e.isIntersecting).shift();
+            if (!first || !(first.target instanceof HTMLElement)) return;
+            scrollPosition.current = {
+                ...scrollPosition.current,
+                active: first.target,
+                activeLeft: first.target.offsetLeft,
+                activeTop: first.target.offsetTop,
+            };
+        });
+        const mutationObserver = new MutationObserver((entries) => {
+            for (const entry of entries) {
+                updateObservation(
+                    entry.addedNodes,
+                    (n) => resizeObserver.observe(n),
+                    (n) => intersectionObserver.observe(n),
+                );
+                updateObservation(
+                    entry.removedNodes,
+                    (n) => resizeObserver.unobserve(n),
+                    (n) => intersectionObserver.unobserve(n),
+                );
+            }
+        });
+        mutationObserver.observe(element, {
+            childList: true,
+            subtree: true,
+        });
+
+        return () => {
+            mutationObserver.disconnect();
+            resizeObserver.disconnect();
+            intersectionObserver.disconnect();
+        };
+    }, [scrollElementRef, onDoPreserveScroll]);
 
     const onAvailableReaderWidthChange = useCallback(() => {
         if (!isContinuousReadingModeActive) {

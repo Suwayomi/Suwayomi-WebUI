@@ -282,14 +282,9 @@ const BaseReaderViewer = forwardRef(
         useReaderAutoScroll(isOverlayVisible, automaticScrolling);
         useReaderPreserveScrollPosition(
             scrollElementRef,
-            currentChapter?.id,
-            currentChapterIndex,
             currentPageIndex,
-            chaptersToRender,
-            visibleChapters,
             readingMode,
             isContinuousReadingModeActive,
-            readingDirection,
             readerNavBarWidth,
             setPageToScrollToIndex,
             pageScaleMode,
