@@ -88,7 +88,7 @@ export const ServerUpdateChecker = () => {
             return null;
         }
 
-        const isAboutPage = window.location.pathname === AppRoutes.settings.childRoutes.about.path;
+        const isAboutPage = window.location.pathname === AppRoutes.about.path;
         if (isAboutPage) {
             return null;
         }

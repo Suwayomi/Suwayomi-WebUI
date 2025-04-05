@@ -77,7 +77,7 @@ const NAVIGATION_BAR_DESKTOP_ITEMS = [
         moreGroup: NavBarItemMoreGroup.SETTING_INFO,
     },
     {
-        path: AppRoutes.settings.childRoutes.about.path,
+        path: AppRoutes.about.path,
         title: 'settings.about.title',
         SelectedIconComponent: InfoIcon,
         IconComponent: InfoIcon,

@@ -25,14 +25,14 @@ export const AppRoutes = {
     matchAll: {
         match: '*',
     },
+    about: {
+        match: 'about',
+        path: '/about',
+    },
     settings: {
         path: '/settings',
         match: 'settings',
         childRoutes: {
-            about: {
-                match: 'about',
-                path: '/settings/about',
-            },
             categories: {
                 match: 'categories',
                 path: '/settings/categories',
