@@ -7,7 +7,7 @@
  */
 
 import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { ReaderPageScaleMode, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import { ReaderPageScaleMode, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
 import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
@@ -15,6 +15,7 @@ export const useReaderPreserveScrollPosition = (
     scrollElementRef: RefObject<HTMLElement | null>,
     pageIndex: number,
     readingMode: ReadingMode,
+    readingDirection: ReadingDirection,
     isContinuousReadingModeActive: boolean,
     readerNavBarWidth: number,
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],

@@ -284,6 +284,7 @@ const BaseReaderViewer = forwardRef(
             scrollElementRef,
             currentPageIndex,
             readingMode,
+            readingDirection,
             isContinuousReadingModeActive,
             readerNavBarWidth,
             setPageToScrollToIndex,
