@@ -25,6 +25,7 @@ import { Reader } from '@/modules/reader/screens/Reader.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { HistorySettings } from '@/modules/history/screens/HistorySettings.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -102,6 +103,7 @@ const BackgroundSubscriptions = () => {
 
 const MainApp = () => {
     const { navBarWidth, appBarHeight, bottomBarHeight } = useNavBarContext();
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     const {
         settings: { hideHistory },
@@ -127,7 +129,7 @@ const MainApp = () => {
                     {/* General Routes */}
                     <Route path={AppRoutes.root.match} element={<Navigate to={AppRoutes.library.path} replace />} />
                     <Route path={AppRoutes.matchAll.match} element={<Navigate to={AppRoutes.root.path} replace />} />
-                    <Route path={AppRoutes.more.match} element={<More />} />
+                    {isMobileWidth && <Route path={AppRoutes.more.match} element={<More />} />}
                     <Route path={AppRoutes.settings.match}>
                         <Route index element={<Settings />} />
                         <Route path={AppRoutes.settings.childRoutes.about.match} element={<About />} />
