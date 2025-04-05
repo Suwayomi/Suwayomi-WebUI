@@ -117,7 +117,6 @@ export const useReaderPreserveScrollPosition = (
         });
         mutationObserver.observe(element, {
             childList: true,
-            subtree: true,
         });
 
         return () => {
