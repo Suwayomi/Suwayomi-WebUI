@@ -21,84 +21,92 @@ export const useReaderPreserveScrollPosition = (
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
 ) => {
-    const scrollPosition = useRef({
+    const scrollPosition = useRef<{
+        left: number;
+        top: number;
+        visibleElement: HTMLElement | undefined;
+        visibleElementLeft: number;
+        visibleElementTop: number;
+    }>({
         left: 0,
         top: 0,
-        active: undefined as HTMLElement | undefined,
-        activeLeft: 0,
-        activeTop: 0,
+        visibleElement: undefined,
+        visibleElementLeft: 0,
+        visibleElementTop: 0,
     });
-    const readerNavBarWidthRef = useRef<number>(readerNavBarWidth);
+    const readerNavBarWidthRef = useRef(readerNavBarWidth);
 
     useEffect(() => {
-        const element = scrollElementRef.current;
+        const scrollElement = scrollElementRef.current;
 
-        if (!element) {
+        if (!scrollElement) {
             return () => {};
         }
 
         const onScroll = () => {
-            const { active } = scrollPosition.current;
+            const { visibleElement } = scrollPosition.current;
             scrollPosition.current = {
                 ...scrollPosition.current,
-                left: element.scrollLeft,
-                top: element.scrollTop,
-                activeLeft: active?.offsetLeft ?? 0,
-                activeTop: active?.offsetTop ?? 0,
+                left: scrollElement.scrollLeft,
+                top: scrollElement.scrollTop,
+                visibleElementLeft: visibleElement?.offsetLeft ?? 0,
+                visibleElementTop: visibleElement?.offsetTop ?? 0,
             };
         };
 
-        element.addEventListener('scroll', onScroll);
+        scrollElement.addEventListener('scroll', onScroll);
 
-        return () => element.removeEventListener('scroll', onScroll);
+        return () => scrollElement.removeEventListener('scroll', onScroll);
     }, []);
 
     // on rendering previous chapter (infinite scroll in continuous reading modes)
     const onDoPreserveScroll = useCallback(() => {
         const scrollElement = scrollElementRef.current;
-        const { left, top, active, activeLeft, activeTop } = scrollPosition.current;
+        const { left, top, visibleElement, visibleElementLeft, visibleElementTop } = scrollPosition.current;
 
-        if (!scrollElement || !isContinuousReadingModeActive) {
+        if (!scrollElement || !isContinuousReadingModeActive || !visibleElement) {
             return;
         }
 
-        if (!active) return;
+        const newLeft = left - visibleElementLeft + visibleElement.offsetLeft;
+        const newTop = top - visibleElementTop + visibleElement.offsetTop;
 
-        const newLeft = left - activeLeft + active.offsetLeft;
-        const newTop = top - activeTop + active.offsetTop;
         scrollElement.scrollTo(newLeft, newTop);
-    }, [scrollElementRef, isContinuousReadingModeActive]);
+    }, [isContinuousReadingModeActive]);
 
     useLayoutEffect(() => {
-        const element = scrollElementRef.current;
+        const scrollElement = scrollElementRef.current;
 
-        if (!element) {
+        if (!scrollElement) {
             return () => {};
         }
 
         const updateObservation = (
             nodes: NodeList,
-            resizeAction: (n: Element) => void,
-            intersectionAction: (n: Element) => void,
+            resizeAction: (element: Element) => void,
+            intersectionAction: (element: Element) => void,
         ) =>
             Array.from(nodes)
-                .filter((n) => n instanceof HTMLElement)
-                .flatMap((n) => {
-                    resizeAction(n);
-                    return Array.from(n.querySelectorAll('img'));
+                .filter((node) => node instanceof HTMLElement)
+                .flatMap((element) => {
+                    resizeAction(element);
+                    return Array.from(element.querySelectorAll('img'));
                 })
                 .forEach(intersectionAction);
 
         const resizeObserver = new ResizeObserver(onDoPreserveScroll);
         const intersectionObserver = new IntersectionObserver((entries) => {
-            // find the first visible image inside the viewport
-            const first = entries.filter((e) => e.isIntersecting).shift();
-            if (!first || !(first.target instanceof HTMLElement)) return;
+            const firstVisibleElement = entries.filter((e) => e.isIntersecting).shift();
+
+            if (!firstVisibleElement || !(firstVisibleElement.target instanceof HTMLElement)) {
+                return;
+            }
+
             scrollPosition.current = {
                 ...scrollPosition.current,
-                active: first.target,
-                activeLeft: first.target.offsetLeft,
-                activeTop: first.target.offsetTop,
+                visibleElement: firstVisibleElement.target,
+                visibleElementLeft: firstVisibleElement.target.offsetLeft,
+                visibleElementTop: firstVisibleElement.target.offsetTop,
             };
         });
         const mutationObserver = new MutationObserver((entries) => {
@@ -110,12 +118,13 @@ export const useReaderPreserveScrollPosition = (
                 );
                 updateObservation(
                     entry.removedNodes,
-                    (n) => resizeObserver.unobserve(n),
-                    (n) => intersectionObserver.unobserve(n),
+                    (element) => resizeObserver.unobserve(element),
+                    (element) => intersectionObserver.unobserve(element),
                 );
             }
         });
-        mutationObserver.observe(element, {
+
+        mutationObserver.observe(scrollElement, {
             childList: true,
         });
 
@@ -124,7 +133,7 @@ export const useReaderPreserveScrollPosition = (
             resizeObserver.disconnect();
             intersectionObserver.disconnect();
         };
-    }, [scrollElementRef, onDoPreserveScroll]);
+    }, [onDoPreserveScroll]);
 
     const onAvailableReaderWidthChange = useCallback(() => {
         if (!isContinuousReadingModeActive) {
