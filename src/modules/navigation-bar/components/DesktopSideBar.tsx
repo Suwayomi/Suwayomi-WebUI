@@ -43,7 +43,7 @@ const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }
     const { isCollapsed } = useNavBarContext();
     const theme = useTheme();
 
-    const isActive = path === location.pathname;
+    const isActive = location.pathname.startsWith(path);
     const Icon = isActive ? SelectedIconComponent : IconComponent;
 
     const { listItemProps, listItemIconProps } = useMemo(
