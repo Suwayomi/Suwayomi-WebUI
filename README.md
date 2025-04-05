@@ -30,7 +30,7 @@ Thus, there is no need to manually download any builds unless you want to host t
   - Option to automatically delete downloaded chapters after reading them
   - ...
 - Download queue
-- Reading history (**preview only (rudimentary)**)
+- Reading history (**rudimentary**)
 - Settings per device (e.g. different reader settings for pc, phone and tablet)
 - Sources
   - Migration of manga between sources
