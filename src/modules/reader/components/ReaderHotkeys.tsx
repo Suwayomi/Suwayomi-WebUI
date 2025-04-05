@@ -200,7 +200,7 @@ export const ReaderHotkeys = ({
         automaticScrolling.toggleActive,
     ]);
     useHotkeys(
-        hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE],
+        hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE],
         () =>
             updateSetting('autoScroll', {
                 ...autoScroll,
@@ -209,7 +209,7 @@ export const ReaderHotkeys = ({
         [updateSetting, autoScroll.value],
     );
     useHotkeys(
-        hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE],
+        hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE],
         () =>
             updateSetting('autoScroll', {
                 ...autoScroll,
