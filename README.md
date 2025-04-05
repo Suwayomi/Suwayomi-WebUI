@@ -16,15 +16,15 @@ Thus, there is no need to manually download any builds unless you want to host t
   - Select a range of manga/chapters by using shift + left click or long press
   - Overview of duplicated manga in your library (settings > library)
 - Reader
-  - Desktop and Mobile UI (**preview only**)
-  - Default settings per reading mode (**preview only**)
+  - Desktop and Mobile UI
+  - Default settings per reading mode
   - Settings per manga
   - Reading modes (Single/Double Page, Continuous Vertical/Horizontal, Webtoon)
-  - Page scale modes (limit by width/height/screen, scale small pages, custom reader width) (**preview only**)
-  - Image filters (**preview only**)
-  - Customizable keybinds (**preview only**)
-  - Auto scrolling (**preview only**)
-  - Infinite chapter scrolling (**preview only**)
+  - Page scale modes (limit by width/height/screen, scale small pages, custom reader width)
+  - Image filters
+  - Customizable keybinds
+  - Auto scrolling
+  - Infinite chapter scrolling
   - Option to ignore duplicated chapters while reading
   - Option to automatically download next chapters while reading
   - Option to automatically delete downloaded chapters after reading them
@@ -41,7 +41,7 @@ Thus, there is no need to manually download any builds unless you want to host t
 - App updates
   - Inform about available WebUI and Server updates
   - Inform about successful WebUI and Server updates since the last time the app was used
-- Themes (**preview only**)
+- Themes
   - Use predefined themes
   - Create your own themes
   - Dynamic theme on manga pages
