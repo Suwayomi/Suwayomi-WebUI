@@ -1,7 +1,12 @@
 [
   {
     "uiVersion": "PREVIEW",
-    "serverVersion": "r1716"
+    "serverVersion": "r1719"
+  },
+  {
+    "tag": "v1.5.1",
+    "uiVersion": "r2467",
+    "serverVersion": "r1719"
   },
   {
     "tag": "v1.5.0",
