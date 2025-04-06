@@ -252,13 +252,13 @@
             "label": {
                 "downloading": "Pobieranie",
                 "error": "Błąd",
-                "queued": "W kolejce",
+                "queued": "Zakolejkowano",
                 "finished": "$t(global.label.finished)"
             }
         },
         "title": {
             "download": "Pobrania",
-            "queue": "Kolejka pobierania"
+            "queue": "Kolejka"
         }
     },
     "extension": {
@@ -559,7 +559,8 @@
     "hotkeys": {
         "create": {
             "dialog": {
-                "label": "Zarejestrowane klucze: <Keys/>"
+                "label": "Zarejestrowane klucze: <Keys/>",
+                "placeholder": "Naciśnij klawisze"
             },
             "error": {
                 "exists": "Klawisz skrótu już istnieje"
@@ -789,7 +790,7 @@
         },
         "button": {
             "add_to_library": "Dodaj Do Biblioteki",
-            "in_library": "W Biblioteki",
+            "in_library": "W Bibliotece",
             "track": {
                 "active_one": "{{count}} Traker",
                 "active_few": "{{count}} Trakery",
@@ -800,7 +801,7 @@
         "label": {
             "artist": "Artysta",
             "author": "Autor",
-            "edit_categories": "Edycja kategorii mangi",
+            "edit_categories": "Edytuj kategorie mangi",
             "reload_from_source": "Przeładuj dane ze źródła",
             "status": "Status"
         },
@@ -1061,12 +1062,12 @@
                     "version": "Wersja serwera"
                 }
             },
-            "title": "O",
+            "title": "O Programie",
             "webui": {
                 "label": {
                     "github": "$t(global.label.github) $t(settings.webui.title.webui)",
                     "info": "$t(settings.webui.title.webui) wersja {{version}} ({{channel}}) dostępna do pobrania",
-                    "channel": "kanał $t(settings.webui.title.webui)",
+                    "channel": "Kanał $t(settings.webui.title.webui)",
                     "updated": "Zaktualizowana wersja",
                     "update_failure": "Nie można zaktualizować $t(settings.webui.title.webui)",
                     "version": "$t(settings.webui.title.webui) wersja"
@@ -1194,6 +1195,89 @@
                 }
             },
             "title": "Kopia zapasowa"
+        },
+        "clear_cache": {
+            "label": {
+                "title": "Wyczyść pamięć podręczną serwera",
+                "description": "Pamięć podręczna klienta (przeglądarka, elektron) powinna zostać wyczyszczona wraz z nim, w przeciwnym razie pamięć podręczna klienta będzie nadal używana",
+                "failure": "Nie można wyczyścić pamięci podręcznej serwera",
+                "success": "Wyczyszczono pamięć podręczną serwera"
+            }
+        },
+        "device": {
+            "title": {
+                "device": "Urządzenie"
+            },
+            "active_device": {
+                "label": {
+                    "description": "Wybierz urządzenie, aby użyć jego ustawień interfejsu użytkownika zapisanych na serwerze",
+                    "title": "Aktywne urządzenie"
+                }
+            },
+            "devices": {
+                "label": {
+                    "title": "Urządzenia"
+                }
+            }
+        },
+        "label": {
+            "show_nsfw_description": "Ukryj rozszerzenia i źródła NSFW",
+            "hide_library_entries": "Ukryj pozycje już znajdujące się w bibliotece",
+            "language_description": "Zapraszamy do przetłumaczenia projektu na",
+            "show_nsfw": "Pokaż NSFW",
+            "theme": "Motyw"
+        },
+        "default_value": "{{value}}<0>($t(global.label.default))</0>",
+        "server": {
+            "address": {
+                "client": {
+                    "label": {
+                        "description": "Adres, którego klient będzie używał do łączenia się z serwerem"
+                    },
+                    "dialog": {
+                        "label": {
+                            "enter_address": "Wprowadź adres serwera"
+                        }
+                    }
+                }
+            },
+            "title": {
+                "server": "Serwer"
+            },
+            "local_source": {
+                "path": {
+                    "label": {
+                        "title": "Lokalna lokalizacja źródła"
+                    }
+                }
+            }
+        },
+        "title": "Ustawienia"
+    },
+    "source": {
+        "error": {
+            "label": {
+                "source_not_found": "Nie można znaleźć źródła. Sprawdź zainstalowane rozszerzenia.",
+                "no_sources_found": "Nie znaleziono źródeł. Zainstaluj najpierw jakieś rozszerzenia."
+            }
         }
+    },
+    "updates": {
+        "title": "Aktualizacje",
+        "error": {
+            "label": {
+                "no_updates_available": "Nie masz jeszcze żadnych aktualizacji."
+            }
+        }
+    },
+    "tracking": {
+        "track_record": {
+            "label": {
+                "score": "Ocena",
+                "start_date": "Data rozpoczęcia",
+                "finish_date": "Data zakończenia"
+            }
+        },
+        "title": "Śledzenie"
     }
 }
