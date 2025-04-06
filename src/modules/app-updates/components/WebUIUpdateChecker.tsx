@@ -64,7 +64,7 @@ export const WebUIUpdateChecker = () => {
 
     const changelogUrl =
         updateStatus.info?.channel === WebUiChannel.Stable
-            ? `https://github.com/Suwayomi/Suwayomi-WebUI/releases/tag/${updateStatus.info?.tag}`
+            ? `https://github.com/Suwayomi/Suwayomi-WebUI/releases/latest`
             : `https://github.com/Suwayomi/Suwayomi-WebUI/issues/749`;
 
     const newVersion = aboutWebUI?.tag;
