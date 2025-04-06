@@ -1,3 +1,23 @@
+# v1.5.1 (r2467)
+
+## Bug fixes
+- (**Server update**) Fix detection of available server update
+
+## Translations
+Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/)
+
+Thank you for your contribution to the translation of the project.
+
+### Updated
+- Polish (by UnknownSkyrimPasserby)
+
+## Full changelog
+- ([r2466](https://github.com/Suwayomi/Suwayomi-WebUI/commit/52e1730261bf56c1c44a132c6938276a609b65f4)) Handle "removed languages" section in changelog (by @schroda)
+- ([r2465](https://github.com/Suwayomi/Suwayomi-WebUI/commit/772f7383e8a0306bee12f0d5e5409cc63a5341d7)) Translations update from Hosted Weblate ([#918](https://github.com/Suwayomi/Suwayomi-WebUI/pull/918) by @weblate, @UnknownSkyrimPasserby)
+- ([r2464](https://github.com/Suwayomi/Suwayomi-WebUI/commit/791ccf1f6ab7cf6ce2ef5a7988ab96dd80e489ea)) Handle server version changes (by @schroda)
+- ([r2463](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ddababf716e7b63ce176a939674a2eb2dba1708c)) [SKIP CI] Remove "preview tag" from listed feature in README.md (by @schroda)
+- ([r2462](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a96a14844c4aa3b5d26693e0a6a56b60c2122517)) Update feature list in README.md (by @schroda)
+
 # v1.5.0 (r2461)
 
 ## Required action
@@ -191,6 +211,7 @@ Thank you for your contribution to the translation of the project.
 - "Cantonese (Traditional Han script) (yue-Hant)" (0% < 75%)
 
 ## Full Changelog
+- ([r2461](https://github.com/Suwayomi/Suwayomi-WebUI/commit/11679a9901ae5594652c5340440d55a9ad6cd280)) [Release] Version 1.5.0 (by @schroda)
 - ([r2460](https://github.com/Suwayomi/Suwayomi-WebUI/commit/01cdbd90b8028961384b47480c53da400dccfdee)) Show "nav bar item" as active for child routes (by @schroda)
 - ([r2459](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0b97e8bb8df59725951dbbed1951bd23ae044cf6)) Move "About" outside "Settings" in regard to routing (by @schroda)
 - ([r2458](https://github.com/Suwayomi/Suwayomi-WebUI/commit/8cbc8c5099ad2bb035c32e6f80fc1cf6383ceff9)) Disable "more" route on desktop (by @schroda)
