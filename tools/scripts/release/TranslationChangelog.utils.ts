@@ -176,7 +176,11 @@ const getLanguageLinesFromChangelog = (): Promise<string[]> => {
             return;
         }
 
-        if (isTranslationSection && line.toLowerCase() === '## Full Changelog'.toLowerCase()) {
+        const isStartOfRemovedLanguages = line.toLowerCase().startsWith('### Removed'.toLowerCase());
+        const isStartOfFullChangelog = line.toLowerCase() === '## Full Changelog'.toLowerCase();
+        const isEndOfLanguageSection = isStartOfRemovedLanguages || isStartOfFullChangelog;
+
+        if (isEndOfLanguageSection) {
             isTranslationSection = false;
             return;
         }
