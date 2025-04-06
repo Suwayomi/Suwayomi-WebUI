@@ -24,13 +24,14 @@ export type AboutServerPayload = {
   discord: Scalars['String']['output'];
   github: Scalars['String']['output'];
   name: Scalars['String']['output'];
+  /** @deprecated The version includes the revision as the patch number */
   revision: Scalars['String']['output'];
   version: Scalars['String']['output'];
 };
 
 export type AboutWebUi = {
   __typename?: 'AboutWebUI';
-  channel: Scalars['String']['output'];
+  channel: WebUiChannel;
   tag: Scalars['String']['output'];
 };
 
@@ -2792,14 +2793,14 @@ export enum WebUiInterface {
 
 export type WebUiUpdateCheck = {
   __typename?: 'WebUIUpdateCheck';
-  channel: Scalars['String']['output'];
+  channel: WebUiChannel;
   tag: Scalars['String']['output'];
   updateAvailable: Scalars['Boolean']['output'];
 };
 
 export type WebUiUpdateInfo = {
   __typename?: 'WebUIUpdateInfo';
-  channel: Scalars['String']['output'];
+  channel: WebUiChannel;
   tag: Scalars['String']['output'];
 };
 
@@ -2854,13 +2855,13 @@ export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | n
 
 export type GlobalMetadataFragment = { __typename?: 'GlobalMetaType', key: string, value: string };
 
-export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: string, tag: string };
+export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: WebUiChannel, tag: string };
 
-export type WebuiUpdateCheckFragment = { __typename?: 'WebUIUpdateCheck', channel: string, tag: string, updateAvailable: boolean };
+export type WebuiUpdateCheckFragment = { __typename?: 'WebUIUpdateCheck', channel: WebUiChannel, tag: string, updateAvailable: boolean };
 
-export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel: string, tag: string };
+export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel: WebUiChannel, tag: string };
 
-export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } };
+export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: WebUiChannel, tag: string } };
 
 export type MangaMetaFieldsFragment = { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string };
 
@@ -3228,12 +3229,12 @@ export type UpdateWebuiMutationVariables = Exact<{
 }>;
 
 
-export type UpdateWebuiMutation = { __typename?: 'Mutation', updateWebUI?: { __typename?: 'WebUIUpdatePayload', updateStatus: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } } | null };
+export type UpdateWebuiMutation = { __typename?: 'Mutation', updateWebUI?: { __typename?: 'WebUIUpdatePayload', updateStatus: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: WebUiChannel, tag: string } } } | null };
 
 export type ResetWebuiUpdateStatusMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ResetWebuiUpdateStatusMutation = { __typename?: 'Mutation', resetWebUIUpdateStatus?: { __typename?: 'WebUIUpdateStatus', state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } | null };
+export type ResetWebuiUpdateStatusMutation = { __typename?: 'Mutation', resetWebUIUpdateStatus?: { __typename?: 'WebUIUpdateStatus', state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: WebUiChannel, tag: string } } | null };
 
 export type ResetServerSettingsMutationVariables = Exact<{
   input: ResetSettingsInput;
@@ -3606,7 +3607,7 @@ export type GetLibraryMangaCountQuery = { __typename?: 'Query', mangas: { __type
 export type GetAboutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAboutQuery = { __typename?: 'Query', aboutServer: { __typename?: 'AboutServerPayload', buildTime: string, buildType: string, discord: string, github: string, name: string, revision: string, version: string }, aboutWebUI: { __typename?: 'AboutWebUI', channel: string, tag: string } };
+export type GetAboutQuery = { __typename?: 'Query', aboutServer: { __typename?: 'AboutServerPayload', buildTime: string, buildType: string, discord: string, github: string, name: string, revision: string, version: string }, aboutWebUI: { __typename?: 'AboutWebUI', channel: WebUiChannel, tag: string } };
 
 export type CheckForServerUpdatesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3616,12 +3617,12 @@ export type CheckForServerUpdatesQuery = { __typename?: 'Query', checkForServerU
 export type CheckForWebuiUpdateQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CheckForWebuiUpdateQuery = { __typename?: 'Query', checkForWebUIUpdate: { __typename?: 'WebUIUpdateCheck', channel: string, tag: string, updateAvailable: boolean } };
+export type CheckForWebuiUpdateQuery = { __typename?: 'Query', checkForWebUIUpdate: { __typename?: 'WebUIUpdateCheck', channel: WebUiChannel, tag: string, updateAvailable: boolean } };
 
 export type GetWebuiUpdateStatusQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetWebuiUpdateStatusQuery = { __typename?: 'Query', getWebUIUpdateStatus: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
+export type GetWebuiUpdateStatusQuery = { __typename?: 'Query', getWebUIUpdateStatus: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: WebUiChannel, tag: string } } };
 
 export type GetServerSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -3697,7 +3698,7 @@ export type DownloadStatusSubscription = { __typename?: 'Subscription', download
 export type WebuiUpdateSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
-export type WebuiUpdateSubscription = { __typename?: 'Subscription', webUIUpdateStatusChange: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: string, tag: string } } };
+export type WebuiUpdateSubscription = { __typename?: 'Subscription', webUIUpdateStatusChange: { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: WebUiChannel, tag: string } } };
 
 export type UpdaterSubscriptionVariables = Exact<{
   input: LibraryUpdateStatusChangedInput;

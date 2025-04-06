@@ -19,7 +19,6 @@ import { useUpdateChecker } from '@/modules/app-updates/hooks/useUpdateChecker.t
 import { VersionUpdateInfoDialog } from '@/modules/app-updates/components/VersionUpdateInfoDialog.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { getVersion } from '@/modules/app-updates/services/AppUpdateChecker.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
@@ -50,7 +49,7 @@ export const ServerUpdateChecker = () => {
     const selectedServerChannelInfo = serverUpdateCheckData?.checkForServerUpdates?.find(
         (channel) => channel.channel === aboutServer?.buildType,
     );
-    const version = aboutServer ? getVersion(aboutServer) : undefined;
+    const version = aboutServer ? aboutServer.version : undefined;
     const isServerUpdateAvailable = !!selectedServerChannelInfo?.tag && selectedServerChannelInfo.tag !== version;
 
     const updateChecker = useUpdateChecker(

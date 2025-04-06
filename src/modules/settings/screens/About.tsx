@@ -19,10 +19,10 @@ import { LoadingPlaceholder } from '@/modules/core/components/placeholder/Loadin
 import { UpdateState } from '@/lib/graphql/generated/graphql.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
-import { getBuildTime, getVersion } from '@/modules/app-updates/services/AppUpdateChecker.tsx';
 import { VersionInfo } from '@/modules/app-updates/components/VersionInfo.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { epochToDate } from '@/util/DateHelper.ts';
 
 export function About() {
     const { t } = useTranslation();
@@ -79,7 +79,7 @@ export function About() {
         (channel) => channel.channel === aboutServer.buildType,
     );
     const isServerUpdateAvailable =
-        !!selectedServerChannelInfo?.tag && selectedServerChannelInfo.tag !== getVersion(aboutServer);
+        !!selectedServerChannelInfo?.tag && selectedServerChannelInfo.tag !== aboutServer.version;
     const isWebUIUpdateAvailable = !!webUIUpdateData?.checkForWebUIUpdate.updateAvailable;
 
     return (
@@ -95,7 +95,7 @@ export function About() {
                 <ListItem>
                     <ListItemText
                         primary={t('settings.server.title.server')}
-                        secondary={`${aboutServer.name} ${aboutServer.buildType}`}
+                        secondary={`${aboutServer.name} (${aboutServer.buildType})`}
                     />
                 </ListItem>
                 <ListItem>
@@ -103,7 +103,7 @@ export function About() {
                         primary={t('settings.about.server.label.version')}
                         secondary={
                             <VersionInfo
-                                version={getVersion(aboutServer)}
+                                version={aboutServer.version}
                                 isCheckingForUpdate={isCheckingForServerUpdate}
                                 isUpdateAvailable={isServerUpdateAvailable}
                                 updateCheckError={serverUpdateCheckError}
@@ -117,7 +117,7 @@ export function About() {
                 <ListItem>
                     <ListItemText
                         primary={t('settings.about.server.label.build_time')}
-                        secondary={getBuildTime(aboutServer)}
+                        secondary={epochToDate(Number(aboutServer.buildTime)).toString()}
                     />
                 </ListItem>
             </List>
