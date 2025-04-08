@@ -14,6 +14,21 @@
     "serverVersion": "r1716"
   },
   {
+    "tag": "oldPREVIEW",
+    "uiVersion": "r2415",
+    "serverVersion": "r1636"
+  },
+  {
+    "tag": "oldPREVIEW",
+    "uiVersion": "r1943",
+    "serverVersion": "r1566"
+  },
+  {
+    "tag": "oldPREVIEW",
+    "uiVersion": "r1797",
+    "serverVersion": "r1548"
+  },
+  {
     "tag": "v1.1.0",
     "uiVersion": "r1689",
     "serverVersion": "r1527"
