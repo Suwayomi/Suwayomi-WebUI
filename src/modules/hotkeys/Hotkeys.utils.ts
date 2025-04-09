@@ -11,15 +11,15 @@ import { useHotkeysContext } from 'react-hotkeys-hook';
 import { HotkeyScope } from '@/modules/hotkeys/Hotkeys.types.ts';
 
 export const useDisableAllHotkeysWhileMounted = (shouldDisable?: boolean) => {
-    const { enabledScopes, enableScope, disableScope } = useHotkeysContext();
-    const previouslyEnabledScopes = useRef<typeof enabledScopes>([]);
+    const { activeScopes, enableScope, disableScope } = useHotkeysContext();
+    const previouslyEnabledScopes = useRef<typeof activeScopes>([]);
 
     useEffect(() => {
         if (!shouldDisable) {
             return () => {};
         }
 
-        previouslyEnabledScopes.current = [...enabledScopes];
+        previouslyEnabledScopes.current = [...activeScopes];
 
         enableScope(HotkeyScope.NONE);
         previouslyEnabledScopes.current.forEach(disableScope);

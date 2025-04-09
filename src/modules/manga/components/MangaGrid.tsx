@@ -16,7 +16,7 @@ import React, {
     useRef,
     useState,
 } from 'react';
-import Grid, { Grid2TypeMap as GridTypeMap } from '@mui/material/Grid2';
+import Grid, { GridTypeMap } from '@mui/material/Grid';
 import Box, { BoxProps } from '@mui/material/Box';
 import { GridItemProps, GridStateSnapshot, VirtuosoGrid } from 'react-virtuoso';
 import { useLocation } from 'react-router-dom';
