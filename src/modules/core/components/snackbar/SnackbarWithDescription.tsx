@@ -12,11 +12,13 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from '@mui/material/styles';
 import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { TranslationKey } from '@/Base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
-const MAX_DESCRIPTION_LENGTH = 255;
+const MAX_DESCRIPTION_LENGTH = 200;
 
 const SNACKBAR_VARIANT_TO_TRANSLATION_KEY: Record<VariantType, TranslationKey> = {
     default: 'global.label.info',
@@ -42,6 +44,7 @@ export const SnackbarWithDescription = memo(
             ref: ForwardedRef<HTMLDivElement>,
         ) => {
             const { t } = useTranslation();
+            const theme = useTheme();
 
             const severity = variant === 'default' ? 'info' : variant;
             const finalAction = typeof action === 'function' ? action(id) : action;
@@ -59,7 +62,19 @@ export const SnackbarWithDescription = memo(
                         elevation={1}
                         severity={severity}
                         action={finalAction}
-                        sx={{ minWidth: '100%', wordBreak: 'break-word' }}
+                        sx={{
+                            wordBreak: 'break-word',
+                            minWidth: '300px',
+                            [theme.breakpoints.down(MediaQuery.MOBILE_WIDTH)]: {
+                                maxWidth: '100vw',
+                            },
+                            [theme.breakpoints.between(MediaQuery.MOBILE_WIDTH, MediaQuery.TABLET_WIDTH)]: {
+                                maxWidth: '75vw',
+                            },
+                            [theme.breakpoints.up(MediaQuery.TABLET_WIDTH)]: {
+                                maxWidth: '50vw',
+                            },
+                        }}
                         onClose={() => closeSnackbar(id)}
                     >
                         <TitleComponent>{message}</TitleComponent>
@@ -79,7 +94,7 @@ export const SnackbarWithDescription = memo(
                                         },
                                     }).catch(
                                         defaultPromiseErrorHandler(
-                                            `SnackbarWidthDescription: ${id} - ${message} - ${description}`,
+                                            `SnackbarWithDescription: ${id} - ${message} - ${description}`,
                                         ),
                                     );
                                 }}
