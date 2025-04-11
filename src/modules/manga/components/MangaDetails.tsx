@@ -288,6 +288,7 @@ const Thumbnail = ({
     );
 };
 
+const OPEN_CLOSE_BUTTON_HEIGHT = '35px';
 const DESCRIPTION_COLLAPSED_SIZE = 75;
 const DescriptionGenre = ({
     manga: { description, genre: mangaGenres },
@@ -315,7 +316,12 @@ const DescriptionGenre = ({
                     <Collapse collapsedSize={collapsedSize} in={!isCollapsed}>
                         <Typography
                             ref={setDescriptionElement}
-                            style={{ whiteSpace: 'pre-line', textAlign: 'justify', textJustify: 'inter-word' }}
+                            sx={{
+                                whiteSpace: 'pre-line',
+                                textAlign: 'justify',
+                                textJustify: 'inter-word',
+                                mb: OPEN_CLOSE_BUTTON_HEIGHT,
+                            }}
                         >
                             {description}
                         </Typography>
@@ -323,14 +329,15 @@ const DescriptionGenre = ({
                     <Stack
                         onClick={() => setIsCollapsed(!isCollapsed)}
                         sx={{
-                            pt: 1,
+                            justifyContent: 'flex-start',
                             alignItems: 'center',
                             cursor: 'pointer',
-                            position: isCollapsed ? 'absolute' : null,
+                            position: 'absolute',
                             width: '100%',
+                            height: OPEN_CLOSE_BUTTON_HEIGHT,
                             bottom: 0,
                             background: (theme) =>
-                                `linear-gradient(transparent 1px, ${theme.palette.background.default})`,
+                                `linear-gradient(transparent -15px, ${theme.palette.background.default})`,
                         }}
                     >
                         <IconButton sx={{ color: (theme) => (theme.palette.mode === 'light' ? 'black' : 'text') }}>
