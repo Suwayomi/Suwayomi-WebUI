@@ -26,9 +26,12 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers, TTrackerSearch } from '@/modules/tracker/services/Trackers.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useTranslation();
+
+    const serverAddress = useLocalStorage('serverBaseURL', window.location.origin);
 
     const [loginTrackerCredentials, { loading: isCredentialLoginInProgress }] =
         requestManager.useLoginToTrackerCredentials();
@@ -50,7 +53,7 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
     const handleLogin = async () => {
         if (isOAuthLogin) {
             const state = {
-                redirectUrl: `${window.location.origin}/tracker/login/oauth`,
+                redirectUrl: `${serverAddress}/tracker/login/oauth`,
                 clientName: 'Suwayomi-WebUI',
                 trackerId: tracker.id,
                 trackerName: tracker.name,
