@@ -27,6 +27,8 @@ import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Vibrant } from 'node-vibrant/browser';
 import { FastAverageColor } from 'fast-average-color';
+import parseHtml from 'html-react-parser';
+import sanitizeHtml from 'sanitize-html';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
@@ -323,7 +325,7 @@ const DescriptionGenre = ({
                                 mb: OPEN_CLOSE_BUTTON_HEIGHT,
                             }}
                         >
-                            {description}
+                            {parseHtml(sanitizeHtml(description, { disallowedTagsMode: 'escape' }))}
                         </Typography>
                     </Collapse>
                     <Stack
