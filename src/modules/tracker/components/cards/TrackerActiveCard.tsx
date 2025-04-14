@@ -277,7 +277,7 @@ export const TrackerActiveCard = ({
                                     settingValue={`${trackRecord.lastChapterRead}/${trackRecord.totalChapters}`}
                                     value={trackRecord.lastChapterRead}
                                     minValue={0}
-                                    maxValue={Infinity}
+                                    maxValue={Number.MAX_SAFE_INTEGER}
                                     valueUnit=""
                                     handleUpdate={(lastChapterRead) => updateTrackerBind({ lastChapterRead })}
                                 />

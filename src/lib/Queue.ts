@@ -49,7 +49,7 @@ export class Queue {
         fn: () => PromiseLike<T> | T,
         priority: QueuePriority = Priority.NORMAL,
     ): { key: string; promise: Promise<T> } {
-        this.counter = (this.counter + 1) % Infinity;
+        this.counter = (this.counter + 1) % Number.MAX_SAFE_INTEGER;
         const actualKey = `${key}_${this.counter}`;
 
         this.pendingKeyToPriorityMap.set(actualKey, priority);
