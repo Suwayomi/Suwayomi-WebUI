@@ -225,7 +225,7 @@ export class GraphQLClient extends BaseClient<
         this.wsClient = createClient({
             url: () => this.getBaseUrl().replace(/http(|s)/g, 'ws'),
             keepAlive: heartbeatInterval,
-            retryAttempts: Infinity,
+            retryAttempts: 10,
         });
 
         let lastHeartbeat: number = 0;
