@@ -102,9 +102,35 @@ export const actionToTranslationKey: {
     },
 };
 
+// source: https://github.com/jobobby04/TachiyomiSY/blob/e0f40fad8c25459980ead51382c238462416f8d2/app/src/main/java/exh/util/MangaType.kt#L93
+// last synced: 2025-04-18 00:06
 export const SOURCES_BY_MANGA_TYPE: Record<MangaType, string[]> = {
     [MangaType.MANGA]: [],
-    [MangaType.COMIC]: [],
+    [MangaType.COMIC]: [
+        '8muses',
+        'allporncomic',
+        'ciayo comics',
+        'comicextra',
+        'comicpunch',
+        'cyanide',
+        'dilbert',
+        'eggporncomics',
+        'existential comics',
+        'hiveworks comics',
+        'milftoon',
+        'myhentaicomics',
+        'myhentaigallery',
+        'gunnerkrigg',
+        'oglaf',
+        'patch friday',
+        'porncomix',
+        'questionable content',
+        'readcomiconline',
+        'read comics online',
+        'swords comic',
+        'teabeer comics',
+        'xkcd',
+    ],
     [MangaType.WEBTOON]: ['mangatoon', 'manmanga', 'toomics', 'webcomics', 'webtoons', 'webtoon'],
     [MangaType.MANHWA]: [
         'hiperdex',
