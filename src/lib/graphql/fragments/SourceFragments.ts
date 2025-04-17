@@ -21,6 +21,7 @@ export const SOURCE_BASE_FIELDS = gql`
         id
         name
         displayName
+        lang
     }
 `;
 

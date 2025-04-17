@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { t as translate } from 'i18next';
+import i18next, { t as translate } from 'i18next';
 import { DocumentNode, Unmasked } from '@apollo/client/core';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
@@ -30,6 +30,7 @@ import {
     MangaDownloadInfo,
     MangaGenreInfo,
     MangaIdInfo,
+    MangaSourceLngInfo,
     MangaSourceNameInfo,
     MangaThumbnailInfo,
     MangaType,
@@ -538,7 +539,7 @@ export class Mangas {
         }
     }
 
-    static getType(manga: MangaGenreInfo & MangaSourceNameInfo): MangaType {
+    static getType(manga: MangaGenreInfo & MangaSourceNameInfo & MangaSourceLngInfo): MangaType {
         if (Mangas.isType(manga, MangaType.MANGA)) {
             return MangaType.MANGA;
         }
@@ -562,15 +563,29 @@ export class Mangas {
         return MangaType.MANGA;
     }
 
-    static isType(manga: MangaGenreInfo & MangaSourceNameInfo, type: MangaType): boolean {
-        return (
-            manga.genre.some((genre) =>
-                MANGA_TAGS_BY_MANGA_TYPE[type].some((tag) => genre.toLowerCase().includes(tag)),
-            ) || SOURCES_BY_MANGA_TYPE[type].includes(manga.source?.name.toLowerCase() ?? '')
+    static isType(manga: MangaGenreInfo & MangaSourceNameInfo & MangaSourceLngInfo, type: MangaType): boolean {
+        const translateMangaTagsByMangaTypeEntries = Object.entries(MANGA_TAGS_BY_MANGA_TYPE).map(
+            ([mangaType, tags]) => [
+                mangaType,
+                ['en', i18next.language, manga.source?.lang]
+                    .filter((lng) => !!lng)
+                    .flatMap((language) => tags.flatMap((tag) => translate(tag, { lng: language }))),
+            ],
         );
+        const translatedMangaTagsByMangaType = Object.fromEntries(translateMangaTagsByMangaTypeEntries) as Record<
+            string,
+            string[]
+        >;
+
+        const isMatchByGenre = manga.genre.some((genre) =>
+            translatedMangaTagsByMangaType[type].some((tag) => genre.toLowerCase().includes(tag.toLowerCase())),
+        );
+        const isMatchBySource = SOURCES_BY_MANGA_TYPE[type].includes(manga.source?.name.toLowerCase() ?? '');
+
+        return isMatchByGenre || isMatchBySource;
     }
 
-    static isLongStripType(manga: MangaGenreInfo & MangaSourceNameInfo): boolean {
+    static isLongStripType(manga: MangaGenreInfo & MangaSourceNameInfo & MangaSourceLngInfo): boolean {
         return (
             Mangas.isType(manga, MangaType.WEBTOON) ||
             Mangas.isType(manga, MangaType.MANHWA) ||

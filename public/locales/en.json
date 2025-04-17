@@ -801,7 +801,15 @@
       "unknown": "$t(global.label.unknown)"
     },
     "title_one": "Manga",
-    "title_other": "Manga"
+    "title_other": "Manga",
+    "type": {
+      "comic": "Comic",
+      "long_strip": "Long strip",
+      "manga": "$t(manga.title_one)",
+      "manhua": "Manhua",
+      "manhwa": "Manwha",
+      "webtoon": "$t(reader.settings.reader_type.label.webtoon)"
+    }
   },
   "migrate": {
     "dialog": {

@@ -163,10 +163,10 @@ export const SOURCES_BY_MANGA_TYPE: Record<MangaType, string[]> = {
     ],
 };
 
-export const MANGA_TAGS_BY_MANGA_TYPE: Record<MangaType, string[]> = {
-    [MangaType.MANGA]: ['manga'],
-    [MangaType.COMIC]: ['comic'],
-    [MangaType.WEBTOON]: ['webtoon', 'long strip'],
-    [MangaType.MANHWA]: ['manhwa'],
-    [MangaType.MANHUA]: ['manhua'],
+export const MANGA_TAGS_BY_MANGA_TYPE: Record<MangaType, TranslationKey[]> = {
+    [MangaType.MANGA]: ['manga.type.manga'],
+    [MangaType.COMIC]: ['manga.type.comic'],
+    [MangaType.WEBTOON]: ['manga.type.webtoon', 'manga.type.long_strip'],
+    [MangaType.MANHWA]: ['manga.type.manhwa', 'manga.type.long_strip'],
+    [MangaType.MANHUA]: ['manga.type.manhua', 'manga.type.long_strip'],
 };
