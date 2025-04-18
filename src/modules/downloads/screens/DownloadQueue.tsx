@@ -13,10 +13,9 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
-import Box, { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import React, { memo, useCallback, useEffect, useLayoutEffect } from 'react';
-import { DragDropContext, Draggable, DraggableProvided, DropResult } from 'react-beautiful-dnd';
+import React, { memo, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -24,9 +23,10 @@ import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { Virtuoso } from 'react-virtuoso';
 import CardContent from '@mui/material/CardContent';
 import Refresh from '@mui/icons-material/Refresh';
+import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppable.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
@@ -35,25 +35,19 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { ChapterDownloadStatus, ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { DownloaderState, DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-
-const HeightPreservingItem = ({ children, ...props }: BoxProps) => (
-    // the height is necessary to prevent the item container from collapsing, which confuses Virtuoso measurements
-    <Box {...props} style={{ height: props['data-known-size' as keyof typeof props] || undefined }}>
-        {children}
-    </Box>
-);
+import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
+import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';
+import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
 
 const DownloadChapterItem = memo(
     ({
-        provided,
         item,
         handleDelete,
         handleRetry,
     }: {
-        provided: DraggableProvided;
         item: ChapterDownloadStatus;
         handleDelete: (chapter: ChapterIdInfo) => void;
         handleRetry: (chapter: ChapterIdInfo) => void;
@@ -61,12 +55,7 @@ const DownloadChapterItem = memo(
         const { t } = useTranslation();
 
         return (
-            <Box
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                ref={provided.innerRef}
-                sx={{ p: 1, pb: 0 }}
-            >
+            <Box sx={{ p: 1, pb: 0 }}>
                 <Card>
                     <CardActionArea component={Link} to={AppRoutes.manga.path(item.manga.id)}>
                         <CardContent
@@ -146,6 +135,10 @@ export const DownloadQueue: React.FC = () => {
 
     const { setTitle, setAction } = useNavBarContext();
 
+    const dndItems = useMemo(() => queue.map((download) => download.chapter), [queue]);
+    const dndSensors = DndKitUtil.useSensorsForDevice();
+    const [dndActiveDownload, setDndActiveDownload] = useState<ChapterDownloadStatus | null>(null);
+
     const clearQueue = async () => {
         try {
             await requestManager.clearDownloads().response;
@@ -216,12 +209,19 @@ export const DownloadQueue: React.FC = () => {
         });
     };
 
-    const onDragEnd = (result: DropResult) => {
-        if (!result.destination) {
+    const onDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        setDndActiveDownload(null);
+
+        if (!over || active.id === over.id) {
             return;
         }
 
-        categoryReorder(queue, result.source.index, result.destination.index);
+        const oldIndex = queue.findIndex((download) => download.chapter.id === active.id);
+        const newIndex = queue.findIndex((download) => download.chapter.id === over.id);
+
+        categoryReorder(queue, oldIndex, newIndex);
     };
 
     const handleRetry = useCallback(async (chapter: ChapterIdInfo) => {
@@ -278,45 +278,39 @@ export const DownloadQueue: React.FC = () => {
     }
 
     return (
-        <DragDropContext onDragEnd={onDragEnd}>
-            <StrictModeDroppable
-                droppableId="droppable"
-                mode="virtual"
-                renderClone={(provided, snapshot, rubric) => (
-                    <DownloadChapterItem
-                        provided={provided}
-                        item={queue[rubric.source.index]}
-                        handleDelete={handleDelete}
-                        handleRetry={handleRetry}
-                    />
-                )}
-            >
-                {(droppableProvided) => (
-                    <Box ref={droppableProvided.innerRef}>
-                        <Virtuoso
-                            useWindowScroll
-                            overscan={window.innerHeight * 0.5}
-                            components={{
-                                Item: HeightPreservingItem,
-                            }}
-                            totalCount={queue.length}
-                            computeItemKey={(index) => queue[index].chapter.id}
-                            itemContent={(index) => (
-                                <Draggable draggableId={`${queue[index].chapter.id}`} index={index}>
-                                    {(draggableProvided) => (
-                                        <DownloadChapterItem
-                                            provided={draggableProvided}
-                                            item={queue[index]}
-                                            handleDelete={handleDelete}
-                                            handleRetry={handleRetry}
-                                        />
-                                    )}
-                                </Draggable>
-                            )}
-                        />
-                    </Box>
-                )}
-            </StrictModeDroppable>
-        </DragDropContext>
+        <DndContext
+            sensors={dndSensors}
+            collisionDetection={closestCenter}
+            onDragStart={(event) =>
+                setDndActiveDownload(queue.find((download) => download.chapter.id === event.active.id) ?? null)
+            }
+            onDragEnd={onDragEnd}
+            onDragCancel={() => setDndActiveDownload(null)}
+            onDragAbort={() => setDndActiveDownload(null)}
+        >
+            <SortableContext items={dndItems} strategy={verticalListSortingStrategy}>
+                <Virtuoso
+                    useWindowScroll
+                    overscan={window.innerHeight * 0.5}
+                    totalCount={queue.length}
+                    computeItemKey={(index) => queue[index].chapter.id}
+                    itemContent={(index) => (
+                        <DndSortableItem
+                            id={queue[index].chapter.id}
+                            isDragging={queue[index].chapter.id === dndActiveDownload?.chapter.id}
+                        >
+                            <DownloadChapterItem
+                                item={queue[index]}
+                                handleDelete={handleDelete}
+                                handleRetry={handleRetry}
+                            />
+                        </DndSortableItem>
+                    )}
+                />
+            </SortableContext>
+            <DndOverlayItem isActive={!!dndActiveDownload}>
+                <DownloadChapterItem item={dndActiveDownload!} handleDelete={noOp} handleRetry={noOp} />
+            </DndOverlayItem>
+        </DndContext>
     );
 };

@@ -19,6 +19,10 @@ export class MediaQuery {
 
     static readonly TABLET_WIDTH: Breakpoint | number = 1025;
 
+    static isTouchDevice(): boolean {
+        return window.matchMedia('not (pointer: fine)').matches;
+    }
+
     static useIsTouchDevice(): boolean {
         return useMediaQuery('not (pointer: fine)');
     }

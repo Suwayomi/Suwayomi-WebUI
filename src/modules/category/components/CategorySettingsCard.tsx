@@ -7,7 +7,6 @@
  */
 
 import IconButton from '@mui/material/IconButton';
-import { DraggableProvided } from 'react-beautiful-dnd';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -23,11 +22,9 @@ import { CategoryType } from '@/lib/graphql/generated/graphql.ts';
 
 export const CategorySettingsCard = ({
     category,
-    provided,
     onEdit,
 }: {
     category: Pick<CategoryType, 'id' | 'name'>;
-    provided: DraggableProvided;
     onEdit: () => void;
 }) => {
     const { t } = useTranslation();
@@ -37,7 +34,7 @@ export const CategorySettingsCard = ({
     };
 
     return (
-        <Box sx={{ p: 1, pb: 0 }} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+        <Box sx={{ p: 1, pb: 0 }}>
             <Card>
                 <CardContent
                     sx={{

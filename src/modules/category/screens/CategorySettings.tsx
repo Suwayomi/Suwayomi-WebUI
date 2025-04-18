@@ -6,8 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useLayoutEffect, useMemo, useState } from 'react';
-import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
+import { ComponentProps, useLayoutEffect, useMemo, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -21,8 +20,9 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
+import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { StrictModeDroppable } from '@/modules/core/components/StrictModeDroppable.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
@@ -31,9 +31,12 @@ import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from 
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { CategorySettingsCard } from '@/modules/category/components/CategorySettingsCard.tsx';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
+import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';
+import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
 
 export function CategorySettings() {
     const { t } = useTranslation();
@@ -68,6 +71,11 @@ export function CategorySettings() {
     const [reorderCategory, { reset: revertReorder }] = requestManager.useReorderCategory();
     const theme = useTheme();
 
+    const dndSensors = DndKitUtil.useSensorsForDevice();
+    const [dndActiveCategory, setDndActiveCategory] = useState<
+        ComponentProps<typeof CategorySettingsCard>['category'] | null
+    >(null);
+
     const categoryReorder = (list: CategoryIdInfo[], from: number, to: number) => {
         const reorderedCategory = list[from];
 
@@ -76,13 +84,19 @@ export function CategorySettings() {
         );
     };
 
-    const onDragEnd = (result: DropResult) => {
-        // dropped outside the list?
-        if (!result.destination) {
+    const onDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        setDndActiveCategory(null);
+
+        if (!over || active.id === over.id) {
             return;
         }
 
-        categoryReorder(categories, result.source.index, result.destination.index);
+        const oldIndex = categories.findIndex((category) => category.id === active.id);
+        const newIndex = categories.findIndex((category) => category.id === over.id);
+
+        categoryReorder(categories, oldIndex, newIndex);
     };
 
     const resetDialog = () => {
@@ -142,26 +156,33 @@ export function CategorySettings() {
 
     return (
         <>
-            <DragDropContext onDragEnd={onDragEnd}>
-                <StrictModeDroppable droppableId="droppable">
-                    {(droppableProvided) => (
-                        <Box ref={droppableProvided.innerRef} sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }}>
-                            {categories.map((category, index) => (
-                                <Draggable key={category.id} draggableId={category.id.toString()} index={index}>
-                                    {(draggableProvided) => (
-                                        <CategorySettingsCard
-                                            provided={draggableProvided}
-                                            category={category}
-                                            onEdit={() => handleEditDialogOpen(index)}
-                                        />
-                                    )}
-                                </Draggable>
-                            ))}
-                            {droppableProvided.placeholder}
-                        </Box>
-                    )}
-                </StrictModeDroppable>
-            </DragDropContext>
+            <DndContext
+                sensors={dndSensors}
+                collisionDetection={closestCenter}
+                onDragStart={(event) =>
+                    setDndActiveCategory(categories.find((category) => category.id === event.active.id) ?? null)
+                }
+                onDragEnd={onDragEnd}
+                onDragCancel={() => setDndActiveCategory(null)}
+                onDragAbort={() => setDndActiveCategory(null)}
+            >
+                <Box sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }}>
+                    <SortableContext items={categories} strategy={verticalListSortingStrategy}>
+                        {categories.map((category, index) => (
+                            <DndSortableItem
+                                key={category.id}
+                                id={category.id}
+                                isDragging={category.id === dndActiveCategory?.id}
+                            >
+                                <CategorySettingsCard category={category} onEdit={() => handleEditDialogOpen(index)} />
+                            </DndSortableItem>
+                        ))}
+                    </SortableContext>
+                    <DndOverlayItem isActive={!!dndActiveCategory}>
+                        <CategorySettingsCard category={dndActiveCategory!} onEdit={noOp} />
+                    </DndOverlayItem>
+                </Box>
+            </DndContext>
             <Fab
                 color="primary"
                 aria-label="add"
