@@ -807,7 +807,7 @@
       "long_strip": "Long strip",
       "manga": "$t(manga.title_one)",
       "manhua": "Manhua",
-      "manhwa": "Manwha",
+      "manhwa": "Manhwa",
       "webtoon": "$t(reader.settings.reader_type.label.webtoon)"
     }
   },
