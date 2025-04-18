@@ -27,7 +27,7 @@ type IconMenuItemProps = {
     renderLabel?: () => React.ReactNode;
     LeftIcon?: OverridableComponent<SvgIconTypeMap> & { muiName: string };
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
-    ref?: RefObject<HTMLLIElement>;
+    ref?: RefObject<HTMLLIElement | null>;
     RightIcon?: OverridableComponent<SvgIconTypeMap> & { muiName: string };
     sx?: SxProps<Theme>;
 };

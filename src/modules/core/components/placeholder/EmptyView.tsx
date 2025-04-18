@@ -8,7 +8,7 @@
 
 // adopted from: https://github.com/tachiyomiorg/tachiyomi/blob/master/app/src/main/java/eu/kanade/tachiyomi/widget/EmptyView.kt
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type JSX } from 'react';
 import Typography from '@mui/material/Typography';
 import { SxProps, Theme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';

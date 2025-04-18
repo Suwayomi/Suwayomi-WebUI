@@ -77,8 +77,8 @@ export const useAutomaticScrolling = (
 } => {
     const isCallback = typeof refOrCallback === 'function';
 
-    const elementStyle = useRef<CSSStyleDeclaration>();
-    const scrollTriggerTimer = useRef<NodeJS.Timeout>();
+    const elementStyle = useRef<CSSStyleDeclaration>(undefined);
+    const scrollTriggerTimer = useRef<NodeJS.Timeout>(undefined);
     const scrollTriggerAnimationFrameId = useRef(-1);
 
     const [isActive, setIsActive] = useState(false);

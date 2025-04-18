@@ -39,7 +39,7 @@ export const useReaderSetPagesState = (
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     setTransitionPageMode: ReaderStatePages['setTransitionPageMode'],
 ) => {
-    const previousPageData = useRef<string[]>();
+    const previousPageData = useRef<string[]>(undefined);
 
     useLayoutEffect(() => {
         const pagesPayload = pagesResponse.data?.fetchChapterPages;

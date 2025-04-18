@@ -28,7 +28,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
     const { t } = useTranslation();
     const { isActive, toggleActive } = useReaderAutoScrollContext();
 
-    const updateTimeout = useRef<NodeJS.Timeout>();
+    const updateTimeout = useRef<NodeJS.Timeout>(undefined);
 
     return (
         <Stack sx={{ flexDirection: 'row', gap: 1 }}>

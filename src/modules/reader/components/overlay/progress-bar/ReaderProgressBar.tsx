@@ -76,7 +76,7 @@ const BaseReaderProgressBar = ({
         fullSegmentClicks: boolean;
     }) => {
     const progressBarRef = useRef<HTMLDivElement | null>(null);
-    const draggingDetectionTimeout = useRef<NodeJS.Timeout>();
+    const draggingDetectionTimeout = useRef<NodeJS.Timeout>(undefined);
 
     const [totalPagesTextWidth, setTotalPagesTextWidth] = useState(0);
     const totalPagesTextRef = useRef<HTMLSpanElement | null>(null);

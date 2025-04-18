@@ -38,7 +38,7 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
 ): SelectableCollectionReturnType<Id, Key> => {
     const [keyToSelectedItemIds, setKeyToSelectedItemIds] = useState<Record<string, Id[]>>(initialState);
 
-    const lastSelectedItemInfoRef = useRef<{ id: Id; key: Key }>();
+    const lastSelectedItemInfoRef = useRef<{ id: Id; key: Key }>(undefined);
 
     const selectedItemIds = [...new Set(Object.values(keyToSelectedItemIds).flat())];
     const areAllItemsSelected = selectedItemIds.length === totalCount;

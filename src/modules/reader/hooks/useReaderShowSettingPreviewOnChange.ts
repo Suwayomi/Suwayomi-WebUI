@@ -30,9 +30,9 @@ export const useReaderShowSettingPreviewOnChange = (
     const { t } = useTranslation();
 
     // show setting previews on change or when open reader
-    const previousReadingMode = useRef<IReaderSettingsWithDefaultFlag['readingMode']>();
-    const previousTapZoneLayout = useRef<IReaderSettingsWithDefaultFlag['tapZoneLayout']>();
-    const previousTapZoneInvertMode = useRef<IReaderSettingsWithDefaultFlag['tapZoneInvertMode']>();
+    const previousReadingMode = useRef<IReaderSettingsWithDefaultFlag['readingMode']>(undefined);
+    const previousTapZoneLayout = useRef<IReaderSettingsWithDefaultFlag['tapZoneLayout']>(undefined);
+    const previousTapZoneInvertMode = useRef<IReaderSettingsWithDefaultFlag['tapZoneInvertMode']>(undefined);
     const isInitialPreview = useRef(true);
 
     useEffect(() => {

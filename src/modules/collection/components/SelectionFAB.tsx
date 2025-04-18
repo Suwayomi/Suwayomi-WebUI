@@ -10,7 +10,7 @@ import MoreHoriz from '@mui/icons-material/MoreHoriz';
 import Fab from '@mui/material/Fab';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import React from 'react';
+import React, { type JSX } from 'react';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { DEFAULT_FAB_STYLE } from '@/modules/core/components/buttons/StyledFab.tsx';

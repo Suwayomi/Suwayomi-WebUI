@@ -9,7 +9,7 @@
 import { RefObject, useLayoutEffect, useState } from 'react';
 
 export const useResizeObserver = (
-    ref: RefObject<HTMLElement> | HTMLElement | undefined | null,
+    ref: RefObject<HTMLElement | null> | HTMLElement | undefined | null,
     callback: ResizeObserverCallback,
 ): (() => void) => {
     const [disconnect, setDisconnect] = useState<() => void>(() => {});

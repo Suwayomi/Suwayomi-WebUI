@@ -31,7 +31,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     const [query, setQuery] = useQueryParam('query', StringParam);
     const [isSearchOpen, setIsSearchOpen] = useState(!isClosable || !!query);
-    const inputRef = React.useRef<HTMLInputElement>();
+    const inputRef = React.useRef<HTMLInputElement>(undefined);
 
     const [searchString, setSearchString] = useState(query ?? '');
 

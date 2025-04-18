@@ -9,7 +9,7 @@
 import { MutableRefObject, useEffect, useRef } from 'react';
 
 export const useReaderHideCursorOnInactivity = (scrollElementRef: MutableRefObject<HTMLDivElement | null>) => {
-    const mouseInactiveTimeout = useRef<NodeJS.Timeout>();
+    const mouseInactiveTimeout = useRef<NodeJS.Timeout>(undefined);
 
     useEffect(() => {
         const setCursorVisibility = (visible: boolean) => {

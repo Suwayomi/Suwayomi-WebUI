@@ -15,6 +15,7 @@ import React, {
     useMemo,
     useRef,
     useState,
+    type JSX,
 } from 'react';
 import Grid, { GridTypeMap } from '@mui/material/Grid';
 import Box, { BoxProps } from '@mui/material/Box';
@@ -164,7 +165,7 @@ const VerticalGrid = forwardRef(
         const snapshotSessionKey = getGridSnapshotKey(location);
         const [snapshot] = useSessionStorage<GridStateSnapshot | undefined>(snapshotSessionKey, undefined);
 
-        const persistGridStateTimeout = useRef<NodeJS.Timeout | undefined>();
+        const persistGridStateTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
         const persistGridState = (gridState: GridStateSnapshot) => {
             const currentUrl = window.location.href;
 

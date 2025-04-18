@@ -32,12 +32,12 @@ export const useMouseDragScroll = (
 ) => {
     const [isDragging, setIsDragging] = useState(false);
 
-    const elementStyle = useRef<CSSStyleDeclaration>();
+    const elementStyle = useRef<CSSStyleDeclaration>(undefined);
     const previousClickPosX = useRef<Positions>([0, 0, 0]);
     const previousClickPosY = useRef<Positions>([0, 0, 0]);
     const previousClickTime = useRef<ClickTimes>([0, 0, 0]);
     const scrollAtT0 = useRef<[ScrollLeft: number, ScrollTop: number]>([0, 0]);
-    const inertiaTimeInterval = useRef<NodeJS.Timeout>();
+    const inertiaTimeInterval = useRef<NodeJS.Timeout>(undefined);
 
     useEffect(() => {
         const element = ref?.current;
