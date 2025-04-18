@@ -354,7 +354,8 @@
                 "update_failed": "Không thể kiểm tra các bản cập nhật",
                 "failed_to_save_changes": "Không thể lưu thay đổi",
                 "invalid_file_type": "Loại tệp không hợp lệ",
-                "invalid_input": "Ô nhập không hợp lệ"
+                "invalid_input": "Ô nhập không hợp lệ",
+                "unrecoverable_error": "Có gì đó không ổn \nĐã xảy ra lỗi mà chúng tôi không thể khôi phục"
             }
         },
         "filter": {
