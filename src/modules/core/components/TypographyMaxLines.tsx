@@ -6,9 +6,23 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import styled from '@emotion/styled';
+import { styled, Theme, TypographyVariant } from '@mui/material/styles';
 import Typography, { TypographyProps } from '@mui/material/Typography';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
+
+const DEFAULT_LINE_HEIGHT = '1.5';
+
+const getLineHeight = (theme: Theme, variant: TypographyProps['variant']): string => {
+    if (variant === undefined) {
+        return DEFAULT_LINE_HEIGHT;
+    }
+
+    if (!(variant in theme.typography)) {
+        return DEFAULT_LINE_HEIGHT;
+    }
+
+    return theme.typography[variant as TypographyVariant].lineHeight?.toString() ?? DEFAULT_LINE_HEIGHT;
+};
 
 type TypographyMaxLinesProps = {
     lines?: number;
@@ -16,13 +30,12 @@ type TypographyMaxLinesProps = {
 
 export const TypographyMaxLines = styled(Typography, {
     shouldForwardProp: shouldForwardProp<TypographyMaxLinesProps>(['lines']),
-})<TypographyMaxLinesProps>(({ lines = 2 }) => ({
-    lineHeight: '1.5rem',
-    maxHeight: `${3 * lines}rem`,
+})<TypographyProps & TypographyMaxLinesProps>(({ variant, theme, lines = 2 }) => ({
+    lineHeight: getLineHeight(theme, variant),
     display: '-webkit-box',
     WebkitLineClamp: `${lines}`,
     WebkitBoxOrient: 'vertical',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
     overflowWrap: 'break-word',
-})) as React.FC<TypographyProps & { lines?: number }>;
+}));
