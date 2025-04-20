@@ -33,7 +33,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import {
     getExtensionsInfo,
-    isExtensionStateOrLanguage,
+    isExtensionState,
     translateExtensionLanguage,
 } from '@/modules/extension/Extensions.utils.ts';
 import {
@@ -110,7 +110,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         () =>
             groupedExtensions
                 .filter((group) => group[EXTENSIONS].length > 0)
-                .filter((group) => isExtensionStateOrLanguage(group[LANGUAGE]) || shownLangs.includes(group[LANGUAGE])),
+                .filter((group) => isExtensionState(group[LANGUAGE]) || shownLangs.includes(group[LANGUAGE])),
         [shownLangs, groupedExtensions],
     );
 

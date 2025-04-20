@@ -55,7 +55,7 @@ function defaultNativeLang(): readonly string[] {
 }
 
 export function extensionDefaultLangs(): string[] {
-    return [...defaultNativeLang(), DefaultLanguage.ALL];
+    return [...defaultNativeLang()];
 }
 
 export function sourceDefualtLangs(): string[] {

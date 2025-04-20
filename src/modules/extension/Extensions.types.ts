@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DefaultLanguage } from '@/modules/core/utils/Languages.ts';
 import { ExtensionType } from '@/lib/graphql/generated/graphql.ts';
 
 export enum ExtensionAction {
@@ -54,8 +53,6 @@ export type GroupedByExtensionState = {
 };
 
 export type GroupedByLanguage = {
-    [language in DefaultLanguage]: TExtension[];
-} & {
     [language: string]: TExtension[];
 };
 

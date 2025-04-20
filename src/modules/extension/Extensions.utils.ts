@@ -35,15 +35,16 @@ export const getInstalledState = (
     return isInstalled ? InstalledState.UNINSTALL : InstalledState.INSTALL;
 };
 
+export const isExtensionState = (value: string): boolean =>
+    [ExtensionGroupState.INSTALLED, ExtensionGroupState.UPDATE_PENDING, ExtensionGroupState.OBSOLETE].includes(
+        value as ExtensionGroupState,
+    );
+
 export const isExtensionStateOrLanguage = (languageCode: string): boolean =>
-    [
-        ExtensionGroupState.INSTALLED,
-        ExtensionGroupState.UPDATE_PENDING,
-        ExtensionGroupState.OBSOLETE,
-        DefaultLanguage.ALL,
-        DefaultLanguage.OTHER,
-        DefaultLanguage.LOCAL_SOURCE,
-    ].includes(languageCode as ExtensionGroupState | DefaultLanguage);
+    isExtensionState(languageCode) ||
+    [DefaultLanguage.ALL, DefaultLanguage.OTHER, DefaultLanguage.LOCAL_SOURCE].includes(
+        languageCode as DefaultLanguage,
+    );
 
 export const translateExtensionLanguage = (languageCode: string): string =>
     isExtensionStateOrLanguage(languageCode)
@@ -59,16 +60,11 @@ export function getExtensionsInfo(extensions: TExtension[]): {
         [ExtensionGroupState.OBSOLETE]: [],
         [ExtensionGroupState.INSTALLED]: [],
         [ExtensionGroupState.UPDATE_PENDING]: [],
-        [DefaultLanguage.ALL]: [],
-        [DefaultLanguage.OTHER]: [],
-        [DefaultLanguage.LOCAL_SOURCE]: [],
     };
     extensions.forEach((extension) => {
         if (sortedExtensions[extension.lang] === undefined) {
             sortedExtensions[extension.lang] = [];
-            if (extension.lang !== 'all') {
-                allLangs.push(extension.lang);
-            }
+            allLangs.push(extension.lang);
         }
         if (extension.isInstalled) {
             if (extension.hasUpdate) {
@@ -91,9 +87,6 @@ export function getExtensionsInfo(extensions: TExtension[]): {
         [ExtensionGroupState.OBSOLETE, sortedExtensions[ExtensionGroupState.OBSOLETE]],
         [ExtensionGroupState.UPDATE_PENDING, sortedExtensions[ExtensionGroupState.UPDATE_PENDING]],
         [ExtensionGroupState.INSTALLED, sortedExtensions[ExtensionGroupState.INSTALLED]],
-        [DefaultLanguage.ALL, sortedExtensions[DefaultLanguage.ALL]],
-        [DefaultLanguage.OTHER, sortedExtensions[DefaultLanguage.OTHER]],
-        [DefaultLanguage.LOCAL_SOURCE, sortedExtensions[DefaultLanguage.LOCAL_SOURCE]],
     ];
 
     const langExt: GroupedExtensionsResult = allLangs.map((lang) => [lang, sortedExtensions[lang]]);
