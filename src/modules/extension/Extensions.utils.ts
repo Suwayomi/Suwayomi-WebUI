@@ -17,6 +17,7 @@ import {
 } from '@/modules/extension/Extensions.types.ts';
 import { DefaultLanguage, langCodeToName, langSortCmp } from '@/modules/core/utils/Languages.ts';
 import { extensionLanguageToTranslationKey } from '@/modules/extension/Extensions.constants.ts';
+import { enhancedCleanup } from '@/util/Strings.ts';
 
 export const getInstalledState = (
     isInstalled: boolean,
@@ -81,11 +82,24 @@ export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExte
         return langSortCmp(a, b);
     });
 
-    return extensionsBySortedLanguage.map(([language, extensionsOfLanguage]) => [
+    const groupedExtensionsSortedByLanguage = extensionsBySortedLanguage.map(([language, extensionsOfLanguage]) => [
         language,
         (extensionsOfLanguage ?? []).toSorted((a, b) => langSortCmp(a.lang, b.lang)),
-    ]);
+    ]) satisfies GroupedExtensionsResult;
+
+    return groupedExtensionsSortedByLanguage.filter(([, extensionsOfLanguage]) => !!extensionsOfLanguage.length);
 }
 
 export const getLanguagesFromExtensions = (extensions: TExtension[]): string[] =>
     [...new Set(extensions.map((extension) => extension.lang))].toSorted(langSortCmp);
+
+export const filterExtensions = (
+    extensions: TExtension[],
+    selectedLanguages: string[],
+    showNsfw: boolean,
+    query: string | null | undefined,
+): TExtension[] =>
+    extensions
+        .filter((extension) => selectedLanguages.includes(extension.lang))
+        .filter((extension) => showNsfw || !extension.isNsfw)
+        .filter((extension) => !query || enhancedCleanup(extension.name).includes(enhancedCleanup(query)));

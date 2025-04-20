@@ -35,7 +35,7 @@ import {
     groupExtensionsByLanguage,
     getLanguagesFromExtensions,
     translateExtensionLanguage,
-    isExtensionState,
+    filterExtensions,
 } from '@/modules/extension/Extensions.utils.ts';
 import {
     ExtensionAction,
@@ -98,37 +98,24 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions ?? []), [allExtensions]);
 
     const filteredExtensions = useMemo(
-        () =>
-            (allExtensions ?? []).filter((ext) => {
-                const nsfwFilter = showNsfw || !ext.isNsfw;
-                if (!query) return nsfwFilter;
-                return nsfwFilter && ext.name.toLowerCase().includes(query.toLowerCase());
-            }),
-        [allExtensions, showNsfw, query],
+        () => filterExtensions(allExtensions ?? [], shownLangs, showNsfw, query),
+        [allExtensions, shownLangs, shownLangs, query],
     );
 
     const groupedExtensions = useMemo(() => groupExtensionsByLanguage(filteredExtensions), [filteredExtensions]);
 
-    const filteredGroupedExtensions = useMemo(
-        () =>
-            groupedExtensions
-                .filter((group) => group[EXTENSIONS].length > 0)
-                .filter((group) => isExtensionState(group[LANGUAGE]) || shownLangs.includes(group[LANGUAGE])),
-        [shownLangs, groupedExtensions],
-    );
-
     const groupCounts = useMemo(
-        () => filteredGroupedExtensions.map((extensionGroup) => extensionGroup[EXTENSIONS].length),
-        [filteredGroupedExtensions],
+        () => groupedExtensions.map((extensionGroup) => extensionGroup[EXTENSIONS].length),
+        [groupedExtensions],
     );
     const visibleExtensions = useMemo(
-        () => filteredGroupedExtensions.map(([, extensions]) => extensions).flat(1),
-        [filteredGroupedExtensions],
+        () => groupedExtensions.map(([, extensions]) => extensions).flat(1),
+        [groupedExtensions],
     );
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
-        useCallback((index) => filteredGroupedExtensions[index][LANGUAGE], [filteredGroupedExtensions]),
+        useCallback((index) => groupedExtensions[index][LANGUAGE], [groupedExtensions]),
         useCallback((index) => visibleExtensions[index].pkgName, [visibleExtensions]),
     );
 
@@ -262,7 +249,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 overscan={window.innerHeight * 0.5}
                 groupCounts={groupCounts}
                 groupContent={(index) => {
-                    const [groupName, groupExtensions] = filteredGroupedExtensions[index];
+                    const [groupName, groupExtensions] = groupedExtensions[index];
                     const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
 
                     return (
