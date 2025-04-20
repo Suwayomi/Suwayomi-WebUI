@@ -22,7 +22,11 @@ import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 import { ResumeFab } from '@/modules/manga/components/ResumeFAB.tsx';
-import { filterAndSortChapters } from '@/modules/chapter/utils/ChapterList.util.tsx';
+import {
+    filterAndSortChapters,
+    updateChapterListOptions,
+    useChapterListOptions,
+} from '@/modules/chapter/utils/ChapterList.util.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { ChaptersToolbarMenu } from '@/modules/chapter/components/ChaptersToolbarMenu.tsx';
 import { SelectionFAB } from '@/modules/collection/components/SelectionFAB.tsx';
@@ -46,8 +50,8 @@ import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContex
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
-import { useChapterOptions } from '@/modules/chapter/hooks/useChapterOptions.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;
@@ -118,7 +122,10 @@ export const ChapterList = ({
 
     const scrollbarWidth = MediaQuery.useGetScrollbarSize('width');
 
-    const [options, dispatch] = useChapterOptions(manga.id);
+    const options = useChapterListOptions(manga);
+    const updateOption = updateChapterListOptions(manga, (e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+    );
     const {
         data: chaptersData,
         loading: isLoading,
@@ -137,7 +144,6 @@ export const ChapterList = ({
         useSelectableCollection(chapters.length, { itemIds: chapterIds, currentKey: 'default' });
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
-
     const areAllChaptersRead = Mangas.isFullyRead(manga);
     const areAllChaptersDownloaded = Mangas.isFullyDownloaded(manga);
 
@@ -225,7 +231,7 @@ export const ChapterList = ({
                             )}
                         </PopupState>
 
-                        <ChaptersToolbarMenu options={options} optionsDispatch={dispatch} />
+                        <ChaptersToolbarMenu options={options} updateOption={updateOption} />
                         <SelectableCollectionSelectAll
                             areAllItemsSelected={areAllItemsSelected}
                             areNoItemsSelected={areNoItemsSelected}

@@ -12,15 +12,15 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ChapterOptions } from '@/modules/chapter/components/ChapterOptions.tsx';
-import { isFilterActive } from '@/modules/chapter/utils/ChapterList.util.tsx';
-import { ChapterListOptions, ChapterOptionsReducerAction } from '@/modules/chapter/Chapter.types.ts';
+import { isFilterActive, updateChapterListOptions } from '@/modules/chapter/utils/ChapterList.util.tsx';
+import { ChapterListOptions } from '@/modules/chapter/Chapter.types.ts';
 
 interface IProps {
     options: ChapterListOptions;
-    optionsDispatch: React.Dispatch<ChapterOptionsReducerAction>;
+    updateOption: ReturnType<typeof updateChapterListOptions>;
 }
 
-export const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
+export const ChaptersToolbarMenu = ({ options, updateOption }: IProps) => {
     const { t } = useTranslation();
 
     const [open, setOpen] = React.useState(false);
@@ -33,12 +33,7 @@ export const ChaptersToolbarMenu = ({ options, optionsDispatch }: IProps) => {
                     <FilterList color={isFiltered ? 'warning' : undefined} />
                 </IconButton>
             </CustomTooltip>
-            <ChapterOptions
-                open={open}
-                onClose={() => setOpen(false)}
-                options={options}
-                optionsDispatch={optionsDispatch}
-            />
+            <ChapterOptions open={open} onClose={() => setOpen(false)} options={options} updateOption={updateOption} />
         </>
     );
 };

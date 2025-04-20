@@ -6,10 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { useMemo } from 'react';
 import { ChapterBookmarkInfo, ChapterDownloadInfo, ChapterReadInfo } from '@/modules/chapter/services/Chapters.ts';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { NullAndUndefined } from '@/Base.types.ts';
 import { ChapterListOptions } from '@/modules/chapter/Chapter.types.ts';
+import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { GqlMetaHolder } from '@/modules/metadata/Metadata.types.ts';
+import { createUpdateMangaMetadata, useGetMangaMetadata } from '@/modules/manga/services/MangaMetadata.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChapterRead }: ChapterReadInfo) {
     switch (unread) {
@@ -83,14 +88,12 @@ export function filterAndSortChapters<Chapters extends TChapterFilter>(
     chapters: Chapters[],
     options: ChapterListOptions,
 ): Chapters[] {
-    const filtered = options.active
-        ? chapters.filter(
-              (chp) =>
-                  unreadFilter(options.unread, chp) &&
-                  downloadFilter(options.downloaded, chp) &&
-                  bookmarkedFilter(options.bookmarked, chp),
-          )
-        : [...chapters];
+    const filtered = chapters.filter(
+        (chp) =>
+            unreadFilter(options.unread, chp) &&
+            downloadFilter(options.downloaded, chp) &&
+            bookmarkedFilter(options.bookmarked, chp),
+    );
 
     return sortChapters(filtered, options);
 }
@@ -99,3 +102,17 @@ export const isFilterActive = (options: ChapterListOptions) => {
     const { unread, downloaded, bookmarked } = options;
     return unread != null || downloaded != null || bookmarked != null;
 };
+
+export const useChapterListOptions = (manga: MangaIdInfo & GqlMetaHolder): ChapterListOptions => {
+    const { unread, downloaded, bookmarked, reverse, sortBy, showChapterNumber } = useGetMangaMetadata(manga);
+
+    return useMemo(
+        () => ({ unread, downloaded, bookmarked, reverse, sortBy, showChapterNumber }),
+        [unread, downloaded, bookmarked, reverse, sortBy, showChapterNumber],
+    );
+};
+
+export const updateChapterListOptions = (
+    manga: MangaIdInfo & GqlMetaHolder,
+    handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateMangaMetadata'),
+) => createUpdateMangaMetadata(manga, handleError);

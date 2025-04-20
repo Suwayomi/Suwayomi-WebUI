@@ -12,7 +12,6 @@ import { ChapterListOptions, ChapterSortMode } from '@/modules/chapter/Chapter.t
 export const FALLBACK_CHAPTER = { id: -1, name: '', realUrl: '', isBookmarked: false };
 
 export const DEFAULT_CHAPTER_OPTIONS: ChapterListOptions = {
-    active: false,
     unread: undefined,
     downloaded: undefined,
     bookmarked: undefined,

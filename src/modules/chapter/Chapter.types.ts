@@ -12,7 +12,6 @@ import { ChapterReaderFieldsFragment } from '@/lib/graphql/generated/graphql.ts'
 export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
 
 export interface ChapterListOptions {
-    active: boolean;
     unread: NullAndUndefined<boolean>;
     downloaded: NullAndUndefined<boolean>;
     bookmarked: NullAndUndefined<boolean>;
@@ -20,11 +19,5 @@ export interface ChapterListOptions {
     sortBy: ChapterSortMode;
     showChapterNumber: boolean;
 }
-
-export type ChapterOptionsReducerAction =
-    | { type: 'filter'; filterType: string; filterValue: NullAndUndefined<boolean> }
-    | { type: 'sortBy'; sortBy: ChapterSortMode }
-    | { type: 'sortReverse' }
-    | { type: 'showChapterNumber' };
 
 export type TChapterReader = ChapterReaderFieldsFragment;

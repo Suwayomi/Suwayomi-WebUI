@@ -20,8 +20,8 @@ import {
     TrackRecordType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { SingleModeProps } from '@/modules/manga/components/MangaActionMenuItems.tsx';
-import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
+import { ChapterListOptions } from '@/modules/chapter/Chapter.types.ts';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 
@@ -67,7 +67,9 @@ export type SpecificMangaCardProps = Omit<MangaCardProps, 'manga'> &
         mangaBadges: JSX.Element;
     };
 
-export type MangaMetadataKeys = keyof IReaderSettings;
+export type MangaMetadata = ChapterListOptions;
+
+export type MangaMetadataKeys = keyof MangaMetadata;
 
 export type MangaAction =
     | 'download'

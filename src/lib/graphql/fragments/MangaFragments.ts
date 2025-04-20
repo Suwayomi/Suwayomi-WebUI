@@ -137,6 +137,7 @@ export const MANGA_LIBRARY_FIELDS = gql`
 
 export const MANGA_SCREEN_FIELDS = gql`
     ${MANGA_LIBRARY_FIELDS}
+    ${MANGA_META_FIELDS}
 
     fragment MANGA_SCREEN_FIELDS on MangaType {
         ...MANGA_LIBRARY_FIELDS
@@ -147,6 +148,10 @@ export const MANGA_SCREEN_FIELDS = gql`
 
         status
         realUrl
+
+        meta {
+            ...MANGA_META_FIELDS
+        }
 
         sourceId
         source {

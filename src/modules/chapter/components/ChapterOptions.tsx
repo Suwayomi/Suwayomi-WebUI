@@ -15,13 +15,14 @@ import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeS
 import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
 import { CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY } from '@/modules/chapter/Chapter.constants.ts';
 import { TranslationKey } from '@/Base.types.ts';
-import { ChapterListOptions, ChapterOptionsReducerAction } from '@/modules/chapter/Chapter.types.ts';
+import { ChapterListOptions } from '@/modules/chapter/Chapter.types.ts';
+import { updateChapterListOptions } from '@/modules/chapter/utils/ChapterList.util.tsx';
 
 interface IProps {
     open: boolean;
     onClose: () => void;
     options: ChapterListOptions;
-    optionsDispatch: React.Dispatch<ChapterOptionsReducerAction>;
+    updateOption: ReturnType<typeof updateChapterListOptions>;
 }
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
@@ -30,7 +31,7 @@ const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     display: 'global.label.display',
 };
 
-export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optionsDispatch }) => {
+export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, updateOption }) => {
     const { t } = useTranslation();
 
     return (
@@ -47,35 +48,17 @@ export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optio
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.unread')}
                                 checked={options.unread}
-                                onChange={(c) =>
-                                    optionsDispatch({
-                                        type: 'filter',
-                                        filterType: 'unread',
-                                        filterValue: c,
-                                    })
-                                }
+                                onChange={(c) => updateOption('unread', c)}
                             />
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.downloaded')}
                                 checked={options.downloaded}
-                                onChange={(c) =>
-                                    optionsDispatch({
-                                        type: 'filter',
-                                        filterType: 'downloaded',
-                                        filterValue: c,
-                                    })
-                                }
+                                onChange={(c) => updateOption('downloaded', c)}
                             />
                             <ThreeStateCheckboxInput
                                 label={t('global.filter.label.bookmarked')}
                                 checked={options.bookmarked}
-                                onChange={(c) =>
-                                    optionsDispatch({
-                                        type: 'filter',
-                                        filterType: 'bookmarked',
-                                        filterValue: c,
-                                    })
-                                }
+                                onChange={(c) => updateOption('bookmarked', c)}
                             />
                         </>
                     );
@@ -89,11 +72,11 @@ export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optio
                             sortDescending={options.reverse}
                             onClick={() =>
                                 mode !== options.sortBy
-                                    ? optionsDispatch({
-                                          type: 'sortBy',
-                                          sortBy: mode as keyof typeof CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY,
-                                      })
-                                    : optionsDispatch({ type: 'sortReverse' })
+                                    ? updateOption(
+                                          'sortBy',
+                                          mode as keyof typeof CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY,
+                                      )
+                                    : updateOption('reverse', !options.reverse)
                             }
                         />
                     ));
@@ -101,7 +84,7 @@ export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, optio
                 if (key === 'display') {
                     return (
                         <RadioGroup
-                            onChange={() => optionsDispatch({ type: 'showChapterNumber' })}
+                            onChange={() => updateOption('showChapterNumber', !options.showChapterNumber)}
                             value={options.showChapterNumber}
                         >
                             <RadioInput label={t('chapter.option.display.label.source_title')} value={false} />

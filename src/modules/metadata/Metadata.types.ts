@@ -11,6 +11,7 @@ import { MangaMetadataKeys } from '@/modules/manga/Manga.types.ts';
 import { SourceMetadataKeys } from '@/modules/source/Source.types.ts';
 import { CategoryMetadataKeys } from '@/modules/category/Category.types.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
+import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };
@@ -47,6 +48,7 @@ export type AppMetadataKeys =
     | keyof MetadataAppliedMigration
     | MetadataServerSettingKeys
     | MangaMetadataKeys
+    | keyof IReaderSettings
     | SearchMetadataKeys
     | SourceMetadataKeys
     | CategoryMetadataKeys;

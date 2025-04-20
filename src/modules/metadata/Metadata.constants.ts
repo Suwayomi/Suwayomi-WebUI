@@ -80,6 +80,11 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     shouldInformAboutScanlatorChange: undefined,
     hideHistory: undefined,
     scrollAmount: undefined,
+    reverse: undefined,
+    bookmarked: undefined,
+    downloaded: undefined,
+    unread: undefined,
+    showChapterNumber: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -154,6 +159,14 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'customFilter',
     'shouldSkipDupChapters',
     'hotkeys',
+
+    // manga
+    // chapter list options
+    'reverse',
+    'bookmarked',
+    'downloaded',
+    'unread',
+    'showChapterNumber',
 ];
 
 /**
