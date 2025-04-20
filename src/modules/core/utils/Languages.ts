@@ -50,16 +50,16 @@ export function langCodeToName(code: string): string {
     return getLanguage(code).nativeName;
 }
 
-function defaultNativeLang() {
-    return 'en'; // TODO: infer from the browser
+function defaultNativeLang(): readonly string[] {
+    return navigator.languages;
 }
 
-export function extensionDefaultLangs() {
-    return [defaultNativeLang(), DefaultLanguage.ALL];
+export function extensionDefaultLangs(): string[] {
+    return [...defaultNativeLang(), DefaultLanguage.ALL];
 }
 
-export function sourceDefualtLangs() {
-    return [defaultNativeLang(), DefaultLanguage.LOCAL_SOURCE];
+export function sourceDefualtLangs(): string[] {
+    return [...defaultNativeLang(), DefaultLanguage.LOCAL_SOURCE];
 }
 
 export function sourceForcedDefaultLangs(): string[] {
