@@ -278,7 +278,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                                                         EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[
                                                             ExtensionAction.UPDATE
                                                         ],
-                                                        { count: groupedExtensions.length },
+                                                        { count: extensionIds.length },
                                                     ),
                                                     'error',
                                                     getErrorMessage(e),
