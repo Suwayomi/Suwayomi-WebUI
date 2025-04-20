@@ -52,6 +52,63 @@ import { ExtensionOptions } from '@/modules/extension/components/ExtensionOption
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
 
+const GroupHeader = ({
+    groupName,
+    isFirstItem,
+    groupExtensionIds,
+    isUpdateGroup,
+    updatingExtensionIds,
+    setUpdatingExtensionIds,
+    handleExtensionUpdate,
+}: {
+    groupName: string;
+    isFirstItem: boolean;
+    groupExtensionIds: TExtension['pkgName'][];
+    isUpdateGroup: boolean;
+    updatingExtensionIds: TExtension['pkgName'][];
+    setUpdatingExtensionIds: (ids: TExtension['pkgName'][]) => void;
+    handleExtensionUpdate: () => void;
+}) => {
+    const { t } = useTranslation();
+
+    return (
+        <StyledGroupHeader
+            key={groupName}
+            isFirstItem={isFirstItem}
+            sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', pr: 1 }}
+        >
+            <Typography variant="h5" component="h2">
+                {translateExtensionLanguage(groupName)}
+            </Typography>
+            {isUpdateGroup && (
+                <Button
+                    disabled={!!updatingExtensionIds.length}
+                    variant="contained"
+                    onClick={() => {
+                        setUpdatingExtensionIds(groupExtensionIds);
+
+                        requestManager
+                            .updateExtensions(groupExtensionIds, { update: true })
+                            .response.then(() => handleExtensionUpdate())
+                            .catch((e) =>
+                                makeToast(
+                                    t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[ExtensionAction.UPDATE], {
+                                        count: groupExtensionIds.length,
+                                    }),
+                                    'error',
+                                    getErrorMessage(e),
+                                ),
+                            )
+                            .finally(() => setUpdatingExtensionIds([]));
+                    }}
+                >
+                    {t('extension.action.label.update_all')}
+                </Button>
+            )}
+        </StyledGroupHeader>
+    );
+};
+
 export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
     const { setAction } = useNavBarContext();
@@ -253,44 +310,15 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
 
                     return (
-                        <StyledGroupHeader
-                            key={groupName}
+                        <GroupHeader
+                            groupName={groupName}
                             isFirstItem={index === 0}
-                            sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', pr: 1 }}
-                        >
-                            <Typography variant="h5" component="h2">
-                                {translateExtensionLanguage(groupName)}
-                            </Typography>
-                            {isUpdateGroup && (
-                                <Button
-                                    disabled={!!updatingExtensionIds.length}
-                                    variant="contained"
-                                    onClick={() => {
-                                        const extensionIds = groupExtensions.map((extension) => extension.pkgName);
-                                        setUpdatingExtensionIds(extensionIds);
-
-                                        requestManager
-                                            .updateExtensions(extensionIds, { update: true })
-                                            .response.then(() => handleExtensionUpdate())
-                                            .catch((e) =>
-                                                makeToast(
-                                                    t(
-                                                        EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[
-                                                            ExtensionAction.UPDATE
-                                                        ],
-                                                        { count: extensionIds.length },
-                                                    ),
-                                                    'error',
-                                                    getErrorMessage(e),
-                                                ),
-                                            )
-                                            .finally(() => setUpdatingExtensionIds([]));
-                                    }}
-                                >
-                                    {t('extension.action.label.update_all')}
-                                </Button>
-                            )}
-                        </StyledGroupHeader>
+                            groupExtensionIds={groupExtensions.map((extension) => extension.pkgName)}
+                            isUpdateGroup={isUpdateGroup}
+                            updatingExtensionIds={updatingExtensionIds}
+                            setUpdatingExtensionIds={setUpdatingExtensionIds}
+                            handleExtensionUpdate={handleExtensionUpdate}
+                        />
                     );
                 }}
                 computeItemKey={computeItemKey}
