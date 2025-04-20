@@ -32,9 +32,10 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import {
-    getExtensionsInfo,
-    isExtensionState,
+    groupExtensionsByLanguage,
+    getLanguagesFromExtensions,
     translateExtensionLanguage,
+    isExtensionState,
 } from '@/modules/extension/Extensions.utils.ts';
 import {
     ExtensionAction,
@@ -94,6 +95,8 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         fetchExtensions();
     }, [refetchExtensions]);
 
+    const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions ?? []), [allExtensions]);
+
     const filteredExtensions = useMemo(
         () =>
             (allExtensions ?? []).filter((ext) => {
@@ -104,7 +107,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         [allExtensions, showNsfw, query],
     );
 
-    const { allLangs, groupedExtensions } = useMemo(() => getExtensionsInfo(filteredExtensions), [filteredExtensions]);
+    const groupedExtensions = useMemo(() => groupExtensionsByLanguage(filteredExtensions), [filteredExtensions]);
 
     const filteredGroupedExtensions = useMemo(
         () =>

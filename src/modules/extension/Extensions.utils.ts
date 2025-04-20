@@ -51,10 +51,7 @@ export const translateExtensionLanguage = (languageCode: string): string =>
         ? t(extensionLanguageToTranslationKey[languageCode as ExtensionGroupState | DefaultLanguage])
         : langCodeToName(languageCode);
 
-export function getExtensionsInfo(extensions: TExtension[]): {
-    allLangs: string[];
-    groupedExtensions: GroupedExtensionsResult;
-} {
+export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExtensionsResult {
     const allLangs: string[] = [];
     const sortedExtensions: GroupedExtensions = {
         [ExtensionGroupState.OBSOLETE]: [],
@@ -96,8 +93,8 @@ export function getExtensionsInfo(extensions: TExtension[]): {
         groupedExtensionList.sort((a, b) => a.name.localeCompare(b.name)),
     );
 
-    return {
-        allLangs,
-        groupedExtensions,
-    };
+    return groupedExtensions;
 }
+
+export const getLanguagesFromExtensions = (extensions: TExtension[]): string[] =>
+    [...new Set(extensions.map((extension) => extension.lang))].toSorted(langSortCmp);
