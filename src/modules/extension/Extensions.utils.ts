@@ -11,7 +11,6 @@ import {
     ExtensionAction,
     ExtensionGroupState,
     ExtensionState,
-    GroupedExtensions,
     GroupedExtensionsResult,
     InstalledState,
     TExtension,
@@ -52,48 +51,40 @@ export const translateExtensionLanguage = (languageCode: string): string =>
         : langCodeToName(languageCode);
 
 export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExtensionsResult {
-    const allLangs: string[] = [];
-    const sortedExtensions: GroupedExtensions = {
-        [ExtensionGroupState.OBSOLETE]: [],
-        [ExtensionGroupState.INSTALLED]: [],
-        [ExtensionGroupState.UPDATE_PENDING]: [],
-    };
-    extensions.forEach((extension) => {
-        if (sortedExtensions[extension.lang] === undefined) {
-            sortedExtensions[extension.lang] = [];
-            allLangs.push(extension.lang);
+    const extensionsByLanguage = Object.groupBy<ExtensionGroupState | string, TExtension>(extensions, (extension) => {
+        if (!extension.isInstalled) {
+            return extension.lang;
         }
-        if (extension.isInstalled) {
-            if (extension.hasUpdate) {
-                sortedExtensions[ExtensionGroupState.UPDATE_PENDING].push(extension);
-                return;
-            }
-            if (extension.isObsolete) {
-                sortedExtensions[ExtensionGroupState.OBSOLETE].push(extension);
-                return;
-            }
 
-            sortedExtensions[ExtensionGroupState.INSTALLED].push(extension);
-        } else {
-            sortedExtensions[extension.lang].push(extension);
+        if (extension.hasUpdate) {
+            return ExtensionGroupState.UPDATE_PENDING;
         }
+
+        if (extension.isObsolete) {
+            return ExtensionGroupState.OBSOLETE;
+        }
+
+        return ExtensionGroupState.INSTALLED;
     });
 
-    allLangs.sort(langSortCmp);
-    const result: GroupedExtensionsResult<ExtensionGroupState | DefaultLanguage | string> = [
-        [ExtensionGroupState.OBSOLETE, sortedExtensions[ExtensionGroupState.OBSOLETE]],
-        [ExtensionGroupState.UPDATE_PENDING, sortedExtensions[ExtensionGroupState.UPDATE_PENDING]],
-        [ExtensionGroupState.INSTALLED, sortedExtensions[ExtensionGroupState.INSTALLED]],
-    ];
+    // sort groups by language
+    const extensionsBySortedLanguage = Object.entries(extensionsByLanguage).toSorted(([a], [b]) => {
+        const extensionGroupStates = Object.values(ExtensionGroupState);
 
-    const langExt: GroupedExtensionsResult = allLangs.map((lang) => [lang, sortedExtensions[lang]]);
-    const groupedExtensions = result.concat(langExt);
+        if (extensionGroupStates.includes(a as ExtensionGroupState)) {
+            return -1;
+        }
+        if (extensionGroupStates.includes(b as ExtensionGroupState)) {
+            return 1;
+        }
 
-    groupedExtensions.forEach(([, groupedExtensionList]) =>
-        groupedExtensionList.sort((a, b) => a.name.localeCompare(b.name)),
-    );
+        return langSortCmp(a, b);
+    });
 
-    return groupedExtensions;
+    return extensionsBySortedLanguage.map(([language, extensionsOfLanguage]) => [
+        language,
+        (extensionsOfLanguage ?? []).toSorted((a, b) => langSortCmp(a.lang, b.lang)),
+    ]);
 }
 
 export const getLanguagesFromExtensions = (extensions: TExtension[]): string[] =>
