@@ -18,7 +18,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { sourceDefualtLangs } from '@/modules/core/utils/Languages.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
-import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
+import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
 import { MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
@@ -226,7 +226,11 @@ export const SearchAll: React.FC = () => {
         setAction(
             <>
                 <AppbarSearch isClosable={false} />
-                <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={sourceLanguages} />
+                <LanguageSelect
+                    selectedLanguages={shownLangs}
+                    setSelectedLanguages={setShownLangs}
+                    languages={sourceLanguages}
+                />
             </>,
         );
 

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -20,21 +20,19 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import { useTranslation } from 'react-i18next';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { cloneObject } from '@/util/cloneObject.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 
 interface IProps {
-    shownLangs: string[];
-    setShownLangs: (arg0: string[]) => void;
-    allLangs: string[];
+    selectedLanguages: string[];
+    setSelectedLanguages: (languages: string[]) => void;
+    languages: string[];
 }
 
-export function LangSelect(props: IProps) {
+export function LanguageSelect(props: IProps) {
     const { t } = useTranslation();
 
-    const { shownLangs, setShownLangs, allLangs } = props;
-    // hold a copy and only sate state on parent when OK pressed, improves performance
-    const [mShownLangs, setMShownLangs] = useState(cloneObject(shownLangs));
+    const { selectedLanguages, setSelectedLanguages, languages } = props;
+    const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(selectedLanguages);
     const [open, setOpen] = useState<boolean>(false);
 
     const handleCancel = () => {
@@ -43,18 +41,14 @@ export function LangSelect(props: IProps) {
 
     const handleOk = () => {
         setOpen(false);
-        setShownLangs(mShownLangs);
+        setSelectedLanguages(tmpSelectedLanguages);
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>, lang: string) => {
-        const { checked } = event.target as HTMLInputElement;
-
-        if (checked) {
-            setMShownLangs([...mShownLangs, lang]);
+    const handleChange = (language: string, selected: boolean) => {
+        if (selected) {
+            setTmpSelectedLanguages([...tmpSelectedLanguages, language]);
         } else {
-            const clone = cloneObject(mShownLangs);
-            clone.splice(clone.indexOf(lang), 1);
-            setMShownLangs(clone);
+            setTmpSelectedLanguages(tmpSelectedLanguages.toSpliced(tmpSelectedLanguages.indexOf(language), 1));
         }
     };
 
@@ -79,13 +73,13 @@ export function LangSelect(props: IProps) {
                 <DialogTitle>{t('global.language.title.enabled_languages')}</DialogTitle>
                 <DialogContent dividers sx={{ padding: 0 }}>
                     <List>
-                        {allLangs.map((lang) => (
-                            <ListItem key={lang}>
-                                <ListItemText primary={translateExtensionLanguage(lang)} />
+                        {languages.map((language) => (
+                            <ListItem key={language}>
+                                <ListItemText primary={translateExtensionLanguage(language)} />
 
                                 <Switch
-                                    checked={mShownLangs.indexOf(lang) !== -1}
-                                    onChange={(e) => handleChange(e, lang)}
+                                    checked={tmpSelectedLanguages.includes(language)}
+                                    onChange={(e) => handleChange(language, e.target.checked)}
                                 />
                             </ListItem>
                         ))}

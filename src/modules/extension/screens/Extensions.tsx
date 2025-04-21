@@ -22,7 +22,7 @@ import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
+import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
 import { ExtensionCard } from '@/modules/extension/components/ExtensionCard.tsx';
 import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
@@ -229,12 +229,12 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     </IconButton>
                 </CustomTooltip>
 
-                <LangSelect
-                    shownLangs={shownLangs}
-                    setShownLangs={(languages: string[]) =>
+                <LanguageSelect
+                    selectedLanguages={shownLangs}
+                    setSelectedLanguages={(languages: string[]) =>
                         updateMetadataServerSettings('extensionLanguages', languages)
                     }
-                    allLangs={allLangs}
+                    languages={allLangs}
                 />
             </>,
         );

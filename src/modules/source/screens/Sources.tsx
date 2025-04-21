@@ -18,7 +18,7 @@ import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { sourceDefualtLangs } from '@/modules/core/utils/Languages.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
-import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
+import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
@@ -66,7 +66,11 @@ export function Sources() {
                         <TravelExploreIcon />
                     </IconButton>
                 </CustomTooltip>
-                <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={sourceLanguages} />
+                <LanguageSelect
+                    selectedLanguages={shownLangs}
+                    setSelectedLanguages={setShownLangs}
+                    languages={sourceLanguages}
+                />
             </>,
         );
 
