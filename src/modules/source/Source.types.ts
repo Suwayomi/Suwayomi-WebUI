@@ -7,6 +7,7 @@
  */
 
 import {
+    ExtensionType,
     GetSourceBrowseQuery,
     GetSourceSettingsQuery,
     SourcePreferenceChangeInput,
@@ -60,3 +61,7 @@ export type EditTextPreferenceProps = PreferenceProps &
     ExtractByKeyValue<SourcePreferences, '__typename', 'EditTextPreference'>;
 
 export type SourceIdInfo = Pick<SourceType, 'id'>;
+export type SourceLanguageInfo = Pick<SourceType, 'lang'>;
+export type SourceDisplayNameInfo = Pick<SourceType, 'displayName'>;
+export type SourceNsfwInfo = Pick<SourceType, 'isNsfw'>;
+export type SourceRepoInfo = { extension: Pick<ExtensionType, 'repo'> };

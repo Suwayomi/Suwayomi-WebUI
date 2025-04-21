@@ -15,47 +15,17 @@ import { useTranslation } from 'react-i18next';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { sourceDefualtLangs, langSortCmp, DefaultLanguage } from '@/modules/core/utils/Languages.ts';
+import { sourceDefualtLangs } from '@/modules/core/utils/Languages.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Sources as SourceService } from '@/modules/source/services/Sources.ts';
-
-function sourceToLangList(sources: Pick<SourceType, 'id' | 'lang'>[]) {
-    const result = new Set<string>();
-
-    sources.forEach((source) => {
-        const lang = SourceService.isLocalSource(source) ? DefaultLanguage.OTHER : source.lang;
-
-        result.add(lang);
-    });
-
-    return [...result].sort(langSortCmp);
-}
-
-function groupByLang<Source extends Pick<SourceType, 'id' | 'name' | 'lang'>>(
-    sources: Source[],
-): Record<string, Source[]> {
-    const result: Record<string, Source[]> = {};
-
-    sources.forEach((source) => {
-        const lang = SourceService.isLocalSource(source) ? DefaultLanguage.OTHER : source.lang;
-
-        result[lang] ??= [];
-        result[lang].push(source);
-    });
-
-    Object.values(result).forEach((langSources) => langSources.sort((a, b) => a.name.localeCompare(b.name)));
-
-    return result;
-}
 
 export function Sources() {
     const { t } = useTranslation();
@@ -71,15 +41,20 @@ export function Sources() {
         refetch,
     } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
     const sources = data?.sources.nodes;
+    const filteredSources = useMemo(
+        () => SourceService.filter(sources ?? [], { showNsfw, languages: shownLangs, keepLocalSource: true }),
+        [sources, shownLangs],
+    );
+    const sourcesByLanguageTuple = useMemo(
+        () => Object.entries(SourceService.groupByLanguage(filteredSources)),
+        [filteredSources],
+    );
 
-    const areSourcesFromDifferentRepos = useMemo(() => {
-        if (!sources || !!sources?.length) {
-            return false;
-        }
-
-        const { repo } = sources[0].extension;
-        return sources.some((source) => source.extension.repo !== repo);
-    }, [sources]);
+    const sourceLanguages = useMemo(() => SourceService.getLanguages(sources ?? []), [sources]);
+    const areSourcesFromDifferentRepos = useMemo(
+        () => SourceService.areFromMultipleRepos(filteredSources),
+        [filteredSources],
+    );
 
     const navigate = useNavigate();
 
@@ -91,18 +66,14 @@ export function Sources() {
                         <TravelExploreIcon />
                     </IconButton>
                 </CustomTooltip>
-                <LangSelect
-                    shownLangs={shownLangs}
-                    setShownLangs={setShownLangs}
-                    allLangs={sourceToLangList(sources ?? [])}
-                />
+                <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={sourceLanguages} />
             </>,
         );
 
         return () => {
             setAction(null);
         };
-    }, [t, shownLangs, sources]);
+    }, [t, shownLangs, sourceLanguages]);
 
     if (isLoading) return <LoadingPlaceholder />;
 
@@ -122,50 +93,26 @@ export function Sources() {
 
     return (
         <>
-            {Object.entries(groupByLang(sources ?? []))
-                .sort((a, b) => langSortCmp(a[0], b[0]))
-                .map(
-                    ([lang, list]) =>
-                        (lang === DefaultLanguage.OTHER || shownLangs.includes(lang)) && (
-                            <Fragment key={lang}>
-                                <Typography
-                                    key={lang}
-                                    variant="h5"
-                                    component="h2"
-                                    sx={{
-                                        paddingLeft: 3,
-                                        paddingTop: 1,
-                                        paddingBottom: 2,
-                                        fontWeight: 'bold',
-                                    }}
-                                >
-                                    {translateExtensionLanguage(lang)}
-                                </Typography>
-                                {list
-                                    .filter((source) => {
-                                        const isLangOther = lang === DefaultLanguage.OTHER;
-                                        if (isLangOther) {
-                                            const isLocalSource = SourceService.isLocalSource(source);
-                                            const isLangShown = shownLangs.includes(lang);
-
-                                            const isLangOtherSourceShown = isLangShown || isLocalSource;
-                                            if (!isLangOtherSourceShown) {
-                                                return false;
-                                            }
-                                        }
-
-                                        return showNsfw || !source.isNsfw;
-                                    })
-                                    .map((source) => (
-                                        <SourceCard
-                                            key={source.id}
-                                            source={source}
-                                            showSourceRepo={areSourcesFromDifferentRepos}
-                                        />
-                                    ))}
-                            </Fragment>
-                        ),
-                )}
+            {sourcesByLanguageTuple.map(([languages, sourcesOfLanguage]) => (
+                <Fragment key={languages}>
+                    <Typography
+                        key={languages}
+                        variant="h5"
+                        component="h2"
+                        sx={{
+                            paddingLeft: 3,
+                            paddingTop: 1,
+                            paddingBottom: 2,
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        {translateExtensionLanguage(languages)}
+                    </Typography>
+                    {sourcesOfLanguage.map((source) => (
+                        <SourceCard key={source.id} source={source} showSourceRepo={areSourcesFromDifferentRepos} />
+                    ))}
+                </Fragment>
+            ))}
         </>
     );
 }
