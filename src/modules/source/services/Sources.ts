@@ -13,7 +13,7 @@ import {
     SourceNsfwInfo,
     SourceRepoInfo,
 } from '@/modules/source/Source.types.ts';
-import { langSortCmp } from '@/modules/core/utils/Languages.ts';
+import { DefaultLanguage, langSortCmp } from '@/modules/core/utils/Languages.ts';
 
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';
@@ -22,14 +22,22 @@ export class Sources {
         return source.id === Sources.LOCAL_SOURCE_ID;
     }
 
-    static getLanguages(sources: SourceLanguageInfo[]): string[] {
-        return [...new Set(sources.map((source) => source.lang))].toSorted(langSortCmp);
+    static getLanguage(source: SourceIdInfo & SourceLanguageInfo): string {
+        if (Sources.isLocalSource(source)) {
+            return DefaultLanguage.OTHER;
+        }
+
+        return source.lang;
     }
 
-    static groupByLanguage<Source extends SourceLanguageInfo & SourceDisplayNameInfo>(
+    static getLanguages(sources: (SourceIdInfo & SourceLanguageInfo)[]): string[] {
+        return [...new Set(sources.map((source) => Sources.getLanguage(source)))].toSorted(langSortCmp);
+    }
+
+    static groupByLanguage<Source extends SourceIdInfo & SourceLanguageInfo & SourceDisplayNameInfo>(
         sources: Source[],
     ): Record<string, Source[]> {
-        const sourcesByLanguage = Object.groupBy(sources, (source) => source.lang);
+        const sourcesByLanguage = Object.groupBy(sources, (source) => Sources.getLanguage(source));
         const sourcesBySortedLanguage = Object.entries(sourcesByLanguage).toSorted(([a], [b]) => langSortCmp(a, b));
         const sortedSourcesBySortedLanguage = sourcesBySortedLanguage.map(([language, sourcesOfLanguage]) => [
             language,
@@ -51,7 +59,9 @@ export class Sources {
             .filter((source) => showNsfw || !source.isNsfw || (keepLocalSource && Sources.isLocalSource(source)))
             .filter(
                 (source) =>
-                    !languages || languages.includes(source.lang) || (keepLocalSource && Sources.isLocalSource(source)),
+                    !languages ||
+                    languages.includes(Sources.getLanguage(source)) ||
+                    (keepLocalSource && Sources.isLocalSource(source)),
             );
     }
 

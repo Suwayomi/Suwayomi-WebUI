@@ -28,6 +28,7 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { TExtension } from '@/modules/extension/Extensions.types.ts';
+import { Sources } from '@/modules/source/services/Sources.ts';
 
 interface IExtensionOptions {
     extensionId: TExtension['pkgName'] | undefined;
@@ -84,7 +85,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                                         }}
                                     >
                                         <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
-                                            {translateExtensionLanguage(source.lang)}
+                                            {translateExtensionLanguage(Sources.getLanguage(source))}
                                         </Typography>
                                         {source.isConfigurable && (
                                             <CustomTooltip title={t('settings.title')}>
