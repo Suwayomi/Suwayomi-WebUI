@@ -33,6 +33,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Sources } from '@/modules/source/services/Sources.ts';
 import { SourceDisplayNameInfo, SourceIdInfo } from '@/modules/source/Source.types.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -187,7 +188,9 @@ export const SearchAll: React.FC = () => {
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
-    const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
+    const {
+        settings: { showNsfw },
+    } = useMetadataServerSettings();
 
     const { data, loading, error, refetch } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
     const sources = useMemo(() => data?.sources.nodes ?? [], [data?.sources.nodes]);

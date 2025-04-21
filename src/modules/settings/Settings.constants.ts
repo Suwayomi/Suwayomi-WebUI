@@ -42,6 +42,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     // browse
     hideLibraryEntries: false,
     extensionLanguages: extensionDefaultLangs(),
+    showNsfw: true,
 
     // history
     hideHistory: false,

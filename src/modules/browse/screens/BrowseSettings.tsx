@@ -16,7 +16,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -47,8 +46,6 @@ export const BrowseSettings = () => {
         setAction(null);
     }, [t]);
 
-    const [showNsfw, setShowNsfw] = useLocalStorage<boolean>('showNsfw', true);
-
     const { data, loading, error, refetch } = requestManager.useGetServerSettings({
         notifyOnNetworkStatusChange: true,
     });
@@ -64,7 +61,7 @@ export const BrowseSettings = () => {
     };
 
     const {
-        settings: { hideLibraryEntries },
+        settings: { hideLibraryEntries, showNsfw },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataBrowseSettings>((e) =>
         makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
@@ -101,7 +98,11 @@ export const BrowseSettings = () => {
                     primary={t('settings.label.show_nsfw')}
                     secondary={t('settings.label.show_nsfw_description')}
                 />
-                <Switch edge="end" checked={showNsfw} onChange={() => setShowNsfw(!showNsfw)} />
+                <Switch
+                    edge="end"
+                    checked={showNsfw}
+                    onChange={() => updateMetadataServerSettings('showNsfw', !showNsfw)}
+                />
             </ListItem>
             <NumberSetting
                 settingTitle={t('settings.server.requests.sources.parallel.label.title')}

@@ -18,7 +18,6 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -130,13 +129,12 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         requestManager.useExtensionListFetch();
 
     const {
-        settings: { extensionLanguages: shownLangs },
+        settings: { extensionLanguages: shownLangs, showNsfw },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataBrowseSettings, 'extensionLanguages'>
     >((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
 
-    const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const [query] = useQueryParam('query', StringParam);
 
     const [updatingExtensionIds, setUpdatingExtensionIds] = useState<string[]>([]);

@@ -26,13 +26,16 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Sources as SourceService } from '@/modules/source/services/Sources.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 export function Sources() {
     const { t } = useTranslation();
     const { setAction } = useNavBarContext();
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
-    const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
+    const {
+        settings: { showNsfw },
+    } = useMetadataServerSettings();
 
     const {
         data,
