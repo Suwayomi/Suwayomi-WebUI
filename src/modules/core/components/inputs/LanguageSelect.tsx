@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -21,6 +21,7 @@ import ListItem from '@mui/material/ListItem';
 import { useTranslation } from 'react-i18next';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
+import { langSortCmp, toUniqueLanguageCodes } from '@/modules/core/utils/Languages.ts';
 
 interface IProps {
     selectedLanguages: string[];
@@ -32,16 +33,23 @@ export function LanguageSelect(props: IProps) {
     const { t } = useTranslation();
 
     const { selectedLanguages, setSelectedLanguages, languages } = props;
-    const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(selectedLanguages);
+    const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
     const [open, setOpen] = useState<boolean>(false);
+
+    const languagesSortedBySelectState = useMemo(
+        () =>
+            toUniqueLanguageCodes([...tmpSelectedLanguages.toSorted(langSortCmp), ...languages.toSorted(langSortCmp)]),
+        [languages, tmpSelectedLanguages],
+    );
 
     const handleCancel = () => {
         setOpen(false);
+        setTmpSelectedLanguages(toUniqueLanguageCodes(selectedLanguages));
     };
 
     const handleOk = () => {
         setOpen(false);
-        setSelectedLanguages(tmpSelectedLanguages);
+        setSelectedLanguages(toUniqueLanguageCodes(selectedLanguages));
     };
 
     const handleChange = (language: string, selected: boolean) => {
@@ -73,7 +81,7 @@ export function LanguageSelect(props: IProps) {
                 <DialogTitle>{t('global.language.title.enabled_languages')}</DialogTitle>
                 <DialogContent dividers sx={{ padding: 0 }}>
                     <List>
-                        {languages.map((language) => (
+                        {languagesSortedBySelectState.map((language) => (
                             <ListItem key={language}>
                                 <ListItemText primary={translateExtensionLanguage(language)} />
 

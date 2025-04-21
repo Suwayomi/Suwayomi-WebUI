@@ -15,25 +15,39 @@ export enum DefaultLanguage {
     LOCAL_SOURCE = 'localsourcelang',
 }
 
-function getISOLanguage(code: string): ISOLanguage | null {
+type LanguageObject = ISOLanguage & { orgCode: string; isoCode: string };
+
+function getISOLanguage(code: string): LanguageObject | null {
     if (IsoLanguages[code]) {
-        return IsoLanguages[code];
+        return {
+            ...IsoLanguages[code],
+            orgCode: code,
+            isoCode: code,
+        };
     }
 
     if (IsoLanguages[code.toLocaleLowerCase()]) {
-        return IsoLanguages[code.toLocaleLowerCase()];
+        return {
+            ...IsoLanguages[code.toLocaleLowerCase()],
+            orgCode: code,
+            isoCode: code.toLocaleLowerCase(),
+        };
     }
 
     const whereToCut = code.indexOf('-') !== -1 ? code.indexOf('-') : code.length;
     const processedCode = code.toLocaleLowerCase().substring(0, whereToCut);
     if (IsoLanguages[processedCode]) {
-        return IsoLanguages[processedCode];
+        return {
+            ...IsoLanguages[processedCode],
+            orgCode: code,
+            isoCode: processedCode,
+        };
     }
 
     return null;
 }
 
-export function getLanguage(code: string): { name: string; nativeName: string } {
+export function getLanguage(code: string): LanguageObject {
     const isoLanguage = getISOLanguage(code);
 
     if (isoLanguage) {
@@ -41,6 +55,8 @@ export function getLanguage(code: string): { name: string; nativeName: string } 
     }
 
     return {
+        orgCode: code,
+        isoCode: code,
         name: t('global.language.label.language_with_code', { code }),
         nativeName: t('global.language.label.language_with_code', { code }),
     };
@@ -71,4 +87,13 @@ export const langSortCmp = (a: string, b: string) => {
     if (b === 'en') return 1;
 
     return aLang.localeCompare(bLang);
+};
+
+export const toUniqueLanguageCodes = (codes: string[]): string[] => {
+    const languages = codes.map((code) => getLanguage(code));
+    const languagesByIsoCode = Object.groupBy(languages, (language) => language.isoCode);
+
+    return Object.entries(languagesByIsoCode)
+        .filter(([, languagesOfIsoCode]) => !!languagesOfIsoCode?.length)
+        .map(([, languagesOfIsoCode]) => languagesOfIsoCode![0].orgCode);
 };
