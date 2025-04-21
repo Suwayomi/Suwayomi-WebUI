@@ -252,7 +252,6 @@ export const SearchAll: React.FC = () => {
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}
                     allLangs={sourceToLangList(sources)}
-                    forcedLangs={sourceForcedDefaultLangs()}
                 />
             </>,
         );

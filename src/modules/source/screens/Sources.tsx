@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Fragment, useEffect, useLayoutEffect, useMemo } from 'react';
+import { Fragment, useLayoutEffect, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
@@ -67,7 +67,11 @@ export function Sources() {
     const { t } = useTranslation();
     const { setAction } = useNavBarContext();
 
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
+    const [savedShownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
+    const shownLangs = useMemo(
+        () => [...new Set([...savedShownLangs, ...sourceDefualtLangs(), ...sourceForcedDefaultLangs()])],
+        [savedShownLangs],
+    );
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const {
@@ -89,22 +93,6 @@ export function Sources() {
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        // make sure all of forcedDefaultLangs() exists in shownLangs
-        sourceForcedDefaultLangs().forEach((forcedLang) => {
-            let hasLang = false;
-            shownLangs.forEach((lang) => {
-                if (lang === forcedLang) hasLang = true;
-            });
-            if (!hasLang) {
-                setShownLangs((shownLangsCopy) => {
-                    shownLangsCopy.push(forcedLang);
-                    return shownLangsCopy;
-                });
-            }
-        });
-    }, []);
-
     useLayoutEffect(() => {
         setAction(
             <>
@@ -117,7 +105,6 @@ export function Sources() {
                     shownLangs={shownLangs}
                     setShownLangs={setShownLangs}
                     allLangs={sourceToLangList(sources ?? [])}
-                    forcedLangs={sourceForcedDefaultLangs()}
                 />
             </>,
         );

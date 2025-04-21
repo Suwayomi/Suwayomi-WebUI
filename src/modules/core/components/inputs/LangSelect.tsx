@@ -23,30 +23,18 @@ import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { cloneObject } from '@/util/cloneObject.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 
-function removeAll(firstList: any[], secondList: any[]) {
-    secondList.forEach((item) => {
-        const index = firstList.indexOf(item);
-        if (index !== -1) {
-            firstList.splice(index, 1);
-        }
-    });
-
-    return firstList;
-}
-
 interface IProps {
     shownLangs: string[];
     setShownLangs: (arg0: string[]) => void;
     allLangs: string[];
-    forcedLangs?: string[];
 }
 
 export function LangSelect(props: IProps) {
     const { t } = useTranslation();
 
-    const { shownLangs, setShownLangs, allLangs, forcedLangs = [] } = props;
+    const { shownLangs, setShownLangs, allLangs } = props;
     // hold a copy and only sate state on parent when OK pressed, improves performance
-    const [mShownLangs, setMShownLangs] = useState(removeAll(cloneObject(shownLangs), forcedLangs));
+    const [mShownLangs, setMShownLangs] = useState(cloneObject(shownLangs));
     const [open, setOpen] = useState<boolean>(false);
 
     const handleCancel = () => {
