@@ -21,9 +21,9 @@ import { ServerUpdateChecker } from '@/modules/app-updates/components/ServerUpda
 import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
 import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
-import { Reader } from '@/modules/reader/screens/Reader.tsx';
+
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
-import { HistorySettings } from '@/modules/history/screens/HistorySettings.tsx';
+
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
@@ -68,6 +68,8 @@ const { GlobalReaderSettings } = loadable(
     lazyLoadFallback,
 );
 const { More } = loadable(() => import('@/modules/settings/screens/More.tsx'), lazyLoadFallback);
+const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
+const { HistorySettings } = loadable(() => import('@/modules/history/screens/HistorySettings.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment
