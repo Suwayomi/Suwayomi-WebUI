@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { langSortCmp, sourceDefualtLangs } from '@/modules/core/utils/Languages.ts';
+import { sourceDefualtLangs } from '@/modules/core/utils/Languages.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
@@ -32,36 +32,13 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Sources } from '@/modules/source/services/Sources.ts';
-import { SourceIdInfo } from '@/modules/source/Source.types.ts';
+import { SourceDisplayNameInfo, SourceIdInfo } from '@/modules/source/Source.types.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
 
-function sourceToLangList(sources: Pick<SourceType, 'lang'>[]) {
-    const result: string[] = [];
-
-    sources.forEach((source) => {
-        if (result.indexOf(source.lang) === -1) {
-            result.push(source.lang);
-        }
-    });
-
-    result.sort(langSortCmp);
-    return result;
-}
-
-const compareSourceByName = (
-    sourceA: Pick<SourceType, 'displayName'>,
-    sourceB: Pick<SourceType, 'displayName'>,
-): -1 | 0 | 1 => {
-    if (sourceA.displayName < sourceB.displayName) {
-        return -1;
-    }
-    if (sourceA.displayName > sourceB.displayName) {
-        return 1;
-    }
-    return 0;
-};
+const compareSourceByName = (sourceA: SourceDisplayNameInfo, sourceB: SourceDisplayNameInfo): number =>
+    sourceA.displayName.localeCompare(sourceB.displayName);
 
 const compareSourcesBySearchResult = (
     sourceA: SourceIdInfo,
@@ -214,24 +191,23 @@ export const SearchAll: React.FC = () => {
 
     const { data, loading, error, refetch } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
     const sources = useMemo(() => data?.sources.nodes ?? [], [data?.sources.nodes]);
+    const filteredSources = useMemo(
+        () => Sources.filter(sources, { showNsfw, languages: shownLangs, keepLocalSource: true }),
+        [sources, shownLangs],
+    );
+    const sourcesSortedByName = useMemo(() => [...filteredSources].toSorted(compareSourceByName), [filteredSources]);
+
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 
-    const sourcesSortedByName = useMemo(() => [...sources].sort(compareSourceByName), [sources]);
-    const sourcesFilteredByLang = useMemo(
-        () => sourcesSortedByName.filter((source) => shownLangs.includes(source.lang) || Sources.isLocalSource(source)),
-        [sourcesSortedByName, shownLangs],
-    );
-    const sourcesFilteredByNsfw = useMemo(
-        () => sourcesFilteredByLang.filter((source) => showNsfw || !source.isNsfw),
-        [sourcesFilteredByLang, showNsfw],
-    );
+    const sourceLanguages = useMemo(() => Sources.getLanguages(sources), [sources]);
+
     const sourcesSortedByResult = useMemo(
         () =>
-            [...sourcesFilteredByNsfw].sort((sourceA, sourceB) =>
+            [...sourcesSortedByName].sort((sourceA, sourceB) =>
                 compareSourcesBySearchResult(sourceA, sourceB, debouncedSourceToLoadingStateMap),
             ),
-        [sourcesFilteredByNsfw, debouncedSourceToLoadingStateMap],
+        [sourcesSortedByName, debouncedSourceToLoadingStateMap],
     );
 
     const updateSourceLoadingState = useCallback(
@@ -250,11 +226,7 @@ export const SearchAll: React.FC = () => {
         setAction(
             <>
                 <AppbarSearch isClosable={false} />
-                <LangSelect
-                    shownLangs={shownLangs}
-                    setShownLangs={setShownLangs}
-                    allLangs={sourceToLangList(sources)}
-                />
+                <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={sourceLanguages} />
             </>,
         );
 

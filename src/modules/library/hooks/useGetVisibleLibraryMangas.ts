@@ -9,13 +9,14 @@
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { ChapterType, MangaType, SourceType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterType, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { enhancedCleanup } from '@/util/Strings.ts';
 import { useGetCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { NullAndUndefined } from '@/Base.types.ts';
 import { LibraryOptions, LibrarySortMode } from '@/modules/library/Library.types.ts';
 import { CategoryIdInfo, CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
 import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { SourceDisplayNameInfo } from '@/modules/source/Source.types.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,
@@ -62,7 +63,7 @@ const performSearch = (
 };
 
 type TMangaQueryFilter = Pick<MangaType, 'title' | 'genre' | 'description' | 'artist' | 'author' | 'sourceId'> & {
-    source?: NullAndUndefined<Pick<SourceType, 'displayName'>>;
+    source?: NullAndUndefined<SourceDisplayNameInfo>;
 };
 const querySearchManga = (
     query: NullAndUndefined<string>,
