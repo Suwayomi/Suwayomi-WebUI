@@ -10,6 +10,7 @@ import {
     GetSourceBrowseQuery,
     GetSourceSettingsQuery,
     SourcePreferenceChangeInput,
+    SourceType,
 } from '@/lib/graphql/generated/graphql.ts';
 
 export interface IPos {
@@ -57,3 +58,5 @@ export type MultiSelectListPreferenceProps = PreferenceProps &
 
 export type EditTextPreferenceProps = PreferenceProps &
     ExtractByKeyValue<SourcePreferences, '__typename', 'EditTextPreference'>;
+
+export type SourceIdInfo = Pick<SourceType, 'id'>;

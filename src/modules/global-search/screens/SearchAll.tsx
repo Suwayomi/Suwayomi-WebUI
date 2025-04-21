@@ -31,6 +31,8 @@ import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { Sources } from '@/modules/source/services/Sources.ts';
+import { SourceIdInfo } from '@/modules/source/Source.types.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -62,8 +64,8 @@ const compareSourceByName = (
 };
 
 const compareSourcesBySearchResult = (
-    sourceA: Pick<SourceType, 'id'>,
-    sourceB: Pick<SourceType, 'id'>,
+    sourceA: SourceIdInfo,
+    sourceB: SourceIdInfo,
     sourceToFetchedStateMap: SourceToLoadingStateMap,
 ): -1 | 0 | 1 => {
     const isSourceAFetched = !sourceToFetchedStateMap.get(sourceA.id)?.isLoading;
@@ -101,7 +103,7 @@ const SourceSearchPreview = React.memo(
     }: {
         source: Pick<SourceType, 'id' | 'displayName' | 'lang'>;
         onSearchRequestFinished: (
-            source: Pick<SourceType, 'id'>,
+            source: SourceIdInfo,
             isLoading: boolean,
             hasResults: boolean,
             emptySearch: boolean,
@@ -217,7 +219,7 @@ export const SearchAll: React.FC = () => {
 
     const sourcesSortedByName = useMemo(() => [...sources].sort(compareSourceByName), [sources]);
     const sourcesFilteredByLang = useMemo(
-        () => sourcesSortedByName.filter((source) => shownLangs.includes(source.lang) || Number(source.id) === 0),
+        () => sourcesSortedByName.filter((source) => shownLangs.includes(source.lang) || Sources.isLocalSource(source)),
         [sourcesSortedByName, shownLangs],
     );
     const sourcesFilteredByNsfw = useMemo(
@@ -233,7 +235,7 @@ export const SearchAll: React.FC = () => {
     );
 
     const updateSourceLoadingState = useCallback(
-        ({ id }: Pick<SourceType, 'id'>, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => {
+        ({ id }: SourceIdInfo, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => {
             setSourceToLoadingStateMap((currentMap) => {
                 const mapCopy = new Map(currentMap);
                 mapCopy.set(id, { isLoading, hasResults, emptySearch });

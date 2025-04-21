@@ -153,8 +153,7 @@ function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): 
         return translate('global.label.unknown');
     }
 
-    const isLocalSource = Number(source.id) === 0;
-    if (isLocalSource) {
+    if (Sources.isLocalSource(source)) {
         return translate('source.local_source.title');
     }
 

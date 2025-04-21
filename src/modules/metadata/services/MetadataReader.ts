@@ -19,9 +19,9 @@ import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
-import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { doesMetadataKeyExistIn, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 import { applyMetadataMigrations } from '@/modules/metadata/services/MetadataMigrations.ts';
+import { SourceIdInfo } from '@/modules/source/Source.types.ts';
 
 const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(
     metadata: Metadata | undefined,
@@ -70,7 +70,7 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
 ): METADATA;
 export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
     type: 'source',
-    metadataHolder: Pick<SourceType, 'id'> & MetadataHolder,
+    metadataHolder: SourceIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
     useEffectFn?: typeof useEffect,
@@ -82,7 +82,7 @@ export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKey
         | (MangaIdInfo & MetadataHolder)
         | (ChapterIdInfo & MetadataHolder)
         | (CategoryIdInfo & MetadataHolder)
-        | (Pick<SourceType, 'id'> & MetadataHolder),
+        | (SourceIdInfo & MetadataHolder),
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),

@@ -7,7 +7,6 @@
  */
 
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import {
@@ -21,6 +20,7 @@ import {
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 import { convertToGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
+import { SourceIdInfo } from '@/modules/source/Source.types.ts';
 
 const requestUpdateMetadataValue = async (
     metadataHolder: GqlMetaHolder,
@@ -46,8 +46,7 @@ const requestUpdateMetadataValue = async (
             await requestManager.setMangaMeta((metadataHolder as MangaIdInfo).id, metadataKey, value).response;
             break;
         case 'source':
-            await requestManager.setSourceMeta((metadataHolder as Pick<SourceType, 'id'>).id, metadataKey, value)
-                .response;
+            await requestManager.setSourceMeta((metadataHolder as SourceIdInfo).id, metadataKey, value).response;
             break;
         default:
             throw new Error(`requestUpdateMetadataValue: unknown holderType "${holderType}"`);
@@ -95,7 +94,7 @@ export const requestUpdateCategoryMetadata = async (
 ): Promise<void[]> => requestUpdateMetadata(category, 'category', keysToValues, keyPrefixes, isMetadataKey);
 
 export const requestUpdateSourceMetadata = async (
-    source: Pick<SourceType, 'id'> & GqlMetaHolder,
+    source: SourceIdInfo & GqlMetaHolder,
     keysToValue: MetadataKeyValuePair[],
     keyPrefixes?: string[],
     isMetadataKey?: boolean,
@@ -108,7 +107,7 @@ export const getMetadataUpdateFunction = (
         | (MangaIdInfo & MetadataHolder)
         | (ChapterIdInfo & MetadataHolder)
         | (CategoryIdInfo & MetadataHolder)
-        | (Pick<SourceType, 'id'> & MetadataHolder),
+        | (SourceIdInfo & MetadataHolder),
 ): ((keyValuePair: MetadataKeyValuePair[], keyPrefixes?: string[], isMetadataKey?: boolean) => Promise<void[]>) => {
     switch (type) {
         case 'global':
@@ -135,7 +134,7 @@ export const getMetadataUpdateFunction = (
             return (...args) =>
                 requestUpdateSourceMetadata(
                     {
-                        id: (metadataHolder as Pick<SourceType, 'id'>).id,
+                        id: (metadataHolder as SourceIdInfo).id,
                         meta: convertToGqlMeta(metadataHolder.meta),
                     },
                     ...args,
@@ -168,7 +167,7 @@ export const requestDeleteMetadataValue = async (
             await requestManager.deleteMangaMeta((metadataHolder as MangaIdInfo).id, metadataKey).response;
             break;
         case 'source':
-            await requestManager.deleteSourceMeta((metadataHolder as Pick<SourceType, 'id'>).id, metadataKey).response;
+            await requestManager.deleteSourceMeta((metadataHolder as SourceIdInfo).id, metadataKey).response;
             break;
         default:
             throw new Error(`requestDeleteMetadataValue: unknown holderType "${holderType}"`);
@@ -215,7 +214,7 @@ export const requestDeleteCategoryMetadata = async (
 ): Promise<void[]> => requestDeleteMetadata(category, 'category', keys, keyPrefixes, isMetadataKey);
 
 export const requestDeleteSourceMetadata = async (
-    source: Pick<SourceType, 'id'> & GqlMetaHolder,
+    source: SourceIdInfo & GqlMetaHolder,
     keys: AppMetadataKeys[],
     keyPrefixes?: string[],
     isMetadataKey?: boolean,
@@ -228,7 +227,7 @@ export const getMetadataDeleteFunction = (
         | (MangaIdInfo & MetadataHolder)
         | (ChapterIdInfo & MetadataHolder)
         | (CategoryIdInfo & MetadataHolder)
-        | (Pick<SourceType, 'id'> & MetadataHolder),
+        | (SourceIdInfo & MetadataHolder),
 ): ((metadataToDelete: AppMetadataKeys[], keyPrefixes?: string[], isMetadataKey?: boolean) => Promise<void[]>) => {
     switch (type) {
         case 'global':
@@ -255,7 +254,7 @@ export const getMetadataDeleteFunction = (
             return (...args) =>
                 requestDeleteSourceMetadata(
                     {
-                        id: (metadataHolder as Pick<SourceType, 'id'>).id,
+                        id: (metadataHolder as SourceIdInfo).id,
                         meta: convertToGqlMeta(metadataHolder.meta),
                     },
                     ...args,

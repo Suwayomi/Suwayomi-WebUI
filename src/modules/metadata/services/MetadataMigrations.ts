@@ -24,9 +24,9 @@ import { extractOriginalKey, getMetadataKey } from '@/modules/metadata/Metadata.
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
-import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getMetadataDeleteFunction, getMetadataUpdateFunction } from '@/modules/metadata/services/MetadataUpdater.ts';
+import { SourceIdInfo } from '@/modules/source/Source.types.ts';
 
 const getAppKeyPrefixForMigration = (migrationId: number): string => {
     const appKeyPrefix = METADATA_MIGRATIONS.slice(0, migrationId)
@@ -269,7 +269,7 @@ const commitMigratedMetadata = (
         | (MangaIdInfo & MetadataHolder)
         | (ChapterIdInfo & MetadataHolder)
         | (CategoryIdInfo & MetadataHolder)
-        | (Pick<SourceType, 'id'> & MetadataHolder)
+        | (SourceIdInfo & MetadataHolder)
         | undefined,
     migratedMetadata: Metadata,
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),
@@ -334,7 +334,7 @@ export const applyMetadataMigrations = (
         | (MangaIdInfo & MetadataHolder)
         | (ChapterIdInfo & MetadataHolder)
         | (CategoryIdInfo & MetadataHolder)
-        | (Pick<SourceType, 'id'> & MetadataHolder),
+        | (SourceIdInfo & MetadataHolder),
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),
 ): Metadata | undefined => {
     const meta = { ...(metadataHolder?.meta ?? {}) };

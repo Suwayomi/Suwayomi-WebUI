@@ -26,13 +26,13 @@ import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { Sources as SourceService } from '@/modules/source/services/Sources.ts';
 
 function sourceToLangList(sources: Pick<SourceType, 'id' | 'lang'>[]) {
     const result = new Set<string>();
 
     sources.forEach((source) => {
-        const isLocalSource = Number(source.id) === 0;
-        const lang = isLocalSource ? DefaultLanguage.OTHER : source.lang;
+        const lang = SourceService.isLocalSource(source) ? DefaultLanguage.OTHER : source.lang;
 
         result.add(lang);
     });
@@ -46,8 +46,7 @@ function groupByLang<Source extends Pick<SourceType, 'id' | 'name' | 'lang'>>(
     const result: Record<string, Source[]> = {};
 
     sources.forEach((source) => {
-        const isLocalSource = Number(source.id) === 0;
-        const lang = isLocalSource ? DefaultLanguage.OTHER : source.lang;
+        const lang = SourceService.isLocalSource(source) ? DefaultLanguage.OTHER : source.lang;
 
         result[lang] ??= [];
         result[lang].push(source);
@@ -146,7 +145,7 @@ export function Sources() {
                                     .filter((source) => {
                                         const isLangOther = lang === DefaultLanguage.OTHER;
                                         if (isLangOther) {
-                                            const isLocalSource = Number(source.id) === 0;
+                                            const isLocalSource = SourceService.isLocalSource(source);
                                             const isLangShown = shownLangs.includes(lang);
 
                                             const isLangOtherSourceShown = isLangShown || isLocalSource;

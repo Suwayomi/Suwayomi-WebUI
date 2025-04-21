@@ -34,7 +34,6 @@ import {
     GetSourceBrowseQueryVariables,
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
-    SourceType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
@@ -44,7 +43,7 @@ import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/modules/sour
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
 import { TranslationKey } from '@/Base.types.ts';
-import { IPos } from '@/modules/source/Source.types.ts';
+import { IPos, SourceIdInfo } from '@/modules/source/Source.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
@@ -53,8 +52,9 @@ import { GridLayout } from '@/modules/core/Core.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { Sources } from '@/modules/source/services/Sources.ts';
 
-const DEFAULT_SOURCE: Pick<SourceType, 'id'> = { id: '-1' };
+const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -332,7 +332,7 @@ export function SourceMangas() {
     );
 
     const message = !isLoading ? t(SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY[contentType]) : undefined;
-    const isLocalSource = sourceId === '0';
+    const isLocalSource = sourceId === Sources.LOCAL_SOURCE_ID;
     const messageExtra = isLocalSource ? (
         <>
             <span>{t('source.local_source.label.checkout')} </span>

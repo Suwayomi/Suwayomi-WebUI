@@ -10,8 +10,7 @@ import { useEffect, useMemo } from 'react';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { requestUpdateSourceMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { SourceType } from '@/lib/graphql/generated/graphql.ts';
-import { ISourceMetadata, SourceMetadataKeys } from '@/modules/source/Source.types.ts';
+import { ISourceMetadata, SourceIdInfo, SourceMetadataKeys } from '@/modules/source/Source.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
 import {
@@ -39,10 +38,7 @@ const convertGqlMetadataToAppMetadata = (
     savedSearches: jsonSaveParse<ISourceMetadata['savedSearches']>(metadata.savedSearches as string) ?? undefined,
 });
 
-const getMetadata = (
-    metaHolder: Pick<SourceType, 'id'> & GqlMetaHolder,
-    useEffectFn?: typeof useEffect,
-): ISourceMetadata =>
+const getMetadata = (metaHolder: SourceIdInfo & GqlMetaHolder, useEffectFn?: typeof useEffect): ISourceMetadata =>
     convertGqlMetadataToAppMetadata(
         getMetadataFrom(
             'source',
@@ -53,10 +49,9 @@ const getMetadata = (
         ),
     );
 
-export const getSourceMetadata = (metaHolder: Pick<SourceType, 'id'> & GqlMetaHolder): ISourceMetadata =>
-    getMetadata(metaHolder);
+export const getSourceMetadata = (metaHolder: SourceIdInfo & GqlMetaHolder): ISourceMetadata => getMetadata(metaHolder);
 
-export const useGetSourceMetadata = (metaHolder: Pick<SourceType, 'id'> & GqlMetaHolder): ISourceMetadata => {
+export const useGetSourceMetadata = (metaHolder: SourceIdInfo & GqlMetaHolder): ISourceMetadata => {
     const metadata = getMetadata(metaHolder, useEffect);
     return useMemo(() => metadata, [metaHolder]);
 };
@@ -65,7 +60,7 @@ export const updateSourceMetadata = async <
     MetadataKeys extends SourceMetadataKeys = SourceMetadataKeys,
     MetadataKey extends MetadataKeys = MetadataKeys,
 >(
-    source: Pick<SourceType, 'id'> & GqlMetaHolder,
+    source: SourceIdInfo & GqlMetaHolder,
     metadataKey: MetadataKey,
     value: ISourceMetadata[MetadataKey],
 ): Promise<void[]> =>
@@ -75,7 +70,7 @@ export const updateSourceMetadata = async <
 
 export const createUpdateSourceMetadata =
     <Settings extends SourceMetadataKeys>(
-        source: Pick<SourceType, 'id'> & GqlMetaHolder,
+        source: SourceIdInfo & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateSourceMetadata'),
     ): ((...args: OmitFirst<Parameters<typeof updateSourceMetadata<Settings>>>) => Promise<void | void[]>) =>
     (metadataKey, value) =>

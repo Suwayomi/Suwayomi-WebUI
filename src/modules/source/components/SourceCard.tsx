@@ -36,21 +36,18 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
 
     const isMobileWidth = MediaQuery.useIsMobileWidth();
 
+    const { source, showSourceRepo } = props;
     const {
-        source: {
-            id,
-            name,
-            lang,
-            iconUrl,
-            supportsLatest,
-            isNsfw,
-            extension: { repo },
-        },
-        showSourceRepo,
-    } = props;
+        id,
+        name,
+        lang,
+        iconUrl,
+        supportsLatest,
+        isNsfw,
+        extension: { repo },
+    } = source;
 
-    const isLocalSource = Number(id) === 0;
-    const sourceName = isLocalSource ? t('source.local_source.title') : name;
+    const sourceName = Sources.isLocalSource(source) ? t('source.local_source.title') : name;
 
     return (
         <Card
