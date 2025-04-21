@@ -59,11 +59,7 @@ export function extensionDefaultLangs(): string[] {
 }
 
 export function sourceDefualtLangs(): string[] {
-    return [...defaultNativeLang(), DefaultLanguage.LOCAL_SOURCE];
-}
-
-export function sourceForcedDefaultLangs(): string[] {
-    return [DefaultLanguage.LOCAL_SOURCE];
+    return [...defaultNativeLang()];
 }
 
 export const langSortCmp = (a: string, b: string) => {

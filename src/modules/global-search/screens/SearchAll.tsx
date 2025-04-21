@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { langSortCmp, sourceDefualtLangs, sourceForcedDefaultLangs } from '@/modules/core/utils/Languages.ts';
+import { langSortCmp, sourceDefualtLangs } from '@/modules/core/utils/Languages.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
@@ -217,7 +217,7 @@ export const SearchAll: React.FC = () => {
 
     const sourcesSortedByName = useMemo(() => [...sources].sort(compareSourceByName), [sources]);
     const sourcesFilteredByLang = useMemo(
-        () => sourcesSortedByName.filter((source) => shownLangs.includes(source.lang)),
+        () => sourcesSortedByName.filter((source) => shownLangs.includes(source.lang) || Number(source.id) === 0),
         [sourcesSortedByName, shownLangs],
     );
     const sourcesFilteredByNsfw = useMemo(
@@ -261,14 +261,6 @@ export const SearchAll: React.FC = () => {
             setAction(null);
         };
     }, [t, shownLangs, setShownLangs, sources]);
-
-    useEffect(() => {
-        // make sure all of forcedDefaultLangs() exists in shownLangs
-        const missingDefaultLangs = sourceForcedDefaultLangs().filter(
-            (defaultLang) => !shownLangs.includes(defaultLang),
-        );
-        setShownLangs([...shownLangs, ...missingDefaultLangs]);
-    }, []);
 
     if (loading) {
         return <LoadingPlaceholder />;

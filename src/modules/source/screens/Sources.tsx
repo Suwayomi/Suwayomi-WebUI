@@ -15,12 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import {
-    sourceDefualtLangs,
-    sourceForcedDefaultLangs,
-    langSortCmp,
-    DefaultLanguage,
-} from '@/modules/core/utils/Languages.ts';
+import { sourceDefualtLangs, langSortCmp, DefaultLanguage } from '@/modules/core/utils/Languages.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
 import { LangSelect } from '@/modules/core/components/inputs/LangSelect.tsx';
@@ -67,11 +62,7 @@ export function Sources() {
     const { t } = useTranslation();
     const { setAction } = useNavBarContext();
 
-    const [savedShownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
-    const shownLangs = useMemo(
-        () => [...new Set([...savedShownLangs, ...sourceDefualtLangs(), ...sourceForcedDefaultLangs()])],
-        [savedShownLangs],
-    );
+    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
 
     const {
