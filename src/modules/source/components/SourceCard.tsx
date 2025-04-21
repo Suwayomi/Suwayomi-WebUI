@@ -25,6 +25,7 @@ import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { Sources } from '@/modules/source/services/Sources.ts';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];

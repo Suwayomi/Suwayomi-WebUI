@@ -47,6 +47,7 @@ import { MangaThumbnailInfo, MangaTrackRecordInfo } from '@/modules/manga/Manga.
 import { TAppThemeContext, useAppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { CustomButtonIcon } from '@/modules/core/components/buttons/CustomButtonIcon.tsx';
+import { Sources } from '@/modules/source/services/Sources.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
