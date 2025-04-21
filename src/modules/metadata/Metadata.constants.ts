@@ -85,6 +85,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     downloaded: undefined,
     unread: undefined,
     showChapterNumber: undefined,
+    extensionLanguages: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -134,6 +135,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // browse
     'hideLibraryEntries',
+    'extensionLanguages',
 
     // history
     'hideHistory',

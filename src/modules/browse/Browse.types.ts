@@ -8,4 +8,5 @@
 
 export type MetadataBrowseSettings = {
     hideLibraryEntries: boolean;
+    extensionLanguages: string[];
 };

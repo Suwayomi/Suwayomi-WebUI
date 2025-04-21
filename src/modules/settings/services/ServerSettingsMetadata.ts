@@ -26,6 +26,7 @@ export const convertSettingsToMetadata = (
     devices: JSON.stringify(settings.devices),
     customThemes: JSON.stringify(settings.customThemes),
     migrateSortSettings: JSON.stringify(settings.migrateSortSettings),
+    extensionLanguages: JSON.stringify(settings.extensionLanguages),
 });
 
 export const convertMetadataToSettings = (
@@ -43,6 +44,9 @@ export const convertMetadataToSettings = (
             jsonSaveParse<MetadataMigrationSettings['migrateSortSettings']>(
                 (metadata.migrateSortSettings as string) ?? '',
             ) ?? SERVER_SETTINGS_METADATA_DEFAULT.migrateSortSettings,
+        extensionLanguages:
+            jsonSaveParse<string[]>((metadata.extensionLanguages as string) ?? '') ??
+            SERVER_SETTINGS_METADATA_DEFAULT.extensionLanguages,
     }) satisfies MetadataServerSettings;
 
 const getMetadataServerSettingsWithDefaultFallback = (

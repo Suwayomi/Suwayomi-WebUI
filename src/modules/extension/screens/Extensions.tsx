@@ -18,7 +18,6 @@ import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { extensionDefaultLangs } from '@/modules/core/utils/Languages.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
@@ -48,6 +47,11 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ExtensionOptions } from '@/modules/extension/components/ExtensionOptions';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -125,7 +129,13 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
         requestManager.useExtensionListFetch();
 
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
+    const {
+        settings: { extensionLanguages: shownLangs },
+    } = useMetadataServerSettings();
+    const updateMetadataServerSettings = createUpdateMetadataServerSettings<
+        keyof Pick<MetadataBrowseSettings, 'extensionLanguages'>
+    >((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
+
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const [query] = useQueryParam('query', StringParam);
 
@@ -219,7 +229,13 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     </IconButton>
                 </CustomTooltip>
 
-                <LangSelect shownLangs={shownLangs} setShownLangs={setShownLangs} allLangs={allLangs} />
+                <LangSelect
+                    shownLangs={shownLangs}
+                    setShownLangs={(languages: string[]) =>
+                        updateMetadataServerSettings('extensionLanguages', languages)
+                    }
+                    allLangs={allLangs}
+                />
             </>,
         );
 
