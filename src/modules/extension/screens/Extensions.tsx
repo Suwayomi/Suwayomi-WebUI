@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -116,51 +116,36 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { pathname, search, state } = useLocation<{ selectedExtensionPkg?: TExtension['pkgName'] }>();
     const selectedExtensionPkg = state?.selectedExtensionPkg;
 
-    const setSelectedExtensionPkg = (newPkg: TExtension['pkgName'] | undefined) => {
-        navigate(pathname + search, {
-            replace: true,
-            state: {
-                selectedExtensionPkg: newPkg,
-            },
-        });
-    };
-
     const {
         data: serverSettingsData,
         loading: areServerSettingsLoading,
         error: serverSettingsError,
         refetch: refetchServerSettings,
     } = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });
-    const areReposDefined = !!serverSettingsData?.settings.extensionRepos.length;
-    const areMultipleReposInUse = (serverSettingsData?.settings.extensionRepos.length ?? 0) > 1;
+    const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
+        requestManager.useExtensionListFetch();
 
-    const inputRef = useRef<HTMLInputElement>(null);
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownExtensionLangs', extensionDefaultLangs());
     const [showNsfw] = useLocalStorage<boolean>('showNsfw', true);
     const [query] = useQueryParam('query', StringParam);
 
-    const [refetchExtensions, setRefetchExtensions] = useState({});
-    const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
-        requestManager.useExtensionListFetch();
-    const allExtensions = data?.fetchExtensions?.extensions;
-
     const [updatingExtensionIds, setUpdatingExtensionIds] = useState<string[]>([]);
+    const [refetchExtensions, setRefetchExtensions] = useState({});
 
-    const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
+    const isLoading = areServerSettingsLoading || areExtensionsLoading;
+    const error = serverSettingsError ?? extensionsError;
 
-    useEffect(() => {
-        fetchExtensions();
-    }, [refetchExtensions]);
+    const areReposDefined = !!serverSettingsData?.settings.extensionRepos.length;
+    const areMultipleReposInUse = (serverSettingsData?.settings.extensionRepos.length ?? 0) > 1;
 
+    const allExtensions = data?.fetchExtensions?.extensions;
     const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions ?? []), [allExtensions]);
 
     const filteredExtensions = useMemo(
         () => filterExtensions(allExtensions ?? [], shownLangs, showNsfw, query),
         [allExtensions, shownLangs, shownLangs, query],
     );
-
     const groupedExtensions = useMemo(() => groupExtensionsByLanguage(filteredExtensions), [filteredExtensions]);
-
     const groupCounts = useMemo(
         () => groupedExtensions.map((extensionGroup) => extensionGroup[EXTENSIONS].length),
         [groupedExtensions],
@@ -176,31 +161,60 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         useCallback((index) => visibleExtensions[index].pkgName, [visibleExtensions]),
     );
 
-    const submitExternalExtension = (file: File) => {
-        if (file.name.toLowerCase().endsWith('apk')) {
-            if (inputRef.current) {
-                inputRef.current.value = '';
-            }
+    const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
 
-            makeToast(t('extension.label.installing_file'), 'info');
-            requestManager
-                .installExternalExtension(file)
-                .response.then(() => {
-                    handleExtensionUpdate();
-                    makeToast(t('extension.label.installed_successfully'), 'success');
-                })
-                .catch((e) => makeToast(t('extension.label.installation_failed'), 'error', getErrorMessage(e)));
-        } else {
-            makeToast(t('global.error.label.invalid_file_type'), 'error');
-        }
+    const setSelectedExtensionPkg = (newPkg: TExtension['pkgName'] | undefined) => {
+        navigate(pathname + search, {
+            replace: true,
+            state: {
+                selectedExtensionPkg: newPkg,
+            },
+        });
     };
+
+    const submitExternalExtension = (file: File) => {
+        if (!file.name.toLowerCase().endsWith('apk')) {
+            makeToast(t('global.error.label.invalid_file_type'), 'error');
+            return;
+        }
+
+        makeToast(t('extension.label.installing_file'), 'info');
+        requestManager
+            .installExternalExtension(file)
+            .response.then(() => {
+                handleExtensionUpdate();
+                makeToast(t('extension.label.installed_successfully'), 'success');
+            })
+            .catch((e) => makeToast(t('extension.label.installation_failed'), 'error', getErrorMessage(e)));
+    };
+
+    useEffect(() => {
+        fetchExtensions();
+    }, [refetchExtensions]);
 
     useLayoutEffect(() => {
         setAction(
             <>
                 <AppbarSearch />
                 <CustomTooltip title={t('extension.action.label.install_external')}>
-                    <IconButton onClick={() => inputRef.current?.click()} color="inherit">
+                    <IconButton
+                        onClick={() => {
+                            const input = document.createElement('input');
+                            input.style.display = 'none';
+                            input.type = 'file';
+                            input.onchange = () => {
+                                const file = input.files?.[0];
+                                if (file) {
+                                    submitExternalExtension(file);
+                                }
+                            };
+
+                            document.documentElement.appendChild(input);
+                            input.click();
+                            document.documentElement.removeChild(input);
+                        }}
+                        color="inherit"
+                    >
                         <AddIcon />
                     </IconButton>
                 </CustomTooltip>
@@ -234,26 +248,6 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         };
     }, []);
 
-    const FileInputComponent = useMemo(
-        () => (
-            <input
-                type="file"
-                style={{ display: 'none' }}
-                ref={inputRef}
-                onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                        submitExternalExtension(file);
-                    }
-                }}
-            />
-        ),
-        [],
-    );
-
-    const isLoading = areServerSettingsLoading || areExtensionsLoading;
-    const error = serverSettingsError ?? extensionsError;
-
     if (isLoading) {
         return <LoadingPlaceholder />;
     }
@@ -279,28 +273,24 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const showAddRepoInfo = !allExtensions?.length && !areReposDefined;
     if (showAddRepoInfo) {
         return (
-            <>
-                {FileInputComponent}
-                <Stack
-                    sx={{
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        rowGap: '10px',
-                        paddingTop: '20px',
-                    }}
-                >
-                    <Typography>{t('extension.label.add_repository_info')}</Typography>
-                    <Button component={Link} variant="contained" to={AppRoutes.browse.path}>
-                        {t('settings.title')}
-                    </Button>
-                </Stack>
-            </>
+            <Stack
+                sx={{
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    rowGap: '10px',
+                    paddingTop: '20px',
+                }}
+            >
+                <Typography>{t('extension.label.add_repository_info')}</Typography>
+                <Button component={Link} variant="contained" to={AppRoutes.browse.path}>
+                    {t('settings.title')}
+                </Button>
+            </Stack>
         );
     }
 
     return (
         <>
-            {FileInputComponent}
             <StyledGroupedVirtuoso
                 heightToSubtract={tabsMenuHeight}
                 overscan={window.innerHeight * 0.5}
