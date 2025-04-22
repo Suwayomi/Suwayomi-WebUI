@@ -15,10 +15,10 @@ import Dialog from '@mui/material/Dialog';
 import Switch from '@mui/material/Switch';
 import IconButton from '@mui/material/IconButton';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
 import { useTranslation } from 'react-i18next';
+import { Virtuoso } from 'react-virtuoso';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { langSortCmp, toUniqueLanguageCodes } from '@/modules/core/utils/Languages.ts';
@@ -67,22 +67,20 @@ export function LanguageSelect(props: IProps) {
                     <FilterListIcon />
                 </IconButton>
             </CustomTooltip>
-            <Dialog
-                sx={{
-                    '.MuiDialog-paper': {
-                        maxHeight: 435,
-                        width: '80%',
-                    },
-                }}
-                maxWidth="xs"
-                open={open}
-                onClose={handleCancel}
-            >
+            <Dialog fullWidth maxWidth="xs" open={open} onClose={handleCancel}>
                 <DialogTitle>{t('global.language.title.enabled_languages')}</DialogTitle>
                 <DialogContent dividers sx={{ padding: 0 }}>
-                    <List>
-                        {languagesSortedBySelectState.map((language) => (
-                            <ListItem key={language}>
+                    <Virtuoso
+                        style={{
+                            height: languagesSortedBySelectState.length * 54,
+                            minHeight: '25vh',
+                            maxHeight: '50vh',
+                        }}
+                        data={languagesSortedBySelectState}
+                        increaseViewportBy={400}
+                        computeItemKey={(index) => languagesSortedBySelectState[index]}
+                        itemContent={(_index, language) => (
+                            <ListItem>
                                 <ListItemText primary={translateExtensionLanguage(language)} />
 
                                 <Switch
@@ -90,8 +88,8 @@ export function LanguageSelect(props: IProps) {
                                     onChange={(e) => handleChange(language, e.target.checked)}
                                 />
                             </ListItem>
-                        ))}
-                    </List>
+                        )}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleCancel} color="primary">
