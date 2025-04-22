@@ -49,7 +49,7 @@ export function LanguageSelect(props: IProps) {
 
     const handleOk = () => {
         setOpen(false);
-        setSelectedLanguages(toUniqueLanguageCodes(selectedLanguages));
+        setSelectedLanguages(toUniqueLanguageCodes(tmpSelectedLanguages));
     };
 
     const handleChange = (language: string, selected: boolean) => {
