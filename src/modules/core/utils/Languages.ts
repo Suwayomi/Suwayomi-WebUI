@@ -66,8 +66,23 @@ export function langCodeToName(code: string): string {
     return getLanguage(code).nativeName;
 }
 
+export const toUniqueLanguageCodes = (codes: string[]): string[] => {
+    const languages = codes.map((code) => getLanguage(code));
+    const languagesByIsoCode = Object.groupBy(languages, (language) => language.isoCode);
+
+    return Object.entries(languagesByIsoCode)
+        .filter(([, languagesOfIsoCode]) => !!languagesOfIsoCode?.length)
+        .map(([, languagesOfIsoCode]) => languagesOfIsoCode![0].orgCode);
+};
+
 function defaultNativeLang(): readonly string[] {
-    return navigator.languages;
+    const preferredLanguages = toUniqueLanguageCodes([...navigator.languages]);
+
+    if (!preferredLanguages.length) {
+        return ['en'];
+    }
+
+    return preferredLanguages;
 }
 
 export function extensionDefaultLangs(): string[] {
@@ -87,13 +102,4 @@ export const langSortCmp = (a: string, b: string) => {
     if (b === 'en') return 1;
 
     return aLang.localeCompare(bLang);
-};
-
-export const toUniqueLanguageCodes = (codes: string[]): string[] => {
-    const languages = codes.map((code) => getLanguage(code));
-    const languagesByIsoCode = Object.groupBy(languages, (language) => language.isoCode);
-
-    return Object.entries(languagesByIsoCode)
-        .filter(([, languagesOfIsoCode]) => !!languagesOfIsoCode?.length)
-        .map(([, languagesOfIsoCode]) => languagesOfIsoCode![0].orgCode);
 };
