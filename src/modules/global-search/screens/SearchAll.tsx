@@ -35,7 +35,7 @@ import { Sources } from '@/modules/source/services/Sources.ts';
 import { SourceDisplayNameInfo, SourceIdInfo } from '@/modules/source/Source.types.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
-type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean };
+type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
 
 const compareSourceByName = (sourceA: SourceDisplayNameInfo, sourceB: SourceDisplayNameInfo): number =>
@@ -46,25 +46,36 @@ const compareSourcesBySearchResult = (
     sourceB: SourceIdInfo,
     sourceToFetchedStateMap: SourceToLoadingStateMap,
 ): -1 | 0 | 1 => {
-    const isSourceAFetched = !sourceToFetchedStateMap.get(sourceA.id)?.isLoading;
-    const isSourceBFetched = !sourceToFetchedStateMap.get(sourceB.id)?.isLoading;
+    const sourceAState = sourceToFetchedStateMap.get(sourceA.id);
+    const sourceBState = sourceToFetchedStateMap.get(sourceB.id);
+
+    const isSourceAFetched = !sourceAState?.isLoading;
+    const hasSourceAError = !!sourceAState?.error;
+    const isSourceASearchResultEmpty = !sourceAState?.hasResults && !hasSourceAError;
+
+    const isSourceBFetched = !sourceBState?.isLoading;
+    const hasSourceBError = !!sourceBState?.error;
+    const isSourceBSearchResultEmpty = !sourceBState?.hasResults && !hasSourceBError;
+
     if (isSourceAFetched && !isSourceBFetched) {
         return -1;
     }
     if (!isSourceAFetched && isSourceBFetched) {
         return 1;
     }
-    if (!isSourceAFetched && !isSourceBFetched) {
-        return 0;
-    }
 
-    const isSourceASearchResultEmpty = !sourceToFetchedStateMap.get(sourceA.id)?.hasResults;
-    const isSourceBSearchResultEmpty = !sourceToFetchedStateMap.get(sourceB.id)?.hasResults;
     if (isSourceASearchResultEmpty && !isSourceBSearchResultEmpty) {
         return 1;
     }
     if (isSourceBSearchResultEmpty && !isSourceASearchResultEmpty) {
         return -1;
+    }
+
+    if (!hasSourceAError && hasSourceBError) {
+        return -1;
+    }
+    if (hasSourceAError && !hasSourceBError) {
+        return 1;
     }
 
     return 0;
@@ -80,12 +91,7 @@ const SourceSearchPreview = React.memo(
         mode,
     }: {
         source: Pick<SourceType, 'id' | 'displayName' | 'lang'>;
-        onSearchRequestFinished: (
-            source: SourceIdInfo,
-            isLoading: boolean,
-            hasResults: boolean,
-            emptySearch: boolean,
-        ) => void;
+        onSearchRequestFinished: (source: SourceIdInfo, state: SourceLoadingState) => void;
         searchString: string | null | undefined;
         emptyQuery: boolean;
     } & Pick<MangaCardProps, 'mode'>) => {
@@ -114,8 +120,13 @@ const SourceSearchPreview = React.memo(
         const noMangasFound = !error && !isLoading && !mangas.length;
 
         useEffect(() => {
-            onSearchRequestFinished(source, isLoading, !noMangasFound, !searchString);
-        }, [isLoading, noMangasFound, searchString]);
+            onSearchRequestFinished(source, {
+                isLoading,
+                hasResults: !noMangasFound,
+                emptySearch: !searchString,
+                error,
+            });
+        }, [isLoading, noMangasFound, searchString, error]);
 
         let errorMessage: string | undefined;
         if (error) {
@@ -214,10 +225,10 @@ export const SearchAll: React.FC = () => {
     );
 
     const updateSourceLoadingState = useCallback(
-        ({ id }: SourceIdInfo, isLoading: boolean, hasResults: boolean, emptySearch: boolean) => {
+        ({ id }: SourceIdInfo, loadState: SourceLoadingState) => {
             setSourceToLoadingStateMap((currentMap) => {
                 const mapCopy = new Map(currentMap);
-                mapCopy.set(id, { isLoading, hasResults, emptySearch });
+                mapCopy.set(id, loadState);
                 return mapCopy;
             });
         },
