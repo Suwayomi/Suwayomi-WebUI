@@ -9,7 +9,6 @@
 import CardActionArea from '@mui/material/CardActionArea';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +23,7 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
 import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
+import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];
@@ -60,14 +60,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                 to={AppRoutes.sources.childRoutes.browse.path(id)}
                 state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
             >
-                <CardContent
-                    sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 1,
-                        p: 1.5,
-                    }}
-                >
+                <ListCardContent>
                     <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={sourceName} />
                     <Stack
                         sx={{
@@ -112,7 +105,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             {t('global.button.popular')}
                         </Button>
                     )}
-                </CardContent>
+                </ListCardContent>
             </CardActionArea>
         </Card>
     );

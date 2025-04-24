@@ -7,7 +7,6 @@
  */
 
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import Chip from '@mui/material/Chip';
@@ -19,6 +18,7 @@ import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
+import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
 
 export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas']['nodes'][number]['source']> & {
     mangaCount: number;
@@ -34,14 +34,7 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
     return (
         <Card>
             <CardActionArea component={Link} to={AppRoutes.migrate.path(id)}>
-                <CardContent
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        p: 1.5,
-                    }}
-                >
+                <ListCardContent sx={{ justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={sourceName} />
                         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -59,7 +52,7 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
                         </Box>
                     </Box>
                     <Chip sx={{ borderRadius: 1 }} size="small" label={mangaCount} />
-                </CardContent>
+                </ListCardContent>
             </CardActionArea>
         </Card>
     );

@@ -8,7 +8,6 @@
 
 import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
@@ -35,6 +34,7 @@ import { getInstalledState } from '@/modules/extension/Extensions.utils.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
 import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
+import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
 
 interface IProps {
     extension: TExtension;
@@ -118,17 +118,7 @@ export function ExtensionCard(props: IProps) {
 
     return (
         <Card>
-            <CardContent
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                    p: 1.5,
-                    '&:last-child': {
-                        paddingBottom: 1.5,
-                    },
-                }}
-            >
+            <ListCardContent>
                 <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={name} />
                 <Stack
                     sx={{
@@ -168,7 +158,7 @@ export function ExtensionCard(props: IProps) {
                 >
                     {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
                 </Button>
-            </CardContent>
+            </ListCardContent>
         </Card>
     );
 }

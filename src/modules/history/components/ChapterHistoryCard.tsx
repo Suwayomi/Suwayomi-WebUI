@@ -9,7 +9,6 @@
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import { Link } from 'react-router-dom';
 import { memo } from 'react';
 import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
@@ -21,6 +20,7 @@ import { ChapterCardThumbnail } from '@/modules/chapter/components/cards/Chapter
 import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
 import { ChapterDownloadButton } from '@/modules/chapter/components/buttons/ChapterDownloadButton.tsx';
 import { ChapterDownloadRetryButton } from '@/modules/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
+import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent';
 
 export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryListFieldsFragment }) => {
     const { manga } = chapter;
@@ -35,14 +35,7 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                     color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                 }}
             >
-                <CardContent
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: 1.5,
-                    }}
-                >
+                <ListCardContent sx={{ justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', flexGrow: 1, gap: 1 }}>
                         <ChapterCardThumbnail
                             mangaId={manga.id}
@@ -58,7 +51,7 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                     <DownloadStateIndicator chapterId={chapter.id} />
                     <ChapterDownloadRetryButton chapterId={chapter.id} />
                     <ChapterDownloadButton chapterId={chapter.id} isDownloaded={chapter.isDownloaded} />
-                </CardContent>
+                </ListCardContent>
             </CardActionArea>
         </Card>
     );

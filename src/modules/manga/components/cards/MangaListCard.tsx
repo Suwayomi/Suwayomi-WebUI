@@ -7,7 +7,6 @@
  */
 
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -19,6 +18,7 @@ import { SpecificMangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
 import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
+import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent';
 
 export const MangaListCard = memo(
     ({
@@ -63,14 +63,10 @@ export const MangaListCard = memo(
                         },
                     }}
                 >
-                    <CardContent
+                    <ListCardContent
                         sx={{
-                            display: 'flex',
                             justifyContent: 'space-between',
-                            alignItems: 'center',
-                            padding: 1.5,
                             position: 'relative',
-                            gap: 1,
                         }}
                     >
                         <ListCardAvatar
@@ -117,7 +113,7 @@ export const MangaListCard = memo(
                                 asCheckbox
                             />
                         </Stack>
-                    </CardContent>
+                    </ListCardContent>
                 </CardActionArea>
             </Card>
         );
