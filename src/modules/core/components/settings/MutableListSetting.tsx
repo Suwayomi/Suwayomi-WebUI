@@ -151,7 +151,9 @@ export const MutableListSetting = ({
                 <ListItemText
                     primary={settingName}
                     secondary={values?.length ? values?.join(', ') : description}
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    secondaryTypographyProps={{
+                        style: { display: 'flex', flexDirection: 'column', wordBreak: 'break-word' },
+                    }}
                 />
             </ListItemButton>
 
