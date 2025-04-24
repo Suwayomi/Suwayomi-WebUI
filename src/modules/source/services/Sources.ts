@@ -64,7 +64,13 @@ export class Sources {
         const normalizedLanguages = toComparableLanguages(toUniqueLanguageCodes(languages ?? []));
 
         return sources
-            .filter((source) => showNsfw || !source.isNsfw || (keepLocalSource && Sources.isLocalSource(source)))
+            .filter(
+                (source) =>
+                    showNsfw === undefined ||
+                    showNsfw ||
+                    !source.isNsfw ||
+                    (keepLocalSource && Sources.isLocalSource(source)),
+            )
             .filter(
                 (source) =>
                     !languages ||
