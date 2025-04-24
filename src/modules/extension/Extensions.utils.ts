@@ -91,7 +91,7 @@ export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExte
 
     const groupedExtensionsSortedByLanguage = extensionsBySortedLanguage.map(([language, extensionsOfLanguage]) => [
         language,
-        (extensionsOfLanguage ?? []).toSorted((a, b) => langSortCmp(a.lang, b.lang)),
+        (extensionsOfLanguage ?? []).toSorted((a, b) => a.name.localeCompare(b.name)),
     ]) satisfies GroupedExtensionsResult;
 
     return groupedExtensionsSortedByLanguage.filter(([, extensionsOfLanguage]) => !!extensionsOfLanguage.length);
