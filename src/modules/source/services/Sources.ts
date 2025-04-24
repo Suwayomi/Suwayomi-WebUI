@@ -13,7 +13,13 @@ import {
     SourceNsfwInfo,
     SourceRepoInfo,
 } from '@/modules/source/Source.types.ts';
-import { DefaultLanguage, langSortCmp } from '@/modules/core/utils/Languages.ts';
+import {
+    DefaultLanguage,
+    langSortCmp,
+    toComparableLanguage,
+    toComparableLanguages,
+    toUniqueLanguageCodes,
+} from '@/modules/core/utils/Languages.ts';
 
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';
@@ -55,12 +61,14 @@ export class Sources {
             keepLocalSource,
         }: { showNsfw?: boolean; languages?: string[]; keepLocalSource?: boolean } = {},
     ): Source[] {
+        const normalizedLanguages = toComparableLanguages(toUniqueLanguageCodes(languages ?? []));
+
         return sources
             .filter((source) => showNsfw || !source.isNsfw || (keepLocalSource && Sources.isLocalSource(source)))
             .filter(
                 (source) =>
                     !languages ||
-                    languages.includes(Sources.getLanguage(source)) ||
+                    normalizedLanguages.includes(toComparableLanguage(Sources.getLanguage(source))) ||
                     (keepLocalSource && Sources.isLocalSource(source)),
             );
     }

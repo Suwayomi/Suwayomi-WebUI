@@ -15,7 +15,14 @@ import {
     InstalledState,
     TExtension,
 } from '@/modules/extension/Extensions.types.ts';
-import { DefaultLanguage, langCodeToName, langSortCmp } from '@/modules/core/utils/Languages.ts';
+import {
+    DefaultLanguage,
+    langCodeToName,
+    langSortCmp,
+    toComparableLanguage,
+    toComparableLanguages,
+    toUniqueLanguageCodes,
+} from '@/modules/core/utils/Languages.ts';
 import { extensionLanguageToTranslationKey } from '@/modules/extension/Extensions.constants.ts';
 import { enhancedCleanup } from '@/util/Strings.ts';
 
@@ -98,8 +105,14 @@ export const filterExtensions = (
     selectedLanguages: string[],
     showNsfw: boolean,
     query: string | null | undefined,
-): TExtension[] =>
-    extensions
-        .filter((extension) => selectedLanguages.includes(extension.lang) || extension.isInstalled)
+): TExtension[] => {
+    const normalizedSelectedLanguages = toComparableLanguages(toUniqueLanguageCodes(selectedLanguages));
+
+    return extensions
+        .filter(
+            (extension) =>
+                normalizedSelectedLanguages.includes(toComparableLanguage(extension.lang)) || extension.isInstalled,
+        )
         .filter((extension) => showNsfw || !extension.isNsfw)
         .filter((extension) => !query || enhancedCleanup(extension.name).includes(enhancedCleanup(query)));
+};

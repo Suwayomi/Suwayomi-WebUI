@@ -75,6 +75,10 @@ export const toUniqueLanguageCodes = (codes: string[]): string[] => {
         .map(([, languagesOfIsoCode]) => languagesOfIsoCode![0].orgCode);
 };
 
+export const toComparableLanguage = (code: string): string => getLanguage(code).isoCode;
+
+export const toComparableLanguages = (codes: string[]): string[] => codes.map(toComparableLanguage);
+
 function defaultNativeLang(): readonly string[] {
     const preferredLanguages = toUniqueLanguageCodes([...navigator.languages]);
 
