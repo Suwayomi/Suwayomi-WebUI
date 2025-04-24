@@ -151,7 +151,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
 
     const filteredExtensions = useMemo(
         () => filterExtensions(allExtensions ?? [], shownLangs, showNsfw, query),
-        [allExtensions, shownLangs, shownLangs, query],
+        [allExtensions, shownLangs, showNsfw, query],
     );
     const groupedExtensions = useMemo(() => groupExtensionsByLanguage(filteredExtensions), [filteredExtensions]);
     const groupCounts = useMemo(
