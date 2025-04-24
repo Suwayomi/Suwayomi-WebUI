@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ComponentProps, memo, useCallback } from 'react';
-import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
+import { memo, useCallback } from 'react';
+import { SpinnerImage, SpinnerImageProps } from '@/modules/core/components/SpinnerImage.tsx';
 import {
     IReaderSettings,
     ReaderCustomFilter,
@@ -74,7 +74,7 @@ const BaseReaderPage = ({
     readerNavBarWidth,
     isLoaded,
     ...props
-}: Omit<ComponentProps<typeof SpinnerImage>, 'ref' | 'spinnerStyle' | 'imgStyle' | 'onLoad' | 'onError'> &
+}: Omit<SpinnerImageProps, 'spinnerStyle' | 'imgStyle' | 'onLoad' | 'onError'> &
     Pick<IReaderSettings, 'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth'> &
     Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
     Pick<NavbarContextType, 'readerNavBarWidth'> & {

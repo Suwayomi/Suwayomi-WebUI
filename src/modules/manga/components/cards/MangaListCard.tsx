@@ -9,17 +9,16 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { Link as RouterLink } from 'react-router-dom';
 import { memo, useRef } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
 import { SpecificMangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
+import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
 
 export const MangaListCard = memo(
     ({
@@ -71,30 +70,21 @@ export const MangaListCard = memo(
                             alignItems: 'center',
                             padding: 1.5,
                             position: 'relative',
+                            gap: 1,
                         }}
                     >
-                        <Avatar
-                            variant="rounded"
-                            sx={{
-                                width: 56,
-                                height: 56,
-                                flex: '0 0 auto',
-                                marginRight: 1,
+                        <ListCardAvatar
+                            iconUrl={Mangas.getThumbnailUrl(manga)}
+                            alt={manga.title}
+                            slots={{
+                                spinnerImageProps: {
+                                    imgStyle: {
+                                        imageRendering: 'pixelated',
+                                        filter: inLibraryIndicator && isInLibrary ? 'brightness(0.4)' : undefined,
+                                    },
+                                },
                             }}
-                        >
-                            <SpinnerImage
-                                spinnerStyle={{ small: true }}
-                                imgStyle={{
-                                    objectFit: 'cover',
-                                    width: '100%',
-                                    height: '100%',
-                                    imageRendering: 'pixelated',
-                                    filter: inLibraryIndicator && isInLibrary ? 'brightness(0.4)' : undefined,
-                                }}
-                                alt={manga.title}
-                                src={Mangas.getThumbnailUrl(manga)}
-                            />
-                        </Avatar>
+                        />
                         <Box
                             sx={{
                                 display: 'flex',

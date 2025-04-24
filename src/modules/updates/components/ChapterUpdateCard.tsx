@@ -42,7 +42,7 @@ export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateList
                         padding: 1.5,
                     }}
                 >
-                    <Box sx={{ display: 'flex', flexGrow: 1 }}>
+                    <Box sx={{ display: 'flex', flexGrow: 1, gap: 1 }}>
                         <ChapterCardThumbnail
                             mangaId={manga.id}
                             mangaTitle={manga.title}

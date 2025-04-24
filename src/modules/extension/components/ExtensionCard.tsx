@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
@@ -19,7 +18,6 @@ import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import {
     ExtensionAction,
     ExtensionState,
@@ -36,6 +34,7 @@ import {
 import { getInstalledState } from '@/modules/extension/Extensions.utils.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
+import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
 
 interface IProps {
     extension: TExtension;
@@ -130,23 +129,7 @@ export function ExtensionCard(props: IProps) {
                     },
                 }}
             >
-                <Avatar
-                    variant="rounded"
-                    sx={{
-                        width: 56,
-                        height: 56,
-                        flex: '0 0 auto',
-                        background: 'transparent',
-                    }}
-                    alt={name}
-                >
-                    <SpinnerImage
-                        spinnerStyle={{ small: true }}
-                        imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                        alt={name}
-                        src={requestManager.getValidImgUrlFor(iconUrl)}
-                    />
-                </Avatar>
+                <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={name} />
                 <Stack
                     sx={{
                         justifyContent: 'center',

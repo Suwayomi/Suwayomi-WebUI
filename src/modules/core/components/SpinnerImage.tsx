@@ -21,7 +21,7 @@ import { Priority } from '@/lib/Queue.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { useIntersectionObserver } from '@/modules/core/hooks/useIntersectionObserver.tsx';
 
-interface IProps {
+export interface SpinnerImageProps {
     shouldLoad?: boolean;
 
     src: string;
@@ -44,7 +44,7 @@ interface IProps {
 }
 
 export const SpinnerImage = forwardRef(
-    (props: IProps, imgRef: ForwardedRef<HTMLImageElement | HTMLDivElement | null>) => {
+    (props: SpinnerImageProps, imgRef: ForwardedRef<HTMLImageElement | HTMLDivElement | null>) => {
         const {
             shouldLoad = true,
             shouldDecode,

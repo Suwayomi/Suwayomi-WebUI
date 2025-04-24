@@ -7,7 +7,6 @@
  */
 
 import CardActionArea from '@mui/material/CardActionArea';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -18,13 +17,13 @@ import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { SourceContentType } from '@/modules/source/screens/SourceMangas.tsx';
-import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
+import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];
@@ -69,23 +68,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                         p: 1.5,
                     }}
                 >
-                    <Avatar
-                        variant="rounded"
-                        alt={sourceName}
-                        sx={{
-                            width: 56,
-                            height: 56,
-                            flex: '0 0 auto',
-                            background: 'transparent',
-                        }}
-                    >
-                        <SpinnerImage
-                            spinnerStyle={{ small: true }}
-                            imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                            alt={sourceName}
-                            src={requestManager.getValidImgUrlFor(iconUrl)}
-                        />
-                    </Avatar>
+                    <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={sourceName} />
                     <Stack
                         sx={{
                             justifyContent: 'center',
