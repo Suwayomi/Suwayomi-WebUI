@@ -100,6 +100,6 @@ export const filterExtensions = (
     query: string | null | undefined,
 ): TExtension[] =>
     extensions
-        .filter((extension) => selectedLanguages.includes(extension.lang))
+        .filter((extension) => selectedLanguages.includes(extension.lang) || extension.isInstalled)
         .filter((extension) => showNsfw || !extension.isNsfw)
         .filter((extension) => !query || enhancedCleanup(extension.name).includes(enhancedCleanup(query)));
