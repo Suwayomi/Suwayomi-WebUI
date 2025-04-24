@@ -150,7 +150,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions ?? []), [allExtensions]);
 
     const filteredExtensions = useMemo(
-        () => filterExtensions(allExtensions ?? [], shownLangs, showNsfw, query),
+        () => filterExtensions(allExtensions ?? [], { selectedLanguages: shownLangs, showNsfw, query }),
         [allExtensions, shownLangs, showNsfw, query],
     );
     const groupedExtensions = useMemo(() => groupExtensionsByLanguage(filteredExtensions), [filteredExtensions]);
