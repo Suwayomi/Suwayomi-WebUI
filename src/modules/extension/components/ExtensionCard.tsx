@@ -12,10 +12,10 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
+import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -147,49 +147,27 @@ export function ExtensionCard(props: IProps) {
                         src={requestManager.getValidImgUrlFor(iconUrl)}
                     />
                 </Avatar>
-                <Box
+                <Stack
                     sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
+                        justifyContent: 'center',
                         flexGrow: 1,
                         flexShrink: 1,
                         wordBreak: 'break-word',
-                        justifyContent: 'center',
                     }}
                 >
                     <Typography variant="h6" component="h3">
                         {name}
                     </Typography>
-                    <Typography
-                        variant="caption"
-                        sx={{
-                            display: 'block',
-                        }}
-                    >
+                    <Typography variant="caption">
                         {langPress} {versionName}
                         {isNsfw && (
-                            <Typography
-                                variant="caption"
-                                color="error"
-                                sx={{
-                                    display: 'inline',
-                                }}
-                            >
+                            <Typography variant="caption" color="error">
                                 {' 18+'}
                             </Typography>
                         )}
                     </Typography>
-                    {showSourceRepo && (
-                        <Typography
-                            variant="caption"
-                            sx={{
-                                display: 'block',
-                            }}
-                        >
-                            {repo}
-                        </Typography>
-                    )}
-                </Box>
+                    {showSourceRepo && <Typography variant="caption">{repo}</Typography>}
+                </Stack>
                 {isInstalled && (
                     <CustomTooltip title={t('settings.title')}>
                         <IconButton onClick={showOptions} color="inherit">

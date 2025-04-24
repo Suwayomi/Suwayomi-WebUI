@@ -7,7 +7,6 @@
  */
 
 import CardActionArea from '@mui/material/CardActionArea';
-import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
@@ -65,95 +64,71 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                 <CardContent
                     sx={{
                         display: 'flex',
-                        justifyContent: 'space-between',
                         alignItems: 'center',
-                        padding: 1.5,
+                        gap: 1,
+                        p: 1.5,
                     }}
                 >
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <Avatar
-                            variant="rounded"
+                    <Avatar
+                        variant="rounded"
+                        alt={sourceName}
+                        sx={{
+                            width: 56,
+                            height: 56,
+                            flex: '0 0 auto',
+                            background: 'transparent',
+                        }}
+                    >
+                        <SpinnerImage
+                            spinnerStyle={{ small: true }}
+                            imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
                             alt={sourceName}
-                            sx={{
-                                width: 56,
-                                height: 56,
-                                flex: '0 0 auto',
-                                mr: 1,
-                                background: 'transparent',
-                            }}
-                        >
-                            <SpinnerImage
-                                spinnerStyle={{ small: true }}
-                                imgStyle={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                                alt={sourceName}
-                                src={requestManager.getValidImgUrlFor(iconUrl)}
-                            />
-                        </Avatar>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                            }}
-                        >
-                            <Typography variant="h6" component="h3">
-                                {sourceName}
-                            </Typography>
-                            <Typography
-                                variant="caption"
-                                sx={{
-                                    display: 'block',
-                                }}
-                            >
-                                {translateExtensionLanguage(lang)}
-                                {isNsfw && (
-                                    <Typography
-                                        variant="caption"
-                                        color="error"
-                                        sx={{
-                                            display: 'inline',
-                                        }}
-                                    >
-                                        {' 18+'}
-                                    </Typography>
-                                )}
-                                {showSourceRepo && (
-                                    <Typography
-                                        variant="caption"
-                                        sx={{
-                                            display: 'block',
-                                        }}
-                                    >
-                                        {repo}
-                                    </Typography>
-                                )}
-                            </Typography>
-                        </Box>
-                    </Box>
-                    <Stack sx={{ flexDirection: 'row', gap: 1 }}>
-                        {supportsLatest && (
-                            <Button
-                                {...MUIUtil.preventRippleProp()}
-                                variant="outlined"
-                                component={Link}
-                                to={AppRoutes.sources.childRoutes.browse.path(id)}
-                                state={{ contentType: SourceContentType.LATEST, clearCache: true }}
-                            >
-                                {t('global.button.latest')}
-                            </Button>
-                        )}
-                        {!isMobileWidth && (
-                            <Button
-                                {...MUIUtil.preventRippleProp()}
-                                variant="outlined"
-                                component={Link}
-                                to={AppRoutes.sources.childRoutes.browse.path(id)}
-                                state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
-                            >
-                                {t('global.button.popular')}
-                            </Button>
-                        )}
+                            src={requestManager.getValidImgUrlFor(iconUrl)}
+                        />
+                    </Avatar>
+                    <Stack
+                        sx={{
+                            justifyContent: 'center',
+                            flexGrow: 1,
+                            flexShrink: 1,
+                            wordBreak: 'break-word',
+                        }}
+                    >
+                        <Typography variant="h6" component="h3">
+                            {sourceName}
+                        </Typography>
+                        <Typography variant="caption">
+                            {translateExtensionLanguage(lang)}
+                            {isNsfw && (
+                                <Typography variant="caption" color="error">
+                                    {' 18+'}
+                                </Typography>
+                            )}
+                        </Typography>
+                        {showSourceRepo && <Typography variant="caption">{repo}</Typography>}
                     </Stack>
+                    {supportsLatest && (
+                        <Button
+                            {...MUIUtil.preventRippleProp()}
+                            variant="outlined"
+                            component={Link}
+                            to={AppRoutes.sources.childRoutes.browse.path(id)}
+                            state={{ contentType: SourceContentType.LATEST, clearCache: true }}
+                        >
+                            {t('global.button.latest')}
+                        </Button>
+                    )}
+                    {!isMobileWidth && (
+                        <Button
+                            {...MUIUtil.preventRippleProp()}
+                            variant="outlined"
+                            component={Link}
+                            to={AppRoutes.sources.childRoutes.browse.path(id)}
+                            state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
+                        >
+                            {t('global.button.popular')}
+                        </Button>
+                    )}
                 </CardContent>
             </CardActionArea>
         </Card>
