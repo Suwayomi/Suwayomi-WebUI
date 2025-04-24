@@ -102,17 +102,25 @@ export const getLanguagesFromExtensions = (extensions: TExtension[]): string[] =
 
 export const filterExtensions = (
     extensions: TExtension[],
-    selectedLanguages: string[],
-    showNsfw: boolean,
-    query: string | null | undefined,
+    {
+        selectedLanguages,
+        showNsfw,
+        query,
+    }: {
+        selectedLanguages?: string[];
+        showNsfw?: boolean;
+        query?: string | null | undefined;
+    } = {},
 ): TExtension[] => {
-    const normalizedSelectedLanguages = toComparableLanguages(toUniqueLanguageCodes(selectedLanguages));
+    const normalizedSelectedLanguages = toComparableLanguages(toUniqueLanguageCodes(selectedLanguages ?? []));
 
     return extensions
         .filter(
             (extension) =>
-                normalizedSelectedLanguages.includes(toComparableLanguage(extension.lang)) || extension.isInstalled,
+                !selectedLanguages ||
+                normalizedSelectedLanguages.includes(toComparableLanguage(extension.lang)) ||
+                extension.isInstalled,
         )
-        .filter((extension) => showNsfw || !extension.isNsfw)
-        .filter((extension) => !query || enhancedCleanup(extension.name).includes(enhancedCleanup(query)));
+        .filter((extension) => showNsfw === undefined || showNsfw || !extension.isNsfw)
+        .filter((extension) => query == null || enhancedCleanup(extension.name).includes(enhancedCleanup(query)));
 };
