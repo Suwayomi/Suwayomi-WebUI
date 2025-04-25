@@ -23,9 +23,11 @@ export const ReaderSettingWidth = ({
     isDefaultable,
     onDefault,
     updateSetting,
+    setTransparent,
 }: Pick<IReaderSettings, 'readerWidth' | 'pageScaleMode'> &
     Pick<MultiValueButtonDefaultableProps<IReaderSettings['readerWidth']['value']>, 'isDefaultable' | 'onDefault'> & {
         updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
+        setTransparent?: (transparent: boolean) => void;
     }) => {
     const { t } = useTranslation();
 
@@ -55,9 +57,11 @@ export const ReaderSettingWidth = ({
                             min: 10,
                             max: 100,
                             onChange: (_, value) => {
+                                setTransparent?.(true);
                                 updateSetting('readerWidth', { ...readerWidth, value: value as number }, false);
                             },
                             onChangeCommitted: (_, value) => {
+                                setTransparent?.(false);
                                 updateSetting('readerWidth', { ...readerWidth, value: value as number }, true);
                             },
                         },

@@ -22,102 +22,105 @@ export const ReaderFilterSettings = ({
     settings: { customFilter },
     updateSetting,
     onDefault,
-}: ReaderSettingsTypeProps) => (
-    <Stack sx={{ gap: 2 }}>
-        <ReaderSettingBrightness
-            brightness={customFilter.brightness}
-            updateSetting={(key, value, commit) =>
-                updateSetting(
-                    'customFilter',
-                    {
+    setTransparent,
+}: ReaderSettingsTypeProps) => {
+    const update = (value: any, commit?: boolean) => {
+        updateSetting('customFilter', value, commit);
+        setTransparent?.(commit === undefined ? false : !commit);
+    };
+
+    return (
+        <Stack sx={{ gap: 2 }}>
+            <ReaderSettingBrightness
+                brightness={customFilter.brightness}
+                updateSetting={(key, value, commit) =>
+                    update(
+                        {
+                            ...customFilter,
+                            [key]: value,
+                        },
+                        commit,
+                    )
+                }
+            />
+            <ReaderSettingContrast
+                contrast={customFilter.contrast}
+                updateSetting={(key, value, commit) =>
+                    update(
+                        {
+                            ...customFilter,
+                            [key]: value,
+                        },
+                        commit,
+                    )
+                }
+            />
+            <ReaderSettingSaturate
+                saturate={customFilter.saturate}
+                updateSetting={(key, value, commit) =>
+                    update(
+                        {
+                            ...customFilter,
+                            [key]: value,
+                        },
+                        commit,
+                    )
+                }
+            />
+            <ReaderSettingHue
+                hue={customFilter.hue}
+                updateSetting={(key, value, commit) =>
+                    update(
+                        {
+                            ...customFilter,
+                            [key]: value,
+                        },
+                        commit,
+                    )
+                }
+            />
+            <ReaderSettingRGBA
+                rgba={customFilter.rgba}
+                updateSetting={(key, value, commit) =>
+                    update(
+                        {
+                            ...customFilter,
+                            [key]: value,
+                        },
+                        commit,
+                    )
+                }
+            />
+            <ReaderSettingSepia
+                sepia={customFilter.sepia}
+                updateSetting={(value) =>
+                    update({
                         ...customFilter,
-                        [key]: value,
-                    },
-                    commit,
-                )
-            }
-        />
-        <ReaderSettingContrast
-            contrast={customFilter.contrast}
-            updateSetting={(key, value, commit) =>
-                updateSetting(
-                    'customFilter',
-                    {
+                        sepia: value,
+                    })
+                }
+            />
+            <ReaderSettingGrayscale
+                grayscale={customFilter.grayscale}
+                updateSetting={(value) =>
+                    update({
                         ...customFilter,
-                        [key]: value,
-                    },
-                    commit,
-                )
-            }
-        />
-        <ReaderSettingSaturate
-            saturate={customFilter.saturate}
-            updateSetting={(key, value, commit) =>
-                updateSetting(
-                    'customFilter',
-                    {
+                        grayscale: value,
+                    })
+                }
+            />
+            <ReaderSettingInvert
+                invert={customFilter.invert}
+                updateSetting={(value) =>
+                    update({
                         ...customFilter,
-                        [key]: value,
-                    },
-                    commit,
-                )
-            }
-        />
-        <ReaderSettingHue
-            hue={customFilter.hue}
-            updateSetting={(key, value, commit) =>
-                updateSetting(
-                    'customFilter',
-                    {
-                        ...customFilter,
-                        [key]: value,
-                    },
-                    commit,
-                )
-            }
-        />
-        <ReaderSettingRGBA
-            rgba={customFilter.rgba}
-            updateSetting={(key, value, commit) =>
-                updateSetting(
-                    'customFilter',
-                    {
-                        ...customFilter,
-                        [key]: value,
-                    },
-                    commit,
-                )
-            }
-        />
-        <ReaderSettingSepia
-            sepia={customFilter.sepia}
-            updateSetting={(value) =>
-                updateSetting('customFilter', {
-                    ...customFilter,
-                    sepia: value,
-                })
-            }
-        />
-        <ReaderSettingGrayscale
-            grayscale={customFilter.grayscale}
-            updateSetting={(value) =>
-                updateSetting('customFilter', {
-                    ...customFilter,
-                    grayscale: value,
-                })
-            }
-        />
-        <ReaderSettingInvert
-            invert={customFilter.invert}
-            updateSetting={(value) =>
-                updateSetting('customFilter', {
-                    ...customFilter,
-                    invert: value,
-                })
-            }
-        />
-        <Stack sx={{ alignItems: 'end' }}>
-            <ResetButton onClick={() => onDefault?.('customFilter')} variant="outlined" />
+                        invert: value,
+                    })
+                }
+            />
+            <Stack sx={{ alignItems: 'end' }}>
+                <ResetButton onClick={() => onDefault?.('customFilter')} variant="outlined" />
+            </Stack>
         </Stack>
-    </Stack>
-);
+    );
+};

@@ -35,6 +35,7 @@ const BaseReaderSettingsTabs = ({
     deleteSetting,
     setShowPreview,
     mode: overlayMode,
+    setTransparent,
 }: Pick<TReaderTapZoneContext, 'setShowPreview'> &
     Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'mode'> & {
         activeTab: number;
@@ -43,6 +44,7 @@ const BaseReaderSettingsTabs = ({
         updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
         areDefaultSettings?: boolean;
         deleteSetting: (setting: keyof IReaderSettings) => void;
+        setTransparent?: (transparent: boolean) => void;
     }) => {
     const { t } = useTranslation();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
@@ -103,6 +105,7 @@ const BaseReaderSettingsTabs = ({
                                         isDefaultable={!areDefaultSettings}
                                         onDefault={(...args) => deleteSetting?.(...args)}
                                         isSeriesMode
+                                        setTransparent={setTransparent}
                                     />
                                 </TabPanel>
                             );
@@ -137,6 +140,7 @@ const BaseReaderSettingsTabs = ({
                                         updateSetting={(...args) => updateSetting(...args)}
                                         isDefaultable
                                         onDefault={(...args) => deleteSetting?.(...args)}
+                                        setTransparent={setTransparent}
                                     />
                                 </TabPanel>
                             );

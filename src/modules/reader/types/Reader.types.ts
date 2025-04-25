@@ -233,6 +233,7 @@ interface ReaderSettingsTypeBaseProps {
 export interface ReaderSettingsDefaultableProps {
     isDefaultable: boolean;
     onDefault: (setting: keyof IReaderSettings) => void;
+    setTransparent?: (transparent: boolean) => void;
 }
 
 interface ReaderSettingsTypeDefaultableProps extends ReaderSettingsTypeBaseProps, ReaderSettingsDefaultableProps {

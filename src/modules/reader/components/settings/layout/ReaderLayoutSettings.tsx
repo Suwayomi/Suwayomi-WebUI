@@ -30,6 +30,7 @@ export const ReaderLayoutSettings = ({
     isDefaultable,
     onDefault,
     isSeriesMode,
+    setTransparent,
 }: ReaderSettingsTypeProps & {
     setShowPreview: TReaderTapZoneContext['setShowPreview'];
     isSeriesMode?: boolean;
@@ -104,6 +105,7 @@ export const ReaderLayoutSettings = ({
                 isDefaultable={isDefaultable}
                 onDefault={() => onDefault?.('readerWidth')}
                 updateSetting={(...args) => updateSetting(...args)}
+                setTransparent={setTransparent}
             />
             {isSeriesMode && (
                 <>
@@ -112,6 +114,7 @@ export const ReaderLayoutSettings = ({
                         profiles={[settings.readingMode.value]}
                         updateSetting={updateSetting}
                         isSeriesMode={isSeriesMode}
+                        setTransparent={setTransparent}
                     />
                 </>
             )}
