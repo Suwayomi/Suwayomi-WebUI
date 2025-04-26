@@ -19,6 +19,7 @@ export const ReaderProgressBarContainer = styled(Stack, {
 })<ReaderProgressBarContainerProps>(({ theme, progressBarPosition }) => ({
     position: 'fixed',
     pointerEvents: 'all',
+    touchAction: 'none',
     ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isHorizontal, {
         justifyContent: 'flex-end',
         bottom: 0,
