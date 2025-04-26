@@ -98,6 +98,8 @@ export const useReaderSetChaptersState = (
                               READER_STATE_CHAPTERS_DEFAULTS.visibleChapters.lastTrailingChapterSourceOrder,
                           isLeadingChapterPreloadMode: false,
                           isTrailingChapterPreloadMode: false,
+                          // do not set "scrollIntoView" to "true" for the initial render
+                          scrollIntoView: !!prevState.initialChapter,
                       }
                     : prevState.visibleChapters,
             };
