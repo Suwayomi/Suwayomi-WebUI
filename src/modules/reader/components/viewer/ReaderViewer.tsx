@@ -94,6 +94,7 @@ const BaseReaderViewer = forwardRef(
             setTransitionPageMode,
             readingMode,
             readingDirection,
+            shouldUseInfiniteScroll,
             readerWidth,
             pageScaleMode,
             shouldOffsetDoubleSpreads,
@@ -134,6 +135,7 @@ const BaseReaderViewer = forwardRef(
                 IReaderSettings,
                 | 'readingMode'
                 | 'readingDirection'
+                | 'shouldUseInfiniteScroll'
                 | 'readerWidth'
                 | 'pageScaleMode'
                 | 'shouldOffsetDoubleSpreads'
@@ -408,6 +410,7 @@ const BaseReaderViewer = forwardRef(
                             pageScaleMode={pageScaleMode}
                             shouldOffsetDoubleSpreads={shouldOffsetDoubleSpreads}
                             readingDirection={readingDirection}
+                            shouldUseInfiniteScroll={shouldUseInfiniteScroll}
                             updateCurrentPageIndex={isCurrentChapter ? updateCurrentPageIndex : noOp}
                             scrollIntoView={isCurrentChapter && visibleChapters.scrollIntoView}
                             resumeMode={getReaderChapterViewResumeMode(
@@ -465,6 +468,7 @@ export const ReaderViewer = withPropsFrom(
         'setTransitionPageMode',
         'readingMode',
         'readingDirection',
+        'shouldUseInfiniteScroll',
         'readerWidth',
         'pageScaleMode',
         'shouldOffsetDoubleSpreads',

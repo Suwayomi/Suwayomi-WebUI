@@ -57,6 +57,18 @@ export const ReaderBehaviourSettings = ({
             <CheckboxInput
                 label={
                     <Box>
+                        <Typography>{t('reader.settings.infinite_scroll.title')}</Typography>
+                        <Typography variant="body2" color="textDisabled">
+                            {t('reader.settings.infinite_scroll.description')}
+                        </Typography>
+                    </Box>
+                }
+                checked={settings.shouldUseInfiniteScroll}
+                onChange={(_, checked) => updateSetting('shouldUseInfiniteScroll', checked)}
+            />
+            <CheckboxInput
+                label={
+                    <Box>
                         <Typography>{t('reader.settings.preview.reading_mode.title')}</Typography>
                         <Typography variant="body2" color="textDisabled">
                             {t('reader.settings.preview.reading_mode.description')}

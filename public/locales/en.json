@@ -946,6 +946,10 @@
         "stretch_image": "Toggle stretch image"
       },
       "image_preload_amount": "Preload images",
+      "infinite_scroll": {
+        "description": "Keep previous and upcoming chapters visible while reading in continuous reading modes, allowing seamless scrolling between chapters.",
+        "title": "Continuous chapter display"
+      },
       "label": {
         "behaviour": "Behaviour",
         "fit_page_to_window": "Fit page to window",

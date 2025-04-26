@@ -160,6 +160,7 @@ export interface IReaderSettingsGlobal {
     shouldInformAboutMissingChapter: boolean;
     shouldInformAboutScanlatorChange: boolean;
     scrollAmount: ReaderScrollAmount;
+    shouldUseInfiniteScroll: boolean;
 }
 
 export interface IReaderSettingsManga {

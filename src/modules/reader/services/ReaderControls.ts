@@ -175,8 +175,12 @@ export class ReaderControls {
         scrollIntoView?: boolean,
     ) => void {
         const { t } = useTranslation();
-        const { readingMode, shouldInformAboutMissingChapter, shouldInformAboutScanlatorChange } =
-            ReaderService.useSettings();
+        const {
+            readingMode,
+            shouldInformAboutMissingChapter,
+            shouldInformAboutScanlatorChange,
+            shouldUseInfiniteScroll,
+        } = ReaderService.useSettings();
         const {
             currentChapter,
             previousChapter,
@@ -239,7 +243,7 @@ export class ReaderControls {
                         const isAlreadyLoaded =
                             lastLeadingChapterSourceOrder <= chapterToOpen.sourceOrder &&
                             lastTrailingChapterSourceOrder >= chapterToOpen.sourceOrder;
-                        const keepRenderedChapters = !scrollIntoView || isAlreadyLoaded;
+                        const keepRenderedChapters = shouldUseInfiniteScroll && (!scrollIntoView || isAlreadyLoaded);
 
                         if (keepRenderedChapters) {
                             setReaderStateChapters((prevState) =>
@@ -255,7 +259,10 @@ export class ReaderControls {
                         }
 
                         openChapter(chapterToOpen, {
-                            resumeMode: getReaderOpenChapterResumeMode(isSpecificChapterMode, isPreviousChapter),
+                            resumeMode: getReaderOpenChapterResumeMode(
+                                isSpecificChapterMode || !keepRenderedChapters,
+                                isPreviousChapter,
+                            ),
                             updateInitialChapter: !keepRenderedChapters,
                         });
                     } catch (error) {
@@ -274,6 +281,7 @@ export class ReaderControls {
                 shouldInformAboutScanlatorChange,
                 lastLeadingChapterSourceOrder,
                 lastTrailingChapterSourceOrder,
+                shouldUseInfiniteScroll,
             ],
         );
     }

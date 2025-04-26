@@ -64,6 +64,7 @@ const BaseReaderChapterViewer = ({
     pageScaleMode,
     shouldOffsetDoubleSpreads,
     readingDirection,
+    shouldUseInfiniteScroll,
     imagePreLoadAmount,
     pageGap,
     chapterId,
@@ -107,7 +108,12 @@ const BaseReaderChapterViewer = ({
     Omit<ReaderPagerProps, 'pages' | 'totalPages' | 'pageLoadStates' | 'handleAsInitialRender' | 'resumeMode'> &
     Pick<
         IReaderSettings,
-        'readingMode' | 'shouldOffsetDoubleSpreads' | 'readingDirection' | 'readerWidth' | 'pageScaleMode'
+        | 'readingMode'
+        | 'shouldOffsetDoubleSpreads'
+        | 'readingDirection'
+        | 'readerWidth'
+        | 'pageScaleMode'
+        | 'shouldUseInfiniteScroll'
     > &
     Pick<ReaderStateChapters, 'setReaderStateChapters'> & {
         updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
@@ -412,6 +418,7 @@ const BaseReaderChapterViewer = ({
                 <ReaderInfiniteScrollUpdateChapter
                     readingMode={readingMode}
                     readingDirection={readingDirection}
+                    shouldUseInfiniteScroll={shouldUseInfiniteScroll}
                     chapterId={chapterId}
                     previousChapterId={previousChapterId}
                     nextChapterId={nextChapterId}

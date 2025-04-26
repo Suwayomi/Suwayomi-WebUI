@@ -240,6 +240,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
     isChapterToOpenVisible: boolean,
     readingMode: ReadingMode,
     readingDirection: ReadingDirection,
+    shouldUseInfiniteScroll: boolean,
     openChapter: ReturnType<typeof ReaderControls.useOpenChapter>,
     image: HTMLElement | null,
     scrollbarXSize: number,
@@ -250,7 +251,11 @@ export const useReaderInfiniteScrollUpdateChapter = (
         image,
         useCallback(
             (entries) => {
-                if (!isContinuousReadingMode(readingMode) || chapterToOpenId === undefined) {
+                if (
+                    !shouldUseInfiniteScroll ||
+                    !isContinuousReadingMode(readingMode) ||
+                    chapterToOpenId === undefined
+                ) {
                     return;
                 }
 
@@ -297,6 +302,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
                 isChapterToOpenVisible,
                 readingMode,
                 readingDirection,
+                shouldUseInfiniteScroll,
                 openChapter,
                 scrollbarXSize,
                 scrollbarYSize,
