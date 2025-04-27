@@ -31,7 +31,7 @@ import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useTranslation();
 
-    const serverAddress = useLocalStorage('serverBaseURL', window.location.origin);
+    const [serverAddress] = useLocalStorage('serverBaseURL', window.location.origin);
 
     const [loginTrackerCredentials, { loading: isCredentialLoginInProgress }] =
         requestManager.useLoginToTrackerCredentials();
