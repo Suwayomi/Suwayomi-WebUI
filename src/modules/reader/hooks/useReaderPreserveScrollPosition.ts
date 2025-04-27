@@ -6,20 +6,49 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { RefObject, useEffect, useLayoutEffect, useRef } from 'react';
 import { ReaderPageScaleMode, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
 import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
-export const useReaderPreserveScrollPosition = (
-    scrollElementRef: RefObject<HTMLElement | null>,
-    pageIndex: number,
-    readingMode: ReadingMode,
-    readingDirection: ReadingDirection,
+const shouldPreserveOnResizeChange = (
     isContinuousReadingModeActive: boolean,
-    readerNavBarWidth: number,
-    setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
+): boolean => isContinuousReadingModeActive && isReaderWidthEditable(pageScaleMode);
+
+const usePreserveOnValueChange = (
+    value: unknown,
+    currentPageIndex: number,
+    setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
+) => {
+    useLayoutEffect(() => {
+        setPageToScrollToIndex(currentPageIndex);
+    }, [value]);
+};
+
+const usePreserveOnWindowResize = (
+    isContinuousReadingModeActive: boolean,
+    pageScaleMode: ReaderPageScaleMode,
+    setPageToScrollToIndex: React.Dispatch<React.SetStateAction<number | null>>,
+    pageIndex: number,
+) => {
+    useEffect(() => {
+        const handleResize = () => {
+            if (!shouldPreserveOnResizeChange(isContinuousReadingModeActive, pageScaleMode)) {
+                return;
+            }
+
+            setPageToScrollToIndex(pageIndex);
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [isContinuousReadingModeActive, pageScaleMode, pageIndex]);
+};
+
+const usePreserveOnReaderViewerElementMutation = (
+    scrollElementRef: RefObject<HTMLElement | null>,
+    isContinuousReadingModeActive: boolean,
 ) => {
     const scrollPosition = useRef<{
         left: number;
@@ -34,7 +63,6 @@ export const useReaderPreserveScrollPosition = (
         visibleElementLeft: 0,
         visibleElementTop: 0,
     });
-    const readerNavBarWidthRef = useRef(readerNavBarWidth);
 
     useEffect(() => {
         const scrollElement = scrollElementRef.current;
@@ -59,27 +87,25 @@ export const useReaderPreserveScrollPosition = (
         return () => scrollElement.removeEventListener('scroll', onScroll);
     }, []);
 
-    // on rendering previous chapter (infinite scroll in continuous reading modes)
-    const onDoPreserveScroll = useCallback(() => {
-        const scrollElement = scrollElementRef.current;
-        const { left, top, visibleElement, visibleElementLeft, visibleElementTop } = scrollPosition.current;
-
-        if (!scrollElement || !isContinuousReadingModeActive || !visibleElement) {
-            return;
-        }
-
-        const newLeft = left - visibleElementLeft + visibleElement.offsetLeft;
-        const newTop = top - visibleElementTop + visibleElement.offsetTop;
-
-        scrollElement.scrollTo(newLeft, newTop);
-    }, [isContinuousReadingModeActive]);
-
     useLayoutEffect(() => {
         const scrollElement = scrollElementRef.current;
 
-        if (!scrollElement) {
+        if (!scrollElement || !isContinuousReadingModeActive) {
             return () => {};
         }
+
+        const preserveScrollPosition = () => {
+            const { left, top, visibleElement, visibleElementLeft, visibleElementTop } = scrollPosition.current;
+
+            if (!visibleElement) {
+                return;
+            }
+
+            const newLeft = left - visibleElementLeft + visibleElement.offsetLeft;
+            const newTop = top - visibleElementTop + visibleElement.offsetTop;
+
+            scrollElement.scrollTo(newLeft, newTop);
+        };
 
         const updateObservation = (
             nodes: NodeList,
@@ -94,11 +120,11 @@ export const useReaderPreserveScrollPosition = (
                 })
                 .forEach(intersectionAction);
 
-        const resizeObserver = new ResizeObserver(onDoPreserveScroll);
+        const resizeObserver = new ResizeObserver(preserveScrollPosition);
         const intersectionObserver = new IntersectionObserver((entries) => {
-            const firstVisibleElement = entries.filter((e) => e.isIntersecting).shift();
+            const firstVisibleElement = entries.find((entry) => entry.isIntersecting);
 
-            if (!firstVisibleElement || !(firstVisibleElement.target instanceof HTMLElement)) {
+            if (!(firstVisibleElement?.target instanceof HTMLElement)) {
                 return;
             }
 
@@ -133,38 +159,20 @@ export const useReaderPreserveScrollPosition = (
             resizeObserver.disconnect();
             intersectionObserver.disconnect();
         };
-    }, [onDoPreserveScroll]);
+    }, [isContinuousReadingModeActive]);
+};
 
-    const onAvailableReaderWidthChange = useCallback(() => {
-        if (!isContinuousReadingModeActive) {
-            return;
-        }
-
-        if (!isReaderWidthEditable(pageScaleMode)) {
-            return;
-        }
-
-        setPageToScrollToIndex(pageIndex);
-    }, [isContinuousReadingModeActive, pageIndex, pageScaleMode]);
-
-    // on window resize
-    useEffect(() => {
-        window.addEventListener('resize', onAvailableReaderWidthChange);
-        return () => window.removeEventListener('resize', onAvailableReaderWidthChange);
-    }, [onAvailableReaderWidthChange]);
-
-    // on reader nav bar static setting change
-    useEffect(() => {
-        if (readerNavBarWidthRef.current === readerNavBarWidth) {
-            return;
-        }
-
-        readerNavBarWidthRef.current = readerNavBarWidth;
-        onAvailableReaderWidthChange();
-    }, [onAvailableReaderWidthChange, readerNavBarWidth]);
-
-    // on "reading mode" or "reading direction" change
-    useLayoutEffect(() => {
-        setPageToScrollToIndex(pageIndex);
-    }, [readingMode, readingDirection]);
+export const useReaderPreserveScrollPosition = (
+    scrollElementRef: RefObject<HTMLElement | null>,
+    pageIndex: number,
+    readingMode: ReadingMode,
+    readingDirection: ReadingDirection,
+    isContinuousReadingModeActive: boolean,
+    setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
+    pageScaleMode: ReaderPageScaleMode,
+) => {
+    usePreserveOnReaderViewerElementMutation(scrollElementRef, isContinuousReadingModeActive);
+    usePreserveOnWindowResize(isContinuousReadingModeActive, pageScaleMode, setPageToScrollToIndex, pageIndex);
+    usePreserveOnValueChange(readingDirection, pageIndex, setPageToScrollToIndex);
+    usePreserveOnValueChange(readingMode, pageIndex, setPageToScrollToIndex);
 };

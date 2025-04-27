@@ -288,7 +288,6 @@ const BaseReaderViewer = forwardRef(
             readingMode,
             readingDirection,
             isContinuousReadingModeActive,
-            readerNavBarWidth,
             setPageToScrollToIndex,
             pageScaleMode,
         );
