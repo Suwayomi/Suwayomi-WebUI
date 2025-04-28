@@ -9,12 +9,33 @@
 import { RefObject, useEffect, useLayoutEffect, useRef } from 'react';
 import { ReaderPageScaleMode, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
-import { isReaderWidthEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import {
+    isContinuousVerticalReadingMode,
+    isHeightPageScaleMode,
+    isReaderWidthEditable,
+} from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 
 const shouldPreserveOnResizeChange = (
-    isContinuousReadingModeActive: boolean,
+    readingMode: ReadingMode,
     pageScaleMode: ReaderPageScaleMode,
-): boolean => isContinuousReadingModeActive && isReaderWidthEditable(pageScaleMode);
+    previousWidth: number,
+    previousHeight: number,
+): boolean => {
+    const isEditableReaderWidth = isReaderWidthEditable(pageScaleMode);
+    const isHeightPageScaleModeActive = isHeightPageScaleMode(pageScaleMode);
+
+    const didWidthChange = previousWidth !== window.innerWidth;
+    const didHeightChange = previousHeight !== window.innerHeight;
+
+    const handleWidthChange = isEditableReaderWidth && didWidthChange;
+    const handleHeightChange = isHeightPageScaleModeActive && didHeightChange;
+
+    if (!isContinuousVerticalReadingMode(readingMode) && didWidthChange) {
+        return true;
+    }
+
+    return handleWidthChange || handleHeightChange;
+};
 
 const usePreserveOnValueChange = (
     value: unknown,
@@ -27,14 +48,19 @@ const usePreserveOnValueChange = (
 };
 
 const usePreserveOnWindowResize = (
-    isContinuousReadingModeActive: boolean,
+    readingMode: ReadingMode,
     pageScaleMode: ReaderPageScaleMode,
     setPageToScrollToIndex: React.Dispatch<React.SetStateAction<number | null>>,
     pageIndex: number,
 ) => {
+    const previousDimensionsRef = useRef({ width: window.innerWidth, height: window.innerHeight });
+
     useEffect(() => {
         const handleResize = () => {
-            if (!shouldPreserveOnResizeChange(isContinuousReadingModeActive, pageScaleMode)) {
+            const { width, height } = previousDimensionsRef.current;
+            previousDimensionsRef.current = { width: window.innerWidth, height: window.innerHeight };
+
+            if (!shouldPreserveOnResizeChange(readingMode, pageScaleMode, width, height)) {
                 return;
             }
 
@@ -43,7 +69,7 @@ const usePreserveOnWindowResize = (
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [isContinuousReadingModeActive, pageScaleMode, pageIndex]);
+    }, [readingMode, pageScaleMode, pageIndex]);
 };
 
 const usePreserveOnReaderViewerElementMutation = (
@@ -172,7 +198,7 @@ export const useReaderPreserveScrollPosition = (
     pageScaleMode: ReaderPageScaleMode,
 ) => {
     usePreserveOnReaderViewerElementMutation(scrollElementRef, isContinuousReadingModeActive);
-    usePreserveOnWindowResize(isContinuousReadingModeActive, pageScaleMode, setPageToScrollToIndex, pageIndex);
+    usePreserveOnWindowResize(readingMode, pageScaleMode, setPageToScrollToIndex, pageIndex);
     usePreserveOnValueChange(readingDirection, pageIndex, setPageToScrollToIndex);
     usePreserveOnValueChange(readingMode, pageIndex, setPageToScrollToIndex);
 };
