@@ -18,6 +18,7 @@ import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
 import { Migration } from '@/modules/migration/screens/Migration.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { GROUPED_VIRTUOSO_Z_INDEX } from '@/modules/core/AppRoute.constants.ts';
 
 enum Tabs {
     SOURCE = 'source',
@@ -51,6 +52,7 @@ export function Browse() {
         <TabsWrapper>
             <TabsMenu
                 ref={tabsMenuRef}
+                sx={{ zIndex: GROUPED_VIRTUOSO_Z_INDEX }}
                 variant="fullWidth"
                 value={tabName}
                 onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}

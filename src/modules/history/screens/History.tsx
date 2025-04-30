@@ -86,10 +86,6 @@ export const History: React.FC = () => {
 
     return (
         <StyledGroupedVirtuoso
-            style={{
-                // override Virtuoso default values and set them with class
-                height: 'undefined',
-            }}
             components={{
                 Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
             }}

@@ -181,3 +181,5 @@ type ExtractStringPaths<T> = T extends { path: infer P }
     : ExtractChildRouteStringPaths<T>;
 
 export type StaticAppRoute = ExtractStringPaths<(typeof AppRoutes)[keyof typeof AppRoutes]>;
+
+export const GROUPED_VIRTUOSO_Z_INDEX = 2;

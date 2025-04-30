@@ -23,9 +23,11 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ChapterUpdateCard } from '@/modules/updates/components/ChapterUpdateCard.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { GROUPED_VIRTUOSO_Z_INDEX } from '@/modules/core/AppRoute.constants.ts';
 
 export const Updates: React.FC = () => {
     const { t } = useTranslation();
+    const { appBarHeight } = useNavBarContext();
 
     const { setTitle, setAction } = useNavBarContext();
     const {
@@ -107,6 +109,10 @@ export const Updates: React.FC = () => {
             <Typography
                 ref={lastUpdateTimestampCompRef}
                 sx={{
+                    position: 'sticky',
+                    top: appBarHeight,
+                    zIndex: GROUPED_VIRTUOSO_Z_INDEX,
+                    backgroundColor: 'background.default',
                     marginLeft: '10px',
                     paddingTop: (theme) => ({ [theme.breakpoints.up('sm')]: { paddingTop: '6px' } }),
                 }}
@@ -117,10 +123,6 @@ export const Updates: React.FC = () => {
             </Typography>
             <StyledGroupedVirtuoso
                 heightToSubtract={lastUpdateTimestampCompHeight}
-                style={{
-                    // override Virtuoso default values and set them with class
-                    height: 'undefined',
-                }}
                 components={{
                     Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
                 }}
