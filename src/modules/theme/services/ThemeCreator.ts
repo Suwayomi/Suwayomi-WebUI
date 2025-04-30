@@ -196,6 +196,12 @@ export const createTheme = (
 
     const themeForColors = createMuiTheme({ ...appColorTheme, defaultColorScheme: mode });
 
+    // only style scrollbar for devices that support hovering; otherwise, they most likely are touch devices that should
+    // use the native scrollbar.
+    // this is necessary since for some reason chromium uses the native scrollbar for the window scrollbar and the
+    // styled non-native scrollbar for element scrollbars on those devices
+    const doesDeviceSupportHover = window.matchMedia('hover: hover').matches;
+
     const suwayomiTheme = createMuiTheme(
         deepmerge(appColorTheme, {
             defaultColorScheme: mode,
@@ -213,7 +219,7 @@ export const createTheme = (
                         typeof appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides === 'object'
                             ? {
                                   ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides,
-                                  '*::-webkit-scrollbar': applyStyles(CSS.supports('-webkit-touch-callout', 'none'), {
+                                  '*::-webkit-scrollbar': applyStyles(doesDeviceSupportHover, {
                                       width: `${SCROLLBAR_SIZE}px`,
                                       height: `${SCROLLBAR_SIZE}px`,
                                       // @ts-ignore - '*::-webkit-scrollbar' is a valid key
@@ -221,33 +227,26 @@ export const createTheme = (
                                           '*::-webkit-scrollbar'
                                       ],
                                   }),
-                                  '*::-webkit-scrollbar-thumb': applyStyles(
-                                      CSS.supports('-webkit-touch-callout', 'none'),
-                                      {
-                                          border: '4px solid rgba(0, 0, 0, 0)',
-                                          backgroundClip: 'padding-box',
-                                          borderRadius: '9999px',
-                                          backgroundColor: `${themeForColors.palette.primary[isDarkMode ? 'dark' : 'light']}`,
-                                          // @ts-ignore - '*::-webkit-scrollbar-thumb' is a valid key
-                                          ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
-                                              '*::-webkit-scrollbar-thumb'
-                                          ],
-                                      },
-                                  ),
-                                  '*::-webkit-scrollbar-thumb:hover': applyStyles(
-                                      CSS.supports('-webkit-touch-callout', 'none'),
-                                      {
-                                          borderWidth: '2px',
-                                          // @ts-ignore - '*::-webkit-scrollbar-thumb:hover' is a valid key
-                                          ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
-                                              '*::-webkit-scrollbar-thumb:hover'
-                                          ],
-                                      },
-                                  ),
+                                  '*::-webkit-scrollbar-thumb': applyStyles(doesDeviceSupportHover, {
+                                      border: '4px solid rgba(0, 0, 0, 0)',
+                                      backgroundClip: 'padding-box',
+                                      borderRadius: '9999px',
+                                      backgroundColor: `${themeForColors.palette.primary[isDarkMode ? 'dark' : 'light']}`,
+                                      // @ts-ignore - '*::-webkit-scrollbar-thumb' is a valid key
+                                      ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
+                                          '*::-webkit-scrollbar-thumb'
+                                      ],
+                                  }),
+                                  '*::-webkit-scrollbar-thumb:hover': applyStyles(doesDeviceSupportHover, {
+                                      borderWidth: '2px',
+                                      // @ts-ignore - '*::-webkit-scrollbar-thumb:hover' is a valid key
+                                      ...appTheme.muiTheme.components?.MuiCssBaseline?.styleOverrides?.[
+                                          '*::-webkit-scrollbar-thumb:hover'
+                                      ],
+                                  }),
                               }
                             : `
-                        @supports not (-webkit-touch-callout: none) {
-                          /* CSS for other than iOS devices */ 
+                        @media (hover: hover) {
                           *::-webkit-scrollbar {
                             width: ${SCROLLBAR_SIZE}px;
                             height: ${SCROLLBAR_SIZE}px;
