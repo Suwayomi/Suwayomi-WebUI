@@ -10,6 +10,7 @@ import { RefObject, useEffect, useLayoutEffect, useRef } from 'react';
 import { ReaderPageScaleMode, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
 import {
+    isContinuousReadingMode,
     isContinuousVerticalReadingMode,
     isHeightPageScaleMode,
     isReaderWidthEditable,
@@ -72,10 +73,7 @@ const usePreserveOnWindowResize = (
     }, [readingMode, pageScaleMode, pageIndex]);
 };
 
-const usePreserveOnReaderViewerElementMutation = (
-    scrollElementRef: RefObject<HTMLElement | null>,
-    isContinuousReadingModeActive: boolean,
-) => {
+const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement | null>, readingMode: ReadingMode) => {
     const scrollPosition = useRef<{
         left: number;
         top: number;
@@ -89,6 +87,9 @@ const usePreserveOnReaderViewerElementMutation = (
         visibleElementLeft: 0,
         visibleElementTop: 0,
     });
+
+    const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
+    const isContinuousVerticalReadingModeActive = isContinuousVerticalReadingMode(readingMode);
 
     useEffect(() => {
         const scrollElement = scrollElementRef.current;
@@ -113,17 +114,39 @@ const usePreserveOnReaderViewerElementMutation = (
         return () => scrollElement.removeEventListener('scroll', onScroll);
     }, []);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         const scrollElement = scrollElementRef.current;
 
         if (!scrollElement || !isContinuousReadingModeActive) {
             return () => {};
         }
 
-        const preserveScrollPosition = () => {
+        const preserveScrollPosition: ResizeObserverCallback = (entries) => {
             const { left, top, visibleElement, visibleElementLeft, visibleElementTop } = scrollPosition.current;
 
             if (!visibleElement) {
+                return;
+            }
+
+            const entriesBeforeScrollPosition = entries.filter((entry) => {
+                if (!(entry.target instanceof HTMLElement)) {
+                    return false;
+                }
+
+                const isPreloadPage = !entry.target.clientWidth && !entry.target.clientHeight;
+                if (isPreloadPage) {
+                    return false;
+                }
+
+                if (isContinuousVerticalReadingModeActive) {
+                    return entry.target.offsetTop < top;
+                }
+
+                return Math.abs(entry.target.offsetLeft) < Math.abs(left);
+            });
+
+            const includesElementsBeforeScrollPosition = !!entriesBeforeScrollPosition.length;
+            if (!includesElementsBeforeScrollPosition) {
                 return;
             }
 
@@ -140,11 +163,13 @@ const usePreserveOnReaderViewerElementMutation = (
         ) =>
             Array.from(nodes)
                 .filter((node) => node instanceof HTMLElement)
-                .flatMap((element) => {
+                .flatMap((element) =>
+                    element instanceof HTMLImageElement ? [element] : Array.from(element.querySelectorAll('img')),
+                )
+                .forEach((element) => {
                     resizeAction(element);
-                    return Array.from(element.querySelectorAll('img'));
-                })
-                .forEach(intersectionAction);
+                    intersectionAction(element);
+                });
 
         const resizeObserver = new ResizeObserver(preserveScrollPosition);
         const intersectionObserver = new IntersectionObserver((entries) => {
@@ -165,8 +190,8 @@ const usePreserveOnReaderViewerElementMutation = (
             for (const entry of entries) {
                 updateObservation(
                     entry.addedNodes,
-                    (n) => resizeObserver.observe(n),
-                    (n) => intersectionObserver.observe(n),
+                    (element) => resizeObserver.observe(element),
+                    (element) => intersectionObserver.observe(element),
                 );
                 updateObservation(
                     entry.removedNodes,
@@ -178,6 +203,7 @@ const usePreserveOnReaderViewerElementMutation = (
 
         mutationObserver.observe(scrollElement, {
             childList: true,
+            subtree: true,
         });
 
         return () => {
@@ -185,7 +211,7 @@ const usePreserveOnReaderViewerElementMutation = (
             resizeObserver.disconnect();
             intersectionObserver.disconnect();
         };
-    }, [isContinuousReadingModeActive]);
+    }, [isContinuousReadingModeActive, isContinuousVerticalReadingModeActive]);
 };
 
 export const useReaderPreserveScrollPosition = (
@@ -193,11 +219,10 @@ export const useReaderPreserveScrollPosition = (
     pageIndex: number,
     readingMode: ReadingMode,
     readingDirection: ReadingDirection,
-    isContinuousReadingModeActive: boolean,
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
 ) => {
-    usePreserveOnReaderViewerElementMutation(scrollElementRef, isContinuousReadingModeActive);
+    usePreserveOnLeadingPageRender(scrollElementRef, readingMode);
     usePreserveOnWindowResize(readingMode, pageScaleMode, setPageToScrollToIndex, pageIndex);
     usePreserveOnValueChange(readingDirection, pageIndex, setPageToScrollToIndex);
     usePreserveOnValueChange(readingMode, pageIndex, setPageToScrollToIndex);
