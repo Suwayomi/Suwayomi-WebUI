@@ -7,7 +7,12 @@
  */
 
 import { RefObject, useEffect, useLayoutEffect, useRef } from 'react';
-import { ReaderPageScaleMode, ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
+import {
+    ReaderPageScaleMode,
+    ReaderStateChapters,
+    ReadingDirection,
+    ReadingMode,
+} from '@/modules/reader/types/Reader.types.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types';
 import {
     isContinuousReadingMode,
@@ -15,6 +20,9 @@ import {
     isHeightPageScaleMode,
     isReaderWidthEditable,
 } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
+import { getPreviousNextChapterVisibility } from '@/modules/reader/utils/Reader.utils.ts';
+import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
+import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 
 const shouldPreserveOnResizeChange = (
     readingMode: ReadingMode,
@@ -238,16 +246,119 @@ const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement 
     }, [isContinuousReadingModeActive, isContinuousVerticalReadingModeActive]);
 };
 
+const usePreserveOnInfiniteScrollPreviousChapterInitialRender = (
+    scrollElementRef: RefObject<HTMLElement | null>,
+    currentChapterId: ChapterIdInfo['id'] | undefined,
+    currentChapterIndex: number,
+    currentPageIndex: number,
+    chaptersToRender: TChapterReader[],
+    visibleChapters: ReaderStateChapters['visibleChapters'],
+    isContinuousReadingModeActive: boolean,
+) => {
+    const preservationDataRef = useScrollPreservationData(scrollElementRef);
+
+    const preserveScrollPosition = (): boolean => {
+        const scrollElement = scrollElementRef.current;
+        const { left, top, visibleElementLeft, visibleElementTop, visibleElement } = preservationDataRef.current;
+
+        if (!scrollElement || !isContinuousReadingModeActive || !visibleElement) {
+            return false;
+        }
+
+        const previousNextChapterVisibility = getPreviousNextChapterVisibility(
+            currentChapterIndex,
+            chaptersToRender,
+            visibleChapters,
+        );
+
+        const isRenderOfPreviousChapter = currentPageIndex === 0;
+
+        // only relevant when prepending content to the dom due to the resulting layout shift
+        const isFirstRenderOfPreviousChapter = !previousNextChapterVisibility.previous && isRenderOfPreviousChapter;
+        if (!isFirstRenderOfPreviousChapter) {
+            return false;
+        }
+
+        const newLeft = left - visibleElementLeft + visibleElement.offsetLeft;
+        const newTop = top - visibleElementTop + visibleElement.offsetTop;
+
+        scrollElement.scrollTo(newLeft, newTop);
+        return true;
+    };
+
+    useEffect(() => {
+        const scrollElement = scrollElementRef.current;
+        if (!scrollElement || !isContinuousReadingModeActive) {
+            return () => {};
+        }
+
+        let preservedScrollPosition = false;
+
+        const updateObservation = (nodes: NodeList, resizeAction: (element: Element) => void) => {
+            Array.from(nodes)
+                .filter((node) => node instanceof HTMLElement)
+                .flatMap((element) =>
+                    element instanceof HTMLImageElement ? [element] : Array.from(element.querySelectorAll('img')),
+                )
+                .forEach(resizeAction);
+        };
+
+        const resizeObserver = new ResizeObserver(() => {
+            if (preservedScrollPosition) {
+                return;
+            }
+
+            preservedScrollPosition = preserveScrollPosition();
+            if (preservedScrollPosition) {
+                resizeObserver.disconnect();
+            }
+        });
+        const mutationObserver = new MutationObserver((entries) => {
+            for (const entry of entries) {
+                updateObservation(entry.addedNodes, (element) => resizeObserver.observe(element));
+                updateObservation(entry.removedNodes, (element) => resizeObserver.unobserve(element));
+            }
+        });
+
+        mutationObserver.observe(scrollElement, {
+            childList: true,
+            subtree: true,
+        });
+
+        return () => {
+            mutationObserver.disconnect();
+            resizeObserver.disconnect();
+        };
+    }, [currentChapterId]);
+
+    useLayoutEffect(() => {
+        preserveScrollPosition();
+    }, [currentChapterId]);
+};
+
 export const useReaderPreserveScrollPosition = (
     scrollElementRef: RefObject<HTMLElement | null>,
-    pageIndex: number,
+    currentChapterId: ChapterIdInfo['id'] | undefined,
+    currentChapterIndex: number,
+    currentPageIndex: number,
+    chaptersToRender: TChapterReader[],
+    visibleChapters: ReaderStateChapters['visibleChapters'],
     readingMode: ReadingMode,
     readingDirection: ReadingDirection,
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
 ) => {
+    usePreserveOnInfiniteScrollPreviousChapterInitialRender(
+        scrollElementRef,
+        currentChapterId,
+        currentChapterIndex,
+        currentPageIndex,
+        chaptersToRender,
+        visibleChapters,
+        isContinuousReadingMode(readingMode),
+    );
     usePreserveOnLeadingPageRender(scrollElementRef, readingMode);
-    usePreserveOnWindowResize(readingMode, pageScaleMode, setPageToScrollToIndex, pageIndex);
-    usePreserveOnValueChange(readingDirection, pageIndex, setPageToScrollToIndex);
-    usePreserveOnValueChange(readingMode, pageIndex, setPageToScrollToIndex);
+    usePreserveOnWindowResize(readingMode, pageScaleMode, setPageToScrollToIndex, currentPageIndex);
+    usePreserveOnValueChange(readingDirection, currentPageIndex, setPageToScrollToIndex);
+    usePreserveOnValueChange(readingMode, currentPageIndex, setPageToScrollToIndex);
 };
