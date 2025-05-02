@@ -6,13 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SearchTextField } from '@/modules/core/components/inputs/SearchTextField.tsx';
 
@@ -75,20 +76,13 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         if (!searchString) updateSearchOpenState(false);
     };
 
-    const handleKeyboardEvent = (e: KeyboardEvent) => {
-        if (e.key === 'F3' || (e.ctrlKey && e.key === 'f')) {
-            e.preventDefault();
+    useHotkeys(
+        'ctrl+f, F3',
+        () => {
             updateSearchOpenState(true);
-        }
-    };
-
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyboardEvent);
-
-        return () => {
-            window.removeEventListener('keydown', handleKeyboardEvent);
-        };
-    }, [handleKeyboardEvent]);
+        },
+        { preventDefault: true },
+    );
 
     if (isOpen) {
         return (

@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { RefObject, useEffect, useLayoutEffect, useRef } from 'react';
+import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useWindowEvent } from '@mantine/hooks';
 import {
     ReaderPageScaleMode,
     ReaderStateChapters,
@@ -64,21 +65,18 @@ const usePreserveOnWindowResize = (
 ) => {
     const previousDimensionsRef = useRef({ width: window.innerWidth, height: window.innerHeight });
 
-    useEffect(() => {
-        const handleResize = () => {
-            const { width, height } = previousDimensionsRef.current;
-            previousDimensionsRef.current = { width: window.innerWidth, height: window.innerHeight };
+    const handleResize = useCallback(() => {
+        const { width, height } = previousDimensionsRef.current;
+        previousDimensionsRef.current = { width: window.innerWidth, height: window.innerHeight };
 
-            if (!shouldPreserveOnResizeChange(readingMode, pageScaleMode, width, height)) {
-                return;
-            }
+        if (!shouldPreserveOnResizeChange(readingMode, pageScaleMode, width, height)) {
+            return;
+        }
 
-            setPageToScrollToIndex(pageIndex);
-        };
-
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        setPageToScrollToIndex(pageIndex);
     }, [readingMode, pageScaleMode, pageIndex]);
+
+    useWindowEvent('resize', handleResize);
 };
 
 interface ScrollPreservationInfo {

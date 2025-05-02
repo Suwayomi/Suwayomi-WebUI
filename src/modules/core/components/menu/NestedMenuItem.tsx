@@ -23,10 +23,8 @@ import {
     MouseEvent,
     ReactNode,
     RefAttributes,
-    useImperativeHandle,
     useRef,
     useState,
-    Ref,
 } from 'react';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -34,6 +32,7 @@ import Box from '@mui/material/Box';
 
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
+import { useMergedRef } from '@mantine/hooks';
 import { IconMenuItem } from '@/modules/core/components/menu/IconMenuItem.tsx';
 import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
@@ -74,10 +73,10 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
     const { ref: containerRefProp, ...ContainerProps } = ContainerPropsProp;
 
     const menuItemRef = useRef<HTMLLIElement | null>(null);
-    useImperativeHandle(ref, () => menuItemRef.current!);
+    const mergedMenuItemRef = useMergedRef(ref, menuItemRef);
 
     const containerRef = useRef<HTMLElement>(null);
-    useImperativeHandle(containerRefProp as Ref<HTMLElement | null>, () => containerRef.current as HTMLElement);
+    const mergedContainerRef = useMergedRef(containerRefProp, containerRef);
 
     const menuContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -184,7 +183,7 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
     return (
         <Box
             {...ContainerProps}
-            ref={containerRef}
+            ref={mergedContainerRef}
             onFocus={handleFocus}
             onClick={handleClick}
             tabIndex={tabIndex}
@@ -195,7 +194,7 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
             <IconMenuItem
                 MenuItemProps={MenuItemProps}
                 className={className}
-                ref={menuItemRef}
+                ref={mergedMenuItemRef}
                 LeftIcon={LeftIcon}
                 RightIcon={RightIcon}
                 label={label}

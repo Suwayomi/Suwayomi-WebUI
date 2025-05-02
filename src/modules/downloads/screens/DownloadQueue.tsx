@@ -10,12 +10,13 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useLayoutEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { Virtuoso } from 'react-virtuoso';
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useWindowEvent } from '@mantine/hooks';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -122,22 +123,16 @@ export const DownloadQueue: React.FC = () => {
         };
     }, [t, status, isQueueEmpty]);
 
-    useEffect(() => {
-        const ignoreError = (e: WindowEventMap['error']) => {
-            if (
-                e.message === 'ResizeObserver loop completed with undelivered notifications.' ||
-                e.message === 'ResizeObserver loop limit exceeded'
-            ) {
-                e.stopImmediatePropagation();
-            }
-        };
-
-        // Virtuoso's resize observer can throw this error,
-        // which is caught by DnD and aborts dragging.
-        window.addEventListener('error', ignoreError);
-
-        return () => window.removeEventListener('error', ignoreError);
-    }, []);
+    // Virtuoso's resize observer can throw this error,
+    // which is caught by DnD and aborts dragging.
+    useWindowEvent('error', (e) => {
+        if (
+            e.message === 'ResizeObserver loop completed with undelivered notifications.' ||
+            e.message === 'ResizeObserver loop limit exceeded'
+        ) {
+            e.stopImmediatePropagation();
+        }
+    });
 
     if (isLoading) {
         return <LoadingPlaceholder />;

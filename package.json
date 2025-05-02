@@ -42,6 +42,7 @@
     "@fontsource/roboto": "5.2.5",
     "@juggle/resize-observer": "3.4.0",
     "@loadable/component": "5.16.4",
+    "@mantine/hooks": "^7.17.5",
     "@mui/icons-material": "7.0.2",
     "@mui/material": "7.0.2",
     "@mui/system": "7.0.2",

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
@@ -23,6 +23,7 @@ import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
+import { useEventListener, useMergedRef, useWindowEvent } from '@mantine/hooks';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { BackupRestoreState, ValidateBackupQuery } from '@/lib/graphql/generated/graphql.ts';
@@ -88,6 +89,8 @@ export function Backup() {
     const [validationResult, setValidationResult] = useState<ValidateBackupQuery['validateBackup']>();
 
     const [, setTriggerReRender] = useState(0);
+
+    const inputRef = useRef<HTMLInputElement>(null);
 
     const restoreProgress = (() => {
         if (!data?.restoreStatus) {
@@ -193,40 +196,25 @@ export function Backup() {
         }
     };
 
-    const dropHandler = async (e: Event) => {
-        e.preventDefault();
-        const files = await fromEvent(e);
-
-        submitBackup(files[0] as File);
-    };
-
-    const dragOverHandler = (e: Event) => {
-        e.preventDefault();
-    };
-
     const closeInvalidBackupDialog = () => {
         setIsInvalidBackupDialogOpen(false);
         resetBackupState();
     };
 
-    useEffect(() => {
-        document.addEventListener('drop', dropHandler);
-        document.addEventListener('dragover', dragOverHandler);
+    useWindowEvent('drop', async (e) => {
+        e.preventDefault();
+        const files = await fromEvent(e);
 
-        const handleFileSelection = async (event: Event) => {
-            const files = await fromEvent(event);
-            submitBackup(files[0] as File);
-        };
-
-        const input = document.getElementById('backup-file');
-        input?.addEventListener('change', handleFileSelection);
-
-        return () => {
-            document.removeEventListener('drop', dropHandler);
-            document.removeEventListener('dragover', dragOverHandler);
-            input?.removeEventListener('change', handleFileSelection);
-        };
-    }, []);
+        submitBackup(files[0] as File);
+    });
+    useWindowEvent('dragover', (e) => {
+        e.preventDefault();
+    });
+    const inputEventListenerRef = useEventListener('change', async (event) => {
+        const files = await fromEvent(event);
+        submitBackup(files[0] as File);
+    });
+    const mergedInputRef = useMergedRef(inputRef, inputEventListenerRef);
 
     if (loading) {
         return <LoadingPlaceholder />;
@@ -253,10 +241,7 @@ export function Backup() {
                         secondary={t('settings.backup.action.create.label.description')}
                     />
                 </ListItemButton>
-                <ListItemButton
-                    onClick={() => document.getElementById('backup-file')?.click()}
-                    disabled={!!backupRestoreId}
-                >
+                <ListItemButton onClick={() => inputRef.current?.click()} disabled={!!backupRestoreId}>
                     <ListItemText
                         primary={t('settings.backup.action.restore.label.title')}
                         secondary={t('settings.backup.action.restore.label.description')}
@@ -318,7 +303,7 @@ export function Backup() {
                     />
                 </List>
             </List>
-            <input type="file" id="backup-file" style={{ display: 'none' }} />
+            <input ref={mergedInputRef} type="file" style={{ display: 'none' }} />
             <Dialog open={isInvalidBackupDialogOpen}>
                 <DialogTitle>{t('settings.backup.action.validate.dialog.title')}</DialogTitle>
                 <DialogContent dividers>

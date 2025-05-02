@@ -12,7 +12,6 @@ import {
     memo,
     useCallback,
     useEffect,
-    useImperativeHandle,
     useLayoutEffect,
     useMemo,
     useRef,
@@ -21,6 +20,7 @@ import {
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
+import { useMergedRef } from '@mantine/hooks';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import {
     IReaderSettings,
@@ -168,7 +168,7 @@ const BaseReaderViewer = forwardRef(
         };
 
         const scrollElementRef = useRef<HTMLDivElement | null>(null);
-        useImperativeHandle(ref, () => scrollElementRef.current!);
+        const mergedRef = useMergedRef(ref, scrollElementRef);
 
         const isContinuousVerticalReadingModeActive = isContinuousVerticalReadingMode(readingMode);
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
@@ -310,7 +310,7 @@ const BaseReaderViewer = forwardRef(
 
         return (
             <Stack
-                ref={scrollElementRef}
+                ref={mergedRef}
                 sx={{
                     width: '100%',
                     height: '100%',

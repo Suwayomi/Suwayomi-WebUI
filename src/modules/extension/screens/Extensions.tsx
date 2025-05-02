@@ -16,6 +16,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useWindowEvent } from '@mantine/hooks';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
@@ -242,25 +243,14 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         };
     }, [t, shownLangs, allLangs]);
 
-    useEffect(() => {
-        const dropHandler = async (e: Event) => {
-            e.preventDefault();
-            const files = await fromEvent(e);
-            submitExternalExtension(files[0] as File);
-        };
-
-        const dragOverHandler = (e: Event) => {
-            e.preventDefault();
-        };
-
-        document.addEventListener('drop', dropHandler);
-        document.addEventListener('dragover', dragOverHandler);
-
-        return () => {
-            document.removeEventListener('drop', dropHandler);
-            document.removeEventListener('dragover', dragOverHandler);
-        };
-    }, []);
+    useWindowEvent('drop', async (e) => {
+        e.preventDefault();
+        const files = await fromEvent(e);
+        submitExternalExtension(files[0] as File);
+    });
+    useWindowEvent('dragover', (e) => {
+        e.preventDefault();
+    });
 
     if (isLoading) {
         return <LoadingPlaceholder />;
