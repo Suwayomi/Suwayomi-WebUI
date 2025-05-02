@@ -73,23 +73,24 @@ const usePreserveOnWindowResize = (
     }, [readingMode, pageScaleMode, pageIndex]);
 };
 
-const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement | null>, readingMode: ReadingMode) => {
-    const scrollPosition = useRef<{
-        left: number;
-        top: number;
-        visibleElement: HTMLElement | undefined;
-        visibleElementLeft: number;
-        visibleElementTop: number;
-    }>({
+interface ScrollPreservationInfo {
+    left: number;
+    top: number;
+    visibleElement: HTMLElement | undefined;
+    visibleElementLeft: number;
+    visibleElementTop: number;
+}
+
+const useScrollPreservationData = (
+    scrollElementRef: RefObject<HTMLElement | null>,
+): RefObject<ScrollPreservationInfo> => {
+    const dataRef = useRef<ScrollPreservationInfo>({
         left: 0,
         top: 0,
         visibleElement: undefined,
         visibleElementLeft: 0,
         visibleElementTop: 0,
     });
-
-    const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
-    const isContinuousVerticalReadingModeActive = isContinuousVerticalReadingMode(readingMode);
 
     useEffect(() => {
         const scrollElement = scrollElementRef.current;
@@ -99,9 +100,9 @@ const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement 
         }
 
         const onScroll = () => {
-            const { visibleElement } = scrollPosition.current;
-            scrollPosition.current = {
-                ...scrollPosition.current,
+            const { visibleElement } = dataRef.current;
+            dataRef.current = {
+                ...dataRef.current,
                 left: scrollElement.scrollLeft,
                 top: scrollElement.scrollTop,
                 visibleElementLeft: visibleElement?.offsetLeft ?? 0,
@@ -116,13 +117,66 @@ const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement 
 
     useEffect(() => {
         const scrollElement = scrollElementRef.current;
+        if (!scrollElement) {
+            return () => {};
+        }
+
+        const updateObservation = (nodes: NodeList, intersectionAction: (element: Element) => void) =>
+            Array.from(nodes)
+                .filter((node) => node instanceof HTMLElement)
+                .flatMap((element) =>
+                    element instanceof HTMLImageElement ? [element] : Array.from(element.querySelectorAll('img')),
+                )
+                .forEach(intersectionAction);
+
+        const intersectionObserver = new IntersectionObserver((entries) => {
+            const firstVisibleElement = entries.find((entry) => entry.isIntersecting);
+
+            if (!(firstVisibleElement?.target instanceof HTMLElement)) {
+                return;
+            }
+
+            dataRef.current = {
+                ...dataRef.current,
+                visibleElement: firstVisibleElement.target,
+                visibleElementLeft: firstVisibleElement.target.offsetLeft,
+                visibleElementTop: firstVisibleElement.target.offsetTop,
+            };
+        });
+        const mutationObserver = new MutationObserver((entries) => {
+            for (const entry of entries) {
+                updateObservation(entry.addedNodes, (element) => intersectionObserver.observe(element));
+                updateObservation(entry.removedNodes, (element) => intersectionObserver.unobserve(element));
+            }
+        });
+        mutationObserver.observe(scrollElement, {
+            childList: true,
+            subtree: true,
+        });
+        return () => {
+            mutationObserver.disconnect();
+            intersectionObserver.disconnect();
+        };
+    }, []);
+
+    return dataRef;
+};
+
+const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement | null>, readingMode: ReadingMode) => {
+    const preservationData = useScrollPreservationData(scrollElementRef);
+
+    const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
+    const isContinuousVerticalReadingModeActive = isContinuousVerticalReadingMode(readingMode);
+
+    useEffect(() => {
+        const scrollElement = scrollElementRef.current;
 
         if (!scrollElement || !isContinuousReadingModeActive) {
             return () => {};
         }
 
         const preserveScrollPosition: ResizeObserverCallback = (entries) => {
-            const { left, top, visibleElement, visibleElementLeft, visibleElementTop } = scrollPosition.current;
+            const { left, top, visibleElement, visibleElementLeft, visibleElementTop } = preservationData.current;
 
             if (!visibleElement) {
                 return;
@@ -156,48 +210,19 @@ const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement 
             scrollElement.scrollTo(newLeft, newTop);
         };
 
-        const updateObservation = (
-            nodes: NodeList,
-            resizeAction: (element: Element) => void,
-            intersectionAction: (element: Element) => void,
-        ) =>
+        const updateObservation = (nodes: NodeList, resizeAction: (element: Element) => void) =>
             Array.from(nodes)
                 .filter((node) => node instanceof HTMLElement)
                 .flatMap((element) =>
                     element instanceof HTMLImageElement ? [element] : Array.from(element.querySelectorAll('img')),
                 )
-                .forEach((element) => {
-                    resizeAction(element);
-                    intersectionAction(element);
-                });
+                .forEach(resizeAction);
 
         const resizeObserver = new ResizeObserver(preserveScrollPosition);
-        const intersectionObserver = new IntersectionObserver((entries) => {
-            const firstVisibleElement = entries.find((entry) => entry.isIntersecting);
-
-            if (!(firstVisibleElement?.target instanceof HTMLElement)) {
-                return;
-            }
-
-            scrollPosition.current = {
-                ...scrollPosition.current,
-                visibleElement: firstVisibleElement.target,
-                visibleElementLeft: firstVisibleElement.target.offsetLeft,
-                visibleElementTop: firstVisibleElement.target.offsetTop,
-            };
-        });
         const mutationObserver = new MutationObserver((entries) => {
             for (const entry of entries) {
-                updateObservation(
-                    entry.addedNodes,
-                    (element) => resizeObserver.observe(element),
-                    (element) => intersectionObserver.observe(element),
-                );
-                updateObservation(
-                    entry.removedNodes,
-                    (element) => resizeObserver.unobserve(element),
-                    (element) => intersectionObserver.unobserve(element),
-                );
+                updateObservation(entry.addedNodes, (element) => resizeObserver.observe(element));
+                updateObservation(entry.removedNodes, (element) => resizeObserver.unobserve(element));
             }
         });
 
@@ -209,7 +234,6 @@ const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement 
         return () => {
             mutationObserver.disconnect();
             resizeObserver.disconnect();
-            intersectionObserver.disconnect();
         };
     }, [isContinuousReadingModeActive, isContinuousVerticalReadingModeActive]);
 };
