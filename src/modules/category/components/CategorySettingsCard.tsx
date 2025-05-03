@@ -13,12 +13,12 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CategoryType } from '@/lib/graphql/generated/graphql.ts';
+import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
 
 export const CategorySettingsCard = ({
     category,
@@ -36,18 +36,7 @@ export const CategorySettingsCard = ({
     return (
         <Box sx={{ p: 1, pb: 0 }}>
             <Card>
-                <CardContent
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        padding: 1.5,
-                        '&:last-child': {
-                            paddingBottom: 1.5,
-                        },
-                        gap: 2,
-                    }}
-                >
+                <ListCardContent sx={{ gap: 2 }}>
                     <DragHandleIcon />
                     <Typography sx={{ flexGrow: 1 }} variant="h6" component="h2">
                         {category.name}
@@ -64,7 +53,7 @@ export const CategorySettingsCard = ({
                             </IconButton>
                         </CustomTooltip>
                     </Stack>
-                </CardContent>
+                </ListCardContent>
             </Card>
         </Box>
     );

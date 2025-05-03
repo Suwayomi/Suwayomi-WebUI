@@ -9,7 +9,6 @@
 import Box from '@mui/material/Box';
 import { useTranslation } from 'react-i18next';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -29,6 +28,7 @@ import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { TExtension } from '@/modules/extension/Extensions.types.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
+import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
 
 interface IExtensionOptions {
     extensionId: TExtension['pkgName'] | undefined;
@@ -73,17 +73,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                         {relevantSources?.map((source) => (
                             <StyledGroupItemWrapper key={source.id} sx={{ px: 0 }}>
                                 <Card>
-                                    <CardContent
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            gap: 1,
-                                            p: 1.5,
-                                            '&:last-child': {
-                                                paddingBottom: 1.5,
-                                            },
-                                        }}
-                                    >
+                                    <ListCardContent>
                                         <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
                                             {translateExtensionLanguage(Sources.getLanguage(source))}
                                         </Typography>
@@ -101,7 +91,7 @@ export function ExtensionOptions({ extensionId, closeDialog }: IExtensionOptions
                                                 </IconButton>
                                             </CustomTooltip>
                                         )}
-                                    </CardContent>
+                                    </ListCardContent>
                                 </Card>
                             </StyledGroupItemWrapper>
                         ))}

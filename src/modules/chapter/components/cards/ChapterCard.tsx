@@ -12,7 +12,6 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Checkbox from '@mui/material/Checkbox';
 import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import React, { memo, MouseEvent, TouchEvent, useRef } from 'react';
@@ -39,6 +38,7 @@ import {
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -129,15 +129,7 @@ export const ChapterCard = memo((props: IProps) => {
                             onClick={(e) => handleClick(e)}
                             {...longPressBind(popupState.open)}
                         >
-                            <CardContent
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: 1.5,
-                                    '&:last-child': { pb: 1.5 },
-                                }}
-                            >
+                            <ListCardContent>
                                 <ChapterCardMetadata
                                     title={
                                         showChapterNumber
@@ -210,7 +202,7 @@ export const ChapterCard = memo((props: IProps) => {
                                         </CustomTooltip>
                                     )}
                                 </Stack>
-                            </CardContent>
+                            </ListCardContent>
                         </CardActionArea>
                     </Card>
                     {!isSelecting && popupState.isOpen && (

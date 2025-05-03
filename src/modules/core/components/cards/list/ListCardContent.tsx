@@ -16,6 +16,9 @@ export const ListCardContent = ({ children, ...props }: CardContentProps) => (
             alignItems: 'center',
             gap: 1,
             p: 1.5,
+            '&:last-child': {
+                paddingBottom: 1.5,
+            },
             ...props.sx,
         }}
     >
