@@ -12,7 +12,7 @@ import { ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { LibraryOptionsPanel } from '@/modules/library/components/LibraryOptionsPanel.tsx';
-import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
+import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 
 export const LibraryToolbarMenu = ({
     category,
@@ -22,7 +22,7 @@ export const LibraryToolbarMenu = ({
     const { t } = useTranslation();
 
     const [open, setOpen] = useState(false);
-    const { options } = useLibraryOptionsContext();
+    const options = getCategoryMetadata(category);
     const active =
         options.hasDownloadedChapters != null ||
         options.hasUnreadChapters != null ||

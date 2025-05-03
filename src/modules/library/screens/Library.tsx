@@ -9,7 +9,7 @@
 import Chip, { ChipProps } from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material/styles';
-import { useCallback, useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -39,9 +39,7 @@ import {
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
-import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOptionsContext.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/queries/MangaQuery.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
@@ -87,12 +85,7 @@ export function Library() {
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
 
-    const { setOptions } = useLibraryOptionsContext();
     const activeTab: (typeof tabs)[number] | undefined = tabs.find((tab) => tab.id === tabSearchParam) ?? tabs[0];
-
-    useLayoutEffect(() => {
-        setOptions(getCategoryMetadata(activeTab ?? { id: -1 }));
-    }, [activeTab]);
 
     const {
         data: categoryMangaResponse,

@@ -13,7 +13,6 @@ import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { SnackbarProvider } from 'notistack';
 import { NavBarContextProvider } from '@/modules/navigation-bar/contexts/NavBarContextProvider.tsx';
-import { LibraryOptionsContextProvider } from '@/modules/library/contexts/LibraryOptionsProvider.tsx';
 import { ActiveDeviceContextProvider } from '@/modules/device/contexts/DeviceContext.tsx';
 import { ReaderContextProvider } from '@/modules/reader/contexts/ReaderContextProvider.tsx';
 import { AppHotkeysProvider } from '@/modules/hotkeys/contexts/AppHotkeysProvider.tsx';
@@ -30,27 +29,25 @@ export const AppContext: React.FC<Props> = ({ children }) => (
         <StyledEngineProvider injectFirst>
             <AppThemeContextProvider>
                 <QueryParamProvider adapter={ReactRouter6Adapter}>
-                    <LibraryOptionsContextProvider>
-                        <NavBarContextProvider>
-                            <AppPageHistoryContextProvider>
-                                <ActiveDeviceContextProvider>
-                                    <SnackbarProvider
-                                        Components={{
-                                            default: SnackbarWithDescription,
-                                            info: SnackbarWithDescription,
-                                            success: SnackbarWithDescription,
-                                            warning: SnackbarWithDescription,
-                                            error: SnackbarWithDescription,
-                                        }}
-                                    >
-                                        <ReaderContextProvider>
-                                            <AppHotkeysProvider>{children}</AppHotkeysProvider>
-                                        </ReaderContextProvider>
-                                    </SnackbarProvider>
-                                </ActiveDeviceContextProvider>
-                            </AppPageHistoryContextProvider>
-                        </NavBarContextProvider>
-                    </LibraryOptionsContextProvider>
+                    <NavBarContextProvider>
+                        <AppPageHistoryContextProvider>
+                            <ActiveDeviceContextProvider>
+                                <SnackbarProvider
+                                    Components={{
+                                        default: SnackbarWithDescription,
+                                        info: SnackbarWithDescription,
+                                        success: SnackbarWithDescription,
+                                        warning: SnackbarWithDescription,
+                                        error: SnackbarWithDescription,
+                                    }}
+                                >
+                                    <ReaderContextProvider>
+                                        <AppHotkeysProvider>{children}</AppHotkeysProvider>
+                                    </ReaderContextProvider>
+                                </SnackbarProvider>
+                            </ActiveDeviceContextProvider>
+                        </AppPageHistoryContextProvider>
+                    </NavBarContextProvider>
                 </QueryParamProvider>
             </AppThemeContextProvider>
         </StyledEngineProvider>
