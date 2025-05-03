@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { styled, ThemeProvider, useTheme } from '@mui/material/styles';
@@ -19,7 +19,7 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { AppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
+import { useAppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/modules/theme/services/AppThemes.ts';
 import { createTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { ThemeCreationDialog } from '@/modules/theme/components/CreateThemeDialog.tsx';
@@ -37,7 +37,7 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
 
     const { t } = useTranslation();
     const theme = useTheme();
-    const { themeMode, setAppTheme, appTheme: activeAppTheme, pureBlackMode } = useContext(AppThemeContext);
+    const { themeMode, setAppTheme, appTheme: activeAppTheme, pureBlackMode } = useAppThemeContext();
 
     const popupState = usePopupState({ variant: 'popover', popupId: `theme-edit-dialog-${appTheme.id}` });
 

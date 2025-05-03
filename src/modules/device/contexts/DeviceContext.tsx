@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { ReactNode, useMemo } from 'react';
+import React, { ReactNode, useContext, useMemo } from 'react';
 import { DEFAULT_DEVICE, setActiveDevice } from '@/modules/device/services/Device.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 
@@ -29,3 +29,5 @@ export const ActiveDeviceContextProvider = ({ children }: { children?: ReactNode
 
     return <DeviceContext.Provider value={activeDeviceContext}>{children}</DeviceContext.Provider>;
 };
+
+export const useDeviceContext = () => useContext(DeviceContext);

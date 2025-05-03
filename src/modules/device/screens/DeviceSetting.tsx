@@ -11,14 +11,14 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
 import { useTranslation } from 'react-i18next';
-import { useContext, useLayoutEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import {
     updateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MutableListSetting } from '@/modules/core/components/settings/MutableListSetting.tsx';
-import { DeviceContext } from '@/modules/device/contexts/DeviceContext.tsx';
+import { useDeviceContext } from '@/modules/device/contexts/DeviceContext.tsx';
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -49,7 +49,7 @@ export const DeviceSetting = () => {
         request: { error, refetch },
     } = useMetadataServerSettings();
 
-    const { activeDevice, setActiveDevice } = useContext(DeviceContext);
+    const { activeDevice, setActiveDevice } = useDeviceContext();
 
     const updateMetadataSetting = <Setting extends MetadataServerSettingKeys>(
         setting: Setting,
