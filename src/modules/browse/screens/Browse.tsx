@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
 import { StringParam, useQueryParam } from 'use-query-params';
@@ -17,8 +17,8 @@ import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
 import { Migration } from '@/modules/migration/screens/Migration.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/modules/core/AppRoute.constants.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 enum Tabs {
     SOURCE = 'source',
@@ -28,11 +28,7 @@ enum Tabs {
 
 export function Browse() {
     const { t } = useTranslation();
-    const { setTitle } = useNavBarContext();
-
-    useLayoutEffect(() => {
-        setTitle(t('global.label.browse'));
-    }, [t]);
+    useAppTitle(t('global.label.browse'));
 
     const tabsMenuRef = useRef<HTMLDivElement | null>(null);
     const [tabsMenuHeight, setTabsMenuHeight] = useState(0);

@@ -33,6 +33,7 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 type WebUISettingsType = Pick<
     ServerSettings,
@@ -120,14 +121,13 @@ const extractWebUISettings = (settings: ServerSettings): WebUISettingsType => ({
 
 export const WebUISettings = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
 
+    useAppTitle(t('settings.webui.title.webui'));
     useLayoutEffect(() => {
-        setTitle(t('settings.webui.title.webui'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t]);

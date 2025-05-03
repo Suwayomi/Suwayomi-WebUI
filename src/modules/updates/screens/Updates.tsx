@@ -24,12 +24,13 @@ import { ChapterUpdateCard } from '@/modules/updates/components/ChapterUpdateCar
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/modules/core/AppRoute.constants.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const Updates: React.FC = () => {
     const { t } = useTranslation();
     const { appBarHeight } = useNavBarContext();
 
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
     const {
         data: chapterUpdateData,
         loading: isLoading,
@@ -72,12 +73,11 @@ export const Updates: React.FC = () => {
     });
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
 
+    useAppTitle(t('updates.title'));
     useLayoutEffect(() => {
-        setTitle(t('updates.title'));
         setAction(<UpdateChecker />);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t, lastUpdateTimestamp]);

@@ -28,6 +28,7 @@ import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
@@ -39,10 +40,10 @@ const extractBrowseSettings = (settings: GqlServerSettings): ExtensionsSettings 
 
 export const BrowseSettings = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
+    useAppTitle(t('global.label.browse'));
 
     useLayoutEffect(() => {
-        setTitle(t('global.label.browse'));
         setAction(null);
     }, [t]);
 

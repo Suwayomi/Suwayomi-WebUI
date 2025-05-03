@@ -23,10 +23,11 @@ import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const Migrate = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
 
     const { sourceId: paramSourceId } = useParams<{ sourceId: string }>();
 
@@ -68,12 +69,11 @@ export const Migrate = () => {
         notifyOnNetworkStatusChange: true,
     });
 
+    useAppTitle(name ?? sourceId ?? t('migrate.title'));
     useLayoutEffect(() => {
-        setTitle(name ?? sourceId ?? t('migrate.title'));
         setAction(<GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t, name, sourceId, gridLayout]);

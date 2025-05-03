@@ -51,9 +51,9 @@ import { useReaderResetStates } from '@/modules/reader/hooks/useReaderResetState
 import { useReaderSetSettingsState } from '@/modules/reader/hooks/useReaderSetSettingsState.ts';
 import { useReaderShowSettingPreviewOnChange } from '@/modules/reader/hooks/useReaderShowSettingPreviewOnChange.ts';
 import { useReaderSetChaptersState } from '@/modules/reader/hooks/useReaderSetChaptersState.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 const BaseReader = ({
-    setTitle,
     setOverride,
     readerNavBarWidth,
     isVisible: isOverlayVisible,
@@ -81,7 +81,7 @@ const BaseReader = ({
     setTransitionPageMode,
     cancelAutoScroll,
     setShowPreview,
-}: Pick<NavbarContextType, 'setTitle' | 'setOverride' | 'readerNavBarWidth'> &
+}: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'> &
     Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
     Pick<TReaderStateMangaContext, 'manga' | 'setManga'> &
     Pick<TReaderStateSettingsContext, 'setSettings'> &
@@ -123,6 +123,12 @@ const BaseReader = ({
     const mangaResponse = requestManager.useGetManga<GetMangaReaderQuery>(GET_MANGA_READER, mangaId);
     const chaptersResponse = requestManager.useGetMangaChapters<GetChaptersReaderQuery>(GET_CHAPTERS_READER, mangaId);
 
+    useAppTitle(
+        !manga || !currentChapter
+            ? t('reader.title', { mangaId, chapterIndex: chapterSourceOrder })
+            : `${manga.title}: ${currentChapter.name}`,
+    );
+
     const {
         metadata: defaultSettingsMetadata,
         settings: defaultSettings,
@@ -136,15 +142,6 @@ const BaseReader = ({
         chaptersResponse.loading ||
         defaultSettingsResponse.loading;
     const error = mangaResponse.error ?? chaptersResponse.error ?? defaultSettingsResponse.error;
-
-    useLayoutEffect(() => {
-        if (!manga || !currentChapter) {
-            setTitle(t('reader.title', { mangaId, chapterIndex: chapterSourceOrder }));
-            return;
-        }
-
-        setTitle(`${manga.title}: ${currentChapter.name}`);
-    }, [t, mangaId, chapterSourceOrder, manga, currentChapter]);
 
     useEffect(() => {
         setManga(mangaResponse.data?.manga);
@@ -319,7 +316,6 @@ export const Reader = withPropsFrom(
         useReaderTapZoneContext,
     ],
     [
-        'setTitle',
         'setOverride',
         'readerNavBarWidth',
         'isVisible',

@@ -44,6 +44,7 @@ import { useMetadataServerSettings } from '@/modules/settings/services/ServerSet
 import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/queries/MangaQuery.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -166,16 +167,16 @@ export function Library() {
         );
     }, [isSelectModeActive, selectedMangas]);
 
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
+    useAppTitle(
+        <TitleWithSizeTag>
+            {t('library.title')}
+            {showTabSize && <TitleSizeTag sx={{ color: 'inherit' }} label={librarySize} />}
+        </TitleWithSizeTag>,
+        t('library.title'),
+        [t, showTabSize, librarySize],
+    );
     useLayoutEffect(() => {
-        const title = t('library.title');
-        const navBarTitle = (
-            <TitleWithSizeTag>
-                {title}
-                {showTabSize && <TitleSizeTag sx={{ color: 'inherit' }} label={librarySize} />}
-            </TitleWithSizeTag>
-        );
-        setTitle(navBarTitle, title);
         setAction(
             <>
                 {!isSelectModeActive && activeTab && (
@@ -205,7 +206,6 @@ export function Library() {
             </>,
         );
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [

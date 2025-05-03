@@ -21,10 +21,11 @@ import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { NavigationBarUtil } from '@/modules/navigation-bar/NavigationBar.util.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { NavbarItem, NavBarItemMoreGroup } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const More = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     const {
@@ -58,12 +59,11 @@ export const More = () => {
         [NavBarItemMoreGroup.HIDDEN_ITEM]: hiddenItemsMoreGroup,
     };
 
+    useAppTitle(t('global.label.more'));
     useLayoutEffect(() => {
-        setTitle(t('global.label.more'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t]);

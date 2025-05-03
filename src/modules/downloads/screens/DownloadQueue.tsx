@@ -31,9 +31,12 @@ import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
 import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';
 import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
 import { DownloadQueueChapterCard } from '@/modules/downloads/components/DownloadQueueChapterCard.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
+
+    useAppTitle(t('download.queue.title'));
 
     const [reorderDownload, { reset: revertReorder }] = requestManager.useReorderChapterInDownloadQueue();
 
@@ -49,7 +52,7 @@ export const DownloadQueue: React.FC = () => {
     const status = downloaderData?.state ?? DownloaderState.Started;
     const isQueueEmpty = !queue.length;
 
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
 
     const dndItems = useMemo(() => queue.map((download) => download.chapter), [queue]);
     const dndSensors = DndKitUtil.useSensorsForDevice();
@@ -97,7 +100,6 @@ export const DownloadQueue: React.FC = () => {
     };
 
     useLayoutEffect(() => {
-        setTitle(t('download.queue.title'));
         setAction(
             <>
                 <CustomTooltip title={t('download.queue.label.delete_all')}>
@@ -118,7 +120,6 @@ export const DownloadQueue: React.FC = () => {
         );
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t, status, isQueueEmpty]);

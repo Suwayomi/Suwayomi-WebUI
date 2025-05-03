@@ -37,17 +37,17 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
 import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';
 import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export function CategorySettings() {
     const { t } = useTranslation();
+    useAppTitle(t('category.dialog.title.edit_category_other'));
 
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
     useLayoutEffect(() => {
-        setTitle(t('category.dialog.title.edit_category_other'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t]);

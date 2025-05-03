@@ -35,6 +35,7 @@ import { LibraryDuplicatesWorkerInput, TMangaDuplicate, TMangaDuplicates } from 
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const LibraryDuplicates = () => {
     const { t } = useTranslation();
@@ -45,9 +46,9 @@ export const LibraryDuplicates = () => {
         false,
     );
 
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
+    useAppTitle(t('library.settings.advanced.duplicates.label.title'));
     useLayoutEffect(() => {
-        setTitle(t('library.settings.advanced.duplicates.label.title'));
         setAction(
             <>
                 <GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />
@@ -75,7 +76,6 @@ export const LibraryDuplicates = () => {
         );
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t, gridLayout, checkAlternativeTitles]);

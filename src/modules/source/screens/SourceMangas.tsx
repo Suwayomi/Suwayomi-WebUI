@@ -53,6 +53,7 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Sources } from '@/modules/source/services/Sources.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
@@ -204,7 +205,7 @@ const useSourceManga = (
 
 export function SourceMangas() {
     const { t } = useTranslation();
-    const { setTitle, setAction, appBarHeight } = useNavBarContext();
+    const { setAction, appBarHeight } = useNavBarContext();
 
     const { sourceId } = useParams<{ sourceId: string }>();
 
@@ -398,8 +399,8 @@ export function SourceMangas() {
         requestManager.clearBrowseCacheFor(sourceId);
     }, [clearCache]);
 
+    useAppTitle(source?.displayName ?? t('source.title_one'));
     useLayoutEffect(() => {
-        setTitle(source?.displayName ?? t('source.title_one'));
         setAction(
             <>
                 <AppbarSearch />
@@ -420,7 +421,6 @@ export function SourceMangas() {
         );
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t, source]);

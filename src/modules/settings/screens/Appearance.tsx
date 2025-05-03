@@ -36,6 +36,7 @@ import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
@@ -43,13 +44,12 @@ export const Appearance = () => {
     const { mode, setMode } = useColorScheme();
     const actualThemeMode = (mode ?? themeMode) as ThemeMode;
 
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
+    useAppTitle(t('settings.appearance.title'));
     useLayoutEffect(() => {
-        setTitle(t('settings.appearance.title'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t]);

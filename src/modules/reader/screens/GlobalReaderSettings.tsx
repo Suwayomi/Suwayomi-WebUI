@@ -18,17 +18,17 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/modules/reader/components/settings/ReaderSettingsTabs.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { GLOBAL_READER_SETTINGS_MANGA } from '@/modules/manga/Manga.constants.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const GlobalReaderSettings = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
 
+    useAppTitle(t('reader.settings.title.reader'));
     useLayoutEffect(() => {
-        setTitle(t('reader.settings.title.reader'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t]);

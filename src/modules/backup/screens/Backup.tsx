@@ -38,6 +38,7 @@ import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 
@@ -60,13 +61,12 @@ let backupRestoreId: string | undefined;
 
 export function Backup() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
+    useAppTitle(t('settings.backup.title'));
     useLayoutEffect(() => {
-        setTitle(t('settings.backup.title'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t]);

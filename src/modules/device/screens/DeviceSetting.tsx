@@ -27,17 +27,18 @@ import { DEFAULT_DEVICE } from '@/modules/device/services/Device.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const DeviceSetting = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
+
+    useAppTitle(t('settings.device.title.device'));
 
     useLayoutEffect(() => {
-        setTitle(t('settings.device.title.device'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t]);

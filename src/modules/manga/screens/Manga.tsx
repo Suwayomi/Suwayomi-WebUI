@@ -27,11 +27,12 @@ import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_SCREEN } from '@/lib/graphql/queries/MangaQuery.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const Manga: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
@@ -59,12 +60,11 @@ export const Manga: React.FC = () => {
         }
     }, [manga]);
 
+    useAppTitle(manga?.title ?? t('manga.title_one'));
     useLayoutEffect(() => {
-        setTitle(manga?.title ?? t('manga.title_one'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t, manga?.title]);

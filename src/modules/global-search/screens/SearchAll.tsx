@@ -34,6 +34,7 @@ import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContex
 import { Sources } from '@/modules/source/services/Sources.ts';
 import { SourceDisplayNameInfo, SourceIdInfo } from '@/modules/source/Source.types.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -188,12 +189,12 @@ const SourceSearchPreview = React.memo(
 export const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
 
     const { pathname, state } = useLocation<{ mangaTitle?: string }>();
     const isMigrateMode = pathname.startsWith('/migrate/source');
 
-    const mangaTitle = state?.mangaTitle;
+    useAppTitle(t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: state?.mangaTitle }));
 
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
@@ -236,7 +237,6 @@ export const SearchAll: React.FC = () => {
     );
 
     useLayoutEffect(() => {
-        setTitle(t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: mangaTitle }));
         setAction(
             <>
                 <AppbarSearch isClosable={false} />
@@ -249,7 +249,6 @@ export const SearchAll: React.FC = () => {
         );
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t, shownLangs, setShownLangs, sources]);

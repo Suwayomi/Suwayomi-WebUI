@@ -7,13 +7,11 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
@@ -28,14 +26,12 @@ import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { MetadataTrackingSettings } from '@/modules/tracker/Tracker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const TrackingSettings = () => {
     const { t } = useTranslation();
-    const { setTitle } = useNavBarContext();
 
-    useLayoutEffect(() => {
-        setTitle(t('tracking.title'));
-    }, [t]);
+    useAppTitle(t('tracking.title'));
 
     const {
         settings: { updateProgressAfterReading, updateProgressManualMarkRead },

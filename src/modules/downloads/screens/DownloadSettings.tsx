@@ -33,6 +33,7 @@ import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -55,14 +56,14 @@ const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType
 
 export const DownloadSettings = () => {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
+
+    useAppTitle(t('download.title.download'));
 
     useLayoutEffect(() => {
-        setTitle(t('download.title.download'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t]);

@@ -28,6 +28,7 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { PreferenceProps } from '@/modules/source/Source.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -48,14 +49,13 @@ function getPrefComponent(type: string) {
 
 export function SourceConfigure() {
     const { t } = useTranslation();
-    const { setTitle, setAction } = useNavBarContext();
+    const { setAction } = useNavBarContext();
 
+    useAppTitle(t('source.configuration.title'));
     useLayoutEffect(() => {
-        setTitle(t('source.configuration.title'));
         setAction(null);
 
         return () => {
-            setTitle('');
             setAction(null);
         };
     }, [t]);

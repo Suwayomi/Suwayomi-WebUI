@@ -7,7 +7,7 @@
  */
 
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useLayoutEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
@@ -18,14 +18,15 @@ import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/Style
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ChapterHistoryCard } from '@/modules/history/components/ChapterHistoryCard.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const History: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setTitle } = useNavBarContext();
+    useAppTitle(t('history.title'));
+
     const {
         data: chapterHistoryData,
         loading: isLoading,
@@ -53,14 +54,6 @@ export const History: React.FC = () => {
         useCallback((index) => groupedHistory[index][VirtuosoUtil.GROUP], [groupedHistory]),
         useCallback((index) => readEntries[index].id, [readEntries]),
     );
-
-    useLayoutEffect(() => {
-        setTitle(t('history.title'));
-
-        return () => {
-            setTitle('');
-        };
-    }, [t]);
 
     const loadMore = useCallback(() => {
         if (!hasNextPage) {
