@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -32,7 +31,6 @@ import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts'
 import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 type DownloadSettingsType = Pick<
@@ -56,17 +54,8 @@ const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType
 
 export const DownloadSettings = () => {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
 
     useAppTitle(t('download.title.download'));
-
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
 
     const categories = requestManager.useGetCategories<GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables>(
         GET_CATEGORIES_SETTINGS,

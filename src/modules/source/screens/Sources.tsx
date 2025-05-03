@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Fragment, useLayoutEffect, useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
@@ -24,13 +24,12 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Sources as SourceService } from '@/modules/source/services/Sources.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 
 export function Sources() {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', sourceDefualtLangs());
     const {
@@ -61,26 +60,21 @@ export function Sources() {
 
     const navigate = useNavigate();
 
-    useLayoutEffect(() => {
-        setAction(
-            <>
-                <CustomTooltip title={t('search.title.global_search')}>
-                    <IconButton onClick={() => navigate(AppRoutes.sources.childRoutes.searchAll.path)} color="inherit">
-                        <TravelExploreIcon />
-                    </IconButton>
-                </CustomTooltip>
-                <LanguageSelect
-                    selectedLanguages={shownLangs}
-                    setSelectedLanguages={setShownLangs}
-                    languages={sourceLanguages}
-                />
-            </>,
-        );
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, shownLangs, sourceLanguages]);
+    useAppAction(
+        <>
+            <CustomTooltip title={t('search.title.global_search')}>
+                <IconButton onClick={() => navigate(AppRoutes.sources.childRoutes.searchAll.path)} color="inherit">
+                    <TravelExploreIcon />
+                </IconButton>
+            </CustomTooltip>
+            <LanguageSelect
+                selectedLanguages={shownLangs}
+                setSelectedLanguages={setShownLangs}
+                languages={sourceLanguages}
+            />
+        </>,
+        [t, shownLangs, sourceLanguages],
+    );
 
     if (isLoading) return <LoadingPlaceholder />;
 

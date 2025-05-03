@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -21,22 +20,13 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { VersionInfo } from '@/modules/app-updates/components/VersionInfo.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { epochToDate } from '@/util/DateHelper.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export function About() {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
 
     useAppTitle(t('settings.about.title'));
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
 
     const { data, loading, error, refetch } = requestManager.useGetAbout({ notifyOnNetworkStatusChange: true });
 

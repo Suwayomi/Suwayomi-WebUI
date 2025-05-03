@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Fragment, useLayoutEffect } from 'react';
+import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -15,7 +15,6 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import Divider from '@mui/material/Divider';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { ListItemLink } from '@/modules/core/components/lists/ListItemLink.tsx';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { NAVIGATION_BAR_ITEMS } from '@/modules/navigation-bar/NavigationBar.constants.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { NavigationBarUtil } from '@/modules/navigation-bar/NavigationBar.util.ts';
@@ -25,8 +24,9 @@ import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const More = () => {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
+
+    useAppTitle(t('global.label.more'));
 
     const {
         settings: { hideHistory },
@@ -58,15 +58,6 @@ export const More = () => {
         ...hiddenNavBarItemsByMoreGroup,
         [NavBarItemMoreGroup.HIDDEN_ITEM]: hiddenItemsMoreGroup,
     };
-
-    useAppTitle(t('global.label.more'));
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
 
     return (
         <List sx={{ p: 0 }}>

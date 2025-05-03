@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -35,7 +34,6 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const Appearance = () => {
@@ -44,15 +42,7 @@ export const Appearance = () => {
     const { mode, setMode } = useColorScheme();
     const actualThemeMode = (mode ?? themeMode) as ThemeMode;
 
-    const { setAction } = useNavBarContext();
     useAppTitle(t('settings.appearance.title'));
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
 
     const {
         settings,

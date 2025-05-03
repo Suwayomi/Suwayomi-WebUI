@@ -9,7 +9,7 @@
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
@@ -30,11 +30,11 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/Em
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Sources } from '@/modules/source/services/Sources.ts';
 import { SourceDisplayNameInfo, SourceIdInfo } from '@/modules/source/Source.types.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -189,8 +189,6 @@ const SourceSearchPreview = React.memo(
 export const SearchAll: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setAction } = useNavBarContext();
-
     const { pathname, state } = useLocation<{ mangaTitle?: string }>();
     const isMigrateMode = pathname.startsWith('/migrate/source');
 
@@ -236,22 +234,21 @@ export const SearchAll: React.FC = () => {
         [setSourceToLoadingStateMap],
     );
 
-    useLayoutEffect(() => {
-        setAction(
-            <>
-                <AppbarSearch isClosable={false} />
-                <LanguageSelect
-                    selectedLanguages={shownLangs}
-                    setSelectedLanguages={setShownLangs}
-                    languages={sourceLanguages}
-                />
-            </>,
-        );
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, shownLangs, setShownLangs, sources]);
+    useAppAction(
+        useMemo(
+            () => (
+                <>
+                    <AppbarSearch isClosable={false} />
+                    <LanguageSelect
+                        selectedLanguages={shownLangs}
+                        setSelectedLanguages={setShownLangs}
+                        languages={sourceLanguages}
+                    />
+                </>
+            ),
+            [shownLangs, setShownLangs, sourceLanguages],
+        ),
+    );
 
     if (loading) {
         return <LoadingPlaceholder />;

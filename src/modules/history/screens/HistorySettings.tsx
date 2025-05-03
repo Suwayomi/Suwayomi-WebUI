@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -21,19 +20,13 @@ import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/Em
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { MetadataHistorySettings } from '@/modules/history/History.types.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const HistorySettings = () => {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
 
     useAppTitle(t('history.title'));
-
-    useLayoutEffect(() => {
-        setAction(null);
-    }, [t]);
 
     const {
         settings: { hideHistory },

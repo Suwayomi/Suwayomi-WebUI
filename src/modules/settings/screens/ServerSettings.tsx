@@ -7,7 +7,7 @@
  */
 
 import { useTranslation, Trans } from 'react-i18next';
-import { useLayoutEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -31,7 +31,6 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
 import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 type ServerSettingsType = Pick<
@@ -95,16 +94,8 @@ const getLogFilesCleanupDisplayValue = (ttl: number): string => {
 
 export const ServerSettings = () => {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
 
     useAppTitle(t('settings.server.title.server'));
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
 
     const {
         settings: { serverInformAvailableUpdate },

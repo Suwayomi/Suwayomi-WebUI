@@ -43,8 +43,8 @@ import { useLibraryOptionsContext } from '@/modules/library/contexts/LibraryOpti
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { getCategoryMetadata } from '@/modules/category/services/CategoryMetadata.ts';
 import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/queries/MangaQuery.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -167,7 +167,6 @@ export function Library() {
         );
     }, [isSelectModeActive, selectedMangas]);
 
-    const { setAction } = useNavBarContext();
     useAppTitle(
         <TitleWithSizeTag>
             {t('library.title')}
@@ -176,49 +175,33 @@ export function Library() {
         t('library.title'),
         [t, showTabSize, librarySize],
     );
-    useLayoutEffect(() => {
-        setAction(
-            <>
-                {!isSelectModeActive && activeTab && (
-                    <>
-                        <AppbarSearch />
-                        <LibraryToolbarMenu category={activeTab} />
-                        <UpdateChecker categoryId={activeTab?.id} />
-                    </>
-                )}
-                <SelectableCollectionSelectMode
-                    isActive={isSelectModeActive}
-                    areAllItemsSelected={areAllItemsSelected}
-                    areNoItemsSelected={areNoItemsSelected}
-                    onSelectAll={(selectAll) =>
-                        handleSelectAll(selectAll, [...new Set(mangas.map((manga) => manga.id))])
-                    }
-                    onModeChange={(checked) => {
-                        setIsSelectModeActive(checked);
+    useAppAction(
+        <>
+            {!isSelectModeActive && activeTab && (
+                <>
+                    <AppbarSearch />
+                    <LibraryToolbarMenu category={activeTab} />
+                    <UpdateChecker categoryId={activeTab?.id} />
+                </>
+            )}
+            <SelectableCollectionSelectMode
+                isActive={isSelectModeActive}
+                areAllItemsSelected={areAllItemsSelected}
+                areNoItemsSelected={areNoItemsSelected}
+                onSelectAll={(selectAll) => handleSelectAll(selectAll, [...new Set(mangas.map((manga) => manga.id))])}
+                onModeChange={(checked) => {
+                    setIsSelectModeActive(checked);
 
-                        if (checked) {
-                            handleSelectAll(true, [...new Set(mangas.map((manga) => manga.id))]);
-                        } else {
-                            tabs.forEach((tab) => handleSelectAll(false, [], tab.id.toString()));
-                        }
-                    }}
-                />
-            </>,
-        );
-        return () => {
-            setAction(null);
-        };
-    }, [
-        t,
-        librarySize,
-        areCategoriesLoading,
-        isSelectModeActive,
-        areNoItemsSelected,
-        areAllItemsSelected,
-        mangas.length,
-        activeTab,
-        showTabSize,
-    ]);
+                    if (checked) {
+                        handleSelectAll(true, [...new Set(mangas.map((manga) => manga.id))]);
+                    } else {
+                        tabs.forEach((tab) => handleSelectAll(false, [], tab.id.toString()));
+                    }
+                }}
+            />
+        </>,
+        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab],
+    );
 
     const handleTabChange = (newTab: number) => {
         setTabSearchParam(newTab);

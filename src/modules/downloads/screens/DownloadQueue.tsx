@@ -10,7 +10,7 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import React, { useLayoutEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { Virtuoso } from 'react-virtuoso';
@@ -26,12 +26,12 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { ChapterDownloadStatus } from '@/modules/chapter/services/Chapters.ts';
 import { DownloaderState } from '@/lib/graphql/generated/graphql.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
 import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';
 import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
 import { DownloadQueueChapterCard } from '@/modules/downloads/components/DownloadQueueChapterCard.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
@@ -51,8 +51,6 @@ export const DownloadQueue: React.FC = () => {
     const queue = downloaderData?.queue ?? [];
     const status = downloaderData?.state ?? DownloaderState.Started;
     const isQueueEmpty = !queue.length;
-
-    const { setAction } = useNavBarContext();
 
     const dndItems = useMemo(() => queue.map((download) => download.chapter), [queue]);
     const dndSensors = DndKitUtil.useSensorsForDevice();
@@ -99,30 +97,24 @@ export const DownloadQueue: React.FC = () => {
         categoryReorder(queue, oldIndex, newIndex);
     };
 
-    useLayoutEffect(() => {
-        setAction(
-            <>
-                <CustomTooltip title={t('download.queue.label.delete_all')}>
-                    <IconButton onClick={clearQueue} color="inherit">
-                        <DeleteSweepIcon />
-                    </IconButton>
-                </CustomTooltip>
+    useAppAction(
+        <>
+            <CustomTooltip title={t('download.queue.label.delete_all')}>
+                <IconButton onClick={clearQueue} color="inherit">
+                    <DeleteSweepIcon />
+                </IconButton>
+            </CustomTooltip>
 
-                <CustomTooltip
-                    title={t(status === DownloaderState.Started ? 'global.button.start' : 'global.button.stop')}
-                    disabled={isQueueEmpty}
-                >
-                    <IconButton onClick={toggleQueueStatus} disabled={isQueueEmpty} color="inherit">
-                        {status === DownloaderState.Stopped ? <PlayArrowIcon /> : <PauseIcon />}
-                    </IconButton>
-                </CustomTooltip>
-            </>,
-        );
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, status, isQueueEmpty]);
+            <CustomTooltip
+                title={t(status === DownloaderState.Started ? 'global.button.start' : 'global.button.stop')}
+                disabled={isQueueEmpty}
+            >
+                <IconButton onClick={toggleQueueStatus} disabled={isQueueEmpty} color="inherit">
+                    {status === DownloaderState.Stopped ? <PlayArrowIcon /> : <PauseIcon />}
+                </IconButton>
+            </CustomTooltip>
+        </>,
+    );
 
     // Virtuoso's resize observer can throw this error,
     // which is caught by DnD and aborts dragging.

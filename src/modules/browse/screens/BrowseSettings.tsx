@@ -7,7 +7,6 @@
  */
 
 import { Trans, useTranslation } from 'react-i18next';
-import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -27,7 +26,6 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
@@ -40,12 +38,8 @@ const extractBrowseSettings = (settings: GqlServerSettings): ExtensionsSettings 
 
 export const BrowseSettings = () => {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
-    useAppTitle(t('global.label.browse'));
 
-    useLayoutEffect(() => {
-        setAction(null);
-    }, [t]);
+    useAppTitle(t('global.label.browse'));
 
     const { data, loading, error, refetch } = requestManager.useGetServerSettings({
         notifyOnNetworkStatusChange: true,

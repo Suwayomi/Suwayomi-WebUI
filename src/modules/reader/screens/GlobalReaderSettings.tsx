@@ -7,12 +7,11 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useLayoutEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDefaultReaderSettingsWithDefaultFlag } from '@/modules/reader/services/ReaderSettingsMetadata.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { IReaderSettings, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/modules/reader/components/settings/ReaderSettingsTabs.tsx';
@@ -22,16 +21,8 @@ import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export const GlobalReaderSettings = () => {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
 
     useAppTitle(t('reader.settings.title.reader'));
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
 
     const [activeTab, setActiveTab] = useState(0);
 

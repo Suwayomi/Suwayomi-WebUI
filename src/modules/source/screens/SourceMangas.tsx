@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -51,9 +51,10 @@ import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Sources } from '@/modules/source/services/Sources.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
@@ -205,7 +206,7 @@ const useSourceManga = (
 
 export function SourceMangas() {
     const { t } = useTranslation();
-    const { setAction, appBarHeight } = useNavBarContext();
+    const { appBarHeight } = useNavBarContext();
 
     const { sourceId } = useParams<{ sourceId: string }>();
 
@@ -400,30 +401,24 @@ export function SourceMangas() {
     }, [clearCache]);
 
     useAppTitle(source?.displayName ?? t('source.title_one'));
-    useLayoutEffect(() => {
-        setAction(
-            <>
-                <AppbarSearch />
-                <SourceGridLayout />
-                {source?.isConfigurable && (
-                    <CustomTooltip title={t('settings.title')}>
-                        <IconButton
-                            onClick={() => navigate(AppRoutes.sources.childRoutes.configure.path(sourceId))}
-                            aria-label="display more actions"
-                            edge="end"
-                            color="inherit"
-                        >
-                            <SettingsIcon />
-                        </IconButton>
-                    </CustomTooltip>
-                )}
-            </>,
-        );
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, source]);
+    useAppAction(
+        <>
+            <AppbarSearch />
+            <SourceGridLayout />
+            {source?.isConfigurable && (
+                <CustomTooltip title={t('settings.title')}>
+                    <IconButton
+                        onClick={() => navigate(AppRoutes.sources.childRoutes.configure.path(sourceId))}
+                        aria-label="display more actions"
+                        edge="end"
+                        color="inherit"
+                    >
+                        <SettingsIcon />
+                    </IconButton>
+                </CustomTooltip>
+            )}
+        </>,
+    );
 
     const EmptyViewComponent = mangas.length ? EmptyView : EmptyViewAbsoluteCentered;
 

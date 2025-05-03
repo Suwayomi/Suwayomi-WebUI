@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
@@ -37,7 +37,6 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
@@ -61,15 +60,8 @@ let backupRestoreId: string | undefined;
 
 export function Backup() {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
-    useAppTitle(t('settings.backup.title'));
-    useLayoutEffect(() => {
-        setAction(null);
 
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
+    useAppTitle(t('settings.backup.title'));
 
     const {
         data: settingsData,

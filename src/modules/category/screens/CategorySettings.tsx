@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ComponentProps, useLayoutEffect, useMemo, useState } from 'react';
+import { ComponentProps, useMemo, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
@@ -32,7 +32,6 @@ import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts'
 import { CategorySettingsCard } from '@/modules/category/components/CategorySettingsCard.tsx';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
 import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';
@@ -41,16 +40,8 @@ import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 export function CategorySettings() {
     const { t } = useTranslation();
+
     useAppTitle(t('category.dialog.title.edit_category_other'));
-
-    const { setAction } = useNavBarContext();
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
 
     const { data, loading, error, refetch } = requestManager.useGetCategories<
         GetCategoriesSettingsQuery,

@@ -25,12 +25,12 @@ import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContex
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/modules/core/AppRoute.constants.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 
 export const Updates: React.FC = () => {
     const { t } = useTranslation();
     const { appBarHeight } = useNavBarContext();
 
-    const { setAction } = useNavBarContext();
     const {
         data: chapterUpdateData,
         loading: isLoading,
@@ -74,13 +74,7 @@ export const Updates: React.FC = () => {
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
 
     useAppTitle(t('updates.title'));
-    useLayoutEffect(() => {
-        setAction(<UpdateChecker />);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, lastUpdateTimestamp]);
+    useAppAction(<UpdateChecker />);
 
     const loadMore = useCallback(() => {
         if (!hasNextPage) {

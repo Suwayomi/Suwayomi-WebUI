@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
@@ -26,13 +26,12 @@ import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPl
 import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_SCREEN } from '@/lib/graphql/queries/MangaQuery.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 
 export const Manga: React.FC = () => {
     const { t } = useTranslation();
 
-    const { setAction } = useNavBarContext();
     const { id } = useParams<{ id: string }>();
     const autofetchedRef = useRef(false);
 
@@ -61,50 +60,36 @@ export const Manga: React.FC = () => {
     }, [manga]);
 
     useAppTitle(manga?.title ?? t('manga.title_one'));
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, manga?.title]);
-
-    useLayoutEffect(() => {
-        setAction(
-            <Stack
-                direction="row"
-                sx={{
-                    alignItems: 'center',
-                }}
-            >
-                {error && !isValidating && !refreshing && (
-                    <CustomTooltip
-                        title={
-                            <>
-                                {t('manga.error.label.request_failure')}
-                                <br />
-                                {getErrorMessage(error)}
-                            </>
-                        }
-                    >
-                        <IconButton onClick={() => refetch()}>
-                            <Warning color="error" />
-                        </IconButton>
-                    </CustomTooltip>
-                )}
-                {manga && (refreshing || isValidating) && (
-                    <IconButton disabled>
-                        <CircularProgress size={16} />
+    useAppAction(
+        <Stack
+            direction="row"
+            sx={{
+                alignItems: 'center',
+            }}
+        >
+            {error && !isValidating && !refreshing && (
+                <CustomTooltip
+                    title={
+                        <>
+                            {t('manga.error.label.request_failure')}
+                            <br />
+                            {getErrorMessage(error)}
+                        </>
+                    }
+                >
+                    <IconButton onClick={() => refetch()}>
+                        <Warning color="error" />
                     </IconButton>
-                )}
-                {manga && <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />}
-            </Stack>,
-        );
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, error, isValidating, refreshing, manga, refresh]);
+                </CustomTooltip>
+            )}
+            {manga && (refreshing || isValidating) && (
+                <IconButton disabled>
+                    <CircularProgress size={16} />
+                </IconButton>
+            )}
+            {manga && <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />}
+        </Stack>,
+    );
 
     if (error && !manga) {
         return (

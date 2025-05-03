@@ -7,7 +7,6 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useLayoutEffect } from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -38,7 +37,6 @@ import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MetadataLibrarySettings } from '@/modules/library/Library.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
@@ -65,16 +63,8 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
 
 export function LibrarySettings() {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
 
     useAppTitle(t('library.title'));
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
 
     const categories = requestManager.useGetCategories<GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables>(
         GET_CATEGORIES_SETTINGS,

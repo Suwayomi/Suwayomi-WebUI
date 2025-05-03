@@ -7,7 +7,7 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
@@ -34,8 +34,8 @@ import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { LibraryDuplicatesWorkerInput, TMangaDuplicate, TMangaDuplicates } from '@/modules/library/Library.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 
 export const LibraryDuplicates = () => {
     const { t } = useTranslation();
@@ -46,39 +46,30 @@ export const LibraryDuplicates = () => {
         false,
     );
 
-    const { setAction } = useNavBarContext();
     useAppTitle(t('library.settings.advanced.duplicates.label.title'));
-    useLayoutEffect(() => {
-        setAction(
-            <>
-                <GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />
-                <PopupState variant="popover" popupId="library-dupliactes-settings">
-                    {(popupState) => (
-                        <>
-                            <IconButton {...bindTrigger(popupState)} color="inherit">
-                                <SettingsIcon />
-                            </IconButton>
-                            <Menu {...bindMenu(popupState)}>
-                                <MenuItem>
-                                    <CheckboxInput
-                                        label={t(
-                                            'library.settings.advanced.duplicates.settings.label.check_description',
-                                        )}
-                                        checked={checkAlternativeTitles}
-                                        onChange={(_, checked) => setCheckAlternativeTitles(checked)}
-                                    />
-                                </MenuItem>
-                            </Menu>
-                        </>
-                    )}
-                </PopupState>
-            </>,
-        );
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, gridLayout, checkAlternativeTitles]);
+    useAppAction(
+        <>
+            <GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />
+            <PopupState variant="popover" popupId="library-dupliactes-settings">
+                {(popupState) => (
+                    <>
+                        <IconButton {...bindTrigger(popupState)} color="inherit">
+                            <SettingsIcon />
+                        </IconButton>
+                        <Menu {...bindMenu(popupState)}>
+                            <MenuItem>
+                                <CheckboxInput
+                                    label={t('library.settings.advanced.duplicates.settings.label.check_description')}
+                                    checked={checkAlternativeTitles}
+                                    onChange={(_, checked) => setCheckAlternativeTitles(checked)}
+                                />
+                            </MenuItem>
+                        </Menu>
+                    </>
+                )}
+            </PopupState>
+        </>,
+    );
 
     const { data, loading, error, refetch } = requestManager.useGetMangas<
         GetMangasDuplicatesQuery,

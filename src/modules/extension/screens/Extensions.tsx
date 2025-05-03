@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { fromEvent } from 'file-selector';
 import IconButton from '@mui/material/IconButton';
 import AddIcon from '@mui/icons-material/Add';
@@ -45,13 +45,13 @@ import {
 import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/modules/extension/Extensions.constants.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { ExtensionOptions } from '@/modules/extension/components/ExtensionOptions';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -115,7 +115,6 @@ const GroupHeader = ({
 
 export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
     const navigate = useNavigate();
     const { pathname, search, state } = useLocation<{ selectedExtensionPkg?: TExtension['pkgName'] }>();
     const selectedExtensionPkg = state?.selectedExtensionPkg;
@@ -201,47 +200,42 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         fetchExtensions();
     }, [refetchExtensions]);
 
-    useLayoutEffect(() => {
-        setAction(
-            <>
-                <AppbarSearch />
-                <CustomTooltip title={t('extension.action.label.install_external')}>
-                    <IconButton
-                        onClick={() => {
-                            const input = document.createElement('input');
-                            input.style.display = 'none';
-                            input.type = 'file';
-                            input.onchange = () => {
-                                const file = input.files?.[0];
-                                if (file) {
-                                    submitExternalExtension(file);
-                                }
-                            };
+    useAppAction(
+        <>
+            <AppbarSearch />
+            <CustomTooltip title={t('extension.action.label.install_external')}>
+                <IconButton
+                    onClick={() => {
+                        const input = document.createElement('input');
+                        input.style.display = 'none';
+                        input.type = 'file';
+                        input.onchange = () => {
+                            const file = input.files?.[0];
+                            if (file) {
+                                submitExternalExtension(file);
+                            }
+                        };
 
-                            document.documentElement.appendChild(input);
-                            input.click();
-                            document.documentElement.removeChild(input);
-                        }}
-                        color="inherit"
-                    >
-                        <AddIcon />
-                    </IconButton>
-                </CustomTooltip>
+                        document.documentElement.appendChild(input);
+                        input.click();
+                        document.documentElement.removeChild(input);
+                    }}
+                    color="inherit"
+                >
+                    <AddIcon />
+                </IconButton>
+            </CustomTooltip>
 
-                <LanguageSelect
-                    selectedLanguages={shownLangs}
-                    setSelectedLanguages={(languages: string[]) =>
-                        updateMetadataServerSettings('extensionLanguages', languages)
-                    }
-                    languages={allLangs}
-                />
-            </>,
-        );
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, shownLangs, allLangs]);
+            <LanguageSelect
+                selectedLanguages={shownLangs}
+                setSelectedLanguages={(languages: string[]) =>
+                    updateMetadataServerSettings('extensionLanguages', languages)
+                }
+                languages={allLangs}
+            />
+        </>,
+        [t, shownLangs, allLangs],
+    );
 
     useWindowEvent('drop', async (e) => {
         e.preventDefault();

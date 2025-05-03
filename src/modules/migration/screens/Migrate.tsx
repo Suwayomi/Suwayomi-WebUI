@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -22,12 +22,11 @@ import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 
 export const Migrate = () => {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
 
     const { sourceId: paramSourceId } = useParams<{ sourceId: string }>();
 
@@ -70,13 +69,7 @@ export const Migrate = () => {
     });
 
     useAppTitle(name ?? sourceId ?? t('migrate.title'));
-    useLayoutEffect(() => {
-        setAction(<GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t, name, sourceId, gridLayout]);
+    useAppAction(<GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />);
 
     useEffect(() => {
         if (isSourceLoading || isKnownSource) {

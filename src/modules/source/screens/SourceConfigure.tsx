@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createElement, useLayoutEffect } from 'react';
+import { createElement } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import { useTranslation } from 'react-i18next';
@@ -27,7 +27,6 @@ import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { PreferenceProps } from '@/modules/source/Source.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 
 function getPrefComponent(type: string) {
@@ -49,16 +48,8 @@ function getPrefComponent(type: string) {
 
 export function SourceConfigure() {
     const { t } = useTranslation();
-    const { setAction } = useNavBarContext();
 
     useAppTitle(t('source.configuration.title'));
-    useLayoutEffect(() => {
-        setAction(null);
-
-        return () => {
-            setAction(null);
-        };
-    }, [t]);
 
     const { sourceId } = useParams<{ sourceId: string }>();
     const { data, loading, error, refetch } = requestManager.useGetSource<
