@@ -8,6 +8,7 @@
 
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
+import { ReactNode } from 'react';
 import { TranslationKey } from '@/Base.types.ts';
 import { StaticAppRoute } from '@/modules/core/AppRoute.constants.ts';
 
@@ -40,8 +41,8 @@ export type NavbarContextType = {
     setAppBarHeight: React.Dispatch<React.SetStateAction<number>>;
 
     // AppBar action buttons
-    action: any;
-    setAction: React.Dispatch<React.SetStateAction<any>>;
+    action: ReactNode;
+    setAction: React.Dispatch<React.SetStateAction<ReactNode>>;
 
     // Allow default navbar to be overrided
     override: INavbarOverride;

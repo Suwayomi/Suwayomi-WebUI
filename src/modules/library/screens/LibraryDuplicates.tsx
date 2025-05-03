@@ -34,8 +34,7 @@ import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { LibraryDuplicatesWorkerInput, TMangaDuplicate, TMangaDuplicates } from '@/modules/library/Library.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
 
 export const LibraryDuplicates = () => {
     const { t } = useTranslation();
@@ -46,8 +45,8 @@ export const LibraryDuplicates = () => {
         false,
     );
 
-    useAppTitle(t('library.settings.advanced.duplicates.label.title'));
-    useAppAction(
+    useAppTitleAndAction(
+        t('library.settings.advanced.duplicates.label.title'),
         <>
             <GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />
             <PopupState variant="popover" popupId="library-dupliactes-settings">
@@ -69,6 +68,7 @@ export const LibraryDuplicates = () => {
                 )}
             </PopupState>
         </>,
+        [t, gridLayout, checkAlternativeTitles],
     );
 
     const { data, loading, error, refetch } = requestManager.useGetMangas<

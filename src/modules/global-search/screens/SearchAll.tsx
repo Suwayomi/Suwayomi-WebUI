@@ -33,8 +33,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
 import { SourceDisplayNameInfo, SourceIdInfo } from '@/modules/source/Source.types.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -192,8 +191,6 @@ export const SearchAll: React.FC = () => {
     const { pathname, state } = useLocation<{ mangaTitle?: string }>();
     const isMigrateMode = pathname.startsWith('/migrate/source');
 
-    useAppTitle(t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: state?.mangaTitle }));
-
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
 
@@ -234,20 +231,17 @@ export const SearchAll: React.FC = () => {
         [setSourceToLoadingStateMap],
     );
 
-    useAppAction(
-        useMemo(
-            () => (
-                <>
-                    <AppbarSearch isClosable={false} />
-                    <LanguageSelect
-                        selectedLanguages={shownLangs}
-                        setSelectedLanguages={setShownLangs}
-                        languages={sourceLanguages}
-                    />
-                </>
-            ),
-            [shownLangs, setShownLangs, sourceLanguages],
-        ),
+    useAppTitleAndAction(
+        t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: state?.mangaTitle }),
+        <>
+            <AppbarSearch isClosable={false} />
+            <LanguageSelect
+                selectedLanguages={shownLangs}
+                setSelectedLanguages={setShownLangs}
+                languages={sourceLanguages}
+            />
+        </>,
+        [shownLangs, setShownLangs, sourceLanguages],
     );
 
     if (loading) {

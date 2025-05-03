@@ -22,8 +22,7 @@ import { SOURCE_BASE_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
 
 export const Migrate = () => {
     const { t } = useTranslation();
@@ -68,8 +67,11 @@ export const Migrate = () => {
         notifyOnNetworkStatusChange: true,
     });
 
-    useAppTitle(name ?? sourceId ?? t('migrate.title'));
-    useAppAction(<GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />);
+    useAppTitleAndAction(
+        name ?? sourceId ?? t('migrate.title'),
+        <GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />,
+        [gridLayout],
+    );
 
     useEffect(() => {
         if (isSourceLoading || isKnownSource) {

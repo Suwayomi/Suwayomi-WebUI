@@ -24,8 +24,7 @@ import { ChapterUpdateCard } from '@/modules/updates/components/ChapterUpdateCar
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/modules/core/AppRoute.constants.ts';
-import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
 
 export const Updates: React.FC = () => {
     const { t } = useTranslation();
@@ -73,8 +72,7 @@ export const Updates: React.FC = () => {
     });
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
 
-    useAppTitle(t('updates.title'));
-    useAppAction(<UpdateChecker />);
+    useAppTitleAndAction(t('updates.title'), <UpdateChecker />);
 
     const loadMore = useCallback(() => {
         if (!hasNextPage) {

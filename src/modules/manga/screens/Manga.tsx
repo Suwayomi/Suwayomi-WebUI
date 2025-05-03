@@ -26,8 +26,7 @@ import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPl
 import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_SCREEN } from '@/lib/graphql/queries/MangaQuery.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
 
 export const Manga: React.FC = () => {
     const { t } = useTranslation();
@@ -59,8 +58,8 @@ export const Manga: React.FC = () => {
         }
     }, [manga]);
 
-    useAppTitle(manga?.title ?? t('manga.title_one'));
-    useAppAction(
+    useAppTitleAndAction(
+        manga?.title ?? t('manga.title_one'),
         <Stack
             direction="row"
             sx={{
@@ -89,6 +88,7 @@ export const Manga: React.FC = () => {
             )}
             {manga && <MangaToolbarMenu manga={manga} onRefresh={refresh} refreshing={refreshing} />}
         </Stack>,
+        [t, error, isValidating, refreshing, manga, refresh],
     );
 
     if (error && !manga) {

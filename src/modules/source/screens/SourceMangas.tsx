@@ -52,8 +52,7 @@ import { GridLayout } from '@/modules/core/Core.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
-import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
@@ -400,8 +399,8 @@ export function SourceMangas() {
         requestManager.clearBrowseCacheFor(sourceId);
     }, [clearCache]);
 
-    useAppTitle(source?.displayName ?? t('source.title_one'));
-    useAppAction(
+    useAppTitleAndAction(
+        source?.displayName ?? t('source.title_one'),
         <>
             <AppbarSearch />
             <SourceGridLayout />
@@ -418,6 +417,7 @@ export function SourceMangas() {
                 </CustomTooltip>
             )}
         </>,
+        [source],
     );
 
     const EmptyViewComponent = mangas.length ? EmptyView : EmptyViewAbsoluteCentered;
