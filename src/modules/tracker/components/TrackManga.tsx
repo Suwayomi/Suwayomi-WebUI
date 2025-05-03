@@ -12,7 +12,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { TrackerCard, TrackerMode } from '@/modules/tracker/components/cards/TrackerCard.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
@@ -23,7 +23,7 @@ import { GET_MANGA_TRACK_RECORDS } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
+import { EmptyView } from '@/modules/core/components/feedback/EmptyView.tsx';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {

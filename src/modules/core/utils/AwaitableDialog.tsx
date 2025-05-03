@@ -8,7 +8,7 @@
 
 import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from '@mui/material/styles';
-import { ConfirmDialog } from '@/modules/core/components/ConfirmDialog.tsx';
+import { ConfirmDialog } from '@/modules/core/components/modals/ConfirmDialog.tsx';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { getCurrentTheme } from '@/modules/theme/services/ThemeCreator.ts';
 

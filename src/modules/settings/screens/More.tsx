@@ -14,7 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import Divider from '@mui/material/Divider';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
-import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
+import { ListItemLink } from '@/modules/core/components/lists/ListItemLink.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { NAVIGATION_BAR_ITEMS } from '@/modules/navigation-bar/NavigationBar.constants.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';

@@ -19,7 +19,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateChecker } from '@/modules/app-updates/components/WebUIUpdateChecker.tsx';
 import { ServerUpdateChecker } from '@/modules/app-updates/components/ServerUpdateChecker.tsx';
 import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
-import { ErrorBoundary } from '@/modules/core/components/ErrorBoundary.tsx';
+import { ErrorBoundary } from '@/modules/core/components/feedback/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';

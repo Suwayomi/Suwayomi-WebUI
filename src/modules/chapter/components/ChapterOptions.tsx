@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { RadioInput } from '@/modules/core/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/modules/core/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
-import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
+import { OptionsTabs } from '@/modules/core/components/modals/OptionsTabs.tsx';
 import { CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY } from '@/modules/chapter/Chapter.constants.ts';
 import { TranslationKey } from '@/Base.types.ts';
 import { ChapterListOptions } from '@/modules/chapter/Chapter.types.ts';

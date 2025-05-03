@@ -12,7 +12,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { memo } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines';
+import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 export const ReaderNavBarDesktopMetadata = memo(

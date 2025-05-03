@@ -11,7 +11,7 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MangaIdInfo, MangaThumbnailInfo } from '@/modules/manga/Manga.types.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
+import { ListCardAvatar } from '@/modules/core/components/lists/cards/ListCardAvatar.tsx';
 
 export const ChapterCardThumbnail = ({
     mangaId,

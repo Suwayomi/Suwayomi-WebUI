@@ -13,7 +13,7 @@ import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.ts
 import { RadioInput } from '@/modules/core/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/modules/core/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/modules/core/components/inputs/ThreeStateCheckboxInput.tsx';
-import { OptionsTabs } from '@/modules/core/components/OptionsTabs.tsx';
+import { OptionsTabs } from '@/modules/core/components/modals/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';

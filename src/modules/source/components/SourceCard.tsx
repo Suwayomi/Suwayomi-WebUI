@@ -22,8 +22,8 @@ import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
-import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
-import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
+import { ListCardAvatar } from '@/modules/core/components/lists/cards/ListCardAvatar.tsx';
+import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent.tsx';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];

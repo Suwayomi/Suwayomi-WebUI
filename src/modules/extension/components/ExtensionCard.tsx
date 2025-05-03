@@ -33,8 +33,8 @@ import {
 import { getInstalledState } from '@/modules/extension/Extensions.utils.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
-import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
-import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
+import { ListCardAvatar } from '@/modules/core/components/lists/cards/ListCardAvatar.tsx';
+import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent.tsx';
 
 interface IProps {
     extension: TExtension;

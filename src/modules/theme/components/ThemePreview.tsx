@@ -24,7 +24,7 @@ import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/modules/theme/servi
 import { createTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { ThemeCreationDialog } from '@/modules/theme/components/CreateThemeDialog.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const ThemePreviewBadge = styled(Box)(() => ({

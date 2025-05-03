@@ -10,7 +10,7 @@ import { Fragment } from 'react';
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { Kbd } from '@/modules/core/components/Kbd.tsx';
+import { Kbd } from '@/modules/core/components/texts/Kbd.tsx';
 
 export const Hotkey = ({ keys, removeKey }: { keys: string[]; removeKey?: (key: string) => void }) => {
     const { t } = useTranslation();

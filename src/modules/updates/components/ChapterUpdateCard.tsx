@@ -11,7 +11,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Card from '@mui/material/Card';
 import { Link } from 'react-router-dom';
 import { memo } from 'react';
-import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
+import { DownloadStateIndicator } from '@/modules/core/components/downloads/DownloadStateIndicator.tsx';
 import { ChapterUpdateListFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { ChapterCardThumbnail } from '@/modules/chapter/components/cards/ChapterCardThumbnail.tsx';
@@ -19,7 +19,7 @@ import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterC
 import { ChapterDownloadButton } from '@/modules/chapter/components/buttons/ChapterDownloadButton.tsx';
 import { ChapterDownloadRetryButton } from '@/modules/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
-import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
+import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent.tsx';
 
 export const ChapterUpdateCard = memo(({ chapter }: { chapter: ChapterUpdateListFieldsFragment }) => {
     const { manga } = chapter;

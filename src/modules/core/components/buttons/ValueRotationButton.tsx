@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { MultiValueButtonProps } from '@/modules/core/Core.types.ts';
 import { getNextRotationValue } from '@/modules/core/utils/ValueRotationButton.utils.ts';
-import { Superscript } from '@/modules/core/components/Superscript.tsx';
+import { Superscript } from '@/modules/core/components/texts/Superscript.tsx';
 
 export const ValueRotationButton = <Value extends string | number>({
     tooltip,

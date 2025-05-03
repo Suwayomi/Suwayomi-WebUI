@@ -10,7 +10,7 @@ import { Component, ErrorInfo, ReactNode, useEffect, useRef, useState } from 're
 import { useLocation } from 'react-router-dom';
 import { t } from 'i18next';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { EmptyView } from '@/modules/core/components/placeholder/EmptyView.tsx';
+import { EmptyView } from '@/modules/core/components/feedback/EmptyView.tsx';
 
 interface Props {
     children?: ReactNode;

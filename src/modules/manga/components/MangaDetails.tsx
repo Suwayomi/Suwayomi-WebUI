@@ -36,7 +36,7 @@ import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { CustomButton } from '@/modules/core/components/buttons/CustomButton.tsx';
 import { TrackMangaButton } from '@/modules/manga/components/TrackMangaButton.tsx';
 import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
-import { Metadata as BaseMetadata } from '@/modules/core/components/Metadata.tsx';
+import { Metadata as BaseMetadata } from '@/modules/core/components/texts/Metadata.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';

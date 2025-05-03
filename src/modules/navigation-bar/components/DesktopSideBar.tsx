@@ -21,12 +21,12 @@ import { useCallback, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { ListItemLink } from '@/modules/core/components/ListItemLink.tsx';
+import { ListItemLink } from '@/modules/core/components/lists/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',

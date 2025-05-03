@@ -21,7 +21,7 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLongPress } from 'use-long-press';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { getDateString } from '@/util/DateHelper.ts';
-import { DownloadStateIndicator } from '@/modules/core/components/DownloadStateIndicator.tsx';
+import { DownloadStateIndicator } from '@/modules/core/components/downloads/DownloadStateIndicator.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterActionMenuItems } from '@/modules/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
@@ -38,7 +38,7 @@ import {
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
+import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent.tsx';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &

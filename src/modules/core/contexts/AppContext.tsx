@@ -17,7 +17,7 @@ import { LibraryOptionsContextProvider } from '@/modules/library/contexts/Librar
 import { ActiveDeviceContextProvider } from '@/modules/device/contexts/DeviceContext.tsx';
 import { ReaderContextProvider } from '@/modules/reader/contexts/ReaderContextProvider.tsx';
 import { AppHotkeysProvider } from '@/modules/hotkeys/contexts/AppHotkeysProvider.tsx';
-import { SnackbarWithDescription } from '@/modules/core/components/snackbar/SnackbarWithDescription.tsx';
+import { SnackbarWithDescription } from '@/modules/core/components/feedback/SnackbarWithDescription.tsx';
 import { AppPageHistoryContextProvider } from '@/modules/core/contexts/AppPageHistoryContextProvider.tsx';
 import { AppThemeContextProvider } from '@/modules/theme/contexts/AppThemeContextProvider.tsx';
 

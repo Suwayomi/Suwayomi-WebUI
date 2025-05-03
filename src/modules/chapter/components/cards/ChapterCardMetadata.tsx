@@ -9,7 +9,7 @@
 import Box from '@mui/material/Box';
 import { ComponentProps, ReactNode } from 'react';
 import Stack from '@mui/material/Stack';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 
 export const ChapterCardMetadata = ({

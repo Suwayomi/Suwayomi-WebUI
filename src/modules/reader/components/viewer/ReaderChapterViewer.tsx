@@ -42,9 +42,9 @@ import { READER_STATE_PAGES_DEFAULTS } from '@/modules/reader/constants/ReaderCo
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useReaderSetPagesState } from '@/modules/reader/hooks/useReaderSetPagesState.ts';
-import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
-import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { ReaderInfiniteScrollUpdateChapter } from '@/modules/reader/components/viewer/ReaderInfiniteScrollUpdateChapter.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 

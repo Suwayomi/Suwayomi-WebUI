@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { EmptyView, EmptyViewProps } from '@/modules/core/components/placeholder/EmptyView.tsx';
+import { EmptyView, EmptyViewProps } from '@/modules/core/components/feedback/EmptyView.tsx';
 
 export function EmptyViewAbsoluteCentered({ sx, ...emptyViewProps }: EmptyViewProps) {
     return (

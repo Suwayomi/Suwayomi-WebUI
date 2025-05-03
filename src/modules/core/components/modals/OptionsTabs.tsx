@@ -11,7 +11,7 @@ import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import React, { useState } from 'react';
 import { TabPanel } from '@/modules/core/components/tabs/TabPanel.tsx';
-import { OptionsPanel } from '@/modules/core/components/OptionsPanel.tsx';
+import { OptionsPanel } from '@/modules/core/components/modals/OptionsPanel.tsx';
 
 interface IProps<T = string> {
     open: boolean;

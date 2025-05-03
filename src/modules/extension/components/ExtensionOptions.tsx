@@ -19,8 +19,8 @@ import DialogContent from '@mui/material/DialogContent';
 import { useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder';
-import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered';
+import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered';
 import { getErrorMessage } from '@/lib/HelperFunctions';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
 import { AppRoutes } from '@/modules/core/AppRoute.constants';
@@ -28,7 +28,7 @@ import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { TExtension } from '@/modules/extension/Extensions.types.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
-import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent.tsx';
+import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent.tsx';
 
 interface IExtensionOptions {
     extensionId: TExtension['pkgName'] | undefined;

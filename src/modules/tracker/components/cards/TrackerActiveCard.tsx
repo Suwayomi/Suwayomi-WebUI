@@ -36,7 +36,7 @@ import { DateSetting } from '@/modules/core/components/settings/DateSetting.tsx'
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
 import { CARD_STYLING } from '@/modules/tracker/Tracker.constants.ts';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { SelectSetting, SelectSettingValue } from '@/modules/core/components/settings/SelectSetting.tsx';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { TrackRecordType } from '@/lib/graphql/generated/graphql.ts';

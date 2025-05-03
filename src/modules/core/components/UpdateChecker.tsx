@@ -18,7 +18,7 @@ import Stack from '@mui/material/Stack';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { Progress } from '@/modules/core/components/Progress.tsx';
+import { Progress } from '@/modules/core/components/feedback/Progress.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { dateTimeFormatter } from '@/util/DateHelper.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';

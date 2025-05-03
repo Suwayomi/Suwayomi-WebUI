@@ -19,8 +19,8 @@ import {
 import { ListPreference } from '@/modules/source/components/sourceConfiguration/ListPreference.tsx';
 import { EditTextPreference } from '@/modules/source/components/sourceConfiguration/EditTextPreference.tsx';
 import { MultiSelectListPreference } from '@/modules/source/components/sourceConfiguration/MultiSelectListPreference.tsx';
-import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/modules/core/components/placeholder/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetCategoriesSettingsQueryVariables, GetSourceSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';

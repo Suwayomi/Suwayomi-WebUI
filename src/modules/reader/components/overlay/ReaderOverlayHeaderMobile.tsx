@@ -19,10 +19,10 @@ import { alpha } from '@mui/material/styles';
 import Slide from '@mui/material/Slide';
 import { forwardRef, memo } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MobileHeaderProps } from '@/modules/reader/types/ReaderOverlay.types.ts';
-import { LoadingPlaceholder } from '@/modules/core/components/placeholder/LoadingPlaceholder';
+import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import {
     ReaderStateChapters,

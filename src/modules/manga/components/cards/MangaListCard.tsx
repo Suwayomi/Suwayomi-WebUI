@@ -13,12 +13,12 @@ import Stack from '@mui/material/Stack';
 import { Link as RouterLink } from 'react-router-dom';
 import { memo, useRef } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { SpecificMangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
-import { ListCardAvatar } from '@/modules/core/components/cards/list/ListCardAvatar.tsx';
-import { ListCardContent } from '@/modules/core/components/cards/list/ListCardContent';
+import { ListCardAvatar } from '@/modules/core/components/lists/cards/ListCardAvatar.tsx';
+import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent';
 
 export const MangaListCard = memo(
     ({

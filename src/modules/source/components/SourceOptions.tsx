@@ -24,7 +24,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { OptionsPanel } from '@/modules/core/components/OptionsPanel.tsx';
+import { OptionsPanel } from '@/modules/core/components/modals/OptionsPanel.tsx';
 import { CheckBoxFilter } from '@/modules/source/components/filters/CheckBoxFilter.tsx';
 import { HeaderFilter } from '@/modules/source/components/filters/HeaderFilter.tsx';
 import { SelectFilter } from '@/modules/source/components/filters/SelectFilter.tsx';

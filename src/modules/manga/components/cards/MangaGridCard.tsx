@@ -19,7 +19,7 @@ import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SpecificMangaCardProps } from '@/modules/manga/Manga.types.ts';
-import { TypographyMaxLines } from '@/modules/core/components/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { MANGA_COVER_ASPECT_RATIO } from '@/modules/manga/Manga.constants.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 
