@@ -161,6 +161,7 @@ export interface IReaderSettingsGlobal {
     shouldInformAboutScanlatorChange: boolean;
     scrollAmount: ReaderScrollAmount;
     shouldUseInfiniteScroll: boolean;
+    shouldShowTransitionPage: boolean;
 }
 
 export interface IReaderSettingsManga {

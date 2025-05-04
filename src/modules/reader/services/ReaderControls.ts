@@ -359,7 +359,7 @@ export class ReaderControls {
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
         const { setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
         const { setShowPreview } = useReaderTapZoneContext();
-        const { readingDirection, readingMode } = ReaderService.useSettings();
+        const { readingDirection, readingMode, shouldShowTransitionPage } = ReaderService.useSettings();
         const openChapter = ReaderControls.useOpenChapter();
 
         const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
@@ -404,9 +404,11 @@ export class ReaderControls {
                 const areContinuousPagerTransitionPagesVisible =
                     isContinuousReadingModeActive && isATransitionPageVisibleFlag;
                 const isPreviousTransitionPageVisible =
+                    !shouldShowTransitionPage ||
                     (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.PREVIOUS) ||
                     areContinuousPagerTransitionPagesVisible;
                 const isNextTransitionPageVisible =
+                    !shouldShowTransitionPage ||
                     (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.NEXT) ||
                     areContinuousPagerTransitionPagesVisible;
 
@@ -466,6 +468,7 @@ export class ReaderControls {
                 openChapter,
                 !!previousChapter,
                 !!nextChapter,
+                shouldShowTransitionPage,
             ],
         );
     }

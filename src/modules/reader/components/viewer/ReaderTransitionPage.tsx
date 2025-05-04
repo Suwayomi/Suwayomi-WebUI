@@ -84,6 +84,7 @@ const BaseReaderTransitionPage = ({
     transitionPageMode,
     readingMode,
     backgroundColor,
+    shouldShowTransitionPage,
     manga,
     currentChapterName,
     currentChapterScanlator,
@@ -95,7 +96,7 @@ const BaseReaderTransitionPage = ({
     scrollbarYSize,
     readerNavBarWidth,
     handleBack,
-}: Pick<IReaderSettings, 'readingMode' | 'backgroundColor'> &
+}: Pick<IReaderSettings, 'readingMode' | 'backgroundColor' | 'shouldShowTransitionPage'> &
     Pick<TReaderStateMangaContext, 'manga'> &
     Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
     Pick<ReaderStatePages, 'transitionPageMode'> &
@@ -119,6 +120,15 @@ const BaseReaderTransitionPage = ({
 
     const isFirstChapter = !!currentChapterName && !previousChapterName;
     const isLastChapter = !!currentChapterName && !nextChapterName;
+
+    const forceShowFirstChapterPreviousTransitionPage = isFirstChapter && type === ReaderTransitionPageMode.PREVIOUS;
+    const forceShowLastChapterNextTransitionPage = isLastChapter && type === ReaderTransitionPageMode.NEXT;
+    const forceShowTransitionPage =
+        forceShowFirstChapterPreviousTransitionPage || forceShowLastChapterNextTransitionPage;
+
+    if (!shouldShowTransitionPage && !forceShowTransitionPage) {
+        return null;
+    }
 
     if (!isTransitionPageVisible(type, transitionPageMode, readingMode)) {
         return null;
@@ -290,5 +300,6 @@ export const ReaderTransitionPage = withPropsFrom(
         'transitionPageMode',
         'readingMode',
         'handleBack',
+        'shouldShowTransitionPage',
     ],
 );

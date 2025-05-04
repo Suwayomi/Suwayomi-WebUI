@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import {
@@ -140,13 +140,16 @@ const getElementIntersection = (
 };
 
 /**
- * Will change the chapter to the previous or next one depending on the intersection of the first or last page.
+ * Will handle opening the previous or next chapter for infinite scrolling.
  *
- * For the initial load of the previous chapter, the intersection of the first page is used, after the initial load
- * of the previous chapter the intersection of the last page handles changing the chapter
+ * In case the "transition page" is not enabled, the "initial" load of the previous or next chapter is handled
+ * based on the scroll position.
+ * After the initial load, the last page of a chapter handles opening the correct chapter.
  *
- * @example
- * How it works:
+ * In case the "transition page" is enabled, for the initial load of the previous chapter, the intersection of the first
+ * page is used, after the initial load of the previous chapter the intersection of the last page handles changing the chapter.
+ *
+ * @example - How the intersection-based approach works:
  *  |, _ = viewport
  *  #    = page
  *
@@ -246,16 +249,70 @@ export const useReaderInfiniteScrollUpdateChapter = (
     scrollbarXSize: number,
     scrollbarYSize: number,
     scrollElement: HTMLElement | null,
+    shouldShowTransitionPage: boolean,
 ) => {
+    useEffect(() => {
+        const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
+        const isContinuousVerticalReadingModeActive = isContinuousVerticalReadingMode(readingMode);
+
+        if (
+            shouldShowTransitionPage ||
+            !scrollElement ||
+            !isContinuousReadingModeActive ||
+            !shouldUseInfiniteScroll ||
+            !isCurrentChapter ||
+            isChapterToOpenVisible ||
+            chapterToOpenId === undefined
+        ) {
+            return () => {};
+        }
+
+        const onScroll = () => {
+            const isAtStartX = scrollElement.scrollLeft === 0;
+            const isAtEndX = scrollElement.scrollLeft === scrollElement.scrollWidth - scrollElement.clientWidth;
+
+            const isAtStartY = scrollElement.scrollTop === 0;
+            const isAtEndY = scrollElement.scrollTop === scrollElement.scrollHeight - scrollElement.clientHeight;
+
+            const isAtStart = isContinuousVerticalReadingModeActive ? isAtStartY : isAtStartX;
+            const isAtEnd = isContinuousVerticalReadingModeActive ? isAtEndY : isAtEndX;
+
+            const loadPreviousChapter = pageType === 'first' && isAtStart;
+            const loadNextChapter = pageType === 'last' && isAtEnd;
+
+            const loadChapter = loadPreviousChapter || loadNextChapter;
+            if (loadChapter) {
+                openChapter(chapterToOpenId, undefined, false);
+            }
+        };
+
+        scrollElement.addEventListener('scroll', onScroll);
+        return () => scrollElement.removeEventListener('scroll', onScroll);
+    }, [
+        readingMode,
+        scrollElement,
+        shouldShowTransitionPage,
+        shouldUseInfiniteScroll,
+        isCurrentChapter,
+        isChapterToOpenVisible,
+        chapterToOpenId,
+        openChapter,
+    ]);
+
     useIntersectionObserver(
         image,
         useCallback(
             (entries) => {
                 if (
+                    // !shouldShowTransitionPage ||
                     !shouldUseInfiniteScroll ||
                     !isContinuousReadingMode(readingMode) ||
                     chapterToOpenId === undefined
                 ) {
+                    return;
+                }
+
+                if (!shouldShowTransitionPage && !isChapterToOpenVisible) {
                     return;
                 }
 
@@ -303,6 +360,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
                 readingMode,
                 readingDirection,
                 shouldUseInfiniteScroll,
+                shouldShowTransitionPage,
                 openChapter,
                 scrollbarXSize,
                 scrollbarYSize,

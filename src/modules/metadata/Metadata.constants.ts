@@ -88,6 +88,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     extensionLanguages: undefined,
     showNsfw: undefined,
     shouldUseInfiniteScroll: undefined,
+    shouldShowTransitionPage: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -164,6 +165,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'customFilter',
     'shouldSkipDupChapters',
     'hotkeys',
+    'shouldShowTransitionPage',
 
     // manga
     // chapter list options

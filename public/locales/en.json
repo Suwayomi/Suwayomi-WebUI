@@ -1007,6 +1007,7 @@
         "rtl": "Right to left"
       },
       "scroll_amount": "Scroll amount",
+      "show_transition_page": "Show transition page",
       "source_series": "Series settings",
       "tap_zones": {
         "edge": "Edge",

@@ -72,6 +72,7 @@ const GLOBAL_READER_SETTING_OBJECT: Record<keyof IReaderSettingsGlobal, undefine
     shouldInformAboutScanlatorChange: undefined,
     scrollAmount: undefined,
     shouldUseInfiniteScroll: undefined,
+    shouldShowTransitionPage: undefined,
 };
 
 export const GLOBAL_READER_SETTING_KEYS = Object.keys(GLOBAL_READER_SETTING_OBJECT);
@@ -157,6 +158,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     shouldInformAboutScanlatorChange: true,
     scrollAmount: ReaderScrollAmount.LARGE,
     shouldUseInfiniteScroll: true,
+    shouldShowTransitionPage: true,
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {

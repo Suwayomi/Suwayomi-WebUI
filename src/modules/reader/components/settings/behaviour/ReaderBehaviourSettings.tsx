@@ -103,6 +103,11 @@ export const ReaderBehaviourSettings = ({
                 onChange={(_, checked) => updateSetting('shouldUseAutoWebtoonMode', checked)}
             />
             <CheckboxInput
+                label={t('reader.settings.show_transition_page')}
+                checked={settings.shouldShowTransitionPage}
+                onChange={(_, checked) => updateSetting('shouldShowTransitionPage', checked)}
+            />
+            <CheckboxInput
                 label={t('reader.settings.chapter_transition.warning.missing_chapter')}
                 checked={settings.shouldInformAboutMissingChapter}
                 onChange={(_, checked) => updateSetting('shouldInformAboutMissingChapter', checked)}

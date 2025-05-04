@@ -12,6 +12,7 @@ import { useReaderInfiniteScrollUpdateChapter } from '@/modules/reader/hooks/use
 import { IReaderSettings, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
+import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 
 const BaseReaderInfiniteScrollUpdateChapter = ({
     readingMode,
@@ -28,7 +29,9 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     scrollbarXSize,
     scrollbarYSize,
     scrollElement,
-}: Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
+    shouldShowTransitionPage,
+}: Pick<IReaderSettings, 'shouldShowTransitionPage'> &
+    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
     Pick<IReaderSettings, 'readingMode' | 'readingDirection' | 'shouldUseInfiniteScroll'> & {
         chapterId: ChapterIdInfo['id'];
         previousChapterId?: ChapterIdInfo['id'];
@@ -54,6 +57,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         scrollbarXSize,
         scrollbarYSize,
         scrollElement,
+        shouldShowTransitionPage,
     );
     useReaderInfiniteScrollUpdateChapter(
         'last',
@@ -69,6 +73,7 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         scrollbarXSize,
         scrollbarYSize,
         scrollElement,
+        shouldShowTransitionPage,
     );
 
     return null;
@@ -76,6 +81,6 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
 
 export const ReaderInfiniteScrollUpdateChapter = withPropsFrom(
     memo(BaseReaderInfiniteScrollUpdateChapter),
-    [() => ({ openChapter: ReaderControls.useOpenChapter() })],
-    ['openChapter'],
+    [() => ({ openChapter: ReaderControls.useOpenChapter() }), ReaderService.useSettingsWithoutDefaultFlag],
+    ['openChapter', 'shouldShowTransitionPage'],
 );
