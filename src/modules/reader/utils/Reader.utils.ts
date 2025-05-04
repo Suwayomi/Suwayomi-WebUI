@@ -334,7 +334,7 @@ export const getPreviousNextChapterVisibility = (
     const isPreviousChapterVisible = isPreviousChapterLoaded && !isPreviousChapterPreloading;
 
     const isNextChapterLoaded = !!chaptersToRender[chapterIndex - 1];
-    const isNextChapterLastTrailingChapter = chapterIndex - 1 < 0;
+    const isNextChapterLastTrailingChapter = chapterIndex - 1 <= 0;
     const isNextChapterPreloading = isNextChapterLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode;
     const isNextChapterVisible = isNextChapterLoaded && !isNextChapterPreloading;
 
