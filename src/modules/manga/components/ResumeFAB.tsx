@@ -10,12 +10,8 @@ import { Link } from 'react-router-dom';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import { useTranslation } from 'react-i18next';
 import { StyledFab } from '@/modules/core/components/buttons/StyledFab.tsx';
-import {
-    ChapterMangaInfo,
-    ChapterReadInfo,
-    Chapters,
-    ChapterSourceOrderInfo,
-} from '@/modules/chapter/services/Chapters.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { ChapterMangaInfo, ChapterReadInfo, ChapterSourceOrderInfo } from '@/modules/chapter/Chapter.types.ts';
 
 export function ResumeFab({ chapter }: { chapter: ChapterMangaInfo & ChapterSourceOrderInfo & ChapterReadInfo }) {
     const { t } = useTranslation();

@@ -13,8 +13,8 @@ import {
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
-import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
-import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { ChapterIdInfo, TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { isPageOfOutdatedPageLoadStates, isSpreadPage } from '@/modules/reader/utils/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';

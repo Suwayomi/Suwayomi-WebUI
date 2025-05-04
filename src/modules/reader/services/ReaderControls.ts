@@ -48,10 +48,10 @@ import {
     getReaderOpenChapterResumeMode,
     updateReaderStateVisibleChapters,
 } from '@/modules/reader/utils/Reader.utils.ts';
-import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { ChapterIdInfo, TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TReaderOverlayContext } from '@/modules/reader/types/ReaderOverlay.types.ts';

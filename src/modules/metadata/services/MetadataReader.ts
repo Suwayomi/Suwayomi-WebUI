@@ -17,11 +17,11 @@ import {
 } from '@/modules/metadata/Metadata.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
-import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { doesMetadataKeyExistIn, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 import { applyMetadataMigrations } from '@/modules/metadata/services/MetadataMigrations.ts';
 import { SourceIdInfo } from '@/modules/source/Source.types.ts';
+import { ChapterIdInfo } from '@/modules/chapter/Chapter.types.ts';
 
 const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(
     metadata: Metadata | undefined,

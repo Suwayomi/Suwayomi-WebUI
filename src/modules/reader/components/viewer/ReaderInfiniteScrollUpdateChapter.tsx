@@ -11,8 +11,8 @@ import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { useReaderInfiniteScrollUpdateChapter } from '@/modules/reader/hooks/useReaderInfiniteScrollUpdateChapter.ts';
 import { IReaderSettings, TReaderScrollbarContext } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
-import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
+import { ChapterIdInfo } from '@/modules/chapter/Chapter.types.ts';
 
 const BaseReaderInfiniteScrollUpdateChapter = ({
     readingMode,

@@ -10,8 +10,8 @@ import { useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Direction, useTheme } from '@mui/material/styles';
 import { t as translate } from 'i18next';
-import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
-import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { ChapterIdInfo, TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,

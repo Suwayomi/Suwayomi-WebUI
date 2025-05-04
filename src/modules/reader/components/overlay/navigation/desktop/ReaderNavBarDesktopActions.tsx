@@ -15,7 +15,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { memo, useMemo, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { CHAPTER_ACTION_TO_TRANSLATION, Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/downloads/DownloadStateIndicator.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
@@ -24,7 +24,7 @@ import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/R
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ReaderLibraryButton } from '@/modules/reader/components/overlay/navigation/ReaderLibraryButton.tsx';
 import { ReaderBookmarkButton } from '@/modules/reader/components/overlay/navigation/ReaderBookmarkButton.tsx';
-import { FALLBACK_CHAPTER } from '@/modules/chapter/Chapter.constants.ts';
+import { CHAPTER_ACTION_TO_TRANSLATION, FALLBACK_CHAPTER } from '@/modules/chapter/Chapter.constants.ts';
 
 const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
     const { t } = useTranslation();

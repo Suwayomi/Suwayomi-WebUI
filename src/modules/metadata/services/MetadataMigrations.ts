@@ -22,11 +22,11 @@ import {
 } from '@/modules/metadata/Metadata.types.ts';
 import { extractOriginalKey, getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
-import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getMetadataDeleteFunction, getMetadataUpdateFunction } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { SourceIdInfo } from '@/modules/source/Source.types.ts';
+import { ChapterIdInfo } from '@/modules/chapter/Chapter.types.ts';
 
 const getAppKeyPrefixForMigration = (migrationId: number): string => {
     const appKeyPrefix = METADATA_MIGRATIONS.slice(0, migrationId)

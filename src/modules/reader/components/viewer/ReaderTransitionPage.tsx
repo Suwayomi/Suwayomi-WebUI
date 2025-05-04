@@ -15,7 +15,6 @@ import { ComponentProps, memo, useMemo } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
 import { useReaderScrollbarContext } from '@/modules/reader/contexts/ReaderScrollbarContext.tsx';
 import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import {
     IReaderSettings,
     ReaderTransitionPageMode,
@@ -41,6 +40,7 @@ import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
 import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterIdInfo } from '@/modules/chapter/Chapter.types.ts';
 
 const ChapterInfo = ({
     title,

@@ -7,7 +7,6 @@
  */
 
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
 import { CategoryIdInfo } from '@/modules/category/Category.types.ts';
 import {
     AllowedMetadataValueTypes,
@@ -21,6 +20,7 @@ import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { getMetadataKey } from '@/modules/metadata/Metadata.utils.ts';
 import { convertToGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { SourceIdInfo } from '@/modules/source/Source.types.ts';
+import { ChapterIdInfo } from '@/modules/chapter/Chapter.types.ts';
 
 const requestUpdateMetadataValue = async (
     metadataHolder: GqlMetaHolder,

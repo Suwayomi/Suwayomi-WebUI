@@ -23,7 +23,6 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { ChapterDownloadStatus } from '@/modules/chapter/services/Chapters.ts';
 import { DownloaderState } from '@/lib/graphql/generated/graphql.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
@@ -32,6 +31,7 @@ import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
 import { DownloadQueueChapterCard } from '@/modules/downloads/components/DownloadQueueChapterCard.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { ChapterDownloadStatus } from '@/modules/chapter/Chapter.types.ts';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();

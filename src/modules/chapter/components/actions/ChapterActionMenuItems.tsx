@@ -18,17 +18,7 @@ import DoneAll from '@mui/icons-material/DoneAll';
 import { ComponentProps, useMemo } from 'react';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
-import {
-    CHAPTER_ACTION_TO_TRANSLATION,
-    ChapterAction,
-    ChapterBookmarkInfo,
-    ChapterDownloadInfo,
-    ChapterIdInfo,
-    ChapterMangaInfo,
-    ChapterReadInfo,
-    ChapterRealUrlInfo,
-    Chapters,
-} from '@/modules/chapter/services/Chapters.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { MenuItem } from '@/modules/core/components/menu/MenuItem.tsx';
 import {
     createGetMenuItemTitle,
@@ -41,6 +31,16 @@ import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx'
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetChaptersMangaQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
+import { CHAPTER_ACTION_TO_TRANSLATION } from '@/modules/chapter/Chapter.constants.ts';
+import {
+    ChapterAction,
+    ChapterBookmarkInfo,
+    ChapterDownloadInfo,
+    ChapterIdInfo,
+    ChapterMangaInfo,
+    ChapterReadInfo,
+    ChapterRealUrlInfo,
+} from '@/modules/chapter/Chapter.types.ts';
 
 type BaseProps = { onClose: () => void; selectable?: boolean };
 

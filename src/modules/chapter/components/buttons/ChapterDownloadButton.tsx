@@ -10,11 +10,12 @@ import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
 import DownloadIcon from '@mui/icons-material/Download';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { ChapterIdInfo } from '@/modules/chapter/Chapter.types.ts';
 
 export const ChapterDownloadButton = ({
     chapterId,

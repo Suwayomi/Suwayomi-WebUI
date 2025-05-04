@@ -11,8 +11,9 @@ import Button from '@mui/material/Button';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { Link } from 'react-router-dom';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { ChapterReadInfo, Chapters, ChapterSourceOrderInfo } from '@/modules/chapter/services/Chapters.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { ChapterReadInfo, ChapterSourceOrderInfo } from '@/modules/chapter/Chapter.types.ts';
 
 export const ContinueReadingButton = ({
     showContinueReadingButton,

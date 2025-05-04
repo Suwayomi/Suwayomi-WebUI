@@ -15,92 +15,28 @@ import {
     ChapterListFieldsFragment,
     ChapterType,
     DownloadState,
-    DownloadStatusFieldsFragment,
     DownloadTypeFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 
-import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
+import { DirectionOffset } from '@/Base.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { ReaderOpenChapterLocationState, ReaderResumeMode } from '@/modules/reader/types/Reader.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
 import { epochToDate, getDateString } from '@/util/DateHelper.ts';
-
-export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
-
-export const CHAPTER_ACTION_TO_TRANSLATION: {
-    [key in ChapterAction]: {
-        action: {
-            single: TranslationKey;
-            selected: TranslationKey;
-        };
-        success: TranslationKey;
-        error: TranslationKey;
-    };
-} = {
-    download: {
-        action: {
-            single: 'chapter.action.download.add.label.action',
-            selected: 'chapter.action.download.add.button.selected',
-        },
-        success: 'chapter.action.download.add.label.success',
-        error: 'chapter.action.download.add.label.error',
-    },
-    delete: {
-        action: {
-            single: 'chapter.action.download.delete.label.action',
-            selected: 'chapter.action.download.delete.button.selected',
-        },
-        success: 'chapter.action.download.delete.label.success',
-        error: 'chapter.action.download.delete.label.error',
-    },
-    bookmark: {
-        action: {
-            single: 'chapter.action.bookmark.add.label.action',
-            selected: 'chapter.action.bookmark.add.button.selected',
-        },
-        success: 'chapter.action.bookmark.add.label.success',
-        error: 'chapter.action.bookmark.add.label.error',
-    },
-    unbookmark: {
-        action: {
-            single: 'chapter.action.bookmark.remove.label.action',
-            selected: 'chapter.action.bookmark.remove.button.selected',
-        },
-        success: 'chapter.action.bookmark.remove.label.success',
-        error: 'chapter.action.bookmark.remove.label.error',
-    },
-    mark_as_read: {
-        action: {
-            single: 'chapter.action.mark_as_read.add.label.action.current',
-            selected: 'chapter.action.mark_as_read.add.button.selected',
-        },
-        success: 'chapter.action.mark_as_read.add.label.success',
-        error: 'chapter.action.mark_as_read.add.label.error',
-    },
-    mark_as_unread: {
-        action: {
-            single: 'chapter.action.mark_as_read.remove.label.action',
-            selected: 'chapter.action.mark_as_read.remove.button.selected',
-        },
-        success: 'chapter.action.mark_as_read.remove.label.success',
-        error: 'chapter.action.mark_as_read.remove.label.error',
-    },
-};
-
-export type ChapterDownloadStatus = DownloadStatusFieldsFragment['queue'][number];
-
-export type ChapterIdInfo = Pick<ChapterType, 'id'>;
-export type ChapterMangaInfo = Pick<ChapterType, 'mangaId'>;
-export type ChapterDownloadInfo = ChapterIdInfo & Pick<ChapterType, 'isDownloaded'>;
-export type ChapterBookmarkInfo = ChapterIdInfo & Pick<ChapterType, 'isBookmarked'>;
-export type ChapterReadInfo = ChapterIdInfo & Pick<ChapterType, 'isRead'>;
-export type ChapterNumberInfo = ChapterIdInfo & Pick<ChapterType, 'chapterNumber'>;
-export type ChapterSourceOrderInfo = ChapterIdInfo & Pick<ChapterType, 'sourceOrder'>;
-export type ChapterScanlatorInfo = ChapterIdInfo & Pick<ChapterType, 'scanlator'>;
-export type ChapterRealUrlInfo = Pick<ChapterType, 'realUrl'>;
+import { CHAPTER_ACTION_TO_TRANSLATION } from '@/modules/chapter/Chapter.constants.ts';
+import {
+    ChapterAction,
+    ChapterBookmarkInfo,
+    ChapterDownloadInfo,
+    ChapterMangaInfo,
+    ChapterNumberInfo,
+    ChapterReadInfo,
+    ChapterScanlatorInfo,
+    ChapterSourceOrderInfo,
+} from '@/modules/chapter/Chapter.types.ts';
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {

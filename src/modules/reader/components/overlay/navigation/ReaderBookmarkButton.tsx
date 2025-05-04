@@ -12,8 +12,9 @@ import { memo } from 'react';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { CHAPTER_ACTION_TO_TRANSLATION, ChapterAction, Chapters } from '@/modules/chapter/services/Chapters.ts';
-import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { ChapterAction, TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { CHAPTER_ACTION_TO_TRANSLATION } from '@/modules/chapter/Chapter.constants.ts';
 
 const BaseReaderBookmarkButton = ({ id, isBookmarked }: Pick<TChapterReader, 'id' | 'isBookmarked'>) => {
     const { t } = useTranslation();

@@ -11,11 +11,12 @@ import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
 import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { ChapterIdInfo, Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { ChapterIdInfo } from '@/modules/chapter/Chapter.types.ts';
 
 export const ChapterDownloadRetryButton = ({ chapterId }: { chapterId: ChapterIdInfo['id'] }) => {
     const { t } = useTranslation();

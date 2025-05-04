@@ -25,6 +25,11 @@ import { DownloadStateIndicator } from '@/modules/core/components/downloads/Down
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterActionMenuItems } from '@/modules/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
+import { Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
+import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent.tsx';
 import {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
@@ -32,13 +37,8 @@ import {
     ChapterMangaInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
-    Chapters,
     ChapterScanlatorInfo,
-} from '@/modules/chapter/services/Chapters.ts';
-import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { ChapterCardMetadata } from '@/modules/chapter/components/cards/ChapterCardMetadata.tsx';
-import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent.tsx';
+} from '@/modules/chapter/Chapter.types.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &

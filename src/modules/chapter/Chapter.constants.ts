@@ -7,7 +7,7 @@
  */
 
 import { TranslationKey } from '@/Base.types.ts';
-import { ChapterListOptions, ChapterSortMode } from '@/modules/chapter/Chapter.types.ts';
+import { ChapterAction, ChapterListOptions, ChapterSortMode } from '@/modules/chapter/Chapter.types.ts';
 
 export const FALLBACK_CHAPTER = { id: -1, name: '', realUrl: '', isBookmarked: false };
 
@@ -25,4 +25,64 @@ export const CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY: Record<ChapterSortMode, Tr
     chapterNumber: 'global.sort.label.by_chapter_number',
     uploadedAt: 'global.sort.label.by_upload_date',
     fetchedAt: 'global.sort.label.by_fetch_date',
+};
+
+export const CHAPTER_ACTION_TO_TRANSLATION: {
+    [key in ChapterAction]: {
+        action: {
+            single: TranslationKey;
+            selected: TranslationKey;
+        };
+        success: TranslationKey;
+        error: TranslationKey;
+    };
+} = {
+    download: {
+        action: {
+            single: 'chapter.action.download.add.label.action',
+            selected: 'chapter.action.download.add.button.selected',
+        },
+        success: 'chapter.action.download.add.label.success',
+        error: 'chapter.action.download.add.label.error',
+    },
+    delete: {
+        action: {
+            single: 'chapter.action.download.delete.label.action',
+            selected: 'chapter.action.download.delete.button.selected',
+        },
+        success: 'chapter.action.download.delete.label.success',
+        error: 'chapter.action.download.delete.label.error',
+    },
+    bookmark: {
+        action: {
+            single: 'chapter.action.bookmark.add.label.action',
+            selected: 'chapter.action.bookmark.add.button.selected',
+        },
+        success: 'chapter.action.bookmark.add.label.success',
+        error: 'chapter.action.bookmark.add.label.error',
+    },
+    unbookmark: {
+        action: {
+            single: 'chapter.action.bookmark.remove.label.action',
+            selected: 'chapter.action.bookmark.remove.button.selected',
+        },
+        success: 'chapter.action.bookmark.remove.label.success',
+        error: 'chapter.action.bookmark.remove.label.error',
+    },
+    mark_as_read: {
+        action: {
+            single: 'chapter.action.mark_as_read.add.label.action.current',
+            selected: 'chapter.action.mark_as_read.add.button.selected',
+        },
+        success: 'chapter.action.mark_as_read.add.label.success',
+        error: 'chapter.action.mark_as_read.add.label.error',
+    },
+    mark_as_unread: {
+        action: {
+            single: 'chapter.action.mark_as_read.remove.label.action',
+            selected: 'chapter.action.mark_as_read.remove.button.selected',
+        },
+        success: 'chapter.action.mark_as_read.remove.label.success',
+        error: 'chapter.action.mark_as_read.remove.label.error',
+    },
 };

@@ -22,8 +22,7 @@ import {
     isReaderWidthEditable,
 } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { getPreviousNextChapterVisibility } from '@/modules/reader/utils/Reader.utils.ts';
-import { ChapterIdInfo } from '@/modules/chapter/services/Chapters.ts';
-import { TChapterReader } from '@/modules/chapter/Chapter.types.ts';
+import { ChapterIdInfo, TChapterReader } from '@/modules/chapter/Chapter.types.ts';
 
 const shouldPreserveOnResizeChange = (
     readingMode: ReadingMode,

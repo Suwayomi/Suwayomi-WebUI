@@ -8,7 +8,8 @@
 
 import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
-import { ChapterSourceOrderInfo } from '@/modules/chapter/services/Chapters.ts';
+
+import { ChapterSourceOrderInfo } from '@/modules/chapter/Chapter.types.ts';
 
 type AppRouteInfo = {
     match: string;
