@@ -16,7 +16,7 @@ export const GLOBAL_READER_SETTINGS_MANGA: MangaIdInfo = { id: -2 };
 
 export const MANGA_COVER_ASPECT_RATIO = '1 / 1.5';
 
-export const statusToTranslationKey: Record<MangaStatus, TranslationKey> = {
+export const MANGA_STATUS_TO_TRANSLATION: Record<MangaStatus, TranslationKey> = {
     [MangaStatus.Cancelled]: 'manga.status.cancelled',
     [MangaStatus.Completed]: 'manga.status.completed',
     [MangaStatus.Licensed]: 'manga.status.licensed',
@@ -26,7 +26,7 @@ export const statusToTranslationKey: Record<MangaStatus, TranslationKey> = {
     [MangaStatus.Unknown]: 'manga.status.unknown',
 };
 
-export const actionToTranslationKey: {
+export const MANGA_ACTION_TO_TRANSLATION: {
     [key in MangaAction]: {
         action: {
             single: TranslationKey;

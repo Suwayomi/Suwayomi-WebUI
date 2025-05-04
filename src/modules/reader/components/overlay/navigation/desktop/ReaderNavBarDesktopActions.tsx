@@ -15,7 +15,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { memo, useMemo, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
-import { actionToTranslationKey, Chapters } from '@/modules/chapter/services/Chapters.ts';
+import { CHAPTER_ACTION_TO_TRANSLATION, Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 import { DownloadStateIndicator } from '@/modules/core/components/downloads/DownloadStateIndicator.tsx';
 import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types.ts';
@@ -33,7 +33,7 @@ const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, '
 
     if (currentChapter && Chapters.isDownloaded(currentChapter)) {
         return (
-            <CustomTooltip title={t(actionToTranslationKey.delete.action.single)}>
+            <CustomTooltip title={t(CHAPTER_ACTION_TO_TRANSLATION.delete.action.single)}>
                 <IconButton onClick={() => Chapters.performAction('delete', [currentChapter.id], {})} color="inherit">
                     <DeleteIcon />
                 </IconButton>
@@ -46,7 +46,7 @@ const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, '
     }
 
     return (
-        <CustomTooltip title={t(actionToTranslationKey.download.action.single)} disabled={!currentChapter}>
+        <CustomTooltip title={t(CHAPTER_ACTION_TO_TRANSLATION.download.action.single)} disabled={!currentChapter}>
             <IconButton
                 disabled={!currentChapter}
                 onClick={() => Chapters.performAction('download', [currentChapter?.id ?? -1], {})}

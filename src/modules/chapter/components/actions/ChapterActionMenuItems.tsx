@@ -19,7 +19,7 @@ import { ComponentProps, useMemo } from 'react';
 import LaunchIcon from '@mui/icons-material/Launch';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import {
-    actionToTranslationKey,
+    CHAPTER_ACTION_TO_TRANSLATION,
     ChapterAction,
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
@@ -92,7 +92,7 @@ export const ChapterActionMenuItems = ({
         settings: { deleteChaptersWithBookmark },
     } = useMetadataServerSettings();
 
-    const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, actionToTranslationKey);
+    const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, CHAPTER_ACTION_TO_TRANSLATION);
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);
     const isMenuItemDisabled = createIsMenuItemDisabled(isSingleMode);
 

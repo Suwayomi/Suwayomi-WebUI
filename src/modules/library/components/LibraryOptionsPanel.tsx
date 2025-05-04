@@ -28,7 +28,7 @@ import {
 import { TranslationKey } from '@/Base.types.ts';
 import { LibrarySortMode } from '@/modules/library/Library.types.ts';
 import { CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
-import { statusToTranslationKey } from '@/modules/manga/Manga.constants.ts';
+import { MANGA_STATUS_TO_TRANSLATION } from '@/modules/manga/Manga.constants.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
@@ -113,7 +113,7 @@ export const LibraryOptionsPanel = ({
                             {Object.values(MangaStatus).map((status) => (
                                 <ThreeStateCheckboxInput
                                     key={status}
-                                    label={t(statusToTranslationKey[status])}
+                                    label={t(MANGA_STATUS_TO_TRANSLATION[status])}
                                     checked={categoryLibraryOptions.hasStatus[status]}
                                     onChange={(checked) =>
                                         updateCategoryLibraryOptions('hasStatus', {

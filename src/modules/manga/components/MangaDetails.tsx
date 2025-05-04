@@ -42,7 +42,7 @@ import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { MANGA_COVER_ASPECT_RATIO, statusToTranslationKey } from '@/modules/manga/Manga.constants.ts';
+import { MANGA_COVER_ASPECT_RATIO, MANGA_STATUS_TO_TRANSLATION } from '@/modules/manga/Manga.constants.ts';
 import { MangaThumbnailInfo, MangaTrackRecordInfo } from '@/modules/manga/Manga.types.ts';
 import { TAppThemeContext, useAppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
@@ -418,7 +418,10 @@ export const MangaDetails = ({
                             </Stack>
                             <Metadata title={t('manga.label.author')} value={getValueOrUnknown(manga.author)} />
                             <Metadata title={t('manga.label.artist')} value={getValueOrUnknown(manga.artist)} />
-                            <Metadata title={t('manga.label.status')} value={t(statusToTranslationKey[manga.status])} />
+                            <Metadata
+                                title={t('manga.label.status')}
+                                value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])}
+                            />
                             <Metadata title={t('source.title_one')} value={getSourceName(manga.source)} />
                         </MetadataContainer>
                     </ThumbnailMetadataWrapper>

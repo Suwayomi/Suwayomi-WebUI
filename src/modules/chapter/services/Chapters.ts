@@ -30,7 +30,7 @@ import { epochToDate, getDateString } from '@/util/DateHelper.ts';
 
 export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
 
-export const actionToTranslationKey: {
+export const CHAPTER_ACTION_TO_TRANSLATION: {
     [key in ChapterAction]: {
         action: {
             single: TranslationKey;
@@ -318,10 +318,10 @@ export class Chapters {
     ): Promise<void> {
         try {
             await fnToExecute();
-            makeToast(translate(actionToTranslationKey[action].success, { count: itemCount }), 'success');
+            makeToast(translate(CHAPTER_ACTION_TO_TRANSLATION[action].success, { count: itemCount }), 'success');
         } catch (e) {
             makeToast(
-                translate(actionToTranslationKey[action].error, { count: itemCount }),
+                translate(CHAPTER_ACTION_TO_TRANSLATION[action].error, { count: itemCount }),
                 'error',
                 getErrorMessage(e),
             );

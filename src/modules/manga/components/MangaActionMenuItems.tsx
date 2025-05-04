@@ -34,7 +34,7 @@ import { ChaptersDownloadActionMenuItems } from '@/modules/chapter/components/ac
 import { NestedMenuItem } from '@/modules/core/components/menu/NestedMenuItem.tsx';
 import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/modules/manga/Manga.types.ts';
-import { actionToTranslationKey } from '@/modules/manga/Manga.constants.ts';
+import { MANGA_ACTION_TO_TRANSLATION } from '@/modules/manga/Manga.constants.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
@@ -68,7 +68,7 @@ export const MangaActionMenuItems = ({
     const isSingleMode = !!manga;
     const selectedMangas = passedSelectedMangas ?? [];
 
-    const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, actionToTranslationKey);
+    const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, MANGA_ACTION_TO_TRANSLATION);
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);
     const isMenuItemDisabled = createIsMenuItemDisabled(isSingleMode);
 

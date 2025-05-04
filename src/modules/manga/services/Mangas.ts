@@ -38,7 +38,7 @@ import {
     MigrateMode,
 } from '@/modules/manga/Manga.types.ts';
 import {
-    actionToTranslationKey,
+    MANGA_ACTION_TO_TRANSLATION,
     MANGA_TAGS_BY_MANGA_TYPE,
     SOURCES_BY_MANGA_TYPE,
 } from '@/modules/manga/Manga.constants.ts';
@@ -494,10 +494,10 @@ export class Mangas {
     ): Promise<void> {
         try {
             await fnToExecute();
-            makeToast(translate(actionToTranslationKey[action].success, { count: itemCount }), 'success');
+            makeToast(translate(MANGA_ACTION_TO_TRANSLATION[action].success, { count: itemCount }), 'success');
         } catch (e) {
             makeToast(
-                translate(actionToTranslationKey[action].error, { count: itemCount }),
+                translate(MANGA_ACTION_TO_TRANSLATION[action].error, { count: itemCount }),
                 'error',
                 getErrorMessage(e),
             );
