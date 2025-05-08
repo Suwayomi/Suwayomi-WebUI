@@ -7,14 +7,21 @@
  */
 
 import gql from 'graphql-tag';
+import { MANGA_CHAPTER_NODE_FIELDS, MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 
 const UPDATER_MANGA_FIELDS = gql`
+    ${MANGA_CHAPTER_STAT_FIELDS}
+    ${MANGA_CHAPTER_NODE_FIELDS}
+
     fragment UPDATER_MANGA_FIELDS on MangaUpdateType {
         status
         manga {
             id
             title
             thumbnailUrl
+
+            ...MANGA_CHAPTER_STAT_FIELDS
+            ...MANGA_CHAPTER_NODE_FIELDS
         }
     }
 `;
