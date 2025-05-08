@@ -18,7 +18,7 @@ import {
 import {
     DefaultLanguage,
     languageCodeToName,
-    languageSortComparator,
+    languageSpecialSortComparator,
     toComparableLanguage,
     toComparableLanguages,
     toUniqueLanguageCodes,
@@ -86,7 +86,7 @@ export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExte
             return 1;
         }
 
-        return languageSortComparator(a, b);
+        return languageSpecialSortComparator(a, b);
     });
 
     const groupedExtensionsSortedByLanguage = extensionsBySortedLanguage.map(([language, extensionsOfLanguage]) => [
@@ -97,8 +97,9 @@ export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExte
     return groupedExtensionsSortedByLanguage.filter(([, extensionsOfLanguage]) => !!extensionsOfLanguage.length);
 }
 
-export const getLanguagesFromExtensions = (extensions: TExtension[]): string[] =>
-    [...new Set(extensions.map((extension) => extension.lang))].toSorted(languageSortComparator);
+export const getLanguagesFromExtensions = (extensions: TExtension[]): string[] => [
+    ...new Set(extensions.map((extension) => extension.lang)),
+];
 
 export const filterExtensions = (
     extensions: TExtension[],

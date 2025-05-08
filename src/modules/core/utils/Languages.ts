@@ -8,12 +8,19 @@
 
 import { t } from 'i18next';
 import { ISOLanguage, IsoLanguages } from '@/modules/core/IsoLanguages.ts';
+import { TranslationKey } from '@/Base.types.ts';
 
 export enum DefaultLanguage {
     ALL = 'all',
     OTHER = 'other',
     LOCAL_SOURCE = 'localsourcelang',
 }
+
+const DEFAULT_LANGUAGE_TO_TRANSLATION: Record<DefaultLanguage, TranslationKey> = {
+    [DefaultLanguage.ALL]: 'extension.language.all',
+    [DefaultLanguage.OTHER]: 'extension.language.other',
+    [DefaultLanguage.LOCAL_SOURCE]: 'extension.language.other',
+};
 
 type LanguageObject = ISOLanguage & { orgCode: string; isoCode: string };
 
@@ -63,6 +70,11 @@ export function getLanguage(code: string): LanguageObject {
 }
 
 export function languageCodeToName(code: string): string {
+    const isCustomLanguage = Object.keys(DEFAULT_LANGUAGE_TO_TRANSLATION).includes(code);
+    if (isCustomLanguage) {
+        return t(DEFAULT_LANGUAGE_TO_TRANSLATION[code as DefaultLanguage]);
+    }
+
     return getLanguage(code).nativeName;
 }
 
@@ -93,5 +105,36 @@ export function getDefaultLanguages(): string[] {
     return [...defaultNativeLang(), DefaultLanguage.ALL];
 }
 
-export const languageSortComparator = (a: string, b: string) =>
-    languageCodeToName(a).localeCompare(languageCodeToName(b));
+/**
+ * Sort languages by their native name.
+ * Custom languages are optionally treated specially:
+ * - All: first
+ * - Other: last
+ */
+export const languageSortComparator = (a: string, b: string, specialCustomLanguagesHandling?: boolean) => {
+    const isALanguageAll = a === DefaultLanguage.ALL;
+    const isALanguageOther = a === DefaultLanguage.OTHER || a === DefaultLanguage.LOCAL_SOURCE;
+
+    const isBLanguageAll = b === DefaultLanguage.ALL;
+    const isBLanguageOther = b === DefaultLanguage.OTHER || b === DefaultLanguage.LOCAL_SOURCE;
+
+    if (specialCustomLanguagesHandling) {
+        if (isALanguageAll || isBLanguageOther) {
+            return -1;
+        }
+
+        if (isALanguageOther || isBLanguageAll) {
+            return 1;
+        }
+    }
+
+    return languageCodeToName(a).localeCompare(languageCodeToName(b));
+};
+
+/**
+ * Sort languages by their native name.
+ * Custom languages are treated specially:
+ * - All: first
+ * - Other: last
+ */
+export const languageSpecialSortComparator = (a: string, b: string) => languageSortComparator(a, b, true);
