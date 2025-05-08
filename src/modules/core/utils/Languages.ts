@@ -89,12 +89,8 @@ function defaultNativeLang(): readonly string[] {
     return preferredLanguages;
 }
 
-export function extensionDefaultLanguages(): string[] {
-    return [...defaultNativeLang()];
-}
-
-export function sourceDefaultLanguages(): string[] {
-    return [...defaultNativeLang()];
+export function getDefaultLanguages(): string[] {
+    return [...defaultNativeLang(), DefaultLanguage.ALL];
 }
 
 export const languageSortComparator = (a: string, b: string) =>
