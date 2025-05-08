@@ -21,7 +21,7 @@ import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
-import { langSortCmp, toUniqueLanguageCodes } from '@/modules/core/utils/Languages.ts';
+import { languageSortComparator, toUniqueLanguageCodes } from '@/modules/core/utils/Languages.ts';
 
 interface IProps {
     selectedLanguages: string[];
@@ -38,7 +38,10 @@ export function LanguageSelect(props: IProps) {
 
     const languagesSortedBySelectState = useMemo(
         () =>
-            toUniqueLanguageCodes([...tmpSelectedLanguages.toSorted(langSortCmp), ...languages.toSorted(langSortCmp)]),
+            toUniqueLanguageCodes([
+                ...tmpSelectedLanguages.toSorted(languageSortComparator),
+                ...languages.toSorted(languageSortComparator),
+            ]),
         [languages, tmpSelectedLanguages],
     );
 

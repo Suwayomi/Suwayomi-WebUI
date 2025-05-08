@@ -15,7 +15,7 @@ import {
 } from '@/modules/source/Source.types.ts';
 import {
     DefaultLanguage,
-    langSortCmp,
+    languageSortComparator,
     toComparableLanguage,
     toComparableLanguages,
     toUniqueLanguageCodes,
@@ -37,14 +37,16 @@ export class Sources {
     }
 
     static getLanguages(sources: (SourceIdInfo & SourceLanguageInfo)[]): string[] {
-        return [...new Set(sources.map((source) => Sources.getLanguage(source)))].toSorted(langSortCmp);
+        return [...new Set(sources.map((source) => Sources.getLanguage(source)))].toSorted(languageSortComparator);
     }
 
     static groupByLanguage<Source extends SourceIdInfo & SourceLanguageInfo & SourceDisplayNameInfo>(
         sources: Source[],
     ): Record<string, Source[]> {
         const sourcesByLanguage = Object.groupBy(sources, (source) => Sources.getLanguage(source));
-        const sourcesBySortedLanguage = Object.entries(sourcesByLanguage).toSorted(([a], [b]) => langSortCmp(a, b));
+        const sourcesBySortedLanguage = Object.entries(sourcesByLanguage).toSorted(([a], [b]) =>
+            languageSortComparator(a, b),
+        );
         const sortedSourcesBySortedLanguage = sourcesBySortedLanguage.map(([language, sourcesOfLanguage]) => [
             language,
             (sourcesOfLanguage ?? []).toSorted((a, b) => a.displayName.localeCompare(b.displayName)),

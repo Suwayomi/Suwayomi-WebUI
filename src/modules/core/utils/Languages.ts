@@ -62,7 +62,7 @@ export function getLanguage(code: string): LanguageObject {
     };
 }
 
-export function langCodeToName(code: string): string {
+export function languageCodeToName(code: string): string {
     return getLanguage(code).nativeName;
 }
 
@@ -89,12 +89,13 @@ function defaultNativeLang(): readonly string[] {
     return preferredLanguages;
 }
 
-export function extensionDefaultLangs(): string[] {
+export function extensionDefaultLanguages(): string[] {
     return [...defaultNativeLang()];
 }
 
-export function sourceDefualtLangs(): string[] {
+export function sourceDefaultLanguages(): string[] {
     return [...defaultNativeLang()];
 }
 
-export const langSortCmp = (a: string, b: string) => langCodeToName(a).localeCompare(langCodeToName(b));
+export const languageSortComparator = (a: string, b: string) =>
+    languageCodeToName(a).localeCompare(languageCodeToName(b));

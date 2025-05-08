@@ -10,7 +10,7 @@ import { DEFAULT_DEVICE } from '@/modules/device/services/Device.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/modules/migration/Migration.constants.ts';
 import { MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
-import { extensionDefaultLangs } from '@/modules/core/utils/Languages.ts';
+import { extensionDefaultLanguages } from '@/modules/core/utils/Languages.ts';
 
 export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     // downloads
@@ -41,7 +41,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
 
     // browse
     hideLibraryEntries: false,
-    extensionLanguages: extensionDefaultLangs(),
+    extensionLanguages: extensionDefaultLanguages(),
     showNsfw: true,
 
     // history

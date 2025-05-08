@@ -21,7 +21,7 @@ import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { I18nResourceCode, i18nResources } from '@/i18n';
-import { langCodeToName } from '@/modules/core/utils/Languages.ts';
+import { languageCodeToName } from '@/modules/core/utils/Languages.ts';
 import { ThemeList } from '@/modules/theme/components/ThemeList.tsx';
 import {
     createUpdateMetadataServerSettings,
@@ -145,7 +145,7 @@ export const Appearance = () => {
                     >
                         {i18nResources.map((language) => (
                             <MenuItem key={language} value={language}>
-                                {langCodeToName(language)}
+                                {languageCodeToName(language)}
                             </MenuItem>
                         ))}
                     </Select>

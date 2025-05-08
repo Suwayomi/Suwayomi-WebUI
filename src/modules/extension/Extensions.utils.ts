@@ -17,8 +17,8 @@ import {
 } from '@/modules/extension/Extensions.types.ts';
 import {
     DefaultLanguage,
-    langCodeToName,
-    langSortCmp,
+    languageCodeToName,
+    languageSortComparator,
     toComparableLanguage,
     toComparableLanguages,
     toUniqueLanguageCodes,
@@ -56,7 +56,7 @@ export const isExtensionStateOrLanguage = (languageCode: string): boolean =>
 export const translateExtensionLanguage = (languageCode: string): string =>
     isExtensionStateOrLanguage(languageCode)
         ? t(extensionLanguageToTranslationKey[languageCode as ExtensionGroupState | DefaultLanguage])
-        : langCodeToName(languageCode);
+        : languageCodeToName(languageCode);
 
 export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExtensionsResult {
     const extensionsByLanguage = Object.groupBy<ExtensionGroupState | string, TExtension>(extensions, (extension) => {
@@ -86,7 +86,7 @@ export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExte
             return 1;
         }
 
-        return langSortCmp(a, b);
+        return languageSortComparator(a, b);
     });
 
     const groupedExtensionsSortedByLanguage = extensionsBySortedLanguage.map(([language, extensionsOfLanguage]) => [
@@ -98,7 +98,7 @@ export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExte
 }
 
 export const getLanguagesFromExtensions = (extensions: TExtension[]): string[] =>
-    [...new Set(extensions.map((extension) => extension.lang))].toSorted(langSortCmp);
+    [...new Set(extensions.map((extension) => extension.lang))].toSorted(languageSortComparator);
 
 export const filterExtensions = (
     extensions: TExtension[],
