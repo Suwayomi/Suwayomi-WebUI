@@ -97,13 +97,4 @@ export function sourceDefualtLangs(): string[] {
     return [...defaultNativeLang()];
 }
 
-export const langSortCmp = (a: string, b: string) => {
-    // puts english first for convience
-    const aLang = langCodeToName(a);
-    const bLang = langCodeToName(b);
-
-    if (a === 'en') return -1;
-    if (b === 'en') return 1;
-
-    return aLang.localeCompare(bLang);
-};
+export const langSortCmp = (a: string, b: string) => langCodeToName(a).localeCompare(langCodeToName(b));
