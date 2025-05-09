@@ -131,38 +131,35 @@ export class ReaderControls {
         setIsOverlayVisible(false);
         setShowPreview(false);
 
+        const doScroll = (
+            isAtStartForDirection: boolean,
+            isAtEndForDirection: boolean,
+            scrollToOptions: ScrollToOptions,
+        ) => {
+            if (isAtStartForDirection && offset === ScrollOffset.BACKWARD && isContinuousReadingModeActive) {
+                openChapter('previous');
+                return;
+            }
+
+            if (isAtEndForDirection && offset === ScrollOffset.FORWARD && isContinuousReadingModeActive) {
+                openChapter('next');
+                return;
+            }
+
+            element.scroll({
+                ...scrollToOptions,
+                behavior: 'smooth',
+            });
+        };
+
         switch (direction) {
             case ScrollDirection.X:
-                if (isAtStartXForDirection && offset === ScrollOffset.BACKWARD && isContinuousReadingModeActive) {
-                    openChapter('previous');
-                    return;
-                }
-
-                if (isAtEndXForDirection && offset === ScrollOffset.FORWARD && isContinuousReadingModeActive) {
-                    openChapter('next');
-                    return;
-                }
-
-                element.scroll({
+                doScroll(isAtStartXForDirection, isAtEndXForDirection, {
                     left: getNewScrollPosition(element.scrollLeft, element.clientWidth),
-                    behavior: 'smooth',
                 });
                 break;
             case ScrollDirection.Y:
-                if (isAtStartY && offset === ScrollOffset.BACKWARD && isContinuousReadingModeActive) {
-                    openChapter('previous');
-                    return;
-                }
-
-                if (isAtEndY && offset === ScrollOffset.FORWARD && isContinuousReadingModeActive) {
-                    openChapter('next');
-                    return;
-                }
-
-                element.scroll({
-                    top: getNewScrollPosition(element.scrollTop, element.clientHeight),
-                    behavior: 'smooth',
-                });
+                doScroll(isAtStartY, isAtEndY, { top: getNewScrollPosition(element.scrollTop, element.clientHeight) });
                 break;
             default:
                 throw new Error(`Unexpected "ScrollDirection" (${direction})`);
