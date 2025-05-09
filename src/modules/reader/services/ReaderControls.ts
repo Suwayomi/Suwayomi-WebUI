@@ -404,23 +404,27 @@ export class ReaderControls {
                 const areContinuousPagerTransitionPagesVisible =
                     isContinuousReadingModeActive && isATransitionPageVisibleFlag;
                 const isPreviousTransitionPageVisible =
-                    !shouldShowTransitionPage ||
                     (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.PREVIOUS) ||
                     areContinuousPagerTransitionPagesVisible;
                 const isNextTransitionPageVisible =
-                    !shouldShowTransitionPage ||
                     (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.NEXT) ||
                     areContinuousPagerTransitionPagesVisible;
 
                 const shouldOpenPreviousChapter =
-                    isFirstPage && isPreviousTransitionPageVisible && convertedPage === 'previous' && !!previousChapter;
+                    isFirstPage &&
+                    (!shouldShowTransitionPage || isPreviousTransitionPageVisible) &&
+                    convertedPage === 'previous' &&
+                    !!previousChapter;
                 if (shouldOpenPreviousChapter) {
                     openChapter('previous');
                     return;
                 }
 
                 const shouldOpenNextChapter =
-                    isLastPage && isNextTransitionPageVisible && convertedPage === 'next' && !!nextChapter;
+                    isLastPage &&
+                    (!shouldShowTransitionPage || isNextTransitionPageVisible) &&
+                    convertedPage === 'next' &&
+                    !!nextChapter;
                 if (shouldOpenNextChapter) {
                     openChapter('next');
                     return;
