@@ -399,7 +399,8 @@
                 "title": "Portada del manga como fondo"
             },
             "manga_dynamic_color_schemes": {
-                "description": "Cambia los colores del tema en la página del manga basándose en la portada"
+                "description": "Cambia los colores del tema en la página del manga basándose en la portada",
+                "title": "Colores de tema dinámicos en la página del manga"
             }
         },
         "default_value": "{{value}}<0>($t(global.label.default))</0>"
@@ -712,7 +713,11 @@
             "success": "Éxito",
             "dark": "Oscuro",
             "system": "Sistema",
-            "light": "Claro"
+            "light": "Claro",
+            "medium": "Mediano",
+            "large": "Grande",
+            "small": "Pequeño",
+            "more": "Más"
         },
         "error": {
             "label": {
@@ -721,7 +726,8 @@
                 "invalid_action": "Esta no es una acción valida",
                 "failed_to_load_data": "No se pueden cargar los datos",
                 "failed_to_save_changes": "Error al guardar los cambios",
-                "invalid_input": "Entrada no válida"
+                "invalid_input": "Entrada no válida",
+                "unrecoverable_error": "Algo salió mal\nOcurrió un error del que no podemos recuperarnos"
             }
         },
         "filter": {
@@ -937,7 +943,8 @@
                 "page_gap": "Separación de páginas"
             },
             "title": {
-                "quick_settings": "Configuración rápida"
+                "quick_settings": "Configuración rápida",
+                "reader": "Lector"
             },
             "error": {
                 "label": {
@@ -958,7 +965,12 @@
                     "red": "Rojo",
                     "title": "Filtros de color personalizados",
                     "blend_mode": {
-                        "default": "$t(global.label.default)"
+                        "default": "$t(global.label.default)",
+                        "darken": "Oscurecer",
+                        "lighten": "Iluminar",
+                        "multiply": "Multiplicar",
+                        "screen": "Pantalla",
+                        "overlay": "Recubrir"
                     }
                 },
                 "saturate": "Saturación personalizada",
@@ -1040,7 +1052,8 @@
                     "description": "Muestra brevemente el modo actual cuando el lector se abra o el modo haya cambiado"
                 }
             },
-            "source_series": "Configuración de la serie"
+            "source_series": "Configuración de la serie",
+            "scroll_amount": "Cantidad de desplazamiento"
         },
         "title": "Lector — Manga {{mangaId}} Capítulo {{chapterIndex}}",
         "button": {
@@ -1110,8 +1123,8 @@
             "title": {
                 "new_category": "Nueva categoría",
                 "edit_category_one": "Editar la categoría",
-                "edit_category_many": "",
-                "edit_category_other": ""
+                "edit_category_many": "Editar las categorías",
+                "edit_category_other": "Editar las categorías"
             }
         },
         "error": {
@@ -1122,7 +1135,8 @@
             },
             "label": {
                 "empty": "La categoría está vacía",
-                "request_failure": "No se pudieron cargar las categorías"
+                "request_failure": "No se pudieron cargar las categorías",
+                "create_failure": "No se pudo crear la categoría"
             }
         },
         "label": {
@@ -1136,7 +1150,8 @@
                     "include": "Incluir: {{includedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "source": {
         "local_source": {
@@ -1237,6 +1252,9 @@
                         "disclaimer": "<strong>¡Suwayomi no proporciona soporte para repositorios o extensiones de terceros!</strong><br/>Usar con precaución ya que podría haber actores maliciosos haciendo esos repositorios.<br/>Como usuario necesitas verificar la seguridad y que confíes en cualquier repositorio o extensión."
                     }
                 }
+            },
+            "dialog": {
+                "title": "Ajustes de extensión por idioma"
             }
         }
     },
@@ -1351,6 +1369,14 @@
             "ongoing": "En curso",
             "publishing_finished": "Publicación finalizada",
             "unknown": "$t(global.label.unknown)"
+        },
+        "type": {
+            "manhua": "Manhua",
+            "manhwa": "Manhwa",
+            "long_strip": "Tira larga",
+            "comic": "Comic",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)",
+            "manga": "$t(manga.title_one)"
         }
     },
     "download": {
@@ -1438,6 +1464,10 @@
                 },
                 "title": "Borrar los capítulos"
             }
+        },
+        "title": {
+            "queue": "Cola de descargas",
+            "download": "Descargas"
         }
     },
     "migrate": {
@@ -1536,5 +1566,16 @@
         "title_one": "Combinación de tecla",
         "title_many": "Combinación de teclas",
         "title_other": "Combinación de teclas"
+    },
+    "history": {
+        "settings": {
+            "hide": "Ocultar historial"
+        },
+        "title": "Historial",
+        "error": {
+            "label": {
+                "no_history_available": "Todavía no has leído ninguna serie."
+            }
+        }
     }
 }

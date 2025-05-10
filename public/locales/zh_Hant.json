@@ -134,7 +134,8 @@
                 "title": "自動條漫模式",
                 "description": "對於檢測為可能是長條格式的作品，自動使用條慢模式"
             },
-            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)"
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
+            "scroll_amount": "捲動量"
         },
         "title": "瀏覽 - 漫畫 {{mangaId}} 章節 {{chapterIndex}}",
         "error": {
@@ -384,6 +385,9 @@
                         }
                     }
                 }
+            },
+            "dialog": {
+                "title": "語言擴展設置"
             }
         }
     },
@@ -532,7 +536,8 @@
                 "update_failed": "無法檢查更新",
                 "failed_to_save_changes": "儲存變更失敗",
                 "failed_to_load_data": "無法載入資料",
-                "invalid_input": "無效的輸入"
+                "invalid_input": "無效的輸入",
+                "unrecoverable_error": "發生錯誤\n發生了一個無法恢復的錯誤"
             }
         },
         "grid_layout": {

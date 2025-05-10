@@ -9,7 +9,8 @@
         "error": {
             "label": {
                 "empty": "Kategori ini kosong",
-                "request_failure": "Tidak dapat memuat kategori"
+                "request_failure": "Tidak dapat memuat kategori",
+                "create_failure": "Tidak dapat membuat kategori"
             },
             "no_categories_found": {
                 "label": {
@@ -32,7 +33,8 @@
                     "include": "Disertakan: {{includedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "chapter": {
         "action": {
@@ -225,7 +227,8 @@
             }
         },
         "title": {
-            "queue": "Unduh antrian"
+            "queue": "Unduh antrian",
+            "download": "Unduh"
         }
     },
     "global": {
@@ -266,13 +269,15 @@
             "ignore": "Abaikan",
             "browse": "Browser",
             "migrate": "Bermigasi",
-            "changelog": "Catatan Perubahan"
+            "changelog": "Catatan Perubahan",
+            "set": "Atur",
+            "open": "Buka"
         },
         "date": {
             "label": {
                 "day_other": "Hari",
                 "today": "Hari ini",
-                "today_at": "Hari ini pada waktu  {{timeString}}",
+                "today_at": "Hari ini pada waktu {{timeString}}",
                 "yesterday": "Kemarin",
                 "yesterday_at": "Kemarin pada waktu {{timeString}}"
             },
@@ -284,19 +289,51 @@
         },
         "label": {
             "close": "Tutup",
-            "are_you_sure": "Anda yakin?"
+            "are_you_sure": "Anda yakin?",
+            "auto": "Otomatis",
+            "copied_clipboard": "Disalin ke papan klip",
+            "desktop": "Desktop",
+            "both": "Keduanya",
+            "bottom": "Bawah",
+            "default": "Bawaan",
+            "dark": "Gelap",
+            "advanced": "Lanjutan",
+            "client": "Klien",
+            "browse": "Jelajahi",
+            "asterisk": "*"
         },
         "filter": {
             "label": {
-                "unread": "Belum dibaca"
+                "unread": "Belum dibaca",
+                "started": "Dimulai",
+                "duplicate_chapters": "Bab duplikat",
+                "bookmarked": "Ditandai",
+                "downloaded": "Telah diunduh",
+                "tracked": "Dilacak"
             }
         },
         "error": {
             "label": {
                 "failed_to_load_data": "Tidak dapat memuat data",
                 "invalid_action": "Ini bukan aksi yang valid",
-                "failed_to_save_changes": "Tidak dapat menyimpan perubahan"
+                "failed_to_save_changes": "Tidak dapat menyimpan perubahan",
+                "unrecoverable_error": "Terjadi kesalahan\nTerjadi kesalahan yang tidak dapat kami pulihkan",
+                "invalid_input": "Masukan tidak valid",
+                "update_failed": "Tidak dapat memeriksa pembaruan",
+                "invalid_file_type": "Tipe berkas tidak valid"
             }
+        },
+        "grid_layout": {
+            "label": {
+                "comfortable_grid": "Grid yang nyaman",
+                "list": "Daftar"
+            },
+            "title": "Mode tampilan"
+        },
+        "colors": {
+            "gray": "Abu - abu",
+            "white": "Putih",
+            "black": "Hitam"
         }
     },
     "extension": {
@@ -337,7 +374,7 @@
                         }
                     },
                     "label": {
-                        "disclaimer": "<strong>Suwayomi tidak  mendukung repositori atau file tambahan pihak ketiga!</strong><br/>Gunakan dengan hati-hati karena ada kemungkinan adanya aktor jahat yang membuat repositori tersebut .<br/>Anda sebagai pengguna harus memverifikasi keamanan dan mempercayai repositori dan ekstensi apapun.",
+                        "disclaimer": "<strong>Suwayomi tidak mendukung repositori atau file tambahan pihak ketiga!</strong><br/>Gunakan dengan hati-hati karena ada kemungkinan adanya aktor jahat yang membuat repositori tersebut .<br/>Anda sebagai pengguna harus memverifikasi keamanan dan mempercayai repositori dan ekstensi apapun.",
                         "title": "Repositori ekstensi",
                         "description": "Tambahkan repositori tempat ekstensi dapat diinstal"
                     }

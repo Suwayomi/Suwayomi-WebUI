@@ -3,14 +3,15 @@
         "dialog": {
             "title": {
                 "edit_category_one": "Redigera kategori",
-                "edit_category_other": "",
+                "edit_category_other": "Redigera kategorier",
                 "new_category": "Ny kategori"
             }
         },
         "error": {
             "label": {
                 "empty": "Kategorin är tom",
-                "request_failure": "Kunde inte ladda kategorier"
+                "request_failure": "Kunde inte ladda kategorier",
+                "create_failure": "Kunde inte skapa kategori"
             },
             "no_categories_found": {
                 "label": {
@@ -49,6 +50,13 @@
                         "error_other": "Det gick inte att bokmärka kapitlet",
                         "success_one": "Kapitel bokmärktes",
                         "success_other": "{{count}} kapitel bokmärktes"
+                    }
+                },
+                "remove": {
+                    "label": {
+                        "action": "Ta bort bokmärke",
+                        "error_one": "Kunde inte ta bort bokmärke",
+                        "error_other": "Kunde inte ta bort bokmärkena"
                     }
                 }
             }
