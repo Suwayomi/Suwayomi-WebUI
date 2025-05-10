@@ -79,10 +79,18 @@ export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExte
     const extensionsBySortedLanguage = Object.entries(extensionsByLanguage).toSorted(([a], [b]) => {
         const extensionGroupStates = Object.values(ExtensionGroupState);
 
-        if (extensionGroupStates.includes(a as ExtensionGroupState)) {
+        const isAState = extensionGroupStates.includes(a as ExtensionGroupState);
+        const isAObsolete = ExtensionGroupState.OBSOLETE === a;
+        const isAUpdatable = ExtensionGroupState.UPDATE_PENDING === a;
+
+        const isBState = extensionGroupStates.includes(b as ExtensionGroupState);
+        const isBObsolete = ExtensionGroupState.OBSOLETE === b;
+        const isBUpdatable = ExtensionGroupState.UPDATE_PENDING === b;
+
+        if (isAObsolete || (isAState && !isBState) || (isAUpdatable && !isBObsolete)) {
             return -1;
         }
-        if (extensionGroupStates.includes(b as ExtensionGroupState)) {
+        if (isBObsolete || (!isAState && isBState) || (!isAUpdatable && isBUpdatable)) {
             return 1;
         }
 
