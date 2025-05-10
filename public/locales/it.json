@@ -3,8 +3,8 @@
         "dialog": {
             "title": {
                 "edit_category_one": "Modifica categoria",
-                "edit_category_many": "",
-                "edit_category_other": "",
+                "edit_category_many": "Modifica categorie",
+                "edit_category_other": "Modifica categorie",
                 "new_category": "Nuova categoria"
             }
         },
@@ -15,7 +15,8 @@
         "error": {
             "label": {
                 "empty": "La categoria è vuota",
-                "request_failure": "Impossibile caricare le categorie"
+                "request_failure": "Impossibile caricare le categorie",
+                "create_failure": "Impossibile creare la categoria"
             },
             "no_categories_found": {
                 "label": {
@@ -36,7 +37,8 @@
                     "exclude": "Escludi: {{excludedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "chapter": {
         "action": {
@@ -249,10 +251,14 @@
         "state": {
             "label": {
                 "error": "Errore",
-                "finished": "Completato",
+                "finished": "$t(global.label.finished)",
                 "queued": "In coda",
                 "downloading": "Scaricamento"
             }
+        },
+        "title": {
+            "download": "Downloads",
+            "queue": "Coda download"
         }
     },
     "extension": {
@@ -316,11 +322,14 @@
                         }
                     }
                 }
+            },
+            "dialog": {
+                "title": "Impostazioni dell'estensione per lingua"
             }
         },
         "title_one": "Estensione",
         "title_many": "Estensioni",
-        "title_other": ""
+        "title_other": "Estensioni"
     },
     "global": {
         "button": {
@@ -370,8 +379,8 @@
                 "today_at": "Oggi alle {{timeString}}",
                 "yesterday": "Ieri",
                 "day_one": "Giorno",
-                "day_many": "",
-                "day_other": "",
+                "day_many": "Giorni",
+                "day_other": "Giorni",
                 "yesterday_at": "Ieri alle {{timeString}}"
             },
             "value": {
@@ -387,7 +396,8 @@
                 "invalid_input": "Inserimento non valido",
                 "invalid_action": "Questa non è un'azione valida",
                 "update_failed": "Impossibile controllare gli aggiornamenti",
-                "failed_to_save_changes": "Impossibile salvare le modifiche"
+                "failed_to_save_changes": "Impossibile salvare le modifiche",
+                "unrecoverable_error": "Qualcosa è andato storto\nErrore irreversibile"
             }
         },
         "filter": {
@@ -434,7 +444,30 @@
             "finished": "Terminato",
             "desktop": "Desktop",
             "error": "Errore",
-            "asterisk": "*"
+            "asterisk": "*",
+            "share": "Condividi",
+            "vertical": "Verticale",
+            "large": "Largo",
+            "medium": "Medio",
+            "small": "Piccolo",
+            "system": "Sistema",
+            "warning": "Attenzione",
+            "bottom": "Giù",
+            "next": "Prossimo",
+            "more": "Di più",
+            "horizontal": "Orizzontale",
+            "light": "Chiaro",
+            "previous": "Precedente",
+            "right": "Destra",
+            "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
+            "hidden": "Nascosto",
+            "left": "Sinistra",
+            "dark": "Scuro",
+            "menu": "Menu",
+            "mobile": "Mobile",
+            "info": "Informazioni",
+            "standard": "Standard",
+            "success": "Successo"
         },
         "update": {
             "label": {
@@ -472,6 +505,9 @@
             "title": {
                 "enabled_languages": "Lingue consentite",
                 "weblate": "Weblate"
+            },
+            "error": {
+                "load": "Impossibile caricare la lingua"
             }
         },
         "sort": {
@@ -479,7 +515,9 @@
                 "by_source": "Dalla fonte",
                 "by_fetch_date": "Per data di recupero",
                 "by_chapter_number": "Per numero capitolo",
-                "by_upload_date": "Per data di caricamento"
+                "by_upload_date": "Per data di caricamento",
+                "asc": "Ascendente",
+                "desc": "Discendente"
             }
         },
         "time": {
@@ -501,7 +539,11 @@
             "black": "Nero",
             "gray": "Grigio",
             "white": "Bianco"
-        }
+        },
+        "unit": {
+            "px": "px"
+        },
+        "value": "{{value}}{{unit}}"
     },
     "tracking": {
         "settings": {
@@ -652,14 +694,31 @@
             "status": "Stato"
         },
         "title_one": "Manga",
-        "title_many": "",
-        "title_other": "",
+        "title_many": "Manga",
+        "title_other": "Manga",
         "error": {
             "label": {
                 "no_mangas_found": "Nessun manga trovato",
                 "no_matches": "Nessun manga corrisponde a questo filtro",
                 "request_failure": "Impossibile caricare il manga"
             }
+        },
+        "status": {
+            "licensed": "Licenziato",
+            "ongoing": "in corso",
+            "publishing_finished": "Pubblicazione terminata",
+            "hiatus": "Interruzione",
+            "cancelled": "Cancellato",
+            "completed": "Completato",
+            "unknown": "$t(global.label.unknown)"
+        },
+        "type": {
+            "long_strip": "Striscia lunga",
+            "manhua": "Manhua",
+            "manhwa": "Manhwa",
+            "comic": "Fumetti",
+            "manga": "$t(manga.title_one)",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)"
         }
     },
     "migrate": {
@@ -680,6 +739,10 @@
         },
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
+        },
+        "sort": {
+            "by_source_name": "In base al nome della sorgente",
+            "by_manga_count": "In base al numero di manga"
         }
     },
     "settings": {
@@ -1013,6 +1076,10 @@
                         }
                     }
                 }
+            },
+            "manga_thumbnail_backdrop": {
+                "description": "Imposta la miniatura del manga come immagine di sfondo nella pagina del manga",
+                "title": "Miniatura del manga come sfondo"
             }
         }
     },
@@ -1133,7 +1200,8 @@
                     "by_latest_uploaded_chapter": "Ultimo capitolo caricato",
                     "by_latest_fetched_chapter": "Ultimo capitolo recuperato",
                     "alphabetically": "A-Z",
-                    "by_date_added": "Aggiunto di recente"
+                    "by_date_added": "Aggiunto di recente",
+                    "by_total_chapters": "Capitoli totali"
                 }
             }
         },
@@ -1142,7 +1210,8 @@
                 "remove_from_library": "Impossibile rimuovere il manga dalla libreria!",
                 "empty": "La libreria è vuota",
                 "no_matches": "Nessun manga corrisponde a questo filtro",
-                "add_to_library": "Impossibile aggiungere il manga alla libreria!"
+                "add_to_library": "Impossibile aggiungere il manga alla libreria!",
+                "stop_global_update": "Interruzione dell'aggiornamento globale non riuscita"
             }
         },
         "info": {
@@ -1154,7 +1223,7 @@
         "title": "Libreria",
         "action": {
             "label": {
-                "stop_update": "Ferma aggiornamento globale",
+                "stop_update": "Interrompi aggiornamento globale",
                 "update_category": "Aggiorna categoria",
                 "update_library": "Aggiorna libreria"
             }
@@ -1164,14 +1233,16 @@
         "page_info": {
             "label": {
                 "currently_on_page": "Attualmente a pagina",
-                "of_max_pages": "di {{maxPages}}"
+                "of_max_pages": "di {{maxPages}}",
+                "page": "Pagina"
             }
         },
         "error": {
             "label": {
                 "prev_chapter_does_not_exist": "Non c'è un capitolo precedente da aprire",
                 "next_chapter_does_not_exist": "Non c'è un capitolo successivo da aprire",
-                "no_pages_found": "Nessuna pagina trovata"
+                "no_pages_found": "Nessuna pagina trovata",
+                "chapter_not_found": "Il capitolo non esiste"
             }
         },
         "settings": {
@@ -1194,6 +1265,62 @@
                     "webtoon": "Webtoon",
                     "continuous_vertical": "Continua in verticale"
                 }
+            },
+            "custom_filter": {
+                "invert": "Invertire",
+                "rgba": {
+                    "alpha": "Alpha",
+                    "blue": "Blu",
+                    "blend_mode": {
+                        "darken": "Scurire",
+                        "lighten": "Schiarire",
+                        "screen": "Schermo",
+                        "multiply": "Moltiplicare",
+                        "overlay": "Sovrapposizione",
+                        "title": "Modalità di fusione del filtro colore",
+                        "default": "$t(global.label.default)"
+                    },
+                    "green": "Verde",
+                    "title": "Filtri colori personalizzati",
+                    "red": "Rosso"
+                },
+                "sepia": "Seppia",
+                "title": "Filtro personalizzato",
+                "saturate": "Saturazione personalizzata",
+                "brightness": "Luminosità personalizzata",
+                "grayscale": "Scala di grigio",
+                "hue": "Tinta personalizzata",
+                "contrast": "Contrasto personalizzato"
+            },
+            "hotkey": {
+                "menu": "Attiva/Disattiva menù",
+                "next_chapter": "Prossimo capitolo",
+                "next_page": "Prossima pagina",
+                "previous_page": "Pagina precedente",
+                "offset_spread_pages": "Attiva/disattiva le pagine di offset",
+                "previous_chapter": "Capitolo precedente",
+                "auto_scroll": "Attiva/Disattiva scorrimento automatico",
+                "auto_scroll_speed_decrease": "Diminuisci velocità scorrimento automatico",
+                "auto_scroll_speed_increase": "Aumenta velocità scorrimento automatico"
+            },
+            "active_setting": "Impostazioni attive",
+            "auto_scroll": {
+                "title": "Scorrimento automatico",
+                "speed": "Velocità scorrimento automatico",
+                "smooth": "Auto scorrimento fluido"
+            },
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
+            "auto_webtoon_mode": {
+                "title": "Modalità webtoon automatica",
+                "description": "Utilizza automaticamente la modalità webtoon per le voci che vengono rilevate come probabili utilizzatori del formato a striscia lunga"
+            },
+            "background_color": "Colore di sfondo",
+            "exit_mode": "Apri pagina all'uscita",
+            "chapter_transition": {
+                "warning": {
+                    "scanlator_change": "Informazioni sulla modifica dello scanlator durante la transizione di capitolo",
+                    "missing_chapter": "Informare sui capitoli mancanti durante la transizione di capitolo"
+                }
             }
         },
         "button": {
@@ -1201,9 +1328,30 @@
             "next_chapter": "Capitolo successivo",
             "previous_chapter": "Capitolo precedente",
             "close_menu": "Chiudi il menu",
-            "open_menu": "Apri il menu"
+            "open_menu": "Apri il menu",
+            "next_page": "Prossima pagina",
+            "retry_load_pages": "Ricarica le pagine con errori",
+            "previous_page": "Pagina precedente",
+            "chapter_list": "Lista capitoli"
         },
-        "title": "Reader - Manga {{mangaId}} Capitolo {{chapterIndex}}"
+        "title": "Reader - Manga {{mangaId}} Capitolo {{chapterIndex}}",
+        "chapter_transition": {
+            "warning": {
+                "previous": {
+                    "scanlator": "Il capitolo precedente ha un diverso scanlator rispetto all'attuale.\nPrecedente: {{nextScanlator}}\nAttuale: {{currentScanlator}}",
+                    "chapter_number_one": "C'è un capitolo mancante.\nPrecedente: {{nextChapter}}\nAttuale: {{currentChapter}}",
+                    "chapter_number_many": "Ci sono {{count}} capitoli mancanti.\nPrecedente: {{nextChapter}}\nAttuale: {{currentChapter}}",
+                    "chapter_number_other": "Ci sono {{count}} capitoli mancanti.\nPrecedente: {{nextChapter}}\nAttuale: {{currentChapter}}"
+                },
+                "next": {
+                    "chapter_number_one": "C'è un capitolo mancante.\nAttuale: {{currentChapter}}\nProssimo: {{nextChapter}}",
+                    "chapter_number_many": "Ci sono {{count}} capitoli mancanti.\nAttuale: {{currentChapter}}\nProssimo: {{nextChapter}}",
+                    "chapter_number_other": "Ci sono {{count}} capitoli mancanti.\nAttuale: {{currentChapter}}\nProssimo: {{nextChapter}}",
+                    "scanlator": "Il prossimo capitolo ha un differente scanlator rispetto al precedente.\nAttuale: {{currentScanlator}}\nSuccessivo: {{nextScanlator}}"
+                },
+                "title": "Avviso di transizione di capitolo"
+            }
+        }
     },
     "search": {
         "error": {
@@ -1249,8 +1397,8 @@
             "title": "Configurazione della fonte"
         },
         "title_one": "Fonte",
-        "title_many": "",
-        "title_other": ""
+        "title_many": "Fonti",
+        "title_other": "Fonti"
     },
     "updates": {
         "error": {
@@ -1259,5 +1407,34 @@
             }
         },
         "title": "Aggiornamenti"
+    },
+    "hotkeys": {
+        "create": {
+            "dialog": {
+                "label": "Chiavi registrate: <Keys/>",
+                "placeholder": "Premi le chiavi",
+                "title": "Registra scorciatoia"
+            },
+            "error": {
+                "exists": "Scorciatoia già esistente"
+            }
+        },
+        "info": {
+            "delete": "Premi la chiave per rimuovere l'associazione"
+        },
+        "title_one": "Scorciatoia",
+        "title_many": "Scorciatoie",
+        "title_other": "Scorciatoie"
+    },
+    "history": {
+        "settings": {
+            "hide": "Nascondi cronologia"
+        },
+        "error": {
+            "label": {
+                "no_history_available": "Non hai ancora letto nessuna serie."
+            }
+        },
+        "title": "Cronologia"
     }
 }

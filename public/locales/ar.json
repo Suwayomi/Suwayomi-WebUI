@@ -162,7 +162,8 @@
         "error": {
             "label": {
                 "empty": "الفئة فارغة",
-                "request_failure": "لا يمكن تحميل الفئات"
+                "request_failure": "لا يمكن تحميل الفئات",
+                "create_failure": "لا يمكن إنشاء الفئة"
             },
             "no_categories_found": {
                 "label": {
@@ -188,7 +189,8 @@
                     "include": "تضمين: {{includedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "settings": {
         "backup": {
