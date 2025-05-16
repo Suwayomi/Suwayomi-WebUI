@@ -156,6 +156,14 @@ const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(
 
 const sortByString = (a: string, b: string): number => a.localeCompare(b);
 
+const getFirstArtist = (artistString: string): string => {
+    if (!artistString || artistString === 'Unknown') return 'Unknown';
+    // Handle multiple delimiters (, |, 、etc)
+    const artists = artistString.split(/\s*[,|、]\s*/);
+    // Return the first artist name and trim whitespace
+    return artists[0].trim();
+};
+
 type TMangaSort = Pick<MangaType, 'title' | 'inLibraryAt' | 'unreadCount'> &
     MangaChapterCountInfo & {
         lastReadChapter?: Pick<ChapterType, 'lastReadAt'> | null;
@@ -192,6 +200,43 @@ const sortManga = <Manga extends TMangaSort>(
             break;
         case 'totalChapters':
             result.sort((a, b) => sortByNumber(a.chapters.totalCount, b.chapters.totalCount));
+            break;
+        case 'byArtistOrAuthor':
+            result.sort((a, b) => {
+                const aArtist = getFirstArtist(a.artist || 'Unknown');
+                const bArtist = getFirstArtist(b.artist || 'Unknown');
+                const aAuthor = getFirstArtist(a.author || 'Unknown');
+                const bAuthor = getFirstArtist(b.author || 'Unknown');
+
+                // If both have artists, sort by artist first
+                if (aArtist !== 'Unknown' && bArtist !== 'Unknown') {
+                    return sortByString(aArtist, bArtist);
+                }
+                
+                // If one has artist and the other doesn't, the one with artist comes first
+                if (aArtist !== 'Unknown' && bArtist === 'Unknown') {
+                    return -1;
+                }
+                if (aArtist === 'Unknown' && bArtist !== 'Unknown') {
+                    return 1;
+                }
+
+                // If neither has artist, sort by author
+                if (aAuthor !== 'Unknown' && bAuthor !== 'Unknown') {
+                    return sortByString(aAuthor, bAuthor);
+                }
+
+                // If one has author and the other doesn't, the one with author comes first
+                if (aAuthor !== 'Unknown' && bAuthor === 'Unknown') {
+                    return -1;
+                }
+                if (aAuthor === 'Unknown' && bAuthor !== 'Unknown') {
+                    return 1;
+                }
+
+                // If neither has artist or author, sort by title
+                return sortByString(a.title, b.title);
+            });
             break;
         default:
             break;

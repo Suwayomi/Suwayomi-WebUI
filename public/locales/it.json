@@ -479,7 +479,8 @@
                 "by_source": "Dalla fonte",
                 "by_fetch_date": "Per data di recupero",
                 "by_chapter_number": "Per numero capitolo",
-                "by_upload_date": "Per data di caricamento"
+                "by_upload_date": "Per data di caricamento",
+                "by_artist_or_author": "Per artista/autore"
             }
         },
         "time": {
@@ -1133,7 +1134,8 @@
                     "by_latest_uploaded_chapter": "Ultimo capitolo caricato",
                     "by_latest_fetched_chapter": "Ultimo capitolo recuperato",
                     "alphabetically": "A-Z",
-                    "by_date_added": "Aggiunto di recente"
+                    "by_date_added": "Aggiunto di recente",
+                    "by_artist_or_author": "Per artista/autore"
                 }
             }
         },

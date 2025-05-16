@@ -48,6 +48,7 @@ import { TAppThemeContext, useAppThemeContext } from '@/modules/theme/contexts/A
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { CustomButtonIcon } from '@/modules/core/components/buttons/CustomButtonIcon.tsx';
 import { Sources } from '@/modules/source/services/Sources.ts';
+import { ClickableMetadata } from '@/modules/manga/components/ClickableMetadata.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -416,8 +417,8 @@ export const MangaDetails = ({
                                     </IconButton>
                                 </CustomTooltip>
                             </Stack>
-                            <Metadata title={t('manga.label.author')} value={getValueOrUnknown(manga.author)} />
-                            <Metadata title={t('manga.label.artist')} value={getValueOrUnknown(manga.artist)} />
+                            <ClickableMetadata title={t('manga.label.author')} value={getValueOrUnknown(manga.author)} />
+                            <ClickableMetadata title={t('manga.label.artist')} value={getValueOrUnknown(manga.artist)} />
                             <Metadata
                                 title={t('manga.label.status')}
                                 value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])}

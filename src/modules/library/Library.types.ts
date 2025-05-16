@@ -27,7 +27,8 @@ export type LibrarySortMode =
     | 'dateAdded'
     | 'lastRead'
     | 'latestFetchedChapter'
-    | 'latestUploadedChapter';
+    | 'latestUploadedChapter'
+    | 'byArtistOrAuthor';
 
 export interface LibraryOptions {
     // sort options

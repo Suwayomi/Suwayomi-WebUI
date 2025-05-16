@@ -46,6 +46,7 @@ const SORT_OPTIONS: [LibrarySortMode, TranslationKey][] = [
     ['lastRead', 'library.option.sort.label.by_last_read'],
     ['latestFetchedChapter', 'library.option.sort.label.by_latest_fetched_chapter'],
     ['latestUploadedChapter', 'library.option.sort.label.by_latest_uploaded_chapter'],
+    ['byArtistOrAuthor', 'library.option.sort.label.by_artist_or_author'],
 ];
 
 export const LibraryOptionsPanel = ({

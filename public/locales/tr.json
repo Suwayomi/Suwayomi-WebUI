@@ -514,7 +514,8 @@
                     "by_last_read": "Son zamanlarda okunanlar",
                     "by_latest_uploaded_chapter": "Son yüklenen bölüm",
                     "by_latest_fetched_chapter": "Son getirilen bölüm",
-                    "by_total_chapters": "Toplam bölüm sayısı"
+                    "by_total_chapters": "Toplam bölüm sayısı",
+                    "by_artist_or_author": "Sanatçı/yazar göre"
                 }
             }
         },

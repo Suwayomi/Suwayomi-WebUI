@@ -537,7 +537,8 @@
                     "by_last_read": "Đọc gần đây",
                     "by_latest_uploaded_chapter": "Chương mới tải lên",
                     "by_latest_fetched_chapter": "Chương mới nhất",
-                    "by_total_chapters": "Tổng số chương"
+                    "by_total_chapters": "Tổng số chương",
+                    "by_artist_or_author": "Theo tác giả/họa sĩ"
                 }
             }
         },
