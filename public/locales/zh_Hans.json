@@ -454,6 +454,7 @@
                 "by_fetch_date": "按日期",
                 "by_chapter_number": "按章节序号",
                 "by_upload_date": "按上传日期",
+                "by_artist_or_author": "按作者/画师",
                 "asc": "升序",
                 "desc": "降序"
             }
@@ -538,7 +539,8 @@
                     "alphabetically": "按字母顺序",
                     "by_latest_fetched_chapter": "最新获取的章节",
                     "by_latest_uploaded_chapter": "最新上传的章节",
-                    "by_total_chapters": "总章节数"
+                    "by_total_chapters": "总章节数",
+                    "by_artist_or_author": "按作者/画师"
                 }
             }
         },

@@ -10,7 +10,8 @@
                     "by_date_added": "Kürzlich hinzugefügt",
                     "by_latest_uploaded_chapter": "Zuletzt hochgeladenes Kapitel",
                     "by_latest_fetched_chapter": "Zuletzt abgerufenes Kapitel",
-                    "by_total_chapters": "Gesamte Anzahl der Kapitel"
+                    "by_total_chapters": "Gesamte Anzahl der Kapitel",
+                    "by_artist_or_author": "Nach Künstler/Autor"
                 }
             },
             "display": {

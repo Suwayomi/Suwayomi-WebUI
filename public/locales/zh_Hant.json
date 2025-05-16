@@ -522,7 +522,8 @@
                 "by_upload_date": "依照更新日期",
                 "by_chapter_number": "依照章節編號",
                 "asc": "升序",
-                "desc": "降序"
+                "desc": "降序",
+                "by_artist_or_author": "依照作者/畫師"
             }
         },
         "error": {

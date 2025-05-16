@@ -362,7 +362,8 @@
                     "alphabetically": "А-Я",
                     "by_date_added": "Недавно добавленные",
                     "by_latest_uploaded_chapter": "Последняя загруженная глава",
-                    "by_total_chapters": "Всего глав"
+                    "by_total_chapters": "Всего глав",
+                    "by_artist_or_author": "По художнику/автору"
                 }
             },
             "display": {

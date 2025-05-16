@@ -457,7 +457,8 @@
                     "alphabetically": "A-Z",
                     "by_latest_fetched_chapter": "最近追加された章",
                     "by_last_read": "最近読んだ",
-                    "by_unread_chapters": "未読の章"
+                    "by_unread_chapters": "未読の章",
+                    "by_artist_or_author": "作者/アーティスト順"
                 }
             },
             "display": {
