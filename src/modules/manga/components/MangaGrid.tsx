@@ -25,7 +25,7 @@ import { useTranslation } from 'react-i18next';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/modules/manga/components/cards/MangaCard.tsx';
-import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/modules/core/components/buttons/StyledFab.tsx';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
@@ -34,6 +34,7 @@ import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { GridLayout } from '@/modules/core/Core.types.ts';
+import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 
 const GridContainer = React.forwardRef<HTMLDivElement, GridTypeMap['props']>(({ children, ...props }, ref) => (
     <Grid {...props} ref={ref} container spacing={1}>
@@ -255,6 +256,9 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     const { t } = useTranslation();
 
     const { navBarWidth } = useNavBarContext();
+    const {
+        settings: { mangaGridItemWidth },
+    } = useMetadataServerSettings();
 
     const gridRef = useRef<HTMLDivElement>(null);
     const gridWrapperRef = useRef<HTMLDivElement>(null);
@@ -262,10 +266,9 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     const [dimensions, setDimensions] = useState(
         gridWrapperRef.current?.offsetWidth ?? Math.max(0, document.documentElement.offsetWidth - navBarWidth),
     );
-    const [gridItemWidth] = useLocalStorage<number>('ItemWidth', 300);
     const GridItemContainer = useMemo(
-        () => GridItemContainerWithDimension(dimensions, gridItemWidth, gridLayout),
-        [dimensions, gridItemWidth, gridLayout],
+        () => GridItemContainerWithDimension(dimensions, mangaGridItemWidth, gridLayout),
+        [dimensions, mangaGridItemWidth, gridLayout],
     );
 
     // always show vertical scrollbar to prevent https://github.com/Suwayomi/Suwayomi-WebUI/issues/758

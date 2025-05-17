@@ -6,10 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AppTheme } from '@/modules/theme/services/AppThemes.ts';
+import { AppTheme, AppThemes } from '@/modules/theme/services/AppThemes.ts';
+import { ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
 
 export type MetadataThemeSettings = {
+    appTheme: AppThemes;
+    themeMode: ThemeMode;
+    shouldUsePureBlackMode: boolean;
     customThemes: Record<string, AppTheme>;
     mangaThumbnailBackdrop: boolean;
     mangaDynamicColorSchemes: boolean;
+    mangaGridItemWidth: number;
 };

@@ -12,21 +12,22 @@ import { CacheProvider } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 import { AppThemeContext, TAppThemeContext, ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
-import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
+import { getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { createAndSetTheme } from '@/modules/theme/services/ThemeCreator.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const AppThemeContextProvider = ({ children }: { children: ReactNode }) => {
-    const { i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { mode } = useColorScheme();
     const {
-        settings: { customThemes },
+        settings: { appTheme, themeMode, shouldUsePureBlackMode, customThemes },
     } = useMetadataServerSettings();
-    const [appTheme, setAppTheme] = useLocalStorage<AppThemes>('appTheme', 'default');
-    const [themeMode, setThemeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
-    const [pureBlackMode, setPureBlackMode] = useLocalStorage<boolean>('pureBlackMode', false);
 
     const directionRef = useRef<Direction>('ltr');
 
@@ -36,18 +37,23 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
     const actualThemeMode = mode ?? themeMode ?? 'dark';
     const currentDirection = i18n.dir();
 
+    const updateSetting = createUpdateMetadataServerSettings<'appTheme' | 'themeMode' | 'shouldUsePureBlackMode'>((e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+    );
+
     const appThemeContext = useMemo(
-        () => ({
-            appTheme,
-            setAppTheme,
-            themeMode,
-            setThemeMode,
-            pureBlackMode,
-            setPureBlackMode,
-            dynamicColor,
-            setDynamicColor,
-        }),
-        [themeMode, pureBlackMode, appTheme, dynamicColor],
+        () =>
+            ({
+                appTheme,
+                setAppTheme: (value) => updateSetting('appTheme', value),
+                themeMode,
+                setThemeMode: (value) => updateSetting('themeMode', value),
+                shouldUsePureBlackMode,
+                setShouldUsePureBlackMode: (value) => updateSetting('shouldUsePureBlackMode', value),
+                dynamicColor,
+                setDynamicColor,
+            }) satisfies TAppThemeContext,
+        [themeMode, shouldUsePureBlackMode, appTheme, dynamicColor],
     );
 
     const theme = useMemo(
@@ -55,11 +61,19 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
             createAndSetTheme(
                 actualThemeMode as ThemeMode,
                 getTheme(appTheme, customThemes),
-                pureBlackMode,
+                shouldUsePureBlackMode,
                 currentDirection,
                 dynamicColor,
             ),
-        [actualThemeMode, currentDirection, systemThemeMode, pureBlackMode, appTheme, customThemes, dynamicColor],
+        [
+            actualThemeMode,
+            currentDirection,
+            systemThemeMode,
+            shouldUsePureBlackMode,
+            appTheme,
+            customThemes,
+            dynamicColor,
+        ],
     );
 
     useLayoutEffect(() => {

@@ -37,15 +37,15 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
 
     const { t } = useTranslation();
     const theme = useTheme();
-    const { themeMode, setAppTheme, appTheme: activeAppTheme, pureBlackMode } = useAppThemeContext();
+    const { themeMode, setAppTheme, appTheme: activeAppTheme, shouldUsePureBlackMode } = useAppThemeContext();
 
     const popupState = usePopupState({ variant: 'popover', popupId: `theme-edit-dialog-${appTheme.id}` });
 
     const isSelected = appTheme.id === activeAppTheme;
 
     const muiTheme = useMemo(
-        () => createTheme(themeMode, appTheme, pureBlackMode),
-        [appTheme, themeMode, pureBlackMode],
+        () => createTheme(themeMode, appTheme, shouldUsePureBlackMode),
+        [appTheme, themeMode, shouldUsePureBlackMode],
     );
 
     return (

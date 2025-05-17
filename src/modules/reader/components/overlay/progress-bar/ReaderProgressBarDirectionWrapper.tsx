@@ -11,9 +11,7 @@ import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { AppThemes, getTheme } from '@/modules/theme/services/AppThemes.ts';
-import { ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
+import { getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { createTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { DIRECTION_TO_CACHE } from '@/modules/theme/ThemeDirectionCache.ts';
@@ -25,17 +23,13 @@ const BaseReaderProgressBarDirectionWrapper = forwardRef<
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
     }
 >(({ direction, ...boxProps }, ref) => {
-    const [appTheme] = useLocalStorage<AppThemes>('appTheme', 'default');
-    const [themeMode] = useLocalStorage<ThemeMode>('themeMode', ThemeMode.SYSTEM);
-    const [pureBlackMode] = useLocalStorage<boolean>('pureBlackMode', false);
-
     const {
-        settings: { customThemes },
+        settings: { customThemes, appTheme, themeMode, shouldUsePureBlackMode },
     } = useMetadataServerSettings();
 
     const readerTheme = useMemo(
-        () => createTheme(themeMode, getTheme(appTheme, customThemes), pureBlackMode, direction),
-        [themeMode, appTheme, customThemes, pureBlackMode, direction],
+        () => createTheme(themeMode, getTheme(appTheme, customThemes), shouldUsePureBlackMode, direction),
+        [themeMode, appTheme, customThemes, shouldUsePureBlackMode, direction],
     );
 
     return (

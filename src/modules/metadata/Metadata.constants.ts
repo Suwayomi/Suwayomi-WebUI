@@ -89,6 +89,10 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     showNsfw: undefined,
     shouldUseInfiniteScroll: undefined,
     shouldShowTransitionPage: undefined,
+    appTheme: undefined,
+    themeMode: undefined,
+    shouldUsePureBlackMode: undefined,
+    mangaGridItemWidth: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);

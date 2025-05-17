@@ -19,7 +19,6 @@ import { ThemeMode, useAppThemeContext } from '@/modules/theme/contexts/AppTheme
 import { Select } from '@/modules/core/components/inputs/Select.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { I18nResourceCode, i18nResources } from '@/i18n';
 import { languageCodeToName } from '@/modules/core/utils/Languages.ts';
 import { ThemeList } from '@/modules/theme/components/ThemeList.tsx';
@@ -35,17 +34,18 @@ import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { SERVER_SETTINGS_METADATA_DEFAULT } from '@/modules/settings/Settings.constants.ts';
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
-    const { themeMode, setThemeMode, pureBlackMode, setPureBlackMode } = useAppThemeContext();
+    const { themeMode, setThemeMode, shouldUsePureBlackMode, setShouldUsePureBlackMode } = useAppThemeContext();
     const { mode, setMode } = useColorScheme();
     const actualThemeMode = (mode ?? themeMode) as ThemeMode;
 
     useAppTitle(t('settings.appearance.title'));
 
     const {
-        settings,
+        settings: { mangaThumbnailBackdrop, mangaDynamicColorSchemes, mangaGridItemWidth },
         request: { loading, error, refetch },
     } = useMetadataServerSettings();
     const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataThemeSettings>((e) =>
@@ -53,9 +53,6 @@ export const Appearance = () => {
     );
 
     const isDarkMode = MediaQuery.getThemeMode() === ThemeMode.DARK;
-
-    const DEFAULT_ITEM_WIDTH = 300;
-    const [itemWidth, setItemWidth] = useLocalStorage<number>('ItemWidth', DEFAULT_ITEM_WIDTH);
 
     if (loading) {
         return <LoadingPlaceholder />;
@@ -107,7 +104,10 @@ export const Appearance = () => {
             {isDarkMode && (
                 <ListItem>
                     <ListItemText primary={t('settings.appearance.theme.pure_black_mode')} />
-                    <Switch checked={pureBlackMode} onChange={(_, enabled) => setPureBlackMode(enabled)} />
+                    <Switch
+                        checked={shouldUsePureBlackMode}
+                        onChange={(_, enabled) => setShouldUsePureBlackMode(enabled)}
+                    />
                 </ListItem>
             )}
             <List
@@ -152,15 +152,15 @@ export const Appearance = () => {
                 </ListItem>
                 <NumberSetting
                     settingTitle={t('settings.label.manga_item_width')}
-                    settingValue={`px: ${itemWidth}`}
-                    value={itemWidth}
-                    defaultValue={DEFAULT_ITEM_WIDTH}
+                    settingValue={`px: ${mangaGridItemWidth}`}
+                    value={mangaGridItemWidth}
+                    defaultValue={SERVER_SETTINGS_METADATA_DEFAULT.mangaGridItemWidth}
                     minValue={100}
                     maxValue={1000}
                     stepSize={10}
                     valueUnit="px"
                     showSlider
-                    handleUpdate={setItemWidth}
+                    handleUpdate={(width) => updateMetadataSetting('mangaGridItemWidth', width)}
                 />
 
                 <ListItem>
@@ -170,7 +170,7 @@ export const Appearance = () => {
                     />
                     <Switch
                         edge="end"
-                        checked={settings.mangaThumbnailBackdrop}
+                        checked={mangaThumbnailBackdrop}
                         onChange={(e) => updateMetadataSetting('mangaThumbnailBackdrop', e.target.checked)}
                     />
                 </ListItem>
@@ -182,7 +182,7 @@ export const Appearance = () => {
                     />
                     <Switch
                         edge="end"
-                        checked={settings.mangaDynamicColorSchemes}
+                        checked={mangaDynamicColorSchemes}
                         onChange={(e) => updateMetadataSetting('mangaDynamicColorSchemes', e.target.checked)}
                     />
                 </ListItem>

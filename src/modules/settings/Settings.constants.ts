@@ -11,6 +11,7 @@ import { DEFAULT_SORT_SETTINGS } from '@/modules/migration/Migration.constants.t
 import { MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
+import { ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
 
 export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     // downloads
@@ -56,7 +57,11 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     serverInformAvailableUpdate: true,
 
     // themes
+    appTheme: 'default',
+    themeMode: ThemeMode.SYSTEM,
+    shouldUsePureBlackMode: false,
     customThemes: {},
     mangaThumbnailBackdrop: true,
     mangaDynamicColorSchemes: true,
+    mangaGridItemWidth: 300,
 };

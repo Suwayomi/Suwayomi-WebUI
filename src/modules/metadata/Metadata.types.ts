@@ -21,7 +21,7 @@ export interface IMetadataMigration {
          * Otherwise, all metadata keys will get migrated.
          */
         key?: string;
-        oldValue: string | RegExp;
+        oldValue: string | RegExp | undefined;
         newValue: string | ((oldValue: string) => string);
     }[];
     keys?: { oldKey: string; newKey: string }[];

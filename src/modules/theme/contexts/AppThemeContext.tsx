@@ -19,11 +19,11 @@ export enum ThemeMode {
 
 export type TAppThemeContext = {
     appTheme: AppThemes;
-    setAppTheme: React.Dispatch<React.SetStateAction<AppThemes>>;
+    setAppTheme: (theme: AppThemes) => void;
     themeMode: ThemeMode;
-    setThemeMode: React.Dispatch<React.SetStateAction<ThemeMode>>;
-    pureBlackMode: boolean;
-    setPureBlackMode: React.Dispatch<React.SetStateAction<boolean>>;
+    setThemeMode: (mode: ThemeMode) => void;
+    shouldUsePureBlackMode: boolean;
+    setShouldUsePureBlackMode: (value: boolean) => void;
     dynamicColor: (NonNullableProperties<Palette> & { average: FastAverageColorResult }) | null;
     setDynamicColor: React.Dispatch<
         React.SetStateAction<(NonNullableProperties<Palette> & { average: FastAverageColorResult }) | null>
@@ -35,8 +35,8 @@ export const AppThemeContext = React.createContext<TAppThemeContext>({
     setAppTheme: (): void => {},
     themeMode: ThemeMode.SYSTEM,
     setThemeMode: (): void => {},
-    pureBlackMode: false,
-    setPureBlackMode: (): void => {},
+    shouldUsePureBlackMode: false,
+    setShouldUsePureBlackMode: (): void => {},
     dynamicColor: null,
     setDynamicColor: (): void => {},
 });
