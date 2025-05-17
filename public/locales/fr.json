@@ -272,7 +272,10 @@
             "desktop": "Bureau",
             "asterisk": "*",
             "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
-            "horizontal": "Horizontal"
+            "horizontal": "Horizontal",
+            "large": "Large",
+            "medium": "Moyen",
+            "small": "Petit"
         },
         "date": {
             "label": {
@@ -307,7 +310,8 @@
                 "update_failed": "La vérification des mises à jour a échoué",
                 "failed_to_load_data": "Impossible de charger les données",
                 "failed_to_save_changes": "Échec de l'enregistrement des modifications",
-                "invalid_input": "Entrée invalide"
+                "invalid_input": "Entrée invalide",
+                "unrecoverable_error": "Quelques chose d'anormal vient de se passer\nUne erreur irrécupérable est survenue"
             }
         },
         "time": {
@@ -1101,6 +1105,9 @@
             "ongoing": "En cours",
             "publishing_finished": "Publication terminée",
             "unknown": "$t(global.label.unknown)"
+        },
+        "type": {
+            "long_strip": "Bande continue"
         }
     },
     "reader": {
@@ -1241,7 +1248,8 @@
                 "title": "Mode webtoon automatique"
             },
             "background_color": "Couleur d'arrière-plan",
-            "exit_mode": "Ouvrir la page en sortant"
+            "exit_mode": "Ouvrir la page en sortant",
+            "scroll_amount": "Quantité de défilement"
         },
         "title": "Lecteur - Manga {{mangaId}} Chapitre {{chapterIndex}}",
         "button": {
@@ -1338,7 +1346,8 @@
                     "exclude": "Exclure : {{excludedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "extension": {
         "action": {
@@ -1560,7 +1569,7 @@
                 "no_history_available": "Vous n'avez pas encore lu de série."
             }
         },
-        "title": "historique",
+        "title": "Historique",
         "settings": {
             "hide": "Cacher l'historique"
         }

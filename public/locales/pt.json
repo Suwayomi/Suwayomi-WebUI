@@ -152,18 +152,18 @@
         "label": {
             "installed_successfully_one": "Extensão instalada com sucesso",
             "installed_successfully_many": "Extensões instaladas com sucesso",
-            "installed_successfully_other": "",
+            "installed_successfully_other": "Extensões instaladas com sucesso",
             "installing_file": "Instalando arquivo da extensão…",
             "installation_failed_one": "Falha na instalação da extensão",
             "installation_failed_many": "Falha na instalação das extensões",
-            "installation_failed_other": "",
+            "installation_failed_other": "Falha na instalação das extensões",
             "add_repository_info": "Você precisa adicionar um repositório de extensões para instalar extensões",
             "uninstallation_failed_one": "Falha ao desinstalar a extensão",
             "uninstallation_failed_many": "Falha ao desinstalar as extensões",
-            "uninstallation_failed_other": "",
+            "uninstallation_failed_other": "Falha ao desinstalar as extensões",
             "update_failed_one": "Falha ao atualizar a extensão",
             "update_failed_many": "Falha ao atualizar as extensões",
-            "update_failed_other": ""
+            "update_failed_other": "Falha ao atualizar as extensões"
         },
         "language": {
             "all": "Todas",
@@ -193,22 +193,26 @@
                         "disclaimer": "<strong>Suwayomi não fornece suporte para repositórios ou extensões de terceiros!</strong><br/>Use com cuidado, pois pode haver autores mal-intencionados criando esses repositórios.<br/>Você, como usuário, precisa verificar a segurança e confiar em qualquer repositório ou extensão."
                     }
                 }
+            },
+            "dialog": {
+                "title": "Configurações de extensões por idioma"
             }
         }
     },
     "category": {
         "dialog": {
             "title": {
-                "edit_category_one": "Editar catálogo",
-                "edit_category_many": "",
-                "edit_category_other": "",
+                "edit_category_one": "Editar categoria",
+                "edit_category_many": "Editar categorias",
+                "edit_category_other": "Editar catagorias",
                 "new_category": "Nova Categoria"
             }
         },
         "error": {
             "label": {
                 "empty": "A categoria está vazia",
-                "request_failure": "Não foi possível carregar as categorias"
+                "request_failure": "Não foi possível carregar as categorias",
+                "create_failure": "Não foi possível criar a categoria"
             },
             "no_categories_found": {
                 "label": {
@@ -346,7 +350,11 @@
             "menu": "Menu",
             "mobile": "Móvel",
             "horizontal": "Horizontal",
-            "both": "Ambos"
+            "both": "Ambos",
+            "large": "Grande",
+            "medium": "Médio",
+            "more": "Mais",
+            "small": "Pequeno"
         },
         "error": {
             "label": {
@@ -355,7 +363,8 @@
                 "failed_to_load_data": "Não foi possível carregar os dados",
                 "failed_to_save_changes": "Falha ao salvar as alterações",
                 "update_failed": "Não foi possível verificar as atualizações",
-                "invalid_input": "Entrada inválida"
+                "invalid_input": "Entrada inválida",
+                "unrecoverable_error": "Algo deu errado\nOcorreu um erro do qual não podemos nos recuperar"
             }
         },
         "grid_layout": {
@@ -529,6 +538,10 @@
                     "cbz": "Salvar como arquivo CDZ"
                 }
             }
+        },
+        "title": {
+            "download": "Downloads",
+            "queue": "Fila de downloads"
         }
     },
     "updates": {
@@ -709,6 +722,12 @@
             "ongoing": "Em lançamento",
             "publishing_finished": "Publicação concluída",
             "unknown": "$t(global.label.unknown)"
+        },
+        "type": {
+            "comic": "Quadrinhos",
+            "long_strip": "Tira longa",
+            "manhua": "Manhua",
+            "manhwa": "Manhwa"
         }
     },
     "settings": {
@@ -1061,7 +1080,8 @@
                             "invalid_json": "Json inválido",
                             "invalid_name": "O nome do tema deve ser único e tem um limite de 16 caracteres"
                         },
-                        "theme_name": "Nome"
+                        "theme_name": "Nome",
+                        "description": "Veja a documentação oficial do <0>MUI</0> para saber como personalizar o tema.\nAPI palette não é suportada , você precisa usar a nova <1> API de esquemas de cores</1>.\nVocê pode usar criadores de tema como o <2>MUI Theme Creator</2>, mas precisa ajustar o objeto gerado de acordo com a nova API de esquemas de cores. \nCaso nenhum plano de fundo seja definido, um fundo será calculado com base na cor primária."
                     },
                     "title": "Criar tema",
                     "success": "Tema criado",
@@ -1078,15 +1098,16 @@
                 "themes": {
                     "crimson": "Carmesim",
                     "lavender": "Lavanda",
-                    "minty_miracles": "Minty Miracles",
-                    "tree_frog_green": "Tree Frog Green",
-                    "forest_dew": "Forest Dew",
-                    "rosegold": "Rosegold",
-                    "veronica": "Veronica",
+                    "minty_miracles": "Milagres de menta",
+                    "tree_frog_green": "Verde Sapo de árvore",
+                    "forest_dew": "Orvalho da floresta",
+                    "rosegold": "Ouro Rosa",
+                    "veronica": "Verônica",
                     "bright_pink": "Rosa brilhante",
                     "dune": "Duna",
                     "orange_juice": "Suco de laranja",
-                    "mountain_sunset": "Pôr do sol da montanha"
+                    "mountain_sunset": "Pôr do sol da montanha",
+                    "ying_and_yang": "Ying & Yang"
                 },
                 "delete": {
                     "failure": "Não foi possível excluir o tema \"{{theme}}\"",
@@ -1100,13 +1121,18 @@
                         "loading": "Carregando fontes do tema…"
                     },
                     "success": "Tema selecionado"
-                }
+                },
+                "mode": "Modo de tema"
             },
             "manga_thumbnail_backdrop": {
                 "description": "Define a miniatura do mangá como a imagem de fundo na página do mangá",
                 "title": "Miniatura do manga como fundo"
             },
-            "title": "Aparência"
+            "title": "Aparência",
+            "manga_dynamic_color_schemes": {
+                "description": "Altera as cores do tema na página do mangá com base na miniatura",
+                "title": "Cores dinâmicas do tema na página do mangá"
+            }
         }
     },
     "library": {
@@ -1266,8 +1292,11 @@
         "settings": {
             "reader_type": {
                 "label": {
-                    "continuous_vertical": "Continua vertical",
-                    "webtoon": "Webtoon"
+                    "continuous_vertical": "Vertical contínua",
+                    "webtoon": "Webtoon",
+                    "continuous_horizontal": "Horizontal contínua",
+                    "double_page": "Página dupla",
+                    "single_page": "Página única"
                 }
             },
             "label": {
@@ -1277,7 +1306,14 @@
                 "reader_width": "Largura do leitor",
                 "reader_type": "Tipo de leitor",
                 "skip_dup_chapters": "Pular capítulos duplicados",
-                "show_page_number": "Mostrar número de página"
+                "show_page_number": "Mostrar número de página",
+                "limit_reader_width": "Limite de largura do leitor",
+                "page_gap": "Lacuna na página",
+                "reading_mode": "Modo de leitura",
+                "reading_direction": "Direção da leitura",
+                "offset_double_spread": "Paginação dupla offset",
+                "behaviour": "Comportamento",
+                "layout": "Leiaute"
             },
             "error": {
                 "label": {
@@ -1322,7 +1358,18 @@
                 "menu": "Ativar menu",
                 "auto_scroll_speed_decrease": "Diminuir velocidade do auto scroll",
                 "auto_scroll_speed_increase": "Aumentar velocidade do auto scroll",
-                "auto_scroll": "Ativar scroll automático"
+                "auto_scroll": "Ativar scroll automático",
+                "reading_mode": "Alternar modo de leitura",
+                "next_page": "Próxima página",
+                "previous_chapter": "Capítulo anterior",
+                "offset_spread_pages": "Alternar páginas em offset duplo",
+                "scroll_forward": "Rolar para frente",
+                "previous_page": "Página anterior",
+                "scroll_backward": "Rolar para trás",
+                "next_chapter": "Próximo capítulo",
+                "stretch_image": "Alternar para imagem esticada",
+                "scale_type": "Alternar tipo de escala de imagem",
+                "reading_direction": "Alternar direção de leitura"
             },
             "background_color": "Cor do plano de fundo",
             "exit_mode": "Abrir página ao sair",
@@ -1334,6 +1381,57 @@
             "auto_webtoon_mode": {
                 "description": "Usar modo webtoon automaticamente para entradas detectadas como provavelmente usando o formato de tira longa",
                 "title": "Modo webtoon automático"
+            },
+            "title": {
+                "reader": "Leitor",
+                "quick_settings": "Configurações rápidas"
+            },
+            "scroll_amount": "Quantidade de rolagem",
+            "tap_zones": {
+                "right_left": "Direita e esquerda",
+                "title": "Zonas de toque",
+                "kindle": "Kindle",
+                "invert": "Inverter zonas de toque",
+                "edge": "Borda",
+                "l_shape": "Em forma de L"
+            },
+            "page_scale": {
+                "screen": "Ajustar tela",
+                "title": "Tipo de escala",
+                "height": "Ajustar altura",
+                "original": "Tamanho original",
+                "stretch": "Esticar páginas pequenas",
+                "width": "Ajustar à largura"
+            },
+            "progress_bar": {
+                "position": "Posição da barra de progresso",
+                "style": "Estilo da barra de progresso",
+                "size": "Tamanho da barra de progresso",
+                "auto_vertical_position": {
+                    "title": "Posição vertical automática da barra de progresso"
+                }
+            },
+            "reading_direction": {
+                "rtl": "Da direita para a esquerda",
+                "ltr": "Da esquerda para a direita"
+            },
+            "preview": {
+                "tap_zones": {
+                    "title": "Mostrar sobreposição de zonas de toque",
+                    "description": "Exibir brevemente a prévia do layout de zonas de toque ao abrir o leitor ou mudar o layout"
+                },
+                "reading_mode": {
+                    "description": "Exibir brevemente a prévia do layout de zonas de toque ao abrir o leitor ou mudar o layout",
+                    "title": "Mostrar modo de leitura"
+                }
+            },
+            "image_preload_amount": "Pré-carregar imagens",
+            "overlay_mode": "Modo de sobreposição",
+            "show_transition_page": "Mostrar página de transição",
+            "source_series": "Configurações da série",
+            "infinite_scroll": {
+                "description": "Mantenha os capítulos anteriores e futuros visíveis durante a leitura nos modos de leitura contínua, permitindo a rolagem contínua entre os capítulos.",
+                "title": "Exibição contínua de capítulos"
             }
         },
         "button": {
@@ -1368,9 +1466,18 @@
                     "scanlator": "O próximo capítulo tem um scanlador diferente do capítulo atual.\nAtual: {{currentScanlator}}\nPróximo: {{nextScanlator}}",
                     "chapter_number_one": "Existe um cápitulo faltando.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}",
                     "chapter_number_many": "Existem {{count}} capítulos faltando.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}",
-                    "chapter_number_other": ""
+                    "chapter_number_other": "Existem {{count}} capítulos faltando.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}"
                 },
                 "title": "Aviso de transição de capítulo"
+            }
+        },
+        "transition_page": {
+            "first_chapter": "Não há capítulo anterior",
+            "current": "Atual:",
+            "last_chapter": "Não há próximo capítulo",
+            "exit": {
+                "previous_page": "Sair para a página anterior",
+                "manga_page": "Sair para a página do mangá"
             }
         }
     },
@@ -1444,7 +1551,7 @@
     "hotkeys": {
         "title_one": "Atalho",
         "title_many": "Atalhos",
-        "title_other": "",
+        "title_other": "Atalhos",
         "create": {
             "dialog": {
                 "label": "Teclas gravadas:<Keys/>",
@@ -1457,6 +1564,17 @@
         },
         "info": {
             "delete": "Pressione tecla para remover atalho"
+        }
+    },
+    "history": {
+        "error": {
+            "label": {
+                "no_history_available": "Você ainda não leu nenhuma série."
+            }
+        },
+        "title": "Histórico",
+        "settings": {
+            "hide": "Ocultar histórico"
         }
     }
 }

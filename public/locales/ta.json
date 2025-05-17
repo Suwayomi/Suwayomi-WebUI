@@ -4,13 +4,13 @@
             "download": {
                 "add": {
                     "label": {
-                        "unread": "$ t (global.filter.label.unread)",
+                        "unread": "$t(global.filter.label.unread)",
                         "action": "பதிவிறக்கம்",
-                        "ahead": "$ t (download.settings.download_ahead.title) ({{count}})",
-                        "all": "$ t (existion.language.all)",
+                        "ahead": "$t(download.settings.download_ahead.title)({{count}})",
+                        "all": "$t(extension.language.all)",
                         "error_one": "பதிவிறக்கத்தைச் சேர்க்க முடியவில்லை",
                         "error_other": "பதிவிறக்கங்களைச் சேர்க்க முடியவில்லை",
-                        "next": "$ t (reader.putton.next_chapter)",
+                        "next": "$t(reader.button.next_chapter)",
                         "next_five": "அடுத்த 5 அத்தியாயங்கள்",
                         "next_ten": "அடுத்த 10 அத்தியாயங்கள்",
                         "next_twentyfive": "அடுத்த 25 அத்தியாயங்கள்",
@@ -113,7 +113,7 @@
                 "downloaded": "பதிவிறக்கம்"
             }
         },
-        "title_one": "பாடங்கள்",
+        "title_one": "பாடம்",
         "title_other": "பாடங்கள்"
     },
     "download": {
@@ -170,7 +170,7 @@
                     "while_reading": "படிக்கும் போது தானாக பதிவிறக்கம்",
                     "disclaimer": "தற்போதைய அத்தியாயம் மற்றும் அடுத்த அத்தியாயம் ஏற்கனவே பதிவிறக்கம் செய்யப்பட்டால் மட்டுமே செயல்படும்.",
                     "unread_chapters_to_download": "பதிவிறக்கம் செய்யப்படாத அத்தியாயங்களின் எண்ணிக்கை",
-                    "value": "{{chapters}} $ t (அத்தியாயம்.டிடில்)"
+                    "value": "{{chapters}} $t(அத்தியாயம்.டிடில்)"
                 },
                 "title": "மேலே பதிவிறக்கவும்"
             },
@@ -198,7 +198,7 @@
             "label": {
                 "downloading": "பதிவிறக்குகிறது",
                 "error": "பிழை",
-                "finished": "$ t (global.label.finished)",
+                "finished": "$t(global.label.finished)",
                 "queued": "வரிசையில்"
             }
         }
@@ -1425,7 +1425,7 @@
         "dialog": {
             "title": {
                 "edit_category_one": "வகையைத் திருத்து",
-                "edit_category_other": "",
+                "edit_category_other": "வகைகளைத் திருத்து",
                 "new_category": "புதிய வகை"
             }
         },

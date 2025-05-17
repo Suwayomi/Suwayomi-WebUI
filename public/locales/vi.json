@@ -45,7 +45,7 @@
                     },
                     "label": {
                         "action": "Thêm vào mục yêu thích",
-                        "error_other": "Lỗi chương yêu thích",
+                        "error_other": "Không thể đánh dấu chương yêu thích",
                         "success_other": "Đã đánh dấu {{count}} chương"
                     }
                 },
@@ -56,7 +56,7 @@
                     "label": {
                         "action": "Hủy yêu thích",
                         "success_other": "Xóa {{count}} chương yêu thích",
-                        "error_other": "Lỗi xóa yêu thích"
+                        "error_other": "Không thể xóa chương yêu thích"
                     }
                 }
             },
@@ -354,7 +354,8 @@
                 "update_failed": "Không thể kiểm tra các bản cập nhật",
                 "failed_to_save_changes": "Không thể lưu thay đổi",
                 "invalid_file_type": "Loại tệp không hợp lệ",
-                "invalid_input": "Ô nhập không hợp lệ"
+                "invalid_input": "Ô nhập không hợp lệ",
+                "unrecoverable_error": "Có gì đó không ổn \nĐã xảy ra lỗi mà chúng tôi không thể khôi phục"
             }
         },
         "filter": {
@@ -369,8 +370,8 @@
         },
         "grid_layout": {
             "label": {
-                "compact_grid": "Lưới nhỏ gọn",
-                "comfortable_grid": "Lưới lỏng lẻo",
+                "compact_grid": "Lưới thu gọn",
+                "comfortable_grid": "Lưới đầy đủ",
                 "list": "Danh sách"
             },
             "title": "Chế độ hiển thị"
@@ -451,8 +452,8 @@
             "label": {
                 "by_fetch_date": "Theo ngày",
                 "by_source": "Theo nguồn",
-                "by_upload_date": "Bằng ngày tải lên",
-                "by_chapter_number": "Bằng số chương",
+                "by_upload_date": "Theo ngày tải lên",
+                "by_chapter_number": "Theo số chương",
                 "asc": "Tăng dần",
                 "desc": "Giảm dần"
             }
@@ -512,20 +513,20 @@
             "display": {
                 "badge": {
                     "label": {
-                        "download_badges": "Hiện số chương tải xuống",
-                        "unread_badges": "Hiện chương chưa đọc"
+                        "download_badges": "Hiện thị chương tải xuống",
+                        "unread_badges": "Hiện thị chương chưa đọc"
                     },
                     "title": "Mục"
                 },
                 "tab": {
                     "title": "Nhãn",
                     "label": {
-                        "show_number_of_items": "Hiện số truyện"
+                        "show_number_of_items": "Hiện thị số truyện"
                     }
                 },
                 "other": {
                     "label": {
-                        "show_continue_reading_button": "Hiển nút tiếp tục đọc"
+                        "show_continue_reading_button": "Hiển thị nút tiếp tục đọc"
                     }
                 }
             },
@@ -743,6 +744,14 @@
             "ongoing": "Đang tiến hành",
             "publishing_finished": "Đã hoàn thành xuất bản",
             "unknown": "$t(global.label.unknown)"
+        },
+        "type": {
+            "long_strip": "Cuộn dọc",
+            "manga": "$t(manga.title_one)",
+            "manhua": "Manhua",
+            "manhwa": "Manhwa",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)",
+            "comic": "Comic"
         }
     },
     "reader": {
@@ -847,7 +856,7 @@
                 "offset_spread_pages": "Bật/Tắt bù trừ trang đôi",
                 "reading_mode": "Thay đổi kiểu đọc",
                 "reading_direction": "Thay đổi hướng đọc",
-                "auto_scroll": "Bật/tắt tự động cuộn",
+                "auto_scroll": "Bật/Tắt tự động cuộn",
                 "auto_scroll_speed_increase": "Tăng tốc độ cuộn tự động",
                 "auto_scroll_speed_decrease": "Giảm tốc độ cuộn tự động"
             },
@@ -910,7 +919,12 @@
                 }
             },
             "source_series": "Loạt cài đặt",
-            "scroll_amount": "Số lượng cuộn"
+            "scroll_amount": "Số lượng cuộn",
+            "infinite_scroll": {
+                "description": "Giữ các chương trước và chương tiếp theo hiển thị khi đọc ở chế độ đọc liên tục, cho phép cuộn liền mạch giữa các chương.",
+                "title": "Hiển thị chương liên tục"
+            },
+            "show_transition_page": "Hiển thị trang chuyển tiếp"
         },
         "title": "Đọc - Truyện {{mangaId}} Chương {{chapterIndex}}",
         "transition_page": {

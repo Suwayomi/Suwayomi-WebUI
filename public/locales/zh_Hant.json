@@ -14,7 +14,8 @@
                 "limit_reader_width": "限制閱讀器寬度",
                 "page_gap": "頁間距",
                 "reading_direction": "閱讀順序",
-                "reading_mode": "閱讀模式"
+                "reading_mode": "閱讀模式",
+                "offset_double_spread": "調整跨頁偏移"
             },
             "reader_type": {
                 "label": {
@@ -49,7 +50,8 @@
                         "multiply": "相乘",
                         "darken": "變暗",
                         "default": "$t(global.label.default)"
-                    }
+                    },
+                    "alpha": "透明通道"
                 },
                 "grayscale": "灰階",
                 "invert": "反轉",
@@ -73,7 +75,8 @@
                 "auto_scroll": "開關自動捲動",
                 "scroll_backward": "向後捲動",
                 "scroll_forward": "向前捲動",
-                "stretch_image": "開關拉伸圖片"
+                "stretch_image": "開關拉伸圖片",
+                "offset_spread_pages": "調整跨頁偏移"
             },
             "reading_direction": {
                 "rtl": "由右至左",
@@ -134,7 +137,13 @@
                 "title": "自動條漫模式",
                 "description": "對於檢測為可能是長條格式的作品，自動使用條慢模式"
             },
-            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)"
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)",
+            "scroll_amount": "捲動量",
+            "show_transition_page": "顯示過度頁面",
+            "infinite_scroll": {
+                "title": "連續章節顯示",
+                "description": "在連續閱讀模式下，保持前一章節和後一章節可見，實現章節間無縫滾動。"
+            }
         },
         "title": "瀏覽 - 漫畫 {{mangaId}} 章節 {{chapterIndex}}",
         "error": {
@@ -384,6 +393,9 @@
                         }
                     }
                 }
+            },
+            "dialog": {
+                "title": "語言擴展設置"
             }
         }
     },
@@ -532,7 +544,8 @@
                 "update_failed": "無法檢查更新",
                 "failed_to_save_changes": "儲存變更失敗",
                 "failed_to_load_data": "無法載入資料",
-                "invalid_input": "無效的輸入"
+                "invalid_input": "無效的輸入",
+                "unrecoverable_error": "發生錯誤\n發生了一個無法恢復的錯誤"
             }
         },
         "grid_layout": {
@@ -695,7 +708,7 @@
                 "remove_from_library": {
                     "remove_from_categories": {
                         "label": {
-                            "description": "當從書櫃中刪除漫畫時也一併將其從分類中移除",
+                            "description": "當你在庫中移除漫畫時也壹並將其從對應分類中移除",
                             "title": "忘記漫畫分類偏好"
                         }
                     }
@@ -839,6 +852,14 @@
             "ongoing": "連載中",
             "publishing_finished": "已出版完畢",
             "unknown": "$t(global.label.unknown)"
+        },
+        "type": {
+            "comic": "美漫",
+            "long_strip": "條漫",
+            "manga": "$t(manga.title_one)",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)",
+            "manhua": "國漫",
+            "manhwa": "韓漫"
         }
     },
     "search": {
