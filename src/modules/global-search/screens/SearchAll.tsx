@@ -31,9 +31,10 @@ import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
-import { SourceDisplayNameInfo, SourceIdInfo } from '@/modules/source/Source.types.ts';
+import { SourceDisplayNameInfo, SourceIdInfo, SourceMetaInfo } from '@/modules/source/Source.types.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
+import { getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -42,10 +43,13 @@ const compareSourceByName = (sourceA: SourceDisplayNameInfo, sourceB: SourceDisp
     sourceA.displayName.localeCompare(sourceB.displayName);
 
 const compareSourcesBySearchResult = (
-    sourceA: SourceIdInfo,
-    sourceB: SourceIdInfo,
+    sourceA: SourceIdInfo & SourceMetaInfo,
+    sourceB: SourceIdInfo & SourceMetaInfo,
     sourceToFetchedStateMap: SourceToLoadingStateMap,
 ): -1 | 0 | 1 => {
+    const isSourceAPinned = getSourceMetadata(sourceA).isPinned;
+    const isSourceBPinned = getSourceMetadata(sourceB).isPinned;
+
     const sourceAState = sourceToFetchedStateMap.get(sourceA.id);
     const sourceBState = sourceToFetchedStateMap.get(sourceB.id);
 
@@ -75,6 +79,13 @@ const compareSourcesBySearchResult = (
         return -1;
     }
     if (hasSourceAError && !hasSourceBError) {
+        return 1;
+    }
+
+    if (isSourceAPinned && !isSourceBPinned) {
+        return -1;
+    }
+    if (!isSourceAPinned && isSourceBPinned) {
         return 1;
     }
 
