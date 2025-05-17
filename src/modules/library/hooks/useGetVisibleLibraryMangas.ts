@@ -211,6 +211,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
 ): {
     visibleMangas: Manga[];
     showFilteredOutMessage: boolean;
+    filterKey: string;
 } => {
     const [query] = useQueryParam('query', StringParam);
     const options = useGetCategoryMetadata(category ?? DEFAULT_CATEGORY);
@@ -265,5 +266,6 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     return {
         visibleMangas: sortedMangas,
         showFilteredOutMessage,
+        filterKey: `${JSON.stringify(options)}${settings.ignoreFilters}`,
     };
 };

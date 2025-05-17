@@ -168,6 +168,8 @@ const SourceSearchPreview = React.memo(
                     />
                 ) : (
                     <BaseMangaGrid
+                        // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
+                        key={searchString}
                         gridWrapperProps={{ sx: { px: 0 } }}
                         mangas={mangas}
                         isLoading={isLoading}

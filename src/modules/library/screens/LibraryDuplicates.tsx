@@ -171,6 +171,8 @@ export const LibraryDuplicates = () => {
                 </Typography>
             </StyledGroupHeader>
             <BaseMangaGrid
+                // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
+                key={checkAlternativeTitles.toString()}
                 mangas={mangasByTitle[title] as IMangaGridProps['mangas']}
                 hasNextPage={false}
                 loadMore={() => {}}

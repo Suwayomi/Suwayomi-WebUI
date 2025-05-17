@@ -94,7 +94,11 @@ export function Library() {
         refetch: refetchCategoryMangas,
     } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, notifyOnNetworkStatusChange: true });
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? [];
-    const { visibleMangas: mangas, showFilteredOutMessage } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
+    const {
+        visibleMangas: mangas,
+        showFilteredOutMessage,
+        filterKey,
+    } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
 
     const retryFetchCategoryMangas = useCallback(
         () => refetchCategoryMangas().catch(defaultPromiseErrorHandler('Library::refetchCategoryMangas')),
@@ -230,6 +234,8 @@ export function Library() {
         return (
             <>
                 <LibraryMangaGrid
+                    // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
+                    key={filterKey}
                     mangas={mangas}
                     message={mangaError ? t('manga.error.label.request_failure') : t('library.error.label.empty')}
                     messageExtra={mangaError?.message}
@@ -266,6 +272,8 @@ export function Library() {
                 <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>
                     {tab === activeTab && (
                         <LibraryMangaGrid
+                            // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
+                            key={filterKey}
                             mangas={mangas}
                             message={
                                 mangaError ? t('manga.error.label.request_failure') : t('library.error.label.empty')

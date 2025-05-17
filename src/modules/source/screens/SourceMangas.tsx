@@ -277,6 +277,8 @@ export function SourceMangas() {
         setLocationContentType(newContentType);
     };
 
+    const gridKey = `${contentType}${JSON.stringify(filtersToApply)}${query}`;
+
     const [
         loadPage,
         { data, error, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage },
@@ -453,7 +455,8 @@ export function SourceMangas() {
 
             {(isLoading || !error || (!!error && !!mangas.length)) && (
                 <BaseMangaGrid
-                    key={contentType}
+                    // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
+                    key={gridKey}
                     gridWrapperProps={{ sx: { px: 1, pb: 1 } }}
                     mangas={mangas}
                     hasNextPage={hasNextPage}
