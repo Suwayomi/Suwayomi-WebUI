@@ -96,6 +96,7 @@ export const APP_METADATA_KEY_TO_TYPE = {
     shouldUsePureBlackMode: 'boolean',
     mangaGridItemWidth: 'number',
     isPinned: 'boolean',
+    lastUsedSourceId: 'string',
 } as const satisfies Record<AppMetadataKeys, 'auto' | 'string' | 'number' | 'boolean'>;
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_KEY_TO_TYPE);
@@ -147,6 +148,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'hideLibraryEntries',
     'extensionLanguages',
     'showNsfw',
+    'lastUsedSourceId',
 
     // history
     'hideHistory',

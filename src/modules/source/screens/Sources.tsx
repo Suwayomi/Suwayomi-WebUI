@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
+import { DefaultLanguage, getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
 import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
@@ -33,7 +33,7 @@ export function Sources() {
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', getDefaultLanguages());
     const {
-        settings: { showNsfw },
+        settings: { showNsfw, lastUsedSourceId },
     } = useMetadataServerSettings();
 
     const {
@@ -47,10 +47,19 @@ export function Sources() {
         () => SourceService.filter(sources ?? [], { showNsfw, languages: shownLangs, keepLocalSource: true }),
         [sources, shownLangs],
     );
-    const sourcesByLanguageTuple = useMemo(
-        () => Object.entries(SourceService.groupByLanguage(filteredSources)),
-        [filteredSources],
-    );
+    const sourcesByLanguage = useMemo(() => {
+        const lastUsedSource = SourceService.getLastUsedSource(lastUsedSourceId, filteredSources);
+        const groupedByLanguageTuple = Object.entries(SourceService.groupByLanguage(filteredSources));
+
+        if (lastUsedSource) {
+            return [
+                [DefaultLanguage.LAST_USED_SOURCE, [lastUsedSource]],
+                ...groupedByLanguageTuple,
+            ] satisfies typeof groupedByLanguageTuple;
+        }
+
+        return groupedByLanguageTuple;
+    }, [filteredSources]);
 
     const sourceLanguages = useMemo(() => SourceService.getLanguages(sources ?? []), [sources]);
     const areSourcesFromDifferentRepos = useMemo(
@@ -94,10 +103,10 @@ export function Sources() {
 
     return (
         <>
-            {sourcesByLanguageTuple.map(([languages, sourcesOfLanguage]) => (
-                <Fragment key={languages}>
+            {sourcesByLanguage.map(([language, sourcesOfLanguage]) => (
+                <Fragment key={language}>
                     <Typography
-                        key={languages}
+                        key={language}
                         variant="h5"
                         component="h2"
                         sx={{
@@ -107,7 +116,7 @@ export function Sources() {
                             fontWeight: 'bold',
                         }}
                     >
-                        {translateExtensionLanguage(languages)}
+                        {translateExtensionLanguage(language)}
                     </Typography>
                     {sourcesOfLanguage.map((source) => (
                         <SourceCard key={source.id} source={source} showSourceRepo={areSourcesFromDifferentRepos} />

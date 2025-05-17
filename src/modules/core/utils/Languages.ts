@@ -15,6 +15,7 @@ export enum DefaultLanguage {
     OTHER = 'other',
     LOCAL_SOURCE = 'localsourcelang',
     PINNED = 'pinned',
+    LAST_USED_SOURCE = 'last_used_source',
 }
 
 const DEFAULT_LANGUAGE_TO_TRANSLATION: Record<DefaultLanguage, TranslationKey> = {
@@ -22,6 +23,7 @@ const DEFAULT_LANGUAGE_TO_TRANSLATION: Record<DefaultLanguage, TranslationKey> =
     [DefaultLanguage.OTHER]: 'extension.language.other',
     [DefaultLanguage.LOCAL_SOURCE]: 'extension.language.other',
     [DefaultLanguage.PINNED]: 'global.label.pinned',
+    [DefaultLanguage.LAST_USED_SOURCE]: 'global.label.last_used',
 };
 
 type LanguageObject = ISOLanguage & { orgCode: string; isoCode: string };

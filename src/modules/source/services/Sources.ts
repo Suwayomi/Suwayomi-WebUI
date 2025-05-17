@@ -109,4 +109,11 @@ export class Sources {
 
         return sources.some((source) => source.extension.repo !== repo && !Sources.isLocalSource(source));
     }
+
+    static getLastUsedSource<Source extends SourceIdInfo & SourceMetaInfo>(
+        lastUsedSourceId: SourceIdInfo['id'] | null,
+        sources: Source[],
+    ): Source | undefined {
+        return sources.find((source) => source.id === lastUsedSourceId);
+    }
 }

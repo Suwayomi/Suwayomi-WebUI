@@ -49,9 +49,13 @@ export const isExtensionState = (value: string): boolean =>
 
 export const isExtensionStateOrLanguage = (languageCode: string): boolean =>
     isExtensionState(languageCode) ||
-    [DefaultLanguage.ALL, DefaultLanguage.OTHER, DefaultLanguage.LOCAL_SOURCE, DefaultLanguage.PINNED].includes(
-        languageCode as DefaultLanguage,
-    );
+    [
+        DefaultLanguage.ALL,
+        DefaultLanguage.OTHER,
+        DefaultLanguage.LOCAL_SOURCE,
+        DefaultLanguage.PINNED,
+        DefaultLanguage.LAST_USED_SOURCE,
+    ].includes(languageCode as DefaultLanguage);
 
 export const translateExtensionLanguage = (languageCode: string): string =>
     isExtensionStateOrLanguage(languageCode)

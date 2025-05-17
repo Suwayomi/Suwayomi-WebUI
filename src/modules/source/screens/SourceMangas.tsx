@@ -35,7 +35,10 @@ import {
     GetSourceMangasFetchMutation,
     GetSourceMangasFetchMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
-import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import {
+    updateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { getGridSnapshotKey } from '@/modules/manga/components/MangaGrid.tsx';
@@ -381,6 +384,12 @@ export function SourceMangas() {
         setDialogFiltersToApply([]);
         setFiltersToApply([]);
     };
+
+    useEffect(() => {
+        updateMetadataServerSettings('lastUsedSourceId', sourceId).catch(
+            defaultPromiseErrorHandler('SourceMangas::setLastUsedSourceId'),
+        );
+    }, [sourceId]);
 
     useEffect(() => {
         if (filteredOutAllItemsOfFetchedPage && hasNextPage && !loading) {

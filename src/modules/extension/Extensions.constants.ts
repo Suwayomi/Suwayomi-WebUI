@@ -54,4 +54,5 @@ export const extensionLanguageToTranslationKey: { [state in ExtensionGroupState 
     [DefaultLanguage.OTHER]: 'extension.language.other',
     [DefaultLanguage.LOCAL_SOURCE]: 'extension.language.other',
     [DefaultLanguage.PINNED]: 'global.label.pinned',
+    [DefaultLanguage.LAST_USED_SOURCE]: 'global.label.last_used',
 };
