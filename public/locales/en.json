@@ -1045,6 +1045,9 @@
         "source_search_failed": "Could not search source"
       }
     },
+    "filter": {
+      "has_results": "Has results"
+    },
     "title": {
       "global_search": "Global Search",
       "search": "Search"

@@ -14,8 +14,14 @@ import { Link, useLocation } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
+import PushPinIcon from '@mui/icons-material/PushPin';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import { useElementSize } from '@mantine/hooks';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
@@ -32,9 +38,13 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
 import { SourceDisplayNameInfo, SourceIdInfo, SourceMetaInfo } from '@/modules/source/Source.types.ts';
-import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -200,31 +210,56 @@ const SourceSearchPreview = React.memo(
 
 export const SearchAll: React.FC = () => {
     const { t } = useTranslation();
-
     const { pathname, state } = useLocation<{ mangaTitle?: string }>();
+    const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
+
     const isMigrateMode = pathname.startsWith('/migrate/source');
 
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', getDefaultLanguages());
+    const [shouldShowOnlyPinnedSources, setShouldShowOnlyPinnedSources] = useSessionStorage(
+        'SearchAll::shouldShowOnlyPinnedSources',
+        true,
+    );
     const {
-        settings: { showNsfw },
+        settings: { showNsfw, shouldShowOnlySourcesWithResults },
     } = useMetadataServerSettings();
 
     const { data, loading, error, refetch } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
     const sources = useMemo(() => data?.sources.nodes ?? [], [data?.sources.nodes]);
-    const filteredSources = useMemo(
-        () => Sources.filter(sources, { showNsfw, languages: shownLangs, keepLocalSource: true }),
-        [sources, shownLangs],
-    );
-    const sourcesSortedByName = useMemo(() => [...filteredSources].toSorted(compareSourceByName), [filteredSources]);
 
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 
     const sourceLanguages = useMemo(() => Sources.getLanguages(sources), [sources]);
 
+    const filteredSources = useMemo(
+        () =>
+            Sources.filter(sources, {
+                showNsfw,
+                languages: shownLangs,
+                keepLocalSource: true,
+                pinned: shouldShowOnlyPinnedSources,
+            }),
+        [sources, shownLangs, shouldShowOnlyPinnedSources],
+    );
+    const filteredSourcesByHasResult = useMemo(() => {
+        if (!shouldShowOnlySourcesWithResults) {
+            return filteredSources;
+        }
+
+        return filteredSources.filter((source) => {
+            const sourceState = debouncedSourceToLoadingStateMap.get(source.id);
+
+            return !sourceState || sourceState?.isLoading || (sourceState?.hasResults && !sourceState?.error);
+        });
+    }, [filteredSources, shouldShowOnlySourcesWithResults, debouncedSourceToLoadingStateMap]);
+    const sourcesSortedByName = useMemo(
+        () => [...filteredSourcesByHasResult].toSorted(compareSourceByName),
+        [filteredSourcesByHasResult],
+    );
     const sourcesSortedByResult = useMemo(
         () =>
             [...sourcesSortedByName].sort((sourceA, sourceB) =>
@@ -242,6 +277,10 @@ export const SearchAll: React.FC = () => {
             });
         },
         [setSourceToLoadingStateMap],
+    );
+
+    const updateMetadataSettings = createUpdateMetadataServerSettings<'shouldShowOnlySourcesWithResults'>((e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
 
     useAppTitleAndAction(
@@ -272,18 +311,59 @@ export const SearchAll: React.FC = () => {
     }
 
     return (
-        <Box sx={{ p: 1 }}>
-            {sourcesSortedByResult.map((source, index) => (
-                <Box key={source.id} sx={{ pb: index + 1 !== sourcesSortedByResult.length ? 2 : 0 }}>
-                    <SourceSearchPreview
-                        source={source}
-                        onSearchRequestFinished={updateSourceLoadingState}
-                        searchString={searchString}
-                        emptyQuery={!query}
-                        mode={isMigrateMode ? 'migrate.select' : 'source'}
-                    />
-                </Box>
-            ))}
+        <Box sx={{ position: 'relative', px: 1, pb: 1 }}>
+            <Stack
+                ref={filterHeaderRef}
+                sx={{
+                    width: '100%',
+                    position: 'fixed',
+                    zIndex: 1,
+                    flexDirection: 'row',
+                    gap: 2,
+                    pt: 1,
+                    pb: 2,
+                    background: (theme) => theme.palette.background.default,
+                }}
+            >
+                <Stack sx={{ flexDirection: 'row', gap: 1 }}>
+                    <Button
+                        startIcon={<PushPinIcon />}
+                        variant={shouldShowOnlyPinnedSources ? 'contained' : 'outlined'}
+                        onClick={() => setShouldShowOnlyPinnedSources(true)}
+                    >
+                        {t('global.label.pinned')}
+                    </Button>
+                    <Button
+                        startIcon={<DoneAllIcon />}
+                        variant={!shouldShowOnlyPinnedSources ? 'contained' : 'outlined'}
+                        onClick={() => setShouldShowOnlyPinnedSources(false)}
+                    >
+                        {t('extension.language.all')}
+                    </Button>
+                </Stack>
+                <Button
+                    startIcon={<FilterListIcon />}
+                    variant={shouldShowOnlySourcesWithResults ? 'contained' : 'outlined'}
+                    onClick={() =>
+                        updateMetadataSettings('shouldShowOnlySourcesWithResults', !shouldShowOnlySourcesWithResults)
+                    }
+                >
+                    {t('search.filter.has_results')}
+                </Button>
+            </Stack>
+            <Box sx={{ pt: `${filterHeaderHeight}px` }}>
+                {sourcesSortedByResult.map((source, index) => (
+                    <Box key={source.id} sx={{ pb: index + 1 !== sourcesSortedByResult.length ? 2 : 0 }}>
+                        <SourceSearchPreview
+                            source={source}
+                            onSearchRequestFinished={updateSourceLoadingState}
+                            searchString={searchString}
+                            emptyQuery={!query}
+                            mode={isMigrateMode ? 'migrate.select' : 'source'}
+                        />
+                    </Box>
+                ))}
+            </Box>
         </Box>
     );
 };

@@ -13,4 +13,5 @@ export type MetadataBrowseSettings = {
     extensionLanguages: string[];
     showNsfw: boolean;
     lastUsedSourceId: SourceIdInfo['id'] | null;
+    shouldShowOnlySourcesWithResults: boolean;
 };

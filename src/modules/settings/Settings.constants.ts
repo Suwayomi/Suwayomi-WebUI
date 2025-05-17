@@ -45,6 +45,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     extensionLanguages: getDefaultLanguages(),
     showNsfw: true,
     lastUsedSourceId: null,
+    shouldShowOnlySourcesWithResults: true,
 
     // history
     hideHistory: false,
