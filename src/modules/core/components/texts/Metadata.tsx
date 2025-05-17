@@ -8,6 +8,7 @@
 
 import Stack, { StackProps } from '@mui/material/Stack';
 import Typography, { TypographyProps } from '@mui/material/Typography';
+import { ReactNode } from 'react';
 
 export const Metadata = ({
     title,
@@ -17,7 +18,7 @@ export const Metadata = ({
     valueProps,
 }: {
     title: string;
-    value: string;
+    value: ReactNode;
     stackProps?: StackProps;
     titleProps?: TypographyProps;
     valueProps?: TypographyProps;

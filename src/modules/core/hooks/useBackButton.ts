@@ -29,6 +29,6 @@ export const useBackButton = () => {
             return;
         }
 
-        navigate(AppRoutes.library.path);
+        navigate(AppRoutes.library.path());
     }, [history, location.pathname]);
 };

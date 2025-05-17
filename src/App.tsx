@@ -129,7 +129,7 @@ const MainApp = () => {
             <ErrorBoundary>
                 <Routes>
                     {/* General Routes */}
-                    <Route path={AppRoutes.root.match} element={<Navigate to={AppRoutes.library.path} replace />} />
+                    <Route path={AppRoutes.root.match} element={<Navigate to={AppRoutes.library.path()} replace />} />
                     <Route path={AppRoutes.matchAll.match} element={<Navigate to={AppRoutes.root.path} replace />} />
                     {isMobileWidth && <Route path={AppRoutes.more.match} element={<More />} />}
                     <Route path={AppRoutes.about.match} element={<About />} />
