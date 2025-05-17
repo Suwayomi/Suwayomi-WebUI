@@ -22,6 +22,7 @@ import {
 
 const DEFAULT_SOURCE_METADATA: ISourceMetadata = {
     savedSearches: undefined,
+    isPinned: false,
 };
 
 const convertAppMetadataToGqlMetadata = (

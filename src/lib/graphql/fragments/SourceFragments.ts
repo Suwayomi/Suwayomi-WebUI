@@ -38,6 +38,7 @@ export const SOURCE_MIGRATABLE_FIELDS = gql`
 
 export const SOURCE_LIST_FIELDS = gql`
     ${SOURCE_BASE_FIELDS}
+    ${SOURCE_META_FIELDS}
 
     fragment SOURCE_LIST_FIELDS on SourceType {
         ...SOURCE_BASE_FIELDS
@@ -47,6 +48,10 @@ export const SOURCE_LIST_FIELDS = gql`
         isNsfw
         isConfigurable
         supportsLatest
+
+        meta {
+            ...SOURCE_META_FIELDS
+        }
 
         extension {
             pkgName

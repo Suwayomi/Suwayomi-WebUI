@@ -49,7 +49,7 @@ export const isExtensionState = (value: string): boolean =>
 
 export const isExtensionStateOrLanguage = (languageCode: string): boolean =>
     isExtensionState(languageCode) ||
-    [DefaultLanguage.ALL, DefaultLanguage.OTHER, DefaultLanguage.LOCAL_SOURCE].includes(
+    [DefaultLanguage.ALL, DefaultLanguage.OTHER, DefaultLanguage.LOCAL_SOURCE, DefaultLanguage.PINNED].includes(
         languageCode as DefaultLanguage,
     );
 

@@ -11,6 +11,7 @@ import {
     SourceIdInfo,
     SourceLanguageInfo,
     SourceNsfwInfo,
+    SourceMetaInfo,
     SourceRepoInfo,
 } from '@/modules/source/Source.types.ts';
 import {
@@ -20,6 +21,7 @@ import {
     toComparableLanguages,
     toUniqueLanguageCodes,
 } from '@/modules/core/utils/Languages.ts';
+import { getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';
@@ -40,13 +42,30 @@ export class Sources {
         return [...new Set(sources.map(Sources.getLanguage))];
     }
 
-    static groupByLanguage<Source extends SourceIdInfo & SourceLanguageInfo & SourceDisplayNameInfo>(
+    static groupByLanguage<Source extends SourceIdInfo & SourceLanguageInfo & SourceDisplayNameInfo & SourceMetaInfo>(
         sources: Source[],
     ): Record<string, Source[]> {
-        const sourcesByLanguage = Object.groupBy(sources, Sources.getLanguage);
-        const sourcesBySortedLanguage = Object.entries(sourcesByLanguage).toSorted(([a], [b]) =>
-            languageSpecialSortComparator(a, b),
-        );
+        const sourcesByLanguage = Object.groupBy(sources, (source) => {
+            if (getSourceMetadata(source).isPinned) {
+                return DefaultLanguage.PINNED;
+            }
+
+            return Sources.getLanguage(source);
+        });
+        const sourcesBySortedLanguage = Object.entries(sourcesByLanguage).toSorted(([a], [b]) => {
+            const isAPinned = a === DefaultLanguage.PINNED;
+            const isBPinned = b === DefaultLanguage.PINNED;
+
+            if (isAPinned) {
+                return -1;
+            }
+
+            if (isBPinned) {
+                return 1;
+            }
+
+            return languageSpecialSortComparator(a, b);
+        });
         const sortedSourcesBySortedLanguage = sourcesBySortedLanguage.map(([language, sourcesOfLanguage]) => [
             language,
             (sourcesOfLanguage ?? []).toSorted((a, b) => a.displayName.localeCompare(b.displayName)),

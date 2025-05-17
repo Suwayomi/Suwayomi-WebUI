@@ -445,6 +445,7 @@
       "open_in_browser": "Open in browser",
       "other": "Other",
       "password": "Password",
+      "pinned": "Pinned",
       "placeholder": "Placeholder",
       "previous": "Previous",
       "right": "Right",
@@ -1484,6 +1485,10 @@
         "guide": "Local source guide"
       },
       "title": "Local source"
+    },
+    "pin": {
+      "add": "Pin source",
+      "remove": "Unpin source"
     },
     "title_one": "Source",
     "title_other": "Sources"

@@ -93,6 +93,7 @@ const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
     themeMode: undefined,
     shouldUsePureBlackMode: undefined,
     mangaGridItemWidth: undefined,
+    isPinned: undefined,
 };
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
@@ -158,6 +159,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // sources
     'savedSearches',
+    'isPinned',
 
     // themes
     'customThemes',

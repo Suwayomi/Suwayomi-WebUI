@@ -14,12 +14,14 @@ export enum DefaultLanguage {
     ALL = 'all',
     OTHER = 'other',
     LOCAL_SOURCE = 'localsourcelang',
+    PINNED = 'pinned',
 }
 
 const DEFAULT_LANGUAGE_TO_TRANSLATION: Record<DefaultLanguage, TranslationKey> = {
     [DefaultLanguage.ALL]: 'extension.language.all',
     [DefaultLanguage.OTHER]: 'extension.language.other',
     [DefaultLanguage.LOCAL_SOURCE]: 'extension.language.other',
+    [DefaultLanguage.PINNED]: 'global.label.pinned',
 };
 
 type LanguageObject = ISOLanguage & { orgCode: string; isoCode: string };

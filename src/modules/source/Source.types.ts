@@ -10,6 +10,7 @@ import {
     ExtensionType,
     GetSourceBrowseQuery,
     GetSourceSettingsQuery,
+    SourceMetaFieldsFragment,
     SourcePreferenceChangeInput,
     SourceType,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -25,6 +26,7 @@ export type SavedSourceSearch = { query?: string; filters?: IPos[] };
 
 export interface ISourceMetadata {
     savedSearches?: Record<string, SavedSourceSearch>;
+    isPinned: boolean;
 }
 
 export type SourceFilters = GetSourceBrowseQuery['source']['filters'][number];
@@ -65,3 +67,4 @@ export type SourceLanguageInfo = Pick<SourceType, 'lang'>;
 export type SourceDisplayNameInfo = Pick<SourceType, 'displayName'>;
 export type SourceNsfwInfo = Pick<SourceType, 'isNsfw'>;
 export type SourceRepoInfo = { extension: Pick<ExtensionType, 'repo'> };
+export type SourceMetaInfo = { meta: SourceMetaFieldsFragment[] };
