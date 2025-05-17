@@ -17,7 +17,6 @@ import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { SourceContentType } from '@/modules/source/screens/SourceMangas.tsx';
 import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
-import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
@@ -32,8 +31,6 @@ interface IProps {
 
 export const SourceCard: React.FC<IProps> = (props: IProps) => {
     const { t } = useTranslation();
-
-    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     const { source, showSourceRepo } = props;
     const {
@@ -92,17 +89,6 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             state={{ contentType: SourceContentType.LATEST, clearCache: true }}
                         >
                             {t('global.button.latest')}
-                        </Button>
-                    )}
-                    {!isMobileWidth && (
-                        <Button
-                            {...MUIUtil.preventRippleProp()}
-                            variant="outlined"
-                            component={Link}
-                            to={AppRoutes.sources.childRoutes.browse.path(id)}
-                            state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
-                        >
-                            {t('global.button.popular')}
                         </Button>
                     )}
                 </ListCardContent>
