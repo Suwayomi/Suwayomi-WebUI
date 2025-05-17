@@ -26,7 +26,7 @@ type RestrictedNavBarItem<Show extends NavbarItem['show']> = Omit<NavbarItem, 's
 
 const NAVIGATION_BAR_BASE_ITEMS = [
     {
-        path: AppRoutes.library.path,
+        path: AppRoutes.library.path() as RestrictedNavBarItem<'both'>['path'],
         title: 'library.title',
         SelectedIconComponent: CollectionsBookmarkIcon,
         IconComponent: CollectionsOutlinedBookmarkIcon,

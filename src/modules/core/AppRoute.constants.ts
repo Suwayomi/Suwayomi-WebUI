@@ -128,7 +128,14 @@ export const AppRoutes = {
     },
     library: {
         match: 'library',
-        path: '/library',
+        path: (tab?: string, search?: string) => {
+            const tabParam = tab ? `tab=${tab}` : '';
+            const searchParam = search ? `query=${encodeURIComponent(search)}` : '';
+
+            const params = [tabParam, searchParam].filter(Boolean).join('&');
+
+            return `/library${params ? `?${params}` : ''}`;
+        },
     },
     updates: {
         match: 'updates',

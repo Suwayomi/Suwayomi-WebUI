@@ -42,6 +42,8 @@ export type MangaTrackRecordInfo = MangaIdInfo & {
 export type MangaGenreInfo = Pick<MangaTypeGql, 'genre'>;
 export type MangaSourceNameInfo = { source?: Maybe<Pick<SourceType, 'name'>> };
 export type MangaSourceLngInfo = { source?: Maybe<Pick<SourceType, 'lang'>> };
+export type MangaArtistInfo = Pick<MangaTypeGql, 'artist'>;
+export type MangaAuthorInfo = Pick<MangaTypeGql, 'author'>;
 
 export type MigrateMode = 'copy' | 'migrate';
 

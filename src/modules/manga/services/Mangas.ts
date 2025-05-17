@@ -27,6 +27,8 @@ import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
 import {
     MangaAction,
+    MangaArtistInfo,
+    MangaAuthorInfo,
     MangaDownloadInfo,
     MangaGenreInfo,
     MangaIdInfo,
@@ -91,6 +93,8 @@ type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_
           : DefaultActionOption;
 
 type MigrateFuncReturn = { copy: () => Promise<unknown>[]; cleanup: () => Promise<unknown>[] };
+
+const ARTIST_AUTHOR_SEPARATOR_REGEX = /\s*[,|、]\s*/;
 
 export class Mangas {
     static getIds(mangas: MangaIdInfo[]): number[] {
@@ -591,5 +595,13 @@ export class Mangas {
             Mangas.isType(manga, MangaType.MANHWA) ||
             Mangas.isType(manga, MangaType.MANHUA)
         );
+    }
+
+    static getArtists<Manga extends MangaArtistInfo>(manga: Manga): string[] | undefined {
+        return manga.artist?.split(ARTIST_AUTHOR_SEPARATOR_REGEX);
+    }
+
+    static getAuthors<Manga extends MangaAuthorInfo>(manga: Manga): string[] | undefined {
+        return manga.author?.split(ARTIST_AUTHOR_SEPARATOR_REGEX);
     }
 }

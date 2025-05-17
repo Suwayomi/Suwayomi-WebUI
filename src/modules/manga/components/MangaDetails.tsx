@@ -29,6 +29,7 @@ import { Vibrant } from 'node-vibrant/browser';
 import { FastAverageColor } from 'fast-average-color';
 import parseHtml from 'html-react-parser';
 import sanitizeHtml from 'sanitize-html';
+import { Link as RouterLink } from 'react-router-dom';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
@@ -48,6 +49,7 @@ import { TAppThemeContext, useAppThemeContext } from '@/modules/theme/contexts/A
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { CustomButtonIcon } from '@/modules/core/components/buttons/CustomButtonIcon.tsx';
 import { Sources } from '@/modules/source/services/Sources.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -161,9 +163,28 @@ function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): 
     return source.displayName ?? source.id;
 }
 
-function getValueOrUnknown(val?: string | null) {
+function getValueOrUnknown<T>(val?: T | null): T | string {
     return val ?? translate('global.label.unknown');
 }
+
+const LibrarySearchLink = ({ query }: { query: string }) => (
+    <Link
+        component={RouterLink}
+        to={AppRoutes.library.path(undefined, query)}
+        sx={{ textDecoration: 'none', color: 'inherit' }}
+    >
+        {query}
+    </Link>
+);
+
+const valuesToJoinedLibrarySearchLinks = (values: string[] | undefined) =>
+    values
+        ?.map((value) => <LibrarySearchLink query={value} />)
+        .reduce((acc, valueLink) => (
+            <>
+                {acc}, {valueLink}
+            </>
+        ));
 
 const Thumbnail = ({
     manga,
@@ -416,8 +437,14 @@ export const MangaDetails = ({
                                     </IconButton>
                                 </CustomTooltip>
                             </Stack>
-                            <Metadata title={t('manga.label.author')} value={getValueOrUnknown(manga.author)} />
-                            <Metadata title={t('manga.label.artist')} value={getValueOrUnknown(manga.artist)} />
+                            <Metadata
+                                title={t('manga.label.author')}
+                                value={getValueOrUnknown(valuesToJoinedLibrarySearchLinks(Mangas.getAuthors(manga)))}
+                            />
+                            <Metadata
+                                title={t('manga.label.author')}
+                                value={getValueOrUnknown(valuesToJoinedLibrarySearchLinks(Mangas.getArtists(manga)))}
+                            />
                             <Metadata
                                 title={t('manga.label.status')}
                                 value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])}
