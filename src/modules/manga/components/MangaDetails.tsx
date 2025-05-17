@@ -167,13 +167,13 @@ function getValueOrUnknown<T>(val?: T | null): T | string {
     return val ?? translate('global.label.unknown');
 }
 
-const LibrarySearchLink = ({ query }: { query: string }) => (
+const LibrarySearchLink = ({ query, children }: { query: string; children?: ReactNode }) => (
     <Link
         component={RouterLink}
         to={AppRoutes.library.path(undefined, query)}
         sx={{ textDecoration: 'none', color: 'inherit' }}
     >
-        {query}
+        {children ?? query}
     </Link>
 );
 
@@ -378,7 +378,9 @@ const DescriptionGenre = ({
                 }}
             >
                 {genres.map((genre) => (
-                    <Chip key={genre} label={genre} variant="outlined" />
+                    <LibrarySearchLink key={genre} query={genre}>
+                        <Chip label={genre} variant="outlined" onClick={() => {}} />
+                    </LibrarySearchLink>
                 ))}
             </Stack>
         </>
