@@ -602,8 +602,7 @@
           "by_latest_fetched_chapter": "Latest fetched chapter",
           "by_latest_uploaded_chapter": "Latest uploaded chapter",
           "by_total_chapters": "Total chapters",
-          "by_unread_chapters": "Unread chapters",
-          "by_artist_or_author": "By artist/author"
+          "by_unread_chapters": "Unread chapters"
         }
       }
     },

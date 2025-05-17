@@ -416,8 +416,7 @@
                 "by_upload_date": "Por data do envio",
                 "by_chapter_number": "Pelo número do capítulo",
                 "asc": "Ascendente",
-                "desc": "Descendente",
-                "by_artist_or_author": "Por artista/autor"
+                "desc": "Descendente"
             }
         },
         "time": {
@@ -1140,8 +1139,7 @@
                     "by_unread_chapters": "Capítulos não lidos",
                     "by_latest_uploaded_chapter": "Último capítulo carregado",
                     "by_date_added": "Adicionados recentemente",
-                    "by_total_chapters": "Capítulos totais",
-                    "by_artist_or_author": "Por artista/autor"
+                    "by_total_chapters": "Capítulos totais"
                 }
             }
         },

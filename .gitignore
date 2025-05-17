@@ -9,4 +9,3 @@ build/*
 tools/scripts/tokens.json
 
 src/lib/graphql/schema.json
-pnpm-lock.yaml

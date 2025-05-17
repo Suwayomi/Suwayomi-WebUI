@@ -10,8 +10,7 @@
                     "by_date_added": "Par date d'ajout",
                     "by_latest_uploaded_chapter": "Dernier chapitre mis en ligne",
                     "by_latest_fetched_chapter": "Dernier chapitre récupéré",
-                    "by_total_chapters": "Nombre total de chapitres",
-                    "by_artist_or_author": "Par artiste/auteur"
+                    "by_total_chapters": "Nombre total de chapitres"
                 }
             },
             "display": {

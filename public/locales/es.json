@@ -434,8 +434,7 @@
                     "by_date_added": "Añadido recientemente",
                     "by_latest_fetched_chapter": "Capítulo más reciente",
                     "by_latest_uploaded_chapter": "Último capítulo subido",
-                    "by_total_chapters": "Capítulos totales",
-                    "by_artist_or_author": "Por artista/autor"
+                    "by_total_chapters": "Capítulos totales"
                 }
             },
             "display": {

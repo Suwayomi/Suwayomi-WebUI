@@ -486,8 +486,7 @@
                     "by_unread_chapters": "Непрочитані глави",
                     "by_last_read": "Нещодавно прочитане",
                     "by_latest_uploaded_chapter": "Остання завантажена глава",
-                    "by_latest_fetched_chapter": "Остання завантажена глава",
-                    "by_artist_or_author": "За художником/автором"
+                    "by_latest_fetched_chapter": "Остання завантажена глава"
                 }
             }
         },
