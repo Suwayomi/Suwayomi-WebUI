@@ -744,6 +744,14 @@
             "ongoing": "连载中",
             "publishing_finished": "已出版完毕",
             "cancelled": "中止连载"
+        },
+        "type": {
+            "manga": "$t(manga.title_one)",
+            "comic": "美漫",
+            "manhua": "漫画",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)",
+            "manhwa": "韩漫",
+            "long_strip": "条漫"
         }
     },
     "reader": {
@@ -903,7 +911,12 @@
                     "missing_chapter": "在章节切换时提示缺失章节信息"
                 }
             },
-            "scroll_amount": "滚动步长"
+            "scroll_amount": "滚动步长",
+            "infinite_scroll": {
+                "description": "在连续阅读模式下，保持前一章节和后一章节可见，实现章节间无缝滚动。",
+                "title": "连续章节显示"
+            },
+            "show_transition_page": "显示章节过渡页"
         },
         "title": "浏览 - 漫画 {{mangaId}} 章节 {{chapterIndex}}",
         "error": {
@@ -1437,7 +1450,7 @@
             "label": {
                 "update_progress_reading_description": "在同时将多部漫画标记为已读时不会生效",
                 "update_progress_manual": "手动标记为已读后的更新进度",
-                "update_progress_reading": "阅读后的更新进度"
+                "update_progress_reading": "在阅读后更新进度"
             }
         },
         "action": {
