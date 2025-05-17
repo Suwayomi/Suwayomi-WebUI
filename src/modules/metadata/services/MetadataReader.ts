@@ -37,7 +37,7 @@ const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends Allowed
         return defaultValue;
     }
 
-    return convertValueFromMetadata(metadata[getMetadataKey(key, prefixes)]);
+    return convertValueFromMetadata(key, metadata[getMetadataKey(key, prefixes)]);
 };
 
 export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(

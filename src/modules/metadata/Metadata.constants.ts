@@ -12,91 +12,93 @@ import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettin
 
 export const APP_METADATA_KEY_PREFIX = 'webUI';
 
-const APP_METADATA_OBJECT: Record<AppMetadataKeys, undefined> = {
-    migration: undefined,
-    deleteChaptersManuallyMarkedRead: undefined,
-    deleteChaptersWhileReading: undefined,
-    deleteChaptersWithBookmark: undefined,
-    downloadAheadLimit: undefined,
-    showAddToLibraryCategorySelectDialog: undefined,
-    ignoreFilters: undefined,
-    removeMangaFromCategories: undefined,
-    showTabSize: undefined,
-    devices: undefined,
-    migrateChapters: undefined,
-    migrateCategories: undefined,
-    migrateTracking: undefined,
-    deleteChapters: undefined,
-    migrateSortSettings: undefined,
-    hideLibraryEntries: undefined,
-    updateProgressAfterReading: undefined,
-    updateProgressManualMarkRead: undefined,
-    webUIInformAvailableUpdate: undefined,
-    serverInformAvailableUpdate: undefined,
-    readerWidth: undefined,
-    savedSearches: undefined,
-    showContinueReadingButton: undefined,
-    showDownloadBadge: undefined,
-    showUnreadBadge: undefined,
-    gridLayout: undefined,
-    sortBy: undefined,
-    sortDesc: undefined,
-    hasDownloadedChapters: undefined,
-    hasBookmarkedChapters: undefined,
-    hasUnreadChapters: undefined,
-    hasReadChapters: undefined,
-    hasDuplicateChapters: undefined,
-    hasTrackerBinding: undefined,
-    hasStatus: undefined,
-    customThemes: undefined,
-    mangaThumbnailBackdrop: undefined,
-    mangaDynamicColorSchemes: undefined,
-    tapZoneLayout: undefined,
-    tapZoneInvertMode: undefined,
-    readingDirection: undefined,
-    progressBarType: undefined,
-    progressBarSize: undefined,
-    progressBarPosition: undefined,
-    progressBarPositionAutoVertical: undefined,
-    readingMode: undefined,
-    pageScaleMode: undefined,
-    shouldOffsetDoubleSpreads: undefined,
-    exitMode: undefined,
-    customFilter: undefined,
-    shouldSkipDupChapters: undefined,
-    isStaticNav: undefined,
-    overlayMode: undefined,
-    shouldStretchPage: undefined,
-    shouldShowPageNumber: undefined,
-    backgroundColor: undefined,
-    pageGap: undefined,
-    hotkeys: undefined,
-    imagePreLoadAmount: undefined,
-    shouldUseAutoWebtoonMode: undefined,
-    autoScroll: undefined,
-    shouldShowReadingModePreview: undefined,
-    shouldShowTapZoneLayoutPreview: undefined,
-    shouldInformAboutMissingChapter: undefined,
-    shouldInformAboutScanlatorChange: undefined,
-    hideHistory: undefined,
-    scrollAmount: undefined,
-    reverse: undefined,
-    bookmarked: undefined,
-    downloaded: undefined,
-    unread: undefined,
-    showChapterNumber: undefined,
-    extensionLanguages: undefined,
-    showNsfw: undefined,
-    shouldUseInfiniteScroll: undefined,
-    shouldShowTransitionPage: undefined,
-    appTheme: undefined,
-    themeMode: undefined,
-    shouldUsePureBlackMode: undefined,
-    mangaGridItemWidth: undefined,
-    isPinned: undefined,
-};
+// At the moment any non-primitive types need to be specified as "string" and handled in the according "MetadataService".
+// "auto" can be used to try to automatically convert the value to a specific type (string, number, boolean, undefined, null)
+export const APP_METADATA_KEY_TO_TYPE = {
+    migration: 'number',
+    deleteChaptersManuallyMarkedRead: 'boolean',
+    deleteChaptersWhileReading: 'number',
+    deleteChaptersWithBookmark: 'boolean',
+    downloadAheadLimit: 'number',
+    showAddToLibraryCategorySelectDialog: 'boolean',
+    ignoreFilters: 'boolean',
+    removeMangaFromCategories: 'boolean',
+    showTabSize: 'boolean',
+    devices: 'string', // string[]
+    migrateChapters: 'boolean',
+    migrateCategories: 'boolean',
+    migrateTracking: 'boolean',
+    deleteChapters: 'boolean',
+    migrateSortSettings: 'string', // SortSettings (object)
+    hideLibraryEntries: 'boolean',
+    updateProgressAfterReading: 'boolean',
+    updateProgressManualMarkRead: 'boolean',
+    webUIInformAvailableUpdate: 'boolean',
+    serverInformAvailableUpdate: 'boolean',
+    readerWidth: 'string', // object
+    savedSearches: 'string', // object
+    showContinueReadingButton: 'boolean',
+    showDownloadBadge: 'boolean',
+    showUnreadBadge: 'boolean',
+    gridLayout: 'number', // GridLayout (enum)
+    sortBy: 'auto', // LibrarySortMode undefined null
+    sortDesc: 'auto', // boolean undefined null
+    hasDownloadedChapters: 'auto', // boolean undefined null
+    hasBookmarkedChapters: 'auto', // boolean undefined null
+    hasUnreadChapters: 'auto', // boolean undefined null
+    hasReadChapters: 'auto', // boolean undefined null
+    hasDuplicateChapters: 'auto', // boolean undefined null
+    hasTrackerBinding: 'string', // object
+    hasStatus: 'string', // object
+    customThemes: 'string', // object
+    mangaThumbnailBackdrop: 'boolean',
+    mangaDynamicColorSchemes: 'boolean',
+    tapZoneLayout: 'number', // TapZoneLayouts (enum)
+    tapZoneInvertMode: 'string', // TapZoneInvertMode (object)
+    readingDirection: 'number', // ReadingDirection (enum)
+    progressBarType: 'number', // ProgressBarType (enum)
+    progressBarSize: 'number',
+    progressBarPosition: 'number', // ProgressBarPosition (enum)
+    progressBarPositionAutoVertical: 'number', // TProgressBarPositionAutoVertical (enum)
+    readingMode: 'number', // ReadingMode (enum)
+    pageScaleMode: 'number', // ReaderPageScaleMode (enum)
+    shouldOffsetDoubleSpreads: 'boolean',
+    exitMode: 'number', // ReaderExitMode (enum)
+    customFilter: 'string', // ReaderCustomFilter (object)
+    shouldSkipDupChapters: 'boolean',
+    isStaticNav: 'boolean',
+    overlayMode: 'number', // ReaderOverlayMode (enum)
+    shouldStretchPage: 'boolean',
+    shouldShowPageNumber: 'boolean',
+    backgroundColor: 'number', // ReaderBackgroundColor (enum)
+    pageGap: 'number',
+    hotkeys: 'string', // object
+    imagePreLoadAmount: 'number',
+    shouldUseAutoWebtoonMode: 'boolean',
+    autoScroll: 'string', // object
+    shouldShowReadingModePreview: 'boolean',
+    shouldShowTapZoneLayoutPreview: 'boolean',
+    shouldInformAboutMissingChapter: 'boolean',
+    shouldInformAboutScanlatorChange: 'boolean',
+    hideHistory: 'boolean',
+    scrollAmount: 'number', // ReaderScrollAmount (enum)
+    reverse: 'boolean',
+    bookmarked: 'auto', // boolean undefined null
+    downloaded: 'auto', // boolean undefined null
+    unread: 'auto', // boolean undefined null
+    showChapterNumber: 'boolean',
+    extensionLanguages: 'string', // string[]
+    showNsfw: 'boolean',
+    shouldUseInfiniteScroll: 'boolean',
+    shouldShowTransitionPage: 'boolean',
+    appTheme: 'string',
+    themeMode: 'string', // ThemeMode (enum)
+    shouldUsePureBlackMode: 'boolean',
+    mangaGridItemWidth: 'number',
+    isPinned: 'boolean',
+} as const satisfies Record<AppMetadataKeys, 'auto' | 'string' | 'number' | 'boolean'>;
 
-export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_OBJECT);
+export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_KEY_TO_TYPE);
 
 export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // metadata applied migration id
