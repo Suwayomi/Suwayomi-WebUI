@@ -57,6 +57,12 @@ type ServerSettingsType = Pick<
     | 'flareSolverrSessionName'
     | 'flareSolverrSessionTtl'
     | 'flareSolverrAsResponseFallback'
+    | 'opdsItemsPerPage'
+    | 'opdsEnablePageReadProgress'
+    | 'opdsMarkAsReadOnDownload'
+    | 'opdsShowOnlyUnreadChapters'
+    | 'opdsShowOnlyDownloadedChapters'
+    | 'opdsChapterSortOrder'
 >;
 
 const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType => ({
@@ -82,6 +88,12 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     flareSolverrSessionName: settings.flareSolverrSessionName,
     flareSolverrSessionTtl: settings.flareSolverrSessionTtl,
     flareSolverrAsResponseFallback: settings.flareSolverrAsResponseFallback,
+    opdsItemsPerPage: settings.opdsItemsPerPage,
+    opdsEnablePageReadProgress: settings.opdsEnablePageReadProgress,
+    opdsMarkAsReadOnDownload: settings.opdsMarkAsReadOnDownload,
+    opdsShowOnlyUnreadChapters: settings.opdsShowOnlyUnreadChapters,
+    opdsShowOnlyDownloadedChapters: settings.opdsShowOnlyDownloadedChapters,
+    opdsChapterSortOrder: settings.opdsChapterSortOrder,
 });
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
@@ -428,6 +440,81 @@ export const ServerSettings = () => {
                     dialogDescription={t('settings.server.misc.log_files.total_size.description')}
                     validate={(value) => !!value.match(/^[0-9]+(|kb|KB|mb|MB|gb|GB)$/g)}
                     handleChange={(maxLogFolderSize) => updateSetting('maxLogFolderSize', maxLogFolderSize)}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-opds">
+                        {t('settings.server.opds.title')}
+                    </ListSubheader>
+                }
+            >
+                <NumberSetting
+                    settingTitle={t('settings.server.opds.items_per_page.label.title')}
+                    settingValue={serverSettings.opdsItemsPerPage.toString()}
+                    dialogDescription={t('settings.server.opds.items_per_page.label.description')}
+                    value={serverSettings.opdsItemsPerPage}
+                    defaultValue={50}
+                    minValue={10}
+                    maxValue={5000}
+                    stepSize={10}
+                    showSlider
+                    valueUnit={t('settings.server.opds.items_per_page.label.unit')}
+                    handleUpdate={(value) => updateSetting('opdsItemsPerPage', value)}
+                />
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.opds.enable_page_read_progress.label.title')}
+                        secondary={t('settings.server.opds.enable_page_read_progress.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.opdsEnablePageReadProgress}
+                        onChange={(e) => updateSetting('opdsEnablePageReadProgress', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.opds.mark_as_read_on_download.label.title')}
+                        secondary={t('settings.server.opds.mark_as_read_on_download.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.opdsMarkAsReadOnDownload}
+                        onChange={(e) => updateSetting('opdsMarkAsReadOnDownload', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.opds.show_only_unread_chapters.label.title')}
+                        secondary={t('settings.server.opds.show_only_unread_chapters.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.opdsShowOnlyUnreadChapters}
+                        onChange={(e) => updateSetting('opdsShowOnlyUnreadChapters', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.opds.show_only_downloaded_chapters.label.title')}
+                        secondary={t('settings.server.opds.show_only_downloaded_chapters.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.opdsShowOnlyDownloadedChapters}
+                        onChange={(e) => updateSetting('opdsShowOnlyDownloadedChapters', e.target.checked)}
+                    />
+                </ListItem>
+                <SelectSetting<string>
+                    settingName={t('settings.server.opds.chapter_sort_order.label.title')}
+                    dialogDescription={t('settings.server.opds.chapter_sort_order.label.description')}
+                    value={serverSettings.opdsChapterSortOrder}
+                    values={[
+                        ['ASC', { text: t('settings.server.opds.chapter_sort_order.option.ascending') }],
+                        ['DESC', { text: t('settings.server.opds.chapter_sort_order.option.descending') }],
+                    ]}
+                    handleChange={(value) => updateSetting('opdsChapterSortOrder', value)}
                 />
             </List>
         </List>

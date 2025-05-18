@@ -1377,6 +1377,50 @@
           }
         }
       },
+      "opds": {
+        "title": "OPDS",
+        "items_per_page": {
+          "label": {
+            "title": "Items per page",
+            "description": "Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters). \nHigher values may affect client performance.",
+            "unit": "items"
+          }
+        },
+        "enable_page_read_progress": {
+          "label": {
+            "title": "Enable page read progress",
+            "description": "Track and update your reading progress by page for each chapter during page streaming"
+          }
+        },
+        "mark_as_read_on_download": {
+          "label": {
+            "title": "Mark chapters as read on download",
+            "description": "Automatically mark chapters as read when you download them."
+          }
+        },
+        "show_only_unread_chapters": {
+          "label": {
+            "title": "Show only unread chapters",
+            "description": "Filter manga feed to display only chapters you haven’t read yet."
+          }
+        },
+        "show_only_downloaded_chapters": {
+          "label": {
+            "title": "Show only downloaded chapters",
+            "description": "Filter manga feed to display only chapters you have downloaded."
+          }
+        },
+        "chapter_sort_order": {
+          "label": {
+            "title": "Chapter sort order",
+            "description": "Choose the order in which chapters are displayed."
+          },
+          "option": {
+            "ascending": "Ascending",
+            "descending": "Descending"
+          }
+        }
+      },
       "requests": {
         "sources": {
           "parallel": {
