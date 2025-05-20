@@ -181,23 +181,27 @@ export function Library() {
                     <UpdateChecker categoryId={activeTab?.id} />
                 </>
             )}
-            <SelectableCollectionSelectMode
-                isActive={isSelectModeActive}
-                areAllItemsSelected={areAllItemsSelected}
-                areNoItemsSelected={areNoItemsSelected}
-                onSelectAll={(selectAll) => handleSelectAll(selectAll, [...new Set(mangas.map((manga) => manga.id))])}
-                onModeChange={(checked) => {
-                    setIsSelectModeActive(checked);
-
-                    if (checked) {
-                        handleSelectAll(true, [...new Set(mangas.map((manga) => manga.id))]);
-                    } else {
-                        tabs.forEach((tab) => handleSelectAll(false, [], tab.id.toString()));
+            {!!mangas.length && (
+                <SelectableCollectionSelectMode
+                    isActive={isSelectModeActive}
+                    areAllItemsSelected={areAllItemsSelected}
+                    areNoItemsSelected={areNoItemsSelected}
+                    onSelectAll={(selectAll) =>
+                        handleSelectAll(selectAll, [...new Set(mangas.map((manga) => manga.id))])
                     }
-                }}
-            />
+                    onModeChange={(checked) => {
+                        setIsSelectModeActive(checked);
+
+                        if (checked) {
+                            handleSelectAll(true, [...new Set(mangas.map((manga) => manga.id))]);
+                        } else {
+                            tabs.forEach((tab) => handleSelectAll(false, [], tab.id.toString()));
+                        }
+                    }}
+                />
+            )}
         </>,
-        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab],
+        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas.length],
     );
 
     const handleTabChange = (newTab: number) => {

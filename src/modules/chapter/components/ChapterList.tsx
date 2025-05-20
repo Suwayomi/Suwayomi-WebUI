@@ -210,11 +210,13 @@ export const ChapterList = ({
                                 unreadChapters={Chapters.getNonRead(chapters)}
                             />
                         )}
-                        <SelectableCollectionSelectAll
-                            areAllItemsSelected={areAllItemsSelected}
-                            areNoItemsSelected={areNoItemsSelected}
-                            onChange={(checked) => handleSelectAll(checked, checked ? visibleChapterIds : [])}
-                        />
+                        {!!visibleChapterIds.length && (
+                            <SelectableCollectionSelectAll
+                                areAllItemsSelected={areAllItemsSelected}
+                                areNoItemsSelected={areNoItemsSelected}
+                                onChange={(checked) => handleSelectAll(checked, checked ? visibleChapterIds : [])}
+                            />
+                        )}
                     </Stack>
                 </ChapterListHeader>
 
