@@ -170,18 +170,19 @@ export function Library() {
     }, [isSelectModeActive, selectedMangas]);
 
     const triggerGlobalSearchButton = useMemo(
-        () => (
-            <Box sx={{ p: 2 }}>
-                <Button
-                    size="large"
-                    component={Link}
-                    to={AppRoutes.sources.childRoutes.searchAll.path(query)}
-                    sx={{ textTransform: 'none', width: '100%' }}
-                >
-                    {t('library.action.label.search_globally', { query })}
-                </Button>
-            </Box>
-        ),
+        () =>
+            !!query && (
+                <Box sx={{ p: 2 }}>
+                    <Button
+                        size="large"
+                        component={Link}
+                        to={AppRoutes.sources.childRoutes.searchAll.path(query)}
+                        sx={{ textTransform: 'none', width: '100%' }}
+                    >
+                        {t('library.action.label.search_globally', { query })}
+                    </Button>
+                </Box>
+            ),
         [query],
     );
 
