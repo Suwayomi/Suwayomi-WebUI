@@ -555,6 +555,7 @@
   "library": {
     "action": {
       "label": {
+        "search_globally": "Search for \"{{query}}\" globally",
         "stop_update": "Stop global update",
         "update_category": "Update category",
         "update_library": "Update library"

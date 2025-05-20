@@ -10,8 +10,11 @@ import Chip, { ChipProps } from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled } from '@mui/material/styles';
 import { useCallback, useMemo, useState } from 'react';
-import { useQueryParam, NumberParam } from 'use-query-params';
+import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
+import Button from '@mui/material/Button';
+import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
@@ -43,6 +46,7 @@ import { useMetadataServerSettings } from '@/modules/settings/services/ServerSet
 import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/queries/MangaQuery.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -84,6 +88,7 @@ export function Library() {
     const librarySize = librarySizeResponse.data?.mangas.totalCount ?? 0;
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
+    const [query] = useQueryParam('query', StringParam);
 
     const activeTab: (typeof tabs)[number] | undefined = tabs.find((tab) => tab.id === tabSearchParam) ?? tabs[0];
 
@@ -164,6 +169,22 @@ export function Library() {
         );
     }, [isSelectModeActive, selectedMangas]);
 
+    const triggerGlobalSearchButton = useMemo(
+        () => (
+            <Box sx={{ p: 2 }}>
+                <Button
+                    size="large"
+                    component={Link}
+                    to={AppRoutes.sources.childRoutes.searchAll.path(query)}
+                    sx={{ textTransform: 'none', width: '100%' }}
+                >
+                    {t('library.action.label.search_globally', { query })}
+                </Button>
+            </Box>
+        ),
+        [query],
+    );
+
     useAppTitle(
         <TitleWithSizeTag>
             {t('library.title')}
@@ -237,6 +258,7 @@ export function Library() {
     if (tabs.length === 1) {
         return (
             <>
+                {triggerGlobalSearchButton}
                 <LibraryMangaGrid
                     // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
                     key={filterKey}
@@ -272,6 +294,7 @@ export function Library() {
                     />
                 ))}
             </TabsMenu>
+            {triggerGlobalSearchButton}
             {tabs.map((tab) => (
                 <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>
                     {tab === activeTab && (

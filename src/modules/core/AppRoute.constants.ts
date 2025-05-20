@@ -106,7 +106,11 @@ export const AppRoutes = {
             },
             searchAll: {
                 match: 'all/search',
-                path: '/sources/all/search',
+                path: (query?: string | null | undefined) => {
+                    const queryParam = query ? `query=${encodeURIComponent(query)}` : '';
+
+                    return `/sources/all/search${queryParam ? `?${queryParam}` : ''}`;
+                },
             },
         },
     },
