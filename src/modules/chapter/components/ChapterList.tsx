@@ -13,12 +13,6 @@ import Typography from '@mui/material/Typography';
 import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
-import IconButton from '@mui/material/IconButton';
-import DownloadIcon from '@mui/icons-material/Download';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
-import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
-import Menu from '@mui/material/Menu';
-import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 import { ResumeFab } from '@/modules/manga/components/ResumeFAB.tsx';
@@ -41,7 +35,6 @@ import { useSelectableCollection } from '@/modules/collection/hooks/useSelectabl
 import { SelectableCollectionSelectAll } from '@/modules/collection/components/SelectableCollectionSelectAll.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { ChapterActionMenuItems } from '@/modules/chapter/components/actions/ChapterActionMenuItems.tsx';
-import { ChaptersDownloadActionMenuItems } from '@/modules/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
@@ -191,46 +184,16 @@ export const ChapterList = ({
                     </Typography>
 
                     <Stack direction="row">
-                        <CustomTooltip
-                            title={t('chapter.action.mark_as_read.add.label.action.current')}
-                            disabled={areAllChaptersRead}
-                        >
-                            <IconButton
-                                disabled={areAllChaptersRead}
-                                onClick={() => Chapters.markAsRead(Chapters.getNonRead(chapters), true, manga.id)}
-                                color="inherit"
-                            >
-                                <DoneAllIcon />
-                            </IconButton>
-                        </CustomTooltip>
-                        <PopupState variant="popover" popupId="chapterlist-download-button">
-                            {(popupState) => (
-                                <>
-                                    <CustomTooltip
-                                        title={t('chapter.action.download.add.label.action')}
-                                        disabled={areAllChaptersRead}
-                                    >
-                                        <IconButton
-                                            disabled={areAllChaptersDownloaded}
-                                            {...bindTrigger(popupState)}
-                                            color="inherit"
-                                        >
-                                            <DownloadIcon />
-                                        </IconButton>
-                                    </CustomTooltip>
-                                    {popupState.isOpen && (
-                                        <Menu {...bindMenu(popupState)}>
-                                            <ChaptersDownloadActionMenuItems
-                                                mangaIds={[manga.id]}
-                                                closeMenu={popupState.close}
-                                            />
-                                        </Menu>
-                                    )}
-                                </>
-                            )}
-                        </PopupState>
-
-                        <ChaptersToolbarMenu options={options} updateOption={updateOption} />
+                        {areNoItemsSelected && (
+                            <ChaptersToolbarMenu
+                                mangaId={manga.id}
+                                areAllChaptersDownloaded={areAllChaptersDownloaded}
+                                areAllChaptersRead={areAllChaptersRead}
+                                options={options}
+                                updateOption={updateOption}
+                                unreadChapters={Chapters.getNonRead(chapters)}
+                            />
+                        )}
                         <SelectableCollectionSelectAll
                             areAllItemsSelected={areAllItemsSelected}
                             areNoItemsSelected={areNoItemsSelected}
