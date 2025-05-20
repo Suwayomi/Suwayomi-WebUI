@@ -138,17 +138,16 @@ export const ChapterList = ({
     );
     const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
 
-    const chapterIds = useMemo(() => chapters.map((chapter) => chapter.id), [chapters]);
-
-    const { areNoItemsSelected, areAllItemsSelected, selectedItemIds, handleSelectAll, handleSelection } =
-        useSelectableCollection(chapters.length, { itemIds: chapterIds, currentKey: 'default' });
-
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
+    const visibleChapterIds = useMemo(() => Chapters.getIds(visibleChapters), [visibleChapters]);
     const areAllChaptersRead = Mangas.isFullyRead(manga);
     const areAllChaptersDownloaded = Mangas.isFullyDownloaded(manga);
 
     const noChaptersFound = chapters.length === 0;
     const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
+
+    const { areNoItemsSelected, areAllItemsSelected, selectedItemIds, handleSelectAll, handleSelection } =
+        useSelectableCollection(visibleChapterIds.length, { itemIds: visibleChapterIds, currentKey: 'default' });
 
     const onSelect = useCallback(
         (id: number, selected: boolean, selectRange?: boolean) => handleSelection(id, selected, { selectRange }),
@@ -235,9 +234,7 @@ export const ChapterList = ({
                         <SelectableCollectionSelectAll
                             areAllItemsSelected={areAllItemsSelected}
                             areNoItemsSelected={areNoItemsSelected}
-                            onChange={(checked) =>
-                                handleSelectAll(checked, checked ? chapters.map((chapter) => chapter.id) : [])
-                            }
+                            onChange={(checked) => handleSelectAll(checked, checked ? visibleChapterIds : [])}
                         />
                     </Stack>
                 </ChapterListHeader>
