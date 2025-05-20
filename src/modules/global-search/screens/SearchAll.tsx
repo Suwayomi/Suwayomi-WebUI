@@ -165,7 +165,7 @@ const SourceSearchPreview = React.memo(
                 <Card sx={{ mb: 1 }}>
                     <CardActionArea
                         component={Link}
-                        to={`${AppRoutes.sources.childRoutes.browse.path(id)}?query=${searchString}`}
+                        to={AppRoutes.sources.childRoutes.browse.path(id, searchString)}
                         sx={{ p: 3 }}
                     >
                         <Typography variant="h5">{displayName}</Typography>

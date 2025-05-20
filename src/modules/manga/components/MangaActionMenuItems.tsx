@@ -157,7 +157,7 @@ export const MangaActionMenuItems = ({
             )}
             {isSingleMode && (
                 <Link
-                    to={`${AppRoutes.migrate.childRoutes.search.path(manga?.sourceId ?? -1, manga?.id ?? -1)}?query=${manga?.title}`}
+                    to={AppRoutes.migrate.childRoutes.search.path(manga?.sourceId ?? -1, manga?.id ?? -1, manga?.title)}
                     state={{ mangaTitle: manga?.title }}
                     style={{ textDecoration: 'none', color: 'inherit' }}
                 >

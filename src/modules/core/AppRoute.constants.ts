@@ -18,6 +18,16 @@ type AppRouteInfo = {
 
 type TAppRoutes = Record<string, AppRouteInfo & { childRoutes?: TAppRoutes }>;
 
+const createParam = (name: string, value: any): string => (value ? `${name}=${encodeURIComponent(value)}` : '');
+
+const createQueryParam = (query: string | null | undefined): string => createParam('query', query);
+
+const addParams = (path: string, ...params: string[]) => {
+    const joinedParams = params.filter(Boolean).join('&');
+
+    return `${path}${joinedParams ? `?${joinedParams}` : ''}`;
+};
+
 export const AppRoutes = {
     root: {
         match: '/',
@@ -94,11 +104,11 @@ export const AppRoutes = {
     sources: {
         match: 'sources',
         path: '/sources',
-
         childRoutes: {
             browse: {
                 match: ':sourceId',
-                path: (sourceId: SourceType['id']) => `/sources/${sourceId}`,
+                path: (sourceId: SourceType['id'], query?: string | null | undefined) =>
+                    addParams(`/sources/${sourceId}`, createQueryParam(query)),
             },
             configure: {
                 match: ':sourceId/configure',
@@ -106,11 +116,7 @@ export const AppRoutes = {
             },
             searchAll: {
                 match: 'all/search',
-                path: (query?: string | null | undefined) => {
-                    const queryParam = query ? `query=${encodeURIComponent(query)}` : '';
-
-                    return `/sources/all/search${queryParam ? `?${queryParam}` : ''}`;
-                },
+                path: (query?: string | null | undefined) => addParams('/sources/all/search', createQueryParam(query)),
             },
         },
     },
@@ -132,14 +138,8 @@ export const AppRoutes = {
     },
     library: {
         match: 'library',
-        path: (tab?: string, search?: string) => {
-            const tabParam = tab ? `tab=${tab}` : '';
-            const searchParam = search ? `query=${encodeURIComponent(search)}` : '';
-
-            const params = [tabParam, searchParam].filter(Boolean).join('&');
-
-            return `/library${params ? `?${params}` : ''}`;
-        },
+        path: (tab?: string, search?: string) =>
+            addParams('/library', createParam('tab', tab), createQueryParam(search)),
     },
     updates: {
         match: 'updates',
@@ -164,8 +164,8 @@ export const AppRoutes = {
         childRoutes: {
             search: {
                 match: 'manga/:mangaId/search',
-                path: (sourceId: SourceType['id'], mangaId: MangaIdInfo['id']) =>
-                    `/migrate/source/${sourceId}/manga/${mangaId}/search`,
+                path: (sourceId: SourceType['id'], mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
+                    addParams(`/migrate/source/${sourceId}/manga/${mangaId}/search`, createQueryParam(query)),
             },
         },
     },
