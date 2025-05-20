@@ -75,14 +75,24 @@ const StyledVirtuoso = styled(Virtuoso, {
 const ChapterListFAB = ({
     selectedChapters,
     firstUnreadChapter,
+    onFABMenuClose,
 }: {
     selectedChapters: ChapterListFieldsFragment[];
     firstUnreadChapter: ComponentProps<typeof ResumeFab>['chapter'] | null | undefined;
+    onFABMenuClose?: () => void;
 }) => {
     if (selectedChapters.length) {
         return (
             <SelectionFAB selectedItemsCount={selectedChapters.length} title="chapter.title_one">
-                {(handleClose) => <ChapterActionMenuItems selectedChapters={selectedChapters} onClose={handleClose} />}
+                {(handleClose) => (
+                    <ChapterActionMenuItems
+                        selectedChapters={selectedChapters}
+                        onClose={() => {
+                            onFABMenuClose?.();
+                            handleClose();
+                        }}
+                    />
+                )}
             </SelectionFAB>
         );
     }
@@ -139,8 +149,14 @@ export const ChapterList = ({
     const noChaptersFound = chapters.length === 0;
     const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
 
-    const { areNoItemsSelected, areAllItemsSelected, selectedItemIds, handleSelectAll, handleSelection } =
-        useSelectableCollection(visibleChapterIds.length, { itemIds: visibleChapterIds, currentKey: 'default' });
+    const {
+        areNoItemsSelected,
+        areAllItemsSelected,
+        selectedItemIds,
+        handleSelectAll,
+        handleSelection,
+        clearSelection,
+    } = useSelectableCollection(visibleChapterIds.length, { itemIds: visibleChapterIds, currentKey: 'default' });
 
     const onSelect = useCallback(
         (id: number, selected: boolean, selectRange?: boolean) => handleSelection(id, selected, { selectRange }),
@@ -233,6 +249,7 @@ export const ChapterList = ({
                     .map((id) => chapters.find((chapter) => chapter.id === id))
                     .filter((chapter) => chapter != null)}
                 firstUnreadChapter={manga.firstUnreadChapter}
+                onFABMenuClose={clearSelection}
             />
         </>
     );
