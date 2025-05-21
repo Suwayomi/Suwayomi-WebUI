@@ -64,6 +64,7 @@ export type EditTextPreferenceProps = PreferenceProps &
 
 export type SourceIdInfo = Pick<SourceType, 'id'>;
 export type SourceLanguageInfo = Pick<SourceType, 'lang'>;
+export type SourceNameInfo = Pick<SourceType, 'name'>;
 export type SourceDisplayNameInfo = Pick<SourceType, 'displayName'>;
 export type SourceNsfwInfo = Pick<SourceType, 'isNsfw'>;
 export type SourceRepoInfo = { extension: Pick<ExtensionType, 'repo'> };

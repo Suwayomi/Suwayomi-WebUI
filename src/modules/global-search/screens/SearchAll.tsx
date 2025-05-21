@@ -20,6 +20,8 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useElementSize } from '@mantine/hooks';
+import IconButton from '@mui/material/IconButton'; // ms
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
@@ -30,14 +32,19 @@ import { MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { EmptyView } from '@/modules/core/components/feedback/EmptyView.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
-import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { BaseMangaGrid } from '@/modules/manga/components/BaseMangaGrid.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
-import { SourceDisplayNameInfo, SourceIdInfo, SourceMetaInfo } from '@/modules/source/Source.types.ts';
+import {
+    SourceDisplayNameInfo,
+    SourceIdInfo,
+    SourceLanguageInfo,
+    SourceMetaInfo,
+    SourceNameInfo,
+} from '@/modules/source/Source.types.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -45,6 +52,8 @@ import {
 import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -111,14 +120,14 @@ const SourceSearchPreview = React.memo(
         emptyQuery,
         mode,
     }: {
-        source: Pick<SourceType, 'id' | 'displayName' | 'lang'>;
+        source: SourceIdInfo & SourceDisplayNameInfo & SourceNameInfo & SourceLanguageInfo;
         onSearchRequestFinished: (source: SourceIdInfo, state: SourceLoadingState) => void;
         searchString: string | null | undefined;
         emptyQuery: boolean;
     } & Pick<MangaCardProps, 'mode'>) => {
         const { t } = useTranslation();
 
-        const { id, displayName, lang } = source;
+        const { id, name, lang } = source;
 
         const currentSearchString = useRef(searchString);
         const currentAbortRequest = useRef<(reason: any) => void>(() => {});
@@ -126,7 +135,7 @@ const SourceSearchPreview = React.memo(
         const didSearchChange = currentSearchString.current !== searchString;
         if (didSearchChange) {
             currentSearchString.current = searchString;
-            currentAbortRequest.current(new Error(`SourceSearchPreview(${id}, ${displayName}): search string changed`));
+            currentAbortRequest.current(new Error(`SourceSearchPreview(${id}, ${name}): search string changed`));
         }
 
         const [refetch, results] = requestManager.useSourceSearch(id, searchString ?? '', undefined, 1, {
@@ -166,10 +175,17 @@ const SourceSearchPreview = React.memo(
                     <CardActionArea
                         component={Link}
                         to={AppRoutes.sources.childRoutes.browse.path(id, searchString)}
-                        sx={{ p: 3 }}
+                        sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                     >
-                        <Typography variant="h5">{displayName}</Typography>
-                        <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
+                        <Box>
+                            <Typography variant="h5">{name}</Typography>
+                            <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
+                        </Box>
+                        <CustomTooltip title={t('global.button.show_more')}>
+                            <IconButton {...MUIUtil.preventRippleProp()}>
+                                <ArrowForwardIcon />
+                            </IconButton>
+                        </CustomTooltip>
                     </CardActionArea>
                 </Card>
                 {errorMessage ? (
