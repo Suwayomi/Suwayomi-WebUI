@@ -1383,7 +1383,8 @@
           "label": {
             "title": "Items per page",
             "description": "Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters). \nHigher values may affect client performance.",
-            "unit": "items"
+            "unit_one": "item",
+            "unit_other": "items"
           }
         },
         "enable_page_read_progress": {
@@ -1414,10 +1415,6 @@
           "label": {
             "title": "Chapter sort order",
             "description": "Choose the order in which chapters are displayed."
-          },
-          "option": {
-            "ascending": "Ascending",
-            "descending": "Descending"
           }
         }
       },

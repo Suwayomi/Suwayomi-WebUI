@@ -32,6 +32,7 @@ import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.t
 import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { SortOrder } from '@/lib/graphql/generated/graphql';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -459,7 +460,7 @@ export const ServerSettings = () => {
                     maxValue={5000}
                     stepSize={10}
                     showSlider
-                    valueUnit={t('settings.server.opds.items_per_page.label.unit')}
+                    valueUnit={t('settings.server.opds.items_per_page.label.unit_other')}
                     handleUpdate={(value) => updateSetting('opdsItemsPerPage', value)}
                 />
                 <ListItem>
@@ -506,13 +507,13 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('opdsShowOnlyDownloadedChapters', e.target.checked)}
                     />
                 </ListItem>
-                <SelectSetting<string>
+                <SelectSetting<SortOrder>
                     settingName={t('settings.server.opds.chapter_sort_order.label.title')}
                     dialogDescription={t('settings.server.opds.chapter_sort_order.label.description')}
                     value={serverSettings.opdsChapterSortOrder}
                     values={[
-                        ['ASC', { text: t('settings.server.opds.chapter_sort_order.option.ascending') }],
-                        ['DESC', { text: t('settings.server.opds.chapter_sort_order.option.descending') }],
+                        [SortOrder.Asc, { text: t('global.sort.label.asc') }],
+                        [SortOrder.Desc, { text: t('global.sort.label.desc') }],
                     ]}
                     handleChange={(value) => updateSetting('opdsChapterSortOrder', value)}
                 />
