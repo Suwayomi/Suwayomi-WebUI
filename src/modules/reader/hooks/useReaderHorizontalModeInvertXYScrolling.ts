@@ -24,8 +24,38 @@ export const useReaderHorizontalModeInvertXYScrolling = (
             return () => {};
         }
 
+        let previousDeltaX: number | undefined;
+        let previousDeltaY: number | undefined;
+
+        // Trackpads can be identified by checking the delta values.
+        // For a trackpad these values are not consistent since it basically behaves like scrolling via touch.
+        // While for a mouse the values should always have the same value because each wheel turn scrolls the same exact amount.
+        let isTrackpad: boolean | undefined;
+
         const handleScroll = (e: WheelEvent) => {
+            // Trackpads can scroll horizontally without the need of having "shift" pressed.
+            // This is a problem because the hook will consider this to be a vertical scroll event and will invert it, which
+            // breaks scrolling horizontally on trackpads.
+            if (isTrackpad === true) {
+                return;
+            }
+
             e.preventDefault();
+
+            const isConsistentDeltaX = !Math.abs(Math.abs(previousDeltaX ?? e.deltaX) - Math.abs(e.deltaX));
+            const isConsistentDeltaY = !Math.abs(Math.abs(previousDeltaY ?? e.deltaY) - Math.abs(e.deltaY));
+
+            previousDeltaX = e.deltaX;
+            previousDeltaY = e.deltaY;
+
+            if (!isTrackpad) {
+                isTrackpad = !isConsistentDeltaX || !isConsistentDeltaY;
+            }
+
+            const preventInversion = isTrackpad === undefined;
+            if (preventInversion) {
+                return;
+            }
 
             if (e.shiftKey) {
                 scrollElementRef.current?.scrollBy({
