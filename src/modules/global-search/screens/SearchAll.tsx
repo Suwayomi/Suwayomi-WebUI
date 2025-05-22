@@ -54,6 +54,7 @@ import { getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -119,12 +120,14 @@ const SourceSearchPreview = React.memo(
         searchString,
         emptyQuery,
         mode,
+        shouldShowOnlySourcesWithResults,
     }: {
         source: SourceIdInfo & SourceDisplayNameInfo & SourceNameInfo & SourceLanguageInfo;
         onSearchRequestFinished: (source: SourceIdInfo, state: SourceLoadingState) => void;
         searchString: string | null | undefined;
         emptyQuery: boolean;
-    } & Pick<MangaCardProps, 'mode'>) => {
+    } & Pick<MangaCardProps, 'mode'> &
+        Pick<MetadataBrowseSettings, 'shouldShowOnlySourcesWithResults'>) => {
         const { t } = useTranslation();
 
         const { id, name, lang } = source;
@@ -169,8 +172,12 @@ const SourceSearchPreview = React.memo(
             return null;
         }
 
+        if (shouldShowOnlySourcesWithResults && (noMangasFound || error)) {
+            return null;
+        }
+
         return (
-            <>
+            <Box sx={{ pb: 2 }}>
                 <Card sx={{ mb: 1 }}>
                     <CardActionArea
                         component={Link}
@@ -219,7 +226,7 @@ const SourceSearchPreview = React.memo(
                         mode={mode}
                     />
                 )}
-            </>
+            </Box>
         );
     },
 );
@@ -261,21 +268,7 @@ export const SearchAll: React.FC = () => {
             }),
         [sources, shownLangs, shouldShowOnlyPinnedSources],
     );
-    const filteredSourcesByHasResult = useMemo(() => {
-        if (!shouldShowOnlySourcesWithResults) {
-            return filteredSources;
-        }
-
-        return filteredSources.filter((source) => {
-            const sourceState = debouncedSourceToLoadingStateMap.get(source.id);
-
-            return !sourceState || sourceState?.isLoading || (sourceState?.hasResults && !sourceState?.error);
-        });
-    }, [filteredSources, shouldShowOnlySourcesWithResults, debouncedSourceToLoadingStateMap]);
-    const sourcesSortedByName = useMemo(
-        () => [...filteredSourcesByHasResult].toSorted(compareSourceByName),
-        [filteredSourcesByHasResult],
-    );
+    const sourcesSortedByName = useMemo(() => [...filteredSources].toSorted(compareSourceByName), [filteredSources]);
     const sourcesSortedByResult = useMemo(
         () =>
             [...sourcesSortedByName].sort((sourceA, sourceB) =>
@@ -368,16 +361,16 @@ export const SearchAll: React.FC = () => {
                 </Button>
             </Stack>
             <Box sx={{ pt: `${filterHeaderHeight}px` }}>
-                {sourcesSortedByResult.map((source, index) => (
-                    <Box key={source.id} sx={{ pb: index + 1 !== sourcesSortedByResult.length ? 2 : 0 }}>
-                        <SourceSearchPreview
-                            source={source}
-                            onSearchRequestFinished={updateSourceLoadingState}
-                            searchString={searchString}
-                            emptyQuery={!query}
-                            mode={isMigrateMode ? 'migrate.select' : 'source'}
-                        />
-                    </Box>
+                {sourcesSortedByResult.map((source) => (
+                    <SourceSearchPreview
+                        key={source.id}
+                        source={source}
+                        onSearchRequestFinished={updateSourceLoadingState}
+                        searchString={searchString}
+                        emptyQuery={!query}
+                        mode={isMigrateMode ? 'migrate.select' : 'source'}
+                        shouldShowOnlySourcesWithResults={shouldShowOnlySourcesWithResults}
+                    />
                 ))}
             </Box>
         </Box>
