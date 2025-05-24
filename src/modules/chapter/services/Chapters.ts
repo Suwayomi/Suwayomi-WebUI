@@ -407,4 +407,42 @@ export class Chapters {
             T[]
         >;
     }
+
+    static getMissingCount<Chapter extends ChapterNumberInfo>(chapters: Chapter[]): number {
+        const normalizedChapterNumbers = chapters
+            .map((chapter) => chapter.chapterNumber)
+            .filter((chapterNumber) => chapterNumber !== -1)
+            .map(Math.floor)
+            .toSorted((a, b) => a - b);
+
+        const uniqueChapterNumbers = [...new Set(normalizedChapterNumbers)];
+
+        return uniqueChapterNumbers.reduce((missingChapterCount, chapterNumber, index, chapterNumbers) => {
+            const previousChapterNumber = chapterNumbers[index - 1] ?? chapterNumber;
+
+            if (chapterNumber > previousChapterNumber + 1) {
+                return missingChapterCount + (chapterNumber - previousChapterNumber - 1);
+            }
+
+            return missingChapterCount;
+        }, 0);
+    }
+
+    static getGap<Chapter extends ChapterNumberInfo>(
+        chapterA: Chapter | undefined,
+        chapterB: Chapter | undefined,
+    ): number {
+        if (!chapterA || !chapterB) {
+            return 0;
+        }
+
+        if (chapterA.chapterNumber === -1 || chapterB.chapterNumber === -1) {
+            return 0;
+        }
+
+        const higherChapterNumber = Math.max(chapterA.chapterNumber, chapterB.chapterNumber);
+        const lowerChapterNumber = Math.min(chapterA.chapterNumber, chapterB.chapterNumber);
+
+        return higherChapterNumber - lowerChapterNumber - 1;
+    }
 }

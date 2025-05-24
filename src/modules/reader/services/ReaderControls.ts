@@ -295,10 +295,7 @@ export class ReaderControls {
             return;
         }
 
-        const missingChapters = Math.max(
-            0,
-            Math.trunc(currentChapter.chapterNumber) - Math.trunc(chapterToOpen.chapterNumber) - 1,
-        );
+        const missingChapters = Chapters.getGap(currentChapter, chapterToOpen);
         const isSameScanlator =
             !shouldInformAboutScanlatorChange || currentChapter.scanlator === chapterToOpen.scanlator;
         const isContinuousChapter = !shouldInformAboutMissingChapter || !missingChapters;

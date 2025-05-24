@@ -8,8 +8,8 @@
 
 import { Virtuoso, VirtuosoProps } from 'react-virtuoso';
 import { useMemo } from 'react';
-import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
+import { ChapterListCard } from '@/modules/chapter/components/cards/ChapterListCard.tsx';
 
 const onSelectNoop = () => {};
 
@@ -33,10 +33,11 @@ export const ReaderChapterList = ({
             totalCount={chapters.length}
             computeItemKey={(index) => chapters[index].id}
             itemContent={(index) => (
-                <ChapterCard
-                    key={chapters[index].id}
+                <ChapterListCard
+                    index={index}
+                    chapters={chapters}
+                    isSortDesc
                     mode="reader"
-                    chapter={chapters[index]}
                     showChapterNumber={false}
                     selected={null}
                     onSelect={onSelectNoop}

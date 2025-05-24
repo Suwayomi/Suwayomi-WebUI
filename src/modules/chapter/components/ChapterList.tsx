@@ -14,7 +14,6 @@ import { ComponentProps, useCallback, useMemo, useState } from 'react';
 import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ChapterCard } from '@/modules/chapter/components/cards/ChapterCard.tsx';
 import { ResumeFab } from '@/modules/manga/components/ResumeFAB.tsx';
 import {
     filterAndSortChapters,
@@ -45,6 +44,7 @@ import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { ChapterListCard } from '@/modules/chapter/components/cards/ChapterListCard.tsx';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;
@@ -145,6 +145,7 @@ export const ChapterList = ({
     const visibleChapterIds = useMemo(() => Chapters.getIds(visibleChapters), [visibleChapters]);
     const areAllChaptersRead = Mangas.isFullyRead(manga);
     const areAllChaptersDownloaded = Mangas.isFullyDownloaded(manga);
+    const missingChapterCount = useMemo(() => Chapters.getMissingCount(visibleChapters), [visibleChapters]);
 
     const noChaptersFound = chapters.length === 0;
     const noChaptersMatchingFilter = !noChaptersFound && visibleChapters.length === 0;
@@ -193,11 +194,18 @@ export const ChapterList = ({
                     justifyContent="space-between"
                     scrollbarWidth={scrollbarWidth}
                 >
-                    <Typography variant="h5" component="h3">
-                        {`${visibleChapters.length} ${t('chapter.title_one', {
-                            count: visibleChapters.length,
-                        })}`}
-                    </Typography>
+                    <Stack>
+                        <Typography variant="h5" component="h3">
+                            {t('chapter.value', { count: visibleChapters.length })}
+                        </Typography>
+                        {!!missingChapterCount && (
+                            <Typography variant="body2" color="warning">
+                                {`${t('chapter.missing', {
+                                    count: missingChapterCount,
+                                })}`}
+                            </Typography>
+                        )}
+                    </Stack>
 
                     <Stack direction="row">
                         {areNoItemsSelected && (
@@ -235,8 +243,10 @@ export const ChapterList = ({
                     totalCount={visibleChapters.length}
                     computeItemKey={(index) => visibleChapters[index].id}
                     itemContent={(index: number) => (
-                        <ChapterCard
-                            chapter={visibleChapters[index]}
+                        <ChapterListCard
+                            index={index}
+                            isSortDesc={options.reverse}
+                            chapters={visibleChapters}
                             selected={!areNoItemsSelected ? selectedItemIds.includes(visibleChapters[index].id) : null}
                             showChapterNumber={options.showChapterNumber}
                             onSelect={onSelect}

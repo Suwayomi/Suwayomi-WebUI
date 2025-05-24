@@ -139,6 +139,8 @@
         "no_matches": "No chapters matching filter"
       }
     },
+    "missing_one": "Missing {{count}} chapter",
+    "missing_other": "Missing {{count}} chapters",
     "option": {
       "display": {
         "label": {
@@ -152,6 +154,8 @@
         "downloaded": "Downloaded"
       }
     },
+    "value_one": "{{count}} chapter",
+    "value_other": "{{count}} chapters",
     "title_one": "Chapter",
     "title_other": "Chapters"
   },
