@@ -433,7 +433,9 @@
             "more": "Thêm",
             "large": "Lớn",
             "medium": "Trung bình",
-            "small": "Nhỏ"
+            "small": "Nhỏ",
+            "pinned": "Đã ghim",
+            "last_used": "Sử dụng gần đây"
         },
         "language": {
             "label": {
@@ -963,6 +965,9 @@
         "title": {
             "search": "Tìm kiếm",
             "global_search": "Tìm kiếm toàn cầu"
+        },
+        "filter": {
+            "has_results": "Có kết quả"
         }
     },
     "settings": {
@@ -1402,6 +1407,10 @@
                     }
                 }
             }
+        },
+        "pin": {
+            "add": "Ghim nguồn",
+            "remove": "Bỏ ghim nguồn"
         }
     },
     "updates": {
