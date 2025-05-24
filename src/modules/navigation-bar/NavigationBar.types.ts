@@ -30,6 +30,7 @@ export interface NavbarItem {
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';
     moreGroup: NavBarItemMoreGroup;
+    useBadge?: () => { count: number; title: string };
 }
 
 export type NavbarContextType = {

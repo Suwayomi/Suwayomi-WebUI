@@ -164,6 +164,10 @@
           "failed_to_retry": "Could not retry failed download."
         }
       },
+      "info": {
+        "paused": "Paused — $t(download.queue.info.remaining)",
+        "remaining": "{{count}} remaining"
+      },
       "label": {
         "delete_all": "Delete all",
         "no_downloads": "No downloads"
@@ -455,6 +459,7 @@
       "sort": "Sort",
       "standard": "Standard",
       "started": "Started",
+      "stopped": "Stopped",
       "success": "Success",
       "system": "System",
       "type": "Type",

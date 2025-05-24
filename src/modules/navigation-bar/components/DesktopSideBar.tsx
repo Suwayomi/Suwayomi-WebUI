@@ -20,6 +20,8 @@ import { styled, useTheme } from '@mui/material/styles';
 import { useCallback, useMemo, useRef } from 'react';
 import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
+import Badge from '@mui/material/Badge';
+import Typography from '@mui/material/Typography';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ListItemLink } from '@/modules/core/components/lists/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
@@ -37,11 +39,12 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
 }));
 
-const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }: NavbarItem) => {
+const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent, useBadge }: NavbarItem) => {
     const { t } = useTranslation();
     const location = useLocation();
     const { isCollapsed } = useNavBarContext();
     const theme = useTheme();
+    const badgeInfo = useBadge?.();
 
     const isActive = location.pathname.startsWith(path);
     const Icon = isActive ? SelectedIconComponent : IconComponent;
@@ -56,18 +59,30 @@ const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }
 
     return (
         <ListItemLink selected={!isCollapsed && isActive} sx={{ p: 0, m: 0 }} to={path}>
-            <CustomTooltip title={t(title)} placement="right">
+            <CustomTooltip
+                title={
+                    <>
+                        {t(title)}
+                        <br />
+                        {badgeInfo?.title}
+                    </>
+                }
+                placement="right"
+            >
                 <ListItem sx={listItemProps}>
                     <ListItemIcon sx={listItemIconProps}>
-                        <Icon
-                            sx={{
-                                color: isActive ? 'primary.dark' : undefined,
-                                ...theme.applyStyles('dark', {
-                                    color: isActive ? 'primary.light' : undefined,
-                                }),
-                            }}
-                        />
+                        <Badge badgeContent={badgeInfo?.count} color="primary">
+                            <Icon
+                                sx={{
+                                    color: isActive ? 'primary.dark' : undefined,
+                                    ...theme.applyStyles('dark', {
+                                        color: isActive ? 'primary.light' : undefined,
+                                    }),
+                                }}
+                            />
+                        </Badge>
                     </ListItemIcon>
+
                     <ListItemText
                         primary={
                             <TypographyMaxLines
@@ -83,7 +98,14 @@ const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent }
                                 {t(title)}
                             </TypographyMaxLines>
                         }
-                        sx={{ maxWidth: '100%', m: 0 }}
+                        secondary={
+                            !isCollapsed && (
+                                <Typography variant="caption" color="textSecondary">
+                                    {badgeInfo?.title}
+                                </Typography>
+                            )
+                        }
+                        sx={{ maxWidth: '100%', m: 0, display: 'flex', flexDirection: 'column' }}
                     />
                 </ListItem>
             </CustomTooltip>

@@ -10,9 +10,10 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import { useTranslation } from 'react-i18next';
 import Paper from '@mui/material/Paper';
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
+import { CSSProperties, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { CSSObject, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
+import Badge from '@mui/material/Badge';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { NavbarItem } from '@/modules/navigation-bar/NavigationBar.types.ts';
@@ -52,7 +53,7 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
             style={{
                 ...(theme.applyStyles('dark', {
                     '--Paper-overlay': 'unset',
-                }) as Omit<CSSObject, 'accentColorsd'>),
+                }) as CSSProperties),
             }}
             elevation={3}
         >
@@ -64,12 +65,15 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
                     navigate(newValue);
                 }}
             >
-                {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent }) => (
+                {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent, useBadge }) => (
                     <BottomNavigationAction
-                        key={path}
                         value={path}
                         label={t(title)}
-                        icon={selectedNavBarItem === path ? <SelectedIconComponent /> : <IconComponent />}
+                        icon={
+                            <Badge key={path} badgeContent={useBadge?.().count} color="primary">
+                                {selectedNavBarItem === path ? <SelectedIconComponent /> : <IconComponent />}
+                            </Badge>
+                        }
                     />
                 ))}
             </BottomNavigation>

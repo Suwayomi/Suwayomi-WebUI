@@ -19,8 +19,11 @@ import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
 import InfoIcon from '@mui/icons-material/Info';
+import { useTranslation } from 'react-i18next';
 import { NavbarItem, NavBarItemMoreGroup } from '@/modules/navigation-bar/NavigationBar.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { DownloaderState } from '@/lib/graphql/generated/graphql.ts';
 
 type RestrictedNavBarItem<Show extends NavbarItem['show']> = Omit<NavbarItem, 'show'> & { show: Show };
 
@@ -67,6 +70,19 @@ const NAVIGATION_BAR_DESKTOP_ITEMS = [
         IconComponent: GetAppOutlinedIcon,
         show: 'desktop',
         moreGroup: NavBarItemMoreGroup.HIDDEN_ITEM,
+        useBadge: () => {
+            const { t } = useTranslation();
+            const { data } = requestManager.useGetDownloadStatus();
+            const downloadStatus = data?.downloadStatus;
+
+            const isPaused = downloadStatus?.state === DownloaderState.Stopped;
+            const count = downloadStatus?.queue.length ?? 0;
+
+            return {
+                count,
+                title: t(isPaused ? 'download.queue.info.paused' : 'download.queue.info.remaining', { count }),
+            };
+        },
     },
     {
         path: AppRoutes.settings.path,
