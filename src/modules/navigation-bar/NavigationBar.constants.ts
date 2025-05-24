@@ -78,6 +78,13 @@ const NAVIGATION_BAR_DESKTOP_ITEMS = [
             const isPaused = downloadStatus?.state === DownloaderState.Stopped;
             const count = downloadStatus?.queue.length ?? 0;
 
+            if (!count) {
+                return {
+                    count,
+                    title: '',
+                };
+            }
+
             return {
                 count,
                 title: t(isPaused ? 'download.queue.info.paused' : 'download.queue.info.remaining', { count }),
