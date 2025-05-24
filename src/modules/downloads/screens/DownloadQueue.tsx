@@ -114,6 +114,7 @@ export const DownloadQueue: React.FC = () => {
                 </IconButton>
             </CustomTooltip>
         </>,
+        [status, isQueueEmpty],
     );
 
     // Virtuoso's resize observer can throw this error,
