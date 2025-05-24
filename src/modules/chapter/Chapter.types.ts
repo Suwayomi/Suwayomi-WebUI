@@ -34,16 +34,16 @@ export type ChapterIdInfo = Pick<ChapterType, 'id'>;
 
 export type ChapterMangaInfo = Pick<ChapterType, 'mangaId'>;
 
-export type ChapterDownloadInfo = ChapterIdInfo & Pick<ChapterType, 'isDownloaded'>;
+export type ChapterDownloadInfo = Pick<ChapterType, 'isDownloaded'>;
 
-export type ChapterBookmarkInfo = ChapterIdInfo & Pick<ChapterType, 'isBookmarked'>;
+export type ChapterBookmarkInfo = Pick<ChapterType, 'isBookmarked'>;
 
-export type ChapterReadInfo = ChapterIdInfo & Pick<ChapterType, 'isRead'>;
+export type ChapterReadInfo = Pick<ChapterType, 'isRead'>;
 
-export type ChapterNumberInfo = ChapterIdInfo & Pick<ChapterType, 'chapterNumber'>;
+export type ChapterNumberInfo = Pick<ChapterType, 'chapterNumber'>;
 
-export type ChapterSourceOrderInfo = ChapterIdInfo & Pick<ChapterType, 'sourceOrder'>;
+export type ChapterSourceOrderInfo = Pick<ChapterType, 'sourceOrder'>;
 
-export type ChapterScanlatorInfo = ChapterIdInfo & Pick<ChapterType, 'scanlator'>;
+export type ChapterScanlatorInfo = Pick<ChapterType, 'scanlator'>;
 
 export type ChapterRealUrlInfo = Pick<ChapterType, 'realUrl'>;

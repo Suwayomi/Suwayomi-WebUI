@@ -31,6 +31,7 @@ import {
     ChapterAction,
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
+    ChapterIdInfo,
     ChapterMangaInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
@@ -118,12 +119,12 @@ export class Chapters {
         return chapters.filter(Chapters.isDownloaded);
     }
 
-    static isDownloadable<Chapter extends ChapterDownloadInfo>(chapter: Chapter): boolean {
+    static isDownloadable<Chapter extends ChapterIdInfo & ChapterDownloadInfo>(chapter: Chapter): boolean {
         const downloadStatus = Chapters.getDownloadStatusFromCache(chapter.id);
         return !Chapters.isDownloaded(chapter) && (!downloadStatus || downloadStatus.state === DownloadState.Error);
     }
 
-    static getDownloadable<Chapter extends ChapterDownloadInfo>(chapters: Chapter[]): Chapter[] {
+    static getDownloadable<Chapter extends ChapterIdInfo & ChapterDownloadInfo>(chapters: Chapter[]): Chapter[] {
         return chapters.filter(this.isDownloadable);
     }
 
@@ -199,7 +200,7 @@ export class Chapters {
     }
 
     static async markAsRead(
-        chapters: (ChapterDownloadInfo & ChapterBookmarkInfo)[],
+        chapters: (ChapterIdInfo & ChapterDownloadInfo & ChapterBookmarkInfo)[],
         wasManuallyMarkedAsRead: boolean = false,
         trackProgressMangaId?: MangaIdInfo['id'],
     ): Promise<void> {
@@ -276,7 +277,7 @@ export class Chapters {
             ? {
                   wasManuallyMarkedAsRead: boolean;
                   trackProgressMangaId?: MangaIdInfo['id'];
-                  chapters: (ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
+                  chapters: (ChapterIdInfo & ChapterDownloadInfo & ChapterBookmarkInfo & ChapterReadInfo)[];
               }
             : {
                   wasManuallyMarkedAsRead?: never;
@@ -316,7 +317,10 @@ export class Chapters {
             .flat();
     }
 
-    static removeDuplicates<T extends ChapterScanlatorInfo & ChapterNumberInfo>(currentChapter: T, chapters: T[]): T[] {
+    static removeDuplicates<T extends ChapterIdInfo & ChapterScanlatorInfo & ChapterNumberInfo>(
+        currentChapter: T,
+        chapters: T[],
+    ): T[] {
         const chapterNumberToChapters = Object.groupBy(chapters, ({ chapterNumber }) => chapterNumber);
 
         const uniqueChapters = Object.values(chapterNumberToChapters).map(
@@ -333,7 +337,7 @@ export class Chapters {
             .filter((chapter): chapter is T => !!chapter);
     }
 
-    static getNextChapter<Chapter extends ChapterScanlatorInfo & ChapterNumberInfo & ChapterReadInfo>(
+    static getNextChapter<Chapter extends ChapterIdInfo & ChapterScanlatorInfo & ChapterNumberInfo & ChapterReadInfo>(
         currentChapter: Chapter,
         chapters: Chapter[],
         {
@@ -350,7 +354,7 @@ export class Chapters {
         return nextChapters.slice(sliceStartIndex, sliceEndIndex)[0];
     }
 
-    static getNextChapters<Chapter extends ChapterScanlatorInfo & ChapterNumberInfo & ChapterReadInfo>(
+    static getNextChapters<Chapter extends ChapterIdInfo & ChapterScanlatorInfo & ChapterNumberInfo & ChapterReadInfo>(
         fromChapter: Chapter,
         chapters: Chapter[],
         {
