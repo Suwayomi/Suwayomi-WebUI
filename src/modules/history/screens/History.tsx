@@ -79,6 +79,7 @@ export const History: React.FC = () => {
 
     return (
         <StyledGroupedVirtuoso
+            persistKey="history"
             components={{
                 Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
             }}

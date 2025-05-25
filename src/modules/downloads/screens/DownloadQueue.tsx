@@ -13,7 +13,6 @@ import IconButton from '@mui/material/IconButton';
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
-import { Virtuoso } from 'react-virtuoso';
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useWindowEvent } from '@mantine/hooks';
@@ -32,6 +31,7 @@ import { DownloadQueueChapterCard } from '@/modules/downloads/components/Downloa
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 import { ChapterDownloadStatus } from '@/modules/chapter/Chapter.types.ts';
+import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
@@ -159,7 +159,8 @@ export const DownloadQueue: React.FC = () => {
                 onDragAbort={() => setDndActiveDownload(null)}
             >
                 <SortableContext items={dndItems} strategy={verticalListSortingStrategy}>
-                    <Virtuoso
+                    <VirtuosoPersisted
+                        persistKey="download-queue"
                         useWindowScroll
                         overscan={window.innerHeight * 0.5}
                         totalCount={queue.length}

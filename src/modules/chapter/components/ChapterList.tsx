@@ -11,7 +11,6 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { ComponentProps, useCallback, useMemo, useState } from 'react';
-import { Virtuoso } from 'react-virtuoso';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ResumeFab } from '@/modules/manga/components/ResumeFAB.tsx';
@@ -45,6 +44,7 @@ import { shouldForwardProp } from '@/modules/core/utils/ShouldForwardProp.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { ChapterListCard } from '@/modules/chapter/components/cards/ChapterListCard.tsx';
+import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;
@@ -61,7 +61,7 @@ const ChapterListHeader = styled(Stack, {
 }));
 
 type StyledVirtuosoProps = { topOffset: number };
-const StyledVirtuoso = styled(Virtuoso, {
+const StyledVirtuoso = styled(VirtuosoPersisted, {
     shouldForwardProp: shouldForwardProp<StyledVirtuosoProps>(['topOffset']),
 })<StyledVirtuosoProps>(({ theme, topOffset }) => ({
     listStyle: 'none',
@@ -234,6 +234,7 @@ export const ChapterList = ({
                 )}
 
                 <StyledVirtuoso
+                    persistKey={`manga-${manga.id}-chapter-list`}
                     topOffset={appBarHeight + chapterListHeaderHeight}
                     style={{
                         // override Virtuoso default values and set them with class

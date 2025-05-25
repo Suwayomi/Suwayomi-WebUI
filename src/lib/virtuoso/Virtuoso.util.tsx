@@ -6,7 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 export class VirtuosoUtil {
     static readonly GROUP = 0;
@@ -111,5 +114,47 @@ export class VirtuosoUtil {
             },
             [convertIndex, getGroupKey, getNormalKey],
         );
+    }
+
+    static usePersistState<Snapshot>(key: string): {
+        key: string;
+        state: Snapshot | undefined;
+        persistState: (state: Snapshot) => void;
+        deleteState: () => void;
+    } {
+        const location = useLocation<{ snapshot?: Snapshot }>();
+
+        const snapshotSessionKey = `virtuoso-snapshot-${key}-${location.key}`;
+        const [snapshot] = useSessionStorage<Snapshot | undefined>(snapshotSessionKey, undefined);
+
+        const persistGridStateTimeout = useRef<NodeJS.Timeout | undefined>(undefined);
+        const persistState = useCallback(
+            (state: Snapshot) => {
+                const currentUrl = window.location.href;
+
+                clearTimeout(persistGridStateTimeout.current);
+                persistGridStateTimeout.current = setTimeout(() => {
+                    const didLocationChange = currentUrl !== window.location.href;
+                    if (didLocationChange) {
+                        return;
+                    }
+
+                    AppStorage.session.setItem(snapshotSessionKey, state, false);
+                }, 250);
+            },
+            [snapshotSessionKey],
+        );
+        const deleteState = useCallback(() => {
+            AppStorage.session.setItem(snapshotSessionKey, undefined, false);
+        }, [snapshotSessionKey]);
+
+        useEffect(() => clearTimeout(persistGridStateTimeout.current), [location.key, persistGridStateTimeout.current]);
+
+        return {
+            key: snapshotSessionKey,
+            state: snapshot,
+            persistState,
+            deleteState,
+        };
     }
 }

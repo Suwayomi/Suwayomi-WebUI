@@ -114,6 +114,7 @@ export const Updates: React.FC = () => {
                 })}
             </Typography>
             <StyledGroupedVirtuoso
+                persistKey="updates"
                 heightToSubtract={lastUpdateTimestampCompHeight}
                 components={{
                     Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),

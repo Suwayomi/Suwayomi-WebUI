@@ -6,10 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ContextProp, GroupedVirtuoso, TopItemListProps } from 'react-virtuoso';
+import { ContextProp, TopItemListProps } from 'react-virtuoso';
 import { ComponentProps, useMemo } from 'react';
 import Box from '@mui/material/Box';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { GroupedVirtuosoPersisted } from '@/lib/virtuoso/Component/GroupedVirtuosoPersisted.tsx';
 
 const StickyVirtuosoHeaderWithOffset =
     (topOffset: number) =>
@@ -23,7 +24,7 @@ export const StyledGroupedVirtuoso = ({
     heightToSubtract = 0,
     style,
     ...props
-}: ComponentProps<typeof GroupedVirtuoso> & { heightToSubtract?: number }) => {
+}: ComponentProps<typeof GroupedVirtuosoPersisted> & { heightToSubtract?: number }) => {
     const { appBarHeight, bottomBarHeight } = useNavBarContext();
 
     const TopItemList = useMemo(
@@ -32,7 +33,7 @@ export const StyledGroupedVirtuoso = ({
     );
 
     return (
-        <GroupedVirtuoso
+        <GroupedVirtuosoPersisted
             useWindowScroll
             {...props}
             components={{

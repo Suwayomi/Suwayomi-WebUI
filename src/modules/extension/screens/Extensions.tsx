@@ -290,6 +290,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     return (
         <>
             <StyledGroupedVirtuoso
+                persistKey="extensions"
                 heightToSubtract={tabsMenuHeight}
                 overscan={window.innerHeight * 0.5}
                 groupCounts={groupCounts}

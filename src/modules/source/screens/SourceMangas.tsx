@@ -40,8 +40,7 @@ import {
     useMetadataServerSettings,
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { AppStorage } from '@/lib/storage/AppStorage.ts';
-import { getGridSnapshotKey } from '@/modules/manga/components/MangaGrid.tsx';
+import { MANGA_GRID_SNAPSHOT_KEY } from '@/modules/manga/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
@@ -57,6 +56,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
 import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
@@ -246,10 +246,12 @@ export function SourceMangas() {
         query ? SourceContentType.SEARCH : currentContentType!,
     );
 
+    const { key: persistedGridStateKey, deleteState: deletePersistedGridState } =
+        VirtuosoUtil.usePersistState(MANGA_GRID_SNAPSHOT_KEY);
     const scrollToTop = useCallback(() => {
-        AppStorage.session.setItem(getGridSnapshotKey(location), undefined, false);
+        deletePersistedGridState();
         window.scrollTo(0, 0);
-    }, [locationKey]);
+    }, [persistedGridStateKey]);
 
     const currentQuery = useRef(query);
     const currentAbortRequest = useRef<(reason: any) => void>(() => {});

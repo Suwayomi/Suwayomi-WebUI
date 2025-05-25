@@ -140,6 +140,7 @@ export const LibraryDuplicates = () => {
     if (gridLayout === GridLayout.List) {
         return (
             <StyledGroupedVirtuoso
+                persistKey="library-duplicates"
                 groupCounts={mangasCountByTitle}
                 groupContent={(index) => (
                     <StyledGroupHeader isFirstItem={index === 0}>
