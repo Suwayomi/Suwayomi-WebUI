@@ -552,7 +552,7 @@ export type PageInfoFieldPolicy = {
 	hasPreviousPage?: FieldPolicy<any> | FieldReadFunction<any>,
 	startCursor?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type PartialSettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadIgnoreReUploads' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrAsResponseFallback' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxLogFileSize' | 'maxLogFiles' | 'maxLogFolderSize' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | PartialSettingsTypeKeySpecifier)[];
+export type PartialSettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadIgnoreReUploads' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrAsResponseFallback' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxLogFileSize' | 'maxLogFiles' | 'maxLogFolderSize' | 'maxSourcesInParallel' | 'opdsChapterSortOrder' | 'opdsEnablePageReadProgress' | 'opdsItemsPerPage' | 'opdsMarkAsReadOnDownload' | 'opdsShowOnlyDownloadedChapters' | 'opdsShowOnlyUnreadChapters' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | PartialSettingsTypeKeySpecifier)[];
 export type PartialSettingsTypeFieldPolicy = {
 	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadIgnoreReUploads?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -589,6 +589,12 @@ export type PartialSettingsTypeFieldPolicy = {
 	maxLogFiles?: FieldPolicy<any> | FieldReadFunction<any>,
 	maxLogFolderSize?: FieldPolicy<any> | FieldReadFunction<any>,
 	maxSourcesInParallel?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsChapterSortOrder?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsEnablePageReadProgress?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsItemsPerPage?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsMarkAsReadOnDownload?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsShowOnlyDownloadedChapters?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsShowOnlyUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	port?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -695,7 +701,7 @@ export type SetSourceMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SettingsKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadIgnoreReUploads' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrAsResponseFallback' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxLogFileSize' | 'maxLogFiles' | 'maxLogFolderSize' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsKeySpecifier)[];
+export type SettingsKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadIgnoreReUploads' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrAsResponseFallback' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxLogFileSize' | 'maxLogFiles' | 'maxLogFolderSize' | 'maxSourcesInParallel' | 'opdsChapterSortOrder' | 'opdsEnablePageReadProgress' | 'opdsItemsPerPage' | 'opdsMarkAsReadOnDownload' | 'opdsShowOnlyDownloadedChapters' | 'opdsShowOnlyUnreadChapters' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsKeySpecifier)[];
 export type SettingsFieldPolicy = {
 	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadIgnoreReUploads?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -732,6 +738,12 @@ export type SettingsFieldPolicy = {
 	maxLogFiles?: FieldPolicy<any> | FieldReadFunction<any>,
 	maxLogFolderSize?: FieldPolicy<any> | FieldReadFunction<any>,
 	maxSourcesInParallel?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsChapterSortOrder?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsEnablePageReadProgress?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsItemsPerPage?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsMarkAsReadOnDownload?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsShowOnlyDownloadedChapters?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsShowOnlyUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	port?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -746,7 +758,7 @@ export type SettingsFieldPolicy = {
 	webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>,
 	webUIUpdateCheckInterval?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadIgnoreReUploads' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrAsResponseFallback' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxLogFileSize' | 'maxLogFiles' | 'maxLogFolderSize' | 'maxSourcesInParallel' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsTypeKeySpecifier)[];
+export type SettingsTypeKeySpecifier = ('autoDownloadAheadLimit' | 'autoDownloadIgnoreReUploads' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrAsResponseFallback' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'localSourcePath' | 'maxLogFileSize' | 'maxLogFiles' | 'maxLogFolderSize' | 'maxSourcesInParallel' | 'opdsChapterSortOrder' | 'opdsEnablePageReadProgress' | 'opdsItemsPerPage' | 'opdsMarkAsReadOnDownload' | 'opdsShowOnlyDownloadedChapters' | 'opdsShowOnlyUnreadChapters' | 'port' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsTypeKeySpecifier)[];
 export type SettingsTypeFieldPolicy = {
 	autoDownloadAheadLimit?: FieldPolicy<any> | FieldReadFunction<any>,
 	autoDownloadIgnoreReUploads?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -783,6 +795,12 @@ export type SettingsTypeFieldPolicy = {
 	maxLogFiles?: FieldPolicy<any> | FieldReadFunction<any>,
 	maxLogFolderSize?: FieldPolicy<any> | FieldReadFunction<any>,
 	maxSourcesInParallel?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsChapterSortOrder?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsEnablePageReadProgress?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsItemsPerPage?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsMarkAsReadOnDownload?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsShowOnlyDownloadedChapters?: FieldPolicy<any> | FieldReadFunction<any>,
+	opdsShowOnlyUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	port?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyEnabled?: FieldPolicy<any> | FieldReadFunction<any>,
 	socksProxyHost?: FieldPolicy<any> | FieldReadFunction<any>,

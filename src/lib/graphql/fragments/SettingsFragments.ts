@@ -79,5 +79,13 @@ export const SERVER_SETTINGS = gql`
         flareSolverrSessionName
         flareSolverrSessionTtl
         flareSolverrAsResponseFallback
+
+        # OPDS
+        opdsItemsPerPage
+        opdsEnablePageReadProgress
+        opdsMarkAsReadOnDownload
+        opdsShowOnlyUnreadChapters
+        opdsShowOnlyDownloadedChapters
+        opdsChapterSortOrder
     }
 `;
