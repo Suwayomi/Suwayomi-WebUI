@@ -169,9 +169,15 @@ export const TrackerMangaCard = ({
                                 <TrackerMangaCardLink url={manga.trackingUrl}>
                                     <TrackerMangaCardTitle title={manga.title} selected={selected} />
                                 </TrackerMangaCardLink>
-                                <Metadata title={t('global.label.type')} value={manga.publishingType} />
-                                <Metadata title={t('global.label.started')} value={manga.startDate} />
-                                <Metadata title={t('manga.label.status')} value={manga.publishingStatus} />
+                                {manga.publishingType && (
+                                    <Metadata title={t('global.label.type')} value={manga.publishingType} />
+                                )}
+                                {manga.startDate && (
+                                    <Metadata title={t('global.label.started')} value={manga.startDate} />
+                                )}
+                                {manga.publishingStatus && (
+                                    <Metadata title={t('manga.label.status')} value={manga.publishingStatus} />
+                                )}
                             </Stack>
                         </Stack>
                         <TrackerMangaCardSummary summary={manga.summary} />
