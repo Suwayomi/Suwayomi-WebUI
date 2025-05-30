@@ -163,10 +163,6 @@ function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): 
     return source.displayName ?? source.id;
 }
 
-function getValueOrUnknown<T>(val?: T | null): T | string {
-    return val ?? translate('global.label.unknown');
-}
-
 const LibrarySearchLink = ({ query, children }: { query: string; children?: ReactNode }) => (
     <Link
         component={RouterLink}
@@ -439,14 +435,18 @@ export const MangaDetails = ({
                                     </IconButton>
                                 </CustomTooltip>
                             </Stack>
-                            <Metadata
-                                title={t('manga.label.author')}
-                                value={getValueOrUnknown(valuesToJoinedLibrarySearchLinks(Mangas.getAuthors(manga)))}
-                            />
-                            <Metadata
-                                title={t('manga.label.artist')}
-                                value={getValueOrUnknown(valuesToJoinedLibrarySearchLinks(Mangas.getArtists(manga)))}
-                            />
+                            {manga.author && (
+                                <Metadata
+                                    title={t('manga.label.author')}
+                                    value={valuesToJoinedLibrarySearchLinks(Mangas.getAuthors(manga))}
+                                />
+                            )}
+                            {manga.artist && (
+                                <Metadata
+                                    title={t('manga.label.artist')}
+                                    value={valuesToJoinedLibrarySearchLinks(Mangas.getArtists(manga))}
+                                />
+                            )}
                             <Metadata
                                 title={t('manga.label.status')}
                                 value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])}
