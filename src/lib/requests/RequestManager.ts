@@ -2970,6 +2970,17 @@ export class RequestManager {
                         return;
                     }
 
+                    if (downloadChanged?.state) {
+                        cache.modify({
+                            id: 'DownloadStatus:{}',
+                            fields: {
+                                state() {
+                                    return downloadChanged.state;
+                                },
+                            },
+                        });
+                    }
+
                     downloadChanged?.updates.forEach((update) => {
                         if (![DownloadUpdateType.Dequeued, DownloadUpdateType.Finished].includes(update.type)) {
                             return;
