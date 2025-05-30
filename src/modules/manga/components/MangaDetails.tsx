@@ -185,13 +185,17 @@ const SearchLink = ({
 }: {
     query: string;
     sourceId: SourceIdInfo['id'] | undefined;
-    mode: MangaLocationState['mode'];
+    mode: MangaLocationState['mode'] | 'source.global-search';
     children?: ReactNode;
 }) => {
     const link = (() => {
         const isSourceMode = mode === 'source' && sourceId !== undefined;
         if (isSourceMode) {
             return AppRoutes.sources.childRoutes.browse.path(sourceId, query);
+        }
+
+        if (mode === 'source.global-search') {
+            return AppRoutes.sources.childRoutes.searchAll.path(query);
         }
 
         return AppRoutes.library.path(undefined, query);
@@ -471,9 +475,11 @@ export const MangaDetails = ({
                         <Thumbnail manga={manga} mangaDynamicColorSchemes={mangaDynamicColorSchemes} />
                         <MetadataContainer>
                             <Stack sx={{ flexDirection: 'row', gap: 1, alignItems: 'flex-start', mb: 1 }}>
-                                <Typography variant="h5" component="h2" sx={{ wordBreak: 'break-word' }}>
-                                    {manga.title}
-                                </Typography>
+                                <SearchLink query={manga.title} sourceId={manga.sourceId} mode="source.global-search">
+                                    <Typography variant="h5" component="h2" sx={{ wordBreak: 'break-word' }}>
+                                        {manga.title}
+                                    </Typography>
+                                </SearchLink>
                                 <CustomTooltip title={t('global.button.copy')}>
                                     <IconButton onClick={copyTitle} color="inherit">
                                         <ContentCopyIcon fontSize="small" />
