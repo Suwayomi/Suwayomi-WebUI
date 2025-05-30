@@ -26,13 +26,14 @@ import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { Metadata } from '@/modules/core/components/texts/Metadata.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
-import { Trackers, TTrackerManga } from '@/modules/tracker/services/Trackers.ts';
+import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { MANGA_COVER_ASPECT_RATIO } from '@/modules/manga/Manga.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import {
     PUBLISHING_STATUS_TO_TRANSLATION,
     PUBLISHING_TYPE_TO_TRANSLATION,
 } from '@/modules/tracker/Tracker.constants.ts';
+import { TTrackerManga } from '@/modules/tracker/Tracker.types.ts';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack

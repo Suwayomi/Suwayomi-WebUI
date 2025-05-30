@@ -43,3 +43,5 @@ export const PUBLISHING_STATUS_TO_TRANSLATION: Record<PublishingStatus, Translat
     [PublishingStatus.CURRENTLY_PUBLISHING]: 'tracking.publishing.status.currently_publishing',
     [PublishingStatus.NOT_YET_PUBLISHED]: 'tracking.publishing.status.not_yet_published',
 };
+
+export const UNSET_DATE = '0';

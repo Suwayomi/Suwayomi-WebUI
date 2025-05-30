@@ -6,6 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { TrackerType, TrackRecordType, TrackSearchType } from '@/lib/graphql/generated/graphql.ts';
+
 export type MetadataTrackingSettings = {
     updateProgressAfterReading: boolean;
     updateProgressManualMarkRead: boolean;
@@ -31,3 +33,42 @@ export enum PublishingStatus {
     CURRENTLY_PUBLISHING = 'currently_publishing',
     NOT_YET_PUBLISHED = 'not_yet_published',
 }
+
+export enum Tracker {
+    MYANIMELIST = 1,
+}
+
+export type TTrackRecordBase = Pick<TrackRecordType, 'id' | 'remoteId' | 'title'>;
+export type TTrackRecordBind = TTrackRecordBase &
+    Pick<
+        TrackRecordType,
+        | 'trackerId'
+        | 'remoteUrl'
+        | 'status'
+        | 'lastChapterRead'
+        | 'totalChapters'
+        | 'score'
+        | 'displayScore'
+        | 'startDate'
+        | 'finishDate'
+    >;
+export type TTrackerManga = Pick<
+    TrackSearchType,
+    | 'id'
+    | 'remoteId'
+    | 'trackingUrl'
+    | 'title'
+    | 'coverUrl'
+    | 'publishingType'
+    | 'startDate'
+    | 'publishingStatus'
+    | 'summary'
+>;
+export type TTrackerBase = Pick<TrackerType, 'id' | 'name' | 'icon' | 'isLoggedIn' | 'isTokenExpired'>;
+export type TTrackerSearch = TTrackerBase & Pick<TrackerType, 'authUrl'>;
+export type TTrackerBind = TTrackerBase & Pick<TrackerType, 'icon' | 'supportsTrackDeletion' | 'scores' | 'statuses'>;
+export type TrackerIdInfo = Pick<TrackerType, 'id'>;
+export type LoggedInInfo = Pick<TrackerType, 'isLoggedIn' | 'isTokenExpired'>;
+export type TrackRecordTrackerInfo = Pick<TrackRecordType, 'trackerId'>;
+export type TrackSearchPublishingTypeInfo = Pick<TrackSearchType, 'publishingType'>;
+export type TrackSearchPublishingStatusInfo = Pick<TrackSearchType, 'publishingStatus'>;

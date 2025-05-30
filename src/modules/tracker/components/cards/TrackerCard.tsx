@@ -9,10 +9,10 @@
 import { TrackerUntrackedCard } from '@/modules/tracker/components/cards/TrackerUntrackedCard.tsx';
 import { TrackerSearch } from '@/modules/tracker/components/TrackerSearch.tsx';
 import { TrackerActiveCard } from '@/modules/tracker/components/cards/TrackerActiveCard.tsx';
-import { TTrackerBind, TTrackRecordBind } from '@/modules/tracker/services/Trackers.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import { TTrackerBind, TTrackRecordBind } from '@/modules/tracker/Tracker.types.ts';
 
 export enum TrackerMode {
     UNTRACKED,

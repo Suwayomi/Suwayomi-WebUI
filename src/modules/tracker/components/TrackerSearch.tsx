@@ -24,7 +24,6 @@ import Typography from '@mui/material/Typography';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
-import { Tracker, TTrackerBase } from '@/modules/tracker/services/Trackers.ts';
 import { SearchTextField } from '@/modules/core/components/inputs/SearchTextField.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { TrackerMangaCard } from '@/modules/tracker/components/cards/TrackerMangaCard.tsx';
@@ -36,6 +35,7 @@ import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
+import { Tracker, TTrackerBase } from '@/modules/tracker/Tracker.types.ts';
 
 export const TrackerSearch = ({
     manga,

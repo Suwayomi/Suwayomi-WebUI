@@ -24,9 +24,10 @@ import Button from '@mui/material/Button';
 import { PasswordTextField } from '@/modules/core/components/inputs/PasswordTextField.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { Trackers, TTrackerSearch } from '@/modules/tracker/services/Trackers.ts';
+import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { TTrackerSearch } from '@/modules/tracker/Tracker.types.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useTranslation();

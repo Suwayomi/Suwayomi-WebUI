@@ -29,18 +29,19 @@ import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup
 import { useMemo, useState } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { Trackers, TTrackerBind, TTrackRecordBind, UNSET_DATE } from '@/modules/tracker/services/Trackers.ts';
+import { Trackers } from '@/modules/tracker/services/Trackers.ts';
 import { ListPreference } from '@/modules/source/components/sourceConfiguration/ListPreference.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
 import { DateSetting } from '@/modules/core/components/settings/DateSetting.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Menu } from '@/modules/core/components/menu/Menu.tsx';
-import { CARD_STYLING } from '@/modules/tracker/Tracker.constants.ts';
+import { CARD_STYLING, UNSET_DATE } from '@/modules/tracker/Tracker.constants.ts';
 import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { SelectSetting, SelectSettingValue } from '@/modules/core/components/settings/SelectSetting.tsx';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { TTrackerBind, TTrackRecordBind } from '@/modules/tracker/Tracker.types.ts';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link href={url} rel="noreferrer" target="_blank" underline="none" color="inherit">

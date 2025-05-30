@@ -6,56 +6,16 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { TrackerType, TrackRecordType, TrackSearchType } from '@/lib/graphql/generated/graphql.ts';
-import { PublishingStatus, PublishingType } from '@/modules/tracker/Tracker.types.ts';
-
-export enum Tracker {
-    MYANIMELIST = 1,
-}
-
-export const UNSET_DATE = '0';
-
-export type TTrackRecordBase = Pick<TrackRecordType, 'id' | 'remoteId' | 'title'>;
-
-export type TTrackRecordBind = TTrackRecordBase &
-    Pick<
-        TrackRecordType,
-        | 'trackerId'
-        | 'remoteUrl'
-        | 'status'
-        | 'lastChapterRead'
-        | 'totalChapters'
-        | 'score'
-        | 'displayScore'
-        | 'startDate'
-        | 'finishDate'
-    >;
-
-export type TTrackerManga = Pick<
-    TrackSearchType,
-    | 'id'
-    | 'remoteId'
-    | 'trackingUrl'
-    | 'title'
-    | 'coverUrl'
-    | 'publishingType'
-    | 'startDate'
-    | 'publishingStatus'
-    | 'summary'
->;
-
-export type TTrackerBase = Pick<TrackerType, 'id' | 'name' | 'icon' | 'isLoggedIn' | 'isTokenExpired'>;
-
-export type TTrackerSearch = TTrackerBase & Pick<TrackerType, 'authUrl'>;
-
-export type TTrackerBind = TTrackerBase & Pick<TrackerType, 'icon' | 'supportsTrackDeletion' | 'scores' | 'statuses'>;
-
-type TrackerIdInfo = Pick<TrackerType, 'id'>;
-type LoggedInInfo = Pick<TrackerType, 'isLoggedIn' | 'isTokenExpired'>;
-
-type TrackRecordTrackerInfo = Pick<TrackRecordType, 'trackerId'>;
-type TrackSearchPublishingTypeInfo = Pick<TrackSearchType, 'publishingType'>;
-type TrackSearchPublishingStatusInfo = Pick<TrackSearchType, 'publishingStatus'>;
+import {
+    LoggedInInfo,
+    PublishingStatus,
+    PublishingType,
+    TrackerIdInfo,
+    TrackRecordTrackerInfo,
+    TrackSearchPublishingStatusInfo,
+    TrackSearchPublishingTypeInfo,
+} from '@/modules/tracker/Tracker.types.ts';
+import { UNSET_DATE } from '@/modules/tracker/Tracker.constants.ts';
 
 export class Trackers {
     static getIds(trackers: TrackerIdInfo[]): number[] {
