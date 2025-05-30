@@ -48,7 +48,7 @@ export const MangaListCard = memo(
                     onClick={handleClick}
                     {...longPressBind(() => popupState.open(optionButtonRef.current))}
                     sx={{
-                        touchCallout: 'none',
+                        userSelect: 'none',
                         '@media (hover: hover) and (pointer: fine)': {
                             '&:hover .manga-option-button': {
                                 visibility: 'visible',

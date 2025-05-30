@@ -66,7 +66,7 @@ export const MangaGridCard = memo(
                 onClick={handleClick}
                 to={mangaLinkTo}
                 state={Mangas.createLocationState(manga, mode)}
-                sx={{ textDecoration: 'none', touchCallout: 'none' }}
+                sx={{ textDecoration: 'none', userSelect: 'none' }}
             >
                 <Box
                     sx={{

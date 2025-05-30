@@ -112,7 +112,6 @@ export const ChapterCard = memo((props: IProps) => {
                 <Stack sx={{ pt: 1, px: 1 }}>
                     <Card
                         sx={{
-                            touchCallout: 'none',
                             ...applyStyles(mode === 'reader' && isActiveChapter, {
                                 backgroundColor: 'primary.main',
                             }),
@@ -123,6 +122,7 @@ export const ChapterCard = memo((props: IProps) => {
                             to={Chapters.getReaderUrl(chapter)}
                             style={{
                                 color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
+                                userSelect: 'none',
                             }}
                             state={Chapters.getReaderOpenChapterLocationState(chapter, true)}
                             replace={mode === 'reader'}
