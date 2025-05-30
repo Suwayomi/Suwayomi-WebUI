@@ -26,9 +26,13 @@ import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
 import { Metadata } from '@/modules/core/components/texts/Metadata.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
-import { TTrackerManga } from '@/modules/tracker/services/Trackers.ts';
+import { Trackers, TTrackerManga } from '@/modules/tracker/services/Trackers.ts';
 import { MANGA_COVER_ASPECT_RATIO } from '@/modules/manga/Manga.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import {
+    PUBLISHING_STATUS_TO_TRANSLATION,
+    PUBLISHING_TYPE_TO_TRANSLATION,
+} from '@/modules/tracker/Tracker.constants.ts';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack
@@ -170,13 +174,19 @@ export const TrackerMangaCard = ({
                                     <TrackerMangaCardTitle title={manga.title} selected={selected} />
                                 </TrackerMangaCardLink>
                                 {manga.publishingType && (
-                                    <Metadata title={t('global.label.type')} value={manga.publishingType} />
+                                    <Metadata
+                                        title={t('global.label.type')}
+                                        value={t(PUBLISHING_TYPE_TO_TRANSLATION[Trackers.getPublishingType(manga)])}
+                                    />
                                 )}
                                 {manga.startDate && (
                                     <Metadata title={t('global.label.started')} value={manga.startDate} />
                                 )}
                                 {manga.publishingStatus && (
-                                    <Metadata title={t('manga.label.status')} value={manga.publishingStatus} />
+                                    <Metadata
+                                        title={t('manga.label.status')}
+                                        value={t(PUBLISHING_STATUS_TO_TRANSLATION[Trackers.getPublishingStatus(manga)])}
+                                    />
                                 )}
                             </Stack>
                         </Stack>

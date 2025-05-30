@@ -154,10 +154,10 @@
         "downloaded": "Downloaded"
       }
     },
-    "value_one": "{{count}} chapter",
-    "value_other": "{{count}} chapters",
     "title_one": "Chapter",
-    "title_other": "Chapters"
+    "title_other": "Chapters",
+    "value_one": "{{count}} chapter",
+    "value_other": "{{count}} chapters"
   },
   "download": {
     "queue": {
@@ -1535,6 +1535,27 @@
         "label": {
           "hint": "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\nLimit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
         }
+      }
+    },
+    "publishing": {
+      "status": {
+        "cancelled": "$(manga.status.cancelled)",
+        "currently_publishing": "Currently publishing",
+        "finished": "$t(global.label.finished)",
+        "hiatus": "$(manga.status.hiatus)",
+        "not_yet_published": "Not yet published",
+        "not_yet_released": "Not yet released",
+        "releasing": "Releasing"
+      },
+      "type": {
+        "doujinshi": "Doujinshi",
+        "manga": "$t(manga.title_one)",
+        "manhua": "$t(manga.type.manhwa)",
+        "manhwa": "$t(manga.type.manhwa)",
+        "novel": "Novel",
+        "oel": "OEL",
+        "one_shot": "Oneshot",
+        "unknown": "$t(global.label.unknown)"
       }
     },
     "settings": {

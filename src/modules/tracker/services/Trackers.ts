@@ -7,6 +7,7 @@
  */
 
 import { TrackerType, TrackRecordType, TrackSearchType } from '@/lib/graphql/generated/graphql.ts';
+import { PublishingStatus, PublishingType } from '@/modules/tracker/Tracker.types.ts';
 
 export enum Tracker {
     MYANIMELIST = 1,
@@ -53,6 +54,8 @@ type TrackerIdInfo = Pick<TrackerType, 'id'>;
 type LoggedInInfo = Pick<TrackerType, 'isLoggedIn' | 'isTokenExpired'>;
 
 type TrackRecordTrackerInfo = Pick<TrackRecordType, 'trackerId'>;
+type TrackSearchPublishingTypeInfo = Pick<TrackSearchType, 'publishingType'>;
+type TrackSearchPublishingStatusInfo = Pick<TrackSearchType, 'publishingStatus'>;
 
 export class Trackers {
     static getIds(trackers: TrackerIdInfo[]): number[] {
@@ -89,5 +92,57 @@ export class Trackers {
         trackRecords: TrackRecord[],
     ): TrackRecord | undefined {
         return trackRecords.find((trackRecord) => trackRecord.trackerId === tracker.id);
+    }
+
+    static getPublishingType<TrackSearch extends TrackSearchPublishingTypeInfo>(
+        trackSearch: TrackSearch,
+    ): PublishingType {
+        const type = trackSearch.publishingType.toLowerCase().replaceAll(' ', '_');
+
+        switch (type) {
+            case PublishingType.UNKNOWN:
+                return PublishingType.UNKNOWN;
+            case PublishingType.MANGA:
+                return PublishingType.MANGA;
+            case PublishingType.NOVEL:
+                return PublishingType.NOVEL;
+            case PublishingType.ONE_SHOT:
+                return PublishingType.ONE_SHOT;
+            case PublishingType.DOUJINSHI:
+                return PublishingType.DOUJINSHI;
+            case PublishingType.MANHWA:
+                return PublishingType.MANHWA;
+            case PublishingType.MANHUA:
+                return PublishingType.MANHUA;
+            case PublishingType.OEL:
+                return PublishingType.OEL;
+            default:
+                return trackSearch.publishingType as PublishingType;
+        }
+    }
+
+    static getPublishingStatus<TrackSearch extends TrackSearchPublishingStatusInfo>(
+        trackSearch: TrackSearch,
+    ): PublishingStatus {
+        const status = trackSearch.publishingStatus.toLowerCase().replaceAll(' ', '_');
+
+        switch (status) {
+            case PublishingStatus.FINISHED:
+                return PublishingStatus.FINISHED;
+            case PublishingStatus.RELEASING:
+                return PublishingStatus.RELEASING;
+            case PublishingStatus.NOT_YET_RELEASED:
+                return PublishingStatus.NOT_YET_RELEASED;
+            case PublishingStatus.CANCELLED:
+                return PublishingStatus.CANCELLED;
+            case PublishingStatus.HIATUS:
+                return PublishingStatus.HIATUS;
+            case PublishingStatus.CURRENTLY_PUBLISHING:
+                return PublishingStatus.CURRENTLY_PUBLISHING;
+            case PublishingStatus.NOT_YET_PUBLISHED:
+                return PublishingStatus.NOT_YET_PUBLISHED;
+            default:
+                return trackSearch.publishingStatus as PublishingStatus;
+        }
     }
 }

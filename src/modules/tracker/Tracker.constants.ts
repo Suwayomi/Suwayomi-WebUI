@@ -7,6 +7,8 @@
  */
 
 import { SxProps, Theme } from '@mui/material/styles';
+import { PublishingStatus, PublishingType } from '@/modules/tracker/Tracker.types.ts';
+import { TranslationKey } from '@/Base.types.ts';
 
 export const DIALOG_PADDING: number = 2;
 
@@ -19,4 +21,25 @@ export const CARD_BACKGROUND: SxProps<Theme> = {
 export const CARD_STYLING: SxProps<Theme> = {
     padding: DIALOG_PADDING,
     ...CARD_BACKGROUND,
+};
+
+export const PUBLISHING_TYPE_TO_TRANSLATION: Record<PublishingType, TranslationKey> = {
+    [PublishingType.UNKNOWN]: 'tracking.publishing.type.unknown',
+    [PublishingType.MANGA]: 'tracking.publishing.type.manga',
+    [PublishingType.NOVEL]: 'tracking.publishing.type.novel',
+    [PublishingType.ONE_SHOT]: 'tracking.publishing.type.one_shot',
+    [PublishingType.DOUJINSHI]: 'tracking.publishing.type.doujinshi',
+    [PublishingType.MANHWA]: 'tracking.publishing.type.manhwa',
+    [PublishingType.MANHUA]: 'tracking.publishing.type.manhua',
+    [PublishingType.OEL]: 'tracking.publishing.type.oel',
+};
+
+export const PUBLISHING_STATUS_TO_TRANSLATION: Record<PublishingStatus, TranslationKey> = {
+    [PublishingStatus.FINISHED]: 'tracking.publishing.status.finished',
+    [PublishingStatus.RELEASING]: 'tracking.publishing.status.releasing',
+    [PublishingStatus.NOT_YET_RELEASED]: 'tracking.publishing.status.not_yet_released',
+    [PublishingStatus.CANCELLED]: 'tracking.publishing.status.cancelled',
+    [PublishingStatus.HIATUS]: 'tracking.publishing.status.hiatus',
+    [PublishingStatus.CURRENTLY_PUBLISHING]: 'tracking.publishing.status.currently_publishing',
+    [PublishingStatus.NOT_YET_PUBLISHED]: 'tracking.publishing.status.not_yet_published',
 };

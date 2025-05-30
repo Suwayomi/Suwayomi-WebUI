@@ -10,3 +10,24 @@ export type MetadataTrackingSettings = {
     updateProgressAfterReading: boolean;
     updateProgressManualMarkRead: boolean;
 };
+
+export enum PublishingType {
+    UNKNOWN = 'unknown',
+    MANGA = 'manga',
+    NOVEL = 'novel',
+    ONE_SHOT = 'one_shot',
+    DOUJINSHI = 'doujinshi',
+    MANHWA = 'manhwa',
+    MANHUA = 'manhua',
+    OEL = 'oel',
+}
+
+export enum PublishingStatus {
+    FINISHED = 'finished',
+    RELEASING = 'releasing',
+    NOT_YET_RELEASED = 'not_yet_released',
+    CANCELLED = 'cancelled',
+    HIATUS = 'hiatus',
+    CURRENTLY_PUBLISHING = 'currently_publishing',
+    NOT_YET_PUBLISHED = 'not_yet_published',
+}
