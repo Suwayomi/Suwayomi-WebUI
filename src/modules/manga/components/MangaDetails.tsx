@@ -444,7 +444,7 @@ export const MangaDetails = ({
                                 value={getValueOrUnknown(valuesToJoinedLibrarySearchLinks(Mangas.getAuthors(manga)))}
                             />
                             <Metadata
-                                title={t('manga.label.author')}
+                                title={t('manga.label.artist')}
                                 value={getValueOrUnknown(valuesToJoinedLibrarySearchLinks(Mangas.getArtists(manga)))}
                             />
                             <Metadata
