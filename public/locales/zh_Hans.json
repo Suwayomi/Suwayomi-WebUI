@@ -3,7 +3,7 @@
         "dialog": {
             "title": {
                 "edit_category_other": "编辑分类",
-                "new_category": "编辑分类"
+                "new_category": "新分类"
             }
         },
         "error": {
@@ -433,7 +433,9 @@
             "more": "更多",
             "small": "小",
             "large": "大",
-            "medium": "中"
+            "medium": "中",
+            "pinned": "已置顶",
+            "last_used": "上次使用"
         },
         "language": {
             "label": {
@@ -641,7 +643,8 @@
             "label": {
                 "stop_update": "停止全局更新",
                 "update_category": "更新分类",
-                "update_library": "更新书架"
+                "update_library": "更新书架",
+                "search_globally": "全局搜索“{{query}}”"
             }
         }
     },
@@ -1390,6 +1393,10 @@
                     "save": "保存搜索"
                 }
             }
+        },
+        "pin": {
+            "add": "置顶图源",
+            "remove": "取消置顶图源"
         }
     },
     "updates": {
@@ -1410,6 +1417,9 @@
                 "failed_to_save_settings": "保存默认搜索设置到服务器时出错",
                 "source_search_failed": "无法搜索图源"
             }
+        },
+        "filter": {
+            "has_results": "搜索有结果"
         }
     },
     "migrate": {
