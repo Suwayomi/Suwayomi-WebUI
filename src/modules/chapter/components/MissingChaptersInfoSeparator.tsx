@@ -30,7 +30,8 @@ export const MissingChaptersInfoSeparator = ({ missingChaptersGap }: { missingCh
                 justifyContent: 'center',
                 alignItems: 'center',
                 p: 2,
-                py: 2.5,
+                pt: 3.5,
+                pb: 2.5,
             }}
         >
             <Box
