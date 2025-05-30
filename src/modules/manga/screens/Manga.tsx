@@ -19,7 +19,7 @@ import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterList } from '@/modules/chapter/components/ChapterList.tsx';
 import { useRefreshManga } from '@/modules/manga/hooks/useRefreshManga.ts';
-import { MangaDetails } from '@/modules/manga/components/MangaDetails.tsx';
+import { MangaDetails } from '@/modules/manga/components/details/MangaDetails.tsx';
 import { MangaToolbarMenu } from '@/modules/manga/components/MangaToolbarMenu.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';

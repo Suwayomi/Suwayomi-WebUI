@@ -8,28 +8,16 @@
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { styled, useTheme } from '@mui/material/styles';
-import { ComponentProps, ReactNode, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { styled } from '@mui/material/styles';
+import { ComponentProps, ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import Chip from '@mui/material/Chip';
 import LaunchIcon from '@mui/icons-material/Launch';
-import Collapse from '@mui/material/Collapse';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import OpenInFullIcon from '@mui/icons-material/OpenInFull';
-import Modal from '@mui/material/Modal';
-import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import { Vibrant } from 'node-vibrant/browser';
-import { FastAverageColor } from 'fast-average-color';
-import parseHtml from 'html-react-parser';
-import sanitizeHtml from 'sanitize-html';
-import { Link as RouterLink } from 'react-router-dom';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
@@ -40,10 +28,8 @@ import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageManga
 import { Metadata as BaseMetadata } from '@/modules/core/components/texts/Metadata.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { MANGA_COVER_ASPECT_RATIO, MANGA_STATUS_TO_TRANSLATION } from '@/modules/manga/Manga.constants.ts';
+import { MANGA_STATUS_TO_TRANSLATION } from '@/modules/manga/Manga.constants.ts';
 import {
     MangaArtistInfo,
     MangaAuthorInfo,
@@ -58,12 +44,13 @@ import {
     MangaTitleInfo,
     MangaTrackRecordInfo,
 } from '@/modules/manga/Manga.types.ts';
-import { TAppThemeContext, useAppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { CustomButtonIcon } from '@/modules/core/components/buttons/CustomButtonIcon.tsx';
 import { Sources } from '@/modules/source/services/Sources.ts';
-import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { SourceIdInfo } from '@/modules/source/Source.types.ts';
+import { Thumbnail } from '@/modules/manga/components/details/Thumbnail.tsx';
+import { DescriptionGenre } from '@/modules/manga/components/details/DescriptionGenre.tsx';
+import { SearchLink } from '@/modules/manga/components/details/SearchLink.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -177,37 +164,6 @@ function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): 
     return source.displayName ?? source.id;
 }
 
-const SearchLink = ({
-    query,
-    sourceId,
-    mode,
-    children,
-}: {
-    query: string;
-    sourceId: SourceIdInfo['id'] | undefined;
-    mode: MangaLocationState['mode'] | 'source.global-search';
-    children?: ReactNode;
-}) => {
-    const link = (() => {
-        const isSourceMode = mode === 'source' && sourceId !== undefined;
-        if (isSourceMode) {
-            return AppRoutes.sources.childRoutes.browse.path(sourceId, query);
-        }
-
-        if (mode === 'source.global-search') {
-            return AppRoutes.sources.childRoutes.searchAll.path(query);
-        }
-
-        return AppRoutes.library.path(undefined, query);
-    })();
-
-    return (
-        <Link component={RouterLink} to={link} sx={{ textDecoration: 'none', color: 'inherit' }}>
-            {children ?? query}
-        </Link>
-    );
-};
-
 const valuesToJoinedSearchLinks = (
     values: string[] | undefined,
     sourceId: SourceIdInfo['id'] | undefined,
@@ -220,209 +176,6 @@ const valuesToJoinedSearchLinks = (
                 {acc}, {valueLink}
             </>
         ));
-
-const Thumbnail = ({
-    manga,
-    mangaDynamicColorSchemes,
-}: {
-    manga: Partial<MangaThumbnailInfo>;
-    mangaDynamicColorSchemes: boolean;
-}) => {
-    const theme = useTheme();
-    const { setDynamicColor } = useAppThemeContext();
-
-    const popupState = usePopupState({ variant: 'popover', popupId: 'manga-thumbnail-fullscreen' });
-
-    const [isImageReady, setIsImageReady] = useState(false);
-
-    useLayoutEffect(() => {
-        if (!mangaDynamicColorSchemes) {
-            return () => {};
-        }
-
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.src = Mangas.getThumbnailUrl(manga);
-
-        img.onload = () => {
-            const isLargeImage = img.width > 600 && img.height > 600;
-
-            Promise.all([
-                Vibrant.from(img).getPalette(),
-                new FastAverageColor().getColor(img, {
-                    algorithm: 'dominant',
-                    mode: isLargeImage ? 'speed' : 'precision',
-                    ignoredColor: [
-                        [255, 255, 255, 255, 75],
-                        [0, 0, 0, 255, 75],
-                    ],
-                }),
-            ]).then(([palette, averageColor]) => {
-                if (
-                    !palette.Vibrant ||
-                    !palette.DarkVibrant ||
-                    !palette.LightVibrant ||
-                    !palette.LightMuted ||
-                    !palette.Muted ||
-                    !palette.DarkMuted
-                ) {
-                    return;
-                }
-
-                setDynamicColor({
-                    ...palette,
-                    average: averageColor,
-                } as TAppThemeContext['dynamicColor']);
-            });
-        };
-
-        return () => {
-            setDynamicColor(null);
-        };
-    }, []);
-
-    return (
-        <>
-            <Stack
-                sx={{
-                    position: 'relative',
-                    borderRadius: 1,
-                    overflow: 'hidden',
-                    backgroundColor: 'background.paper',
-                    width: '150px',
-                    maxHeight: 'fit-content',
-                    aspectRatio: MANGA_COVER_ASPECT_RATIO,
-                    flexShrink: 0,
-                    flexGrow: 0,
-                    [theme.breakpoints.up('lg')]: {
-                        width: '200px',
-                    },
-                    [theme.breakpoints.up('xl')]: {
-                        width: '300px',
-                    },
-                }}
-            >
-                <SpinnerImage
-                    src={Mangas.getThumbnailUrl(manga)}
-                    alt="Manga Thumbnail"
-                    onLoad={() => setIsImageReady(true)}
-                    imgStyle={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-                {isImageReady && (
-                    <Stack
-                        {...bindTrigger(popupState)}
-                        sx={{
-                            position: 'absolute',
-                            top: 0,
-                            bottom: 0,
-                            width: '100%',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            opacity: 0,
-                            '&:hover': {
-                                background: 'rgba(0, 0, 0, 0.4)',
-                                cursor: 'pointer',
-                                opacity: 1,
-                            },
-                        }}
-                    >
-                        <OpenInFullIcon fontSize="large" color="primary" />
-                    </Stack>
-                )}
-            </Stack>
-            <Modal {...bindPopover(popupState)} sx={{ outline: 0 }}>
-                <Stack
-                    onClick={() => popupState.close()}
-                    sx={{ height: '100vh', p: 2, outline: 0, justifyContent: 'center', alignItems: 'center' }}
-                >
-                    <SpinnerImage
-                        src={Mangas.getThumbnailUrl(manga)}
-                        alt="Manga Thumbnail"
-                        imgStyle={{ height: '100%', width: '100%', objectFit: 'contain' }}
-                    />
-                </Stack>
-            </Modal>
-        </>
-    );
-};
-
-const OPEN_CLOSE_BUTTON_HEIGHT = '35px';
-const DESCRIPTION_COLLAPSED_SIZE = 75;
-const DescriptionGenre = ({
-    manga: { description, genre: mangaGenres, sourceId },
-    mode,
-}: {
-    manga: MangaDescriptionInfo & MangaGenreInfo & MangaSourceIdInfo;
-    mode: MangaLocationState['mode'];
-}) => {
-    const [descriptionElement, setDescriptionElement] = useState<HTMLSpanElement | null>(null);
-    const [descriptionHeight, setDescriptionHeight] = useState<number>();
-    useResizeObserver(
-        descriptionElement,
-        useCallback(() => setDescriptionHeight(descriptionElement?.clientHeight), [descriptionElement]),
-    );
-
-    const [isCollapsed, setIsCollapsed] = useLocalStorage('isDescriptionGenreCollapsed', true);
-
-    const collapsedSize = description
-        ? Math.min(DESCRIPTION_COLLAPSED_SIZE, descriptionHeight ?? DESCRIPTION_COLLAPSED_SIZE)
-        : 0;
-    const genres = useMemo(() => mangaGenres.filter(Boolean), [mangaGenres]);
-
-    return (
-        <>
-            {description && (
-                <Stack sx={{ position: 'relative' }}>
-                    <Collapse collapsedSize={collapsedSize} in={!isCollapsed}>
-                        <Typography
-                            ref={setDescriptionElement}
-                            sx={{
-                                whiteSpace: 'pre-line',
-                                textAlign: 'justify',
-                                textJustify: 'inter-word',
-                                mb: OPEN_CLOSE_BUTTON_HEIGHT,
-                            }}
-                        >
-                            {parseHtml(sanitizeHtml(description, { disallowedTagsMode: 'escape' }))}
-                        </Typography>
-                    </Collapse>
-                    <Stack
-                        onClick={() => setIsCollapsed(!isCollapsed)}
-                        sx={{
-                            justifyContent: 'flex-start',
-                            alignItems: 'center',
-                            cursor: 'pointer',
-                            position: 'absolute',
-                            width: '100%',
-                            height: OPEN_CLOSE_BUTTON_HEIGHT,
-                            bottom: 0,
-                            background: (theme) =>
-                                `linear-gradient(transparent -15px, ${theme.palette.background.default})`,
-                        }}
-                    >
-                        <IconButton sx={{ color: (theme) => (theme.palette.mode === 'light' ? 'black' : 'text') }}>
-                            {isCollapsed ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-                        </IconButton>
-                    </Stack>
-                </Stack>
-            )}
-            <Stack
-                sx={{
-                    flexDirection: 'row',
-                    flexWrap: isCollapsed ? 'no-wrap' : 'wrap',
-                    gap: 1,
-                    overflowX: isCollapsed ? 'auto' : null,
-                }}
-            >
-                {genres.map((genre) => (
-                    <SearchLink key={genre} query={genre} sourceId={sourceId} mode={mode}>
-                        <Chip label={genre} variant="outlined" onClick={() => {}} />
-                    </SearchLink>
-                ))}
-            </Stack>
-        </>
-    );
-};
 
 export const MangaDetails = ({
     manga,
