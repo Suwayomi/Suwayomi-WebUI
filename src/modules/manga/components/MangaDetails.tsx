@@ -44,12 +44,26 @@ import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { MANGA_COVER_ASPECT_RATIO, MANGA_STATUS_TO_TRANSLATION } from '@/modules/manga/Manga.constants.ts';
-import { MangaThumbnailInfo, MangaTrackRecordInfo } from '@/modules/manga/Manga.types.ts';
+import {
+    MangaArtistInfo,
+    MangaAuthorInfo,
+    MangaDescriptionInfo,
+    MangaGenreInfo,
+    MangaIdInfo,
+    MangaInLibraryInfo,
+    MangaLocationState,
+    MangaSourceIdInfo,
+    MangaStatusInfo,
+    MangaThumbnailInfo,
+    MangaTitleInfo,
+    MangaTrackRecordInfo,
+} from '@/modules/manga/Manga.types.ts';
 import { TAppThemeContext, useAppThemeContext } from '@/modules/theme/contexts/AppThemeContext.tsx';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
 import { CustomButtonIcon } from '@/modules/core/components/buttons/CustomButtonIcon.tsx';
 import { Sources } from '@/modules/source/services/Sources.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { SourceIdInfo } from '@/modules/source/Source.types.ts';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -163,19 +177,40 @@ function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): 
     return source.displayName ?? source.id;
 }
 
-const LibrarySearchLink = ({ query, children }: { query: string; children?: ReactNode }) => (
-    <Link
-        component={RouterLink}
-        to={AppRoutes.library.path(undefined, query)}
-        sx={{ textDecoration: 'none', color: 'inherit' }}
-    >
-        {children ?? query}
-    </Link>
-);
+const SearchLink = ({
+    query,
+    sourceId,
+    mode,
+    children,
+}: {
+    query: string;
+    sourceId: SourceIdInfo['id'] | undefined;
+    mode: MangaLocationState['mode'];
+    children?: ReactNode;
+}) => {
+    const link = (() => {
+        const isSourceMode = mode === 'source' && sourceId !== undefined;
+        if (isSourceMode) {
+            return AppRoutes.sources.childRoutes.browse.path(sourceId, query);
+        }
 
-const valuesToJoinedLibrarySearchLinks = (values: string[] | undefined) =>
+        return AppRoutes.library.path(undefined, query);
+    })();
+
+    return (
+        <Link component={RouterLink} to={link} sx={{ textDecoration: 'none', color: 'inherit' }}>
+            {children ?? query}
+        </Link>
+    );
+};
+
+const valuesToJoinedSearchLinks = (
+    values: string[] | undefined,
+    sourceId: SourceIdInfo['id'] | undefined,
+    mode: MangaLocationState['mode'],
+) =>
     values
-        ?.map((value) => <LibrarySearchLink query={value} />)
+        ?.map((value) => <SearchLink key={value} query={value} sourceId={sourceId} mode={mode} />)
         .reduce((acc, valueLink) => (
             <>
                 {acc}, {valueLink}
@@ -310,9 +345,11 @@ const Thumbnail = ({
 const OPEN_CLOSE_BUTTON_HEIGHT = '35px';
 const DESCRIPTION_COLLAPSED_SIZE = 75;
 const DescriptionGenre = ({
-    manga: { description, genre: mangaGenres },
+    manga: { description, genre: mangaGenres, sourceId },
+    mode,
 }: {
-    manga: Pick<MangaType, 'description' | 'genre'>;
+    manga: MangaDescriptionInfo & MangaGenreInfo & MangaSourceIdInfo;
+    mode: MangaLocationState['mode'];
 }) => {
     const [descriptionElement, setDescriptionElement] = useState<HTMLSpanElement | null>(null);
     const [descriptionHeight, setDescriptionHeight] = useState<number>();
@@ -374,9 +411,9 @@ const DescriptionGenre = ({
                 }}
             >
                 {genres.map((genre) => (
-                    <LibrarySearchLink key={genre} query={genre}>
+                    <SearchLink key={genre} query={genre} sourceId={sourceId} mode={mode}>
                         <Chip label={genre} variant="outlined" onClick={() => {}} />
-                    </LibrarySearchLink>
+                    </SearchLink>
                 ))}
             </Stack>
         </>
@@ -385,15 +422,23 @@ const DescriptionGenre = ({
 
 export const MangaDetails = ({
     manga,
+    mode,
 }: {
-    manga: Pick<
-        MangaType,
-        'id' | 'title' | 'author' | 'artist' | 'status' | 'inLibrary' | 'realUrl' | 'description' | 'genre'
-    > &
+    manga: Pick<MangaType, 'realUrl'> &
+        MangaIdInfo &
+        MangaTitleInfo &
+        MangaStatusInfo &
+        MangaInLibraryInfo &
+        MangaAuthorInfo &
+        MangaArtistInfo &
+        MangaDescriptionInfo &
+        MangaGenreInfo &
         MangaThumbnailInfo &
+        MangaSourceIdInfo &
         MangaTrackRecordInfo & {
             source?: Pick<SourceType, 'id' | 'displayName'> | null;
         };
+    mode: MangaLocationState['mode'];
 }) => {
     const { t } = useTranslation();
 
@@ -438,13 +483,13 @@ export const MangaDetails = ({
                             {manga.author && (
                                 <Metadata
                                     title={t('manga.label.author')}
-                                    value={valuesToJoinedLibrarySearchLinks(Mangas.getAuthors(manga))}
+                                    value={valuesToJoinedSearchLinks(Mangas.getAuthors(manga), manga.source?.id, mode)}
                                 />
                             )}
                             {manga.artist && (
                                 <Metadata
                                     title={t('manga.label.artist')}
-                                    value={valuesToJoinedLibrarySearchLinks(Mangas.getArtists(manga))}
+                                    value={valuesToJoinedSearchLinks(Mangas.getArtists(manga), manga.source?.id, mode)}
                                 />
                             )}
                             <Metadata
@@ -467,7 +512,7 @@ export const MangaDetails = ({
                         <OpenSourceButton url={manga.realUrl} />
                     </MangaButtonsContainer>
                 </TopContentWrapper>
-                <DescriptionGenre manga={manga} />
+                <DescriptionGenre manga={manga} mode={mode} />
             </DetailsWrapper>
             {CategorySelectComponent}
         </>

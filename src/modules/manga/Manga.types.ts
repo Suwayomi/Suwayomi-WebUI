@@ -33,6 +33,7 @@ type MangaCardBaseProps = Pick<MangaTypeGql, 'id' | 'title' | 'sourceId'> &
 
 export type MangaIdInfo = Pick<MangaTypeGql, 'id'>;
 export type MangaChapterCountInfo = { chapters: Pick<MangaTypeGql['chapters'], 'totalCount'> };
+export type MangaInLibraryInfo = Pick<MangaTypeGql, 'inLibrary'>;
 export type MangaDownloadInfo = Pick<MangaTypeGql, 'downloadCount'> & MangaChapterCountInfo;
 export type MangaUnreadInfo = Pick<MangaTypeGql, 'unreadCount'> & MangaChapterCountInfo;
 export type MangaThumbnailInfo = Pick<MangaTypeGql, 'thumbnailUrl' | 'thumbnailUrlLastFetched'>;
@@ -40,10 +41,14 @@ export type MangaTrackRecordInfo = MangaIdInfo & {
     trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] };
 };
 export type MangaGenreInfo = Pick<MangaTypeGql, 'genre'>;
+export type MangaSourceIdInfo = Pick<MangaTypeGql, 'sourceId'>;
 export type MangaSourceNameInfo = { source?: Maybe<Pick<SourceType, 'name'>> };
 export type MangaSourceLngInfo = { source?: Maybe<Pick<SourceType, 'lang'>> };
 export type MangaArtistInfo = Pick<MangaTypeGql, 'artist'>;
 export type MangaAuthorInfo = Pick<MangaTypeGql, 'author'>;
+export type MangaTitleInfo = Pick<MangaTypeGql, 'title'>;
+export type MangaDescriptionInfo = Pick<MangaTypeGql, 'description'>;
+export type MangaStatusInfo = Pick<MangaTypeGql, 'status'>;
 
 export type MigrateMode = 'copy' | 'migrate';
 
@@ -91,4 +96,9 @@ export enum MangaType {
     WEBTOON,
     MANHWA,
     MANHUA,
+}
+
+export interface MangaLocationState {
+    mangaTitle: string;
+    mode: MangaCardMode | undefined;
 }

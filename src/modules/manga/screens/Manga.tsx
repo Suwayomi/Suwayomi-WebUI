@@ -13,7 +13,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -27,11 +27,13 @@ import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_SCREEN } from '@/lib/graphql/queries/MangaQuery.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
+import { MangaLocationState } from '@/modules/manga/Manga.types.ts';
 
 export const Manga: React.FC = () => {
     const { t } = useTranslation();
-
     const { id } = useParams<{ id: string }>();
+    const { mode } = useLocation<MangaLocationState>().state ?? {};
+
     const autofetchedRef = useRef(false);
 
     const {
@@ -103,7 +105,7 @@ export const Manga: React.FC = () => {
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>
             {isLoading && <LoadingPlaceholder />}
 
-            {manga && <MangaDetails manga={manga} />}
+            {manga && <MangaDetails manga={manga} mode={mode} />}
             {manga && <ChapterList manga={manga} isRefreshing={refreshing} />}
         </Box>
     );

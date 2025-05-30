@@ -29,12 +29,15 @@ import {
     MangaAction,
     MangaArtistInfo,
     MangaAuthorInfo,
+    MangaCardMode,
     MangaDownloadInfo,
     MangaGenreInfo,
     MangaIdInfo,
+    MangaLocationState,
     MangaSourceLngInfo,
     MangaSourceNameInfo,
     MangaThumbnailInfo,
+    MangaTitleInfo,
     MangaType,
     MangaUnreadInfo,
     MigrateMode,
@@ -603,5 +606,15 @@ export class Mangas {
 
     static getAuthors<Manga extends MangaAuthorInfo>(manga: Manga): string[] | undefined {
         return manga.author?.split(ARTIST_AUTHOR_SEPARATOR_REGEX);
+    }
+
+    static createLocationState<Manga extends MangaTitleInfo>(
+        manga: Manga,
+        mode: MangaCardMode | undefined,
+    ): MangaLocationState {
+        return {
+            mangaTitle: manga.title,
+            mode,
+        };
     }
 }

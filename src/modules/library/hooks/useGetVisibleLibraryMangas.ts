@@ -15,7 +15,13 @@ import { useGetCategoryMetadata } from '@/modules/category/services/CategoryMeta
 import { NullAndUndefined } from '@/Base.types.ts';
 import { LibraryOptions, LibrarySortMode } from '@/modules/library/Library.types.ts';
 import { CategoryIdInfo, CategoryMetadataInfo } from '@/modules/category/Category.types.ts';
-import { MangaChapterCountInfo, MangaIdInfo } from '@/modules/manga/Manga.types.ts';
+import {
+    MangaChapterCountInfo,
+    MangaDownloadInfo,
+    MangaIdInfo,
+    MangaStatusInfo,
+    MangaUnreadInfo,
+} from '@/modules/manga/Manga.types.ts';
 import { SourceDisplayNameInfo } from '@/modules/source/Source.types.ts';
 
 const triStateFilter = (
@@ -96,8 +102,7 @@ const trackerFilter = (trackFilters: LibraryOptions['hasTrackerBinding'], manga:
         })
         .every(Boolean);
 
-type TMangaStatusFilter = Pick<MangaType, 'status'>;
-const statusFilter = (statusFilters: LibraryOptions['hasStatus'], manga: TMangaStatusFilter): boolean =>
+const statusFilter = (statusFilters: LibraryOptions['hasStatus'], manga: MangaStatusInfo): boolean =>
     Object.entries(statusFilters)
         .map(([status, statusFilterState]) => triStateFilterBoolean(statusFilterState, status === manga.status))
         .every(Boolean);
@@ -112,10 +117,12 @@ type TMangaFilterOptions = Pick<
     | 'hasTrackerBinding'
     | 'hasStatus'
 >;
-type TMangaFilter = Pick<MangaType, 'downloadCount' | 'unreadCount' | 'bookmarkCount' | 'hasDuplicateChapters'> &
+type TMangaFilter = Pick<MangaType, 'bookmarkCount' | 'hasDuplicateChapters'> &
     TMangaTrackerFilter &
-    TMangaStatusFilter &
-    MangaChapterCountInfo;
+    MangaStatusInfo &
+    MangaChapterCountInfo &
+    MangaDownloadInfo &
+    MangaUnreadInfo;
 const filterManga = (
     manga: TMangaFilter,
     {

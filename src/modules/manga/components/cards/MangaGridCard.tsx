@@ -65,7 +65,7 @@ export const MangaGridCard = memo(
                 {...longPressBind(() => popupState.open(optionButtonRef.current))}
                 onClick={handleClick}
                 to={mangaLinkTo}
-                state={{ mangaTitle: title }}
+                state={Mangas.createLocationState(manga, mode)}
                 sx={{ textDecoration: 'none', touchCallout: 'none' }}
             >
                 <Box
