@@ -10,7 +10,7 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import Typography from '@mui/material/Typography';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
@@ -23,7 +23,7 @@ import { useElementSize } from '@mantine/hooks';
 import IconButton from '@mui/material/IconButton'; // ms
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage, useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
@@ -233,19 +233,17 @@ const SourceSearchPreview = React.memo(
 
 export const SearchAll: React.FC = () => {
     const { t } = useTranslation();
-    const { pathname, state } = useLocation<{ mangaTitle?: string }>();
+    const navigate = useNavigate();
+    const { pathname, state } = useLocation<{ mangaTitle?: string; shouldShowOnlyPinnedSources?: boolean }>();
     const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
 
+    const shouldShowOnlyPinnedSources = state?.shouldShowOnlyPinnedSources ?? true;
     const isMigrateMode = pathname.startsWith('/migrate/source');
 
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', getDefaultLanguages());
-    const [shouldShowOnlyPinnedSources, setShouldShowOnlyPinnedSources] = useSessionStorage(
-        'SearchAll::shouldShowOnlyPinnedSources',
-        true,
-    );
     const {
         settings: { showNsfw, shouldShowOnlySourcesWithResults },
     } = useMetadataServerSettings();
@@ -338,14 +336,36 @@ export const SearchAll: React.FC = () => {
                     <Button
                         startIcon={<PushPinIcon />}
                         variant={shouldShowOnlyPinnedSources ? 'contained' : 'outlined'}
-                        onClick={() => setShouldShowOnlyPinnedSources(true)}
+                        onClick={() =>
+                            navigate(
+                                {
+                                    pathname: '',
+                                    search: query ? `query=${query}` : '',
+                                },
+                                {
+                                    replace: true,
+                                    state: { ...state, shouldShowOnlyPinnedSources: true },
+                                },
+                            )
+                        }
                     >
                         {t('global.label.pinned')}
                     </Button>
                     <Button
                         startIcon={<DoneAllIcon />}
                         variant={!shouldShowOnlyPinnedSources ? 'contained' : 'outlined'}
-                        onClick={() => setShouldShowOnlyPinnedSources(false)}
+                        onClick={() =>
+                            navigate(
+                                {
+                                    pathname: '',
+                                    search: query ? `query=${query}` : '',
+                                },
+                                {
+                                    replace: true,
+                                    state: { ...state, shouldShowOnlyPinnedSources: false },
+                                },
+                            )
+                        }
                     >
                         {t('extension.language.all')}
                     </Button>
