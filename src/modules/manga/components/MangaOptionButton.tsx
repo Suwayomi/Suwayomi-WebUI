@@ -96,7 +96,11 @@ export const MangaOptionButton = forwardRef(
                         visibility: popupState.isOpen ? 'visible' : 'hidden',
                         pointerEvents: 'none',
                         '@media not (pointer: fine)': {
-                            display: 'none',
+                            visibility: 'hidden',
+                            width: 0,
+                            height: 0,
+                            p: 0,
+                            m: 0,
                         },
                     }}
                 >
