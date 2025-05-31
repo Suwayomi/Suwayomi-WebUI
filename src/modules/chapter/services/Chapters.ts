@@ -447,6 +447,6 @@ export class Chapters {
         const higherChapterNumber = Math.max(chapterA.chapterNumber, chapterB.chapterNumber);
         const lowerChapterNumber = Math.min(chapterA.chapterNumber, chapterB.chapterNumber);
 
-        return Math.floor(higherChapterNumber) - Math.floor(lowerChapterNumber) - 1;
+        return Math.max(0, Math.floor(higherChapterNumber) - Math.floor(lowerChapterNumber) - 1);
     }
 }
