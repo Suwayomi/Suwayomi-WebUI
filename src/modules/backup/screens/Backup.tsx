@@ -120,6 +120,7 @@ export function Backup() {
                 makeToast(t('settings.backup.action.restore.error.label.failure'), 'error');
             }
 
+            requestManager.reset();
             backupRestoreId = undefined;
             setTriggerReRender(Date.now());
         }

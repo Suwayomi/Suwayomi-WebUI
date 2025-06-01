@@ -2684,7 +2684,7 @@ export class RequestManager {
         file: File,
         options?: MutationOptions<RestoreBackupMutation, RestoreBackupMutationVariables>,
     ): AbortableApolloMutationResponse<RestoreBackupMutation> {
-        const result = this.doRequest<RestoreBackupMutation, RestoreBackupMutationVariables>(
+        return this.doRequest<RestoreBackupMutation, RestoreBackupMutationVariables>(
             GQLMethod.MUTATION,
             RESTORE_BACKUP,
             { backup: file },
@@ -2692,12 +2692,6 @@ export class RequestManager {
                 ...options,
             },
         );
-
-        result.response.then(() => {
-            this.reset();
-        });
-
-        return result;
     }
 
     public validateBackupFile(
