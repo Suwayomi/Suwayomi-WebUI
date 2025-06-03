@@ -1552,7 +1552,7 @@
       "type": {
         "doujinshi": "Doujinshi",
         "manga": "$t(manga.title_one)",
-        "manhua": "$t(manga.type.manhwa)",
+        "manhua": "$t(manga.type.manhua)",
         "manhwa": "$t(manga.type.manhwa)",
         "novel": "Novel",
         "oel": "OEL",
