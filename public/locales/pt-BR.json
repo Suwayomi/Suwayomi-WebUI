@@ -400,7 +400,8 @@
                 "update_failed": "Não foi possível verificar as atualizações",
                 "invalid_file_type": "Tipo de arquivo inválido",
                 "invalid_action": "Esta não é uma ação válida",
-                "invalid_input": "Entrada inválida"
+                "invalid_input": "Entrada inválida",
+                "unrecoverable_error": "Algo deu errado\nOcorreu um erro que não foi possível se recuperar"
             }
         },
         "filter": {
@@ -471,16 +472,140 @@
             "success": "Sucesso",
             "type": "Tipo",
             "unknown": "Desconhecido",
-            "sort": "ordenar",
+            "sort": "Ordenar",
             "standard": "Padrão",
             "username": "Nome de usuário",
             "vertical": "Vertical",
-            "warning": "Aviso"
+            "warning": "Aviso",
+            "large": "Largo",
+            "medium": "Médio",
+            "small": "Pequeno",
+            "last_used": "Usado por último",
+            "pinned": "Fixado"
+        },
+        "sort": {
+            "label": {
+                "by_source": "Por fonte",
+                "desc": "Decrescente",
+                "by_fetch_date": "Por data de busca",
+                "by_upload_date": "Por data de upload"
+            }
+        },
+        "time": {
+            "hour_short": "h",
+            "minutes": {
+                "value": "{{count}} $t(global.time.minutes.minute, minúsculo)",
+                "minute_one": "Minuto",
+                "minute_many": "Minutos",
+                "minute_other": ""
+            },
+            "seconds": {
+                "second_one": "Segundo",
+                "second_many": "Segundos",
+                "second_other": "",
+                "value": "{{count}} $t(global.time.seconds.second, minúsculo)"
+            }
+        },
+        "update": {
+            "label": {
+                "available": "Atualização disponível",
+                "check_failure": "Não foi possível verificar por atualizações",
+                "checking": "Procurando atualizações",
+                "info": "Versão do servidor {{version}} ({{channel}}) disponível para download",
+                "up_to_date": "Esta é a versão mais atual",
+                "update_failure": "Falha na atualização",
+                "update_success": "{{name}} foi atualizado para a versão {{version}} ({{channel}})",
+                "updating": "{{progress}}% | Atualizando…"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "title": "Informar sobre atualizações disponíveis",
+                        "description": "Mostra uma caixa de texto caso uma nova versão esteja disponível"
+                    }
+                }
+            }
         }
     },
     "reader": {
         "button": {
             "next_chapter": "Próximo capítulo"
+        }
+    },
+    "history": {
+        "settings": {
+            "hide": "Esconder histórico"
+        },
+        "title": "Histórico",
+        "error": {
+            "label": {
+                "no_history_available": "Você ainda não leu nenhuma série."
+            }
+        }
+    },
+    "library": {
+        "error": {
+            "label": {
+                "remove_from_library": "Não foi possível remover o mangá da biblioteca!",
+                "stop_global_update": "Não foi possível parar a atualização global",
+                "add_to_library": "Não foi possível adicionar o mangá à biblioteca!",
+                "empty": "Sua biblioteca está vazia",
+                "no_matches": "Nenhum mangá corresponde a este filtro"
+            }
+        },
+        "action": {
+            "label": {
+                "search_globally": "Pesquisar \"{{query}}\" globalmente",
+                "stop_update": "Parar atualização global",
+                "update_category": "Atualizar categoria",
+                "update_library": "Atualizar biblioteca"
+            }
+        },
+        "settings": {
+            "global_update": {
+                "entries": {
+                    "label": {
+                        "completed": "Com o status \"Concluído\"",
+                        "unread_chapters": "Com capítulos não lidos",
+                        "not_started": "Que não foram iniciados"
+                    }
+                },
+                "metadata": {
+                    "label": {
+                        "description": "Verificar por novas capas e detalhes quando atualizar a biblioteca",
+                        "title": "Atualizar os metadados automaticamente"
+                    }
+                },
+                "title": "Atualização global"
+            }
+        },
+        "title": "Biblioteca"
+    },
+    "hotkeys": {
+        "title_one": "Atalho",
+        "title_many": "Atalhos",
+        "title_other": "",
+        "create": {
+            "dialog": {
+                "label": "Chaves gravadas: <Keys/>",
+                "placeholder": "Pressione as teclas",
+                "title": "Gravar atalho"
+            },
+            "error": {
+                "exists": "Tecla de atalho já existe"
+            }
+        },
+        "info": {
+            "delete": "Clique no botão para remover atalho"
+        }
+    },
+    "manga": {
+        "action": {
+            "category": {
+                "button": {
+                    "selected": "Mudar categorias dos selecionados"
+                }
+            }
         }
     }
 }

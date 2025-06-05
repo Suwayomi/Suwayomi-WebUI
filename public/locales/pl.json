@@ -127,7 +127,13 @@
         },
         "title_one": "Rozdział",
         "title_few": "Rozdziały",
-        "title_many": "Rozdziałów"
+        "title_many": "Rozdziałów",
+        "value_one": "{{count}} rozdział",
+        "value_few": "{{count}} rozdziały",
+        "value_many": "{{count}} rozdziałów",
+        "missing_one": "Brakuje {{count}} rozdziału",
+        "missing_few": "Brakuje {{count}} rozdziałów",
+        "missing_many": "Brakuje {{count}} rozdziałów"
     },
     "category": {
         "error": {
@@ -183,7 +189,11 @@
                 "delete_all": "Usuń wszystko",
                 "no_downloads": "Brak pobrań"
             },
-            "title": "Kolejka Pobierania"
+            "title": "Kolejka Pobierania",
+            "info": {
+                "paused": "Wstrzymano - $t(download.queue.info.remaining)",
+                "remaining": "{{count}} pozostało"
+            }
         },
         "settings": {
             "auto_download": {
@@ -472,7 +482,10 @@
             "default": "Domyślny",
             "sort": "Sortuj",
             "password": "Hasło",
-            "placeholder": "Symbol zastępczy"
+            "placeholder": "Symbol zastępczy",
+            "pinned": "Przypięte",
+            "last_used": "Ostatnio używany",
+            "stopped": "Zatrzymane"
         },
         "language": {
             "error": {
@@ -579,7 +592,8 @@
             "label": {
                 "update_category": "Aktualizuj kategorię",
                 "update_library": "Aktualizuj bibliotekę",
-                "stop_update": "Zatrzymaj aktualizację globalną"
+                "stop_update": "Zatrzymaj aktualizację globalną",
+                "search_globally": "Szukaj \"{{query}}\" globalnie"
             }
         },
         "option": {
@@ -1078,6 +1092,9 @@
         "title": {
             "global_search": "Wyszukiwanie Globalne",
             "search": "Szukaj"
+        },
+        "filter": {
+            "has_results": "Ma wyniki"
         }
     },
     "settings": {
@@ -1519,7 +1536,11 @@
         },
         "title_one": "Źródło",
         "title_few": "Źródła",
-        "title_many": "Źródeł"
+        "title_many": "Źródeł",
+        "pin": {
+            "add": "Przypnij źródło",
+            "remove": "Odepnij źródło"
+        }
     },
     "updates": {
         "title": "Aktualizacje",
@@ -1581,6 +1602,27 @@
             },
             "title": {
                 "trackers": "Trakery"
+            }
+        },
+        "publishing": {
+            "status": {
+                "currently_publishing": "W trakcie publikacji",
+                "not_yet_published": "Jeszcze nie opublikowano",
+                "not_yet_released": "Jeszcze nie wydano",
+                "hiatus": "$(manga.status.hiatus)",
+                "finished": "$t(global.label.finished)",
+                "releasing": "W trakcie publikacji",
+                "cancelled": "$(manga.status.cancelled)"
+            },
+            "type": {
+                "doujinshi": "Doujinshi",
+                "manga": "$t(manga.title_one)",
+                "manhua": "$t(manga.type.manhwa)",
+                "novel": "Powieść",
+                "oel": "OEL",
+                "one_shot": "Oneshot",
+                "unknown": "$t(global.label.unknown)",
+                "manhwa": "$t(manga.type.manhwa)"
             }
         }
     }

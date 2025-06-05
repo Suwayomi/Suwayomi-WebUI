@@ -300,7 +300,25 @@
             "advanced": "Lanjutan",
             "client": "Klien",
             "browse": "Jelajahi",
-            "asterisk": "*"
+            "asterisk": "*",
+            "left": "Kiri",
+            "small": "Kecil",
+            "sort": "Pendek",
+            "success": "Berhasil",
+            "right": "Kanan",
+            "share": "Bagikan",
+            "last_used": "Terakhir digunakan",
+            "loading": "Memuat…",
+            "system": "Sistem",
+            "warning": "Peringatan",
+            "discord": "Discord",
+            "display": "Tampilan",
+            "other": "Lain",
+            "finished": "Selesai",
+            "general": "Umum",
+            "never": "Tidak pernah",
+            "next": "Selanjutnya",
+            "open_in_browser": "Buka di browser"
         },
         "filter": {
             "label": {
@@ -334,6 +352,33 @@
             "gray": "Abu - abu",
             "white": "Putih",
             "black": "Hitam"
+        },
+        "language": {
+            "label": {
+                "language": "Bahasa",
+                "language_with_code": "Bahasa dengan kode: {{code}}"
+            },
+            "error": {
+                "load": "Tidak dapat memuat bahasa"
+            }
+        },
+        "time": {
+            "minutes": {
+                "minute_other": "Menit"
+            },
+            "seconds": {
+                "second_other": "Detik"
+            }
+        },
+        "sort": {
+            "label": {
+                "by_chapter_number": "Berdasarkan nomor chapter"
+            }
+        },
+        "update": {
+            "label": {
+                "info": "Versi peladen {{version}} {{channel}} tersedia untuk diunduh"
+            }
         }
     },
     "extension": {

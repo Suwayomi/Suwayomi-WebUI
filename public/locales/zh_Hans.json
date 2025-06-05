@@ -3,7 +3,7 @@
         "dialog": {
             "title": {
                 "edit_category_other": "编辑分类",
-                "new_category": "编辑分类"
+                "new_category": "新分类"
             }
         },
         "error": {
@@ -138,7 +138,9 @@
                 "downloaded": "已下载"
             }
         },
-        "title_other": "章节"
+        "title_other": "章节",
+        "missing_other": "{{count}}个章节缺失",
+        "value_other": "{{count}}个章节"
     },
     "download": {
         "queue": {
@@ -153,6 +155,10 @@
                     "failed_delete_all": "无法从队列中删除所有下载",
                     "failed_to_retry": "无法重试已失败的下载。"
                 }
+            },
+            "info": {
+                "paused": "已暂停——$t(download.queue.info.remaining)",
+                "remaining": "剩余{{count}}个"
             }
         },
         "state": {
@@ -433,7 +439,10 @@
             "more": "更多",
             "small": "小",
             "large": "大",
-            "medium": "中"
+            "medium": "中",
+            "pinned": "已置顶",
+            "last_used": "上次使用",
+            "stopped": "已停止"
         },
         "language": {
             "label": {
@@ -641,7 +650,8 @@
             "label": {
                 "stop_update": "停止全局更新",
                 "update_category": "更新分类",
-                "update_library": "更新书架"
+                "update_library": "更新书架",
+                "search_globally": "全局搜索“{{query}}”"
             }
         }
     },
@@ -1390,6 +1400,10 @@
                     "save": "保存搜索"
                 }
             }
+        },
+        "pin": {
+            "add": "置顶图源",
+            "remove": "取消置顶图源"
         }
     },
     "updates": {
@@ -1410,6 +1424,9 @@
                 "failed_to_save_settings": "保存默认搜索设置到服务器时出错",
                 "source_search_failed": "无法搜索图源"
             }
+        },
+        "filter": {
+            "has_results": "搜索有结果"
         }
     },
     "migrate": {
@@ -1488,6 +1505,27 @@
                 "label": {
                     "hint": "通过“id:<ID>”搜索ID（例如“id:13”）\n通过“my:<Title>”将搜索范围限制为你的列表内（例如“my:航海王”）"
                 }
+            }
+        },
+        "publishing": {
+            "status": {
+                "currently_publishing": "连载中",
+                "finished": "$t(global.label.finished)",
+                "hiatus": "$(manga.status.hiatus)",
+                "not_yet_published": "尚未发布",
+                "not_yet_released": "尚未上线",
+                "releasing": "连载中",
+                "cancelled": "$(manga.status.cancelled)"
+            },
+            "type": {
+                "doujinshi": "同人作品",
+                "manhua": "$t(manga.type.manhwa)",
+                "novel": "小说",
+                "oel": "英创漫画",
+                "one_shot": "单篇漫画",
+                "unknown": "$t(global.label.unknown)",
+                "manga": "$t(manga.title_one)",
+                "manhwa": "$t(manga.type.manhwa)"
             }
         }
     },
