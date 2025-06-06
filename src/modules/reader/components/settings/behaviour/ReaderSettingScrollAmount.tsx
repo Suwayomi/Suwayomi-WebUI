@@ -13,6 +13,10 @@ import { ButtonSelectInput } from '@/modules/core/components/inputs/ButtonSelect
 import { ReaderScrollAmount } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderScrollAmount> = {
+    [ReaderScrollAmount.AS_MOUSEWHEEL]: {
+        title: 'global.label.as_mousewheel',
+        icon: null,
+    },
     [ReaderScrollAmount.SMALL]: {
         title: 'global.label.small',
         icon: null,

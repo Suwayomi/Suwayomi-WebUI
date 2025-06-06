@@ -40,6 +40,7 @@ import { WebtoonPageIcon } from '@/assets/icons/svg/WebtoonPageIcon.tsx';
  * percentage values
  */
 export enum ReaderScrollAmount {
+    AS_MOUSEWHEEL = 5,
     SMALL = 25,
     MEDIUM = 75,
     LARGE = 95,
