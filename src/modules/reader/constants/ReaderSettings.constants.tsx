@@ -309,6 +309,12 @@ export const AUTO_SCROLL_SPEED = {
     step: 0.5,
 };
 
+export const SCROLL_AMOUNT = {
+    min: 0.5,
+    max: 100,
+    step: 0.5,
+};
+
 export const READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA = {
     [ReaderBlendMode.DEFAULT]: {
         title: 'reader.settings.custom_filter.rgba.blend_mode.default',

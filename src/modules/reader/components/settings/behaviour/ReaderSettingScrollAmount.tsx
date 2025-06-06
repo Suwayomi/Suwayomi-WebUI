@@ -10,7 +10,12 @@ import { useTranslation } from 'react-i18next';
 import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
 import { ButtonSelectInput } from '@/modules/core/components/inputs/ButtonSelectInput.tsx';
-import { ReaderScrollAmount } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
+import {
+    ReaderScrollAmount,
+    DEFAULT_READER_SETTINGS,
+    SCROLL_AMOUNT,
+} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderScrollAmount> = {
     [ReaderScrollAmount.AS_MOUSEWHEEL]: {
@@ -42,12 +47,32 @@ export const ReaderSettingScrollAmount = ({
     const { t } = useTranslation();
 
     return (
-        <ButtonSelectInput
-            label={t('reader.settings.scroll_amount')}
-            value={scrollAmount}
-            values={READER_SCROLL_AMOUNT_VALUES}
-            setValue={setScrollAmount}
-            valueToDisplayData={VALUE_TO_DISPLAY_DATA}
-        />
+        <>
+            <ButtonSelectInput
+                label={t('reader.settings.scroll_amount')}
+                value={scrollAmount}
+                values={READER_SCROLL_AMOUNT_VALUES}
+                setValue={setScrollAmount}
+                valueToDisplayData={VALUE_TO_DISPLAY_DATA}
+            />
+            <SliderInput
+                label={t('reader.settings.label.custom_scroll_amount')}
+                value={t('reader.settings.label.custom_scroll_amount_percentage', { value: scrollAmount })}
+                onDefault={() => setScrollAmount(DEFAULT_READER_SETTINGS.scrollAmount)}
+                slotProps={{
+                    slider: {
+                        defaultValue: DEFAULT_READER_SETTINGS.scrollAmount,
+                        value: scrollAmount,
+                        ...SCROLL_AMOUNT,
+                        onChange: (_, value) => {
+                            setScrollAmount(value as number);
+                        },
+                        onChangeCommitted: (_, value) => {
+                            setScrollAmount(value as number);
+                        },
+                    },
+                }}
+            />
+        </>
     );
 };
