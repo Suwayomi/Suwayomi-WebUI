@@ -40,7 +40,7 @@ export const ReaderBehaviourSettings = ({
             />
             <ReaderSettingScrollAmount
                 scrollAmount={settings.scrollAmount}
-                setScrollAmount={(value) => updateSetting('scrollAmount', value)}
+                setScrollAmount={(value, commit) => updateSetting('scrollAmount', value, commit)}
             />
             <CheckboxInput
                 label={t('reader.settings.label.skip_dup_chapters')}

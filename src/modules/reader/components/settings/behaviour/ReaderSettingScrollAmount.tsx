@@ -18,8 +18,8 @@ import {
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderScrollAmount> = {
-    [ReaderScrollAmount.AS_MOUSEWHEEL]: {
-        title: 'global.label.as_mousewheel',
+    [ReaderScrollAmount.TINY]: {
+        title: 'global.label.tiny',
         icon: null,
     },
     [ReaderScrollAmount.SMALL]: {
@@ -42,7 +42,7 @@ export const ReaderSettingScrollAmount = ({
     scrollAmount,
     setScrollAmount,
 }: Pick<IReaderSettings, 'scrollAmount'> & {
-    setScrollAmount: (amount: ReaderScrollAmount) => void;
+    setScrollAmount: (amount: ReaderScrollAmount, commit: boolean) => void;
 }) => {
     const { t } = useTranslation();
 
@@ -52,23 +52,23 @@ export const ReaderSettingScrollAmount = ({
                 label={t('reader.settings.scroll_amount')}
                 value={scrollAmount}
                 values={READER_SCROLL_AMOUNT_VALUES}
-                setValue={setScrollAmount}
+                setValue={(value) => setScrollAmount(value as number, true)}
                 valueToDisplayData={VALUE_TO_DISPLAY_DATA}
             />
             <SliderInput
                 label={t('reader.settings.label.custom_scroll_amount')}
-                value={t('reader.settings.label.custom_scroll_amount_percentage', { value: scrollAmount })}
-                onDefault={() => setScrollAmount(DEFAULT_READER_SETTINGS.scrollAmount)}
+                value={t('global.value', { value: scrollAmount, unit: '%' })}
+                onDefault={() => setScrollAmount(DEFAULT_READER_SETTINGS.scrollAmount, true)}
                 slotProps={{
                     slider: {
                         defaultValue: DEFAULT_READER_SETTINGS.scrollAmount,
                         value: scrollAmount,
                         ...SCROLL_AMOUNT,
                         onChange: (_, value) => {
-                            setScrollAmount(value as number);
+                            setScrollAmount(value as number, false);
                         },
                         onChangeCommitted: (_, value) => {
-                            setScrollAmount(value as number);
+                            setScrollAmount(value as number, true);
                         },
                     },
                 }}
