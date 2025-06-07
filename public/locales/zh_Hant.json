@@ -512,7 +512,9 @@
             "more": "更多",
             "medium": "中",
             "large": "大",
-            "small": "小"
+            "small": "小",
+            "pinned": "已釘選",
+            "last_used": "上次使用"
         },
         "language": {
             "label": {
@@ -872,6 +874,9 @@
         "title": {
             "search": "搜尋",
             "global_search": "全域搜尋"
+        },
+        "filter": {
+            "has_results": "有搜尋結果"
         }
     },
     "settings": {
@@ -1311,6 +1316,10 @@
                     }
                 }
             }
+        },
+        "pin": {
+            "add": "釘選來源",
+            "remove": "取消釘選來源"
         }
     },
     "updates": {

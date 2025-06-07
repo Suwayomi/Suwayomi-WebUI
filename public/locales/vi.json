@@ -138,7 +138,9 @@
                 "downloaded": "Tải về"
             }
         },
-        "title_other": "Chương"
+        "title_other": "Chương",
+        "missing_other": "Đang thiếu {{count}} chương",
+        "value_other": "{{count}} chương"
     },
     "download": {
         "queue": {
@@ -153,6 +155,10 @@
             "label": {
                 "no_downloads": "Không tải xuống",
                 "delete_all": "Xóa tất cả"
+            },
+            "info": {
+                "paused": "Tạm dừng — $t(download.queue.info.remaining)",
+                "remaining": "{{count}} còn lại"
             }
         },
         "state": {
@@ -250,13 +256,13 @@
             "add_repository_info": "Bạn phải thêm kho tiện ích trước khi cài đặt tiện ích"
         },
         "language": {
-            "all": "Tất cả",
+            "all": "Đa ngôn ngữ",
             "other": "Khác"
         },
         "state": {
             "label": {
-                "installed": "Cài đặt",
-                "installing": "Cài đặt",
+                "installed": "Đã cài đặt",
+                "installing": "Đang cài đặt",
                 "obsolete": "Lỗi thời",
                 "update_pending": "Đang chờ cập nhật",
                 "uninstalling": "Gỡ cài đặt",
@@ -433,7 +439,10 @@
             "more": "Thêm",
             "large": "Lớn",
             "medium": "Trung bình",
-            "small": "Nhỏ"
+            "small": "Nhỏ",
+            "pinned": "Đã ghim",
+            "last_used": "Sử dụng gần đây",
+            "stopped": "Đã dừng lại"
         },
         "language": {
             "label": {
@@ -641,7 +650,8 @@
             "label": {
                 "update_category": "Câp nhật danh mục",
                 "update_library": "Cập nhật thư viện",
-                "stop_update": "Dừng cập nhật thư viện"
+                "stop_update": "Dừng cập nhật thư viện",
+                "search_globally": "Tìm kiếm \"{{query}}\" toàn cầu"
             }
         }
     },
@@ -963,6 +973,9 @@
         "title": {
             "search": "Tìm kiếm",
             "global_search": "Tìm kiếm toàn cầu"
+        },
+        "filter": {
+            "has_results": "Có kết quả"
         }
     },
     "settings": {
@@ -1402,6 +1415,10 @@
                     }
                 }
             }
+        },
+        "pin": {
+            "add": "Ghim nguồn",
+            "remove": "Bỏ ghim nguồn"
         }
     },
     "updates": {
@@ -1488,6 +1505,27 @@
                 "label": {
                     "hint": "Tìm kiếm ID qua \"id:<ID>\" (ví dụ: \"id:13\") \nGiới hạn tìm kiếm trong danh sách của bạn thông qua \"my:<Title>\" (ví dụ: \"my:One Piece\")"
                 }
+            }
+        },
+        "publishing": {
+            "status": {
+                "hiatus": "$(manga.status.hiatus)",
+                "not_yet_published": "Chưa được công bố",
+                "not_yet_released": "Chưa phát hành",
+                "currently_publishing": "Hiện đang xuất bản",
+                "cancelled": "$(manga.status.cancelled)",
+                "finished": "$t(global.label.finished)",
+                "releasing": "Phát hành"
+            },
+            "type": {
+                "doujinshi": "Doujinshi",
+                "manga": "$t(manga.title_one)",
+                "manhua": "$t(manga.type.manhwa)",
+                "manhwa": "$t(manga.type.manhwa)",
+                "novel": "Tiểu thuyết",
+                "oel": "OEL",
+                "one_shot": "Oneshot",
+                "unknown": "$t(global.label.unknown)"
             }
         }
     },
