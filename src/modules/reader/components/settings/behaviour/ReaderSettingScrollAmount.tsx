@@ -10,9 +10,18 @@ import { useTranslation } from 'react-i18next';
 import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
 import { ButtonSelectInput } from '@/modules/core/components/inputs/ButtonSelectInput.tsx';
-import { ReaderScrollAmount } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
+import {
+    ReaderScrollAmount,
+    DEFAULT_READER_SETTINGS,
+    SCROLL_AMOUNT,
+} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderScrollAmount> = {
+    [ReaderScrollAmount.TINY]: {
+        title: 'global.label.tiny',
+        icon: null,
+    },
     [ReaderScrollAmount.SMALL]: {
         title: 'global.label.small',
         icon: null,
@@ -33,17 +42,37 @@ export const ReaderSettingScrollAmount = ({
     scrollAmount,
     setScrollAmount,
 }: Pick<IReaderSettings, 'scrollAmount'> & {
-    setScrollAmount: (amount: ReaderScrollAmount) => void;
+    setScrollAmount: (amount: ReaderScrollAmount, commit: boolean) => void;
 }) => {
     const { t } = useTranslation();
 
     return (
-        <ButtonSelectInput
-            label={t('reader.settings.scroll_amount')}
-            value={scrollAmount}
-            values={READER_SCROLL_AMOUNT_VALUES}
-            setValue={setScrollAmount}
-            valueToDisplayData={VALUE_TO_DISPLAY_DATA}
-        />
+        <>
+            <ButtonSelectInput
+                label={t('reader.settings.scroll_amount')}
+                value={scrollAmount}
+                values={READER_SCROLL_AMOUNT_VALUES}
+                setValue={(value) => setScrollAmount(value as number, true)}
+                valueToDisplayData={VALUE_TO_DISPLAY_DATA}
+            />
+            <SliderInput
+                label={t('reader.settings.label.custom_scroll_amount')}
+                value={t('global.value', { value: scrollAmount, unit: '%' })}
+                onDefault={() => setScrollAmount(DEFAULT_READER_SETTINGS.scrollAmount, true)}
+                slotProps={{
+                    slider: {
+                        defaultValue: DEFAULT_READER_SETTINGS.scrollAmount,
+                        value: scrollAmount,
+                        ...SCROLL_AMOUNT,
+                        onChange: (_, value) => {
+                            setScrollAmount(value as number, false);
+                        },
+                        onChangeCommitted: (_, value) => {
+                            setScrollAmount(value as number, true);
+                        },
+                    },
+                }}
+            />
+        </>
     );
 };

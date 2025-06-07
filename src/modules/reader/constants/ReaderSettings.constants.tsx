@@ -40,6 +40,7 @@ import { WebtoonPageIcon } from '@/assets/icons/svg/WebtoonPageIcon.tsx';
  * percentage values
  */
 export enum ReaderScrollAmount {
+    TINY = 10,
     SMALL = 25,
     MEDIUM = 75,
     LARGE = 95,
@@ -306,6 +307,12 @@ export const AUTO_SCROLL_SPEED = {
     min: 0.5,
     max: 60,
     step: 0.5,
+};
+
+export const SCROLL_AMOUNT = {
+    min: 5,
+    max: 100,
+    step: 5,
 };
 
 export const READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA = {
