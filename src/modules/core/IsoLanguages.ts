@@ -22,7 +22,7 @@ export const IsoLanguages: { [languageCode in I18nResourceCode]: ISOLanguage } &
     // #############################
     'es-419': {
         name: 'Spanish; Castilian',
-        nativeName: 'Español',
+        nativeName: 'Español (Latinoamérica)',
     },
     'pt-pt': {
         name: 'Portuguese',
