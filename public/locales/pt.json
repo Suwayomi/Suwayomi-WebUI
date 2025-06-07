@@ -127,7 +127,13 @@
         },
         "title_one": "Capitulo",
         "title_many": "Capitulos",
-        "title_other": "Capitulos"
+        "title_other": "Capitulos",
+        "missing_one": "Falta {{count}} Capitulo",
+        "missing_many": "Faltam {{count}} Capitulos",
+        "missing_other": "Faltam {{count}} Capitulos",
+        "value_one": "{{count}} Capitulo",
+        "value_many": "{{count}} Capitulos",
+        "value_other": "{{count}} Capitulos"
     },
     "extension": {
         "state": {
@@ -768,7 +774,7 @@
                 },
                 "create": {
                     "label": {
-                        "title": "Criar Backup",
+                        "title": "Criar cópia de segurança",
                         "description": "Faça uma copia de segurança como um backup Tachiyomi"
                     }
                 },
@@ -1018,7 +1024,7 @@
                     },
                     "file_cleanup": {
                         "title": "Limpar o arquivo de log",
-                        "value": "Excluir backups que são mais antigos do que $t(global.date.value.label.day)"
+                        "value": "Excluir arquivos de registro que são mais antigos do que $t(global.date.value.label.day)"
                     }
                 }
             }
@@ -1081,7 +1087,7 @@
                             "invalid_name": "O nome do tema deve ser único e tem um limite de 16 caracteres"
                         },
                         "theme_name": "Nome",
-                        "description": "Veja a documentação oficial do <0>MUI</0> para saber como personalizar o tema.\nAPI palette não é suportada , você precisa usar a nova <1> API de esquemas de cores</1>.\nVocê pode usar criadores de tema como o <2>MUI Theme Creator</2>, mas precisa ajustar o objeto gerado de acordo com a nova API de esquemas de cores. \nCaso nenhum plano de fundo seja definido, um fundo será calculado com base na cor primária."
+                        "description": "Veja a documentação oficial do <0>MUI</0> para saber como personalizar o tema.\nAPI palette não é suportada , você precisa usar a nova <1> API de esquemas de cores</1>.\n\nVocê pode usar criadores de tema como o <2>MUI Theme Creator</2>, mas precisa ajustar o objeto gerado de acordo com a nova API de esquemas de cores.\n\nCaso nenhum plano de fundo seja definido, um fundo será calculado com base na cor primária"
                     },
                     "title": "Criar tema",
                     "success": "Tema criado",
@@ -1459,7 +1465,7 @@
                 "previous": {
                     "chapter_number_one": "Existe um capítulo faltando.\nAnterior: {{nextChapter}}\nAtual: {{currentChapter}}",
                     "chapter_number_many": "Existem {{count}} capítulos faltando.\nAnterior: {{nextChapter}}\nAtual: {{currentChapter}}",
-                    "chapter_number_other": "",
+                    "chapter_number_other": "Existem {{count}} capítulos faltando.\nAnterior: {{nextChapter}}\nAtual: {{currentChapter}}",
                     "scanlator": "O capítulo anterior tem um scanlador diferente do capítulo atual.\nAnterior: {{nextScanlator}}\nAtual: {{currentScanlator}}"
                 },
                 "next": {

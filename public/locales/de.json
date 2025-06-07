@@ -140,7 +140,8 @@
             "label": {
                 "stop_update": "Globales Update anhalten",
                 "update_category": "Kategorie aktualisieren",
-                "update_library": "Bibliothek aktualisieren"
+                "update_library": "Bibliothek aktualisieren",
+                "search_globally": "Suche überall nach \"{{query}}\""
             }
         }
     },
@@ -255,7 +256,11 @@
                     "source_title": "Name der Quelle"
                 }
             }
-        }
+        },
+        "missing_one": "{{count}} Kapitel fehlt",
+        "missing_other": "{{count}} Kapitel fehlen",
+        "value_one": "{{count}} Kapitel",
+        "value_other": "{{count}} Kapitel"
     },
     "reader": {
         "settings": {
@@ -388,7 +393,13 @@
                 "right_left": "Rechts und links",
                 "edge": "Rand"
             },
-            "source_series": "Serieneinstellungen"
+            "source_series": "Serieneinstellungen",
+            "scroll_amount": "Scroll Menge",
+            "show_transition_page": "Übergangsseite anzeigen",
+            "infinite_scroll": {
+                "description": "Behalte vorige und nächste Kapitel sichtbar in kontinuierlichen Lesemodi, was nahtlosen Übergang zwischen Kapiteln erlaubt.",
+                "title": "Kontinuierliche Kapiteldarstellung"
+            }
         },
         "title": "Leser - Manga {{mangaId}} Kapitel {{chapterIndex}}",
         "page_info": {
@@ -687,7 +698,13 @@
             "links": "Links",
             "auto": "Automatisch",
             "right": "Rechts",
-            "share": "Teilen"
+            "share": "Teilen",
+            "large": "Groß",
+            "medium": "Mittel",
+            "small": "Klein",
+            "stopped": "Gestoppt",
+            "pinned": "Angepinnt",
+            "last_used": "Zuletzt genutzt"
         },
         "button": {
             "ok": "OK",
@@ -737,7 +754,8 @@
                 "invalid_file_type": "Nicht unterstützter Dateityp",
                 "invalid_input": "Ungültige Eingabe",
                 "failed_to_load_data": "Es konnten keine Daten geladen werden",
-                "failed_to_save_changes": "Das Speichern der Änderungen ist fehlgeschlagen"
+                "failed_to_save_changes": "Das Speichern der Änderungen ist fehlgeschlagen",
+                "unrecoverable_error": "Etwas ging schief\nEin Fehler kam auf, von dem wir uns nicht automatisch erholen können"
             }
         },
         "filter": {
@@ -1250,6 +1268,10 @@
                     "failed_to_remove": "Der Download konnte nicht aus der Warteschlange entfernt werden.",
                     "failed_to_retry": "Der Download konnte nicht wiederholt werden."
                 }
+            },
+            "info": {
+                "paused": "Pausiert — $t(download.queue.info.remaining)",
+                "remaining": "{{count}} verbleibend"
             }
         },
         "state": {
@@ -1358,6 +1380,10 @@
                     }
                 }
             }
+        },
+        "pin": {
+            "remove": "Quelle loslösen",
+            "add": "Quelle anpinnen"
         }
     },
     "search": {
@@ -1370,6 +1396,9 @@
                 "failed_to_save_settings": "Die Standardsucheinstellungen konnten nicht gespeichert werden",
                 "source_search_failed": "Quelle konnte nicht durchsucht werden"
             }
+        },
+        "filter": {
+            "has_results": "Ergebnisse vorhanden"
         }
     },
     "tracking": {
@@ -1424,6 +1453,14 @@
                 "label": {
                     "hint": "Suche nach ID via \"id:<ID>\" (e.g. \"id:13\")\nNach eigenen Listen limitieren via \"my:<Title>\" (e.g. \"my:One Piece\")"
                 }
+            }
+        },
+        "publishing": {
+            "status": {
+                "currently_publishing": "Derzeit in Veröffentlichung",
+                "not_yet_released": "Noch nicht herausgegeben",
+                "releasing": "Wird herausgegeben",
+                "not_yet_published": "Noch nicht veröffentlicht"
             }
         }
     },

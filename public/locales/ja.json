@@ -218,7 +218,7 @@
                 "label": {
                     "failed_to_remove": "キューからダウンロードを削除できませんでした。",
                     "failed_delete_all": "全てのダウンロードをキューから削除できませんでした",
-                    "failed_to_retry": "失敗したダウンロードの再試行に失敗しました"
+                    "failed_to_retry": "失敗したダウンロードの再試行に失敗しました。"
                 }
             },
             "label": {
