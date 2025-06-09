@@ -25,6 +25,10 @@ export const ChapterExcludeSanlatorsFilter = ({
     const { t } = useTranslation();
     const popupState = usePopupState({ variant: 'dialog', popupId: 'chapter-list-options-scanlator-filter-dialog' });
 
+    if (!scanlators.length) {
+        return null;
+    }
+
     return (
         <>
             <CheckboxInput
