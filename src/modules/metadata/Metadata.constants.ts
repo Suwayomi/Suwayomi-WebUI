@@ -98,6 +98,7 @@ export const APP_METADATA_KEY_TO_TYPE = {
     isPinned: 'boolean',
     lastUsedSourceId: 'string',
     shouldShowOnlySourcesWithResults: 'boolean',
+    excludedScanlators: 'string', // string[]
 } as const satisfies Record<AppMetadataKeys, 'auto' | 'string' | 'number' | 'boolean'>;
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA_KEY_TO_TYPE);

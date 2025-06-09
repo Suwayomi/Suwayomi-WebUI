@@ -14,6 +14,7 @@ import {
     ChapterDownloadInfo,
     ChapterListOptions,
     ChapterReadInfo,
+    ChapterScanlatorInfo,
 } from '@/modules/chapter/Chapter.types.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { GqlMetaHolder } from '@/modules/metadata/Metadata.types.ts';
@@ -56,6 +57,10 @@ function bookmarkedFilter(
     }
 }
 
+function scanlatorFilter(excludedScanlators: string[], { scanlator }: ChapterScanlatorInfo): boolean {
+    return !!scanlator && !excludedScanlators.includes(scanlator);
+}
+
 type TChapterSort = Pick<ChapterType, 'sourceOrder' | 'fetchedAt' | 'chapterNumber' | 'uploadDate'>;
 const sortChapters = <T extends TChapterSort>(
     chapters: T[],
@@ -87,7 +92,7 @@ const sortChapters = <T extends TChapterSort>(
     return sortedChapters;
 };
 
-type TChapterFilter = TChapterSort & ChapterReadInfo & ChapterDownloadInfo & ChapterBookmarkInfo;
+type TChapterFilter = TChapterSort & ChapterReadInfo & ChapterDownloadInfo & ChapterBookmarkInfo & ChapterScanlatorInfo;
 export function filterAndSortChapters<Chapters extends TChapterFilter>(
     chapters: Chapters[],
     options: ChapterListOptions,
@@ -96,23 +101,25 @@ export function filterAndSortChapters<Chapters extends TChapterFilter>(
         (chp) =>
             unreadFilter(options.unread, chp) &&
             downloadFilter(options.downloaded, chp) &&
-            bookmarkedFilter(options.bookmarked, chp),
+            bookmarkedFilter(options.bookmarked, chp) &&
+            scanlatorFilter(options.excludedScanlators, chp),
     );
 
     return sortChapters(filtered, options);
 }
 
 export const isFilterActive = (options: ChapterListOptions) => {
-    const { unread, downloaded, bookmarked } = options;
-    return unread != null || downloaded != null || bookmarked != null;
+    const { unread, downloaded, bookmarked, excludedScanlators } = options;
+    return unread != null || downloaded != null || bookmarked != null || !!excludedScanlators.length;
 };
 
 export const useChapterListOptions = (manga: MangaIdInfo & GqlMetaHolder): ChapterListOptions => {
-    const { unread, downloaded, bookmarked, reverse, sortBy, showChapterNumber } = useGetMangaMetadata(manga);
+    const { unread, downloaded, bookmarked, reverse, sortBy, showChapterNumber, excludedScanlators } =
+        useGetMangaMetadata(manga);
 
     return useMemo(
-        () => ({ unread, downloaded, bookmarked, reverse, sortBy, showChapterNumber }),
-        [unread, downloaded, bookmarked, reverse, sortBy, showChapterNumber],
+        () => ({ unread, downloaded, bookmarked, reverse, sortBy, showChapterNumber, excludedScanlators }),
+        [unread, downloaded, bookmarked, reverse, sortBy, showChapterNumber, excludedScanlators],
     );
 };
 

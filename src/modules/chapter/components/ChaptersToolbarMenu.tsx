@@ -33,6 +33,8 @@ interface IProps {
     options: ChapterListOptions;
     updateOption: ReturnType<typeof updateChapterListOptions>;
     unreadChapters: (ChapterIdInfo & ChapterDownloadInfo & ChapterBookmarkInfo)[];
+    scanlators: string[];
+    excludeScanlators: string[];
 }
 
 export const ChaptersToolbarMenu = ({
@@ -42,6 +44,8 @@ export const ChaptersToolbarMenu = ({
     options,
     updateOption,
     unreadChapters,
+    scanlators,
+    excludeScanlators,
 }: IProps) => {
     const { t } = useTranslation();
 
@@ -90,7 +94,14 @@ export const ChaptersToolbarMenu = ({
                     <FilterList color={isFiltered ? 'warning' : undefined} />
                 </IconButton>
             </CustomTooltip>
-            <ChapterOptions open={open} onClose={() => setOpen(false)} options={options} updateOption={updateOption} />
+            <ChapterOptions
+                open={open}
+                onClose={() => setOpen(false)}
+                options={options}
+                updateOption={updateOption}
+                scanlators={scanlators}
+                excludedScanlators={excludeScanlators}
+            />
         </>
     );
 };

@@ -439,4 +439,12 @@ export class Chapters {
 
         return Math.max(0, Math.floor(higherChapterNumber) - Math.floor(lowerChapterNumber) - 1);
     }
+
+    static getScanlators<Chapter extends ChapterScanlatorInfo>(chapters: Chapter[]): string[] {
+        return [
+            ...new Set(
+                chapters.map((chapter) => chapter.scanlator).filter((scanlator) => typeof scanlator === 'string'),
+            ),
+        ];
+    }
 }

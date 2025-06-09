@@ -458,6 +458,7 @@
       "placeholder": "Placeholder",
       "previous": "Previous",
       "right": "Right",
+      "scanlator": "Scanlator",
       "share": "Share",
       "small": "Small",
       "sort": "Sort",
@@ -965,6 +966,7 @@
       },
       "label": {
         "behaviour": "Behaviour",
+        "custom_scroll_amount": "Custom scroll amount",
         "fit_page_to_window": "Fit page to window",
         "layout": "Layout",
         "limit_reader_width": "Limit reader width",
@@ -977,7 +979,6 @@
         "reading_mode": "Reading mode",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
-        "custom_scroll_amount": "Custom scroll amount",
         "static_navigation": "Static navigation"
       },
       "overlay_mode": "Overlay mode",

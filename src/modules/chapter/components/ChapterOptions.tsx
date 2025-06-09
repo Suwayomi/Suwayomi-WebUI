@@ -17,12 +17,15 @@ import { CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY } from '@/modules/chapter/Chapt
 import { TranslationKey } from '@/Base.types.ts';
 import { ChapterListOptions } from '@/modules/chapter/Chapter.types.ts';
 import { updateChapterListOptions } from '@/modules/chapter/utils/ChapterList.util.tsx';
+import { ChapterExcludeSanlatorsFilter } from '@/modules/chapter/components/ChapterExcludeSanlatorsFilter.tsx';
 
 interface IProps {
     open: boolean;
     onClose: () => void;
     options: ChapterListOptions;
     updateOption: ReturnType<typeof updateChapterListOptions>;
+    scanlators: string[];
+    excludedScanlators: string[];
 }
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
@@ -31,7 +34,14 @@ const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
     display: 'global.label.display',
 };
 
-export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, updateOption }) => {
+export const ChapterOptions: React.FC<IProps> = ({
+    open,
+    onClose,
+    options,
+    updateOption,
+    scanlators,
+    excludedScanlators,
+}) => {
     const { t } = useTranslation();
 
     return (
@@ -59,6 +69,11 @@ export const ChapterOptions: React.FC<IProps> = ({ open, onClose, options, updat
                                 label={t('global.filter.label.bookmarked')}
                                 checked={options.bookmarked}
                                 onChange={(c) => updateOption('bookmarked', c)}
+                            />
+                            <ChapterExcludeSanlatorsFilter
+                                scanlators={scanlators}
+                                excludedScanlators={excludedScanlators}
+                                updateOption={updateOption}
                             />
                         </>
                     );

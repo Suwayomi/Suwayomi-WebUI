@@ -20,6 +20,7 @@ import {
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { requestUpdateMangaMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 
 const DEFAULT_MANGA_METADATA: MangaMetadata = {
     ...DEFAULT_CHAPTER_OPTIONS,
@@ -29,12 +30,14 @@ const convertAppMetadataToGqlMetadata = (
     metadata: Partial<MangaMetadata>,
 ): Metadata<string, AllowedMetadataValueTypes> => ({
     ...metadata,
+    excludedScanlators: JSON.stringify(metadata.excludedScanlators),
 });
 
 const convertGqlMetadataToAppMetadata = (
     metadata: Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>,
 ): MangaMetadata => ({
     ...(metadata as unknown as MangaMetadata),
+    excludedScanlators: jsonSaveParse<MangaMetadata['excludedScanlators']>(metadata.excludedScanlators as string) ?? [],
 });
 
 const getMangaMetadataWithDefaultValueFallback = (

@@ -1,0 +1,52 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
+import { useTranslation } from 'react-i18next';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import { CheckboxListSetting } from '@/modules/core/components/settings/CheckboxListSetting.tsx';
+import { updateChapterListOptions } from '@/modules/chapter/utils/ChapterList.util.tsx';
+import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
+
+export const ChapterExcludeSanlatorsFilter = ({
+    updateOption,
+    scanlators,
+    excludedScanlators,
+}: {
+    updateOption: ReturnType<typeof updateChapterListOptions>;
+    scanlators: string[];
+    excludedScanlators: string[];
+}) => {
+    const { t } = useTranslation();
+    const popupState = usePopupState({ variant: 'dialog', popupId: 'chapter-list-options-scanlator-filter-dialog' });
+
+    return (
+        <>
+            <CheckboxInput
+                {...bindTrigger(popupState)}
+                label={t('global.label.scanlator')}
+                icon={<PeopleAltOutlinedIcon />}
+                checkedIcon={<PeopleAltOutlinedIcon color="warning" />}
+                checked={!!excludedScanlators.length}
+            />
+            <CheckboxListSetting
+                open={popupState.isOpen}
+                onClose={(selectedScanlators) => {
+                    if (selectedScanlators) {
+                        updateOption('excludedScanlators', selectedScanlators);
+                    }
+                    popupState.close();
+                }}
+                items={scanlators}
+                getId={(scanlator) => scanlator}
+                getLabel={(scanlator) => scanlator}
+                isChecked={(scanlator) => excludedScanlators.includes(scanlator)}
+            />
+        </>
+    );
+};

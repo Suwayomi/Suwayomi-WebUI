@@ -18,6 +18,7 @@ export const DEFAULT_CHAPTER_OPTIONS: ChapterListOptions = {
     reverse: true,
     sortBy: 'source',
     showChapterNumber: false,
+    excludedScanlators: [],
 };
 
 export const CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY: Record<ChapterSortMode, TranslationKey> = {

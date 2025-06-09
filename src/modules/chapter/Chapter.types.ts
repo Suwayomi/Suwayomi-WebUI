@@ -22,6 +22,7 @@ export interface ChapterListOptions {
     reverse: boolean;
     sortBy: ChapterSortMode;
     showChapterNumber: boolean;
+    excludedScanlators: string[];
 }
 
 export type TChapterReader = ChapterReaderFieldsFragment;

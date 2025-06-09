@@ -20,6 +20,7 @@ export type SelectableCollectionReturnType<Id extends number | string, Key exten
     setSelectionForKey: (key: Key, ids: Id[]) => void;
     getSelectionForKey: (key: Key) => Id[];
     clearSelection: () => void;
+    reset: () => void;
 };
 
 export const useSelectableCollection = <Id extends number | string, Key extends string = 'default'>(
@@ -122,6 +123,11 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
         setKeyToSelectedItemIds({});
     }, []);
 
+    const reset = useCallback(() => {
+        clearSelection();
+        setKeyToSelectedItemIds(initialState);
+    }, [clearSelection, initialState]);
+
     return {
         selectedItemIds,
         keySelectedItemIds,
@@ -134,5 +140,6 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
         setSelectionForKey,
         getSelectionForKey,
         clearSelection,
+        reset,
     };
 };
