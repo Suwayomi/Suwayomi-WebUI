@@ -413,23 +413,13 @@ export class Chapters {
     }
 
     static getMissingCount<Chapter extends ChapterNumberInfo>(chapters: Chapter[]): number {
-        const normalizedChapterNumbers = chapters
-            .map((chapter) => chapter.chapterNumber)
-            .filter((chapterNumber) => chapterNumber !== -1)
-            .map(Math.floor)
-            .toSorted((a, b) => a - b);
+        const sortedChapters = chapters.toSorted((a, b) => a.chapterNumber - b.chapterNumber);
 
-        const uniqueChapterNumbers = [...new Set(normalizedChapterNumbers)];
-
-        return uniqueChapterNumbers.reduce((missingChapterCount, chapterNumber, index, chapterNumbers) => {
-            const previousChapterNumber = chapterNumbers[index - 1] ?? chapterNumber;
-
-            if (chapterNumber > previousChapterNumber + 1) {
-                return missingChapterCount + (chapterNumber - previousChapterNumber - 1);
-            }
-
-            return missingChapterCount;
-        }, 0);
+        return sortedChapters.reduce(
+            (missingChapterCount, chapter, index) =>
+                missingChapterCount + Chapters.getGap(chapter, sortedChapters[index - 1]),
+            0,
+        );
     }
 
     static getGap<Chapter extends ChapterNumberInfo>(
