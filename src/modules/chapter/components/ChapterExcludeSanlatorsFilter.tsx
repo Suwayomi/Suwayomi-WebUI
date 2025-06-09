@@ -35,6 +35,7 @@ export const ChapterExcludeSanlatorsFilter = ({
                 checked={!!excludedScanlators.length}
             />
             <CheckboxListSetting
+                title={t('chapter.option.exclude_scanlators')}
                 open={popupState.isOpen}
                 onClose={(selectedScanlators) => {
                     if (selectedScanlators) {

@@ -147,7 +147,8 @@
           "chapter_number": "Chapter number",
           "source_title": "Source title"
         }
-      }
+      },
+      "exclude_scanlators": "Exclude scanlators"
     },
     "status": {
       "label": {

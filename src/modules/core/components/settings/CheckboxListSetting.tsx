@@ -19,6 +19,8 @@ import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.ts
 import { useSelectableCollection } from '@/modules/collection/hooks/useSelectableCollection.ts';
 
 export function CheckboxListSetting<Item>({
+    title,
+    emptyMessage,
     items,
     getId,
     getLabel,
@@ -26,6 +28,8 @@ export function CheckboxListSetting<Item>({
     open,
     onClose,
 }: {
+    title: string;
+    emptyMessage?: string;
     items: Item[];
     getId: (item: Item) => string;
     getLabel: (item: Item) => string;
@@ -70,10 +74,10 @@ export function CheckboxListSetting<Item>({
             open={open}
             onClose={handleCancel}
         >
-            <DialogTitle>{t('category.title.set_categories')}</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
-                    {items.length === 0 && <span>{t('category.error.no_categories_found.label.info')}</span>}
+                    {items.length === 0 && <span>{emptyMessage}</span>}
                     {items.map((item) => (
                         <CheckboxInput
                             checked={selectedItemIds.includes(getId(item))}
