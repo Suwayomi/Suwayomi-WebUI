@@ -58,7 +58,7 @@ function bookmarkedFilter(
 }
 
 function scanlatorFilter(excludedScanlators: string[], { scanlator }: ChapterScanlatorInfo): boolean {
-    return !!scanlator && !excludedScanlators.includes(scanlator);
+    return !scanlator || !excludedScanlators.includes(scanlator);
 }
 
 type TChapterSort = Pick<ChapterType, 'sourceOrder' | 'fetchedAt' | 'chapterNumber' | 'uploadDate'>;
