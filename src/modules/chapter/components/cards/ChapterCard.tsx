@@ -39,6 +39,7 @@ import {
     ChapterReadInfo,
     ChapterScanlatorInfo,
 } from '@/modules/chapter/Chapter.types.ts';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -62,6 +63,7 @@ interface IProps {
 export const ChapterCard = memo((props: IProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
+    const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
 
     const menuButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -120,9 +122,10 @@ export const ChapterCard = memo((props: IProps) => {
                         <CardActionArea
                             component={Link}
                             to={Chapters.getReaderUrl(chapter)}
+                            onContextMenu={preventMobileContextMenu}
+                            sx={MediaQuery.preventMobileContextMenuSx()}
                             style={{
                                 color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
-                                userSelect: 'none',
                             }}
                             state={Chapters.getReaderOpenChapterLocationState(chapter, true)}
                             replace={mode === 'reader'}

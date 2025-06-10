@@ -7,7 +7,7 @@
  */
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Breakpoint } from '@mui/material/styles';
+import { Breakpoint, SxProps, Theme } from '@mui/material/styles';
 import { useCallback, useState } from 'react';
 import { getCurrentTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
@@ -111,5 +111,25 @@ export class MediaQuery {
         matchSystemThemeMode.addEventListener('change', handleSystemThemeModeChange);
 
         return () => matchSystemThemeMode.removeEventListener('change', handleSystemThemeModeChange);
+    }
+
+    static usePreventMobileContextMenu() {
+        const isTouchDevice = MediaQuery.useIsTouchDevice();
+
+        return useCallback(
+            (e: React.MouseEvent<any, MouseEvent>) => {
+                if (isTouchDevice) {
+                    e.preventDefault();
+                }
+            },
+            [isTouchDevice],
+        );
+    }
+
+    static preventMobileContextMenuSx(): SxProps<Theme> {
+        return {
+            userSelect: 'none',
+            '-webkit-touch-callout': 'none',
+        };
     }
 }

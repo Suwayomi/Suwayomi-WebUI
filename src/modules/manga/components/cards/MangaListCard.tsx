@@ -19,6 +19,7 @@ import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { MangaOptionButton } from '@/modules/manga/components/MangaOptionButton.tsx';
 import { ListCardAvatar } from '@/modules/core/components/lists/cards/ListCardAvatar.tsx';
 import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 export const MangaListCard = memo(
     ({
@@ -35,6 +36,8 @@ export const MangaListCard = memo(
         mangaBadges,
         mode,
     }: SpecificMangaCardProps) => {
+        const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
+
         const optionButtonRef = useRef<HTMLButtonElement>(null);
 
         const { id, title } = manga;
@@ -47,8 +50,9 @@ export const MangaListCard = memo(
                     state={Mangas.createLocationState(manga, mode)}
                     onClick={handleClick}
                     {...longPressBind(() => popupState.open(optionButtonRef.current))}
+                    onContextMenu={preventMobileContextMenu}
                     sx={{
-                        userSelect: 'none',
+                        ...MediaQuery.preventMobileContextMenuSx(),
                         '@media (hover: hover) and (pointer: fine)': {
                             '&:hover .manga-option-button': {
                                 visibility: 'visible',
