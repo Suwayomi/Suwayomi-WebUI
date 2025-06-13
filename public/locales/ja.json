@@ -19,7 +19,7 @@
             }
         },
         "label": {
-            "use_as_default_category": "ライブラリに新しい漫画を追加するときに使用するカテゴリーです",
+            "use_as_default_category": "ライブラリに新しく漫画を追加するときに使用するカテゴリーです",
             "category_name": "カテゴリー名"
         },
         "settings": {

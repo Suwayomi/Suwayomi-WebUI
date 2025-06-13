@@ -131,7 +131,8 @@
                     "chapter_number": "Số chương",
                     "source_title": "Tiêu đề nguồn"
                 }
-            }
+            },
+            "exclude_scanlators": "Loại trừ nhóm dịch"
         },
         "status": {
             "label": {
@@ -442,7 +443,9 @@
             "small": "Nhỏ",
             "pinned": "Đã ghim",
             "last_used": "Sử dụng gần đây",
-            "stopped": "Đã dừng lại"
+            "stopped": "Đã dừng lại",
+            "tiny": "Nhỏ nhất",
+            "scanlator": "Nhóm dịch"
         },
         "language": {
             "label": {
@@ -811,7 +814,8 @@
                 "offset_double_spread": "Bù trừ trang đôi",
                 "page_gap": "Khoảng cách trang",
                 "reading_direction": "Hướng đọc",
-                "reading_mode": "Kiểu đọc"
+                "reading_mode": "Kiểu đọc",
+                "custom_scroll_amount": "Tùy chỉnh số lượng cuộn"
             },
             "reader_type": {
                 "label": {
@@ -1520,7 +1524,7 @@
             "type": {
                 "doujinshi": "Doujinshi",
                 "manga": "$t(manga.title_one)",
-                "manhua": "$t(manga.type.manhwa)",
+                "manhua": "$t(manga.type.manhua)",
                 "manhwa": "$t(manga.type.manhwa)",
                 "novel": "Tiểu thuyết",
                 "oel": "OEL",
