@@ -36,6 +36,7 @@ import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardC
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { OptionalCardActionAreaLink } from '@/modules/core/components/lists/cards/OptionalCardActionAreaLink.tsx';
+import { languageCodeToName } from '@/modules/core/utils/Languages.ts';
 
 interface IProps {
     extension: TExtension;
@@ -61,8 +62,6 @@ export function ExtensionCard(props: IProps) {
     useEffect(() => {
         setInstalledState(getInstalledState(isInstalled, isObsolete, hasUpdate));
     }, [getInstalledState(isInstalled, isObsolete, hasUpdate)]);
-
-    const langPress = lang === 'all' ? t('extension.language.all') : lang.toUpperCase();
 
     const requestExtensionAction = async (action: ExtensionAction): Promise<void> => {
         const nextAction = EXTENSION_ACTION_TO_NEXT_ACTION_MAP[action];
@@ -117,7 +116,7 @@ export function ExtensionCard(props: IProps) {
                             {name}
                         </Typography>
                         <Typography variant="caption">
-                            {isInstalled ? `${langPress} ` : ''}
+                            {isInstalled ? `${languageCodeToName(lang)} ` : ''}
                             {versionName}
                             {isNsfw && (
                                 <Typography variant="caption" color="error">
