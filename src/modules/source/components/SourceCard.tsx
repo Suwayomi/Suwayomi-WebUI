@@ -59,12 +59,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
     );
 
     return (
-        <Card
-            sx={{
-                margin: 1,
-                marginTop: 0,
-            }}
-        >
+        <Card>
             <CardActionArea
                 component={Link}
                 to={AppRoutes.sources.childRoutes.browse.path(id)}

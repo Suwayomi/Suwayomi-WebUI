@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Fragment, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import Typography from '@mui/material/Typography';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
@@ -27,8 +27,12 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources as SourceService } from '@/modules/source/services/Sources.ts';
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
+import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
+import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
+import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
 
-export function Sources() {
+export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
 
     const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', getDefaultLanguages());
@@ -66,6 +70,23 @@ export function Sources() {
         () => SourceService.areFromMultipleRepos(filteredSources),
         [filteredSources],
     );
+    const visibleSources = useMemo(
+        () => sourcesByLanguage.map(([, sourcesOfLanguage]) => sourcesOfLanguage).flat(1),
+        [sourcesByLanguage],
+    );
+
+    const groupCounts = useMemo(
+        () => sourcesByLanguage.map((sourceGroup) => sourceGroup[1].length),
+        [sourcesByLanguage],
+    );
+    const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
+        groupCounts,
+        useCallback((index) => sourcesByLanguage[index][0], [sourcesByLanguage]),
+        useCallback(
+            (index, groupIndex) => `${sourcesByLanguage[groupIndex][0]}_${visibleSources[index].id}`,
+            [visibleSources],
+        ),
+    );
 
     const navigate = useNavigate();
 
@@ -102,27 +123,32 @@ export function Sources() {
     }
 
     return (
-        <>
-            {sourcesByLanguage.map(([language, sourcesOfLanguage]) => (
-                <Fragment key={language}>
-                    <Typography
-                        key={language}
-                        variant="h5"
-                        component="h2"
-                        sx={{
-                            paddingLeft: 3,
-                            paddingTop: 1,
-                            paddingBottom: 2,
-                            fontWeight: 'bold',
-                        }}
-                    >
-                        {translateExtensionLanguage(language)}
-                    </Typography>
-                    {sourcesOfLanguage.map((source) => (
-                        <SourceCard key={source.id} source={source} showSourceRepo={areSourcesFromDifferentRepos} />
-                    ))}
-                </Fragment>
-            ))}
-        </>
+        <StyledGroupedVirtuoso
+            persistKey="sources"
+            heightToSubtract={tabsMenuHeight}
+            overscan={window.innerHeight * 0.5}
+            groupCounts={groupCounts}
+            computeItemKey={computeItemKey}
+            groupContent={(index) => {
+                const [language] = sourcesByLanguage[index];
+
+                return (
+                    <StyledGroupHeader isFirstItem={!index}>
+                        <Typography variant="h5" component="h2">
+                            {translateExtensionLanguage(language)}
+                        </Typography>
+                    </StyledGroupHeader>
+                );
+            }}
+            itemContent={(index) => {
+                const source = visibleSources[index];
+
+                return (
+                    <StyledGroupItemWrapper>
+                        <SourceCard source={source} showSourceRepo={areSourcesFromDifferentRepos} />
+                    </StyledGroupItemWrapper>
+                );
+            }}
+        />
     );
 }

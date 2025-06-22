@@ -58,7 +58,7 @@ export function Browse() {
                 <Tab value={Tabs.MIGRATE} sx={{ textTransform: 'none' }} label={t('migrate.title')} />
             </TabsMenu>
             <TabPanel index={Tabs.SOURCE} currentIndex={tabName}>
-                <Sources />
+                <Sources tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
             <TabPanel index={Tabs.EXTENSIONS} currentIndex={tabName}>
                 <Extensions tabsMenuHeight={tabsMenuHeight} />
