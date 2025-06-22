@@ -21,7 +21,7 @@ import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
 import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
+import { isPinnedOrLastUsedSource, translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources as SourceService } from '@/modules/source/services/Sources.ts';
@@ -140,12 +140,17 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     </StyledGroupHeader>
                 );
             }}
-            itemContent={(index) => {
+            itemContent={(index, groupIndex) => {
+                const language = sourcesByLanguage[groupIndex][0];
                 const source = visibleSources[index];
 
                 return (
                     <StyledGroupItemWrapper>
-                        <SourceCard source={source} showSourceRepo={areSourcesFromDifferentRepos} />
+                        <SourceCard
+                            source={source}
+                            showSourceRepo={areSourcesFromDifferentRepos}
+                            showLanguage={isPinnedOrLastUsedSource(language)}
+                        />
                     </StyledGroupItemWrapper>
                 );
             }}

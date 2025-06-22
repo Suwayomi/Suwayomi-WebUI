@@ -20,7 +20,6 @@ import IconButton from '@mui/material/IconButton';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { SourceContentType } from '@/modules/source/screens/SourceMangas.tsx';
 import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
-import { translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
@@ -30,16 +29,18 @@ import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { languageCodeToName } from '@/modules/core/utils/Languages.ts';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];
     showSourceRepo: boolean;
+    showLanguage: boolean;
 }
 
 export const SourceCard: React.FC<IProps> = (props: IProps) => {
     const { t } = useTranslation();
 
-    const { source, showSourceRepo } = props;
+    const { source, showSourceRepo, showLanguage } = props;
     const {
         id,
         name,
@@ -79,7 +80,7 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             {sourceName}
                         </Typography>
                         <Typography variant="caption">
-                            {translateExtensionLanguage(lang)}
+                            {showLanguage && languageCodeToName(lang)}
                             {isNsfw && (
                                 <Typography variant="caption" color="error">
                                     {' 18+'}

@@ -53,15 +53,15 @@ export const isExtensionState = (value: string): boolean =>
         value as ExtensionGroupState,
     );
 
+export const isPinnedOrLastUsedSource = (languageCode: string): boolean =>
+    [DefaultLanguage.PINNED, DefaultLanguage.LAST_USED_SOURCE].includes(languageCode as DefaultLanguage);
+
 export const isExtensionStateOrLanguage = (languageCode: string): boolean =>
     isExtensionState(languageCode) ||
-    [
-        DefaultLanguage.ALL,
-        DefaultLanguage.OTHER,
-        DefaultLanguage.LOCAL_SOURCE,
-        DefaultLanguage.PINNED,
-        DefaultLanguage.LAST_USED_SOURCE,
-    ].includes(languageCode as DefaultLanguage);
+    isPinnedOrLastUsedSource(languageCode) ||
+    [DefaultLanguage.ALL, DefaultLanguage.OTHER, DefaultLanguage.LOCAL_SOURCE].includes(
+        languageCode as DefaultLanguage,
+    );
 
 export const translateExtensionLanguage = (languageCode: string): string =>
     isExtensionStateOrLanguage(languageCode)
