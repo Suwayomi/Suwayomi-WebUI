@@ -40,8 +40,6 @@ export enum BackupRestoreState {
   Idle = 'IDLE',
   RestoringCategories = 'RESTORING_CATEGORIES',
   RestoringManga = 'RESTORING_MANGA',
-  RestoringMeta = 'RESTORING_META',
-  RestoringSettings = 'RESTORING_SETTINGS',
   Success = 'SUCCESS'
 }
 
@@ -55,8 +53,6 @@ export type BackupRestoreStatus = {
 export type BindTrackInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   mangaId: Scalars['Int']['input'];
-  /** This will only work if the tracker of the track record supports private tracking */
-  private?: InputMaybe<Scalars['Boolean']['input']>;
   remoteId: Scalars['LongString']['input'];
   trackerId: Scalars['Int']['input'];
 };
@@ -1066,7 +1062,6 @@ export type MangaType = {
   firstUnreadChapter?: Maybe<ChapterType>;
   genre: Array<Scalars['String']['output']>;
   hasDuplicateChapters: Scalars['Boolean']['output'];
-  highestNumberedChapter?: Maybe<ChapterType>;
   id: Scalars['Int']['output'];
   inLibrary: Scalars['Boolean']['output'];
   inLibraryAt: Scalars['LongString']['output'];
@@ -1561,13 +1556,6 @@ export type PartialSettingsType = Settings & {
   maxLogFiles?: Maybe<Scalars['Int']['output']>;
   maxLogFolderSize?: Maybe<Scalars['String']['output']>;
   maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
-  opdsChapterSortOrder?: Maybe<SortOrder>;
-  opdsEnablePageReadProgress?: Maybe<Scalars['Boolean']['output']>;
-  opdsItemsPerPage?: Maybe<Scalars['Int']['output']>;
-  opdsMarkAsReadOnDownload?: Maybe<Scalars['Boolean']['output']>;
-  opdsShowOnlyDownloadedChapters?: Maybe<Scalars['Boolean']['output']>;
-  opdsShowOnlyUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-  opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
@@ -1617,13 +1605,6 @@ export type PartialSettingsTypeInput = {
   maxLogFiles?: InputMaybe<Scalars['Int']['input']>;
   maxLogFolderSize?: InputMaybe<Scalars['String']['input']>;
   maxSourcesInParallel?: InputMaybe<Scalars['Int']['input']>;
-  opdsChapterSortOrder?: InputMaybe<SortOrder>;
-  opdsEnablePageReadProgress?: InputMaybe<Scalars['Boolean']['input']>;
-  opdsItemsPerPage?: InputMaybe<Scalars['Int']['input']>;
-  opdsMarkAsReadOnDownload?: InputMaybe<Scalars['Boolean']['input']>;
-  opdsShowOnlyDownloadedChapters?: InputMaybe<Scalars['Boolean']['input']>;
-  opdsShowOnlyUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
-  opdsUseBinaryFileSizes?: InputMaybe<Scalars['Boolean']['input']>;
   port?: InputMaybe<Scalars['Int']['input']>;
   socksProxyEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   socksProxyHost?: InputMaybe<Scalars['String']['input']>;
@@ -1685,8 +1666,6 @@ export type QueryCategoriesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<CategoryOrderInput>>;
-  orderBy?: InputMaybe<CategoryOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1709,8 +1688,6 @@ export type QueryChaptersArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<ChapterOrderInput>>;
-  orderBy?: InputMaybe<ChapterOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1728,8 +1705,6 @@ export type QueryExtensionsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<ExtensionOrderInput>>;
-  orderBy?: InputMaybe<ExtensionOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1747,8 +1722,6 @@ export type QueryMangasArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<MangaOrderInput>>;
-  orderBy?: InputMaybe<MangaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1766,8 +1739,6 @@ export type QueryMetasArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<MetaOrderInput>>;
-  orderBy?: InputMaybe<MetaOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1795,8 +1766,6 @@ export type QuerySourcesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<SourceOrderInput>>;
-  orderBy?: InputMaybe<SourceOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1814,8 +1783,6 @@ export type QueryTrackRecordsArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<TrackRecordOrderInput>>;
-  orderBy?: InputMaybe<TrackRecordOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -1832,8 +1799,6 @@ export type QueryTrackersArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<Array<TrackerOrderInput>>;
-  orderBy?: InputMaybe<TrackerOrderBy>;
-  orderByType?: InputMaybe<SortOrder>;
 };
 
 
@@ -2001,13 +1966,6 @@ export type Settings = {
   maxLogFiles?: Maybe<Scalars['Int']['output']>;
   maxLogFolderSize?: Maybe<Scalars['String']['output']>;
   maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
-  opdsChapterSortOrder?: Maybe<SortOrder>;
-  opdsEnablePageReadProgress?: Maybe<Scalars['Boolean']['output']>;
-  opdsItemsPerPage?: Maybe<Scalars['Int']['output']>;
-  opdsMarkAsReadOnDownload?: Maybe<Scalars['Boolean']['output']>;
-  opdsShowOnlyDownloadedChapters?: Maybe<Scalars['Boolean']['output']>;
-  opdsShowOnlyUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-  opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
@@ -2062,13 +2020,6 @@ export type SettingsType = Settings & {
   maxLogFiles: Scalars['Int']['output'];
   maxLogFolderSize: Scalars['String']['output'];
   maxSourcesInParallel: Scalars['Int']['output'];
-  opdsChapterSortOrder: SortOrder;
-  opdsEnablePageReadProgress: Scalars['Boolean']['output'];
-  opdsItemsPerPage: Scalars['Int']['output'];
-  opdsMarkAsReadOnDownload: Scalars['Boolean']['output'];
-  opdsShowOnlyDownloadedChapters: Scalars['Boolean']['output'];
-  opdsShowOnlyUnreadChapters: Scalars['Boolean']['output'];
-  opdsUseBinaryFileSizes: Scalars['Boolean']['output'];
   port: Scalars['Int']['output'];
   socksProxyEnabled: Scalars['Boolean']['output'];
   socksProxyHost: Scalars['String']['output'];
@@ -2413,7 +2364,6 @@ export type TrackRecordType = {
   libraryId?: Maybe<Scalars['LongString']['output']>;
   manga: MangaType;
   mangaId: Scalars['Int']['output'];
-  private: Scalars['Boolean']['output'];
   remoteId: Scalars['LongString']['output'];
   remoteUrl: Scalars['String']['output'];
   score: Scalars['Float']['output'];
@@ -2428,19 +2378,11 @@ export type TrackRecordType = {
 export type TrackSearchType = {
   __typename?: 'TrackSearchType';
   coverUrl: Scalars['String']['output'];
-  displayScore: Scalars['String']['output'];
-  finishedReadingDate: Scalars['LongString']['output'];
   id: Scalars['Int']['output'];
-  lastChapterRead: Scalars['Float']['output'];
-  libraryId?: Maybe<Scalars['LongString']['output']>;
-  private: Scalars['Boolean']['output'];
   publishingStatus: Scalars['String']['output'];
   publishingType: Scalars['String']['output'];
   remoteId: Scalars['LongString']['output'];
-  score: Scalars['Float']['output'];
   startDate: Scalars['String']['output'];
-  startedReadingDate: Scalars['LongString']['output'];
-  status: Scalars['Int']['output'];
   summary: Scalars['String']['output'];
   title: Scalars['String']['output'];
   totalChapters: Scalars['Int']['output'];
@@ -2497,9 +2439,7 @@ export type TrackerType = {
   name: Scalars['String']['output'];
   scores: Array<Scalars['String']['output']>;
   statuses: Array<TrackStatusType>;
-  supportsPrivateTracking: Scalars['Boolean']['output'];
-  supportsReadingDates: Scalars['Boolean']['output'];
-  supportsTrackDeletion: Scalars['Boolean']['output'];
+  supportsTrackDeletion?: Maybe<Scalars['Boolean']['output']>;
   trackRecords: TrackRecordNodeList;
 };
 
@@ -2779,14 +2719,10 @@ export enum UpdateStrategy {
 
 export type UpdateTrackInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  /** This will only work if the tracker of the track record supports reading dates */
   finishDate?: InputMaybe<Scalars['LongString']['input']>;
   lastChapterRead?: InputMaybe<Scalars['Float']['input']>;
-  /** This will only work if the tracker of the track record supports private tracking */
-  private?: InputMaybe<Scalars['Boolean']['input']>;
   recordId: Scalars['Int']['input'];
   scoreString?: InputMaybe<Scalars['String']['input']>;
-  /** This will only work if the tracker of the track record supports reading dates */
   startDate?: InputMaybe<Scalars['LongString']['input']>;
   status?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -2961,7 +2897,7 @@ export type TrackerBaseFieldsFragment = { __typename?: 'TrackerType', id: number
 
 export type TrackerSettingFieldsFragment = { __typename?: 'TrackerType', authUrl?: string | null, id: number, name: string, icon: string, isLoggedIn: boolean, isTokenExpired: boolean };
 
-export type TrackerBindFieldsFragment = { __typename?: 'TrackerType', icon: string, supportsTrackDeletion: boolean, scores: Array<string>, id: number, name: string, isLoggedIn: boolean, isTokenExpired: boolean, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }>, trackRecords: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } };
+export type TrackerBindFieldsFragment = { __typename?: 'TrackerType', icon: string, supportsTrackDeletion?: boolean | null, scores: Array<string>, id: number, name: string, isLoggedIn: boolean, isTokenExpired: boolean, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }>, trackRecords: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } };
 
 export type TrackRecordSearchFieldsFragment = { __typename?: 'TrackSearchType', id: number, remoteId: string, title: string, trackingUrl: string, coverUrl: string, publishingType: string, startDate: string, publishingStatus: string, summary: string };
 
@@ -3739,7 +3675,7 @@ export type GetTrackersSettingsQuery = { __typename?: 'Query', trackers: { __typ
 export type GetTrackersBindQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetTrackersBindQuery = { __typename?: 'Query', trackers: { __typename?: 'TrackerNodeList', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null }, nodes: Array<{ __typename?: 'TrackerType', icon: string, supportsTrackDeletion: boolean, scores: Array<string>, id: number, name: string, isLoggedIn: boolean, isTokenExpired: boolean, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }>, trackRecords: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } }> } };
+export type GetTrackersBindQuery = { __typename?: 'Query', trackers: { __typename?: 'TrackerNodeList', totalCount: number, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null }, nodes: Array<{ __typename?: 'TrackerType', icon: string, supportsTrackDeletion?: boolean | null, scores: Array<string>, id: number, name: string, isLoggedIn: boolean, isTokenExpired: boolean, statuses: Array<{ __typename?: 'TrackStatusType', name: string, value: number }>, trackRecords: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string }> } }> } };
 
 export type TrackerSearchQueryVariables = Exact<{
   query: Scalars['String']['input'];
