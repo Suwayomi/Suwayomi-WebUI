@@ -117,7 +117,8 @@ export function ExtensionCard(props: IProps) {
                             {name}
                         </Typography>
                         <Typography variant="caption">
-                            {langPress} {versionName}
+                            {isInstalled ? `${langPress} ` : ''}
+                            {versionName}
                             {isNsfw && (
                                 <Typography variant="caption" color="error">
                                     {' 18+'}
