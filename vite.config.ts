@@ -13,6 +13,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import legacy from '@vitejs/plugin-legacy';
+import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig(() => ({
@@ -41,6 +42,9 @@ export default defineConfig(() => ({
                 'es/array/find-last-index',
                 'es/object/group-by',
             ],
+        }),
+        nodePolyfills({
+            include: ['assert'],
         }),
     ],
 }));

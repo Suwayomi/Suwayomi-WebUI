@@ -14,9 +14,9 @@ import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Stack from '@mui/material/Stack';
+import { Link } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { makeToast } from '@/modules/core/utils/Toast.ts';
 import {
     ExtensionAction,
     ExtensionState,
@@ -25,23 +25,23 @@ import {
     TExtension,
 } from '@/modules/extension/Extensions.types.ts';
 import {
-    EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP,
     EXTENSION_ACTION_TO_NEXT_ACTION_MAP,
     EXTENSION_ACTION_TO_STATE_MAP,
     INSTALLED_STATE_TO_TRANSLATION_KEY_MAP,
 } from '@/modules/extension/Extensions.constants.ts';
-import { getInstalledState } from '@/modules/extension/Extensions.utils.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { getInstalledState, updateExtension } from '@/modules/extension/Extensions.utils.ts';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip';
 import { ListCardAvatar } from '@/modules/core/components/lists/cards/ListCardAvatar.tsx';
 import { ListCardContent } from '@/modules/core/components/lists/cards/ListCardContent.tsx';
+import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { OptionalCardActionAreaLink } from '@/modules/core/components/lists/cards/OptionalCardActionAreaLink.tsx';
 
 interface IProps {
     extension: TExtension;
     handleUpdate: () => void;
     showSourceRepo: boolean;
     forcedState?: ExtensionState;
-    showOptions: () => void;
 }
 
 export function ExtensionCard(props: IProps) {
@@ -50,7 +50,6 @@ export function ExtensionCard(props: IProps) {
     const {
         extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw, repo },
         handleUpdate,
-        showOptions,
         showSourceRepo,
         forcedState,
     } = props;
@@ -71,29 +70,14 @@ export function ExtensionCard(props: IProps) {
 
         try {
             setInstalledState(state);
-            switch (action) {
-                case ExtensionAction.INSTALL:
-                    await requestManager.updateExtension(pkgName, { install: true, isObsolete }).response;
-                    break;
-                case ExtensionAction.UNINSTALL:
-                    await requestManager.updateExtension(pkgName, { uninstall: true, isObsolete }).response;
-                    break;
-                case ExtensionAction.UPDATE:
-                    await requestManager.updateExtension(pkgName, { update: true, isObsolete }).response;
-                    break;
-                default:
-                    throw new Error(`Unexpected ExtensionAction "${action}"`);
-            }
+
+            await updateExtension(pkgName, isObsolete, action);
+
             setInstalledState(nextAction);
 
             handleUpdate();
-        } catch (e) {
+        } catch (_) {
             setInstalledState(getInstalledState(isInstalled, isObsolete, hasUpdate));
-            makeToast(
-                t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[action], { count: 1 }),
-                'error',
-                getErrorMessage(e),
-            );
         }
     };
 
@@ -118,47 +102,54 @@ export function ExtensionCard(props: IProps) {
 
     return (
         <Card>
-            <ListCardContent>
-                <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={name} />
-                <Stack
-                    sx={{
-                        justifyContent: 'center',
-                        flexGrow: 1,
-                        flexShrink: 1,
-                        wordBreak: 'break-word',
-                    }}
-                >
-                    <Typography variant="h6" component="h3">
-                        {name}
-                    </Typography>
-                    <Typography variant="caption">
-                        {langPress} {versionName}
-                        {isNsfw && (
-                            <Typography variant="caption" color="error">
-                                {' 18+'}
-                            </Typography>
-                        )}
-                    </Typography>
-                    {showSourceRepo && <Typography variant="caption">{repo}</Typography>}
-                </Stack>
-                {isInstalled && (
-                    <CustomTooltip title={t('settings.title')}>
-                        <IconButton onClick={showOptions} color="inherit">
-                            <SettingsIcon />
-                        </IconButton>
-                    </CustomTooltip>
-                )}
-                <Button
-                    variant="outlined"
-                    sx={{
-                        color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit',
-                        flexShrink: 0,
-                    }}
-                    onClick={() => handleButtonClick()}
-                >
-                    {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
-                </Button>
-            </ListCardContent>
+            <OptionalCardActionAreaLink disabled={!isInstalled} to={AppRoutes.extension.childRoutes.info.path(pkgName)}>
+                <ListCardContent>
+                    <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={name} />
+                    <Stack
+                        sx={{
+                            justifyContent: 'center',
+                            flexGrow: 1,
+                            flexShrink: 1,
+                            wordBreak: 'break-word',
+                        }}
+                    >
+                        <Typography variant="h6" component="h3">
+                            {name}
+                        </Typography>
+                        <Typography variant="caption">
+                            {langPress} {versionName}
+                            {isNsfw && (
+                                <Typography variant="caption" color="error">
+                                    {' 18+'}
+                                </Typography>
+                            )}
+                        </Typography>
+                        {showSourceRepo && <Typography variant="caption">{repo}</Typography>}
+                    </Stack>
+                    {isInstalled && (
+                        <CustomTooltip title={t('settings.title')}>
+                            <IconButton
+                                component={Link}
+                                to={AppRoutes.extension.childRoutes.info.path(pkgName)}
+                                color="inherit"
+                                {...MUIUtil.preventRippleProp()}
+                            >
+                                <SettingsIcon />
+                            </IconButton>
+                        </CustomTooltip>
+                    )}
+                    <Button
+                        variant="outlined"
+                        sx={{
+                            color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit',
+                            flexShrink: 0,
+                        }}
+                        onClick={() => handleButtonClick()}
+                    >
+                        {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
+                    </Button>
+                </ListCardContent>
+            </OptionalCardActionAreaLink>
         </Card>
     );
 }

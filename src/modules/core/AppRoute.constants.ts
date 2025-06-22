@@ -120,6 +120,17 @@ export const AppRoutes = {
             },
         },
     },
+
+    extension: {
+        match: 'extension',
+        path: '/extension',
+        childRoutes: {
+            info: {
+                match: ':pkgName',
+                path: (pkgName: string) => `/extension/${pkgName}`,
+            },
+        },
+    },
     downloads: {
         match: 'downloads',
         path: '/downloads',

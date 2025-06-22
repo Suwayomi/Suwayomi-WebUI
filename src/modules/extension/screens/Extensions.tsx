@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useWindowEvent } from '@mantine/hooks';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -45,7 +45,6 @@ import {
 import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/modules/extension/Extensions.constants.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { ExtensionOptions } from '@/modules/extension/components/ExtensionOptions';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -115,9 +114,6 @@ const GroupHeader = ({
 
 export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
-    const navigate = useNavigate();
-    const { pathname, search, state } = useLocation<{ selectedExtensionPkg?: TExtension['pkgName'] }>();
-    const selectedExtensionPkg = state?.selectedExtensionPkg;
 
     const {
         data: serverSettingsData,
@@ -170,15 +166,6 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     );
 
     const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
-
-    const setSelectedExtensionPkg = (newPkg: TExtension['pkgName'] | undefined) => {
-        navigate(pathname + search, {
-            replace: true,
-            state: {
-                selectedExtensionPkg: newPkg,
-            },
-        });
-    };
 
     const submitExternalExtension = (file: File) => {
         if (!file.name.toLowerCase().endsWith('apk')) {
@@ -288,51 +275,44 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     }
 
     return (
-        <>
-            <StyledGroupedVirtuoso
-                persistKey="extensions"
-                heightToSubtract={tabsMenuHeight}
-                overscan={window.innerHeight * 0.5}
-                groupCounts={groupCounts}
-                groupContent={(index) => {
-                    const [groupName, groupExtensions] = groupedExtensions[index];
-                    const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
+        <StyledGroupedVirtuoso
+            persistKey="extensions"
+            heightToSubtract={tabsMenuHeight}
+            overscan={window.innerHeight * 0.5}
+            groupCounts={groupCounts}
+            groupContent={(index) => {
+                const [groupName, groupExtensions] = groupedExtensions[index];
+                const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
 
-                    return (
-                        <GroupHeader
-                            groupName={groupName}
-                            isFirstItem={index === 0}
-                            groupExtensionIds={groupExtensions.map((extension) => extension.pkgName)}
-                            isUpdateGroup={isUpdateGroup}
-                            updatingExtensionIds={updatingExtensionIds}
-                            setUpdatingExtensionIds={setUpdatingExtensionIds}
-                            handleExtensionUpdate={handleExtensionUpdate}
+                return (
+                    <GroupHeader
+                        groupName={groupName}
+                        isFirstItem={index === 0}
+                        groupExtensionIds={groupExtensions.map((extension) => extension.pkgName)}
+                        isUpdateGroup={isUpdateGroup}
+                        updatingExtensionIds={updatingExtensionIds}
+                        setUpdatingExtensionIds={setUpdatingExtensionIds}
+                        handleExtensionUpdate={handleExtensionUpdate}
+                    />
+                );
+            }}
+            computeItemKey={computeItemKey}
+            itemContent={(index) => {
+                const item = visibleExtensions[index];
+
+                return (
+                    <StyledGroupItemWrapper>
+                        <ExtensionCard
+                            extension={item}
+                            handleUpdate={handleExtensionUpdate}
+                            showSourceRepo={areMultipleReposInUse}
+                            forcedState={
+                                updatingExtensionIds.includes(item.pkgName) ? ExtensionState.UPDATING : undefined
+                            }
                         />
-                    );
-                }}
-                computeItemKey={computeItemKey}
-                itemContent={(index) => {
-                    const item = visibleExtensions[index];
-
-                    return (
-                        <StyledGroupItemWrapper>
-                            <ExtensionCard
-                                extension={item}
-                                handleUpdate={handleExtensionUpdate}
-                                showSourceRepo={areMultipleReposInUse}
-                                forcedState={
-                                    updatingExtensionIds.includes(item.pkgName) ? ExtensionState.UPDATING : undefined
-                                }
-                                showOptions={() => setSelectedExtensionPkg(item.pkgName)}
-                            />
-                        </StyledGroupItemWrapper>
-                    );
-                }}
-            />
-            <ExtensionOptions
-                extensionId={selectedExtensionPkg}
-                closeDialog={() => setSelectedExtensionPkg(undefined)}
-            />
-        </>
+                    </StyledGroupItemWrapper>
+                );
+            }}
+        />
     );
 }

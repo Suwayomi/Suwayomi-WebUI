@@ -69,3 +69,4 @@ export type SourceDisplayNameInfo = Pick<SourceType, 'displayName'>;
 export type SourceNsfwInfo = Pick<SourceType, 'isNsfw'>;
 export type SourceRepoInfo = { extension: Pick<ExtensionType, 'repo'> };
 export type SourceMetaInfo = { meta: SourceMetaFieldsFragment[] };
+export type SourceConfigurableInfo = Pick<SourceType, 'isConfigurable'>;

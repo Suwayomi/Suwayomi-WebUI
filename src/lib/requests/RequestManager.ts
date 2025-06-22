@@ -209,6 +209,8 @@ import {
     WebuiUpdateSubscription,
     UpdateLibraryMutation,
     UpdateLibraryMutationVariables,
+    GetExtensionQuery,
+    GetExtensionQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -218,7 +220,7 @@ import {
     GET_ABOUT,
     GET_WEBUI_UPDATE_STATUS,
 } from '@/lib/graphql/queries/ServerInfoQuery.ts';
-import { GET_EXTENSIONS } from '@/lib/graphql/queries/ExtensionQuery.ts';
+import { GET_EXTENSION, GET_EXTENSIONS } from '@/lib/graphql/queries/ExtensionQuery.ts';
 import {
     GET_EXTENSIONS_FETCH,
     INSTALL_EXTERNAL_EXTENSION,
@@ -1279,6 +1281,13 @@ export class RequestManager {
         options?: MutationOptions<UpdateWebuiMutation, UpdateWebuiMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateWebuiMutation> {
         return this.doRequest(GQLMethod.MUTATION, UPDATE_WEBUI, undefined, options);
+    }
+
+    public useGetExtension(
+        pkgName: string,
+        options?: QueryHookOptions<GetExtensionQuery, GetExtensionQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetExtensionQuery, GetExtensionQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_EXTENSION, { pkgName }, options);
     }
 
     public useGetExtensionList(

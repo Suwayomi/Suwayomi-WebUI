@@ -41,6 +41,7 @@ const { CategorySettings } = loadable(
 );
 const { SourceConfigure } = loadable(() => import('@/modules/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
 const { SourceMangas } = loadable(() => import('@/modules/source/screens/SourceMangas.tsx'), lazyLoadFallback);
+const { ExtensionInfo } = loadable(() => import('@/modules/extension/screens/ExtensionInfo.tsx'), lazyLoadFallback);
 const { Updates } = loadable(() => import('@/modules/updates/screens/Updates.tsx'), lazyLoadFallback);
 const { History } = loadable(() => import('@/modules/history/screens/History.tsx'), lazyLoadFallback);
 const { LibrarySettings } = loadable(() => import('@/modules/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
@@ -162,6 +163,10 @@ const MainApp = () => {
                         <Route path={AppRoutes.sources.childRoutes.browse.match} element={<SourceMangas />} />
                         <Route path={AppRoutes.sources.childRoutes.configure.match} element={<SourceConfigure />} />
                         <Route path={AppRoutes.sources.childRoutes.searchAll.match} element={<SearchAll />} />
+                    </Route>
+                    <Route path={AppRoutes.extension.match}>
+                        <Route index element={<Navigate to={AppRoutes.root.path} replace />} />
+                        <Route path={AppRoutes.extension.childRoutes.info.match} element={<ExtensionInfo />} />
                     </Route>
                     <Route path={AppRoutes.downloads.match} element={<DownloadQueue />} />
                     <Route path={AppRoutes.manga.match}>

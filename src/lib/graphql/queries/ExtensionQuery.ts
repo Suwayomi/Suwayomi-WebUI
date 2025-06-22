@@ -10,6 +10,16 @@ import gql from 'graphql-tag';
 import { PAGE_INFO } from '@/lib/graphql/fragments/Fragments.ts';
 import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/fragments/ExtensionFragments.ts';
 
+export const GET_EXTENSION = gql`
+    ${EXTENSION_LIST_FIELDS}
+
+    query GET_EXTENSION($pkgName: String!) {
+        extension(pkgName: $pkgName) {
+            ...EXTENSION_LIST_FIELDS
+        }
+    }
+`;
+
 // returns the current extensions from the database
 export const GET_EXTENSIONS = gql`
     ${EXTENSION_LIST_FIELDS}

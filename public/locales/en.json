@@ -266,6 +266,7 @@
     },
     "label": {
       "add_repository_info": "You have to add a extension repository to be able to install extensions",
+      "age_rating": "Age rating",
       "installation_failed_one": "Could not install the extension",
       "installation_failed_other": "Could not install the extensions",
       "installed_successfully_one": "Extension installed",
@@ -471,6 +472,7 @@
       "type": "Type",
       "unknown": "Unknown",
       "username": "Username",
+      "version": "Version",
       "vertical": "Vertical",
       "warning": "Warning"
     },
@@ -1481,6 +1483,9 @@
         "no_sources_found": "No sources found. Install Some extensions first.",
         "source_not_found": "Could not find source. Check your installed extensions."
       }
+    },
+    "extension_info": {
+      "title": "Extension info"
     },
     "filter": {
       "save_search": {

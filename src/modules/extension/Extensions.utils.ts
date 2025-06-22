@@ -23,8 +23,14 @@ import {
     toComparableLanguages,
     toUniqueLanguageCodes,
 } from '@/modules/core/utils/Languages.ts';
-import { extensionLanguageToTranslationKey } from '@/modules/extension/Extensions.constants.ts';
+import {
+    EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP,
+    extensionLanguageToTranslationKey,
+} from '@/modules/extension/Extensions.constants.ts';
 import { enhancedCleanup } from '@/util/Strings.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const getInstalledState = (
     isInstalled: boolean,
@@ -136,4 +142,33 @@ export const filterExtensions = (
         )
         .filter((extension) => showNsfw === undefined || showNsfw || !extension.isNsfw)
         .filter((extension) => query == null || enhancedCleanup(extension.name).includes(enhancedCleanup(query)));
+};
+
+export const updateExtension = async (
+    pkgName: TExtension['pkgName'],
+    isObsolete: boolean,
+    action: ExtensionAction,
+): Promise<void> => {
+    try {
+        switch (action) {
+            case ExtensionAction.INSTALL:
+                await requestManager.updateExtension(pkgName, { install: true, isObsolete }).response;
+                break;
+            case ExtensionAction.UNINSTALL:
+                await requestManager.updateExtension(pkgName, { uninstall: true, isObsolete }).response;
+                break;
+            case ExtensionAction.UPDATE:
+                await requestManager.updateExtension(pkgName, { update: true, isObsolete }).response;
+                break;
+            default:
+                throw new Error(`Unexpected ExtensionAction "${action}"`);
+        }
+    } catch (e) {
+        makeToast(
+            t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[action], { count: 1 }),
+            'error',
+            getErrorMessage(e),
+        );
+        throw e;
+    }
 };
