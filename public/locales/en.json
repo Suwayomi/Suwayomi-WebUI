@@ -176,8 +176,7 @@
       "label": {
         "delete_all": "Delete all",
         "no_downloads": "No downloads"
-      },
-      "title": "Download Queue"
+      }
     },
     "settings": {
       "auto_download": {

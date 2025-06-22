@@ -68,7 +68,10 @@ export const More = () => {
                             <ListItemIcon>
                                 <item.IconComponent />
                             </ListItemIcon>
-                            <ListItemText primary={t(item.title)} secondary={item.useBadge?.().title} />
+                            <ListItemText
+                                primary={t(item.moreTitle ?? item.title)}
+                                secondary={item.useBadge?.().title}
+                            />
                         </ListItemLink>
                     ))}
                     {index !== list.length - 1 && <Divider />}

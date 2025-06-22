@@ -36,7 +36,7 @@ import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.ts
 export const DownloadQueue: React.FC = () => {
     const { t } = useTranslation();
 
-    useAppTitle(t('download.queue.title'));
+    useAppTitle(t('download.title.queue'));
 
     const [reorderDownload, { reset: revertReorder }] = requestManager.useReorderChapterInDownloadQueue();
 

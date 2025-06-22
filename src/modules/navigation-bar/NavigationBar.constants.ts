@@ -65,7 +65,8 @@ const NAVIGATION_BAR_BASE_ITEMS = [
 const NAVIGATION_BAR_DESKTOP_ITEMS = [
     {
         path: AppRoutes.downloads.path,
-        title: 'download.title.queue',
+        title: 'download.title.download',
+        moreTitle: 'download.title.queue',
         SelectedIconComponent: GetAppIcon,
         IconComponent: GetAppOutlinedIcon,
         show: 'desktop',

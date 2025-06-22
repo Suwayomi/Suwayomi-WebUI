@@ -26,6 +26,7 @@ export enum NavBarItemMoreGroup {
 export interface NavbarItem {
     path: StaticAppRoute;
     title: TranslationKey;
+    moreTitle?: TranslationKey;
     SelectedIconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';
