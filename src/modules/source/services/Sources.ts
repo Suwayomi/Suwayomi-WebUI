@@ -81,7 +81,14 @@ export class Sources {
             languages,
             keepLocalSource,
             pinned,
-        }: { showNsfw?: boolean; languages?: string[]; keepLocalSource?: boolean; pinned?: boolean } = {},
+            enabled,
+        }: {
+            showNsfw?: boolean;
+            languages?: string[];
+            keepLocalSource?: boolean;
+            pinned?: boolean;
+            enabled?: boolean;
+        } = {},
     ): Source[] {
         const normalizedLanguages = toComparableLanguages(toUniqueLanguageCodes(languages ?? []));
 
@@ -104,6 +111,13 @@ export class Sources {
                     pinned === undefined ||
                     !pinned ||
                     getSourceMetadata(source).isPinned ||
+                    (keepLocalSource && Sources.isLocalSource(source)),
+            )
+            .filter(
+                (source) =>
+                    enabled === undefined ||
+                    !enabled ||
+                    getSourceMetadata(source).isEnabled ||
                     (keepLocalSource && Sources.isLocalSource(source)),
             );
     }

@@ -48,7 +48,13 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
     const sources = data?.sources.nodes;
     const filteredSources = useMemo(
-        () => SourceService.filter(sources ?? [], { showNsfw, languages: shownLangs, keepLocalSource: true }),
+        () =>
+            SourceService.filter(sources ?? [], {
+                showNsfw,
+                languages: shownLangs,
+                keepLocalSource: true,
+                enabled: true,
+            }),
         [sources, shownLangs],
     );
     const sourcesByLanguage = useMemo(() => {

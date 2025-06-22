@@ -17,6 +17,8 @@ import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Divider from '@mui/material/Divider';
+import Switch from '@mui/material/Switch';
+import CardActionArea from '@mui/material/CardActionArea';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { Metadata } from '@/modules/core/components/texts/Metadata.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
@@ -41,7 +43,8 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { SourceConfigurableInfo, SourceIdInfo, SourceLanguageInfo } from '@/modules/source/Source.types.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
-import { OptionalCardActionAreaLink } from '@/modules/core/components/lists/cards/OptionalCardActionAreaLink.tsx';
+import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
 
 const Header = ({ name, pkgName, iconUrl, repo }: TExtension) => (
     <Stack sx={{ alignItems: 'center' }}>
@@ -140,42 +143,52 @@ const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TExtensio
     );
 };
 
-const SourceList = ({ sources }: { sources: (SourceIdInfo & SourceLanguageInfo & SourceConfigurableInfo)[] }) => {
+const SourceCard = (source: SourceIdInfo & SourceLanguageInfo & SourceConfigurableInfo) => {
+    const { id, isConfigurable } = source;
+
     const { t } = useTranslation();
+    const { isEnabled } = useGetSourceMetadata(source);
+
+    const updateSetting = createUpdateSourceMetadata(source, (e) =>
+        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+    );
 
     return (
-        <Box sx={{ px: 1 }}>
-            {sources?.map((source) => (
-                <StyledGroupItemWrapper key={source.id} sx={{ px: 0 }}>
-                    <Card>
-                        <OptionalCardActionAreaLink
-                            disabled={!source.isConfigurable}
-                            to={AppRoutes.sources.childRoutes.configure.path(source.id)}
-                        >
-                            <ListCardContent>
-                                <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
-                                    {translateExtensionLanguage(Sources.getLanguage(source))}
-                                </Typography>
-                                {source.isConfigurable && (
-                                    <CustomTooltip title={t('settings.title')}>
-                                        <IconButton
-                                            component={Link}
-                                            to={AppRoutes.sources.childRoutes.configure.path(source.id)}
-                                            color="inherit"
-                                            {...MUIUtil.preventRippleProp()}
-                                        >
-                                            <SettingsIcon />
-                                        </IconButton>
-                                    </CustomTooltip>
-                                )}
-                            </ListCardContent>
-                        </OptionalCardActionAreaLink>
-                    </Card>
-                </StyledGroupItemWrapper>
-            ))}
-        </Box>
+        <StyledGroupItemWrapper key={id} sx={{ px: 0 }}>
+            <Card>
+                <CardActionArea onClick={() => updateSetting('isEnabled', !isEnabled)}>
+                    <ListCardContent>
+                        <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
+                            {translateExtensionLanguage(Sources.getLanguage(source))}
+                        </Typography>
+                        {isConfigurable && (
+                            <CustomTooltip title={t('settings.title')}>
+                                <IconButton
+                                    component={Link}
+                                    to={AppRoutes.sources.childRoutes.configure.path(id)}
+                                    color="inherit"
+                                    onClick={(e) => e.stopPropagation()}
+                                    {...MUIUtil.preventRippleProp()}
+                                >
+                                    <SettingsIcon />
+                                </IconButton>
+                            </CustomTooltip>
+                        )}
+                        <Switch checked={isEnabled} onChange={(_, checked) => updateSetting('isEnabled', checked)} />
+                    </ListCardContent>
+                </CardActionArea>
+            </Card>
+        </StyledGroupItemWrapper>
     );
 };
+
+const SourceList = ({ sources }: { sources: (SourceIdInfo & SourceLanguageInfo & SourceConfigurableInfo)[] }) => (
+    <Box sx={{ px: 1 }}>
+        {sources.map((source) => (
+            <SourceCard key={source.id} {...source} />
+        ))}
+    </Box>
+);
 
 export const ExtensionInfo = () => {
     const { t } = useTranslation();
@@ -195,7 +208,7 @@ export const ExtensionInfo = () => {
         return sourcesResponse.data.sources.nodes
             .filter((source) => source.extension.pkgName === extension?.pkgName)
             .sort((a, b) => languageSortComparator(Sources.getLanguage(a), Sources.getLanguage(b)));
-    }, [extension?.pkgName]);
+    }, [extension?.pkgName, sourcesResponse.data]);
 
     const isLoading = extensionResponse.loading || sourcesResponse.loading;
     const error = extensionResponse.error || sourcesResponse.error;

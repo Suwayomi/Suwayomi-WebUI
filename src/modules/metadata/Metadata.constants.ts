@@ -96,6 +96,7 @@ export const APP_METADATA_KEY_TO_TYPE = {
     shouldUsePureBlackMode: 'boolean',
     mangaGridItemWidth: 'number',
     isPinned: 'boolean',
+    isEnabled: 'boolean',
     lastUsedSourceId: 'string',
     shouldShowOnlySourcesWithResults: 'boolean',
     excludedScanlators: 'string', // string[]

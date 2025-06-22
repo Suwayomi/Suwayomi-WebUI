@@ -263,6 +263,7 @@ export const SearchAll: React.FC = () => {
                 languages: shownLangs,
                 keepLocalSource: true,
                 pinned: shouldShowOnlyPinnedSources,
+                enabled: true,
             }),
         [sources, shownLangs, shouldShowOnlyPinnedSources],
     );

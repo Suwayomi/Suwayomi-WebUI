@@ -27,6 +27,7 @@ export type SavedSourceSearch = { query?: string; filters?: IPos[] };
 export interface ISourceMetadata {
     savedSearches?: Record<string, SavedSourceSearch>;
     isPinned: boolean;
+    isEnabled: boolean;
 }
 
 export type SourceFilters = GetSourceBrowseQuery['source']['filters'][number];
