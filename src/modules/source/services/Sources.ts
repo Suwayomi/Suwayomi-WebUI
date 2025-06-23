@@ -6,6 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { useTranslation } from 'react-i18next';
+import { useCallback } from 'react';
 import {
     SourceDisplayNameInfo,
     SourceIdInfo,
@@ -22,6 +24,12 @@ import {
     toUniqueLanguageCodes,
 } from '@/modules/core/utils/Languages.ts';
 import { getSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
+import {
+    createUpdateMetadataServerSettings,
+    useMetadataServerSettings,
+} from '@/modules/settings/services/ServerSettingsMetadata.ts';
+import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';
@@ -137,5 +145,25 @@ export class Sources {
         sources: Source[],
     ): Source | undefined {
         return sources.find((source) => source.id === lastUsedSourceId);
+    }
+
+    static useLanguages(): {
+        languages: string[];
+        setLanguages: (languages: string[]) => void;
+    } {
+        const { t } = useTranslation();
+        const {
+            settings: { sourceLanguages },
+        } = useMetadataServerSettings();
+
+        const updateSetting = createUpdateMetadataServerSettings<'sourceLanguages'>((e) =>
+            makeToast(t('global.error.label.failed_to_save_changes', getErrorMessage(e)), 'error'),
+        );
+        const setLanguages = useCallback((languages: string[]) => updateSetting('sourceLanguages', languages), []);
+
+        return {
+            languages: sourceLanguages,
+            setLanguages,
+        };
     }
 }

@@ -11,6 +11,7 @@ import { SourceIdInfo } from '@/modules/source/Source.types.ts';
 export type MetadataBrowseSettings = {
     hideLibraryEntries: boolean;
     extensionLanguages: string[];
+    sourceLanguages: string[];
     showNsfw: boolean;
     lastUsedSourceId: SourceIdInfo['id'] | null;
     shouldShowOnlySourcesWithResults: boolean;

@@ -23,8 +23,6 @@ import { useElementSize } from '@mantine/hooks';
 import IconButton from '@mui/material/IconButton'; // ms
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
 import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
@@ -243,7 +241,7 @@ export const SearchAll: React.FC = () => {
     const [query] = useQueryParam('query', StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
 
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', getDefaultLanguages());
+    const { languages: shownLangs, setLanguages: setShownLangs } = Sources.useLanguages();
     const {
         settings: { showNsfw, shouldShowOnlySourcesWithResults },
     } = useMetadataServerSettings();

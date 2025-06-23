@@ -14,8 +14,7 @@ import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
-import { DefaultLanguage, getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
+import { DefaultLanguage } from '@/modules/core/utils/Languages.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
 import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
@@ -35,7 +34,7 @@ import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/Style
 export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
 
-    const [shownLangs, setShownLangs] = useLocalStorage<string[]>('shownSourceLangs', getDefaultLanguages());
+    const { languages: shownLangs, setLanguages: setShownLangs } = SourceService.useLanguages();
     const {
         settings: { showNsfw, lastUsedSourceId },
     } = useMetadataServerSettings();

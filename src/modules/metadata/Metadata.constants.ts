@@ -88,6 +88,7 @@ export const APP_METADATA_KEY_TO_TYPE = {
     unread: 'auto', // boolean undefined null
     showChapterNumber: 'boolean',
     extensionLanguages: 'string', // string[]
+    sourceLanguages: 'string', // string[]
     showNsfw: 'boolean',
     shouldUseInfiniteScroll: 'boolean',
     shouldShowTransitionPage: 'boolean',
@@ -150,6 +151,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // browse
     'hideLibraryEntries',
     'extensionLanguages',
+    'sourceLanguages',
     'showNsfw',
     'lastUsedSourceId',
     'shouldShowOnlySourcesWithResults',
