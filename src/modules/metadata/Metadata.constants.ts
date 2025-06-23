@@ -189,6 +189,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'downloaded',
     'unread',
     'showChapterNumber',
+    'excludedScanlators',
 ];
 
 /**
