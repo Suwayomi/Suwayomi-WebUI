@@ -120,7 +120,7 @@ export const SourceLanguageSelect = ({
                         increaseViewportBy={400}
                         computeItemKey={(index) => languagesSortedBySelectState[index]}
                         itemContent={(_index, language) => {
-                            const sourcesOfLanguage = sourcesByLanguage[language];
+                            const sourcesOfLanguage = sourcesByLanguage[language] ?? [];
                             const isEnabled = tmpSelectedLanguages.includes(language);
 
                             return (
