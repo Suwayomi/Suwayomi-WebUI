@@ -17,7 +17,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DefaultLanguage } from '@/modules/core/utils/Languages.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { SourceCard } from '@/modules/source/components/SourceCard.tsx';
-import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { isPinnedOrLastUsedSource, translateExtensionLanguage } from '@/modules/extension/Extensions.utils.ts';
@@ -30,6 +29,7 @@ import { StyledGroupedVirtuoso } from '@/modules/core/components/virtuoso/Styled
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { StyledGroupHeader } from '@/modules/core/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/modules/core/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { SourceLanguageSelect } from '@/modules/source/components/SourceLanguageSelect.tsx';
 
 export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useTranslation();
@@ -102,13 +102,14 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     <TravelExploreIcon />
                 </IconButton>
             </CustomTooltip>
-            <LanguageSelect
+            <SourceLanguageSelect
                 selectedLanguages={shownLangs}
                 setSelectedLanguages={setShownLangs}
                 languages={sourceLanguages}
+                sources={sources ?? []}
             />
         </>,
-        [t, shownLangs, sourceLanguages],
+        [t, shownLangs, sourceLanguages, sources],
     );
 
     if (isLoading) return <LoadingPlaceholder />;

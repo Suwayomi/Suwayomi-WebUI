@@ -24,7 +24,6 @@ import IconButton from '@mui/material/IconButton'; // ms
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AppbarSearch } from '@/modules/core/components/AppbarSearch.tsx';
-import { LanguageSelect } from '@/modules/core/components/inputs/LanguageSelect.tsx';
 import { useDebounce } from '@/modules/core/hooks/useDebounce.ts';
 import { MangaCardProps } from '@/modules/manga/Manga.types.ts';
 import { EmptyView } from '@/modules/core/components/feedback/EmptyView.tsx';
@@ -53,6 +52,7 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
+import { SourceLanguageSelect } from '@/modules/source/components/SourceLanguageSelect.tsx';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -293,13 +293,14 @@ export const SearchAll: React.FC = () => {
         t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: state?.mangaTitle }),
         <>
             <AppbarSearch isClosable={false} />
-            <LanguageSelect
+            <SourceLanguageSelect
                 selectedLanguages={shownLangs}
                 setSelectedLanguages={setShownLangs}
                 languages={sourceLanguages}
+                sources={sources ?? []}
             />
         </>,
-        [shownLangs, setShownLangs, sourceLanguages],
+        [shownLangs, setShownLangs, sourceLanguages, sources],
     );
 
     if (loading) {

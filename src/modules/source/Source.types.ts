@@ -71,3 +71,4 @@ export type SourceNsfwInfo = Pick<SourceType, 'isNsfw'>;
 export type SourceRepoInfo = { extension: Pick<ExtensionType, 'repo'> };
 export type SourceMetaInfo = { meta: SourceMetaFieldsFragment[] };
 export type SourceConfigurableInfo = Pick<SourceType, 'isConfigurable'>;
+export type SourceIconInfo = Pick<SourceType, 'iconUrl'>;
