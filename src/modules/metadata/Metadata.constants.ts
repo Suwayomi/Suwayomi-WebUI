@@ -168,6 +168,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // sources
     'savedSearches',
     'isPinned',
+    'isEnabled',
 
     // themes
     'customThemes',
