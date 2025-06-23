@@ -45,6 +45,7 @@ import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { useBackButton } from '@/modules/core/hooks/useBackButton.ts';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/modules/source/services/SourceMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { INSTALLED_STATE_TO_TRANSLATION_KEY_MAP } from '@/modules/extension/Extensions.constants.ts';
 
 const Header = ({ name, pkgName, iconUrl, repo }: TExtension) => (
     <Stack sx={{ alignItems: 'center' }}>
@@ -111,16 +112,16 @@ const Meta = ({ versionName, lang, isNsfw }: TExtension) => {
 
 const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TExtension) => {
     const handleBack = useBackButton();
+    const { t } = useTranslation();
+
+    const installedState = getInstalledState(isInstalled, isObsolete, hasUpdate);
 
     return (
         <Box sx={{ px: 1 }}>
             <Button
                 sx={{
                     width: '100%',
-                    color:
-                        getInstalledState(isInstalled, isObsolete, hasUpdate) === InstalledState.OBSOLETE
-                            ? 'red'
-                            : 'inherit',
+                    color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit',
                 }}
                 variant="outlined"
                 size="large"
@@ -137,7 +138,7 @@ const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TExtensio
                     }
                 }}
             >
-                Uninstall
+                {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
             </Button>
         </Box>
     );
