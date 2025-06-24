@@ -14,6 +14,7 @@ import { TranslationKey } from '@/Base.types.ts';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
 
 import {
+    CUSTOM_FILTER,
     DEFAULT_READER_SETTINGS,
     READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA,
     READER_BLEND_MODE_VALUES,
@@ -27,13 +28,6 @@ const RGBA_TYPE_TO_TRANSLATION_KEY: Record<RGBAType, TranslationKey> = {
     green: 'reader.settings.custom_filter.rgba.green',
     blue: 'reader.settings.custom_filter.rgba.blue',
     alpha: 'reader.settings.custom_filter.rgba.alpha',
-};
-
-const RGBA_TYPE_TO_MAX_VALUE: Record<RGBAType, number> = {
-    red: 255,
-    green: 255,
-    blue: 255,
-    alpha: 100,
 };
 
 export const ReaderSettingRGBA = ({
@@ -84,9 +78,9 @@ export const ReaderSettingRGBA = ({
                                     slider: {
                                         value,
                                         defaultValue: DEFAULT_READER_SETTINGS.customFilter.rgba.value[key as RGBAType],
-                                        step: 1,
-                                        min: 0,
-                                        max: RGBA_TYPE_TO_MAX_VALUE[key as RGBAType],
+                                        step: CUSTOM_FILTER.rgba[key as RGBAType].step,
+                                        min: CUSTOM_FILTER.rgba[key as RGBAType].min,
+                                        max: CUSTOM_FILTER.rgba[key as RGBAType].max,
                                         onChange: (_, newValue) => {
                                             updateSetting(
                                                 'rgba',

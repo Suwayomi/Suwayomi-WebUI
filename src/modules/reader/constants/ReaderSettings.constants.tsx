@@ -25,6 +25,7 @@ import {
     ReaderHotkey,
     ReaderOverlayMode,
     ReaderPageScaleMode,
+    ReaderScrollAmount,
     ReadingDirection,
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
@@ -36,15 +37,93 @@ import { TranslationKey } from '@/Base.types.ts';
 import { TapZoneLayouts } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { WebtoonPageIcon } from '@/assets/icons/svg/WebtoonPageIcon.tsx';
 
-/**
- * percentage values
- */
-export enum ReaderScrollAmount {
-    TINY = 10,
-    SMALL = 25,
-    MEDIUM = 75,
-    LARGE = 95,
-}
+export const AUTO_SCROLL_SPEED = {
+    min: 0.5,
+    max: 60,
+    step: 0.5,
+    default: 5,
+};
+
+export const SCROLL_AMOUNT = {
+    min: 5,
+    max: 100,
+    default: ReaderScrollAmount.LARGE,
+    step: 5,
+};
+
+export const PROGRESS_BAR_SIZE = {
+    min: 2,
+    max: 20,
+    step: 1,
+    default: 4,
+};
+
+export const IMAGE_PRE_LOAD_AMOUNT = {
+    min: 1,
+    max: 20,
+    default: 5,
+    step: 1,
+};
+
+export const PAGE_GAP = {
+    min: 0,
+    max: 20,
+    default: 5,
+    step: 1,
+};
+
+export const CUSTOM_FILTER = {
+    brightness: {
+        min: 5,
+        max: 200,
+        step: 1,
+        default: 100,
+    },
+    contrast: {
+        min: 5,
+        max: 200,
+        step: 1,
+        default: 100,
+    },
+    saturate: {
+        min: 0,
+        max: 200,
+        step: 1,
+        default: 100,
+    },
+    hue: {
+        min: 0,
+        max: 200,
+        step: 1,
+        default: 0,
+    },
+    rgba: {
+        red: {
+            min: 0,
+            max: 255,
+            step: 1,
+            default: 0,
+        },
+        green: {
+            min: 0,
+            max: 255,
+            step: 1,
+            default: 0,
+        },
+        blue: {
+            min: 0,
+            max: 255,
+            step: 1,
+            default: 0,
+        },
+        alpha: {
+            min: 0,
+            max: 100,
+            step: 1,
+            default: 0,
+        },
+    },
+} as const;
 
 export const READING_DIRECTION_TO_THEME_DIRECTION: Record<ReadingDirection, Direction> = {
     [ReadingDirection.LTR]: 'ltr',
@@ -84,7 +163,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     tapZoneLayout: TapZoneLayouts.RIGHT_LEFT,
     tapZoneInvertMode: { vertical: false, horizontal: false },
     progressBarType: ProgressBarType.STANDARD,
-    progressBarSize: 4,
+    progressBarSize: PROGRESS_BAR_SIZE.default,
     progressBarPosition: ProgressBarPosition.AUTO,
     progressBarPositionAutoVertical: ProgressBarPosition.RIGHT,
     pageScaleMode: ReaderPageScaleMode.ORIGINAL,
@@ -99,27 +178,27 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     backgroundColor: ReaderBackgroundColor.THEME,
     customFilter: {
         brightness: {
-            value: 100,
+            value: CUSTOM_FILTER.brightness.default,
             enabled: false,
         },
         contrast: {
-            value: 100,
+            value: CUSTOM_FILTER.contrast.default,
             enabled: false,
         },
         saturate: {
-            value: 100,
+            value: CUSTOM_FILTER.saturate.default,
             enabled: false,
         },
         hue: {
-            value: 0,
+            value: CUSTOM_FILTER.hue.default,
             enabled: false,
         },
         rgba: {
             value: {
-                red: 0,
-                green: 0,
-                blue: 0,
-                alpha: 0,
+                red: CUSTOM_FILTER.rgba.red.default,
+                green: CUSTOM_FILTER.rgba.green.default,
+                blue: CUSTOM_FILTER.rgba.blue.default,
+                alpha: CUSTOM_FILTER.rgba.alpha.default,
                 blendMode: ReaderBlendMode.DEFAULT,
             },
             enabled: false,
@@ -128,7 +207,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         grayscale: false,
         invert: false,
     },
-    pageGap: 5,
+    pageGap: PAGE_GAP.default,
     hotkeys: {
         [ReaderHotkey.PREVIOUS_PAGE]: ['arrowleft', 'a'],
         [ReaderHotkey.NEXT_PAGE]: ['arrowright', 'd'],
@@ -147,10 +226,10 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
         [ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE]: ['v'],
         [ReaderHotkey.EXIT_READER]: ['c'],
     },
-    imagePreLoadAmount: 5,
+    imagePreLoadAmount: IMAGE_PRE_LOAD_AMOUNT.default,
     shouldUseAutoWebtoonMode: true,
     autoScroll: {
-        value: 5,
+        value: AUTO_SCROLL_SPEED.default,
         smooth: true,
     },
     shouldShowReadingModePreview: true,
@@ -301,18 +380,6 @@ export const CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION: Record<
     [ReadingMode.CONTINUOUS_VERTICAL]: ScrollDirection.Y,
     [ReadingMode.CONTINUOUS_HORIZONTAL]: ScrollDirection.X,
     [ReadingMode.WEBTOON]: ScrollDirection.Y,
-};
-
-export const AUTO_SCROLL_SPEED = {
-    min: 0.5,
-    max: 60,
-    step: 0.5,
-};
-
-export const SCROLL_AMOUNT = {
-    min: 5,
-    max: 100,
-    step: 5,
 };
 
 export const READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA = {

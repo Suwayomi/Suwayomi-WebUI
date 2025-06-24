@@ -24,15 +24,13 @@ import { useReaderStateChaptersContext } from '@/modules/reader/contexts/state/R
 import {
     PageInViewportType,
     ProgressBarPosition,
+    ReaderScrollAmount,
     ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
 } from '@/modules/reader/types/Reader.types.ts';
 import { ScrollDirection, ScrollOffset } from '@/modules/core/Core.types.ts';
-import {
-    ReaderScrollAmount,
-    READING_DIRECTION_TO_THEME_DIRECTION,
-} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import {
     isATransitionPageVisible,
     isEndOfPageInViewport,

@@ -9,16 +9,18 @@
 import { memo, ReactNode, useCallback, useMemo, useState } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
 import { useAutomaticScrolling } from '@/modules/core/hooks/useAutomaticScrolling.ts';
-import { IReaderSettings, ReadingMode, TReaderAutoScrollContext } from '@/modules/reader/types/Reader.types.ts';
+import {
+    IReaderSettings,
+    ReaderScrollAmount,
+    ReadingMode,
+    TReaderAutoScrollContext,
+} from '@/modules/reader/types/Reader.types.ts';
 import { ReaderAutoScrollContext } from '@/modules/reader/contexts/ReaderAutoScrollContext.tsx';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
-import {
-    CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION,
-    ReaderScrollAmount,
-} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 const BaseReaderAutoScrollContextProvider = ({
     children,

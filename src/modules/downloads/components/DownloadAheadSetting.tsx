@@ -18,10 +18,7 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts';
 import { MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-
-const MIN_LIMIT = 2;
-const MAX_LIMIT = 10;
-const DEFAULT_LIMIT = MIN_LIMIT;
+import { DOWNLOAD_AHEAD } from '@/modules/downloads/Downloads.constants.ts';
 
 export const DownloadAheadSetting = ({
     downloadAheadLimit,
@@ -33,7 +30,7 @@ export const DownloadAheadSetting = ({
     const shouldDownloadAhead = !!downloadAheadLimit;
     const [currentDownloadAheadLimit, persistDownloadAheadLimit] = usePersistedValue(
         'lastDownloadAheadLimit',
-        DEFAULT_LIMIT,
+        DOWNLOAD_AHEAD.default,
         downloadAheadLimit,
         getPersistedServerSetting,
     );
@@ -63,9 +60,10 @@ export const DownloadAheadSetting = ({
                     count: currentDownloadAheadLimit,
                 })}
                 value={currentDownloadAheadLimit}
-                minValue={MIN_LIMIT}
-                maxValue={MAX_LIMIT}
-                defaultValue={DEFAULT_LIMIT}
+                minValue={DOWNLOAD_AHEAD.min}
+                maxValue={DOWNLOAD_AHEAD.max}
+                defaultValue={DOWNLOAD_AHEAD.default}
+                stepSize={DOWNLOAD_AHEAD.step}
                 showSlider
                 dialogDescription={t('download.settings.download_ahead.label.description')}
                 dialogDisclaimer={t('download.settings.download_ahead.label.disclaimer')}

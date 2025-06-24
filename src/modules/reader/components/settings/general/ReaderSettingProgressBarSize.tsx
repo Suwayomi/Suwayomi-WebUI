@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings, ProgressBarType, ReaderOverlayMode } from '@/modules/reader/types/Reader.types.ts';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
-import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { AUTO_SCROLL_SPEED, DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const ReaderSettingProgressBarSize = ({
     overlayMode,
@@ -37,9 +37,9 @@ export const ReaderSettingProgressBarSize = ({
                 slider: {
                     defaultValue: DEFAULT_READER_SETTINGS.progressBarSize,
                     value: progressBarSize,
-                    step: 1,
-                    min: 2,
-                    max: 20,
+                    step: AUTO_SCROLL_SPEED.step,
+                    min: AUTO_SCROLL_SPEED.min,
+                    max: AUTO_SCROLL_SPEED.max,
                     onChange: (_, value) => {
                         setProgressBarSize(value as number, false);
                     },

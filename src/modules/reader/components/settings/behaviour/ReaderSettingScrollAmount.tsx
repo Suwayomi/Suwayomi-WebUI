@@ -7,15 +7,11 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
+import { IReaderSettings, ReaderScrollAmount } from '@/modules/reader/types/Reader.types.ts';
 import { ValueToDisplayData } from '@/modules/core/Core.types.ts';
 import { ButtonSelectInput } from '@/modules/core/components/inputs/ButtonSelectInput.tsx';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
-import {
-    ReaderScrollAmount,
-    DEFAULT_READER_SETTINGS,
-    SCROLL_AMOUNT,
-} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { DEFAULT_READER_SETTINGS, SCROLL_AMOUNT } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderScrollAmount> = {
     [ReaderScrollAmount.TINY]: {

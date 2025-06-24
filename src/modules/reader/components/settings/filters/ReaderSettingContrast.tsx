@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
-import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { CUSTOM_FILTER, DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 
 export const ReaderSettingContrast = ({
     contrast,
@@ -47,9 +47,9 @@ export const ReaderSettingContrast = ({
                         slider: {
                             defaultValue: DEFAULT_READER_SETTINGS.customFilter.contrast.value,
                             value: contrast.value,
-                            step: 1,
-                            min: 5,
-                            max: 200,
+                            step: CUSTOM_FILTER.contrast.step,
+                            min: CUSTOM_FILTER.contrast.min,
+                            max: CUSTOM_FILTER.contrast.max,
                             onChange: (_, newValue) => {
                                 updateSetting('contrast', { ...contrast, value: newValue as number }, false);
                             },

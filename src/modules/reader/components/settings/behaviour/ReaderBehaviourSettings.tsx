@@ -16,7 +16,10 @@ import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.ts
 import { ReaderSettingExitMode } from '@/modules/reader/components/settings/behaviour/ReaderSettingExitMode.tsx';
 import { isOffsetDoubleSpreadPagesEditable } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
-import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import {
+    DEFAULT_READER_SETTINGS,
+    IMAGE_PRE_LOAD_AMOUNT,
+} from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { ReaderSettingAutoScroll } from '@/modules/reader/components/settings/behaviour/ReaderSettingAutoScroll.tsx';
 import { ReaderSettingScrollAmount } from '@/modules/reader/components/settings/behaviour/ReaderSettingScrollAmount.tsx';
 
@@ -129,9 +132,9 @@ export const ReaderBehaviourSettings = ({
                     slider: {
                         defaultValue: DEFAULT_READER_SETTINGS.imagePreLoadAmount,
                         value: settings.imagePreLoadAmount,
-                        step: 1,
-                        min: 1,
-                        max: 20,
+                        step: IMAGE_PRE_LOAD_AMOUNT.step,
+                        min: IMAGE_PRE_LOAD_AMOUNT.min,
+                        max: IMAGE_PRE_LOAD_AMOUNT.max,
                         onChange: (_, value) => {
                             updateSetting('imagePreLoadAmount', value as number, false);
                         },

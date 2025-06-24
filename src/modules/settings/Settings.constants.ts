@@ -13,6 +13,13 @@ import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
 import { ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
 
+export const MANGA_GRID_WIDTH = {
+    min: 100,
+    max: 1000,
+    step: 10,
+    default: 300,
+};
+
 export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     // downloads
     deleteChaptersManuallyMarkedRead: false,
@@ -66,5 +73,5 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     customThemes: {},
     mangaThumbnailBackdrop: true,
     mangaDynamicColorSchemes: true,
-    mangaGridItemWidth: 300,
+    mangaGridItemWidth: MANGA_GRID_WIDTH.default,
 };

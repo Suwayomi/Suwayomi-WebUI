@@ -34,7 +34,7 @@ import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { SERVER_SETTINGS_METADATA_DEFAULT } from '@/modules/settings/Settings.constants.ts';
+import { MANGA_GRID_WIDTH, SERVER_SETTINGS_METADATA_DEFAULT } from '@/modules/settings/Settings.constants.ts';
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
@@ -155,9 +155,9 @@ export const Appearance = () => {
                     settingValue={`px: ${mangaGridItemWidth}`}
                     value={mangaGridItemWidth}
                     defaultValue={SERVER_SETTINGS_METADATA_DEFAULT.mangaGridItemWidth}
-                    minValue={100}
-                    maxValue={1000}
-                    stepSize={10}
+                    minValue={MANGA_GRID_WIDTH.min}
+                    maxValue={MANGA_GRID_WIDTH.max}
+                    stepSize={MANGA_GRID_WIDTH.step}
                     valueUnit="px"
                     showSlider
                     handleUpdate={(width) => updateMetadataSetting('mangaGridItemWidth', width)}

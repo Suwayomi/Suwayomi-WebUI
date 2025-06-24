@@ -9,7 +9,7 @@
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { SliderInput } from '@/modules/core/components/inputs/SliderInput.tsx';
-import { DEFAULT_READER_SETTINGS } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { DEFAULT_READER_SETTINGS, PAGE_GAP } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.utils.tsx';
 import { MultiValueButtonDefaultableProps } from '@/modules/core/Core.types.ts';
 
@@ -37,11 +37,11 @@ export const ReaderSettingPageGap = ({
             onDefault={isDefaultable ? onDefault : undefined}
             slotProps={{
                 slider: {
-                    defaultValue: DEFAULT_READER_SETTINGS.readerWidth.value,
+                    defaultValue: DEFAULT_READER_SETTINGS.pageGap,
                     value: pageGap.value,
-                    step: 1,
-                    min: 0,
-                    max: 20,
+                    step: PAGE_GAP.step,
+                    min: PAGE_GAP.min,
+                    max: PAGE_GAP.max,
                     onChange: (_, value) => {
                         updateSetting(value as number, false);
                     },
