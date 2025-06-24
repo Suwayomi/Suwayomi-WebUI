@@ -7,7 +7,6 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { requestUpdateCategoryMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LibraryOptions } from '@/modules/library/Library.types.ts';
@@ -16,7 +15,6 @@ import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverte
 import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
 import {
     AllowedMetadataValueTypes,
-    AppMetadataKeys,
     GqlMetaHolder,
     Metadata,
     MetadataHolder,
@@ -45,24 +43,11 @@ const convertAppMetadataToGqlMetadata = (
     hasStatus: metadata.hasStatus ? JSON.stringify(metadata.hasStatus) : undefined,
 });
 
-const convertGqlMetadataToAppMetadata = (
-    metadata: Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>,
-): ICategoryMetadata => ({
-    ...(metadata as unknown as ICategoryMetadata),
-    hasTrackerBinding:
-        jsonSaveParse<ICategoryMetadata['hasTrackerBinding']>(metadata.hasTrackerBinding as string) ??
-        (undefined as any),
-    hasStatus: jsonSaveParse<ICategoryMetadata['hasStatus']>(metadata.hasStatus as string) ?? (undefined as any),
-});
-
 const getCategoryMetadataWithDefaultValueFallback = (
     meta: CategoryIdInfo & MetadataHolder,
     defaultMetadata: ICategoryMetadata = DEFAULT_CATEGORY_METADATA,
     useEffectFn?: typeof useEffect,
-): ICategoryMetadata =>
-    convertGqlMetadataToAppMetadata(
-        getMetadataFrom('category', meta, convertAppMetadataToGqlMetadata(defaultMetadata), undefined, useEffectFn),
-    );
+): ICategoryMetadata => getMetadataFrom('category', meta, defaultMetadata, undefined, useEffectFn);
 
 const getMetadata = (
     metaHolder: CategoryIdInfo & GqlMetaHolder,

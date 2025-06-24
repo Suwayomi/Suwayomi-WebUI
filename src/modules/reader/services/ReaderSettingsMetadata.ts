@@ -8,7 +8,6 @@
 
 import { useEffect, useMemo } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
-import { deepmerge } from '@mui/utils';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     requestUpdateMangaMetadata,
@@ -20,14 +19,12 @@ import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverte
 import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
 import {
     AllowedMetadataValueTypes,
-    AppMetadataKeys,
     GqlMetaHolder,
     Metadata,
     MetadataHolder,
     MetadataHolderType,
 } from '@/modules/metadata/Metadata.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import {
     DEFAULT_READER_SETTINGS,
@@ -103,47 +100,19 @@ export const DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG = convertToSettingsWithDe
     { meta: convertSettingsToMetadata(DEFAULT_READER_SETTINGS) as Metadata },
 );
 
-const convertMetadataToSettings = (
-    metadata: Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>,
-    defaultSettings: IReaderSettings,
-): IReaderSettings => ({
-    ...(metadata as unknown as IReaderSettings),
-    tapZoneInvertMode:
-        jsonSaveParse<IReaderSettings['tapZoneInvertMode']>((metadata.tapZoneInvertMode as string) ?? '') ??
-        defaultSettings.tapZoneInvertMode,
-    customFilter: deepmerge(
-        defaultSettings.customFilter,
-        jsonSaveParse<IReaderSettings['customFilter']>((metadata.customFilter as string) ?? '') ??
-            defaultSettings.customFilter,
-    ),
-    readerWidth:
-        jsonSaveParse<IReaderSettings['readerWidth']>((metadata.readerWidth as string) ?? '') ??
-        defaultSettings.readerWidth,
-    hotkeys: {
-        ...defaultSettings.hotkeys,
-        ...(jsonSaveParse<IReaderSettings['hotkeys']>((metadata.hotkeys as string) ?? '') ?? defaultSettings.hotkeys),
-    },
-    autoScroll:
-        jsonSaveParse<IReaderSettings['autoScroll']>((metadata.autoScroll as string) ?? '') ??
-        defaultSettings.autoScroll,
-});
-
 export const getReaderSettings = (
     type: Extract<MetadataHolderType, 'global' | 'manga'>,
     metadataHolder: (MangaIdInfo & MetadataHolder) | MetadataHolder,
     defaultSettings: IReaderSettings = DEFAULT_READER_SETTINGS,
     useEffectFn?: typeof useEffect,
     profile?: ReadingMode,
-) =>
-    convertMetadataToSettings(
-        getMetadataFrom(
-            type as Parameters<typeof getMetadataFrom>[0],
-            metadataHolder as Parameters<typeof getMetadataFrom>[1],
-            convertSettingsToMetadata(defaultSettings),
-            profile !== undefined ? [profile.toString()] : undefined,
-            useEffectFn,
-        ),
-        defaultSettings as IReaderSettings,
+): IReaderSettings =>
+    getMetadataFrom(
+        type as Parameters<typeof getMetadataFrom>[0],
+        metadataHolder as Parameters<typeof getMetadataFrom>[1],
+        defaultSettings,
+        profile !== undefined ? [profile.toString()] : undefined,
+        useEffectFn,
     );
 
 function getReaderSettingsWithDefaultValueFallback(

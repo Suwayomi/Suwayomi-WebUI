@@ -6,6 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+// eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
+import deepmerge from '@mui/utils/deepmerge';
 import { AppMetadataKeys, IMetadataMigration } from '@/modules/metadata/Metadata.types.ts';
 import {
     IReaderSettings,
@@ -23,173 +25,190 @@ import {
     PROGRESS_BAR_SIZE,
     SCROLL_AMOUNT,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
-import { coerceIn } from '@/lib/HelperFunctions.ts';
+import { coerceIn, jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_AHEAD } from '@/modules/downloads/Downloads.constants.ts';
 import { MANGA_GRID_WIDTH } from '@/modules/settings/Settings.constants.ts';
+import { NullAndUndefined } from '@/Base.types.ts';
+import { SortSettings } from '@/modules/migration/Migration.types.ts';
+import { ISourceMetadata } from '@/modules/source/Source.types.ts';
+import { LibraryOptions } from '@/modules/library/Library.types.ts';
+import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
+import { TapZoneInvertMode } from '@/modules/reader/types/TapZoneLayout.types.ts';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI';
 
-// At the moment any non-primitive types need to be specified as "string" and handled in the according "MetadataService".
-// "auto" can be used to try to automatically convert the value to a specific type (string, number, boolean, undefined, null)
+const convertToTypeNullAndUndefined = <T>(value: string, convertToType: (value: string) => T): NullAndUndefined<T> => {
+    if (value === 'null') return null;
+    if (value === 'undefined') return undefined;
+    return convertToType(value);
+};
+const convertToString = (value: string): string => value;
+const convertToNumber = (value: string): number => +value;
+const convertToBoolean = (value: string): boolean => value === 'true';
+const convertToStringNullAndUndefined = (value: string) => convertToTypeNullAndUndefined(value, convertToString);
+const convertToBooleanNullAndUndefined = (value: string) => convertToTypeNullAndUndefined(value, convertToBoolean);
+const convertToObject = <T>(value: string, defaultValue: T): T =>
+    deepmerge(defaultValue, jsonSaveParse<T>(value) ?? defaultValue);
+
 export const APP_METADATA: Record<
     AppMetadataKeys,
     {
-        type: 'auto' | 'string' | 'number' | 'boolean';
-        toValidValue?: (value: any) => any;
+        convert: (value: string, defaultValue: any) => any;
+        toConstrainedValue?: (value: any) => any;
     }
 > = {
     migration: {
-        type: 'number',
+        convert: convertToNumber,
     },
     deleteChaptersManuallyMarkedRead: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     deleteChaptersWhileReading: {
-        type: 'number',
+        convert: convertToNumber,
     },
     deleteChaptersWithBookmark: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     downloadAheadLimit: {
-        type: 'number',
-        toValidValue: (value: number) => coerceIn(value, DOWNLOAD_AHEAD.min, DOWNLOAD_AHEAD.max),
+        convert: convertToNumber,
+        toConstrainedValue: (value: number) => coerceIn(value, DOWNLOAD_AHEAD.min, DOWNLOAD_AHEAD.max),
     },
     showAddToLibraryCategorySelectDialog: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     ignoreFilters: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     removeMangaFromCategories: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     showTabSize: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     devices: {
-        type: 'string', // string[]
+        convert: convertToObject<string[]>,
     },
     migrateChapters: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     migrateCategories: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     migrateTracking: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     deleteChapters: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     migrateSortSettings: {
-        type: 'string', // SortSettings (object)
+        convert: convertToObject<SortSettings>,
     },
     hideLibraryEntries: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     updateProgressAfterReading: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     updateProgressManualMarkRead: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     webUIInformAvailableUpdate: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     serverInformAvailableUpdate: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     readerWidth: {
-        type: 'string', // object
+        convert: convertToObject<IReaderSettings['readerWidth']>,
     },
     savedSearches: {
-        type: 'string', // object
+        convert: convertToObject<ISourceMetadata['savedSearches']>,
     },
     showContinueReadingButton: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     showDownloadBadge: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     showUnreadBadge: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     gridLayout: {
-        type: 'number', // GridLayout (enum)
+        convert: convertToNumber, // GridLayout (enum)
     },
     sortBy: {
-        type: 'auto', // LibrarySortMode undefined null
+        convert: convertToStringNullAndUndefined, // LibrarySortMode
     },
     sortDesc: {
-        type: 'auto', // boolean undefined null
+        convert: convertToBooleanNullAndUndefined,
     },
     hasDownloadedChapters: {
-        type: 'auto', // boolean undefined null
+        convert: convertToBooleanNullAndUndefined,
     },
     hasBookmarkedChapters: {
-        type: 'auto', // boolean undefined null
+        convert: convertToBooleanNullAndUndefined,
     },
     hasUnreadChapters: {
-        type: 'auto', // boolean undefined null
+        convert: convertToBooleanNullAndUndefined,
     },
     hasReadChapters: {
-        type: 'auto', // boolean undefined null
+        convert: convertToBooleanNullAndUndefined,
     },
     hasDuplicateChapters: {
-        type: 'auto', // boolean undefined null
+        convert: convertToBooleanNullAndUndefined,
     },
     hasTrackerBinding: {
-        type: 'string', // object
+        convert: convertToObject<LibraryOptions['hasTrackerBinding']>,
     },
     hasStatus: {
-        type: 'string', // object
+        convert: convertToObject<LibraryOptions['hasStatus']>,
     },
     customThemes: {
-        type: 'string', // object
+        convert: convertToObject<MetadataThemeSettings['customThemes']>,
     },
     mangaThumbnailBackdrop: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     mangaDynamicColorSchemes: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     tapZoneLayout: {
-        type: 'number', // TapZoneLayouts (enum)
+        convert: convertToNumber, // TapZoneLayouts (enum)
     },
     tapZoneInvertMode: {
-        type: 'string', // TapZoneInvertMode (object)
+        convert: convertToObject<TapZoneInvertMode>, // TapZoneInvertMode (object)
     },
     readingDirection: {
-        type: 'number', // ReadingDirection (enum)
+        convert: convertToNumber, // ReadingDirection (enum)
     },
     progressBarType: {
-        type: 'number', // ProgressBarType (enum)
+        convert: convertToNumber, // ProgressBarType (enum)
     },
     progressBarSize: {
-        type: 'number',
-        toValidValue: (value: number) => coerceIn(value, PROGRESS_BAR_SIZE.min, PROGRESS_BAR_SIZE.max),
+        convert: convertToNumber,
+        toConstrainedValue: (value: number) => coerceIn(value, PROGRESS_BAR_SIZE.min, PROGRESS_BAR_SIZE.max),
     },
     progressBarPosition: {
-        type: 'number', // ProgressBarPosition (enum)
+        convert: convertToNumber, // ProgressBarPosition (enum)
     },
     progressBarPositionAutoVertical: {
-        type: 'number', // TProgressBarPositionAutoVertical (enum)
+        convert: convertToNumber, // TProgressBarPositionAutoVertical (enum)
     },
     readingMode: {
-        type: 'number', // ReadingMode (enum)
+        convert: convertToNumber, // ReadingMode (enum)
     },
     pageScaleMode: {
-        type: 'number', // ReaderPageScaleMode (enum)
+        convert: convertToNumber, // ReaderPageScaleMode (enum)
     },
     shouldOffsetDoubleSpreads: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     exitMode: {
-        type: 'number', // ReaderExitMode (enum)
+        convert: convertToNumber, // ReaderExitMode (enum)
     },
     customFilter: {
-        type: 'string', // ReaderCustomFilter (object)
-        toValidValue: (value: ReaderCustomFilter): ReaderCustomFilter => ({
+        convert: convertToObject<ReaderCustomFilter>,
+        toConstrainedValue: (value: ReaderCustomFilter): ReaderCustomFilter => ({
             ...value,
             brightness: {
                 ...value.brightness,
@@ -220,120 +239,120 @@ export const APP_METADATA: Record<
         }),
     },
     shouldSkipDupChapters: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     isStaticNav: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     overlayMode: {
-        type: 'number', // ReaderOverlayMode (enum)
+        convert: convertToNumber, // ReaderOverlayMode (enum)
     },
     shouldStretchPage: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     shouldShowPageNumber: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     backgroundColor: {
-        type: 'number', // ReaderBackgroundColor (enum)
+        convert: convertToNumber, // ReaderBackgroundColor (enum)
     },
     pageGap: {
-        type: 'number',
-        toValidValue: (value: number) => coerceIn(value, PAGE_GAP.min, PAGE_GAP.max),
+        convert: convertToNumber,
+        toConstrainedValue: (value: number) => coerceIn(value, PAGE_GAP.min, PAGE_GAP.max),
     },
     hotkeys: {
-        type: 'string', // object
+        convert: convertToObject<IReaderSettings['hotkeys']>,
     },
     imagePreLoadAmount: {
-        type: 'number',
-        toValidValue: (value: number) => coerceIn(value, IMAGE_PRE_LOAD_AMOUNT.min, IMAGE_PRE_LOAD_AMOUNT.max),
+        convert: convertToNumber,
+        toConstrainedValue: (value: number) => coerceIn(value, IMAGE_PRE_LOAD_AMOUNT.min, IMAGE_PRE_LOAD_AMOUNT.max),
     },
     shouldUseAutoWebtoonMode: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     autoScroll: {
-        type: 'string', // object
-        toValidValue: (value: IReaderSettings['autoScroll']): IReaderSettings['autoScroll'] => ({
+        convert: convertToObject<IReaderSettings['autoScroll']>,
+        toConstrainedValue: (value: IReaderSettings['autoScroll']): IReaderSettings['autoScroll'] => ({
             ...value,
             value: coerceIn(value.value, AUTO_SCROLL_SPEED.min, AUTO_SCROLL_SPEED.max),
         }),
     },
     shouldShowReadingModePreview: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     shouldShowTapZoneLayoutPreview: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     shouldInformAboutMissingChapter: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     shouldInformAboutScanlatorChange: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     hideHistory: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     scrollAmount: {
-        type: 'number', // ReaderScrollAmount (enum)
-        toValidValue: (value: number) => coerceIn(value, SCROLL_AMOUNT.min, SCROLL_AMOUNT.max),
+        convert: convertToNumber, // ReaderScrollAmount (enum)
+        toConstrainedValue: (value: number) => coerceIn(value, SCROLL_AMOUNT.min, SCROLL_AMOUNT.max),
     },
     reverse: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     bookmarked: {
-        type: 'auto', // boolean undefined null
+        convert: convertToBooleanNullAndUndefined,
     },
     downloaded: {
-        type: 'auto', // boolean undefined null
+        convert: convertToBooleanNullAndUndefined,
     },
     unread: {
-        type: 'auto', // boolean undefined null
+        convert: convertToBooleanNullAndUndefined,
     },
     showChapterNumber: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     extensionLanguages: {
-        type: 'string', // string[]
+        convert: convertToObject<string[]>,
     },
     sourceLanguages: {
-        type: 'string', // string[]
+        convert: convertToObject<string[]>,
     },
     showNsfw: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     shouldUseInfiniteScroll: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     shouldShowTransitionPage: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     appTheme: {
-        type: 'string',
+        convert: convertToString,
     },
     themeMode: {
-        type: 'string', // ThemeMode (enum)
+        convert: convertToString, // ThemeMode (enum)
     },
     shouldUsePureBlackMode: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     mangaGridItemWidth: {
-        type: 'number',
-        toValidValue: (value: number) => coerceIn(value, MANGA_GRID_WIDTH.min, MANGA_GRID_WIDTH.max),
+        convert: convertToNumber,
+        toConstrainedValue: (value: number) => coerceIn(value, MANGA_GRID_WIDTH.min, MANGA_GRID_WIDTH.max),
     },
     isPinned: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     isEnabled: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     lastUsedSourceId: {
-        type: 'string',
+        convert: convertToString,
     },
     shouldShowOnlySourcesWithResults: {
-        type: 'boolean',
+        convert: convertToBoolean,
     },
     excludedScanlators: {
-        type: 'string', // string[]
+        convert: convertToObject<string[]>,
     },
 } as const;
 

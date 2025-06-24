@@ -7,18 +7,12 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { requestUpdateSourceMetadata } from '@/modules/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ISourceMetadata, SourceIdInfo, SourceMetadataKeys } from '@/modules/source/Source.types.ts';
 import { convertFromGqlMeta } from '@/modules/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/modules/metadata/services/MetadataReader.ts';
-import {
-    AllowedMetadataValueTypes,
-    AppMetadataKeys,
-    GqlMetaHolder,
-    Metadata,
-} from '@/modules/metadata/Metadata.types.ts';
+import { AllowedMetadataValueTypes, GqlMetaHolder, Metadata } from '@/modules/metadata/Metadata.types.ts';
 
 const DEFAULT_SOURCE_METADATA: ISourceMetadata = {
     savedSearches: undefined,
@@ -33,22 +27,13 @@ const convertAppMetadataToGqlMetadata = (
     savedSearches: metadata.savedSearches ? JSON.stringify(metadata.savedSearches) : undefined,
 });
 
-const convertGqlMetadataToAppMetadata = (
-    metadata: Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>,
-): ISourceMetadata => ({
-    ...(metadata as unknown as ISourceMetadata),
-    savedSearches: jsonSaveParse<ISourceMetadata['savedSearches']>(metadata.savedSearches as string) ?? undefined,
-});
-
 const getMetadata = (metaHolder: SourceIdInfo & GqlMetaHolder, useEffectFn?: typeof useEffect): ISourceMetadata =>
-    convertGqlMetadataToAppMetadata(
-        getMetadataFrom(
-            'source',
-            { ...metaHolder, meta: convertFromGqlMeta(metaHolder.meta) },
-            convertAppMetadataToGqlMetadata(DEFAULT_SOURCE_METADATA),
-            undefined,
-            useEffectFn,
-        ),
+    getMetadataFrom(
+        'source',
+        { ...metaHolder, meta: convertFromGqlMeta(metaHolder.meta) },
+        DEFAULT_SOURCE_METADATA,
+        undefined,
+        useEffectFn,
     );
 
 export const getSourceMetadata = (metaHolder: SourceIdInfo & GqlMetaHolder): ISourceMetadata => getMetadata(metaHolder);

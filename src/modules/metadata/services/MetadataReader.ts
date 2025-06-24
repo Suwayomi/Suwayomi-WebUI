@@ -38,47 +38,47 @@ const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends Allowed
         return defaultValue;
     }
 
-    const convertedValue = convertValueFromMetadata(key, metadata[getMetadataKey(key, prefixes)]);
+    const convertedValue = convertValueFromMetadata(key, metadata[getMetadataKey(key, prefixes)], defaultValue);
 
-    return APP_METADATA[key].toValidValue?.(convertedValue) ?? convertedValue;
+    return APP_METADATA[key].toConstrainedValue?.(convertedValue) ?? convertedValue;
 };
 
-export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
+export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, any>>>(
     type: 'global',
     metadataHolder: MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
     useEffectFn?: typeof useEffect,
 ): METADATA;
-export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
+export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, any>>>(
     type: 'manga',
     metadataHolder: MangaIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
     useEffectFn?: typeof useEffect,
 ): METADATA;
-export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
+export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, any>>>(
     type: 'chapter',
     metadataHolder: ChapterIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
     useEffectFn?: typeof useEffect,
 ): METADATA;
-export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
+export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, any>>>(
     type: 'category',
     metadataHolder: CategoryIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
     useEffectFn?: typeof useEffect,
 ): METADATA;
-export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
+export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, any>>>(
     type: 'source',
     metadataHolder: SourceIdInfo & MetadataHolder,
     metadataWithDefaultValues: METADATA,
     prefixes?: string[],
     useEffectFn?: typeof useEffect,
 ): METADATA;
-export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, AllowedMetadataValueTypes>>>(
+export function getMetadataFrom<METADATA extends Partial<Metadata<AppMetadataKeys, any>>>(
     type: MetadataHolderType,
     metadataHolder:
         | MetadataHolder
