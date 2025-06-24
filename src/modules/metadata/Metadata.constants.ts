@@ -47,8 +47,15 @@ const convertToNumber = (value: string): number => +value;
 const convertToBoolean = (value: string): boolean => value === 'true';
 const convertToStringNullAndUndefined = (value: string) => convertToTypeNullAndUndefined(value, convertToString);
 const convertToBooleanNullAndUndefined = (value: string) => convertToTypeNullAndUndefined(value, convertToBoolean);
-const convertToObject = <T>(value: string, defaultValue: T): T =>
-    deepmerge(defaultValue, jsonSaveParse<T>(value) ?? defaultValue);
+const convertToObject = <T>(value: string, defaultValue: T): T => {
+    const convertedValue = jsonSaveParse(value) ?? defaultValue;
+
+    if (Array.isArray(defaultValue)) {
+        return convertedValue;
+    }
+
+    return deepmerge(defaultValue, convertedValue);
+};
 
 export const APP_METADATA: Record<
     AppMetadataKeys,
