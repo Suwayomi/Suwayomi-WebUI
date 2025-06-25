@@ -78,7 +78,9 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
 
         fetchedLatestTrackDataRef.current = true;
         Promise.all(
-            mangaTrackRecords.map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id).response),
+            mangaTrackRecords
+                .filter((trackRecord) => trackersInUseIds.includes(trackRecord.trackerId))
+                .map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id).response),
         ).catch((e) => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error', getErrorMessage(e)));
     }, [mangaTrackRecords]);
 
