@@ -1381,7 +1381,6 @@
     },
     "download": {
         "queue": {
-            "title": "Cola de descargas",
             "label": {
                 "no_downloads": "No se encontraron descargas",
                 "delete_all": "Borrar todo"

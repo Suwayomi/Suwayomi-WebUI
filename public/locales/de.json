@@ -88,7 +88,8 @@
                 "auto_update": {
                     "interval": {
                         "label": {
-                            "title": "Intervall für automatisches Update"
+                            "title": "Intervall für automatisches Update",
+                            "value": "{{hours}}$t(global.time.hour_short)"
                         }
                     },
                     "label": {
@@ -161,7 +162,11 @@
                         "error_other": "Fehler beim Hinzufügen der Downloads",
                         "next_five": "Nächste 5 Kapitel",
                         "next_ten": "Nächste 10 Kapitel",
-                        "next_twentyfive": "Nächste 25 Kapitel"
+                        "next_twentyfive": "Nächste 25 Kapitel",
+                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
+                        "all": "$t(extension.language.all)",
+                        "next": "$t(reader.button.next_chapter)",
+                        "unread": "$t(global.filter.label.unread)"
                     },
                     "button": {
                         "selected": "Auswahl downloaden"
@@ -255,7 +260,8 @@
                     "chapter_number": "Kapitelnummer",
                     "source_title": "Name der Quelle"
                 }
-            }
+            },
+            "exclude_scanlators": "Scanlator ausnehmen"
         },
         "missing_one": "{{count}} Kapitel fehlt",
         "missing_other": "{{count}} Kapitel fehlen",
@@ -277,7 +283,9 @@
                 "reader_width": "Reader Breite",
                 "reading_direction": "Leserichtung",
                 "skip_dup_chapters": "Überspringe doppelte Kapitel",
-                "limit_reader_width": "Reader-Breite begrenzen"
+                "limit_reader_width": "Reader-Breite begrenzen",
+                "layout": "Layout",
+                "custom_scroll_amount": "Benutzerdefinierte Scrollmenge"
             },
             "reader_type": {
                 "label": {
@@ -302,19 +310,22 @@
                         "darken": "Verdunkeln",
                         "lighten": "Erhellen",
                         "multiply": "Multiplizieren",
-                        "overlay": "Überlagern"
+                        "overlay": "Überlagern",
+                        "default": "$t(global.label.default)"
                     },
                     "blue": "Blau",
                     "red": "Rot",
                     "green": "Grün",
-                    "title": "Benutzerdefinierte Farbfilter"
+                    "title": "Benutzerdefinierte Farbfilter",
+                    "alpha": "Alpha"
                 },
                 "brightness": "Benutzerdefinierte Helligkeit",
                 "grayscale": "Graustufen",
                 "invert": "Invertieren",
                 "saturate": "Benutzerdefinierte Sättigung",
                 "hue": "Benutzerdefinierter Farbton",
-                "title": "Benutzerdefinierter Filter"
+                "title": "Benutzerdefinierter Filter",
+                "sepia": "Sepia"
             },
             "hotkey": {
                 "reading_direction": "Leserichtung umschalten",
@@ -384,14 +395,16 @@
                 "style": "Stil des Fortschrittsbalkens"
             },
             "title": {
-                "quick_settings": "Schnelleinstellungen"
+                "quick_settings": "Schnelleinstellungen",
+                "reader": "Reader"
             },
             "tap_zones": {
                 "title": "Klickzonen",
                 "invert": "Klickzonen invertieren",
                 "l_shape": "L-Form",
                 "right_left": "Rechts und links",
-                "edge": "Rand"
+                "edge": "Rand",
+                "kindle": "Kindle"
             },
             "source_series": "Serieneinstellungen",
             "scroll_amount": "Scroll Menge",
@@ -399,7 +412,8 @@
             "infinite_scroll": {
                 "description": "Behalte vorige und nächste Kapitel sichtbar in kontinuierlichen Lesemodi, was nahtlosen Übergang zwischen Kapiteln erlaubt.",
                 "title": "Kontinuierliche Kapiteldarstellung"
-            }
+            },
+            "default_setting_footnote": "$t(global.label.asterisk): $t(reader.settings.active_setting)"
         },
         "title": "Leser - Manga {{mangaId}} Kapitel {{chapterIndex}}",
         "page_info": {
@@ -450,7 +464,10 @@
             },
             "first_chapter": "Es gibt kein vorheriges Kapitel",
             "last_chapter": "Es gibt kein nächstes Kapitel",
-            "current": "Aktuell:"
+            "current": "Aktuell:",
+            "finished": "$t(global.label.finished):",
+            "next": "$t(global.label.next):",
+            "previous": "$t(global.label.previous):"
         }
     },
     "updates": {
@@ -563,7 +580,17 @@
             "publishing_finished": "Herausgabe abgeschlossen",
             "licensed": "Lizenziert",
             "completed": "Abgeschlossen",
-            "cancelled": "Abgebrochen"
+            "cancelled": "Abgebrochen",
+            "hiatus": "Hiatus",
+            "unknown": "$t(global.label.unknown)"
+        },
+        "type": {
+            "long_strip": "Long strip",
+            "manga": "$t(manga.title_one)",
+            "comic": "Comic",
+            "manhua": "Manhua",
+            "manhwa": "Manhwa",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)"
         }
     },
     "extension": {
@@ -588,7 +615,8 @@
             "update_failed_other": "Die Erweiterungen konnten nicht aktualisiert werden",
             "uninstallation_failed_one": "Die Erweiterung konnte nicht deinstalliert werden",
             "uninstallation_failed_other": "Die Erweiterungen konnten nicht deinstalliert werden",
-            "add_repository_info": "Es muss ein Erweiterungs-Repository hinzugefügt werden, bevor Erweiterungen installiert werden können"
+            "add_repository_info": "Es muss ein Erweiterungs-Repository hinzugefügt werden, bevor Erweiterungen installiert werden können",
+            "age_rating": "Altersfreigabe"
         },
         "state": {
             "label": {
@@ -646,7 +674,8 @@
                 "language": "Sprache"
             },
             "title": {
-                "enabled_languages": "Aktivierte Sprachen"
+                "enabled_languages": "Aktivierte Sprachen",
+                "weblate": "Weblate"
             },
             "error": {
                 "load": "Sprache konnte nicht geladen werden"
@@ -704,7 +733,18 @@
             "small": "Klein",
             "stopped": "Gestoppt",
             "pinned": "Angepinnt",
-            "last_used": "Zuletzt genutzt"
+            "last_used": "Zuletzt genutzt",
+            "asterisk": "*",
+            "horizontal": "Horizontal",
+            "standard": "Standard",
+            "system": "System",
+            "github": "GitHub",
+            "desktop": "Desktop",
+            "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
+            "tiny": "Winzig",
+            "info": "Information",
+            "scanlator": "Scanlator",
+            "version": "Version"
         },
         "button": {
             "ok": "OK",
@@ -789,7 +829,7 @@
             },
             "value": {
                 "label": {
-                    "day": "{{days}} $t(global.date.label.day)"
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
                 }
             }
         },
@@ -830,7 +870,11 @@
             "black": "Schwarz",
             "gray": "Grau",
             "white": "Weiß"
-        }
+        },
+        "unit": {
+            "px": "px"
+        },
+        "value": "{{value}}{{unit}}"
     },
     "category": {
         "dialog": {
@@ -869,7 +913,7 @@
                 }
             }
         },
-        "value": "{{count}} $t(category.title.category)"
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "settings": {
         "backup": {
@@ -937,7 +981,8 @@
             "show_nsfw": "NSFW-Inhalte anzeigen",
             "show_nsfw_description": "NSFW Erweiterungen und Quellen verstecken",
             "theme": "Theme",
-            "hide_library_entries": "Verstecke Einträge, welche bereits in deiner Bibliothek sind"
+            "hide_library_entries": "Verstecke Einträge, welche bereits in deiner Bibliothek sind",
+            "language_description": "Feel free to translate the project on"
         },
         "about": {
             "title": "Über",
@@ -947,14 +992,16 @@
                     "updated": "Version aktualisiert",
                     "version": "$t(settings.webui.title.webui) Version",
                     "channel": "$t(settings.webui.title.webui) Kanal",
-                    "info": "$t(settings.webui.title.webui) Version {{version}} ({{channel}}) steht zum Download verfügbar"
+                    "info": "$t(settings.webui.title.webui) Version {{version}} ({{channel}}) steht zum Download verfügbar",
+                    "github": "$t(global.label.github) $t(settings.webui.title.webui)"
                 }
             },
             "server": {
                 "label": {
                     "address": "Server Adresse",
                     "build_time": "Erstellungszeit",
-                    "version": "Server Version"
+                    "version": "Server Version",
+                    "github": "$t(global.label.github) $t(settings.server.title.server)"
                 }
             }
         },
@@ -996,7 +1043,11 @@
                     }
                 },
                 "server": {
-                    "title": "Server Bindung"
+                    "title": "Server Bindung",
+                    "label": {
+                        "port": "Port",
+                        "ip": "IP Adresse"
+                    }
                 }
             },
             "misc": {
@@ -1010,7 +1061,8 @@
                         "title": "Log file aufräumen"
                     },
                     "total_size": {
-                        "title": "Maximale Größe aller Log Dateien"
+                        "title": "Maximale Größe aller Log Dateien",
+                        "description": "$t(settings.server.misc.log_files.file_size.description)"
                     }
                 },
                 "tray_icon": {
@@ -1087,7 +1139,8 @@
                 "sources": {
                     "parallel": {
                         "label": {
-                            "title": "Parallele Quellen-Anfragen"
+                            "title": "Parallele Quellen-Anfragen",
+                            "value": "{{value}} $t(source.title)"
                         }
                     }
                 }
@@ -1155,6 +1208,12 @@
                 "label": {
                     "description": "Wo die $t(settings.webui.title.webui) gestartet werden soll beim Start des Servers",
                     "title": "Oberfläche"
+                },
+                "option": {
+                    "label": {
+                        "electron": "Electron",
+                        "browser": "Browser"
+                    }
                 }
             },
             "auto_update": {
@@ -1165,6 +1224,9 @@
             },
             "label": {
                 "initial_open_browser": "Öffne die $t(settings.webui.title.webui) beim Start des Servers"
+            },
+            "title": {
+                "webui": "WebUI"
             }
         },
         "appearance": {
@@ -1183,7 +1245,8 @@
                         "error": {
                             "invalid_json": "Invalides JSON",
                             "invalid_name": "Der Theme-Name muss einzigartig sein und hat ein Limit von 16 Zeichen"
-                        }
+                        },
+                        "theme_name": "Name"
                     },
                     "title": "Theme erstellen",
                     "action": "Erstelle Theme…"
@@ -1206,7 +1269,9 @@
                     "crimson": "Purpur",
                     "lavender": "Lavendel",
                     "minty_miracles": "Minz-Wunder",
-                    "mountain_sunset": "Sonnenuntergang am Berg"
+                    "mountain_sunset": "Sonnenuntergang am Berg",
+                    "ying_and_yang": "Ying & Yang",
+                    "veronica": "Veronica"
                 },
                 "delete": {
                     "success": "Theme \"{{theme}}\" gelöscht",
@@ -1253,11 +1318,11 @@
             "label": {
                 "placeholder": "Smartphone Name 1 | Länge: 16, Zeichen: Buchstaben, Zahlen, -, _"
             }
-        }
+        },
+        "default_value": "{{value}}<0>($t(global.label.default))</0>"
     },
     "download": {
         "queue": {
-            "title": "Download-Warteschlange",
             "label": {
                 "no_downloads": "Keine Downloads",
                 "delete_all": "Alle löschen"
@@ -1328,7 +1393,8 @@
                     "disclaimer": "Funktioniert nur, wenn das aktuelle Kapitel und das nächste Kapitel bereits heruntergeladen sind.",
                     "unread_chapters_to_download": "Anzahl an ungelesenen Kapiteln die heruntergeladen werden sollen",
                     "while_reading": "Automatischer Download während des Lesens",
-                    "description": "Wie viele Kapitel beim Lesen heruntergeladen werden sollen."
+                    "description": "Wie viele Kapitel beim Lesen heruntergeladen werden sollen.",
+                    "value": "{{chapters}} $t(chapter.title)"
                 },
                 "title": "Im Voraus downloaden"
             },
@@ -1345,7 +1411,8 @@
             }
         },
         "title": {
-            "queue": "Download Queue"
+            "queue": "Download Queue",
+            "download": "Downloads"
         }
     },
     "source": {
@@ -1384,6 +1451,9 @@
         "pin": {
             "remove": "Quelle loslösen",
             "add": "Quelle anpinnen"
+        },
+        "extension_info": {
+            "title": "Erweiterungsinformationen"
         }
     },
     "search": {
@@ -1460,7 +1530,20 @@
                 "currently_publishing": "Derzeit in Veröffentlichung",
                 "not_yet_released": "Noch nicht herausgegeben",
                 "releasing": "Wird herausgegeben",
-                "not_yet_published": "Noch nicht veröffentlicht"
+                "not_yet_published": "Noch nicht veröffentlicht",
+                "cancelled": "$(manga.status.cancelled)",
+                "finished": "$t(global.label.finished)",
+                "hiatus": "$(manga.status.hiatus)"
+            },
+            "type": {
+                "manhua": "$t(manga.type.manhua)",
+                "manga": "$t(manga.title_one)",
+                "doujinshi": "Doujinshi",
+                "manhwa": "$t(manga.type.manhwa)",
+                "novel": "Novel",
+                "oel": "OEL",
+                "one_shot": "Oneshot",
+                "unknown": "$t(global.label.unknown)"
             }
         }
     },
@@ -1483,6 +1566,9 @@
                 "delete_downloaded": "Heruntergeladene Löschen"
             },
             "title": "Wähle Daten zu inkludieren"
+        },
+        "search": {
+            "title": "$t(migrate.title) \"{{title}}\""
         }
     },
     "hotkeys": {

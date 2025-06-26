@@ -111,8 +111,7 @@
             "label": {
                 "no_downloads": "İndirme bulunamadı",
                 "delete_all": "Hepsini sil"
-            },
-            "title": "İndirme kuyruğu"
+            }
         },
         "state": {
             "label": {

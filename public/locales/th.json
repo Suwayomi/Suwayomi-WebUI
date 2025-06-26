@@ -2,7 +2,7 @@
     "category": {
         "dialog": {
             "title": {
-                "new_category": "หมวดหมู่ใหม่",
+                "new_category": "เพิ่มหมวดหมู่",
                 "edit_category_other": "แก้ไขหมวดหมู่"
             }
         },
@@ -13,11 +13,12 @@
         "error": {
             "label": {
                 "request_failure": "ไม่สามารถโหลดหมวดหมู่ได้",
-                "empty": "หมวดหมู่ว่างเปล่า"
+                "empty": "หมวดหมู่ว่างเปล่า",
+                "create_failure": "ไม่สามารถสร้างหมวดหมู่ได้"
             },
             "no_categories_found": {
                 "label": {
-                    "info": "คุณยังไม่มีหมวดหมู่ใดๆ"
+                    "info": "คุณยังไม่มีหมวดหมู่ใด ๆ"
                 }
             }
         },
@@ -30,9 +31,10 @@
             }
         },
         "title": {
-            "category_other": "Category หมวดหมู่ Categoriesกลุ่มหมวดหมู่",
-            "set_categories": "ชุด"
-        }
+            "category_other": "หมวดหมู่",
+            "set_categories": "กำหนดหมวดหมู่"
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "chapter": {
         "action": {
@@ -44,20 +46,24 @@
                         "next_five": "5 ตอนถัดไป",
                         "next_ten": "10 ตอนถัดไป",
                         "next_twentyfive": "25 ตอนถัดไป",
-                        "success_other": "{{count}}ถูกเพิ่มการดาวน์โหลดแล้ว"
+                        "success_other": "{{count}} ถูกเพิ่มการดาวน์โหลดแล้ว",
+                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
+                        "all": "$t(extension.language.all)",
+                        "next": "$t(reader.button.next_chapter)",
+                        "unread": "$t(global.filter.label.unread)"
                     },
                     "button": {
-                        "selected": "ดาวน์โหลด ที่เลือก"
+                        "selected": "ดาวน์โหลดที่เลือก"
                     }
                 },
                 "delete": {
                     "button": {
-                        "selected": "ลบ ที่เลือก"
+                        "selected": "ลบที่เลือก"
                     },
                     "label": {
                         "action": "ลบ",
                         "error_other": "ไม่สามารถลบตอนได้",
-                        "success_other": "{{count}}ตอนถูกลบ"
+                        "success_other": "{{count}} ตอนถูกลบ"
                     }
                 }
             },
@@ -68,12 +74,12 @@
             "mark_as_read": {
                 "remove": {
                     "button": {
-                        "selected": "ทำเครื่องหมายที่เลือกเป็นยังไม่ได้อ่าน"
+                        "selected": "ทำเครื่องหมายที่เลือกเป็นยังไม่อ่าน"
                     },
                     "label": {
-                        "action": "ทำเครื่องหมายว่ายังไม่ได้อ่าน",
-                        "success_other": "{{count}}ตอนนี้ถูกทำเครื่องหมายว่ายังไม่ได้อ่าน",
-                        "error_other": "ไม่สามารถทำเครื่องหมายตอนนี้ว่ายังไม่ได้อ่าน"
+                        "action": "ทำเครื่องหมายว่ายังไม่อ่าน",
+                        "success_other": "{{count}} ตอนนี้ถูกทำเครื่องหมายว่ายังไม่ได้อ่าน",
+                        "error_other": "ไม่สามารถทำเครื่องหมายตอนนี้ว่ายังไม่อ่าน"
                     }
                 },
                 "add": {
@@ -83,32 +89,32 @@
                     "label": {
                         "action": {
                             "current": "ทำเครื่องหมายว่าอ่านแล้ว",
-                            "previous": "ทำเครื่องหมายว่าอ่านแล้วก่อนหน้านี้"
+                            "previous": "ทำเครื่องหมายก่อนหน้านี้ว่าอ่านแล้ว"
                         },
                         "error_other": "ไม่สามารถทำเครื่องหมายว่าตอนนี้อ่านแล้วได้",
-                        "success_other": "{{count}}ตอนนี้ถูกทำเครื่องหมายว่าอ่านแล้ว"
+                        "success_other": "{{count}} ตอนนี้ถูกทำเครื่องหมายว่าอ่านแล้ว"
                     }
                 }
             },
             "bookmark": {
                 "add": {
                     "button": {
-                        "selected": "เลือกบุ๊กมาร์กแล้ว"
+                        "selected": "บุ๊คมาร์กที่เลือก"
                     },
                     "label": {
-                        "action": "เพิ่มบุ๊คมาร์ค",
-                        "error_other": "ไม่สามารถบุ๊กมาร์กตอนนี้ได้",
-                        "success_other": "{{count}}บุ๊กมาร์กตอนนี้แล้ว"
+                        "action": "เพิ่มบุ๊คมาร์ก",
+                        "error_other": "ไม่สามารถบุ๊คมาร์กตอนนี้ได้",
+                        "success_other": "{{count}} บุ๊คตอนนี้แล้ว"
                     }
                 },
                 "remove": {
                     "button": {
-                        "selected": "ลบบุ๊กมาร์กจากที่เลือกแล้ว"
+                        "selected": "ลบบุ๊คมาร์กจากที่เลือก"
                     },
                     "label": {
-                        "action": "ลบบุ๊คมาร์คแล้ว",
-                        "error_other": "ไม่สามารถลบบุ๊กมาร์กได้",
-                        "success_other": "{{count}}ที่บุ๊กมาร์กถูกลบออกแล้ว"
+                        "action": "ลบบุ๊คมาร์ก",
+                        "error_other": "ไม่สามารถลบบุ๊คมาร์กได้",
+                        "success_other": "{{count}} ตอนที่บุ๊กมาร์กถูกนำออกแล้ว"
                     }
                 }
             }
@@ -122,17 +128,20 @@
         "option": {
             "display": {
                 "label": {
-                    "chapter_number": "หมายเลขตอนที่",
+                    "chapter_number": "ตอนที่",
                     "source_title": "ที่มาชื่อเรื่อง"
                 }
-            }
+            },
+            "exclude_scanlators": "นักสแกนที่ไม่รวม"
         },
         "status": {
             "label": {
-                "downloaded": "ดาวน์โหลด"
+                "downloaded": "ดาวน์โหลดแล้ว"
             }
         },
-        "title_other": "ตอน"
+        "title_other": "ตอน",
+        "missing_other": "หายไป {{count}} ตอน",
+        "value_other": "{{count}} ตอน"
     },
     "global": {
         "button": {
@@ -313,7 +322,7 @@
             "error": {
                 "label": {
                     "failed_to_remove": "ไม่สามารถลบการดาวน์โหลดออกจากคิวได้",
-                    "failed_to_retry": "ไม่สามารถลองดาวน์โหลดอีกครั้งได้ เนื่องจากล้มเหลว",
+                    "failed_to_retry": "ไม่สามารถดาวน์โหลดที่ล้มเหลวอีกครั้งได้",
                     "failed_delete_all": "ไม่สามารถลบการดาวน์โหลดทั้งหมดออกจากคิวได้"
                 }
             },
@@ -321,7 +330,10 @@
                 "no_downloads": "ไม่มีการดาวน์โหลด",
                 "delete_all": "ลบทั้งหมด"
             },
-            "title": "คิวการดาวน์โหลด"
+            "info": {
+                "remaining": "{{count}} ที่เหลืออยู่",
+                "paused": "ถูกพัก — $t(download.queue.info.remaining)"
+            }
         },
         "settings": {
             "auto_download": {
@@ -337,16 +349,16 @@
                     }
                 },
                 "label": {
-                    "ignore_re_uploads": "ไม่สนใจตอนที่อัพโหลดซ้ำ",
+                    "ignore_re_uploads": "ละเว้นตอนที่อัพโหลดซ้ำ",
                     "ignore_with_unread_chapters": "ละเว้นการดาวน์โหลดตอนอัตโนมัติสำหรับรายการที่มีตอนที่ยังไม่ได้อ่าน",
-                    "new_chapters": "ดาวน์โหลดตอนใหม่ ๆ"
+                    "new_chapters": "ดาวน์โหลดตอนใหม่"
                 },
                 "title": "ดาวน์โหลดอัตโนมัติ"
             },
             "delete_chapters": {
                 "label": {
-                    "allow_deletion_of_bookmarked": "อนุญาตให้ลบตอนที่บุ๊กมาร์กไว้",
-                    "manually_marked_as_read": "ลบตอนหลังจากทำเครื่องหมายว่าอ่านแล้วด้วยตนเอง"
+                    "allow_deletion_of_bookmarked": "อนุญาตให้ลบตอนที่บุ๊คมาร์กไว้",
+                    "manually_marked_as_read": "ลบตอนหลังจากทำเครื่องหมายด้วยตนเองว่าอ่านแล้ว"
                 },
                 "title": "ลบตอน",
                 "while_reading": {

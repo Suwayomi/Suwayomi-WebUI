@@ -373,7 +373,6 @@
                 "no_downloads": "Aucun téléchargement",
                 "delete_all": "Tout supprimer"
             },
-            "title": "File d'attente de téléchargement",
             "error": {
                 "label": {
                     "failed_to_remove": "Impossible de supprimer le téléchargement de la file d'attente.",
