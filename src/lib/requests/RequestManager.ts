@@ -211,6 +211,7 @@ import {
     UpdateLibraryMutationVariables,
     GetExtensionQuery,
     GetExtensionQueryVariables,
+    DownloaderState,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -2984,8 +2985,50 @@ export class RequestManager {
                         });
                     }
 
+                    const downloadStatusQueryCache = cache.readQuery<GetDownloadStatusQuery>({
+                        query: GET_DOWNLOAD_STATUS,
+                    });
+
+                    const downloadsToAdd = downloadChanged?.updates.filter((update) => {
+                        const removeDownload = [DownloadUpdateType.Dequeued, DownloadUpdateType.Finished].includes(
+                            update.type,
+                        );
+                        if (removeDownload) {
+                            return false;
+                        }
+
+                        const isAlreadyKnown = downloadStatusQueryCache?.downloadStatus.queue.some(
+                            (download) => download.chapter.id === update.download.chapter.id,
+                        );
+
+                        return !isAlreadyKnown;
+                    });
+
+                    if (downloadsToAdd?.length) {
+                        cache.writeQuery<GetDownloadStatusQuery>({
+                            query: GET_DOWNLOAD_STATUS,
+                            data: {
+                                ...downloadStatusQueryCache,
+                                downloadStatus: {
+                                    __typename: 'DownloadStatus',
+                                    state:
+                                        downloadChanged?.state ??
+                                        downloadStatusQueryCache?.downloadStatus.state ??
+                                        DownloaderState.Stopped,
+                                    queue: [
+                                        ...(downloadStatusQueryCache?.downloadStatus?.queue ?? []),
+                                        ...(downloadsToAdd?.map((update) => update.download) ?? []),
+                                    ],
+                                },
+                            },
+                        });
+                    }
+
                     downloadChanged?.updates.forEach((update) => {
-                        if (![DownloadUpdateType.Dequeued, DownloadUpdateType.Finished].includes(update.type)) {
+                        const removeDownload = [DownloadUpdateType.Dequeued, DownloadUpdateType.Finished].includes(
+                            update.type,
+                        );
+                        if (!removeDownload) {
                             return;
                         }
 
