@@ -25,7 +25,6 @@ import Slider from '@mui/material/Slider';
 import DialogContentText from '@mui/material/DialogContentText';
 import InfoIcon from '@mui/icons-material/Info';
 import { SxProps, Theme } from '@mui/material/styles';
-import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 type BaseProps = {
     settingTitle: string;
@@ -76,6 +75,9 @@ export const NumberSetting = ({
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(value);
     const [originalValue, setOriginalValue] = useState(value);
+
+    const isInvalid =
+        (minValue !== undefined && minValue > dialogValue) || (maxValue !== undefined && maxValue < dialogValue);
 
     const updateValue = useCallback(
         (newValue: number, persist: boolean) => {
@@ -169,10 +171,11 @@ export const NumberSetting = ({
                         autoFocus
                         value={dialogValue}
                         type="number"
+                        error={isInvalid}
+                        helperText={isInvalid ? t('global.error.label.invalid_input') : ''}
                         onChange={(e) => {
                             const newValue = Number(e.target.value);
-                            const newValueCoerced = coerceIn(newValue, minValue ?? newValue, maxValue ?? newValue);
-                            updateValue(newValueCoerced, false);
+                            updateValue(newValue, false);
                         }}
                         slotProps={{
                             input: {
@@ -204,7 +207,7 @@ export const NumberSetting = ({
                     <Button onClick={cancel} color="primary">
                         {t('global.button.cancel')}
                     </Button>
-                    <Button onClick={submit} color="primary">
+                    <Button disabled={isInvalid} onClick={submit} color="primary">
                         {t('global.button.ok')}
                     </Button>
                 </DialogActions>
