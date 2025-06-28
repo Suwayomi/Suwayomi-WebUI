@@ -62,6 +62,7 @@ export const TextSettingDialog = ({
     const closeDialog = (resetValue: boolean = true) => {
         if (resetValue) {
             setDialogValue(value ?? '');
+            setIsValidValue(true);
         }
 
         setIsDialogOpen(false);
