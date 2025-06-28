@@ -285,18 +285,21 @@ export const ServerSettings = () => {
                     <Switch
                         edge="end"
                         checked={serverSettings.basicAuthEnabled}
+                        disabled={!serverSettings.basicAuthUsername.trim() && !serverSettings.basicAuthPassword.trim()}
                         onChange={(e) => updateSetting('basicAuthEnabled', e.target.checked)}
                     />
                 </ListItem>
                 <TextSetting
                     settingName={t('settings.server.auth.basic.label.username')}
                     value={serverSettings.basicAuthUsername}
+                    validate={(value) => !serverSettings.basicAuthEnabled || !!value.trim()}
                     handleChange={(authUsername) => updateSetting('basicAuthUsername', authUsername)}
                 />
                 <TextSetting
                     settingName={t('settings.server.auth.basic.label.password')}
                     value={serverSettings.basicAuthPassword}
                     isPassword
+                    validate={(value) => !serverSettings.basicAuthEnabled || !!value.trim()}
                     handleChange={(authPassword) => updateSetting('basicAuthPassword', authPassword)}
                 />
             </List>
