@@ -43,11 +43,14 @@ import {
     MigrateMode,
 } from '@/modules/manga/Manga.types.ts';
 import {
+    MANGA_ACTION_TO_CONFIRMATION_REQUIRED,
     MANGA_ACTION_TO_TRANSLATION,
     MANGA_TAGS_BY_MANGA_TYPE,
     SOURCES_BY_MANGA_TYPE,
 } from '@/modules/manga/Manga.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
+import { assertIsDefined } from '@/Asserts.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
@@ -194,6 +197,7 @@ export class Mangas {
     static async downloadChapters(
         mangaIds: number[],
         { size, onlyUnread, downloadAhead = false }: DownloadChaptersOptions = {},
+        disableConfirmation?: boolean,
     ): Promise<void> {
         const [chaptersToConsider, unReadDownloadedChapters] = await Promise.all([
             Mangas.getChapterIdsWithState(mangaIds, {
@@ -250,25 +254,34 @@ export class Mangas {
             return Promise.resolve();
         }
 
-        return Chapters.download(Chapters.getIds(chapterIdsToDownload));
+        return Chapters.download(Chapters.getIds(chapterIdsToDownload), disableConfirmation);
     }
 
-    static async deleteChapters(mangaIds: number[]): Promise<void> {
+    static async deleteChapters(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
         const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isDownloaded: true });
-        return Chapters.delete(Chapters.getIds(chapters));
+        return Chapters.delete(Chapters.getIds(chapters), disableConfirmation);
     }
 
-    static async markAsRead(mangaIds: number[], wasManuallyMarkedAsRead: boolean = false): Promise<void> {
+    static async markAsRead(
+        mangaIds: number[],
+        wasManuallyMarkedAsRead: boolean = false,
+        disableConfirmation?: boolean,
+    ): Promise<void> {
         const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: false });
-        return Chapters.markAsRead(chapters, wasManuallyMarkedAsRead, mangaIds.length === 1 ? mangaIds[0] : undefined);
+        return Chapters.markAsRead(
+            chapters,
+            wasManuallyMarkedAsRead,
+            mangaIds.length === 1 ? mangaIds[0] : undefined,
+            disableConfirmation,
+        );
     }
 
-    static async markAsUnread(mangaIds: number[]): Promise<void> {
+    static async markAsUnread(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
         const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: true });
-        return Chapters.markAsUnread(Chapters.getIds(chapters));
+        return Chapters.markAsUnread(Chapters.getIds(chapters), disableConfirmation);
     }
 
-    static async removeFromLibrary(mangaIds: number[]): Promise<void> {
+    static async removeFromLibrary(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
         const { removeMangaFromCategories } = await getMetadataServerSettings();
         return Mangas.executeAction(
             'remove_from_library',
@@ -278,14 +291,20 @@ export class Mangas {
                     updateMangas: { inLibrary: false },
                     updateMangasCategories: removeMangaFromCategories ? { clearCategories: true } : undefined,
                 }).response,
+            disableConfirmation,
         );
     }
 
-    static async changeCategories(mangaIds: number[], patch: UpdateMangaCategoriesPatchInput): Promise<void> {
+    static async changeCategories(
+        mangaIds: number[],
+        patch: UpdateMangaCategoriesPatchInput,
+        disableConfirmation?: boolean,
+    ): Promise<void> {
         return Mangas.executeAction(
             'change_categories',
             mangaIds.length,
             () => requestManager.updateMangasCategories(mangaIds, patch).response,
+            disableConfirmation,
         );
     }
 
@@ -418,88 +437,119 @@ export class Mangas {
             migrateTracking,
             deleteChapters,
         }: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
+        disableConfirmation?: boolean,
     ): Promise<void> {
-        return Mangas.executeAction('migrate', 1, async () => {
-            const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }, { removeMangaFromCategories }] =
-                await Promise.all([
-                    requestManager.getMangaToMigrate(mangaId, {
-                        migrateChapters,
-                        migrateCategories,
-                        migrateTracking,
-                        deleteChapters,
-                    }).response,
-                    requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, {
-                        migrateChapters,
-                        migrateCategories,
-                        migrateTracking,
-                        apolloOptions: { errorPolicy: 'all' },
-                    }).response,
-                    getMetadataServerSettings(),
-                ]);
+        return Mangas.executeAction(
+            'migrate',
+            1,
+            async () => {
+                const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }, { removeMangaFromCategories }] =
+                    await Promise.all([
+                        requestManager.getMangaToMigrate(mangaId, {
+                            migrateChapters,
+                            migrateCategories,
+                            migrateTracking,
+                            deleteChapters,
+                        }).response,
+                        requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, {
+                            migrateChapters,
+                            migrateCategories,
+                            migrateTracking,
+                            apolloOptions: { errorPolicy: 'all' },
+                        }).response,
+                        getMetadataServerSettings(),
+                    ]);
 
-            if (!mangaToMigrateData.manga || !mangaToMigrateToData?.fetchManga?.manga) {
-                throw new Error('Mangas::migrate: missing manga data');
-            }
-
-            if (migrateChapters && !mangaToMigrateData.manga.chapters) {
-                throw new Error('Mangas::migrate: missing chapters data');
-            }
-
-            if (!mangaToMigrateToData.fetchChapters?.chapters) {
-                mangaToMigrateToData.fetchChapters = { chapters: [] };
-            }
-
-            const performMigrationAction = async (
-                migrateAction: keyof MigrateFuncReturn,
-                ...actions: [boolean | undefined, MigrateFuncReturn][]
-            ) =>
-                Promise.all(
-                    actions
-                        .filter(([performAction]) => performAction)
-                        .map(([, action]) => action[migrateAction]())
-                        .flat(),
-                );
-
-            const performMigrationActions = async (...actions: [boolean | undefined, MigrateFuncReturn][]) => {
-                const migrationActions: TupleUnion<keyof MigrateFuncReturn> = ['copy', 'cleanup'];
-
-                for (const migrationAction of migrationActions) {
-                    // the migration actions (copy, cleanup) are supposed to be run sequentially to ensure that the cleanup
-                    // only happens in case the copy succeeded
-                    // eslint-disable-next-line no-await-in-loop
-                    await performMigrationAction(migrationAction, ...actions);
+                if (!mangaToMigrateData.manga || !mangaToMigrateToData?.fetchManga?.manga) {
+                    throw new Error('Mangas::migrate: missing manga data');
                 }
-            };
 
-            await performMigrationActions(
-                [
-                    migrateChapters,
-                    Mangas.migrateChapters(mode, mangaToMigrateData.manga, mangaToMigrateToData, !!deleteChapters),
-                ],
-                [
-                    migrateTracking,
-                    Mangas.migrateTracking(mode, mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga),
-                ],
-                [
-                    true,
-                    Mangas.migrateManga(
-                        mode,
-                        mangaToMigrateData.manga,
-                        mangaToMigrateToData.fetchManga.manga,
-                        !!migrateCategories,
-                        removeMangaFromCategories,
-                    ),
-                ],
-            );
-        });
+                if (migrateChapters && !mangaToMigrateData.manga.chapters) {
+                    throw new Error('Mangas::migrate: missing chapters data');
+                }
+
+                if (!mangaToMigrateToData.fetchChapters?.chapters) {
+                    mangaToMigrateToData.fetchChapters = { chapters: [] };
+                }
+
+                const performMigrationAction = async (
+                    migrateAction: keyof MigrateFuncReturn,
+                    ...actions: [boolean | undefined, MigrateFuncReturn][]
+                ) =>
+                    Promise.all(
+                        actions
+                            .filter(([performAction]) => performAction)
+                            .map(([, action]) => action[migrateAction]())
+                            .flat(),
+                    );
+
+                const performMigrationActions = async (...actions: [boolean | undefined, MigrateFuncReturn][]) => {
+                    const migrationActions: TupleUnion<keyof MigrateFuncReturn> = ['copy', 'cleanup'];
+
+                    for (const migrationAction of migrationActions) {
+                        // the migration actions (copy, cleanup) are supposed to be run sequentially to ensure that the cleanup
+                        // only happens in case the copy succeeded
+                        // eslint-disable-next-line no-await-in-loop
+                        await performMigrationAction(migrationAction, ...actions);
+                    }
+                };
+
+                await performMigrationActions(
+                    [
+                        migrateChapters,
+                        Mangas.migrateChapters(mode, mangaToMigrateData.manga, mangaToMigrateToData, !!deleteChapters),
+                    ],
+                    [
+                        migrateTracking,
+                        Mangas.migrateTracking(mode, mangaToMigrateData.manga, mangaToMigrateToData.fetchManga.manga),
+                    ],
+                    [
+                        true,
+                        Mangas.migrateManga(
+                            mode,
+                            mangaToMigrateData.manga,
+                            mangaToMigrateToData.fetchManga.manga,
+                            !!migrateCategories,
+                            removeMangaFromCategories,
+                        ),
+                    ],
+                );
+            },
+            disableConfirmation,
+        );
     }
 
     private static async executeAction(
         action: MangaAction,
         itemCount: number,
         fnToExecute: () => Promise<unknown>,
+        disableConfirmation?: boolean,
     ): Promise<void> {
+        const { always, bulkAction, bulkActionCountForce } = MANGA_ACTION_TO_CONFIRMATION_REQUIRED[action];
+        const requiresConfirmation =
+            !disableConfirmation &&
+            (always || (bulkAction && itemCount > 1) || (bulkActionCountForce && itemCount >= bulkActionCountForce));
+        const confirmationMessage = MANGA_ACTION_TO_TRANSLATION[action].confirmation;
+
         try {
+            if (requiresConfirmation) {
+                assertIsDefined(confirmationMessage);
+
+                try {
+                    await awaitConfirmation({
+                        title: translate('global.label.are_you_sure'),
+                        message: translate(confirmationMessage, { count: itemCount }),
+                        actions: {
+                            confirm: {
+                                title: translate('global.button.ok'),
+                            },
+                        },
+                    });
+                } catch (_) {
+                    return;
+                }
+            }
+
             await fnToExecute();
             makeToast(translate(MANGA_ACTION_TO_TRANSLATION[action].success, { count: itemCount }), 'success');
         } catch (e) {
@@ -524,22 +574,28 @@ export class Mangas {
             size,
             ...migrateOptions
         }: PerformActionOptions<Action>,
+        disableConfirmation?: boolean,
     ): Promise<void> {
         switch (action) {
             case 'download':
-                return Mangas.downloadChapters(mangaIds, { downloadAhead, onlyUnread, size });
+                return Mangas.downloadChapters(mangaIds, { downloadAhead, onlyUnread, size }, disableConfirmation);
             case 'delete':
-                return Mangas.deleteChapters(mangaIds);
+                return Mangas.deleteChapters(mangaIds, disableConfirmation);
             case 'mark_as_read':
-                return Mangas.markAsRead(mangaIds, wasManuallyMarkedAsRead!);
+                return Mangas.markAsRead(mangaIds, wasManuallyMarkedAsRead!, disableConfirmation);
             case 'mark_as_unread':
-                return Mangas.markAsUnread(mangaIds);
+                return Mangas.markAsUnread(mangaIds, disableConfirmation);
             case 'remove_from_library':
-                return Mangas.removeFromLibrary(mangaIds);
+                return Mangas.removeFromLibrary(mangaIds, disableConfirmation);
             case 'change_categories':
-                return Mangas.changeCategories(mangaIds, changeCategoriesPatch!);
+                return Mangas.changeCategories(mangaIds, changeCategoriesPatch!, disableConfirmation);
             case 'migrate': {
-                return Mangas.migrate(mangaIds[0], mangaIdToMigrateTo!, migrateOptions as unknown as MigrateOptions);
+                return Mangas.migrate(
+                    mangaIds[0],
+                    mangaIdToMigrateTo!,
+                    migrateOptions as unknown as MigrateOptions,
+                    disableConfirmation,
+                );
             }
             default:
                 throw new Error(`Mangas::performAction: unknown action "${action}"`);

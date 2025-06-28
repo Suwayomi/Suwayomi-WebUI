@@ -59,6 +59,8 @@
           },
           "label": {
             "action": "Remove bookmark",
+            "confirmation_one": "You are about to remove one bookmark",
+            "confirmation_other": "You are about to remove {{count}} bookmarks",
             "error_one": "Could not remove the bookmark",
             "error_other": "Could not remove the bookmarks",
             "success_one": "Chapter bookmark removed",
@@ -75,6 +77,8 @@
             "action": "Download",
             "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
             "all": "$t(extension.language.all)",
+            "confirmation_one": "You are about to download one chapter",
+            "confirmation_other": "You are about to download {{count}} chapters.\nSuwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.",
             "error_one": "Could not add the download",
             "error_other": "Could not add downloads",
             "next": "$t(reader.button.next_chapter)",
@@ -92,6 +96,8 @@
           },
           "label": {
             "action": "Delete",
+            "confirmation_one": "You are about to delete one download",
+            "confirmation_other": "You are about to delete {{count}} downloads",
             "error_one": "Could not delete the chapter",
             "error_other": "Could not delete chapters",
             "success_one": "Chapter deleted",
@@ -113,6 +119,8 @@
               "current": "Mark as read",
               "previous": "Mark previous as read"
             },
+            "confirmation_one": "You are about to mark one chapter as read",
+            "confirmation_other": "You are about to mark {{count}} chapters as read",
             "error_one": "Could not mark the chapter as read",
             "error_other": "Could not mark chapters as read",
             "success_one": "Chapter marked as read",
@@ -125,6 +133,8 @@
           },
           "label": {
             "action": "Mark as unread",
+            "confirmation_one": "You are about to mark one chapter as unread",
+            "confirmation_other": "You are about to mark {{count}} chapters as unread",
             "error_one": "Could not mark the chapter as unread",
             "error_other": "Could not mark chapters as unread",
             "success_one": "Chapter marked as unread",
@@ -720,6 +730,8 @@
         },
         "label": {
           "action": "Change categories",
+          "confirmation_one": "You are about to change the category of one entry",
+          "confirmation_other": "You are about to change the category of {{count}} entries",
           "error_one": "Could not change the categories of the manga",
           "error_other": "Could not change the categories of the manga",
           "success_one": "Changed categories of manga",
@@ -748,6 +760,8 @@
           },
           "label": {
             "action": "Remove from the library",
+            "confirmation_one": "You are about to remove one entry from your library",
+            "confirmation_other": "You are about to remove {{count}} entries from your library",
             "error_one": "Could not remove manga from the library",
             "error_other": "Could not remove manga from the library",
             "success_one": "Removed manga from the library",

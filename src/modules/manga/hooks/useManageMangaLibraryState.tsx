@@ -63,7 +63,7 @@ export const useManageMangaLibraryState = (
             });
         }
 
-        await Mangas.removeFromLibrary([manga.id]);
+        await Mangas.removeFromLibrary([manga.id], true);
         setIsInLibrary(false);
     }, [manga.id, confirmRemoval]);
 

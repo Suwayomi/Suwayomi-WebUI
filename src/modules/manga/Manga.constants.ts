@@ -9,6 +9,10 @@
 import { MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { TranslationKey } from '@/Base.types.ts';
 import { MangaAction, MangaIdInfo, MangaType } from '@/modules/manga/Manga.types.ts';
+import {
+    CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED,
+    CHAPTER_ACTION_TO_TRANSLATION,
+} from '@/modules/chapter/Chapter.constants.ts';
 
 export const FALLBACK_MANGA: MangaIdInfo = { id: -1 };
 
@@ -26,53 +30,35 @@ export const MANGA_STATUS_TO_TRANSLATION: Record<MangaStatus, TranslationKey> = 
     [MangaStatus.Unknown]: 'manga.status.unknown',
 };
 
+export const MANGA_ACTION_TO_CONFIRMATION_REQUIRED: Record<
+    MangaAction,
+    { always: boolean; bulkAction: boolean; bulkActionCountForce?: number }
+> = {
+    ...CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED,
+    remove_from_library: { always: true, bulkAction: true },
+    change_categories: { always: false, bulkAction: false },
+    migrate: { always: false, bulkAction: false },
+    track: { always: false, bulkAction: false },
+};
+
 export const MANGA_ACTION_TO_TRANSLATION: {
     [key in MangaAction]: {
         action: {
             single: TranslationKey;
             selected: TranslationKey;
         };
+        confirmation?: TranslationKey;
         success: TranslationKey;
         error: TranslationKey;
     };
 } = {
-    download: {
-        action: {
-            single: 'chapter.action.download.add.label.action',
-            selected: 'chapter.action.download.add.button.selected',
-        },
-        success: 'chapter.action.download.add.label.success',
-        error: 'chapter.action.download.add.label.error',
-    },
-    delete: {
-        action: {
-            single: 'chapter.action.download.delete.label.action',
-            selected: 'chapter.action.download.delete.button.selected',
-        },
-        success: 'chapter.action.download.delete.label.success',
-        error: 'chapter.action.download.delete.label.error',
-    },
-    mark_as_read: {
-        action: {
-            single: 'chapter.action.mark_as_read.add.label.action.current',
-            selected: 'chapter.action.mark_as_read.add.button.selected',
-        },
-        success: 'chapter.action.mark_as_read.add.label.success',
-        error: 'chapter.action.mark_as_read.add.label.error',
-    },
-    mark_as_unread: {
-        action: {
-            single: 'chapter.action.mark_as_read.remove.label.action',
-            selected: 'chapter.action.mark_as_read.remove.button.selected',
-        },
-        success: 'chapter.action.mark_as_read.remove.label.success',
-        error: 'chapter.action.mark_as_read.remove.label.error',
-    },
+    ...CHAPTER_ACTION_TO_TRANSLATION,
     remove_from_library: {
         action: {
             single: 'manga.action.library.remove.label.action',
             selected: 'manga.action.library.remove.button.selected',
         },
+        confirmation: 'manga.action.library.remove.label.confirmation',
         success: 'manga.action.library.remove.label.success',
         error: 'manga.action.library.remove.label.error',
     },
@@ -81,6 +67,7 @@ export const MANGA_ACTION_TO_TRANSLATION: {
             single: 'manga.action.category.label.action',
             selected: 'manga.action.category.button.selected',
         },
+        confirmation: 'manga.action.category.label.confirmation',
         success: 'manga.action.category.label.success',
         error: 'manga.action.category.label.error',
     },

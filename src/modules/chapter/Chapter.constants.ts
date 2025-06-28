@@ -28,12 +28,25 @@ export const CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY: Record<ChapterSortMode, Tr
     fetchedAt: 'global.sort.label.by_fetch_date',
 };
 
+export const CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED: Record<
+    ChapterAction,
+    { always: boolean; bulkAction: boolean; bulkActionCountForce?: number }
+> = {
+    download: { always: false, bulkAction: false, bulkActionCountForce: 300 },
+    delete: { always: true, bulkAction: true },
+    bookmark: { always: false, bulkAction: false },
+    unbookmark: { always: false, bulkAction: true },
+    mark_as_read: { always: false, bulkAction: true },
+    mark_as_unread: { always: false, bulkAction: true },
+};
+
 export const CHAPTER_ACTION_TO_TRANSLATION: {
     [key in ChapterAction]: {
         action: {
             single: TranslationKey;
             selected: TranslationKey;
         };
+        confirmation?: TranslationKey;
         success: TranslationKey;
         error: TranslationKey;
     };
@@ -43,6 +56,7 @@ export const CHAPTER_ACTION_TO_TRANSLATION: {
             single: 'chapter.action.download.add.label.action',
             selected: 'chapter.action.download.add.button.selected',
         },
+        confirmation: 'chapter.action.download.add.label.confirmation',
         success: 'chapter.action.download.add.label.success',
         error: 'chapter.action.download.add.label.error',
     },
@@ -51,6 +65,7 @@ export const CHAPTER_ACTION_TO_TRANSLATION: {
             single: 'chapter.action.download.delete.label.action',
             selected: 'chapter.action.download.delete.button.selected',
         },
+        confirmation: 'chapter.action.download.delete.label.confirmation',
         success: 'chapter.action.download.delete.label.success',
         error: 'chapter.action.download.delete.label.error',
     },
@@ -67,6 +82,7 @@ export const CHAPTER_ACTION_TO_TRANSLATION: {
             single: 'chapter.action.bookmark.remove.label.action',
             selected: 'chapter.action.bookmark.remove.button.selected',
         },
+        confirmation: 'chapter.action.bookmark.remove.label.confirmation',
         success: 'chapter.action.bookmark.remove.label.success',
         error: 'chapter.action.bookmark.remove.label.error',
     },
@@ -75,6 +91,7 @@ export const CHAPTER_ACTION_TO_TRANSLATION: {
             single: 'chapter.action.mark_as_read.add.label.action.current',
             selected: 'chapter.action.mark_as_read.add.button.selected',
         },
+        confirmation: 'chapter.action.mark_as_read.add.label.confirmation',
         success: 'chapter.action.mark_as_read.add.label.success',
         error: 'chapter.action.mark_as_read.add.label.error',
     },
@@ -83,6 +100,7 @@ export const CHAPTER_ACTION_TO_TRANSLATION: {
             single: 'chapter.action.mark_as_read.remove.label.action',
             selected: 'chapter.action.mark_as_read.remove.button.selected',
         },
+        confirmation: 'chapter.action.mark_as_read.remove.label.confirmation',
         success: 'chapter.action.mark_as_read.remove.label.success',
         error: 'chapter.action.mark_as_read.remove.label.error',
     },

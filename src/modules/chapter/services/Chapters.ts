@@ -26,7 +26,10 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
 import { epochToDate, getDateString } from '@/util/DateHelper.ts';
-import { CHAPTER_ACTION_TO_TRANSLATION } from '@/modules/chapter/Chapter.constants.ts';
+import {
+    CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED,
+    CHAPTER_ACTION_TO_TRANSLATION,
+} from '@/modules/chapter/Chapter.constants.ts';
 import {
     ChapterAction,
     ChapterBookmarkInfo,
@@ -38,6 +41,8 @@ import {
     ChapterScanlatorInfo,
     ChapterSourceOrderInfo,
 } from '@/modules/chapter/Chapter.types.ts';
+import { assertIsDefined } from '@/Asserts.ts';
+import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {
@@ -183,19 +188,21 @@ export class Chapters {
             .filter((matchingChapters): matchingChapters is [Chapter, Chapter] => matchingChapters !== null);
     }
 
-    static async download(chapterIds: number[]): Promise<void> {
+    static async download(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {
         return Chapters.executeAction(
             'download',
             chapterIds.length,
             () => requestManager.addChaptersToDownloadQueue(chapterIds).response,
+            disableConfirmation,
         );
     }
 
-    static async delete(chapterIds: number[]): Promise<void> {
+    static async delete(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {
         return Chapters.executeAction(
             'delete',
             chapterIds.length,
             () => requestManager.deleteDownloadedChapters(chapterIds).response,
+            disableConfirmation,
         );
     }
 
@@ -203,6 +210,7 @@ export class Chapters {
         chapters: (ChapterIdInfo & ChapterDownloadInfo & ChapterBookmarkInfo)[],
         wasManuallyMarkedAsRead: boolean = false,
         trackProgressMangaId?: MangaIdInfo['id'],
+        disableConfirmation?: boolean,
     ): Promise<void> {
         const { deleteChaptersManuallyMarkedRead, deleteChaptersWithBookmark, updateProgressManualMarkRead } =
             await getMetadataServerSettings();
@@ -221,14 +229,16 @@ export class Chapters {
                     trackProgressMangaId:
                         updateProgressManualMarkRead && wasManuallyMarkedAsRead ? trackProgressMangaId : undefined,
                 }).response,
+            disableConfirmation,
         );
     }
 
-    static async markAsUnread(chapterIds: number[]): Promise<void> {
+    static async markAsUnread(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {
         return Chapters.executeAction(
             'mark_as_unread',
             chapterIds.length,
             () => requestManager.updateChapters(chapterIds, { isRead: false }).response,
+            disableConfirmation,
         );
     }
 
@@ -252,8 +262,33 @@ export class Chapters {
         action: ChapterAction,
         itemCount: number,
         fnToExecute: () => Promise<unknown>,
+        disableConfirmation?: boolean,
     ): Promise<void> {
+        const { always, bulkAction, bulkActionCountForce } = CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED[action];
+        const requiresConfirmation =
+            (!disableConfirmation && (always || (bulkAction && itemCount > 1))) ||
+            (bulkActionCountForce && itemCount >= bulkActionCountForce);
+        const confirmationMessage = CHAPTER_ACTION_TO_TRANSLATION[action].confirmation;
+
         try {
+            if (requiresConfirmation) {
+                assertIsDefined(confirmationMessage);
+
+                try {
+                    await awaitConfirmation({
+                        title: translate('global.label.are_you_sure'),
+                        message: translate(confirmationMessage, { count: itemCount }),
+                        actions: {
+                            confirm: {
+                                title: translate('global.button.ok'),
+                            },
+                        },
+                    });
+                } catch (_) {
+                    return;
+                }
+            }
+
             await fnToExecute();
             makeToast(translate(CHAPTER_ACTION_TO_TRANSLATION[action].success, { count: itemCount }), 'success');
         } catch (e) {
