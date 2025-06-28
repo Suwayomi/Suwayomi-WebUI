@@ -78,7 +78,14 @@ export const APP_METADATA: Record<
     },
     downloadAheadLimit: {
         convert: convertToNumber,
-        toConstrainedValue: (value: number) => coerceIn(value, DOWNLOAD_AHEAD.min, DOWNLOAD_AHEAD.max),
+        toConstrainedValue: (value: number) => {
+            const isDisabled = value === 0;
+            if (isDisabled) {
+                return value;
+            }
+
+            return coerceIn(value, DOWNLOAD_AHEAD.min, DOWNLOAD_AHEAD.max);
+        },
     },
     showAddToLibraryCategorySelectDialog: {
         convert: convertToBoolean,
