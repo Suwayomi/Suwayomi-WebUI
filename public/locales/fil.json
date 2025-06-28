@@ -227,8 +227,7 @@
             "label": {
                 "delete_all": "Tanggalin lahat",
                 "no_downloads": "Walang mga download"
-            },
-            "title": "Pila ng mga Download"
+            }
         },
         "state": {
             "label": {

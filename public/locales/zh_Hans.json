@@ -131,7 +131,8 @@
                     "chapter_number": "章节数",
                     "source_title": "图源标题"
                 }
-            }
+            },
+            "exclude_scanlators": "排除搬运组"
         },
         "status": {
             "label": {
@@ -148,7 +149,6 @@
                 "no_downloads": "没有下载",
                 "delete_all": "全部删除"
             },
-            "title": "下载队列",
             "error": {
                 "label": {
                     "failed_to_remove": "无法从队列中删除下载。",
@@ -267,7 +267,8 @@
             "installing_file": "正在安装插件…",
             "uninstallation_failed_other": "无法卸载插件",
             "update_failed_other": "无法更新插件",
-            "add_repository_info": "您必须添加扩展库才能安装扩展程序"
+            "add_repository_info": "您必须添加扩展库才能安装扩展程序",
+            "age_rating": "年龄分级"
         },
         "title_other": "插件",
         "settings": {
@@ -442,7 +443,10 @@
             "medium": "中",
             "pinned": "已置顶",
             "last_used": "上次使用",
-            "stopped": "已停止"
+            "stopped": "已停止",
+            "tiny": "微",
+            "scanlator": "搬运组",
+            "version": "版本"
         },
         "language": {
             "label": {
@@ -803,7 +807,8 @@
                 "offset_double_spread": "调整双页错位",
                 "page_gap": "页间距",
                 "reading_direction": "阅读顺序",
-                "reading_mode": "阅读模式"
+                "reading_mode": "阅读模式",
+                "custom_scroll_amount": "自定义滚动距离"
             },
             "reader_type": {
                 "label": {
@@ -1404,6 +1409,9 @@
         "pin": {
             "add": "置顶图源",
             "remove": "取消置顶图源"
+        },
+        "extension_info": {
+            "title": "插件信息"
         }
     },
     "updates": {
@@ -1519,7 +1527,7 @@
             },
             "type": {
                 "doujinshi": "同人作品",
-                "manhua": "$t(manga.type.manhwa)",
+                "manhua": "$t(manga.type.manhua)",
                 "novel": "小说",
                 "oel": "英创漫画",
                 "one_shot": "单篇漫画",
