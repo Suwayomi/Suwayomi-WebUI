@@ -144,6 +144,7 @@ export interface IReaderSettingsGlobal {
     exitMode: ReaderExitMode;
     customFilter: ReaderCustomFilter;
     shouldSkipDupChapters: boolean;
+    shouldSkipFilteredChapters: boolean;
     progressBarType: ProgressBarType;
     /**
      * pixel
@@ -202,14 +203,19 @@ export interface IReaderSettingsWithDefaultFlag
 
 export interface ReaderStateChapters {
     /**
-     * all chapters of the manga
-     */
-    mangaChapters: TChapterReader[];
-    /**
-     * actual chapters that have been filtered
+     * All chapters of the manga with their state preserved from the initial reader load.
      *
-     * optional filters:
-     *  - removed duplicate chapters
+     * The state needs to be preserved so that chapter state changes do not lead to chapters getting filtered out.
+     * E.g., in case read chapters are filtered out. This would then lead to the removal of the current chapter
+     * after the end of the chapter is reached.
+     */
+    mangaChapters?: TChapterReader[];
+    /**
+     * Actual chapters that have been filtered
+     *
+     * Optional filters:
+     *  - Removed duplicate chapters
+     *  - Manga chapter list filters
      */
     chapters: TChapterReader[];
     chapterForDuplicatesHandling?: TChapterReader | null;

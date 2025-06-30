@@ -475,32 +475,22 @@ export class ReaderControls {
         endReached?: boolean,
     ) => void {
         const { currentPageIndex, setCurrentPageIndex } = userReaderStatePagesContext();
-        const {
-            chapterForDuplicatesHandling,
-            currentChapter,
-            previousChapter,
-            nextChapter,
-            mangaChapters,
-            visibleChapters,
-            setReaderStateChapters,
-        } = useReaderStateChaptersContext();
+        const { currentChapter, chapters, previousChapter, nextChapter, visibleChapters, setReaderStateChapters } =
+            useReaderStateChaptersContext();
         const updateChapter = ReaderService.useUpdateChapter();
-        const { shouldSkipDupChapters } = ReaderService.useSettings();
         const {
             settings: { downloadAheadLimit },
         } = useMetadataServerSettings();
 
         const nextChapters = useMemo(() => {
-            if (!chapterForDuplicatesHandling || !currentChapter) {
+            if (!currentChapter) {
                 return [];
             }
 
-            return Chapters.getNextChapters(currentChapter, mangaChapters, {
+            return Chapters.getNextChapters(currentChapter, chapters, {
                 offset: DirectionOffset.NEXT,
-                skipDupe: shouldSkipDupChapters,
-                skipDupeChapter: chapterForDuplicatesHandling,
             });
-        }, [chapterForDuplicatesHandling?.id, currentChapter?.id, mangaChapters, shouldSkipDupChapters]);
+        }, [currentChapter?.id, chapters]);
 
         return useCallback(
             (pageIndex, debounceChapterUpdate = true, endReached = false) => {

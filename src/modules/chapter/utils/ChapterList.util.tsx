@@ -92,18 +92,25 @@ const sortChapters = <T extends TChapterSort>(
     return sortedChapters;
 };
 
-type TChapterFilter = TChapterSort & ChapterReadInfo & ChapterDownloadInfo & ChapterBookmarkInfo & ChapterScanlatorInfo;
-export function filterAndSortChapters<Chapters extends TChapterFilter>(
+type TChapterFilter = ChapterReadInfo & ChapterDownloadInfo & ChapterBookmarkInfo & ChapterScanlatorInfo;
+export function filterChapters<Chapters extends TChapterFilter>(
     chapters: Chapters[],
     options: ChapterListOptions,
 ): Chapters[] {
-    const filtered = chapters.filter(
+    return chapters.filter(
         (chp) =>
             unreadFilter(options.unread, chp) &&
             downloadFilter(options.downloaded, chp) &&
             bookmarkedFilter(options.bookmarked, chp) &&
             scanlatorFilter(options.excludedScanlators, chp),
     );
+}
+
+export function filterAndSortChapters<Chapters extends TChapterSort & TChapterFilter>(
+    chapters: Chapters[],
+    options: ChapterListOptions,
+): Chapters[] {
+    const filtered = filterChapters(chapters, options);
 
     return sortChapters(filtered, options);
 }

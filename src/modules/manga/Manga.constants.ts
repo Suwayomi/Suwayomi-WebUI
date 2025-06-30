@@ -13,8 +13,9 @@ import {
     CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED,
     CHAPTER_ACTION_TO_TRANSLATION,
 } from '@/modules/chapter/Chapter.constants.ts';
+import { GqlMetaHolder } from '@/modules/metadata/Metadata.types.ts';
 
-export const FALLBACK_MANGA: MangaIdInfo = { id: -1 };
+export const FALLBACK_MANGA: MangaIdInfo & GqlMetaHolder = { id: -1 };
 
 export const GLOBAL_READER_SETTINGS_MANGA: MangaIdInfo = { id: -2 };
 

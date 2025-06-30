@@ -155,7 +155,8 @@ const BaseReaderSettingsTabs = ({
                                     <ReaderBehaviourSettings
                                         settings={settings}
                                         updateSetting={(...args) => updateSetting(...args)}
-                                        isDefaultable
+                                        // @ts-expect-error - TS2322: Type boolean is not assignable to type true
+                                        isDefaultable={!areDefaultSettings}
                                         onDefault={(...args) => deleteSetting?.(...args)}
                                     />
                                 </TabPanel>

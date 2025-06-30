@@ -995,7 +995,9 @@
         "reading_mode": "Reading mode",
         "show_page_number": "Show page number",
         "skip_dup_chapters": "Skip duplicate chapters",
-        "static_navigation": "Static navigation"
+        "skip_filtered_chapters": "Skip filtered chapters",
+        "static_navigation": "Static navigation",
+        "unchangeable_in_reader": "Setting can not be changed while the reader is opened"
       },
       "overlay_mode": "Overlay mode",
       "page_scale": {

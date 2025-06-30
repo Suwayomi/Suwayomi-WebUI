@@ -10,7 +10,6 @@ import { createContext, useContext } from 'react';
 import { ReaderStateChapters } from '@/modules/reader/types/Reader.types.ts';
 
 export const READER_STATE_CHAPTERS_DEFAULTS: Omit<ReaderStateChapters, 'setReaderStateChapters'> = {
-    mangaChapters: [],
     chapters: [],
     isCurrentChapterReady: false,
     visibleChapters: {

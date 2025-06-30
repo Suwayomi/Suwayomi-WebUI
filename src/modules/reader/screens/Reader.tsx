@@ -52,6 +52,8 @@ import { useReaderSetSettingsState } from '@/modules/reader/hooks/useReaderSetSe
 import { useReaderShowSettingPreviewOnChange } from '@/modules/reader/hooks/useReaderShowSettingPreviewOnChange.ts';
 import { useReaderSetChaptersState } from '@/modules/reader/hooks/useReaderSetChaptersState.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { useChapterListOptions } from '@/modules/chapter/utils/ChapterList.util.tsx';
+import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 
 const BaseReader = ({
     setOverride,
@@ -61,6 +63,7 @@ const BaseReader = ({
     manga,
     setManga,
     shouldSkipDupChapters,
+    shouldSkipFilteredChapters,
     backgroundColor,
     readingMode,
     tapZoneLayout,
@@ -68,6 +71,7 @@ const BaseReader = ({
     shouldShowReadingModePreview,
     shouldShowTapZoneLayoutPreview,
     setSettings,
+    mangaChapters,
     initialChapter,
     chapterForDuplicatesHandling,
     currentChapter,
@@ -87,12 +91,20 @@ const BaseReader = ({
     Pick<TReaderStateSettingsContext, 'setSettings'> &
     Pick<
         IReaderSettings,
-        'shouldSkipDupChapters' | 'backgroundColor' | 'shouldShowReadingModePreview' | 'shouldShowTapZoneLayoutPreview'
+        | 'shouldSkipDupChapters'
+        | 'shouldSkipFilteredChapters'
+        | 'backgroundColor'
+        | 'shouldShowReadingModePreview'
+        | 'shouldShowTapZoneLayoutPreview'
     > &
     Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'tapZoneLayout' | 'tapZoneInvertMode'> &
     Pick<
         ReaderStateChapters,
-        'initialChapter' | 'chapterForDuplicatesHandling' | 'currentChapter' | 'setReaderStateChapters'
+        | 'mangaChapters'
+        | 'initialChapter'
+        | 'chapterForDuplicatesHandling'
+        | 'currentChapter'
+        | 'setReaderStateChapters'
     > &
     Pick<
         ReaderStatePages,
@@ -134,6 +146,7 @@ const BaseReader = ({
         settings: defaultSettings,
         request: defaultSettingsResponse,
     } = useDefaultReaderSettings();
+    const chapterListOptions = useChapterListOptions(manga ?? FALLBACK_MANGA);
 
     const isLoading =
         currentChapter === undefined ||
@@ -183,10 +196,13 @@ const BaseReader = ({
     useReaderSetChaptersState(
         chaptersResponse,
         chapterSourceOrder,
+        mangaChapters,
         initialChapter,
         chapterForDuplicatesHandling,
         setReaderStateChapters,
         shouldSkipDupChapters,
+        shouldSkipFilteredChapters,
+        chapterListOptions,
     );
 
     useLayoutEffect(() => {
@@ -296,12 +312,14 @@ export const Reader = withPropsFrom(
         () => {
             const {
                 shouldSkipDupChapters,
+                shouldSkipFilteredChapters,
                 backgroundColor,
                 shouldShowReadingModePreview,
                 shouldShowTapZoneLayoutPreview,
             } = ReaderService.useSettingsWithoutDefaultFlag();
             return {
                 shouldSkipDupChapters,
+                shouldSkipFilteredChapters,
                 backgroundColor,
                 shouldShowReadingModePreview,
                 shouldShowTapZoneLayoutPreview,
@@ -323,6 +341,7 @@ export const Reader = withPropsFrom(
         'manga',
         'setManga',
         'shouldSkipDupChapters',
+        'shouldSkipFilteredChapters',
         'backgroundColor',
         'readingMode',
         'tapZoneLayout',
@@ -330,6 +349,7 @@ export const Reader = withPropsFrom(
         'shouldShowReadingModePreview',
         'shouldShowTapZoneLayoutPreview',
         'setSettings',
+        'mangaChapters',
         'initialChapter',
         'chapterForDuplicatesHandling',
         'currentChapter',

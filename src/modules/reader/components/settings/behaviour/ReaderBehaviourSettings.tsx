@@ -27,6 +27,7 @@ export const ReaderBehaviourSettings = ({
     settings,
     updateSetting,
     onDefault,
+    isDefaultable,
 }: {
     settings: IReaderSettingsWithDefaultFlag;
     updateSetting: (
@@ -49,6 +50,21 @@ export const ReaderBehaviourSettings = ({
                 label={t('reader.settings.label.skip_dup_chapters')}
                 checked={settings.shouldSkipDupChapters}
                 onChange={(_, checked) => updateSetting('shouldSkipDupChapters', checked)}
+            />
+            <CheckboxInput
+                label={
+                    <Box>
+                        <Typography>{t('reader.settings.label.skip_filtered_chapters')}</Typography>
+                        {isDefaultable && (
+                            <Typography variant="body2" color="textDisabled">
+                                {t('reader.settings.label.unchangeable_in_reader')}
+                            </Typography>
+                        )}
+                    </Box>
+                }
+                checked={settings.shouldSkipFilteredChapters}
+                onChange={(_, checked) => updateSetting('shouldSkipFilteredChapters', checked)}
+                disabled={isDefaultable}
             />
             {isOffsetDoubleSpreadPagesEditable(settings.readingMode.value) && (
                 <CheckboxInput

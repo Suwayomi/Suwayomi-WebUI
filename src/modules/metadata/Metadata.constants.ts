@@ -259,6 +259,9 @@ export const APP_METADATA: Record<
     shouldSkipDupChapters: {
         convert: convertToBoolean,
     },
+    shouldSkipFilteredChapters: {
+        convert: convertToBoolean,
+    },
     isStaticNav: {
         convert: convertToBoolean,
     },
@@ -452,6 +455,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'exitMode',
     'customFilter',
     'shouldSkipDupChapters',
+    'shouldSkipFilteredChapters',
     'hotkeys',
     'shouldShowTransitionPage',
 
