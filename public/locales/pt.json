@@ -118,7 +118,8 @@
                     "chapter_number": "Número do capítulo",
                     "source_title": "Título da fonte"
                 }
-            }
+            },
+            "exclude_scanlators": "Excluir scanlators"
         },
         "status": {
             "label": {
@@ -169,7 +170,8 @@
             "uninstallation_failed_other": "Falha ao desinstalar as extensões",
             "update_failed_one": "Falha ao atualizar a extensão",
             "update_failed_many": "Falha ao atualizar as extensões",
-            "update_failed_other": "Falha ao atualizar as extensões"
+            "update_failed_other": "Falha ao atualizar as extensões",
+            "age_rating": "Classificação etária"
         },
         "language": {
             "all": "Todas",
@@ -243,7 +245,8 @@
                     "exclude": "Excluir: {{excludedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "global": {
         "button": {
@@ -360,7 +363,13 @@
             "large": "Grande",
             "medium": "Médio",
             "more": "Mais",
-            "small": "Pequeno"
+            "small": "Pequeno",
+            "last_used": "Usado por último",
+            "pinned": "Fixado",
+            "scanlator": "Scanlator",
+            "stopped": "Parado",
+            "tiny": "Minúsculo",
+            "version": "Versão"
         },
         "error": {
             "label": {
@@ -461,7 +470,6 @@
     },
     "download": {
         "queue": {
-            "title": "Fila de downloads",
             "label": {
                 "no_downloads": "Sem downloads",
                 "delete_all": "Deletar todos"
@@ -472,6 +480,10 @@
                     "failed_delete_all": "Erro ao remover todos os downloads da fila",
                     "failed_to_retry": "Não foi possível tentar baixar novamente."
                 }
+            },
+            "info": {
+                "paused": "Pausado — $t(download.queue.info.remaining)",
+                "remaining": "{{count}} restantes"
             }
         },
         "state": {
@@ -615,6 +627,13 @@
         "title_other": "Fontes",
         "configuration": {
             "title": "Configuração de fonte"
+        },
+        "pin": {
+            "add": "Marcar fonte",
+            "remove": "Desmarcar fonte"
+        },
+        "extension_info": {
+            "title": "Informação sobre a extensão"
         }
     },
     "manga": {
@@ -725,7 +744,7 @@
             "completed": "Completo",
             "hiatus": "Hiatos",
             "licensed": "Licenciado",
-            "ongoing": "Em lançamento",
+            "ongoing": "Em andamento",
             "publishing_finished": "Publicação concluída",
             "unknown": "$t(global.label.unknown)"
         },
@@ -733,7 +752,9 @@
             "comic": "Quadrinhos",
             "long_strip": "Tira longa",
             "manhua": "Manhua",
-            "manhwa": "Manhwa"
+            "manhwa": "Manhwa",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)",
+            "manga": "$t(manga.title_one)"
         }
     },
     "settings": {
@@ -1105,7 +1126,7 @@
                     "crimson": "Carmesim",
                     "lavender": "Lavanda",
                     "minty_miracles": "Milagres de menta",
-                    "tree_frog_green": "Verde Sapo de árvore",
+                    "tree_frog_green": "Rã-verde-árvore",
                     "forest_dew": "Orvalho da floresta",
                     "rosegold": "Ouro Rosa",
                     "veronica": "Verônica",
@@ -1139,7 +1160,8 @@
                 "description": "Altera as cores do tema na página do mangá com base na miniatura",
                 "title": "Cores dinâmicas do tema na página do mangá"
             }
-        }
+        },
+        "default_value": "{{value}}<0>($t(global.label.default))</0>"
     },
     "library": {
         "option": {
@@ -1283,7 +1305,8 @@
             "label": {
                 "stop_update": "Pare a atualização global",
                 "update_category": "Atualização de categoria",
-                "update_library": "Atualização de biblioteca"
+                "update_library": "Atualização de biblioteca",
+                "search_globally": "Pesquisar \"{{query}}\" globalmente"
             }
         }
     },
@@ -1317,9 +1340,10 @@
                 "page_gap": "Lacuna na página",
                 "reading_mode": "Modo de leitura",
                 "reading_direction": "Direção da leitura",
-                "offset_double_spread": "Paginação dupla offset",
+                "offset_double_spread": "Offset da Paginação dupla",
                 "behaviour": "Comportamento",
-                "layout": "Leiaute"
+                "layout": "Leiaute",
+                "custom_scroll_amount": "Quantidade personalizada de rolagem"
             },
             "error": {
                 "label": {
@@ -1368,7 +1392,7 @@
                 "reading_mode": "Alternar modo de leitura",
                 "next_page": "Próxima página",
                 "previous_chapter": "Capítulo anterior",
-                "offset_spread_pages": "Alternar páginas em offset duplo",
+                "offset_spread_pages": "Alternar deslocamento de páginas duplas",
                 "scroll_forward": "Rolar para frente",
                 "previous_page": "Página anterior",
                 "scroll_backward": "Rolar para trás",
@@ -1427,7 +1451,7 @@
                     "description": "Exibir brevemente a prévia do layout de zonas de toque ao abrir o leitor ou mudar o layout"
                 },
                 "reading_mode": {
-                    "description": "Exibir brevemente a prévia do layout de zonas de toque ao abrir o leitor ou mudar o layout",
+                    "description": "Exibir brevemente o modo atual quando o leitor é aberto ou o modo foi alterado",
                     "title": "Mostrar modo de leitura"
                 }
             },
@@ -1470,9 +1494,9 @@
                 },
                 "next": {
                     "scanlator": "O próximo capítulo tem um scanlador diferente do capítulo atual.\nAtual: {{currentScanlator}}\nPróximo: {{nextScanlator}}",
-                    "chapter_number_one": "Existe um cápitulo faltando.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}",
-                    "chapter_number_many": "Existem {{count}} capítulos faltando.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}",
-                    "chapter_number_other": "Existem {{count}} capítulos faltando.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}"
+                    "chapter_number_one": "Há um capítulo ausente.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}",
+                    "chapter_number_many": "Há {{count}} capítulos ausentes.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}",
+                    "chapter_number_other": "Há {{count}} capítulos ausentes.\nAtual: {{currentChapter}}\nPróximo: {{nextChapter}}"
                 },
                 "title": "Aviso de transição de capítulo"
             }
@@ -1484,7 +1508,10 @@
             "exit": {
                 "previous_page": "Sair para a página anterior",
                 "manga_page": "Sair para a página do mangá"
-            }
+            },
+            "next": "$t(global.label.next):",
+            "finished": "$t(global.label.finished):",
+            "previous": "$t(global.label.previous):"
         }
     },
     "search": {
@@ -1497,6 +1524,9 @@
         "title": {
             "global_search": "Procura global",
             "search": "Procurar"
+        },
+        "filter": {
+            "has_results": "Há resultados"
         }
     },
     "tracking": {
@@ -1552,7 +1582,28 @@
                 }
             }
         },
-        "title": "Acompanhando"
+        "title": "Acompanhando",
+        "publishing": {
+            "type": {
+                "doujinshi": "Doujinshi",
+                "novel": "Novel",
+                "unknown": "$t(global.label.unknown)",
+                "one_shot": "Oneshot",
+                "oel": "OEL",
+                "manga": "$t(manga.title_one)",
+                "manhua": "$t(manga.type.manhua)",
+                "manhwa": "$t(manga.type.manhwa)"
+            },
+            "status": {
+                "finished": "$t(global.label.finished)",
+                "not_yet_released": "Ainda não lançado",
+                "hiatus": "$(manga.status.hiatus)",
+                "not_yet_published": "Ainda não publicado",
+                "cancelled": "$(manga.status.cancelled)",
+                "releasing": "Em lançamento",
+                "currently_publishing": "Em publicação"
+            }
+        }
     },
     "hotkeys": {
         "title_one": "Atalho",

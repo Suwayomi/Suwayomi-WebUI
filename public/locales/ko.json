@@ -100,7 +100,6 @@
             "label": {
                 "no_downloads": "다운로드 없음"
             },
-            "title": "다운로드 대기열",
             "error": {
                 "label": {
                     "failed_to_remove": "대기열에서 다운로드를 제거할 수 없습니다."

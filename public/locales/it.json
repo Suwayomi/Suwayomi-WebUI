@@ -245,8 +245,7 @@
             "label": {
                 "delete_all": "Elimina tutti",
                 "no_downloads": "Nessun download"
-            },
-            "title": "Coda di download"
+            }
         },
         "state": {
             "label": {

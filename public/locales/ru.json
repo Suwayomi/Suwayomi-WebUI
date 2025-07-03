@@ -180,8 +180,7 @@
             "label": {
                 "delete_all": "Удалить все",
                 "no_downloads": "Загрузок нет"
-            },
-            "title": "Загрузить Queue"
+            }
         },
         "settings": {
             "auto_download": {

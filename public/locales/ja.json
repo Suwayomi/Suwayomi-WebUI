@@ -19,7 +19,7 @@
             }
         },
         "label": {
-            "use_as_default_category": "ライブラリに新しい漫画を追加するときに使用するカテゴリーです",
+            "use_as_default_category": "ライブラリに新しく漫画を追加するときに使用するカテゴリーです",
             "category_name": "カテゴリー名"
         },
         "settings": {
@@ -56,7 +56,8 @@
                     "label": {
                         "action": "ブックマークを削除",
                         "error_other": "ブックマークを削除できません",
-                        "success_other": "{{count}} 章のブックマークが削除されました"
+                        "success_other": "{{count}} 章のブックマークが削除されました",
+                        "confirmation_other": "{{count}}件のブックマークを削除しようとしています"
                     }
                 }
             },
@@ -65,7 +66,8 @@
                     "label": {
                         "action": "削除",
                         "error_other": "章を削除できません",
-                        "success_other": "{{count}} 削除された章"
+                        "success_other": "{{count}} 削除された章",
+                        "confirmation_other": "{{count}}件のダウンロードを削除しようとしています"
                     },
                     "button": {
                         "selected": "選択したものを削除"
@@ -85,7 +87,8 @@
                         "all": "$t(extension.language.all)",
                         "next": "$t(reader.button.next_chapter)",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
-                        "unread": "$t(global.filter.label.unread)"
+                        "unread": "$t(global.filter.label.unread)",
+                        "confirmation_other": "{{count}}章をダウンロードしようとしています\nSuwayomi は大量ダウンロード向けのアプリではありません。過剰なダウンロードは、ソースからのアクセス禁止や、パフォーマンスの問題を引き起こす可能性があります。"
                     }
                 }
             },
@@ -97,7 +100,8 @@
                             "current": "既読にする"
                         },
                         "error_other": "章を既読にできませんでした",
-                        "success_other": "{{count}} 章を既読にする"
+                        "success_other": "{{count}} 章を既読にする",
+                        "confirmation_other": "{{count}}章を既読にしようとしています"
                     },
                     "button": {
                         "selected": "選択したものを既読にする"
@@ -110,7 +114,8 @@
                     "label": {
                         "error_other": "章を未読にできません",
                         "action": "未読にする",
-                        "success_other": "{{count}} 章を未読にする"
+                        "success_other": "{{count}} 章を未読にする",
+                        "confirmation_other": "{{count}}章を未読にしようとしています"
                     }
                 }
             },
@@ -131,14 +136,17 @@
                     "chapter_number": "章番号",
                     "source_title": "ソースタイトル"
                 }
-            }
+            },
+            "exclude_scanlators": "スキャンレーターを除外"
         },
         "title_other": "章",
         "status": {
             "label": {
                 "downloaded": "ダウンロード済"
             }
-        }
+        },
+        "missing_other": "{{count}}章が見つかりません",
+        "value_other": "{{count}}章"
     },
     "download": {
         "settings": {
@@ -213,7 +221,6 @@
             }
         },
         "queue": {
-            "title": "ダウンロードキュー",
             "error": {
                 "label": {
                     "failed_to_remove": "キューからダウンロードを削除できませんでした。",
@@ -224,6 +231,10 @@
             "label": {
                 "delete_all": "全てを削除",
                 "no_downloads": "ダウンロードがありません"
+            },
+            "info": {
+                "paused": "一時停止中 — $t(download.queue.info.remaining)",
+                "remaining": "残り{{count}}件"
             }
         },
         "title": {
@@ -341,7 +352,13 @@
             "github": "GitHub",
             "medium": "中",
             "placeholder": "プレースホルダー",
-            "horizontal": "水平"
+            "horizontal": "水平",
+            "last_used": "最終使用",
+            "pinned": "ピン留め",
+            "scanlator": "スキャンレーター",
+            "stopped": "停止",
+            "tiny": "極小",
+            "version": "バージョン"
         },
         "language": {
             "label": {
@@ -605,7 +622,8 @@
             "label": {
                 "update_category": "カテゴリを更新",
                 "update_library": "ライブラリを更新",
-                "stop_update": "グローバルアップデートを停止する"
+                "stop_update": "グローバルアップデートを停止する",
+                "search_globally": "『{{query}}』をすべてのソースで検索"
             }
         }
     },
@@ -628,7 +646,8 @@
                     "label": {
                         "action": "ライブラリから削除する",
                         "error_other": "ライブラリからマンガを削除できません",
-                        "success_other": "ライブラリから{{count}}マンガを削除しました"
+                        "success_other": "ライブラリから{{count}}マンガを削除しました",
+                        "confirmation_other": "{{count}}件をライブラリから削除しようとしています"
                     },
                     "button": {
                         "selected": "ライブラリから選択したものを削除"
@@ -677,7 +696,8 @@
                 "label": {
                     "success_other": "{{count}}マンガのカテゴリーを変更しました",
                     "action": "カテゴリーを変更",
-                    "error_other": "マンガのカテゴリを変更できませんでした"
+                    "error_other": "マンガのカテゴリを変更できませんでした",
+                    "confirmation_other": "{{count}}件のカテゴリを変更しようとしています"
                 },
                 "button": {
                     "selected": "選択したもののカテゴリを変更"
@@ -736,7 +756,8 @@
             "installation_failed_other": "拡張機能をインストールできません",
             "installing_file": "拡張機能ファイルをインストール中…",
             "uninstallation_failed_other": "拡張機能をアンインストールできませんでした",
-            "update_failed_other": "拡張機能を更新できませんでした"
+            "update_failed_other": "拡張機能を更新できませんでした",
+            "age_rating": "年齢制限"
         },
         "action": {
             "label": {
@@ -803,7 +824,8 @@
                 "load_next_chapter": "終了時に次の章を読み込む",
                 "offset_double_spread": "オフセット見開き",
                 "reader_type": "リーダーの種類",
-                "reading_mode": "読書モード"
+                "reading_mode": "読書モード",
+                "custom_scroll_amount": "スクロール量をカスタマイズ"
             },
             "error": {
                 "label": {
@@ -1393,6 +1415,9 @@
         "title": {
             "global_search": "グローバル検索",
             "search": "検索"
+        },
+        "filter": {
+            "has_results": "結果あり"
         }
     },
     "source": {
@@ -1426,7 +1451,14 @@
                 "checkout": "チェックアウト"
             }
         },
-        "title_other": "ソース"
+        "title_other": "ソース",
+        "pin": {
+            "add": "ソースを固定",
+            "remove": "ソースの固定を解除"
+        },
+        "extension_info": {
+            "title": "拡張機能の情報"
+        }
     },
     "tracking": {
         "action": {
@@ -1481,7 +1513,28 @@
                 }
             }
         },
-        "title": "追跡中"
+        "title": "追跡中",
+        "publishing": {
+            "status": {
+                "cancelled": "$(manga.status.cancelled)",
+                "currently_publishing": "連載中",
+                "finished": "$t(global.label.finished)",
+                "hiatus": "$(manga.status.hiatus)",
+                "not_yet_published": "まだ出版されていません",
+                "not_yet_released": "未リリース",
+                "releasing": "発売中"
+            },
+            "type": {
+                "doujinshi": "同人誌",
+                "manga": "$t(manga.title_one)",
+                "manhua": "$t(manga.type.manhua)",
+                "manhwa": "$t(manga.type.manhwa)",
+                "novel": "小説",
+                "oel": "OEL",
+                "one_shot": "読み切り",
+                "unknown": "$t(global.label.unknown)"
+            }
+        }
     },
     "updates": {
         "error": {

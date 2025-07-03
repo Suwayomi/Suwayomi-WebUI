@@ -13,7 +13,10 @@
                         "success_one": "Zakładka rozdziału usunięta",
                         "success_few": "Zakładka {{count}} rozdziałów usunięta",
                         "success_many": "Zakładka {{count}} rozdziałów usunięta",
-                        "action": "Usuń zakładkę"
+                        "action": "Usuń zakładkę",
+                        "confirmation_one": "Za chwilę usuniesz jedną zakładkę",
+                        "confirmation_few": "Zamierzasz usunąć {{count}} zakładki",
+                        "confirmation_many": "Zamierzasz usunąć {{count}} zakładek"
                     }
                 },
                 "add": {
@@ -47,7 +50,10 @@
                         "next_twentyfive": "Następne 25 rozdziałów",
                         "success_one": "Pobieranie dodane",
                         "success_few": "{{count}} pobierania dodane",
-                        "success_many": "{{count}} pobierań dodanych"
+                        "success_many": "{{count}} pobierań dodanych",
+                        "confirmation_one": "Za chwilę pobierzesz jeden rozdział",
+                        "confirmation_few": "Za chwilę pobierzesz {{count}} rozdziały.\nSuwayomi nie jest programem do masowego pobierania, a zbyt duża liczba pobrań może spowodować zablokowanie dostępu do źródeł i/lub problemy z wydajnością.",
+                        "confirmation_many": "Za chwilę pobierzesz {{count}} rozdziałów.\nSuwayomi nie jest programem do masowego pobierania, a zbyt duża liczba pobrań może spowodować zablokowanie dostępu do źródeł i/lub problemy z wydajnością."
                     },
                     "button": {
                         "selected": "Pobierz wybrane"
@@ -118,7 +124,8 @@
                     "chapter_number": "Numer rozdziału",
                     "source_title": "Tytuł źródłowy"
                 }
-            }
+            },
+            "exclude_scanlators": "Wyklucz skanlatorów"
         },
         "status": {
             "label": {
@@ -189,7 +196,6 @@
                 "delete_all": "Usuń wszystko",
                 "no_downloads": "Brak pobrań"
             },
-            "title": "Kolejka Pobierania",
             "info": {
                 "paused": "Wstrzymano - $t(download.queue.info.remaining)",
                 "remaining": "{{count}} pozostało"
@@ -295,7 +301,8 @@
             "installing_file": "Instalowanie pliku rozszerzenia…",
             "update_failed_one": "Nie można zaktualizować rozszerzenia",
             "update_failed_few": "Nie można zaktualizować rozszerzeń",
-            "update_failed_many": "Nie można zaktualizować rozszerzeń"
+            "update_failed_many": "Nie można zaktualizować rozszerzeń",
+            "age_rating": "Klasyfikacja wiekowa"
         },
         "language": {
             "all": "Wszystko",
@@ -485,7 +492,10 @@
             "placeholder": "Symbol zastępczy",
             "pinned": "Przypięte",
             "last_used": "Ostatnio używany",
-            "stopped": "Zatrzymane"
+            "stopped": "Zatrzymane",
+            "tiny": "Niewielki",
+            "scanlator": "Skanlator",
+            "version": "Wersja"
         },
         "language": {
             "error": {
@@ -999,7 +1009,8 @@
                 "skip_dup_chapters": "Pomiń powtarzające się rozdziały",
                 "behaviour": "Zachowanie",
                 "fit_page_to_window": "Dopasuj stronę do okna",
-                "offset_double_spread": "Offset dla podwójnego rozciągania"
+                "offset_double_spread": "Offset dla podwójnego rozciągania",
+                "custom_scroll_amount": "Niestandardowa wartość przewijania"
             },
             "page_scale": {
                 "height": "Dopasuj wysokość",
@@ -1540,6 +1551,9 @@
         "pin": {
             "add": "Przypnij źródło",
             "remove": "Odepnij źródło"
+        },
+        "extension_info": {
+            "title": "Informacje o rozszerzeniu"
         }
     },
     "updates": {
@@ -1617,7 +1631,7 @@
             "type": {
                 "doujinshi": "Doujinshi",
                 "manga": "$t(manga.title_one)",
-                "manhua": "$t(manga.type.manhwa)",
+                "manhua": "$t(manga.type.manhua)",
                 "novel": "Powieść",
                 "oel": "OEL",
                 "one_shot": "Oneshot",

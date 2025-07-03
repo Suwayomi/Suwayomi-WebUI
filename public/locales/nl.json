@@ -47,8 +47,7 @@
             "label": {
                 "delete_all": "Alle verwijderen",
                 "no_downloads": "Geen downloads"
-            },
-            "title": "Download wachtrij"
+            }
         },
         "settings": {
             "auto_download": {
