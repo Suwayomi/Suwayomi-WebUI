@@ -266,9 +266,6 @@ Thank you for your contribution to the translation of the project.
 - ([r2469](https://github.com/Suwayomi/Suwayomi-WebUI/commit/01020d81b81e58ddd272d4e660de5c05f944aec9)) [skip ci] Add link to discord in issue templates (by @schroda)
 - ([r2468](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0aa49f359d959a18d91ae927f506ca73c722bd8b)) [SKIP CI] Update ui server mapping (by @schroda)
 
-Contributors:
-@weblate, @9811pc, @cpiber, @yutthaphon, @dejavui, @UnknownSkyrimPasserby, @dpkass, @marimo-nekomimi, @TamilNeram, @aizhimoran, @schroda, @junmusk, @adriano1816, @Zereef, @plum7x, @FedericoRossiIT, @Well2333, @ketw09, @IDika31, @kosmik7, @letroll, @KrachDev, @MageSneaky, @Tankudoraiba, @tizio04, @xAizawa9
-
 # v1.5.1 (r2467)
 
 ## Bug fixes
@@ -465,22 +462,22 @@ Thank you for your contribution to the translation of the project.
 - Vietnamese (by Nguyễn Trung Đức, PandaKewt)
 
 ### Removed (less than 75% translated)
-- "Arabic (ar)" (71.7% < 75%)
-- "Bengali (bn)" (1.8% < 75%)
-- "Danish (da)" (13.6% < 75%)
-- "Filipino (fil)" (16.2% < 75%)
-- "Gan (Traditional Han script) (gan-Hant)" (0% < 75%)
-- "Indonesian (id)" (22% < 75%)
-- "Italian (it)" (69.4% < 75%)
-- "Japanese (ja)" (56.8% < 75%)
-- "Korean (ko)" (13% < 75%)
-- "Norwegian Bokmål (nb-NO)" (1.3% < 75%)
-- "Dutch (nl)" (44.9% < 75%)
-- "Portuguese (Brazil) (pt-BR)" (32.4% < 75%)
-- "Swedish (sv)" (2% < 75%)
-- "Thai (th)" (28.5% < 75%)
-- "Ukrainian (uk)" (54.9% < 75%)
-- "Cantonese (Traditional Han script) (yue-Hant)" (0% < 75%)
+- "Arabic (ar)" (71.7%)
+- "Bengali (bn)" (1.8%)
+- "Danish (da)" (13.6%)
+- "Filipino (fil)" (16.2%)
+- "Gan (Traditional Han script) (gan-Hant)" (0%)
+- "Indonesian (id)" (22%)
+- "Italian (it)" (69.4%)
+- "Japanese (ja)" (56.8%)
+- "Korean (ko)" (13%)
+- "Norwegian Bokmål (nb-NO)" (1.3%)
+- "Dutch (nl)" (44.9%)
+- "Portuguese (Brazil) (pt-BR)" (32.4%)
+- "Swedish (sv)" (2%)
+- "Thai (th)" (28.5%)
+- "Ukrainian (uk)" (54.9%)
+- "Cantonese (Traditional Han script) (yue-Hant)" (0%)
 
 ## Full Changelog
 - ([r2461](https://github.com/Suwayomi/Suwayomi-WebUI/commit/11679a9901ae5594652c5340440d55a9ad6cd280)) [Release] Version 1.5.0 (by @schroda)
