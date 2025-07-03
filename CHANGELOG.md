@@ -1,3 +1,274 @@
+# v20250703.01 (r2643)
+
+## New
+- (**Manga**) Add functionality to click on title/artist/author/genre to trigger library/source/global search
+- (**Library**) Add option to perform current search globally
+- (**Source**) Add option to disable sources of an extension
+- (**Reader**) Add setting to apply chapter list filters
+
+## Enhancements
+- (**Reader**) Support different languages for auto webtoon detection
+- (**Reader**) Make settings dialog transparent while editing some settings
+- (**Reader**) Add option to disable infinite chapter scrolling
+- (**Reader**) Add option to diable showing transition pages
+- (**Reader**) Add custom scroll amount
+- (**Source**) Add functionality to pin sources at the top of the source list
+- (**Global search**) Add options to show only searches for
+  - pinned sources
+  - all sources
+  - sources with results
+- (**Navigation**) Show download queue information in app navigation
+- (**Chapter**) Show total missing chapters info on top of the chapter list
+- (**Chapter**) Show missing chapters info between chapters in the chapter list
+
+## Behaviour changes
+- (**Manga**) Require confirmation before remvoing an entry from your library
+- (**Chapter**) Require confirmation for the following actions
+  - Download
+    - Enqueue: bulk action for 300 or more chapters
+    - Delete: single + bulk action
+  - Bookmark removal: bulk action
+  - Read status change: bulk action
+- (**Chapter**) Save chapter list options on the server
+- (**Chapter**) Hide chapter list actions while chapters are selected
+- (**Chapter**) Clear selection after performing an action
+- (**Extension**) Make "All" language a selectable language (was forcibly enabled up until now)
+- (**Extension**) Remove language information from uninstalled extension items in list
+- (**Source**) Remove language information from not pinned and last used source items in list
+- (**Source**) Save "selected languages" on the server
+- (**Browse**) Select users preferred languages (from the browser) and the "All" language by default
+- (**Browse**) Show selected languages in filter dialog at the start
+- (**Browse**) Save show nsfw setting on the server
+- (**Browse**) Sort "All" language always at the start in source and extension list (in the filter option it gets sorted naturally)
+- (**Browse**) Sort "Other" language always at the bottom in source and extension list (in the filter option it gets sorted naturally)
+- (**Browse**) Sort "English" naturally (previously it was always placed at the start)
+- (**Theme**) Style scrollbar only on devices that support hovering
+- (**Appearance**) Save "app theme", "theme mode", "pure black mode" and "manga grid item width" on the server
+- (**Download**) Rename desktop navigation menu item "Download queue" to "Downloads"
+- (**Setting**) Prevent setting up basic auth with both an empty username and password. This is an issue on iOS whose native basic auth prompt disables the "login" button in case both fields are empty.
+
+## Remove
+- (**Source**) Remove "popular" button on source card
+
+## Bug fixes
+- (**General**) Fix custom long press causing native mobile long press menu to get opened
+- (**General**) Fix refreshing data after importing a backup
+- (**Reader**) Fix each key press triggering a keybind (example: "n" -> next page, "ctrl+n" -> next chapter - previously "ctrl+n" would have triggered both keybinds)
+- (**Reader**) Fix weird jumpiness while changing pages via progress bar dragging on iOS
+- (**Reader**) Fix resuming a chapter when selecting an already visible chapter (infinite scroll) from the chapter list
+- (**Reader**) Fix continuous reading mode tap zone click scrolling aborting sometimes
+- (**Reader**) Fix continuous reading mode window resize causing unintentional scroll position/current page preservation in some cases
+- (**Reader**) Fix scrolling horizontally with trackpads
+- (**WebUI Update**) Fix stable changelog url
+- (**Global search**) Fix failed source searches getting sorted the same way as if they were successfull
+- (**Extension**) Fix link to repository setting in case no extensions are installed
+- (**Manga**) Fix data not getting updated properly on a library update (e.g. unread chapter count didn't get updated in case new chapters were found)
+- (**Manga**) Add option to click on artist/author to trigger library search
+- (**Browse**) Fix browse not loading more pages in some cases after filtering/searching
+- (**Chapter**) Fix range selection with active filters
+- (**Download**) Fix downloads start/stop button not updating
+
+## Translations
+Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/)
+
+Thank you for your contribution to the translation of the project.
+
+### Added
+- Portuguese (Brazil) (by Psico, Jorge Adriano Cavalcante Alves)
+
+### Updated
+- Chinese (Traditional) (by plum7x)
+- Vietnamese (by Nguyễn Trung Đức)
+- Italian (by xAizawa)
+- Polish (by UnknownSkyrimPasserby)
+- Chinese (Simplified) (by 清水汐音)
+- Spanish (by LordTenebrous)
+- Japanese (by 望月桂, adai liu, 9811pc, marimo)
+- Tamil (by தமிழ்நேரம்)
+- Portuguese (by qaugji, Psico, Zereef)
+- French (by JP Brunache)
+- German (by Constantin Piber)
+
+## Full Changelog
+- ([r2642](https://github.com/Suwayomi/Suwayomi-WebUI/commit/aee758916b707efb12f642a03cc2fdb416211482)) Update available languages (by @schroda)
+- ([r2641](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e98fe1ae6134eaecddd114c25a40ab114dabbd54)) Translations update from Hosted Weblate ([#967](https://github.com/Suwayomi/Suwayomi-WebUI/pull/967) by @weblate, @9811pc, @cpiber, @yutthaphon, @dejavui, @UnknownSkyrimPasserby, @dpkass, @marimo-nekomimi, @TamilNeram, @aizhimoran)
+- ([r2640](https://github.com/Suwayomi/Suwayomi-WebUI/commit/51975ea3cde3ab8e8d437cd6d78026056a340c85)) Add setting to apply chapter list filters in reader (by @schroda)
+- ([r2639](https://github.com/Suwayomi/Suwayomi-WebUI/commit/21671f3d792b3eb9a3c6ea372668323b02dd27db)) Handle metadata "undefined" default value object conversion (by @schroda)
+- ([r2638](https://github.com/Suwayomi/Suwayomi-WebUI/commit/008694b670ea564a7c5f0bcefe4ba1ea1a91bc33)) Fix number setting invalid value handling (by @schroda)
+- ([r2637](https://github.com/Suwayomi/Suwayomi-WebUI/commit/fd89d8021703fb2712d1916fe49c771c085d8942)) Prevent basic auth with both empty username and password (by @schroda)
+- ([r2636](https://github.com/Suwayomi/Suwayomi-WebUI/commit/1a2a1b3897b5c8445d9c0cc01ab47b67bcf488e1)) Reset valid state on cancel in "TextSettingDialog" (by @schroda)
+- ([r2635](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0ef4de3543a95a68d55d036cdde99a321985fce1)) Fix disabled "download ahead" setting visualization (by @schroda)
+- ([r2634](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7702edb02f1bb6f3f8d620c22a13d24dd72eaaf1)) Require manga and chapter action confirmations (by @schroda)
+- ([r2633](https://github.com/Suwayomi/Suwayomi-WebUI/commit/592ca7881e6270a89ff9aeeed5d65d9d1fea1896)) Update download status query cache on external download enqueue (by @schroda)
+- ([r2632](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d095a3c7944f2b9f3df3f9dbdb41f35b5551ce84)) Refresh track records only for logged-in trackers (by @schroda)
+- ([r2631](https://github.com/Suwayomi/Suwayomi-WebUI/commit/6bc21c597234828a561926ed648ed39f7137db4f)) Fix reader nav bar "settings" button title (by @schroda)
+- ([r2630](https://github.com/Suwayomi/Suwayomi-WebUI/commit/523071906c9ad8185fdbf9fbb8919a91891790f1)) Handle metadata array value conversion (by @schroda)
+- ([r2629](https://github.com/Suwayomi/Suwayomi-WebUI/commit/cb7498465931e1e424543937e2148a59baf1bd2b)) Fix constraining logic of stored client metadata (by @schroda)
+- ([r2628](https://github.com/Suwayomi/Suwayomi-WebUI/commit/56f01efc1e063303e4ed6399e691995d536af890)) Ensure stored client metadata values respect constraints (by @schroda)
+- ([r2627](https://github.com/Suwayomi/Suwayomi-WebUI/commit/09b5f7e558113c0443131d6a8ca0732cc1bd5105)) Prevent potential TypeError (by @schroda)
+- ([r2626](https://github.com/Suwayomi/Suwayomi-WebUI/commit/b94ad4ba06454bdbcb7ab7a8ad2e3ccc2b08c5da)) Fix hardcoded string (by @schroda)
+- ([r2625](https://github.com/Suwayomi/Suwayomi-WebUI/commit/16d66718a8aefb5467e872497224ced5a9cb4711)) Add option to enable/disable sources in language filter (by @schroda)
+- ([r2624](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7b9d51142b331cc18d89f31fd0c0f19fde0df28f)) Save selected source languages on the server (by @schroda)
+- ([r2623](https://github.com/Suwayomi/Suwayomi-WebUI/commit/6c47f58ca9cf8463aae6e16d6c61c611ee52bff2)) Make manga chapter list "excludeScanlators" a global metadata setting (by @schroda)
+- ([r2622](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7897bac2d645d5eca0d419f5edfe02af65752bd1)) Make source "isEnabled" a global metadata setting (by @schroda)
+- ([r2621](https://github.com/Suwayomi/Suwayomi-WebUI/commit/914262dfac7628f33c44f8f7dad5539f8d985b18)) Revert unwanted generated graphql type changes (by @schroda)
+- ([r2620](https://github.com/Suwayomi/Suwayomi-WebUI/commit/f3c479fe3283e3b18e2592ceac45b796e17355f1)) Add option to disable sources of an extension (by @schroda)
+- ([r2619](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ecfde354b8f11ad320de61d0f1604eb150b2d465)) Show source "language subtitle" only for "last used" and "pinned" sources (by @schroda)
+- ([r2618](https://github.com/Suwayomi/Suwayomi-WebUI/commit/eb625c9d96e0fe4226e03bc5d56b09d1ff05f644)) Virtualize source list (by @schroda)
+- ([r2617](https://github.com/Suwayomi/Suwayomi-WebUI/commit/b1a23b876bc73375dea7edd5f5d7ec3e61820652)) Show native language name for installed extensions (by @schroda)
+- ([r2616](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d83bf592e1cc23eac56b21e87a9c80ed5582e3db)) Remove "language subtitle" from uninstalled extensions (by @schroda)
+- ([r2615](https://github.com/Suwayomi/Suwayomi-WebUI/commit/2e105a0539185e76842f50cc34caa00c0e25991f)) Introduce "Extension info" screen (by @schroda)
+- ([r2614](https://github.com/Suwayomi/Suwayomi-WebUI/commit/998400327fcce3bf517b83f11dcdbb74c4cca1fd)) Rename "Download queue" desktop nav item to "Downloads" (by @schroda)
+- ([r2613](https://github.com/Suwayomi/Suwayomi-WebUI/commit/781d89a75aad8e1aa4d4b4568d52c8e05b3e4e2f)) Prevent native mobile context menu (by @schroda)
+- ([r2612](https://github.com/Suwayomi/Suwayomi-WebUI/commit/3b0d91e4a6224b1fdfb11eaa9f04dcc264bfa138)) Hide "scanlator filter" option chapters have no scanlator (by @schroda)
+- ([r2611](https://github.com/Suwayomi/Suwayomi-WebUI/commit/86c8717b95a3912d08647086be2ecdb600f480b0)) Fix "scanlator filter" for chapters without scanlator (by @schroda)
+- ([r2610](https://github.com/Suwayomi/Suwayomi-WebUI/commit/b723eab4ce6221984f5ce3ce843a8590a7f30925)) Fix "exclude scanlator" dialog title (by @schroda)
+- ([r2609](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7c0ffe9bd3d0b3c17b2312ffcc40b54284f83fe2)) Add scanlator filter to chapter list (by @schroda)
+- ([r2608](https://github.com/Suwayomi/Suwayomi-WebUI/commit/645eaeb3158f8d2e588c100d8d3f715547e8495b)) Simplify "Chapters#getMissingCount" (by @schroda)
+- ([r2607](https://github.com/Suwayomi/Suwayomi-WebUI/commit/20a325a6c282958f38ba37dd1f3e13a8bdbf4276)) Update native name of language "es-419" (by @schroda)
+- ([r2606](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a226ca899b5b0957c8e97a767902abb0a9597040)) Fix "tracker publishing type" manhua translation (by @schroda)
+- ([r2605](https://github.com/Suwayomi/Suwayomi-WebUI/commit/1721c15079c6f834cd7aa2055a33dc826e7baee8)) Properly reset state after backup import (by @schroda)
+- ([r2604](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d7c185887bd38b1b5d05ec45fcb5e554a5b796ff)) Fix reader missing chapter transition warning (by @schroda)
+- ([r2603](https://github.com/Suwayomi/Suwayomi-WebUI/commit/68119504e5c92ad33c244f81b7761008ec9ad6ae)) Translations update from Hosted Weblate ([#943](https://github.com/Suwayomi/Suwayomi-WebUI/pull/943) by @weblate, @cpiber, @junmusk, @adriano1816, @dejavui, @UnknownSkyrimPasserby, @Zereef, @marimo-nekomimi, @plum7x, @aizhimoran)
+- ([r2602](https://github.com/Suwayomi/Suwayomi-WebUI/commit/cd34001fc33cd72c8bebec2263c0845080b19907)) Feat: Add custom scroll amount ([#966](https://github.com/Suwayomi/Suwayomi-WebUI/pull/966) by @FedericoRossiIT)
+- ([r2601](https://github.com/Suwayomi/Suwayomi-WebUI/commit/8036101de7a7672e9ff86ce6b0b0709e6a99595d)) Move tracker types and constants to corresponding files (by @schroda)
+- ([r2600](https://github.com/Suwayomi/Suwayomi-WebUI/commit/3bff11d8a9e3e6aab5304b948af27d277718c965)) Translate track search publishing type and status (by @schroda)
+- ([r2599](https://github.com/Suwayomi/Suwayomi-WebUI/commit/c2391f090367970319c61c5a170b12fceb6eb813)) Hide missing track search result metadata (by @schroda)
+- ([r2598](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d44e6a45efa8c25006ce78b147a5c75c139b33a5)) Fix manga action menu positioning (by @schroda)
+- ([r2597](https://github.com/Suwayomi/Suwayomi-WebUI/commit/1162f76472a4806b4398e3a22a3b1e0616513da6)) Prevent native mobile menu on long press (by @schroda)
+- ([r2596](https://github.com/Suwayomi/Suwayomi-WebUI/commit/29d0e3ae5574a45a7eb1318fd0f894e49f459c62)) Update download status state via subscription (by @schroda)
+- ([r2595](https://github.com/Suwayomi/Suwayomi-WebUI/commit/9443637b574c104a7e3e6556887c44c656e68eec)) Reset "shouldShowOnlyPinnedSources" after leaving search (by @schroda)
+- ([r2594](https://github.com/Suwayomi/Suwayomi-WebUI/commit/2073c387a96789872020e1958667bbfa1359358c)) Extract components from "MangaDetails" (by @schroda)
+- ([r2593](https://github.com/Suwayomi/Suwayomi-WebUI/commit/5b14544439f7e05732506e6017107e73f0b3ef27)) Trigger global search on manga title click (by @schroda)
+- ([r2592](https://github.com/Suwayomi/Suwayomi-WebUI/commit/18da4c6b6418034cafdb1a3837e831ccc92babb8)) Optionally trigger manga details search in source (by @schroda)
+- ([r2591](https://github.com/Suwayomi/Suwayomi-WebUI/commit/70a984e2cb3d7a3204fc90ed26e08c75f0a18408)) Adjust chapter list missing chapters info top padding (by @schroda)
+- ([r2590](https://github.com/Suwayomi/Suwayomi-WebUI/commit/19829e54eb67150e15c0d46e0e40afad95e337c2)) Hide artist/author if missing (by @schroda)
+- ([r2589](https://github.com/Suwayomi/Suwayomi-WebUI/commit/31061a33985f5b294e56e99f3006e882f7244785)) Fix showing incorrect title for manga artist (by @schroda)
+- ([r2588](https://github.com/Suwayomi/Suwayomi-WebUI/commit/c3b22f92a9aa3ebdf6f8425fd218f030eac0e068)) Restore virtuoso states on browser back navigation (by @schroda)
+- ([r2587](https://github.com/Suwayomi/Suwayomi-WebUI/commit/5f982e07e0a1584d8479a0941ccb853d0cbf21b9)) Handle chapter numbers with decimal places in gap calculation (by @schroda)
+- ([r2586](https://github.com/Suwayomi/Suwayomi-WebUI/commit/640dcc4393e1bd7d7024458f7e1396d4053209cd)) Hide download queue size in nav bar while empty (by @schroda)
+- ([r2585](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ecca993c54990ab55031ea2266a53983dc395e74)) Simplify chapter util types (by @schroda)
+- ([r2584](https://github.com/Suwayomi/Suwayomi-WebUI/commit/61471ae214dd3e68a41bf76083d201d32c73baa8)) Show missing chapter info in chapter list (by @schroda)
+- ([r2583](https://github.com/Suwayomi/Suwayomi-WebUI/commit/86578593ca69d02ae6c74d87e8955c2f6f5843c5)) Show download queue size in nav bar (by @schroda)
+- ([r2582](https://github.com/Suwayomi/Suwayomi-WebUI/commit/2d34f67df422774a1993c68c034b3d8169590467)) Fix updating download queue start/stop button (by @schroda)
+- ([r2581](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e0fb835f916397a020a999f86b07bc23fe48d928)) Fix "search all" with "show results only" enabled (by @schroda)
+- ([r2580](https://github.com/Suwayomi/Suwayomi-WebUI/commit/4452a9fc5ce3e3d6b786c62c826b63ffeeda0425)) Handle trackpad scrolling in continuous vertical pager (by @schroda)
+- ([r2579](https://github.com/Suwayomi/Suwayomi-WebUI/commit/fe30c8e2817115e33299fc334114041a719e786a)) Update "search all" source header styling (by @schroda)
+- ([r2578](https://github.com/Suwayomi/Suwayomi-WebUI/commit/f6b4ed8f56fb74589460d053b0d029bc18c303d1)) Streamline adding params to app routes (by @schroda)
+- ([r2577](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7ae7c3e768b04ea24801ae46ba4610c40a7bf86c)) Hide library perform global search button without active search (by @schroda)
+- ([r2576](https://github.com/Suwayomi/Suwayomi-WebUI/commit/daeab311211b2fd5cca35a015ad0074dc8b30b30)) Add button to perform search globally in library (by @schroda)
+- ([r2575](https://github.com/Suwayomi/Suwayomi-WebUI/commit/cafa0c39837cb8af4fd9a62192c8314333d5da5d)) Hide "select" button while no items are available (by @schroda)
+- ([r2574](https://github.com/Suwayomi/Suwayomi-WebUI/commit/6b812cb143b80f91dd59a0108a517cb8328c5e1b)) Clear selection after performing action (by @schroda)
+- ([r2573](https://github.com/Suwayomi/Suwayomi-WebUI/commit/fde33a24122a4b77d917ff5288cd347bf77bab1d)) Hide chapter list action menu during active selection (by @schroda)
+- ([r2572](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e888c989e939b122184a2be3b10a9d818bb892df)) Fix chapter list selection with active filters (by @schroda)
+- ([r2571](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7885bcda98a55d9be8943a174e4193ff76da4760)) Improve global search (by @schroda)
+- ([r2570](https://github.com/Suwayomi/Suwayomi-WebUI/commit/1e1489df7591eff8456efd4dea07f951b3a71b40)) Show pinned sources on top of global search (by @schroda)
+- ([r2569](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e327849a1987c06ebbc2c273cb9fcffdf7741b10)) Show last used source (by @schroda)
+- ([r2568](https://github.com/Suwayomi/Suwayomi-WebUI/commit/bf90d952660ad617db5ad1ff4b89bd22acd02a44)) Improve metadata value conversion (by @schroda)
+- ([r2567](https://github.com/Suwayomi/Suwayomi-WebUI/commit/822e47084eb09f1ab01c05ce0a2f967e4cce35c5)) Add functionality to pin sources (by @schroda)
+- ([r2566](https://github.com/Suwayomi/Suwayomi-WebUI/commit/cab2469ec10b8d652bc28d9b79d36656619b323c)) Remove source card popular button (by @schroda)
+- ([r2565](https://github.com/Suwayomi/Suwayomi-WebUI/commit/18ddf46f17d7d88276349d21208bbaad076127ce)) Save appearance settings on server (by @schroda)
+- ([r2564](https://github.com/Suwayomi/Suwayomi-WebUI/commit/4a1eb6f8243f4a3a471c67a5260e9f7f487b9d9a)) Force re-render of virtuoso grid on filter changes (by @schroda)
+- ([r2563](https://github.com/Suwayomi/Suwayomi-WebUI/commit/08df61737e7e1750d4cdd6d3dbc5822366958d8c)) Trigger library search on genre click (by @schroda)
+- ([r2562](https://github.com/Suwayomi/Suwayomi-WebUI/commit/53b31955af041b07924b8180b2ec96241c9358c3)) Update available languages (by @schroda)
+- ([r2561](https://github.com/Suwayomi/Suwayomi-WebUI/commit/caad353bfac8ca668049c9a94141f3d036aea388)) Trigger library search on artist/author click ([#939](https://github.com/Suwayomi/Suwayomi-WebUI/pull/939) by @Well2333, @schroda)
+- ([r2560](https://github.com/Suwayomi/Suwayomi-WebUI/commit/05dc05a04379d0d93e8266cf0c8b43f58c0a613b)) Translations update from Hosted Weblate ([#919](https://github.com/Suwayomi/Suwayomi-WebUI/pull/919) by @weblate, @ketw09, @IDika31, @kosmik7, @letroll, @KrachDev, @dejavui, @MageSneaky, @Tankudoraiba, @UnknownSkyrimPasserby, @marimo-nekomimi, @plum7x, @tizio04, @xAizawa9, @TamilNeram, @aizhimoran)
+- ([r2559](https://github.com/Suwayomi/Suwayomi-WebUI/commit/18e0e9069d33434a2dfc203727f57e50d105ffb0)) Sort "obsolete" extensions at the start (by @schroda)
+- ([r2558](https://github.com/Suwayomi/Suwayomi-WebUI/commit/86f1905c7c7817ec38bf02f8aaaaa59aef8b55f0)) Cleanup ReaderControls#scroll (by @schroda)
+- ([r2557](https://github.com/Suwayomi/Suwayomi-WebUI/commit/40abcd828f7e62300d0439dad0f3d993d5f241b5)) Keep previous/next transition page open on first/last chapter previous/next page tap-zone click (by @schroda)
+- ([r2556](https://github.com/Suwayomi/Suwayomi-WebUI/commit/5d5cd5ac592713d57380cd24aa4a1176cca4a967)) Include missing manga data in updater subscription (by @schroda)
+- ([r2555](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0a853082db42b4d2768908edf44c89956af246b4)) Align language sorting with mihon (by @schroda)
+- ([r2554](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7e4e22b9e162535518dce11c037a6dbd61c14e9a)) Add "All" to default languages (by @schroda)
+- ([r2553](https://github.com/Suwayomi/Suwayomi-WebUI/commit/dcd57aea8fb8f2e5dab14c1ec4809cbb3a3ccdf3)) Remove abbreviation of “language” in function names (by @schroda)
+- ([r2552](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d27c5c445f8ad5b0b0f4b5b9e28588cff2ff1aa8)) Remove special "english" handling for language sorting (by @schroda)
+- ([r2551](https://github.com/Suwayomi/Suwayomi-WebUI/commit/aa202bb1844fb901a41a7d83f4a22aaf191ba586)) Update dependencies (by @schroda)
+- ([r2550](https://github.com/Suwayomi/Suwayomi-WebUI/commit/afdaf1f4299d6e25acb5fa20db6628a5be1b3621)) Move chapter types and constants to corresponding files (by @schroda)
+- ([r2549](https://github.com/Suwayomi/Suwayomi-WebUI/commit/18be295ef5ead2da168d4120e1feb24b482f25ad)) Rename manga and chapter constants (by @schroda)
+- ([r2548](https://github.com/Suwayomi/Suwayomi-WebUI/commit/f0f740f4af4247106edb76bbb743de27a545d923)) Add option to disable transition pages (by @schroda)
+- ([r2547](https://github.com/Suwayomi/Suwayomi-WebUI/commit/eb23f74a40d374a364e75f9587edfd8fba948454)) Fix reader next chapter visibility detection (by @schroda)
+- ([r2546](https://github.com/Suwayomi/Suwayomi-WebUI/commit/c82110b29d281e8ecc96bb23127e7de13abc4c65)) Remove "LibraryOptionsContext" (by @schroda)
+- ([r2545](https://github.com/Suwayomi/Suwayomi-WebUI/commit/04768d521000451cd5faed6e030fd0ba5d2c0c3e)) Introduce "useAppTitleAndAction" hook (by @schroda)
+- ([r2544](https://github.com/Suwayomi/Suwayomi-WebUI/commit/aacdbaaeefb362a9d53834b4df57eea6f2e5e312)) Introduce "useAppAction" hook (by @schroda)
+- ([r2543](https://github.com/Suwayomi/Suwayomi-WebUI/commit/3ab70c4802eff1d935da76799f5ff2719ad7b637)) Introduce "useAppTitle" hook (by @schroda)
+- ([r2542](https://github.com/Suwayomi/Suwayomi-WebUI/commit/76cd9fd309d9b0561d99e6cd8bd940995a1a3f0c)) Remove "useContext" usages with hooks (by @schroda)
+- ([r2541](https://github.com/Suwayomi/Suwayomi-WebUI/commit/385b3066cc1814e426282a1f6ee280814e906925)) Delete unused component (by @schroda)
+- ([r2540](https://github.com/Suwayomi/Suwayomi-WebUI/commit/b80006504e83bb84c952880627c8de8983ca8129)) Move files into different folders (by @schroda)
+- ([r2539](https://github.com/Suwayomi/Suwayomi-WebUI/commit/11b75103eb91ebfdc5059ef7233e508acb3008bb)) Reduce card list padding (by @schroda)
+- ([r2538](https://github.com/Suwayomi/Suwayomi-WebUI/commit/736e556ccda67762ac23cb42bff426d75b76ad6e)) Replace missed occurrences with "ListCardContent" (by @schroda)
+- ([r2537](https://github.com/Suwayomi/Suwayomi-WebUI/commit/c24d7ca2efc1b194ebde944891f19d4ae33c559d)) Fix link to extension repo setting (by @schroda)
+- ([r2536](https://github.com/Suwayomi/Suwayomi-WebUI/commit/24a0cfb3b0d17a32bd7a5d309a37ba5866ff0c4f)) Use "mantine/hooks" (by @schroda)
+- ([r2535](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e982b7c4177d7b6a81d0abfb7b5347bef2e19902)) Preserve scroll position during infinite scroll initial previous chapter render (by @schroda)
+- ([r2534](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d603c614ef6dd0e279dac10728238a8281c7fb08)) Extract scroll preservation data collection (by @schroda)
+- ([r2533](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d606130846d1802ff5c04d70f7017cbb0f69d8de)) Ignore trailing image resize for scroll preservation (by @schroda)
+- ([r2532](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0c4e7725422adb3cd6892a85dc3472b463e118d6)) Style scrollbar only on devices with hover support (by @schroda)
+- ([r2531](https://github.com/Suwayomi/Suwayomi-WebUI/commit/36aa822455998eb723bf9f188131c814c62704bd)) Use window scroll for grouped virtuosos (by @schroda)
+- ([r2530](https://github.com/Suwayomi/Suwayomi-WebUI/commit/36fa8dbe38e2d34f6d5df327efb81f7e7a64adf8)) Improve scroll preservation on window resize (by @schroda)
+- ([r2529](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ef3538d7621272ceec70e765f8efe9ce082d506e)) Cleanup "useReaderPreserveScrollPosition" (by @schroda)
+- ([r2528](https://github.com/Suwayomi/Suwayomi-WebUI/commit/59bbb5379007a90152a9cd7269536a50a80bd5fc)) Fix tracker oauth client redirect url (by @schroda)
+- ([r2527](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a1cdc785c13e8df3e3fe77970f3c4f5222bf2aa0)) Prevent scrolling while dragging on the reader progress bar (by @schroda)
+- ([r2526](https://github.com/Suwayomi/Suwayomi-WebUI/commit/beda5096d18bc13e56da4fd91355298244307f80)) Add option to disable "infinite chapter scroll" (by @schroda)
+- ([r2525](https://github.com/Suwayomi/Suwayomi-WebUI/commit/f9930b94ca2df9fde27b672779b338a3ddfc6ffd)) Fix page resume on reader chapter list selection of already visible chapter (by @schroda)
+- ([r2524](https://github.com/Suwayomi/Suwayomi-WebUI/commit/37127893b4dcc07a53218e4a56c03f9410b37e39)) Make reader settings dialog transparent on some changes (by @schroda)
+- ([r2523](https://github.com/Suwayomi/Suwayomi-WebUI/commit/112c700fb7304c1d1ddc137f6cb84d8b70edc723)) Fix extensions not being sorted by name (by @schroda)
+- ([r2522](https://github.com/Suwayomi/Suwayomi-WebUI/commit/11755299e93ea748bfcc2ad6d41fd937bfd33512)) Cleanup DownloadQueue (by @schroda)
+- ([r2521](https://github.com/Suwayomi/Suwayomi-WebUI/commit/1b7338f5e350da159f18e00e2999af3416190767)) Extract list card content (by @schroda)
+- ([r2520](https://github.com/Suwayomi/Suwayomi-WebUI/commit/c0ab5f93a1d26735d3c1a5429311639e59a24f3f)) Extract list card avatar (by @schroda)
+- ([r2519](https://github.com/Suwayomi/Suwayomi-WebUI/commit/6a6ff2cbe1f50814841ddf023cecf5dd9455d016)) Fix extension repo url on small screens (by @schroda)
+- ([r2518](https://github.com/Suwayomi/Suwayomi-WebUI/commit/b503ab07e9a4dc275996ce9d393c1996f27e4971)) Fix source/extension repo url word break (by @schroda)
+- ([r2517](https://github.com/Suwayomi/Suwayomi-WebUI/commit/24629407cb29ce1f9fad36b2f13e15ef3c59e20b)) Fix tsc error (by @schroda)
+- ([r2516](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e1905b267b3a53e5b4ac930d9ebc05753f0717a2)) Make extension filtering options optional (by @schroda)
+- ([r2515](https://github.com/Suwayomi/Suwayomi-WebUI/commit/394d5417463650102ce78421e0293a65a9e20620)) Fix source filtering for nsfw (by @schroda)
+- ([r2514](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d3de9a6db3d75bdb4faed05de88db81fb66959bc)) Fix dependency array of extensions filtering (by @schroda)
+- ([r2513](https://github.com/Suwayomi/Suwayomi-WebUI/commit/4c04e1d17cb7b277fe5a351877e9a191e3753367)) Normalize language code comparisons (by @schroda)
+- ([r2512](https://github.com/Suwayomi/Suwayomi-WebUI/commit/01856b98478c76dcf8b2a1b4efc53ab658499c74)) Always show installed extensions (by @schroda)
+- ([r2511](https://github.com/Suwayomi/Suwayomi-WebUI/commit/c9490f188707ca777964b51342ec445b31b5d02f)) Prevent language filter list from reseting scroll position on selection change (by @schroda)
+- ([r2510](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d277370b28f0a4a5e1c54135c79835a7d8216b8f)) Add ".aiignore" (by @schroda)
+- ([r2509](https://github.com/Suwayomi/Suwayomi-WebUI/commit/f93abd5b93feb1feba159f5fad5664340ac62652)) Place errored source searches after ones with search results (by @schroda)
+- ([r2508](https://github.com/Suwayomi/Suwayomi-WebUI/commit/f19c5d5038b7f86f8a9c15253140acf2e2a2b9a5)) Fallback to english in case no preferred languages are found (by @schroda)
+- ([r2507](https://github.com/Suwayomi/Suwayomi-WebUI/commit/477656a3a940c83b8c2b7a2e239058d8c79c896f)) Fix saving changed selected languages (by @schroda)
+- ([r2506](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ee3e741688df94fc3334550ffe57b506ecedd8c6)) Lazy load missed routes (by @schroda)
+- ([r2505](https://github.com/Suwayomi/Suwayomi-WebUI/commit/4c1a493cf5fbf7468302d5f8b7d3ab98e3cf1333)) Save "showNsfw" setting on server (by @schroda)
+- ([r2504](https://github.com/Suwayomi/Suwayomi-WebUI/commit/2022b7028e8412db6aa8837ad013353738e5fb90)) Always use "other" as "local source" language (by @schroda)
+- ([r2503](https://github.com/Suwayomi/Suwayomi-WebUI/commit/6fef7b3aa44994ba15275445a50d49da90ca6792)) Show selected languages in filter on top (by @schroda)
+- ([r2502](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d661b1e3f2ce26d1a841d355ccc5d97327359425)) Fix "scripts tokens" template file name (by @schroda)
+- ([r2501](https://github.com/Suwayomi/Suwayomi-WebUI/commit/60cb7b31ab8d12a8d971cadc4a3753dc20449de4)) Cleanup "LangSelect" (by @schroda)
+- ([r2500](https://github.com/Suwayomi/Suwayomi-WebUI/commit/4175ffbc1e78a1cb926f93dd68f53871ac25951a)) Cleanup "SourceAll.tsx" (by @schroda)
+- ([r2499](https://github.com/Suwayomi/Suwayomi-WebUI/commit/98f383e79ea4839e6682595b6aceefed81db4fe9)) Cleanup "Source.tsx" (by @schroda)
+- ([r2498](https://github.com/Suwayomi/Suwayomi-WebUI/commit/063f2958a170f49ded26118fbd74f53c944dfa24)) Introduce "sources" util class (by @schroda)
+- ([r2497](https://github.com/Suwayomi/Suwayomi-WebUI/commit/4a9f90b74662cf35d0b92043f8a59d312e07f19c)) Introduce "sources" util class (by @schroda)
+- ([r2496](https://github.com/Suwayomi/Suwayomi-WebUI/commit/633f58b563e88b482ec4ed25ba601bea9be65274)) Remove "sourceForcedDefaultLangs" (by @schroda)
+- ([r2495](https://github.com/Suwayomi/Suwayomi-WebUI/commit/fef33f15f9afc5fb5bb47897070312b84209cb34)) Remove "forced languages" from "LangSelect" (by @schroda)
+- ([r2494](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a48febeda56a1c677b6d743f5d2c8b9ef4aa941a)) Save selected extension languages on the server (by @schroda)
+- ([r2493](https://github.com/Suwayomi/Suwayomi-WebUI/commit/9dfd9ed5e3dd092aaa718520d4281faecfa8b7ae)) Cleanup "Extensions" (by @schroda)
+- ([r2492](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e0567fac5d3953a3a7d31f4194bd3583e4e36a7e)) Extract extensions group header (by @schroda)
+- ([r2491](https://github.com/Suwayomi/Suwayomi-WebUI/commit/91beeb2fb56b2a3ead15db270d0fde2237da5d26)) Fix update extensions failure error message pluralization (by @schroda)
+- ([r2490](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d01837d5cde9962629179f9902f6276bef3a2406)) Move filtering to "groupExtensionsByLanguage" (by @schroda)
+- ([r2489](https://github.com/Suwayomi/Suwayomi-WebUI/commit/87a496cec0f9b13532f2e08026ebb29c1f47744d)) Cleanup "groupExtensionsByLanguage" (by @schroda)
+- ([r2488](https://github.com/Suwayomi/Suwayomi-WebUI/commit/78030b103a0131e3a07f737243bf36195896a997)) Extract extensions language extraction into own function (by @schroda)
+- ([r2487](https://github.com/Suwayomi/Suwayomi-WebUI/commit/214fa7710d6bd1d8570ef76c4cdaa79aec5770f8)) Get rid of forced "All" extensions language (by @schroda)
+- ([r2486](https://github.com/Suwayomi/Suwayomi-WebUI/commit/05082c24f4f855fa218189ad162cdc299b0c849b)) Infer user preferred languages for default source/extension languages (by @schroda)
+- ([r2485](https://github.com/Suwayomi/Suwayomi-WebUI/commit/27fb8823e9721985d38492b50a846e8e2138a423)) Remove too much space of "TypographyMaxLines" (by @schroda)
+- ([r2484](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0733c930d433572a10da9e3b4f99ea8d90e6a8ca)) Save chapter list options on server (by @schroda)
+- ([r2483](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0f3becf50548872cd3b266d67994226f416914ad)) Fix auto webtoon mode mode for "manhwa" in english (by @schroda)
+- ([r2482](https://github.com/Suwayomi/Suwayomi-WebUI/commit/5c232c77a7ffdb49993f7dca514684cf0cbcc68d)) Do not pass empty string as img src (by @schroda)
+- ([r2481](https://github.com/Suwayomi/Suwayomi-WebUI/commit/3f93549f34b076d8818dbf9972963f9903ee7bd2)) Update to react v19 (by @schroda)
+- ([r2480](https://github.com/Suwayomi/Suwayomi-WebUI/commit/213f561fe43da6c9fcb5da1efef5018b06fd5aa4)) Replace "react-beautiful-dnd" with "dnd-kit" (by @schroda)
+- ([r2479](https://github.com/Suwayomi/Suwayomi-WebUI/commit/55c4a92b26fbeb2f2c6700bec012f8bf3987c527)) Update dependencies (by @schroda)
+- ([r2478](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ecbc0e3be2e1f4e06624a760abe91f656b17929d)) Support different languages for auto webtoon detection (by @schroda)
+- ([r2477](https://github.com/Suwayomi/Suwayomi-WebUI/commit/9269f2a70cc52e8e61ca382c9b607fc3e1b78a45)) Add manga "comic" sources (by @schroda)
+- ([r2476](https://github.com/Suwayomi/Suwayomi-WebUI/commit/898cc200f017e857762a0155b8ad0546b23facdf)) Remove "Infinity" usage (by @schroda)
+- ([r2475](https://github.com/Suwayomi/Suwayomi-WebUI/commit/76167ebb673fba7062f33998b5ea653f78b12b00)) Set sensible gql ws-client retry attempt count (by @schroda)
+- ([r2474](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a48cb0ce27da0f3e8b1f0d66d9c24a5efd565fc6)) Handle html in description of manga (by @schroda)
+- ([r2473](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0a7bf7cf78d0f542e36c7a5ca738f0fe757aea70)) Use set "base url" for "oauth redirect url" (by @schroda)
+- ([r2472](https://github.com/Suwayomi/Suwayomi-WebUI/commit/882638b7c1bb8b7f0840610cb5aa9a0481026cb9)) Fix jumpiness of manga description collapse/expand button (by @schroda)
+- ([r2471](https://github.com/Suwayomi/Suwayomi-WebUI/commit/48d96afa8510ddc03974d930d33d13e16319e139)) Improve snackbar styling (by @schroda)
+- ([r2470](https://github.com/Suwayomi/Suwayomi-WebUI/commit/d0b0322f08a3cdc31fca0171943c63647a21fc0e)) Fix webUI stable changelog url (by @schroda)
+- ([r2469](https://github.com/Suwayomi/Suwayomi-WebUI/commit/01020d81b81e58ddd272d4e660de5c05f944aec9)) [skip ci] Add link to discord in issue templates (by @schroda)
+- ([r2468](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0aa49f359d959a18d91ae927f506ca73c722bd8b)) [SKIP CI] Update ui server mapping (by @schroda)
+
+Contributors:
+@weblate, @9811pc, @cpiber, @yutthaphon, @dejavui, @UnknownSkyrimPasserby, @dpkass, @marimo-nekomimi, @TamilNeram, @aizhimoran, @schroda, @junmusk, @adriano1816, @Zereef, @plum7x, @FedericoRossiIT, @Well2333, @ketw09, @IDika31, @kosmik7, @letroll, @KrachDev, @MageSneaky, @Tankudoraiba, @tizio04, @xAizawa9
+
 # v1.5.1 (r2467)
 
 ## Bug fixes
@@ -12,6 +283,7 @@ Thank you for your contribution to the translation of the project.
 - Polish (by UnknownSkyrimPasserby)
 
 ## Full changelog
+- ([r2467](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e5c2d967c7c4893e9302e66816d6b949e61f662a)) [Release] Version 1.5.1 (by @schroda)
 - ([r2466](https://github.com/Suwayomi/Suwayomi-WebUI/commit/52e1730261bf56c1c44a132c6938276a609b65f4)) Handle "removed languages" section in changelog (by @schroda)
 - ([r2465](https://github.com/Suwayomi/Suwayomi-WebUI/commit/772f7383e8a0306bee12f0d5e5409cc63a5341d7)) Translations update from Hosted Weblate ([#918](https://github.com/Suwayomi/Suwayomi-WebUI/pull/918) by @weblate, @UnknownSkyrimPasserby)
 - ([r2464](https://github.com/Suwayomi/Suwayomi-WebUI/commit/791ccf1f6ab7cf6ce2ef5a7988ab96dd80e489ea)) Handle server version changes (by @schroda)
