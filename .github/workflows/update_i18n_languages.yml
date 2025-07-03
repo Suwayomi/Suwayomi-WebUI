@@ -1,0 +1,37 @@
+name: update_i18n_languages.yml
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  update-i18n:
+    if: "startsWith(github.event.head_commit.message, 'Translations update from Hosted Weblate')"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout master branch
+        uses: actions/checkout@v4
+        with:
+          ref: master
+          path: master
+          fetch-depth: 0
+
+      - name: Set up NodeJs
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: './master/package.json'
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install dependencies
+        run: yarn ci
+
+      - name: Update i18n resources
+        run: yarn i18n:gen-resources
