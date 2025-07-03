@@ -1342,8 +1342,7 @@
             "label": {
                 "no_downloads": "沒有下載",
                 "delete_all": "刪除所有"
-            },
-            "title": "下載隊列"
+            }
         },
         "state": {
             "label": {

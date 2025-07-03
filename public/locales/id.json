@@ -152,8 +152,7 @@
                     "failed_to_remove": "Tidak dapat menghilangkan unduhan dari barisan",
                     "failed_to_retry": "Tidak dapat mengulang unduhan yang gagal"
                 }
-            },
-            "title": "Baris unduhan"
+            }
         },
         "settings": {
             "auto_download": {

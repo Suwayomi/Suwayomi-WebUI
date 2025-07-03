@@ -1,7 +1,7 @@
 {
     "category": {
         "label": {
-            "use_as_default_category": "Danh mục mặc định khi thêm manga mới vào thư viện",
+            "use_as_default_category": "Danh mục mặc định khi thêm truyện mới vào thư viện",
             "category_name": "Tên danh mục"
         },
         "title": {
@@ -56,7 +56,8 @@
                     "label": {
                         "action": "Hủy yêu thích",
                         "success_other": "Xóa {{count}} chương yêu thích",
-                        "error_other": "Không thể xóa chương yêu thích"
+                        "error_other": "Không thể xóa chương yêu thích",
+                        "confirmation_other": "Bạn sắp xóa {{count}} yêu thích"
                     }
                 }
             },
@@ -72,7 +73,8 @@
                         "next": "1 $t(reader.button.next_chapter)",
                         "unread": "$t(global.filter.label.unread)",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
-                        "all": "$t(extension.language.all)"
+                        "all": "$t(extension.language.all)",
+                        "confirmation_other": "Bạn sắp tải xuống {{count}} chương.\nSuwayomi không phải là trình tải xuống hàng loạt và việc tải xuống quá nhiều có thể khiến bạn bị cấm khỏi các nguồn và/hoặc gây ra sự cố về hiệu suất."
                     },
                     "button": {
                         "selected": "Tải xuống đã chọn"
@@ -85,7 +87,8 @@
                     "label": {
                         "action": "Xóa",
                         "error_other": "Không thể xóa chương",
-                        "success_other": "Đã xóa {{count}} chương"
+                        "success_other": "Đã xóa {{count}} chương",
+                        "confirmation_other": "Bạn sắp xóa {{count}} lượt tải xuống"
                     }
                 }
             },
@@ -104,7 +107,8 @@
                             "previous": "Đánh dấu các chương trước là đã đọc"
                         },
                         "error_other": "Lỗi đánh dấu chương là đã đọc",
-                        "success_other": "{{count}} chương được đánh dấu là đã đọc"
+                        "success_other": "{{count}} chương được đánh dấu là đã đọc",
+                        "confirmation_other": "Bạn sắp đánh dấu {{count}} chương là đã đọc"
                     }
                 },
                 "remove": {
@@ -114,7 +118,8 @@
                     "label": {
                         "action": "Đánh dấu là chưa đọc",
                         "error_other": "Lỗi đánh dấu chương là chưa đọc",
-                        "success_other": "{{count}} chương được đánh dấu là chưa đọc"
+                        "success_other": "{{count}} chương được đánh dấu là chưa đọc",
+                        "confirmation_other": "Bạn sắp đánh dấu {{count}} chương là chưa đọc"
                     }
                 }
             }
@@ -131,7 +136,8 @@
                     "chapter_number": "Số chương",
                     "source_title": "Tiêu đề nguồn"
                 }
-            }
+            },
+            "exclude_scanlators": "Loại trừ nhóm dịch"
         },
         "status": {
             "label": {
@@ -151,7 +157,6 @@
                     "failed_to_retry": "Không thể thử lại tải xuống không thành công."
                 }
             },
-            "title": "Hàng chờ tải xuống",
             "label": {
                 "no_downloads": "Không tải xuống",
                 "delete_all": "Xóa tất cả"
@@ -253,7 +258,8 @@
             "installing_file": "Cài đặt tệp tiện ích mở rộng…",
             "update_failed_other": "Không thể cập nhật tiện ích",
             "uninstallation_failed_other": "Không thể xóa tiện ích",
-            "add_repository_info": "Bạn phải thêm kho tiện ích trước khi cài đặt tiện ích"
+            "add_repository_info": "Bạn phải thêm kho tiện ích trước khi cài đặt tiện ích",
+            "age_rating": "Phân loại độ tuổi"
         },
         "language": {
             "all": "Đa ngôn ngữ",
@@ -408,7 +414,7 @@
             "started": "Đã bắt đầu",
             "logged_in": "Đã đăng nhập",
             "type": "Thể loại",
-            "are_you_sure": "Bạn đã chắc chắn chứ?",
+            "are_you_sure": "Bạn có chắc không?",
             "default": "Mặc định",
             "auto": "Tự động",
             "both": "Cả hai",
@@ -442,7 +448,10 @@
             "small": "Nhỏ",
             "pinned": "Đã ghim",
             "last_used": "Sử dụng gần đây",
-            "stopped": "Đã dừng lại"
+            "stopped": "Đã dừng lại",
+            "tiny": "Nhỏ nhất",
+            "scanlator": "Nhóm dịch",
+            "version": "Phiên bản"
         },
         "language": {
             "label": {
@@ -512,9 +521,9 @@
         "error": {
             "label": {
                 "empty": "Thư viện của bạn trống",
-                "no_matches": "Không có manga nào phù hợp với bộ lọc này",
-                "add_to_library": "Không thể thêm manga vào thư viện!",
-                "remove_from_library": "Không thể xóa manga ra khỏi thư viện!",
+                "no_matches": "Không có truyện nào phù hợp với bộ lọc này",
+                "add_to_library": "Không thể thêm truyện vào thư viện!",
+                "remove_from_library": "Không thể xóa truyện ra khỏi thư viện!",
                 "stop_global_update": "Không thể dừng cập nhật thư viện"
             }
         },
@@ -594,14 +603,14 @@
                     "ignore_filters": {
                         "label": {
                             "title": "Bỏ qua bộ lọc khi tìm kiếm",
-                            "description": "Kết quả tìm kiếm sẽ bao gồm manga không thuộc bộ lọc hiện tại"
+                            "description": "Kết quả tìm kiếm sẽ bao gồm truyện không thuộc bộ lọc hiện tại"
                         }
                     }
                 },
                 "remove_from_library": {
                     "remove_from_categories": {
                         "label": {
-                            "description": "Xóa manga khỏi danh mục khi chúng được xóa khỏi thư viện",
+                            "description": "Xóa truyện khỏi danh mục khi chúng được xóa khỏi thư viện",
                             "title": "Không lưu danh mục"
                         }
                     }
@@ -610,7 +619,7 @@
                     "category_selection": {
                         "label": {
                             "title": "Hộp lựa chọn danh mục",
-                            "description": "Hiển thị hộp lựa chọn danh mục khi thêm manga vào thư viện"
+                            "description": "Hiển thị hộp lựa chọn danh mục khi thêm truyện vào thư viện"
                         }
                     }
                 }
@@ -620,9 +629,9 @@
                     "cleanup": {
                         "label": {
                             "title": "Dọn cơ sở dữ liệu",
-                            "description": "Xóa manga không có trong thư viện khỏi danh mục",
-                            "error": "Không thể xóa manga không thuộc thư viện khỏi danh mục",
-                            "success": "Đã xóa manga không có trong thư viện khỏi danh mục"
+                            "description": "Xóa truyện không có trong thư viện khỏi danh mục",
+                            "error": "Không thể xóa truyện không thuộc thư viện khỏi danh mục",
+                            "success": "Đã xóa truyện không có trong thư viện khỏi danh mục"
                         }
                     }
                 },
@@ -642,8 +651,8 @@
         "title": "Thư viện",
         "info": {
             "label": {
-                "removed_from_library": "Manga đã được xóa khỏi thư viện!",
-                "added_to_library": "Manga đã được thêm vào thư viện!"
+                "removed_from_library": "Truyện đã được xóa khỏi thư viện!",
+                "added_to_library": "Truyện đã được thêm vào thư viện!"
             }
         },
         "action": {
@@ -667,18 +676,18 @@
         "error": {
             "label": {
                 "no_mangas_found": "Không có truyện tranh",
-                "no_matches": "Không có manga nào phù hợp với bộ lọc này",
-                "request_failure": "Không thể tải manga"
+                "no_matches": "Không có truyện nào phù hợp với bộ lọc này",
+                "request_failure": "Không thể tải truyện"
             }
         },
         "label": {
             "artist": "Họa sĩ",
             "author": "Tác giả",
-            "edit_categories": "Chỉnh sửa danh mục manga",
+            "edit_categories": "Chỉnh sửa danh mục truyện",
             "reload_from_source": "Tải lại dữ liệu từ nguồn",
             "status": "Trạng thái"
         },
-        "title_other": "Manga",
+        "title_other": "Truyện tranh",
         "action": {
             "track": {
                 "remove": {
@@ -690,22 +699,22 @@
                         }
                     },
                     "label": {
-                        "error": "Không thể bỏ theo dõi manga",
-                        "success": "Đã bỏ theo dõi manga"
+                        "error": "Không thể bỏ theo dõi truyện",
+                        "success": "Đã bỏ theo dõi truyện"
                     }
                 },
                 "add": {
                     "label": {
-                        "success": "Manga đã được theo dõi",
+                        "success": "Truyện đã được theo dõi",
                         "action": "Theo dõi",
-                        "error": "Không thể theo dõi manga"
+                        "error": "Không thể theo dõi truyện"
                     }
                 }
             },
             "migrate": {
                 "label": {
-                    "success": "Di chuyển manga thành công",
-                    "error": "Không thể di chuyển manga"
+                    "success": "Di chuyển truyện thành công",
+                    "error": "Không thể di chuyển truyện"
                 }
             },
             "library": {
@@ -714,9 +723,10 @@
                         "selected": "Xóa những mục được lựa trọn trong thư viện"
                     },
                     "label": {
-                        "error_other": "Bạn không thể xóa manga khỏi thư viện",
+                        "error_other": "Bạn không thể xóa truyện khỏi thư viện",
                         "action": "Xóa khỏi thư viện",
-                        "success_other": "Xóa {{count}} manga khỏi thư viện"
+                        "success_other": "Xóa {{count}} truyện khỏi thư viện",
+                        "confirmation_other": "Bạn sắp xóa {{count}} truyện khỏi thư viện của mình"
                     },
                     "dialog": {
                         "label": {
@@ -728,8 +738,8 @@
                     "dialog": {
                         "duplicate": {
                             "label": {
-                                "failure": "Không thể kiểm tra những manga bị trùng trong thư viện.\n\nError: {{error}}",
-                                "info": "Bạn có một mục trong thư viện với tên trùng nhau."
+                                "failure": "Không thể kiểm tra những truyện bị trùng trong thư viện.\n\nError: {{error}}",
+                                "info": "Bạn có một truyện có tên trùng nhau trong thư viện."
                             }
                         }
                     }
@@ -737,9 +747,10 @@
             },
             "category": {
                 "label": {
-                    "success_other": "Đã chuyển danh mục của {{count}} manga",
-                    "error_other": "Không thể chuyển danh mục của manga",
-                    "action": "Chuyển danh mục"
+                    "success_other": "Đã chuyển danh mục của {{count}} truyện",
+                    "error_other": "Không thể chuyển danh mục của truyện",
+                    "action": "Chuyển danh mục",
+                    "confirmation_other": "Bạn sắp thay đổi danh mục của {{count}} mục"
                 },
                 "button": {
                     "selected": "Thay đổi danh mục đã chọn"
@@ -757,11 +768,11 @@
         },
         "type": {
             "long_strip": "Cuộn dọc",
-            "manga": "$t(manga.title_one)",
-            "manhua": "Manhua",
-            "manhwa": "Manhwa",
+            "manga": "Truyện Nhật",
+            "manhua": "Truyện Trung",
+            "manhwa": "Truyện Hàn",
             "webtoon": "$t(reader.settings.reader_type.label.webtoon)",
-            "comic": "Comic"
+            "comic": "Truyện Hoa Kỳ"
         }
     },
     "reader": {
@@ -811,7 +822,10 @@
                 "offset_double_spread": "Bù trừ trang đôi",
                 "page_gap": "Khoảng cách trang",
                 "reading_direction": "Hướng đọc",
-                "reading_mode": "Kiểu đọc"
+                "reading_mode": "Kiểu đọc",
+                "custom_scroll_amount": "Tùy chỉnh số lượng cuộn",
+                "skip_filtered_chapters": "Bỏ qua các chương đã lọc",
+                "unchangeable_in_reader": "Không thể thay đổi cài đặt khi trình đọc đang mở"
             },
             "reader_type": {
                 "label": {
@@ -941,8 +955,8 @@
             "first_chapter": "Không có chương trước",
             "current": "Hiện tại:",
             "exit": {
-                "manga_page": "Thoát đến trang manga",
-                "previous_page": "Quay về trang trước"
+                "manga_page": "Đi tới trang truyện tranh",
+                "previous_page": "Quay về trang trước đấy"
             },
             "finished": "$t(global.label.finished):",
             "last_chapter": "Không có chương sau",
@@ -1374,12 +1388,12 @@
             },
             "title": "Giao diện",
             "manga_thumbnail_backdrop": {
-                "description": "Đặt ảnh bìa truyện làm hình nền trên trang truyện",
+                "description": "Đặt ảnh bìa truyện làm nền trong trang truyện",
                 "title": "Ảnh bìa truyện làm hình nền"
             },
             "manga_dynamic_color_schemes": {
-                "description": "Thay đổi chủ đề trang manga dựa trên ảnh bìa",
-                "title": "Chủ đề động trên trang manga"
+                "description": "Chủ đề được thay đổi dựa trên ảnh bìa truyện",
+                "title": "Chủ đề động trong trang truyện"
             }
         },
         "default_value": "{{value}}<0>($t(global.label.default))</0>"
@@ -1419,6 +1433,9 @@
         "pin": {
             "add": "Ghim nguồn",
             "remove": "Bỏ ghim nguồn"
+        },
+        "extension_info": {
+            "title": "Thông tin chi tiết"
         }
     },
     "updates": {
@@ -1442,7 +1459,7 @@
             "title": "Lụa chọn dữ liệu để thêm vào"
         },
         "label": {
-            "info": "Di chuyển manga…"
+            "info": "Di chuyển truyện…"
         },
         "search": {
             "title": "$t(migrate.title) \"{{title}}\""
@@ -1466,7 +1483,7 @@
                 "trackers": "Dịch vụ"
             },
             "label": {
-                "update_progress_reading_description": "Không hoạt động khi đánh dấu nhiều manga là đã đọc cùng một lúc",
+                "update_progress_reading_description": "Không hoạt động khi đánh dấu nhiều truyện là đã đọc cùng một lúc",
                 "update_progress_reading": "Cập nhật tiến độ sau khi đọc",
                 "update_progress_manual": "Cập nhật tiến trình sau khi đánh dấu thủ công là đã đọc"
             },
@@ -1519,8 +1536,8 @@
             },
             "type": {
                 "doujinshi": "Doujinshi",
-                "manga": "$t(manga.title_one)",
-                "manhua": "$t(manga.type.manhwa)",
+                "manga": "$t(manga.type.manga)",
+                "manhua": "$t(manga.type.manhua)",
                 "manhwa": "$t(manga.type.manhwa)",
                 "novel": "Tiểu thuyết",
                 "oel": "OEL",

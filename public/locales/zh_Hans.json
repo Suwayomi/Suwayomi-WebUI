@@ -56,7 +56,8 @@
                     "label": {
                         "action": "取消收藏",
                         "error_other": "删除收藏出错",
-                        "success_other": "删除{{count}}章节收藏"
+                        "success_other": "删除{{count}}章节收藏",
+                        "confirmation_other": "将会移除{{count}}个书签"
                     }
                 }
             },
@@ -75,7 +76,8 @@
                         "next_five": "接下来的5个章节",
                         "next_ten": "接下来的10个章节",
                         "next_twentyfive": "接下来的25个章节",
-                        "unread": "$t(global.filter.label.unread)"
+                        "unread": "$t(global.filter.label.unread)",
+                        "confirmation_other": "将会下载{{count}}个章节\nSuwayomi并不是一个批量下载工具，下载过多可能会导致被来源站点封禁，或引发性能问题。"
                     }
                 },
                 "delete": {
@@ -85,7 +87,8 @@
                     "label": {
                         "action": "删除",
                         "success_other": "{{count}}章节已删除",
-                        "error_other": "删除章节错误"
+                        "error_other": "删除章节错误",
+                        "confirmation_other": "将会删除{{count}}个下载项"
                     }
                 }
             },
@@ -101,7 +104,8 @@
                             "previous": "标记之前的章节为已读"
                         },
                         "error_other": "无法将章节标记为已读出错",
-                        "success_other": "{{count}}章节标记为已读"
+                        "success_other": "{{count}}章节标记为已读",
+                        "confirmation_other": "将会把{{count}}个章节标记为已读"
                     },
                     "button": {
                         "selected": "标记为已读"
@@ -114,7 +118,8 @@
                     "label": {
                         "action": "标记为未读",
                         "error_other": "将章节标记为未读出错",
-                        "success_other": "{{count}}章节标记为未读"
+                        "success_other": "{{count}}章节标记为未读",
+                        "confirmation_other": "将会把{{count}}个章节标记为未读"
                     }
                 }
             }
@@ -131,7 +136,8 @@
                     "chapter_number": "章节数",
                     "source_title": "图源标题"
                 }
-            }
+            },
+            "exclude_scanlators": "排除搬运组"
         },
         "status": {
             "label": {
@@ -148,7 +154,6 @@
                 "no_downloads": "没有下载",
                 "delete_all": "全部删除"
             },
-            "title": "下载队列",
             "error": {
                 "label": {
                     "failed_to_remove": "无法从队列中删除下载。",
@@ -267,7 +272,8 @@
             "installing_file": "正在安装插件…",
             "uninstallation_failed_other": "无法卸载插件",
             "update_failed_other": "无法更新插件",
-            "add_repository_info": "您必须添加扩展库才能安装扩展程序"
+            "add_repository_info": "您必须添加扩展库才能安装扩展程序",
+            "age_rating": "年龄分级"
         },
         "title_other": "插件",
         "settings": {
@@ -442,7 +448,10 @@
             "medium": "中",
             "pinned": "已置顶",
             "last_used": "上次使用",
-            "stopped": "已停止"
+            "stopped": "已停止",
+            "tiny": "微",
+            "scanlator": "搬运组",
+            "version": "版本"
         },
         "language": {
             "label": {
@@ -685,7 +694,8 @@
                     "label": {
                         "error_other": "无法从书架中删除所选漫画",
                         "action": "从书架中删除",
-                        "success_other": "从书架中删除了 {{count}} 本漫画"
+                        "success_other": "从书架中删除了 {{count}} 本漫画",
+                        "confirmation_other": "将会从书架移除{{count}}个条目"
                     },
                     "button": {
                         "selected": "从书架中删除所选内容"
@@ -714,7 +724,8 @@
                 "label": {
                     "action": "更改分类名",
                     "error_other": "无法更改漫画的分类",
-                    "success_other": "已成功更改 {{count}} 本漫画分类"
+                    "success_other": "已成功更改 {{count}} 本漫画分类",
+                    "confirmation_other": "将更改{{count}}个条目的分类"
                 }
             },
             "migrate": {
@@ -803,7 +814,10 @@
                 "offset_double_spread": "调整双页错位",
                 "page_gap": "页间距",
                 "reading_direction": "阅读顺序",
-                "reading_mode": "阅读模式"
+                "reading_mode": "阅读模式",
+                "custom_scroll_amount": "自定义滚动距离",
+                "skip_filtered_chapters": "跳过已过滤的章节",
+                "unchangeable_in_reader": "在阅读器打开时无法更改设置"
             },
             "reader_type": {
                 "label": {
@@ -1404,6 +1418,9 @@
         "pin": {
             "add": "置顶图源",
             "remove": "取消置顶图源"
+        },
+        "extension_info": {
+            "title": "插件信息"
         }
     },
     "updates": {
@@ -1519,7 +1536,7 @@
             },
             "type": {
                 "doujinshi": "同人作品",
-                "manhua": "$t(manga.type.manhwa)",
+                "manhua": "$t(manga.type.manhua)",
                 "novel": "小说",
                 "oel": "英创漫画",
                 "one_shot": "单篇漫画",

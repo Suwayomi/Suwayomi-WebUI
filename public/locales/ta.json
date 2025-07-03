@@ -10,7 +10,7 @@
                         "all": "$t(extension.language.all)",
                         "error_one": "பதிவிறக்கத்தைச் சேர்க்க முடியவில்லை",
                         "error_other": "பதிவிறக்கங்களைச் சேர்க்க முடியவில்லை",
-                        "next": "$t(reader.button.next_chapter)",
+                        "next": "$t(reader.button.next_chapter)>",
                         "next_five": "அடுத்த 5 அத்தியாயங்கள்",
                         "next_ten": "அடுத்த 10 அத்தியாயங்கள்",
                         "next_twentyfive": "அடுத்த 25 அத்தியாயங்கள்",
@@ -106,7 +106,8 @@
                     "chapter_number": "அத்தியாயம் எண்",
                     "source_title": "மூல தலைப்பு"
                 }
-            }
+            },
+            "exclude_scanlators": "ச்கேன்லேட்டர்களை விலக்கு"
         },
         "status": {
             "label": {
@@ -114,7 +115,11 @@
             }
         },
         "title_one": "பாடம்",
-        "title_other": "பாடங்கள்"
+        "title_other": "பாடங்கள்",
+        "missing_one": "காணவில்லை {{count}} அத்தியாயம்",
+        "missing_other": "காணவில்லை {{count}} அத்தியாயங்கள்",
+        "value_one": "{{count}} அத்தியாயம்",
+        "value_other": "{{count}} அத்தியாயங்கள்"
     },
     "download": {
         "settings": {
@@ -170,7 +175,7 @@
                     "while_reading": "படிக்கும் போது தானாக பதிவிறக்கம்",
                     "disclaimer": "தற்போதைய அத்தியாயம் மற்றும் அடுத்த அத்தியாயம் ஏற்கனவே பதிவிறக்கம் செய்யப்பட்டால் மட்டுமே செயல்படும்.",
                     "unread_chapters_to_download": "பதிவிறக்கம் செய்யப்படாத அத்தியாயங்களின் எண்ணிக்கை",
-                    "value": "{{chapters}} $t(அத்தியாயம்.டிடில்)"
+                    "value": "{{chapters}}-$t(chapter.title)"
                 },
                 "title": "மேலே பதிவிறக்கவும்"
             },
@@ -192,7 +197,10 @@
                 "delete_all": "அனைத்தையும் நீக்கு",
                 "no_downloads": "பதிவிறக்கங்கள் இல்லை"
             },
-            "title": "வரிசையைப் பதிவிறக்கவும்"
+            "info": {
+                "paused": "இடைநிறுத்தப்பட்டது - $t(download.queue.info.remaining)",
+                "remaining": "{{count}} மீதமுள்ளது"
+            }
         },
         "state": {
             "label": {
@@ -201,6 +209,10 @@
                 "finished": "$t(global.label.finished)",
                 "queued": "வரிசையில்"
             }
+        },
+        "title": {
+            "download": "பதிவிறக்கங்கள்",
+            "queue": "வரிசையைப் பதிவிறக்கவும்"
         }
     },
     "extension": {
@@ -246,10 +258,13 @@
                     },
                     "label": {
                         "description": "நீட்டிப்புகளை நிறுவக்கூடிய களஞ்சியங்களைச் சேர்க்கவும்",
-                        "disclaimer": "<strong> 3 வது தரப்பு களஞ்சியங்கள் அல்லது நீட்டிப்புகளுக்கு சுவாவோமி எந்த ஆதரவையும் வழங்கவில்லை! </strong> <br/> அந்த களஞ்சியங்களை உருவாக்கும் தீங்கிழைக்கும் நடிகர்கள் இருப்பதால் எச்சரிக்கையுடன் பயன்படுத்தவும்.",
+                        "disclaimer": "<strong> 3 வது தரப்பு களஞ்சியங்கள் அல்லது நீட்டிப்புகளுக்கு சுவாவோமி எந்த ஆதரவையும் வழங்கவில்லை! </strong> <br/> அந்தக் களஞ்சியங்களை உருவாக்கும் தீங்கிழைக்கும் நடிகர்கள் இருப்பதால் எச்சரிக்கையுடன் பயன்படுத்தவும்.<br/>பயனராக நீங்கள் பாதுகாப்பை சரிபார்க்க வேண்டும் மற்றும் எந்தக் களஞ்சியத்தையும் நீட்டிப்பையும் நம்புகிறீர்கள்.",
                         "title": "நீட்டிப்பு களஞ்சியங்கள்"
                     }
                 }
+            },
+            "dialog": {
+                "title": "ஒவ்வொரு மொழி நீட்டிப்பு அமைப்புகளும்"
             }
         },
         "state": {
@@ -318,7 +333,7 @@
             },
             "value": {
                 "label": {
-                    "day": "{{days}} $ t (global.date.label.day, lowers)"
+                    "day": "{{days}}-$t(global.date.label.day, lowercase)"
                 }
             }
         },
@@ -342,7 +357,7 @@
             "error": "பிழை",
             "filter": "வடிப்பி",
             "finished": "முடிந்தது",
-            "footnote": "{{value}} <0> $ t (global.label.asterisk) </0>",
+            "footnote": "{{value}} <0> $t(global.label.asterisk)</0>",
             "general": "பொது",
             "github": "கிரப்",
             "hidden": "மறைக்கப்பட்ட",
@@ -375,7 +390,16 @@
             "unknown": "தெரியவில்லை",
             "username": "பயனர்பெயர்",
             "vertical": "செங்குத்து",
-            "warning": "எச்சரிக்கை"
+            "warning": "எச்சரிக்கை",
+            "tiny": "சிறிய",
+            "large": "பெரிய",
+            "scanlator": "ச்கேன்லேட்டர்",
+            "medium": "சராசரி",
+            "pinned": "பின்",
+            "stopped": "நிறுத்தப்பட்டது",
+            "more": "மேலும்",
+            "last_used": "கடைசியாக பயன்படுத்தப்பட்டது",
+            "small": "சிறிய"
         },
         "sort": {
             "label": {
@@ -395,7 +419,7 @@
                 "info": "சேவையக பதிப்பு {{version}} ({{channel}}) பதிவிறக்கத்திற்கு கிடைக்கிறது",
                 "up_to_date": "இது அண்மைக் கால பதிப்பு",
                 "update_failure": "புதுப்பிப்பு தோல்வியடைந்தது",
-                "update_success": "{{name} the பதிப்பு {{name}} ({{version}}) க்கு புதுப்பிக்கப்பட்டது",
+                "update_success": "{{name}} பதிப்பு {{version}}({{channel}}) க்கு புதுப்பிக்கப்பட்டது",
                 "updating": "{{progress}}% | புதுப்பித்தல்…"
             },
             "settings": {
@@ -419,7 +443,8 @@
                 "invalid_action": "இது சரியான நடவடிக்கை அல்ல",
                 "invalid_file_type": "தவறான பைல்டைப்",
                 "invalid_input": "தவறான உள்ளீடு",
-                "update_failed": "புதுப்பிப்புகளை சரிபார்க்க முடியவில்லை"
+                "update_failed": "புதுப்பிப்புகளை சரிபார்க்க முடியவில்லை",
+                "unrecoverable_error": "ஏதோ தவறு நடந்தது \nஎங்களால் மீட்க முடியாது என்று பிழை ஏற்பட்டது"
             }
         },
         "filter": {
@@ -456,14 +481,14 @@
         "time": {
             "hour_short": "ம",
             "minutes": {
-                "minute_one": "நிமிடங்கள்",
-                "minute_other": "நிமிடங்கள்",
-                "value": "{{count}} $ t (global.time.minutes.minute, Lowers)"
+                "minute_one": "நிமையம்",
+                "minute_other": "நிமையங்கள்",
+                "value": "{{count}}-$t(global.time.minutes.minute, lowercase)"
             },
             "seconds": {
                 "second_one": "இரண்டாவது",
                 "second_other": "நொடிகள்",
-                "value": "{{count}} $ t (Global.time.seconds.second, LowerSond)"
+                "value": "{{count}}-$t(global.time.seconds.second, lowercase)"
             }
         },
         "unit": {
@@ -509,13 +534,13 @@
             "global_update": {
                 "label": {
                     "last_update": "கடைசி புதுப்பிப்பு: {{date}}",
-                    "last_update_tooltip": "$ t (நூலகம்.செட்டிங்ச்.க்ளோபல்_அப்டேட்.டிடில்) ($ t (நூலகம்.செட்டிங்ச்.செட்டிங்ச்.சி.எல்.ஓ."
+                    "last_update_tooltip": "$t(library.settings.global_update.title)-$t(library.settings.global_update.label.last_update, lowercase)"
                 },
                 "auto_update": {
                     "interval": {
                         "label": {
                             "title": "தானியங்கி புதுப்பிப்பு இடைவெளி",
-                            "value": "{{hours}} $ t (Global.time.hour_short)"
+                            "value": "{{hours}}-$t(global.time.hour_short)"
                         }
                     },
                     "label": {
@@ -598,7 +623,8 @@
             "label": {
                 "stop_update": "உலகளாவிய புதுப்பிப்பை நிறுத்துங்கள்",
                 "update_category": "புதுப்பிப்பு வகை",
-                "update_library": "நூலகத்தைப் புதுப்பிக்கவும்"
+                "update_library": "நூலகத்தைப் புதுப்பிக்கவும்",
+                "search_globally": "உலகளவில் \"{{query}}\" ஐத் தேடுங்கள்"
             }
         },
         "error": {
@@ -625,7 +651,7 @@
                 },
                 "label": {
                     "action": "வகைகளை மாற்றவும்",
-                    "error_one": "மங்காவின் வகைகளை மாற்ற முடியவில்லை",
+                    "error_one": "மங்காவின் வகையை மாற்ற முடியவில்லை",
                     "error_other": "மங்காவின் வகைகளை மாற்ற முடியவில்லை",
                     "success_one": "மங்காவின் வகைகள்",
                     "success_other": "{{count}} மங்காவின் மாற்றப்பட்ட வகைகள்"
@@ -639,7 +665,7 @@
                     },
                     "dialog": {
                         "label": {
-                            "delete_remote_track": "{{tracker} இருந்து இலிருந்து அகற்று",
+                            "delete_remote_track": "{{tracker}} இலிருந்து அகற்று",
                             "description": "இது உள்நாட்டில் கண்காணிப்பை அகற்றும்.",
                             "title": "{{tracker}} கண்காணிப்பதை அகற்று?"
                         }
@@ -676,7 +702,7 @@
                     "label": {
                         "action": "நூலகத்திலிருந்து அகற்று",
                         "error_one": "மங்காவை நூலகத்திலிருந்து அகற்ற முடியவில்லை",
-                        "error_other": "மங்காவை நூலகத்திலிருந்து அகற்ற முடியவில்லை",
+                        "error_other": "மங்காகளை நூலகத்திலிருந்து அகற்ற முடியவில்லை",
                         "success_one": "நூலகத்திலிருந்து மங்காவை அகற்றினார்",
                         "success_other": "அகற்றப்பட்டது {{count}} மங்காவை நூலகத்திலிருந்து"
                     }
@@ -694,7 +720,7 @@
             "in_library": "நூலகத்தில்",
             "track": {
                 "active_one": "{{count}} டிராக்கர்",
-                "active_other": "{{count}} டிராக்கர்",
+                "active_other": "{{count}} டிராக்கர்கள்",
                 "start": "கண்காணிப்பு"
             }
         },
@@ -719,10 +745,18 @@
             "licensed": "உரிமம்",
             "ongoing": "நடந்து கொண்டிருக்கிறது",
             "publishing_finished": "வெளியீடு முடிந்தது",
-            "unknown": "$ T (Global.label.unknown)"
+            "unknown": "$t(global.label.unknown)-"
         },
         "title_one": "மங்கா",
-        "title_other": "மங்கா"
+        "title_other": "மங்காகள்",
+        "type": {
+            "long_strip": "நீண்ட துண்டு",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)-",
+            "manga": "$t(manga.title_one)-",
+            "manhwa": "மன்அ்வா",
+            "manhua": "மன்உவா",
+            "comic": "காமிக்"
+        }
     },
     "reader": {
         "button": {
@@ -737,7 +771,7 @@
             "retry_load_pages": "பிழையான பக்கங்களை மீண்டும் முயற்சிக்கவும்"
         },
         "settings": {
-            "default_setting_footnote": "$ t (global.label.asterisk): $ t (reader.settings.active_setting)",
+            "default_setting_footnote": "$t(global.label.asterisk): -$t(reader.settings.active_setting)",
             "active_setting": "செயலில் அமைப்பு",
             "auto_scroll": {
                 "smooth": "மென்மையான ஆட்டோ ச்க்ரோலிங்",
@@ -765,7 +799,7 @@
                     "alpha": "அகர",
                     "blend_mode": {
                         "darken": "தட்டவும்",
-                        "default": "$ t (global.label.default)",
+                        "default": "$t(global.label.default)-",
                         "lighten": "ஒளிரச் செய்யுங்கள்",
                         "multiply": "பெருக்கவும்",
                         "overlay": "மேலடுக்கு",
@@ -819,7 +853,8 @@
                 "reading_mode": "படித்தல் பயன்முறை",
                 "show_page_number": "பக்க எண்ணைக் காட்டு",
                 "skip_dup_chapters": "நகல் அத்தியாயங்களைத் தவிர்க்கவும்",
-                "static_navigation": "நிலையான வழிசெலுத்தல்"
+                "static_navigation": "நிலையான வழிசெலுத்தல்",
+                "custom_scroll_amount": "தனிப்பயன் உருள் தொகை"
             },
             "overlay_mode": "மேலடுக்கு முறை",
             "page_scale": {
@@ -871,7 +906,14 @@
                 "right_left": "வலது மற்றும் இடது"
             },
             "title": {
-                "quick_settings": "விரைவான அமைப்புகள்"
+                "quick_settings": "விரைவான அமைப்புகள்",
+                "reader": "வாசகர்"
+            },
+            "scroll_amount": "உருள் தொகை",
+            "show_transition_page": "மாற்றம் பக்கத்தைக் காட்டு",
+            "infinite_scroll": {
+                "description": "தொடர்ச்சியான வாசிப்பு முறைகளில் படிக்கும்போது முந்தைய மற்றும் வரவிருக்கும் அத்தியாயங்களைத் தெரிந்துகொள்ளவும், அத்தியாயங்களுக்கு இடையில் தடையற்ற ச்க்ரோலிங் அனுமதிக்கிறது.",
+                "title": "தொடர்ச்சியான அத்தியாயம் காட்சி"
             }
         },
         "chapter_transition": {
@@ -911,11 +953,11 @@
                 "manga_page": "மங்கா பக்கத்திற்கு வெளியேறவும்",
                 "previous_page": "முந்தைய பக்கத்திற்கு வெளியேறவும்"
             },
-            "finished": "$ t (global.label.finished):",
+            "finished": "$t(global.label.finished) :",
             "first_chapter": "முந்தைய அத்தியாயம் எதுவும் இல்லை",
             "last_chapter": "அடுத்த அத்தியாயம் இல்லை",
-            "next": "$ t (global.label.next):",
-            "previous": "$ t (global.label.previous):"
+            "next": "$t(global.label.next) :",
+            "previous": "$t(global.label.previous) :"
         }
     },
     "settings": {
@@ -1026,7 +1068,7 @@
                 "cleanup": {
                     "label": {
                         "title": "காப்புப்பிரதி தூய்மைப்படுத்துதல்",
-                        "value": "$ T ஐ விட பழைய காப்புப்பிரதிகளை நீக்கு (Global.date.value.label.day)"
+                        "value": "$t(global.date.value.label.day) ஐ விடப் பழைய காப்புப்பிரதிகளை நீக்கு"
                     }
                 },
                 "label": {
@@ -1138,8 +1180,8 @@
                 "basic": {
                     "label": {
                         "enable": "அடிப்படை அங்கீகாரத்தைப் பயன்படுத்தவும்",
-                        "password": "அடிப்படை ஏற்பு $ t (Global.label.Password, LowerSose)",
-                        "username": "அடிப்படை ஏற்பு $ t (Global.label.username, lowarsase)"
+                        "password": "அடிப்படை ஏற்பு $t(global.label.password, lowercase)",
+                        "username": "அடிப்படை ஏற்பு $t(global.label.username, lowercase)"
                     }
                 },
                 "title": "ஏற்பு"
@@ -1156,14 +1198,14 @@
                 "log_files": {
                     "file_cleanup": {
                         "title": "பதிவு கோப்பு தூய்மைப்படுத்துதல்",
-                        "value": "$ T ஐ விட பழைய பதிவு கோப்புகளை நீக்கு (Global.date.value.label.day)"
+                        "value": "$t(global.date.value.label.day)ஐ விடப் பழைய பதிவுக் கோப்புகளை நீக்கு"
                     },
                     "file_size": {
                         "description": "சாத்தியமான மதிப்புகளுக்கான எடுத்துக்காட்டு: 1 (பைட்டுகள்), 1KB (கிலோபைட்), 1MB (மெகாபைட்), 1 சிபி (சிகாபைட்)",
                         "title": "அதிகபட்ச பதிவு கோப்பு அளவு"
                     },
                     "total_size": {
-                        "description": "$ t (settings.server.misc.log_files.file_size.description)",
+                        "description": "$t(settings.server.misc.log_files.file_size.description)>",
                         "title": "அனைத்து பதிவு கோப்புகளின் அதிகபட்ச அளவு"
                     }
                 },
@@ -1191,7 +1233,7 @@
                     "parallel": {
                         "label": {
                             "title": "இணை மூல கோரிக்கைகள்",
-                            "value": "{{value}} $ t (source.title)"
+                            "value": "{{value}}-$t(source.title)"
                         }
                     }
                 },
@@ -1206,19 +1248,19 @@
                 "label": {
                     "address": "சேவையக முகவரி",
                     "build_time": "நேரத்தை உருவாக்குங்கள்",
-                    "github": "$ t (global.label.github) $ t (systtings.server.title.server)",
+                    "github": "$t(global.label.github) -$t(settings.server.title.server)",
                     "version": "சேவையக பதிப்பு"
                 }
             },
             "title": "பற்றி",
             "webui": {
                 "label": {
-                    "channel": "$ t (settings.webii.title.webii) சேனல்",
-                    "github": "$ t (global.label.github) $ t (systtings.webui.title.webui)",
-                    "info": "$ t (settings.webui.title.webui) பதிப்பு {{version}} ({{channel}}) பதிவிறக்கத்திற்கு கிடைக்கிறது",
+                    "channel": "$t(settings.webui.title.webui) சேனல்",
+                    "github": "$t(global.label.github)- $t(settings.webui.title.webui)",
+                    "info": "$t(settings.webui.title.webui)பதிப்பு {{version}} ({{channel}}) பதிவிறக்கத்திற்கு கிடைக்கிறது",
                     "updated": "புதுப்பிக்கப்பட்ட பதிப்பு",
-                    "update_failure": "புதுப்பிக்க முடியவில்லை $ t (settings.webui.title.webui)",
-                    "version": "$ t (settings.webii.title.webui) பதிப்பு"
+                    "update_failure": "புதுப்பிக்க முடியவில்லை$t(settings.webui.title.webui)",
+                    "version": "$t(settings.webui.title.webui) பதிப்பு"
                 }
             }
         },
@@ -1230,7 +1272,7 @@
                 "title": "சேவையக தற்காலிக சேமிப்பை அழிக்கவும்"
             }
         },
-        "default_value": "{{value}} <0> ($ t (global.label.default) </0>",
+        "default_value": "{{value}} <0> ($t(global.label.default)) </0>",
         "label": {
             "hide_library_entries": "ஏற்கனவே நூலகத்தில் உள்ளீடுகளை மறைக்கவும்",
             "language_description": "திட்டத்தை மொழிபெயர்க்க தயங்க",
@@ -1261,7 +1303,7 @@
                     "preview": {
                         "label": {
                             "description": "அண்மைக் கால அம்சங்களைப் பயன்படுத்தவும், நிலையான வெளியீட்டிற்கு அவற்றை ஆயத்தம் செய்ய எங்களுக்கு உதவுங்கள்.",
-                            "disclaimer": "இந்த பதிப்பில் உள்ள நற்பொருத்தங்கள் மற்றும் மாற்றங்கள் இன்னும் முழுமையாக தயாராக இல்லை மற்றும் பிழைகளை ஏற்படுத்தும்.\n உங்கள் நூலகத்தின் இழப்பைத் தடுக்க தானியங்கி காப்புப்பிரதிகள் இயக்கப்பட்டிருப்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்!\n\n $ t (settings.webui.flaver.label.info)",
+                            "disclaimer": "இந்தப் பதிப்பில் உள்ள நற்பொருத்தங்கள் மற்றும் மாற்றங்கள் இன்னும் முழுமையாகத் தயாராக இல்லை மற்றும் பிழைகளை ஏற்படுத்தும்.\nஉங்கள் நூலகத்தின் இழப்பைத் தடுக்க தானியங்கி காப்புப்பிரதிகள் இயக்கப்பட்டிருப்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்!\n\n$t(settings.webui.flavor.label.info)",
                             "title": "முன்னோட்டம்"
                         }
                     },
@@ -1287,7 +1329,7 @@
                 "option": {
                     "custom": {
                         "label": {
-                            "description": "தனிப்பயன் $ t (settings.webui.title.webui) ஐப் பயன்படுத்தவும்.\n தனிப்பயனாக்க $ t (settings.webui.title.webui) பயன்படுத்தவும் சேவையகத்தில் உள்ள ரூட் கோப்பகத்தில் உள்ள \"WebUI\" கோப்பகத்தின் உள்ளடக்கத்தை தனிப்பயன் $ t (systtings.webui.title.webui)",
+                            "description": "தனிப்பயன் $t(settings.webui.title.webui) ஐப் பயன்படுத்தவும்.\nதனிப்பயனாக்க $t(settings.webui.title.webui) பயன்படுத்தவும் சேவையகத்தில் உள்ள ரூட் கோப்பகத்தில் உள்ள \"WebUI\" கோப்பகத்தின் உள்ளடக்கத்தைத் தனிப்பயன் $t(settings.webui.title.webui)",
                             "title": "தனிப்பயன்"
                         }
                     },
@@ -1299,14 +1341,14 @@
                     },
                     "webui": {
                         "label": {
-                            "description": "இயல்புநிலையைப் பயன்படுத்தவும் $ t (settings.webui.title.webui)"
+                            "description": "இயல்புநிலையைப் பயன்படுத்தவும் $t(settings.webui.title.webui)"
                         }
                     }
                 }
             },
             "interface": {
                 "label": {
-                    "description": "சேவையகத்தைத் தொடங்கும்போது $ t (settings.webui.title.webui) ஐ எங்கு தொடங்குவது",
+                    "description": "சேவையகத்தைத் தொடங்கும்போது $t(settings.webui.title.webui) ஐ எங்குத் தொடங்குவது",
                     "title": "இடைமுகம்"
                 },
                 "option": {
@@ -1317,7 +1359,7 @@
                 }
             },
             "label": {
-                "initial_open_browser": "சேவையகத்தைத் தொடங்கும்போது $ t (settings.webui.title.webui) ஐத் திறக்கவும்"
+                "initial_open_browser": "சேவையகத்தைத் தொடங்கும்போது $t(settings.webui.title.webui)ஐத் திறக்கவும்"
             },
             "title": {
                 "webui": "பின்னப்பட்ட"
@@ -1356,7 +1398,11 @@
             }
         },
         "title_one": "மூலம்",
-        "title_other": "மூலங்கள்"
+        "title_other": "மூலங்கள்",
+        "pin": {
+            "add": "பின் மூல",
+            "remove": "Unpin மூல"
+        }
     },
     "tracking": {
         "track_record": {
@@ -1378,7 +1424,7 @@
             },
             "logout": {
                 "label": {
-                    "failure": "{{name} இருந்து இலிருந்து வெளியேற முடியவில்லை"
+                    "failure": "{{name}} இலிருந்து வெளியேற முடியவில்லை"
                 }
             }
         },
@@ -1399,7 +1445,7 @@
             "dialog": {
                 "title": {
                     "log_in": "{{name}} இல் உள்நுழைக",
-                    "log_out": "{{name} இருந்து இலிருந்து வெளியேறவும்"
+                    "log_out": "{{name}} இலிருந்து வெளியேறவும்"
                 }
             },
             "label": {
@@ -1411,7 +1457,28 @@
                 "trackers": "டிராக்கர்கள்"
             }
         },
-        "title": "கண்காணிப்பு"
+        "title": "கண்காணிப்பு",
+        "publishing": {
+            "status": {
+                "hiatus": "$ (manga.status.hiatus)",
+                "not_yet_released": "இன்னும் வெளியிடப்படவில்லை",
+                "releasing": "வெளியீடு",
+                "not_yet_published": "இன்னும் பொதுவெளியிடப்படவில்லை",
+                "finished": "$t(global.label.finished)>",
+                "cancelled": "$ (manga.status.cancelled)",
+                "currently_publishing": "தற்போது வெளியீடு"
+            },
+            "type": {
+                "doujinshi": "டூசின்சி",
+                "manhwa": "$t(manga.type.manhwa)>",
+                "novel": "நாவல்",
+                "oel": "எண்ணெய்",
+                "one_shot": "ஒன்சாட்",
+                "manga": "$t(manga.title_one)>",
+                "unknown": "$t(global.label.unknown)>",
+                "manhua": "$t(manga.type.manhua)>"
+            }
+        }
     },
     "updates": {
         "error": {
@@ -1432,7 +1499,8 @@
         "error": {
             "label": {
                 "empty": "வகை காலியாக உள்ளது",
-                "request_failure": "வகைகளை ஏற்ற முடியவில்லை"
+                "request_failure": "வகைகளை ஏற்ற முடியவில்லை",
+                "create_failure": "வகையை உருவாக்க முடியவில்லை"
             },
             "no_categories_found": {
                 "label": {
@@ -1456,12 +1524,13 @@
             "category_one": "வகை",
             "category_other": "வகைகள்",
             "set_categories": "வகைகளை அமைக்கவும்"
-        }
+        },
+        "value": "{{count}}-$t(category.title.category, lowercase)"
     },
     "hotkeys": {
         "create": {
             "dialog": {
-                "label": "பதிவுசெய்யப்பட்ட விசைகள்: <விசைகள்/>",
+                "label": "பதிவுசெய்யப்பட்ட விசைகள்:<Keys/>",
                 "placeholder": "விசைகளை அழுத்தவும்",
                 "title": "கீபிண்ட் பதிவு செய்யுங்கள்"
             },
@@ -1472,8 +1541,8 @@
         "info": {
             "delete": "பிணைப்பை அகற்ற விசையைக் சொடுக்கு செய்க"
         },
-        "title_one": "Keybind",
-        "title_other": "கீபிண்ட்ச்"
+        "title_one": "விசைபிணைப்பு",
+        "title_other": "விசைபிணைப்புகள்"
     },
     "migrate": {
         "dialog": {
@@ -1491,7 +1560,7 @@
             "info": "இடம்பெயரும் மங்கா…"
         },
         "search": {
-            "title": "$ t (impricate.title) \"{{title}}\""
+            "title": "$t(migrate.title)- \"{{title}}\""
         },
         "sort": {
             "by_manga_count": "வழங்கியவர் மங்கா எண்ணிக்கை",
@@ -1509,6 +1578,20 @@
         "title": {
             "global_search": "உலக தேடல்",
             "search": "தேடல்"
+        },
+        "filter": {
+            "has_results": "முடிவுகள் உள்ளன"
+        }
+    },
+    "history": {
+        "error": {
+            "label": {
+                "no_history_available": "நீங்கள் இதுவரை எந்த தொடரும் படிக்கவில்லை."
+            }
+        },
+        "title": "வரலாறு",
+        "settings": {
+            "hide": "வரலாற்றை மறைக்க"
         }
     }
 }
