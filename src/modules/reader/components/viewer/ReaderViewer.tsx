@@ -103,6 +103,7 @@ const BaseReaderViewer = forwardRef(
             pageGap,
             customFilter,
             shouldStretchPage,
+            isStaticNav,
             readerNavBarWidth,
             setScrollbarXSize,
             setScrollbarYSize,
@@ -144,6 +145,7 @@ const BaseReaderViewer = forwardRef(
                 | 'pageGap'
                 | 'customFilter'
                 | 'shouldStretchPage'
+                | 'isStaticNav'
             > &
             Pick<TReaderScrollbarContext, 'setScrollbarXSize' | 'setScrollbarYSize'> &
             Pick<NavbarContextType, 'readerNavBarWidth'> &
@@ -282,7 +284,7 @@ const BaseReaderViewer = forwardRef(
             setShowPreview,
             scrollElementRef,
         );
-        useReaderAutoScroll(isOverlayVisible, automaticScrolling);
+        useReaderAutoScroll(isOverlayVisible, automaticScrolling, isStaticNav);
         useReaderPreserveScrollPosition(
             scrollElementRef,
             currentChapter?.id,
@@ -479,6 +481,7 @@ export const ReaderViewer = withPropsFrom(
         'pageGap',
         'customFilter',
         'shouldStretchPage',
+        'isStaticNav',
         'readerNavBarWidth',
         'transitionPageMode',
         'setScrollbarXSize',

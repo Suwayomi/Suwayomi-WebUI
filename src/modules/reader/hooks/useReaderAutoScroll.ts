@@ -8,17 +8,19 @@
 
 import { useEffect } from 'react';
 import { useAutomaticScrolling } from '@/modules/core/hooks/useAutomaticScrolling.ts';
+import { IReaderSettings } from '@/modules/reader/types/Reader.types.ts';
 
 export const useReaderAutoScroll = (
     isOverlayVisible: boolean,
     automaticScrolling: ReturnType<typeof useAutomaticScrolling>,
+    isStaticNav: IReaderSettings['isStaticNav'],
 ): void => {
     useEffect(() => {
-        if (isOverlayVisible) {
+        if (isOverlayVisible && !isStaticNav) {
             automaticScrolling.pause();
             return;
         }
 
         automaticScrolling.resume();
-    }, [isOverlayVisible, automaticScrolling.isPaused]);
+    }, [isOverlayVisible, automaticScrolling.isPaused, isStaticNav]);
 };
