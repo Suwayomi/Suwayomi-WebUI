@@ -94,8 +94,16 @@ export const ReaderHotkeys = ({
     useHotkeys(hotkeys[ReaderHotkey.NEXT_PAGE], () => openPage('next'), [openPage]);
     useHotkeys(
         hotkeys[ReaderHotkey.SCROLL_BACKWARD],
-        () =>
-            scrollElementRef.current &&
+        () => {
+            if (automaticScrolling.isActive) {
+                automaticScrolling.setDirection(ScrollOffset.BACKWARD);
+                return;
+            }
+
+            if (!scrollElementRef.current) {
+                return;
+            }
+
             ReaderControls.scroll(
                 ScrollOffset.BACKWARD,
                 CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
@@ -107,14 +115,30 @@ export const ReaderHotkeys = ({
                 setIsOverlayVisible,
                 setShowPreview,
                 scrollAmount,
-            ),
+            );
+        },
         { preventDefault: true },
-        [readingMode.value, readingDirection.value, themeDirection, openChapter, scrollAmount],
+        [
+            readingMode.value,
+            readingDirection.value,
+            themeDirection,
+            openChapter,
+            scrollAmount,
+            automaticScrolling.isActive,
+        ],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.SCROLL_FORWARD],
-        () =>
-            scrollElementRef.current &&
+        () => {
+            if (automaticScrolling.isActive) {
+                automaticScrolling.setDirection(ScrollOffset.FORWARD);
+                return;
+            }
+
+            if (!scrollElementRef.current) {
+                return;
+            }
+
             ReaderControls.scroll(
                 ScrollOffset.FORWARD,
                 CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
@@ -126,9 +150,17 @@ export const ReaderHotkeys = ({
                 setIsOverlayVisible,
                 setShowPreview,
                 scrollAmount,
-            ),
+            );
+        },
         { preventDefault: true },
-        [readingMode.value, readingDirection.value, themeDirection, openChapter, scrollAmount],
+        [
+            readingMode.value,
+            readingDirection.value,
+            themeDirection,
+            openChapter,
+            scrollAmount,
+            automaticScrolling.isActive,
+        ],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.PREVIOUS_CHAPTER],

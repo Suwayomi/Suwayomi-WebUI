@@ -14,6 +14,7 @@ import { ReaderStatePages } from '@/modules/reader/types/ReaderProgressBar.types
 import { TMangaReader } from '@/modules/manga/Manga.types.ts';
 import { useAutomaticScrolling } from '@/modules/core/hooks/useAutomaticScrolling.ts';
 import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.ts';
+import { ScrollOffset } from '@/modules/core/Core.types.ts';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -361,6 +362,7 @@ export type TReaderAutoScrollContext = ReturnType<typeof useAutomaticScrolling> 
     isActive: boolean;
     scrollRef?: MutableRefObject<HTMLElement | null> | (() => void);
     setScrollRef: (scrollRef?: MutableRefObject<HTMLElement | null>) => void;
+    setDirection: (direction: ScrollOffset) => void;
 };
 
 export type ReaderPageSpreadState = { url: string; isSpread: boolean };

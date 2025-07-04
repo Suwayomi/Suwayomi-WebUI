@@ -18,6 +18,7 @@ export const ReaderAutoScrollContext = createContext<TReaderAutoScrollContext>({
     toggleActive: () => {},
     pause: () => {},
     resume: () => {},
+    setDirection: () => {},
 });
 
 export const useReaderAutoScrollContext = () => useContext(ReaderAutoScrollContext);

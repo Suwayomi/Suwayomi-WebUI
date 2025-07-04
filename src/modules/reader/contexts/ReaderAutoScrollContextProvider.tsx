@@ -21,6 +21,8 @@ import { isContinuousReadingMode } from '@/modules/reader/utils/ReaderSettings.u
 import { withPropsFrom } from '@/modules/core/hoc/withPropsFrom.tsx';
 import { ReaderService } from '@/modules/reader/services/ReaderService.ts';
 import { CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
+import { ScrollOffset } from '@/modules/core/Core.types.ts';
+import { getOptionForDirection } from '@/modules/theme/services/ThemeCreator.ts';
 
 const BaseReaderAutoScrollContextProvider = ({
     children,
@@ -36,8 +38,17 @@ const BaseReaderAutoScrollContextProvider = ({
     combinedDirection: Direction;
 }) => {
     const [scrollRef, setScrollRef] = useState<TReaderAutoScrollContext['scrollRef']>();
+    const [direction, setDirection] = useState<ScrollOffset>(ScrollOffset.FORWARD);
 
-    const invertScrolling = readingMode === ReadingMode.CONTINUOUS_HORIZONTAL && themeDirection !== combinedDirection;
+    const isScrollingInvertedBasedOnReadingDirection =
+        readingMode === ReadingMode.CONTINUOUS_HORIZONTAL && themeDirection !== combinedDirection;
+    const invertScrolling = isScrollingInvertedBasedOnReadingDirection
+        ? getOptionForDirection(
+              direction === ScrollOffset.BACKWARD,
+              direction === ScrollOffset.FORWARD,
+              combinedDirection,
+          )
+        : direction === ScrollOffset.BACKWARD;
     const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
 
     const changePage = useCallback(() => {
@@ -57,6 +68,7 @@ const BaseReaderAutoScrollContextProvider = ({
         () => ({
             scrollRef,
             setScrollRef,
+            setDirection,
             ...automaticScrolling,
         }),
         [scrollRef, automaticScrolling],
