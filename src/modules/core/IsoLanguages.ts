@@ -13,6 +13,11 @@ export type ISOLanguage = {
     nativeName: string;
 };
 
+const PT_BR: ISOLanguage = {
+    name: 'Portuguese; Brasil',
+    nativeName: 'Português (Brasil)',
+};
+
 // full list: https://github.com/meikidd/iso-639-1/blob/master/src/data.js
 export const IsoLanguages: { [languageCode in I18nResourceCode]: ISOLanguage } & Record<string, ISOLanguage> = {
     // #############################
@@ -28,10 +33,8 @@ export const IsoLanguages: { [languageCode in I18nResourceCode]: ISOLanguage } &
         name: 'Portuguese',
         nativeName: 'Português (Portugal)',
     },
-    'pt-br': {
-        name: 'Portuguese; Brasil',
-        nativeName: 'Português (Brasil)',
-    },
+    'pt-br': PT_BR,
+    'pt-BR': PT_BR,
     zh_Hans: {
         name: 'Chinese (Simplified)',
         nativeName: '中文 (HANS)',
