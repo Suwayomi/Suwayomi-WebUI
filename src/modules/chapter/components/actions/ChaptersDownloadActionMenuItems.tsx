@@ -12,14 +12,25 @@ import { useMetadataServerSettings } from '@/modules/settings/services/ServerSet
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import { TranslationKey } from '@/Base.types.ts';
 
-const DownloadRange = {
-    NEXT_1: 1,
-    NEXT_5: 5,
-    NEXT_10: 10,
-    NEXT_25: 25,
-    ALL: undefined,
-};
+const DOWNLOAD_OPTIONS: {
+    title: TranslationKey;
+    getCount: (downloadAheadLimit: number) => number | undefined;
+    onlyUnread?: boolean;
+}[] = [
+    { title: 'chapter.action.download.add.label.next', getCount: () => 1 },
+    { title: 'chapter.action.download.add.label.next', getCount: () => 5 },
+    { title: 'chapter.action.download.add.label.next', getCount: () => 10 },
+    { title: 'chapter.action.download.add.label.next', getCount: () => 25 },
+    {
+        title: 'chapter.action.download.add.label.ahead',
+        getCount: (downloadAheadLimit) => downloadAheadLimit,
+        onlyUnread: true,
+    },
+    { title: 'chapter.action.download.add.label.unread', getCount: () => undefined, onlyUnread: true },
+    { title: 'chapter.action.download.add.label.all', getCount: () => undefined, onlyUnread: false },
+];
 
 export const ChaptersDownloadActionMenuItems = ({
     mangaIds,
@@ -39,33 +50,20 @@ export const ChaptersDownloadActionMenuItems = ({
             downloadAhead,
             onlyUnread,
             size,
-        }).catch(defaultPromiseErrorHandler('ChapterDownloadButton::handleSelect'));
+        }).catch(defaultPromiseErrorHandler('ChaptersDownloadActionMenuItems::handleSelect'));
         closeMenu?.();
     };
 
     return (
         <>
-            <MenuItem onClick={() => handleSelect(DownloadRange.NEXT_1)}>
-                {t('chapter.action.download.add.label.next')}
-            </MenuItem>
-            <MenuItem onClick={() => handleSelect(DownloadRange.NEXT_5)}>
-                {t('chapter.action.download.add.label.next_five')}
-            </MenuItem>
-            <MenuItem onClick={() => handleSelect(DownloadRange.NEXT_10)}>
-                {t('chapter.action.download.add.label.next_ten')}
-            </MenuItem>
-            <MenuItem onClick={() => handleSelect(DownloadRange.NEXT_25)}>
-                {t('chapter.action.download.add.label.next_twentyfive')}
-            </MenuItem>
-            <MenuItem onClick={() => handleSelect(downloadAheadLimit, undefined, true)}>
-                {t('chapter.action.download.add.label.ahead', { count: downloadAheadLimit })}
-            </MenuItem>
-            <MenuItem onClick={() => handleSelect(DownloadRange.ALL, true)}>
-                {t('chapter.action.download.add.label.unread')}
-            </MenuItem>
-            <MenuItem onClick={() => handleSelect(DownloadRange.ALL, false)}>
-                {t('chapter.action.download.add.label.all')}
-            </MenuItem>
+            {DOWNLOAD_OPTIONS.map(({ title, getCount, onlyUnread }) => (
+                <MenuItem
+                    key={t(title, { count: getCount(downloadAheadLimit) })}
+                    onClick={() => handleSelect(getCount(downloadAheadLimit), onlyUnread)}
+                >
+                    {t(title, { count: getCount(downloadAheadLimit) })}
+                </MenuItem>
+            ))}
         </>
     );
 };

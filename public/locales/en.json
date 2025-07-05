@@ -81,10 +81,8 @@
             "confirmation_other": "You are about to download {{count}} chapters.\nSuwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.",
             "error_one": "Could not add the download",
             "error_other": "Could not add downloads",
-            "next": "$t(reader.button.next_chapter)",
-            "next_five": "Next 5 chapters",
-            "next_ten": "Next 10 chapters",
-            "next_twentyfive": "Next 25 chapters",
+             "next_one": "Next chapter",
+            "next_other" : "Next {{count}} chapters",
             "success_one": "Download added",
             "success_other": "{{count}} downloads added",
             "unread": "$t(global.filter.label.unread)"
