@@ -14,6 +14,7 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import { useMemo } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { ChapterOptions } from '@/modules/chapter/components/ChapterOptions.tsx';
 import { isFilterActive, updateChapterListOptions } from '@/modules/chapter/utils/ChapterList.util.tsx';
@@ -22,28 +23,25 @@ import {
     ChapterDownloadInfo,
     ChapterIdInfo,
     ChapterListOptions,
+    ChapterReadInfo,
 } from '@/modules/chapter/Chapter.types.ts';
 import { ChaptersDownloadActionMenuItems } from '@/modules/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 
 interface IProps {
     mangaId: number;
-    areAllChaptersRead: boolean;
-    areAllChaptersDownloaded: boolean;
     options: ChapterListOptions;
     updateOption: ReturnType<typeof updateChapterListOptions>;
-    unreadChapters: (ChapterIdInfo & ChapterDownloadInfo & ChapterBookmarkInfo)[];
+    chapters: (ChapterIdInfo & ChapterReadInfo & ChapterDownloadInfo & ChapterBookmarkInfo)[];
     scanlators: string[];
     excludeScanlators: string[];
 }
 
 export const ChaptersToolbarMenu = ({
     mangaId,
-    areAllChaptersRead,
-    areAllChaptersDownloaded,
     options,
     updateOption,
-    unreadChapters,
+    chapters,
     scanlators,
     excludeScanlators,
 }: IProps) => {
@@ -51,6 +49,9 @@ export const ChaptersToolbarMenu = ({
 
     const [open, setOpen] = React.useState(false);
     const isFiltered = isFilterActive(options);
+
+    const areAllChaptersRead = useMemo(() => chapters.every(Chapters.isRead), [chapters]);
+    const areAllChaptersDownloaded = useMemo(() => chapters.every(Chapters.isDownloaded), [chapters]);
 
     return (
         <>
@@ -60,7 +61,7 @@ export const ChaptersToolbarMenu = ({
             >
                 <IconButton
                     disabled={areAllChaptersRead}
-                    onClick={() => Chapters.markAsRead(unreadChapters, true, mangaId)}
+                    onClick={() => Chapters.markAsRead(Chapters.getNonRead(chapters), true, mangaId)}
                     color="inherit"
                 >
                     <DoneAllIcon />

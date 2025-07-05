@@ -36,7 +36,6 @@ import { ChapterActionMenuItems } from '@/modules/chapter/components/actions/Cha
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
-import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
@@ -143,8 +142,6 @@ export const ChapterList = ({
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
     const visibleChapterIds = useMemo(() => Chapters.getIds(visibleChapters), [visibleChapters]);
-    const areAllChaptersRead = Mangas.isFullyRead(manga);
-    const areAllChaptersDownloaded = Mangas.isFullyDownloaded(manga);
     const missingChapterCount = useMemo(() => Chapters.getMissingCount(visibleChapters), [visibleChapters]);
 
     const noChaptersFound = chapters.length === 0;
@@ -211,11 +208,9 @@ export const ChapterList = ({
                         {areNoItemsSelected && (
                             <ChaptersToolbarMenu
                                 mangaId={manga.id}
-                                areAllChaptersDownloaded={areAllChaptersDownloaded}
-                                areAllChaptersRead={areAllChaptersRead}
                                 options={options}
                                 updateOption={updateOption}
-                                unreadChapters={Chapters.getNonRead(chapters)}
+                                chapters={visibleChapters}
                                 scanlators={Chapters.getScanlators(chapters)}
                                 excludeScanlators={options.excludedScanlators}
                             />
