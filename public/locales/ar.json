@@ -827,7 +827,8 @@
                         "error_few": "",
                         "error_many": "",
                         "error_other": "",
-                        "next_twentyfive": "الفصول الـ 25 القادمة"
+                        "next_twentyfive": "الفصول الـ 25 القادمة",
+                        "all": "$t(extension.language.all)$t(extension.language.all)"
                     }
                 }
             }
