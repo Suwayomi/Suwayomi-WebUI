@@ -82,11 +82,11 @@ const handleDownload = async (
     const chapters = await requestManager.getChapters<GetChaptersMangaQuery, GetChaptersMangaQueryVariables>(
         GET_CHAPTERS_MANGA,
         {
+            // Align conditions/filters with the query from ChapterList to potentially be able to reuse the cache
             condition: { mangaId: Number(mangaId) },
             order: [{ by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc }],
         },
     ).response;
-
     const filteredChapters = filterChapters(chapters.data.chapters.nodes, meta);
     const chaptersToDownload = filteredChapters
         .filter((chapter) => {
@@ -96,7 +96,7 @@ const handleDownload = async (
 
             return !chapter.isDownloaded;
         })
-        .slice(0, size);
+        .slice(-(size ?? 0));
 
     if (!chaptersToDownload.length) {
         return;
