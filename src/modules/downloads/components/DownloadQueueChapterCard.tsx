@@ -28,10 +28,12 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloaderState } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterDownloadStatus, ChapterIdInfo } from '@/modules/chapter/Chapter.types.ts';
+import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 export const DownloadQueueChapterCard = memo(
     ({ item, status }: { item: ChapterDownloadStatus; status: DownloaderState }) => {
         const { t } = useTranslation();
+        const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
 
         const handleDelete = useCallback(
             async (chapter: ChapterIdInfo) => {
@@ -68,7 +70,12 @@ export const DownloadQueueChapterCard = memo(
         return (
             <Box sx={{ p: 1, pb: 0 }}>
                 <Card>
-                    <CardActionArea component={Link} to={AppRoutes.manga.path(item.manga.id)}>
+                    <CardActionArea
+                        component={Link}
+                        to={AppRoutes.manga.path(item.manga.id)}
+                        onContextMenu={preventMobileContextMenu}
+                        sx={MediaQuery.preventMobileContextMenuSx()}
+                    >
                         <ListCardContent>
                             <IconButton {...MUIUtil.preventRippleProp()} sx={{ pointerEvents: 'none' }}>
                                 <DragHandle />

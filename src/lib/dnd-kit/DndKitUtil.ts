@@ -16,7 +16,7 @@ import {
     SensorOptions,
     useSensors,
 } from '@dnd-kit/core';
-import { AbstractPointerSensorOptions } from '@dnd-kit/core/dist/sensors';
+import { AbstractPointerSensorOptions, PointerActivationConstraint } from '@dnd-kit/core/dist/sensors';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
 
 export class DndKitUtil {
@@ -28,11 +28,38 @@ export class DndKitUtil {
         return MouseSensor;
     }
 
+    static useGetSensorForDevice(): Sensor<PointerSensorOptions> {
+        MediaQuery.useIsTouchDevice();
+
+        return DndKitUtil.getSensorForDevice();
+    }
+
+    static useGetActivationConstraintForDevice(): PointerActivationConstraint {
+        const isTouchDevice = MediaQuery.useIsTouchDevice();
+
+        if (isTouchDevice) {
+            return {
+                delay: 300,
+                tolerance: 8,
+            };
+        }
+
+        return {
+            distance: 8,
+        };
+    }
+
     static useSensorsForDevice(options?: AbstractPointerSensorOptions): SensorDescriptor<SensorOptions>[] {
+        const sensor = DndKitUtil.useGetSensorForDevice();
+        const activationConstraint = DndKitUtil.useGetActivationConstraintForDevice();
+
         return useSensors(
-            useSensor(DndKitUtil.getSensorForDevice(), {
+            useSensor(sensor, {
                 ...options,
-                activationConstraint: { distance: 15, ...options?.activationConstraint },
+                activationConstraint: {
+                    ...activationConstraint,
+                    ...options?.activationConstraint,
+                },
             }),
         );
     }
