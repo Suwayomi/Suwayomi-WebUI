@@ -120,7 +120,7 @@ const typePolicies: StrictTypedTypePolicies = {
                 return toReference({ __typename: 'UpdateStatus', key: {} });
             },
             chapters: {
-                keyArgs: ['condition', 'filter', 'orderBy', 'orderByType'],
+                keyArgs: ['condition', 'filter', 'orderBy', 'orderByType', 'order'],
                 merge(existing, incoming) {
                     if (existing == null) {
                         return incoming;
