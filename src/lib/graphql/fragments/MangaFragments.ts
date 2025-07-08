@@ -104,6 +104,7 @@ export const MANGA_LIBRARY_FIELDS = gql`
     ${MANGA_BASE_FIELDS}
     ${MANGA_CHAPTER_STAT_FIELDS}
     ${MANGA_CHAPTER_NODE_FIELDS}
+    ${MANGA_META_FIELDS}
 
     fragment MANGA_LIBRARY_FIELDS on MangaType {
         ...MANGA_BASE_FIELDS
@@ -118,6 +119,10 @@ export const MANGA_LIBRARY_FIELDS = gql`
         artist
         author
         description
+
+        meta {
+            ...MANGA_META_FIELDS
+        }
 
         source {
             id
