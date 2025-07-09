@@ -1307,7 +1307,8 @@
             "simpleLogin": {
               "label": {
                 "title": "Simple Login",
-                "description": "A simple login page will be presented to login."
+                "description": "A simple login page will be presented to login.",
+                "info": "When you enable this, you may need to refresh this tab for the login page to appear."
               }
             }
           }

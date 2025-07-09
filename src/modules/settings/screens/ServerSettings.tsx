@@ -118,6 +118,7 @@ const AUTHMODES_TO_TRANSLATION_KEY: { [mode in AuthMode]: SelectSettingValueDisp
     [AuthMode.SimpleLogin]: {
         text: 'settings.server.auth.mode.option.simpleLogin.label.title',
         description: 'settings.server.auth.mode.option.simpleLogin.label.description',
+        disclaimer: 'settings.server.auth.mode.option.simpleLogin.label.info',
     },
 };
 const AUTHMODES_SELECT_VALUES: SelectSettingValue<AuthMode>[] = AUTHMODESS.map((mode) => [
@@ -242,6 +243,7 @@ export const ServerSettings = () => {
     }
 
     const serverSettings = extractServerSettings(data!.settings);
+    const authModeDisabled = !serverSettings.authUsername.trim() || !serverSettings.authPassword.trim();
 
     return (
         <List sx={{ pt: 0 }}>
@@ -326,6 +328,7 @@ export const ServerSettings = () => {
                     value={serverSettings.authMode}
                     values={AUTHMODES_SELECT_VALUES}
                     handleChange={(mode) => updateSetting('authMode', mode)}
+                    disabled={authModeDisabled}
                 />
                 <TextSetting
                     settingName={t('settings.server.auth.label.username')}
