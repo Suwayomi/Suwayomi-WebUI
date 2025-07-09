@@ -19,7 +19,11 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
-import { SelectSetting } from '@/modules/core/components/settings/SelectSetting.tsx';
+import {
+    SelectSetting,
+    SelectSettingValue,
+    SelectSettingValueDisplayInfo,
+} from '@/modules/core/components/settings/SelectSetting.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -33,6 +37,7 @@ import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import { SortOrder } from '@/lib/graphql/generated/graphql';
+import { AuthMode } from '@/lib/graphql/generated/graphql';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -49,9 +54,9 @@ type ServerSettingsType = Pick<
     | 'maxLogFiles'
     | 'maxLogFileSize'
     | 'maxLogFolderSize'
-    | 'basicAuthEnabled'
-    | 'basicAuthUsername'
-    | 'basicAuthPassword'
+    | 'authMode'
+    | 'authUsername'
+    | 'authPassword'
     | 'flareSolverrEnabled'
     | 'flareSolverrTimeout'
     | 'flareSolverrUrl'
@@ -81,9 +86,9 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     maxLogFiles: settings.maxLogFiles,
     maxLogFileSize: settings.maxLogFileSize,
     maxLogFolderSize: settings.maxLogFolderSize,
-    basicAuthEnabled: settings.basicAuthEnabled,
-    basicAuthUsername: settings.basicAuthUsername,
-    basicAuthPassword: settings.basicAuthPassword,
+    authMode: settings.authMode,
+    authUsername: settings.authUsername,
+    authPassword: settings.authPassword,
     flareSolverrEnabled: settings.flareSolverrEnabled,
     flareSolverrTimeout: settings.flareSolverrTimeout,
     flareSolverrUrl: settings.flareSolverrUrl,
@@ -98,6 +103,27 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     opdsShowOnlyDownloadedChapters: settings.opdsShowOnlyDownloadedChapters,
     opdsChapterSortOrder: settings.opdsChapterSortOrder,
 });
+
+const AUTHMODESS = [AuthMode.None].concat(Object.values(AuthMode).filter((mode) => mode !== AuthMode.None));
+const AUTHMODES_TO_TRANSLATION_KEY: { [mode in AuthMode]: SelectSettingValueDisplayInfo } = {
+    [AuthMode.None]: {
+        text: 'settings.server.auth.mode.option.none.label.title',
+        description: 'settings.server.auth.mode.option.none.label.description',
+        disclaimer: 'settings.server.auth.mode.option.none.label.info',
+    },
+    [AuthMode.BasicAuth]: {
+        text: 'settings.server.auth.mode.option.basicAuth.label.title',
+        description: 'settings.server.auth.mode.option.basicAuth.label.description',
+    },
+    [AuthMode.SimpleLogin]: {
+        text: 'settings.server.auth.mode.option.simpleLogin.label.title',
+        description: 'settings.server.auth.mode.option.simpleLogin.label.description',
+    },
+};
+const AUTHMODES_SELECT_VALUES: SelectSettingValue<AuthMode>[] = AUTHMODESS.map((mode) => [
+    mode,
+    AUTHMODES_TO_TRANSLATION_KEY[mode],
+]);
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {
@@ -295,27 +321,24 @@ export const ServerSettings = () => {
                     </ListSubheader>
                 }
             >
-                <ListItem>
-                    <ListItemText primary={t('settings.server.auth.basic.label.enable')} />
-                    <Switch
-                        edge="end"
-                        checked={serverSettings.basicAuthEnabled}
-                        disabled={!serverSettings.basicAuthUsername.trim() && !serverSettings.basicAuthPassword.trim()}
-                        onChange={(e) => updateSetting('basicAuthEnabled', e.target.checked)}
-                    />
-                </ListItem>
-                <TextSetting
-                    settingName={t('settings.server.auth.basic.label.username')}
-                    value={serverSettings.basicAuthUsername}
-                    validate={(value) => !serverSettings.basicAuthEnabled || !!value.trim()}
-                    handleChange={(authUsername) => updateSetting('basicAuthUsername', authUsername)}
+                <SelectSetting<AuthMode>
+                    settingName={t('settings.server.auth.label.title')}
+                    value={serverSettings.authMode}
+                    values={AUTHMODES_SELECT_VALUES}
+                    handleChange={(mode) => updateSetting('authMode', mode)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.auth.basic.label.password')}
-                    value={serverSettings.basicAuthPassword}
+                    settingName={t('settings.server.auth.label.username')}
+                    value={serverSettings.authUsername}
+                    validate={(value) => serverSettings.authMode === AuthMode.None || !!value.trim()}
+                    handleChange={(authUsername) => updateSetting('authUsername', authUsername)}
+                />
+                <TextSetting
+                    settingName={t('settings.server.auth.label.password')}
+                    value={serverSettings.authPassword}
                     isPassword
-                    validate={(value) => !serverSettings.basicAuthEnabled || !!value.trim()}
-                    handleChange={(authPassword) => updateSetting('basicAuthPassword', authPassword)}
+                    validate={(value) => serverSettings.authMode === AuthMode.None || !!value.trim()}
+                    handleChange={(authPassword) => updateSetting('authPassword', authPassword)}
                 />
             </List>
             <List
