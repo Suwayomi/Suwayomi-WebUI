@@ -52,9 +52,9 @@ export const SERVER_SETTINGS = gql`
         updateMangas
 
         # Authentication
-        basicAuthEnabled
-        basicAuthUsername
-        basicAuthPassword
+        authMode
+        authPassword
+        authUsername
 
         # misc
         debugLogsEnabled
