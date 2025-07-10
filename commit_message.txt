@@ -1,0 +1,1 @@
+feat: Implement swipe to navigate in single page mode

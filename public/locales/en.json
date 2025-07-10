@@ -995,6 +995,7 @@
         "skip_dup_chapters": "Skip duplicate chapters",
         "skip_filtered_chapters": "Skip filtered chapters",
         "static_navigation": "Static navigation",
+        "swipe_preview_threshold": "Swipe preview threshold",
         "unchangeable_in_reader": "Setting can not be changed while the reader is opened"
       },
       "overlay_mode": "Overlay mode",

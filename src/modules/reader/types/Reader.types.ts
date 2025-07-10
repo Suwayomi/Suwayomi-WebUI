@@ -194,6 +194,10 @@ export interface IReaderSettingsManga {
         value: number;
         enabled: boolean;
     };
+    /**
+     * percentage of screen width for swipe preview threshold
+     */
+    swipePreviewThreshold: number;
 }
 
 export interface IReaderSettings extends IReaderSettingsGlobal, IReaderSettingsManga {}

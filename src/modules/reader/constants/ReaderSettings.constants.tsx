@@ -72,6 +72,13 @@ export const PAGE_GAP = {
     step: 1,
 };
 
+export const SWIPE_PREVIEW_THRESHOLD = {
+    min: 10,
+    max: 50,
+    default: 30,
+    step: 5,
+};
+
 export const CUSTOM_FILTER = {
     brightness: {
         min: 5,
@@ -241,6 +248,7 @@ export const DEFAULT_READER_SETTINGS: IReaderSettings = {
     scrollAmount: ReaderScrollAmount.LARGE,
     shouldUseInfiniteScroll: true,
     shouldShowTransitionPage: true,
+    swipePreviewThreshold: SWIPE_PREVIEW_THRESHOLD.default,
 };
 
 export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPosition, TooltipProps['placement']> = {

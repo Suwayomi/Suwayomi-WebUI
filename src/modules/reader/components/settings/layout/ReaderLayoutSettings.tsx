@@ -19,6 +19,7 @@ import { ReaderSettingStretchPage } from '@/modules/reader/components/settings/l
 import { ReaderSettingsTypeProps } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderSettingPageGap } from '@/modules/reader/components/settings/layout/ReaderSettingPageGap.tsx';
 import { ReaderSettingWidth } from '@/modules/reader/components/settings/layout/ReaderSettingWidth.tsx';
+import { ReaderSettingSwipePreviewThreshold } from '@/modules/reader/components/settings/layout/ReaderSettingSwipePreviewThreshold.tsx';
 import { DefaultSettingFootnote } from '@/modules/reader/components/settings/DefaultSettingFootnote.tsx';
 import { TReaderTapZoneContext } from '@/modules/reader/types/TapZoneLayout.types.ts';
 import { ReaderDefaultLayoutSettings } from '@/modules/reader/components/settings/layout/ReaderDefaultLayoutSettings.tsx';
@@ -87,6 +88,13 @@ export const ReaderLayoutSettings = ({
                     setShowPreview(true);
                     onDefault?.('tapZoneInvertMode');
                 }}
+            />
+            <ReaderSettingSwipePreviewThreshold
+                swipePreviewThreshold={settings.swipePreviewThreshold}
+                readingMode={settings.readingMode}
+                isDefaultable={isDefaultable}
+                onDefault={() => onDefault?.('swipePreviewThreshold')}
+                updateSetting={(...args) => updateSetting('swipePreviewThreshold', ...args)}
             />
             <ReaderSettingPageScaleMode
                 pageScaleMode={settings.pageScaleMode}

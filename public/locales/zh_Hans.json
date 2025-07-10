@@ -817,6 +817,7 @@
                 "reading_mode": "阅读模式",
                 "custom_scroll_amount": "自定义滚动距离",
                 "skip_filtered_chapters": "跳过已过滤的章节",
+                "swipe_preview_threshold": "滑动预览阈值",
                 "unchangeable_in_reader": "在阅读器打开时无法更改设置"
             },
             "reader_type": {

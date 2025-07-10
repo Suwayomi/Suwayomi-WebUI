@@ -22,6 +22,13 @@ export default defineConfig(() => ({
     },
     server: {
         port: 3000,
+        proxy: {
+            '/api': {
+                target: 'http://192.168.71.49:4567',
+                changeOrigin: true,
+                secure: false,
+            },
+        },
     },
     resolve: {
         alias: {

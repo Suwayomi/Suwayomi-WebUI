@@ -375,6 +375,10 @@ export const APP_METADATA: Record<
     excludedScanlators: {
         convert: convertToObject<string[]>,
     },
+    swipePreviewThreshold: {
+        convert: convertToNumber,
+        toConstrainedValue: (value: number) => coerceIn(value, 10, 50),
+    },
 } as const;
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA);
