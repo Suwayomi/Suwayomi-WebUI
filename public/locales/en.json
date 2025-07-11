@@ -1285,30 +1285,30 @@
       },
       "auth": {
         "label": {
-          "title": "Authentication Mode",
           "password": "$t(global.label.password)",
+          "title": "Authentication Mode",
           "username": "$t(global.label.username)"
         },
         "mode": {
           "option": {
-            "none": {
-              "label": {
-                "title": "None",
-                "description": "Disable authentication",
-                "info": "Your library will be accessible. Use this only on private networks or when otherwise securing access."
-              }
-            },
             "basicAuth": {
               "label": {
-                "title": "Basic Authentication",
-                "description": "Your browser will prompt you to enter credentials with a dialog."
+                "description": "Your browser will prompt you to enter credentials with a dialog.",
+                "title": "Basic Authentication"
+              }
+            },
+            "none": {
+              "label": {
+                "description": "Disable authentication",
+                "info": "Your library will be accessible. Use this only on private networks or when otherwise securing access.",
+                "title": "None"
               }
             },
             "simpleLogin": {
               "label": {
-                "title": "Simple Login",
                 "description": "A simple login page will be presented to login.",
-                "info": "When you enable this, you may need to refresh this tab for the login page to appear."
+                "info": "When you enable this, you may need to refresh this tab for the login page to appear.",
+                "title": "Simple Login"
               }
             }
           }
