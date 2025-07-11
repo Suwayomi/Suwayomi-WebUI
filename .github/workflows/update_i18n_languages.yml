@@ -41,4 +41,5 @@ jobs:
       - name: Update i18n resources
         run: |
           cd master
+          echo '{}' > tools/scripts/tokens.json
           yarn i18n:gen-resources
