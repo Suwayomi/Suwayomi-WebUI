@@ -58,6 +58,7 @@ type ServerSettingsType = Pick<
     | 'flareSolverrSessionName'
     | 'flareSolverrSessionTtl'
     | 'flareSolverrAsResponseFallback'
+    | 'opdsUseBinaryFileSizes'
     | 'opdsItemsPerPage'
     | 'opdsEnablePageReadProgress'
     | 'opdsMarkAsReadOnDownload'
@@ -89,6 +90,7 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     flareSolverrSessionName: settings.flareSolverrSessionName,
     flareSolverrSessionTtl: settings.flareSolverrSessionTtl,
     flareSolverrAsResponseFallback: settings.flareSolverrAsResponseFallback,
+    opdsUseBinaryFileSizes: settings.opdsUseBinaryFileSizes,
     opdsItemsPerPage: settings.opdsItemsPerPage,
     opdsEnablePageReadProgress: settings.opdsEnablePageReadProgress,
     opdsMarkAsReadOnDownload: settings.opdsMarkAsReadOnDownload,
@@ -450,6 +452,17 @@ export const ServerSettings = () => {
                     </ListSubheader>
                 }
             >
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.opds.binary_file_sizes.label.title')}
+                        secondary={t('settings.server.opds.binary_file_sizes.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.opdsUseBinaryFileSizes}
+                        onChange={(e) => updateSetting('opdsUseBinaryFileSizes', e.target.checked)}
+                    />
+                </ListItem>
                 <NumberSetting
                     settingTitle={t('settings.server.opds.items_per_page.label.title')}
                     settingValue={serverSettings.opdsItemsPerPage.toString()}

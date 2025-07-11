@@ -81,6 +81,7 @@ export const SERVER_SETTINGS = gql`
         flareSolverrAsResponseFallback
 
         # OPDS
+        opdsUseBinaryFileSizes
         opdsItemsPerPage
         opdsEnablePageReadProgress
         opdsMarkAsReadOnDownload
