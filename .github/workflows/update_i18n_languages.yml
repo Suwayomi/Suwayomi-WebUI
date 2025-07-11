@@ -31,7 +31,9 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
 
       - name: Install dependencies
-        run: yarn ci
+        run: |
+          cd master
+          yarn ci
 
       - name: Update i18n resources
         run: yarn i18n:gen-resources
