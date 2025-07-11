@@ -36,8 +36,7 @@ import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.t
 import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { SortOrder } from '@/lib/graphql/generated/graphql';
-import { AuthMode } from '@/lib/graphql/generated/graphql';
+import { SortOrder, AuthMode } from '@/lib/graphql/generated/graphql';
 
 type ServerSettingsType = Pick<
     GqlServerSettings,
@@ -104,8 +103,8 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     opdsChapterSortOrder: settings.opdsChapterSortOrder,
 });
 
-const AUTHMODESS = [AuthMode.None].concat(Object.values(AuthMode).filter((mode) => mode !== AuthMode.None));
-const AUTHMODES_TO_TRANSLATION_KEY: { [mode in AuthMode]: SelectSettingValueDisplayInfo } = {
+const AUTH_MODES = [AuthMode.None].concat(Object.values(AuthMode).filter((mode) => mode !== AuthMode.None));
+const AUTH_MODES_TO_TRANSLATION_KEY: { [mode in AuthMode]: SelectSettingValueDisplayInfo } = {
     [AuthMode.None]: {
         text: 'settings.server.auth.mode.option.none.label.title',
         description: 'settings.server.auth.mode.option.none.label.description',
@@ -121,9 +120,9 @@ const AUTHMODES_TO_TRANSLATION_KEY: { [mode in AuthMode]: SelectSettingValueDisp
         disclaimer: 'settings.server.auth.mode.option.simpleLogin.label.info',
     },
 };
-const AUTHMODES_SELECT_VALUES: SelectSettingValue<AuthMode>[] = AUTHMODESS.map((mode) => [
+const AUTH_MODES_SELECT_VALUES: SelectSettingValue<AuthMode>[] = AUTH_MODES.map((mode) => [
     mode,
-    AUTHMODES_TO_TRANSLATION_KEY[mode],
+    AUTH_MODES_TO_TRANSLATION_KEY[mode],
 ]);
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
@@ -326,7 +325,7 @@ export const ServerSettings = () => {
                 <SelectSetting<AuthMode>
                     settingName={t('settings.server.auth.label.title')}
                     value={serverSettings.authMode}
-                    values={AUTHMODES_SELECT_VALUES}
+                    values={AUTH_MODES_SELECT_VALUES}
                     handleChange={(mode) => updateSetting('authMode', mode)}
                     disabled={authModeDisabled}
                 />
