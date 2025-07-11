@@ -20,34 +20,23 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { CheckboxContainer } from '@/modules/core/components/inputs/CheckboxContainer.ts';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
-import { TranslationKey } from '@/Base.types.ts';
-import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { GlobalUpdateSkipEntriesSettings, ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-
-type GlobalUpdateSkipEntriesSettings = Pick<
-    ServerSettings,
-    'excludeUnreadChapters' | 'excludeNotStarted' | 'excludeCompleted'
->;
-
-const settingToTextMap: { [setting in keyof GlobalUpdateSkipEntriesSettings]: TranslationKey } = {
-    excludeUnreadChapters: 'library.settings.global_update.entries.label.unread_chapters',
-    excludeNotStarted: 'library.settings.global_update.entries.label.not_started',
-    excludeCompleted: 'library.settings.global_update.entries.label.completed',
-};
+import { GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION } from '@/modules/settings/Settings.constants.ts';
 
 const getSkipMangasText = (settings: GlobalUpdateSkipEntriesSettings) => {
     const skipSettings: string[] = [];
 
     if (settings.excludeUnreadChapters) {
-        skipSettings.push(translate(settingToTextMap.excludeUnreadChapters) as string);
+        skipSettings.push(translate(GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION.excludeUnreadChapters) as string);
     }
 
     if (settings.excludeNotStarted) {
-        skipSettings.push(translate(settingToTextMap.excludeNotStarted) as string);
+        skipSettings.push(translate(GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION.excludeNotStarted) as string);
     }
 
     if (settings.excludeCompleted) {
-        skipSettings.push(translate(settingToTextMap.excludeCompleted) as string);
+        skipSettings.push(translate(GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION.excludeCompleted) as string);
     }
 
     const isNothingExcluded = !skipSettings.length;
@@ -132,7 +121,11 @@ export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings
                         {Object.entries(dialogSettings).map(([setting, value]) => (
                             <CheckboxInput
                                 key={setting}
-                                label={t(settingToTextMap[setting as keyof GlobalUpdateSkipEntriesSettings])}
+                                label={t(
+                                    GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION[
+                                        setting as keyof GlobalUpdateSkipEntriesSettings
+                                    ],
+                                )}
                                 checked={value}
                                 onChange={(_, checked) => {
                                     setDialogSettings({

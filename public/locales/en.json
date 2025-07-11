@@ -1284,11 +1284,33 @@
         }
       },
       "auth": {
-        "basic": {
-          "label": {
-            "enable": "Use basic authentication",
-            "password": "Basic authentication $t(global.label.password, lowercase)",
-            "username": "Basic authentication $t(global.label.username, lowercase)"
+        "label": {
+          "password": "$t(global.label.password)",
+          "title": "Authentication Mode",
+          "username": "$t(global.label.username)"
+        },
+        "mode": {
+          "option": {
+            "basicAuth": {
+              "label": {
+                "description": "Your browser will prompt you to enter credentials with a dialog.",
+                "title": "Basic Authentication"
+              }
+            },
+            "none": {
+              "label": {
+                "description": "Disable authentication",
+                "info": "Your library will be accessible. Use this only on private networks or when otherwise securing access.",
+                "title": "None"
+              }
+            },
+            "simpleLogin": {
+              "label": {
+                "description": "A simple login page will be presented to login.",
+                "info": "When you enable this, you may need to refresh this tab for the login page to appear.",
+                "title": "Simple Login"
+              }
+            }
           }
         },
         "title": "Authentication"

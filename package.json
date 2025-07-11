@@ -18,7 +18,7 @@
     "updateDeps": "tsx tools/scripts/updateDependencies.ts",
     "gql:codegen-base": "graphql-codegen --config gql_codegen.ts",
     "gql:codegen-formatter": "tsx tools/scripts/codegenFormatter.ts",
-    "gql:codegen": "yarn gql:codegen-base & yarn gql:codegen-formatter",
+    "gql:codegen": "yarn gql:codegen-base && yarn gql:codegen-formatter",
     "i18n:gen-resources": "tsx tools/scripts/weblate/generatei18nResources.ts",
     "dayjs:gen-locales-array": "tsx tools/scripts/dayjs/generateDayJsLocales.ts",
     "dayjs:gen-locales-import": "tsx tools/scripts/dayjs/generateDayJsLocalesImport.ts",

@@ -20,10 +20,8 @@ import { GlobalUpdateSettingsEntries } from '@/modules/settings/components/globa
 import { GlobalUpdateSettingsInterval } from '@/modules/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
-import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { LibrarySettingsType, ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-
-type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;
 
 export const GlobalUpdateSettings = ({
     serverSettings,

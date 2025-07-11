@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Link from '@mui/material/Link';
 import List from '@mui/material/List';
@@ -29,43 +29,11 @@ import {
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
-import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
+import { ServerSettings as GqlServerSettings, ServerSettingsType } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { SortOrder } from '@/lib/graphql/generated/graphql';
-
-type ServerSettingsType = Pick<
-    GqlServerSettings,
-    | 'ip'
-    | 'port'
-    | 'socksProxyEnabled'
-    | 'socksProxyVersion'
-    | 'socksProxyHost'
-    | 'socksProxyPort'
-    | 'socksProxyUsername'
-    | 'socksProxyPassword'
-    | 'debugLogsEnabled'
-    | 'systemTrayEnabled'
-    | 'maxLogFiles'
-    | 'maxLogFileSize'
-    | 'maxLogFolderSize'
-    | 'basicAuthEnabled'
-    | 'basicAuthUsername'
-    | 'basicAuthPassword'
-    | 'flareSolverrEnabled'
-    | 'flareSolverrTimeout'
-    | 'flareSolverrUrl'
-    | 'flareSolverrSessionName'
-    | 'flareSolverrSessionTtl'
-    | 'flareSolverrAsResponseFallback'
-    | 'opdsUseBinaryFileSizes'
-    | 'opdsItemsPerPage'
-    | 'opdsEnablePageReadProgress'
-    | 'opdsMarkAsReadOnDownload'
-    | 'opdsShowOnlyUnreadChapters'
-    | 'opdsShowOnlyDownloadedChapters'
-    | 'opdsChapterSortOrder'
->;
+import { AuthMode, SortOrder } from '@/lib/graphql/generated/graphql';
+import { AUTH_MODES_SELECT_VALUES } from '@/modules/settings/Settings.constants.ts';
 
 const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType => ({
     ip: settings.ip,
@@ -81,9 +49,9 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     maxLogFiles: settings.maxLogFiles,
     maxLogFileSize: settings.maxLogFileSize,
     maxLogFolderSize: settings.maxLogFolderSize,
-    basicAuthEnabled: settings.basicAuthEnabled,
-    basicAuthUsername: settings.basicAuthUsername,
-    basicAuthPassword: settings.basicAuthPassword,
+    authMode: settings.authMode,
+    authUsername: settings.authUsername,
+    authPassword: settings.authPassword,
     flareSolverrEnabled: settings.flareSolverrEnabled,
     flareSolverrTimeout: settings.flareSolverrTimeout,
     flareSolverrUrl: settings.flareSolverrUrl,
@@ -216,6 +184,7 @@ export const ServerSettings = () => {
     }
 
     const serverSettings = extractServerSettings(data!.settings);
+    const authModeDisabled = !serverSettings.authUsername.trim() || !serverSettings.authPassword.trim();
 
     return (
         <List sx={{ pt: 0 }}>
@@ -295,27 +264,25 @@ export const ServerSettings = () => {
                     </ListSubheader>
                 }
             >
-                <ListItem>
-                    <ListItemText primary={t('settings.server.auth.basic.label.enable')} />
-                    <Switch
-                        edge="end"
-                        checked={serverSettings.basicAuthEnabled}
-                        disabled={!serverSettings.basicAuthUsername.trim() && !serverSettings.basicAuthPassword.trim()}
-                        onChange={(e) => updateSetting('basicAuthEnabled', e.target.checked)}
-                    />
-                </ListItem>
-                <TextSetting
-                    settingName={t('settings.server.auth.basic.label.username')}
-                    value={serverSettings.basicAuthUsername}
-                    validate={(value) => !serverSettings.basicAuthEnabled || !!value.trim()}
-                    handleChange={(authUsername) => updateSetting('basicAuthUsername', authUsername)}
+                <SelectSetting<AuthMode>
+                    settingName={t('settings.server.auth.label.title')}
+                    value={serverSettings.authMode}
+                    values={AUTH_MODES_SELECT_VALUES}
+                    handleChange={(mode) => updateSetting('authMode', mode)}
+                    disabled={authModeDisabled}
                 />
                 <TextSetting
-                    settingName={t('settings.server.auth.basic.label.password')}
-                    value={serverSettings.basicAuthPassword}
+                    settingName={t('settings.server.auth.label.username')}
+                    value={serverSettings.authUsername}
+                    validate={(value) => serverSettings.authMode === AuthMode.None || !!value.trim()}
+                    handleChange={(authUsername) => updateSetting('authUsername', authUsername)}
+                />
+                <TextSetting
+                    settingName={t('settings.server.auth.label.password')}
+                    value={serverSettings.authPassword}
                     isPassword
-                    validate={(value) => !serverSettings.basicAuthEnabled || !!value.trim()}
-                    handleChange={(authPassword) => updateSetting('basicAuthPassword', authPassword)}
+                    validate={(value) => serverSettings.authMode === AuthMode.None || !!value.trim()}
+                    handleChange={(authPassword) => updateSetting('authPassword', authPassword)}
                 />
             </List>
             <List

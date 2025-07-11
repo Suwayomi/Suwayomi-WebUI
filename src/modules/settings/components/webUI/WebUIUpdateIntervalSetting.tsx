@@ -18,10 +18,7 @@ import { getPersistedServerSetting, usePersistedValue } from '@/modules/core/hoo
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-
-const DEFAULT_VALUE = 23;
-const MIN_VALUE = 1;
-const MAX_VALUE = 23; // 1 month
+import { WEB_UI_UPDATE_INTERVAL } from '@/modules/settings/Settings.constants.ts';
 
 export const WebUIUpdateIntervalSetting = ({
     disabled = false,
@@ -36,7 +33,7 @@ export const WebUIUpdateIntervalSetting = ({
     const [mutateSettings] = requestManager.useUpdateServerSettings();
     const [currentUpdateCheckInterval, persistUpdateCheckInterval] = usePersistedValue(
         'lastUpdateCheckInterval',
-        DEFAULT_VALUE,
+        WEB_UI_UPDATE_INTERVAL.default,
         updateCheckInterval,
         getPersistedServerSetting,
     );
@@ -75,9 +72,9 @@ export const WebUIUpdateIntervalSetting = ({
                     hours: currentUpdateCheckInterval,
                 })}
                 value={currentUpdateCheckInterval}
-                minValue={MIN_VALUE}
-                maxValue={MAX_VALUE}
-                defaultValue={DEFAULT_VALUE}
+                minValue={WEB_UI_UPDATE_INTERVAL.min}
+                maxValue={WEB_UI_UPDATE_INTERVAL.max}
+                defaultValue={WEB_UI_UPDATE_INTERVAL.default}
                 showSlider
                 valueUnit={t('global.time.hour_short')}
                 handleUpdate={updateSetting}

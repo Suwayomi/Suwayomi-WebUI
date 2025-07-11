@@ -17,10 +17,7 @@ import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.
 import { getPersistedServerSetting, usePersistedValue } from '@/modules/core/hooks/usePersistedValue.tsx';
 
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
-
-const DEFAULT_INTERVAL_HOURS = 12;
-const MIN_INTERVAL_HOURS = 6;
-const MAX_INTERVAL_HOURS = 24 * 7 * 4; // 1 month
+import { GLOBAL_UPDATE_INTERVAL } from '@/modules/settings/Settings.constants.ts';
 
 export const GlobalUpdateSettingsInterval = ({
     globalUpdateInterval,
@@ -34,7 +31,7 @@ export const GlobalUpdateSettingsInterval = ({
     const [mutateSettings] = requestManager.useUpdateServerSettings();
     const [currentAutoUpdateIntervalHours, persistAutoUpdateIntervalHours] = usePersistedValue(
         'lastGlobalUpdateInterval',
-        DEFAULT_INTERVAL_HOURS,
+        GLOBAL_UPDATE_INTERVAL.default,
         autoUpdateIntervalHours,
         getPersistedServerSetting,
     );
@@ -66,9 +63,9 @@ export const GlobalUpdateSettingsInterval = ({
                     hours: currentAutoUpdateIntervalHours,
                 })}
                 value={currentAutoUpdateIntervalHours}
-                minValue={MIN_INTERVAL_HOURS}
-                maxValue={MAX_INTERVAL_HOURS}
-                defaultValue={DEFAULT_INTERVAL_HOURS}
+                minValue={GLOBAL_UPDATE_INTERVAL.min}
+                maxValue={GLOBAL_UPDATE_INTERVAL.max}
+                defaultValue={GLOBAL_UPDATE_INTERVAL.default}
                 showSlider
                 valueUnit={t('global.time.hour_short')}
                 handleUpdate={updateSetting}
