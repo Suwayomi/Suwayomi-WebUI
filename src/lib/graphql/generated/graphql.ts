@@ -1556,6 +1556,13 @@ export type PartialSettingsType = Settings & {
   maxLogFiles?: Maybe<Scalars['Int']['output']>;
   maxLogFolderSize?: Maybe<Scalars['String']['output']>;
   maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
+  opdsChapterSortOrder?: Maybe<SortOrder>;
+  opdsEnablePageReadProgress?: Maybe<Scalars['Boolean']['output']>;
+  opdsItemsPerPage?: Maybe<Scalars['Int']['output']>;
+  opdsMarkAsReadOnDownload?: Maybe<Scalars['Boolean']['output']>;
+  opdsShowOnlyDownloadedChapters?: Maybe<Scalars['Boolean']['output']>;
+  opdsShowOnlyUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+  opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
@@ -1605,6 +1612,13 @@ export type PartialSettingsTypeInput = {
   maxLogFiles?: InputMaybe<Scalars['Int']['input']>;
   maxLogFolderSize?: InputMaybe<Scalars['String']['input']>;
   maxSourcesInParallel?: InputMaybe<Scalars['Int']['input']>;
+  opdsChapterSortOrder?: InputMaybe<SortOrder>;
+  opdsEnablePageReadProgress?: InputMaybe<Scalars['Boolean']['input']>;
+  opdsItemsPerPage?: InputMaybe<Scalars['Int']['input']>;
+  opdsMarkAsReadOnDownload?: InputMaybe<Scalars['Boolean']['input']>;
+  opdsShowOnlyDownloadedChapters?: InputMaybe<Scalars['Boolean']['input']>;
+  opdsShowOnlyUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
+  opdsUseBinaryFileSizes?: InputMaybe<Scalars['Boolean']['input']>;
   port?: InputMaybe<Scalars['Int']['input']>;
   socksProxyEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   socksProxyHost?: InputMaybe<Scalars['String']['input']>;
@@ -1966,6 +1980,13 @@ export type Settings = {
   maxLogFiles?: Maybe<Scalars['Int']['output']>;
   maxLogFolderSize?: Maybe<Scalars['String']['output']>;
   maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
+  opdsChapterSortOrder?: Maybe<SortOrder>;
+  opdsEnablePageReadProgress?: Maybe<Scalars['Boolean']['output']>;
+  opdsItemsPerPage?: Maybe<Scalars['Int']['output']>;
+  opdsMarkAsReadOnDownload?: Maybe<Scalars['Boolean']['output']>;
+  opdsShowOnlyDownloadedChapters?: Maybe<Scalars['Boolean']['output']>;
+  opdsShowOnlyUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+  opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
@@ -2020,6 +2041,13 @@ export type SettingsType = Settings & {
   maxLogFiles: Scalars['Int']['output'];
   maxLogFolderSize: Scalars['String']['output'];
   maxSourcesInParallel: Scalars['Int']['output'];
+  opdsChapterSortOrder: SortOrder;
+  opdsEnablePageReadProgress: Scalars['Boolean']['output'];
+  opdsItemsPerPage: Scalars['Int']['output'];
+  opdsMarkAsReadOnDownload: Scalars['Boolean']['output'];
+  opdsShowOnlyDownloadedChapters: Scalars['Boolean']['output'];
+  opdsShowOnlyUnreadChapters: Scalars['Boolean']['output'];
+  opdsUseBinaryFileSizes: Scalars['Boolean']['output'];
   port: Scalars['Int']['output'];
   socksProxyEnabled: Scalars['Boolean']['output'];
   socksProxyHost: Scalars['String']['output'];
@@ -2879,7 +2907,7 @@ export type MangaScreenFieldsFragment = { __typename?: 'MangaType', artist?: str
 
 export type MangaLibraryDuplicateScreenFieldsFragment = { __typename?: 'MangaType', description?: string | null, id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename?: 'ChapterNodeList', totalCount: number } };
 
-export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads?: boolean | null, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean };
+export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads?: boolean | null, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder };
 
 export type SourceMetaFieldsFragment = { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string };
 
@@ -3241,14 +3269,14 @@ export type ResetServerSettingsMutationVariables = Exact<{
 }>;
 
 
-export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads?: boolean | null, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean } } };
+export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads?: boolean | null, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder } } };
 
 export type UpdateServerSettingsMutationVariables = Exact<{
   input: SetSettingsInput;
 }>;
 
 
-export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads?: boolean | null, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean } } };
+export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads?: boolean | null, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder } } };
 
 export type GetSourceMangasFetchMutationVariables = Exact<{
   input: FetchSourceMangaInput;
@@ -3634,7 +3662,7 @@ export type GetWebuiUpdateStatusQuery = { __typename?: 'Query', getWebUIUpdateSt
 export type GetServerSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads?: boolean | null, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean } };
+export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads?: boolean | null, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, basicAuthEnabled: boolean, basicAuthUsername: string, basicAuthPassword: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder } };
 
 export type GetSourceBrowseQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

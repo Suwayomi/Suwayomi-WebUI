@@ -81,8 +81,8 @@
             "confirmation_other": "You are about to download {{count}} chapters.\nSuwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.",
             "error_one": "Could not add the download",
             "error_other": "Could not add downloads",
-             "next_one": "Next chapter",
-            "next_other" : "Next {{count}} chapters",
+            "next_one": "Next chapter",
+            "next_other": "Next {{count}} chapters",
             "success_one": "Download added",
             "success_other": "{{count}} downloads added",
             "unread": "$t(global.filter.label.unread)"
@@ -1376,6 +1376,55 @@
             "title": "Show icon in system tray"
           }
         }
+      },
+      "opds": {
+        "binary_file_sizes": {
+          "label": {
+            "description": "Display file sizes in binary (KiB, MiB, GiB) instead of decimal (KB, MB, GB)",
+            "title": "Binary file size",
+            "unit_one": "item",
+            "unit_other": "items"
+          }
+        },
+        "chapter_sort_order": {
+          "label": {
+            "description": "Choose the order in which chapters are displayed.",
+            "title": "Chapter sort order"
+          }
+        },
+        "enable_page_read_progress": {
+          "label": {
+            "description": "Track and update your reading progress by page for each chapter during page streaming",
+            "title": "Enable page read progress"
+          }
+        },
+        "items_per_page": {
+          "label": {
+            "description": "Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters). \nHigher values may affect client performance.",
+            "title": "Items per page",
+            "unit_one": "item",
+            "unit_other": "items"
+          }
+        },
+        "mark_as_read_on_download": {
+          "label": {
+            "description": "Automatically mark chapters as read when you download them.",
+            "title": "Mark chapters as read on download"
+          }
+        },
+        "show_only_downloaded_chapters": {
+          "label": {
+            "description": "Filter manga feed to display only chapters you have downloaded.",
+            "title": "Show only downloaded chapters"
+          }
+        },
+        "show_only_unread_chapters": {
+          "label": {
+            "description": "Filter manga feed to display only chapters you haven’t read yet.",
+            "title": "Show only unread chapters"
+          }
+        },
+        "title": "OPDS"
       },
       "requests": {
         "sources": {
