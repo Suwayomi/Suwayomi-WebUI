@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ReadingDirection, ReadingMode } from '@/modules/reader/types/Reader.types.ts';
 import { ReaderControls } from '@/modules/reader/services/ReaderControls.ts';
 import { getNextPageIndex, getPage } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
@@ -37,6 +37,22 @@ export function useSwipeNavigate({
     const [isTransitioning, setIsTransitioning] = useState(false);
 
     const openPage = ReaderControls.useOpenPage();
+
+    useEffect(() => {
+        const handleTouchMove = (e: TouchEvent) => {
+            if (readingMode === ReadingMode.SINGLE_PAGE) {
+                e.preventDefault();
+            }
+        };
+
+        if (readingMode === ReadingMode.SINGLE_PAGE) {
+            document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        }
+
+        return () => {
+            document.removeEventListener('touchmove', handleTouchMove);
+        };
+    }, [readingMode]);
 
     const handleTouchStart = useCallback(
         (e: React.TouchEvent) => {

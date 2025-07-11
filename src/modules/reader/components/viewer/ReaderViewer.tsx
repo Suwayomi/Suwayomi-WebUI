@@ -408,6 +408,7 @@ const BaseReaderViewer = forwardRef(
                         width: '100%',
                         height: '100%',
                         overflow: 'auto',
+                        overscrollBehavior: 'contain',
                         flexWrap: 'nowrap',
                         // 滑动特效：页面跟随手指移动
                         transform: readingMode === ReadingMode.SINGLE_PAGE ? `translateX(${swipeOffset}px)` : 'none',
