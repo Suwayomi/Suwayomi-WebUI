@@ -366,54 +366,6 @@ export const ServerSettings = () => {
             </List>
             <List
                 subheader={
-                    <ListSubheader component="div" id="server-settings-misc">
-                        {t('settings.server.misc.title')}
-                    </ListSubheader>
-                }
-            >
-                <ListItem>
-                    <ListItemText primary={t('settings.server.misc.log_level.label.server')} />
-                    <Switch
-                        edge="end"
-                        checked={serverSettings.debugLogsEnabled}
-                        onChange={(e) => updateSetting('debugLogsEnabled', e.target.checked)}
-                    />
-                </ListItem>
-                <ListItem>
-                    <ListItemText
-                        primary={t('settings.server.misc.tray_icon.label.title')}
-                        secondary={t('settings.server.misc.tray_icon.label.description')}
-                    />
-                    <Switch
-                        edge="end"
-                        checked={serverSettings.systemTrayEnabled}
-                        onChange={(e) => updateSetting('systemTrayEnabled', e.target.checked)}
-                    />
-                </ListItem>
-                <NumberSetting
-                    settingTitle={t('settings.server.misc.log_files.file_cleanup.title')}
-                    settingValue={getLogFilesCleanupDisplayValue(serverSettings.maxLogFiles)}
-                    value={serverSettings.maxLogFiles}
-                    valueUnit={t('global.date.label.day_one')}
-                    handleUpdate={(maxFiles) => updateSetting('maxLogFiles', maxFiles)}
-                />
-                <TextSetting
-                    settingName={t('settings.server.misc.log_files.file_size.title')}
-                    value={serverSettings.maxLogFileSize}
-                    dialogDescription={t('settings.server.misc.log_files.file_size.description')}
-                    validate={(value) => !!value.match(/^[0-9]+(|kb|KB|mb|MB|gb|GB)$/g)}
-                    handleChange={(maxLogFileSize) => updateSetting('maxLogFileSize', maxLogFileSize)}
-                />
-                <TextSetting
-                    settingName={t('settings.server.misc.log_files.total_size.title')}
-                    value={serverSettings.maxLogFolderSize}
-                    dialogDescription={t('settings.server.misc.log_files.total_size.description')}
-                    validate={(value) => !!value.match(/^[0-9]+(|kb|KB|mb|MB|gb|GB)$/g)}
-                    handleChange={(maxLogFolderSize) => updateSetting('maxLogFolderSize', maxLogFolderSize)}
-                />
-            </List>
-            <List
-                subheader={
                     <ListSubheader component="div" id="server-settings-opds">
                         {t('settings.server.opds.title')}
                     </ListSubheader>
@@ -496,6 +448,54 @@ export const ServerSettings = () => {
                         [SortOrder.Desc, { text: t('global.sort.label.desc') }],
                     ]}
                     handleChange={(value) => updateSetting('opdsChapterSortOrder', value)}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-misc">
+                        {t('settings.server.misc.title')}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText primary={t('settings.server.misc.log_level.label.server')} />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.debugLogsEnabled}
+                        onChange={(e) => updateSetting('debugLogsEnabled', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.misc.tray_icon.label.title')}
+                        secondary={t('settings.server.misc.tray_icon.label.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.systemTrayEnabled}
+                        onChange={(e) => updateSetting('systemTrayEnabled', e.target.checked)}
+                    />
+                </ListItem>
+                <NumberSetting
+                    settingTitle={t('settings.server.misc.log_files.file_cleanup.title')}
+                    settingValue={getLogFilesCleanupDisplayValue(serverSettings.maxLogFiles)}
+                    value={serverSettings.maxLogFiles}
+                    valueUnit={t('global.date.label.day_one')}
+                    handleUpdate={(maxFiles) => updateSetting('maxLogFiles', maxFiles)}
+                />
+                <TextSetting
+                    settingName={t('settings.server.misc.log_files.file_size.title')}
+                    value={serverSettings.maxLogFileSize}
+                    dialogDescription={t('settings.server.misc.log_files.file_size.description')}
+                    validate={(value) => !!value.match(/^[0-9]+(|kb|KB|mb|MB|gb|GB)$/g)}
+                    handleChange={(maxLogFileSize) => updateSetting('maxLogFileSize', maxLogFileSize)}
+                />
+                <TextSetting
+                    settingName={t('settings.server.misc.log_files.total_size.title')}
+                    value={serverSettings.maxLogFolderSize}
+                    dialogDescription={t('settings.server.misc.log_files.total_size.description')}
+                    validate={(value) => !!value.match(/^[0-9]+(|kb|KB|mb|MB|gb|GB)$/g)}
+                    handleChange={(maxLogFolderSize) => updateSetting('maxLogFolderSize', maxLogFolderSize)}
                 />
             </List>
         </List>
