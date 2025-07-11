@@ -24,6 +24,7 @@ import {
     PAGE_GAP,
     PROGRESS_BAR_SIZE,
     SCROLL_AMOUNT,
+    SWIPE_PREVIEW_THRESHOLD,
 } from '@/modules/reader/constants/ReaderSettings.constants.tsx';
 import { coerceIn, jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_AHEAD } from '@/modules/downloads/Downloads.constants.ts';
@@ -377,7 +378,8 @@ export const APP_METADATA: Record<
     },
     swipePreviewThreshold: {
         convert: convertToNumber,
-        toConstrainedValue: (value: number) => coerceIn(value, 10, 50),
+        toConstrainedValue: (value: number) =>
+            coerceIn(value, SWIPE_PREVIEW_THRESHOLD.min, SWIPE_PREVIEW_THRESHOLD.max),
     },
 } as const;
 

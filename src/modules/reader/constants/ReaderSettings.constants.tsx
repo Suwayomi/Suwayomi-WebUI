@@ -73,10 +73,10 @@ export const PAGE_GAP = {
 };
 
 export const SWIPE_PREVIEW_THRESHOLD = {
-    min: 10,
+    min: 5,
     max: 50,
     default: 30,
-    step: 5,
+    step: 1,
 };
 
 export const CUSTOM_FILTER = {

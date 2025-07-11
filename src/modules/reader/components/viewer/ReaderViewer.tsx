@@ -70,7 +70,7 @@ import { NavbarContextType } from '@/modules/navigation-bar/NavigationBar.types.
 import { useReaderPreserveScrollPosition } from '@/modules/reader/hooks/useReaderPreserveScrollPosition.ts';
 
 import { ChapterIdInfo } from '@/modules/chapter/Chapter.types.ts';
-import { getPage, getNextPageIndex } from '@/modules/reader/utils/ReaderProgressBar.utils.tsx';
+import { useSwipeNavigate } from '@/modules/reader/hooks/useSwipeNavigate.ts';
 
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { Priority } from '@/lib/Queue.ts';
@@ -195,119 +195,23 @@ const BaseReaderViewer = forwardRef(
         }, [scrollbarXSize, scrollbarYSize]);
 
         const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);
-        const openPage = ReaderControls.useOpenPage();
 
-        // 触摸滑动状态
-        const [touchStart, setTouchStart] = useState<{ x: number; y: number; time: number } | null>(null);
-        const [isSwiping, setIsSwiping] = useState(false);
-        const [swipeOffset, setSwipeOffset] = useState(0); // 滑动偏移量，用于页面跟随效果
-        const [previewDirection, setPreviewDirection] = useState<'next' | 'previous' | null>(null); // 预览方向
-        const [isTransitioning, setIsTransitioning] = useState(false); // 翻页过渡状态
-
-        // 触摸滑动处理函数
-        const handleTouchStart = useCallback(
-            (e: React.TouchEvent) => {
-                if (e.touches.length === 1 && readingMode === ReadingMode.SINGLE_PAGE) {
-                    const touch = e.touches[0];
-                    setTouchStart({
-                        x: touch.clientX,
-                        y: touch.clientY,
-                        time: Date.now(),
-                    });
-                    setIsSwiping(false);
-                    setSwipeOffset(0); // 重置滑动偏移量
-                    setPreviewDirection(null); // 重置预览方向
-                }
-            },
-            [readingMode],
-        );
-
-        const handleTouchMove = useCallback(
-            (e: React.TouchEvent) => {
-                if (!touchStart || e.touches.length !== 1 || readingMode !== ReadingMode.SINGLE_PAGE) {
-                    return;
-                }
-
-                const touch = e.touches[0];
-                const deltaX = touch.clientX - touchStart.x;
-                const deltaY = Math.abs(touch.clientY - touchStart.y);
-                const absDeltaX = Math.abs(deltaX);
-
-                // 如果水平滑动距离大于垂直滑动距离，且超过最小阈值，则认为是水平滑动
-                if (absDeltaX > deltaY && absDeltaX > 30) {
-                    setIsSwiping(true);
-                    // 设置滑动偏移量，不限制最大偏移，允许无限预览
-                    setSwipeOffset(deltaX);
-                    // 设置预览方向：根据阅读方向决定
-                    // LTR模式：左滑显示下一页，右滑显示上一页
-                    // RTL模式：左滑显示上一页，右滑显示下一页
-                    const isLeftSwipe = deltaX < 0;
-                    if (readingDirection === ReadingDirection.LTR) {
-                        setPreviewDirection(isLeftSwipe ? 'next' : 'previous');
-                    } else {
-                        setPreviewDirection(isLeftSwipe ? 'previous' : 'next');
-                    }
-                    // 移除preventDefault以避免passive事件监听器错误
-                }
-            },
-            [touchStart, readingMode, readingDirection],
-        );
-
-        const handleTouchEnd = useCallback(
-            (e: React.TouchEvent) => {
-                if (!touchStart || readingMode !== ReadingMode.SINGLE_PAGE) {
-                    setTouchStart(null);
-                    setIsSwiping(false);
-                    setSwipeOffset(0);
-                    setPreviewDirection(null);
-                    return;
-                }
-
-                const touch = e.changedTouches[0];
-                const deltaX = touch.clientX - touchStart.x;
-                const deltaY = Math.abs(touch.clientY - touchStart.y);
-                const distance = Math.abs(deltaX);
-
-                // 使用 swipePreviewThreshold 作为翻页触发阈值
-                const triggerThreshold = window.innerWidth * (swipePreviewThreshold / 100);
-
-                // 滑动条件：水平距离 > 阈值，垂直距离 < 100px
-                if (distance > triggerThreshold && deltaY < 100) {
-                    // 开始过渡动画
-                    setIsTransitioning(true);
-                    setTouchStart(null);
-
-                    // 计算完成动画的目标偏移量
-                    const targetOffset = deltaX > 0 ? window.innerWidth : -window.innerWidth;
-                    setSwipeOffset(targetOffset);
-
-                    // 延迟执行翻页和状态重置，确保动画完成后再更新内容
-                    setTimeout(() => {
-                        // 先重置swipeOffset，避免新页面显示时还有偏移
-                        setSwipeOffset(0);
-
-                        // 执行翻页操作
-                        const shouldGoNext = deltaX < 0;
-                        const direction = shouldGoNext ? 'next' : 'previous';
-                        openPage(direction);
-
-                        // 重置其他滑动相关状态
-                        setPreviewDirection(null);
-                        setIsSwiping(false);
-                        setIsTransitioning(false);
-                    }, 200); // 200ms 过渡动画
-
-                    return;
-                }
-
-                // 如果没有触发翻页，直接重置滑动状态和偏移量
-                setTouchStart(null);
-                setIsSwiping(false);
-                setSwipeOffset(0);
-                setPreviewDirection(null);
-            },
-            [touchStart, readingMode, readingDirection, openPage, swipePreviewThreshold],
-        );
+        const {
+            isSwiping,
+            swipeOffset,
+            isTransitioning,
+            previewPageUrl,
+            previewDirection,
+            handleTouchStart,
+            handleTouchMove,
+            handleTouchEnd,
+        } = useSwipeNavigate({
+            readingMode,
+            readingDirection,
+            swipePreviewThreshold,
+            currentPageIndex,
+            pages,
+        });
 
         const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
         const [{ minChapterViewWidth, minChapterViewHeight, minChapterSizeSourceChapterId }, setChapterViewerSize] =
@@ -430,27 +334,6 @@ const BaseReaderViewer = forwardRef(
         if (!initialChapter || !currentChapter) {
             throw new Error('ReaderViewer: illegal state - initialChapter and currentChapter should not be undefined');
         }
-
-        // 计算预览页面信息
-        const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
-        const previewPageIndex = useMemo(() => {
-            if (!previewDirection) return null;
-            try {
-                return getNextPageIndex(previewDirection, currentPage.pagesIndex, pages);
-            } catch {
-                return null;
-            }
-        }, [previewDirection, currentPage.pagesIndex, pages]);
-
-        const previewPageUrl = useMemo(() => {
-            if (previewPageIndex === null) return null;
-            const previewPage = pages.find(
-                (page) => page.primary.index === previewPageIndex || page.secondary?.index === previewPageIndex,
-            );
-            return previewPage?.primary.index === previewPageIndex
-                ? previewPage.primary.url
-                : previewPage?.secondary?.url || null;
-        }, [previewPageIndex, pages]);
 
         return (
             <Box
