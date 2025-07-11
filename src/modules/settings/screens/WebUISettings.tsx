@@ -29,9 +29,9 @@ import { ServerSettings, WebUISettingsType } from '@/modules/settings/Settings.t
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import {
-    CHANNEL_SELECT_VALUES,
-    FLAVOR_SELECT_VALUES,
-    INTERFACE_SELECT_VALUES,
+    WEB_UI_CHANNEL_SELECT_VALUES,
+    WEB_UI_FLAVOR_SELECT_VALUES,
+    WEB_UI_INTERFACE_SELECT_VALUES,
 } from '@/modules/settings/Settings.constants.ts';
 
 const extractWebUISettings = (settings: ServerSettings): WebUISettingsType => ({
@@ -116,7 +116,7 @@ export const WebUISettings = () => {
             <SelectSetting<WebUiFlavor>
                 settingName={t('settings.webui.flavor.label.title')}
                 value={webUISettings.webUIFlavor}
-                values={FLAVOR_SELECT_VALUES}
+                values={WEB_UI_FLAVOR_SELECT_VALUES}
                 handleChange={(flavor) => updateSetting('webUIFlavor', flavor)}
             />
             <ListItem>
@@ -130,7 +130,7 @@ export const WebUISettings = () => {
             <SelectSetting<WebUiInterface>
                 settingName={t('settings.webui.interface.label.title')}
                 value={webUISettings.webUIInterface}
-                values={INTERFACE_SELECT_VALUES}
+                values={WEB_UI_INTERFACE_SELECT_VALUES}
                 handleChange={(webUIInterface) => updateSetting('webUIInterface', webUIInterface)}
             />
             <TextSetting
@@ -145,7 +145,7 @@ export const WebUISettings = () => {
             <SelectSetting<WebUiChannel>
                 settingName={t('settings.webui.channel.label.title')}
                 value={webUISettings.webUIChannel}
-                values={CHANNEL_SELECT_VALUES}
+                values={WEB_UI_CHANNEL_SELECT_VALUES}
                 handleChange={(channel) => updateSetting('webUIChannel', channel)}
                 disabled={isCustomWebUI}
             />

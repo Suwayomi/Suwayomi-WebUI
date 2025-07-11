@@ -104,8 +104,8 @@ export const AUTH_MODES_SELECT_VALUES: SelectSettingValue<AuthMode>[] = AUTH_MOD
     AUTH_MODES_TO_TRANSLATION_KEY[mode],
 ]);
 
-const FLAVORS = Object.values(WebUiFlavor);
-const FLAVOR_TO_TRANSLATION_KEY: { [flavor in WebUiFlavor]: SelectSettingValueDisplayInfo } = {
+const WEB_UI_FLAVORS = Object.values(WebUiFlavor);
+const WEB_UI_FLAVOR_TO_TRANSLATION_KEY: { [flavor in WebUiFlavor]: SelectSettingValueDisplayInfo } = {
     [WebUiFlavor.Webui]: {
         text: 'settings.webui.title.webui',
         description: 'settings.webui.flavor.option.webui.label.description',
@@ -121,13 +121,13 @@ const FLAVOR_TO_TRANSLATION_KEY: { [flavor in WebUiFlavor]: SelectSettingValueDi
         description: 'settings.webui.flavor.option.custom.label.description',
     },
 };
-export const FLAVOR_SELECT_VALUES: SelectSettingValue<WebUiFlavor>[] = FLAVORS.map((flavor) => [
+export const WEB_UI_FLAVOR_SELECT_VALUES: SelectSettingValue<WebUiFlavor>[] = WEB_UI_FLAVORS.map((flavor) => [
     flavor,
-    FLAVOR_TO_TRANSLATION_KEY[flavor],
+    WEB_UI_FLAVOR_TO_TRANSLATION_KEY[flavor],
 ]);
 
-const CHANNELS = Object.values(WebUiChannel);
-const CHANNEL_TO_TRANSLATION_KEYS: {
+const WEB_UI_CHANNELS = Object.values(WebUiChannel);
+const WEB_UI_CHANNEL_TO_TRANSLATION_KEYS: {
     [channel in WebUiChannel]: SelectSettingValueDisplayInfo;
 } = {
     [WebUiChannel.Bundled]: {
@@ -146,13 +146,13 @@ const CHANNEL_TO_TRANSLATION_KEYS: {
         disclaimer: 'settings.webui.channel.option.preview.label.disclaimer',
     },
 };
-export const CHANNEL_SELECT_VALUES: SelectSettingValue<WebUiChannel>[] = CHANNELS.map((channel) => [
+export const WEB_UI_CHANNEL_SELECT_VALUES: SelectSettingValue<WebUiChannel>[] = WEB_UI_CHANNELS.map((channel) => [
     channel,
-    CHANNEL_TO_TRANSLATION_KEYS[channel],
+    WEB_UI_CHANNEL_TO_TRANSLATION_KEYS[channel],
 ]);
 
-const INTERFACES = Object.values(WebUiInterface);
-const INTERFACE_TO_TRANSLATION_KEYS: {
+const WEB_UI_INTERFACES = Object.values(WebUiInterface);
+const WEB_UI_INTERFACE_TO_TRANSLATION_KEYS: {
     [webUIInterface in WebUiInterface]: SelectSettingValueDisplayInfo;
 } = {
     [WebUiInterface.Browser]: {
@@ -164,21 +164,26 @@ const INTERFACE_TO_TRANSLATION_KEYS: {
         description: 'settings.webui.interface.label.description',
     },
 };
-export const INTERFACE_SELECT_VALUES: SelectSettingValue<WebUiInterface>[] = INTERFACES.map((webUIInterface) => [
-    webUIInterface,
-    INTERFACE_TO_TRANSLATION_KEYS[webUIInterface],
-]);
+export const WEB_UI_INTERFACE_SELECT_VALUES: SelectSettingValue<WebUiInterface>[] = WEB_UI_INTERFACES.map(
+    (webUIInterface) => [webUIInterface, WEB_UI_INTERFACE_TO_TRANSLATION_KEYS[webUIInterface]],
+);
 
-export const DEFAULT_INTERVAL_HOURS = 12;
-export const MIN_INTERVAL_HOURS = 6;
-export const MAX_INTERVAL_HOURS = 24 * 7 * 4; // 1 month
+export const GLOBAL_UPDATE_INTERVAL = {
+    default: 12,
+    min: 6,
+    max: 24 * 7 * 4, // 1 month
+};
 
-export const settingToTextMap: { [setting in keyof GlobalUpdateSkipEntriesSettings]: TranslationKey } = {
+export const GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION: {
+    [setting in keyof GlobalUpdateSkipEntriesSettings]: TranslationKey;
+} = {
     excludeUnreadChapters: 'library.settings.global_update.entries.label.unread_chapters',
     excludeNotStarted: 'library.settings.global_update.entries.label.not_started',
     excludeCompleted: 'library.settings.global_update.entries.label.completed',
 };
 
-export const DEFAULT_VALUE = 23;
-export const MIN_VALUE = 1;
-export const MAX_VALUE = 23; // 1 month
+export const WEB_UI_UPDATE_INTERVAL = {
+    default: 23,
+    min: 1,
+    max: 23,
+};
