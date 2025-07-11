@@ -42,12 +42,11 @@
                         "error_one": "Nie można dodać do kolejki pobierania",
                         "error_few": "Nie można dodać do kolejki pobierania",
                         "error_many": "Nie można dodać do kolejki pobierania",
-                        "next": "$t(reader.button.next_chapter)",
+                        "next_one": "$t(reader.button.next_chapter)",
+                        "next_few": "",
+                        "next_many": "",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "next_five": "Następne 5 rozdziałów",
-                        "next_ten": "Następne 10 rozdziałów",
-                        "next_twentyfive": "Następne 25 rozdziałów",
                         "success_one": "Pobieranie dodane",
                         "success_few": "{{count}} pobierania dodane",
                         "success_many": "{{count}} pobierań dodanych",
@@ -1321,13 +1320,6 @@
                 }
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "enable": "Użyj podstawowego uwierzytelniania",
-                        "password": "Podstawowe uwierzytelnianie $t(global.label.password, lowercase)",
-                        "username": "Podstawowe uwierzytelnianie $t(global.label.username, lowercase)"
-                    }
-                },
                 "title": "Uwierzytelnianie"
             },
             "cloudflare": {

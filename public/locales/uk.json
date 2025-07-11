@@ -887,13 +887,6 @@
                 }
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "enable": "Використовуйте базову автентифікацію",
-                        "password": "$t(global.label.password, lowercase) для базової автентифікації",
-                        "username": "$t(global.label.username, lowercase) для базової автентифікації"
-                    }
-                },
                 "title": "Автентифікація"
             }
         },

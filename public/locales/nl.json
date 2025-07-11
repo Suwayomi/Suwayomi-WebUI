@@ -3,7 +3,7 @@
         "dialog": {
             "title": {
                 "edit_category_one": "Categorie bewerken",
-                "edit_category_other": "",
+                "edit_category_other": "Categorieën bewerken",
                 "new_category": "Nieuw categorie"
             }
         },
@@ -15,7 +15,8 @@
             },
             "label": {
                 "empty": "De categorie is leeg",
-                "request_failure": "Kan de categorieën niet laden"
+                "request_failure": "Kan de categorieën niet laden",
+                "create_failure": "Kan de categorie niet aanmaken"
             }
         },
         "label": {
@@ -34,19 +35,25 @@
             "category_one": "Categorie",
             "category_other": "Categorieën",
             "set_categories": "Zet categorieën"
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "download": {
         "queue": {
             "error": {
                 "label": {
                     "failed_delete_all": "Kan niet alle downloads uit de wachtrij verwijderen",
-                    "failed_to_remove": "Kan niet alle downloads uit de wachtrij verwijderen."
+                    "failed_to_remove": "Kan niet alle downloads uit de wachtrij verwijderen.",
+                    "failed_to_retry": "Kon de mislukte download niet opnieuw proberen."
                 }
             },
             "label": {
                 "delete_all": "Alle verwijderen",
                 "no_downloads": "Geen downloads"
+            },
+            "info": {
+                "paused": "Gepauzeerd — $t(download.queue.info.remaining)",
+                "remaining": "{{count}} resterend"
             }
         },
         "settings": {
@@ -116,9 +123,13 @@
             "label": {
                 "downloading": "Downloaden",
                 "error": "Fout",
-                "finished": "Afgerond",
+                "finished": "$t(global.label.finished)",
                 "queued": "Wachtrij"
             }
+        },
+        "title": {
+            "download": "Downloads",
+            "queue": "Download wachtrij"
         }
     },
     "chapter": {
@@ -128,18 +139,18 @@
             "download": {
                 "add": {
                     "label": {
-                        "next_twentyfive": "Volgende 25 hoofdstukken",
                         "action": "Download",
                         "error_one": "Kan de download niet toevoegen",
                         "error_other": "Kan de downloads niet toevoegen",
-                        "next_five": "Volgende 5 hoofstukken",
-                        "next_ten": "Volgende 10 hoofstukken",
                         "success_one": "Download toegevoegd",
                         "success_other": "{{count}} downloads toegevoegd",
-                        "next": "$t(reader.button.next_chapter)",
+                        "next_one": "Volgend hoofdstuk",
+                        "next_other": "Volgende {{count}} hoofdstukken",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "unread": "$t(global.filter.label.unread)"
+                        "unread": "$t(global.filter.label.unread)",
+                        "confirmation_one": "U staat op het punt een hoofdstuk te downloaden",
+                        "confirmation_other": "Je staat op het punt {{count}} hoofdstukken te downloaden.\nSuwayomi downloadt niet massaal en te veel downloads kunnen leiden tot een blokkade van de bronnen en/of prestatieproblemen."
                     },
                     "button": {
                         "selected": "Download geselecteerde"
@@ -151,7 +162,9 @@
                         "error_other": "Kan de hoofdstukken niet verwijderen",
                         "action": "Verwijder",
                         "success_one": "Hoofstuk verwijderd",
-                        "success_other": "{{count}} hoofstukken verwijderd"
+                        "success_other": "{{count}} hoofstukken verwijderd",
+                        "confirmation_one": "U staat op het punt één download te verwijderen",
+                        "confirmation_other": "U staat op het punt {{count}} downloads te verwijderen"
                     },
                     "button": {
                         "selected": "Verwijder geselecteerde"
@@ -180,7 +193,9 @@
                         "error_one": "Kan de bladwijzer niet verwijderen",
                         "error_other": "Kan de bladwijzers niet verwijderen",
                         "success_one": "Hoofstuk bladwijzer verwijderd",
-                        "success_other": "{{count}} hoofstuk bladwijzers verwijderd"
+                        "success_other": "{{count}} hoofstuk bladwijzers verwijderd",
+                        "confirmation_one": "Je staat op het punt om een badwijzer te verwijderen",
+                        "confirmation_other": "Je staat op het punt om {{count}} badwijzers te verwijderen"
                     }
                 }
             },
@@ -201,7 +216,9 @@
                         "error_one": "Kan het hoofdstuk niet markeren als gelezen",
                         "error_other": "Kan de hoofdstukken niet markeren als gelezen",
                         "success_one": "Hoofdstuk gemarkeerd als gelezen",
-                        "success_other": "{{count}} hoofdstukken gemarkeerd als gelezen"
+                        "success_other": "{{count}} hoofdstukken gemarkeerd als gelezen",
+                        "confirmation_one": "U staat op het punt om een hoofdstuk als gelezen te markeren",
+                        "confirmation_other": "Je staat op het punt om {{count}} hoofdstukken als gelezen te markeren"
                     }
                 },
                 "remove": {
@@ -213,7 +230,9 @@
                         "error_one": "Kan het hoofdstuk niet markeren als ongelezen",
                         "error_other": "Kan de hoofstukken niet markeren als ongelezen",
                         "success_one": "Hoofdstuk gemarkeerd als ongelezen",
-                        "success_other": "{{count}} hoofdstukken gemerkeerd als ongelezen"
+                        "success_other": "{{count}} hoofdstukken gemerkeerd als ongelezen",
+                        "confirmation_one": "U staat op het punt een hoofdstuk als ongelezen te markeren",
+                        "confirmation_other": "U staat op het punt om {{count}} hoofdstukken als ongelezen te markeren"
                     }
                 }
             }
@@ -230,13 +249,18 @@
                     "chapter_number": "Hoofdstuk nummer",
                     "source_title": "Bron titel"
                 }
-            }
+            },
+            "exclude_scanlators": "Scanlators uitsluiten"
         },
         "status": {
             "label": {
                 "downloaded": "Gedownload"
             }
-        }
+        },
+        "missing_one": "{{count}} missend hoofdstuk",
+        "missing_other": "{{count}} missende hoofdstukken",
+        "value_one": "{{count}} hoofdstuk",
+        "value_other": "{{count}} hoofdstukken"
     },
     "extension": {
         "action": {
@@ -244,20 +268,22 @@
                 "install": "Installatie",
                 "install_external": "Installeer externe extensies",
                 "update": "Update",
-                "uninstall": "De-installeer"
+                "uninstall": "De-installeer",
+                "update_all": "Alles updaten"
             }
         },
         "label": {
             "add_repository_info": "U moet een extensierepository toevoegen om extensies te kunnen installeren",
             "installation_failed_one": "Kan de extensie niet installeren",
-            "installation_failed_other": "",
+            "installation_failed_other": "Kan de extensies niet installeren",
             "installed_successfully_one": "Extensie geïnstalleerd",
-            "installed_successfully_other": "",
+            "installed_successfully_other": "Extensies geïnstalleerd",
             "installing_file": "Extensie bestand aan het installeren…",
             "uninstallation_failed_one": "Kan de extensie niet de-installeren",
-            "uninstallation_failed_other": "",
+            "uninstallation_failed_other": "Kan de extensies niet de-installeren",
             "update_failed_one": "Kan de extensie niet updaten",
-            "update_failed_other": ""
+            "update_failed_other": "Kan de extensies niet updaten",
+            "age_rating": "Leeftijdsclassificatie"
         },
         "settings": {
             "repositories": {
@@ -280,6 +306,9 @@
                         }
                     }
                 }
+            },
+            "dialog": {
+                "title": "Instellingen voor extensies per taal"
             }
         },
         "state": {
@@ -337,7 +366,9 @@
             "show_more": "Meer laten zien",
             "start": "Begin",
             "stop": "Stop",
-            "submit": "Indienen"
+            "submit": "Indienen",
+            "open": "Open",
+            "save": "Opslaan"
         },
         "label": {
             "disabled": "Uitgeschakeld",
@@ -365,7 +396,44 @@
             "display": "Weergaven",
             "github": "GitHub",
             "placeholder": "Plaatshouder",
-            "username": "Gebruikersnaam"
+            "username": "Gebruikersnaam",
+            "asterisk": "*",
+            "auto": "Automatisch",
+            "both": "Beiden",
+            "bottom": "Bodum",
+            "copied_clipboard": "Gekopieerd naar klembord",
+            "dark": "Donker",
+            "default": "Standaard",
+            "desktop": "Bureablad",
+            "error": "Fout",
+            "finished": "Afgerond",
+            "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
+            "hidden": "Verborgen",
+            "horizontal": "Horizontaal",
+            "info": "Informatie",
+            "large": "Groot",
+            "last_used": "Laatst gebruikt",
+            "left": "Links",
+            "light": "Licht",
+            "medium": "Gemiddeld",
+            "menu": "Menu",
+            "mobile": "Mobiel",
+            "more": "Meer",
+            "next": "Volgende",
+            "pinned": "Vastgemaakt",
+            "previous": "Vorige",
+            "right": "Rechts",
+            "scanlator": "Scanlator",
+            "share": "Delen",
+            "small": "Klein",
+            "standard": "Standaard",
+            "stopped": "Gestopt",
+            "success": "Succes",
+            "system": "Systeem",
+            "tiny": "Heel klein",
+            "version": "Versie",
+            "vertical": "Verticaal",
+            "warning": "Waarschuwing"
         },
         "language": {
             "label": {
@@ -375,6 +443,9 @@
             "title": {
                 "enabled_languages": "Toegestane talen",
                 "weblate": "Weblate"
+            },
+            "error": {
+                "load": "Kan de taal niet laden"
             }
         },
         "sort": {
@@ -382,7 +453,9 @@
                 "by_chapter_number": "Bij hoofdstuk nummer",
                 "by_fetch_date": "Per opgehaalde datum",
                 "by_source": "Per bron",
-                "by_upload_date": "Op uploaddatum"
+                "by_upload_date": "Op uploaddatum",
+                "asc": "Oplopend",
+                "desc": "Aflopend"
             }
         },
         "time": {
@@ -420,7 +493,8 @@
                 "invalid_action": "Dit is geen geldige actie",
                 "failed_to_save_changes": "Kan wijzigingen niet opslaan",
                 "update_failed": "Kan niet controleren op updates",
-                "invalid_input": "Ongeldig invoer"
+                "invalid_input": "Ongeldig invoer",
+                "unrecoverable_error": "Er is iets misgegaan\nEr is een fout opgetreden die we niet kunnen herstellen"
             }
         },
         "filter": {
@@ -429,7 +503,8 @@
                 "downloaded": "Gedownload",
                 "tracked": "Bijgehouden",
                 "unread": "Ongelezen",
-                "duplicate_chapters": "Dubbele hoofdstukken"
+                "duplicate_chapters": "Dubbele hoofdstukken",
+                "started": "Gestart"
             }
         },
         "grid_layout": {
@@ -459,7 +534,16 @@
                     }
                 }
             }
-        }
+        },
+        "colors": {
+            "black": "Zwart",
+            "gray": "Grijs",
+            "white": "Wit"
+        },
+        "unit": {
+            "px": "px"
+        },
+        "value": "{{value}}{{unit}}"
     },
     "library": {
         "error": {
@@ -754,6 +838,25 @@
             "label": {
                 "fit_page_to_window": "Pagina passend maken voor venster",
                 "load_next_chapter": "Laad het volgende hoofdstuk aan het einde"
+            }
+        }
+    },
+    "history": {
+        "error": {
+            "label": {
+                "no_history_available": "Je hebt nog geen enkele serie gelezen."
+            }
+        },
+        "settings": {
+            "hide": "Geschiedenis verbergen"
+        },
+        "title": "Geschiedenis"
+    },
+    "hotkeys": {
+        "create": {
+            "dialog": {
+                "label": "Opgenomen toetsen: <Keys/>",
+                "placeholder": "Druk op toetsen"
             }
         }
     }

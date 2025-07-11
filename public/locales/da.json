@@ -71,12 +71,9 @@
                     },
                     "label": {
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
-                        "next_twentyfive": "Næste 25 kapitler",
                         "error_one": "Kunne ikke tilføje dit download",
                         "error_other": "Kunne ikke tilføje dine downloads",
                         "action": "Download",
-                        "next_five": "Næste 5 kapitler",
-                        "next_ten": "Næste 10 kapitler",
                         "success_one": "Download tilføjet",
                         "success_other": "{{count}} downloads tilføjet"
                     }

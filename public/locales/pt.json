@@ -97,11 +97,10 @@
                         "action": "Baixado",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "next": "$t(reader.button.next_chapter)",
-                        "next_five": "Próximos 5 capítulos",
-                        "unread": "$t(global.filter.label.unread)",
-                        "next_ten": "Próximos 10 capítulos",
-                        "next_twentyfive": "Próximos 25 capítulos"
+                        "next_one": "$t(reader.button.next_chapter)",
+                        "next_many": "",
+                        "next_other": "",
+                        "unread": "$t(global.filter.label.unread)"
                     }
                 }
             }
@@ -915,13 +914,6 @@
                 "server": "Servidor"
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "username": "Autenticação básica $t(global.label.username, lowercase)",
-                        "enable": "Use a autenticação básica",
-                        "password": "Autenticação básica $t(global.label.password, lowercase)"
-                    }
-                },
                 "title": "Autenticação"
             },
             "address": {

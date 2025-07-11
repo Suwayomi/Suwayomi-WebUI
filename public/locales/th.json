@@ -43,13 +43,10 @@
                     "label": {
                         "action": "ดาวน์โหลด",
                         "error_other": "ไม่สามารถเพิ่มเพื่อดาวน์โหลดได้",
-                        "next_five": "5 ตอนถัดไป",
-                        "next_ten": "10 ตอนถัดไป",
-                        "next_twentyfive": "25 ตอนถัดไป",
                         "success_other": "{{count}} ถูกเพิ่มการดาวน์โหลดแล้ว",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "next": "$t(reader.button.next_chapter)",
+                        "next_other": "$t(reader.button.next_chapter)",
                         "unread": "$t(global.filter.label.unread)"
                     },
                     "button": {

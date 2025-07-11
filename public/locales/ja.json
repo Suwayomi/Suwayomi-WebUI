@@ -81,11 +81,8 @@
                         "action": "ダウンロード",
                         "error_other": "ダウンロードを追加することができません",
                         "success_other": "{{count}} 追加されたダウンロード",
-                        "next_five": "次の5章",
-                        "next_ten": "次の10章",
-                        "next_twentyfive": "次の25章",
                         "all": "$t(extension.language.all)",
-                        "next": "$t(reader.button.next_chapter)",
+                        "next_other": "$t(reader.button.next_chapter)",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "unread": "$t(global.filter.label.unread)",
                         "confirmation_other": "{{count}}章をダウンロードしようとしています\nSuwayomi は大量ダウンロード向けのアプリではありません。過剰なダウンロードは、ソースからのアクセス禁止や、パフォーマンスの問題を引き起こす可能性があります。"
@@ -335,7 +332,7 @@
             "success": "成功",
             "right": "右",
             "default": "黙認",
-            "next": "ネクスト",
+            "next": "次のページ",
             "discord": "Discord",
             "dark": "暗い",
             "hidden": "隠された",
@@ -825,7 +822,9 @@
                 "offset_double_spread": "オフセット見開き",
                 "reader_type": "リーダーの種類",
                 "reading_mode": "読書モード",
-                "custom_scroll_amount": "スクロール量をカスタマイズ"
+                "custom_scroll_amount": "スクロール量をカスタマイズ",
+                "skip_filtered_chapters": "フィルタされた章をスキップする",
+                "unchangeable_in_reader": "リーダーが開いている間設定は変更できません"
             },
             "error": {
                 "label": {
@@ -1002,14 +1001,7 @@
     "settings": {
         "server": {
             "auth": {
-                "title": "認証",
-                "basic": {
-                    "label": {
-                        "enable": "BASIC認証を使用する",
-                        "password": "BASIC認証 $t(global.label.password, lowercase)",
-                        "username": "BASIC認証 $t(global.label.username, lowercase)"
-                    }
-                }
+                "title": "認証"
             },
             "cloudflare": {
                 "flaresolverr": {

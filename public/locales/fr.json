@@ -562,13 +562,6 @@
         },
         "server": {
             "auth": {
-                "basic": {
-                    "label": {
-                        "enable": "Utilisez l'authentification de base",
-                        "username": "Authentification de base $t(global.label.username, lowercase)",
-                        "password": "Authentification de base $t(global.label.password, lowercase)"
-                    }
-                },
                 "title": "Authentification"
             },
             "socks_proxy": {
@@ -957,13 +950,12 @@
                         "error_many": "Impossible d'ajouter des téléchargements",
                         "error_other": "Impossible d'ajouter les téléchargements",
                         "action": "Télécharger",
-                        "next_twentyfive": "25 prochains chapitres",
-                        "next_ten": "10 prochains chapitres",
-                        "next_five": "5 prochains chapitres",
                         "all": "$t(extension.language.all)",
                         "unread": "$t(global.filter.label.unread)",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
-                        "next": "$t(reader.button.next_chapter)"
+                        "next_one": "$t(reader.button.next_chapter)",
+                        "next_many": "",
+                        "next_other": ""
                     }
                 }
             }

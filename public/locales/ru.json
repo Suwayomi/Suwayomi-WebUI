@@ -58,12 +58,11 @@
                         "success_one": "Загрузка добавлена",
                         "success_few": "{{count}} загрузки добавлено",
                         "success_many": "{{count}} загрузок добавлено",
-                        "next_five": "Следующие 5 глав",
-                        "next_ten": "Следующие 10 глав",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "next": "$t(reader.button.next_chapter)",
-                        "next_twentyfive": "Следующие 25 глав",
+                        "next_one": "$t(reader.button.next_chapter)",
+                        "next_few": "",
+                        "next_many": "",
                         "unread": "$t(global.filter.label.unread)"
                     }
                 }
@@ -767,13 +766,6 @@
                 "server": "Сервер"
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "enable": "Использовать базовую авторизацию",
-                        "password": "Базовая авторизация $t(global.label.password, lowercase)",
-                        "username": "Базовая аутентификация $t(global.label.username, lowercase)"
-                    }
-                },
                 "title": "Аутентификация"
             },
             "cloudflare": {

@@ -899,13 +899,6 @@
                 "title": "Cloudflare baypas"
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "enable": "Temel kimlik doğrulamayı kullan",
-                        "username": "Temel kimlik doğrulaması $t(global.label.username, lowercase)",
-                        "password": "Temel kimlik doğrulaması $t(global.label.password, lowercase)"
-                    }
-                },
                 "title": "Kimlik doğrulama"
             },
             "misc": {
@@ -1252,10 +1245,8 @@
                     "label": {
                         "all": "$t(extension.language.all)",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
-                        "next": "$t(reader.button.next_chapter)",
-                        "next_ten": "Sonraki 10 bölüm",
-                        "next_five": "Sonraki 5 bölüm",
-                        "next_twentyfive": "Sonraki 25 bölüm",
+                        "next_one": "$t(reader.button.next_chapter)",
+                        "next_other": "",
                         "unread": "$t(global.filter.label.unread)",
                         "success_one": "İndirme kuyruğuna eklendi",
                         "success_other": "{{count}} adet indirme kuyruğına eklendi",

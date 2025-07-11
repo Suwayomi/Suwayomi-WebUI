@@ -71,9 +71,6 @@
                         "error_one": "Hindi maidagdag ang pag-download",
                         "error_other": "Hindi maidagdag ang mga pag-download",
                         "action": "I-download",
-                        "next_five": "Susunod na 5 kabanata",
-                        "next_ten": "Susunod na 10 kabanata",
-                        "next_twentyfive": "Susunod na 25 kabanata",
                         "success_one": "Idinagdag ang pag-download",
                         "success_other": "{{count}} na download ang nadagdag"
                     },

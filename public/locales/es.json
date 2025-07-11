@@ -100,13 +100,6 @@
                 }
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "password": "Autenticación básica $t(global.label.password, lowercase)",
-                        "username": "Autenticación básica $t(global.label.username, lowercase)",
-                        "enable": "Utilizar autenticación básica"
-                    }
-                },
                 "title": "Autenticación"
             },
             "address": {
@@ -845,12 +838,11 @@
                         "success_many": "{{count}} descargas añadidas",
                         "success_other": "{{count}} descargas añadidas",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
-                        "next_twentyfive": "25 capítulos siguientes",
                         "unread": "$t(global.filter.label.unread)",
                         "all": "$t(extension.language.all)",
-                        "next": "$t(reader.button.next_chapter)",
-                        "next_five": "5 capítulos siguientes",
-                        "next_ten": "10 capítulos siguientes"
+                        "next_one": "$t(reader.button.next_chapter)",
+                        "next_many": "",
+                        "next_other": ""
                     }
                 }
             },
