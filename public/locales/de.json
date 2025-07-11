@@ -160,12 +160,10 @@
                         "success_other": "{{count}} Downloads hinzugefügt",
                         "error_one": "Fehler beim Hinzufügen des Downloads",
                         "error_other": "Fehler beim Hinzufügen der Downloads",
-                        "next_five": "Nächste 5 Kapitel",
-                        "next_ten": "Nächste 10 Kapitel",
-                        "next_twentyfive": "Nächste 25 Kapitel",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "next": "$t(reader.button.next_chapter)",
+                        "next_one": "$t(reader.button.next_chapter)",
+                        "next_other": "",
                         "unread": "$t(global.filter.label.unread)",
                         "confirmation_one": "Du bist dabei, ein Kapitel herunterzuladen",
                         "confirmation_other": "Du bist dabei, {{count}} Kapitel herunterzuladen\nSuwayomi ist kein Massen-Downloadtool, zu viele Downloads können dafür sorgen, dass du bei der Quelle gebannt wirst und/oder Performanceprobleme auslösen."
@@ -1036,14 +1034,7 @@
                 "server": "Server"
             },
             "auth": {
-                "title": "Authentifizierung",
-                "basic": {
-                    "label": {
-                        "password": "Basic Authentication $t(global.label.password)",
-                        "enable": "Nutze Basic Authentication",
-                        "username": "Basic Authentication $t(global.label.username)"
-                    }
-                }
+                "title": "Authentifizierung"
             },
             "address": {
                 "client": {

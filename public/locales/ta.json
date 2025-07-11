@@ -10,10 +10,8 @@
                         "all": "$t(extension.language.all)",
                         "error_one": "பதிவிறக்கத்தைச் சேர்க்க முடியவில்லை",
                         "error_other": "பதிவிறக்கங்களைச் சேர்க்க முடியவில்லை",
-                        "next": "$t(reader.button.next_chapter)>",
-                        "next_five": "அடுத்த 5 அத்தியாயங்கள்",
-                        "next_ten": "அடுத்த 10 அத்தியாயங்கள்",
-                        "next_twentyfive": "அடுத்த 25 அத்தியாயங்கள்",
+                        "next_one": "$t(reader.button.next_chapter)>",
+                        "next_other": "",
                         "success_one": "பதிவிறக்கம் சேர்க்கப்பட்டது",
                         "success_other": "{{count}} பதிவிறக்கங்கள் சேர்க்கப்பட்டன"
                     },
@@ -1177,13 +1175,6 @@
                 }
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "enable": "அடிப்படை அங்கீகாரத்தைப் பயன்படுத்தவும்",
-                        "password": "அடிப்படை ஏற்பு $t(global.label.password, lowercase)",
-                        "username": "அடிப்படை ஏற்பு $t(global.label.username, lowercase)"
-                    }
-                },
                 "title": "ஏற்பு"
             },
             "local_source": {

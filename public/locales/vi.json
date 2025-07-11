@@ -67,13 +67,10 @@
                         "action": "Tải xuống",
                         "error_other": "Không thể thêm tải xuống",
                         "success_other": "Đã thêm {{count}} lượt tải xuống",
-                        "next_five": "5 Chương tiếp theo",
-                        "next_ten": "10 Chương tiếp theo",
-                        "next_twentyfive": "25 Chương tiếp theo",
-                        "next": "1 $t(reader.button.next_chapter)",
+                        "next_other": "{{count}} Chương tiếp theo",
                         "unread": "$t(global.filter.label.unread)",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
-                        "all": "$t(extension.language.all)",
+                        "all": "Tất cả các chương",
                         "confirmation_other": "Bạn sắp tải xuống {{count}} chương.\nSuwayomi không phải là trình tải xuống hàng loạt và việc tải xuống quá nhiều có thể khiến bạn bị cấm khỏi các nguồn và/hoặc gây ra sự cố về hiệu suất."
                     },
                     "button": {
@@ -1104,13 +1101,6 @@
                 }
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "enable": "Sử dụng xác thực đơn giản",
-                        "password": "Xác thực đơn giản $t(global.label.password, lowercase)",
-                        "username": "Xác thực cơ bản $t(global.label.username, lowercase)"
-                    }
-                },
                 "title": "Xác thực"
             },
             "cloudflare": {

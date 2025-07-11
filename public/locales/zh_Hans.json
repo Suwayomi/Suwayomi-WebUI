@@ -72,10 +72,7 @@
                         "error_other": "添加下载错误",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "next": "$t(reader.button.next_chapter)",
-                        "next_five": "接下来的5个章节",
-                        "next_ten": "接下来的10个章节",
-                        "next_twentyfive": "接下来的25个章节",
+                        "next_other": "下{{count}}个章节",
                         "unread": "$t(global.filter.label.unread)",
                         "confirmation_other": "将会下载{{count}}个章节\nSuwayomi并不是一个批量下载工具，下载过多可能会导致被来源站点封禁，或引发性能问题。"
                     }
@@ -1081,13 +1078,6 @@
                 }
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "password": "基本身份认证 $t(global.label.password, lowercase)",
-                        "username": "基本身份认证 $t(global.label.username, lowercase)",
-                        "enable": "使用基本身份验证"
-                    }
-                },
                 "title": "认证"
             },
             "socks_proxy": {

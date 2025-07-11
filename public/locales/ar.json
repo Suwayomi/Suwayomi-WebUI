@@ -312,13 +312,6 @@
                 }
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "username": "المصادقة الأساسية $t(global.label.username، أحرف صغيرة)",
-                        "enable": "استخدم المصادقة الأساسية",
-                        "password": "المصادقة الأساسية $t(global.label.password، أحرف صغيرة)"
-                    }
-                },
                 "title": "المصادقة"
             },
             "socks_proxy": {
@@ -827,7 +820,7 @@
                         "error_few": "",
                         "error_many": "",
                         "error_other": "",
-                        "next_twentyfive": "الفصول الـ 25 القادمة"
+                        "all": "$t(extension.language.all)$t(extension.language.all)"
                     }
                 }
             }

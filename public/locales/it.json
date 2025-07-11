@@ -85,12 +85,11 @@
                         "success_one": "Download aggiunto",
                         "success_many": "{{count}} download aggiunti",
                         "success_other": "{{count}} download aggiunti",
-                        "next_five": "Prossimi 5 capitoli",
-                        "next_ten": "Prossimi 10 capitoli",
-                        "next_twentyfive": "Prossimi 25 capitoli",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "next": "$t(reader.button.next_chapter)",
+                        "next_one": "$t(reader.button.next_chapter)",
+                        "next_many": "",
+                        "next_other": "",
                         "unread": "$t(global.filter.label.unread)"
                     }
                 },
@@ -836,13 +835,6 @@
                 "server": "Server"
             },
             "auth": {
-                "basic": {
-                    "label": {
-                        "username": "Autenticazione di base $t(global.label.username, lowercase)",
-                        "password": "Autenticazione di base $t(global.label.password, lowercase)",
-                        "enable": "Utilizza l'autenticazione di base"
-                    }
-                },
                 "title": "Autenticazione"
             },
             "requests": {
