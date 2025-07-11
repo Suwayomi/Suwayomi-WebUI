@@ -39,4 +39,6 @@ jobs:
           yarn ci
 
       - name: Update i18n resources
-        run: yarn i18n:gen-resources
+        run: |
+          cd master
+          yarn i18n:gen-resources
