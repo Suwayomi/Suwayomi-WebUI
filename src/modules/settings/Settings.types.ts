@@ -16,6 +16,7 @@ import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.t
 import { MetadataThemeSettings } from '@/modules/theme/AppTheme.types.ts';
 import { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { MetadataHistorySettings } from '@/modules/history/History.types.ts';
+import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
 
@@ -36,3 +37,52 @@ export interface ISearchSettings {
 }
 
 export type ServerSettings = Omit<GetServerSettingsQuery['settings'], '__typename'>;
+export type ServerSettingsType = Pick<
+    GqlServerSettings,
+    | 'ip'
+    | 'port'
+    | 'socksProxyEnabled'
+    | 'socksProxyVersion'
+    | 'socksProxyHost'
+    | 'socksProxyPort'
+    | 'socksProxyUsername'
+    | 'socksProxyPassword'
+    | 'debugLogsEnabled'
+    | 'systemTrayEnabled'
+    | 'maxLogFiles'
+    | 'maxLogFileSize'
+    | 'maxLogFolderSize'
+    | 'authMode'
+    | 'authUsername'
+    | 'authPassword'
+    | 'flareSolverrEnabled'
+    | 'flareSolverrTimeout'
+    | 'flareSolverrUrl'
+    | 'flareSolverrSessionName'
+    | 'flareSolverrSessionTtl'
+    | 'flareSolverrAsResponseFallback'
+    | 'opdsUseBinaryFileSizes'
+    | 'opdsItemsPerPage'
+    | 'opdsEnablePageReadProgress'
+    | 'opdsMarkAsReadOnDownload'
+    | 'opdsShowOnlyUnreadChapters'
+    | 'opdsShowOnlyDownloadedChapters'
+    | 'opdsChapterSortOrder'
+>;
+
+export type WebUISettingsType = Pick<
+    ServerSettings,
+    | 'webUIFlavor'
+    | 'initialOpenInBrowserEnabled'
+    | 'webUIInterface'
+    | 'electronPath'
+    | 'webUIChannel'
+    | 'webUIUpdateCheckInterval'
+>;
+
+export type GlobalUpdateSkipEntriesSettings = Pick<
+    ServerSettings,
+    'excludeUnreadChapters' | 'excludeNotStarted' | 'excludeCompleted'
+>;
+
+export type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;

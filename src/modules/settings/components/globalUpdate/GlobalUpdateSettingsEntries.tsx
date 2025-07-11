@@ -20,20 +20,9 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { CheckboxContainer } from '@/modules/core/components/inputs/CheckboxContainer.ts';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
-import { TranslationKey } from '@/Base.types.ts';
-import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { GlobalUpdateSkipEntriesSettings, ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-
-type GlobalUpdateSkipEntriesSettings = Pick<
-    ServerSettings,
-    'excludeUnreadChapters' | 'excludeNotStarted' | 'excludeCompleted'
->;
-
-const settingToTextMap: { [setting in keyof GlobalUpdateSkipEntriesSettings]: TranslationKey } = {
-    excludeUnreadChapters: 'library.settings.global_update.entries.label.unread_chapters',
-    excludeNotStarted: 'library.settings.global_update.entries.label.not_started',
-    excludeCompleted: 'library.settings.global_update.entries.label.completed',
-};
+import { settingToTextMap } from '@/modules/settings/Settings.constants.ts';
 
 const getSkipMangasText = (settings: GlobalUpdateSkipEntriesSettings) => {
     const skipSettings: string[] = [];

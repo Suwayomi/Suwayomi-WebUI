@@ -14,11 +14,7 @@ import Switch from '@mui/material/Switch';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/modules/settings/components/webUI/WebUIUpdateIntervalSetting.tsx';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
-import {
-    SelectSetting,
-    SelectSettingValue,
-    SelectSettingValueDisplayInfo,
-} from '@/modules/core/components/settings/SelectSetting.tsx';
+import { SelectSetting } from '@/modules/core/components/settings/SelectSetting.tsx';
 import { WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -29,84 +25,14 @@ import {
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
-import { ServerSettings } from '@/modules/settings/Settings.types.ts';
+import { ServerSettings, WebUISettingsType } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-
-type WebUISettingsType = Pick<
-    ServerSettings,
-    | 'webUIFlavor'
-    | 'initialOpenInBrowserEnabled'
-    | 'webUIInterface'
-    | 'electronPath'
-    | 'webUIChannel'
-    | 'webUIUpdateCheckInterval'
->;
-
-const FLAVORS = Object.values(WebUiFlavor);
-const FLAVOR_TO_TRANSLATION_KEY: { [flavor in WebUiFlavor]: SelectSettingValueDisplayInfo } = {
-    [WebUiFlavor.Webui]: {
-        text: 'settings.webui.title.webui',
-        description: 'settings.webui.flavor.option.webui.label.description',
-        disclaimer: 'settings.webui.flavor.label.info',
-    },
-    [WebUiFlavor.Vui]: {
-        text: 'settings.webui.flavor.option.vui.label.title',
-        description: 'settings.webui.flavor.option.vui.label.description',
-        disclaimer: 'settings.webui.flavor.label.info',
-    },
-    [WebUiFlavor.Custom]: {
-        text: 'settings.webui.flavor.option.custom.label.title',
-        description: 'settings.webui.flavor.option.custom.label.description',
-    },
-};
-const FLAVOR_SELECT_VALUES: SelectSettingValue<WebUiFlavor>[] = FLAVORS.map((flavor) => [
-    flavor,
-    FLAVOR_TO_TRANSLATION_KEY[flavor],
-]);
-
-const CHANNELS = Object.values(WebUiChannel);
-const CHANNEL_TO_TRANSLATION_KEYS: {
-    [channel in WebUiChannel]: SelectSettingValueDisplayInfo;
-} = {
-    [WebUiChannel.Bundled]: {
-        text: 'settings.webui.channel.option.bundled.label.title',
-        description: 'settings.webui.channel.option.bundled.label.description',
-        disclaimer: 'settings.webui.flavor.label.info',
-    },
-    [WebUiChannel.Stable]: {
-        text: 'settings.webui.channel.option.stable.label.title',
-        description: 'settings.webui.channel.option.stable.label.description',
-        disclaimer: 'settings.webui.flavor.label.info',
-    },
-    [WebUiChannel.Preview]: {
-        text: 'settings.webui.channel.option.preview.label.title',
-        description: 'settings.webui.channel.option.preview.label.description',
-        disclaimer: 'settings.webui.channel.option.preview.label.disclaimer',
-    },
-};
-const CHANNEL_SELECT_VALUES: SelectSettingValue<WebUiChannel>[] = CHANNELS.map((channel) => [
-    channel,
-    CHANNEL_TO_TRANSLATION_KEYS[channel],
-]);
-
-const INTERFACES = Object.values(WebUiInterface);
-const INTERFACE_TO_TRANSLATION_KEYS: {
-    [webUIInterface in WebUiInterface]: SelectSettingValueDisplayInfo;
-} = {
-    [WebUiInterface.Browser]: {
-        text: 'settings.webui.interface.option.label.browser',
-        description: 'settings.webui.interface.label.description',
-    },
-    [WebUiInterface.Electron]: {
-        text: 'settings.webui.interface.option.label.electron',
-        description: 'settings.webui.interface.label.description',
-    },
-};
-const INTERFACE_SELECT_VALUES: SelectSettingValue<WebUiInterface>[] = INTERFACES.map((webUIInterface) => [
-    webUIInterface,
-    INTERFACE_TO_TRANSLATION_KEYS[webUIInterface],
-]);
+import {
+    CHANNEL_SELECT_VALUES,
+    FLAVOR_SELECT_VALUES,
+    INTERFACE_SELECT_VALUES,
+} from '@/modules/settings/Settings.constants.ts';
 
 const extractWebUISettings = (settings: ServerSettings): WebUISettingsType => ({
     webUIFlavor: settings.webUIFlavor,

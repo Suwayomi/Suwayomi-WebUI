@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Link from '@mui/material/Link';
 import List from '@mui/material/List';
@@ -19,11 +19,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { TextSetting } from '@/modules/core/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.tsx';
-import {
-    SelectSetting,
-    SelectSettingValue,
-    SelectSettingValueDisplayInfo,
-} from '@/modules/core/components/settings/SelectSetting.tsx';
+import { SelectSetting } from '@/modules/core/components/settings/SelectSetting.tsx';
 import { LoadingPlaceholder } from '@/modules/core/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -33,43 +29,11 @@ import {
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/modules/app-updates/AppUpdateChecker.types.ts';
-import { ServerSettings as GqlServerSettings } from '@/modules/settings/Settings.types.ts';
+import { ServerSettings as GqlServerSettings, ServerSettingsType } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-import { SortOrder, AuthMode } from '@/lib/graphql/generated/graphql';
-
-type ServerSettingsType = Pick<
-    GqlServerSettings,
-    | 'ip'
-    | 'port'
-    | 'socksProxyEnabled'
-    | 'socksProxyVersion'
-    | 'socksProxyHost'
-    | 'socksProxyPort'
-    | 'socksProxyUsername'
-    | 'socksProxyPassword'
-    | 'debugLogsEnabled'
-    | 'systemTrayEnabled'
-    | 'maxLogFiles'
-    | 'maxLogFileSize'
-    | 'maxLogFolderSize'
-    | 'authMode'
-    | 'authUsername'
-    | 'authPassword'
-    | 'flareSolverrEnabled'
-    | 'flareSolverrTimeout'
-    | 'flareSolverrUrl'
-    | 'flareSolverrSessionName'
-    | 'flareSolverrSessionTtl'
-    | 'flareSolverrAsResponseFallback'
-    | 'opdsUseBinaryFileSizes'
-    | 'opdsItemsPerPage'
-    | 'opdsEnablePageReadProgress'
-    | 'opdsMarkAsReadOnDownload'
-    | 'opdsShowOnlyUnreadChapters'
-    | 'opdsShowOnlyDownloadedChapters'
-    | 'opdsChapterSortOrder'
->;
+import { AuthMode, SortOrder } from '@/lib/graphql/generated/graphql';
+import { AUTH_MODES_SELECT_VALUES } from '@/modules/settings/Settings.constants.ts';
 
 const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType => ({
     ip: settings.ip,
@@ -102,28 +66,6 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     opdsShowOnlyDownloadedChapters: settings.opdsShowOnlyDownloadedChapters,
     opdsChapterSortOrder: settings.opdsChapterSortOrder,
 });
-
-const AUTH_MODES = [AuthMode.None].concat(Object.values(AuthMode).filter((mode) => mode !== AuthMode.None));
-const AUTH_MODES_TO_TRANSLATION_KEY: { [mode in AuthMode]: SelectSettingValueDisplayInfo } = {
-    [AuthMode.None]: {
-        text: 'settings.server.auth.mode.option.none.label.title',
-        description: 'settings.server.auth.mode.option.none.label.description',
-        disclaimer: 'settings.server.auth.mode.option.none.label.info',
-    },
-    [AuthMode.BasicAuth]: {
-        text: 'settings.server.auth.mode.option.basicAuth.label.title',
-        description: 'settings.server.auth.mode.option.basicAuth.label.description',
-    },
-    [AuthMode.SimpleLogin]: {
-        text: 'settings.server.auth.mode.option.simpleLogin.label.title',
-        description: 'settings.server.auth.mode.option.simpleLogin.label.description',
-        disclaimer: 'settings.server.auth.mode.option.simpleLogin.label.info',
-    },
-};
-const AUTH_MODES_SELECT_VALUES: SelectSettingValue<AuthMode>[] = AUTH_MODES.map((mode) => [
-    mode,
-    AUTH_MODES_TO_TRANSLATION_KEY[mode],
-]);
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {

@@ -8,10 +8,16 @@
 
 import { DEFAULT_DEVICE } from '@/modules/device/services/Device.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/modules/migration/Migration.constants.ts';
-import { MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
+import { GlobalUpdateSkipEntriesSettings, MetadataServerSettings } from '@/modules/settings/Settings.types.ts';
 import { GridLayout } from '@/modules/core/Core.types.ts';
 import { getDefaultLanguages } from '@/modules/core/utils/Languages.ts';
 import { ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
+import {
+    SelectSettingValue,
+    SelectSettingValueDisplayInfo,
+} from '@/modules/core/components/settings/SelectSetting.tsx';
+import { AuthMode, WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
+import { TranslationKey } from '@/Base.types.ts';
 
 export const MANGA_GRID_WIDTH = {
     min: 100,
@@ -75,3 +81,104 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     mangaDynamicColorSchemes: true,
     mangaGridItemWidth: MANGA_GRID_WIDTH.default,
 };
+
+const AUTH_MODES = [AuthMode.None].concat(Object.values(AuthMode).filter((mode) => mode !== AuthMode.None));
+const AUTH_MODES_TO_TRANSLATION_KEY: { [mode in AuthMode]: SelectSettingValueDisplayInfo } = {
+    [AuthMode.None]: {
+        text: 'settings.server.auth.mode.option.none.label.title',
+        description: 'settings.server.auth.mode.option.none.label.description',
+        disclaimer: 'settings.server.auth.mode.option.none.label.info',
+    },
+    [AuthMode.BasicAuth]: {
+        text: 'settings.server.auth.mode.option.basicAuth.label.title',
+        description: 'settings.server.auth.mode.option.basicAuth.label.description',
+    },
+    [AuthMode.SimpleLogin]: {
+        text: 'settings.server.auth.mode.option.simpleLogin.label.title',
+        description: 'settings.server.auth.mode.option.simpleLogin.label.description',
+        disclaimer: 'settings.server.auth.mode.option.simpleLogin.label.info',
+    },
+};
+export const AUTH_MODES_SELECT_VALUES: SelectSettingValue<AuthMode>[] = AUTH_MODES.map((mode) => [
+    mode,
+    AUTH_MODES_TO_TRANSLATION_KEY[mode],
+]);
+
+const FLAVORS = Object.values(WebUiFlavor);
+const FLAVOR_TO_TRANSLATION_KEY: { [flavor in WebUiFlavor]: SelectSettingValueDisplayInfo } = {
+    [WebUiFlavor.Webui]: {
+        text: 'settings.webui.title.webui',
+        description: 'settings.webui.flavor.option.webui.label.description',
+        disclaimer: 'settings.webui.flavor.label.info',
+    },
+    [WebUiFlavor.Vui]: {
+        text: 'settings.webui.flavor.option.vui.label.title',
+        description: 'settings.webui.flavor.option.vui.label.description',
+        disclaimer: 'settings.webui.flavor.label.info',
+    },
+    [WebUiFlavor.Custom]: {
+        text: 'settings.webui.flavor.option.custom.label.title',
+        description: 'settings.webui.flavor.option.custom.label.description',
+    },
+};
+export const FLAVOR_SELECT_VALUES: SelectSettingValue<WebUiFlavor>[] = FLAVORS.map((flavor) => [
+    flavor,
+    FLAVOR_TO_TRANSLATION_KEY[flavor],
+]);
+
+const CHANNELS = Object.values(WebUiChannel);
+const CHANNEL_TO_TRANSLATION_KEYS: {
+    [channel in WebUiChannel]: SelectSettingValueDisplayInfo;
+} = {
+    [WebUiChannel.Bundled]: {
+        text: 'settings.webui.channel.option.bundled.label.title',
+        description: 'settings.webui.channel.option.bundled.label.description',
+        disclaimer: 'settings.webui.flavor.label.info',
+    },
+    [WebUiChannel.Stable]: {
+        text: 'settings.webui.channel.option.stable.label.title',
+        description: 'settings.webui.channel.option.stable.label.description',
+        disclaimer: 'settings.webui.flavor.label.info',
+    },
+    [WebUiChannel.Preview]: {
+        text: 'settings.webui.channel.option.preview.label.title',
+        description: 'settings.webui.channel.option.preview.label.description',
+        disclaimer: 'settings.webui.channel.option.preview.label.disclaimer',
+    },
+};
+export const CHANNEL_SELECT_VALUES: SelectSettingValue<WebUiChannel>[] = CHANNELS.map((channel) => [
+    channel,
+    CHANNEL_TO_TRANSLATION_KEYS[channel],
+]);
+
+const INTERFACES = Object.values(WebUiInterface);
+const INTERFACE_TO_TRANSLATION_KEYS: {
+    [webUIInterface in WebUiInterface]: SelectSettingValueDisplayInfo;
+} = {
+    [WebUiInterface.Browser]: {
+        text: 'settings.webui.interface.option.label.browser',
+        description: 'settings.webui.interface.label.description',
+    },
+    [WebUiInterface.Electron]: {
+        text: 'settings.webui.interface.option.label.electron',
+        description: 'settings.webui.interface.label.description',
+    },
+};
+export const INTERFACE_SELECT_VALUES: SelectSettingValue<WebUiInterface>[] = INTERFACES.map((webUIInterface) => [
+    webUIInterface,
+    INTERFACE_TO_TRANSLATION_KEYS[webUIInterface],
+]);
+
+export const DEFAULT_INTERVAL_HOURS = 12;
+export const MIN_INTERVAL_HOURS = 6;
+export const MAX_INTERVAL_HOURS = 24 * 7 * 4; // 1 month
+
+export const settingToTextMap: { [setting in keyof GlobalUpdateSkipEntriesSettings]: TranslationKey } = {
+    excludeUnreadChapters: 'library.settings.global_update.entries.label.unread_chapters',
+    excludeNotStarted: 'library.settings.global_update.entries.label.not_started',
+    excludeCompleted: 'library.settings.global_update.entries.label.completed',
+};
+
+export const DEFAULT_VALUE = 23;
+export const MIN_VALUE = 1;
+export const MAX_VALUE = 23; // 1 month

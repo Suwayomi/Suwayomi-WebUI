@@ -18,10 +18,7 @@ import { getPersistedServerSetting, usePersistedValue } from '@/modules/core/hoo
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-
-const DEFAULT_VALUE = 23;
-const MIN_VALUE = 1;
-const MAX_VALUE = 23; // 1 month
+import { DEFAULT_VALUE, MAX_VALUE, MIN_VALUE } from '@/modules/settings/Settings.constants.ts';
 
 export const WebUIUpdateIntervalSetting = ({
     disabled = false,

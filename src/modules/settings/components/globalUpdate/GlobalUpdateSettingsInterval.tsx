@@ -17,10 +17,11 @@ import { NumberSetting } from '@/modules/core/components/settings/NumberSetting.
 import { getPersistedServerSetting, usePersistedValue } from '@/modules/core/hooks/usePersistedValue.tsx';
 
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
-
-const DEFAULT_INTERVAL_HOURS = 12;
-const MIN_INTERVAL_HOURS = 6;
-const MAX_INTERVAL_HOURS = 24 * 7 * 4; // 1 month
+import {
+    DEFAULT_INTERVAL_HOURS,
+    MAX_INTERVAL_HOURS,
+    MIN_INTERVAL_HOURS,
+} from '@/modules/settings/Settings.constants.ts';
 
 export const GlobalUpdateSettingsInterval = ({
     globalUpdateInterval,
