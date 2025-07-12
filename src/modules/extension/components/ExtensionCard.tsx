@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Stack from '@mui/material/Stack';
-import { Link } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import {
@@ -128,12 +127,7 @@ export function ExtensionCard(props: IProps) {
                     </Stack>
                     {isInstalled && (
                         <CustomTooltip title={t('settings.title')}>
-                            <IconButton
-                                component={Link}
-                                to={AppRoutes.extension.childRoutes.info.path(pkgName)}
-                                color="inherit"
-                                {...MUIUtil.preventRippleProp()}
-                            >
+                            <IconButton color="inherit" {...MUIUtil.preventRippleProp()}>
                                 <SettingsIcon />
                             </IconButton>
                         </CustomTooltip>
