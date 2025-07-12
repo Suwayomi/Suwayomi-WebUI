@@ -175,7 +175,7 @@ const SourceCard = (source: SourceIdInfo & SourceLanguageInfo & SourceConfigurab
                                 </IconButton>
                             </CustomTooltip>
                         )}
-                        <Switch checked={isEnabled} onChange={(_, checked) => updateSetting('isEnabled', checked)} />
+                        <Switch checked={isEnabled} />
                     </ListCardContent>
                 </CardActionArea>
             </Card>
