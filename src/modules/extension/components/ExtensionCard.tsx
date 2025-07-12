@@ -144,7 +144,10 @@ export function ExtensionCard(props: IProps) {
                             color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit',
                             flexShrink: 0,
                         }}
-                        onClick={() => handleButtonClick()}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            handleButtonClick();
+                        }}
                     >
                         {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
                     </Button>
