@@ -1078,7 +1078,36 @@
                 }
             },
             "auth": {
-                "title": "认证"
+                "title": "认证",
+                "label": {
+                    "password": "$t(global.label.password)",
+                    "title": "验证模式",
+                    "username": "$t(global.label.username)"
+                },
+                "mode": {
+                    "option": {
+                        "basicAuth": {
+                            "label": {
+                                "description": "你的浏览器将通过对话框提示你输入凭据。",
+                                "title": "基础验证"
+                            }
+                        },
+                        "none": {
+                            "label": {
+                                "description": "禁用验证",
+                                "info": "你的书架将对外可访问。仅在私有网络中或确保已采取其他安全措施的情况下使用此功能。",
+                                "title": "无"
+                            }
+                        },
+                        "simpleLogin": {
+                            "label": {
+                                "description": "将显示一个简易登录页面以进行登录。",
+                                "info": "启用此功能后，可能需要刷新此标签页才能显示登录页面。",
+                                "title": "普通登录"
+                            }
+                        }
+                    }
+                }
             },
             "socks_proxy": {
                 "label": {
@@ -1196,6 +1225,53 @@
                     }
                 },
                 "title": "绕过 Cloudflare"
+            },
+            "opds": {
+                "binary_file_sizes": {
+                    "label": {
+                        "description": "以二进制单位（KiB、MiB、GiB）显示文件大小，而非十进制单位（KB、MB、GB）",
+                        "title": "二进制文件体积",
+                        "unit_other": "个数"
+                    }
+                },
+                "chapter_sort_order": {
+                    "label": {
+                        "description": "选择章节展示顺序。",
+                        "title": "章节排序"
+                    }
+                },
+                "enable_page_read_progress": {
+                    "label": {
+                        "description": "在页面流式加载时，按页跟踪并更新每一章节的阅读进度",
+                        "title": "启用页面阅读进度"
+                    }
+                },
+                "items_per_page": {
+                    "label": {
+                        "description": "OPDS 订阅源中每页的项目数量（例如：书架历史、漫画章节）。\n数值越高，越可能会影响客户端性能。",
+                        "title": "每页显示数量",
+                        "unit_other": "个数"
+                    }
+                },
+                "mark_as_read_on_download": {
+                    "label": {
+                        "description": "下载后自动标记章节为已读。",
+                        "title": "下载章节时标记已读"
+                    }
+                },
+                "show_only_downloaded_chapters": {
+                    "label": {
+                        "description": "筛选漫画列表，仅显示已下载的章节。",
+                        "title": "仅显示下载的章节"
+                    }
+                },
+                "show_only_unread_chapters": {
+                    "label": {
+                        "description": "筛选漫画列表，仅显示未阅读的章节。",
+                        "title": "仅显示未阅读的章节"
+                    }
+                },
+                "title": "OPDS（开放出版物分发系统）"
             }
         },
         "webui": {
