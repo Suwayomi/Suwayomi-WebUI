@@ -118,6 +118,16 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
                     >
                         {t('global.label.share')}
                     </MenuItem>
+
+                    {/* Add new MenuItem for translation */}
+                    <MenuItem
+                        onClick={() => {
+                            console.log('Translate manga:', mangaId);
+                            // Implement your translation functionality here
+                        }}
+                    >
+                        {t('manga.button.translate')}
+                    </MenuItem>
                 </Menu>
             </Stack>
         </Slide>

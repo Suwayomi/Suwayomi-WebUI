@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import TranslateIcon from '@mui/icons-material/Translate'; // Add this import for translation icon
 import { memo } from 'react';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { useManageMangaLibraryState } from '@/modules/manga/hooks/useManageMangaLibraryState.tsx';
@@ -33,6 +34,13 @@ const BaseReaderLibraryButton = ({ manga }: Pick<TReaderStateMangaContext, 'mang
         true,
     );
 
+    // Add handler for the new translation button
+    const handleTranslation = () => {
+        // Implement your translation functionality here
+        console.log('Translate manga:', manga?.id);
+        // You might want to call a translation API or open a translation dialog
+    };
+
     return (
         <>
             <CustomTooltip
@@ -40,6 +48,13 @@ const BaseReaderLibraryButton = ({ manga }: Pick<TReaderStateMangaContext, 'mang
             >
                 <IconButton onClick={updateLibraryState} color="inherit">
                     {inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                </IconButton>
+            </CustomTooltip>
+
+            {/* Add new translation button */}
+            <CustomTooltip title={t('manga.button.translate')}>
+                <IconButton onClick={handleTranslation} color="inherit">
+                    <TranslateIcon />
                 </IconButton>
             </CustomTooltip>
 

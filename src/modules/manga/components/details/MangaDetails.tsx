@@ -18,6 +18,7 @@ import LaunchIcon from '@mui/icons-material/Launch';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import TranslateIcon from '@mui/icons-material/Translate'; // Add this import
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
@@ -152,6 +153,18 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
     );
 };
 
+const TranslateButton = ({ onClick }: { onClick: () => void }) => {
+    const { t } = useTranslation();
+
+    return (
+        <CustomTooltip title={t('manga.button.translate')}>
+            <CustomButtonIcon size="medium" onClick={onClick} variant="outlined">
+                <TranslateIcon />
+            </CustomButtonIcon>
+        </CustomTooltip>
+    );
+};
+
 function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): string {
     if (!source) {
         return translate('global.label.unknown');
@@ -220,6 +233,11 @@ export const MangaDetails = ({
         }
     };
 
+    const handleTranslate = () => {
+        console.log('Translate manga:', manga?.id);
+        // Implement your translation functionality here
+    };
+
     return (
         <>
             <DetailsWrapper>
@@ -269,6 +287,7 @@ export const MangaDetails = ({
                         </CustomButton>
                         <TrackMangaButton manga={manga} />
                         <OpenSourceButton url={manga.realUrl} />
+                        <TranslateButton onClick={handleTranslate} />
                     </MangaButtonsContainer>
                 </TopContentWrapper>
                 <DescriptionGenre manga={manga} mode={mode} />

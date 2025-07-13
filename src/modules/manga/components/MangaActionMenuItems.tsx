@@ -19,6 +19,7 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { Link } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
 import Dialog from '@mui/material/Dialog';
+import TranslateIcon from '@mui/icons-material/Translate';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { MenuItem } from '@/modules/core/components/menu/MenuItem.tsx';
@@ -97,6 +98,20 @@ export const MangaActionMenuItems = ({
         onClose(!ACTION_DISABLES_SELECTION_MODE.includes(action));
     };
 
+    const handleTranslate = () => {
+        // Implement your translation logic here
+        console.log('Translating manga:', manga?.id || selectedMangas.map((m) => m.id));
+
+        // Example: Open a translation service in a new tab
+        // You can replace this with your actual translation implementation
+        const title = manga?.title || selectedMangas[0]?.title;
+        if (title) {
+            window.open(`https://translate.google.com/?sl=auto&tl=en&text=${encodeURIComponent(title)}`, '_blank');
+        }
+
+        onClose(true);
+    };
+
     const { downloadableMangas, downloadedMangas, unreadMangas, readMangas } = useMemo(
         () => ({
             downloadableMangas: [
@@ -118,6 +133,7 @@ export const MangaActionMenuItems = ({
             {!!handleSelection && isSingleMode && (
                 <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t('chapter.action.label.select')} />
             )}
+            <MenuItem onClick={handleTranslate} Icon={TranslateIcon} title={t('manga.action.label.translate')} />
             {shouldShowMenuItem(!isFullyDownloaded) && (
                 <NestedMenuItem
                     disabled={isMenuItemDisabled(!downloadableMangas.length)}
@@ -131,6 +147,15 @@ export const MangaActionMenuItems = ({
                     />
                 </NestedMenuItem>
             )}
+            <MenuItem
+                onClick={() => {
+                    // Implement your "T transfter" logic here
+                    console.log('T transfter clicked', manga?.id || selectedMangas.map((m) => m.id));
+                    onClose(true);
+                }}
+                Icon={Label}
+                title="T transfter"
+            />
             {shouldShowMenuItem(hasDownloadedChapters) && (
                 <MenuItem
                     Icon={Delete}
