@@ -88,21 +88,26 @@ const handleDownload = async (
         },
     ).response;
     const filteredChapters = filterChapters(chapters.data.chapters.nodes, meta);
-    const chaptersToDownload = filteredChapters
-        .filter((chapter) => {
-            if (onlyUnread && chapter.isRead) {
-                return false;
-            }
+    const unreadUndownloadedChapters = filteredChapters.filter((chapter) => {
+        if (onlyUnread && chapter.isRead) {
+            return false;
+        }
 
-            return !chapter.isDownloaded;
-        })
-        .slice(-(size ?? 0));
+        return !chapter.isDownloaded;
+    });
 
-    if (!chaptersToDownload.length) {
+    const uniqueChapters = Chapters.removeDuplicates(
+        unreadUndownloadedChapters.slice(-1)[0],
+        unreadUndownloadedChapters,
+    );
+    const chaptersToDownload = uniqueChapters.slice(-(size ?? 0));
+    const chaptersToDownloadWithDuplicates = Chapters.addDuplicates(chaptersToDownload, unreadUndownloadedChapters);
+
+    if (!chaptersToDownloadWithDuplicates.length) {
         return;
     }
 
-    Chapters.performAction('download', Chapters.getIds(chaptersToDownload), {}).catch(
+    Chapters.performAction('download', Chapters.getIds(chaptersToDownloadWithDuplicates), {}).catch(
         defaultPromiseErrorHandler('ChaptersDownloadActionMenuItems::handleSelect::singleMangaMode'),
     );
 };
