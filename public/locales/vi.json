@@ -1101,7 +1101,36 @@
                 }
             },
             "auth": {
-                "title": "Xác thực"
+                "title": "Xác thực",
+                "label": {
+                    "password": "$t(global.label.password)",
+                    "title": "Chế độ xác thực",
+                    "username": "$t(global.label.username)"
+                },
+                "mode": {
+                    "option": {
+                        "basicAuth": {
+                            "label": {
+                                "description": "Trình duyệt của bạn sẽ nhắc bạn nhập thông tin đăng nhập thông qua hộp thoại.",
+                                "title": "Xác thực cơ bản"
+                            }
+                        },
+                        "none": {
+                            "label": {
+                                "description": "Vô hiệu hóa xác thực",
+                                "info": "Thư viện của bạn sẽ có thể truy cập được. Chỉ sử dụng tùy chọn này trên mạng riêng hoặc khi cần bảo mật quyền truy cập.",
+                                "title": "Không có"
+                            }
+                        },
+                        "simpleLogin": {
+                            "label": {
+                                "description": "Một trang đăng nhập đơn giản sẽ được hiển thị để đăng nhập.",
+                                "info": "Khi bạn bật tính năng này, bạn có thể cần phải làm mới tab này để trang đăng nhập xuất hiện.",
+                                "title": "Đăng nhập cơ bản"
+                            }
+                        }
+                    }
+                }
             },
             "cloudflare": {
                 "flaresolverr": {
@@ -1211,6 +1240,53 @@
                         }
                     }
                 }
+            },
+            "opds": {
+                "binary_file_sizes": {
+                    "label": {
+                        "description": "Hiển thị kích thước tệp theo dạng nhị phân (KiB, MiB, GiB) thay vì dạng thập phân (KB, MB, GB)",
+                        "title": "Kích thước tệp nhị phân",
+                        "unit_other": "Mục"
+                    }
+                },
+                "chapter_sort_order": {
+                    "label": {
+                        "description": "Chọn thứ tự hiển thị các chương.",
+                        "title": "Thứ tự sắp xếp chương"
+                    }
+                },
+                "enable_page_read_progress": {
+                    "label": {
+                        "description": "Theo dõi và cập nhật tiến trình đọc của bạn theo từng trang cho mỗi chương trong quá trình phát trực tuyến trang",
+                        "title": "Bật tiến trình đọc trang"
+                    }
+                },
+                "items_per_page": {
+                    "label": {
+                        "description": "Số lượng mục trên mỗi trang trong nguồn cấp OPDS (ví dụ: Lịch sử thư viện, Chương truyện tranh).\nGiá trị cao hơn có thể ảnh hưởng đến hiệu suất của máy khách.",
+                        "title": "Số mục trên mỗi trang",
+                        "unit_other": "Mục"
+                    }
+                },
+                "mark_as_read_on_download": {
+                    "label": {
+                        "description": "Tự động đánh dấu các chương là đã đọc khi bạn tải chúng xuống.",
+                        "title": "Đánh dấu các chương đã đọc khi tải xuống"
+                    }
+                },
+                "show_only_downloaded_chapters": {
+                    "label": {
+                        "description": "Lọc dữ liệu truyện tranh để chỉ hiển thị các chương bạn đã tải xuống.",
+                        "title": "Chỉ hiển thị các chương đã tải xuống"
+                    }
+                },
+                "show_only_unread_chapters": {
+                    "label": {
+                        "description": "Lọc dữ liệu truyện tranh để chỉ hiển thị những chương bạn chưa đọc.",
+                        "title": "Chỉ hiển thị các chương chưa đọc"
+                    }
+                },
+                "title": "OPDS"
             }
         },
         "device": {
