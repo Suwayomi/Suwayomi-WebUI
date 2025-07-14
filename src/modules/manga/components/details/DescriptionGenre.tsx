@@ -14,8 +14,6 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import parseHtml from 'html-react-parser';
-import sanitizeHtml from 'sanitize-html';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import {
@@ -64,7 +62,7 @@ export const DescriptionGenre = ({
                                 mb: OPEN_CLOSE_BUTTON_HEIGHT,
                             }}
                         >
-                            {parseHtml(sanitizeHtml(description, { disallowedTagsMode: 'recursiveEscape' }))}
+                            {description}
                         </Typography>
                     </Collapse>
                     <Stack

@@ -18,9 +18,7 @@ import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useLayoutEffect, useRef, useState } from 'react';
-import parseHtml from 'html-react-parser';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import sanitizeHtml from 'sanitize-html';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SpinnerImage } from '@/modules/core/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/modules/core/components/texts/TypographyMaxLines.tsx';
@@ -74,7 +72,7 @@ const TrackerMangaCardSummary = ({ summary }: { summary: string }) => {
             {summary.length && (
                 <Collapse collapsedSize={summaryCollapsedSize} in={isSummaryExpanded}>
                     <Typography ref={summaryRef} variant="body1" component="p" sx={{ whiteSpace: 'pre-line' }}>
-                        {parseHtml(sanitizeHtml(summary, { disallowedTagsMode: 'recursiveEscape' }))}
+                        {summary}
                     </Typography>
                 </Collapse>
             )}
