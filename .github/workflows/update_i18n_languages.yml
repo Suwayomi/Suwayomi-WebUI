@@ -10,7 +10,7 @@ jobs:
   update-i18n:
     if: >
       github.event_name == 'workflow_dispatch' ||
-      endsWith(github.event.head_commit.message, 'Translations update from Hosted Weblate')
+      contains(github.event.head_commit.message, 'Translations update from Hosted Weblate')
     runs-on: ubuntu-latest
 
     steps:
