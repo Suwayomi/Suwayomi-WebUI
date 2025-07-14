@@ -74,7 +74,7 @@ const TrackerMangaCardSummary = ({ summary }: { summary: string }) => {
             {summary.length && (
                 <Collapse collapsedSize={summaryCollapsedSize} in={isSummaryExpanded}>
                     <Typography ref={summaryRef} variant="body1" component="p" sx={{ whiteSpace: 'pre-line' }}>
-                        {parseHtml(sanitizeHtml(summary, { disallowedTagsMode: 'escape' }))}
+                        {parseHtml(sanitizeHtml(summary, { disallowedTagsMode: 'recursiveEscape' }))}
                     </Typography>
                 </Collapse>
             )}

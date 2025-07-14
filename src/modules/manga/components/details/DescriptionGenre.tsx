@@ -64,7 +64,7 @@ export const DescriptionGenre = ({
                                 mb: OPEN_CLOSE_BUTTON_HEIGHT,
                             }}
                         >
-                            {parseHtml(sanitizeHtml(description, { disallowedTagsMode: 'escape' }))}
+                            {parseHtml(sanitizeHtml(description, { disallowedTagsMode: 'recursiveEscape' }))}
                         </Typography>
                     </Collapse>
                     <Stack
