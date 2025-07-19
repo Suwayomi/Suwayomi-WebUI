@@ -9,7 +9,6 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
-import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DownloadIcon from '@mui/icons-material/Download';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { memo, useMemo, useRef } from 'react';
@@ -25,6 +24,9 @@ import { userReaderStatePagesContext } from '@/modules/reader/contexts/state/Rea
 import { ReaderLibraryButton } from '@/modules/reader/components/overlay/navigation/ReaderLibraryButton.tsx';
 import { ReaderBookmarkButton } from '@/modules/reader/components/overlay/navigation/ReaderBookmarkButton.tsx';
 import { CHAPTER_ACTION_TO_TRANSLATION, FALLBACK_CHAPTER } from '@/modules/chapter/Chapter.constants.ts';
+import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
+import { IconWebView } from '@/assets/icons/IconWebView.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
     const { t } = useTranslation();
@@ -100,7 +102,7 @@ const BaseReaderNavBarDesktopActions = memo(
                     </IconButton>
                 </CustomTooltip>
                 <DownloadButton currentChapter={currentChapter} />
-                <CustomTooltip title={t('chapter.action.label.open_on_source')} disabled={!realUrl}>
+                <CustomTooltip title={t('global.button.open_browser')} disabled={!realUrl}>
                     <IconButton
                         disabled={!realUrl}
                         href={realUrl ?? ''}
@@ -108,7 +110,18 @@ const BaseReaderNavBarDesktopActions = memo(
                         target="_blank"
                         color="inherit"
                     >
-                        <OpenInNewIcon />
+                        <IconBrowser />
+                    </IconButton>
+                </CustomTooltip>
+                <CustomTooltip title={t('global.button.open_webview')} disabled={!realUrl}>
+                    <IconButton
+                        disabled={!realUrl}
+                        href={realUrl ? requestManager.getWebviewUrl(realUrl) : ''}
+                        rel="noreferrer"
+                        target="_blank"
+                        color="inherit"
+                    >
+                        <IconWebView />
                     </IconButton>
                 </CustomTooltip>
             </Stack>

@@ -104,7 +104,6 @@
         }
       },
       "label": {
-        "open_on_source": "Open on source",
         "select": "Select"
       },
       "mark_as_read": {
@@ -349,7 +348,8 @@
       "migrate": "Migrate",
       "ok": "Ok",
       "open": "Open",
-      "open_site": "Open Site",
+      "open_browser": "Open in browser",
+      "open_webview": "Open in WebView",
       "options": "Options",
       "popular": "Popular",
       "refresh": "Refresh",

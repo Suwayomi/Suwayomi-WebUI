@@ -16,7 +16,6 @@ import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import DoneAll from '@mui/icons-material/DoneAll';
 import { ComponentProps, useMemo } from 'react';
-import LaunchIcon from '@mui/icons-material/Launch';
 import { SelectableCollectionReturnType } from '@/modules/collection/hooks/useSelectableCollection.ts';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
 import { MenuItem } from '@/modules/core/components/menu/MenuItem.tsx';
@@ -41,6 +40,8 @@ import {
     ChapterReadInfo,
     ChapterRealUrlInfo,
 } from '@/modules/chapter/Chapter.types.ts';
+import { IconWebView } from '@/assets/icons/IconWebView.tsx';
+import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
 
 type BaseProps = { onClose: () => void; selectable?: boolean };
 
@@ -173,15 +174,30 @@ export const ChapterActionMenuItems = ({
                 <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t('chapter.action.label.select')} />
             )}
             {isSingleMode && (
-                <MenuItem
-                    Icon={LaunchIcon}
-                    disabled={!chapter!.realUrl}
-                    onClick={() => {
-                        window.open(chapter!.realUrl!, '_blank', 'noopener,noreferrer');
-                        onClose();
-                    }}
-                    title={t('chapter.action.label.open_on_source')}
-                />
+                <>
+                    <MenuItem
+                        Icon={IconBrowser}
+                        disabled={!chapter!.realUrl}
+                        onClick={() => {
+                            window.open(chapter!.realUrl!, '_blank', 'noopener,noreferrer');
+                            onClose();
+                        }}
+                        title={t('global.button.open_browser')}
+                    />
+                    <MenuItem
+                        Icon={IconWebView}
+                        disabled={!chapter!.realUrl}
+                        onClick={() => {
+                            window.open(
+                                requestManager.getWebviewUrl(chapter!.realUrl!),
+                                '_blank',
+                                'noopener,noreferrer',
+                            );
+                            onClose();
+                        }}
+                        title={t('global.button.open_webview')}
+                    />
+                </>
             )}
             {shouldShowMenuItem(canBeDownloaded) && (
                 <MenuItem

@@ -14,10 +14,10 @@ import { useTranslation } from 'react-i18next';
 import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
-import LaunchIcon from '@mui/icons-material/Launch';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { Mangas } from '@/modules/manga/services/Mangas.ts';
@@ -51,6 +51,9 @@ import { SourceIdInfo } from '@/modules/source/Source.types.ts';
 import { Thumbnail } from '@/modules/manga/components/details/Thumbnail.tsx';
 import { DescriptionGenre } from '@/modules/manga/components/details/DescriptionGenre.tsx';
 import { SearchLink } from '@/modules/manga/components/details/SearchLink.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
+import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -136,19 +139,34 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
     const { t } = useTranslation();
 
     return (
-        <CustomTooltip title={t('global.button.open_site')} disabled={!url}>
-            <CustomButtonIcon
-                size="medium"
-                disabled={!url}
-                component={Link}
-                href={url ?? undefined}
-                target="_blank"
-                rel="noreferrer"
-                variant="outlined"
-            >
-                <LaunchIcon />
-            </CustomButtonIcon>
-        </CustomTooltip>
+        <ButtonGroup>
+            <CustomTooltip title={t('global.button.open_browser')} disabled={!url}>
+                <CustomButtonIcon
+                    size="medium"
+                    disabled={!url}
+                    component={Link}
+                    href={url ?? undefined}
+                    target="_blank"
+                    rel="noreferrer"
+                    variant="outlined"
+                >
+                    <IconBrowser />
+                </CustomButtonIcon>
+            </CustomTooltip>
+            <CustomTooltip title={t('global.button.open_webview')} disabled={!url}>
+                <CustomButtonIcon
+                    size="medium"
+                    disabled={!url}
+                    component={Link}
+                    href={url ? requestManager.getWebviewUrl(url) : undefined}
+                    target="_blank"
+                    rel="noreferrer"
+                    variant="outlined"
+                >
+                    <IconWebView />
+                </CustomButtonIcon>
+            </CustomTooltip>
+        </ButtonGroup>
     );
 };
 

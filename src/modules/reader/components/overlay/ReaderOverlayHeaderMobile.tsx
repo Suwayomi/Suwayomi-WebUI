@@ -38,6 +38,7 @@ import { ReaderBookmarkButton } from '@/modules/reader/components/overlay/naviga
 import { FALLBACK_CHAPTER } from '@/modules/chapter/Chapter.constants.ts';
 import { FALLBACK_MANGA } from '@/modules/manga/Manga.constants.ts';
 import { ReaderExitButton } from '@/modules/reader/components/overlay/navigation/ReaderExitButton.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
@@ -107,7 +108,16 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
                         rel="noreferrer"
                         target="_blank"
                     >
-                        {t('chapter.action.label.open_on_source')}
+                        {t('global.button.open_browser')}
+                    </MenuItem>
+                    <MenuItem
+                        component={Link}
+                        disabled={!realUrl}
+                        href={realUrl ? requestManager.getWebviewUrl(realUrl) : ''}
+                        rel="noreferrer"
+                        target="_blank"
+                    >
+                        {t('global.button.open_webview')}
                     </MenuItem>
                     <MenuItem
                         disabled={!realUrl}

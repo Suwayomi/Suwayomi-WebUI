@@ -466,6 +466,10 @@ export class RequestManager {
         return `${this.getBaseUrl()}${apiVersion}${endpoint}`;
     }
 
+    public getWebviewUrl(url: string): string {
+        return `${this.getValidUrlFor('webview')}#${url}`;
+    }
+
     public clearBrowseCacheFor(sourceId: string) {
         const cacheKeys = this.cache.getMatchingKeys(
             new RegExp(`${CACHE_INITIAL_PAGES_FETCHING_KEY}|${CACHE_PAGES_KEY}|${CACHE_RESULTS_KEY}.*${sourceId}`),
