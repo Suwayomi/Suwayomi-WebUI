@@ -187,6 +187,12 @@ export const TrackerMangaCard = ({
                                         value={t(PUBLISHING_STATUS_TO_TRANSLATION[Trackers.getPublishingStatus(manga)])}
                                     />
                                 )}
+                                {manga.score > 0 && (
+                                    <Metadata title={t('tracking.track_record.label.score')} value={manga.score} />
+                                )}
+                                {manga.totalChapters > 0 && (
+                                    <Metadata title={t('chapter.title_other')} value={manga.totalChapters} />
+                                )}
                             </Stack>
                         </Stack>
                         <TrackerMangaCardSummary summary={manga.summary} />

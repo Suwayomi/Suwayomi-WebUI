@@ -6,7 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { TrackerType, TrackRecordType, TrackSearchType } from '@/lib/graphql/generated/graphql.ts';
+import {
+    TrackerType,
+    TrackRecordSearchFieldsFragment,
+    TrackRecordType,
+    TrackSearchType,
+} from '@/lib/graphql/generated/graphql.ts';
 
 export type MetadataTrackingSettings = {
     updateProgressAfterReading: boolean;
@@ -52,18 +57,8 @@ export type TTrackRecordBind = TTrackRecordBase &
         | 'startDate'
         | 'finishDate'
     >;
-export type TTrackerManga = Pick<
-    TrackSearchType,
-    | 'id'
-    | 'remoteId'
-    | 'trackingUrl'
-    | 'title'
-    | 'coverUrl'
-    | 'publishingType'
-    | 'startDate'
-    | 'publishingStatus'
-    | 'summary'
->;
+export type TTrackerManga = TrackRecordSearchFieldsFragment;
+
 export type TTrackerBase = Pick<TrackerType, 'id' | 'name' | 'icon' | 'isLoggedIn' | 'isTokenExpired'>;
 export type TTrackerSearch = TTrackerBase & Pick<TrackerType, 'authUrl'>;
 export type TTrackerBind = TTrackerBase & Pick<TrackerType, 'icon' | 'supportsTrackDeletion' | 'scores' | 'statuses'>;
