@@ -57,7 +57,7 @@ export class Trackers {
     static getPublishingType<TrackSearch extends TrackSearchPublishingTypeInfo>(
         trackSearch: TrackSearch,
     ): PublishingType {
-        const type = trackSearch.publishingType.toLowerCase().replaceAll(' ', '_');
+        const type = trackSearch.publishingType.toLowerCase().replaceAll(/[ |-]/g, '_');
 
         switch (type) {
             case PublishingType.UNKNOWN:
