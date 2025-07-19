@@ -35,7 +35,59 @@ import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { applyStyles } from '@/modules/core/utils/ApplyStyles.ts';
-import { Tracker, TTrackerBase } from '@/modules/tracker/Tracker.types.ts';
+import { Tracker, TrackerIdInfo, TTrackerBase } from '@/modules/tracker/Tracker.types.ts';
+
+const TrackButton = ({
+    mangaId,
+    selectedTrackerRemoteId,
+    trackerId,
+    closeSearchMode,
+}: {
+    trackerId: TrackerIdInfo['id'];
+    mangaId: MangaIdInfo['id'];
+    selectedTrackerRemoteId: string | undefined;
+    closeSearchMode: () => void;
+}) => {
+    const { t } = useTranslation();
+    const [bindTracker, bindTrackerMutation] = requestManager.useBindTracker();
+
+    const trackManga = () => {
+        if (selectedTrackerRemoteId === undefined) {
+            return;
+        }
+
+        bindTracker({ variables: { mangaId, remoteId: selectedTrackerRemoteId, trackerId } })
+            .then(() => {
+                makeToast(t('manga.action.track.add.label.success'), 'success');
+                closeSearchMode();
+            })
+            .catch((e) => makeToast(t('manga.action.track.add.label.error'), 'error', getErrorMessage(e)));
+    };
+
+    return (
+        <Stack
+            direction="row"
+            sx={{
+                justifyContent: 'center',
+                position: 'absolute',
+                left: 0,
+                right: 0,
+                bottom: 0,
+                paddingBottom: DIALOG_PADDING,
+            }}
+        >
+            <Button
+                disabled={bindTrackerMutation.loading}
+                size="large"
+                variant="contained"
+                onClick={trackManga}
+                sx={{ width: '75%' }}
+            >
+                {t('manga.action.track.add.label.action')}
+            </Button>
+        </Stack>
+    );
+};
 
 export const TrackerSearch = ({
     manga,
@@ -72,8 +124,6 @@ export const TrackerSearch = ({
             trackerSearch.abortRequest(new Error(`MangaTrackerSearchCard(${tracker.id}, ${manga.id}): search changed`));
     }, [searchString]);
 
-    const [bindTracker, bindTrackerMutation] = requestManager.useBindTracker();
-
     const showTrackButton =
         useMemo(
             () =>
@@ -81,19 +131,6 @@ export const TrackerSearch = ({
                 !!searchResults.find((searchResult) => searchResult.remoteId === selectedTrackerRemoteId),
             [selectedTrackerRemoteId, searchResults],
         ) && !hasError;
-
-    const trackManga = () => {
-        if (selectedTrackerRemoteId === undefined) {
-            return;
-        }
-
-        bindTracker({ variables: { mangaId: manga.id, remoteId: selectedTrackerRemoteId, trackerId: tracker.id } })
-            .then(() => {
-                makeToast(t('manga.action.track.add.label.success'), 'success');
-                closeSearchMode();
-            })
-            .catch((e) => makeToast(t('manga.action.track.add.label.error'), 'error', getErrorMessage(e)));
-    };
 
     return (
         <>
@@ -179,27 +216,12 @@ export const TrackerSearch = ({
                         ))}
                 </List>
                 {showTrackButton && (
-                    <Stack
-                        direction="row"
-                        sx={{
-                            justifyContent: 'center',
-                            position: 'absolute',
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            paddingBottom: DIALOG_PADDING,
-                        }}
-                    >
-                        <Button
-                            disabled={bindTrackerMutation.loading}
-                            size="large"
-                            variant="contained"
-                            onClick={trackManga}
-                            sx={{ width: '75%' }}
-                        >
-                            {t('manga.action.track.add.label.action')}
-                        </Button>
-                    </Stack>
+                    <TrackButton
+                        mangaId={manga.id}
+                        trackerId={tracker.id}
+                        closeSearchMode={closeSearchMode}
+                        selectedTrackerRemoteId={selectedTrackerRemoteId}
+                    />
                 )}
             </DialogContent>
         </>
