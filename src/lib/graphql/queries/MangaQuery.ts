@@ -108,6 +108,7 @@ export const GET_MANGA_TO_MIGRATE = gql`
                     id
                     remoteId
                     trackerId
+                    private
                 }
             }
         }

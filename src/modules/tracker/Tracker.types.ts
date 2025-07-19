@@ -56,12 +56,14 @@ export type TTrackRecordBind = TTrackRecordBase &
         | 'displayScore'
         | 'startDate'
         | 'finishDate'
+        | 'private'
     >;
 export type TTrackerManga = TrackRecordSearchFieldsFragment;
 
 export type TTrackerBase = Pick<TrackerType, 'id' | 'name' | 'icon' | 'isLoggedIn' | 'isTokenExpired'>;
 export type TTrackerSearch = TTrackerBase & Pick<TrackerType, 'authUrl'>;
-export type TTrackerBind = TTrackerBase & Pick<TrackerType, 'icon' | 'supportsTrackDeletion' | 'scores' | 'statuses'>;
+export type TTrackerBind = TTrackerBase &
+    Pick<TrackerType, 'icon' | 'supportsTrackDeletion' | 'supportsPrivateTracking' | 'scores' | 'statuses'>;
 export type TrackerIdInfo = Pick<TrackerType, 'id'>;
 export type LoggedInInfo = Pick<TrackerType, 'isLoggedIn' | 'isTokenExpired'>;
 export type TrackRecordTrackerInfo = Pick<TrackRecordType, 'trackerId'>;

@@ -27,6 +27,8 @@ import Typography from '@mui/material/Typography';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useMemo, useState } from 'react';
+import Badge from '@mui/material/Badge';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/modules/tracker/services/Trackers.ts';
@@ -50,7 +52,6 @@ const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: 
 );
 
 type TTrackerActive = Pick<TTrackerBind, 'id' | 'name' | 'icon' | 'supportsTrackDeletion'>;
-type TTrackRecordActive = Pick<TTrackRecordBind, 'id' | 'remoteUrl' | 'title'>;
 const TrackerActiveRemoveBind = ({
     trackerRecordId,
     tracker,
@@ -139,6 +140,33 @@ const TrackerActiveRemoveBind = ({
     );
 };
 
+const TrackerUpdatePrivateStatus = ({
+    trackRecordId,
+    isPrivate,
+    closeMenu,
+}: {
+    trackRecordId: TrackRecordType['id'];
+    isPrivate: boolean;
+    closeMenu: () => void;
+}) => {
+    const { t } = useTranslation();
+
+    return (
+        <MenuItem
+            onClick={() => {
+                requestManager
+                    .updateTrackerBind(trackRecordId, { private: !isPrivate })
+                    .response.catch((e) =>
+                        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+                    );
+                closeMenu();
+            }}
+        >
+            {t(isPrivate ? 'tracking.action.button.track_publicly' : 'tracking.action.button.track_privately')}
+        </MenuItem>
+    );
+};
+type TTrackRecordActive = Pick<TTrackRecordBind, 'id' | 'remoteUrl' | 'title' | 'private'>;
 const TrackerActiveHeader = ({
     trackRecord,
     tracker,
@@ -158,14 +186,24 @@ const TrackerActiveHeader = ({
                 paddingBottom: 2,
             }}
         >
-            <TrackerActiveLink url={trackRecord.remoteUrl}>
-                <Avatar
-                    alt={`${tracker.name}`}
-                    src={requestManager.getValidImgUrlFor(tracker.icon)}
-                    variant="rounded"
-                    sx={{ width: 64, height: 64 }}
-                />
-            </TrackerActiveLink>
+            <Badge
+                badgeContent={
+                    trackRecord.private ? (
+                        <Stack sx={{ p: '2px 6px', backgroundColor: 'primary.main', borderRadius: 100 }}>
+                            <VisibilityOffIcon fontSize="small" sx={{ color: 'primary.contrastText' }} />
+                        </Stack>
+                    ) : null
+                }
+            >
+                <TrackerActiveLink url={trackRecord.remoteUrl}>
+                    <Avatar
+                        alt={`${tracker.name}`}
+                        src={requestManager.getValidImgUrlFor(tracker.icon)}
+                        variant="rounded"
+                        sx={{ width: 64, height: 64 }}
+                    />
+                </TrackerActiveLink>
+            </Badge>
 
             <ListItemButton sx={{ flexGrow: 1 }} onClick={openSearch}>
                 <CustomTooltip title={trackRecord.title}>
@@ -201,6 +239,11 @@ const TrackerActiveHeader = ({
                                         tracker={tracker}
                                         onClick={() => setHideMenu(true)}
                                         onClose={onClose}
+                                    />,
+                                    <TrackerUpdatePrivateStatus
+                                        trackRecordId={trackRecord.id}
+                                        isPrivate={trackRecord.private}
+                                        closeMenu={onClose}
                                     />,
                                 ]}
                             </Menu>

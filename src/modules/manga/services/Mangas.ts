@@ -381,8 +381,12 @@ export class Mangas {
             copy: () =>
                 trackBindingsToAdd.map(
                     (trackRecord) =>
-                        requestManager.bindTracker(mangaToMigrateTo.id, trackRecord.trackerId, trackRecord.remoteId)
-                            .response,
+                        requestManager.bindTracker(
+                            mangaToMigrateTo.id,
+                            trackRecord.trackerId,
+                            trackRecord.remoteId,
+                            trackRecord.private,
+                        ).response,
                 ),
             cleanup: () =>
                 mode === 'migrate'

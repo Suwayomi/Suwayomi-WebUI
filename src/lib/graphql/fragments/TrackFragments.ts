@@ -38,6 +38,7 @@ export const TRACKER_BIND_FIELDS = gql`
 
         icon
 
+        supportsPrivateTracking
         supportsTrackDeletion
         scores
         statuses {

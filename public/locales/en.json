@@ -1603,7 +1603,9 @@
   "tracking": {
     "action": {
       "button": {
-        "add_tracking": "Add tracking"
+        "add_tracking": "Add tracking",
+        "track_privately": "Track privately",
+        "track_publicly": "Track publicly"
       },
       "login": {
         "label": {

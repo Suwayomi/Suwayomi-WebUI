@@ -50,8 +50,8 @@ export const TRACKER_LOGOUT = gql`
 export const TRACKER_BIND = gql`
     ${TRACK_RECORD_BIND_FIELDS}
 
-    mutation TRACKER_BIND($mangaId: Int!, $remoteId: LongString!, $trackerId: Int!) {
-        bindTrack(input: { mangaId: $mangaId, remoteId: $remoteId, trackerId: $trackerId }) {
+    mutation TRACKER_BIND($input: BindTrackInput!) {
+        bindTrack(input: $input) {
             trackRecord {
                 ...TRACK_RECORD_BIND_FIELDS
                 manga {

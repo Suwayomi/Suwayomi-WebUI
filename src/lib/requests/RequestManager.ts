@@ -3184,9 +3184,15 @@ export class RequestManager {
         mangaId: number,
         trackerId: number,
         remoteId: string,
+        asPrivate: boolean,
         options?: MutationOptions<TrackerBindMutation, TrackerBindMutationVariables>,
     ): AbortableApolloMutationResponse<TrackerBindMutation> {
-        return this.doRequest(GQLMethod.MUTATION, TRACKER_BIND, { mangaId, remoteId, trackerId }, options);
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            TRACKER_BIND,
+            { input: { mangaId, remoteId, trackerId, private: asPrivate } },
+            options,
+        );
     }
 
     public unbindTracker(

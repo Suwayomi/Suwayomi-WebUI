@@ -38,5 +38,6 @@ export const TRACK_RECORD_BIND_FIELDS = gql`
         displayScore
         startDate
         finishDate
+        private
     }
 `;
