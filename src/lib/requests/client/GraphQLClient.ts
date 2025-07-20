@@ -13,12 +13,14 @@ import {
     InMemoryCache,
     NormalizedCacheObject,
     split,
+    from,
 } from '@apollo/client';
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { Client, createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { TypePolicies } from '@apollo/client/cache';
+import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 
@@ -208,6 +210,8 @@ export class GraphQLClient extends BaseClient<
     }
 
     private createLink() {
+        const removeTypenameLink = removeTypenameFromVariables();
+
         return split(
             ({ query }) => {
                 const definition = getMainDefinition(query);
@@ -215,7 +219,7 @@ export class GraphQLClient extends BaseClient<
             },
             this.createWSLink(),
             // apollo-upload-client dependency is outdated (see 134e47763faae9e62db4d4e3a8387a74e32e5568) and thus types are not matching, but they are still correct
-            this.createUploadLink() as unknown as ApolloLink,
+            from([removeTypenameLink, this.createUploadLink() as unknown as ApolloLink]),
         );
     }
 
