@@ -52,7 +52,7 @@ export const Appearance = () => {
         makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
     );
 
-    const isDarkMode = MediaQuery.getThemeMode() === ThemeMode.DARK;
+    const isDarkMode = MediaQuery.getThemeMode(actualThemeMode) === ThemeMode.DARK;
 
     if (loading) {
         return <LoadingPlaceholder />;

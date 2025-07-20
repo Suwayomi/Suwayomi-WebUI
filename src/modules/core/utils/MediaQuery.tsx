@@ -11,7 +11,6 @@ import { Breakpoint, SxProps, Theme } from '@mui/material/styles';
 import { useCallback, useState } from 'react';
 import { getCurrentTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
-import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 
 export class MediaQuery {
@@ -90,9 +89,7 @@ export class MediaQuery {
         return prefersDarkMode ? ThemeMode.DARK : ThemeMode.LIGHT;
     }
 
-    static getThemeMode(): Exclude<ThemeMode, 'system'> {
-        const themeMode = AppStorage.local.getItem('mui-mode') as ThemeMode;
-
+    static getThemeMode(themeMode: ThemeMode): Exclude<ThemeMode, 'system'> {
         const isSystemMode = themeMode === ThemeMode.SYSTEM;
         if (isSystemMode) {
             return this.getSystemThemeMode();
