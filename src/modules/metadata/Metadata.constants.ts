@@ -453,7 +453,6 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // reader
     'exitMode',
-    'customFilter',
     'shouldSkipDupChapters',
     'shouldSkipFilteredChapters',
     'hotkeys',
