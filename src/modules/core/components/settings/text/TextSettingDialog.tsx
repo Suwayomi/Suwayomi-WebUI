@@ -75,8 +75,8 @@ export const TextSettingDialog = ({
 
     return (
         <Dialog open={isDialogOpen} onClose={() => closeDialog()} fullWidth>
+            <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogContent>
-                <DialogTitle sx={{ paddingLeft: 0 }}>{dialogTitle}</DialogTitle>
                 {!!dialogDescription && (
                     <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogDescription}</DialogContentText>
                 )}

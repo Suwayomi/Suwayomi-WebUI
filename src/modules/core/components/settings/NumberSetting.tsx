@@ -127,8 +127,8 @@ export const NumberSetting = ({
             </ListItemButton>
 
             <Dialog open={isDialogOpen} onClose={cancel}>
+                <DialogTitle>{dialogTitle}</DialogTitle>
                 <DialogContent>
-                    <DialogTitle sx={{ paddingLeft: 0 }}>{dialogTitle}</DialogTitle>
                     {(!!dialogDescription || !!dialogDisclaimer) && (
                         <DialogContentText sx={{ paddingBottom: '10px' }} component="div">
                             {dialogDescription && (

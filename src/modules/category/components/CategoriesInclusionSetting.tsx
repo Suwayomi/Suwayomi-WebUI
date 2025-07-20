@@ -175,8 +175,8 @@ export const CategoriesInclusionSetting = ({
             </ListItemButton>
 
             <Dialog open={isDialogOpen} onClose={closeDialog}>
+                <DialogTitle>{t('category.title.category_other')}</DialogTitle>
                 <DialogContent>
-                    <DialogTitle sx={{ paddingLeft: 0 }}>{t('category.title.category_other')}</DialogTitle>
                     {dialogText && <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogText}</DialogContentText>}
                     <CheckboxContainer>
                         {dialogCategories.map((category) => (

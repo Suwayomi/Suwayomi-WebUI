@@ -87,8 +87,8 @@ export const SelectSetting = <SettingValue extends string | number>({
             </ListItemButton>
 
             <Dialog open={isDialogOpen} onClose={() => closeDialog()} fullWidth>
+                <DialogTitle>{settingName}</DialogTitle>
                 <DialogContent>
-                    <DialogTitle sx={{ paddingLeft: 0 }}>{settingName}</DialogTitle>
                     {!!dialogDescription && (
                         <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogDescription}</DialogContentText>
                     )}

@@ -113,10 +113,8 @@ export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings
             </ListItemButton>
 
             <Dialog open={isDialogOpen} onClose={closeDialog}>
+                <DialogTitle>{t('library.settings.global_update.entries.title')}</DialogTitle>
                 <DialogContent>
-                    <DialogTitle sx={{ paddingLeft: 0 }}>
-                        {t('library.settings.global_update.entries.title')}
-                    </DialogTitle>
                     <CheckboxContainer>
                         {Object.entries(dialogSettings).map(([setting, value]) => (
                             <CheckboxInput
