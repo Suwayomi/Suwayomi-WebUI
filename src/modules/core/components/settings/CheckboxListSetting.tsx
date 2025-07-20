@@ -15,6 +15,7 @@ import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
 import { useCallback, useMemo } from 'react';
+import { CheckboxProps } from '@mui/material/Checkbox';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
 import { useSelectableCollection } from '@/modules/collection/hooks/useSelectableCollection.ts';
 
@@ -27,6 +28,7 @@ export function CheckboxListSetting<Item>({
     isChecked,
     open,
     onClose,
+    slotProps,
 }: {
     title: string;
     emptyMessage?: string;
@@ -36,6 +38,9 @@ export function CheckboxListSetting<Item>({
     isChecked: (item: Item) => boolean;
     open: boolean;
     onClose: (selectedItems?: Item[]) => void;
+    slotProps?: {
+        checkbox?: Omit<CheckboxProps, 'checked' | 'onChange' | 'label'>;
+    };
 }) {
     const { t } = useTranslation();
 
@@ -80,6 +85,7 @@ export function CheckboxListSetting<Item>({
                     {items.length === 0 && <span>{emptyMessage}</span>}
                     {items.map((item) => (
                         <CheckboxInput
+                            {...slotProps?.checkbox}
                             checked={selectedItemIds.includes(getId(item))}
                             onChange={(e, checked) => handleSelection(getId(item), checked)}
                             label={getLabel(item)}

@@ -9,6 +9,7 @@
 import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import { useTranslation } from 'react-i18next';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import DisabledByDefaultRounded from '@mui/icons-material/DisabledByDefaultRounded';
 import { CheckboxListSetting } from '@/modules/core/components/settings/CheckboxListSetting.tsx';
 import { updateChapterListOptions } from '@/modules/chapter/utils/ChapterList.util.tsx';
 import { CheckboxInput } from '@/modules/core/components/inputs/CheckboxInput.tsx';
@@ -51,6 +52,11 @@ export const ChapterExcludeSanlatorsFilter = ({
                 getId={(scanlator) => scanlator}
                 getLabel={(scanlator) => scanlator}
                 isChecked={(scanlator) => excludedScanlators.includes(scanlator)}
+                slotProps={{
+                    checkbox: {
+                        checkedIcon: <DisabledByDefaultRounded />,
+                    },
+                }}
             />
         </>
     );
