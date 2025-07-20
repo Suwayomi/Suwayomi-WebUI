@@ -12,3 +12,9 @@ export const DOWNLOAD_AHEAD = {
     default: 2,
     step: 1,
 };
+
+export const DOWNLOAD_CONVERSION_COMPRESSION = {
+    min: 0,
+    max: 1,
+    step: 0.01,
+};

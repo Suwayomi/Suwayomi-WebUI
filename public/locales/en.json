@@ -205,6 +205,12 @@
         },
         "title": "Auto-download"
       },
+      "conversion": {
+        "compression_level": "Compression level",
+        "description": "In case no MIME-Type is defined, the \"default\" one will be used for the conversion.",
+        "mime_type": "MIME-Type",
+        "title": "Download conversion"
+      },
       "delete_chapters": {
         "label": {
           "allow_deletion_of_bookmarked": "Allow deleting bookmarked chapters",

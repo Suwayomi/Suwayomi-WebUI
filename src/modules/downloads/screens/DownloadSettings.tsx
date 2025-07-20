@@ -32,6 +32,7 @@ import { MetadataDownloadSettings } from '@/modules/downloads/Downloads.types.ts
 import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { DownloadConversionSetting } from '@/modules/downloads/components/DownloadConversionSetting.tsx';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -41,6 +42,7 @@ type DownloadSettingsType = Pick<
     | 'autoDownloadNewChaptersLimit'
     | 'excludeEntryWithUnreadChapters'
     | 'autoDownloadIgnoreReUploads'
+    | 'downloadConversions'
 >;
 
 const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType => ({
@@ -50,6 +52,7 @@ const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType
     autoDownloadNewChaptersLimit: settings.autoDownloadNewChaptersLimit,
     excludeEntryWithUnreadChapters: settings.excludeEntryWithUnreadChapters,
     autoDownloadIgnoreReUploads: settings.autoDownloadIgnoreReUploads,
+    downloadConversions: settings.downloadConversions,
 });
 
 export const DownloadSettings = () => {
@@ -134,6 +137,10 @@ export const DownloadSettings = () => {
                     onChange={(e) => updateSetting('downloadAsCbz', e.target.checked)}
                 />
             </ListItem>
+            <DownloadConversionSetting
+                conversions={downloadSettings?.downloadConversions}
+                updateSetting={(conversions) => updateSetting('downloadConversions', conversions)}
+            />
             <List
                 subheader={
                     <ListSubheader component="div" id="download-settings-auto-delete-downloads">

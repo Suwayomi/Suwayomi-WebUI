@@ -37,6 +37,11 @@ export const SERVER_SETTINGS = gql`
         excludeEntryWithUnreadChapters
         autoDownloadNewChaptersLimit
         autoDownloadIgnoreReUploads
+        downloadConversions {
+            mimeType
+            target
+            compressionLevel
+        }
 
         # extensions
         extensionRepos
