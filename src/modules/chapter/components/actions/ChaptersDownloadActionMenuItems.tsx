@@ -34,6 +34,7 @@ const DOWNLOAD_OPTIONS: {
     title: TranslationKey;
     getCount: (downloadAheadLimit: number) => number | undefined;
     onlyUnread?: boolean;
+    isDownloadAhead?: boolean;
 }[] = [
     { title: 'chapter.action.download.add.label.next', getCount: () => 1 },
     { title: 'chapter.action.download.add.label.next', getCount: () => 5 },
@@ -43,6 +44,7 @@ const DOWNLOAD_OPTIONS: {
         title: 'chapter.action.download.add.label.ahead',
         getCount: (downloadAheadLimit) => downloadAheadLimit,
         onlyUnread: true,
+        isDownloadAhead: true,
     },
     { title: 'chapter.action.download.add.label.unread', getCount: () => undefined, onlyUnread: true },
     { title: 'chapter.action.download.add.label.all', getCount: () => undefined, onlyUnread: false },
@@ -88,6 +90,16 @@ const handleDownload = async (
         },
     ).response;
     const filteredChapters = filterChapters(chapters.data.chapters.nodes, meta);
+
+    const doNecessaryDownloadAheadDownloadsExist =
+        downloadAhead &&
+        Chapters.removeDuplicates(filteredChapters.slice(-1)[0], filteredChapters)
+            .slice(-(size ?? 0))
+            .every((chapter) => !Chapters.isRead(chapter) && Chapters.isDownloaded(chapter));
+    if (doNecessaryDownloadAheadDownloadsExist) {
+        return;
+    }
+
     const unreadUndownloadedChapters = filteredChapters.filter((chapter) => {
         if (onlyUnread && chapter.isRead) {
             return false;
@@ -141,10 +153,10 @@ export const ChaptersDownloadActionMenuItems = ({
 
     return (
         <>
-            {DOWNLOAD_OPTIONS.map(({ title, getCount, onlyUnread }) => (
+            {DOWNLOAD_OPTIONS.map(({ title, getCount, onlyUnread, isDownloadAhead }) => (
                 <MenuItem
                     key={t(title, { count: getCount(downloadAheadLimit) })}
-                    onClick={() => handleSelect(getCount(downloadAheadLimit), onlyUnread)}
+                    onClick={() => handleSelect(getCount(downloadAheadLimit), onlyUnread, isDownloadAhead)}
                 >
                     {t(title, { count: getCount(downloadAheadLimit) })}
                 </MenuItem>
