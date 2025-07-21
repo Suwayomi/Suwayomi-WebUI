@@ -213,9 +213,7 @@ const BaseReaderChapterViewer = ({
         () =>
             createUpdateReaderPageLoadState(
                 actualPages,
-                pagesToSpreadState,
                 setPagesToSpreadState,
-                pageLoadStates,
                 (value) => {
                     if (isCurrentChapterRef.current) {
                         setContextPageLoadStates(value);
@@ -225,8 +223,6 @@ const BaseReaderChapterViewer = ({
                 },
                 readingMode,
             ),
-        // do not add "pagesToSpreadState" and "pageLoadStates" as a dependency, otherwise, every page gets re-rendered
-        // when they change which impacts the performance massively (depending on the total page count)
         [actualPages, readingMode],
     );
 

@@ -132,9 +132,7 @@ export const getChapterIdsForDownloadAhead = (
 export const createUpdateReaderPageLoadState =
     (
         actualPages: ReaderStatePages['pages'],
-        pagesToSpreadState: ReaderPageSpreadState[],
         setPagesToSpreadState: React.Dispatch<React.SetStateAction<ReaderPageSpreadState[]>>,
-        pageLoadStates: ReaderStatePages['pageLoadStates'],
         setPageLoadStates: ReaderStatePages['setPageLoadStates'],
         readingMode: ReadingMode,
     ) =>
