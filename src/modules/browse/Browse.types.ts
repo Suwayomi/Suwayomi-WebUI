@@ -18,7 +18,8 @@ export type MetadataBrowseSettings = {
 };
 
 export enum BrowseTab {
-    SOURCE = 'source',
+    SOURCE_DEPRECATED = 'source',
+    SOURCES = 'sources',
     EXTENSIONS = 'extensions',
     MIGRATE = 'migrate',
 }

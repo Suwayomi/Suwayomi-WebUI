@@ -33,7 +33,7 @@ export function Browse() {
     );
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', StringParam, {});
-    const tabName = (tabSearchParam as BrowseTab) ?? BrowseTab.SOURCE;
+    const tabName = (tabSearchParam as BrowseTab) ?? BrowseTab.SOURCES;
 
     if (!tabSearchParam) {
         setTabSearchParam(tabName, 'replaceIn');
@@ -48,11 +48,14 @@ export function Browse() {
                 value={tabName}
                 onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}
             >
-                <Tab value={BrowseTab.SOURCE} sx={{ textTransform: 'none' }} label={t('source.title_other')} />
+                <Tab value={BrowseTab.SOURCES} sx={{ textTransform: 'none' }} label={t('source.title_other')} />
                 <Tab value={BrowseTab.EXTENSIONS} sx={{ textTransform: 'none' }} label={t('extension.title_other')} />
                 <Tab value={BrowseTab.MIGRATE} sx={{ textTransform: 'none' }} label={t('migrate.title')} />
             </TabsMenu>
-            <TabPanel index={BrowseTab.SOURCE} currentIndex={tabName}>
+            <TabPanel index={BrowseTab.SOURCE_DEPRECATED} currentIndex={tabName}>
+                <Sources tabsMenuHeight={tabsMenuHeight} />
+            </TabPanel>
+            <TabPanel index={BrowseTab.SOURCES} currentIndex={tabName}>
                 <Sources tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
             <TabPanel index={BrowseTab.EXTENSIONS} currentIndex={tabName}>
