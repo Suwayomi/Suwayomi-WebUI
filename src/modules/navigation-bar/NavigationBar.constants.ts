@@ -53,7 +53,7 @@ const NAVIGATION_BAR_BASE_ITEMS = [
         moreGroup: NavBarItemMoreGroup.GENERAL,
     },
     {
-        path: AppRoutes.browse.path,
+        path: AppRoutes.browse.path() as RestrictedNavBarItem<'both'>['path'],
         title: 'global.label.browse',
         SelectedIconComponent: ExploreIcon,
         IconComponent: ExploreOutlinedIcon,

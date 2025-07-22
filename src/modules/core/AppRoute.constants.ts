@@ -10,6 +10,7 @@ import { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 import { ChapterSourceOrderInfo } from '@/modules/chapter/Chapter.types.ts';
+import { BrowseTab } from '@/modules/browse/Browse.types.ts';
 
 type AppRouteInfo = {
     match: string;
@@ -166,7 +167,7 @@ export const AppRoutes = {
     },
     browse: {
         match: 'browse',
-        path: '/browse',
+        path: (tab?: BrowseTab) => addParams('/browse', createParam('tab', tab)),
     },
     migrate: {
         match: 'migrate/source/:sourceId',

@@ -19,12 +19,7 @@ import { Migration } from '@/modules/migration/screens/Migration.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/modules/core/AppRoute.constants.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
-
-enum Tabs {
-    SOURCE = 'source',
-    EXTENSIONS = 'extensions',
-    MIGRATE = 'migrate',
-}
+import { BrowseTab } from '@/modules/browse/Browse.types.ts';
 
 export function Browse() {
     const { t } = useTranslation();
@@ -38,7 +33,7 @@ export function Browse() {
     );
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', StringParam, {});
-    const tabName = (tabSearchParam as Tabs) ?? Tabs.SOURCE;
+    const tabName = (tabSearchParam as BrowseTab) ?? BrowseTab.SOURCE;
 
     if (!tabSearchParam) {
         setTabSearchParam(tabName, 'replaceIn');
@@ -53,17 +48,17 @@ export function Browse() {
                 value={tabName}
                 onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}
             >
-                <Tab value={Tabs.SOURCE} sx={{ textTransform: 'none' }} label={t('source.title_one')} />
-                <Tab value={Tabs.EXTENSIONS} sx={{ textTransform: 'none' }} label={t('extension.title_other')} />
-                <Tab value={Tabs.MIGRATE} sx={{ textTransform: 'none' }} label={t('migrate.title')} />
+                <Tab value={BrowseTab.SOURCE} sx={{ textTransform: 'none' }} label={t('source.title_other')} />
+                <Tab value={BrowseTab.EXTENSIONS} sx={{ textTransform: 'none' }} label={t('extension.title_other')} />
+                <Tab value={BrowseTab.MIGRATE} sx={{ textTransform: 'none' }} label={t('migrate.title')} />
             </TabsMenu>
-            <TabPanel index={Tabs.SOURCE} currentIndex={tabName}>
+            <TabPanel index={BrowseTab.SOURCE} currentIndex={tabName}>
                 <Sources tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
-            <TabPanel index={Tabs.EXTENSIONS} currentIndex={tabName}>
+            <TabPanel index={BrowseTab.EXTENSIONS} currentIndex={tabName}>
                 <Extensions tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
-            <TabPanel index={Tabs.MIGRATE} currentIndex={tabName}>
+            <TabPanel index={BrowseTab.MIGRATE} currentIndex={tabName}>
                 <Migration tabsMenuHeight={tabsMenuHeight} />
             </TabPanel>
         </TabsWrapper>

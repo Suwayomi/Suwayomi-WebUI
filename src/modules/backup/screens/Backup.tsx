@@ -38,6 +38,7 @@ import { ServerSettings } from '@/modules/settings/Settings.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
+import { BrowseTab } from '@/modules/browse/Browse.types.ts';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 
@@ -337,7 +338,7 @@ export function Backup() {
                             <Button
                                 onClick={closeInvalidBackupDialog}
                                 component={Link}
-                                to={AppRoutes.browse.path}
+                                to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)}
                                 autoFocus={!!validationResult?.missingSources.length}
                                 variant={validationResult?.missingSources.length ? 'contained' : 'text'}
                             >
