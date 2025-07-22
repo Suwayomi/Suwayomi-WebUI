@@ -26,6 +26,7 @@ import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 
 import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
+import { BrowseTab } from '@/modules/browse/Browse.types.ts';
 
 const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -159,7 +160,8 @@ const MainApp = () => {
                     {/* Manga Routes */}
 
                     <Route path={AppRoutes.sources.match}>
-                        <Route index element={<Navigate to={AppRoutes.root.path} replace />} />
+                        {/* TODO: deprecated - "source" and "extension" page got merged into "browse" */}
+                        <Route index element={<Navigate to={AppRoutes.browse.path(BrowseTab.SOURCES)} replace />} />
                         <Route path={AppRoutes.sources.childRoutes.browse.match} element={<SourceMangas />} />
                         <Route path={AppRoutes.sources.childRoutes.configure.match} element={<SourceConfigure />} />
                         <Route path={AppRoutes.sources.childRoutes.searchAll.match} element={<SearchAll />} />
