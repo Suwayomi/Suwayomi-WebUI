@@ -17,9 +17,9 @@ import { TabsWrapper } from '@/modules/core/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/modules/core/components/tabs/TabsMenu.tsx';
 import { Migration } from '@/modules/migration/screens/Migration.tsx';
 import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
-import { GROUPED_VIRTUOSO_Z_INDEX } from '@/modules/core/AppRoute.constants.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import { BrowseTab } from '@/modules/browse/Browse.types.ts';
+import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
 
 export function Browse() {
     const { t } = useTranslation();

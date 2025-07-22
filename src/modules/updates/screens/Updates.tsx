@@ -23,8 +23,8 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ChapterUpdateCard } from '@/modules/updates/components/ChapterUpdateCard.tsx';
 import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
 import { Chapters } from '@/modules/chapter/services/Chapters.ts';
-import { GROUPED_VIRTUOSO_Z_INDEX } from '@/modules/core/AppRoute.constants.ts';
 import { useAppTitleAndAction } from '@/modules/navigation-bar/hooks/useAppTitleAndAction.ts';
+import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
 
 export const Updates: React.FC = () => {
     const { t } = useTranslation();
