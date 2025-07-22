@@ -53,6 +53,7 @@ import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 import { SourceLanguageSelect } from '@/modules/source/components/SourceLanguageSelect.tsx';
+import { SearchParam } from '@/modules/core/Core.types.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -238,7 +239,7 @@ export const SearchAll: React.FC = () => {
     const shouldShowOnlyPinnedSources = state?.shouldShowOnlyPinnedSources ?? true;
     const isMigrateMode = pathname.startsWith('/migrate/source');
 
-    const [query] = useQueryParam('query', StringParam);
+    const [query] = useQueryParam(SearchParam.QUERY, StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
 
     const { languages: shownLangs, setLanguages: setShownLangs } = Sources.useLanguages();

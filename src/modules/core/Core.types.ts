@@ -60,3 +60,8 @@ export enum ScrollDirection {
     Y,
     XY,
 }
+
+export enum SearchParam {
+    TAB = 'tab',
+    QUERY = 'query',
+}

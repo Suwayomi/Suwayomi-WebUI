@@ -47,6 +47,7 @@ import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/queries/MangaQuery.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { SearchParam } from '@/modules/core/Core.types.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -87,8 +88,8 @@ export function Library() {
 
     const librarySize = librarySizeResponse.data?.mangas.totalCount ?? 0;
 
-    const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', NumberParam);
-    const [query] = useQueryParam('query', StringParam);
+    const [tabSearchParam, setTabSearchParam] = useQueryParam(SearchParam.TAB, NumberParam);
+    const [query] = useQueryParam(SearchParam.QUERY, StringParam);
 
     const activeTab: (typeof tabs)[number] | undefined = tabs.find((tab) => tab.id === tabSearchParam) ?? tabs[0];
 

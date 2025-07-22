@@ -50,7 +50,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { EmptyView } from '@/modules/core/components/feedback/EmptyView.tsx';
 import { EmptyViewAbsoluteCentered } from '@/modules/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
-import { GridLayout } from '@/modules/core/Core.types.ts';
+import { GridLayout, SearchParam } from '@/modules/core/Core.types.ts';
 import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/modules/source/services/Sources.ts';
@@ -227,7 +227,7 @@ export function SourceMangas() {
     } = useMetadataServerSettings();
 
     const [sourceGridLayout] = useLocalStorage('source-grid-layout', GridLayout.Compact);
-    const [query] = useQueryParam('query', StringParam);
+    const [query] = useQueryParam(SearchParam.QUERY, StringParam);
     const [currentFiltersToApply, setCurrentFiltersToApply] = useSessionStorage<IPos[] | undefined>(
         `source-mangas-${sourceId}-filters`,
         [],
@@ -314,7 +314,7 @@ export function SourceMangas() {
             }
 
             if (savedSearchQuery) {
-                searchParams.set('query', savedSearchQuery);
+                searchParams.set(SearchParam.QUERY, savedSearchQuery);
                 setSearchParams(searchParams);
             }
         },

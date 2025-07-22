@@ -20,6 +20,7 @@ import { useResizeObserver } from '@/modules/core/hooks/useResizeObserver.tsx';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import { BrowseTab } from '@/modules/browse/Browse.types.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
+import { SearchParam } from '@/modules/core/Core.types.ts';
 
 export function Browse() {
     const { t } = useTranslation();
@@ -32,7 +33,7 @@ export function Browse() {
         useCallback(() => setTabsMenuHeight(tabsMenuRef.current!.offsetHeight), [tabsMenuRef.current]),
     );
 
-    const [tabSearchParam, setTabSearchParam] = useQueryParam('tab', StringParam, {});
+    const [tabSearchParam, setTabSearchParam] = useQueryParam(SearchParam.TAB, StringParam, {});
     const tabName = (tabSearchParam as BrowseTab) ?? BrowseTab.SOURCES;
 
     if (!tabSearchParam) {

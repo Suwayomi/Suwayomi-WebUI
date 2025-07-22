@@ -23,6 +23,7 @@ import {
     MangaUnreadInfo,
 } from '@/modules/manga/Manga.types.ts';
 import { SourceDisplayNameInfo } from '@/modules/source/Source.types.ts';
+import { SearchParam } from '@/modules/core/Core.types.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,
@@ -220,7 +221,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     showFilteredOutMessage: boolean;
     filterKey: string;
 } => {
-    const [query] = useQueryParam('query', StringParam);
+    const [query] = useQueryParam(SearchParam.QUERY, StringParam);
     const options = useGetCategoryMetadata(category ?? DEFAULT_CATEGORY);
     const {
         hasUnreadChapters,

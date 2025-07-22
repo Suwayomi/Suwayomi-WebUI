@@ -11,6 +11,7 @@ import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
 
 import { ChapterSourceOrderInfo } from '@/modules/chapter/Chapter.types.ts';
 import { BrowseTab } from '@/modules/browse/Browse.types.ts';
+import { SearchParam } from '@/modules/core/Core.types.ts';
 
 type AppRouteInfo = {
     match: string;
@@ -21,7 +22,7 @@ type TAppRoutes = Record<string, AppRouteInfo & { childRoutes?: TAppRoutes }>;
 
 const createParam = (name: string, value: any): string => (value ? `${name}=${encodeURIComponent(value)}` : '');
 
-const createQueryParam = (query: string | null | undefined): string => createParam('query', query);
+const createQueryParam = (query: string | null | undefined): string => createParam(SearchParam.QUERY, query);
 
 const addParams = (path: string, ...params: string[]) => {
     const joinedParams = params.filter(Boolean).join('&');
@@ -151,7 +152,7 @@ export const AppRoutes = {
     library: {
         match: 'library',
         path: (tab?: string, search?: string) =>
-            addParams('/library', createParam('tab', tab), createQueryParam(search)),
+            addParams('/library', createParam(SearchParam.TAB, tab), createQueryParam(search)),
     },
     updates: {
         match: 'updates',
@@ -167,7 +168,7 @@ export const AppRoutes = {
     },
     browse: {
         match: 'browse',
-        path: (tab?: BrowseTab) => addParams('/browse', createParam('tab', tab)),
+        path: (tab?: BrowseTab) => addParams('/browse', createParam(SearchParam.TAB, tab)),
     },
     migrate: {
         match: 'migrate/source/:sourceId',

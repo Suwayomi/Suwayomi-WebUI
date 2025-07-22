@@ -16,6 +16,7 @@ import { useTheme } from '@mui/material/styles';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { CustomTooltip } from '@/modules/core/components/CustomTooltip.tsx';
 import { SearchTextField } from '@/modules/core/components/inputs/SearchTextField.tsx';
+import { SearchParam } from '@/modules/core/Core.types.ts';
 
 interface IProps {
     isClosable?: boolean;
@@ -30,7 +31,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const [prevLocationKey, setPrevLocationKey] = useState<string>();
     const location = useLocation();
 
-    const [query, setQuery] = useQueryParam('query', StringParam);
+    const [query, setQuery] = useQueryParam(SearchParam.QUERY, StringParam);
     const [isSearchOpen, setIsSearchOpen] = useState(!isClosable || !!query);
     const inputRef = React.useRef<HTMLInputElement>(undefined);
 

@@ -51,6 +51,7 @@ import {
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { MetadataBrowseSettings } from '@/modules/browse/Browse.types.ts';
 import { useAppAction } from '@/modules/navigation-bar/hooks/useAppAction.ts';
+import { SearchParam } from '@/modules/core/Core.types.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -131,7 +132,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         keyof Pick<MetadataBrowseSettings, 'extensionLanguages'>
     >((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
 
-    const [query] = useQueryParam('query', StringParam);
+    const [query] = useQueryParam(SearchParam.QUERY, StringParam);
 
     const [updatingExtensionIds, setUpdatingExtensionIds] = useState<string[]>([]);
     const [refetchExtensions, setRefetchExtensions] = useState({});
