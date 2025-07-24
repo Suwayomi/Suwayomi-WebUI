@@ -150,7 +150,9 @@ export const ChapterActionMenuItems = ({
                 return [];
             }
 
-            return allChapters.slice(index + 1);
+            const previousChapters = allChapters.slice(index + 1);
+
+            return Chapters.getNonRead(previousChapters);
         };
 
         const chaptersToUpdate = getChapters();
