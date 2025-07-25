@@ -283,7 +283,7 @@ export const DownloadConversionSetting = ({
             <Dialog open={isDialogOpen} onClose={onCancel}>
                 <DialogTitle>{t('download.settings.conversion.title')}</DialogTitle>
                 <DialogContent>
-                    <DialogContentText sx={{ mb: 2 }}>
+                    <DialogContentText sx={{ mb: 2, whiteSpace: 'pre-line' }}>
                         {t('download.settings.conversion.description')}
                     </DialogContentText>
                     <Stack sx={{ flexDirection: 'column', gap: 3 }}>
