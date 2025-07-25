@@ -137,7 +137,6 @@ const MimeTypeTextField = ({
 };
 
 const Conversion = ({
-    index,
     shouldAutoFocusMimeTypeTextField,
     conversion: { mimeType, target, compressionLevel },
     setFocusMimeTypeTextField,
@@ -145,7 +144,6 @@ const Conversion = ({
     isDuplicate,
 }: {
     shouldAutoFocusMimeTypeTextField: boolean;
-    index: number;
     conversion: SettingsDownloadConversion;
     setFocusMimeTypeTextField: (focus: boolean) => void;
     onChange: (newConversion: SettingsDownloadConversion | null) => void;
@@ -159,8 +157,6 @@ const Conversion = ({
 
     return (
         <Stack
-            // eslint-disable-next-line react/no-array-index-key
-            key={`${mimeType}-${index}`}
             sx={{
                 gap: 1,
                 flexDirection: 'row',
@@ -181,7 +177,7 @@ const Conversion = ({
                     shouldAutoFocus={shouldAutoFocusMimeTypeTextField}
                     isDefault={isDefault}
                     isDuplicate={isDuplicate}
-                    label={t(isDefault ? 'global.label.default' : 'download.settings.conversion.mime_type')}
+                    label={t('download.settings.conversion.mime_type')}
                     value={mimeType}
                     onUpdate={(value) => {
                         setFocusMimeTypeTextField(true);
@@ -198,7 +194,7 @@ const Conversion = ({
                     shouldAutoFocus={false}
                     isDefault={false}
                     isDuplicate={false}
-                    label={t('download.settings.conversion.compression_level')}
+                    label={t('download.settings.conversion.target')}
                     value={target}
                     onUpdate={(value) =>
                         onChange({
@@ -209,7 +205,7 @@ const Conversion = ({
                     }
                 />
                 <TextField
-                    label="Compression"
+                    label={t('download.settings.conversion.compression_level')}
                     value={compressionLevel ?? ''}
                     type="number"
                     error={!isCompressionLevelValid}
@@ -299,7 +295,6 @@ export const DownloadConversionSetting = ({
                                     key={`${mimeType}-${index}`}
                                     conversion={conversion}
                                     isDuplicate={isDuplicate}
-                                    index={index}
                                     setFocusMimeTypeTextField={(focus) =>
                                         setFocusedMimeTypeTextFieldIndex(focus ? index : DEFAULT_FOCUS_INDEX)
                                     }
