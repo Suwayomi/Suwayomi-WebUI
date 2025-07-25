@@ -74,6 +74,7 @@ const maybeAddDefault = (conversions: SettingsDownloadConversion[]) => {
                   {
                       mimeType: DEFAULT_MIME_TYPE,
                       target: '',
+                      compressionLevel: null,
                   },
               ]),
         ...conversions,
@@ -247,7 +248,7 @@ export const DownloadConversionSetting = ({
     updateSetting,
 }: {
     conversions: SettingsDownloadConversion[];
-    updateSetting: (conversions: SettingsDownloadConversion[]) => void;
+    updateSetting: (conversions: SettingsDownloadConversion[]) => Promise<void>;
 }) => {
     const { t } = useTranslation();
 
@@ -257,11 +258,15 @@ export const DownloadConversionSetting = ({
 
     const hasInvalidConversion = containsInvalidConversion(tmpConversions);
 
-    const hasChanged = didUpdateConversions(conversions, tmpConversions);
+    const hasChanged = didUpdateConversions(normalizeConversions(maybeAddDefault(conversions)), tmpConversions);
 
-    const onClose = () => {
-        setTmpConversions(normalizeConversions(maybeAddDefault(conversions)));
+    const onClose = (newConversions: SettingsDownloadConversion[] = conversions) => {
+        setTmpConversions(normalizeConversions(maybeAddDefault(newConversions)));
         setIsDialogOpen(false);
+    };
+
+    const onCancel = () => {
+        onClose(conversions);
     };
 
     return (
@@ -275,7 +280,7 @@ export const DownloadConversionSetting = ({
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
-            <Dialog open={isDialogOpen} onClose={onClose}>
+            <Dialog open={isDialogOpen} onClose={onCancel}>
                 <DialogTitle>{t('download.settings.conversion.title')}</DialogTitle>
                 <DialogContent>
                     <DialogContentText sx={{ mb: 2 }}>
@@ -322,16 +327,23 @@ export const DownloadConversionSetting = ({
                         <Button
                             variant="outlined"
                             onClick={() => {
-                                setTmpConversions((prev) => [...prev, { mimeType: '', target: '' }]);
+                                setTmpConversions((prev) => [
+                                    ...prev,
+                                    { mimeType: '', target: '', compressionLevel: null },
+                                ]);
                             }}
                         >
                             {t('global.button.add')}
                         </Button>
                         <Stack direction="row">
-                            <Button onClick={onClose}>{t('global.button.cancel')}</Button>
+                            <Button onClick={onCancel}>{t('global.button.cancel')}</Button>
                             <Button
                                 disabled={hasInvalidConversion || !hasChanged}
-                                onClick={() => updateSetting(toValidServerConversions(tmpConversions))}
+                                onClick={() =>
+                                    updateSetting(toValidServerConversions(tmpConversions)).then(() =>
+                                        onClose(toValidServerConversions(tmpConversions)),
+                                    )
+                                }
                             >
                                 {t('global.button.ok')}
                             </Button>

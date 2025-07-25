@@ -108,10 +108,11 @@ export const DownloadSettings = () => {
     const updateSetting = <Setting extends keyof DownloadSettingsType>(
         setting: Setting,
         value: DownloadSettingsType[Setting],
-    ) => {
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
-        );
+    ): Promise<any> => {
+        const mutation = mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+        mutation.catch((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
+
+        return mutation;
     };
 
     const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataDownloadSettings>((e) =>
