@@ -38,13 +38,23 @@ export const AppRoutes = {
     matchAll: {
         match: '*',
     },
+    authentication: {
+        match: 'auth',
+        path: '/auth',
+        childRoutes: {
+            login: {
+                match: 'login',
+                path: '/auth/login',
+            },
+        },
+    },
     about: {
         match: 'about',
         path: '/about',
     },
     settings: {
-        path: '/settings',
         match: 'settings',
+        path: '/settings',
         childRoutes: {
             categories: {
                 match: 'categories',

@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import dayjs from 'dayjs';
 import { DEFAULT_DEVICE } from '@/features/device/services/Device.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/features/migration/Migration.constants.ts';
 import { GlobalUpdateSkipEntriesSettings, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
@@ -90,9 +91,13 @@ const AUTH_MODES_TO_TRANSLATION_KEY: { [mode in AuthMode]: SelectSettingValueDis
         description: 'settings.server.auth.mode.option.basicAuth.label.description',
     },
     [AuthMode.SimpleLogin]: {
-        text: 'settings.server.auth.mode.option.simpleLogin.label.title',
-        description: 'settings.server.auth.mode.option.simpleLogin.label.description',
-        disclaimer: 'settings.server.auth.mode.option.simpleLogin.label.info',
+        text: 'settings.server.auth.mode.option.simple_login.label.title',
+        description: 'settings.server.auth.mode.option.simple_login.label.description',
+        disclaimer: 'settings.server.auth.mode.option.simple_login.label.info',
+    },
+    [AuthMode.UiLogin]: {
+        text: 'settings.server.auth.mode.option.ui_login.label.title',
+        description: 'settings.server.auth.mode.option.ui_login.label.description',
     },
 };
 export const AUTH_MODES_SELECT_VALUES: SelectSettingValue<AuthMode>[] = AUTH_MODES.map((mode) => [
@@ -182,4 +187,16 @@ export const WEB_UI_UPDATE_INTERVAL = {
     default: 23,
     min: 1,
     max: 23,
+};
+
+export const JWT_ACCESS_TOKEN_EXPIRY = {
+    default: dayjs.duration(5, 'minute').asMinutes(),
+    min: dayjs.duration(1, 'minute').asMinutes(),
+    max: dayjs.duration(4, 'hour').asMinutes(),
+};
+
+export const JWT_REFRESH_TOKEN_EXPIRY = {
+    default: dayjs.duration(60, 'day').asDays(),
+    min: dayjs.duration(1, 'day').asDays(),
+    max: dayjs.duration(1, 'year').asDays(),
 };

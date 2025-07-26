@@ -212,6 +212,10 @@ import {
     GetExtensionQuery,
     GetExtensionQueryVariables,
     DownloaderState,
+    UserLoginMutation,
+    UserLoginMutationVariables,
+    UserRefreshMutation,
+    UserRefreshMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -327,6 +331,8 @@ import { CHAPTER_META_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts
 import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
+import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/mutations/UserMutation.ts';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -434,9 +440,9 @@ export const SPECIAL_ED_SOURCES = {
 export class RequestManager {
     public static readonly API_VERSION = '/api/v1/';
 
-    public readonly graphQLClient = new GraphQLClient();
+    public readonly graphQLClient = new GraphQLClient(this.refreshUser.bind(this));
 
-    private readonly restClient: RestClient = new RestClient();
+    private readonly restClient: RestClient = new RestClient(this.refreshUser.bind(this));
 
     private readonly cache = new CustomCache();
 
@@ -452,6 +458,8 @@ export class RequestManager {
     }
 
     public reset(): void {
+        AuthManager.setAuthRequired(null);
+        AuthManager.removeTokens();
         this.graphQLClient.client.resetStore();
         this.graphQLClient.terminateSubscriptions();
         this.cache.clear();
@@ -1020,7 +1028,7 @@ export class RequestManager {
         } = {},
     ): ImageRequest {
         const finalOptions = {
-            useFetchApi: false,
+            useFetchApi: AuthManager.isAuthRequired(),
             shouldDecode: false,
             disableCors: false,
             ...Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined)),
@@ -3228,6 +3236,24 @@ export class RequestManager {
             GQLMethod.MUTATION,
             TRACKER_FETCH_BIND,
             { recordId },
+            options,
+        );
+    }
+
+    public useLoginUser(
+        options?: MutationHookOptions<UserLoginMutation, UserLoginMutationVariables>,
+    ): AbortableApolloUseMutationResponse<UserLoginMutation, UserLoginMutationVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, USER_LOGIN, undefined, options);
+    }
+
+    public refreshUser(
+        refreshToken: string,
+        options?: MutationOptions<UserRefreshMutation, UserRefreshMutationVariables>,
+    ): AbortableApolloMutationResponse<UserRefreshMutation> {
+        return this.doRequest<UserRefreshMutation, UserRefreshMutationVariables>(
+            GQLMethod.MUTATION,
+            USER_REFRESH,
+            { refreshToken: refreshToken ?? undefined },
             options,
         );
     }

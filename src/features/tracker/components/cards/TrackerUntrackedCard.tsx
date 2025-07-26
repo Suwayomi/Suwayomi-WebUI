@@ -8,7 +8,6 @@
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
@@ -16,6 +15,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CARD_STYLING } from '@/features/tracker/Tracker.constants.ts';
 
 import { TTrackerBase } from '@/features/tracker/Tracker.types.ts';
+import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 
 export const TrackerUntrackedCard = ({
     tracker,
@@ -35,11 +35,15 @@ export const TrackerUntrackedCard = ({
                         gap: 3,
                     }}
                 >
-                    <Avatar
+                    <AvatarSpinner
                         alt={`${tracker.name}`}
-                        src={requestManager.getValidImgUrlFor(tracker.icon)}
-                        variant="rounded"
-                        sx={{ width: 64, height: 64 }}
+                        iconUrl={requestManager.getValidImgUrlFor(tracker.icon)}
+                        slots={{
+                            avatarProps: {
+                                variant: 'rounded',
+                                sx: { width: 64, height: 64 },
+                            },
+                        }}
                     />
                     <Button sx={{ flexGrow: '1' }} onClick={onClick}>
                         {t('tracking.action.button.add_tracking')}

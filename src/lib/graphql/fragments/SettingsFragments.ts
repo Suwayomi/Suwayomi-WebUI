@@ -60,6 +60,9 @@ export const SERVER_SETTINGS = gql`
         authMode
         authPassword
         authUsername
+        jwtAudience
+        jwtTokenExpiry
+        jwtRefreshExpiry
 
         # misc
         debugLogsEnabled

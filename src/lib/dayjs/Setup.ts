@@ -12,6 +12,7 @@ import calendar from 'dayjs/plugin/calendar';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import isToday from 'dayjs/plugin/isToday';
 import isYesterday from 'dayjs/plugin/isYesterday';
+import duration from 'dayjs/plugin/duration';
 import { importDayJsLocale } from '@/lib/dayjs/LocaleImporter.ts';
 // import localizedFormat from 'dayjs/plugin/localizedFormat';
 // import updateLocale from 'dayjs/plugin/updateLocale';
@@ -22,6 +23,7 @@ dayjs.extend(calendar);
 dayjs.extend(relativeTime);
 dayjs.extend(isToday);
 dayjs.extend(isYesterday);
+dayjs.extend(duration);
 // dayjs.extend(localizedFormat);
 // dayjs.extend(updateLocale);
 

@@ -7,14 +7,13 @@
  */
 
 import '@/polyfill.manual';
+import '@fontsource/roboto';
+import '@/lib/dayjs/Setup.ts';
+import '@/index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from '@/App';
-import '@/index.css';
-// roboto font
-import '@fontsource/roboto';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import '@/lib/dayjs/Setup.ts';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((registration) => {

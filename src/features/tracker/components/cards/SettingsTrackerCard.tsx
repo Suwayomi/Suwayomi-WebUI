@@ -13,7 +13,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import Chip from '@mui/material/Chip';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
-import Avatar from '@mui/material/Avatar';
 import ListItemText from '@mui/material/ListItemText';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -28,6 +27,7 @@ import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { TTrackerSearch } from '@/features/tracker/Tracker.types.ts';
+import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useTranslation();
@@ -86,11 +86,15 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
                 <>
                     <ListItemButton {...bindTrigger(popupState)} onClick={() => onClick(popupState.open)}>
                         <ListItemAvatar sx={{ paddingRight: '20px' }}>
-                            <Avatar
+                            <AvatarSpinner
                                 alt={`${tracker.name}`}
-                                src={requestManager.getValidImgUrlFor(tracker.icon)}
-                                variant="rounded"
-                                sx={{ width: 64, height: 64 }}
+                                iconUrl={requestManager.getValidImgUrlFor(tracker.icon)}
+                                slots={{
+                                    avatarProps: {
+                                        variant: 'rounded',
+                                        sx: { width: 64, height: 64 },
+                                    },
+                                }}
                             />
                         </ListItemAvatar>
                         <ListItemText primary={tracker.name} />

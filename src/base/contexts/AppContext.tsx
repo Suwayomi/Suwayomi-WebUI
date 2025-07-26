@@ -19,37 +19,40 @@ import { SnackbarWithDescription } from '@/base/components/feedback/SnackbarWith
 import { AppPageHistoryContextProvider } from '@/base/contexts/AppPageHistoryContext.tsx';
 import { AppThemeContextProvider } from '@/features/theme/AppThemeContext.tsx';
 import { NavBarContextProvider } from '@/features/navigation-bar/NavbarContext.tsx';
+import { SessionContextProvider } from '@/features/authentication/SessionContext.tsx';
 
 interface Props {
     children: React.ReactNode;
 }
 
 export const AppContext: React.FC<Props> = ({ children }) => (
-    <Router>
-        <StyledEngineProvider injectFirst>
-            <AppThemeContextProvider>
-                <QueryParamProvider adapter={ReactRouter6Adapter}>
-                    <NavBarContextProvider>
-                        <AppPageHistoryContextProvider>
-                            <ActiveDeviceContextProvider>
-                                <SnackbarProvider
-                                    Components={{
-                                        default: SnackbarWithDescription,
-                                        info: SnackbarWithDescription,
-                                        success: SnackbarWithDescription,
-                                        warning: SnackbarWithDescription,
-                                        error: SnackbarWithDescription,
-                                    }}
-                                >
-                                    <ReaderContextProvider>
-                                        <AppHotkeysProvider>{children}</AppHotkeysProvider>
-                                    </ReaderContextProvider>
-                                </SnackbarProvider>
-                            </ActiveDeviceContextProvider>
-                        </AppPageHistoryContextProvider>
-                    </NavBarContextProvider>
-                </QueryParamProvider>
-            </AppThemeContextProvider>
-        </StyledEngineProvider>
-    </Router>
+    <SessionContextProvider>
+        <Router>
+            <StyledEngineProvider injectFirst>
+                <AppThemeContextProvider>
+                    <QueryParamProvider adapter={ReactRouter6Adapter}>
+                        <NavBarContextProvider>
+                            <AppPageHistoryContextProvider>
+                                <ActiveDeviceContextProvider>
+                                    <SnackbarProvider
+                                        Components={{
+                                            default: SnackbarWithDescription,
+                                            info: SnackbarWithDescription,
+                                            success: SnackbarWithDescription,
+                                            warning: SnackbarWithDescription,
+                                            error: SnackbarWithDescription,
+                                        }}
+                                    >
+                                        <ReaderContextProvider>
+                                            <AppHotkeysProvider>{children}</AppHotkeysProvider>
+                                        </ReaderContextProvider>
+                                    </SnackbarProvider>
+                                </ActiveDeviceContextProvider>
+                            </AppPageHistoryContextProvider>
+                        </NavBarContextProvider>
+                    </QueryParamProvider>
+                </AppThemeContextProvider>
+            </StyledEngineProvider>
+        </Router>
+    </SessionContextProvider>
 );

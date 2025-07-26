@@ -7,6 +7,9 @@
  */
 
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
+import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 
 export enum HttpMethod {
     GET = 'GET',
@@ -48,17 +51,28 @@ export class RestClient
         } = {},
     ): Promise<Response> => {
         const updatedUrl = url.startsWith('http') ? url : `${this.getBaseUrl()}${url}`;
+        const accessToken = AuthManager.getAccessToken();
 
         let result: Response;
 
         switch (httpMethod) {
             case HttpMethod.GET:
-                result = await this.client(updatedUrl, { ...this.config, ...config, method: httpMethod });
+                result = await this.client(updatedUrl, {
+                    ...this.config,
+                    ...config,
+                    method: httpMethod,
+                    headers: {
+                        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+                        ...this.config.headers,
+                        ...config?.headers,
+                    },
+                });
                 break;
             case HttpMethod.POST:
             case HttpMethod.PATCH:
             case HttpMethod.DELETE:
                 result = await this.client(updatedUrl, {
+                    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
                     ...this.config,
                     ...config,
                     method: httpMethod,
@@ -67,6 +81,11 @@ export class RestClient
                 break;
             default:
                 throw new Error(`Unexpected HttpMethod "${httpMethod}"`);
+        }
+
+        if (result.status === 401) {
+            await BaseClient.refreshAccessToken(this.handleRefreshToken);
+            return this.fetcher(url, { data, httpMethod, config, checkResponseIsJson });
         }
 
         if (result.status !== 200) {
@@ -80,8 +99,8 @@ export class RestClient
         return result;
     };
 
-    constructor() {
-        super();
+    constructor(handleRefreshToken: (refreshToken: string) => AbortableApolloMutationResponse<UserRefreshMutation>) {
+        super(handleRefreshToken);
 
         this.createClient();
     }

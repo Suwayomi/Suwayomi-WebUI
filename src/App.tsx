@@ -8,7 +8,7 @@
 
 import CssBaseline from '@mui/material/CssBaseline';
 import React, { useLayoutEffect } from 'react';
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
@@ -27,6 +27,10 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
+import { useSessionContext } from '@/features/authentication/SessionContext.tsx';
+import { LoginPage } from '@/features/authentication/screens/LoginPage.tsx';
+import { AuthGuard } from '@/features/authentication/components/AuthGuard.tsx';
+import { SearchParam } from '@/base/Base.types.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -82,7 +86,7 @@ const { More } = loadable(() => import('@/features/settings/screens/More.tsx'), 
 const { Reader } = loadable(() => import('@/features/reader/screens/Reader.tsx'), lazyLoadFallback);
 const { HistorySettings } = loadable(() => import('@/features/history/screens/HistorySettings.tsx'), lazyLoadFallback);
 
-if (process.env.NODE_ENV !== 'production') {
+if (import.meta.env.DEV) {
     // Adds messages only in a dev environment
     loadDevMessages();
     loadErrorMessages();
@@ -105,13 +109,37 @@ const ScrollToTop = () => {
  * and thus, data of existing chapters/mangas in the cache get outdated
  */
 const BackgroundSubscriptions = () => {
-    // load the full download status once on startup to fill the cache
+    // Listen to session changes
+    const { isAuthRequired, accessToken } = useSessionContext();
+
+    const skipConnection = isAuthRequired == null || (!!isAuthRequired && !accessToken);
+
+    // Load the full download status once on startup to fill the cache
     requestManager.useGetDownloadStatus({ nextFetchPolicy: 'standby' });
-    requestManager.useDownloadSubscription();
-    requestManager.useUpdaterSubscription();
-    requestManager.useWebUIUpdateSubscription();
+    requestManager.useDownloadSubscription({ skip: skipConnection });
+    requestManager.useUpdaterSubscription({ skip: skipConnection });
+    requestManager.useWebUIUpdateSubscription({ skip: skipConnection });
 
     return null;
+};
+
+const PrivateRoutes = () => {
+    const { isAuthRequired, accessToken, refreshToken } = useSessionContext();
+
+    const isAuthenticated = !isAuthRequired || (isAuthRequired && (accessToken || refreshToken));
+    if (!isAuthenticated) {
+        return (
+            <Navigate
+                to={{
+                    pathname: AppRoutes.authentication.childRoutes.login.path,
+                    search: `${SearchParam.REDIRECT}=${window.location.pathname}`,
+                }}
+                replace
+            />
+        );
+    }
+
+    return <Outlet />;
 };
 
 const MainApp = () => {
@@ -139,60 +167,87 @@ const MainApp = () => {
         >
             <ErrorBoundary>
                 <Routes>
-                    {/* General Routes */}
-                    <Route path={AppRoutes.root.match} element={<Navigate to={AppRoutes.library.path()} replace />} />
-                    <Route path={AppRoutes.matchAll.match} element={<Navigate to={AppRoutes.root.path} replace />} />
-                    {isMobileWidth && <Route path={AppRoutes.more.match} element={<More />} />}
-                    <Route path={AppRoutes.about.match} element={<About />} />
-                    <Route path={AppRoutes.settings.match}>
-                        <Route index element={<Settings />} />
-                        <Route path={AppRoutes.settings.childRoutes.categories.match} element={<CategorySettings />} />
-                        <Route path={AppRoutes.settings.childRoutes.reader.match} element={<GlobalReaderSettings />} />
-                        <Route path={AppRoutes.settings.childRoutes.library.match}>
-                            <Route index element={<LibrarySettings />} />
+                    <Route path={AppRoutes.authentication.match}>
+                        <Route path={AppRoutes.authentication.childRoutes.login.match} element={<LoginPage />} />
+                    </Route>
+
+                    <Route element={<PrivateRoutes />}>
+                        {/* General Routes */}
+                        <Route
+                            path={AppRoutes.root.match}
+                            element={<Navigate to={AppRoutes.library.path()} replace />}
+                        />
+                        <Route
+                            path={AppRoutes.matchAll.match}
+                            element={<Navigate to={AppRoutes.root.path} replace />}
+                        />
+                        {isMobileWidth && <Route path={AppRoutes.more.match} element={<More />} />}
+                        <Route path={AppRoutes.about.match} element={<About />} />
+                        <Route path={AppRoutes.settings.match}>
+                            <Route index element={<Settings />} />
                             <Route
-                                path={AppRoutes.settings.childRoutes.library.childRoutes.duplicates.match}
-                                element={<LibraryDuplicates />}
+                                path={AppRoutes.settings.childRoutes.categories.match}
+                                element={<CategorySettings />}
                             />
+                            <Route
+                                path={AppRoutes.settings.childRoutes.reader.match}
+                                element={<GlobalReaderSettings />}
+                            />
+                            <Route path={AppRoutes.settings.childRoutes.library.match}>
+                                <Route index element={<LibrarySettings />} />
+                                <Route
+                                    path={AppRoutes.settings.childRoutes.library.childRoutes.duplicates.match}
+                                    element={<LibraryDuplicates />}
+                                />
+                            </Route>
+                            <Route
+                                path={AppRoutes.settings.childRoutes.download.match}
+                                element={<DownloadSettings />}
+                            />
+                            <Route path={AppRoutes.settings.childRoutes.backup.match} element={<Backup />} />
+                            <Route path={AppRoutes.settings.childRoutes.server.match} element={<ServerSettings />} />
+                            <Route path={AppRoutes.settings.childRoutes.webui.match} element={<WebUISettings />} />
+                            <Route path={AppRoutes.settings.childRoutes.browse.match} element={<BrowseSettings />} />
+                            <Route path={AppRoutes.settings.childRoutes.history.match} element={<HistorySettings />} />
+                            <Route path={AppRoutes.settings.childRoutes.device.match} element={<DeviceSetting />} />
+                            <Route
+                                path={AppRoutes.settings.childRoutes.tracking.match}
+                                element={<TrackingSettings />}
+                            />
+                            <Route path={AppRoutes.settings.childRoutes.appearance.match} element={<Appearance />} />
                         </Route>
-                        <Route path={AppRoutes.settings.childRoutes.download.match} element={<DownloadSettings />} />
-                        <Route path={AppRoutes.settings.childRoutes.backup.match} element={<Backup />} />
-                        <Route path={AppRoutes.settings.childRoutes.server.match} element={<ServerSettings />} />
-                        <Route path={AppRoutes.settings.childRoutes.webui.match} element={<WebUISettings />} />
-                        <Route path={AppRoutes.settings.childRoutes.browse.match} element={<BrowseSettings />} />
-                        <Route path={AppRoutes.settings.childRoutes.history.match} element={<HistorySettings />} />
-                        <Route path={AppRoutes.settings.childRoutes.device.match} element={<DeviceSetting />} />
-                        <Route path={AppRoutes.settings.childRoutes.tracking.match} element={<TrackingSettings />} />
-                        <Route path={AppRoutes.settings.childRoutes.appearance.match} element={<Appearance />} />
-                    </Route>
 
-                    {/* Manga Routes */}
+                        {/* Manga Routes */}
 
-                    <Route path={AppRoutes.sources.match}>
-                        {/* TODO: deprecated - "source" and "extension" page got merged into "browse" */}
-                        <Route index element={<Navigate to={AppRoutes.browse.path(BrowseTab.SOURCES)} replace />} />
-                        <Route path={AppRoutes.sources.childRoutes.browse.match} element={<SourceMangas />} />
-                        <Route path={AppRoutes.sources.childRoutes.configure.match} element={<SourceConfigure />} />
-                        <Route path={AppRoutes.sources.childRoutes.searchAll.match} element={<SearchAll />} />
+                        <Route path={AppRoutes.sources.match}>
+                            {/* TODO: deprecated - "source" and "extension" page got merged into "browse" */}
+                            <Route index element={<Navigate to={AppRoutes.browse.path(BrowseTab.SOURCES)} replace />} />
+                            <Route path={AppRoutes.sources.childRoutes.browse.match} element={<SourceMangas />} />
+                            <Route path={AppRoutes.sources.childRoutes.configure.match} element={<SourceConfigure />} />
+                            <Route path={AppRoutes.sources.childRoutes.searchAll.match} element={<SearchAll />} />
+                        </Route>
+                        <Route path={AppRoutes.extension.match}>
+                            <Route
+                                index
+                                element={<Navigate to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)} replace />}
+                            />
+                            <Route path={AppRoutes.extension.childRoutes.info.match} element={<ExtensionInfo />} />
+                        </Route>
+                        <Route path={AppRoutes.downloads.match} element={<DownloadQueue />} />
+                        <Route path={AppRoutes.manga.match}>
+                            <Route path={AppRoutes.manga.childRoutes.reader.match} element={null} />
+                            <Route index element={<Manga />} />
+                        </Route>
+                        <Route path={AppRoutes.library.match} element={<Library />} />
+                        <Route path={AppRoutes.updates.match} element={<Updates />} />
+                        {!hideHistory && <Route path={AppRoutes.history.match} element={<History />} />}
+                        <Route path={AppRoutes.browse.match} element={<Browse />} />
+                        <Route path={AppRoutes.migrate.match}>
+                            <Route index element={<Migrate />} />
+                            <Route path={AppRoutes.migrate.childRoutes.search.match} element={<SearchAll />} />
+                        </Route>
+                        <Route path={AppRoutes.tracker.match} element={<TrackerOAuthLogin />} />
                     </Route>
-                    <Route path={AppRoutes.extension.match}>
-                        <Route index element={<Navigate to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)} replace />} />
-                        <Route path={AppRoutes.extension.childRoutes.info.match} element={<ExtensionInfo />} />
-                    </Route>
-                    <Route path={AppRoutes.downloads.match} element={<DownloadQueue />} />
-                    <Route path={AppRoutes.manga.match}>
-                        <Route path={AppRoutes.manga.childRoutes.reader.match} element={null} />
-                        <Route index element={<Manga />} />
-                    </Route>
-                    <Route path={AppRoutes.library.match} element={<Library />} />
-                    <Route path={AppRoutes.updates.match} element={<Updates />} />
-                    {!hideHistory && <Route path={AppRoutes.history.match} element={<History />} />}
-                    <Route path={AppRoutes.browse.match} element={<Browse />} />
-                    <Route path={AppRoutes.migrate.match}>
-                        <Route index element={<Migrate />} />
-                        <Route path={AppRoutes.migrate.childRoutes.search.match} element={<SearchAll />} />
-                    </Route>
-                    <Route path={AppRoutes.tracker.match} element={<TrackerOAuthLogin />} />
                 </Routes>
             </ErrorBoundary>
         </Box>
@@ -214,14 +269,16 @@ export const App: React.FC = () => (
         <WebUIUpdateChecker />
         <BackgroundSubscriptions />
         <CssBaseline enableColorScheme />
-        <Box sx={{ display: 'flex' }}>
-            <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
-                <DefaultNavBar />
+        <AuthGuard>
+            <Box sx={{ display: 'flex' }}>
+                <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
+                    <DefaultNavBar />
+                </Box>
+                <Routes>
+                    <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
+                    <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
+                </Routes>
             </Box>
-            <Routes>
-                <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
-                <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
-            </Routes>
-        </Box>
+        </AuthGuard>
     </AppContext>
 );

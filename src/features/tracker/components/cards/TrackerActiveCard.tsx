@@ -8,7 +8,6 @@
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Avatar from '@mui/material/Avatar';
 import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -44,6 +43,7 @@ import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { TTrackerBind, TTrackRecordBind } from '@/features/tracker/Tracker.types.ts';
+import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (
     <Link href={url} rel="noreferrer" target="_blank" underline="none" color="inherit">
@@ -203,11 +203,15 @@ const TrackerActiveHeader = ({
                 }
             >
                 <TrackerActiveLink url={trackRecord.remoteUrl}>
-                    <Avatar
+                    <AvatarSpinner
                         alt={`${tracker.name}`}
-                        src={requestManager.getValidImgUrlFor(tracker.icon)}
-                        variant="rounded"
-                        sx={{ width: 64, height: 64 }}
+                        iconUrl={requestManager.getValidImgUrlFor(tracker.icon)}
+                        slots={{
+                            avatarProps: {
+                                variant: 'rounded',
+                                sx: { width: 64, height: 64 },
+                            },
+                        }}
                     />
                 </TrackerActiveLink>
             </Badge>

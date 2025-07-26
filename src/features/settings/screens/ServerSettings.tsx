@@ -15,8 +15,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
+import dayjs from 'dayjs';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
@@ -33,7 +33,13 @@ import { ServerSettings as GqlServerSettings, ServerSettingsType } from '@/featu
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { AuthMode, SortOrder } from '@/lib/graphql/generated/graphql';
-import { AUTH_MODES_SELECT_VALUES } from '@/features/settings/Settings.constants.ts';
+import {
+    AUTH_MODES_SELECT_VALUES,
+    JWT_ACCESS_TOKEN_EXPIRY,
+    JWT_REFRESH_TOKEN_EXPIRY,
+} from '@/features/settings/Settings.constants.ts';
+import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
 
 const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType => ({
     ip: settings.ip,
@@ -52,6 +58,9 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     authMode: settings.authMode,
     authUsername: settings.authUsername,
     authPassword: settings.authPassword,
+    jwtAudience: settings.jwtAudience,
+    jwtTokenExpiry: settings.jwtTokenExpiry,
+    jwtRefreshExpiry: settings.jwtRefreshExpiry,
     flareSolverrEnabled: settings.flareSolverrEnabled,
     flareSolverrTimeout: settings.flareSolverrTimeout,
     flareSolverrUrl: settings.flareSolverrUrl,
@@ -99,24 +108,18 @@ export const ServerSettings = () => {
     });
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
-    const [serverAddress, setServerAddress] = useLocalStorage<string>(
-        'serverBaseURL',
-        import.meta.env.VITE_SERVER_URL_DEFAULT,
-    );
-
-    const handleServerAddressChange = (address: string) => {
-        const serverBaseUrl = address.replaceAll(/(\/)+$/g, '');
-        setServerAddress(serverBaseUrl);
-        requestManager.reset();
-    };
-
-    const updateSetting = <Setting extends keyof ServerSettingsType>(
+    const updateSetting = async <Setting extends keyof ServerSettingsType>(
         setting: Setting,
         value: ServerSettingsType[Setting],
+        onCompletion?: (success: boolean) => void,
     ) => {
-        mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
-        );
+        try {
+            await mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+            onCompletion?.(true);
+        } catch (e) {
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e));
+            onCompletion?.(false);
+        }
     };
 
     const localSettings = useMemo(
@@ -128,12 +131,7 @@ export const ServerSettings = () => {
                     </ListSubheader>
                 }
             >
-                <TextSetting
-                    settingName={t('settings.about.server.label.address')}
-                    handleChange={handleServerAddressChange}
-                    value={serverAddress}
-                    placeholder="http://localhost:4567"
-                />
+                <ServerAddressSetting />
                 <ListItem>
                     <ListItemText
                         primary={t('global.update.settings.inform.label.title')}
@@ -147,7 +145,7 @@ export const ServerSettings = () => {
                 </ListItem>
             </List>
         ),
-        [serverAddress, serverInformAvailableUpdate],
+        [serverInformAvailableUpdate],
     );
 
     const loading = areMetadataServerSettingsLoading || areServerSettingsLoading;
@@ -187,8 +185,8 @@ export const ServerSettings = () => {
     }
 
     const serverSettings = extractServerSettings(data!.settings);
-    const authModeDisabled = !serverSettings.authUsername.trim() || !serverSettings.authPassword.trim();
-
+    const authModeDisabled = !serverSettings.authUsername?.trim() || !serverSettings.authPassword?.trim();
+    console.log('asdf', serverSettings.jwtTokenExpiry, serverSettings.jwtRefreshExpiry);
     return (
         <List sx={{ pt: 0 }}>
             {localSettings}
@@ -271,7 +269,19 @@ export const ServerSettings = () => {
                     settingName={t('settings.server.auth.label.title')}
                     value={serverSettings.authMode}
                     values={AUTH_MODES_SELECT_VALUES}
-                    handleChange={(mode) => updateSetting('authMode', mode)}
+                    handleChange={(mode) => {
+                        updateSetting('authMode', mode, (success) => {
+                            if (!success) {
+                                return;
+                            }
+
+                            if (mode !== AuthMode.UiLogin) {
+                                AuthManager.removeTokens();
+                            }
+
+                            AuthManager.setAuthRequired(mode === AuthMode.UiLogin);
+                        });
+                    }}
                     disabled={authModeDisabled}
                 />
                 <TextSetting
@@ -287,6 +297,41 @@ export const ServerSettings = () => {
                     validate={(value) => serverSettings.authMode === AuthMode.None || !!value.trim()}
                     handleChange={(authPassword) => updateSetting('authPassword', authPassword)}
                 />
+                {serverSettings.authMode === AuthMode.UiLogin && (
+                    <>
+                        <TextSetting
+                            settingName={t('settings.server.auth.jwt.audience')}
+                            value={serverSettings.jwtAudience}
+                            handleChange={(audience) => updateSetting('jwtAudience', audience)}
+                        />
+                        <NumberSetting
+                            settingTitle={t('settings.server.auth.jwt.access_token_expiry')}
+                            settingValue={dayjs.duration(serverSettings.jwtTokenExpiry).humanize()}
+                            value={dayjs.duration(serverSettings.jwtTokenExpiry).asMinutes()}
+                            valueUnit={t('global.time.minutes.minute_other')}
+                            defaultValue={JWT_ACCESS_TOKEN_EXPIRY.default}
+                            minValue={JWT_ACCESS_TOKEN_EXPIRY.min}
+                            maxValue={JWT_ACCESS_TOKEN_EXPIRY.max}
+                            handleUpdate={(expiry) =>
+                                updateSetting('jwtTokenExpiry', dayjs.duration(expiry, 'minute').toISOString())
+                            }
+                            showSlider
+                        />
+                        <NumberSetting
+                            settingTitle={t('settings.server.auth.jwt.refresh_token_expiry')}
+                            settingValue={dayjs.duration(serverSettings.jwtRefreshExpiry).humanize()}
+                            value={dayjs.duration(serverSettings.jwtRefreshExpiry).asDays()}
+                            valueUnit={t('global.time.days.day_other')}
+                            defaultValue={JWT_REFRESH_TOKEN_EXPIRY.default}
+                            minValue={JWT_REFRESH_TOKEN_EXPIRY.min}
+                            maxValue={JWT_REFRESH_TOKEN_EXPIRY.max}
+                            handleUpdate={(expiry) =>
+                                updateSetting('jwtRefreshExpiry', dayjs.duration(expiry, 'day').toISOString())
+                            }
+                            showSlider
+                        />
+                    </>
+                )}
             </List>
             <List
                 subheader={

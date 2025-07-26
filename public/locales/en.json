@@ -116,9 +116,9 @@
           },
           "label": {
             "action": {
+              "all": "Mark all as read",
               "current": "Mark as read",
-              "previous": "Mark previous as read",
-              "all": "Mark all as read"
+              "previous": "Mark previous as read"
             },
             "confirmation_one": "You are about to mark one chapter as read",
             "confirmation_other": "You are about to mark {{count}} chapters as read",
@@ -521,6 +521,11 @@
       }
     },
     "time": {
+      "days": {
+        "day_one": "Day",
+        "day_other": "Days",
+        "value": "{{count}} $t(global.time.days.day, lowercase)"
+      },
       "hour_short": "h",
       "minutes": {
         "minute_one": "Minute",
@@ -1297,6 +1302,11 @@
         }
       },
       "auth": {
+        "jwt": {
+          "access_token_expiry": "JWT access token expiry",
+          "audience": "JWT audience claim",
+          "refresh_token_expiry": "JWT refresh token expiry"
+        },
         "label": {
           "password": "$t(global.label.password)",
           "title": "Authentication Mode",
@@ -1317,11 +1327,17 @@
                 "title": "None"
               }
             },
-            "simpleLogin": {
+            "simple_login": {
               "label": {
-                "description": "A simple login page will be presented to login.",
+                "description": "The login will be handled by the server.",
                 "info": "When you enable this, you may need to refresh this tab for the login page to appear.",
                 "title": "Simple Login"
+              }
+            },
+            "ui_login": {
+              "label": {
+                "description": "The login will be handled by the client.",
+                "title": "UI Login"
               }
             }
           }

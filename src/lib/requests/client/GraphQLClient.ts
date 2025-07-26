@@ -6,6 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { onError } from '@apollo/client/link/error';
+import { setContext } from '@apollo/client/link/context';
 import {
     ApolloClient,
     ApolloClientOptions,
@@ -14,6 +16,7 @@ import {
     NormalizedCacheObject,
     split,
     from,
+    fromPromise,
 } from '@apollo/client';
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
@@ -23,6 +26,9 @@ import { TypePolicies } from '@apollo/client/cache';
 import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
+import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 
 /* eslint-disable no-underscore-dangle */
 const typePolicies: StrictTypedTypePolicies = {
@@ -187,8 +193,8 @@ export class GraphQLClient extends BaseClient<
 
     private wsClient!: Client;
 
-    constructor() {
-        super();
+    constructor(handleRefreshToken: (refreshToken: string) => AbortableApolloMutationResponse<UserRefreshMutation>) {
+        super(handleRefreshToken);
 
         this.createClient();
     }
@@ -201,8 +207,44 @@ export class GraphQLClient extends BaseClient<
         this.wsClient.terminate();
     }
 
+    private createErrorLink() {
+        return onError(({ graphQLErrors, operation, forward }) => {
+            if (!graphQLErrors) {
+                return undefined;
+            }
+
+            const isAuthError = graphQLErrors.some((graphQLError) =>
+                graphQLError.message.includes('suwayomi.tachidesk.server.user.UnauthorizedException'),
+            );
+            if (!isAuthError) {
+                return undefined;
+            }
+
+            return fromPromise(BaseClient.refreshAccessToken(this.handleRefreshToken))
+                .filter(Boolean)
+                .flatMap(() => forward(operation));
+        });
+    }
+
+    private createAuthLink() {
+        return setContext((_, { headers }) => {
+            const isAuthRequired = AuthManager.isAuthRequired();
+            const accessToken = AuthManager.getAccessToken();
+
+            return {
+                headers: {
+                    credentials: 'include',
+                    ...headers,
+                    Authorization: isAuthRequired && accessToken ? `Bearer ${accessToken}` : '',
+                },
+            };
+        });
+    }
+
     private createUploadLink() {
-        return createUploadLink({ uri: () => this.getBaseUrl(), credentials: 'include' });
+        return createUploadLink({
+            uri: () => this.getBaseUrl(),
+        });
     }
 
     private createWSLink() {
@@ -218,8 +260,13 @@ export class GraphQLClient extends BaseClient<
                 return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
             },
             this.createWSLink(),
-            // apollo-upload-client dependency is outdated (see 134e47763faae9e62db4d4e3a8387a74e32e5568) and thus types are not matching, but they are still correct
-            from([removeTypenameLink, this.createUploadLink() as unknown as ApolloLink]),
+            from([
+                this.createErrorLink(),
+                this.createAuthLink(),
+                removeTypenameLink,
+                // apollo-upload-client dependency is outdated (see 134e47763faae9e62db4d4e3a8387a74e32e5568) and thus types are not matching, but they are still correct
+                this.createUploadLink() as unknown as ApolloLink,
+            ]),
         );
     }
 
@@ -230,6 +277,14 @@ export class GraphQLClient extends BaseClient<
             url: () => this.getBaseUrl().replace(/http(|s)/g, 'ws'),
             keepAlive: heartbeatInterval,
             retryAttempts: 10,
+            connectionParams: () => {
+                const isAuthRequired = AuthManager.isAuthRequired();
+                const accessToken = AuthManager.getAccessToken();
+
+                return {
+                    Authorization: isAuthRequired && accessToken ? accessToken : undefined,
+                };
+            },
         });
 
         let lastHeartbeat: number = 0;

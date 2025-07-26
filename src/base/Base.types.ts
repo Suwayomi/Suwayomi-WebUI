@@ -71,4 +71,5 @@ export enum ScrollDirection {
 export enum SearchParam {
     TAB = 'tab',
     QUERY = 'query',
+    REDIRECT = 'redirect',
 }
