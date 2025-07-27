@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactNode, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Direction, ThemeProvider, useColorScheme } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
@@ -17,23 +17,33 @@ import {
     useMetadataServerSettings,
 } from '@/modules/settings/services/ServerSettingsMetadata.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
-import { getTheme } from '@/modules/theme/services/AppThemes.ts';
+import { AppTheme, getTheme } from '@/modules/theme/services/AppThemes.ts';
 import { createAndSetTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 
 export const AppThemeContextProvider = ({ children }: { children: ReactNode }) => {
     const { t, i18n } = useTranslation();
     const { mode } = useColorScheme();
     const {
-        settings: { appTheme, themeMode, shouldUsePureBlackMode, customThemes },
+        request: metadataServerSettingsRequest,
+        settings: { appTheme: serverAppTheme, themeMode, shouldUsePureBlackMode, customThemes },
     } = useMetadataServerSettings();
+    const [localAppTheme, setLocalAppTheme] = useLocalStorage<AppTheme>(
+        'appTheme',
+        getTheme(serverAppTheme, customThemes),
+    );
 
     const directionRef = useRef<Direction>('ltr');
 
     const [systemThemeMode, setSystemThemeMode] = useState<ThemeMode>(MediaQuery.getSystemThemeMode());
     const [dynamicColor, setDynamicColor] = useState<TAppThemeContext['dynamicColor']>(null);
 
+    const appTheme =
+        metadataServerSettingsRequest.loading || metadataServerSettingsRequest.error
+            ? localAppTheme.id
+            : serverAppTheme;
     const actualThemeMode = mode ?? themeMode ?? 'dark';
     const currentDirection = i18n.dir();
 
@@ -60,7 +70,7 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
         () =>
             createAndSetTheme(
                 actualThemeMode as ThemeMode,
-                getTheme(appTheme, customThemes),
+                getTheme(appTheme, { [localAppTheme.id]: localAppTheme, ...customThemes }),
                 shouldUsePureBlackMode,
                 currentDirection,
                 dynamicColor,
@@ -81,6 +91,16 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
 
         return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        if (metadataServerSettingsRequest.loading || metadataServerSettingsRequest.error) {
+            return;
+        }
+
+        if (serverAppTheme !== localAppTheme.id) {
+            setLocalAppTheme(getTheme(serverAppTheme, customThemes));
+        }
+    }, [serverAppTheme, localAppTheme]);
 
     if (directionRef.current !== currentDirection) {
         document.dir = currentDirection;
