@@ -43,19 +43,6 @@ export function DefaultNavBar() {
     } = useMetadataServerSettings();
 
     const appBarRef = useRef<HTMLDivElement | null>(null);
-    useResizeObserver(
-        appBarRef,
-        useCallback(() => {
-            setAppBarHeight(appBarRef.current?.clientHeight ?? 0);
-        }, [appBarRef.current]),
-    );
-    useLayoutEffect(() => {
-        if (!override.status) {
-            setAppBarHeight(0);
-        }
-
-        return () => setAppBarHeight(0);
-    }, [override.status]);
 
     const isMainRoute = NAVIGATION_BAR_ITEMS.some(({ path, show }) => {
         if (isMobileWidth && show === 'desktop') {
@@ -86,6 +73,25 @@ export function DefaultNavBar() {
         () => <NavBarComponent navBarItems={visibleNavBarItems} />,
         [NavBarComponent, visibleNavBarItems],
     );
+
+    useResizeObserver(
+        appBarRef,
+        useCallback(() => {
+            setAppBarHeight(appBarRef.current?.clientHeight ?? 0);
+        }, [appBarRef.current]),
+    );
+
+    useLayoutEffect(() => {
+        if (override.status) {
+            setAppBarHeight(0);
+            setNavBarWidth(0);
+        }
+
+        return () => {
+            setAppBarHeight(0);
+            setNavBarWidth(0);
+        };
+    }, [override.status]);
 
     useLayoutEffect(() => {
         if (!isMobileWidth) {
