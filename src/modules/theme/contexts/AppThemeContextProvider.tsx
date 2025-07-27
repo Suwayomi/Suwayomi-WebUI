@@ -22,6 +22,7 @@ import { createAndSetTheme } from '@/modules/theme/services/ThemeCreator.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 export const AppThemeContextProvider = ({ children }: { children: ReactNode }) => {
     const { t, i18n } = useTranslation();
@@ -101,6 +102,13 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
             setLocalAppTheme(getTheme(serverAppTheme, customThemes));
         }
     }, [serverAppTheme, localAppTheme]);
+
+    useEffect(() => {
+        // The set background color is not necessary anymore, since the theme has been loaded
+        document.documentElement.style.backgroundColor = '';
+
+        AppStorage.local.setItem('theme_background', theme.palette.background.default);
+    }, [theme.palette.background.default]);
 
     if (directionRef.current !== currentDirection) {
         document.dir = currentDirection;
