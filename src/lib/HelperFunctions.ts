@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ApolloError } from '@apollo/client/errors';
 import { ReactNode } from 'react';
 
 export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): T | null => {
@@ -18,12 +17,8 @@ export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): 
 };
 
 export const getErrorMessage = (error: unknown): string => {
-    if (error instanceof ApolloError) {
-        return `${error.name}: ${error.message}`;
-    }
-
     if (error instanceof Error) {
-        return `${error.name}: ${error.message}`;
+        return error.message;
     }
 
     if (error == null) {
