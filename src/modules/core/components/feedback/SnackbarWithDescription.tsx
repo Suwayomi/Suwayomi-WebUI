@@ -17,6 +17,7 @@ import { awaitConfirmation } from '@/modules/core/utils/AwaitableDialog.tsx';
 import { TranslationKey } from '@/Base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
+import { extractGraphqlExceptionInfo } from '@/lib/HelperFunctions.ts';
 
 const MAX_DESCRIPTION_LENGTH = 200;
 
@@ -49,10 +50,13 @@ export const SnackbarWithDescription = memo(
             const severity = variant === 'default' ? 'info' : variant;
             const finalAction = typeof action === 'function' ? action(id) : action;
 
-            const isDescriptionTooLong = (description?.length ?? 0) > MAX_DESCRIPTION_LENGTH;
+            const { isGraphqlException, graphqlError, graphqlStackTrace } = extractGraphqlExceptionInfo(description);
+
+            const finalDescription = isGraphqlException ? graphqlError : description;
+            const isDescriptionTooLong = (finalDescription?.length ?? 0) > MAX_DESCRIPTION_LENGTH;
             const actualDescription = isDescriptionTooLong
-                ? description?.slice(0, MAX_DESCRIPTION_LENGTH)
-                : description;
+                ? finalDescription?.slice(0, MAX_DESCRIPTION_LENGTH)
+                : finalDescription;
 
             const TitleComponent = actualDescription?.length ? AlertTitle : Fragment;
 
@@ -79,7 +83,7 @@ export const SnackbarWithDescription = memo(
                     >
                         <TitleComponent>{message}</TitleComponent>
                         {actualDescription}
-                        {isDescriptionTooLong ? (
+                        {isDescriptionTooLong || (isGraphqlException && graphqlStackTrace) ? (
                             <Button
                                 onClick={() => {
                                     awaitConfirmation({

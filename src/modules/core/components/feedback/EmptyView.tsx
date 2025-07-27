@@ -8,13 +8,14 @@
 
 // adopted from: https://github.com/tachiyomiorg/tachiyomi/blob/master/app/src/main/java/eu/kanade/tachiyomi/widget/EmptyView.kt
 
-import { useMemo, useState, type JSX } from 'react';
+import { type JSX, useMemo, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { SxProps, Theme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Collapse from '@mui/material/Collapse';
+import { extractGraphqlExceptionInfo } from '@/lib/HelperFunctions.ts';
 
 const ERROR_FACES = ['(･o･;)', 'Σ(ಠ_ಠ)', 'ಥ_ಥ', '(˘･_･˘)', '(；￣Д￣)', '(･Д･。'];
 
@@ -30,34 +31,6 @@ export interface EmptyViewProps {
     noFaces?: boolean;
     sx?: SxProps<Theme>;
 }
-
-const GRAPHQL_EXCEPTION_MESSAGE_REGEX = /(.*Exception while fetching data \(.*\) : .*)\r\n\r\n(.*)/s;
-
-const extractGraphqlExceptionInfo = (
-    error: EmptyViewProps['messageExtra'],
-): {
-    isGraphqlException: boolean;
-    graphqlError?: string;
-    graphqlStackTrace?: string;
-} => {
-    if (typeof error !== 'string') {
-        return { isGraphqlException: false };
-    }
-
-    const regexMatch = error.match(GRAPHQL_EXCEPTION_MESSAGE_REGEX);
-
-    const isGraphqlException = !!regexMatch;
-    if (!isGraphqlException) {
-        return { isGraphqlException: false };
-    }
-
-    const [, message, stackTrace] = regexMatch;
-    return {
-        isGraphqlException: true,
-        graphqlError: message,
-        graphqlStackTrace: stackTrace,
-    };
-};
 
 const ExtraMessage = ({ messageExtra }: Pick<EmptyViewProps, 'messageExtra'>) => {
     const { t } = useTranslation();
