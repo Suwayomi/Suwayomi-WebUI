@@ -35,6 +35,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useAppTitle } from '@/modules/navigation-bar/hooks/useAppTitle.ts';
 import { MANGA_GRID_WIDTH, SERVER_SETTINGS_METADATA_DEFAULT } from '@/modules/settings/Settings.constants.ts';
+import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
 
 export const Appearance = () => {
     const { t, i18n } = useTranslation();
@@ -86,7 +87,7 @@ export const Appearance = () => {
                         setThemeMode(newMode as ThemeMode);
                         setMode(newMode);
                         // in case a non "colorSchemes" mui theme is active, "setMode" does not update the mode ("mui-mode") value
-                        AppStorage.local.setItem('mui-mode', newMode, true);
+                        AppStorage.local.setItem(MUI_THEME_MODE_KEY, newMode, true);
                     }}
                 >
                     <MenuItem key={ThemeMode.SYSTEM} value={ThemeMode.SYSTEM}>

@@ -7,7 +7,7 @@
  */
 
 import { ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Direction, ThemeProvider, useColorScheme } from '@mui/material/styles';
+import { Direction, ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import { useTranslation } from 'react-i18next';
 import { AppThemeContext, TAppThemeContext, ThemeMode } from '@/modules/theme/contexts/AppThemeContext.tsx';
@@ -23,10 +23,10 @@ import { makeToast } from '@/modules/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useLocalStorage } from '@/modules/core/hooks/useStorage.tsx';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
+import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
 
 export const AppThemeContextProvider = ({ children }: { children: ReactNode }) => {
     const { t, i18n } = useTranslation();
-    const { mode } = useColorScheme();
     const {
         request: metadataServerSettingsRequest,
         settings: { appTheme: serverAppTheme, themeMode, shouldUsePureBlackMode, customThemes },
@@ -35,17 +35,18 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
         'appTheme',
         getTheme(serverAppTheme, customThemes),
     );
+    const [localThemeMode] = useLocalStorage(MUI_THEME_MODE_KEY, themeMode);
 
     const directionRef = useRef<Direction>('ltr');
 
     const [systemThemeMode, setSystemThemeMode] = useState<ThemeMode>(MediaQuery.getSystemThemeMode());
     const [dynamicColor, setDynamicColor] = useState<TAppThemeContext['dynamicColor']>(null);
 
-    const appTheme =
-        metadataServerSettingsRequest.loading || metadataServerSettingsRequest.error
-            ? localAppTheme.id
-            : serverAppTheme;
-    const actualThemeMode = mode ?? themeMode ?? 'dark';
+    const areMetadataServerSettingsReady =
+        !metadataServerSettingsRequest.loading && !metadataServerSettingsRequest.error;
+
+    const appTheme = areMetadataServerSettingsReady ? serverAppTheme : localAppTheme.id;
+    const actualThemeMode = areMetadataServerSettingsReady ? themeMode : localThemeMode;
     const currentDirection = i18n.dir();
 
     const updateSetting = createUpdateMetadataServerSettings<'appTheme' | 'themeMode' | 'shouldUsePureBlackMode'>((e) =>
@@ -94,7 +95,7 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
     }, []);
 
     useEffect(() => {
-        if (metadataServerSettingsRequest.loading || metadataServerSettingsRequest.error) {
+        if (!areMetadataServerSettingsReady) {
             return;
         }
 
