@@ -29,6 +29,8 @@ export const getTheme = (id: AppThemes, customThemes: Record<string, AppTheme> =
         return {
             // @ts-ignore - custom themes do not have a "getName" function
             getName: () => id,
+            // @ts-ignore - app themes do not have the "id" prop by default
+            id,
             ...theme,
         };
     } catch (e) {
