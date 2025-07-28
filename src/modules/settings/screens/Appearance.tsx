@@ -86,7 +86,7 @@ export const Appearance = () => {
                         setThemeMode(newMode as ThemeMode);
                         setMode(newMode);
                         // in case a non "colorSchemes" mui theme is active, "setMode" does not update the mode ("mui-mode") value
-                        AppStorage.local.setItem('mui-mode', newMode, true, false);
+                        AppStorage.local.setItem('mui-mode', newMode, true);
                     }}
                 >
                     <MenuItem key={ThemeMode.SYSTEM} value={ThemeMode.SYSTEM}>

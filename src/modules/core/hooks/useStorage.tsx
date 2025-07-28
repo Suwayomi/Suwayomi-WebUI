@@ -8,6 +8,7 @@
 
 import { Dispatch, Reducer, SetStateAction, useCallback, useMemo, useReducer, useSyncExternalStore } from 'react';
 import { AppStorage, Storage } from '@/lib/storage/AppStorage.ts';
+import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 
 const subscribeToStorageUpdates = (callback: () => void) => {
     window.addEventListener('storage', callback);
@@ -31,16 +32,29 @@ function useStorage<T>(
     const setValue = useCallback<React.Dispatch<React.SetStateAction<T | undefined>>>(
         (value) => {
             // Allow value to be a function so we have same API as useState
-            const valueToStore = value instanceof Function ? value(storage.getItemParsed(key, initialState)) : value;
+            const valueToStore = (() => {
+                if (value instanceof Function) {
+                    const previousValue =
+                        jsonSaveParse(storage.getItem(key) ?? '') ?? storage.getItemParsed(key, initialState);
+
+                    return value(previousValue);
+                }
+
+                return value;
+            })();
+
             storage.setItem(key, valueToStore);
         },
         [key],
     );
 
-    const storedValue = useMemo(
-        () => (storedValueRaw !== null ? JSON.parse(storedValueRaw) : initialState),
-        [storedValueRaw, key],
-    );
+    const storedValue = useMemo(() => {
+        if (storedValueRaw === null) {
+            return initialState;
+        }
+
+        return jsonSaveParse(storedValueRaw) ?? storedValueRaw;
+    }, [storedValueRaw, key]);
 
     return [storedValue, setValue];
 }

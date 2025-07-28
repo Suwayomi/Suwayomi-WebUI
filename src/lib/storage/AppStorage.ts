@@ -26,7 +26,7 @@ export class Storage {
         return this.parseValue(this.getItem(key), defaultValue);
     }
 
-    setItem(key: string, value: unknown, emitEvent: boolean = true, stringify: boolean = true): void {
+    setItem(key: string, value: unknown, emitEvent: boolean = true): void {
         const currentValue = this.getItem(key);
 
         const fireEvent = (valueToStore: string | undefined) => {
@@ -49,9 +49,10 @@ export class Storage {
             return;
         }
 
+        const stringify = typeof value !== 'string';
         const valueToStore = stringify ? JSON.stringify(value) : value;
 
-        this.storage.setItem(key, valueToStore as string);
+        this.storage.setItem(key, valueToStore);
         fireEvent(valueToStore as string);
     }
 }
