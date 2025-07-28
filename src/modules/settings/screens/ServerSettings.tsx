@@ -101,9 +101,6 @@ export const ServerSettings = () => {
 
     const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', window.location.origin);
 
-    const serverSettings = extractServerSettings(data!.settings);
-    const authModeDisabled = !serverSettings.authUsername.trim() || !serverSettings.authPassword.trim();
-
     const handleServerAddressChange = (address: string) => {
         const serverBaseUrl = address.replaceAll(/(\/)+$/g, '');
         setServerAddress(serverBaseUrl);
@@ -185,6 +182,9 @@ export const ServerSettings = () => {
             </>
         );
     }
+
+    const serverSettings = extractServerSettings(data!.settings);
+    const authModeDisabled = !serverSettings.authUsername.trim() || !serverSettings.authPassword.trim();
 
     return (
         <List sx={{ pt: 0 }}>
