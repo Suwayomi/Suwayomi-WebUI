@@ -15,6 +15,10 @@ export class Storage {
             return defaultValue;
         }
 
+        if (typeof defaultValue === 'string') {
+            return value as T;
+        }
+
         return JSON.parse(value);
     }
 
