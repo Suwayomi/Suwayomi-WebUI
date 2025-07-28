@@ -34,8 +34,7 @@ function useStorage<T>(
             // Allow value to be a function so we have same API as useState
             const valueToStore = (() => {
                 if (value instanceof Function) {
-                    const previousValue =
-                        jsonSaveParse(storage.getItem(key) ?? '') ?? storage.getItemParsed(key, initialState);
+                    const previousValue = storage.getItemParsed(key, initialState);
 
                     return value(previousValue);
                 }
