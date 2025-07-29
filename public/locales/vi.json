@@ -90,8 +90,7 @@
                 }
             },
             "label": {
-                "select": "Chọn",
-                "open_on_source": "Mở trên trình duyệt"
+                "select": "Chọn"
             },
             "mark_as_read": {
                 "add": {
@@ -232,6 +231,13 @@
                 "label": {
                     "cbz": "Lưu bằng định dạng nén CBZ"
                 }
+            },
+            "conversion": {
+                "compression_level": "Mức độ nén",
+                "description": "Trong trường hợp không xác định MIME-Type, MIME-Type \"mặc định\" sẽ được sử dụng để chuyển đổi. \nĐặt \"none\" làm loại mục tiêu để tắt chuyển đổi cho Loại MIME",
+                "mime_type": "MIME-Type",
+                "title": "Chuyển đổi tải xuống",
+                "target": "MIME-Type target"
             }
         },
         "title": {
@@ -308,7 +314,6 @@
             "filter": "Bộ lọc",
             "latest": "Mới nhất",
             "ok": "Ok",
-            "open_site": "Mở trang web",
             "popular": "Phổ biến",
             "reset": "Reset",
             "reset_to_default": "Đặt lại về mặc định",
@@ -340,7 +345,9 @@
             "delete": "Xóa",
             "remind_later": "Nhắc sau",
             "save": "Lưu",
-            "open": "Mở"
+            "open": "Mở",
+            "open_browser": "Mở trong trình duyệt",
+            "open_webview": "Mở trong WebView"
         },
         "date": {
             "label": {
@@ -1563,7 +1570,9 @@
         "title": "Theo dõi",
         "action": {
             "button": {
-                "add_tracking": "Thêm theo dõi"
+                "add_tracking": "Thêm theo dõi",
+                "track_privately": "Theo dõi riêng tư",
+                "track_publicly": "Theo dõi công khai"
             },
             "login": {
                 "label": {

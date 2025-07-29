@@ -286,8 +286,7 @@
                 }
             },
             "label": {
-                "select": "選擇",
-                "open_on_source": "在來源網站開啟"
+                "select": "選擇"
             },
             "mark_as_read": {
                 "add": {
@@ -407,7 +406,6 @@
             "set": "選",
             "browse": "瀏覽",
             "cancel": "取消",
-            "open_site": "開啟網站",
             "start": "開始",
             "submit": "提交",
             "filter": "篩選",

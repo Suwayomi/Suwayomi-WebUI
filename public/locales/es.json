@@ -624,7 +624,6 @@
             "filter": "Filtrar",
             "ok": "Ok",
             "submit": "Enviar",
-            "open_site": "Abrir sitio",
             "reset": "Reiniciar",
             "set": "Establecer",
             "popular": "Popular",
@@ -880,8 +879,7 @@
                 }
             },
             "label": {
-                "select": "Seleccionar",
-                "open_on_source": "Abrir en el origen"
+                "select": "Seleccionar"
             }
         },
         "option": {

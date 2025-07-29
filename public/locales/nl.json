@@ -200,7 +200,6 @@
                 }
             },
             "label": {
-                "open_on_source": "Openen op bron",
                 "select": "Selecteer"
             },
             "mark_as_read": {
@@ -344,7 +343,6 @@
             "log_out": "Uitloggen",
             "migrate": "Migreren",
             "ok": "Oké",
-            "open_site": "Site openen",
             "options": "Opties",
             "popular": "Populair",
             "refresh": "Vernieuwen",

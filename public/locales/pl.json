@@ -42,9 +42,9 @@
                         "error_one": "Nie można dodać do kolejki pobierania",
                         "error_few": "Nie można dodać do kolejki pobierania",
                         "error_many": "Nie można dodać do kolejki pobierania",
-                        "next_one": "$t(reader.button.next_chapter)",
-                        "next_few": "",
-                        "next_many": "",
+                        "next_one": "Następny rozdział",
+                        "next_few": "Następne {{count}} rozdziały",
+                        "next_many": "Następne {{count}} rozdziałó",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
                         "success_one": "Pobieranie dodane",
@@ -69,12 +69,14 @@
                         "error_many": "Nie można usunąć rozdziałów",
                         "success_one": "Rozdział usunięty",
                         "success_few": "{{count}} rozdziały usunięty",
-                        "success_many": "{{count}} rozdziałów usunięty"
+                        "success_many": "{{count}} rozdziałów usunięty",
+                        "confirmation_one": "Zamierzasz usunąć jedno pobranie",
+                        "confirmation_few": "Zamierzasz usunąć {{count}} pobrania",
+                        "confirmation_many": "Zamierzasz usunąć {{count}} pobrań"
                     }
                 }
             },
             "label": {
-                "open_on_source": "Otwórz źródło",
                 "select": "Wybierz"
             },
             "mark_as_read": {
@@ -92,7 +94,10 @@
                         "error_many": "Nie można oznaczyć rozdziałów jako przeczytane",
                         "success_one": "Rozdział oznaczony jako przeczytany",
                         "success_few": "{{count}} rozdziały oznaczone jako przeczytane",
-                        "success_many": "{{count}} rozdziałów oznaczonych jako przeczytane"
+                        "success_many": "{{count}} rozdziałów oznaczonych jako przeczytane",
+                        "confirmation_one": "Zamierzasz oznaczyć jeden rozdział jako przeczytany",
+                        "confirmation_few": "Zamierzasz oznaczyć {{count}} rozdziały jako przeczytane",
+                        "confirmation_many": "Zamierzasz oznaczyć {{count}} rozdziałów jako przeczytane"
                     }
                 },
                 "remove": {
@@ -103,7 +108,10 @@
                         "success_one": "Rozdział oznaczony jako nieprzeczytany",
                         "success_few": "{{count}} rozdziały oznaczone jako nieprzeczytane",
                         "success_many": "{{count}} rozdziałów oznaczonych jako nieprzeczytane",
-                        "action": "Oznacz jako nieprzeczytane"
+                        "action": "Oznacz jako nieprzeczytane",
+                        "confirmation_one": "Zamierzasz oznaczyć jeden rozdział jako nieprzeczytany",
+                        "confirmation_few": "Zamierzasz oznaczyć {{count}} rozdziały jako nieprzeczytane",
+                        "confirmation_many": "Zamierzasz oznaczyć {{count}} rozdziałów jako nieprzeczytane"
                     },
                     "button": {
                         "selected": "Oznacz wybrane jako nieprzeczytane"
@@ -197,7 +205,7 @@
             },
             "info": {
                 "paused": "Wstrzymano - $t(download.queue.info.remaining)",
-                "remaining": "{{count}} pozostało"
+                "remaining": "Pozostało {{count}}"
             }
         },
         "settings": {
@@ -261,6 +269,12 @@
                 "label": {
                     "cbz": "Zapisz jako archiwum CBZ"
                 }
+            },
+            "conversion": {
+                "compression_level": "Poziom kompresji",
+                "description": "W przypadku braku zdefiniowanego typu MIME, do konwersji zostanie użyty typ \"domyślny\".",
+                "mime_type": "Typ MIME",
+                "title": "Pobieranie konwersji"
             }
         },
         "state": {
@@ -382,12 +396,13 @@
             "cancel": "Anuluj",
             "changelog": "Dziennik zmian",
             "open": "Otwórz",
-            "open_site": "Otwórz Stronę WWW",
             "filter": "Filtruj",
             "ok": "Ok",
             "options": "Opcje",
             "reset_to_default": "Resetuj do Domyślnych",
-            "show_more": "Pokaż więcej"
+            "show_more": "Pokaż więcej",
+            "open_browser": "Otwórz w przeglądarce",
+            "open_webview": "Otwórz w WebView"
         },
         "colors": {
             "black": "Czarny",
@@ -756,7 +771,10 @@
                     "error_many": "Nie można zmienić kategorii mang",
                     "success_one": "Zmieniono kategorie mangi",
                     "success_few": "Zmieniono kategorie {{count}} mang",
-                    "success_many": "Zmieniono kategorie {{count}} mang"
+                    "success_many": "Zmieniono kategorie {{count}} mang",
+                    "confirmation_one": "Zamierzasz zmienić kategorię jednego wpisu",
+                    "confirmation_few": "Zamierzasz zmienić kategorię {{count}} wpisów",
+                    "confirmation_many": "Zamierzasz zmienić kategorię {{count}} wpisów"
                 }
             },
             "library": {
@@ -768,7 +786,10 @@
                         "success_one": "Usunięto mangę z biblioteki",
                         "success_few": "Usunięto {{count}} mangi z biblioteki",
                         "success_many": "Usunięto {{count}} mang z biblioteki",
-                        "action": "Usuń z biblioteki"
+                        "action": "Usuń z biblioteki",
+                        "confirmation_one": "Zamierzasz usunąć jeden wpis ze swojej biblioteki",
+                        "confirmation_few": "Zamierzasz usunąć {{count}} wpisy ze swojej biblioteki",
+                        "confirmation_many": "Zamierzasz usunąć {{count}} wpisów ze swojej biblioteki"
                     },
                     "button": {
                         "selected": "Usuń wybrane z biblioteki"
@@ -1009,7 +1030,9 @@
                 "behaviour": "Zachowanie",
                 "fit_page_to_window": "Dopasuj stronę do okna",
                 "offset_double_spread": "Offset dla podwójnego rozciągania",
-                "custom_scroll_amount": "Niestandardowa wartość przewijania"
+                "custom_scroll_amount": "Niestandardowa wartość przewijania",
+                "skip_filtered_chapters": "Pomiń przefiltrowane rozdziały",
+                "unchangeable_in_reader": "Ustawień nie można zmienić, gdy czytnik jest otwarty"
             },
             "page_scale": {
                 "height": "Dopasuj wysokość",
@@ -1320,7 +1343,36 @@
                 }
             },
             "auth": {
-                "title": "Uwierzytelnianie"
+                "title": "Uwierzytelnianie",
+                "label": {
+                    "password": "$t(global.label.password)",
+                    "title": "Tryb Uwierzytelniania",
+                    "username": "$t(global.label.username)"
+                },
+                "mode": {
+                    "option": {
+                        "basicAuth": {
+                            "label": {
+                                "description": "Przeglądarka wyświetli okno dialogowe z prośbą o wprowadzenie poświadczeń.",
+                                "title": "Podstawowe Uwierzytelnianie"
+                            }
+                        },
+                        "none": {
+                            "label": {
+                                "description": "Wyłącz uwierzytelnianie",
+                                "info": "Twoja biblioteka będzie dostępna. Używaj tej opcji tylko w sieciach prywatnych lub gdy w inny sposób zabezpieczasz dostęp.",
+                                "title": "Brak"
+                            }
+                        },
+                        "simpleLogin": {
+                            "label": {
+                                "description": "Zostanie wyświetlona prosta strona logowania.",
+                                "info": "Po włączeniu tej opcji może być konieczne odświeżenie tej karty, aby pojawiła się strona logowania.",
+                                "title": "Proste Logowanie"
+                            }
+                        }
+                    }
+                }
             },
             "cloudflare": {
                 "flaresolverr": {
@@ -1419,6 +1471,57 @@
                     "version": "Wersja SOCKS"
                 },
                 "title": "Proxy SOCKS"
+            },
+            "opds": {
+                "binary_file_sizes": {
+                    "label": {
+                        "description": "Wyświetlanie rozmiarów plików w postaci binarnej (KiB, MiB, GiB) zamiast dziesiętnej (KB, MB, GB)",
+                        "title": "Rozmiar pliku binarnego",
+                        "unit_one": "element",
+                        "unit_few": "elementy",
+                        "unit_many": "elementów"
+                    }
+                },
+                "chapter_sort_order": {
+                    "label": {
+                        "description": "Wybierz kolejność wyświetlania rozdziałów.",
+                        "title": "Kolejność sortowania rozdziałów"
+                    }
+                },
+                "enable_page_read_progress": {
+                    "label": {
+                        "description": "Śledź i aktualizuj swoje postępy w czytaniu według stron dla każdego rozdziału podczas strumieniowego przesyłania stron",
+                        "title": "Włącz postęp czytania stron"
+                    }
+                },
+                "items_per_page": {
+                    "label": {
+                        "description": "Liczba elementów na stronę w kanałach OPDS (np. Historia biblioteki, Rozdziały mangi). \nWyższe wartości mogą wpływać na wydajność klienta.",
+                        "title": "Elementy na stronę",
+                        "unit_one": "element",
+                        "unit_few": "elementy",
+                        "unit_many": "elementów"
+                    }
+                },
+                "mark_as_read_on_download": {
+                    "label": {
+                        "description": "Automatycznie oznaczaj rozdziały jako przeczytane podczas ich pobierania.",
+                        "title": "Oznaczanie rozdziałów jako przeczytanych podczas pobierania"
+                    }
+                },
+                "show_only_downloaded_chapters": {
+                    "label": {
+                        "description": "Przefiltruj mangi, aby wyświetlić tylko pobrane rozdziały.",
+                        "title": "Pokaż tylko pobrane rozdziały"
+                    }
+                },
+                "show_only_unread_chapters": {
+                    "label": {
+                        "description": "Filtruj mangi, aby wyświetlać tylko rozdziały, których jeszcze nie przeczytałeś.",
+                        "title": "Pokaż tylko nieprzeczytane rozdziały"
+                    }
+                },
+                "title": "OPDS"
             }
         },
         "title": "Ustawienia",
@@ -1567,7 +1670,9 @@
         "title": "Śledź",
         "action": {
             "button": {
-                "add_tracking": "Dodaj śledzenie"
+                "add_tracking": "Dodaj śledzenie",
+                "track_privately": "Śledź prywatnie",
+                "track_publicly": "Śledź publicznie"
             },
             "login": {
                 "label": {

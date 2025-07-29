@@ -90,8 +90,7 @@
                 }
             },
             "label": {
-                "select": "选择",
-                "open_on_source": "在来源中打开"
+                "select": "选择"
             },
             "mark_as_read": {
                 "add": {
@@ -232,6 +231,13 @@
                     "manually_marked_as_read": "手动标记为已读后删除章节"
                 },
                 "title": "删除章节"
+            },
+            "conversion": {
+                "compression_level": "压缩级别",
+                "description": "如果未指定 MIME 类型，将使用“默认”类型进行转换。\n将目标类型设为 “无”可禁用MIME 类型的转换",
+                "mime_type": "MIME 类型",
+                "title": "下载时转换格式",
+                "target": "目标 MIME 类型"
             }
         },
         "title": {
@@ -306,7 +312,6 @@
             "clear": "清除",
             "latest": "最新",
             "ok": "Ok",
-            "open_site": "打开网站",
             "reset": "重置",
             "reset_to_default": "重置为默认值",
             "resume": "恢复",
@@ -340,7 +345,9 @@
             "remind_later": "稍后提醒",
             "delete": "删除",
             "save": "保存",
-            "open": "打开"
+            "open": "打开",
+            "open_browser": "在浏览器中打开",
+            "open_webview": "在WebView中打开"
         },
         "date": {
             "label": {
@@ -1555,7 +1562,9 @@
         },
         "action": {
             "button": {
-                "add_tracking": "添加追踪"
+                "add_tracking": "添加追踪",
+                "track_privately": "私密追踪",
+                "track_publicly": "公开追踪"
             },
             "login": {
                 "label": {

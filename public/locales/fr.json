@@ -166,7 +166,6 @@
         },
         "button": {
             "set": "Définir",
-            "open_site": "Ouvrir le site",
             "latest": "Le plus récent",
             "resume": "Reprendre",
             "submit": "Envoyer",
@@ -887,8 +886,7 @@
                 }
             },
             "label": {
-                "select": "Sélectionner",
-                "open_on_source": "Consulter sur le site d'origine"
+                "select": "Sélectionner"
             },
             "mark_as_read": {
                 "add": {

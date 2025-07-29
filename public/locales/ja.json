@@ -117,7 +117,6 @@
                 }
             },
             "label": {
-                "open_on_source": "ソースで開く",
                 "select": "選択"
             }
         },
@@ -261,7 +260,6 @@
             "submit": "送信",
             "deselect": "選択解除",
             "latest": "最新",
-            "open_site": "サイトを開く",
             "refresh": "更新",
             "show_less": "表示を減らす",
             "show_more": "もっと表示",
