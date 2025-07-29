@@ -68,7 +68,6 @@
                 }
             },
             "label": {
-                "open_on_source": "Открыть источник",
                 "select": "Выберите"
             },
             "mark_as_read": {
@@ -137,7 +136,8 @@
             },
             "label": {
                 "empty": "Категория не заполнена",
-                "request_failure": "Не удалось загрузить категории"
+                "request_failure": "Не удалось загрузить категории",
+                "create_failure": "Не удалось создать категорию"
             }
         },
         "label": {
@@ -148,8 +148,8 @@
             "title": {
                 "new_category": "Новая категория",
                 "edit_category_one": "Отредактировать категорию",
-                "edit_category_few": "",
-                "edit_category_many": ""
+                "edit_category_few": "Отредактировать категории",
+                "edit_category_many": "Отредактировать категорий"
             }
         },
         "settings": {
@@ -418,7 +418,6 @@
             "add": "Добавить",
             "cancel": "Отменить",
             "clear": "Очистить",
-            "open_site": "Открыть сайт",
             "options": "Параметры",
             "select": "Выбрать",
             "select_all": "Выбрать все",

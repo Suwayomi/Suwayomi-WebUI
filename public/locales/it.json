@@ -142,8 +142,7 @@
                 }
             },
             "label": {
-                "select": "Seleziona",
-                "open_on_source": "Aperto alla fonte"
+                "select": "Seleziona"
             }
         },
         "option": {
@@ -340,7 +339,6 @@
             "ignore": "Ignora",
             "add": "Aggiungi",
             "changelog": "Changelog",
-            "open_site": "Apri sito",
             "select_all": "Seleziona tutto",
             "resume": "Riprendi",
             "retry": "Riprova",

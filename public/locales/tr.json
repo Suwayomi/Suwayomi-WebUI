@@ -248,7 +248,6 @@
             "log_out": "Çıkış yap",
             "migrate": "Kaynak değiştir",
             "ok": "Tamam",
-            "open_site": "Siteyi aç",
             "options": "Seçenekler",
             "popular": "Popüler",
             "refresh": "Yenile",
@@ -1327,8 +1326,7 @@
                 }
             },
             "label": {
-                "select": "Seç",
-                "open_on_source": "Kaynakta aç"
+                "select": "Seç"
             }
         },
         "error": {

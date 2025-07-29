@@ -65,8 +65,7 @@
                 }
             },
             "label": {
-                "select": "เลือก",
-                "open_on_source": "เปิดแหล่งที่มา"
+                "select": "เลือก"
             },
             "mark_as_read": {
                 "remove": {
@@ -176,7 +175,6 @@
             "log_out": "ออกจากระบบ",
             "migrate": "ย้าย",
             "ok": "โอเค",
-            "open_site": "เปิดเว็บไซต์",
             "options": "ตัวเลือก",
             "refresh": "รีเฟรช",
             "popular": "เป็นที่นิยม",

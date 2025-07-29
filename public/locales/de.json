@@ -149,8 +149,7 @@
     "chapter": {
         "action": {
             "label": {
-                "select": "Auswählen",
-                "open_on_source": "In der Quelle öffnen"
+                "select": "Auswählen"
             },
             "download": {
                 "add": {
@@ -162,8 +161,8 @@
                         "error_other": "Fehler beim Hinzufügen der Downloads",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "next_one": "$t(reader.button.next_chapter)",
-                        "next_other": "",
+                        "next_one": "Nächstes Kapitel",
+                        "next_other": "Nächste {{count}} Kapitel",
                         "unread": "$t(global.filter.label.unread)",
                         "confirmation_one": "Du bist dabei, ein Kapitel herunterzuladen",
                         "confirmation_other": "Du bist dabei, {{count}} Kapitel herunterzuladen\nSuwayomi ist kein Massen-Downloadtool, zu viele Downloads können dafür sorgen, dass du bei der Quelle gebannt wirst und/oder Performanceprobleme auslösen."
@@ -293,7 +292,9 @@
                 "skip_dup_chapters": "Überspringe doppelte Kapitel",
                 "limit_reader_width": "Reader-Breite begrenzen",
                 "layout": "Layout",
-                "custom_scroll_amount": "Benutzerdefinierte Scrollmenge"
+                "custom_scroll_amount": "Benutzerdefinierte Scrollmenge",
+                "skip_filtered_chapters": "Herausgefilterte Kapitel überspringen",
+                "unchangeable_in_reader": "Die Einstellung kann nicht geändert werden, während der Reader geöffnet ist"
             },
             "reader_type": {
                 "label": {
@@ -764,7 +765,6 @@
             "set": "Setzen",
             "reset_to_default": "Auf Standardeinstellungen zurücksetzen",
             "clear": "Leeren",
-            "open_site": "Seite öffnen",
             "cancel": "Abbrechen",
             "resume": "Fortfahren",
             "browse": "Suchen",
@@ -797,7 +797,9 @@
             "refresh": "Neu laden",
             "remind_later": "Später erinnern",
             "log_out": "Ausloggen",
-            "changelog": "Änderungsprotokoll"
+            "changelog": "Änderungsprotokoll",
+            "open_browser": "Im Browser öffnen",
+            "open_webview": "In WebView öffnen"
         },
         "error": {
             "label": {
@@ -1034,7 +1036,36 @@
                 "server": "Server"
             },
             "auth": {
-                "title": "Authentifizierung"
+                "title": "Authentifizierung",
+                "label": {
+                    "password": "$t(global.label.password)",
+                    "title": "Authentifizierungsmodus",
+                    "username": "$t(global.label.username)"
+                },
+                "mode": {
+                    "option": {
+                        "basicAuth": {
+                            "label": {
+                                "description": "Dein Browser wird dich dazu auffordern, deine Zugangsdaten in einem Dialog einzugeben.",
+                                "title": "Basic Authentication"
+                            }
+                        },
+                        "none": {
+                            "label": {
+                                "description": "Authentifizierung deaktivieren",
+                                "info": "Deine Bibliothek ist frei zugänglich. Nutze diese Option nur in privaten Netzwerken, oder wenn der Zugang anderweitig kontrolliert wird.",
+                                "title": "Keine"
+                            }
+                        },
+                        "simpleLogin": {
+                            "label": {
+                                "description": "Eine einfache Anmeldeseite wird zur Anmeldung präsentiert.",
+                                "info": "Wenn du diese Option aktivierst, kann es sein, dass du die Seite neu laden musst, um die Login-Seite zum ersten Mal zu sehen.",
+                                "title": "Einfacher Login"
+                            }
+                        }
+                    }
+                }
             },
             "address": {
                 "client": {
@@ -1149,6 +1180,55 @@
                         }
                     }
                 }
+            },
+            "opds": {
+                "binary_file_sizes": {
+                    "label": {
+                        "description": "Dateigrößen in Binär (KiB, MiB, GiB) anstelle von Dezimal anzeigen (KB, MB, GB)",
+                        "title": "Binärdateigröße",
+                        "unit_one": "Eintrag",
+                        "unit_other": "Einträge"
+                    }
+                },
+                "chapter_sort_order": {
+                    "label": {
+                        "description": "Die Reihenfolge, in der Kapitel angezeigt werden.",
+                        "title": "Kapitelsortierung"
+                    }
+                },
+                "enable_page_read_progress": {
+                    "label": {
+                        "description": "Tracke und aktualisiere Lesefortschritt pro Seite für jedes Kapitel beim Lesen",
+                        "title": "Lesefortschritt aktivieren"
+                    }
+                },
+                "items_per_page": {
+                    "label": {
+                        "description": "Anzahl der Einträge pro Seite in OPDS feeds (z.B., Bibliothek, Verlauf, Manga Kapitel). \nHöhere Anzahlen können Client-Performance beeinflussen.",
+                        "title": "Einträge pro Seite",
+                        "unit_one": "Eintrag",
+                        "unit_other": "Einträge"
+                    }
+                },
+                "mark_as_read_on_download": {
+                    "label": {
+                        "description": "Markiere Kapitel automatisch als gelesen, wenn du sie herunterlädst.",
+                        "title": "Kapitel als gelesen markieren"
+                    }
+                },
+                "show_only_downloaded_chapters": {
+                    "label": {
+                        "description": "Zeige nur Kapitel im Manga Feed, welche du heruntergeladen hast.",
+                        "title": "Zeige nur heruntergeladene Kapitel"
+                    }
+                },
+                "show_only_unread_chapters": {
+                    "label": {
+                        "description": "Zeige nur Kapitel im Manga Feed, welche du noch nicht gelesen hast.",
+                        "title": "Zeige nur ungelesene Kapitel"
+                    }
+                },
+                "title": "OPDS"
             }
         },
         "webui": {
@@ -1413,6 +1493,13 @@
                 "label": {
                     "cbz": "Als CBZ-Archiv speichern"
                 }
+            },
+            "conversion": {
+                "compression_level": "Bildkompression Level",
+                "description": "Wenn kein MIME-Typ definiert ist, wird \"default\" für die Konvertierung verwendet.\nNutze \"none\" um die Konvertierung für einen gewissen MIME-Typ zu deaktivieren",
+                "mime_type": "MIME-Typ",
+                "target": "MIME-Typ Ziel",
+                "title": "Download Konvertierung"
             }
         },
         "title": {
@@ -1495,7 +1582,9 @@
         },
         "action": {
             "button": {
-                "add_tracking": "Tracking hinzufügen"
+                "add_tracking": "Tracking hinzufügen",
+                "track_privately": "Privat tracken",
+                "track_publicly": "Öffentlich tracken"
             },
             "login": {
                 "label": {

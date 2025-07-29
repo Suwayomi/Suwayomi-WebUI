@@ -477,7 +477,6 @@
         "button": {
             "cancel": "يلغي",
             "browse": "تصفح",
-            "open_site": "افتح الموقع",
             "restore": "يعيد",
             "resume": "سيرة ذاتية",
             "retry": "أعد المحاولة",
@@ -778,8 +777,7 @@
                 }
             },
             "label": {
-                "select": "اختيار",
-                "open_on_source": "مفتوح المصدر"
+                "select": "اختيار"
             },
             "download": {
                 "delete": {

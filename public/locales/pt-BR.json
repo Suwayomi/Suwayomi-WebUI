@@ -109,8 +109,7 @@
                 }
             },
             "label": {
-                "select": "Selecionar",
-                "open_on_source": "Abrir na fonte"
+                "select": "Selecionar"
             },
             "mark_as_read": {
                 "add": {
@@ -361,7 +360,6 @@
             "latest": "Mais recentes",
             "popular": "Populares",
             "create": "Criar",
-            "open_site": "Abrir Site",
             "remove": "Remover",
             "filter": "Filtro",
             "changelog": "Mudança",

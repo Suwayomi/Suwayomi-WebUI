@@ -32,8 +32,7 @@
                 }
             },
             "label": {
-                "select": "Selecionar",
-                "open_on_source": "Abrir na fonte"
+                "select": "Selecionar"
             },
             "mark_as_read": {
                 "add": {
@@ -251,7 +250,6 @@
         "button": {
             "browse": "Navegar",
             "clear": "Limpar",
-            "open_site": "Abrir site",
             "reset": "Reiniciar",
             "reset_to_default": "Redefinir padrões",
             "resume": "Resumo",

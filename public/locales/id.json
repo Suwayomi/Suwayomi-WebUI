@@ -90,7 +90,6 @@
                 }
             },
             "label": {
-                "open_on_source": "Buka sumber",
                 "select": "Pilih"
             },
             "mark_as_read": {
@@ -253,7 +252,6 @@
             "add": "Tambah",
             "start": "Mulai",
             "submit": "Kirim",
-            "open_site": "Buka Situs",
             "copy": "Salin",
             "select_all": "Pilih Semua",
             "show_more": "Tampilkan lebih banyak",
