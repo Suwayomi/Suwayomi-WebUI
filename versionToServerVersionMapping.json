@@ -4,7 +4,12 @@
     "serverVersion": "r1856"
   },
   {
-    "tag": "20250703.01",
+    "tag": "v20250731.01",
+    "uiVersion": "r2715",
+    "serverVersion": "r1856"
+  },
+  {
+    "tag": "v20250703.01",
     "uiVersion": "r2643",
     "serverVersion": "r1719"
   },

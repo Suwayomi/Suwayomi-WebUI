@@ -1,3 +1,108 @@
+# v20250731.01 (r2715)
+
+## New
+- (**General**) Add support for the suwayomi WebView
+- (**Settings**) Add new OPDS server settings
+- (**Settings**) Add new "simple login" authentication setting
+
+## Enhancements
+- (**Reader**) Add option to change auto scroll direction by using the scroll backward/forward hotkeys while auto scrolling is active
+- (**Manga**) Display score and total chapters, if available, in the tracker search results
+- (**Manga**) Add support for private track bindings
+
+## Bug fixes
+- (**General**) Fix drag and drop on touch devices
+- (**Reader**) Fix auto scrolling with static overlay
+- (**Extension**) Fix clicking on action button (install, uninstall, update, ...) opening the extension info page
+- (**Manga**) Fix incorrect removal of some text wrapped in "<>" in the description and tracker search result summaries
+- (**Settings**) Fix hidden "pure black mode" appearance setting
+- (**Chapter**) Fix updating read status of already read chapters when using the mark previous as read option
+
+## Translations
+Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/)
+
+Thank you for your contribution to the translation of the project.
+
+### Updated
+- Vietnamese (by Nguyễn Trung Đức)
+- Chinese (Simplified) (by 清水汐音)
+- Japanese (by 9811pc)
+- Polish (by UnknownSkyrimPasserby)
+- German (by Constantin Piber)
+
+## Full changelog
+- ([r2714](https://github.com/Suwayomi/Suwayomi-WebUI/commit/311ba2a8817f3e116428e0a9b567ee5ea5ee3329)) Translations update from Hosted Weblate ([#990](https://github.com/Suwayomi/Suwayomi-WebUI/pull/990) by @weblate, @cpiber, @EugeneCage, @dejavui, @UnknownSkyrimPasserby, @aizhimoran)
+- ([r2713](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ca938a6438f14e8a1541026800eb1b674e30d599)) Fix tsc error (by @schroda)
+- ([r2712](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a38b2fce9d9b61c9724438527b25695ef7736886)) Simplify "useStorage" hook (by @schroda)
+- ([r2711](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7eb3b0ac458f0a3bc3f61407a3122c607a7c3bd4)) Fix parsing storage value (by @schroda)
+- ([r2710](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ed2d60dd1c302020bfe60b6e73e477337362b065)) Handle reading string values from storage (by @schroda)
+- ([r2709](https://github.com/Suwayomi/Suwayomi-WebUI/commit/6d98bf8870bbe3686db067043a6bc7957f0ea641)) Ensure app theme "id" property exists (by @schroda)
+- ([r2708](https://github.com/Suwayomi/Suwayomi-WebUI/commit/1ab0178d88f92ad2403de371ce610def602f2b84)) Fix local light app theme flicker on initial render (by @schroda)
+- ([r2707](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ef6c1fce56539679f22fc5813e5e383b069cdae7)) Fix local/session storage parsing/stringifying values (by @schroda)
+- ([r2706](https://github.com/Suwayomi/Suwayomi-WebUI/commit/fb00f511075b26b9b9c1093c722da5bb30a00bf2)) Set last known app theme background color until theme is loaded (by @schroda)
+- ([r2705](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ff58dcc4803e23207234e7832f27bbb950a76c74)) Set last known app theme until theme is loaded (by @schroda)
+- ([r2704](https://github.com/Suwayomi/Suwayomi-WebUI/commit/dabadf1b43f73e07db7bb823b7ce0cd56343d090)) Reset nav bar width on override (by @schroda)
+- ([r2703](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7b581e49b0bea1bcbd7475d7a68475e7baa35d53)) Remove error name from error message (by @schroda)
+- ([r2702](https://github.com/Suwayomi/Suwayomi-WebUI/commit/56eabae9ae814936609b53464ff80bc256f6e0cf)) Improve graphql errors display in toast (by @schroda)
+- ([r2701](https://github.com/Suwayomi/Suwayomi-WebUI/commit/20ca6d6cda4d2b1d61753bad94ec4d24752b5f23)) Fix download conversion setting input labels (by @schroda)
+- ([r2700](https://github.com/Suwayomi/Suwayomi-WebUI/commit/fcc68ce594b7e8363c47ce8258068a15d21467e4)) Mention "none" download conversion target mime-type in description (by @schroda)
+- ([r2699](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a846a8477738dd4c2edc6fbb08dfc0c144bb8253)) Fix download conversion change detection (by @schroda)
+- ([r2698](https://github.com/Suwayomi/Suwayomi-WebUI/commit/bd6653ff88f501384725d46b0836e8c2eb6a97cd)) Consider unread chapters only for "mark prev as read" (by @schroda)
+- ([r2697](https://github.com/Suwayomi/Suwayomi-WebUI/commit/9a9dbab7df9c00fd7a9c66a86174f53e98c5e548)) Introduce "SearchParam" enum (by @schroda)
+- ([r2696](https://github.com/Suwayomi/Suwayomi-WebUI/commit/18f524c91a0d24de2f85219d58dcbafa5484f9a2)) Move virtuoso constant to proper location (by @schroda)
+- ([r2695](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ebe8a3c3760bebbbdb8da14caae7b7925145ace2)) Fix "extension" root route redirect (by @schroda)
+- ([r2694](https://github.com/Suwayomi/Suwayomi-WebUI/commit/b444c427e401f4800e491daa27663a623b843acb)) Fix removed "source" route redirect (by @schroda)
+- ([r2693](https://github.com/Suwayomi/Suwayomi-WebUI/commit/2ccd4a3de78cca2faf9c6134732f0e96f290b56f)) Rename "browse" "source" tab to "sources" (by @schroda)
+- ([r2692](https://github.com/Suwayomi/Suwayomi-WebUI/commit/39d34af9bcc16cec91384c3cca8db68d9f41dc3d)) Improve backup install missing extension routing (by @schroda)
+- ([r2691](https://github.com/Suwayomi/Suwayomi-WebUI/commit/cc4ab2e0dd5325ea6c83bbdbbbaf39be20dc5e41)) Remove unused args in "createUpdateReaderPageLoadState" (by @schroda)
+- ([r2690](https://github.com/Suwayomi/Suwayomi-WebUI/commit/1fb5b3cc090f371d205ddad9fc6db543bc580a2b)) Fix chapter list download ahead option (by @schroda)
+- ([r2689](https://github.com/Suwayomi/Suwayomi-WebUI/commit/bbb2da52f46da4ff8883e65ad47828ea2c03d649)) Change scanlator exclusion filter checked icon to "X" (by @schroda)
+- ([r2688](https://github.com/Suwayomi/Suwayomi-WebUI/commit/53b14a8878d3b79bbf63e1cf47dd1513e4cf97be)) Auto focus time setting (by @schroda)
+- ([r2687](https://github.com/Suwayomi/Suwayomi-WebUI/commit/1dd67ff07217e9376d5031fe1891f309f0e0439f)) Save "custom filters" reader settings per device (by @schroda)
+- ([r2686](https://github.com/Suwayomi/Suwayomi-WebUI/commit/93b9e84a3716cc2a5df6464f42c84dd73bed23aa)) Fix "pure dark mode" setting visibility (by @schroda)
+- ([r2685](https://github.com/Suwayomi/Suwayomi-WebUI/commit/2b1c2a0b6c4e6302808fda0fbebc8a812540826e)) Add "download conversion" setting support (by @schroda)
+- ([r2684](https://github.com/Suwayomi/Suwayomi-WebUI/commit/fed291a5dc3b0f265601cd20f9f25464f4029db3)) Remove "__typename" prop from gql request variables (by @schroda)
+- ([r2683](https://github.com/Suwayomi/Suwayomi-WebUI/commit/98d087dd58136767a600bc2f603f5f63ba9ca233)) Remove DialogTiles from DialogContent children (by @schroda)
+- ([r2682](https://github.com/Suwayomi/Suwayomi-WebUI/commit/bac77599f574612f49970475884aaaa2a0e15668)) Add WebView support (by @schroda)
+- ([r2681](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0d23d8077f01389e0f7fb8df664cc9ff076785f0)) Add private tracking support (by @schroda)
+- ([r2680](https://github.com/Suwayomi/Suwayomi-WebUI/commit/3c4321e62560181ed277044b143e7e05c5677c82)) Extract tracker search track button (by @schroda)
+- ([r2679](https://github.com/Suwayomi/Suwayomi-WebUI/commit/13a7d21e60520a5d31f0c17a8cbc18e46128d5fd)) Show new tracker search result data (by @schroda)
+- ([r2678](https://github.com/Suwayomi/Suwayomi-WebUI/commit/b9d633927096cd37fc9f2e15849b4718ee4210d3)) Fix track search result type detection (by @schroda)
+- ([r2677](https://github.com/Suwayomi/Suwayomi-WebUI/commit/4f0fcea7f5da6bf7a08a93673aef0c07906d4bce)) Ignore cached data for database library manga category cleanup (by @schroda)
+- ([r2676](https://github.com/Suwayomi/Suwayomi-WebUI/commit/4d573174c6df37f3a6b4b16821fc06289fdb4dc9)) [skip ci] Fix i18n resource generator workflow skip condition (by @schroda)
+- ([r2675](https://github.com/Suwayomi/Suwayomi-WebUI/commit/37d925c5fb0888c6b3e4e4e3001cfd2aa11b75e7)) Translations update from Hosted Weblate ([#986](https://github.com/Suwayomi/Suwayomi-WebUI/pull/986) by @weblate, @dejavui, @aizhimoran)
+- ([r2674](https://github.com/Suwayomi/Suwayomi-WebUI/commit/02557743ddff98aa0caf4de4f7c10dba2158b4df)) Update dependencies (by @schroda)
+- ([r2673](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ae1d0ecd675a0d6b9df3a076219ef1d499b678f2)) Remove html parsing of manga and tracker descriptions (by @schroda)
+- ([r2672](https://github.com/Suwayomi/Suwayomi-WebUI/commit/f221425a898401bdfd5b7ed9fb1489d87aa6c213)) Recursively escape disallowed html tags in manga and tracker descriptions (by @schroda)
+- ([r2671](https://github.com/Suwayomi/Suwayomi-WebUI/commit/b49243607d6be8ca56f8885d42bface48e168171)) Fix lib folder name of "react-router-dom" (by @schroda)
+- ([r2670](https://github.com/Suwayomi/Suwayomi-WebUI/commit/89cff9db6aa82440037f1466362a091d8aa72d21)) Handle duplicated chapters in chapter download action again (by @schroda)
+- ([r2669](https://github.com/Suwayomi/Suwayomi-WebUI/commit/73f8c722049543047cc9318063d004a13d885cf9)) Remove unnecessary button link in "Extensions" "ExtensionCard" (by @schroda)
+- ([r2668](https://github.com/Suwayomi/Suwayomi-WebUI/commit/84c637138051488fa169391ae2161cc75e1654d4)) Prevent routing to "ExtensionInfo" on extension list action button click (by @schroda)
+- ([r2667](https://github.com/Suwayomi/Suwayomi-WebUI/commit/57e7a806bddb4cea19eea24b331145311a145c22)) Remove switch click handling in "ExtensionInfo" "SourceCard" (by @schroda)
+- ([r2666](https://github.com/Suwayomi/Suwayomi-WebUI/commit/2d44fc8d00a34e181c2ae169db831a7bcc8ba6ef)) [skip ci] Insert weblate token into "tokens.json" in "update_i18n_languages" workflow (by @schroda)
+- ([r2665](https://github.com/Suwayomi/Suwayomi-WebUI/commit/107ad79b1775bf0968456f4951d6af6be327f78a)) [skip ci] Create empty "tokens.json" in "update_i18n_languages" workflow (by @schroda)
+- ([r2664](https://github.com/Suwayomi/Suwayomi-WebUI/commit/5eb3d93afacbf1c9a247ec64810b77187e986ceb)) [skip ci] Fix "update_i18n_languages" workflow package json script execution (by @schroda)
+- ([r2663](https://github.com/Suwayomi/Suwayomi-WebUI/commit/49c1fa6ceea9c7f07f524d088c4af3d56deb845d)) [skip ci] Ignore "update_i18n_languages" workflow head commit name condition on manual dispatch (by @schroda)
+- ([r2662](https://github.com/Suwayomi/Suwayomi-WebUI/commit/f55e090a7338f4b18311c7810c2194431c26d6a8)) [skip ci] Add options to trigger "update_i18n_languages" workflow manually (by @schroda)
+- ([r2661](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a77a587e597b5d1c68a0b48575bff5f5eb9caacf)) [skip ci] Fix "update_i18n_languages" workflow dependency installation (by @schroda)
+- ([r2660](https://github.com/Suwayomi/Suwayomi-WebUI/commit/7241f88a0f405d3d1f6f72dfd8db181e0221fe45)) Translations update from Hosted Weblate ([#978](https://github.com/Suwayomi/Suwayomi-WebUI/pull/978) by @weblate, @9811pc, @AlirezaGh1993, @cpiber, @gianlucalauro, @junmusk, @JiPaix, @leollo98, @LycusCoder, @Sawadikhap, @yutthaphon, @dejavui, @Oxara, @UnknownSkyrimPasserby, @Mamotromico, @plum7x, @jintaxi, @TamilNeram, @aizhimoran)
+- ([r2659](https://github.com/Suwayomi/Suwayomi-WebUI/commit/c3cff8ee8bca6918ae880cf9a53f676a9681d33b)) [skip ci] Move "misc" server settings to bottom of page (by @schroda)
+- ([r2658](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0d288afe7454480b36db76cad9991df64f771104)) [skip ci] Update server settings for Authentication modes ([#984](https://github.com/Suwayomi/Suwayomi-WebUI/pull/984) by @cpiber, @schroda)
+- ([r2657](https://github.com/Suwayomi/Suwayomi-WebUI/commit/cdee6f4efa71f712be4129400cb4df3819d60565)) [skip ci] Feat: Add OPDS Configs to Server Settings tab ([#945](https://github.com/Suwayomi/Suwayomi-WebUI/pull/945) by @shirishsaxena, @schroda)
+- ([r2656](https://github.com/Suwayomi/Suwayomi-WebUI/commit/74f0fec02d76ebf84db13ceaf43d14bc0aa6c42a)) Fix dnd on touch devices (by @schroda)
+- ([r2655](https://github.com/Suwayomi/Suwayomi-WebUI/commit/8783956fbc2cedfce1d43111367eb146b5d2d7d8)) Slice chapter list correctly for downloads (by @schroda)
+- ([r2654](https://github.com/Suwayomi/Suwayomi-WebUI/commit/1c9d62659f53d6ff34321d367e2a99212abdcb36)) Include "meta" field in manga library fragment (by @schroda)
+- ([r2653](https://github.com/Suwayomi/Suwayomi-WebUI/commit/fad590eb5d756dce9ad6329b65141da3362d0c80)) Add "order" filter to chapters query key (by @schroda)
+- ([r2652](https://github.com/Suwayomi/Suwayomi-WebUI/commit/85cec6fd8d62036df56a7d6b44c48404dd19050d)) Use filtered chapters for none manga bulk downloads (by @schroda)
+- ([r2651](https://github.com/Suwayomi/Suwayomi-WebUI/commit/900f570bb059a8ac43ba8ce570e9b2e18a815e50)) Consider only filtered chapters in chapter list actions (by @schroda)
+- ([r2650](https://github.com/Suwayomi/Suwayomi-WebUI/commit/99e5eb2dac388c11635b02ff9e006c3423811e01)) Cleanup chapter download option menu (by @schroda)
+- ([r2649](https://github.com/Suwayomi/Suwayomi-WebUI/commit/8631da1ce46929526a483c023a58937a0dfe257a)) Add missing i18n resource to iso languages (by @schroda)
+- ([r2648](https://github.com/Suwayomi/Suwayomi-WebUI/commit/963cd55b3701eaaca349cc46700ba236687c4ad9)) Allow auto scrolling with static reader overlay (by @schroda)
+- ([r2647](https://github.com/Suwayomi/Suwayomi-WebUI/commit/da78ce3181c4861079d37c54107f08bfaeb82b9c)) Add hotkeys to switch auto scroll direction (by @schroda)
+- ([r2646](https://github.com/Suwayomi/Suwayomi-WebUI/commit/0fbab00b067c66f9917ba28880dfae5abdd92b2d)) Create workflow to automatically update i18n resources (by @schroda)
+- ([r2645](https://github.com/Suwayomi/Suwayomi-WebUI/commit/81bba4ffff58150f1e22de120fca85ece28bdbda)) Update "generatei18nResources" script to commit changes (by @schroda)
+- ([r2644](https://github.com/Suwayomi/Suwayomi-WebUI/commit/b69b0d4a4814fc090492c97b832484d5c4019da8)) [skip ci] Update CHANGELOG.md (by @schroda)
+
 # v20250703.01 (r2643)
 
 ## New
@@ -90,6 +195,7 @@ Thank you for your contribution to the translation of the project.
 - German (by Constantin Piber)
 
 ## Full Changelog
+- ([r2643](https://github.com/Suwayomi/Suwayomi-WebUI/commit/472151eb5d93355bf5f170bc44341967c6eee0cb)) [Release] Version 20250703.01 (by @schroda)
 - ([r2642](https://github.com/Suwayomi/Suwayomi-WebUI/commit/aee758916b707efb12f642a03cc2fdb416211482)) Update available languages (by @schroda)
 - ([r2641](https://github.com/Suwayomi/Suwayomi-WebUI/commit/e98fe1ae6134eaecddd114c25a40ab114dabbd54)) Translations update from Hosted Weblate ([#967](https://github.com/Suwayomi/Suwayomi-WebUI/pull/967) by @weblate, @9811pc, @cpiber, @yutthaphon, @dejavui, @UnknownSkyrimPasserby, @dpkass, @marimo-nekomimi, @TamilNeram, @aizhimoran)
 - ([r2640](https://github.com/Suwayomi/Suwayomi-WebUI/commit/51975ea3cde3ab8e8d437cd6d78026056a340c85)) Add setting to apply chapter list filters in reader (by @schroda)
