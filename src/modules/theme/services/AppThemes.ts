@@ -21,22 +21,22 @@ export const appThemes = (Object.entries(themes) as [AppThemes, TBaseTheme][]).m
     ...theme,
 })) satisfies AppTheme[];
 
-export const getTheme = (id: AppThemes, customThemes: Record<string, AppTheme> = {}): AppTheme => {
-    try {
-        const allThemes = { ...themes, ...customThemes };
-        const theme = (allThemes[id as keyof typeof themes] as AppTheme) ?? themes.default;
+export const getTheme = (id: AppThemes | undefined, customThemes: Record<string, AppTheme> = {}): AppTheme => {
+    // TODO - This is a workaround to fix a type error which causes a white screen.
+    //        It should be removed and replaced with a proper migration logic, which would then e.g., add a migration to
+    //        remove deprecated/outdated settings from the local storage
+    const actualId = id === undefined ? 'default' : id;
 
-        return {
-            // @ts-ignore - custom themes do not have a "getName" function
-            getName: () => id,
-            // @ts-ignore - app themes do not have the "id" prop by default
-            id,
-            ...theme,
-        };
-    } catch (e) {
-        defaultPromiseErrorHandler('getTheme')(e);
-    }
-    return { id, ...themes[id as keyof typeof themes] };
+    const allThemes = { ...themes, ...customThemes };
+    const theme = (allThemes[actualId as keyof typeof themes] as AppTheme) ?? themes.default;
+
+    return {
+        // @ts-ignore - custom themes do not have a "getName" function
+        getName: () => id,
+        // @ts-ignore - app themes do not have the "id" prop by default
+        id,
+        ...theme,
+    };
 };
 
 export const isThemeNameUnique = (id: string, customThemes: Record<string, AppTheme>): boolean =>
