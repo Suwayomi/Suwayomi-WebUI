@@ -1,3 +1,11 @@
+# v20250801.01 (r2717)
+
+## Bug fixes
+- (**General**) Fix white screen on page load
+
+## Full changelog
+- ([r2716](https://github.com/Suwayomi/Suwayomi-WebUI/commit/c758cc41e15351d124b6a898be8df153094af0da)) Prevent white screen on page load (by @schroda)
+
 # v20250731.01 (r2715)
 
 ## New
@@ -31,6 +39,7 @@ Thank you for your contribution to the translation of the project.
 - German (by Constantin Piber)
 
 ## Full changelog
+- ([r2715](https://github.com/Suwayomi/Suwayomi-WebUI/commit/cd04be7f5283eb38fb1fb80f14c8e9006fa7fef9)) [Release] Version v20250731.01 (by @schroda)
 - ([r2714](https://github.com/Suwayomi/Suwayomi-WebUI/commit/311ba2a8817f3e116428e0a9b567ee5ea5ee3329)) Translations update from Hosted Weblate ([#990](https://github.com/Suwayomi/Suwayomi-WebUI/pull/990) by @weblate, @cpiber, @EugeneCage, @dejavui, @UnknownSkyrimPasserby, @aizhimoran)
 - ([r2713](https://github.com/Suwayomi/Suwayomi-WebUI/commit/ca938a6438f14e8a1541026800eb1b674e30d599)) Fix tsc error (by @schroda)
 - ([r2712](https://github.com/Suwayomi/Suwayomi-WebUI/commit/a38b2fce9d9b61c9724438527b25695ef7736886)) Simplify "useStorage" hook (by @schroda)
