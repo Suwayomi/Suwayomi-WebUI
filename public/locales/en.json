@@ -207,7 +207,7 @@
       },
       "conversion": {
         "compression_level": "Compression level",
-        "description": "In case no MIME-Type is defined, the \"default\" one will be used for the conversion.\nSet \"none\" as the target type to disable conversion for a MIME-Type",
+        "description": "In case no MIME-Type is defined, the \"default\" one will be used for the conversion.\nSet \"{{value}}\" as the target type to disable conversion for a MIME-Type",
         "mime_type": "MIME-Type",
         "target": "MIME-Type target",
         "title": "Download conversion"

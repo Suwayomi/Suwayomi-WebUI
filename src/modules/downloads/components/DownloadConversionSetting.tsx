@@ -280,7 +280,7 @@ export const DownloadConversionSetting = ({
                 <DialogTitle>{t('download.settings.conversion.title')}</DialogTitle>
                 <DialogContent>
                     <DialogContentText sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-                        {t('download.settings.conversion.description')}
+                        {t('download.settings.conversion.description', { value: 'none' })}
                     </DialogContentText>
                     <Stack sx={{ flexDirection: 'column', gap: 3 }}>
                         {tmpConversions.map((conversion, index) => {
