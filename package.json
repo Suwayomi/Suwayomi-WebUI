@@ -98,6 +98,7 @@
     "@typescript-eslint/parser": "7.16.1",
     "@vitejs/plugin-legacy": "7.0.0",
     "@vitejs/plugin-react-swc": "3.10.2",
+    "dotenv": "17.2.1",
     "eslint": "8.57.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "18.0.0",

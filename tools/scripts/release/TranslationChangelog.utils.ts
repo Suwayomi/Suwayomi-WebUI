@@ -10,7 +10,6 @@ import path from 'path';
 import fs from 'fs';
 import readline from 'readline';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
-import tokens from '../tokens.json';
 import {
     ActionByTranslationUrlByUserUrl,
     ContributionsByLanguage,
@@ -74,25 +73,23 @@ const extractContributionInfoFromChanges = (
 
 const getUsernameByUserUrlMap = async (
     userUrlsByTranslationUrl: UserUrlsByTranslationUrl,
-    authToken: string,
 ): Promise<Record<string, string>> =>
     Object.fromEntries(
         (await Promise.all(
             Object.values(userUrlsByTranslationUrl)
                 .flat()
-                .map(async (userUrl) => [userUrl, await getUsername(userUrl, authToken)]),
+                .map(async (userUrl) => [userUrl, await getUsername(userUrl)]),
         )) satisfies [string, string][],
     );
 
 const getLanguageNameByTranslationUrl = async (
     userUrlsByTranslationUrl: UserUrlsByTranslationUrl,
-    authToken: string,
 ): Promise<LanguageNameByTranslationUrl> =>
     Object.fromEntries(
         (await Promise.all(
             Object.keys(userUrlsByTranslationUrl)
                 .flat()
-                .map(async (translationUrl) => [translationUrl, await getLanguageName(translationUrl, authToken)]),
+                .map(async (translationUrl) => [translationUrl, await getLanguageName(translationUrl)]),
         )) satisfies [string, string][],
     );
 
@@ -129,8 +126,8 @@ const doesLanguageOfChangeMeetTranslatePercentThreshold = (
     return meetsTranslatedPercentThreshold(langaugeStats.translated_percent);
 };
 
-const getContributorsForRange = async (url: string, authToken: string): Promise<ContributionsByLanguage> => {
-    const weblateChanges = await fetchWeblateChanges(url, authToken);
+const getContributorsForRange = async (url: string): Promise<ContributionsByLanguage> => {
+    const weblateChanges = await fetchWeblateChanges(url);
     const weblateLanguageStats = await fetchWeblateLanguageStats();
 
     const validWeblateChanges = weblateChanges.filter((change) =>
@@ -147,8 +144,8 @@ const getContributorsForRange = async (url: string, authToken: string): Promise<
     const { userUrlsByTranslationUrl, actionsByTranslationUrlByUserUrl } =
         extractContributionInfoFromChanges(validWeblateChanges);
 
-    const usernameByUserUrl = await getUsernameByUserUrlMap(userUrlsByTranslationUrl, authToken);
-    const languageNameByTranslationUrl = await getLanguageNameByTranslationUrl(userUrlsByTranslationUrl, authToken);
+    const usernameByUserUrl = await getUsernameByUserUrlMap(userUrlsByTranslationUrl);
+    const languageNameByTranslationUrl = await getLanguageNameByTranslationUrl(userUrlsByTranslationUrl);
 
     return getUserContributionByLanguage(
         userUrlsByTranslationUrl,
@@ -238,7 +235,7 @@ export const createTranslationChangelog = async (
 
     const url = `https://hosted.weblate.org/api/components/suwayomi/suwayomi-webui/changes/?timestamp_after=${timestampAfter}&timestamp_before=${timestampBefore}&${creditRelevantActions.map((action) => `action=${action}`).join('&')}`;
 
-    const contributorsForRange = await getContributorsForRange(url, tokens.weblateToken);
+    const contributorsForRange = await getContributorsForRange(url);
     const knownContributorsByLanguage = await getKnownContributorsByLanguage();
 
     const contributionInfo: { language: string; contributors: string[] }[] = Object.entries(contributorsForRange).map(

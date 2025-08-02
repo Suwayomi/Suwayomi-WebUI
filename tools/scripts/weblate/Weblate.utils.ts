@@ -13,14 +13,14 @@ import {
     WeblateLanguageStatistic,
     WeblateUserPayload,
 } from '@/../tools/scripts/weblate/Weblate.types.ts';
-import tokens from '../tokens.json';
+import 'dotenv/config';
 import { TRANSLATED_PERCENT_THRESHOLD } from '@/../tools/scripts/weblate/Weblate.constants.ts';
 
-export const fetchData = async <T = any>(url: string, authToken: string): Promise<T> => {
+export const fetchData = async <T = any>(url: string): Promise<T> => {
     const response = await fetch(url, {
         method: 'GET',
         headers: {
-            Authorization: `Token ${authToken}`,
+            ...(process.env.WEBLATE_TOKEN ? { Authorization: `Token ${process.env.WEBLATE_TOKEN}` } : {}),
             Accept: 'application/json',
         },
     });
@@ -34,36 +34,29 @@ export const fetchData = async <T = any>(url: string, authToken: string): Promis
 
 export const fetchWeblateChanges = async (
     url: string,
-    authToken: string,
     weblateChangeResults: WeblateChangeResult[] = [],
 ): Promise<WeblateChangeResult[]> => {
-    const weblateChangePage = await fetchData<WeblateChangePayload>(url, authToken);
+    const weblateChangePage = await fetchData<WeblateChangePayload>(url);
 
     if (!weblateChangePage.next) {
         return [...weblateChangePage.results, ...weblateChangeResults];
     }
 
-    return fetchWeblateChanges(weblateChangePage.next, authToken, [
-        ...weblateChangePage.results,
-        ...weblateChangeResults,
-    ]);
+    return fetchWeblateChanges(weblateChangePage.next, [...weblateChangePage.results, ...weblateChangeResults]);
 };
 
-export const getUsername = async (url: string, authToken: string): Promise<string> => {
-    const userPayload = await fetchData<WeblateUserPayload>(url, authToken);
+export const getUsername = async (url: string): Promise<string> => {
+    const userPayload = await fetchData<WeblateUserPayload>(url);
     return userPayload.full_name;
 };
 
-export const getLanguageName = async (url: string, authToken: string): Promise<string> => {
-    const languagePayload = await fetchData<WeblateLanguagePayload>(url, authToken);
+export const getLanguageName = async (url: string): Promise<string> => {
+    const languagePayload = await fetchData<WeblateLanguagePayload>(url);
     return languagePayload.language.name.replace(/\(([a-zA-Z]+) Han script\)/g, '($1)');
 };
 
 export const fetchWeblateLanguageStats = async () =>
-    fetchData(
-        'https://hosted.weblate.org/api/components/suwayomi/suwayomi-webui/statistics/?format=json-flat',
-        tokens.weblateToken,
-    );
+    fetchData('https://hosted.weblate.org/api/components/suwayomi/suwayomi-webui/statistics/?format=json-flat');
 
 const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g;
 const isValidIS08601Date = (date: string): boolean => !!date.match(dateRegex);

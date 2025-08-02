@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import tokens from '../tokens.json';
+import 'dotenv/config';
 
 type GithubAuthor = {
     name: string;
@@ -115,7 +115,7 @@ const fetchCommits = async (
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${tokens.githubToken}`,
+                Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
             },
             body: JSON.stringify({ query, variables }),
         })

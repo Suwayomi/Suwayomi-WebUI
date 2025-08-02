@@ -99,7 +99,10 @@ export const ServerSettings = () => {
     });
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
-    const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', window.location.origin);
+    const [serverAddress, setServerAddress] = useLocalStorage<string>(
+        'serverBaseURL',
+        import.meta.env.VITE_SERVER_URL_DEFAULT,
+    );
 
     const handleServerAddressChange = (address: string) => {
         const serverBaseUrl = address.replaceAll(/(\/)+$/g, '');

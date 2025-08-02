@@ -14,11 +14,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
     public abstract readonly fetcher: Fetcher;
 
     public getBaseUrl(): string {
-        const { hostname, port, protocol } = window.location;
-
-        // if port is 3000 it's probably running from webpack development server
-        const inferredPort = import.meta.env.DEV && port === '3000' ? '4567' : port;
-        return AppStorage.local.getItemParsed('serverBaseURL', `${protocol}//${hostname}:${inferredPort}`);
+        return AppStorage.local.getItemParsed('serverBaseURL', import.meta.env.VITE_SERVER_URL_DEFAULT);
     }
 
     public abstract updateConfig(config: Partial<ClientConfig>): void;

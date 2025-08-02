@@ -11,4 +11,4 @@ dist/
 build/
 out/
 
-tools/scripts/tokens.json
+.env

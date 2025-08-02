@@ -7,10 +7,12 @@
  */
 
 import type { CodegenConfig } from '@graphql-codegen/cli';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'dotenv/config';
 
 const config: CodegenConfig = {
     overwrite: true,
-    schema: 'http://localhost:4567/api/graphql',
+    schema: process.env.CODEGEN_SERVER_URL_GQL,
     documents: [
         'src/lib/graphql/queries/**',
         'src/lib/graphql/mutations/**',

@@ -41,5 +41,5 @@ jobs:
       - name: Update i18n resources
         run: |
           cd master
-          echo '{"weblateToken": "${{ secrets.WEBLATE_TOKEN }}"}' > tools/scripts/tokens.json
+          echo "WEBLATE_TOKEN=${{ secrets.MY_SECRET }}" > .env
           yarn i18n:gen-resources

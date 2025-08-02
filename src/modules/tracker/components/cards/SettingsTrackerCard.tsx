@@ -32,7 +32,7 @@ import { TTrackerSearch } from '@/modules/tracker/Tracker.types.ts';
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useTranslation();
 
-    const [serverAddress] = useLocalStorage('serverBaseURL', window.location.origin);
+    const [serverAddress] = useLocalStorage('serverBaseURL', import.meta.env.VITE_SERVER_URL_DEFAULT);
 
     const [loginTrackerCredentials, { loading: isCredentialLoginInProgress }] =
         requestManager.useLoginToTrackerCredentials();
