@@ -51,7 +51,7 @@ const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: 
     </Link>
 );
 
-type TTrackerActive = Pick<TTrackerBind, 'id' | 'name' | 'icon' | 'supportsTrackDeletion'>;
+type TTrackerActive = Pick<TTrackerBind, 'id' | 'name' | 'icon' | 'supportsTrackDeletion' | 'supportsPrivateTracking'>;
 const TrackerActiveRemoveBind = ({
     trackerRecordId,
     tracker,
@@ -144,12 +144,18 @@ const TrackerUpdatePrivateStatus = ({
     trackRecordId,
     isPrivate,
     closeMenu,
+    supportsPrivateTracking,
 }: {
     trackRecordId: TrackRecordType['id'];
     isPrivate: boolean;
     closeMenu: () => void;
+    supportsPrivateTracking: TTrackerActive['supportsPrivateTracking'];
 }) => {
     const { t } = useTranslation();
+
+    if (!supportsPrivateTracking) {
+        return null;
+    }
 
     return (
         <MenuItem
@@ -166,6 +172,7 @@ const TrackerUpdatePrivateStatus = ({
         </MenuItem>
     );
 };
+
 type TTrackRecordActive = Pick<TTrackRecordBind, 'id' | 'remoteUrl' | 'title' | 'private'>;
 const TrackerActiveHeader = ({
     trackRecord,
@@ -244,6 +251,7 @@ const TrackerActiveHeader = ({
                                         trackRecordId={trackRecord.id}
                                         isPrivate={trackRecord.private}
                                         closeMenu={onClose}
+                                        supportsPrivateTracking={tracker.supportsPrivateTracking}
                                     />,
                                 ]}
                             </Menu>
