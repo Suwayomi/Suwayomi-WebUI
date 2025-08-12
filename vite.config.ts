@@ -23,7 +23,7 @@ export default defineConfig(() => ({
     },
     server: {
         port: Number(process.env.PORT),
-        allowedHosts: process.env.ALLOWED_HOSTS.split(','),
+        allowedHosts: process.env.ALLOWED_HOSTS.split(',').map((s) => s.trim()),
     },
     resolve: {
         alias: {
