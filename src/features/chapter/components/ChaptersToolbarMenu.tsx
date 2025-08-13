@@ -56,7 +56,7 @@ export const ChaptersToolbarMenu = ({
     return (
         <>
             <CustomTooltip
-                title={t('chapter.action.mark_as_read.add.label.action.current')}
+                title={t('chapter.action.mark_as_read.add.label.action.all')}
                 disabled={areAllChaptersRead}
             >
                 <IconButton

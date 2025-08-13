@@ -114,7 +114,8 @@
           "label": {
             "action": {
               "current": "Mark as read",
-              "previous": "Mark previous as read"
+              "previous": "Mark previous as read",
+              "all": "Mark all as read"
             },
             "confirmation_one": "You are about to mark one chapter as read",
             "confirmation_other": "You are about to mark {{count}} chapters as read",
