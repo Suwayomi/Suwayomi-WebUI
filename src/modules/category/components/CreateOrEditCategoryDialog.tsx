@@ -20,6 +20,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CategoryDefaultInfo, CategoryIdInfo, CategoryNameInfo } from '@/modules/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { makeToast } from '@/modules/core/utils/Toast.ts';
+import { assertIsDefined } from '@/Asserts.ts';
 
 export const CreateOrEditCategoryDialog = ({
     category,
@@ -32,10 +33,15 @@ export const CreateOrEditCategoryDialog = ({
 
     const { t } = useTranslation();
 
-    const [dialogName, setDialogName] = useState<string>(category?.name ?? '');
-    const [dialogDefault, setDialogDefault] = useState<boolean>(!!category?.default);
+    const [dialogName, setDialogName] = useState(category?.name);
+    const [dialogDefault, setDialogDefault] = useState(!!category?.default);
+
+    const isInvalidName = dialogName !== undefined && !dialogName.trim().length;
+    const canSubmit = dialogName !== undefined && !isInvalidName;
 
     const handleDialogSubmit = () => {
+        assertIsDefined(dialogName);
+
         onClose();
 
         if (isEditMode) {
@@ -67,7 +73,9 @@ export const CreateOrEditCategoryDialog = ({
                     type="text"
                     fullWidth
                     value={dialogName}
-                    onChange={(e) => setDialogName(e.target.value)}
+                    onChange={(e) => setDialogName(e.target.value.trim())}
+                    error={isInvalidName}
+                    helperText={isInvalidName ? t`global.error.label.invalid_input` : undefined}
                 />
                 <FormControlLabel
                     control={<Checkbox checked={dialogDefault} onChange={(e) => setDialogDefault(e.target.checked)} />}
@@ -78,7 +86,7 @@ export const CreateOrEditCategoryDialog = ({
                 <Button onClick={onClose} color="primary">
                     {t('global.button.cancel')}
                 </Button>
-                <Button onClick={handleDialogSubmit} color="primary">
+                <Button onClick={handleDialogSubmit} color="primary" disabled={!canSubmit}>
                     {t('global.button.submit')}
                 </Button>
             </DialogActions>
