@@ -305,7 +305,7 @@ export function Library() {
                             key={filterKey}
                             mangas={mangas}
                             message={
-                                mangaError ? t('manga.error.label.request_failure') : t('library.error.label.empty')
+                                mangaError ? t('manga.error.label.request_failure') : t('category.error.label.empty')
                             }
                             messageExtra={mangaError?.message}
                             isLoading={mangaLoading}
