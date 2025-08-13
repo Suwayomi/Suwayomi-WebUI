@@ -14,7 +14,13 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
     public abstract readonly fetcher: Fetcher;
 
     public getBaseUrl(): string {
-        return AppStorage.local.getItemParsed('serverBaseURL', import.meta.env.VITE_SERVER_URL_DEFAULT);
+        const { hostname, port, protocol } = window.location;
+
+        const defaultUrl = import.meta.env.DEV
+            ? import.meta.env.VITE_SERVER_URL_DEFAULT
+            : `${protocol}//${hostname}:${port}`;
+
+        return AppStorage.local.getItemParsed('serverBaseURL', defaultUrl);
     }
 
     public abstract updateConfig(config: Partial<ClientConfig>): void;
