@@ -71,7 +71,7 @@ export const ChaptersToolbarMenu = ({
                 {(popupState) => (
                     <>
                         <CustomTooltip
-                            title={t('chapter.action.download.add.label.action')}
+                            title={t('global.button.download')}
                             disabled={areAllChaptersRead}
                         >
                             <IconButton
