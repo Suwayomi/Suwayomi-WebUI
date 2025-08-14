@@ -90,7 +90,7 @@ export const ChaptersToolbarMenu = ({
                     </>
                 )}
             </PopupState>
-            <CustomTooltip title={t('settings.title')}>
+            <CustomTooltip title={t('chapter.action.filter_and_sort.label')}>
                 <IconButton onClick={() => setOpen(true)} color="inherit">
                     <FilterList color={isFiltered ? 'warning' : undefined} />
                 </IconButton>
