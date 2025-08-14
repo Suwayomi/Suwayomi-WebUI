@@ -22,7 +22,7 @@ export const SelectableCollectionSelectAll = ({
     const { t } = useTranslation();
 
     return (
-        <CustomTooltip title={t(!areAllItemsSelected ? 'global.button.select_all' : 'global.button.clear')}>
+        <CustomTooltip title={t(!areAllItemsSelected ? 'global.button.select_all' : 'global.button.clear_selection')}>
             <Checkbox
                 sx={{
                     padding: '8px',
