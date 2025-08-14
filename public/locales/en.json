@@ -103,6 +103,9 @@
           }
         }
       },
+      "filter_and_sort": {
+        "label": "Filter and sort"
+      },
       "label": {
         "select": "Select"
       },
