@@ -102,7 +102,7 @@ export const ServerUpdateChecker = () => {
                     channel: selectedServerChannelInfo.channel,
                     version: selectedServerChannelInfo.tag,
                 })}
-                actionTitle={t('chapter.action.download.add.label.action')}
+                actionTitle={t('global.button.download')}
                 actionUrl={selectedServerChannelInfo.url}
                 updateCheckerProps={['server', checkForUpdate, selectedServerChannelInfo?.tag]}
             />
