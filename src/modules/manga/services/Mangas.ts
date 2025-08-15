@@ -405,7 +405,7 @@ export class Mangas {
         migrateCategories: boolean,
         removeMangaFromCategories: boolean,
     ): MigrateAction {
-        if (!mangaToMigrateFrom?.categories) {
+        if (migrateCategories && !mangaToMigrateFrom?.categories) {
             throw new Error('Categories are missing');
         }
 
