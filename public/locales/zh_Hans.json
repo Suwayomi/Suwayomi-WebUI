@@ -234,7 +234,7 @@
             },
             "conversion": {
                 "compression_level": "压缩级别",
-                "description": "如果未指定 MIME 类型，将使用“默认”类型进行转换。\n将目标类型设为 “无”可禁用MIME 类型的转换",
+                "description": "如果未指定 MIME 类型，将使用“默认”类型进行转换。\n将目标类型设为 “{{value}}”可禁用MIME 类型的转换",
                 "mime_type": "MIME 类型",
                 "title": "下载时转换格式",
                 "target": "目标 MIME 类型"
