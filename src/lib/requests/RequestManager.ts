@@ -324,9 +324,9 @@ import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
 import { CATEGORY_META_FIELDS } from '@/lib/graphql/fragments/CategoryFragments.ts';
 import { SOURCE_META_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
 import { CHAPTER_META_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
-import { MetadataMigrationSettings } from '@/modules/migration/Migration.types.ts';
-import { MangaIdInfo } from '@/modules/manga/Manga.types.ts';
-import { updateMetadataList } from '@/modules/metadata/services/MetadataApolloCacheHandler.ts';
+import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
+import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',

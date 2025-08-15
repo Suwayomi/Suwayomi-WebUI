@@ -12,66 +12,69 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
-import { AppContext } from '@/modules/core/contexts/AppContext.tsx';
+import { AppContext } from '@/features/core/contexts/AppContext.tsx';
 import '@/i18n';
-import { DefaultNavBar } from '@/modules/navigation-bar/components/DefaultNavBar.tsx';
+import { DefaultNavBar } from '@/features/navigation-bar/components/DefaultNavBar.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { WebUIUpdateChecker } from '@/modules/app-updates/components/WebUIUpdateChecker.tsx';
-import { ServerUpdateChecker } from '@/modules/app-updates/components/ServerUpdateChecker.tsx';
-import { lazyLoadFallback } from '@/modules/core/utils/LazyLoad.tsx';
-import { ErrorBoundary } from '@/modules/core/components/feedback/ErrorBoundary.tsx';
-import { useNavBarContext } from '@/modules/navigation-bar/contexts/NavbarContext.tsx';
+import { WebUIUpdateChecker } from '@/features/app-updates/components/WebUIUpdateChecker.tsx';
+import { ServerUpdateChecker } from '@/features/app-updates/components/ServerUpdateChecker.tsx';
+import { lazyLoadFallback } from '@/features/core/utils/LazyLoad.tsx';
+import { ErrorBoundary } from '@/features/core/components/feedback/ErrorBoundary.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
 
-import { AppRoutes } from '@/modules/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
 
-import { useMetadataServerSettings } from '@/modules/settings/services/ServerSettingsMetadata.ts';
-import { MediaQuery } from '@/modules/core/utils/MediaQuery.tsx';
-import { BrowseTab } from '@/modules/browse/Browse.types.ts';
+import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { BrowseTab } from '@/features/browse/Browse.types.ts';
 
-const { Browse } = loadable(() => import('@/modules/browse/screens/Browse.tsx'), lazyLoadFallback);
-const { DownloadQueue } = loadable(() => import('@/modules/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
-const { Library } = loadable(() => import('@/modules/library/screens/Library.tsx'), lazyLoadFallback);
-const { Manga } = loadable(() => import('@/modules/manga/screens/Manga.tsx'), lazyLoadFallback);
-const { SearchAll } = loadable(() => import('@/modules/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
-const { Settings } = loadable(() => import('@/modules/settings/screens/Settings.tsx'), lazyLoadFallback);
-const { About } = loadable(() => import('@/modules/settings/screens/About.tsx'), lazyLoadFallback);
-const { Backup } = loadable(() => import('@/modules/backup/screens/Backup.tsx'), lazyLoadFallback);
+const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
+const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
+const { Library } = loadable(() => import('@/features/library/screens/Library.tsx'), lazyLoadFallback);
+const { Manga } = loadable(() => import('@/features/manga/screens/Manga.tsx'), lazyLoadFallback);
+const { SearchAll } = loadable(() => import('@/features/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
+const { Settings } = loadable(() => import('@/features/settings/screens/Settings.tsx'), lazyLoadFallback);
+const { About } = loadable(() => import('@/features/settings/screens/About.tsx'), lazyLoadFallback);
+const { Backup } = loadable(() => import('@/features/backup/screens/Backup.tsx'), lazyLoadFallback);
 const { CategorySettings } = loadable(
-    () => import('@/modules/category/screens/CategorySettings.tsx'),
+    () => import('@/features/category/screens/CategorySettings.tsx'),
     lazyLoadFallback,
 );
-const { SourceConfigure } = loadable(() => import('@/modules/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
-const { SourceMangas } = loadable(() => import('@/modules/source/screens/SourceMangas.tsx'), lazyLoadFallback);
-const { ExtensionInfo } = loadable(() => import('@/modules/extension/screens/ExtensionInfo.tsx'), lazyLoadFallback);
-const { Updates } = loadable(() => import('@/modules/updates/screens/Updates.tsx'), lazyLoadFallback);
-const { History } = loadable(() => import('@/modules/history/screens/History.tsx'), lazyLoadFallback);
-const { LibrarySettings } = loadable(() => import('@/modules/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
+const { SourceConfigure } = loadable(() => import('@/features/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
+const { SourceMangas } = loadable(() => import('@/features/source/screens/SourceMangas.tsx'), lazyLoadFallback);
+const { ExtensionInfo } = loadable(() => import('@/features/extension/screens/ExtensionInfo.tsx'), lazyLoadFallback);
+const { Updates } = loadable(() => import('@/features/updates/screens/Updates.tsx'), lazyLoadFallback);
+const { History } = loadable(() => import('@/features/history/screens/History.tsx'), lazyLoadFallback);
+const { LibrarySettings } = loadable(() => import('@/features/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
 const { DownloadSettings } = loadable(
-    () => import('@/modules/downloads/screens/DownloadSettings.tsx'),
+    () => import('@/features/downloads/screens/DownloadSettings.tsx'),
     lazyLoadFallback,
 );
-const { ServerSettings } = loadable(() => import('@/modules/settings/screens/ServerSettings.tsx'), lazyLoadFallback);
-const { BrowseSettings } = loadable(() => import('@/modules/browse/screens/BrowseSettings.tsx'), lazyLoadFallback);
-const { WebUISettings } = loadable(() => import('@/modules/settings/screens/WebUISettings.tsx'), lazyLoadFallback);
-const { Migrate } = loadable(() => import('@/modules/migration/screens/Migrate.tsx'), lazyLoadFallback);
-const { DeviceSetting } = loadable(() => import('@/modules/device/screens/DeviceSetting.tsx'), lazyLoadFallback);
-const { TrackingSettings } = loadable(() => import('@/modules/tracker/screens/TrackingSettings.tsx'), lazyLoadFallback);
+const { ServerSettings } = loadable(() => import('@/features/settings/screens/ServerSettings.tsx'), lazyLoadFallback);
+const { BrowseSettings } = loadable(() => import('@/features/browse/screens/BrowseSettings.tsx'), lazyLoadFallback);
+const { WebUISettings } = loadable(() => import('@/features/settings/screens/WebUISettings.tsx'), lazyLoadFallback);
+const { Migrate } = loadable(() => import('@/features/migration/screens/Migrate.tsx'), lazyLoadFallback);
+const { DeviceSetting } = loadable(() => import('@/features/device/screens/DeviceSetting.tsx'), lazyLoadFallback);
+const { TrackingSettings } = loadable(
+    () => import('@/features/tracker/screens/TrackingSettings.tsx'),
+    lazyLoadFallback,
+);
 const { TrackerOAuthLogin } = loadable(
-    () => import('@/modules/tracker/screens/TrackerOAuthLogin.tsx'),
+    () => import('@/features/tracker/screens/TrackerOAuthLogin.tsx'),
     lazyLoadFallback,
 );
 const { LibraryDuplicates } = loadable(
-    () => import('@/modules/library/screens/LibraryDuplicates.tsx'),
+    () => import('@/features/library/screens/LibraryDuplicates.tsx'),
     lazyLoadFallback,
 );
-const { Appearance } = loadable(() => import('@/modules/settings/screens/Appearance.tsx'), lazyLoadFallback);
+const { Appearance } = loadable(() => import('@/features/settings/screens/Appearance.tsx'), lazyLoadFallback);
 const { GlobalReaderSettings } = loadable(
-    () => import('@/modules/reader/screens/GlobalReaderSettings.tsx'),
+    () => import('@/features/reader/screens/GlobalReaderSettings.tsx'),
     lazyLoadFallback,
 );
-const { More } = loadable(() => import('@/modules/settings/screens/More.tsx'), lazyLoadFallback);
-const { Reader } = loadable(() => import('@/modules/reader/screens/Reader.tsx'), lazyLoadFallback);
-const { HistorySettings } = loadable(() => import('@/modules/history/screens/HistorySettings.tsx'), lazyLoadFallback);
+const { More } = loadable(() => import('@/features/settings/screens/More.tsx'), lazyLoadFallback);
+const { Reader } = loadable(() => import('@/features/reader/screens/Reader.tsx'), lazyLoadFallback);
+const { HistorySettings } = loadable(() => import('@/features/history/screens/HistorySettings.tsx'), lazyLoadFallback);
 
 if (process.env.NODE_ENV !== 'production') {
     // Adds messages only in a dev environment

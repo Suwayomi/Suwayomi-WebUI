@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useSessionStorage } from '@/modules/core/hooks/useStorage.tsx';
+import { useSessionStorage } from '@/features/core/hooks/useStorage.tsx';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 export class VirtuosoUtil {
