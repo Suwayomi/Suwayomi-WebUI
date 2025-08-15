@@ -22,7 +22,7 @@ import { TabPanel } from '@/features/core/components/tabs/TabPanel.tsx';
 import { LibraryToolbarMenu } from '@/features/library/components/LibraryToolbarMenu.tsx';
 import { LibraryMangaGrid } from '@/features/library/components/LibraryMangaGrid.tsx';
 import { AppbarSearch } from '@/features/core/components/AppbarSearch.tsx';
-import { UpdateChecker } from '@/features/core/components/UpdateChecker.tsx';
+import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
 import { useSelectableCollection } from '@/features/collection/hooks/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/features/collection/components/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/features/library/hooks/useGetVisibleLibraryMangas.ts';

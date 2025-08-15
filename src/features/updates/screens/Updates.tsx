@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
-import { UpdateChecker } from '@/features/core/components/UpdateChecker.tsx';
+import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
 import { StyledGroupedVirtuoso } from '@/features/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/features/core/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/features/core/components/virtuoso/StyledGroupItemWrapper.tsx';
