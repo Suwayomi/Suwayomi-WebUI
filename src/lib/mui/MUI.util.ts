@@ -17,8 +17,7 @@ export class MUIUtil {
     static preventRippleProp<T extends Record<string, unknown>[]>(
         ...handlers: T
     ): T & Pick<React.DOMAttributes<unknown>, 'onMouseDown' | 'onTouchStart'> {
-        // @ts-ignore - "chainEventHandlers" is wrongly typed
-        return chainEventHandlers(...handlers, {
+        return chainEventHandlers(handlers[0], ...handlers.slice(1), {
             onMouseDown: MUIUtil.preventRipple(),
             onTouchStart: MUIUtil.preventRipple(),
         }) as T & Pick<React.DOMAttributes<unknown>, 'onMouseDown' | 'onTouchStart'>;
