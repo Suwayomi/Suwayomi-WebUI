@@ -23,7 +23,7 @@ import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { LanguageSelect } from '@/base/components/inputs/LanguageSelect.tsx';
-import { ExtensionCard } from '@/features/extension/components/ExtensionCard.tsx';
+import { ExtensionCard } from '@/features/browse/extensions/components/ExtensionCard.tsx';
 import { StyledGroupedVirtuoso } from '@/base/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/base/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
