@@ -45,7 +45,10 @@ const { SourceConfigure } = loadable(
     lazyLoadFallback,
 );
 const { SourceMangas } = loadable(() => import('@/features/source/browse/screens/SourceMangas.tsx'), lazyLoadFallback);
-const { ExtensionInfo } = loadable(() => import('@/features/extension/screens/ExtensionInfo.tsx'), lazyLoadFallback);
+const { ExtensionInfo } = loadable(
+    () => import('@/features/extension/info/screens/ExtensionInfo.tsx'),
+    lazyLoadFallback,
+);
 const { Updates } = loadable(() => import('@/features/updates/screens/Updates.tsx'), lazyLoadFallback);
 const { History } = loadable(() => import('@/features/history/screens/History.tsx'), lazyLoadFallback);
 const { LibrarySettings } = loadable(() => import('@/features/library/screens/LibrarySettings.tsx'), lazyLoadFallback);
