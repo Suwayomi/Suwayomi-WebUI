@@ -25,16 +25,16 @@ import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { OptionsPanel } from '@/base/components/modals/OptionsPanel.tsx';
-import { CheckBoxFilter } from '@/features/source/components/filters/CheckBoxFilter.tsx';
-import { HeaderFilter } from '@/features/source/components/filters/HeaderFilter.tsx';
-import { SelectFilter } from '@/features/source/components/filters/SelectFilter.tsx';
-import { SortFilter } from '@/features/source/components/filters/SortFilter.tsx';
-import { TextFilter } from '@/features/source/components/filters/TextFilter.tsx';
-import { TriStateFilter } from '@/features/source/components/filters/TriStateFilter.tsx';
+import { CheckBoxFilter } from '@/features/source/browse/components/filters/CheckBoxFilter.tsx';
+import { HeaderFilter } from '@/features/source/browse/components/filters/HeaderFilter.tsx';
+import { SelectFilter } from '@/features/source/browse/components/filters/SelectFilter.tsx';
+import { SortFilter } from '@/features/source/browse/components/filters/SortFilter.tsx';
+import { TextFilter } from '@/features/source/browse/components/filters/TextFilter.tsx';
+import { TriStateFilter } from '@/features/source/browse/components/filters/TriStateFilter.tsx';
 // this can only cycle once, so should be fine
 // eslint-disable-next-line import/no-cycle
-import { GroupFilter } from '@/features/source/components/filters/GroupFilter.tsx';
-import { SeparatorFilter } from '@/features/source/components/filters/SeparatorFilter.tsx';
+import { GroupFilter } from '@/features/source/browse/components/filters/GroupFilter.tsx';
+import { SeparatorFilter } from '@/features/source/browse/components/filters/SeparatorFilter.tsx';
 import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
 import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';

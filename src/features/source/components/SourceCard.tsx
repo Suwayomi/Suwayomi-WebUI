@@ -18,7 +18,7 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import IconButton from '@mui/material/IconButton';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { SourceContentType } from '@/features/source/screens/SourceMangas.tsx';
+import { SourceContentType } from '@/features/source/browse/screens/SourceMangas.tsx';
 import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';

@@ -27,7 +27,7 @@ import {
 } from '@/lib/requests/RequestManager.ts';
 import { SourceGridLayout } from '@/features/source/components/SourceGridLayout.tsx';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
-import { SourceOptions } from '@/features/source/components/SourceOptions.tsx';
+import { SourceOptions } from '@/features/source/browse/components/SourceOptions.tsx';
 import { BaseMangaGrid } from '@/features/manga/components/BaseMangaGrid.tsx';
 import {
     GetSourceBrowseQuery,

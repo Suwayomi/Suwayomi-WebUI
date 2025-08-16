@@ -32,7 +32,7 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
-import { ListPreference } from '@/features/source/components/sourceConfiguration/ListPreference.tsx';
+import { ListPreference } from '@/features/source/configuration/components/ListPreference.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { DateSetting } from '@/base/components/settings/DateSetting.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';

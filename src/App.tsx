@@ -40,8 +40,11 @@ const { CategorySettings } = loadable(
     () => import('@/features/category/screens/CategorySettings.tsx'),
     lazyLoadFallback,
 );
-const { SourceConfigure } = loadable(() => import('@/features/source/screens/SourceConfigure.tsx'), lazyLoadFallback);
-const { SourceMangas } = loadable(() => import('@/features/source/screens/SourceMangas.tsx'), lazyLoadFallback);
+const { SourceConfigure } = loadable(
+    () => import('@/features/source/configuration/screens/SourceConfigure.tsx'),
+    lazyLoadFallback,
+);
+const { SourceMangas } = loadable(() => import('@/features/source/browse/screens/SourceMangas.tsx'), lazyLoadFallback);
 const { ExtensionInfo } = loadable(() => import('@/features/extension/screens/ExtensionInfo.tsx'), lazyLoadFallback);
 const { Updates } = loadable(() => import('@/features/updates/screens/Updates.tsx'), lazyLoadFallback);
 const { History } = loadable(() => import('@/features/history/screens/History.tsx'), lazyLoadFallback);

@@ -15,10 +15,10 @@ import { cloneObject } from '@/base/utils/cloneObject.tsx';
 import {
     SwitchPreferenceCompat,
     CheckBoxPreference,
-} from '@/features/source/components/sourceConfiguration/TwoStatePreference.tsx';
-import { ListPreference } from '@/features/source/components/sourceConfiguration/ListPreference.tsx';
-import { EditTextPreference } from '@/features/source/components/sourceConfiguration/EditTextPreference.tsx';
-import { MultiSelectListPreference } from '@/features/source/components/sourceConfiguration/MultiSelectListPreference.tsx';
+} from '@/features/source/configuration/components/TwoStatePreference.tsx';
+import { ListPreference } from '@/features/source/configuration/components/ListPreference.tsx';
+import { EditTextPreference } from '@/features/source/configuration/components/EditTextPreference.tsx';
+import { MultiSelectListPreference } from '@/features/source/configuration/components/MultiSelectListPreference.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
