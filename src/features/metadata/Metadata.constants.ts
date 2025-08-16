@@ -15,7 +15,7 @@ import {
     ReaderCustomFilter,
     ReaderPageScaleMode,
     ReadingMode,
-} from '@/features/reader/types/Reader.types.ts';
+} from '@/features/reader/Reader.types.ts';
 import {
     AUTO_SCROLL_SPEED,
     CUSTOM_FILTER,
@@ -24,7 +24,7 @@ import {
     PAGE_GAP,
     PROGRESS_BAR_SIZE,
     SCROLL_AMOUNT,
-} from '@/features/reader/constants/ReaderSettings.constants.tsx';
+} from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn, jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_AHEAD } from '@/features/downloads/Downloads.constants.ts';
 import { MANGA_GRID_WIDTH } from '@/features/settings/Settings.constants.ts';
@@ -33,7 +33,7 @@ import { SortSettings } from '@/features/migration/Migration.types.ts';
 import { ISourceMetadata } from '@/features/source/Source.types.ts';
 import { LibraryOptions } from '@/features/library/Library.types.ts';
 import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
-import { TapZoneInvertMode } from '@/features/reader/types/TapZoneLayout.types.ts';
+import { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI';
 

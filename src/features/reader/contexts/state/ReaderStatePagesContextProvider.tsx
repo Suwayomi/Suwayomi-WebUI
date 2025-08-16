@@ -8,8 +8,8 @@
 
 import { ReactNode, useMemo, useState } from 'react';
 import { ReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { ReaderStatePages } from '@/features/reader/types/ReaderProgressBar.types.ts';
-import { READER_STATE_PAGES_DEFAULTS } from '@/features/reader/constants/ReaderContext.constants.ts';
+import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import { READER_STATE_PAGES_DEFAULTS } from '@/features/reader/ReaderContext.constants.ts';
 
 export const ReaderStatePagesContextProvider = ({ children }: { children: ReactNode }) => {
     const [totalPages, setTotalPages] = useState<ReaderStatePages['totalPages']>(

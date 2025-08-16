@@ -7,7 +7,7 @@
  */
 
 import { createContext, useContext } from 'react';
-import { TReaderStateMangaContext } from '@/features/reader/types/Reader.types.ts';
+import { TReaderStateMangaContext } from '@/features/reader/Reader.types.ts';
 
 export const ReaderStateMangaContext = createContext<TReaderStateMangaContext>({
     manga: undefined,

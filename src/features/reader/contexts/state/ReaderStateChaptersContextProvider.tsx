@@ -11,7 +11,7 @@ import {
     READER_STATE_CHAPTERS_DEFAULTS,
     ReaderStateChaptersContext,
 } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { ReaderStateChapters } from '@/features/reader/types/Reader.types.ts';
+import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 
 export const ReaderStateChaptersContextProvider = ({ children }: { children: ReactNode }) => {
     const [state, setState] =

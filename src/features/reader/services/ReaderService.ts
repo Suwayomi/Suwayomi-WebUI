@@ -21,12 +21,12 @@ import {
     ReaderStateChapters,
     ReadingDirection,
     ReadingMode,
-} from '@/features/reader/types/Reader.types.ts';
+} from '@/features/reader/Reader.types.ts';
 import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import {
     convertFromReaderSettingsWithDefaultFlag,
     updateReaderSettings,
-} from '@/features/reader/services/ReaderSettingsMetadata.ts';
+} from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
@@ -35,7 +35,7 @@ import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
 import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 import { useBackButton } from '@/features/core/hooks/useBackButton.ts';
-import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/constants/ReaderSettings.constants.tsx';
+import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { useReaderStateSettingsContext } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
@@ -47,7 +47,7 @@ import {
     getReaderChapterFromCache,
     isInDownloadAheadRange,
     updateReaderStateVisibleChapters,
-} from '@/features/reader/utils/Reader.utils.ts';
+} from '@/features/reader/Reader.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Queue } from '@/lib/Queue.ts';
 import { AppRoutes } from '@/features/core/AppRoute.constants.ts';

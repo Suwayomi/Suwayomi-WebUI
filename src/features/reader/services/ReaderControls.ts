@@ -17,7 +17,7 @@ import {
     getPage,
     getPageForMousePos,
     getProgressBarPositionInfo,
-} from '@/features/reader/utils/ReaderProgressBar.utils.tsx';
+} from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
@@ -28,32 +28,35 @@ import {
     ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
-} from '@/features/reader/types/Reader.types.ts';
+} from '@/features/reader/Reader.types.ts';
 import { ScrollDirection, ScrollOffset } from '@/features/core/Core.types.ts';
-import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/constants/ReaderSettings.constants.tsx';
+import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import {
     isATransitionPageVisible,
     isEndOfPageInViewport,
     isPageInViewport,
-} from '@/features/reader/utils/ReaderPager.utils.tsx';
-import { useReaderOverlayContext } from '@/features/reader/contexts/ReaderOverlayContext.tsx';
-import { useReaderTapZoneContext } from '@/features/reader/contexts/ReaderTapZoneContext.tsx';
-import { TapZoneRegionType, TReaderTapZoneContext } from '@/features/reader/types/TapZoneLayout.types.ts';
-import { ReaderTapZoneService } from '@/features/reader/services/ReaderTapZoneService.ts';
-import { isContinuousReadingMode } from '@/features/reader/utils/ReaderSettings.utils.tsx';
+} from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
+import { useReaderOverlayContext } from '@/features/reader/overlay/contexts/ReaderOverlayContext.tsx';
+import { useReaderTapZoneContext } from '@/features/reader/tap-zones/contexts/ReaderTapZoneContext.tsx';
+import { TapZoneRegionType, TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { ReaderTapZoneService } from '@/features/reader/tap-zones/ReaderTapZoneService.ts';
+import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import {
     getReaderChapterFromCache,
     getReaderOpenChapterResumeMode,
     updateReaderStateVisibleChapters,
-} from '@/features/reader/utils/Reader.utils.ts';
+} from '@/features/reader/Reader.utils.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { awaitConfirmation } from '@/features/core/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { TReaderOverlayContext } from '@/features/reader/types/ReaderOverlay.types.ts';
-import { ReaderProgressBarProps, TReaderProgressCurrentPage } from '@/features/reader/types/ReaderProgressBar.types.ts';
+import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
+import {
+    ReaderProgressBarProps,
+    TReaderProgressCurrentPage,
+} from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,

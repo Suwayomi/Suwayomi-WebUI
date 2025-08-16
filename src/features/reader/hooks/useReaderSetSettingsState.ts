@@ -11,9 +11,9 @@ import {
     getReaderSettings,
     getReaderSettingsFor,
     useDefaultReaderSettings,
-} from '@/features/reader/services/ReaderSettingsMetadata.ts';
-import { isAutoWebtoonMode } from '@/features/reader/utils/ReaderSettings.utils.tsx';
-import { ReadingMode, TReaderStateSettingsContext } from '@/features/reader/types/Reader.types.ts';
+} from '@/features/reader/settings/ReaderSettingsMetadata.ts';
+import { isAutoWebtoonMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
+import { ReadingMode, TReaderStateSettingsContext } from '@/features/reader/Reader.types.ts';
 import { GetMangaReaderQuery } from '@/lib/graphql/generated/graphql.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 

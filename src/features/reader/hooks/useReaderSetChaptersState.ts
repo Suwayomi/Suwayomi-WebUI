@@ -16,11 +16,11 @@ import {
     IReaderSettings,
     ReaderOpenChapterLocationState,
     ReaderStateChapters,
-} from '@/features/reader/types/Reader.types.ts';
+} from '@/features/reader/Reader.types.ts';
 import { READER_STATE_CHAPTERS_DEFAULTS } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
-import { getReaderChapterFromCache } from '@/features/reader/utils/Reader.utils.ts';
+import { getReaderChapterFromCache } from '@/features/reader/Reader.utils.ts';
 
 export const useReaderSetChaptersState = (
     chaptersResponse: ReturnType<typeof requestManager.useGetMangaChapters<GetChaptersReaderQuery>>,

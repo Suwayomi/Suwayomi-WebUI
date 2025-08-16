@@ -8,8 +8,8 @@
 
 import { ReactNode, useMemo, useState } from 'react';
 import { ReaderStateSettingsContext } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
-import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/services/ReaderSettingsMetadata.ts';
-import { TReaderStateSettingsContext } from '@/features/reader/types/Reader.types.ts';
+import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
+import { TReaderStateSettingsContext } from '@/features/reader/Reader.types.ts';
 
 export const ReaderStateSettingsContextProvider = ({ children }: { children: ReactNode }) => {
     const [settings, setSettings] = useState<TReaderStateSettingsContext['settings']>(

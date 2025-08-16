@@ -11,7 +11,7 @@ import { MangaMetadataKeys } from '@/features/manga/Manga.types.ts';
 import { SourceMetadataKeys } from '@/features/source/Source.types.ts';
 import { CategoryMetadataKeys } from '@/features/category/Category.types.ts';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
-import { IReaderSettings } from '@/features/reader/types/Reader.types.ts';
+import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };

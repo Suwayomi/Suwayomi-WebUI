@@ -7,8 +7,8 @@
  */
 
 import { createContext, useContext } from 'react';
-import { TReaderStateSettingsContext } from '@/features/reader/types/Reader.types.ts';
-import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/services/ReaderSettingsMetadata.ts';
+import { TReaderStateSettingsContext } from '@/features/reader/Reader.types.ts';
+import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 
 export const ReaderStateSettingsContext = createContext<TReaderStateSettingsContext>({
     settings: DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,

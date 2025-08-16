@@ -21,7 +21,7 @@ import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts
 
 import { DirectionOffset } from '@/Base.types.ts';
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import { ReaderOpenChapterLocationState, ReaderResumeMode } from '@/features/reader/types/Reader.types.ts';
+import { ReaderOpenChapterLocationState, ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';

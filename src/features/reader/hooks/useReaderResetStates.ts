@@ -7,17 +7,17 @@
  */
 
 import { useEffect } from 'react';
-import { createPageData } from '@/features/reader/utils/ReaderPager.utils.tsx';
+import { createPageData } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import {
     ReaderStateChapters,
     ReaderTransitionPageMode,
     TReaderAutoScrollContext,
     TReaderStateMangaContext,
     TReaderStateSettingsContext,
-} from '@/features/reader/types/Reader.types.ts';
-import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/services/ReaderSettingsMetadata.ts';
-import { ReaderStatePages } from '@/features/reader/types/ReaderProgressBar.types.ts';
-import { TReaderOverlayContext } from '@/features/reader/types/ReaderOverlay.types.ts';
+} from '@/features/reader/Reader.types.ts';
+import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
+import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { READER_STATE_CHAPTERS_DEFAULTS } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 
 export const useReaderResetStates = (

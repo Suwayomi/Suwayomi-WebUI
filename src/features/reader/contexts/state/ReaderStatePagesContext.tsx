@@ -7,8 +7,8 @@
  */
 
 import { createContext, useContext } from 'react';
-import { ReaderStatePages } from '@/features/reader/types/ReaderProgressBar.types.ts';
-import { ReaderTransitionPageMode } from '@/features/reader/types/Reader.types.ts';
+import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import { ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
 
 export const ReaderStatePagesContext = createContext<ReaderStatePages>({
     totalPages: 0,

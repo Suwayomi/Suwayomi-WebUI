@@ -7,7 +7,7 @@
  */
 
 import { createContext, useContext } from 'react';
-import { ReaderStateChapters } from '@/features/reader/types/Reader.types.ts';
+import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 
 export const READER_STATE_CHAPTERS_DEFAULTS: Omit<ReaderStateChapters, 'setReaderStateChapters'> = {
     chapters: [],

@@ -8,7 +8,7 @@
 
 import { ReactNode, useMemo, useState } from 'react';
 import { ReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
-import { TReaderStateMangaContext } from '@/features/reader/types/Reader.types.ts';
+import { TReaderStateMangaContext } from '@/features/reader/Reader.types.ts';
 
 export const ReaderStateMangaContextProvider = ({ children }: { children: ReactNode }) => {
     const [manga, setManga] = useState<TReaderStateMangaContext['manga']>();

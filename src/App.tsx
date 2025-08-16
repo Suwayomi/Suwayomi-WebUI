@@ -69,7 +69,7 @@ const { LibraryDuplicates } = loadable(
 );
 const { Appearance } = loadable(() => import('@/features/settings/screens/Appearance.tsx'), lazyLoadFallback);
 const { GlobalReaderSettings } = loadable(
-    () => import('@/features/reader/screens/GlobalReaderSettings.tsx'),
+    () => import('@/features/reader/settings/screens/GlobalReaderSettings.tsx'),
     lazyLoadFallback,
 );
 const { More } = loadable(() => import('@/features/settings/screens/More.tsx'), lazyLoadFallback);

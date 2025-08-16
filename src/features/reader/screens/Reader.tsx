@@ -10,9 +10,9 @@ import Box from '@mui/material/Box';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useDefaultReaderSettings } from '@/features/reader/services/ReaderSettingsMetadata.ts';
+import { useDefaultReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
-import { ReaderOverlay } from '@/features/reader/components/overlay/ReaderOverlay.tsx';
+import { ReaderOverlay } from '@/features/reader/overlay/ReaderOverlay.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetChaptersReaderQuery, GetMangaReaderQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
@@ -21,15 +21,15 @@ import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/E
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
-import { TapZoneLayout } from '@/features/reader/components/TapZoneLayout.tsx';
-import { useReaderOverlayContext } from '@/features/reader/contexts/ReaderOverlayContext.tsx';
-import { ReaderRGBAFilter } from '@/features/reader/components/ReaderRGBAFilter.tsx';
+import { TapZoneLayout } from '@/features/reader/tap-zones/TapZoneLayout.tsx';
+import { useReaderOverlayContext } from '@/features/reader/overlay/contexts/ReaderOverlayContext.tsx';
+import { ReaderRGBAFilter } from '@/features/reader/filters/ReaderRGBAFilter.tsx';
 import { useReaderStateSettingsContext } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
 import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
-import { ReaderViewer } from '@/features/reader/components/viewer/ReaderViewer.tsx';
+import { ReaderViewer } from '@/features/reader/viewer/ReaderViewer.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/constants/ReaderSettings.constants.tsx';
-import { ReaderHotkeys } from '@/features/reader/components/ReaderHotkeys.tsx';
+import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
+import { ReaderHotkeys } from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
@@ -37,16 +37,16 @@ import {
     TReaderAutoScrollContext,
     TReaderStateMangaContext,
     TReaderStateSettingsContext,
-} from '@/features/reader/types/Reader.types.ts';
+} from '@/features/reader/Reader.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { TReaderOverlayContext } from '@/features/reader/types/ReaderOverlay.types.ts';
-import { ReaderStatePages } from '@/features/reader/types/ReaderProgressBar.types.ts';
+import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
+import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { useReaderAutoScrollContext } from '@/features/reader/contexts/ReaderAutoScrollContext.tsx';
-import { TReaderTapZoneContext } from '@/features/reader/types/TapZoneLayout.types.ts';
-import { useReaderTapZoneContext } from '@/features/reader/contexts/ReaderTapZoneContext.tsx';
+import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/contexts/ReaderAutoScrollContext.tsx';
+import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { useReaderTapZoneContext } from '@/features/reader/tap-zones/contexts/ReaderTapZoneContext.tsx';
 import { useReaderResetStates } from '@/features/reader/hooks/useReaderResetStates.ts';
 import { useReaderSetSettingsState } from '@/features/reader/hooks/useReaderSetSettingsState.ts';
 import { useReaderShowSettingPreviewOnChange } from '@/features/reader/hooks/useReaderShowSettingPreviewOnChange.ts';
