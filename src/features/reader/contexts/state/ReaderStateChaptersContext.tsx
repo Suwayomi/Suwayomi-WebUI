@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createContext, useContext } from 'react';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 
 export const READER_STATE_CHAPTERS_DEFAULTS: Omit<ReaderStateChapters, 'setReaderStateChapters'> = {
@@ -30,3 +30,18 @@ export const ReaderStateChaptersContext = createContext<ReaderStateChapters>({
 });
 
 export const useReaderStateChaptersContext = () => useContext(ReaderStateChaptersContext);
+
+export const ReaderStateChaptersContextProvider = ({ children }: { children: ReactNode }) => {
+    const [state, setState] =
+        useState<Omit<ReaderStateChapters, 'setReaderStateChapters'>>(READER_STATE_CHAPTERS_DEFAULTS);
+
+    const value = useMemo(
+        () => ({
+            ...state,
+            setReaderStateChapters: setState,
+        }),
+        [state],
+    );
+
+    return <ReaderStateChaptersContext.Provider value={value}>{children}</ReaderStateChaptersContext.Provider>;
+};

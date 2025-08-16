@@ -6,23 +6,36 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { memo, ReactNode, useCallback, useMemo, useState } from 'react';
+import { createContext, memo, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
-import { useAutomaticScrolling } from '@/features/core/hooks/useAutomaticScrolling.ts';
 import {
     IReaderSettings,
     ReaderScrollAmount,
     ReadingMode,
     TReaderAutoScrollContext,
 } from '@/features/reader/Reader.types.ts';
-import { ReaderAutoScrollContext } from '@/features/reader/auto-scroll/contexts/ReaderAutoScrollContext.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
-import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
-import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ScrollOffset } from '@/features/core/Core.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
+import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
+import { useAutomaticScrolling } from '@/features/core/hooks/useAutomaticScrolling.ts';
+import { CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
+import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { ReaderService } from '@/features/reader/services/ReaderService.ts';
+
+export const ReaderAutoScrollContext = createContext<TReaderAutoScrollContext>({
+    isActive: false,
+    isPaused: false,
+    setScrollRef: () => {},
+    start: () => {},
+    cancel: () => {},
+    toggleActive: () => {},
+    pause: () => {},
+    resume: () => {},
+    setDirection: () => {},
+});
+
+export const useReaderAutoScrollContext = () => useContext(ReaderAutoScrollContext);
 
 const BaseReaderAutoScrollContextProvider = ({
     children,

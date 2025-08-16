@@ -32,7 +32,7 @@ import { ReaderProgressBarSlotsActionArea } from '@/features/reader/overlay/prog
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
-import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/contexts/ReaderProgressBarContext.tsx';
+import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { ReaderProgressBarSlotWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotWrapper.tsx';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';

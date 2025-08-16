@@ -29,8 +29,8 @@ import {
     TReaderScrollbarContext,
 } from '@/features/reader/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarDirectionWrapper.tsx';
-import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/contexts/ReaderProgressBarContext.tsx';
-import { useReaderOverlayContext } from '@/features/reader/overlay/contexts/ReaderOverlayContext.tsx';
+import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
+import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
 import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import {

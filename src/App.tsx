@@ -20,7 +20,7 @@ import { WebUIUpdateChecker } from '@/features/app-updates/components/WebUIUpdat
 import { ServerUpdateChecker } from '@/features/app-updates/components/ServerUpdateChecker.tsx';
 import { lazyLoadFallback } from '@/features/core/utils/LazyLoad.tsx';
 import { ErrorBoundary } from '@/features/core/components/feedback/ErrorBoundary.tsx';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 
 import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
 

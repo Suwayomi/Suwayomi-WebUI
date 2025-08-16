@@ -9,7 +9,7 @@
 import { ContextProp, TopItemListProps } from 'react-virtuoso';
 import { ComponentProps, useMemo } from 'react';
 import Box from '@mui/material/Box';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GroupedVirtuosoPersisted } from '@/lib/virtuoso/Component/GroupedVirtuosoPersisted.tsx';
 
 const StickyVirtuosoHeaderWithOffset =

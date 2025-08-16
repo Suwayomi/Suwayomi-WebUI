@@ -7,12 +7,12 @@
  */
 
 import { ReactNode } from 'react';
-import { ReaderTapZoneContextProvider } from '@/features/reader/tap-zones/contexts/ReaderTapZoneContextProvider.tsx';
-import { ReaderProgressBarContextProvider } from '@/features/reader/overlay/progress-bar/contexts/ReaderProgressBarContextProvider.tsx';
-import { ReaderOverlayContextProvider } from '@/features/reader/overlay/contexts/ReaderOverlayContextProvider.tsx';
 import { ReaderStateContextProvider } from '@/features/reader/contexts/state/ReaderStateContextProvider.tsx';
-import { ReaderScrollbarContextProvider } from '@/features/reader/contexts/ReaderScrollbarContextProvider.tsx';
-import { ReaderAutoScrollContextProvider } from '@/features/reader/auto-scroll/contexts/ReaderAutoScrollContextProvider.tsx';
+import { ReaderScrollbarContextProvider } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
+import { ReaderAutoScrollContextProvider } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
+import { ReaderOverlayContextProvider } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
+import { ReaderProgressBarContextProvider } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
+import { ReaderTapZoneContextProvider } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 
 export const ReaderContextProvider = ({ children }: { children?: ReactNode }) => (
     <ReaderStateContextProvider>

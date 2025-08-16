@@ -23,7 +23,7 @@ import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
 import { DesktopSideBar } from '@/features/navigation-bar/components/DesktopSideBar.tsx';
 import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
 import { MobileBottomBar } from '@/features/navigation-bar/components/MobileBottomBar.tsx';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { NAVIGATION_BAR_ITEMS } from '@/features/navigation-bar/NavigationBar.constants.ts';
 import { NavigationBarUtil } from '@/features/navigation-bar/NavigationBar.util.ts';

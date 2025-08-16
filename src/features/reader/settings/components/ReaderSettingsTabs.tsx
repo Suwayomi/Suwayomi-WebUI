@@ -13,7 +13,7 @@ import { TabsMenu } from '@/features/core/components/tabs/TabsMenu.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/contexts/ReaderTapZoneContext.tsx';
+import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
 import { READER_SETTING_TABS, ReaderSettingTab } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { TabPanel } from '@/features/core/components/tabs/TabPanel.tsx';

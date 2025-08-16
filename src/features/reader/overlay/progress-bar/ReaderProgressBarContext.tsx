@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createContext, useContext } from 'react';
+import { createContext, useContext, ReactNode, useMemo, useState } from 'react';
 import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 
 export const ReaderProgressBarContext = createContext<TReaderProgressBarContext>({
@@ -17,3 +17,15 @@ export const ReaderProgressBarContext = createContext<TReaderProgressBarContext>
 });
 
 export const useReaderProgressBarContext = () => useContext(ReaderProgressBarContext);
+
+export const ReaderProgressBarContextProvider = ({ children }: { children: ReactNode }) => {
+    const [isMaximized, setIsMaximized] = useState(false);
+    const [isDragging, setIsDragging] = useState(false);
+
+    const value = useMemo(
+        () => ({ isMaximized, setIsMaximized, isDragging, setIsDragging }),
+        [isMaximized, isDragging],
+    );
+
+    return <ReaderProgressBarContext.Provider value={value}>{children}</ReaderProgressBarContext.Provider>;
+};

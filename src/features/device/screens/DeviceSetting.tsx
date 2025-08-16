@@ -17,7 +17,7 @@ import {
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/features/core/utils/Toast.ts';
 import { MutableListSetting } from '@/features/core/components/settings/MutableListSetting.tsx';
-import { useDeviceContext } from '@/features/device/contexts/DeviceContext.tsx';
+import { useDeviceContext } from '@/features/device/DeviceContext.tsx';
 import { Select } from '@/features/core/components/inputs/Select.tsx';
 import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';

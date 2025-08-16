@@ -12,7 +12,7 @@ import { useTheme } from '@mui/material/styles';
 import { HOTKEY_SCOPES } from '@/features/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { IReaderSettings, ReaderHotkey } from '@/features/reader/Reader.types.ts';
-import { useReaderOverlayContext } from '@/features/reader/overlay/contexts/ReaderOverlayContext.tsx';
+import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { getNextRotationValue } from '@/features/core/utils/ValueRotationButton.utils.ts';
 import {
     AUTO_SCROLL_SPEED,
@@ -27,8 +27,8 @@ import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ScrollOffset } from '@/features/core/Core.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
-import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/contexts/ReaderAutoScrollContext.tsx';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/contexts/ReaderTapZoneContext.tsx';
+import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
+import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;

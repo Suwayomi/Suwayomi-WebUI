@@ -9,9 +9,9 @@
 import Box from '@mui/material/Box';
 import { useCallback, useLayoutEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/contexts/ReaderTapZoneContext.tsx';
+import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { ReaderTapZoneService } from '@/features/reader/tap-zones/ReaderTapZoneService.ts';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { IReaderSettings, ReadingDirection } from '@/features/reader/Reader.types.ts';

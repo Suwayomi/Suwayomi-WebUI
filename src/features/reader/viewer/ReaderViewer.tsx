@@ -42,14 +42,14 @@ import {
     shouldApplyReaderWidth,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { useMouseDragScroll } from '@/features/core/hooks/useMouseDragScroll.tsx';
-import { useReaderOverlayContext } from '@/features/reader/overlay/contexts/ReaderOverlayContext.tsx';
+import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
 import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
-import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/contexts/ReaderAutoScrollContext.tsx';
+import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/contexts/ReaderTapZoneContext.tsx';
+import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { useReaderAutoScroll } from '@/features/reader/auto-scroll/hooks/useReaderAutoScroll.ts';
 import { useReaderHideOverlayOnUserScroll } from '@/features/reader/overlay/hooks/useReaderHideOverlayOnUserScroll.ts';
 import { useReaderHorizontalModeInvertXYScrolling } from '@/features/reader/viewer/hooks/useReaderHorizontalModeInvertXYScrolling.ts';
@@ -64,7 +64,7 @@ import {
     getReaderChapterViewResumeMode,
 } from '@/features/reader/Reader.utils.ts';
 import { coerceIn, noOp } from '@/lib/HelperFunctions.ts';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { useReaderPreserveScrollPosition } from '@/features/reader/viewer/hooks/useReaderPreserveScrollPosition.ts';
 

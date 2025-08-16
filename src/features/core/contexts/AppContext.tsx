@@ -12,13 +12,13 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { SnackbarProvider } from 'notistack';
-import { NavBarContextProvider } from '@/features/navigation-bar/contexts/NavBarContextProvider.tsx';
-import { ActiveDeviceContextProvider } from '@/features/device/contexts/DeviceContext.tsx';
+import { ActiveDeviceContextProvider } from '@/features/device/DeviceContext.tsx';
 import { ReaderContextProvider } from '@/features/reader/contexts/ReaderContextProvider.tsx';
-import { AppHotkeysProvider } from '@/features/hotkeys/contexts/AppHotkeysProvider.tsx';
+import { AppHotkeysProvider } from '@/features/hotkeys/AppHotkeysProvider.tsx';
 import { SnackbarWithDescription } from '@/features/core/components/feedback/SnackbarWithDescription.tsx';
-import { AppPageHistoryContextProvider } from '@/features/core/contexts/AppPageHistoryContextProvider.tsx';
-import { AppThemeContextProvider } from '@/features/theme/contexts/AppThemeContextProvider.tsx';
+import { AppPageHistoryContextProvider } from '@/features/core/contexts/AppPageHistoryContext.tsx';
+import { AppThemeContextProvider } from '@/features/theme/AppThemeContext.tsx';
+import { NavBarContextProvider } from '@/features/navigation-bar/NavbarContext.tsx';
 
 interface Props {
     children: React.ReactNode;

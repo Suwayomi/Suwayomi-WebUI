@@ -7,7 +7,14 @@
  */
 
 import { createContext, useContext } from 'react';
+import { useHistory } from '@/features/core/hooks/useHistory.ts';
 
 export const AppPageHistoryContext = createContext<string[]>([]);
 
 export const useAppPageHistoryContext = () => useContext(AppPageHistoryContext);
+
+export const AppPageHistoryContextProvider = ({ children }: { children: React.ReactNode }) => {
+    const history = useHistory();
+
+    return <AppPageHistoryContext.Provider value={history}>{children}</AppPageHistoryContext.Provider>;
+};

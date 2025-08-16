@@ -36,7 +36,7 @@ import { ChapterActionMenuItems } from '@/features/chapter/components/actions/Ch
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
 import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
 import { shouldForwardProp } from '@/features/core/utils/ShouldForwardProp.ts';

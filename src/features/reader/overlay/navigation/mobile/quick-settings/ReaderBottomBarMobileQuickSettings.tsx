@@ -23,7 +23,7 @@ import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { ReaderSettingAutoScroll } from '@/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx';
 import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
-import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/contexts/ReaderAutoScrollContext.tsx';
+import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 
 const BaseReaderBottomBarMobileQuickSettings = ({
     manga,

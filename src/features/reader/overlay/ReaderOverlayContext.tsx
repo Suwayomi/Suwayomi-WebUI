@@ -6,8 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactNode, useMemo, useState } from 'react';
-import { ReaderOverlayContext } from '@/features/reader/overlay/contexts/ReaderOverlayContext.tsx';
+import { createContext, useContext, ReactNode, useMemo, useState } from 'react';
+import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
+
+export const ReaderOverlayContext = createContext<TReaderOverlayContext>({
+    isVisible: false,
+    setIsVisible: () => {},
+});
+
+export const useReaderOverlayContext = () => useContext(ReaderOverlayContext);
 
 export const ReaderOverlayContextProvider = ({ children }: { children: ReactNode }) => {
     const [isVisible, setIsVisible] = useState(false);

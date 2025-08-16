@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createContext, useContext } from 'react';
+import { createContext, useContext, ReactNode, useMemo, useState } from 'react';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 
 export const ReaderTapZoneContext = createContext<TReaderTapZoneContext>({
@@ -15,3 +15,11 @@ export const ReaderTapZoneContext = createContext<TReaderTapZoneContext>({
 });
 
 export const useReaderTapZoneContext = () => useContext(ReaderTapZoneContext);
+
+export const ReaderTapZoneContextProvider = ({ children }: { children: ReactNode }) => {
+    const [showPreview, setShowPreview] = useState(false);
+
+    const value = useMemo(() => ({ showPreview, setShowPreview }), [showPreview]);
+
+    return <ReaderTapZoneContext.Provider value={value}>{children}</ReaderTapZoneContext.Provider>;
+};

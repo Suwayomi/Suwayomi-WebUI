@@ -22,7 +22,7 @@ import { ReaderNavBarDesktopPageNavigation } from '@/features/reader/overlay/nav
 import { ReaderNavBarDesktopChapterNavigation } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx';
 import { ReaderNavBarDesktopQuickSettings } from '@/features/reader/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopQuickSettings.tsx';
 import { ReaderNavBarDesktopActions } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
 import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';

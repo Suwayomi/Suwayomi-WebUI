@@ -7,7 +7,7 @@
  */
 
 import { AppTheme, AppThemes } from '@/features/theme/services/AppThemes.ts';
-import { ThemeMode } from '@/features/theme/contexts/AppThemeContext.tsx';
+import { ThemeMode } from '@/features/theme/AppThemeContext.tsx';
 
 export type MetadataThemeSettings = {
     appTheme: AppThemes;

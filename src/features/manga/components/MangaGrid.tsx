@@ -28,7 +28,7 @@ import { DEFAULT_FULL_FAB_HEIGHT } from '@/features/core/components/buttons/Styl
 import { MangaCardProps } from '@/features/manga/Manga.types.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GridLayout } from '@/features/core/Core.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { VirtuosoGridPersisted } from '@/lib/virtuoso/Component/VirtuosoGridPersisted.tsx';

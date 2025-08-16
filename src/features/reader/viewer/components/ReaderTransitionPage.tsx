@@ -29,7 +29,7 @@ import {
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';

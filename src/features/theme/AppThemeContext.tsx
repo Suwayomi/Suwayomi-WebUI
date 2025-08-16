@@ -6,24 +6,57 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactNode, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Palette } from '@vibrant/color';
+import { FastAverageColorResult } from 'fast-average-color';
+import { useTranslation } from 'react-i18next';
 import { Direction, ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
-import { useTranslation } from 'react-i18next';
-import { AppThemeContext, TAppThemeContext, ThemeMode } from '@/features/theme/contexts/AppThemeContext.tsx';
-import { DIRECTION_TO_CACHE } from '@/features/theme/ThemeDirectionCache.ts';
+import { AppTheme, AppThemes, getTheme } from '@/features/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
+import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
 import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
-import { AppTheme, getTheme } from '@/features/theme/services/AppThemes.ts';
-import { createAndSetTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { makeToast } from '@/features/core/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
+import { createAndSetTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
-import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
+import { DIRECTION_TO_CACHE } from '@/features/theme/ThemeDirectionCache.ts';
+
+export enum ThemeMode {
+    SYSTEM = 'system',
+    DARK = 'dark',
+    LIGHT = 'light',
+}
+
+export type TAppThemeContext = {
+    appTheme: AppThemes;
+    setAppTheme: (theme: AppThemes) => void;
+    themeMode: ThemeMode;
+    setThemeMode: (mode: ThemeMode) => void;
+    shouldUsePureBlackMode: boolean;
+    setShouldUsePureBlackMode: (value: boolean) => void;
+    dynamicColor: (NonNullableProperties<Palette> & { average: FastAverageColorResult }) | null;
+    setDynamicColor: React.Dispatch<
+        React.SetStateAction<(NonNullableProperties<Palette> & { average: FastAverageColorResult }) | null>
+    >;
+};
+
+export const AppThemeContext = React.createContext<TAppThemeContext>({
+    appTheme: 'default',
+    setAppTheme: (): void => {},
+    themeMode: ThemeMode.SYSTEM,
+    setThemeMode: (): void => {},
+    shouldUsePureBlackMode: false,
+    setShouldUsePureBlackMode: (): void => {},
+    dynamicColor: null,
+    setDynamicColor: (): void => {},
+});
+
+export const useAppThemeContext = () => useContext(AppThemeContext);
 
 export const AppThemeContextProvider = ({ children }: { children: ReactNode }) => {
     const { t, i18n } = useTranslation();

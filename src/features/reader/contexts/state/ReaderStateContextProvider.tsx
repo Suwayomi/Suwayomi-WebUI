@@ -7,10 +7,10 @@
  */
 
 import { ReactNode } from 'react';
-import { ReaderStatePagesContextProvider } from '@/features/reader/contexts/state/ReaderStatePagesContextProvider.tsx';
-import { ReaderStateChaptersContextProvider } from '@/features/reader/contexts/state/ReaderStateChaptersContextProvider.tsx';
-import { ReaderStateMangaContextProvider } from '@/features/reader/contexts/state/ReaderStateMangaContextProvider.tsx';
-import { ReaderStateSettingsContextProvider } from '@/features/reader/contexts/state/ReaderStateSettingsContextProvider.tsx';
+import { ReaderStateChaptersContextProvider } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
+import { ReaderStateMangaContextProvider } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
+import { ReaderStatePagesContextProvider } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
+import { ReaderStateSettingsContextProvider } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
 
 export const ReaderStateContextProvider = ({ children }: { children: ReactNode }) => (
     <ReaderStateMangaContextProvider>

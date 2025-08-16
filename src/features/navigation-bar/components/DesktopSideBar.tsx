@@ -25,7 +25,7 @@ import Typography from '@mui/material/Typography';
 import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
 import { ListItemLink } from '@/features/core/components/lists/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
 import { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { TypographyMaxLines } from '@/features/core/components/texts/TypographyMaxLines.tsx';

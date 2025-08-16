@@ -15,7 +15,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import { useColorScheme } from '@mui/material/styles';
-import { ThemeMode, useAppThemeContext } from '@/features/theme/contexts/AppThemeContext.tsx';
+import { ThemeMode, useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { Select } from '@/features/core/components/inputs/Select.tsx';
 import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
 import { NumberSetting } from '@/features/core/components/settings/NumberSetting.tsx';

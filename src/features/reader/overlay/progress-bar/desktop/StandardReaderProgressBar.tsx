@@ -21,8 +21,8 @@ import {
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
-import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/contexts/ReaderProgressBarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
+import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { ReaderProgressBarSlotDesktop } from '@/features/reader/overlay/progress-bar/desktop/components/ReaderProgressBarSlotDesktop.tsx';
 import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';

@@ -15,7 +15,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { StaticAppRoute } from '@/features/core/AppRoute.constants.ts';
 

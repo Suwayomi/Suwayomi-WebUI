@@ -19,7 +19,7 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
 import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { useAppThemeContext } from '@/features/theme/contexts/AppThemeContext.tsx';
+import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/features/theme/services/AppThemes.ts';
 import { createTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { ThemeCreationDialog } from '@/features/theme/components/CreateThemeDialog.tsx';

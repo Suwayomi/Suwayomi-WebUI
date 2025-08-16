@@ -36,8 +36,8 @@ import {
     isEndOfPageInViewport,
     isPageInViewport,
 } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { useReaderOverlayContext } from '@/features/reader/overlay/contexts/ReaderOverlayContext.tsx';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/contexts/ReaderTapZoneContext.tsx';
+import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
+import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { TapZoneRegionType, TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { ReaderTapZoneService } from '@/features/reader/tap-zones/ReaderTapZoneService.ts';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';

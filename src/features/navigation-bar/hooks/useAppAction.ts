@@ -7,7 +7,7 @@
  */
 
 import { useEffect } from 'react';
-import { useNavBarContext } from '@/features/navigation-bar/contexts/NavbarContext.tsx';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 
 export const useAppAction = (action: NavbarContextType['action'], dependencies: any[] = []) => {

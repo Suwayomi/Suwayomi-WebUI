@@ -11,7 +11,7 @@ import { DEFAULT_SORT_SETTINGS } from '@/features/migration/Migration.constants.
 import { GlobalUpdateSkipEntriesSettings, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
 import { GridLayout } from '@/features/core/Core.types.ts';
 import { getDefaultLanguages } from '@/features/core/utils/Languages.ts';
-import { ThemeMode } from '@/features/theme/contexts/AppThemeContext.tsx';
+import { ThemeMode } from '@/features/theme/AppThemeContext.tsx';
 import {
     SelectSettingValue,
     SelectSettingValueDisplayInfo,
