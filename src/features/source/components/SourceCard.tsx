@@ -20,16 +20,16 @@ import IconButton from '@mui/material/IconButton';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { SourceContentType } from '@/features/source/screens/SourceMangas.tsx';
 import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
-import { ListCardAvatar } from '@/features/core/components/lists/cards/ListCardAvatar.tsx';
-import { ListCardContent } from '@/features/core/components/lists/cards/ListCardContent.tsx';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
+import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { languageCodeToName } from '@/features/core/utils/Languages.ts';
+import { languageCodeToName } from '@/base/utils/Languages.ts';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];

@@ -12,20 +12,20 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
-import { AppContext } from '@/features/core/contexts/AppContext.tsx';
+import { AppContext } from '@/base/contexts/AppContext.tsx';
 import '@/i18n';
 import { DefaultNavBar } from '@/features/navigation-bar/components/DefaultNavBar.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateChecker } from '@/features/app-updates/components/WebUIUpdateChecker.tsx';
 import { ServerUpdateChecker } from '@/features/app-updates/components/ServerUpdateChecker.tsx';
-import { lazyLoadFallback } from '@/features/core/utils/LazyLoad.tsx';
-import { ErrorBoundary } from '@/features/core/components/feedback/ErrorBoundary.tsx';
+import { lazyLoadFallback } from '@/base/utils/LazyLoad.tsx';
+import { ErrorBoundary } from '@/base/components/feedback/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);

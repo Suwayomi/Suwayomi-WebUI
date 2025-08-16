@@ -9,8 +9,8 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import FitScreenIcon from '@mui/icons-material/FitScreen';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { ValueRotationButton } from '@/features/core/components/buttons/ValueRotationButton.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { ValueRotationButton } from '@/base/components/buttons/ValueRotationButton.tsx';
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
@@ -21,8 +21,8 @@ import {
     READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED,
     READER_PAGE_SCALE_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { MultiValueButtonDefaultableProps } from '@/features/core/Core.types.ts';
-import { CustomButtonIcon } from '@/features/core/components/buttons/CustomButtonIcon.tsx';
+import { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
 
 export const ReaderNavBarDesktopPageScale = ({
     pageScaleMode,

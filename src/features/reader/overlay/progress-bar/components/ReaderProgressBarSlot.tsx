@@ -8,7 +8,7 @@
 
 import Box from '@mui/material/Box';
 import { memo, ReactNode } from 'react';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ReaderProgressBarSlotProps } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 
 import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/features/reader/settings/ReaderSettings.constants.tsx';

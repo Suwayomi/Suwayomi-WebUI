@@ -18,13 +18,13 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/features/theme/services/AppThemes.ts';
 import { createTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { ThemeCreationDialog } from '@/features/theme/components/CreateThemeDialog.tsx';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { TypographyMaxLines } from '@/features/core/components/texts/TypographyMaxLines.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const ThemePreviewBadge = styled(Box)(() => ({

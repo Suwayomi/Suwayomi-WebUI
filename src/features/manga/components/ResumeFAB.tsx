@@ -9,7 +9,7 @@
 import { Link } from 'react-router-dom';
 import PlayArrow from '@mui/icons-material/PlayArrow';
 import { useTranslation } from 'react-i18next';
-import { StyledFab } from '@/features/core/components/buttons/StyledFab.tsx';
+import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { ChapterMangaInfo, ChapterReadInfo, ChapterSourceOrderInfo } from '@/features/chapter/Chapter.types.ts';
 

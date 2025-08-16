@@ -7,9 +7,9 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
-import { SliderInput } from '@/features/core/components/inputs/SliderInput.tsx';
+import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { AUTO_SCROLL_SPEED, DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
 export const ReaderSettingAutoScroll = ({

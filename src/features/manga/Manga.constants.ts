@@ -7,13 +7,13 @@
  */
 
 import { MangaStatus } from '@/lib/graphql/generated/graphql.ts';
-import { TranslationKey } from '@/Base.types.ts';
 import { MangaAction, MangaIdInfo, MangaType } from '@/features/manga/Manga.types.ts';
 import {
     CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED,
     CHAPTER_ACTION_TO_TRANSLATION,
 } from '@/features/chapter/Chapter.constants.ts';
 import { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
+import { TranslationKey } from '@/base/Base.types.ts';
 
 export const FALLBACK_MANGA: MangaIdInfo & GqlMetaHolder = { id: -1 };
 

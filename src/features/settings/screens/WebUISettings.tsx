@@ -13,17 +13,17 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx';
-import { TextSetting } from '@/features/core/components/settings/text/TextSetting.tsx';
-import { SelectSetting } from '@/features/core/components/settings/SelectSetting.tsx';
+import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
+import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
 import { WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { ServerSettings, WebUISettingsType } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';

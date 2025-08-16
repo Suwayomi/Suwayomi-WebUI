@@ -8,9 +8,9 @@
 
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings, ReaderScrollAmount } from '@/features/reader/Reader.types.ts';
-import { ValueToDisplayData } from '@/features/core/Core.types.ts';
-import { ButtonSelectInput } from '@/features/core/components/inputs/ButtonSelectInput.tsx';
-import { SliderInput } from '@/features/core/components/inputs/SliderInput.tsx';
+import { ValueToDisplayData } from '@/base/Base.types.ts';
+import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
+import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS, SCROLL_AMOUNT } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderScrollAmount> = {

@@ -18,7 +18,7 @@ import {
     ReadingMode,
     TReaderScrollbarContext,
 } from '@/features/reader/Reader.types.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import {
     getSetReaderWidth,
     isContinuousReadingMode,
@@ -28,13 +28,13 @@ import {
 import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ReaderPage } from '@/features/reader/viewer/components/ReaderPage.tsx';
-import { reverseString } from '@/util/Strings.ts';
+import { reverseString } from '@/base/utils/Strings.ts';
 import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
-import { DirectionOffset } from '@/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import { DirectionOffset } from '@/base/Base.types.ts';
 
 type CSSObject = ReturnType<Theme['applyStyles']>;
 

@@ -12,8 +12,8 @@ import {
     READING_MODE_VALUE_TO_DISPLAY_DATA,
     READING_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { ButtonSelectInput } from '@/features/core/components/inputs/ButtonSelectInput.tsx';
-import { MultiValueButtonDefaultableProps } from '@/features/core/Core.types.ts';
+import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
+import { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
 
 export const ReaderSettingReadingMode = ({
     readingMode,

@@ -9,9 +9,8 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
-import { TranslationKey } from '@/Base.types.ts';
-import { SliderInput } from '@/features/core/components/inputs/SliderInput.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
+import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 
 import {
     CUSTOM_FILTER,
@@ -19,7 +18,8 @@ import {
     READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA,
     READER_BLEND_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { ButtonSelectInput } from '@/features/core/components/inputs/ButtonSelectInput.tsx';
+import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
+import { TranslationKey } from '@/base/Base.types.ts';
 
 type RGBAType = Exclude<keyof IReaderSettings['customFilter']['rgba']['value'], 'blendMode'>;
 

@@ -9,8 +9,8 @@
 import { ComponentProps } from 'react';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { CustomButtonIcon } from '@/features/core/components/buttons/CustomButtonIcon.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
 
 export const ReaderNavBarDesktopNextPreviousButton = ({
     title,

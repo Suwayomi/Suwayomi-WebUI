@@ -9,10 +9,10 @@
 import IconButton from '@mui/material/IconButton';
 import { useTranslation } from 'react-i18next';
 import DownloadIcon from '@mui/icons-material/Download';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';

@@ -12,10 +12,10 @@ import { useTheme } from '@mui/material/styles';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { ReaderTapZoneService } from '@/features/reader/tap-zones/ReaderTapZoneService.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { IReaderSettings, ReadingDirection } from '@/features/reader/Reader.types.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 

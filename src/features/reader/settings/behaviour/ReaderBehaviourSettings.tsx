@@ -12,10 +12,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { IReaderSettingsWithDefaultFlag, ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { ReaderSettingExitMode } from '@/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx';
 import { isOffsetDoubleSpreadPagesEditable } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { SliderInput } from '@/features/core/components/inputs/SliderInput.tsx';
+import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import {
     DEFAULT_READER_SETTINGS,
     IMAGE_PRE_LOAD_AMOUNT,

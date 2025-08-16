@@ -9,8 +9,8 @@
 import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import { useDefaultReaderSettingsWithDefaultFlag } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { IReaderSettings, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';

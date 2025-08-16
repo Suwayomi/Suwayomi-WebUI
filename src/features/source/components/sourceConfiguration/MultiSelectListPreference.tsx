@@ -18,7 +18,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
-import { cloneObject } from '@/util/cloneObject.tsx';
+import { cloneObject } from '@/base/utils/cloneObject.tsx';
 import { MultiSelectListPreferenceProps } from '@/features/source/Source.types.ts';
 
 interface IListDialogProps {

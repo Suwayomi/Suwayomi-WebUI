@@ -9,8 +9,8 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
-import { SliderInput } from '@/features/core/components/inputs/SliderInput.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
+import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { CUSTOM_FILTER, DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
 export const ReaderSettingSaturate = ({

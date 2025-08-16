@@ -19,16 +19,16 @@ import {
     MangaType,
     SortOrder,
 } from '@/lib/graphql/generated/graphql.ts';
-import { TranslationKey } from '@/Base.types.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { CHAPTER_ACTION_TO_TRANSLATION } from '@/features/chapter/Chapter.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { TranslationKey } from '@/base/Base.types.ts';
 
 const DOWNLOAD_OPTIONS: {
     title: TranslationKey;

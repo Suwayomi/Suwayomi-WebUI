@@ -12,15 +12,15 @@ import { useTranslation } from 'react-i18next';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { Sources } from '@/features/source/screens/Sources.tsx';
 import { Extensions } from '@/features/extension/screens/Extensions.tsx';
-import { TabPanel } from '@/features/core/components/tabs/TabPanel.tsx';
-import { TabsWrapper } from '@/features/core/components/tabs/TabsWrapper.tsx';
-import { TabsMenu } from '@/features/core/components/tabs/TabsMenu.tsx';
+import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
+import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
+import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
 import { Migration } from '@/features/migration/screens/Migration.tsx';
-import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
-import { SearchParam } from '@/features/core/Core.types.ts';
+import { SearchParam } from '@/base/Base.types.ts';
 
 export function Browse() {
     const { t } = useTranslation();

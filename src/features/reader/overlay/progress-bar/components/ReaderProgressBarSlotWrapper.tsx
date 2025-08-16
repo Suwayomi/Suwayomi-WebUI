@@ -10,7 +10,7 @@ import Box, { BoxProps } from '@mui/material/Box';
 import { memo, ReactNode, useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import { ReaderProgressBarProps } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
-import { shouldForwardProp } from '@/features/core/utils/ShouldForwardProp.ts';
+import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
 
 type StyledWrapperProps = {
     isFirstPage: boolean;

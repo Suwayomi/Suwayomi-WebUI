@@ -12,15 +12,15 @@ import { useNavigate } from 'react-router-dom';
 import gql from 'graphql-tag';
 import { useCategorySelect } from '@/features/category/hooks/useCategorySelect.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { Categories } from '@/features/category/services/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { awaitConfirmation } from '@/features/core/utils/AwaitableDialog.tsx';
+import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const useManageMangaLibraryState = (

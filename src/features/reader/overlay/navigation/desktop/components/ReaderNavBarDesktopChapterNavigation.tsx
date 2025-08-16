@@ -16,14 +16,14 @@ import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Link } from 'react-router-dom';
-import { Select } from '@/features/core/components/inputs/Select.tsx';
+import { Select } from '@/base/components/inputs/Select.tsx';
 import { ReaderChapterList } from '@/features/reader/overlay/navigation/components/ReaderChapterList.tsx';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 
 const BaseReaderNavBarDesktopChapterNavigation = ({
     currentChapter,

@@ -15,12 +15,12 @@ import {
     updateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { MutableListSetting } from '@/features/core/components/settings/MutableListSetting.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { MutableListSetting } from '@/base/components/settings/MutableListSetting.tsx';
 import { useDeviceContext } from '@/features/device/DeviceContext.tsx';
-import { Select } from '@/features/core/components/inputs/Select.tsx';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { Select } from '@/base/components/inputs/Select.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { DEFAULT_DEVICE } from '@/features/device/services/Device.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/features/settings/Settings.types.ts';

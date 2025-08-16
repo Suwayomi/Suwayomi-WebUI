@@ -12,19 +12,19 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
-import { TextSetting } from '@/features/core/components/settings/text/TextSetting.tsx';
+import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloadAheadSetting } from '@/features/downloads/components/DownloadAheadSetting.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { DeleteChaptersWhileReadingSetting } from '@/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx';
 import { CategoriesInclusionSetting } from '@/features/category/components/CategoriesInclusionSetting.tsx';
-import { NumberSetting } from '@/features/core/components/settings/NumberSetting.tsx';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';

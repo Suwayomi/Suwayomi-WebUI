@@ -20,7 +20,7 @@ import {
     TrackRecordType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
-import { GridLayout } from '@/features/core/Core.types.ts';
+import { GridLayout } from '@/base/Base.types.ts';
 import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';

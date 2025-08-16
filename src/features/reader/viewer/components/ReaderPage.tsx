@@ -7,7 +7,7 @@
  */
 
 import { memo, useCallback } from 'react';
-import { SpinnerImage, SpinnerImageProps } from '@/features/core/components/SpinnerImage.tsx';
+import { SpinnerImage, SpinnerImageProps } from '@/base/components/SpinnerImage.tsx';
 import {
     IReaderSettings,
     ReaderCustomFilter,
@@ -19,8 +19,8 @@ import {
     getImagePlaceholderStyling,
     getReaderImageStyling,
 } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 
 const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>

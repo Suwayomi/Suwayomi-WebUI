@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { GridLayouts } from '@/features/core/components/GridLayouts.tsx';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
-import { GridLayout } from '@/features/core/Core.types.ts';
+import { GridLayouts } from '@/base/components/GridLayouts.tsx';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
+import { GridLayout } from '@/base/Base.types.ts';
 
 export function SourceGridLayout() {
     const [sourceGridLayout, setSourceGridLayout] = useLocalStorage('source-grid-layout', GridLayout.Compact);

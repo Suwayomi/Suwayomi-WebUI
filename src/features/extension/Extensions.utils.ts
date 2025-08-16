@@ -22,14 +22,14 @@ import {
     toComparableLanguage,
     toComparableLanguages,
     toUniqueLanguageCodes,
-} from '@/features/core/utils/Languages.ts';
+} from '@/base/utils/Languages.ts';
 import {
     EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP,
     extensionLanguageToTranslationKey,
 } from '@/features/extension/Extensions.constants.ts';
-import { enhancedCleanup } from '@/util/Strings.ts';
+import { enhancedCleanup } from '@/base/utils/Strings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const getInstalledState = (

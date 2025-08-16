@@ -31,7 +31,7 @@ import {
 import { ReaderProgressBarDirectionWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarDirectionWrapper.tsx';
 import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import {
     ReaderProgressBarProps,
@@ -39,8 +39,8 @@ import {
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { ReaderProgressBarSlotMobile } from '@/features/reader/overlay/progress-bar/mobile/components/ReaderProgressBarSlotMobile.tsx';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
-import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { getProgressBarPosition } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';

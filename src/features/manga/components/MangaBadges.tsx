@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { MangaCardMode } from '@/features/manga/Manga.types.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 

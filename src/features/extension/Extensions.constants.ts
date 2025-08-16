@@ -13,8 +13,8 @@ import {
     InstalledState,
     InstalledStates,
 } from '@/features/extension/Extensions.types.ts';
-import { TranslationKey } from '@/Base.types.ts';
-import { DefaultLanguage } from '@/features/core/utils/Languages.ts';
+import { DefaultLanguage } from '@/base/utils/Languages.ts';
+import { TranslationKey } from '@/base/Base.types.ts';
 
 export const EXTENSION_ACTION_TO_STATE_MAP: { [action in ExtensionAction]: ExtensionState } = {
     [ExtensionAction.UPDATE]: ExtensionState.UPDATING,

@@ -8,9 +8,9 @@
 
 import { useTranslation } from 'react-i18next';
 import { TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/features/core/Core.types.ts';
+import { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
 import { IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
-import { ButtonSelectInput } from '@/features/core/components/inputs/ButtonSelectInput.tsx';
+import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<TapZoneLayouts> = {
     [TapZoneLayouts.EDGE]: {

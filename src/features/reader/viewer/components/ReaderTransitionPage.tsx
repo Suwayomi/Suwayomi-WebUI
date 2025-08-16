@@ -23,16 +23,16 @@ import {
     TReaderStateMangaContext,
 } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { useBackButton } from '@/features/core/hooks/useBackButton.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { useBackButton } from '@/base/hooks/useBackButton.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import {
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { getValueFromObject, noOp } from '@/lib/HelperFunctions.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';

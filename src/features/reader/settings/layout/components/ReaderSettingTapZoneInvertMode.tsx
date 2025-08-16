@@ -7,10 +7,10 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/features/core/Core.types.ts';
+import { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { ButtonSelectInput } from '@/features/core/components/inputs/ButtonSelectInput.tsx';
+import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 enum TapZonesInvertOption {
     NONE,

@@ -11,9 +11,9 @@ import Link from '@mui/material/Link';
 
 import { Link as RouterLink } from 'react-router-dom';
 import { memo } from 'react';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { TypographyMaxLines } from '@/features/core/components/texts/TypographyMaxLines.tsx';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const ReaderNavBarDesktopMetadata = memo(
     ({

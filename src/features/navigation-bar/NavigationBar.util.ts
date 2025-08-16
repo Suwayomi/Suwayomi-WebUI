@@ -8,7 +8,7 @@
 
 import { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { MetadataHistorySettings } from '@/features/history/History.types.ts';
-import { AppRoutes, StaticAppRoute } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes, StaticAppRoute } from '@/base/AppRoute.constants.ts';
 
 type NavBarItemDeviceFilterKey = `hide${Capitalize<NavbarItem['show']>}`;
 

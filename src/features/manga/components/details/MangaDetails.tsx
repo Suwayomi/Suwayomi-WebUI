@@ -18,14 +18,14 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ButtonGroup from '@mui/material/ButtonGroup';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { SpinnerImage } from '@/features/core/components/SpinnerImage.tsx';
-import { CustomButton } from '@/features/core/components/buttons/CustomButton.tsx';
+import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
+import { CustomButton } from '@/base/components/buttons/CustomButton.tsx';
 import { TrackMangaButton } from '@/features/manga/components/TrackMangaButton.tsx';
 import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
-import { Metadata as BaseMetadata } from '@/features/core/components/texts/Metadata.tsx';
+import { Metadata as BaseMetadata } from '@/base/components/texts/Metadata.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
@@ -44,8 +44,8 @@ import {
     MangaTitleInfo,
     MangaTrackRecordInfo,
 } from '@/features/manga/Manga.types.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
-import { CustomButtonIcon } from '@/features/core/components/buttons/CustomButtonIcon.tsx';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
 import { Sources } from '@/features/source/services/Sources.ts';
 import { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { Thumbnail } from '@/features/manga/components/details/Thumbnail.tsx';

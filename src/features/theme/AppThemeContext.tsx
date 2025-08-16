@@ -17,10 +17,10 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { createAndSetTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';

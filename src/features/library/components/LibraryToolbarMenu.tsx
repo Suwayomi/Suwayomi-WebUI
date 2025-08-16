@@ -10,7 +10,7 @@ import FilterList from '@mui/icons-material/FilterList';
 import IconButton from '@mui/material/IconButton';
 import { ComponentProps, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { LibraryOptionsPanel } from '@/features/library/components/LibraryOptionsPanel.tsx';
 import { getCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
 

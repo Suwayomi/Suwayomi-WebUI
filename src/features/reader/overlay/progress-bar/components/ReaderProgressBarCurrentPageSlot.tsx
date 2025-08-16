@@ -8,9 +8,9 @@
 
 import Box from '@mui/material/Box';
 import { ReactNode } from 'react';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { CurrentPageSlotProps } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 

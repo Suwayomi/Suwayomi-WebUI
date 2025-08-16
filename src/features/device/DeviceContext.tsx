@@ -8,7 +8,7 @@
 
 import React, { ReactNode, useContext, useMemo } from 'react';
 import { DEFAULT_DEVICE, setActiveDevice } from '@/features/device/services/Device.ts';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 
 export const DeviceContext = React.createContext<{
     activeDevice: string;

@@ -9,7 +9,7 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 
 export const ReaderSettingGrayscale = ({
     grayscale,

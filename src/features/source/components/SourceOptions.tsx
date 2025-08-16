@@ -23,8 +23,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { OptionsPanel } from '@/features/core/components/modals/OptionsPanel.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { OptionsPanel } from '@/base/components/modals/OptionsPanel.tsx';
 import { CheckBoxFilter } from '@/features/source/components/filters/CheckBoxFilter.tsx';
 import { HeaderFilter } from '@/features/source/components/filters/HeaderFilter.tsx';
 import { SelectFilter } from '@/features/source/components/filters/SelectFilter.tsx';
@@ -35,8 +35,8 @@ import { TriStateFilter } from '@/features/source/components/filters/TriStateFil
 // eslint-disable-next-line import/no-cycle
 import { GroupFilter } from '@/features/source/components/filters/GroupFilter.tsx';
 import { SeparatorFilter } from '@/features/source/components/filters/SeparatorFilter.tsx';
-import { StyledFab } from '@/features/core/components/buttons/StyledFab.tsx';
-import { awaitConfirmation } from '@/features/core/utils/AwaitableDialog.tsx';
+import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
+import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ISourceMetadata, SourceFilters } from '@/features/source/Source.types.ts';
 

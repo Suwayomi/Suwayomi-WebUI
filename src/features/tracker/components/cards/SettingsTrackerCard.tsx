@@ -21,12 +21,12 @@ import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { PasswordTextField } from '@/features/core/components/inputs/PasswordTextField.tsx';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { PasswordTextField } from '@/base/components/inputs/PasswordTextField.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { TTrackerSearch } from '@/features/tracker/Tracker.types.ts';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {

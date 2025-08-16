@@ -34,19 +34,19 @@ import {
 } from '@/features/reader/Reader.types.ts';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import {
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
     shouldApplyReaderWidth,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { useMouseDragScroll } from '@/features/core/hooks/useMouseDragScroll.tsx';
+import { useMouseDragScroll } from '@/base/hooks/useMouseDragScroll.tsx';
 import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';

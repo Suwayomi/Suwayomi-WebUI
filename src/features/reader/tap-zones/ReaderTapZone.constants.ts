@@ -7,7 +7,8 @@
  */
 
 import { TapZoneLayouts, TapZoneRegion, TapZoneRegionType } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { TranslationKey } from '@/Base.types.ts';
+
+import { TranslationKey } from '@/base/Base.types.ts';
 
 export const READER_TAP_ZONE_LAYOUTS: Record<TapZoneLayouts, TapZoneRegion[]> = {
     /**

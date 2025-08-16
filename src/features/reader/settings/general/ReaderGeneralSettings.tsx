@@ -18,7 +18,7 @@ import {
     ReaderSettingsTypeProps,
 } from '@/features/reader/Reader.types.ts';
 import { ReaderSettingOverlayMode } from '@/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { ReaderSettingBackgroundColor } from '@/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx';
 
 export const ReaderGeneralSettings = ({

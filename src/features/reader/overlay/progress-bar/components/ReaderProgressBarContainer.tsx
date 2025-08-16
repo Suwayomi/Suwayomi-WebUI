@@ -9,8 +9,8 @@
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
-import { shouldForwardProp } from '@/features/core/utils/ShouldForwardProp.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 
 type ReaderProgressBarContainerProps = Pick<IReaderSettings, 'progressBarPosition'>;

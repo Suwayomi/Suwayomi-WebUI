@@ -18,18 +18,18 @@ import { Link as RouterLink } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import Slide from '@mui/material/Slide';
 import { forwardRef, memo } from 'react';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { TypographyMaxLines } from '@/features/core/components/texts/TypographyMaxLines.tsx';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { MobileHeaderProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import {
     ReaderStateChapters,
     TReaderScrollbarContext,
     TReaderStateMangaContext,
 } from '@/features/reader/Reader.types.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';

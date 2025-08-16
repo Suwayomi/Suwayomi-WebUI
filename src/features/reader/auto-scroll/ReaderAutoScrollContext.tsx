@@ -15,12 +15,12 @@ import {
     TReaderAutoScrollContext,
 } from '@/features/reader/Reader.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
-import { ScrollOffset } from '@/features/core/Core.types.ts';
+import { ScrollOffset } from '@/base/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { useAutomaticScrolling } from '@/features/core/hooks/useAutomaticScrolling.ts';
+import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 
 export const ReaderAutoScrollContext = createContext<TReaderAutoScrollContext>({

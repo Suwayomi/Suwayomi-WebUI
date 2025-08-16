@@ -8,7 +8,7 @@
 
 import Checkbox from '@mui/material/Checkbox';
 import { useTranslation } from 'react-i18next';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 
 export const SelectableCollectionSelectAll = ({
     areAllItemsSelected,

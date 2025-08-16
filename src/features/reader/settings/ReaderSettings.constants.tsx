@@ -13,7 +13,7 @@ import ExpandIcon from '@mui/icons-material/Expand';
 import CropOriginalIcon from '@mui/icons-material/CropOriginal';
 import { TooltipProps } from '@mui/material/Tooltip';
 import { Direction } from '@mui/material/styles';
-import { ScrollDirection, ValueToDisplayData } from '@/features/core/Core.types.ts';
+import { ScrollDirection, TranslationKey, ValueToDisplayData } from '@/base/Base.types.ts';
 import {
     IReaderSettings,
     IReaderSettingsGlobal,
@@ -33,7 +33,6 @@ import { SinglePageIcon } from '@/assets/icons/svg/SinglePageIcon.tsx';
 import { DoublePageIcon } from '@/assets/icons/svg/DoublePageIcon.tsx';
 import { ContinuousVerticalPageIcon } from '@/assets/icons/svg/ContinuousVerticalPageIcon.tsx';
 import { ContinuousHorizontalPageIcon } from '@/assets/icons/svg/ContinuousHorizontalPageIcon.tsx';
-import { TranslationKey } from '@/Base.types.ts';
 import { TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { WebtoonPageIcon } from '@/assets/icons/svg/WebtoonPageIcon.tsx';
 

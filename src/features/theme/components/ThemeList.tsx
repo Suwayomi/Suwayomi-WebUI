@@ -14,9 +14,9 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { EmptyView } from '@/features/core/components/feedback/EmptyView.tsx';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { CreateThemeButton } from '@/features/theme/components/CreateThemeButton.tsx';
 import { ThemePreview } from '@/features/theme/components/ThemePreview.tsx';

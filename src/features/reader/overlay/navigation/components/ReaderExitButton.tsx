@@ -11,9 +11,9 @@ import { useTranslation } from 'react-i18next';
 import ArrowBack from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { memo } from 'react';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 
 const BaseReaderExitButton = ({ exit }: { exit: ReturnType<typeof ReaderService.useExit> }) => {

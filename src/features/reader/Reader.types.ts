@@ -12,9 +12,9 @@ import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { TMangaReader } from '@/features/manga/Manga.types.ts';
-import { useAutomaticScrolling } from '@/features/core/hooks/useAutomaticScrolling.ts';
+import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { ScrollOffset } from '@/features/core/Core.types.ts';
+import { ScrollOffset } from '@/base/Base.types.ts';
 
 export enum ProgressBarType {
     HIDDEN,

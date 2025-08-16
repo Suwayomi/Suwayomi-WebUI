@@ -9,7 +9,7 @@
 import { useCallback, useState } from 'react';
 import { ApolloError } from '@apollo/client';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { baseCleanup } from '@/util/Strings.ts';
+import { baseCleanup } from '@/base/utils/Strings.ts';
 
 export const useRefreshManga = (mangaId: string) => {
     const [fetchingOnline, setFetchingOnline] = useState(false);

@@ -29,13 +29,13 @@ import {
     INSTALLED_STATE_TO_TRANSLATION_KEY_MAP,
 } from '@/features/extension/Extensions.constants.ts';
 import { getInstalledState, updateExtension } from '@/features/extension/Extensions.utils.ts';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip';
-import { ListCardAvatar } from '@/features/core/components/lists/cards/ListCardAvatar.tsx';
-import { ListCardContent } from '@/features/core/components/lists/cards/ListCardContent.tsx';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
+import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-import { OptionalCardActionAreaLink } from '@/features/core/components/lists/cards/OptionalCardActionAreaLink.tsx';
-import { languageCodeToName } from '@/features/core/utils/Languages.ts';
+import { OptionalCardActionAreaLink } from '@/base/components/lists/cards/OptionalCardActionAreaLink.tsx';
+import { languageCodeToName } from '@/base/utils/Languages.ts';
 
 interface IProps {
     extension: TExtension;

@@ -8,7 +8,8 @@
 
 import { SxProps, Theme } from '@mui/material/styles';
 import { PublishingStatus, PublishingType } from '@/features/tracker/Tracker.types.ts';
-import { TranslationKey } from '@/Base.types.ts';
+
+import { TranslationKey } from '@/base/Base.types.ts';
 
 export const DIALOG_PADDING: number = 2;
 

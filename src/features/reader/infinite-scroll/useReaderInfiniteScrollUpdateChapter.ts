@@ -15,7 +15,7 @@ import {
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import { useIntersectionObserver } from '@/features/core/hooks/useIntersectionObserver.tsx';
+import { useIntersectionObserver } from '@/base/hooks/useIntersectionObserver.tsx';
 
 interface ElementIntersection {
     start: boolean;

@@ -12,13 +12,13 @@ import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import IconButton from '@mui/material/IconButton';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ReaderHotkey } from '@/features/reader/Reader.types.ts';
 import { DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { TranslationKey } from '@/Base.types.ts';
 import { RecordHotkey } from '@/features/reader/hotkeys/settings/components/RecordHotkey.tsx';
 import { Hotkey } from '@/features/reader/hotkeys/settings/components/Hotkey.tsx';
-import { ResetButton } from '@/features/core/components/buttons/ResetButton.tsx';
+import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
+import { TranslationKey } from '@/base/Base.types.ts';
 
 const READER_HOTKEY_TO_TITLE: Record<ReaderHotkey, TranslationKey> = {
     [ReaderHotkey.PREVIOUS_PAGE]: 'reader.settings.hotkey.previous_page',

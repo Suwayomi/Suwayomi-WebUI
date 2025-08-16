@@ -16,20 +16,20 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { TabPanel } from '@/features/core/components/tabs/TabPanel.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
 import { LibraryToolbarMenu } from '@/features/library/components/LibraryToolbarMenu.tsx';
 import { LibraryMangaGrid } from '@/features/library/components/LibraryMangaGrid.tsx';
-import { AppbarSearch } from '@/features/core/components/AppbarSearch.tsx';
+import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
 import { useSelectableCollection } from '@/features/collection/hooks/useSelectableCollection.ts';
 import { SelectableCollectionSelectMode } from '@/features/collection/components/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/features/library/hooks/useGetVisibleLibraryMangas.ts';
 import { SelectionFAB } from '@/features/collection/components/SelectionFAB.tsx';
 import { MangaActionMenuItems } from '@/features/manga/components/MangaActionMenuItems.tsx';
-import { TabsMenu } from '@/features/core/components/tabs/TabsMenu.tsx';
-import { TabsWrapper } from '@/features/core/components/tabs/TabsWrapper.tsx';
+import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
+import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import {
     GetCategoriesLibraryQuery,
@@ -46,8 +46,8 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/queries/MangaQuery.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
-import { SearchParam } from '@/features/core/Core.types.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { SearchParam } from '@/base/Base.types.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',

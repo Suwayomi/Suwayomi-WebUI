@@ -16,8 +16,8 @@ import { ReaderNavBarDesktop } from '@/features/reader/overlay/navigation/deskto
 import { ReaderOverlayHeaderMobile } from '@/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx';
 import { ReaderBottomBarMobile } from '@/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
-import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 
 const BaseReaderOverlay = ({
     isVisible,

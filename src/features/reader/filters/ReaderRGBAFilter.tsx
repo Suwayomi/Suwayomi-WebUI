@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 
 const BaseReaderRGBAFilter = ({

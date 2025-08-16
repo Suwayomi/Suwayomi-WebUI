@@ -8,7 +8,6 @@
 
 import { useMemo } from 'react';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import { NullAndUndefined } from '@/Base.types.ts';
 import {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
@@ -20,6 +19,7 @@ import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
 import { createUpdateMangaMetadata, useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { NullAndUndefined } from '@/base/Base.types.ts';
 
 export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChapterRead }: ChapterReadInfo) {
     switch (unread) {

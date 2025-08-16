@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { SelectableCollectionReturnType } from '@/features/collection/hooks/useSelectableCollection.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';

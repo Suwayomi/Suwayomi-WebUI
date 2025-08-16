@@ -14,10 +14,10 @@ import { CSSProperties, useCallback, useLayoutEffect, useRef, useState } from 'r
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
-import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { StaticAppRoute } from '@/features/core/AppRoute.constants.ts';
+import { StaticAppRoute } from '@/base/AppRoute.constants.ts';
 
 export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const { t } = useTranslation();

@@ -19,7 +19,8 @@ import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.
 import { isPageOfOutdatedPageLoadStates, isSpreadPage } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
-import { DirectionOffset } from '@/Base.types.ts';
+
+import { DirectionOffset } from '@/base/Base.types.ts';
 
 export const getInitialReaderPageIndex = (
     resumeMode: ReaderResumeMode,

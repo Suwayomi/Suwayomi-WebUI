@@ -18,7 +18,7 @@ import DialogContent from '@mui/material/DialogContent';
 import { useTranslation } from 'react-i18next';
 import Slide from '@mui/material/Slide';
 import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ReaderBottomBarMobileProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { MobileReaderProgressBar } from '@/features/reader/overlay/progress-bar/mobile/MobileReaderProgressBar.tsx';
 import { ReaderChapterList } from '@/features/reader/overlay/navigation/components/ReaderChapterList.tsx';
@@ -26,8 +26,8 @@ import { ReaderBottomBarMobileQuickSettings } from '@/features/reader/overlay/na
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { ReaderStateChapters, TReaderScrollbarContext } from '@/features/reader/Reader.types.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
-import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 
 const BaseReaderBottomBarMobile = ({
     openSettings,

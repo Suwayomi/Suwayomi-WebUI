@@ -9,27 +9,26 @@
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useTranslation } from 'react-i18next';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
-import { RadioInput } from '@/features/core/components/inputs/RadioInput.tsx';
-import { SortRadioInput } from '@/features/core/components/inputs/SortRadioInput.tsx';
-import { ThreeStateCheckboxInput } from '@/features/core/components/inputs/ThreeStateCheckboxInput.tsx';
-import { OptionsTabs } from '@/features/core/components/modals/OptionsTabs.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
+import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
+import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
+import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
+import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
 import { createUpdateCategoryMetadata, useGetCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
     updateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { TranslationKey } from '@/Base.types.ts';
 import { LibrarySortMode } from '@/features/library/Library.types.ts';
 import { CategoryMetadataInfo } from '@/features/category/Category.types.ts';
 import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
-import { GridLayout } from '@/features/core/Core.types.ts';
+import { GridLayout, TranslationKey } from '@/base/Base.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {

@@ -9,14 +9,14 @@
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import { useTranslation } from 'react-i18next';
-import { TabsMenu } from '@/features/core/components/tabs/TabsMenu.tsx';
+import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { READER_SETTING_TABS, ReaderSettingTab } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { TabPanel } from '@/features/core/components/tabs/TabPanel.tsx';
+import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
 import { ReaderLayoutSettings } from '@/features/reader/settings/layout/ReaderLayoutSettings.tsx';
 import { ReaderGeneralSettings } from '@/features/reader/settings/general/ReaderGeneralSettings.tsx';
 import { ReaderFilterSettings } from '@/features/reader/filters/settings/ReaderFilterSettings.tsx';
@@ -24,7 +24,7 @@ import { ReaderBehaviourSettings } from '@/features/reader/settings/behaviour/Re
 import { ReaderDefaultLayoutSettings } from '@/features/reader/settings/layout/ReaderDefaultLayoutSettings.tsx';
 import { ReaderHotkeysSettings } from '@/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 
 const BaseReaderSettingsTabs = ({
     activeTab,

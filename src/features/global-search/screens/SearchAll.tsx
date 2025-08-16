@@ -23,16 +23,16 @@ import { useElementSize } from '@mantine/hooks';
 import IconButton from '@mui/material/IconButton'; // ms
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { AppbarSearch } from '@/features/core/components/AppbarSearch.tsx';
-import { useDebounce } from '@/features/core/hooks/useDebounce.ts';
+import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
+import { useDebounce } from '@/base/hooks/useDebounce.ts';
 import { MangaCardProps } from '@/features/manga/Manga.types.ts';
-import { EmptyView } from '@/features/core/components/feedback/EmptyView.tsx';
+import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { BaseMangaGrid } from '@/features/manga/components/BaseMangaGrid.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
 import {
@@ -48,12 +48,12 @@ import {
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { getSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import { SourceLanguageSelect } from '@/features/source/components/SourceLanguageSelect.tsx';
-import { SearchParam } from '@/features/core/Core.types.ts';
+import { SearchParam } from '@/base/Base.types.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;

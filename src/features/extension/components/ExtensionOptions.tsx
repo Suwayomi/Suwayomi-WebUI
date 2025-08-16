@@ -19,16 +19,16 @@ import DialogContent from '@mui/material/DialogContent';
 import { useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered';
 import { getErrorMessage } from '@/lib/HelperFunctions';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip';
-import { AppRoutes } from '@/features/core/AppRoute.constants';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils';
-import { StyledGroupItemWrapper } from '@/features/core/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { TExtension } from '@/features/extension/Extensions.types.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
-import { ListCardContent } from '@/features/core/components/lists/cards/ListCardContent.tsx';
+import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 
 interface IExtensionOptions {
     extensionId: TExtension['pkgName'] | undefined;

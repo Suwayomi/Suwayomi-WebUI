@@ -18,12 +18,12 @@ import DoneAll from '@mui/icons-material/DoneAll';
 import { ComponentProps, useMemo } from 'react';
 import { SelectableCollectionReturnType } from '@/features/collection/hooks/useSelectableCollection.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { MenuItem } from '@/features/core/components/menu/MenuItem.tsx';
+import { MenuItem } from '@/base/components/menu/MenuItem.tsx';
 import {
     createGetMenuItemTitle,
     createIsMenuItemDisabled,
     createShouldShowMenuItem,
-} from '@/features/core/components/menu/Menu.utils.ts';
+} from '@/base/components/menu/Menu.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { ChapterCard } from '@/features/chapter/components/cards/ChapterCard.tsx';

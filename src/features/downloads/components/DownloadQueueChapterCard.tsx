@@ -15,20 +15,20 @@ import IconButton from '@mui/material/IconButton';
 import { memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ChapterDownloadRetryButton } from '@/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
-import { DownloadStateIndicator } from '@/features/core/components/downloads/DownloadStateIndicator.tsx';
+import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
 import { ChapterCardMetadata } from '@/features/chapter/components/cards/ChapterCardMetadata.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-import { ListCardContent } from '@/features/core/components/lists/cards/ListCardContent.tsx';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloaderState } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterDownloadStatus, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 export const DownloadQueueChapterCard = memo(
     ({ item, status }: { item: ChapterDownloadStatus; status: DownloaderState }) => {

@@ -9,7 +9,6 @@
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { DirectionOffset } from '@/Base.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetChaptersReaderQuery } from '@/lib/graphql/generated/graphql.ts';
 import {
@@ -21,6 +20,7 @@ import { READER_STATE_CHAPTERS_DEFAULTS } from '@/features/reader/contexts/state
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 import { getReaderChapterFromCache } from '@/features/reader/Reader.utils.ts';
+import { DirectionOffset } from '@/base/Base.types.ts';
 
 export const useReaderSetChaptersState = (
     chaptersResponse: ReturnType<typeof requestManager.useGetMangaChapters<GetChaptersReaderQuery>>,

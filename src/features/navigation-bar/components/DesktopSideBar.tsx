@@ -22,13 +22,13 @@ import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import Badge from '@mui/material/Badge';
 import Typography from '@mui/material/Typography';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { ListItemLink } from '@/features/core/components/lists/ListItemLink.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { TypographyMaxLines } from '@/features/core/components/texts/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',

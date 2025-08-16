@@ -9,13 +9,13 @@
 import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { SliderInput } from '@/features/core/components/inputs/SliderInput.tsx';
+import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { isReaderWidthEditable } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { MultiValueButtonDefaultableProps } from '@/features/core/Core.types.ts';
-import { ResetButton } from '@/features/core/components/buttons/ResetButton.tsx';
+import { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 
 export const ReaderSettingWidth = ({
     readerWidth,

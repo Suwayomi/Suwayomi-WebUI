@@ -22,13 +22,13 @@ import {
     toComparableLanguage,
     toComparableLanguages,
     toUniqueLanguageCodes,
-} from '@/features/core/utils/Languages.ts';
+} from '@/base/utils/Languages.ts';
 import { getSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export class Sources {

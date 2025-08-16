@@ -19,8 +19,8 @@ import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CategoryDefaultInfo, CategoryIdInfo, CategoryNameInfo } from '@/features/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { assertIsDefined } from '@/Asserts.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { assertIsDefined } from '@/base/Asserts.ts';
 
 export const CreateOrEditCategoryDialog = ({
     category,

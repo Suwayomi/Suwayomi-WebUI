@@ -19,10 +19,10 @@ import {
     updateChapterListOptions,
     useChapterListOptions,
 } from '@/features/chapter/utils/ChapterList.util.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { ChaptersToolbarMenu } from '@/features/chapter/components/ChaptersToolbarMenu.tsx';
 import { SelectionFAB } from '@/features/collection/components/SelectionFAB.tsx';
-import { DEFAULT_FULL_FAB_HEIGHT } from '@/features/core/components/buttons/StyledFab.tsx';
+import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import {
     ChapterListFieldsFragment,
     GetChaptersMangaQuery,
@@ -34,14 +34,14 @@ import { SelectableCollectionSelectAll } from '@/features/collection/components/
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { ChapterActionMenuItems } from '@/features/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
-import { shouldForwardProp } from '@/features/core/utils/ShouldForwardProp.ts';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { ChapterListCard } from '@/features/chapter/components/cards/ChapterListCard.tsx';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
 

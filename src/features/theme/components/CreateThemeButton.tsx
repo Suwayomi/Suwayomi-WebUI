@@ -11,9 +11,9 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { bindDialog, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ThemeCreationDialog } from '@/features/theme/components/CreateThemeDialog.tsx';
-import { TypographyMaxLines } from '@/features/core/components/texts/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 
 export const CreateThemeButton = () => {
     const { t } = useTranslation();

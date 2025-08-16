@@ -13,8 +13,8 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { useCallback } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { NumberSetting } from '@/features/core/components/settings/NumberSetting.tsx';
-import { getPersistedServerSetting, usePersistedValue } from '@/features/core/hooks/usePersistedValue.tsx';
+import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
+import { getPersistedServerSetting, usePersistedValue } from '@/base/hooks/usePersistedValue.tsx';
 
 import { ServerSettings } from '@/features/settings/Settings.types.ts';
 import { GLOBAL_UPDATE_INTERVAL } from '@/features/settings/Settings.constants.ts';

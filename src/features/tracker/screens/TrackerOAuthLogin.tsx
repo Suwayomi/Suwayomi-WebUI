@@ -10,8 +10,8 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const TrackerOAuthLogin = () => {

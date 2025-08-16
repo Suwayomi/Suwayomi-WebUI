@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { NullAndUndefined } from '@/Base.types.ts';
 import {
     ChapterReaderFieldsFragment,
     ChapterType,
     DownloadStatusFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
+import { NullAndUndefined } from '@/base/Base.types.ts';
 
 export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
 

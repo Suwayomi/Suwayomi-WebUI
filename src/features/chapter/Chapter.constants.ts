@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { TranslationKey } from '@/Base.types.ts';
 import { ChapterAction, ChapterListOptions, ChapterSortMode } from '@/features/chapter/Chapter.types.ts';
+import { TranslationKey } from '@/base/Base.types.ts';
 
 export const FALLBACK_CHAPTER = { id: -1, name: '', realUrl: '', isBookmarked: false };
 

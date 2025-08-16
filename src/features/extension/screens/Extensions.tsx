@@ -17,17 +17,17 @@ import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useWindowEvent } from '@mantine/hooks';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { AppbarSearch } from '@/features/core/components/AppbarSearch.tsx';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { LanguageSelect } from '@/features/core/components/inputs/LanguageSelect.tsx';
+import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { LanguageSelect } from '@/base/components/inputs/LanguageSelect.tsx';
 import { ExtensionCard } from '@/features/extension/components/ExtensionCard.tsx';
-import { StyledGroupedVirtuoso } from '@/features/core/components/virtuoso/StyledGroupedVirtuoso.tsx';
-import { StyledGroupHeader } from '@/features/core/components/virtuoso/StyledGroupHeader.tsx';
-import { StyledGroupItemWrapper } from '@/features/core/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { StyledGroupedVirtuoso } from '@/base/components/virtuoso/StyledGroupedVirtuoso.tsx';
+import { StyledGroupHeader } from '@/base/components/virtuoso/StyledGroupHeader.tsx';
+import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import {
@@ -43,7 +43,7 @@ import {
     TExtension,
 } from '@/features/extension/Extensions.types.ts';
 import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/features/extension/Extensions.constants.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -51,7 +51,7 @@ import {
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
-import { SearchParam } from '@/features/core/Core.types.ts';
+import { SearchParam } from '@/base/Base.types.ts';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;

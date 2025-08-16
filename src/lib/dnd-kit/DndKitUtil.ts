@@ -17,7 +17,7 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 import { AbstractPointerSensorOptions, PointerActivationConstraint } from '@dnd-kit/core/dist/sensors';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 export class DndKitUtil {
     static getSensorForDevice(): Sensor<PointerSensorOptions> {

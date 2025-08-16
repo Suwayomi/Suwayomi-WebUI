@@ -20,10 +20,10 @@ import { Link } from 'react-router-dom';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useCategorySelect } from '@/features/category/hooks/useCategorySelect.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 interface IProps {
     manga: Pick<MangaType, 'id' | 'inLibrary' | 'sourceId' | 'title'>;

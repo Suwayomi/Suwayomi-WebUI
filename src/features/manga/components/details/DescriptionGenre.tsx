@@ -14,8 +14,8 @@ import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
-import { useResizeObserver } from '@/features/core/hooks/useResizeObserver.tsx';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import {
     MangaDescriptionInfo,
     MangaGenreInfo,

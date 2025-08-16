@@ -15,10 +15,10 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CategoryType } from '@/lib/graphql/generated/graphql.ts';
-import { ListCardContent } from '@/features/core/components/lists/cards/ListCardContent.tsx';
+import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 
 export const CategorySettingsCard = ({
     category,

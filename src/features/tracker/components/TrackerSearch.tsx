@@ -23,10 +23,10 @@ import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { SearchTextField } from '@/features/core/components/inputs/SearchTextField.tsx';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { SearchTextField } from '@/base/components/inputs/SearchTextField.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { TrackerMangaCard } from '@/features/tracker/components/cards/TrackerMangaCard.tsx';
 import { DIALOG_PADDING } from '@/features/tracker/Tracker.constants.ts';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
@@ -35,10 +35,10 @@ import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { Tracker, TrackerIdInfo, TTrackerBind } from '@/features/tracker/Tracker.types.ts';
-import { CustomButtonIcon } from '@/features/core/components/buttons/CustomButtonIcon.tsx';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 
 const TrackButton = ({
     mangaId,

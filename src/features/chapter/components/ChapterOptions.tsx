@@ -9,15 +9,15 @@
 import RadioGroup from '@mui/material/RadioGroup';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { RadioInput } from '@/features/core/components/inputs/RadioInput.tsx';
-import { SortRadioInput } from '@/features/core/components/inputs/SortRadioInput.tsx';
-import { ThreeStateCheckboxInput } from '@/features/core/components/inputs/ThreeStateCheckboxInput.tsx';
-import { OptionsTabs } from '@/features/core/components/modals/OptionsTabs.tsx';
+import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
+import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
+import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
+import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
 import { CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY } from '@/features/chapter/Chapter.constants.ts';
-import { TranslationKey } from '@/Base.types.ts';
 import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 import { updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { ChapterExcludeSanlatorsFilter } from '@/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx';
+import { TranslationKey } from '@/base/Base.types.ts';
 
 interface IProps {
     open: boolean;

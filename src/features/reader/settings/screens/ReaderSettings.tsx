@@ -15,7 +15,7 @@ import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/features/reader/settings/components/ReaderSettingsTabs.tsx';
 import { ReaderSettingTab } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { useDisableAllHotkeysWhileMounted } from '@/features/hotkeys/Hotkeys.utils.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 
 export const ReaderSettings = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
     const { manga } = useReaderStateMangaContext();

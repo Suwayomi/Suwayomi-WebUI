@@ -10,10 +10,10 @@ import { MutableRefObject, useLayoutEffect } from 'react';
 import { Direction } from '@mui/material/styles';
 import { ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
-import { DirectionOffset } from '@/Base.types.ts';
 import { getScrollIntoViewInlineOption } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
+import { DirectionOffset } from '@/base/Base.types.ts';
 
 export const useReaderHandlePageSelection = (
     pageToScrollToIndex: ReaderStatePages['pageToScrollToIndex'],

@@ -8,7 +8,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings, ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
-import { SliderInput } from '@/features/core/components/inputs/SliderInput.tsx';
+import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { AUTO_SCROLL_SPEED, DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
 export const ReaderSettingProgressBarSize = ({

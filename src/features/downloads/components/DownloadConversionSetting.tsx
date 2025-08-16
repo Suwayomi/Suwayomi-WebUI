@@ -23,8 +23,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContentText from '@mui/material/DialogContentText';
 import { SettingsDownloadConversion } from '@/lib/graphql/generated/graphql.ts';
 import { DOWNLOAD_CONVERSION_COMPRESSION } from '@/features/downloads/Downloads.constants.ts';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { TypographyMaxLines } from '@/features/core/components/texts/TypographyMaxLines.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 
 const DEFAULT_MIME_TYPE = 'default';
 const MIME_TYPE_PREFIX = 'image/';

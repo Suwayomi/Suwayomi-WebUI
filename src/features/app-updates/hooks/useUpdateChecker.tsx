@@ -8,7 +8,7 @@
 
 import { useCallback, useEffect, useMemo } from 'react';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 
 const UPDATE_CHECK_INTERVAL = 1000 * 60 * 60; // 1 hour
 const UPDATE_REMINDER_THRESHOLD = 1000 * 60 * 60; // 1 hour

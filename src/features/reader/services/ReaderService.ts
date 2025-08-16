@@ -30,17 +30,16 @@ import {
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
-import { useBackButton } from '@/features/core/hooks/useBackButton.ts';
+import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { useReaderStateSettingsContext } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { DirectionOffset } from '@/Base.types.ts';
 import {
     getChapterIdsForDownloadAhead,
     getChapterIdsToDeleteForChapterUpdate,
@@ -50,10 +49,11 @@ import {
 } from '@/features/reader/Reader.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Queue } from '@/lib/Queue.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
+import { DirectionOffset } from '@/base/Base.types.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',

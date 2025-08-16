@@ -7,7 +7,7 @@
  */
 
 import { useEffect } from 'react';
-import { useAutomaticScrolling } from '@/features/core/hooks/useAutomaticScrolling.ts';
+import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 
 export const useReaderAutoScroll = (

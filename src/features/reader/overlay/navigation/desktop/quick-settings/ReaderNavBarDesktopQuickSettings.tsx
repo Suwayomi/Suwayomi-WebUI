@@ -17,7 +17,7 @@ import { ReaderNavBarDesktopReadingDirection } from '@/features/reader/overlay/n
 import { IReaderSettingsWithDefaultFlag, TReaderStateMangaContext } from '@/features/reader/Reader.types.ts';
 import { ReaderNavBarDesktopProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { ReaderNavBarDesktopAutoScroll } from '@/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx';

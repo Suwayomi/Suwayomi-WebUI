@@ -9,7 +9,7 @@
 import { alpha, darken, lighten, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { memo } from 'react';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { ReaderProgressBarSlot } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlot.tsx';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 

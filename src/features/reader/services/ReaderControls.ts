@@ -29,7 +29,7 @@ import {
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import { ScrollDirection, ScrollOffset } from '@/features/core/Core.types.ts';
+import { DirectionOffset, ScrollDirection, ScrollOffset, TranslationKey } from '@/base/Base.types.ts';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import {
     isATransitionPageVisible,
@@ -47,10 +47,9 @@ import {
     updateReaderStateVisibleChapters,
 } from '@/features/reader/Reader.utils.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { DirectionOffset, TranslationKey } from '@/Base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
-import { awaitConfirmation } from '@/features/core/utils/AwaitableDialog.tsx';
+import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import {

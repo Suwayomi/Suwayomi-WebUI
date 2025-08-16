@@ -14,15 +14,15 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import { memo, useRef } from 'react';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { SpinnerImage } from '@/features/core/components/SpinnerImage.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/features/manga/components/MangaOptionButton.tsx';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { SpecificMangaCardProps } from '@/features/manga/Manga.types.ts';
-import { TypographyMaxLines } from '@/features/core/components/texts/TypographyMaxLines.tsx';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { MANGA_COVER_ASPECT_RATIO } from '@/features/manga/Manga.constants.ts';
-import { GridLayout } from '@/features/core/Core.types.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { GridLayout } from '@/base/Base.types.ts';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 const BottomGradient = styled('div')({
     position: 'absolute',

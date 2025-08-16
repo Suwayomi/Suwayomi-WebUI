@@ -9,7 +9,7 @@
 import React, { useLayoutEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IMangaGridProps, MangaGrid } from '@/features/manga/components/MangaGrid.tsx';
-import { GridLayout } from '@/features/core/Core.types.ts';
+import { GridLayout } from '@/base/Base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 
 interface LibraryMangaGridProps

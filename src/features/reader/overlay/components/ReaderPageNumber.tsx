@@ -22,13 +22,13 @@ import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBa
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
-import { reverseString } from '@/util/Strings.ts';
+import { reverseString } from '@/base/utils/Strings.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import {
     ReaderStatePages,
     TReaderProgressBarContext,
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
-import { withPropsFrom } from '@/features/core/hoc/withPropsFrom.tsx';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 
 const BaseReaderPageNumber = ({
     isDesktop,

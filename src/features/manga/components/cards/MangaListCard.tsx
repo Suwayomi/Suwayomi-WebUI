@@ -12,14 +12,14 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { Link as RouterLink } from 'react-router-dom';
 import { memo, useRef } from 'react';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { TypographyMaxLines } from '@/features/core/components/texts/TypographyMaxLines.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { SpecificMangaCardProps } from '@/features/manga/Manga.types.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { MangaOptionButton } from '@/features/manga/components/MangaOptionButton.tsx';
-import { ListCardAvatar } from '@/features/core/components/lists/cards/ListCardAvatar.tsx';
-import { ListCardContent } from '@/features/core/components/lists/cards/ListCardContent';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
+import { ListCardContent } from '@/base/components/lists/cards/ListCardContent';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 export const MangaListCard = memo(
     ({

@@ -14,7 +14,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import React from 'react';
-import { SortRadioInput } from '@/features/core/components/inputs/SortRadioInput.tsx';
+import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
 import { SortSelectionInput } from '@/lib/graphql/generated/graphql.ts';
 
 interface Props {

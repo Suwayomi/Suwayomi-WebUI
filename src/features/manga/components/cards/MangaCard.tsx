@@ -10,7 +10,7 @@ import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { useLongPress } from 'use-long-press';
 import { MangaActionMenuItems, SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
-import { Menu } from '@/features/core/components/menu/Menu.tsx';
+import { Menu } from '@/base/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/features/migration/components/MigrateDialog.tsx';
 import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
 import { MangaGridCard } from '@/features/manga/components/cards/MangaGridCard.tsx';
@@ -18,8 +18,8 @@ import { MangaListCard } from '@/features/manga/components/cards/MangaListCard.t
 import { MangaCardMode, MangaCardProps } from '@/features/manga/Manga.types.ts';
 import { ContinueReadingButton } from '@/features/manga/components/ContinueReadingButton.tsx';
 import { MangaBadges } from '@/features/manga/components/MangaBadges.tsx';
-import { GridLayout } from '@/features/core/Core.types.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { GridLayout } from '@/base/Base.types.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 
 const getMangaLinkTo = (

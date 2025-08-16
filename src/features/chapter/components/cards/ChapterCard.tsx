@@ -19,17 +19,17 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLongPress } from 'use-long-press';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { getDateString } from '@/util/DateHelper.ts';
-import { DownloadStateIndicator } from '@/features/core/components/downloads/DownloadStateIndicator.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { getDateString } from '@/base/utils/DateHelper.ts';
+import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterActionMenuItems } from '@/features/chapter/components/actions/ChapterActionMenuItems.tsx';
-import { Menu } from '@/features/core/components/menu/Menu.tsx';
+import { Menu } from '@/base/components/menu/Menu.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { ChapterCardMetadata } from '@/features/chapter/components/cards/ChapterCardMetadata.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-import { ListCardContent } from '@/features/core/components/lists/cards/ListCardContent.tsx';
+import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 import {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
@@ -39,7 +39,7 @@ import {
     ChapterReadInfo,
     ChapterScanlatorInfo,
 } from '@/features/chapter/Chapter.types.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &

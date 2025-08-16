@@ -15,7 +15,7 @@ import Menu from '@mui/material/Menu';
 import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { useMemo } from 'react';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ChapterOptions } from '@/features/chapter/components/ChapterOptions.tsx';
 import { isFilterActive, updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import {

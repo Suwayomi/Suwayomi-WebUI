@@ -23,10 +23,10 @@ import { deepmerge } from '@mui/utils';
 import { PaletteBackgroundChannel } from '@mui/material/styles/createThemeWithVars';
 import { Palette } from '@vibrant/color';
 import { TAppThemeContext, ThemeMode } from '@/features/theme/AppThemeContext.tsx';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { AppTheme, loadThemeFonts } from '@/features/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 
 const SCROLLBAR_SIZE = 14;
 

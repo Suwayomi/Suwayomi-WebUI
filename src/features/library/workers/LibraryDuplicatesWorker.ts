@@ -15,7 +15,7 @@ import {
 } from '@/features/library/Library.types.ts';
 import { Queue } from '@/lib/Queue.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
-import { enhancedCleanup } from '@/util/Strings.ts';
+import { enhancedCleanup } from '@/base/utils/Strings.ts';
 
 const queue = new Queue((navigator.hardwareConcurrency ?? 5) - 1);
 const MANGAS_PER_CHUNK = 200;

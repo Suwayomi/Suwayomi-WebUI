@@ -8,10 +8,10 @@
 
 import { useTranslation } from 'react-i18next';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
-import { SliderInput } from '@/features/core/components/inputs/SliderInput.tsx';
+import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS, PAGE_GAP } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { MultiValueButtonDefaultableProps } from '@/features/core/Core.types.ts';
+import { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
 
 export const ReaderSettingPageGap = ({
     pageGap,

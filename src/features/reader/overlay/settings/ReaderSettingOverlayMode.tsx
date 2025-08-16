@@ -11,8 +11,8 @@ import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import ComputerIcon from '@mui/icons-material/Computer';
 import AutoModeIcon from '@mui/icons-material/AutoMode';
 import { IReaderSettings, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
-import { ValueToDisplayData } from '@/features/core/Core.types.ts';
-import { ButtonSelectInput } from '@/features/core/components/inputs/ButtonSelectInput.tsx';
+import { ValueToDisplayData } from '@/base/Base.types.ts';
+import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderOverlayMode> = {
     [ReaderOverlayMode.AUTO]: {

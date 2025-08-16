@@ -16,18 +16,18 @@ import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
-import { TextSetting } from '@/features/core/components/settings/text/TextSetting.tsx';
-import { NumberSetting } from '@/features/core/components/settings/NumberSetting.tsx';
-import { SelectSetting } from '@/features/core/components/settings/SelectSetting.tsx';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
+import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
+import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
+import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { ServerSettings as GqlServerSettings, ServerSettingsType } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';

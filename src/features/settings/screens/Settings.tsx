@@ -23,10 +23,10 @@ import DevicesIcon from '@mui/icons-material/Devices';
 import SyncIcon from '@mui/icons-material/Sync';
 import PaletteIcon from '@mui/icons-material/Palette';
 import HistoryIcon from '@mui/icons-material/History';
-import { ListItemLink } from '@/features/core/components/lists/ListItemLink.tsx';
+import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 

@@ -18,8 +18,8 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.tsx';
 import { VersionUpdateInfoDialog } from '@/features/app-updates/components/VersionUpdateInfoDialog.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 

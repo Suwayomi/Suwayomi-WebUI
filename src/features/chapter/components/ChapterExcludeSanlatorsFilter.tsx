@@ -10,9 +10,9 @@ import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import { useTranslation } from 'react-i18next';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import DisabledByDefaultRounded from '@mui/icons-material/DisabledByDefaultRounded';
-import { CheckboxListSetting } from '@/features/core/components/settings/CheckboxListSetting.tsx';
+import { CheckboxListSetting } from '@/base/components/settings/CheckboxListSetting.tsx';
 import { updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 
 export const ChapterExcludeSanlatorsFilter = ({
     updateOption,

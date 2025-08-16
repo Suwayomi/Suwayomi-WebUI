@@ -20,7 +20,7 @@ import {
     UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
 import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
@@ -49,8 +49,8 @@ import {
     SOURCES_BY_MANGA_TYPE,
 } from '@/features/manga/Manga.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { awaitConfirmation } from '@/features/core/utils/AwaitableDialog.tsx';
-import { assertIsDefined } from '@/Asserts.ts';
+import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
+import { assertIsDefined } from '@/base/Asserts.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];

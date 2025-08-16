@@ -12,17 +12,17 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { NumberSetting } from '@/features/core/components/settings/NumberSetting.tsx';
-import { MutableListSetting } from '@/features/core/components/settings/MutableListSetting.tsx';
-import { TextSetting } from '@/features/core/components/settings/text/TextSetting.tsx';
+import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
+import { MutableListSetting } from '@/base/components/settings/MutableListSetting.tsx';
+import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import { ServerSettings as GqlServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';

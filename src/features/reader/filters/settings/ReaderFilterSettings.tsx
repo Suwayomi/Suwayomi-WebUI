@@ -16,7 +16,7 @@ import { ReaderSettingSepia } from '@/features/reader/filters/settings/component
 import { ReaderSettingGrayscale } from '@/features/reader/filters/settings/components/ReaderSettingGrayscale.tsx';
 import { ReaderSettingInvert } from '@/features/reader/filters/settings/components/ReaderSettingInvert.tsx';
 import { ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
-import { ResetButton } from '@/features/core/components/buttons/ResetButton.tsx';
+import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 
 export const ReaderFilterSettings = ({
     settings: { customFilter },

@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { CheckboxInput } from '@/features/core/components/inputs/CheckboxInput.tsx';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 
 interface Props {
     state: boolean;

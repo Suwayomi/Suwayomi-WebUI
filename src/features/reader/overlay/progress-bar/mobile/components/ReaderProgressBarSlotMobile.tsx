@@ -9,7 +9,7 @@
 import Box from '@mui/material/Box';
 import { ComponentProps, memo } from 'react';
 import { ProgressBarPosition } from '@/features/reader/Reader.types.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { ReaderProgressBarSlot } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlot.tsx';
 
 const SLOT_SX_PROP: NonNullable<NonNullable<ComponentProps<typeof ReaderProgressBarSlot>['slotProps']>['box']>['sx'] = {

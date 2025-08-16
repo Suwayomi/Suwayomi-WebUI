@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { cloneObject } from '@/util/cloneObject.tsx';
+import { cloneObject } from '@/base/utils/cloneObject.tsx';
 import {
     SwitchPreferenceCompat,
     CheckBoxPreference,
@@ -19,12 +19,12 @@ import {
 import { ListPreference } from '@/features/source/components/sourceConfiguration/ListPreference.tsx';
 import { EditTextPreference } from '@/features/source/components/sourceConfiguration/EditTextPreference.tsx';
 import { MultiSelectListPreference } from '@/features/source/components/sourceConfiguration/MultiSelectListPreference.tsx';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetCategoriesSettingsQueryVariables, GetSourceSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { PreferenceProps } from '@/features/source/Source.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';

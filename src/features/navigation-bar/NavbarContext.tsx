@@ -8,7 +8,7 @@
 
 import React, { useContext, useCallback, useMemo, useState } from 'react';
 import { INavbarOverride, NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { useLocalStorage } from '@/features/core/hooks/useStorage.tsx';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 
 export const NavBarContext = React.createContext<NavbarContextType>({
     title: 'Suwayomi',

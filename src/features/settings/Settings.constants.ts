@@ -9,15 +9,11 @@
 import { DEFAULT_DEVICE } from '@/features/device/services/Device.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/features/migration/Migration.constants.ts';
 import { GlobalUpdateSkipEntriesSettings, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
-import { GridLayout } from '@/features/core/Core.types.ts';
-import { getDefaultLanguages } from '@/features/core/utils/Languages.ts';
+import { GridLayout, TranslationKey } from '@/base/Base.types.ts';
+import { getDefaultLanguages } from '@/base/utils/Languages.ts';
 import { ThemeMode } from '@/features/theme/AppThemeContext.tsx';
-import {
-    SelectSettingValue,
-    SelectSettingValueDisplayInfo,
-} from '@/features/core/components/settings/SelectSetting.tsx';
+import { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
 import { AuthMode, WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
-import { TranslationKey } from '@/Base.types.ts';
 
 export const MANGA_GRID_WIDTH = {
     min: 100,

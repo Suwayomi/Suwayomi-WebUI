@@ -11,7 +11,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { MangaLocationState } from '@/features/manga/Manga.types.ts';
 import { SourceIdInfo } from '@/features/source/Source.types.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const SearchLink = ({
     query,

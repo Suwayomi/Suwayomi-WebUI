@@ -13,7 +13,7 @@ import { HOTKEY_SCOPES } from '@/features/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { IReaderSettings, ReaderHotkey } from '@/features/reader/Reader.types.ts';
 import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
-import { getNextRotationValue } from '@/features/core/utils/ValueRotationButton.utils.ts';
+import { getNextRotationValue } from '@/base/utils/ValueRotationButton.utils.ts';
 import {
     AUTO_SCROLL_SPEED,
     CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION,
@@ -24,7 +24,7 @@ import {
 import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { HotkeyScope } from '@/features/hotkeys/Hotkeys.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
-import { ScrollOffset } from '@/features/core/Core.types.ts';
+import { ScrollOffset } from '@/base/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';

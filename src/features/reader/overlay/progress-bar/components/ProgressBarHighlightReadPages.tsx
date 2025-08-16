@@ -8,9 +8,9 @@
 
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import { shouldForwardProp } from '@/features/core/utils/ShouldForwardProp.ts';
+import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 
 type ProgressBarHighlightReadPagesProps = Pick<IReaderSettings, 'progressBarPosition'> & {

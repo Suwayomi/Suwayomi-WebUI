@@ -19,32 +19,32 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Divider from '@mui/material/Divider';
 import Switch from '@mui/material/Switch';
 import CardActionArea from '@mui/material/CardActionArea';
-import { SpinnerImage } from '@/features/core/components/SpinnerImage.tsx';
-import { Metadata } from '@/features/core/components/texts/Metadata.tsx';
+import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
+import { Metadata } from '@/base/components/texts/Metadata.tsx';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { ExtensionAction, InstalledState, TExtension } from '@/features/extension/Extensions.types.ts';
-import { languageCodeToName, languageSortComparator } from '@/features/core/utils/Languages.ts';
-import { assertIsDefined } from '@/Asserts.ts';
-import { StyledGroupItemWrapper } from '@/features/core/components/virtuoso/StyledGroupItemWrapper.tsx';
-import { ListCardContent } from '@/features/core/components/lists/cards/ListCardContent.tsx';
+import { languageCodeToName, languageSortComparator } from '@/base/utils/Languages.ts';
+import { assertIsDefined } from '@/base/Asserts.ts';
+import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
+import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 import {
     getInstalledState,
     translateExtensionLanguage,
     updateExtension,
 } from '@/features/extension/Extensions.utils.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { SourceConfigurableInfo, SourceIdInfo, SourceLanguageInfo } from '@/features/source/Source.types.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-import { useBackButton } from '@/features/core/hooks/useBackButton.ts';
+import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { INSTALLED_STATE_TO_TRANSLATION_KEY_MAP } from '@/features/extension/Extensions.constants.ts';
 
 const Header = ({ name, pkgName, iconUrl, repo }: TExtension) => (

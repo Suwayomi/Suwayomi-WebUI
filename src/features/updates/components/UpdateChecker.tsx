@@ -15,13 +15,13 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ClearIcon from '@mui/icons-material/Clear';
 import Stack from '@mui/material/Stack';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
-import { Progress } from '@/features/core/components/feedback/Progress.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { Progress } from '@/base/components/feedback/Progress.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { dateTimeFormatter } from '@/util/DateHelper.ts';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
+import { dateTimeFormatter } from '@/base/utils/DateHelper.ts';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 import { CategoryIdInfo } from '@/features/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';

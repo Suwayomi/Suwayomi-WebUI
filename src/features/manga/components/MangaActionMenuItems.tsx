@@ -21,21 +21,21 @@ import SyncIcon from '@mui/icons-material/Sync';
 import Dialog from '@mui/material/Dialog';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/features/collection/hooks/useSelectableCollection.ts';
-import { MenuItem } from '@/features/core/components/menu/MenuItem.tsx';
+import { MenuItem } from '@/base/components/menu/MenuItem.tsx';
 import {
     createGetMenuItemTitle,
     createIsMenuItemDisabled,
     createShouldShowMenuItem,
-} from '@/features/core/components/menu/Menu.utils.ts';
+} from '@/base/components/menu/Menu.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
 import { useCategorySelect } from '@/features/category/hooks/useCategorySelect.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
-import { NestedMenuItem } from '@/features/core/components/menu/NestedMenuItem.tsx';
+import { NestedMenuItem } from '@/base/components/menu/NestedMenuItem.tsx';
 import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/features/manga/Manga.types.ts';
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
 

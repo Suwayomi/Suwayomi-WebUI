@@ -6,9 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { NullAndUndefined } from '@/Base.types.ts';
 import { MangaStatus, MangaType, TrackerType } from '@/lib/graphql/generated/graphql.ts';
-import { GridLayout } from '@/features/core/Core.types.ts';
+import { GridLayout, NullAndUndefined } from '@/base/Base.types.ts';
 
 export type MetadataLibrarySettings = {
     showAddToLibraryCategorySelectDialog: boolean;

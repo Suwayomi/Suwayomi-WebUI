@@ -8,7 +8,7 @@
 
 import { SortBy, SortOrder } from '@/features/migration/Migration.types.ts';
 
-import { TranslationKey } from '@/Base.types.ts';
+import { TranslationKey } from '@/base/Base.types.ts';
 
 export const sortByToTranslationKey: Record<SortBy, TranslationKey> = {
     [SortBy.SOURCE_NAME]: 'migrate.sort.by_source_name',

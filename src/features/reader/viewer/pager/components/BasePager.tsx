@@ -16,7 +16,7 @@ import {
     ReaderResumeMode,
     ReaderTransitionPageMode,
 } from '@/features/reader/Reader.types.ts';
-import { applyStyles } from '@/features/core/utils/ApplyStyles.ts';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 
 const getPreviousCurrentPageIndex = (resumeMode: ReaderResumeMode): number =>

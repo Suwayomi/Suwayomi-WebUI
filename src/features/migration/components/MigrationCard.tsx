@@ -16,9 +16,9 @@ import { useTranslation } from 'react-i18next';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
-import { ListCardAvatar } from '@/features/core/components/lists/cards/ListCardAvatar.tsx';
-import { ListCardContent } from '@/features/core/components/lists/cards/ListCardContent.tsx';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
+import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 
 export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas']['nodes'][number]['source']> & {
     mangaCount: number;

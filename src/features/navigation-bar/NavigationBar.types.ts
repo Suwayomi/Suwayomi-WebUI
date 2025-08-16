@@ -9,8 +9,8 @@
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { ReactNode } from 'react';
-import { TranslationKey } from '@/Base.types.ts';
-import { StaticAppRoute } from '@/features/core/AppRoute.constants.ts';
+import { StaticAppRoute } from '@/base/AppRoute.constants.ts';
+import { TranslationKey } from '@/base/Base.types.ts';
 
 export interface INavbarOverride {
     status: boolean;

@@ -8,7 +8,7 @@
 
 import { t as translate } from 'i18next';
 import { DocumentNode, MaybeMasked, Unmasked, useFragment } from '@apollo/client';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import {
@@ -19,13 +19,12 @@ import {
 } from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 
-import { DirectionOffset } from '@/Base.types.ts';
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { ReaderOpenChapterLocationState, ReaderResumeMode } from '@/features/reader/Reader.types.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
-import { epochToDate, getDateString } from '@/util/DateHelper.ts';
+import { epochToDate, getDateString } from '@/base/utils/DateHelper.ts';
 import {
     CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED,
     CHAPTER_ACTION_TO_TRANSLATION,
@@ -41,8 +40,9 @@ import {
     ChapterScanlatorInfo,
     ChapterSourceOrderInfo,
 } from '@/features/chapter/Chapter.types.ts';
-import { assertIsDefined } from '@/Asserts.ts';
-import { awaitConfirmation } from '@/features/core/utils/AwaitableDialog.tsx';
+import { assertIsDefined } from '@/base/Asserts.ts';
+import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
+import { DirectionOffset } from '@/base/Base.types.ts';
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {

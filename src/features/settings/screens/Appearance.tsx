@@ -16,20 +16,20 @@ import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import { useColorScheme } from '@mui/material/styles';
 import { ThemeMode, useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
-import { Select } from '@/features/core/components/inputs/Select.tsx';
-import { MediaQuery } from '@/features/core/utils/MediaQuery.tsx';
-import { NumberSetting } from '@/features/core/components/settings/NumberSetting.tsx';
+import { Select } from '@/base/components/inputs/Select.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { I18nResourceCode, i18nResources } from '@/i18n';
-import { languageCodeToName } from '@/features/core/utils/Languages.ts';
+import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { ThemeList } from '@/features/theme/components/ThemeList.tsx';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { LoadingPlaceholder } from '@/features/core/components/feedback/LoadingPlaceholder.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';

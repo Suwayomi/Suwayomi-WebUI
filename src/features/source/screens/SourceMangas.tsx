@@ -19,14 +19,14 @@ import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { CustomTooltip } from '@/features/core/components/CustomTooltip.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import {
     requestManager,
     AbortableApolloUseMutationPaginatedResponse,
     SPECIAL_ED_SOURCES,
 } from '@/lib/requests/RequestManager.ts';
 import { SourceGridLayout } from '@/features/source/components/SourceGridLayout.tsx';
-import { AppbarSearch } from '@/features/core/components/AppbarSearch.tsx';
+import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { SourceOptions } from '@/features/source/components/SourceOptions.tsx';
 import { BaseMangaGrid } from '@/features/manga/components/BaseMangaGrid.tsx';
 import {
@@ -39,19 +39,18 @@ import {
     updateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { useLocalStorage, useSessionStorage } from '@/features/core/hooks/useStorage.tsx';
+import { useLocalStorage, useSessionStorage } from '@/base/hooks/useStorage.tsx';
 import { MANGA_GRID_SNAPSHOT_KEY } from '@/features/manga/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import { makeToast } from '@/features/core/utils/Toast.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
-import { TranslationKey } from '@/Base.types.ts';
 import { IPos, SourceIdInfo } from '@/features/source/Source.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { EmptyView } from '@/features/core/components/feedback/EmptyView.tsx';
-import { EmptyViewAbsoluteCentered } from '@/features/core/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import { GridLayout, SearchParam } from '@/features/core/Core.types.ts';
-import { AppRoutes } from '@/features/core/AppRoute.constants.ts';
+import { GridLayout, SearchParam, TranslationKey } from '@/base/Base.types.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
