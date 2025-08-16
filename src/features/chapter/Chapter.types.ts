@@ -11,7 +11,6 @@ import {
     ChapterType,
     DownloadStatusFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
-import { NullAndUndefined } from '@/base/Base.types.ts';
 
 export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
 

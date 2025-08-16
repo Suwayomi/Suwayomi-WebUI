@@ -22,7 +22,7 @@ import {
     MangaUnreadInfo,
 } from '@/features/manga/Manga.types.ts';
 import { SourceDisplayNameInfo } from '@/features/source/Source.types.ts';
-import { NullAndUndefined, SearchParam } from '@/base/Base.types.ts';
+import { SearchParam } from '@/base/Base.types.ts';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,

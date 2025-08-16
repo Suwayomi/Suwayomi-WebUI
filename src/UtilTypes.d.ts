@@ -20,6 +20,8 @@ type RecursivePartial<T> = {
           : T[P];
 };
 
+type NullAndUndefined<T> = T | null | undefined;
+
 type NonNullableProperties<T> = { [P in keyof T]-?: NonNullable<T[P]> };
 
 type OptionalProperty<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;

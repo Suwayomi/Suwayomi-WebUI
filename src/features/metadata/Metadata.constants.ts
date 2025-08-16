@@ -33,7 +33,6 @@ import { ISourceMetadata } from '@/features/source/Source.types.ts';
 import { LibraryOptions } from '@/features/library/Library.types.ts';
 import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { NullAndUndefined } from '@/base/Base.types.ts';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI';
 

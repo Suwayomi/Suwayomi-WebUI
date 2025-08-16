@@ -19,7 +19,6 @@ import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
 import { createUpdateMangaMetadata, useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { NullAndUndefined } from '@/base/Base.types.ts';
 
 export function unreadFilter(unread: NullAndUndefined<boolean>, { isRead: isChapterRead }: ChapterReadInfo) {
     switch (unread) {

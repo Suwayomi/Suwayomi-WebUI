@@ -7,7 +7,7 @@
  */
 
 import { MangaStatus, MangaType, TrackerType } from '@/lib/graphql/generated/graphql.ts';
-import { GridLayout, NullAndUndefined } from '@/base/Base.types.ts';
+import { GridLayout } from '@/base/Base.types.ts';
 
 export type MetadataLibrarySettings = {
     showAddToLibraryCategorySelectDialog: boolean;

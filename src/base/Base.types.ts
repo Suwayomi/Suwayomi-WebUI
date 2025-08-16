@@ -20,8 +20,6 @@ export enum DirectionOffset {
     NEXT = 1,
 }
 
-export type NullAndUndefined<T> = T | null | undefined;
-
 export type TranslationKey = ParseKeys;
 
 interface DisplayDataTranslationKey {
