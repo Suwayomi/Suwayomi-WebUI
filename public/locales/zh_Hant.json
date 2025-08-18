@@ -15,7 +15,10 @@
                 "page_gap": "頁間距",
                 "reading_direction": "閱讀順序",
                 "reading_mode": "閱讀模式",
-                "offset_double_spread": "調整跨頁偏移"
+                "offset_double_spread": "調整跨頁偏移",
+                "skip_filtered_chapters": "略過已過濾的章節",
+                "unchangeable_in_reader": "在閱讀器開啟時無法變更設定",
+                "custom_scroll_amount": "自動捲動量"
             },
             "reader_type": {
                 "label": {
@@ -245,7 +248,7 @@
                     "label": {
                         "action": "新增收藏",
                         "error_other": "無法收藏此章節",
-                        "success_other": "已收藏{{count}}章節"
+                        "success_other": "已收藏 {{count}} 章節"
                     }
                 },
                 "remove": {
@@ -255,7 +258,8 @@
                     "label": {
                         "action": "取消收藏",
                         "error_other": "無法移除收藏",
-                        "success_other": "刪除{{count}}章節收藏"
+                        "success_other": "刪除{{count}}章節收藏",
+                        "confirmation_other": "您即將移除 {{count}} 個書籤"
                     }
                 }
             },
@@ -268,7 +272,8 @@
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
                         "unread": "$t(global.filter.label.unread)",
-                        "next_other": "$t(reader.button.next_chapter)"
+                        "next_other": "$t(reader.button.next_chapter)",
+                        "confirmation_other": "您即將下載 {{count}} 個章節。\nSuwayomi 不是一個大量夏下載工具，太多的下載可能導致您被來源封鎖或性能問題。"
                     },
                     "button": {
                         "selected": "下載已選擇"
@@ -281,7 +286,8 @@
                     "label": {
                         "action": "刪除",
                         "success_other": "{{count}}章節已刪除",
-                        "error_other": "無法刪除章節"
+                        "error_other": "無法刪除章節",
+                        "confirmation_other": "您即將刪除 {{count}} 下載"
                     }
                 }
             },
@@ -299,7 +305,8 @@
                             "previous": "標記之前的章節為已讀"
                         },
                         "error_other": "無法標記章節為已讀",
-                        "success_other": "{{count}}章節已標記為已讀"
+                        "success_other": "{{count}}章節已標記為已讀",
+                        "confirmation_other": "您即將標記 {{count}} 個章節為已讀"
                     }
                 },
                 "remove": {
@@ -309,7 +316,8 @@
                     "label": {
                         "action": "標記為未讀",
                         "error_other": "無法標記章節為未讀",
-                        "success_other": "{{count}}章節標記為未讀"
+                        "success_other": "{{count}}章節標記為未讀",
+                        "confirmation_other": "您即將標記 {{count}} 個章節為未讀"
                     }
                 }
             }
@@ -326,14 +334,17 @@
                     "chapter_number": "章節數",
                     "source_title": "原標題"
                 }
-            }
+            },
+            "exclude_scanlators": "排除掃翻者"
         },
         "status": {
             "label": {
                 "downloaded": "已下載"
             }
         },
-        "title_other": "章節"
+        "title_other": "章節",
+        "missing_other": "遺失 {{count}} 個章節",
+        "value_other": "{{count}} 個章節"
     },
     "extension": {
         "state": {
@@ -352,7 +363,8 @@
             "installation_failed_other": "無法安裝此擴充套件",
             "uninstallation_failed_other": "無法解除安裝此擴充套件",
             "update_failed_other": "無法更新此擴充套件",
-            "add_repository_info": "您必須新增擴充套件儲存庫才能夠安裝擴充套件"
+            "add_repository_info": "您必須新增擴充套件儲存庫才能夠安裝擴充套件",
+            "age_rating": "年齡分級"
         },
         "title_other": "擴充套件",
         "action": {
@@ -434,7 +446,9 @@
             "refresh": "重新整理",
             "remind_later": "稍後提醒",
             "save": "儲存",
-            "open": "開啟"
+            "open": "開啟",
+            "open_browser": "在瀏覽器中開啟",
+            "open_webview": "在 WebView 中開啟"
         },
         "date": {
             "label": {
@@ -509,7 +523,10 @@
             "large": "大",
             "small": "小",
             "pinned": "已釘選",
-            "last_used": "上次使用"
+            "last_used": "上次使用",
+            "scanlator": "掃譯者",
+            "stopped": "已停止",
+            "version": "版本"
         },
         "language": {
             "label": {
@@ -967,7 +984,34 @@
         "title": "設定",
         "server": {
             "auth": {
-                "title": "認證"
+                "title": "認證",
+                "mode": {
+                    "option": {
+                        "simpleLogin": {
+                            "label": {
+                                "title": "簡易登入",
+                                "description": "將顯示一個簡易登入頁面以進行登入。"
+                            }
+                        },
+                        "basicAuth": {
+                            "label": {
+                                "description": "您的瀏覽器將通過對話框提示您輸入憑證。",
+                                "title": "基本認證"
+                            }
+                        },
+                        "none": {
+                            "label": {
+                                "title": "無",
+                                "description": "禁用認證"
+                            }
+                        }
+                    }
+                },
+                "label": {
+                    "password": "$t(global.label.password)",
+                    "username": "$t(global.label.username)",
+                    "title": "認證模式"
+                }
             },
             "title": {
                 "server": "伺服器"
@@ -1094,6 +1138,35 @@
                     "label": {
                         "title": "本機來源位置",
                         "description": "伺服器上的本機來源檔案的儲存目錄路徑"
+                    }
+                }
+            },
+            "opds": {
+                "show_only_downloaded_chapters": {
+                    "label": {
+                        "title": "僅顯示下載的章節"
+                    }
+                },
+                "show_only_unread_chapters": {
+                    "label": {
+                        "title": "僅顯示未讀的章節"
+                    }
+                },
+                "binary_file_sizes": {
+                    "label": {
+                        "description": "以二進位制（KiB、MiB、GiB）顯示檔案大小，而不是十進位制（KB、MB、GB）",
+                        "title": "二進位制檔案大小"
+                    }
+                },
+                "mark_as_read_on_download": {
+                    "label": {
+                        "description": "下載後自動標記章節為已讀。",
+                        "title": "下載章節時標記其為已讀"
+                    }
+                },
+                "enable_page_read_progress": {
+                    "label": {
+                        "title": "啟用頁面閱讀進度"
                     }
                 }
             }
@@ -1308,6 +1381,9 @@
         "pin": {
             "add": "釘選來源",
             "remove": "取消釘選來源"
+        },
+        "extension_info": {
+            "title": "擴充套件資訊"
         }
     },
     "updates": {
@@ -1401,6 +1477,10 @@
                 "label": {
                     "cbz": "儲存為 CBZ 壓縮檔"
                 }
+            },
+            "conversion": {
+                "compression_level": "壓縮等級",
+                "title": "下載並轉換格式"
             }
         },
         "title": {
@@ -1451,7 +1531,9 @@
         },
         "action": {
             "button": {
-                "add_tracking": "新增追蹤"
+                "add_tracking": "新增追蹤",
+                "track_publicly": "公開追蹤",
+                "track_privately": "私密追蹤"
             },
             "login": {
                 "label": {
@@ -1484,6 +1566,23 @@
                 "label": {
                     "hint": "通過 \"id:<ID>\" 搜尋 ID（例如： \"id:13\"）\n通過 \"my:<Title>\" 限制搜尋在您的清單內（例如：\"my:One Piece\"）"
                 }
+            }
+        },
+        "publishing": {
+            "type": {
+                "unknown": "$t(global.label.unknown)",
+                "manga": "$t(manga.title_one)",
+                "manhua": "$t(manga.type.manhua)",
+                "manhwa": "$t(manga.type.manhwa)",
+                "doujinshi": "同人",
+                "novel": "小說",
+                "one_shot": "單篇"
+            },
+            "status": {
+                "not_yet_published": "尚未發布",
+                "finished": "$t(global.label.finished)",
+                "hiatus": "$(manga.status.hiatus)",
+                "cancelled": "$(manga.status.cancelled)"
             }
         }
     },

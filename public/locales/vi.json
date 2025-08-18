@@ -224,7 +224,7 @@
             "download_path": {
                 "label": {
                     "title": "Vị trí tải xuống",
-                    "description": "Thư mục nào nên được lưu vào khi truyện được tải về"
+                    "description": "Đường dẫn đến thư mục khi truyện được tải về"
                 }
             },
             "file_type": {
@@ -234,7 +234,7 @@
             },
             "conversion": {
                 "compression_level": "Mức độ nén",
-                "description": "Trong trường hợp không xác định MIME-Type, MIME-Type \"mặc định\" sẽ được sử dụng để chuyển đổi. \nĐặt \"none\" làm loại mục tiêu để tắt chuyển đổi cho Loại MIME",
+                "description": "Trong trường hợp không xác định MIME-Type, MIME-Type \"mặc định\" sẽ được sử dụng để chuyển đổi. \nĐặt \"{{value}}\" làm loại mục tiêu để tắt chuyển đổi cho Loại MIME",
                 "mime_type": "MIME-Type",
                 "title": "Chuyển đổi tải xuống",
                 "target": "MIME-Type target"
@@ -535,15 +535,15 @@
             "display": {
                 "badge": {
                     "label": {
-                        "download_badges": "Hiện thị chương tải xuống",
-                        "unread_badges": "Hiện thị chương chưa đọc"
+                        "download_badges": "Hiển thị chương tải xuống",
+                        "unread_badges": "Hiển thị chương chưa đọc"
                     },
                     "title": "Mục"
                 },
                 "tab": {
                     "title": "Nhãn",
                     "label": {
-                        "show_number_of_items": "Hiện thị số truyện"
+                        "show_number_of_items": "Hiển thị số truyện"
                     }
                 },
                 "other": {
@@ -559,7 +559,7 @@
                     "alphabetically": "A-Z",
                     "by_last_read": "Đọc gần đây",
                     "by_latest_uploaded_chapter": "Chương mới tải lên",
-                    "by_latest_fetched_chapter": "Chương mới nhất",
+                    "by_latest_fetched_chapter": "Chương mới cập nhật",
                     "by_total_chapters": "Tổng số chương"
                 }
             }
@@ -1143,7 +1143,7 @@
                 "flaresolverr": {
                     "enabled": {
                         "label": {
-                            "title": "FlareSolverr đã được kích hoạt",
+                            "title": "Kích hoạt FlareSolverr",
                             "description": "Xem <2>FlareSolverr</2> để biết thông tin về cách thiết lập nó"
                         }
                     },
