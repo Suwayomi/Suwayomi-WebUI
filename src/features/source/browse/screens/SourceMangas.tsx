@@ -288,9 +288,9 @@ export function SourceMangas() {
         { data, error, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage },
     ] = useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
     currentAbortRequest.current = abortRequest;
-    const isLoading = loading || filteredOutAllItemsOfFetchedPage;
     const mangas = data?.fetchSourceManga?.mangas ?? [];
     const hasNextPage = !!data?.fetchSourceManga?.hasNextPage;
+    const isLoading = loading || (filteredOutAllItemsOfFetchedPage && hasNextPage);
     const { data: sourceData } = requestManager.useGetSource<GetSourceBrowseQuery, GetSourceBrowseQueryVariables>(
         GET_SOURCE_BROWSE,
         sourceId,
