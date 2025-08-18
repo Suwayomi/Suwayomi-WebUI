@@ -59,6 +59,18 @@ const NAVIGATION_BAR_BASE_ITEMS = [
         IconComponent: ExploreOutlinedIcon,
         show: 'both',
         moreGroup: NavBarItemMoreGroup.GENERAL,
+        useBadge: () => {
+            const { t } = useTranslation();
+            const { data } = requestManager.useGetExtensionList();
+
+            const extensions = data?.extensions.nodes ?? [];
+            const availableUpdates = extensions.filter((extension) => extension.hasUpdate).length;
+
+            return {
+                count: availableUpdates,
+                title: t('extension.label.available_updates', { count: availableUpdates }),
+            };
+        },
     },
 ] as const satisfies RestrictedNavBarItem<'both'>[];
 
