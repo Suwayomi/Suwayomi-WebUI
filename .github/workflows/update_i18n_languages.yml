@@ -50,4 +50,8 @@ jobs:
           yarn i18n:gen-resources
 
       - name: Push changes
-        run: git push origin HEAD
+        run: |
+          cd master
+          git push origin HEAD
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
