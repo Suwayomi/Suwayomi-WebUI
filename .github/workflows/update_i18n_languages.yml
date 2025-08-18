@@ -48,3 +48,6 @@ jobs:
           cd master
           echo "WEBLATE_TOKEN=${{ secrets.MY_SECRET }}" > .env
           yarn i18n:gen-resources
+
+      - name: Push changes
+        run: git push origin HEAD
