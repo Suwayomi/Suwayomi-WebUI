@@ -26,6 +26,7 @@ export const i18nResources = [
     'fr',
     'it',
     'ja',
+    'ko',
     'pl',
     'pt-BR',
     'pt',
