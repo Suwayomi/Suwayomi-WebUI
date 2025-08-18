@@ -19,7 +19,7 @@
             }
         },
         "label": {
-            "use_as_default_category": "ライブラリに新しく漫画を追加するときに使用するカテゴリーです",
+            "use_as_default_category": "ライブラリに新しくマンガを追加するときに使用するカテゴリーです",
             "category_name": "カテゴリー名"
         },
         "settings": {
@@ -82,7 +82,7 @@
                         "error_other": "ダウンロードを追加することができません",
                         "success_other": "{{count}} 追加されたダウンロード",
                         "all": "$t(extension.language.all)",
-                        "next_other": "$t(reader.button.next_chapter)",
+                        "next_other": "次 {{count}} 章",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "unread": "$t(global.filter.label.unread)",
                         "confirmation_other": "{{count}}章をダウンロードしようとしています\nSuwayomi は大量ダウンロード向けのアプリではありません。過剰なダウンロードは、ソースからのアクセス禁止や、パフォーマンスの問題を引き起こす可能性があります。"
@@ -182,7 +182,7 @@
                 },
                 "categories": {
                     "label": {
-                        "include_in_download": "除外カテゴリに属する作品は、たとえ包含カテゴリにも含まれている場合でも、ダウンロードされません"
+                        "include_in_download": "除外カテゴリーに属する作品は、たとえ包含カテゴリーにも含まれている場合でも、ダウンロードされません"
                     }
                 }
             },
@@ -191,7 +191,7 @@
                     "disclaimer": "現在の章と次の章が既にダウンロードされていない場合にのみ動作します。",
                     "unread_chapters_to_download": "ダウンロードする未読の章の数",
                     "while_reading": "読書中の自動ダウンロード",
-                    "description": "読書中にダウンロードするチャプターの数。",
+                    "description": "読書中にダウンロードする章の数。",
                     "value": "{{chapters}} $t(chapter.title)"
                 },
                 "title": "先にダウンロード"
@@ -206,6 +206,13 @@
                 "label": {
                     "cbz": "CBZアーカイブとして保存"
                 }
+            },
+            "conversion": {
+                "compression_level": "圧縮レベル",
+                "description": "MIME-Type が定義されていない場合、変換には \"デフォルト\" を使用します。\nMIME-Type の変換を無効にする場合は \"{{value}}\" を設定",
+                "mime_type": "MIME-Type",
+                "target": "MIME-Type ターゲット",
+                "title": "ダウンロードを変換"
             }
         },
         "state": {
@@ -243,7 +250,7 @@
             "label": {
                 "failed_to_save_changes": "変更を保存できませんでした",
                 "update_failed": "更新が確認できません",
-                "invalid_file_type": "無効なファイルタイプ",
+                "invalid_file_type": "無効なファイル形式",
                 "failed_to_load_data": "データをロードできません",
                 "invalid_action": "これは有効なアクションではありません",
                 "invalid_input": "無効な入力",
@@ -288,7 +295,9 @@
             "open": "開く",
             "set": "セット",
             "changelog": "変更履歴",
-            "clear": "クリア"
+            "clear": "クリア",
+            "open_browser": "ブラウザで開く",
+            "open_webview": "WebViewで開く"
         },
         "label": {
             "display": "表示",
@@ -319,8 +328,8 @@
             "left": "左",
             "light": "右",
             "large": "大",
-            "more": "モア",
-            "mobile": "移動端",
+            "more": "もっと",
+            "mobile": "モバイル",
             "small": "小",
             "warning": "警告",
             "auto": "自動",
@@ -329,16 +338,16 @@
             "menu": "メニュー",
             "success": "成功",
             "right": "右",
-            "default": "黙認",
+            "default": "デフォルト",
             "next": "次のページ",
             "discord": "Discord",
-            "dark": "暗い",
+            "dark": "ダーク",
             "hidden": "隠された",
             "previous": "前のページ",
             "system": "システム",
             "browse": "閲覧",
-            "never": "なし",
-            "copied_clipboard": "ペーストボードにコピーしました",
+            "never": "しない",
+            "copied_clipboard": "クリップボードにコピーしました",
             "desktop": "デスクトップ",
             "finished": "完成しました",
             "info": "情報",
@@ -348,7 +357,7 @@
             "medium": "中",
             "placeholder": "プレースホルダー",
             "horizontal": "水平",
-            "last_used": "最終使用",
+            "last_used": "最後に使った",
             "pinned": "ピン留め",
             "scanlator": "スキャンレーター",
             "stopped": "停止",
@@ -469,7 +478,7 @@
         "title": "移行",
         "sort": {
             "by_source_name": "画像元の名前順に",
-            "by_manga_count": "漫画の数順に"
+            "by_manga_count": "マンガの数順に"
         },
         "search": {
             "title": "$t(migrate.title){{title}}"
@@ -506,7 +515,7 @@
                 "title": "グローバルアップデート",
                 "categories": {
                     "label": {
-                        "info": "除外されたカテゴリ内のエントリは、それらが除外されていないカテゴリにあっても更新されません"
+                        "info": "除外されたカテゴリー内のエントリは、それらが除外されていないカテゴリーにあっても更新されません"
                     }
                 },
                 "label": {
@@ -519,9 +528,9 @@
                     "cleanup": {
                         "label": {
                             "title": "データベースのクリーンアップ",
-                            "error": "カテゴリから非ライブラリのマンガを削除できません",
-                            "description": "カテゴリから非ライブラリのマンガを削除",
-                            "success": "カテゴリから非ライブラリのマンガを削除しました"
+                            "error": "カテゴリーから非ライブラリのマンガを削除できません",
+                            "description": "カテゴリーから非ライブラリのマンガを削除",
+                            "success": "カテゴリーから非ライブラリのマンガを削除しました"
                         }
                     }
                 },
@@ -541,8 +550,8 @@
                 "remove_from_library": {
                     "remove_from_categories": {
                         "label": {
-                            "description": "ライブラリから削除するときにカテゴリからマンガを削除します",
-                            "title": "マンガのカテゴリを忘れる"
+                            "description": "ライブラリから削除するときにカテゴリーからマンガを削除します",
+                            "title": "マンガのカテゴリーを忘れる"
                         }
                     }
                 },
@@ -557,7 +566,7 @@
                 "add_to_library": {
                     "category_selection": {
                         "label": {
-                            "description": "ライブラリにマンガを追加するときにカテゴリ選択が表示されます",
+                            "description": "ライブラリにマンガを追加するときにカテゴリー選択が表示されます",
                             "title": "カテゴリー選択ダイアログ"
                         }
                     }
@@ -615,7 +624,7 @@
         },
         "action": {
             "label": {
-                "update_category": "カテゴリを更新",
+                "update_category": "カテゴリーを更新",
                 "update_library": "ライブラリを更新",
                 "stop_update": "グローバルアップデートを停止する",
                 "search_globally": "『{{query}}』をすべてのソースで検索"
@@ -691,11 +700,11 @@
                 "label": {
                     "success_other": "{{count}}マンガのカテゴリーを変更しました",
                     "action": "カテゴリーを変更",
-                    "error_other": "マンガのカテゴリを変更できませんでした",
-                    "confirmation_other": "{{count}}件のカテゴリを変更しようとしています"
+                    "error_other": "マンガのカテゴリーを変更できませんでした",
+                    "confirmation_other": "{{count}}件のカテゴリーを変更しようとしています"
                 },
                 "button": {
-                    "selected": "選択したもののカテゴリを変更"
+                    "selected": "選択したもののカテゴリーを変更"
                 }
             }
         },
@@ -725,7 +734,7 @@
             "hiatus": "一時更新停止"
         },
         "type": {
-            "manhwa": "韓国漫画",
+            "manhwa": "韓国マンガ",
             "webtoon": "$t(reader.settings.reader_type.label.webtoon)",
             "manhua": "漫画",
             "comic": "アメコミ",
@@ -786,7 +795,7 @@
                 }
             },
             "dialog": {
-                "title": "言語別拡張設定"
+                "title": "言語ごとの拡張機能設定"
             }
         },
         "language": {
@@ -933,8 +942,8 @@
             },
             "chapter_transition": {
                 "warning": {
-                    "missing_chapter": "チャプター切り替え時に欠落しているチャプターの情報を通知します",
-                    "scanlator_change": "チャプター切り替え時にスキャンチームの変更情報を通知します"
+                    "missing_chapter": "章切り替え時に欠落している章の情報を通知します",
+                    "scanlator_change": "章切り替え時にスキャンチームの変更情報を通知します"
                 }
             },
             "auto_scroll": {
@@ -950,7 +959,7 @@
             "previous_chapter": "前の章",
             "next_page": "次のページ",
             "retry_load_pages": "エラーになったページを再読み込み",
-            "chapter_list": "チャプター一覧",
+            "chapter_list": "章一覧",
             "previous_page": "前のページ",
             "exit": "読むのをやめる"
         },
@@ -958,20 +967,20 @@
             "label": {
                 "next_chapter_does_not_exist": "開くことのできる次の章がありません",
                 "prev_chapter_does_not_exist": "開くことのできる前の章がありません",
-                "chapter_not_found": "チャプターが存在しません",
+                "chapter_not_found": "章が存在しません",
                 "no_pages_found": "コンテンツが見つかりません"
             }
         },
         "chapter_transition": {
             "warning": {
                 "next": {
-                    "scanlator": "次のチャプターのスキャンチームは現在のチャプターと異なります\n現在のチャプター：{{currentScanlator}}\n次のチャプター：{{nextScanlator}}",
-                    "chapter_number_other": "{{count}}チャプターが欠落しています\n現在のチャプター：{{currentChapter}}\n次のチャプター：{{nextChapter}}"
+                    "scanlator": "次の章のスキャンチームは現在の章と異なります\n現在の章：{{currentScanlator}}\n次の章：{{nextScanlator}}",
+                    "chapter_number_other": "{{count}}章が欠落しています\n現在の章：{{currentChapter}}\n次の章：{{nextChapter}}"
                 },
-                "title": "チャプター切り替え警告",
+                "title": "章切り替え警告",
                 "previous": {
-                    "chapter_number_other": "{{count}}チャプターが欠落しています\n前のチャプター：{{nextChapter}}\n現在のチャプター：{{currentChapter}}",
-                    "scanlator": "前のチャプターのスキャンチームは現在のチャプターと異なります\n前のチャプター：{{nextScanlator}}\n現在のチャプター：{{currentScanlator}}"
+                    "chapter_number_other": "{{count}}章が欠落しています\n前の章：{{nextChapter}}\n現在の章：{{currentChapter}}",
+                    "scanlator": "前の章のスキャンチームは現在の章と異なります\n前の章：{{nextScanlator}}\n現在の章：{{currentScanlator}}"
                 }
             }
         },
@@ -994,12 +1003,41 @@
             "finished": "$t(global.label.finished):",
             "first_chapter": "前の章はありません"
         },
-        "title": "リーダー—漫画{{mangaId}}章{{chapterIndex}}"
+        "title": "リーダー—マンガ{{mangaId}}章{{chapterIndex}}"
     },
     "settings": {
         "server": {
             "auth": {
-                "title": "認証"
+                "title": "認証",
+                "label": {
+                    "password": "$t(global.label.password)",
+                    "title": "認証モード",
+                    "username": "$t(global.label.username)"
+                },
+                "mode": {
+                    "option": {
+                        "basicAuth": {
+                            "label": {
+                                "description": "ブラウザは、認証情報をダイアログで入力するように指示します.",
+                                "title": "BASIC認証"
+                            }
+                        },
+                        "none": {
+                            "label": {
+                                "description": "認証を無効にする",
+                                "info": "ライブラリが外部からアクセス可能になります。プライベートネットワーク内、または他の方法でアクセスを保護している場合にのみ使用してください。",
+                                "title": "なし"
+                            }
+                        },
+                        "simpleLogin": {
+                            "label": {
+                                "description": "簡単なログインページが表示されます。",
+                                "info": "有効にすると、ログインページを表示するためにこのタブを再読み込みする必要がある場合があります。",
+                                "title": "シンプルログイン"
+                            }
+                        }
+                    }
+                }
             },
             "cloudflare": {
                 "flaresolverr": {
@@ -1128,6 +1166,53 @@
                     }
                 },
                 "title": "リクエスト"
+            },
+            "opds": {
+                "binary_file_sizes": {
+                    "label": {
+                        "title": "バイナリファイルサイズ",
+                        "unit_other": "アイテム",
+                        "description": "ファイルサイズを 10 進数（KB, MB, GB）ではなく、2 進数（KiB, MiB, GiB）で表示"
+                    }
+                },
+                "chapter_sort_order": {
+                    "label": {
+                        "title": "章ソート順",
+                        "description": "章を表示する順序を選択します。"
+                    }
+                },
+                "items_per_page": {
+                    "label": {
+                        "title": "ページごとのアイテム",
+                        "unit_other": "アイテム",
+                        "description": "OPDS フィード（例：ライブラリ履歴、漫画の章）で1ページに表示するアイテム数。\n値を大きくすると動作が重くなることがあります。"
+                    }
+                },
+                "show_only_unread_chapters": {
+                    "label": {
+                        "title": "未読の章のみを表示する",
+                        "description": "未読の章だけをフィードに表示するように絞り込みます。"
+                    }
+                },
+                "title": "OPDS",
+                "enable_page_read_progress": {
+                    "label": {
+                        "description": "ページストリーミング中に、各章のページごとに読書進捗を追跡・更新します",
+                        "title": "ページ単位で読書進捗を記録"
+                    }
+                },
+                "mark_as_read_on_download": {
+                    "label": {
+                        "description": "ダウンロードした章を自動的に既読にします。",
+                        "title": "ダウンロード時に章を既読にする"
+                    }
+                },
+                "show_only_downloaded_chapters": {
+                    "label": {
+                        "description": "ダウンロード済みの章だけをフィードに表示するように絞り込みます。",
+                        "title": "ダウンロード済みの章のみ表示"
+                    }
+                }
             }
         },
         "webui": {
@@ -1459,7 +1544,9 @@
                 }
             },
             "button": {
-                "add_tracking": "トラッキングを追加"
+                "add_tracking": "トラッキングを追加",
+                "track_privately": "非公開でトラッキング",
+                "track_publicly": "公開でトラッキング"
             },
             "logout": {
                 "label": {

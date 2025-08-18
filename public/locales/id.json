@@ -81,7 +81,7 @@
                         "unread": "$t(global.filter.label.unread)",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
-                        "next_other": "$t(reader.button.next_chapter)Lanjut",
+                        "next_other": "{{count}} bab selanjutnya",
                         "confirmation_other": "Kamu akan mengunduh {{count}} chapter.\nSuwayomi bukanlah pengunduh massal, dan terlalu banyak unduhan dapat menyebabkan Anda diblokir dari sumber dan/atau menyebabkan masalah kinerja."
                     },
                     "button": {
@@ -153,8 +153,8 @@
             "error": {
                 "label": {
                     "failed_delete_all": "Tidak dapat menghapus seluruh unduhan dari barisan",
-                    "failed_to_remove": "Tidak dapat menghilangkan unduhan dari barisan",
-                    "failed_to_retry": "Tidak dapat mengulang unduhan yang gagal"
+                    "failed_to_remove": "Tidak dapat menghapus unduhan dari antrian.",
+                    "failed_to_retry": "Tidak dapat mengulang unduhan yang gagal."
                 }
             },
             "info": {
@@ -195,7 +195,7 @@
                     "unread_chapters_to_download": "Jumlah bab yang belum dibaca untuk diunduh",
                     "while_reading": "Unduh otomatis saat membaca",
                     "description": "Seberapa banyak bab yang dapat diunduh sembari membaca.",
-                    "disclaimer": "Hanya berjalan apabila bab sekarang dan bab berikutnya telah diunduh"
+                    "disclaimer": "Hanya berjalan apabila bab sekarang dan bab berikutnya telah diunduh."
                 }
             },
             "file_type": {
@@ -223,6 +223,9 @@
                         }
                     }
                 }
+            },
+            "conversion": {
+                "compression_level": "Tingkat kompresi"
             }
         },
         "state": {
@@ -277,7 +280,8 @@
             "migrate": "Bermigasi",
             "changelog": "Catatan Perubahan",
             "set": "Atur",
-            "open": "Buka"
+            "open": "Buka",
+            "open_browser": "Buka di peramban"
         },
         "date": {
             "label": {
@@ -407,7 +411,8 @@
         },
         "time": {
             "minutes": {
-                "minute_other": "Menit"
+                "minute_other": "Menit",
+                "value": "{{count}} $t(global.time.minutes.minute, lowercase)"
             },
             "seconds": {
                 "second_other": "Detik",
@@ -822,7 +827,77 @@
     },
     "reader": {
         "button": {
-            "chapter_list": "Daftar bab"
+            "chapter_list": "Daftar bab",
+            "next_chapter": "Bab selanjutnya",
+            "next_page": "Halaman selanjutnya",
+            "open_menu": "Buka menu",
+            "previous_chapter": "Bab sebelumnya",
+            "previous_page": "Halaman sebelumnya",
+            "retry_load_pages": "Mengulang halaman yang galat"
+        },
+        "chapter_transition": {
+            "warning": {
+                "next": {
+                    "chapter_number_other": "Terdapat {{count}} bab yang hilang.\nSaat ini: {{currentChapter}}\nSelanjutnya: {{nextChapter}}",
+                    "scanlator": "Bab selanjutnya berasal dari scanlator yang berbeda dari saat ini.\nSaat ini: {{currentScanlator}}\nSelanjutnya: {{nextScanlator}}"
+                },
+                "previous": {
+                    "chapter_number_other": "Terdapat {{count}} bab yang hilang.\nSebelumnya: {{nextChapter}}\nSaat ini: {{currentChapter}}",
+                    "scanlator": "Bab sebelumnya berasal dari scanlator yang berbeda dari saat ini.\nSebelumnya: {{nextScanlator}}\nSaat ini: {{currentScanlator}}"
+                },
+                "title": "Peringatan transisi bab"
+            }
+        },
+        "error": {
+            "label": {
+                "chapter_not_found": "Bab tidak ditemukan",
+                "next_chapter_does_not_exist": "Tidak ada bab selanjutnya",
+                "no_pages_found": "Halaman tidak ditemukan",
+                "prev_chapter_does_not_exist": "Tidak ada bab sebelumnya"
+            }
+        },
+        "page_info": {
+            "label": {
+                "currently_on_page": "Di halaman saat ini",
+                "of_max_pages": "dari {{maxPages}}",
+                "page": "Halaman"
+            }
+        },
+        "settings": {
+            "active_setting": "Pengaturan aktif",
+            "auto_scroll": {
+                "smooth": "Gulir halus otomatis",
+                "speed": "Kecepatan gulir otomatis",
+                "title": "Gulir otomatis"
+            },
+            "auto_webtoon_mode": {
+                "title": "Mode webtoon otomatis"
+            },
+            "background_color": "Warna latar",
+            "chapter_transition": {
+                "warning": {
+                    "missing_chapter": "Beri tahu tentang bab yang hilang saat berganti bab",
+                    "scanlator_change": "Beri tahu tentang pergantian scanlator saat berganti bab"
+                }
+            },
+            "custom_filter": {
+                "brightness": "Kecerahan kustom",
+                "contrast": "Kontras kustom",
+                "grayscale": "Skala abu-abu",
+                "hue": "Rona kustom",
+                "invert": "Balikkan warna",
+                "rgba": {
+                    "alpha": "Alpha",
+                    "blend_mode": {
+                        "darken": "Gelapkan",
+                        "default": "$t(global.label.default)",
+                        "lighten": "Cerahkan",
+                        "multiply": "Multiply",
+                        "overlay": "Overlay",
+                        "screen": "Screen"
+                    }
+                }
+            }
         }
     }
 }

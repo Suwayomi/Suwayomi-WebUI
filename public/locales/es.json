@@ -469,14 +469,14 @@
                         "info": "Las entradas de las categorías excluidas no serán actualizadas aunque se encuentren en categorías incluidas"
                     }
                 },
-                "title": "Actualización global",
+                "title": "Actualizaciones globales",
                 "entries": {
                     "label": {
                         "not_started": "Que no se han iniciado",
                         "completed": "Con el estado \"Completado\"",
-                        "unread_chapters": "Con capítulo(s) sin leer"
+                        "unread_chapters": "Con capítulos no leídos"
                     },
-                    "title": "Omitir la actualización de las entradas"
+                    "title": "Omitir la actualización de mangas"
                 },
                 "auto_update": {
                     "interval": {
@@ -486,13 +486,13 @@
                         }
                     },
                     "label": {
-                        "title": "Actualizaciones automáticas"
+                        "title": "Buscar actualizaciones automáticamente"
                     }
                 },
                 "metadata": {
                     "label": {
-                        "title": "Actualizar automáticamente los metadatos",
-                        "description": "Comprobar la nueva portada y los detalles al actualizar la biblioteca"
+                        "title": "Actualizar metadatos automáticamente",
+                        "description": "Busca nuevas portadas y detalles al actualizar la biblioteca"
                     }
                 },
                 "label": {
@@ -504,17 +504,17 @@
                 "database": {
                     "cleanup": {
                         "label": {
-                            "title": "Limpiar la base de datos",
+                            "title": "Limpiar categorías",
                             "error": "No se pudo eliminar de las categorías el manga que no pertenece a la biblioteca",
                             "success": "Eliminado de las categorías el manga que no pertenece a la biblioteca",
-                            "description": "Eliminar de las categorías los mangas que no pertenecen a la biblioteca"
+                            "description": "Elimina los mangas que no están en la biblioteca de sus categorías"
                         }
                     }
                 },
                 "duplicates": {
                     "label": {
-                        "title": "Entradas duplicadas",
-                        "description": "Mostrar todas las entradas duplicadas en tu biblioteca"
+                        "title": "Buscar mangas duplicados",
+                        "description": "Muestra todos los mangas duplicados en la biblioteca"
                     },
                     "settings": {
                         "label": {
@@ -528,22 +528,22 @@
                     "ignore_filters": {
                         "label": {
                             "title": "Ignorar los filtros al buscar",
-                            "description": "Los resultados de la búsqueda incluirán los mangas que no coincidan con los filtros actuales"
+                            "description": "Los resultados de búsquedas incluirán mangas que no coincidan con los filtros activos"
                         }
                     }
                 },
                 "add_to_library": {
                     "category_selection": {
                         "label": {
-                            "title": "Diálogo de selección de categoría",
-                            "description": "Mostrar el diálogo de selección de categoría al añadir un manga a la biblioteca"
+                            "title": "Preguntar las categorías de los mangas",
+                            "description": "Muestra el diálogo de selección de categorías al añadir un manga a la biblioteca"
                         }
                     }
                 },
                 "remove_from_library": {
                     "remove_from_categories": {
                         "label": {
-                            "description": "Quitar los mangas de las categorías al eliminarlos de la biblioteca",
+                            "description": "Quita el manga de todas sus categorías al eliminarlo de la biblioteca",
                             "title": "Olvidar las categorías de los mangas"
                         }
                     }
@@ -709,15 +709,16 @@
             "medium": "Mediano",
             "large": "Grande",
             "small": "Pequeño",
-            "more": "Más"
+            "more": "Más",
+            "scanlator": "Grupo de scanlation"
         },
         "error": {
             "label": {
                 "invalid_file_type": "Tipo de archivo no válido",
                 "update_failed": "No se pudo comprobar las actualizaciones",
                 "invalid_action": "Esta no es una acción valida",
-                "failed_to_load_data": "No se pueden cargar los datos",
-                "failed_to_save_changes": "Error al guardar los cambios",
+                "failed_to_load_data": "No se pudieron cargar los datos",
+                "failed_to_save_changes": "No se pudieron guardar los cambios",
                 "invalid_input": "Entrada no válida",
                 "unrecoverable_error": "Algo salió mal\nOcurrió un error del que no podemos recuperarnos"
             }
@@ -782,66 +783,75 @@
             "bookmark": {
                 "remove": {
                     "label": {
-                        "action": "Eliminar marcador",
-                        "error_one": "No se pudo eliminar el marcador",
-                        "error_many": "No se pudieron eliminar los marcadores",
-                        "error_other": "No se pudieron eliminar los marcadores",
-                        "success_one": "Marcador de capítulo eliminado",
-                        "success_many": "{{count}} marcadores de capítulo eliminados",
-                        "success_other": "{{count}} marcadores de capítulo eliminados"
+                        "action": "Desmarcar capítulo",
+                        "error_one": "No se pudo desmarcar el capítulo.",
+                        "error_many": "No se pudieron desmarcar los capítulos.",
+                        "error_other": "No se pudieron desmarcar los capítulos.",
+                        "success_one": "Capítulo desmarcado.",
+                        "success_many": "{{count}} capítulos desmarcados.",
+                        "success_other": "{{count}} capítulos desmarcados.",
+                        "confirmation_one": "Estás a punto de desmarcar un capítulo.",
+                        "confirmation_many": "Estás a punto de desmarcar {{count}} capítulos.",
+                        "confirmation_other": "Estás a punto de desmarcar {{count}} capítulos."
                     },
                     "button": {
-                        "selected": "Eliminar marcadores seleccionados"
+                        "selected": "Desmarcar seleccionados"
                     }
                 },
                 "add": {
                     "button": {
-                        "selected": "Marcador seleccionado"
+                        "selected": "Marcar seleccionados"
                     },
                     "label": {
-                        "action": "Añadir marcador",
-                        "error_one": "No se pudo marcar el capitulo",
-                        "error_many": "No se pudieron marcar los capítulos",
-                        "error_other": "No se pudieron marcar los capítulos",
-                        "success_one": "Capítulo marcado",
-                        "success_many": "{{count}} capítulos marcados",
-                        "success_other": "{{count}} capítulos marcados"
+                        "action": "Marcar capítulo",
+                        "error_one": "No se pudo marcar el capítulo.",
+                        "error_many": "No se pudieron marcar los capítulos.",
+                        "error_other": "No se pudieron marcar los capítulos.",
+                        "success_one": "Capítulo marcado.",
+                        "success_many": "{{count}} capítulos marcados.",
+                        "success_other": "{{count}} capítulos marcados."
                     }
                 }
             },
             "download": {
                 "delete": {
                     "button": {
-                        "selected": "Borrar selección"
+                        "selected": "Eliminar seleccionados"
                     },
                     "label": {
-                        "error_one": "No se pudo eliminar el capitulo",
-                        "error_many": "No se pudieron eliminar los capítulos",
-                        "error_other": "No se pudieron eliminar los capítulos",
-                        "action": "Borrar",
-                        "success_one": "Capítulo eliminado",
-                        "success_many": "{{count}} capítulos eliminados",
-                        "success_other": "{{count}} capítulos eliminados"
+                        "error_one": "No se pudo eliminar el capitulo.",
+                        "error_many": "No se pudieron eliminar los capítulos.",
+                        "error_other": "No se pudieron eliminar los capítulos.",
+                        "action": "Eliminar capítulo",
+                        "success_one": "Capítulo eliminado.",
+                        "success_many": "{{count}} capítulos eliminados.",
+                        "success_other": "{{count}} capítulos eliminados.",
+                        "confirmation_one": "Estás a punto de eliminar un capítulo descargado.",
+                        "confirmation_many": "Estás a punto de eliminar {{count}} capítulos descargados.",
+                        "confirmation_other": "Estás a punto de eliminar {{count}} capítulos descargados."
                     }
                 },
                 "add": {
                     "button": {
-                        "selected": "Descarga seleccionada"
+                        "selected": "Descargar seleccionados"
                     },
                     "label": {
-                        "action": "Descargar",
-                        "error_one": "No se pudo añadir la descarga",
-                        "error_many": "No se pudieron añadir las descargas",
-                        "error_other": "No se pudieron añadir las descargas",
-                        "success_one": "Descarga añadida",
-                        "success_many": "{{count}} descargas añadidas",
-                        "success_other": "{{count}} descargas añadidas",
-                        "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
-                        "unread": "$t(global.filter.label.unread)",
-                        "all": "$t(extension.language.all)",
-                        "next_one": "$t(reader.button.next_chapter)",
-                        "next_many": "",
-                        "next_other": ""
+                        "action": "Descargar capítulo",
+                        "error_one": "No se pudo añadir el capítulo a la cola de descargas.",
+                        "error_many": "No se pudieron añadir los capítulos a la cola de descargas.",
+                        "error_other": "No se pudieron añadir los capítulos a la cola de descargas.",
+                        "success_one": "Capítulo añadido a la cola de descargas.",
+                        "success_many": "{{count}} capítulos añadidos a la cola de descargas.",
+                        "success_other": "{{count}} capítulos añadidos a la cola de descargas.",
+                        "ahead": "Descargar {{count}} capítulos no leídos",
+                        "unread": "Los capítulos no leídos",
+                        "all": "Todos los capítulos",
+                        "next_one": "El siguiente capítulo",
+                        "next_many": "Los siguientes {{count}} capítulos",
+                        "next_other": "Los siguientes {{count}} capítulos",
+                        "confirmation_one": "Estás a punto de descargar un capítulo.",
+                        "confirmation_many": "Estás a punto de descargar {{count}} capítulos.\nSuwayomi no es un descargador masivo, y demasiadas descargas pueden hacer que te bloqueen de las fuentes y/o causar problemas de rendimiento.",
+                        "confirmation_other": "Estás a punto de descargar {{count}} capítulos.\nSuwayomi no es un descargador masivo, y demasiadas descargas pueden hacer que te bloqueen de las fuentes y/o causar problemas de rendimiento."
                     }
                 }
             },
@@ -852,34 +862,40 @@
                             "current": "Marcar como leído",
                             "previous": "Marcar anterior como leído"
                         },
-                        "error_one": "No se pudo marcar el capítulo como leído",
-                        "error_many": "No se pudieron marcar los capítulos como leídos",
-                        "error_other": "No se pudieron marcar los capítulos como leídos",
-                        "success_one": "Capítulo marcado como leído",
-                        "success_many": "{{count}} capítulos marcados como leídos",
-                        "success_other": "{{count}} capítulos marcados como leídos"
+                        "error_one": "No se pudo marcar el capítulo como leído.",
+                        "error_many": "No se pudieron marcar los capítulos como leídos.",
+                        "error_other": "No se pudieron marcar los capítulos como leídos.",
+                        "success_one": "Capítulo marcado como leído.",
+                        "success_many": "{{count}} capítulos marcados como leídos.",
+                        "success_other": "{{count}} capítulos marcados como leídos.",
+                        "confirmation_one": "Estás a punto de marcar un capítulo como leído.",
+                        "confirmation_many": "Estás a punto de marcar {{count}} capítulos como leídos.",
+                        "confirmation_other": "Estás a punto de marcar {{count}} capítulos como leídos."
                     },
                     "button": {
-                        "selected": "Marcar selección como leído"
+                        "selected": "Marcar seleccionados como leídos"
                     }
                 },
                 "remove": {
                     "label": {
-                        "success_one": "Capítulo marcado como no leído",
-                        "success_many": "{{count}} capítulos marcados como no leídos",
-                        "success_other": "{{count}} capítulos marcados como no leídos",
+                        "success_one": "Capítulo marcado como no leído.",
+                        "success_many": "{{count}} capítulos marcados como no leídos.",
+                        "success_other": "{{count}} capítulos marcados como no leídos.",
                         "action": "Marcar como no leído",
-                        "error_one": "No se pudo marcar el capítulo como no leído",
-                        "error_many": "No se pudieron marcar los capítulos como no leídos",
-                        "error_other": "No se pudieron marcar los capítulos como no leídos"
+                        "error_one": "No se pudo marcar el capítulo como no leído.",
+                        "error_many": "No se pudieron marcar los capítulos como no leídos.",
+                        "error_other": "No se pudieron marcar los capítulos como no leídos.",
+                        "confirmation_one": "Estás a punto de marcar un capítulo como no leído.",
+                        "confirmation_many": "Estás a punto de marcar {{count}} capítulos como no leídos.",
+                        "confirmation_other": "Estás a punto de marcar {{count}} capítulos como no leídos."
                     },
                     "button": {
-                        "selected": "Marcar selección como no leído"
+                        "selected": "Marcar seleccionados como no leídos"
                     }
                 }
             },
             "label": {
-                "select": "Seleccionar"
+                "select": "Seleccionar capítulo"
             }
         },
         "option": {
@@ -888,22 +904,26 @@
                     "chapter_number": "Número de capitulo",
                     "source_title": "Título de fuente"
                 }
-            }
+            },
+            "exclude_scanlators": "Excluir grupos de scanlation"
         },
         "title_one": "Capítulo",
         "title_many": "Capítulos",
         "title_other": "Capítulos",
         "error": {
             "label": {
-                "no_matches": "No se encontraron capítulos que coincidan con el filtro",
-                "no_chapter_found": "No se encontraron capítulos"
+                "no_matches": "Ningún capítulo coincide con el filtro",
+                "no_chapter_found": "Ningún capítulo encontrado"
             }
         },
         "status": {
             "label": {
                 "downloaded": "Descargado"
             }
-        }
+        },
+        "value_one": "{{count}} capítulo",
+        "value_many": "{{count}} capítulos",
+        "value_other": "{{count}} capítulos"
     },
     "reader": {
         "settings": {
@@ -1111,7 +1131,7 @@
         },
         "dialog": {
             "title": {
-                "new_category": "Nueva categoría",
+                "new_category": "Crear nueva categoría",
                 "edit_category_one": "Editar la categoría",
                 "edit_category_many": "Editar las categorías",
                 "edit_category_other": "Editar las categorías"
@@ -1124,14 +1144,14 @@
                 }
             },
             "label": {
-                "empty": "La categoría está vacía",
+                "empty": "El nombre de la categoría no puede estar vacío",
                 "request_failure": "No se pudieron cargar las categorías",
                 "create_failure": "No se pudo crear la categoría"
             }
         },
         "label": {
-            "category_name": "Nombre de categoría",
-            "use_as_default_category": "Categoría predeterminada al añadir nuevos mangas a la biblioteca"
+            "category_name": "Nombre de la categoría",
+            "use_as_default_category": "Establecer como categoría por defecto al añadir mangas a la biblioteca"
         },
         "settings": {
             "inclusion": {
@@ -1418,13 +1438,13 @@
             },
             "download_ahead": {
                 "label": {
-                    "while_reading": "Descarga automática durante la lectura",
-                    "unread_chapters_to_download": "Número de capítulos no leídos para descargar",
+                    "while_reading": "Activar descarga anticipada durante la lectura",
+                    "unread_chapters_to_download": "Número de capítulos no leídos a descargar",
                     "value": "{{chapters}} $t(chapter.title)",
                     "disclaimer": "Solo funciona si ya se han descargado el capítulo actual y el siguiente.",
-                    "description": "¿Cuántos capítulos deben descargarse durante la lectura?"
+                    "description": "Define cuántos capítulos siguientes se descargarán automáticamente durante la lectura"
                 },
-                "title": "Descargar antes"
+                "title": "Descargas anticipadas al leer"
             },
             "download_path": {
                 "label": {

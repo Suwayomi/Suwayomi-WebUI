@@ -1496,7 +1496,7 @@
             },
             "conversion": {
                 "compression_level": "Bildkompression Level",
-                "description": "Wenn kein MIME-Typ definiert ist, wird \"default\" für die Konvertierung verwendet.\nNutze \"none\" um die Konvertierung für einen gewissen MIME-Typ zu deaktivieren",
+                "description": "Wenn kein MIME-Typ definiert ist, wird \"default\" für die Konvertierung verwendet.\nNutze \"{{value}}\" um die Konvertierung für einen gewissen MIME-Typ zu deaktivieren",
                 "mime_type": "MIME-Typ",
                 "target": "MIME-Typ Ziel",
                 "title": "Download Konvertierung"

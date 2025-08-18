@@ -272,9 +272,10 @@
             },
             "conversion": {
                 "compression_level": "Poziom kompresji",
-                "description": "W przypadku braku zdefiniowanego typu MIME, do konwersji zostanie użyty typ \"domyślny\".",
+                "description": "W przypadku braku zdefiniowanego typu MIME, do konwersji zostanie użyty typ \"domyślny\".\nUstaw \"{{value}}\" jako typ docelowy, aby wyłączyć konwersję dla typu MIME",
                 "mime_type": "Typ MIME",
-                "title": "Pobieranie konwersji"
+                "title": "Pobieranie konwersji",
+                "target": "Docelowy MIME-Type"
             }
         },
         "state": {
