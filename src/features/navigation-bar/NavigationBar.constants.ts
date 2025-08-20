@@ -66,6 +66,13 @@ const NAVIGATION_BAR_BASE_ITEMS = [
             const extensions = data?.extensions.nodes ?? [];
             const availableUpdates = extensions.filter((extension) => extension.hasUpdate).length;
 
+            if (!availableUpdates) {
+                return {
+                    count: availableUpdates,
+                    title: '',
+                };
+            }
+
             return {
                 count: availableUpdates,
                 title: t('extension.label.available_updates', { count: availableUpdates }),
