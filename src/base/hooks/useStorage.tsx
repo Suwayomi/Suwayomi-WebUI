@@ -52,7 +52,13 @@ function useStorage<T>(
             return initialState;
         }
 
-        return jsonSaveParse(storedValueRaw) ?? storedValueRaw;
+        const parsedValue = jsonSaveParse(storedValueRaw);
+
+        if (storedValueRaw === 'null' || storedValueRaw === 'undefined') {
+            return parsedValue;
+        }
+
+        return parsedValue ?? storedValueRaw;
     }, [storedValueRaw, key]);
 
     return [storedValue, setValue];

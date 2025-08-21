@@ -17,7 +17,13 @@ export class Storage {
             return defaultValue;
         }
 
-        return jsonSaveParse(value) ?? (value as T);
+        const parsedValue = jsonSaveParse(value);
+
+        if (value === 'null' || value === 'undefined') {
+            return parsedValue;
+        }
+
+        return parsedValue ?? (value as T);
     }
 
     getItem(key: string): string | null {
