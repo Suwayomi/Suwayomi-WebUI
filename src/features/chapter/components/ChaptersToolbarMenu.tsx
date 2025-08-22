@@ -55,10 +55,7 @@ export const ChaptersToolbarMenu = ({
 
     return (
         <>
-            <CustomTooltip
-                title={t('chapter.action.mark_as_read.add.label.action.all')}
-                disabled={areAllChaptersRead}
-            >
+            <CustomTooltip title={t('chapter.action.mark_as_read.add.label.action.all')} disabled={areAllChaptersRead}>
                 <IconButton
                     disabled={areAllChaptersRead}
                     onClick={() => Chapters.markAsRead(Chapters.getNonRead(chapters), true, mangaId)}
@@ -70,10 +67,7 @@ export const ChaptersToolbarMenu = ({
             <PopupState variant="popover" popupId="chapterlist-download-button">
                 {(popupState) => (
                     <>
-                        <CustomTooltip
-                            title={t('global.button.download')}
-                            disabled={areAllChaptersRead}
-                        >
+                        <CustomTooltip title={t('global.button.download')} disabled={areAllChaptersRead}>
                             <IconButton
                                 disabled={areAllChaptersDownloaded}
                                 {...bindTrigger(popupState)}
