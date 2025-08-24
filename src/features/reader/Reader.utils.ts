@@ -55,27 +55,26 @@ export const getChapterIdsToDeleteForChapterUpdate = (
         return [];
     }
 
-    const chapterToDelete = [chapter, ...previousChapters][deleteChaptersWhileReading - 1];
-    if (!chapterToDelete) {
+    const maybeChapterToDelete = [chapter, ...previousChapters][deleteChaptersWhileReading - 1];
+    if (!maybeChapterToDelete) {
         return [];
     }
 
-    const chapterToDeleteUpToDateData = getReaderChapterFromCache(chapterToDelete.id);
-    if (!chapterToDeleteUpToDateData) {
+    const maybeChaptersToDelete = shouldSkipDupChapters
+        ? Chapters.addDuplicates([maybeChapterToDelete], chapters)
+        : [maybeChapterToDelete];
+    const chaptersToDelete = maybeChaptersToDelete
+        .map(({ id }) => getReaderChapterFromCache(id))
+        .filter((chapterToDeleteUpToDateData) => chapterToDeleteUpToDateData !== null)
+        .filter((chapterToDeleteUpToDateData) =>
+            Chapters.isDeletable(chapterToDeleteUpToDateData, deleteChaptersWithBookmark),
+        );
+
+    if (!chaptersToDelete.length) {
         return [];
     }
 
-    const shouldDeleteChapter =
-        patch.isRead && Chapters.isDeletable(chapterToDeleteUpToDateData, deleteChaptersWithBookmark);
-    if (!shouldDeleteChapter) {
-        return [];
-    }
-
-    if (!shouldSkipDupChapters) {
-        return Chapters.getIds([chapterToDelete]);
-    }
-
-    return Chapters.getIds(Chapters.addDuplicates([chapterToDelete], chapters));
+    return Chapters.getIds(chaptersToDelete);
 };
 
 export const isInDownloadAheadRange = (
