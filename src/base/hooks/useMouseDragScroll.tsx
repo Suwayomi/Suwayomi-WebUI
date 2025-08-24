@@ -37,7 +37,7 @@ export const useMouseDragScroll = (
     const previousClickPosY = useRef<Positions>([0, 0, 0]);
     const previousClickTime = useRef<ClickTimes>([0, 0, 0]);
     const scrollAtT0 = useRef<[ScrollLeft: number, ScrollTop: number]>([0, 0]);
-    const inertiaTimeInterval = useRef<NodeJS.Timeout>(undefined);
+    const inertiaTimeInterval = useRef<number>(undefined);
 
     useEffect(() => {
         const element = ref?.current;
@@ -68,7 +68,12 @@ export const useMouseDragScroll = (
         const handleScrollX = scrollDirection !== ScrollDirection.Y;
         const handleScrollY = scrollDirection !== ScrollDirection.X;
 
-        const clearInertiaInterval = () => clearInterval(inertiaTimeInterval.current);
+        const clearInertiaInterval = () => {
+            if (inertiaTimeInterval.current !== undefined) {
+                cancelAnimationFrame(inertiaTimeInterval.current);
+                inertiaTimeInterval.current = undefined;
+            }
+        };
 
         const inertiaMove = () => {
             const calcVelocity = (positions: Positions, clickTimes: ClickTimes, size: number): number =>
@@ -194,7 +199,12 @@ export const useMouseDragScroll = (
             }, 0);
 
             scrollAtT0.current = [element.scrollLeft, element.scrollTop];
-            inertiaTimeInterval.current = setInterval(inertiaMove, 16);
+
+            const inertiaLoop = () => {
+                inertiaMove();
+                inertiaTimeInterval.current = requestAnimationFrame(inertiaLoop);
+            };
+            inertiaTimeInterval.current = requestAnimationFrame(inertiaLoop);
         };
 
         const handleMouseDown = (e: MouseEvent) => {
