@@ -262,7 +262,8 @@
             "update_failed_other": "Không thể cập nhật tiện ích",
             "uninstallation_failed_other": "Không thể xóa tiện ích",
             "add_repository_info": "Bạn phải thêm kho tiện ích trước khi cài đặt tiện ích",
-            "age_rating": "Phân loại độ tuổi"
+            "age_rating": "Phân loại độ tuổi",
+            "available_updates": "{{count}} đang chờ cập nhật"
         },
         "language": {
             "all": "Đa ngôn ngữ",

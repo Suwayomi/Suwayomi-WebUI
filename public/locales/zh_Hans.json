@@ -276,7 +276,8 @@
             "uninstallation_failed_other": "无法卸载插件",
             "update_failed_other": "无法更新插件",
             "add_repository_info": "您必须添加扩展库才能安装扩展程序",
-            "age_rating": "年龄分级"
+            "age_rating": "年龄分级",
+            "available_updates": "{{count}}个可用的更新"
         },
         "title_other": "插件",
         "settings": {
