@@ -103,6 +103,9 @@
           }
         }
       },
+      "filter_and_sort": {
+        "label": "Filter and sort"
+      },
       "label": {
         "select": "Select"
       },
@@ -114,7 +117,8 @@
           "label": {
             "action": {
               "current": "Mark as read",
-              "previous": "Mark previous as read"
+              "previous": "Mark previous as read",
+              "all": "Mark all as read"
             },
             "confirmation_one": "You are about to mark one chapter as read",
             "confirmation_other": "You are about to mark {{count}} chapters as read",
@@ -341,12 +345,13 @@
       "browse": "Browse",
       "cancel": "Cancel",
       "changelog": "Changelog",
-      "clear": "Clear",
+      "clear_selection": "Clear",
       "copy": "Copy",
       "create": "Create",
       "delete": "Delete",
       "deselect": "Deselect",
       "dont_show_dialog_again": "Don't show this dialog again",
+      "download": "Download",
       "edit": "Edit",
       "filter": "Filter",
       "ignore": "Ignore",
