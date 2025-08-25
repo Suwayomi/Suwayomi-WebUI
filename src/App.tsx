@@ -7,7 +7,7 @@
  */
 
 import CssBaseline from '@mui/material/CssBaseline';
-import React, { useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
@@ -31,6 +31,7 @@ import { useSessionContext } from '@/features/authentication/SessionContext.tsx'
 import { LoginPage } from '@/features/authentication/screens/LoginPage.tsx';
 import { AuthGuard } from '@/features/authentication/components/AuthGuard.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -98,6 +99,25 @@ const ScrollToTop = () => {
     useLayoutEffect(() => {
         window.scrollTo(0, 0);
     }, [pathname]);
+
+    return null;
+};
+
+const InitialBackgroundRequests = () => {
+    const { isAuthRequired, accessToken } = useSessionContext();
+    const skipConnection = isAuthRequired == null || (!!isAuthRequired && !accessToken);
+
+    const [fetchExtensionList] = requestManager.useExtensionListFetch();
+
+    useEffect(() => {
+        if (skipConnection) {
+            return;
+        }
+
+        // Fetch extension list on startup to show up-to-date number of available extension updates in the navigation bar
+        // without having to open the extensions page.
+        fetchExtensionList().catch(defaultPromiseErrorHandler('App::InitialBackgroundRequests: extension list'));
+    }, [skipConnection]);
 
     return null;
 };
@@ -267,6 +287,7 @@ export const App: React.FC = () => (
         <ScrollToTop />
         <ServerUpdateChecker />
         <WebUIUpdateChecker />
+        <InitialBackgroundRequests />
         <BackgroundSubscriptions />
         <CssBaseline enableColorScheme />
         <AuthGuard>
