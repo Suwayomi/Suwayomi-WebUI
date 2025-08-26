@@ -20,7 +20,6 @@ type Positions = [OldestPos: number, SecondOldestPos: number, LatestPos: number]
 type ClickTimes = [OldestTime: number, SecondOldestTime: number, LatestTime: number];
 
 const OLDEST = 2;
-const SECOND_OLDEST = 1;
 const LATEST = 0;
 
 const X = 0;
@@ -38,6 +37,8 @@ export const useMouseDragScroll = (
     const previousClickTime = useRef<ClickTimes>([0, 0, 0]);
     const scrollAtT0 = useRef<[ScrollLeft: number, ScrollTop: number]>([0, 0]);
     const inertiaTimeInterval = useRef<number>(undefined);
+    const initialMousePos = useRef<[x: number, y: number]>([0, 0]);
+    const initialScrollPos = useRef<[left: number, top: number]>([0, 0]);
 
     useEffect(() => {
         const element = ref?.current;
@@ -179,12 +180,13 @@ export const useMouseDragScroll = (
             previousClickPosY.current = [...(previousClickPosY.current.slice(1) as [number, number]), e.pageY];
             previousClickTime.current = [...(previousClickTime.current.slice(1) as [number, number]), Date.now()];
 
+            // Use absolute positioning from initial drag position to prevent drift
             if (handleScrollX) {
-                element.scrollLeft += previousClickPosX.current[LATEST] - previousClickPosX.current[SECOND_OLDEST];
+                element.scrollLeft = initialScrollPos.current[0] - (e.pageX - initialMousePos.current[0]);
             }
 
             if (handleScrollY) {
-                element.scrollTop += previousClickPosY.current[LATEST] - previousClickPosY.current[SECOND_OLDEST];
+                element.scrollTop = initialScrollPos.current[1] - (e.pageY - initialMousePos.current[1]);
             }
         };
 
@@ -214,6 +216,10 @@ export const useMouseDragScroll = (
             }
 
             e.preventDefault();
+
+            // Store initial positions for absolute positioning during drag
+            initialMousePos.current = [e.pageX, e.pageY];
+            initialScrollPos.current = [element.scrollLeft, element.scrollTop];
 
             previousClickPosX.current = [e.pageX, e.pageX, e.pageX];
             previousClickPosY.current = [e.pageY, e.pageY, e.pageY];
