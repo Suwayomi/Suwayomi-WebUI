@@ -186,7 +186,7 @@ export const ServerSettings = () => {
 
     const serverSettings = extractServerSettings(data!.settings);
     const authModeDisabled = !serverSettings.authUsername?.trim() || !serverSettings.authPassword?.trim();
-    console.log('asdf', serverSettings.jwtTokenExpiry, serverSettings.jwtRefreshExpiry);
+
     return (
         <List sx={{ pt: 0 }}>
             {localSettings}
