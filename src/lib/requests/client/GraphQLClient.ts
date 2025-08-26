@@ -235,7 +235,7 @@ export class GraphQLClient extends BaseClient<
                 headers: {
                     credentials: 'include',
                     ...headers,
-                    Authorization: isAuthRequired && accessToken ? `Bearer ${accessToken}` : '',
+                    ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
                 },
             };
         });

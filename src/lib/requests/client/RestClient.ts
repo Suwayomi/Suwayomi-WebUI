@@ -51,6 +51,7 @@ export class RestClient
         } = {},
     ): Promise<Response> => {
         const updatedUrl = url.startsWith('http') ? url : `${this.getBaseUrl()}${url}`;
+        const isAuthRequired = AuthManager.isAuthRequired();
         const accessToken = AuthManager.getAccessToken();
 
         let result: Response;
@@ -62,7 +63,7 @@ export class RestClient
                     ...config,
                     method: httpMethod,
                     headers: {
-                        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+                        ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
                         ...this.config.headers,
                         ...config?.headers,
                     },
@@ -72,7 +73,7 @@ export class RestClient
             case HttpMethod.PATCH:
             case HttpMethod.DELETE:
                 result = await this.client(updatedUrl, {
-                    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+                    ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
                     ...this.config,
                     ...config,
                     method: httpMethod,
