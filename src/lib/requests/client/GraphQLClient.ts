@@ -232,8 +232,8 @@ export class GraphQLClient extends BaseClient<
             const accessToken = AuthManager.getAccessToken();
 
             return {
+                credentials: 'include',
                 headers: {
-                    credentials: 'include',
                     ...headers,
                     ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
                 },
@@ -242,9 +242,7 @@ export class GraphQLClient extends BaseClient<
     }
 
     private createUploadLink() {
-        return createUploadLink({
-            uri: () => this.getBaseUrl(),
-        });
+        return createUploadLink({ uri: () => this.getBaseUrl() });
     }
 
     private createWSLink() {
