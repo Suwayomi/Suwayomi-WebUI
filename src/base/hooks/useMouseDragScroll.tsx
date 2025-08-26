@@ -182,11 +182,11 @@ export const useMouseDragScroll = (
 
             // Use absolute positioning from initial drag position to prevent drift
             if (handleScrollX) {
-                element.scrollLeft = initialScrollPos.current[0] - (e.pageX - initialMousePos.current[0]);
+                element.scrollLeft = initialScrollPos.current[X] - (e.pageX - initialMousePos.current[X]);
             }
 
             if (handleScrollY) {
-                element.scrollTop = initialScrollPos.current[1] - (e.pageY - initialMousePos.current[1]);
+                element.scrollTop = initialScrollPos.current[Y] - (e.pageY - initialMousePos.current[Y]);
             }
         };
 
