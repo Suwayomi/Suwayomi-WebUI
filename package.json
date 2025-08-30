@@ -80,7 +80,8 @@
     "stylis-plugin-rtl": "2.1.1",
     "use-long-press": "3.3.0",
     "use-query-params": "2.2.1",
-    "webfontloader": "1.6.28"
+    "webfontloader": "1.6.28",
+    "zustand": "5.0.8"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "5.0.7",
