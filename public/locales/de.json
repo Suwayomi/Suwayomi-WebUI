@@ -764,7 +764,6 @@
             "filter": "Filter",
             "set": "Setzen",
             "reset_to_default": "Auf Standardeinstellungen zurücksetzen",
-            "clear": "Leeren",
             "cancel": "Abbrechen",
             "resume": "Fortfahren",
             "browse": "Suchen",
@@ -1055,13 +1054,6 @@
                                 "description": "Authentifizierung deaktivieren",
                                 "info": "Deine Bibliothek ist frei zugänglich. Nutze diese Option nur in privaten Netzwerken, oder wenn der Zugang anderweitig kontrolliert wird.",
                                 "title": "Keine"
-                            }
-                        },
-                        "simpleLogin": {
-                            "label": {
-                                "description": "Eine einfache Anmeldeseite wird zur Anmeldung präsentiert.",
-                                "info": "Wenn du diese Option aktivierst, kann es sein, dass du die Seite neu laden musst, um die Login-Seite zum ersten Mal zu sehen.",
-                                "title": "Einfacher Login"
                             }
                         }
                     }
