@@ -13,15 +13,14 @@ import {
     ReaderStatePages,
     ReaderTransitionPageMode,
     TReaderAutoScrollContext,
-    TReaderStateMangaContext,
     TReaderStateSettingsContext,
 } from '@/features/reader/Reader.types.ts';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { READER_STATE_CHAPTERS_DEFAULTS } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
+import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
 export const useReaderResetStates = (
-    setManga: TReaderStateMangaContext['setManga'],
     setReaderStateChapters: ReaderStateChapters['setReaderStateChapters'],
     setCurrentPageIndex: ReaderStatePages['setCurrentPageIndex'],
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
@@ -36,7 +35,7 @@ export const useReaderResetStates = (
 ) => {
     useEffect(
         () => () => {
-            setManga(undefined);
+            getReaderStore().reset();
             setReaderStateChapters(READER_STATE_CHAPTERS_DEFAULTS);
 
             setCurrentPageIndex(0);

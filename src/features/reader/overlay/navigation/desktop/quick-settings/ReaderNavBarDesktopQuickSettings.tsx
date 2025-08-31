@@ -14,16 +14,13 @@ import { ReaderNavBarDesktopPageScale } from '@/features/reader/overlay/navigati
 import { ReaderNavBarDesktopReadingMode } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopReadingMode.tsx';
 import { ReaderNavBarDesktopOffsetDoubleSpread } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopOffsetDoubleSpread.tsx';
 import { ReaderNavBarDesktopReadingDirection } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopReadingDirection.tsx';
-import { IReaderSettingsWithDefaultFlag, TReaderStateMangaContext } from '@/features/reader/Reader.types.ts';
+import { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { ReaderNavBarDesktopProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
-import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { ReaderNavBarDesktopAutoScroll } from '@/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx';
 
 const BaseReaderNavBarDesktopQuickSettings = ({
-    manga,
     readingMode,
     shouldOffsetDoubleSpreads,
     pageScaleMode,
@@ -31,8 +28,7 @@ const BaseReaderNavBarDesktopQuickSettings = ({
     readingDirection,
     autoScroll,
     openSettings,
-}: Pick<TReaderStateMangaContext, 'manga'> &
-    Pick<ReaderNavBarDesktopProps, 'openSettings'> &
+}: Pick<ReaderNavBarDesktopProps, 'openSettings'> &
     Pick<
         IReaderSettingsWithDefaultFlag,
         | 'readingMode'
@@ -44,38 +40,37 @@ const BaseReaderNavBarDesktopQuickSettings = ({
     >) => {
     const { t } = useTranslation();
 
-    const updateSetting = ReaderService.useCreateUpdateSetting(manga ?? FALLBACK_MANGA);
-    const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? FALLBACK_MANGA);
-
     return (
         <Stack sx={{ gap: 1 }}>
             <ReaderNavBarDesktopReadingMode
                 readingMode={readingMode}
-                setReadingMode={(value) => updateSetting('readingMode', value)}
+                setReadingMode={(value) => ReaderService.updateSetting('readingMode', value)}
                 isDefaultable
-                onDefault={() => deleteSetting('readingMode')}
+                onDefault={() => ReaderService.deleteSetting('readingMode')}
             />
             <ReaderNavBarDesktopOffsetDoubleSpread
                 readingMode={readingMode.value}
                 shouldOffsetDoubleSpreads={shouldOffsetDoubleSpreads.value}
-                setShouldOffsetDoubleSpreads={(value) => updateSetting('shouldOffsetDoubleSpreads', value)}
+                setShouldOffsetDoubleSpreads={(value) =>
+                    ReaderService.updateSetting('shouldOffsetDoubleSpreads', value)
+                }
             />
             <ReaderNavBarDesktopPageScale
                 pageScaleMode={pageScaleMode}
                 shouldStretchPage={shouldStretchPage}
-                updateSetting={updateSetting}
+                updateSetting={ReaderService.updateSetting}
                 isDefaultable
-                onDefault={() => deleteSetting('pageScaleMode')}
+                onDefault={() => ReaderService.deleteSetting('pageScaleMode')}
             />
             <ReaderNavBarDesktopReadingDirection
                 readingDirection={readingDirection}
-                setReadingDirection={(value) => updateSetting('readingDirection', value)}
+                setReadingDirection={(value) => ReaderService.updateSetting('readingDirection', value)}
                 isDefaultable
-                onDefault={() => deleteSetting('readingDirection')}
+                onDefault={() => ReaderService.deleteSetting('readingDirection')}
             />
             <ReaderNavBarDesktopAutoScroll
                 autoScroll={autoScroll}
-                setAutoScroll={(...args) => updateSetting('autoScroll', ...args)}
+                setAutoScroll={(...args) => ReaderService.updateSetting('autoScroll', ...args)}
             />
             <Button
                 onClick={() => openSettings()}
@@ -92,9 +87,8 @@ const BaseReaderNavBarDesktopQuickSettings = ({
 
 export const ReaderNavBarDesktopQuickSettings = withPropsFrom(
     BaseReaderNavBarDesktopQuickSettings,
-    [useReaderStateMangaContext, ReaderService.useSettings],
+    [ReaderService.useSettings],
     [
-        'manga',
         'readingMode',
         'shouldOffsetDoubleSpreads',
         'pageScaleMode',

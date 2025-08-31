@@ -31,7 +31,7 @@ export const ReaderBehaviourSettings = ({
 }: {
     settings: IReaderSettingsWithDefaultFlag;
     updateSetting: (
-        ...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>
+        ...args: Parameters<typeof ReaderService.updateSetting>
     ) => ReturnType<typeof ReaderService.updateSetting>;
 } & ReaderSettingsTypeProps) => {
     const { t } = useTranslation();

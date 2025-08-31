@@ -21,12 +21,10 @@ import {
     READING_DIRECTION_VALUES,
     READING_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { HotkeyScope } from '@/features/hotkeys/Hotkeys.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 
@@ -36,8 +34,6 @@ const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<type
 };
 
 const updateSettingCycleThrough = <Setting extends keyof IReaderSettings>(
-    updateSetting: ReturnType<typeof ReaderService.useCreateUpdateSetting>,
-    deleteSetting: ReturnType<typeof ReaderService.useCreateDeleteSetting>,
     setting: Setting,
     value: IReaderSettings[Setting],
     values: IReaderSettings[Setting][],
@@ -45,7 +41,7 @@ const updateSettingCycleThrough = <Setting extends keyof IReaderSettings>(
     isDefaultable: boolean,
 ) => {
     if (isDefault) {
-        updateSetting(setting, values[0]);
+        ReaderService.updateSetting(setting, values[0]);
         return;
     }
 
@@ -53,11 +49,11 @@ const updateSettingCycleThrough = <Setting extends keyof IReaderSettings>(
 
     const isDefaultNextValue = nextValue === undefined;
     if (isDefaultNextValue) {
-        deleteSetting(setting);
+        ReaderService.deleteSetting(setting);
         return;
     }
 
-    updateSetting(setting, nextValue);
+    ReaderService.updateSetting(setting, nextValue);
 };
 
 export const ReaderHotkeys = ({
@@ -68,7 +64,6 @@ export const ReaderHotkeys = ({
     const { direction: themeDirection } = useTheme();
     const readerThemeDirection = ReaderService.useGetThemeDirection();
     const { enableScope, disableScope } = useHotkeysContext();
-    const { manga } = useReaderStateMangaContext();
     const { isVisible, setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
     const {
         hotkeys,
@@ -86,9 +81,6 @@ export const ReaderHotkeys = ({
 
     const openChapter = ReaderControls.useOpenChapter();
     const openPage = ReaderControls.useOpenPage();
-
-    const updateSetting = ReaderService.useCreateUpdateSetting(manga ?? FALLBACK_MANGA);
-    const deleteSetting = ReaderService.useCreateDeleteSetting(manga ?? FALLBACK_MANGA);
 
     useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_PAGE], () => openPage('previous'), [openPage]);
     useHotkeys(hotkeys[ReaderHotkey.NEXT_PAGE], () => openPage('next'), [openPage]);
@@ -177,8 +169,6 @@ export const ReaderHotkeys = ({
         hotkeys[ReaderHotkey.CYCLE_SCALE_TYPE],
         () => {
             updateSettingCycleThrough(
-                updateSetting,
-                deleteSetting,
                 'pageScaleMode',
                 pageScaleMode.value,
                 READER_PAGE_SCALE_MODE_VALUES,
@@ -186,24 +176,22 @@ export const ReaderHotkeys = ({
                 true,
             );
         },
-        [updateSetting, deleteSetting, pageScaleMode.value, pageScaleMode.isDefault],
+        [pageScaleMode.value, pageScaleMode.isDefault],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.STRETCH_IMAGE],
-        () => updateSetting('shouldStretchPage', !shouldStretchPage.value),
-        [updateSetting, shouldStretchPage.value],
+        () => ReaderService.updateSetting('shouldStretchPage', !shouldStretchPage.value),
+        [shouldStretchPage.value],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.OFFSET_SPREAD_PAGES],
-        () => updateSetting('shouldOffsetDoubleSpreads', !shouldOffsetDoubleSpreads.value),
-        [updateSetting, shouldOffsetDoubleSpreads.value],
+        () => ReaderService.updateSetting('shouldOffsetDoubleSpreads', !shouldOffsetDoubleSpreads.value),
+        [shouldOffsetDoubleSpreads.value],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.CYCLE_READING_MODE],
         () => {
             updateSettingCycleThrough(
-                updateSetting,
-                deleteSetting,
                 'readingMode',
                 readingMode.value,
                 READING_MODE_VALUES,
@@ -211,14 +199,12 @@ export const ReaderHotkeys = ({
                 true,
             );
         },
-        [updateSetting, deleteSetting, readingMode.value, readingMode.isDefault],
+        [readingMode.value, readingMode.isDefault],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.CYCLE_READING_DIRECTION],
         () => {
             updateSettingCycleThrough(
-                updateSetting,
-                deleteSetting,
                 'readingDirection',
                 readingDirection.value,
                 READING_DIRECTION_VALUES,
@@ -226,7 +212,7 @@ export const ReaderHotkeys = ({
                 true,
             );
         },
-        [updateSetting, deleteSetting, readingDirection.value, readingDirection.isDefault],
+        [readingDirection.value, readingDirection.isDefault],
     );
     useHotkeys(hotkeys[ReaderHotkey.TOGGLE_AUTO_SCROLL], automaticScrolling.toggleActive, { preventDefault: true }, [
         automaticScrolling.toggleActive,
@@ -234,20 +220,20 @@ export const ReaderHotkeys = ({
     useHotkeys(
         hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE],
         () =>
-            updateSetting('autoScroll', {
+            ReaderService.updateSetting('autoScroll', {
                 ...autoScroll,
                 value: Math.min(AUTO_SCROLL_SPEED.max, autoScroll.value + AUTO_SCROLL_SPEED.step),
             }),
-        [updateSetting, autoScroll.value],
+        [autoScroll.value],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE],
         () =>
-            updateSetting('autoScroll', {
+            ReaderService.updateSetting('autoScroll', {
                 ...autoScroll,
                 value: Math.max(AUTO_SCROLL_SPEED.min, autoScroll.value - AUTO_SCROLL_SPEED.step),
             }),
-        [updateSetting, autoScroll.value],
+        [autoScroll.value],
     );
     useHotkeys(hotkeys[ReaderHotkey.EXIT_READER], exitReader, [exitReader]);
 

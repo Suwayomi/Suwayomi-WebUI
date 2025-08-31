@@ -24,16 +24,15 @@ import { ReaderNavBarDesktopQuickSettings } from '@/features/reader/overlay/navi
 import { ReaderNavBarDesktopActions } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { IReaderSettings, ReaderStateChapters, TReaderStateMangaContext } from '@/features/reader/Reader.types.ts';
+import { IReaderSettings, ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolean) => {
     const wasNavBarStaticRef = useRef(isStaticNav);
@@ -57,7 +56,6 @@ const BaseReaderNavBarDesktop = ({
     isVisible,
     openSettings,
     setReaderNavBarWidth,
-    manga,
     chapters,
     currentChapter,
     previousChapter,
@@ -65,12 +63,10 @@ const BaseReaderNavBarDesktop = ({
     isStaticNav,
 }: ReaderNavBarDesktopProps &
     Pick<NavbarContextType, 'setReaderNavBarWidth'> &
-    Pick<TReaderStateMangaContext, 'manga'> &
     Pick<ReaderStateChapters, 'currentChapter' | 'previousChapter' | 'nextChapter' | 'chapters'> &
     Pick<IReaderSettings, 'isStaticNav'>) => {
     const { t } = useTranslation();
-
-    const updateReaderSettings = ReaderService.useCreateUpdateSetting(manga ?? FALLBACK_MANGA);
+    const manga = useReaderStoreShallow((state) => state.manga);
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(
@@ -109,7 +105,7 @@ const BaseReaderNavBarDesktop = ({
                             <IconButton
                                 onClick={() => {
                                     setReaderNavBarWidth(0);
-                                    updateReaderSettings('isStaticNav', !isStaticNav);
+                                    ReaderService.updateSetting('isStaticNav', !isStaticNav);
                                 }}
                                 color={isStaticNav ? 'primary' : 'inherit'}
                             >
@@ -153,10 +149,9 @@ export const ReaderNavBarDesktop = withPropsFrom(
     memo(BaseReaderNavBarDesktop),
     [
         useNavBarContext,
-        useReaderStateMangaContext,
         useReaderStateChaptersContext,
         userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
     ],
-    ['setReaderNavBarWidth', 'manga', 'chapters', 'currentChapter', 'previousChapter', 'nextChapter', 'isStaticNav'],
+    ['setReaderNavBarWidth', 'chapters', 'currentChapter', 'previousChapter', 'nextChapter', 'isStaticNav'],
 );

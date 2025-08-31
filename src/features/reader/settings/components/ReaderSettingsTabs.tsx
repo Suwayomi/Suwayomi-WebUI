@@ -41,7 +41,7 @@ const BaseReaderSettingsTabs = ({
         activeTab: number;
         setActiveTab: (tab: number) => void;
         settings: IReaderSettingsWithDefaultFlag;
-        updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
+        updateSetting: (...args: Parameters<typeof ReaderService.updateSetting>) => void;
         areDefaultSettings?: boolean;
         deleteSetting: (setting: keyof IReaderSettings) => void;
         setTransparent?: (transparent: boolean) => void;

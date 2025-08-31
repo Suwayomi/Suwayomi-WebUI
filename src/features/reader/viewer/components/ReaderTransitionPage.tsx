@@ -21,7 +21,6 @@ import {
     ReaderTransitionPageMode,
     ReadingMode,
     TReaderScrollbarContext,
-    TReaderStateMangaContext,
 } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
@@ -34,13 +33,13 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { getValueFromObject, noOp } from '@/lib/HelperFunctions.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const ChapterInfo = ({
     title,
@@ -85,7 +84,6 @@ const BaseReaderTransitionPage = ({
     readingMode,
     backgroundColor,
     shouldShowTransitionPage,
-    manga,
     currentChapterName,
     currentChapterScanlator,
     previousChapterName,
@@ -97,7 +95,6 @@ const BaseReaderTransitionPage = ({
     readerNavBarWidth,
     handleBack,
 }: Pick<IReaderSettings, 'readingMode' | 'backgroundColor' | 'shouldShowTransitionPage'> &
-    Pick<TReaderStateMangaContext, 'manga'> &
     Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
     Pick<ReaderStatePages, 'transitionPageMode'> &
     Pick<NavbarContextType, 'readerNavBarWidth'> & {
@@ -114,6 +111,7 @@ const BaseReaderTransitionPage = ({
         handleBack: () => void;
     }) => {
     const { t } = useTranslation();
+    const manga = useReaderStoreShallow((state) => state.manga);
 
     const isPreviousType = type === ReaderTransitionPageMode.PREVIOUS;
     const isNextType = type === ReaderTransitionPageMode.NEXT;
@@ -236,7 +234,6 @@ const BaseReaderTransitionPage = ({
 export const ReaderTransitionPage = withPropsFrom(
     memo(BaseReaderTransitionPage) as typeof BaseReaderTransitionPage,
     [
-        useReaderStateMangaContext,
         ({ chapterId }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId'>) => {
             const { chapters } = useReaderStateChaptersContext();
 
@@ -286,7 +283,6 @@ export const ReaderTransitionPage = withPropsFrom(
         },
     ],
     [
-        'manga',
         'currentChapterName',
         'currentChapterScanlator',
         'previousChapterName',

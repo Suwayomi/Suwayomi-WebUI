@@ -119,6 +119,7 @@ export class ReaderTapZoneService {
 
             context.beginPath();
 
+            /* eslint-disable no-param-reassign */
             context.rect(x, y, width, height);
             context.fillStyle = color;
             context.strokeStyle = color;
@@ -139,6 +140,7 @@ export class ReaderTapZoneService {
             context.lineWidth = 1;
             context.fillStyle = 'white';
             context.fillText(text, rectCenterX, rectCenterY);
+            /* eslint-enable no-param-reassign */
         });
     }
 

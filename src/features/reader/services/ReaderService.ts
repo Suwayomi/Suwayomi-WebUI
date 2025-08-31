@@ -22,12 +22,10 @@ import {
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import {
     convertFromReaderSettingsWithDefaultFlag,
     updateReaderSettings,
 } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -54,6 +52,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
+import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -156,7 +155,6 @@ export class ReaderService {
     }
 
     static useUpdateChapter(): (patch: UpdateChapterPatchInput) => void {
-        const { manga } = useReaderStateMangaContext();
         const { currentChapter, mangaChapters, chapters } = useReaderStateChaptersContext();
         const { shouldSkipDupChapters } = ReaderService.useSettings();
         const {
@@ -175,6 +173,8 @@ export class ReaderService {
 
         return useCallback(
             (patch) => {
+                const { manga } = getReaderStore();
+
                 if (!manga || !currentChapter || !mangaChapters) {
                     return;
                 }
@@ -235,7 +235,6 @@ export class ReaderService {
                 ReaderService.getOrCreateChapterUpdateQueue(currentChapter.id).enqueue(`${currentChapter.id}`, update);
             },
             [
-                manga?.id,
                 currentChapter?.id,
                 mangaChapters,
                 previousChapters,
@@ -268,13 +267,14 @@ export class ReaderService {
      * Writes the change immediately to the cache and sends a mutation in case "commit" is true.
      */
     static updateSetting<Setting extends keyof IReaderSettings>(
-        manga: MangaIdInfo,
         setting: Setting,
         value: IReaderSettings[Setting],
         commit: boolean = true,
         isGlobal: boolean = false,
         profile?: ReadingMode,
     ): void {
+        const { manga } = getReaderStore();
+
         if (!manga || manga.id === FALLBACK_MANGA.id) {
             return;
         }
@@ -334,11 +334,12 @@ export class ReaderService {
     }
 
     static deleteSetting<Setting extends keyof IReaderSettings>(
-        manga: MangaIdInfo,
         setting: Setting,
         isGlobal: boolean = false,
         profile?: string,
     ): void {
+        const { manga } = getReaderStore();
+
         if (!manga || manga.id === FALLBACK_MANGA.id) {
             return;
         }
@@ -362,31 +363,6 @@ export class ReaderService {
         );
     }
 
-    static useCreateUpdateSetting<Setting extends keyof IReaderSettings>(
-        manga: MangaIdInfo,
-        profile?: ReadingMode,
-    ): (
-        ...args: OmitFirst<Parameters<typeof ReaderService.updateSetting<Setting>>>
-    ) => ReturnType<typeof ReaderService.updateSetting<Setting>> {
-        return useCallback(
-            (setting, value, commit, isGlobal) =>
-                ReaderService.updateSetting<Setting>(manga, setting, value, commit, isGlobal, profile),
-            [manga, profile],
-        );
-    }
-
-    static useCreateDeleteSetting<Setting extends keyof IReaderSettings>(
-        manga: MangaIdInfo,
-        profile?: ReadingMode,
-    ): (
-        ...args: OmitFirst<Parameters<typeof ReaderService.deleteSetting<Setting>>>
-    ) => ReturnType<typeof ReaderService.deleteSetting<Setting>> {
-        return useCallback(
-            (setting, isGlobal) => ReaderService.deleteSetting<Setting>(manga, setting, isGlobal, profile?.toString()),
-            [manga, profile],
-        );
-    }
-
     static useOverlayMode(): { mode: ReaderOverlayMode; isDesktop: boolean; isMobile: boolean } {
         const isTouchDevice = MediaQuery.useIsTouchDevice();
         const { overlayMode } = ReaderService.useSettings();
@@ -406,18 +382,19 @@ export class ReaderService {
     }
 
     static useExit(): () => void {
-        const { manga } = useReaderStateMangaContext();
         const { exitMode } = ReaderService.useSettings();
         const handleBack = useBackButton();
         const navigate = useNavigate();
 
         const openMangaPage = useCallback(() => {
+            const { manga } = getReaderStore();
+
             if (!manga) {
                 return () => {};
             }
 
             return navigate(AppRoutes.manga.path(manga.id));
-        }, [manga]);
+        }, []);
 
         switch (exitMode) {
             case ReaderExitMode.PREVIOUS:

@@ -10,7 +10,6 @@ import { MutableRefObject } from 'react';
 import { TapZoneInvertMode, TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { TMangaReader } from '@/features/manga/Manga.types.ts';
 import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
@@ -243,7 +242,7 @@ export interface ReaderStateChapters {
 interface ReaderSettingsTypeBaseProps {
     settings: IReaderSettingsWithDefaultFlag;
     updateSetting: (
-        ...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>
+        ...args: Parameters<typeof ReaderService.updateSetting>
     ) => ReturnType<typeof ReaderService.updateSetting>;
 }
 
@@ -376,11 +375,6 @@ export type TReaderScrollbarContext = {
     setScrollbarXSize: (size: number) => void;
     scrollbarYSize: number;
     setScrollbarYSize: (size: number) => void;
-};
-
-export type TReaderStateMangaContext = {
-    manga: TMangaReader | undefined;
-    setManga: (manga: TMangaReader | undefined) => void;
 };
 
 export type TReaderStateSettingsContext = {

@@ -10,7 +10,6 @@ import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 
 import { useState } from 'react';
-import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/features/reader/settings/components/ReaderSettingsTabs.tsx';
 import { ReaderSettingTab } from '@/features/reader/settings/ReaderSettings.constants.tsx';
@@ -18,17 +17,12 @@ import { useDisableAllHotkeysWhileMounted } from '@/features/hotkeys/Hotkeys.uti
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 
 export const ReaderSettings = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
-    const { manga } = useReaderStateMangaContext();
     const settings = ReaderService.useSettings();
 
     useDisableAllHotkeysWhileMounted(isOpen);
 
     const [activeTab, setActiveTab] = useState(0);
     const [isTransparent, setIsTransparent] = useState(false);
-
-    if (!manga) {
-        return null;
-    }
 
     if (!isOpen) {
         return null;
@@ -52,8 +46,8 @@ export const ReaderSettings = ({ isOpen, close }: { isOpen: boolean; close: () =
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
                     settings={settings}
-                    updateSetting={(...args) => ReaderService.updateSetting(manga, ...args)}
-                    deleteSetting={(...args) => ReaderService.deleteSetting(manga, ...args)}
+                    updateSetting={(...args) => ReaderService.updateSetting(...args)}
+                    deleteSetting={(...args) => ReaderService.deleteSetting(...args)}
                     setTransparent={setIsTransparent}
                 />
             </DialogContent>

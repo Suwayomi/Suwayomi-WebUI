@@ -14,9 +14,7 @@ import { memo } from 'react';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
-import { TReaderStateMangaContext } from '@/features/reader/Reader.types.ts';
-import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStateMangaContext } from '@/features/reader/contexts/state/ReaderStateMangaContext.tsx';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const ACTION_FALLBACK_MANGA = {
     ...FALLBACK_MANGA,
@@ -24,7 +22,9 @@ const ACTION_FALLBACK_MANGA = {
     inLibrary: false,
 };
 
-const BaseReaderLibraryButton = ({ manga }: Pick<TReaderStateMangaContext, 'manga'>) => {
+export const ReaderLibraryButton = memo(() => {
+    const manga = useReaderStoreShallow((state) => state.manga);
+
     const { inLibrary } = manga ?? ACTION_FALLBACK_MANGA;
 
     const { t } = useTranslation();
@@ -46,10 +46,4 @@ const BaseReaderLibraryButton = ({ manga }: Pick<TReaderStateMangaContext, 'mang
             {CategorySelectComponent}
         </>
     );
-};
-
-export const ReaderLibraryButton = withPropsFrom(
-    memo(BaseReaderLibraryButton),
-    [useReaderStateMangaContext],
-    ['manga'],
-);
+});

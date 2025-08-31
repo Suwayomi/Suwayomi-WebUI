@@ -26,7 +26,7 @@ export const ReaderSettingWidth = ({
     setTransparent,
 }: Pick<IReaderSettings, 'readerWidth' | 'pageScaleMode'> &
     Pick<MultiValueButtonDefaultableProps<IReaderSettings['readerWidth']['value']>, 'isDefaultable' | 'onDefault'> & {
-        updateSetting: (...args: OmitFirst<Parameters<typeof ReaderService.updateSetting>>) => void;
+        updateSetting: (...args: Parameters<typeof ReaderService.updateSetting>) => void;
         setTransparent?: (transparent: boolean) => void;
     }) => {
     const { t } = useTranslation();

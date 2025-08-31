@@ -15,6 +15,8 @@ module.exports = {
         {
             files: ['*'],
             rules: {
+                'no-param-reassign': ['error', { props: true, ignorePropertyModificationsForRegex: ["^draft"] }],
+
                 'unused-imports/no-unused-imports': 'error',
 
                 'import/prefer-default-export': 'off',
