@@ -22,14 +22,13 @@ const DEFAULT_STATE = {
 
 export const createReaderOverlayStoreSlice = <T extends ReaderOverlayStoreSlice>(
     ...[set, get]: Parameters<ImmerStateCreator<T>>
-): ReaderOverlayStoreSlice =>
-    ({
-        overlay: {
-            isVisible: DEFAULT_STATE.isVisible,
-            setIsVisible: (visible) =>
-                set((draft) => {
-                    draft.overlay.isVisible = visible;
-                }),
-            reset: () => set(() => ({ overlay: { ...get().overlay, ...DEFAULT_STATE } })),
-        },
-    }) as T;
+): ReaderOverlayStoreSlice => ({
+    overlay: {
+        isVisible: DEFAULT_STATE.isVisible,
+        setIsVisible: (visible) =>
+            set((draft) => {
+                draft.overlay.isVisible = visible;
+            }),
+        reset: () => set(() => ({ overlay: { ...get().overlay, ...DEFAULT_STATE } })),
+    },
+});

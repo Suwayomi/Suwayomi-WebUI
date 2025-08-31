@@ -43,7 +43,6 @@ import {
 import { useMouseDragScroll } from '@/base/hooks/useMouseDragScroll.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { useReaderAutoScroll } from '@/features/reader/auto-scroll/hooks/useReaderAutoScroll.ts';
@@ -65,7 +64,7 @@ import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types
 import { useReaderPreserveScrollPosition } from '@/features/reader/viewer/hooks/useReaderPreserveScrollPosition.ts';
 
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import { getReaderStore, useReaderStore } from '@/features/reader/ReaderStore.ts';
+import { getReaderStore, useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -169,8 +168,13 @@ const BaseReaderViewer = forwardRef(
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
         const isDragging = useMouseDragScroll(scrollElementRef);
 
-        const automaticScrolling = useReaderAutoScrollContext();
-        useEffect(() => automaticScrolling.setScrollRef(scrollElementRef), []);
+        const automaticScrolling = useReaderStoreShallow((state) => ({
+            isPaused: state.autoScroll.isPaused,
+            pause: state.autoScroll.pause,
+            resume: state.autoScroll.resume,
+            setScrollRef: state.autoScroll.setScrollRef,
+        }));
+        useEffect(() => automaticScrolling.setScrollRef(scrollElementRef.current), []);
 
         const scrollbarXSize = MediaQuery.useGetScrollbarSize('width', scrollElementRef.current);
         const scrollbarYSize = MediaQuery.useGetScrollbarSize('height', scrollElementRef.current);
@@ -271,7 +275,13 @@ const BaseReaderViewer = forwardRef(
         useReaderHideCursorOnInactivity(scrollElementRef);
         useReaderHorizontalModeInvertXYScrolling(readingMode, readingDirection, scrollElementRef);
         useReaderHideOverlayOnUserScroll(isOverlayVisible, showPreview, setShowPreview, scrollElementRef);
-        useReaderAutoScroll(isOverlayVisible, automaticScrolling, isStaticNav);
+        useReaderAutoScroll(
+            isOverlayVisible,
+            automaticScrolling.isPaused,
+            automaticScrolling.pause,
+            automaticScrolling.resume,
+            isStaticNav,
+        );
         useReaderPreserveScrollPosition(
             scrollElementRef,
             currentChapter?.id,

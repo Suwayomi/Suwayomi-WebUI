@@ -33,14 +33,12 @@ import {
     IReaderSettingsWithDefaultFlag,
     ReaderStateChapters,
     ReaderStatePages,
-    TReaderAutoScrollContext,
     TReaderStateSettingsContext,
 } from '@/features/reader/Reader.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { useReaderResetStates } from '@/features/reader/hooks/useReaderResetStates.ts';
@@ -51,6 +49,7 @@ import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { ReaderAutoScroll } from '@/features/reader/auto-scroll/ReaderAutoScroll.tsx';
 
 const BaseReader = ({
     setOverride,
@@ -76,7 +75,6 @@ const BaseReader = ({
     setPageUrls,
     setPageLoadStates,
     setTransitionPageMode,
-    cancelAutoScroll,
     setShowPreview,
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'> &
     Pick<TReaderStateSettingsContext, 'setSettings'> &
@@ -107,9 +105,7 @@ const BaseReader = ({
         | 'setPageLoadStates'
         | 'setTransitionPageMode'
     > &
-    Pick<TReaderTapZoneContext, 'setShowPreview'> & {
-        cancelAutoScroll: TReaderAutoScrollContext['cancel'];
-    }) => {
+    Pick<TReaderTapZoneContext, 'setShowPreview'>) => {
     const { t } = useTranslation();
     const manga = useReaderStoreShallow((state) => state.manga);
     const overlay = useReaderStoreShallow((state) => state.overlay);
@@ -163,7 +159,6 @@ const BaseReader = ({
         setPageLoadStates,
         setTransitionPageMode,
         setSettings,
-        cancelAutoScroll,
     );
     useReaderSetSettingsState(
         mangaResponse,
@@ -288,6 +283,7 @@ const BaseReader = ({
             <ReaderViewer ref={scrollElementRef} />
             <TapZoneLayout />
             <ReaderRGBAFilter />
+            <ReaderAutoScroll />
         </Box>
     );
 };
@@ -319,7 +315,6 @@ export const Reader = withPropsFrom(
             return { readingMode, tapZoneLayout, tapZoneInvertMode };
         },
         userReaderStatePagesContext,
-        () => ({ cancelAutoScroll: useReaderAutoScrollContext().cancel }),
         useReaderTapZoneContext,
     ],
     [
@@ -346,7 +341,6 @@ export const Reader = withPropsFrom(
         'setPageUrls',
         'setPageLoadStates',
         'setTransitionPageMode',
-        'cancelAutoScroll',
         'setShowPreview',
     ],
 );

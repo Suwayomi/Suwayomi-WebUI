@@ -12,7 +12,6 @@ import {
     ReaderStateChapters,
     ReaderStatePages,
     ReaderTransitionPageMode,
-    TReaderAutoScrollContext,
     TReaderStateSettingsContext,
 } from '@/features/reader/Reader.types.ts';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
@@ -29,7 +28,6 @@ export const useReaderResetStates = (
     setPageLoadStates: ReaderStatePages['setPageLoadStates'],
     setTransitionPageMode: ReaderStatePages['setTransitionPageMode'],
     setSettings: TReaderStateSettingsContext['setSettings'],
-    cancelAutoScroll: TReaderAutoScrollContext['cancel'],
 ) => {
     useEffect(
         () => () => {
@@ -45,8 +43,6 @@ export const useReaderResetStates = (
             setTransitionPageMode(ReaderTransitionPageMode.NONE);
 
             setSettings(DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG);
-
-            cancelAutoScroll();
         },
         [],
     );

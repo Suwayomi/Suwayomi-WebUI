@@ -6,14 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createContext, memo, ReactNode, useCallback, useContext, useMemo, useState } from 'react';
+import { memo, useCallback, useEffect } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
-import {
-    IReaderSettings,
-    ReaderScrollAmount,
-    ReadingMode,
-    TReaderAutoScrollContext,
-} from '@/features/reader/Reader.types.ts';
+import { IReaderSettings, ReaderScrollAmount, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
@@ -22,36 +17,23 @@ import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
+import { getReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
-export const ReaderAutoScrollContext = createContext<TReaderAutoScrollContext>({
-    isActive: false,
-    isPaused: false,
-    setScrollRef: () => {},
-    start: () => {},
-    cancel: () => {},
-    toggleActive: () => {},
-    pause: () => {},
-    resume: () => {},
-    setDirection: () => {},
-});
-
-export const useReaderAutoScrollContext = () => useContext(ReaderAutoScrollContext);
-
-const BaseReaderAutoScrollContextProvider = ({
-    children,
+const BaseReaderAutoScroll = ({
     openPage,
     readingMode,
     autoScroll,
     themeDirection,
     combinedDirection,
 }: Pick<IReaderSettings, 'readingMode' | 'autoScroll'> & {
-    children: ReactNode;
     openPage: ReturnType<typeof ReaderControls.useOpenPage>;
     themeDirection: Direction;
     combinedDirection: Direction;
 }) => {
-    const [scrollRef, setScrollRef] = useState<TReaderAutoScrollContext['scrollRef']>();
-    const [direction, setDirection] = useState<ScrollOffset>(ScrollOffset.FORWARD);
+    const { scrollRef, direction } = useReaderStoreShallow((state) => ({
+        scrollRef: state.autoScroll.scrollRef,
+        direction: state.autoScroll.direction,
+    }));
 
     const isScrollingInvertedBasedOnReadingDirection =
         readingMode === ReadingMode.CONTINUOUS_HORIZONTAL && themeDirection !== combinedDirection;
@@ -77,21 +59,23 @@ const BaseReaderAutoScrollContextProvider = ({
         autoScroll.smooth,
     );
 
-    const value = useMemo(
-        () => ({
-            scrollRef,
-            setScrollRef,
-            setDirection,
-            ...automaticScrolling,
-        }),
-        [scrollRef, automaticScrolling],
-    );
+    useEffect(() => {
+        const autoScrollStore = getReaderStore().autoScroll;
 
-    return <ReaderAutoScrollContext.Provider value={value}>{children}</ReaderAutoScrollContext.Provider>;
+        autoScrollStore.setIsActive(automaticScrolling.isActive);
+        autoScrollStore.setIsPaused(automaticScrolling.isPaused);
+        autoScrollStore.setStart(automaticScrolling.start);
+        autoScrollStore.setCancel(automaticScrolling.cancel);
+        autoScrollStore.setToggleActive(automaticScrolling.toggleActive);
+        autoScrollStore.setPause(automaticScrolling.pause);
+        autoScrollStore.setResume(automaticScrolling.resume);
+    }, [automaticScrolling]);
+
+    return null;
 };
 
-export const ReaderAutoScrollContextProvider = withPropsFrom(
-    memo(BaseReaderAutoScrollContextProvider),
+export const ReaderAutoScroll = withPropsFrom(
+    memo(BaseReaderAutoScroll),
     [
         ReaderService.useSettingsWithoutDefaultFlag,
         () => ({ openPage: ReaderControls.useOpenPage() }),

@@ -14,10 +14,10 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useRef } from 'react';
-import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { AUTO_SCROLL_SPEED } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 export const ReaderNavBarDesktopAutoScroll = ({
     autoScroll,
@@ -26,7 +26,10 @@ export const ReaderNavBarDesktopAutoScroll = ({
     setAutoScroll: (newAutoScroll: IReaderSettings['autoScroll'], commit: boolean) => void;
 }) => {
     const { t } = useTranslation();
-    const { isActive, toggleActive } = useReaderAutoScrollContext();
+    const { isActive, toggleActive } = useReaderStoreShallow((state) => ({
+        isActive: state.autoScroll.isActive,
+        toggleActive: state.autoScroll.toggleActive,
+    }));
 
     const updateTimeout = useRef<NodeJS.Timeout>(undefined);
 

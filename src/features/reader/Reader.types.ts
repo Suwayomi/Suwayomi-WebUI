@@ -10,9 +10,7 @@ import { MutableRefObject } from 'react';
 import { TapZoneInvertMode, TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { ScrollOffset } from '@/base/Base.types.ts';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -372,13 +370,6 @@ export interface ReaderOpenChapterLocationState {
 export type TReaderStateSettingsContext = {
     settings: IReaderSettingsWithDefaultFlag;
     setSettings: (settings: IReaderSettingsWithDefaultFlag) => void;
-};
-
-export type TReaderAutoScrollContext = ReturnType<typeof useAutomaticScrolling> & {
-    isActive: boolean;
-    scrollRef?: MutableRefObject<HTMLElement | null> | (() => void);
-    setScrollRef: (scrollRef?: MutableRefObject<HTMLElement | null>) => void;
-    setDirection: (direction: ScrollOffset) => void;
 };
 
 export type ReaderPageSpreadState = { url: string; isSpread: boolean };

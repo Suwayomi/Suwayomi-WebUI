@@ -14,8 +14,12 @@ import {
     createReaderOverlayStoreSlice,
     ReaderOverlayStoreSlice,
 } from '@/features/reader/overlay/ReaderOverlayStore.ts';
+import {
+    createReaderAutoScrollStoreSlice,
+    ReaderAutoScrollStoreSlice,
+} from '@/features/reader/auto-scroll/ReaderAutoScrollStore.ts';
 
-interface ReaderStore extends ReaderOverlayStoreSlice {
+interface ReaderStore extends ReaderOverlayStoreSlice, ReaderAutoScrollStoreSlice {
     reset: () => void;
     manga: TMangaReader | undefined;
     setManga: (manga: TMangaReader | undefined) => void;
@@ -43,6 +47,7 @@ export const useReaderStore = create<ReaderStore>()(
                 draft.manga = DEFAULT_STATE.manga;
                 draft.scrollbar = { ...get().scrollbar, ...DEFAULT_STATE.scrollbar };
                 get().overlay.reset();
+                get().autoScroll.reset();
             }),
         setManga: (manga) =>
             set((draft) => {
@@ -60,6 +65,7 @@ export const useReaderStore = create<ReaderStore>()(
                 }),
         },
         ...createReaderOverlayStoreSlice(set, get, store),
+        ...createReaderAutoScrollStoreSlice(set, get, store),
     })),
 );
 export const useReaderStoreShallow = <T>(selector: (state: ReaderStore) => T): T =>

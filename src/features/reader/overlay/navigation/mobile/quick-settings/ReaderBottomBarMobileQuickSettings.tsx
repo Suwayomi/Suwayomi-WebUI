@@ -13,21 +13,22 @@ import { ReaderSettingReadingMode } from '@/features/reader/settings/layout/comp
 import { ReaderSettingReadingDirection } from '@/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { DefaultSettingFootnote } from '@/features/reader/settings/components/DefaultSettingFootnote.tsx';
-import { IReaderSettingsWithDefaultFlag, TReaderAutoScrollContext } from '@/features/reader/Reader.types.ts';
+import { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderSettingAutoScroll } from '@/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderBottomBarMobileQuickSettings = ({
     readingMode,
     readingDirection,
     autoScroll,
-    isActive,
-    toggleActive,
-}: Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'readingDirection' | 'autoScroll'> &
-    Pick<TReaderAutoScrollContext, 'isActive' | 'toggleActive'>) => {
+}: Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'readingDirection' | 'autoScroll'>) => {
     const { t } = useTranslation();
+    const { isActive, toggleActive } = useReaderStoreShallow((state) => ({
+        isActive: state.autoScroll.isActive,
+        toggleActive: state.autoScroll.toggleActive,
+    }));
 
     return (
         <Stack sx={{ gap: 2 }}>
@@ -59,6 +60,6 @@ const BaseReaderBottomBarMobileQuickSettings = ({
 
 export const ReaderBottomBarMobileQuickSettings = withPropsFrom(
     memo(BaseReaderBottomBarMobileQuickSettings),
-    [ReaderService.useSettings, useReaderAutoScrollContext],
-    ['readingMode', 'readingDirection', 'autoScroll', 'isActive', 'toggleActive'],
+    [ReaderService.useSettings],
+    ['readingMode', 'readingDirection', 'autoScroll'],
 );
