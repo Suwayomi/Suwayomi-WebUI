@@ -13,14 +13,12 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { ComponentProps, memo, useMemo } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
-import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import {
     IReaderSettings,
     ReaderStatePages,
     ReaderTransitionPageMode,
     ReadingMode,
-    TReaderScrollbarContext,
 } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
@@ -90,12 +88,9 @@ const BaseReaderTransitionPage = ({
     previousChapterScanlator,
     nextChapterName,
     nextChapterScanlator,
-    scrollbarXSize,
-    scrollbarYSize,
     readerNavBarWidth,
     handleBack,
 }: Pick<IReaderSettings, 'readingMode' | 'backgroundColor' | 'shouldShowTransitionPage'> &
-    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
     Pick<ReaderStatePages, 'transitionPageMode'> &
     Pick<NavbarContextType, 'readerNavBarWidth'> & {
         // gets used in the "source props creators" of the "withPropsFrom" call
@@ -112,6 +107,7 @@ const BaseReaderTransitionPage = ({
     }) => {
     const { t } = useTranslation();
     const manga = useReaderStoreShallow((state) => state.manga);
+    const { scrollbarXSize, scrollbarYSize } = useReaderStoreShallow((state) => state.scrollbar);
 
     const isPreviousType = type === ReaderTransitionPageMode.PREVIOUS;
     const isNextType = type === ReaderTransitionPageMode.NEXT;
@@ -255,7 +251,6 @@ export const ReaderTransitionPage = withPropsFrom(
                 nextChapterScanlator: nextChapter?.scanlator,
             };
         },
-        useReaderScrollbarContext,
         useNavBarContext,
         userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
@@ -289,8 +284,6 @@ export const ReaderTransitionPage = withPropsFrom(
         'previousChapterScanlator',
         'nextChapterName',
         'nextChapterScanlator',
-        'scrollbarXSize',
-        'scrollbarYSize',
         'readerNavBarWidth',
         'backgroundColor',
         'transitionPageMode',

@@ -8,12 +8,19 @@
 
 import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
+import { useShallow } from 'zustand/react/shallow';
 import { TMangaReader } from '@/features/manga/Manga.types.ts';
 
 interface ReaderStore {
     reset: () => void;
     manga: TMangaReader | undefined;
     setManga: (manga: TMangaReader | undefined) => void;
+    scrollbar: {
+        scrollbarXSize: number;
+        setScrollbarXSize: (size: number) => void;
+        scrollbarYSize: number;
+        setScrollbarYSize: (size: number) => void;
+    };
 }
 
 const DEFAULT_STATE = {
@@ -31,5 +38,20 @@ export const useReaderStore = create<ReaderStore>()(
             set((draft) => {
                 draft.manga = manga;
             }),
+        scrollbar: {
+            scrollbarXSize: 0,
+            setScrollbarXSize: (size) =>
+                set((draft) => {
+                    draft.scrollbar.scrollbarXSize = size;
+                }),
+            scrollbarYSize: 0,
+            setScrollbarYSize: (size) =>
+                set((draft) => {
+                    draft.scrollbar.scrollbarYSize = size;
+                }),
+        },
     })),
 );
+export const useReaderStoreShallow = <T>(selector: (state: ReaderStore) => T): T =>
+    useReaderStore(useShallow(selector));
+export const getReaderStore = () => useReaderStore.getState();

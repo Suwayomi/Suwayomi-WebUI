@@ -37,8 +37,6 @@ const BaseBasePager = forwardRef<
                 pageScaleMode: ReaderPagerProps['pageScaleMode'],
                 shouldStretchPage: ReaderPagerProps['shouldStretchPage'],
                 readerWidth: ReaderPagerProps['readerWidth'],
-                scrollbarXSize: ReaderPagerProps['scrollbarXSize'],
-                scrollbarYSize: ReaderPagerProps['scrollbarYSize'],
                 readerNavBarWidth: ReaderPagerProps['readerNavBarWidth'],
             ) => ReactNode;
             slots?: { boxProps?: BoxProps };
@@ -61,8 +59,6 @@ const BaseBasePager = forwardRef<
             pageScaleMode,
             shouldStretchPage,
             readerWidth,
-            scrollbarXSize,
-            scrollbarYSize,
             readerNavBarWidth,
             resumeMode,
             handleAsInitialRender,
@@ -147,8 +143,6 @@ const BaseBasePager = forwardRef<
                         pageScaleMode,
                         shouldStretchPage,
                         readerWidth,
-                        scrollbarXSize,
-                        scrollbarYSize,
                         readerNavBarWidth,
                     ),
                 )}

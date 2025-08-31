@@ -17,7 +17,6 @@ import {
     ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
-    TReaderScrollbarContext,
 } from '@/features/reader/Reader.types.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import {
@@ -295,8 +294,6 @@ export const createReaderPage = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
     shouldStretchPage: IReaderSettings['shouldStretchPage'],
     readerWidth: IReaderSettings['readerWidth'],
-    scrollbarXSize: TReaderScrollbarContext['scrollbarXSize'],
-    scrollbarYSize: TReaderScrollbarContext['scrollbarYSize'],
     readerNavBarWidth: NavbarContextType['readerNavBarWidth'],
     retryKeyPrefix?: string,
     position?: 'left' | 'right',
@@ -327,8 +324,6 @@ export const createReaderPage = (
         pageScaleMode={pageScaleMode}
         shouldStretchPage={shouldStretchPage}
         readerWidth={readerWidth}
-        scrollbarXSize={scrollbarXSize}
-        scrollbarYSize={scrollbarYSize}
         readerNavBarWidth={readerNavBarWidth}
     />
 );

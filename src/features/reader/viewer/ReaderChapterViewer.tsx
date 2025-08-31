@@ -83,8 +83,6 @@ const BaseReaderChapterViewer = ({
     resumeMode,
     customFilter,
     shouldStretchPage,
-    scrollbarXSize,
-    scrollbarYSize,
     readerNavBarWidth,
     onSizeChange,
     minWidth,
@@ -419,8 +417,6 @@ const BaseReaderChapterViewer = ({
                     isPreviousChapterVisible={isPreviousChapterVisible}
                     isNextChapterVisible={isNextChapterVisible}
                     imageWrapper={pagerRef.current}
-                    scrollbarXSize={scrollbarXSize}
-                    scrollbarYSize={scrollbarYSize}
                     scrollElement={scrollElement}
                 />
             )}
@@ -449,8 +445,6 @@ const BaseReaderChapterViewer = ({
                 customFilter={customFilter}
                 shouldStretchPage={shouldStretchPage}
                 readerWidth={readerWidth}
-                scrollbarXSize={scrollbarXSize}
-                scrollbarYSize={scrollbarYSize}
                 readerNavBarWidth={readerNavBarWidth}
                 isPreloadMode={isPreloadMode}
                 resumeMode={resumeMode}

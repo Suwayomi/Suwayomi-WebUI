@@ -31,10 +31,8 @@ import {
     ReaderStatePages,
     ReadingDirection,
     ReadingMode,
-    TReaderScrollbarContext,
 } from '@/features/reader/Reader.types.ts';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
-import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import {
@@ -69,6 +67,7 @@ import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types
 import { useReaderPreserveScrollPosition } from '@/features/reader/viewer/hooks/useReaderPreserveScrollPosition.ts';
 
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -105,8 +104,6 @@ const BaseReaderViewer = forwardRef(
             shouldStretchPage,
             isStaticNav,
             readerNavBarWidth,
-            setScrollbarXSize,
-            setScrollbarYSize,
             isVisible: isOverlayVisible,
             setIsVisible: setIsOverlayVisible,
             updateCurrentPageIndex,
@@ -147,7 +144,6 @@ const BaseReaderViewer = forwardRef(
                 | 'shouldStretchPage'
                 | 'isStaticNav'
             > &
-            Pick<TReaderScrollbarContext, 'setScrollbarXSize' | 'setScrollbarYSize'> &
             Pick<NavbarContextType, 'readerNavBarWidth'> &
             Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
             Pick<
@@ -183,8 +179,9 @@ const BaseReaderViewer = forwardRef(
         const scrollbarXSize = MediaQuery.useGetScrollbarSize('width', scrollElementRef.current);
         const scrollbarYSize = MediaQuery.useGetScrollbarSize('height', scrollElementRef.current);
         useLayoutEffect(() => {
-            setScrollbarXSize(scrollbarXSize);
-            setScrollbarYSize(scrollbarYSize);
+            const { scrollbar } = getReaderStore();
+            scrollbar.setScrollbarXSize(scrollbarXSize);
+            scrollbar.setScrollbarYSize(scrollbarYSize);
         }, [scrollbarXSize, scrollbarYSize]);
 
         const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);
@@ -432,8 +429,6 @@ const BaseReaderViewer = forwardRef(
                             imagePreLoadAmount={imagePreLoadAmount}
                             customFilter={customFilter}
                             shouldStretchPage={shouldStretchPage}
-                            scrollbarXSize={scrollbarXSize}
-                            scrollbarYSize={scrollbarYSize}
                             readerNavBarWidth={readerNavBarWidth}
                             onSizeChange={onChapterViewSizeChange}
                             minWidth={isChapterSizeSourceChapter ? 0 : minChapterViewWidth}
@@ -452,7 +447,6 @@ export const ReaderViewer = withPropsFrom(
     [
         userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
-        useReaderScrollbarContext,
         useReaderOverlayContext,
         () => ({ updateCurrentPageIndex: ReaderControls.useUpdateCurrentPageIndex() }),
         useReaderTapZoneContext,
@@ -484,8 +478,6 @@ export const ReaderViewer = withPropsFrom(
         'isStaticNav',
         'readerNavBarWidth',
         'transitionPageMode',
-        'setScrollbarXSize',
-        'setScrollbarYSize',
         'isVisible',
         'setIsVisible',
         'updateCurrentPageIndex',

@@ -24,26 +24,23 @@ import { MobileReaderProgressBar } from '@/features/reader/overlay/progress-bar/
 import { ReaderChapterList } from '@/features/reader/overlay/navigation/components/ReaderChapterList.tsx';
 import { ReaderBottomBarMobileQuickSettings } from '@/features/reader/overlay/navigation/mobile/quick-settings/ReaderBottomBarMobileQuickSettings.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
-import { ReaderStateChapters, TReaderScrollbarContext } from '@/features/reader/Reader.types.ts';
+import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderBottomBarMobile = ({
     openSettings,
     isVisible,
     currentChapter,
     chapters,
-    scrollbarXSize,
-    scrollbarYSize,
     topOffset = 0,
-}: ReaderBottomBarMobileProps &
-    Pick<ReaderStateChapters, 'currentChapter' | 'chapters'> &
-    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> & { topOffset?: number }) => {
+}: ReaderBottomBarMobileProps & Pick<ReaderStateChapters, 'currentChapter' | 'chapters'> & { topOffset?: number }) => {
     const { t } = useTranslation();
 
     const chapterListPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-chapter-list-dialog' });
     const quickSettingsPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-quick-settings-dialog' });
+    const { scrollbarXSize, scrollbarYSize } = useReaderStoreShallow((state) => state.scrollbar);
 
     const [bottomBarRefHeight, setBottomBarRefHeight] = useState(0);
     const bottomBarRef = useRef<HTMLDivElement>(null);
@@ -135,6 +132,6 @@ const BaseReaderBottomBarMobile = ({
 
 export const ReaderBottomBarMobile = withPropsFrom(
     memo(BaseReaderBottomBarMobile),
-    [useReaderStateChaptersContext, useReaderScrollbarContext],
-    ['currentChapter', 'chapters', 'scrollbarXSize', 'scrollbarYSize'],
+    [useReaderStateChaptersContext],
+    ['currentChapter', 'chapters'],
 );

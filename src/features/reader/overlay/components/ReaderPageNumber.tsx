@@ -16,21 +16,19 @@ import {
     ProgressBarType,
     ReaderStatePages,
     ReadingDirection,
-    TReaderScrollbarContext,
 } from '@/features/reader/Reader.types.ts';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
-import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { reverseString } from '@/base/utils/Strings.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
+import { useReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderPageNumber = ({
     isDesktop,
-    scrollbarXSize,
     readerNavBarWidth,
     isMaximized,
     currentPageIndex,
@@ -39,12 +37,13 @@ const BaseReaderPageNumber = ({
     progressBarType,
     shouldShowPageNumber,
     readingDirection,
-}: Pick<TReaderScrollbarContext, 'scrollbarXSize'> &
-    Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop'> &
+}: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop'> &
     Pick<NavbarContextType, 'readerNavBarWidth'> &
     Pick<TReaderProgressBarContext, 'isMaximized'> &
     Pick<ReaderStatePages, 'currentPageIndex' | 'pages' | 'totalPages'> &
     Pick<IReaderSettings, 'progressBarType' | 'shouldShowPageNumber' | 'readingDirection'>) => {
+    const scrollbarXSize = useReaderStore((state) => state.scrollbar.scrollbarXSize);
+
     const pageName = useMemo(() => {
         const currentPageName = getPage(currentPageIndex, pages).name;
         const SEPARATOR = '/';
@@ -97,7 +96,6 @@ export const ReaderPageNumber = withPropsFrom(
     BaseReaderPageNumber,
     [
         ReaderService.useOverlayMode,
-        useReaderScrollbarContext,
         useNavBarContext,
         useReaderProgressBarContext,
         userReaderStatePagesContext,
@@ -105,7 +103,6 @@ export const ReaderPageNumber = withPropsFrom(
     ],
     [
         'isDesktop',
-        'scrollbarXSize',
         'readerNavBarWidth',
         'isMaximized',
         'currentPageIndex',

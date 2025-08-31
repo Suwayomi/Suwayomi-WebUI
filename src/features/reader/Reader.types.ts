@@ -334,7 +334,6 @@ export interface ReaderPagerProps
             | 'shouldStretchPage'
             | 'readerWidth'
         >,
-        Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'>,
         Pick<NavbarContextType, 'readerNavBarWidth'> {
     onLoad?: (pagesIndex: number, url: string, isPrimary?: boolean) => void;
     onError?: (pageIndex: number, url: string) => void;
@@ -369,13 +368,6 @@ export interface ReaderOpenChapterLocationState {
     resumeMode?: ReaderResumeMode;
     updateInitialChapter?: boolean;
 }
-
-export type TReaderScrollbarContext = {
-    scrollbarXSize: number;
-    setScrollbarXSize: (size: number) => void;
-    scrollbarYSize: number;
-    setScrollbarYSize: (size: number) => void;
-};
 
 export type TReaderStateSettingsContext = {
     settings: IReaderSettingsWithDefaultFlag;

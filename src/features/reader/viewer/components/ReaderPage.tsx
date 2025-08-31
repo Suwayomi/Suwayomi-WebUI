@@ -8,12 +8,7 @@
 
 import { memo, useCallback } from 'react';
 import { SpinnerImage, SpinnerImageProps } from '@/base/components/SpinnerImage.tsx';
-import {
-    IReaderSettings,
-    ReaderCustomFilter,
-    ReaderPagerProps,
-    TReaderScrollbarContext,
-} from '@/features/reader/Reader.types.ts';
+import { IReaderSettings, ReaderCustomFilter, ReaderPagerProps } from '@/features/reader/Reader.types.ts';
 import {
     getImageMarginStyling,
     getImagePlaceholderStyling,
@@ -22,6 +17,7 @@ import {
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
     Object.keys(customFilter)
@@ -66,8 +62,6 @@ const BaseReaderPage = ({
     pageScaleMode,
     shouldStretchPage,
     readerWidth,
-    scrollbarXSize,
-    scrollbarYSize,
     onLoad,
     onError,
     setRef,
@@ -76,7 +70,6 @@ const BaseReaderPage = ({
     ...props
 }: Omit<SpinnerImageProps, 'spinnerStyle' | 'imgStyle' | 'onLoad' | 'onError'> &
     Pick<IReaderSettings, 'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth'> &
-    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
     Pick<NavbarContextType, 'readerNavBarWidth'> & {
         pageIndex: number;
         pagesIndex: number;
@@ -93,6 +86,7 @@ const BaseReaderPage = ({
     const { src } = props;
 
     const isTabletWidth = MediaQuery.useIsTabletWidth();
+    const { scrollbarXSize, scrollbarYSize } = useReaderStoreShallow((state) => state.scrollbar);
 
     const handleLoad = useCallback(
         () => onLoad?.(pagesIndex, src, isPrimaryPage),

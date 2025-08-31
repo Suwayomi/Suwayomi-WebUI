@@ -9,7 +9,7 @@
 import { memo } from 'react';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderInfiniteScrollUpdateChapter } from '@/features/reader/infinite-scroll/useReaderInfiniteScrollUpdateChapter.ts';
-import { IReaderSettings, TReaderScrollbarContext } from '@/features/reader/Reader.types.ts';
+import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
@@ -26,12 +26,9 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     isNextChapterVisible,
     imageWrapper,
     openChapter,
-    scrollbarXSize,
-    scrollbarYSize,
     scrollElement,
     shouldShowTransitionPage,
 }: Pick<IReaderSettings, 'shouldShowTransitionPage'> &
-    Pick<TReaderScrollbarContext, 'scrollbarXSize' | 'scrollbarYSize'> &
     Pick<IReaderSettings, 'readingMode' | 'readingDirection' | 'shouldUseInfiniteScroll'> & {
         chapterId: ChapterIdInfo['id'];
         previousChapterId?: ChapterIdInfo['id'];
@@ -54,8 +51,6 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         shouldUseInfiniteScroll,
         openChapter,
         imageWrapper,
-        scrollbarXSize,
-        scrollbarYSize,
         scrollElement,
         shouldShowTransitionPage,
     );
@@ -70,8 +65,6 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         shouldUseInfiniteScroll,
         openChapter,
         imageWrapper,
-        scrollbarXSize,
-        scrollbarYSize,
         scrollElement,
         shouldShowTransitionPage,
     );

@@ -24,28 +24,28 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { MobileHeaderProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { ReaderStateChapters, TReaderScrollbarContext } from '@/features/reader/Reader.types.ts';
+import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { ReaderLibraryButton } from '@/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx';
 import { ReaderBookmarkButton } from '@/features/reader/overlay/navigation/components/ReaderBookmarkButton.tsx';
 import { FALLBACK_CHAPTER } from '@/features/chapter/Chapter.constants.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
 const BaseReaderOverlayHeaderMobile = forwardRef<
     HTMLDivElement,
-    MobileHeaderProps & Pick<ReaderStateChapters, 'currentChapter'> & Pick<TReaderScrollbarContext, 'scrollbarYSize'>
->(({ isVisible, currentChapter, scrollbarYSize }, ref) => {
+    MobileHeaderProps & Pick<ReaderStateChapters, 'currentChapter'>
+>(({ isVisible, currentChapter }, ref) => {
     const { t } = useTranslation();
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
 
     const manga = useReaderStoreShallow((state) => state.manga);
+    const scrollbarYSize = useReaderStore((state) => state.scrollbar.scrollbarYSize);
 
     const { id: mangaId, title } = manga ?? DEFAULT_MANGA;
     const { id: chapterId, name, realUrl, isBookmarked } = currentChapter ?? FALLBACK_CHAPTER;
@@ -131,6 +131,6 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
 
 export const ReaderOverlayHeaderMobile = withPropsFrom(
     memo(BaseReaderOverlayHeaderMobile),
-    [useReaderStateChaptersContext, useReaderScrollbarContext],
-    ['currentChapter', 'scrollbarYSize'],
+    [useReaderStateChaptersContext],
+    ['currentChapter'],
 );

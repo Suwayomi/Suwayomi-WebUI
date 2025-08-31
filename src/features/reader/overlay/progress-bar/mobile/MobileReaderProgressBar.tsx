@@ -22,12 +22,7 @@ import {
     getProgressBarPositionInfo,
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import {
-    IReaderSettings,
-    ProgressBarPosition,
-    ReaderStateChapters,
-    TReaderScrollbarContext,
-} from '@/features/reader/Reader.types.ts';
+import { IReaderSettings, ProgressBarPosition, ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarDirectionWrapper.tsx';
 import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
@@ -42,8 +37,8 @@ import { userReaderStatePagesContext } from '@/features/reader/contexts/state/Re
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { getProgressBarPosition } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
+import { useReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, SlideProps['direction']> = {
     [ProgressBarPosition.BOTTOM]: 'up',
@@ -66,18 +61,17 @@ const BaseMobileReaderProgressBar = ({
     progressBarPositionAutoVertical,
     topOffset = 0,
     bottomOffset = 0,
-    scrollbarXSize,
 }: Pick<ReaderStateChapters, 'previousChapter' | 'nextChapter'> &
     Pick<TReaderOverlayContext, 'isVisible'> &
     Pick<TReaderProgressBarContext, 'setIsMaximized' | 'isDragging'> &
     Pick<ReaderProgressBarProps, 'currentPageIndex' | 'pages'> &
-    Pick<IReaderSettings, 'progressBarPosition' | 'progressBarPositionAutoVertical'> &
-    Pick<TReaderScrollbarContext, 'scrollbarXSize'> & {
+    Pick<IReaderSettings, 'progressBarPosition' | 'progressBarPositionAutoVertical'> & {
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
         topOffset?: number;
         bottomOffset?: number;
     }) => {
     const openChapter = ReaderControls.useOpenChapter();
+    const scrollbarXSize = useReaderStore((state) => state.scrollbar.scrollbarXSize);
 
     const [, setRefreshProgressBarPosition] = useState({});
     useResizeObserver(
@@ -372,7 +366,6 @@ export const MobileReaderProgressBar = withPropsFrom(
         userReaderStatePagesContext,
         () => ({ direction: ReaderService.useGetThemeDirection() }),
         ReaderService.useSettingsWithoutDefaultFlag,
-        useReaderScrollbarContext,
     ],
     [
         'previousChapter',
@@ -385,6 +378,5 @@ export const MobileReaderProgressBar = withPropsFrom(
         'direction',
         'progressBarPosition',
         'progressBarPositionAutoVertical',
-        'scrollbarXSize',
     ],
 );

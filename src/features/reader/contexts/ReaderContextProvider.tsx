@@ -8,7 +8,6 @@
 
 import { ReactNode } from 'react';
 import { ReaderStateContextProvider } from '@/features/reader/contexts/state/ReaderStateContextProvider.tsx';
-import { ReaderScrollbarContextProvider } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { ReaderAutoScrollContextProvider } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { ReaderOverlayContextProvider } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { ReaderProgressBarContextProvider } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
@@ -19,9 +18,7 @@ export const ReaderContextProvider = ({ children }: { children?: ReactNode }) =>
         <ReaderTapZoneContextProvider>
             <ReaderOverlayContextProvider>
                 <ReaderProgressBarContextProvider>
-                    <ReaderScrollbarContextProvider>
-                        <ReaderAutoScrollContextProvider>{children}</ReaderAutoScrollContextProvider>
-                    </ReaderScrollbarContextProvider>
+                    <ReaderAutoScrollContextProvider>{children}</ReaderAutoScrollContextProvider>
                 </ReaderProgressBarContextProvider>
             </ReaderOverlayContextProvider>
         </ReaderTapZoneContextProvider>
