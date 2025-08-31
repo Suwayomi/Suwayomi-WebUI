@@ -13,6 +13,7 @@ import {
     PageInViewportType,
     ReaderPageScaleMode,
     ReaderPageSpreadState,
+    ReaderStatePages,
     ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
@@ -25,7 +26,6 @@ import {
     isContinuousVerticalReadingMode,
     shouldApplyReaderWidth,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ReaderPage } from '@/features/reader/viewer/components/ReaderPage.tsx';
 import { reverseString } from '@/base/utils/Strings.ts';

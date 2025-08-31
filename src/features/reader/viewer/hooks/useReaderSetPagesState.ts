@@ -13,10 +13,10 @@ import {
     ReaderPageSpreadState,
     ReaderResumeMode,
     ReaderStateChapters,
+    ReaderStatePages,
     ReaderTransitionPageMode,
 } from '@/features/reader/Reader.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
 
 export const useReaderSetPagesState = (

@@ -17,6 +17,7 @@ import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScro
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import {
     IReaderSettings,
+    ReaderStatePages,
     ReaderTransitionPageMode,
     ReadingMode,
     TReaderScrollbarContext,
@@ -37,7 +38,6 @@ import { useReaderStateMangaContext } from '@/features/reader/contexts/state/Rea
 import { getValueFromObject, noOp } from '@/lib/HelperFunctions.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';

@@ -11,10 +11,10 @@ import { useWindowEvent } from '@mantine/hooks';
 import {
     ReaderPageScaleMode,
     ReaderStateChapters,
+    ReaderStatePages,
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import {
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,

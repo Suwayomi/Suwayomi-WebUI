@@ -14,6 +14,7 @@ import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import {
     IReaderSettings,
     ProgressBarType,
+    ReaderStatePages,
     ReadingDirection,
     TReaderScrollbarContext,
 } from '@/features/reader/Reader.types.ts';
@@ -24,10 +25,7 @@ import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-
 import { useReaderScrollbarContext } from '@/features/reader/contexts/ReaderScrollbarContext.tsx';
 import { reverseString } from '@/base/utils/Strings.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import {
-    ReaderStatePages,
-    TReaderProgressBarContext,
-} from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 
 const BaseReaderPageNumber = ({

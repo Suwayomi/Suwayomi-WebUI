@@ -28,6 +28,7 @@ import {
     ReaderOpenChapterLocationState,
     ReaderResumeMode,
     ReaderStateChapters,
+    ReaderStatePages,
     ReadingDirection,
     ReadingMode,
     TReaderScrollbarContext,
@@ -45,7 +46,6 @@ import { useMouseDragScroll } from '@/base/hooks/useMouseDragScroll.tsx';
 import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';

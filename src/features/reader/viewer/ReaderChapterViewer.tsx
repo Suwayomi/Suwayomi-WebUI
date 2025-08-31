@@ -17,6 +17,7 @@ import {
     ReaderPageSpreadState,
     ReaderResumeMode,
     ReaderStateChapters,
+    ReaderStatePages,
     ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
@@ -29,7 +30,6 @@ import {
     isContinuousVerticalReadingMode,
     shouldApplyReaderWidth,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { createHandleReaderPageLoadError, createUpdateReaderPageLoadState } from '@/features/reader/Reader.utils.ts';
 import { useReaderConvertPagesForReadingMode } from '@/features/reader/viewer/hooks/useReaderConvertPagesForReadingMode.ts';
 import { ReaderTransitionPage } from '@/features/reader/viewer/components/ReaderTransitionPage.tsx';

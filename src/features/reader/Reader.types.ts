@@ -10,7 +10,6 @@ import { MutableRefObject } from 'react';
 import { TapZoneInvertMode, TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { TMangaReader } from '@/features/manga/Manga.types.ts';
 import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
@@ -282,6 +281,37 @@ export enum ReaderHotkey {
     AUTO_SCROLL_SPEED_INCREASE,
     AUTO_SCROLL_SPEED_DECREASE,
     EXIT_READER,
+}
+
+interface SinglePageData {
+    index: number;
+    alt: string;
+    url: string;
+}
+
+export interface PageData {
+    name: string;
+    primary: SinglePageData;
+    secondary?: SinglePageData;
+}
+
+export interface ReaderStatePages {
+    totalPages: number;
+    setTotalPages: React.Dispatch<React.SetStateAction<number>>;
+    currentPageIndex: number;
+    setCurrentPageIndex: React.Dispatch<React.SetStateAction<number>>;
+    pageToScrollToIndex: number | null;
+    setPageToScrollToIndex: React.Dispatch<React.SetStateAction<number | null>>;
+    pageUrls: string[];
+    setPageUrls: React.Dispatch<React.SetStateAction<string[]>>;
+    pageLoadStates: { url: string; loaded: boolean; error?: boolean }[];
+    setPageLoadStates: React.Dispatch<React.SetStateAction<{ url: string; loaded: boolean; error?: boolean }[]>>;
+    pages: PageData[];
+    setPages: React.Dispatch<React.SetStateAction<PageData[]>>;
+    transitionPageMode: ReaderTransitionPageMode;
+    setTransitionPageMode: React.Dispatch<React.SetStateAction<ReaderTransitionPageMode>>;
+    retryFailedPagesKeyPrefix: string;
+    setRetryFailedPagesKeyPrefix: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface ReaderPagerProps

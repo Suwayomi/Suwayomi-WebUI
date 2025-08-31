@@ -9,11 +9,11 @@
 import { forwardRef, memo, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
 import Box, { BoxProps } from '@mui/material/Box';
 import { getPageIndexesToLoad, isATransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import {
     IReaderSettings,
     ReaderPagerProps,
     ReaderResumeMode,
+    ReaderStatePages,
     ReaderTransitionPageMode,
 } from '@/features/reader/Reader.types.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';

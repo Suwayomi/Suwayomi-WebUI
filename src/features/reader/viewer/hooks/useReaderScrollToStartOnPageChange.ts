@@ -8,9 +8,8 @@
 
 import { MutableRefObject, useLayoutEffect } from 'react';
 import { Direction } from '@mui/material/styles';
-import { ReadingDirection } from '@/features/reader/Reader.types.ts';
+import { ReaderStatePages, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { getScrollToXForReadingDirection } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 
 export const useReaderScrollToStartOnPageChange = (
     currentPageIndex: ReaderStatePages['currentPageIndex'],

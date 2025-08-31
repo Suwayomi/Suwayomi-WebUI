@@ -6,8 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
-import { ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
+import { ReaderStatePages, ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
 import { createPageData } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 
 export const READER_STATE_PAGES_DEFAULTS: ReaderStatePages = {

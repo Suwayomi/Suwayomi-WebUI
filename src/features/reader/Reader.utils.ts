@@ -10,6 +10,7 @@ import {
     ReaderPageSpreadState,
     ReaderResumeMode,
     ReaderStateChapters,
+    ReaderStatePages,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
@@ -17,7 +18,6 @@ import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
 import { isPageOfOutdatedPageLoadStates, isSpreadPage } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 import { DirectionOffset } from '@/base/Base.types.ts';

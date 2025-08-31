@@ -14,13 +14,12 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { IReaderSettings, ReaderStatePages } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 

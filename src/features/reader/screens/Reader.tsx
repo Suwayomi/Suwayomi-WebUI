@@ -34,6 +34,7 @@ import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
     ReaderStateChapters,
+    ReaderStatePages,
     TReaderAutoScrollContext,
     TReaderStateMangaContext,
     TReaderStateSettingsContext,
@@ -41,7 +42,6 @@ import {
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
-import { ReaderStatePages } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
