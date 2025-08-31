@@ -40,7 +40,7 @@ const BaseReaderBottomBarMobile = ({
 
     const chapterListPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-chapter-list-dialog' });
     const quickSettingsPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-quick-settings-dialog' });
-    const { scrollbarXSize, scrollbarYSize } = useReaderStoreShallow((state) => state.scrollbar);
+    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
 
     const [bottomBarRefHeight, setBottomBarRefHeight] = useState(0);
     const bottomBarRef = useRef<HTMLDivElement>(null);
@@ -58,7 +58,7 @@ const BaseReaderBottomBarMobile = ({
             <Stack
                 sx={{
                     position: 'fixed',
-                    right: `${scrollbarYSize}px`,
+                    right: `${scrollbar.ySize}px`,
                     bottom: 0,
                     left: 0,
                     height: `calc(100% - ${topOffset}px)`,
@@ -71,7 +71,7 @@ const BaseReaderBottomBarMobile = ({
                         sx={{
                             alignItems: 'center',
                             backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.95),
-                            pb: `max(${scrollbarXSize}px, env(safe-area-inset-bottom))`,
+                            pb: `max(${scrollbar.xSize}px, env(safe-area-inset-bottom))`,
                             boxShadow: 2,
                             pointerEvents: 'all',
                         }}

@@ -320,8 +320,8 @@ export const useReaderInfiniteScrollUpdateChapter = (
                 const elementIntersectionInfo = getElementIntersectionInfo(
                     readingDirection,
                     entry.target.getBoundingClientRect(),
-                    getReaderStore().scrollbar.scrollbarXSize,
-                    getReaderStore().scrollbar.scrollbarYSize,
+                    getReaderStore().scrollbar.xSize,
+                    getReaderStore().scrollbar.ySize,
                 );
                 const { start: isStartIntersecting, end: isEndIntersecting } = getElementIntersection(
                     elementIntersectionInfo,

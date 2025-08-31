@@ -180,8 +180,8 @@ const BaseReaderViewer = forwardRef(
         const scrollbarYSize = MediaQuery.useGetScrollbarSize('height', scrollElementRef.current);
         useLayoutEffect(() => {
             const { scrollbar } = getReaderStore();
-            scrollbar.setScrollbarXSize(scrollbarXSize);
-            scrollbar.setScrollbarYSize(scrollbarYSize);
+            scrollbar.setXSize(scrollbarXSize);
+            scrollbar.setYSize(scrollbarYSize);
         }, [scrollbarXSize, scrollbarYSize]);
 
         const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);

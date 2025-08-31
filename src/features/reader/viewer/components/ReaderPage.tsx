@@ -86,7 +86,7 @@ const BaseReaderPage = ({
     const { src } = props;
 
     const isTabletWidth = MediaQuery.useIsTabletWidth();
-    const { scrollbarXSize, scrollbarYSize } = useReaderStoreShallow((state) => state.scrollbar);
+    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
 
     const handleLoad = useCallback(
         () => onLoad?.(pagesIndex, src, isPrimaryPage),
@@ -114,8 +114,8 @@ const BaseReaderPage = ({
                     shouldStretchPage,
                     pageScaleMode,
                     readerWidth,
-                    readerNavBarWidth + scrollbarYSize,
-                    scrollbarXSize,
+                    readerNavBarWidth + scrollbar.ySize,
+                    scrollbar.xSize,
                     doublePage,
                     isTabletWidth,
                 ),
@@ -131,8 +131,8 @@ const BaseReaderPage = ({
                     pageScaleMode,
                     doublePage,
                     readerWidth,
-                    readerNavBarWidth + scrollbarYSize,
-                    scrollbarXSize,
+                    readerNavBarWidth + scrollbar.ySize,
+                    scrollbar.xSize,
                 ),
                 filter: getCustomFilterString(customFilter),
                 objectFit: 'contain',

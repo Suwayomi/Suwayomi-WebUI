@@ -33,7 +33,7 @@ import { FALLBACK_CHAPTER } from '@/features/chapter/Chapter.constants.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
@@ -45,7 +45,7 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
 
     const manga = useReaderStoreShallow((state) => state.manga);
-    const scrollbarYSize = useReaderStore((state) => state.scrollbar.scrollbarYSize);
+    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
 
     const { id: mangaId, title } = manga ?? DEFAULT_MANGA;
     const { id: chapterId, name, realUrl, isBookmarked } = currentChapter ?? FALLBACK_CHAPTER;
@@ -59,7 +59,7 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
                     position: 'fixed',
                     top: 0,
                     left: 0,
-                    right: `${scrollbarYSize}px`,
+                    right: `${scrollbar.ySize}px`,
                     p: 2,
                     pt: (theme) => `max(env(safe-area-inset-top), ${theme.spacing(2)})`,
                     backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.95),

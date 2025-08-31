@@ -16,38 +16,42 @@ interface ReaderStore {
     manga: TMangaReader | undefined;
     setManga: (manga: TMangaReader | undefined) => void;
     scrollbar: {
-        scrollbarXSize: number;
-        setScrollbarXSize: (size: number) => void;
-        scrollbarYSize: number;
-        setScrollbarYSize: (size: number) => void;
+        xSize: number;
+        setXSize: (size: number) => void;
+        ySize: number;
+        setYSize: (size: number) => void;
     };
 }
 
 const DEFAULT_STATE = {
     manga: undefined,
-} satisfies Pick<ReaderStore, 'manga'>;
+    scrollbar: {
+        xSize: 0,
+        ySize: 0,
+    },
+} satisfies Pick<ReaderStore, 'manga'> & { scrollbar: Pick<ReaderStore['scrollbar'], 'xSize' | 'ySize'> };
 
 export const useReaderStore = create<ReaderStore>()(
-    immer((set) => ({
+    immer((set, get) => ({
         ...DEFAULT_STATE,
         reset: () =>
             set((draft) => {
                 draft.manga = DEFAULT_STATE.manga;
+                draft.scrollbar = { ...get().scrollbar, ...DEFAULT_STATE.scrollbar };
             }),
         setManga: (manga) =>
             set((draft) => {
                 draft.manga = manga;
             }),
         scrollbar: {
-            scrollbarXSize: 0,
-            setScrollbarXSize: (size) =>
+            ...DEFAULT_STATE.scrollbar,
+            setXSize: (size) =>
                 set((draft) => {
-                    draft.scrollbar.scrollbarXSize = size;
+                    draft.scrollbar.xSize = size;
                 }),
-            scrollbarYSize: 0,
-            setScrollbarYSize: (size) =>
+            setYSize: (size) =>
                 set((draft) => {
-                    draft.scrollbar.scrollbarYSize = size;
+                    draft.scrollbar.ySize = size;
                 }),
         },
     })),

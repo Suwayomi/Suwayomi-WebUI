@@ -25,7 +25,7 @@ import { reverseString } from '@/base/utils/Strings.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStore } from '@/features/reader/ReaderStore.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderPageNumber = ({
     isDesktop,
@@ -42,7 +42,7 @@ const BaseReaderPageNumber = ({
     Pick<TReaderProgressBarContext, 'isMaximized'> &
     Pick<ReaderStatePages, 'currentPageIndex' | 'pages' | 'totalPages'> &
     Pick<IReaderSettings, 'progressBarType' | 'shouldShowPageNumber' | 'readingDirection'>) => {
-    const scrollbarXSize = useReaderStore((state) => state.scrollbar.scrollbarXSize);
+    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
 
     const pageName = useMemo(() => {
         const currentPageName = getPage(currentPageIndex, pages).name;
@@ -74,7 +74,7 @@ const BaseReaderPageNumber = ({
                 position: 'fixed',
                 left: readerNavBarWidth,
                 right: 0,
-                bottom: (theme) => `max(calc(${theme.spacing(1)} + ${scrollbarXSize}px), env(safe-area-inset-bottom))`,
+                bottom: (theme) => `max(calc(${theme.spacing(1)} + ${scrollbar.xSize}px), env(safe-area-inset-bottom))`,
                 alignItems: 'center',
                 transition: (theme) => `left 0.${theme.transitions.duration.shortest}s`,
             }}

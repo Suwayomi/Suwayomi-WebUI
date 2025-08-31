@@ -38,7 +38,7 @@ import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { getProgressBarPosition } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
-import { useReaderStore } from '@/features/reader/ReaderStore.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, SlideProps['direction']> = {
     [ProgressBarPosition.BOTTOM]: 'up',
@@ -71,7 +71,7 @@ const BaseMobileReaderProgressBar = ({
         bottomOffset?: number;
     }) => {
     const openChapter = ReaderControls.useOpenChapter();
-    const scrollbarXSize = useReaderStore((state) => state.scrollbar.scrollbarXSize);
+    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
 
     const [, setRefreshProgressBarPosition] = useState({});
     useResizeObserver(
@@ -84,7 +84,7 @@ const BaseMobileReaderProgressBar = ({
         progressBarPositionAutoVertical,
         // scrollbar x size is already included in the top/bottom offset due to the progress bar being placed in the reader mobile bottom bar
         topOffset + bottomOffset,
-        scrollbarXSize,
+        scrollbar.xSize,
     );
 
     const { isLeft, isRight, isVertical, isHorizontal } = getProgressBarPositionInfo(finalProgressBarPosition);

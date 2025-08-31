@@ -50,7 +50,7 @@ const BaseStandardReaderProgressBar = ({
     }) => {
     const theme = useTheme();
 
-    const { scrollbarXSize, scrollbarYSize } = useReaderStoreShallow((state) => state.scrollbar);
+    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
 
     const [, setRefreshProgressBarPosition] = useState({});
     useResizeObserver(
@@ -61,8 +61,8 @@ const BaseStandardReaderProgressBar = ({
     const finalProgressBarPosition = getProgressBarPosition(
         progressBarPosition,
         progressBarPositionAutoVertical,
-        scrollbarYSize,
-        readerNavBarWidth + scrollbarXSize,
+        scrollbar.ySize,
+        readerNavBarWidth + scrollbar.xSize,
     );
     const { isBottom, isLeft, isRight, isVertical, isHorizontal } =
         getProgressBarPositionInfo(finalProgressBarPosition);
@@ -111,20 +111,20 @@ const BaseStandardReaderProgressBar = ({
                             ...applyStyles(isHorizontal, {
                                 minHeight: '100px',
                                 ...applyStyles(theme.direction === 'ltr', {
-                                    left: readerDirection === 'ltr' ? readerNavBarWidth : scrollbarYSize,
-                                    right: readerDirection === 'rtl' ? readerNavBarWidth : scrollbarYSize,
+                                    left: readerDirection === 'ltr' ? readerNavBarWidth : scrollbar.ySize,
+                                    right: readerDirection === 'rtl' ? readerNavBarWidth : scrollbar.ySize,
                                 }),
                                 ...applyStyles(theme.direction === 'rtl', {
-                                    left: readerDirection === 'rtl' ? readerNavBarWidth : scrollbarYSize,
-                                    right: readerDirection === 'ltr' ? readerNavBarWidth : scrollbarYSize,
+                                    left: readerDirection === 'rtl' ? readerNavBarWidth : scrollbar.ySize,
+                                    right: readerDirection === 'ltr' ? readerNavBarWidth : scrollbar.ySize,
                                 }),
                             }),
                             ...applyStyles(isVertical, {
                                 minWidth: '100px',
-                                bottom: `${scrollbarXSize}px`,
+                                bottom: `${scrollbar.xSize}px`,
                             }),
                             ...applyStyles(isBottom, {
-                                bottom: `${scrollbarXSize}px`,
+                                bottom: `${scrollbar.xSize}px`,
                             }),
                             ...applyStyles(isLeft, {
                                 ...applyStyles(theme.direction === 'ltr', {
@@ -132,14 +132,14 @@ const BaseStandardReaderProgressBar = ({
                                     right: readerDirection === 'rtl' ? readerNavBarWidth : 'unset',
                                 }),
                                 ...applyStyles(theme.direction === 'rtl', {
-                                    right: readerDirection === 'rtl' ? scrollbarYSize : 'unset',
-                                    left: readerDirection === 'ltr' ? scrollbarYSize : 'unset',
+                                    right: readerDirection === 'rtl' ? scrollbar.ySize : 'unset',
+                                    left: readerDirection === 'ltr' ? scrollbar.ySize : 'unset',
                                 }),
                             }),
                             ...applyStyles(isRight, {
                                 ...applyStyles(theme.direction === 'ltr', {
-                                    right: readerDirection === 'ltr' ? scrollbarYSize : 'unset',
-                                    left: readerDirection === 'rtl' ? scrollbarYSize : 'unset',
+                                    right: readerDirection === 'ltr' ? scrollbar.ySize : 'unset',
+                                    left: readerDirection === 'rtl' ? scrollbar.ySize : 'unset',
                                 }),
                                 ...applyStyles(theme.direction === 'rtl', {
                                     left: readerDirection === 'rtl' ? readerNavBarWidth : 'unset',
