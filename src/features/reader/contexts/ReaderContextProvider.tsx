@@ -9,18 +9,15 @@
 import { ReactNode } from 'react';
 import { ReaderStateContextProvider } from '@/features/reader/contexts/state/ReaderStateContextProvider.tsx';
 import { ReaderAutoScrollContextProvider } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
-import { ReaderOverlayContextProvider } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { ReaderProgressBarContextProvider } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { ReaderTapZoneContextProvider } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 
 export const ReaderContextProvider = ({ children }: { children?: ReactNode }) => (
     <ReaderStateContextProvider>
         <ReaderTapZoneContextProvider>
-            <ReaderOverlayContextProvider>
-                <ReaderProgressBarContextProvider>
-                    <ReaderAutoScrollContextProvider>{children}</ReaderAutoScrollContextProvider>
-                </ReaderProgressBarContextProvider>
-            </ReaderOverlayContextProvider>
+            <ReaderProgressBarContextProvider>
+                <ReaderAutoScrollContextProvider>{children}</ReaderAutoScrollContextProvider>
+            </ReaderProgressBarContextProvider>
         </ReaderTapZoneContextProvider>
     </ReaderStateContextProvider>
 );

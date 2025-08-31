@@ -12,7 +12,6 @@ import { useTheme } from '@mui/material/styles';
 import { HOTKEY_SCOPES } from '@/features/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { IReaderSettings, ReaderHotkey } from '@/features/reader/Reader.types.ts';
-import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { getNextRotationValue } from '@/base/utils/ValueRotationButton.utils.ts';
 import {
     AUTO_SCROLL_SPEED,
@@ -27,6 +26,7 @@ import { ScrollOffset } from '@/base/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
+import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;
@@ -64,7 +64,6 @@ export const ReaderHotkeys = ({
     const { direction: themeDirection } = useTheme();
     const readerThemeDirection = ReaderService.useGetThemeDirection();
     const { enableScope, disableScope } = useHotkeysContext();
-    const { isVisible, setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
     const {
         hotkeys,
         pageScaleMode,
@@ -104,7 +103,6 @@ export const ReaderHotkeys = ({
                 themeDirection,
                 scrollElementRef.current,
                 openChapter,
-                setIsOverlayVisible,
                 setShowPreview,
                 scrollAmount,
             );
@@ -139,7 +137,6 @@ export const ReaderHotkeys = ({
                 themeDirection,
                 scrollElementRef.current,
                 openChapter,
-                setIsOverlayVisible,
                 setShowPreview,
                 scrollAmount,
             );
@@ -164,7 +161,9 @@ export const ReaderHotkeys = ({
         () => openChapter(getOptionForDirection('next', 'previous', readerThemeDirection)),
         [openChapter, readerThemeDirection],
     );
-    useHotkeys(hotkeys[ReaderHotkey.TOGGLE_MENU], () => setIsOverlayVisible(!isVisible), [isVisible]);
+    useHotkeys(hotkeys[ReaderHotkey.TOGGLE_MENU], () =>
+        getReaderStore().overlay.setIsVisible(!getReaderStore().overlay.isVisible),
+    );
     useHotkeys(
         hotkeys[ReaderHotkey.CYCLE_SCALE_TYPE],
         () => {

@@ -16,7 +16,6 @@ import {
     TReaderStateSettingsContext,
 } from '@/features/reader/Reader.types.ts';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
-import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { READER_STATE_CHAPTERS_DEFAULTS } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
@@ -29,7 +28,6 @@ export const useReaderResetStates = (
     setPageUrls: ReaderStatePages['setPageUrls'],
     setPageLoadStates: ReaderStatePages['setPageLoadStates'],
     setTransitionPageMode: ReaderStatePages['setTransitionPageMode'],
-    setIsOverlayVisible: TReaderOverlayContext['setIsVisible'],
     setSettings: TReaderStateSettingsContext['setSettings'],
     cancelAutoScroll: TReaderAutoScrollContext['cancel'],
 ) => {
@@ -45,8 +43,6 @@ export const useReaderResetStates = (
             setPageUrls([]);
             setPageLoadStates([{ url: '', loaded: false }]);
             setTransitionPageMode(ReaderTransitionPageMode.NONE);
-
-            setIsOverlayVisible(false);
 
             setSettings(DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG);
 

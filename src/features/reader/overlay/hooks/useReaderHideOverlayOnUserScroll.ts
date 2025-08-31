@@ -7,12 +7,11 @@
  */
 
 import { MutableRefObject, useEffect } from 'react';
-import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
 export const useReaderHideOverlayOnUserScroll = (
     isOverlayVisible: boolean,
-    setIsOverlayVisible: TReaderOverlayContext['setIsVisible'],
     showPreview: TReaderTapZoneContext['showPreview'],
     setShowPreview: TReaderTapZoneContext['setShowPreview'],
     scrollElementRef: MutableRefObject<HTMLDivElement | null>,
@@ -20,7 +19,7 @@ export const useReaderHideOverlayOnUserScroll = (
     useEffect(() => {
         const handleScroll = () => {
             if (isOverlayVisible) {
-                setIsOverlayVisible(false);
+                getReaderStore().overlay.setIsVisible(false);
             }
 
             if (showPreview) {

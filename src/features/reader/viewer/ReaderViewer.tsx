@@ -41,9 +41,7 @@ import {
     shouldApplyReaderWidth,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { useMouseDragScroll } from '@/base/hooks/useMouseDragScroll.tsx';
-import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
-import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
@@ -67,7 +65,7 @@ import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types
 import { useReaderPreserveScrollPosition } from '@/features/reader/viewer/hooks/useReaderPreserveScrollPosition.ts';
 
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import { getReaderStore } from '@/features/reader/ReaderStore.ts';
+import { getReaderStore, useReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -104,8 +102,6 @@ const BaseReaderViewer = forwardRef(
             shouldStretchPage,
             isStaticNav,
             readerNavBarWidth,
-            isVisible: isOverlayVisible,
-            setIsVisible: setIsOverlayVisible,
             updateCurrentPageIndex,
             showPreview,
             setShowPreview,
@@ -145,7 +141,6 @@ const BaseReaderViewer = forwardRef(
                 | 'isStaticNav'
             > &
             Pick<NavbarContextType, 'readerNavBarWidth'> &
-            Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
             Pick<
                 ReaderStateChapters,
                 | 'initialChapter'
@@ -162,6 +157,7 @@ const BaseReaderViewer = forwardRef(
         ref: ForwardedRef<HTMLDivElement | null>,
     ) => {
         const { direction: themeDirection } = useTheme();
+        const isOverlayVisible = useReaderStore((state) => state.overlay.isVisible);
         const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
             resumeMode: ReaderResumeMode.START,
         };
@@ -274,13 +270,7 @@ const BaseReaderViewer = forwardRef(
         );
         useReaderHideCursorOnInactivity(scrollElementRef);
         useReaderHorizontalModeInvertXYScrolling(readingMode, readingDirection, scrollElementRef);
-        useReaderHideOverlayOnUserScroll(
-            isOverlayVisible,
-            setIsOverlayVisible,
-            showPreview,
-            setShowPreview,
-            scrollElementRef,
-        );
+        useReaderHideOverlayOnUserScroll(isOverlayVisible, showPreview, setShowPreview, scrollElementRef);
         useReaderAutoScroll(isOverlayVisible, automaticScrolling, isStaticNav);
         useReaderPreserveScrollPosition(
             scrollElementRef,
@@ -447,7 +437,6 @@ export const ReaderViewer = withPropsFrom(
     [
         userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
-        useReaderOverlayContext,
         () => ({ updateCurrentPageIndex: ReaderControls.useUpdateCurrentPageIndex() }),
         useReaderTapZoneContext,
         useReaderStateChaptersContext,
@@ -478,8 +467,6 @@ export const ReaderViewer = withPropsFrom(
         'isStaticNav',
         'readerNavBarWidth',
         'transitionPageMode',
-        'isVisible',
-        'setIsVisible',
         'updateCurrentPageIndex',
         'showPreview',
         'setShowPreview',

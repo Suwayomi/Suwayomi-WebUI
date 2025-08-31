@@ -36,7 +36,6 @@ import {
     isEndOfPageInViewport,
     isPageInViewport,
 } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { TapZoneRegionType, TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { ReaderTapZoneService } from '@/features/reader/tap-zones/ReaderTapZoneService.ts';
@@ -51,11 +50,11 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import {
     ReaderProgressBarProps,
     TReaderProgressCurrentPage,
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,
@@ -99,7 +98,6 @@ export class ReaderControls {
         themeDirection: Direction,
         element: HTMLElement,
         openChapter: ReturnType<(typeof ReaderControls)['useOpenChapter']>,
-        setIsOverlayVisible: TReaderOverlayContext['setIsVisible'],
         setShowPreview: TReaderTapZoneContext['setShowPreview'],
         scrollAmountPercentage: number = ReaderScrollAmount.LARGE,
     ): void {
@@ -128,7 +126,7 @@ export class ReaderControls {
         const getNewScrollPosition = (currentPos: number, elementSize: number) =>
             currentPos + elementSize * scrollAmount * scrollDirection;
 
-        setIsOverlayVisible(false);
+        getReaderStore().overlay.setIsVisible(false);
         setShowPreview(false);
 
         const doScroll = (
@@ -351,7 +349,6 @@ export class ReaderControls {
         const { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode } =
             userReaderStatePagesContext();
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
-        const { setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
         const { setShowPreview } = useReaderTapZoneContext();
         const { readingDirection, readingMode, shouldShowTransitionPage } = ReaderService.useSettings();
         const openChapter = ReaderControls.useOpenChapter();
@@ -383,7 +380,7 @@ export class ReaderControls {
                 );
 
                 if (hideOverlay) {
-                    setIsOverlayVisible(false);
+                    getReaderStore().overlay.setIsVisible(false);
                     setShowPreview(false);
                 }
 
@@ -598,7 +595,6 @@ export class ReaderControls {
         scrollElement: HTMLElement | null,
     ): (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void {
         const { direction: themeDirection } = useTheme();
-        const { setIsVisible: setIsOverlayVisible } = useReaderOverlayContext();
         const { currentPageIndex, pages } = userReaderStatePagesContext();
         const { setShowPreview } = useReaderTapZoneContext();
         const { readingMode, readingDirection, isStaticNav, scrollAmount } = ReaderService.useSettings();
@@ -624,7 +620,7 @@ export class ReaderControls {
 
                 switch (action) {
                     case TapZoneRegionType.MENU:
-                        setIsOverlayVisible((isVisible) => isStaticNav || !isVisible);
+                        getReaderStore().overlay.setIsVisible(isStaticNav || !getReaderStore().overlay.isVisible);
                         break;
                     case TapZoneRegionType.PREVIOUS:
                     case TapZoneRegionType.NEXT:
@@ -637,7 +633,6 @@ export class ReaderControls {
                                 themeDirection,
                                 scrollElement,
                                 openChapter,
-                                setIsOverlayVisible,
                                 setShowPreview,
                                 scrollAmount,
                             );

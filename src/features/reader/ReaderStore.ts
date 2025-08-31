@@ -10,8 +10,12 @@ import { create } from 'zustand';
 import { immer } from 'zustand/middleware/immer';
 import { useShallow } from 'zustand/react/shallow';
 import { TMangaReader } from '@/features/manga/Manga.types.ts';
+import {
+    createReaderOverlayStoreSlice,
+    ReaderOverlayStoreSlice,
+} from '@/features/reader/overlay/ReaderOverlayStore.ts';
 
-interface ReaderStore {
+interface ReaderStore extends ReaderOverlayStoreSlice {
     reset: () => void;
     manga: TMangaReader | undefined;
     setManga: (manga: TMangaReader | undefined) => void;
@@ -32,12 +36,13 @@ const DEFAULT_STATE = {
 } satisfies Pick<ReaderStore, 'manga'> & { scrollbar: Pick<ReaderStore['scrollbar'], 'xSize' | 'ySize'> };
 
 export const useReaderStore = create<ReaderStore>()(
-    immer((set, get) => ({
+    immer((set, get, store) => ({
         ...DEFAULT_STATE,
         reset: () =>
             set((draft) => {
                 draft.manga = DEFAULT_STATE.manga;
                 draft.scrollbar = { ...get().scrollbar, ...DEFAULT_STATE.scrollbar };
+                get().overlay.reset();
             }),
         setManga: (manga) =>
             set((draft) => {
@@ -54,6 +59,7 @@ export const useReaderStore = create<ReaderStore>()(
                     draft.scrollbar.ySize = size;
                 }),
         },
+        ...createReaderOverlayStoreSlice(set, get, store),
     })),
 );
 export const useReaderStoreShallow = <T>(selector: (state: ReaderStore) => T): T =>

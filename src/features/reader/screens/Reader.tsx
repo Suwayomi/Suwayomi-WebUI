@@ -22,7 +22,6 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { TapZoneLayout } from '@/features/reader/tap-zones/TapZoneLayout.tsx';
-import { useReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlayContext.tsx';
 import { ReaderRGBAFilter } from '@/features/reader/filters/ReaderRGBAFilter.tsx';
 import { useReaderStateSettingsContext } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
 import { ReaderViewer } from '@/features/reader/viewer/ReaderViewer.tsx';
@@ -39,7 +38,6 @@ import {
 } from '@/features/reader/Reader.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { TReaderOverlayContext } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { useReaderAutoScrollContext } from '@/features/reader/auto-scroll/ReaderAutoScrollContext.tsx';
@@ -57,8 +55,6 @@ import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderS
 const BaseReader = ({
     setOverride,
     readerNavBarWidth,
-    isVisible: isOverlayVisible,
-    setIsVisible: setIsOverlayVisible,
     shouldSkipDupChapters,
     shouldSkipFilteredChapters,
     backgroundColor,
@@ -83,7 +79,6 @@ const BaseReader = ({
     cancelAutoScroll,
     setShowPreview,
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'> &
-    Pick<TReaderOverlayContext, 'isVisible' | 'setIsVisible'> &
     Pick<TReaderStateSettingsContext, 'setSettings'> &
     Pick<
         IReaderSettings,
@@ -117,6 +112,7 @@ const BaseReader = ({
     }) => {
     const { t } = useTranslation();
     const manga = useReaderStoreShallow((state) => state.manga);
+    const overlay = useReaderStoreShallow((state) => state.overlay);
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -166,7 +162,6 @@ const BaseReader = ({
         setPageUrls,
         setPageLoadStates,
         setTransitionPageMode,
-        setIsOverlayVisible,
         setSettings,
         cancelAutoScroll,
     );
@@ -207,10 +202,10 @@ const BaseReader = ({
             value: (
                 <Box sx={{ position: 'absolute' }}>
                     <ReaderHotkeys scrollElementRef={scrollElementRef} />
-                    <ReaderOverlay isVisible={isOverlayVisible} />
+                    <ReaderOverlay isVisible={overlay.isVisible} />
                     {!scrollElementRef.current && (
                         <Box
-                            onClick={() => setIsOverlayVisible(!isOverlayVisible)}
+                            onClick={() => overlay.setIsVisible(!overlay.isVisible)}
                             sx={{
                                 position: 'fixed',
                                 top: 0,
@@ -226,7 +221,7 @@ const BaseReader = ({
         });
 
         return () => setOverride({ status: false, value: null });
-    }, [isOverlayVisible, setIsOverlayVisible, scrollElementRef.current]);
+    }, [overlay.isVisible, scrollElementRef.current]);
 
     if (error) {
         return (
@@ -301,7 +296,6 @@ export const Reader = withPropsFrom(
     memo(BaseReader),
     [
         useNavBarContext,
-        useReaderOverlayContext,
         useReaderStateChaptersContext,
         useReaderStateSettingsContext,
         () => {
@@ -331,8 +325,6 @@ export const Reader = withPropsFrom(
     [
         'setOverride',
         'readerNavBarWidth',
-        'isVisible',
-        'setIsVisible',
         'shouldSkipDupChapters',
         'shouldSkipFilteredChapters',
         'backgroundColor',
