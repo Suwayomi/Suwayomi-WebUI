@@ -277,7 +277,9 @@ const MainApp = () => {
 const ReaderApp = () => (
     <ErrorBoundary>
         <Routes>
-            <Route path={AppRoutes.matchAll.match} element={<Reader />} />
+            <Route element={<PrivateRoutes />}>
+                <Route path={AppRoutes.matchAll.match} element={<Reader />} />
+            </Route>
         </Routes>
     </ErrorBoundary>
 );
