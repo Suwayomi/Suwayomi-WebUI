@@ -61,7 +61,7 @@ const NAVIGATION_BAR_BASE_ITEMS = [
         moreGroup: NavBarItemMoreGroup.GENERAL,
         useBadge: () => {
             const { t } = useTranslation();
-            const { data } = requestManager.useGetExtensionList();
+            const { data } = requestManager.useGetExtensionList({ fetchPolicy: 'cache-only' });
 
             const extensions = data?.extensions.nodes ?? [];
             const availableUpdates = extensions.filter((extension) => extension.hasUpdate).length;
