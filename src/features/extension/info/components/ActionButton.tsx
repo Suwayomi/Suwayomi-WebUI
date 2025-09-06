@@ -31,7 +31,8 @@ export const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TE
                 variant="outlined"
                 size="large"
                 onClick={async () => {
-                    const action = hasUpdate ? ExtensionAction.UPDATE : ExtensionAction.UNINSTALL;
+                    const action = hasUpdate && !isObsolete ? ExtensionAction.UPDATE : ExtensionAction.UNINSTALL;
+
                     try {
                         await updateExtension(pkgName, isObsolete, action);
 
