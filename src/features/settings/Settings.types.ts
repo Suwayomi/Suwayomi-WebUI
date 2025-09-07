@@ -16,7 +16,6 @@ import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.
 import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { MetadataHistorySettings } from '@/features/history/History.types.ts';
-import { ServerSettings as GqlServerSettings } from '@/features/settings/Settings.types.ts';
 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
 
@@ -37,52 +36,6 @@ export interface ISearchSettings {
 }
 
 export type ServerSettings = Omit<GetServerSettingsQuery['settings'], '__typename'>;
-export type ServerSettingsType = Pick<
-    GqlServerSettings,
-    | 'ip'
-    | 'port'
-    | 'socksProxyEnabled'
-    | 'socksProxyVersion'
-    | 'socksProxyHost'
-    | 'socksProxyPort'
-    | 'socksProxyUsername'
-    | 'socksProxyPassword'
-    | 'debugLogsEnabled'
-    | 'systemTrayEnabled'
-    | 'maxLogFiles'
-    | 'maxLogFileSize'
-    | 'maxLogFolderSize'
-    | 'authMode'
-    | 'authUsername'
-    | 'authPassword'
-    | 'jwtAudience'
-    | 'jwtTokenExpiry'
-    | 'jwtRefreshExpiry'
-    | 'flareSolverrEnabled'
-    | 'flareSolverrTimeout'
-    | 'flareSolverrUrl'
-    | 'flareSolverrSessionName'
-    | 'flareSolverrSessionTtl'
-    | 'flareSolverrAsResponseFallback'
-    | 'opdsUseBinaryFileSizes'
-    | 'opdsItemsPerPage'
-    | 'opdsEnablePageReadProgress'
-    | 'opdsMarkAsReadOnDownload'
-    | 'opdsShowOnlyUnreadChapters'
-    | 'opdsShowOnlyDownloadedChapters'
-    | 'opdsChapterSortOrder'
-    | 'koreaderSyncServerUrl'
-    | 'koreaderSyncUsername'
-    | 'koreaderSyncUserkey'
-    | 'koreaderSyncDeviceId'
-    | 'koreaderSyncChecksumMethod'
-    | 'koreaderSyncStrategy'
-    | 'koreaderSyncPercentageTolerance'
-    | 'databaseType'
-    | 'databaseUrl'
-    | 'databaseUsername'
-    | 'databasePassword'
->;
 
 export type WebUISettingsType = Pick<
     ServerSettings,

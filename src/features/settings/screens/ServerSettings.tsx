@@ -29,7 +29,6 @@ import {
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
-import { ServerSettings as GqlServerSettings, ServerSettingsType } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import {
@@ -47,52 +46,7 @@ import {
 } from '@/features/settings/Settings.constants.ts';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-
-const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType => ({
-    ip: settings.ip,
-    port: settings.port,
-    socksProxyEnabled: settings.socksProxyEnabled,
-    socksProxyVersion: settings.socksProxyVersion,
-    socksProxyHost: settings.socksProxyHost,
-    socksProxyPort: settings.socksProxyPort,
-    socksProxyUsername: settings.socksProxyUsername,
-    socksProxyPassword: settings.socksProxyPassword,
-    debugLogsEnabled: settings.debugLogsEnabled,
-    systemTrayEnabled: settings.systemTrayEnabled,
-    maxLogFiles: settings.maxLogFiles,
-    maxLogFileSize: settings.maxLogFileSize,
-    maxLogFolderSize: settings.maxLogFolderSize,
-    authMode: settings.authMode,
-    authUsername: settings.authUsername,
-    authPassword: settings.authPassword,
-    jwtAudience: settings.jwtAudience,
-    jwtTokenExpiry: settings.jwtTokenExpiry,
-    jwtRefreshExpiry: settings.jwtRefreshExpiry,
-    flareSolverrEnabled: settings.flareSolverrEnabled,
-    flareSolverrTimeout: settings.flareSolverrTimeout,
-    flareSolverrUrl: settings.flareSolverrUrl,
-    flareSolverrSessionName: settings.flareSolverrSessionName,
-    flareSolverrSessionTtl: settings.flareSolverrSessionTtl,
-    flareSolverrAsResponseFallback: settings.flareSolverrAsResponseFallback,
-    opdsUseBinaryFileSizes: settings.opdsUseBinaryFileSizes,
-    opdsItemsPerPage: settings.opdsItemsPerPage,
-    opdsEnablePageReadProgress: settings.opdsEnablePageReadProgress,
-    opdsMarkAsReadOnDownload: settings.opdsMarkAsReadOnDownload,
-    opdsShowOnlyUnreadChapters: settings.opdsShowOnlyUnreadChapters,
-    opdsShowOnlyDownloadedChapters: settings.opdsShowOnlyDownloadedChapters,
-    opdsChapterSortOrder: settings.opdsChapterSortOrder,
-    koreaderSyncServerUrl: settings.koreaderSyncServerUrl,
-    koreaderSyncUsername: settings.koreaderSyncUsername,
-    koreaderSyncUserkey: settings.koreaderSyncUserkey,
-    koreaderSyncDeviceId: settings.koreaderSyncDeviceId,
-    koreaderSyncChecksumMethod: settings.koreaderSyncChecksumMethod,
-    koreaderSyncStrategy: settings.koreaderSyncStrategy,
-    koreaderSyncPercentageTolerance: settings.koreaderSyncPercentageTolerance,
-    databaseType: settings.databaseType,
-    databaseUrl: settings.databaseUrl,
-    databaseUsername: settings.databaseUsername,
-    databasePassword: settings.databasePassword,
-});
+import { ServerSettings as ServerSettingsType } from '@/features/settings/Settings.types.ts';
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {
@@ -202,7 +156,7 @@ export const ServerSettings = () => {
         );
     }
 
-    const serverSettings = extractServerSettings(data!.settings);
+    const serverSettings = data!.settings;
     const authModeDisabled = !serverSettings.authUsername?.trim() || !serverSettings.authPassword?.trim();
     const isH2Database = serverSettings.databaseType === DatabaseType.H2;
 

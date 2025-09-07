@@ -25,7 +25,7 @@ import {
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
-import { ServerSettings, WebUISettingsType } from '@/features/settings/Settings.types.ts';
+import { WebUISettingsType } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import {
@@ -33,15 +33,6 @@ import {
     WEB_UI_FLAVOR_SELECT_VALUES,
     WEB_UI_INTERFACE_SELECT_VALUES,
 } from '@/features/settings/Settings.constants.ts';
-
-const extractWebUISettings = (settings: ServerSettings): WebUISettingsType => ({
-    webUIFlavor: settings.webUIFlavor,
-    initialOpenInBrowserEnabled: settings.initialOpenInBrowserEnabled,
-    webUIInterface: settings.webUIInterface,
-    electronPath: settings.electronPath,
-    webUIChannel: settings.webUIChannel,
-    webUIUpdateCheckInterval: settings.webUIUpdateCheckInterval,
-});
 
 export const WebUISettings = () => {
     const { t } = useTranslation();
@@ -108,7 +99,7 @@ export const WebUISettings = () => {
         );
     }
 
-    const webUISettings = extractWebUISettings(data!.settings);
+    const webUISettings = data!.settings;
     const isCustomWebUI = webUISettings.webUIFlavor === WebUiFlavor.Custom;
 
     return (

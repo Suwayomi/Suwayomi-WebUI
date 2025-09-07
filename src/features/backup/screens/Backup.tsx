@@ -42,13 +42,6 @@ import { BrowseTab } from '@/features/browse/Browse.types.ts';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 
-const extractBackupSettings = (settings: ServerSettings): BackupSettingsType => ({
-    backupPath: settings.backupPath,
-    backupTime: settings.backupTime,
-    backupInterval: settings.backupInterval,
-    backupTTL: settings.backupTTL,
-});
-
 const getBackupCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {
         return translate('global.label.never');
@@ -224,7 +217,7 @@ export function Backup() {
         );
     }
 
-    const backupSettings = extractBackupSettings(settingsData!.settings);
+    const backupSettings = settingsData!.settings;
 
     return (
         <>

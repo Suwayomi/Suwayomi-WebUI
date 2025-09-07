@@ -45,16 +45,6 @@ type DownloadSettingsType = Pick<
     | 'downloadConversions'
 >;
 
-const extractDownloadSettings = (settings: ServerSettings): DownloadSettingsType => ({
-    downloadAsCbz: settings.downloadAsCbz,
-    downloadsPath: settings.downloadsPath,
-    autoDownloadNewChapters: settings.autoDownloadNewChapters,
-    autoDownloadNewChaptersLimit: settings.autoDownloadNewChaptersLimit,
-    excludeEntryWithUnreadChapters: settings.excludeEntryWithUnreadChapters,
-    autoDownloadIgnoreReUploads: settings.autoDownloadIgnoreReUploads,
-    downloadConversions: settings.downloadConversions,
-});
-
 export const DownloadSettings = () => {
     const { t } = useTranslation();
 
@@ -103,7 +93,7 @@ export const DownloadSettings = () => {
         );
     }
 
-    const downloadSettings = extractDownloadSettings(serverSettings.data!.settings);
+    const downloadSettings = serverSettings.data!.settings;
 
     const updateSetting = <Setting extends keyof DownloadSettingsType>(
         setting: Setting,

@@ -30,12 +30,6 @@ import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
-const extractBrowseSettings = (settings: GqlServerSettings): ExtensionsSettings => ({
-    maxSourcesInParallel: settings.maxSourcesInParallel,
-    localSourcePath: settings.localSourcePath,
-    extensionRepos: settings.extensionRepos,
-});
-
 export const BrowseSettings = () => {
     const { t } = useTranslation();
 
@@ -76,7 +70,7 @@ export const BrowseSettings = () => {
         );
     }
 
-    const serverSettings = extractBrowseSettings(data!.settings);
+    const serverSettings = data!.settings;
 
     return (
         <List sx={{ pt: 0 }}>
