@@ -32,11 +32,12 @@ import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.
 import { ServerSettings as GqlServerSettings, ServerSettingsType } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { AuthMode, SortOrder } from '@/lib/graphql/generated/graphql';
+import { AuthMode, KoreaderSyncChecksumMethod, KoreaderSyncStrategy, SortOrder } from '@/lib/graphql/generated/graphql';
 import {
     AUTH_MODES_SELECT_VALUES,
     JWT_ACCESS_TOKEN_EXPIRY,
     JWT_REFRESH_TOKEN_EXPIRY,
+    KOREADER_SYNC_PERCENTAGE_TOLERANCE,
 } from '@/features/settings/Settings.constants.ts';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -74,6 +75,13 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     opdsShowOnlyUnreadChapters: settings.opdsShowOnlyUnreadChapters,
     opdsShowOnlyDownloadedChapters: settings.opdsShowOnlyDownloadedChapters,
     opdsChapterSortOrder: settings.opdsChapterSortOrder,
+    koreaderSyncServerUrl: settings.koreaderSyncServerUrl,
+    koreaderSyncUsername: settings.koreaderSyncUsername,
+    koreaderSyncUserkey: settings.koreaderSyncUserkey,
+    koreaderSyncDeviceId: settings.koreaderSyncDeviceId,
+    koreaderSyncChecksumMethod: settings.koreaderSyncChecksumMethod,
+    koreaderSyncStrategy: settings.koreaderSyncStrategy,
+    koreaderSyncPercentageTolerance: settings.koreaderSyncPercentageTolerance,
 });
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
@@ -496,6 +504,74 @@ export const ServerSettings = () => {
                         [SortOrder.Desc, { text: t('global.sort.label.desc') }],
                     ]}
                     handleChange={(value) => updateSetting('opdsChapterSortOrder', value)}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-koreader-sync">
+                        {t('settings.server.koreader.sync.title')}
+                    </ListSubheader>
+                }
+            >
+                <TextSetting
+                    settingName={t('settings.server.koreader.sync.server_address')}
+                    handleChange={(url) => updateSetting('koreaderSyncServerUrl', url)}
+                    value={serverSettings.koreaderSyncServerUrl}
+                    placeholder="http://localhost:17200"
+                />
+                <TextSetting
+                    settingName={t('settings.server.koreader.sync.username')}
+                    value={serverSettings.koreaderSyncUsername}
+                    handleChange={(username) => updateSetting('koreaderSyncUsername', username)}
+                />
+                <TextSetting
+                    settingName={t('settings.server.koreader.sync.user_key')}
+                    value={serverSettings.koreaderSyncUserkey}
+                    handleChange={(userkey) => updateSetting('koreaderSyncUserkey', userkey)}
+                    isPassword
+                />
+                <TextSetting
+                    settingName={t('settings.server.koreader.sync.device_id')}
+                    value={serverSettings.koreaderSyncDeviceId}
+                    handleChange={(deviceId) => updateSetting('koreaderSyncDeviceId', deviceId)}
+                />
+                <SelectSetting<KoreaderSyncChecksumMethod>
+                    settingName={t('settings.server.koreader.sync.check_sum_method.title')}
+                    value={serverSettings.koreaderSyncChecksumMethod}
+                    values={[
+                        [
+                            KoreaderSyncChecksumMethod.Binary,
+                            { text: t('settings.server.koreader.sync.check_sum_method.binary') },
+                        ],
+                        [
+                            KoreaderSyncChecksumMethod.Filename,
+                            { text: t('settings.server.koreader.sync.check_sum_method.filename') },
+                        ],
+                    ]}
+                    handleChange={(value) => updateSetting('koreaderSyncChecksumMethod', value)}
+                />
+                <SelectSetting<KoreaderSyncStrategy>
+                    settingName={t('settings.server.koreader.sync.strategy.title')}
+                    value={serverSettings.koreaderSyncStrategy}
+                    values={[
+                        [KoreaderSyncStrategy.Disabled, { text: t('settings.server.koreader.sync.strategy.disabled') }],
+                        [KoreaderSyncStrategy.Prompt, { text: t('settings.server.koreader.sync.strategy.prompt') }],
+                        [KoreaderSyncStrategy.Silent, { text: t('settings.server.koreader.sync.strategy.silent') }],
+                        [KoreaderSyncStrategy.Send, { text: t('settings.server.koreader.sync.strategy.send') }],
+                        [KoreaderSyncStrategy.Receive, { text: t('settings.server.koreader.sync.strategy.receive') }],
+                    ]}
+                    handleChange={(value) => updateSetting('koreaderSyncStrategy', value)}
+                />
+                <NumberSetting
+                    settingTitle={t('settings.server.koreader.sync.tolerance.title')}
+                    dialogDescription={t('settings.server.koreader.sync.tolerance.description')}
+                    settingValue={serverSettings.koreaderSyncPercentageTolerance.toString()}
+                    value={serverSettings.koreaderSyncPercentageTolerance}
+                    defaultValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.default}
+                    minValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.min}
+                    maxValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.max}
+                    valueUnit=""
+                    handleUpdate={(tolerance) => updateSetting('koreaderSyncPercentageTolerance', tolerance)}
                 />
             </List>
             <List

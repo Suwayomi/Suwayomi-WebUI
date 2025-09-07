@@ -290,7 +290,7 @@ export type CheckBoxPreference = {
   currentValue?: Maybe<Scalars['Boolean']['output']>;
   default: Scalars['Boolean']['output'];
   enabled: Scalars['Boolean']['output'];
-  key: Scalars['String']['output'];
+  key?: Maybe<Scalars['String']['output']>;
   summary?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   visible: Scalars['Boolean']['output'];
@@ -360,6 +360,11 @@ export type CreateCategoryPayload = {
   category: CategoryType;
   clientMutationId?: Maybe<Scalars['String']['output']>;
 };
+
+export enum DatabaseType {
+  H2 = 'H2',
+  Postgresql = 'POSTGRESQL'
+}
 
 export type DeleteCategoryInput = {
   categoryId: Scalars['Int']['input'];
@@ -586,7 +591,7 @@ export type EditTextPreference = {
   dialogMessage?: Maybe<Scalars['String']['output']>;
   dialogTitle?: Maybe<Scalars['String']['output']>;
   enabled: Scalars['Boolean']['output'];
-  key: Scalars['String']['output'];
+  key?: Maybe<Scalars['String']['output']>;
   summary?: Maybe<Scalars['String']['output']>;
   text?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
@@ -916,7 +921,7 @@ export type ListPreference = {
   enabled: Scalars['Boolean']['output'];
   entries: Array<Scalars['String']['output']>;
   entryValues: Array<Scalars['String']['output']>;
-  key: Scalars['String']['output'];
+  key?: Maybe<Scalars['String']['output']>;
   summary?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   visible: Scalars['Boolean']['output'];
@@ -1210,7 +1215,7 @@ export type MultiSelectListPreference = {
   enabled: Scalars['Boolean']['output'];
   entries: Array<Scalars['String']['output']>;
   entryValues: Array<Scalars['String']['output']>;
-  key: Scalars['String']['output'];
+  key?: Maybe<Scalars['String']['output']>;
   summary?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   visible: Scalars['Boolean']['output'];
@@ -1632,12 +1637,16 @@ export type PartialSettingsType = Settings & {
   backupPath?: Maybe<Scalars['String']['output']>;
   backupTTL?: Maybe<Scalars['Int']['output']>;
   backupTime?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Removed - prefer authMode */
+  /** @deprecated Removed - prefer authMode, replace with authMode */
   basicAuthEnabled?: Maybe<Scalars['Boolean']['output']>;
-  /** @deprecated Removed - prefer authPassword */
+  /** @deprecated Removed - prefer authPassword, replace with authPassword */
   basicAuthPassword?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Removed - prefer authUsername */
+  /** @deprecated Removed - prefer authUsername, replace with authUsername */
   basicAuthUsername?: Maybe<Scalars['String']['output']>;
+  databasePassword?: Maybe<Scalars['String']['output']>;
+  databaseType?: Maybe<DatabaseType>;
+  databaseUrl?: Maybe<Scalars['String']['output']>;
+  databaseUsername?: Maybe<Scalars['String']['output']>;
   debugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   downloadAsCbz?: Maybe<Scalars['Boolean']['output']>;
   downloadConversions?: Maybe<Array<SettingsDownloadConversionType>>;
@@ -1707,6 +1716,10 @@ export type PartialSettingsTypeInput = {
   backupPath?: InputMaybe<Scalars['String']['input']>;
   backupTTL?: InputMaybe<Scalars['Int']['input']>;
   backupTime?: InputMaybe<Scalars['String']['input']>;
+  databasePassword?: InputMaybe<Scalars['String']['input']>;
+  databaseType?: InputMaybe<DatabaseType>;
+  databaseUrl?: InputMaybe<Scalars['String']['input']>;
+  databaseUsername?: InputMaybe<Scalars['String']['input']>;
   debugLogsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   downloadAsCbz?: InputMaybe<Scalars['Boolean']['input']>;
   downloadConversions?: InputMaybe<Array<SettingsDownloadConversionTypeInput>>;
@@ -2112,12 +2125,16 @@ export type Settings = {
   backupPath?: Maybe<Scalars['String']['output']>;
   backupTTL?: Maybe<Scalars['Int']['output']>;
   backupTime?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Removed - prefer authMode */
+  /** @deprecated Removed - prefer authMode, replace with authMode */
   basicAuthEnabled?: Maybe<Scalars['Boolean']['output']>;
-  /** @deprecated Removed - prefer authPassword */
+  /** @deprecated Removed - prefer authPassword, replace with authPassword */
   basicAuthPassword?: Maybe<Scalars['String']['output']>;
-  /** @deprecated Removed - prefer authUsername */
+  /** @deprecated Removed - prefer authUsername, replace with authUsername */
   basicAuthUsername?: Maybe<Scalars['String']['output']>;
+  databasePassword?: Maybe<Scalars['String']['output']>;
+  databaseType?: Maybe<DatabaseType>;
+  databaseUrl?: Maybe<Scalars['String']['output']>;
+  databaseUsername?: Maybe<Scalars['String']['output']>;
   debugLogsEnabled?: Maybe<Scalars['Boolean']['output']>;
   downloadAsCbz?: Maybe<Scalars['Boolean']['output']>;
   downloadConversions?: Maybe<Array<SettingsDownloadConversion>>;
@@ -2209,12 +2226,16 @@ export type SettingsType = Settings & {
   backupPath: Scalars['String']['output'];
   backupTTL: Scalars['Int']['output'];
   backupTime: Scalars['String']['output'];
-  /** @deprecated Removed - prefer authMode */
+  /** @deprecated Removed - prefer authMode, replace with authMode */
   basicAuthEnabled: Scalars['Boolean']['output'];
-  /** @deprecated Removed - prefer authPassword */
+  /** @deprecated Removed - prefer authPassword, replace with authPassword */
   basicAuthPassword: Scalars['String']['output'];
-  /** @deprecated Removed - prefer authUsername */
+  /** @deprecated Removed - prefer authUsername, replace with authUsername */
   basicAuthUsername: Scalars['String']['output'];
+  databasePassword: Scalars['String']['output'];
+  databaseType: DatabaseType;
+  databaseUrl: Scalars['String']['output'];
+  databaseUsername: Scalars['String']['output'];
   debugLogsEnabled: Scalars['Boolean']['output'];
   downloadAsCbz: Scalars['Boolean']['output'];
   downloadConversions: Array<SettingsDownloadConversionType>;
@@ -2505,7 +2526,7 @@ export type SwitchPreference = {
   currentValue?: Maybe<Scalars['Boolean']['output']>;
   default: Scalars['Boolean']['output'];
   enabled: Scalars['Boolean']['output'];
-  key: Scalars['String']['output'];
+  key?: Maybe<Scalars['String']['output']>;
   summary?: Maybe<Scalars['String']['output']>;
   title?: Maybe<Scalars['String']['output']>;
   visible: Scalars['Boolean']['output'];
@@ -3143,7 +3164,7 @@ export type MangaScreenFieldsFragment = { __typename?: 'MangaType', artist?: str
 
 export type MangaLibraryDuplicateScreenFieldsFragment = { __typename?: 'MangaType', description?: string | null, id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename?: 'ChapterNodeList', totalCount: number } };
 
-export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: any, jwtRefreshExpiry: any, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> };
+export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: any, jwtRefreshExpiry: any, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategy: KoreaderSyncStrategy, koreaderSyncPercentageTolerance: number, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> };
 
 export type SourceMetaFieldsFragment = { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string };
 
@@ -3155,7 +3176,7 @@ export type SourceListFieldsFragment = { __typename?: 'SourceType', lang: string
 
 export type SourceBrowseFieldsFragment = { __typename?: 'SourceType', isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, lang: string, meta: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> };
 
-export type SourceSettingFieldsFragment = { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> };
+export type SourceSettingFieldsFragment = { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> };
 
 export type TrackerBaseFieldsFragment = { __typename?: 'TrackerType', id: number, name: string, icon: string, isLoggedIn: boolean, isTokenExpired: boolean };
 
@@ -3505,14 +3526,14 @@ export type ResetServerSettingsMutationVariables = Exact<{
 }>;
 
 
-export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: any, jwtRefreshExpiry: any, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
+export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: any, jwtRefreshExpiry: any, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategy: KoreaderSyncStrategy, koreaderSyncPercentageTolerance: number, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
 
 export type UpdateServerSettingsMutationVariables = Exact<{
   input: SetSettingsInput;
 }>;
 
 
-export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: any, jwtRefreshExpiry: any, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
+export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: any, jwtRefreshExpiry: any, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategy: KoreaderSyncStrategy, koreaderSyncPercentageTolerance: number, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
 
 export type GetSourceMangasFetchMutationVariables = Exact<{
   input: FetchSourceMangaInput;
@@ -3526,7 +3547,7 @@ export type UpdateSourcePreferencesMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference?: { __typename?: 'UpdateSourcePreferencePayload', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } } | null };
+export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference?: { __typename?: 'UpdateSourcePreferencePayload', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } } | null };
 
 export type SetSourceMetadataMutationVariables = Exact<{
   input: SetSourceMetaInput;
@@ -3911,7 +3932,7 @@ export type GetWebuiUpdateStatusQuery = { __typename?: 'Query', getWebUIUpdateSt
 export type GetServerSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: any, jwtRefreshExpiry: any, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } };
+export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: any, jwtRefreshExpiry: any, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategy: KoreaderSyncStrategy, koreaderSyncPercentageTolerance: number, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } };
 
 export type GetSourceBrowseQueryVariables = Exact<{
   id: Scalars['LongString']['input'];
@@ -3925,7 +3946,7 @@ export type GetSourceSettingsQueryVariables = Exact<{
 }>;
 
 
-export type GetSourceSettingsQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key: string, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key: string, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key: string, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key: string, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } };
+export type GetSourceSettingsQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } };
 
 export type GetSourceMigratableQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

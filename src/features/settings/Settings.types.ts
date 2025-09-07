@@ -71,6 +71,13 @@ export type ServerSettingsType = Pick<
     | 'opdsShowOnlyUnreadChapters'
     | 'opdsShowOnlyDownloadedChapters'
     | 'opdsChapterSortOrder'
+    | 'koreaderSyncServerUrl'
+    | 'koreaderSyncUsername'
+    | 'koreaderSyncUserkey'
+    | 'koreaderSyncDeviceId'
+    | 'koreaderSyncChecksumMethod'
+    | 'koreaderSyncStrategy'
+    | 'koreaderSyncPercentageTolerance'
 >;
 
 export type WebUISettingsType = Pick<

@@ -1386,6 +1386,32 @@
         },
         "title": "Cloudflare bypass"
       },
+      "koreader": {
+        "sync": {
+          "check_sum_method": {
+            "binary": "Binary",
+            "filename": "Filename",
+            "title": "Check sum method"
+          },
+          "device_id": "Device ID",
+          "server_address": "Server url",
+          "strategy": {
+            "disabled": "Disabled",
+            "prompt": "Prompt",
+            "receive": "Receive",
+            "send": "Send",
+            "silent": "Silent",
+            "title": "Sync strategy"
+          },
+          "title": "KOReader sync",
+          "tolerance": {
+            "description": "Absolute tolerance for progress comparison",
+            "title": "Tolerance"
+          },
+          "user_key": "User key",
+          "username": "$t(global.label.username)"
+        }
+      },
       "local_source": {
         "path": {
           "label": {

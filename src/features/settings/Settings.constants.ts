@@ -200,3 +200,9 @@ export const JWT_REFRESH_TOKEN_EXPIRY = {
     min: dayjs.duration(1, 'day').asDays(),
     max: dayjs.duration(1, 'year').asDays(),
 };
+
+export const KOREADER_SYNC_PERCENTAGE_TOLERANCE = {
+    default: 1.0e-15,
+    min: 1.0e-15,
+    max: 1,
+};
