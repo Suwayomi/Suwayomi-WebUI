@@ -78,6 +78,10 @@ export type ServerSettingsType = Pick<
     | 'koreaderSyncChecksumMethod'
     | 'koreaderSyncStrategy'
     | 'koreaderSyncPercentageTolerance'
+    | 'databaseType'
+    | 'databaseUrl'
+    | 'databaseUsername'
+    | 'databasePassword'
 >;
 
 export type WebUISettingsType = Pick<

@@ -32,7 +32,13 @@ import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.
 import { ServerSettings as GqlServerSettings, ServerSettingsType } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { AuthMode, KoreaderSyncChecksumMethod, KoreaderSyncStrategy, SortOrder } from '@/lib/graphql/generated/graphql';
+import {
+    AuthMode,
+    DatabaseType,
+    KoreaderSyncChecksumMethod,
+    KoreaderSyncStrategy,
+    SortOrder,
+} from '@/lib/graphql/generated/graphql';
 import {
     AUTH_MODES_SELECT_VALUES,
     JWT_ACCESS_TOKEN_EXPIRY,
@@ -82,6 +88,10 @@ const extractServerSettings = (settings: GqlServerSettings): ServerSettingsType 
     koreaderSyncChecksumMethod: settings.koreaderSyncChecksumMethod,
     koreaderSyncStrategy: settings.koreaderSyncStrategy,
     koreaderSyncPercentageTolerance: settings.koreaderSyncPercentageTolerance,
+    databaseType: settings.databaseType,
+    databaseUrl: settings.databaseUrl,
+    databaseUsername: settings.databaseUsername,
+    databasePassword: settings.databasePassword,
 });
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
@@ -194,6 +204,7 @@ export const ServerSettings = () => {
 
     const serverSettings = extractServerSettings(data!.settings);
     const authModeDisabled = !serverSettings.authUsername?.trim() || !serverSettings.authPassword?.trim();
+    const isH2Database = serverSettings.databaseType === DatabaseType.H2;
 
     return (
         <List sx={{ pt: 0 }}>
@@ -572,6 +583,43 @@ export const ServerSettings = () => {
                     maxValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.max}
                     valueUnit=""
                     handleUpdate={(tolerance) => updateSetting('koreaderSyncPercentageTolerance', tolerance)}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-database">
+                        {t('settings.server.database.title')}
+                    </ListSubheader>
+                }
+            >
+                <SelectSetting<DatabaseType>
+                    settingName={t('settings.server.database.type.title')}
+                    value={serverSettings.databaseType}
+                    values={[
+                        [DatabaseType.H2, { text: t('settings.server.database.type.h2') }],
+                        [DatabaseType.Postgresql, { text: t('settings.server.database.type.postgresql') }],
+                    ]}
+                    handleChange={(value) => updateSetting('databaseType', value)}
+                />
+                <TextSetting
+                    settingName={t('settings.server.database.address')}
+                    handleChange={(url) => updateSetting('databaseUrl', url)}
+                    value={serverSettings.databaseUrl}
+                    placeholder="postgresql://localhost:5432/suwayomi"
+                    disabled={isH2Database}
+                />
+                <TextSetting
+                    settingName={t('settings.server.database.username')}
+                    value={serverSettings.databaseUsername}
+                    handleChange={(username) => updateSetting('databaseUsername', username)}
+                    disabled={isH2Database}
+                />
+                <TextSetting
+                    settingName={t('settings.server.database.password')}
+                    value={serverSettings.databasePassword}
+                    handleChange={(password) => updateSetting('databasePassword', password)}
+                    disabled={isH2Database}
+                    isPassword
                 />
             </List>
             <List

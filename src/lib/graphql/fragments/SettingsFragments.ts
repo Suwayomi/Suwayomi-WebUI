@@ -105,5 +105,11 @@ export const SERVER_SETTINGS = gql`
         koreaderSyncChecksumMethod
         koreaderSyncStrategy
         koreaderSyncPercentageTolerance
+
+        # Database
+        databaseType
+        databaseUrl
+        databaseUsername
+        databasePassword
     }
 `;

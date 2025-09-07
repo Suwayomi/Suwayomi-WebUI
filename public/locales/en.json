@@ -1386,6 +1386,17 @@
         },
         "title": "Cloudflare bypass"
       },
+      "database": {
+        "address": "Database url",
+        "password": "$t(global.label.password)",
+        "title": "Database",
+        "type": {
+          "h2": "H2",
+          "postgresql": "PostgreSQL",
+          "title": "Type"
+        },
+        "username": "$t(global.label.username)"
+      },
       "koreader": {
         "sync": {
           "check_sum_method": {
