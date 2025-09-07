@@ -56,6 +56,7 @@ import { Sources } from '@/features/source/services/Sources.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
+import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
@@ -416,6 +417,17 @@ export function SourceMangas() {
         <>
             <AppbarSearch />
             <SourceGridLayout />
+            <CustomTooltip title={t('global.button.open_webview')} disabled={!source?.baseUrl}>
+                <IconButton
+                    disabled={!source?.baseUrl}
+                    href={source?.baseUrl ? requestManager.getWebviewUrl(source?.baseUrl) : ''}
+                    rel="noreferrer"
+                    target="_blank"
+                    color="inherit"
+                >
+                    <IconWebView />
+                </IconButton>
+            </CustomTooltip>
             {source?.isConfigurable && (
                 <CustomTooltip title={t('settings.title')}>
                     <IconButton

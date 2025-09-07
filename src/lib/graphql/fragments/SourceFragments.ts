@@ -67,6 +67,8 @@ export const SOURCE_BROWSE_FIELDS = gql`
     fragment SOURCE_BROWSE_FIELDS on SourceType {
         ...SOURCE_BASE_FIELDS
 
+        baseUrl
+
         isConfigurable
         supportsLatest
 
