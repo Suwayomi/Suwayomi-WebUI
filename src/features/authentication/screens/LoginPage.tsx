@@ -101,6 +101,7 @@ export const LoginPage = () => {
             </Stack>
             <Stack
                 sx={{
+                    position: 'relative',
                     minHeight: '50vh',
                     flexBasis: '40%',
                     p: 4,
@@ -131,11 +132,13 @@ export const LoginPage = () => {
                             variant="standard"
                             onChange={(e) => setPassword(e.target.value)}
                         />
-                        {import.meta.env.DEV && <ServerAddressSetting />}
                     </Stack>
                     <Button disabled={isLoading || (!username && !password)} variant="contained" onClick={doLogin}>
                         {t('global.button.log_in')}
                     </Button>
+                    <Stack sx={{ position: 'absolute', left: 0, bottom: 0 }}>
+                        <ServerAddressSetting />
+                    </Stack>
                 </Stack>
             </Stack>
         </Stack>
