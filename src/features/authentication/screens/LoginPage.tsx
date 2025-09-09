@@ -19,11 +19,11 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { SuwayomiLogo } from '@/assets/SuwayomiLogo.tsx';
 import { useSessionContext } from '@/features/authentication/SessionContext.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
+import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 
 export const LoginPage = () => {
@@ -60,7 +60,7 @@ export const LoginPage = () => {
         return () => setOverride({ status: false, value: null });
     }, []);
 
-    if (isAuthenticated) {
+    if (false && isAuthenticated) {
         return <Navigate to={AppRoutes.root.path} replace />;
     }
 
@@ -72,33 +72,28 @@ export const LoginPage = () => {
                 },
             }}
         >
-            <Stack
-                sx={{
-                    minHeight: '50vh',
-                    flexBasis: '60%',
-                    p: 4,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    backgroundColor: 'primary.light',
-                    ...theme.applyStyles('dark', {
-                        backgroundColor: 'primary.dark',
-                    }),
-                    [theme.breakpoints.up('lg')]: {
-                        minHeight: '0vh',
-                        height: '100vh',
+            <SplashScreen
+                slots={{
+                    stackProps: {
+                        sx: {
+                            position: 'unset',
+                            minWidth: 'auto',
+                            minHeight: '50vh',
+                            flexBasis: '60%',
+                            p: 4,
+                            [theme.breakpoints.up('lg')]: {
+                                minHeight: '0vh',
+                                height: '100vh',
+                            },
+                        },
+                    },
+                    serverAddressProps: {
+                        sx: {
+                            display: 'none',
+                        },
                     },
                 }}
-            >
-                <SuwayomiLogo
-                    sx={{
-                        fontSize: 250,
-                        [theme.breakpoints.up('lg')]: {
-                            fontSize: 350,
-                        },
-                    }}
-                    circleRingColor={theme.palette.primary.light}
-                />
-            </Stack>
+            />
             <Stack
                 sx={{
                     position: 'relative',
