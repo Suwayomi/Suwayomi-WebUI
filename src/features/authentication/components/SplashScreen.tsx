@@ -18,6 +18,7 @@ export const SplashScreen = () => {
     return (
         <Stack
             sx={{
+                position: 'relative',
                 minWidth: '100vw',
                 minHeight: '100vh',
                 justifyContent: 'center',
@@ -39,11 +40,9 @@ export const SplashScreen = () => {
                     },
                 }}
             />
-            {import.meta.env.DEV && (
-                <Stack sx={{ height: 'auto', mt: 5 }}>
-                    <ServerAddressSetting />
-                </Stack>
-            )}
+            <Stack sx={{ position: 'absolute', left: 0, bottom: 0 }}>
+                <ServerAddressSetting />
+            </Stack>
         </Stack>
     );
 };
