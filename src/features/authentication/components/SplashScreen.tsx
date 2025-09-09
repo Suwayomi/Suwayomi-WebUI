@@ -10,6 +10,7 @@ import { useTheme } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
 import { SuwayomiLogo } from '@/assets/SuwayomiLogo.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
+import { ThemeMode } from '@/features/theme/AppThemeContext.tsx';
 
 export const SplashScreen = () => {
     const theme = useTheme();
@@ -28,13 +29,15 @@ export const SplashScreen = () => {
             }}
         >
             <SuwayomiLogo
+                circleRingColor={
+                    theme.palette.mode === ThemeMode.DARK ? theme.palette.primary.light : theme.palette.primary.dark
+                }
                 sx={{
                     fontSize: 250,
                     [theme.breakpoints.up('lg')]: {
                         fontSize: 350,
                     },
                 }}
-                circleRingColor={theme.palette.primary.light}
             />
             {import.meta.env.DEV && (
                 <Stack sx={{ height: 'auto', mt: 5 }}>
