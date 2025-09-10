@@ -60,7 +60,7 @@ export const LoginPage = () => {
         return () => setOverride({ status: false, value: null });
     }, []);
 
-    if (false && isAuthenticated) {
+    if (isAuthenticated) {
         return <Navigate to={AppRoutes.root.path} replace />;
     }
 
