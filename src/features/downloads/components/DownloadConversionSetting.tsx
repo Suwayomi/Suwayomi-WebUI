@@ -55,12 +55,20 @@ const normalizeConversions = (conversions: SettingsDownloadConversion[]): Settin
         target: normalizeMimeType(conversion.target),
     }));
 
+const toValidServerMimeType = (mimeType: string): string => {
+    if (isDefaultMimeType(mimeType)) {
+        return DEFAULT_MIME_TYPE;
+    }
+
+    return `${MIME_TYPE_PREFIX}${mimeType}`;
+};
+
 const toValidServerConversions = (conversions: SettingsDownloadConversion[]): SettingsDownloadConversion[] =>
     conversions
         .filter(({ mimeType, target }) => !!mimeType && !!target)
         .map((conversion) => ({
             ...conversion,
-            mimeType: `${MIME_TYPE_PREFIX}${conversion.mimeType}`,
+            mimeType: toValidServerMimeType(conversion.mimeType),
             target: `${MIME_TYPE_PREFIX}${conversion.target}`,
         }));
 
@@ -265,6 +273,15 @@ export const DownloadConversionSetting = ({
         onClose(conversions);
     };
 
+    const onSubmit = async () => {
+        try {
+            await updateSetting(toValidServerConversions(tmpConversions));
+            onClose(toValidServerConversions(tmpConversions));
+        } catch (e) {
+            // ignore error
+        }
+    };
+
     return (
         <>
             <ListItemButton disabled={false} onClick={() => setIsDialogOpen(true)}>
@@ -332,14 +349,7 @@ export const DownloadConversionSetting = ({
                         </Button>
                         <Stack direction="row">
                             <Button onClick={onCancel}>{t('global.button.cancel')}</Button>
-                            <Button
-                                disabled={hasInvalidConversion || !hasChanged}
-                                onClick={() =>
-                                    updateSetting(toValidServerConversions(tmpConversions)).then(() =>
-                                        onClose(toValidServerConversions(tmpConversions)),
-                                    )
-                                }
-                            >
+                            <Button disabled={hasInvalidConversion || !hasChanged} onClick={onSubmit}>
                                 {t('global.button.ok')}
                             </Button>
                         </Stack>
