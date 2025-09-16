@@ -285,8 +285,8 @@
     "label": {
       "add_repository_info": "You have to add a extension repository to be able to install extensions",
       "age_rating": "Age rating",
-      "available_updates_one": "{{count}} available update",
-      "available_updates_other": "{{count}} available updates",
+      "available_updates_one": "{{count}} update available",
+      "available_updates_other": "{{count}} updates available",
       "installation_failed_one": "Could not install the extension",
       "installation_failed_other": "Could not install the extensions",
       "installed_successfully_one": "Extension installed",
