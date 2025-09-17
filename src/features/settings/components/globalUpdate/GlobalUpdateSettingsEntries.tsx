@@ -47,10 +47,16 @@ const getSkipMangasText = (settings: GlobalUpdateSkipEntriesSettings) => {
     return skipSettings.join(', ');
 };
 
+const extractSkipEntriesSettings = (serverSettings: ServerSettings): GlobalUpdateSkipEntriesSettings => ({
+    excludeCompleted: serverSettings.excludeCompleted,
+    excludeNotStarted: serverSettings.excludeNotStarted,
+    excludeUnreadChapters: serverSettings.excludeUnreadChapters,
+});
+
 export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings: ServerSettings }) => {
     const { t } = useTranslation();
 
-    const globalUpdateSettings = serverSettings;
+    const globalUpdateSettings = extractSkipEntriesSettings(serverSettings);
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const [dialogSettings, setDialogSettings] = useState<GlobalUpdateSkipEntriesSettings>(
