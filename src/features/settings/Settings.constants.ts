@@ -205,4 +205,5 @@ export const KOREADER_SYNC_PERCENTAGE_TOLERANCE = {
     default: 1.0e-15,
     min: 1.0e-15,
     max: 1,
+    step: 0.05,
 };

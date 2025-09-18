@@ -535,6 +535,7 @@ export const ServerSettings = () => {
                     defaultValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.default}
                     minValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.min}
                     maxValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.max}
+                    stepSize={KOREADER_SYNC_PERCENTAGE_TOLERANCE.step}
                     valueUnit=""
                     handleUpdate={(tolerance) => updateSetting('koreaderSyncPercentageTolerance', tolerance)}
                 />
