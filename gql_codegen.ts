@@ -32,6 +32,7 @@ const config: CodegenConfig = {
                 scalars: {
                     LongString: 'string',
                     Cursor: 'string',
+                    Duration: 'string',
                 },
             },
         },
