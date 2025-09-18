@@ -51,6 +51,9 @@ export const MANGA_CHAPTER_NODE_FIELDS = gql`
             sourceOrder
             isRead
             mangaId
+            chapterNumber
+            name
+            scanlator
         }
         lastReadChapter {
             id

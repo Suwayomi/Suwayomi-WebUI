@@ -142,6 +142,10 @@
             "success_other": "{{count}} chapters marked as unread"
           }
         }
+      },
+      "read": {
+        "resume": "Continue reading\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+        "start": "Start reading\n#{{chapterNumber}} — {{title}}\n{{scanlator}}"
       }
     },
     "error": {

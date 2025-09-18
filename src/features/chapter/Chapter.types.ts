@@ -47,3 +47,5 @@ export type ChapterSourceOrderInfo = Pick<ChapterType, 'sourceOrder'>;
 export type ChapterScanlatorInfo = Pick<ChapterType, 'scanlator'>;
 
 export type ChapterRealUrlInfo = Pick<ChapterType, 'realUrl'>;
+
+export type ChapterNameInfo = Pick<ChapterType, 'name'>;

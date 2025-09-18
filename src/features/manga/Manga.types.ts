@@ -28,7 +28,7 @@ export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.s
 type MangaCardBaseProps = Pick<MangaTypeGql, 'id' | 'title' | 'sourceId'> &
     Omit<SingleModeProps['manga'], 'downloadCount' | 'unreadCount' | 'chapters'> &
     Partial<Pick<MangaTypeGql, 'inLibrary' | 'downloadCount' | 'unreadCount'>> & {
-        firstUnreadChapter?: Pick<ChapterType, 'id' | 'sourceOrder' | 'isRead'> | null;
+        firstUnreadChapter?: Pick<ChapterType, 'id' | 'sourceOrder' | 'isRead' | 'chapterNumber' | 'name'> | null;
     };
 
 export type MangaIdInfo = Pick<MangaTypeGql, 'id'>;

@@ -35,7 +35,7 @@ import {
     AuthMode,
     DatabaseType,
     KoreaderSyncChecksumMethod,
-    KoreaderSyncStrategy,
+    KoreaderSyncLegacyStrategy,
     SortOrder,
 } from '@/lib/graphql/generated/graphql';
 import {
@@ -515,15 +515,27 @@ export const ServerSettings = () => {
                     ]}
                     handleChange={(value) => updateSetting('koreaderSyncChecksumMethod', value)}
                 />
-                <SelectSetting<KoreaderSyncStrategy>
+                <SelectSetting<KoreaderSyncLegacyStrategy>
                     settingName={t('settings.server.koreader.sync.strategy.title')}
                     value={serverSettings.koreaderSyncStrategy}
                     values={[
-                        [KoreaderSyncStrategy.Disabled, { text: t('settings.server.koreader.sync.strategy.disabled') }],
-                        [KoreaderSyncStrategy.Prompt, { text: t('settings.server.koreader.sync.strategy.prompt') }],
-                        [KoreaderSyncStrategy.Silent, { text: t('settings.server.koreader.sync.strategy.silent') }],
-                        [KoreaderSyncStrategy.Send, { text: t('settings.server.koreader.sync.strategy.send') }],
-                        [KoreaderSyncStrategy.Receive, { text: t('settings.server.koreader.sync.strategy.receive') }],
+                        [
+                            KoreaderSyncLegacyStrategy.Disabled,
+                            { text: t('settings.server.koreader.sync.strategy.disabled') },
+                        ],
+                        [
+                            KoreaderSyncLegacyStrategy.Prompt,
+                            { text: t('settings.server.koreader.sync.strategy.prompt') },
+                        ],
+                        [
+                            KoreaderSyncLegacyStrategy.Silent,
+                            { text: t('settings.server.koreader.sync.strategy.silent') },
+                        ],
+                        [KoreaderSyncLegacyStrategy.Send, { text: t('settings.server.koreader.sync.strategy.send') }],
+                        [
+                            KoreaderSyncLegacyStrategy.Receive,
+                            { text: t('settings.server.koreader.sync.strategy.receive') },
+                        ],
                     ]}
                     handleChange={(value) => updateSetting('koreaderSyncStrategy', value)}
                 />
