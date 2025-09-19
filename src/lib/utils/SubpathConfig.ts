@@ -14,10 +14,6 @@ declare global {
     interface Window {
         __SUWAYOMI_CONFIG__?: SuwayomiConfig;
     }
-
-    interface ImportMetaEnv {
-        readonly VITE_SUBPATH?: string;
-    }
 }
 
 /**

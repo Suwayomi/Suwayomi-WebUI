@@ -16,6 +16,7 @@ interface ViteTypeOptions {
 
 interface ImportMetaEnv {
     readonly VITE_SERVER_URL_DEFAULT: string;
+    readonly VITE_SUBPATH?: string;
     // more env variables...
 }
 
