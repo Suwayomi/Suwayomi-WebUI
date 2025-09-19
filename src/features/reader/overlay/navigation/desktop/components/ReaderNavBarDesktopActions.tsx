@@ -15,10 +15,7 @@ import { memo, useMemo, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
-import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderLibraryButton } from '@/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx';
 import { ReaderBookmarkButton } from '@/features/reader/overlay/navigation/components/ReaderBookmarkButton.tsx';
 import { CHAPTER_ACTION_TO_TRANSLATION, FALLBACK_CHAPTER } from '@/features/chapter/Chapter.constants.ts';
@@ -26,8 +23,13 @@ import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { ChapterDownloadInfo, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
-const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
+const DownloadButton = ({
+    currentChapter,
+}: {
+    currentChapter: NullAndUndefined<ChapterIdInfo & ChapterDownloadInfo>;
+}) => {
     const { t } = useTranslation();
 
     const downloadStatus = Chapters.useDownloadStatusFromCache(currentChapter?.id ?? -1);
@@ -59,76 +61,64 @@ const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, '
     );
 };
 
-const BaseReaderNavBarDesktopActions = memo(
-    ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
-        const { id, isBookmarked, realUrl } = currentChapter ?? FALLBACK_CHAPTER;
+export const ReaderNavBarDesktopActions = memo(() => {
+    const currentChapter = useReaderStoreShallow((state) => state.chapters.currentChapter);
 
-        const { t } = useTranslation();
-        const { pageLoadStates, setPageLoadStates, setRetryFailedPagesKeyPrefix } = useReaderStoreShallow((state) => ({
-            pageLoadStates: state.pages.pageLoadStates,
-            setPageLoadStates: state.pages.setPageLoadStates,
-            setRetryFailedPagesKeyPrefix: state.pages.setRetryFailedPagesKeyPrefix,
-        }));
+    const { id, isBookmarked, realUrl } = currentChapter ?? FALLBACK_CHAPTER;
 
-        const pageRetryKeyPrefix = useRef<number>(0);
+    const { t } = useTranslation();
+    const { pageLoadStates, setPageLoadStates, setRetryFailedPagesKeyPrefix } = useReaderStoreShallow((state) => ({
+        pageLoadStates: state.pages.pageLoadStates,
+        setPageLoadStates: state.pages.setPageLoadStates,
+        setRetryFailedPagesKeyPrefix: state.pages.setRetryFailedPagesKeyPrefix,
+    }));
 
-        const haveSomePagesFailedToLoad = useMemo(
-            () => pageLoadStates.some((pageLoadState) => pageLoadState.error),
-            [pageLoadStates],
-        );
+    const pageRetryKeyPrefix = useRef<number>(0);
 
-        return (
-            <Stack sx={{ flexDirection: 'row', justifyContent: 'center', gap: 1 }}>
-                <ReaderLibraryButton />
-                <ReaderBookmarkButton id={id} isBookmarked={isBookmarked} />
-                <CustomTooltip title={t('reader.button.retry_load_pages')} disabled={!haveSomePagesFailedToLoad}>
-                    <IconButton
-                        onClick={() => {
-                            setPageLoadStates((statePageLoadStates) =>
-                                statePageLoadStates.map((pageLoadState) => ({
-                                    url: pageLoadState.url,
-                                    loaded: pageLoadState.loaded,
-                                })),
-                            );
-                            setRetryFailedPagesKeyPrefix(`${pageRetryKeyPrefix.current}`);
-                            pageRetryKeyPrefix.current = (pageRetryKeyPrefix.current + 1) % 1000;
-                        }}
-                        disabled={!haveSomePagesFailedToLoad}
-                        color="inherit"
-                    >
-                        <ReplayIcon />
-                    </IconButton>
-                </CustomTooltip>
-                <DownloadButton currentChapter={currentChapter} />
-                <CustomTooltip title={t('global.button.open_browser')} disabled={!realUrl}>
-                    <IconButton
-                        disabled={!realUrl}
-                        href={realUrl ?? ''}
-                        rel="noreferrer"
-                        target="_blank"
-                        color="inherit"
-                    >
-                        <IconBrowser />
-                    </IconButton>
-                </CustomTooltip>
-                <CustomTooltip title={t('global.button.open_webview')} disabled={!realUrl}>
-                    <IconButton
-                        disabled={!realUrl}
-                        href={realUrl ? requestManager.getWebviewUrl(realUrl) : ''}
-                        rel="noreferrer"
-                        target="_blank"
-                        color="inherit"
-                    >
-                        <IconWebView />
-                    </IconButton>
-                </CustomTooltip>
-            </Stack>
-        );
-    },
-);
+    const haveSomePagesFailedToLoad = useMemo(
+        () => pageLoadStates.some((pageLoadState) => pageLoadState.error),
+        [pageLoadStates],
+    );
 
-export const ReaderNavBarDesktopActions = withPropsFrom(
-    BaseReaderNavBarDesktopActions,
-    [useReaderStateChaptersContext],
-    ['currentChapter'],
-);
+    return (
+        <Stack sx={{ flexDirection: 'row', justifyContent: 'center', gap: 1 }}>
+            <ReaderLibraryButton />
+            <ReaderBookmarkButton id={id} isBookmarked={isBookmarked} />
+            <CustomTooltip title={t('reader.button.retry_load_pages')} disabled={!haveSomePagesFailedToLoad}>
+                <IconButton
+                    onClick={() => {
+                        setPageLoadStates((statePageLoadStates) =>
+                            statePageLoadStates.map((pageLoadState) => ({
+                                url: pageLoadState.url,
+                                loaded: pageLoadState.loaded,
+                            })),
+                        );
+                        setRetryFailedPagesKeyPrefix(`${pageRetryKeyPrefix.current}`);
+                        pageRetryKeyPrefix.current = (pageRetryKeyPrefix.current + 1) % 1000;
+                    }}
+                    disabled={!haveSomePagesFailedToLoad}
+                    color="inherit"
+                >
+                    <ReplayIcon />
+                </IconButton>
+            </CustomTooltip>
+            <DownloadButton currentChapter={currentChapter} />
+            <CustomTooltip title={t('global.button.open_browser')} disabled={!realUrl}>
+                <IconButton disabled={!realUrl} href={realUrl ?? ''} rel="noreferrer" target="_blank" color="inherit">
+                    <IconBrowser />
+                </IconButton>
+            </CustomTooltip>
+            <CustomTooltip title={t('global.button.open_webview')} disabled={!realUrl}>
+                <IconButton
+                    disabled={!realUrl}
+                    href={realUrl ? requestManager.getWebviewUrl(realUrl) : ''}
+                    rel="noreferrer"
+                    target="_blank"
+                    color="inherit"
+                >
+                    <IconWebView />
+                </IconButton>
+            </CustomTooltip>
+        </Stack>
+    );
+});

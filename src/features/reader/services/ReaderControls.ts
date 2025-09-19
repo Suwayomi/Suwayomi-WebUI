@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MutableRefObject, RefObject, useCallback, useEffect, useMemo } from 'react';
+import { MutableRefObject, RefObject, useCallback, useEffect } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
@@ -19,7 +19,6 @@ import {
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import {
     PageInViewportType,
     ProgressBarPosition,
@@ -173,19 +172,20 @@ export class ReaderControls {
             shouldInformAboutScanlatorChange,
             shouldUseInfiniteScroll,
         } = ReaderService.useSettings();
-        const {
-            currentChapter,
-            previousChapter,
-            nextChapter,
-            chapters,
-            visibleChapters: { lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder },
-            setReaderStateChapters,
-        } = useReaderStateChaptersContext();
 
         const openChapter = ReaderService.useNavigateToChapter();
 
         return useCallback(
             (offset, doTransitionCheck = true, scrollIntoView = true) => {
+                const {
+                    currentChapter,
+                    previousChapter,
+                    nextChapter,
+                    chapters,
+                    visibleChapters: { lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder },
+                    setReaderStateChapters,
+                } = getReaderStore().chapters;
+
                 if (!currentChapter) {
                     return;
                 }
@@ -266,13 +266,10 @@ export class ReaderControls {
             },
             [
                 t,
-                currentChapter?.id,
                 openChapter,
                 readingMode.value,
                 shouldInformAboutMissingChapter,
                 shouldInformAboutScanlatorChange,
-                lastLeadingChapterSourceOrder,
-                lastTrailingChapterSourceOrder,
                 shouldUseInfiniteScroll,
             ],
         );
@@ -343,7 +340,6 @@ export class ReaderControls {
         forceDirection?: Direction,
         hideOverlay?: boolean,
     ) => void {
-        const { previousChapter, nextChapter } = useReaderStateChaptersContext();
         const { setShowPreview } = useReaderTapZoneContext();
         const { readingDirection, readingMode, shouldShowTransitionPage } = ReaderService.useSettings();
         const openChapter = ReaderControls.useOpenChapter();
@@ -398,7 +394,7 @@ export class ReaderControls {
                     isFirstPage &&
                     (!shouldShowTransitionPage || isPreviousTransitionPageVisible) &&
                     convertedPage === 'previous' &&
-                    !!previousChapter;
+                    !!getReaderStore().chapters.previousChapter;
                 if (shouldOpenPreviousChapter) {
                     openChapter('previous');
                     return;
@@ -408,7 +404,7 @@ export class ReaderControls {
                     isLastPage &&
                     (!shouldShowTransitionPage || isNextTransitionPageVisible) &&
                     convertedPage === 'next' &&
-                    !!nextChapter;
+                    !!getReaderStore().chapters.nextChapter;
                 if (shouldOpenNextChapter) {
                     openChapter('next');
                     return;
@@ -442,7 +438,7 @@ export class ReaderControls {
 
                 setPageToScrollToIndex(isPreviousMode ? previousPageIndex : nextPageIndex);
             },
-            [direction, openChapter, !!previousChapter, !!nextChapter, shouldShowTransitionPage, readingMode.value],
+            [direction, openChapter, shouldShowTransitionPage, readingMode.value],
         );
     }
 
@@ -451,26 +447,24 @@ export class ReaderControls {
         debounceChapterUpdate?: boolean,
         endReached?: boolean,
     ) => void {
-        const { currentChapter, chapters, previousChapter, nextChapter, visibleChapters, setReaderStateChapters } =
-            useReaderStateChaptersContext();
         const updateChapter = ReaderService.useUpdateChapter();
         const {
             settings: { downloadAheadLimit },
         } = useMetadataServerSettings();
 
-        const nextChapters = useMemo(() => {
-            if (!currentChapter) {
-                return [];
-            }
-
-            return Chapters.getNextChapters(currentChapter, chapters, {
-                offset: DirectionOffset.NEXT,
-            });
-        }, [currentChapter?.id, chapters]);
-
         return useCallback(
             (pageIndex, debounceChapterUpdate = true, endReached = false) => {
-                const { currentPageIndex, setCurrentPageIndex } = getReaderStore().pages;
+                const {
+                    pages: { currentPageIndex, setCurrentPageIndex },
+                    chapters: {
+                        currentChapter,
+                        chapters,
+                        previousChapter,
+                        nextChapter,
+                        visibleChapters,
+                        setReaderStateChapters,
+                    },
+                } = getReaderStore();
 
                 if (pageIndex === currentPageIndex && !endReached) {
                     return;
@@ -481,6 +475,10 @@ export class ReaderControls {
                 if (!currentChapter) {
                     return;
                 }
+
+                const nextChapters = Chapters.getNextChapters(currentChapter, chapters, {
+                    offset: DirectionOffset.NEXT,
+                });
 
                 const direction = currentPageIndex > pageIndex ? DirectionOffset.PREVIOUS : DirectionOffset.NEXT;
 
@@ -518,14 +516,7 @@ export class ReaderControls {
 
                 handleCurrentPageIndexChange();
             },
-            [
-                currentChapter?.id,
-                previousChapter?.id,
-                nextChapter?.id,
-                nextChapters,
-                downloadAheadLimit,
-                visibleChapters,
-            ],
+            [downloadAheadLimit],
         );
     }
 

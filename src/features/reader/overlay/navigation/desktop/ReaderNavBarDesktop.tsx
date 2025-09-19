@@ -24,11 +24,10 @@ import { ReaderNavBarDesktopQuickSettings } from '@/features/reader/overlay/navi
 import { ReaderNavBarDesktopActions } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { IReaderSettings, ReaderStateChapters } from '@/features/reader/Reader.types.ts';
+import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
 import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
@@ -55,17 +54,18 @@ const BaseReaderNavBarDesktop = ({
     isVisible,
     openSettings,
     setReaderNavBarWidth,
-    chapters,
-    currentChapter,
-    previousChapter,
-    nextChapter,
     isStaticNav,
 }: ReaderNavBarDesktopProps &
     Pick<NavbarContextType, 'setReaderNavBarWidth'> &
-    Pick<ReaderStateChapters, 'currentChapter' | 'previousChapter' | 'nextChapter' | 'chapters'> &
     Pick<IReaderSettings, 'isStaticNav'>) => {
     const { t } = useTranslation();
     const manga = useReaderStoreShallow((state) => state.manga);
+    const { chapters, currentChapter, previousChapter, nextChapter } = useReaderStoreShallow((state) => ({
+        chapters: state.chapters.chapters,
+        currentChapter: state.chapters.currentChapter,
+        previousChapter: state.chapters.previousChapter,
+        nextChapter: state.chapters.nextChapter,
+    }));
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(
@@ -146,6 +146,6 @@ const BaseReaderNavBarDesktop = ({
 
 export const ReaderNavBarDesktop = withPropsFrom(
     memo(BaseReaderNavBarDesktop),
-    [useNavBarContext, useReaderStateChaptersContext, ReaderService.useSettingsWithoutDefaultFlag],
-    ['setReaderNavBarWidth', 'chapters', 'currentChapter', 'previousChapter', 'nextChapter', 'isStaticNav'],
+    [useNavBarContext, ReaderService.useSettingsWithoutDefaultFlag],
+    ['setReaderNavBarWidth', 'isStaticNav'],
 );

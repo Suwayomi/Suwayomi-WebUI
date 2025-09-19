@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo } from 'react';
+import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Direction, useTheme } from '@mui/material/styles';
 import { t as translate } from 'i18next';
@@ -36,7 +36,6 @@ import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { useReaderStateSettingsContext } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
-import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import {
     getChapterIdsForDownloadAhead,
@@ -155,29 +154,25 @@ export class ReaderService {
     }
 
     static useUpdateChapter(): (patch: UpdateChapterPatchInput) => void {
-        const { currentChapter, mangaChapters, chapters } = useReaderStateChaptersContext();
         const { shouldSkipDupChapters } = ReaderService.useSettings();
         const {
             settings: { deleteChaptersWhileReading, deleteChaptersWithBookmark, updateProgressAfterReading },
         } = useMetadataServerSettings();
 
-        const previousChapters = useMemo(() => {
-            if (!currentChapter) {
-                return [];
-            }
-
-            return Chapters.getNextChapters(currentChapter, chapters, {
-                offset: DirectionOffset.PREVIOUS,
-            });
-        }, [currentChapter?.id, chapters]);
-
         return useCallback(
             (patch) => {
-                const { manga } = getReaderStore();
+                const {
+                    manga,
+                    chapters: { currentChapter, mangaChapters, chapters },
+                } = getReaderStore();
 
                 if (!manga || !currentChapter || !mangaChapters) {
                     return;
                 }
+
+                const previousChapters = Chapters.getNextChapters(currentChapter, chapters, {
+                    offset: DirectionOffset.PREVIOUS,
+                });
 
                 const update = async () => {
                     const chapterIdsToUpdate = Chapters.getIds(
@@ -234,15 +229,7 @@ export class ReaderService {
 
                 ReaderService.getOrCreateChapterUpdateQueue(currentChapter.id).enqueue(`${currentChapter.id}`, update);
             },
-            [
-                currentChapter?.id,
-                mangaChapters,
-                previousChapters,
-                shouldSkipDupChapters,
-                deleteChaptersWhileReading,
-                deleteChaptersWithBookmark,
-                updateProgressAfterReading,
-            ],
+            [shouldSkipDupChapters, deleteChaptersWhileReading, deleteChaptersWithBookmark, updateProgressAfterReading],
         );
     }
 

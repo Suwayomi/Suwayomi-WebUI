@@ -30,13 +30,11 @@ import { ReaderHotkeys } from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
 import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
-    ReaderStateChapters,
     TReaderStateSettingsContext,
 } from '@/features/reader/Reader.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { useReaderResetStates } from '@/features/reader/hooks/useReaderResetStates.ts';
@@ -61,11 +59,6 @@ const BaseReader = ({
     shouldShowReadingModePreview,
     shouldShowTapZoneLayoutPreview,
     setSettings,
-    mangaChapters,
-    initialChapter,
-    chapterForDuplicatesHandling,
-    currentChapter,
-    setReaderStateChapters,
     setShowPreview,
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'> &
     Pick<TReaderStateSettingsContext, 'setSettings'> &
@@ -78,18 +71,18 @@ const BaseReader = ({
         | 'shouldShowTapZoneLayoutPreview'
     > &
     Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'tapZoneLayout' | 'tapZoneInvertMode'> &
-    Pick<
-        ReaderStateChapters,
-        | 'mangaChapters'
-        | 'initialChapter'
-        | 'chapterForDuplicatesHandling'
-        | 'currentChapter'
-        | 'setReaderStateChapters'
-    > &
     Pick<TReaderTapZoneContext, 'setShowPreview'>) => {
     const { t } = useTranslation();
     const manga = useReaderStoreShallow((state) => state.manga);
     const overlay = useReaderStoreShallow((state) => state.overlay);
+    const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderStoreShallow(
+        (state) => ({
+            mangaChapters: state.chapters.mangaChapters,
+            initialChapter: state.chapters.initialChapter,
+            chapterForDuplicatesHandling: state.chapters.chapterForDuplicatesHandling,
+            currentChapter: state.chapters.currentChapter,
+        }),
+    );
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -130,7 +123,7 @@ const BaseReader = ({
         useReaderStore.getState().setManga(mangaResponse.data?.manga);
     }, [mangaResponse.data?.manga]);
 
-    useReaderResetStates(setReaderStateChapters, setSettings);
+    useReaderResetStates(setSettings);
     useReaderSetSettingsState(
         mangaResponse,
         defaultSettingsResponse,
@@ -156,7 +149,6 @@ const BaseReader = ({
         mangaChapters,
         initialChapter,
         chapterForDuplicatesHandling,
-        setReaderStateChapters,
         shouldSkipDupChapters,
         shouldSkipFilteredChapters,
         chapterListOptions,
@@ -263,7 +255,6 @@ export const Reader = withPropsFrom(
     memo(BaseReader),
     [
         useNavBarContext,
-        useReaderStateChaptersContext,
         useReaderStateSettingsContext,
         () => {
             const {
@@ -299,11 +290,6 @@ export const Reader = withPropsFrom(
         'shouldShowReadingModePreview',
         'shouldShowTapZoneLayoutPreview',
         'setSettings',
-        'mangaChapters',
-        'initialChapter',
-        'chapterForDuplicatesHandling',
-        'currentChapter',
-        'setReaderStateChapters',
         'setShowPreview',
     ],
 );

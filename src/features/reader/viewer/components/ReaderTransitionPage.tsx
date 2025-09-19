@@ -13,7 +13,6 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { ComponentProps, memo, useMemo } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
-import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { IReaderSettings, ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
@@ -224,7 +223,7 @@ export const ReaderTransitionPage = withPropsFrom(
     memo(BaseReaderTransitionPage) as typeof BaseReaderTransitionPage,
     [
         ({ chapterId }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId'>) => {
-            const { chapters } = useReaderStateChaptersContext();
+            const chapters = useReaderStoreShallow((state) => state.chapters.chapters);
 
             const currentChapterIndex = useMemo(
                 () => chapters.findIndex((chapter) => chapter.id === chapterId),
@@ -248,7 +247,7 @@ export const ReaderTransitionPage = withPropsFrom(
         ReaderService.useSettingsWithoutDefaultFlag,
         ({ chapterId, type }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId' | 'type'>) => {
             const handleBack = useBackButton();
-            const { chapters } = useReaderStateChaptersContext();
+            const chapters = useReaderStoreShallow((state) => state.chapters.chapters);
 
             const currentChapterIndex = useMemo(
                 () => chapters.findIndex((chapter) => chapter.id === chapterId),

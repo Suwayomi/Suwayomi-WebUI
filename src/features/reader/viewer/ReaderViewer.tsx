@@ -27,7 +27,6 @@ import {
     PageInViewportType,
     ReaderOpenChapterLocationState,
     ReaderResumeMode,
-    ReaderStateChapters,
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
@@ -49,7 +48,6 @@ import { useReaderHorizontalModeInvertXYScrolling } from '@/features/reader/view
 import { useReaderHideCursorOnInactivity } from '@/features/reader/viewer/hooks/useReaderHideCursorOnInactivity.ts';
 import { useReaderScrollToStartOnPageChange } from '@/features/reader/viewer/hooks/useReaderScrollToStartOnPageChange.ts';
 import { useReaderHandlePageSelection } from '@/features/reader/viewer/hooks/useReaderHandlePageSelection.ts';
-import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderChapterViewer } from '@/features/reader/viewer/ReaderChapterViewer.tsx';
 import {
     getPreviousNextChapterVisibility,
@@ -90,12 +88,6 @@ const BaseReaderViewer = forwardRef(
             updateCurrentPageIndex,
             showPreview,
             setShowPreview,
-            initialChapter,
-            currentChapter,
-            chapters,
-            visibleChapters,
-            setReaderStateChapters,
-            isCurrentChapterReady,
         }: Pick<
             IReaderSettings,
             | 'readingMode'
@@ -111,15 +103,6 @@ const BaseReaderViewer = forwardRef(
             | 'isStaticNav'
         > &
             Pick<NavbarContextType, 'readerNavBarWidth'> &
-            Pick<
-                ReaderStateChapters,
-                | 'initialChapter'
-                | 'currentChapter'
-                | 'chapters'
-                | 'visibleChapters'
-                | 'setReaderStateChapters'
-                | 'isCurrentChapterReady'
-            > &
             TReaderTapZoneContext & {
                 updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
             },
@@ -154,6 +137,21 @@ const BaseReaderViewer = forwardRef(
             transitionPageMode: state.pages.transitionPageMode,
             retryFailedPagesKeyPrefix: state.pages.retryFailedPagesKeyPrefix,
             setTransitionPageMode: state.pages.setTransitionPageMode,
+        }));
+        const {
+            initialChapter,
+            currentChapter,
+            chapters,
+            visibleChapters,
+            setReaderStateChapters,
+            isCurrentChapterReady,
+        } = useReaderStoreShallow((state) => ({
+            initialChapter: state.chapters.initialChapter,
+            currentChapter: state.chapters.currentChapter,
+            chapters: state.chapters.chapters,
+            visibleChapters: state.chapters.visibleChapters,
+            setReaderStateChapters: state.chapters.setReaderStateChapters,
+            isCurrentChapterReady: state.chapters.isCurrentChapterReady,
         }));
         const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
             resumeMode: ReaderResumeMode.START,
@@ -446,7 +444,6 @@ export const ReaderViewer = withPropsFrom(
         ReaderService.useSettingsWithoutDefaultFlag,
         () => ({ updateCurrentPageIndex: ReaderControls.useUpdateCurrentPageIndex() }),
         useReaderTapZoneContext,
-        useReaderStateChaptersContext,
         useNavBarContext,
     ],
     [
@@ -465,11 +462,5 @@ export const ReaderViewer = withPropsFrom(
         'updateCurrentPageIndex',
         'showPreview',
         'setShowPreview',
-        'initialChapter',
-        'currentChapter',
-        'chapters',
-        'visibleChapters',
-        'setReaderStateChapters',
-        'isCurrentChapterReady',
     ],
 );

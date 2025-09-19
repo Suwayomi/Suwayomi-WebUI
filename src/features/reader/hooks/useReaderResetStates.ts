@@ -7,19 +7,14 @@
  */
 
 import { useEffect } from 'react';
-import { ReaderStateChapters, TReaderStateSettingsContext } from '@/features/reader/Reader.types.ts';
+import { TReaderStateSettingsContext } from '@/features/reader/Reader.types.ts';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
-import { READER_STATE_CHAPTERS_DEFAULTS } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
-export const useReaderResetStates = (
-    setReaderStateChapters: ReaderStateChapters['setReaderStateChapters'],
-    setSettings: TReaderStateSettingsContext['setSettings'],
-) => {
+export const useReaderResetStates = (setSettings: TReaderStateSettingsContext['setSettings']) => {
     useEffect(
         () => () => {
             getReaderStore().reset();
-            setReaderStateChapters(READER_STATE_CHAPTERS_DEFAULTS);
 
             setSettings(DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG);
         },

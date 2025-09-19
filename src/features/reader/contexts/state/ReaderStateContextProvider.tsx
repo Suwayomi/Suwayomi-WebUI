@@ -7,11 +7,8 @@
  */
 
 import { ReactNode } from 'react';
-import { ReaderStateChaptersContextProvider } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderStateSettingsContextProvider } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
 
 export const ReaderStateContextProvider = ({ children }: { children: ReactNode }) => (
-    <ReaderStateChaptersContextProvider>
-        <ReaderStateSettingsContextProvider>{children}</ReaderStateSettingsContextProvider>
-    </ReaderStateChaptersContextProvider>
+    <ReaderStateSettingsContextProvider>{children}</ReaderStateSettingsContextProvider>
 );

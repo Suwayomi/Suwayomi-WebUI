@@ -24,9 +24,6 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { MobileHeaderProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
-import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderLibraryButton } from '@/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx';
 import { ReaderBookmarkButton } from '@/features/reader/overlay/navigation/components/ReaderBookmarkButton.tsx';
 import { FALLBACK_CHAPTER } from '@/features/chapter/Chapter.constants.ts';
@@ -37,12 +34,10 @@ import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
-const BaseReaderOverlayHeaderMobile = forwardRef<
-    HTMLDivElement,
-    MobileHeaderProps & Pick<ReaderStateChapters, 'currentChapter'>
->(({ isVisible, currentChapter }, ref) => {
+const BaseReaderOverlayHeaderMobile = forwardRef<HTMLDivElement, MobileHeaderProps>(({ isVisible }, ref) => {
     const { t } = useTranslation();
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
+    const currentChapter = useReaderStoreShallow((state) => state.chapters.currentChapter);
 
     const manga = useReaderStoreShallow((state) => state.manga);
     const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
@@ -129,8 +124,4 @@ const BaseReaderOverlayHeaderMobile = forwardRef<
     );
 });
 
-export const ReaderOverlayHeaderMobile = withPropsFrom(
-    memo(BaseReaderOverlayHeaderMobile),
-    [useReaderStateChaptersContext],
-    ['currentChapter'],
-);
+export const ReaderOverlayHeaderMobile = memo(BaseReaderOverlayHeaderMobile);

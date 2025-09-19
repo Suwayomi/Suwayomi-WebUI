@@ -15,14 +15,13 @@ import Box from '@mui/material/Box';
 import { ComponentProps, memo, useCallback, useLayoutEffect, useMemo, useState } from 'react';
 import Slide, { SlideProps } from '@mui/material/Slide';
 import { ReaderProgressBar } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.tsx';
-import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import {
     getPage,
     getProgressBarPositionInfo,
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import { IReaderSettings, ProgressBarPosition, ReaderStateChapters } from '@/features/reader/Reader.types.ts';
+import { IReaderSettings, ProgressBarPosition } from '@/features/reader/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarDirectionWrapper.tsx';
 import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
@@ -43,8 +42,6 @@ const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, Slid
 };
 
 const BaseMobileReaderProgressBar = ({
-    previousChapter,
-    nextChapter,
     setIsMaximized,
     isDragging,
     direction: readerDirection,
@@ -52,8 +49,7 @@ const BaseMobileReaderProgressBar = ({
     progressBarPositionAutoVertical,
     topOffset = 0,
     bottomOffset = 0,
-}: Pick<ReaderStateChapters, 'previousChapter' | 'nextChapter'> &
-    Pick<TReaderProgressBarContext, 'setIsMaximized' | 'isDragging'> &
+}: Pick<TReaderProgressBarContext, 'setIsMaximized' | 'isDragging'> &
     Pick<IReaderSettings, 'progressBarPosition' | 'progressBarPositionAutoVertical'> & {
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
         topOffset?: number;
@@ -65,6 +61,10 @@ const BaseMobileReaderProgressBar = ({
     const { currentPageIndex, pages } = useReaderStoreShallow((state) => ({
         currentPageIndex: state.pages.currentPageIndex,
         pages: state.pages.pages,
+    }));
+    const { previousChapter, nextChapter } = useReaderStore((state) => ({
+        previousChapter: state.chapters.previousChapter,
+        nextChapter: state.chapters.nextChapter,
     }));
 
     const [, setRefreshProgressBarPosition] = useState({});
@@ -354,18 +354,9 @@ const BaseMobileReaderProgressBar = ({
 export const MobileReaderProgressBar = withPropsFrom(
     memo(BaseMobileReaderProgressBar),
     [
-        useReaderStateChaptersContext,
         useReaderProgressBarContext,
         () => ({ direction: ReaderService.useGetThemeDirection() }),
         ReaderService.useSettingsWithoutDefaultFlag,
     ],
-    [
-        'previousChapter',
-        'nextChapter',
-        'setIsMaximized',
-        'isDragging',
-        'direction',
-        'progressBarPosition',
-        'progressBarPositionAutoVertical',
-    ],
+    ['setIsMaximized', 'isDragging', 'direction', 'progressBarPosition', 'progressBarPositionAutoVertical'],
 );

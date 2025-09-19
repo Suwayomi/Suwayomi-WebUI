@@ -16,11 +16,12 @@ import {
     ReaderOpenChapterLocationState,
     ReaderStateChapters,
 } from '@/features/reader/Reader.types.ts';
-import { READER_STATE_CHAPTERS_DEFAULTS } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 import { getReaderChapterFromCache } from '@/features/reader/Reader.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
+import { getReaderStore } from '@/features/reader/ReaderStore.ts';
+import { READER_DEFAULT_CHAPTERS_STATE } from '@/features/reader/ReaderStore.constants.ts';
 
 export const useReaderSetChaptersState = (
     chaptersResponse: ReturnType<typeof requestManager.useGetMangaChapters<GetChaptersReaderQuery>>,
@@ -28,7 +29,6 @@ export const useReaderSetChaptersState = (
     mangaChapters: ReaderStateChapters['mangaChapters'],
     initialChapter: ReaderStateChapters['initialChapter'],
     chapterForDuplicatesHandling: ReaderStateChapters['chapterForDuplicatesHandling'],
-    setReaderStateChapters: ReaderStateChapters['setReaderStateChapters'],
     shouldSkipDupChapters: IReaderSettings['shouldSkipDupChapters'],
     shouldSkipFilteredChapters: IReaderSettings['shouldSkipFilteredChapters'],
     chapterListOptions: ChapterListOptions,
@@ -78,7 +78,7 @@ export const useReaderSetChaptersState = (
             navigate('', { replace: true, state: { ...locationState, updateInitialChapter: undefined } });
         }
 
-        setReaderStateChapters((prevState) => {
+        getReaderStore().chapters.setReaderStateChapters((prevState) => {
             const hasCurrentChapterChanged = newCurrentChapter?.id !== prevState.currentChapter?.id;
 
             return {
@@ -93,13 +93,13 @@ export const useReaderSetChaptersState = (
                 isCurrentChapterReady: hasCurrentChapterChanged ? false : prevState.isCurrentChapterReady,
                 visibleChapters: hasInitialChapterChanged
                     ? {
-                          ...READER_STATE_CHAPTERS_DEFAULTS.visibleChapters,
+                          ...READER_DEFAULT_CHAPTERS_STATE.chapters.visibleChapters,
                           lastLeadingChapterSourceOrder:
                               newInitialChapter?.sourceOrder ??
-                              READER_STATE_CHAPTERS_DEFAULTS.visibleChapters.lastLeadingChapterSourceOrder,
+                              READER_DEFAULT_CHAPTERS_STATE.chapters.visibleChapters.lastLeadingChapterSourceOrder,
                           lastTrailingChapterSourceOrder:
                               newInitialChapter?.sourceOrder ??
-                              READER_STATE_CHAPTERS_DEFAULTS.visibleChapters.lastTrailingChapterSourceOrder,
+                              READER_DEFAULT_CHAPTERS_STATE.chapters.visibleChapters.lastTrailingChapterSourceOrder,
                           isLeadingChapterPreloadMode: false,
                           isTrailingChapterPreloadMode: false,
                           // do not set "scrollIntoView" to "true" for the initial render

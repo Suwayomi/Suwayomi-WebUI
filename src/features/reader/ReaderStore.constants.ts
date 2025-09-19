@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReaderStatePages, ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
+import { ReaderStateChapters, ReaderStatePages, ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 export const READER_DEFAULT_PAGES_STATE: Omit<
@@ -38,4 +38,23 @@ export const READER_DEFAULT_PAGES_STATE: Omit<
     ],
     transitionPageMode: ReaderTransitionPageMode.NONE,
     retryFailedPagesKeyPrefix: '',
+};
+
+export const READER_DEFAULT_CHAPTERS_STATE = {
+    chapters: {
+        chapters: [],
+        isCurrentChapterReady: false,
+        visibleChapters: {
+            leading: 0,
+            trailing: 0,
+            lastLeadingChapterSourceOrder: 99999,
+            lastTrailingChapterSourceOrder: -1,
+            isLeadingChapterPreloadMode: true,
+            isTrailingChapterPreloadMode: true,
+            scrollIntoView: false,
+            resumeMode: undefined,
+        },
+    },
+} satisfies {
+    chapters: Omit<ReaderStateChapters, 'setReaderStateChapters'>;
 };

@@ -18,9 +18,9 @@ import {
     createReaderAutoScrollStoreSlice,
     ReaderAutoScrollStoreSlice,
 } from '@/features/reader/auto-scroll/ReaderAutoScrollStore.ts';
-import { ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { ReaderStateChapters, ReaderStatePages } from '@/features/reader/Reader.types.ts';
 import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
-import { READER_DEFAULT_PAGES_STATE } from '@/features/reader/ReaderStore.constants.ts';
+import { READER_DEFAULT_CHAPTERS_STATE, READER_DEFAULT_PAGES_STATE } from '@/features/reader/ReaderStore.constants.ts';
 
 interface ReaderPagesStoreSlice {
     pages: ReaderStatePages & {
@@ -28,7 +28,17 @@ interface ReaderPagesStoreSlice {
     };
 }
 
-interface ReaderStore extends ReaderOverlayStoreSlice, ReaderAutoScrollStoreSlice, ReaderPagesStoreSlice {
+interface ReaderChaptersStoreSlice {
+    chapters: ReaderStateChapters & {
+        reset: () => void;
+    };
+}
+
+interface ReaderStore
+    extends ReaderOverlayStoreSlice,
+        ReaderAutoScrollStoreSlice,
+        ReaderPagesStoreSlice,
+        ReaderChaptersStoreSlice {
     reset: () => void;
     manga: TMangaReader | undefined;
     setManga: (manga: TMangaReader | undefined) => void;
@@ -94,6 +104,30 @@ const createReaderPagesStoreSlice = <T extends ReaderPagesStoreSlice>(
     },
 });
 
+const createReaderChaptersStoreSlice = <T extends ReaderChaptersStoreSlice>(
+    ...[set, get]: Parameters<ImmerStateCreator<T>>
+): ReaderChaptersStoreSlice => ({
+    chapters: {
+        ...READER_DEFAULT_CHAPTERS_STATE.chapters,
+        reset: () => set(() => ({ chapters: { ...get().chapters, ...READER_DEFAULT_CHAPTERS_STATE.chapters } })),
+        setReaderStateChapters: (state) =>
+            set((draft) => {
+                if (typeof state === 'function') {
+                    draft.chapters = {
+                        ...get().chapters,
+                        ...state(get().chapters),
+                    };
+                    return;
+                }
+
+                draft.chapters = {
+                    ...get().chapters,
+                    ...state,
+                };
+            }),
+    },
+});
+
 export const useReaderStore = create<ReaderStore>()(
     immer((set, get, store) => ({
         ...DEFAULT_STATE,
@@ -104,6 +138,7 @@ export const useReaderStore = create<ReaderStore>()(
                 get().overlay.reset();
                 get().autoScroll.reset();
                 get().pages.reset();
+                get().chapters.reset();
             }),
         setManga: (manga) =>
             set((draft) => {
@@ -123,6 +158,7 @@ export const useReaderStore = create<ReaderStore>()(
         ...createReaderOverlayStoreSlice(set, get, store),
         ...createReaderAutoScrollStoreSlice(set, get, store),
         ...createReaderPagesStoreSlice(set, get, store),
+        ...createReaderChaptersStoreSlice(set, get, store),
     })),
 );
 export const useReaderStoreShallow = <T>(selector: (state: ReaderStore) => T): T =>
