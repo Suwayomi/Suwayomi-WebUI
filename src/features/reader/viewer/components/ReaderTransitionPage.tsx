@@ -14,12 +14,7 @@ import { Link } from 'react-router-dom';
 import { ComponentProps, memo, useMemo } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import {
-    IReaderSettings,
-    ReaderStatePages,
-    ReaderTransitionPageMode,
-    ReadingMode,
-} from '@/features/reader/Reader.types.ts';
+import { IReaderSettings, ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
@@ -34,10 +29,9 @@ import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { getValueFromObject, noOp } from '@/lib/HelperFunctions.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const ChapterInfo = ({
     title,
@@ -78,7 +72,6 @@ const ChapterInfo = ({
 
 const BaseReaderTransitionPage = ({
     type,
-    transitionPageMode,
     readingMode,
     backgroundColor,
     shouldShowTransitionPage,
@@ -91,7 +84,6 @@ const BaseReaderTransitionPage = ({
     readerNavBarWidth,
     handleBack,
 }: Pick<IReaderSettings, 'readingMode' | 'backgroundColor' | 'shouldShowTransitionPage'> &
-    Pick<ReaderStatePages, 'transitionPageMode'> &
     Pick<NavbarContextType, 'readerNavBarWidth'> & {
         // gets used in the "source props creators" of the "withPropsFrom" call
         // eslint-disable-next-line react/no-unused-prop-types
@@ -108,6 +100,7 @@ const BaseReaderTransitionPage = ({
     const { t } = useTranslation();
     const manga = useReaderStoreShallow((state) => state.manga);
     const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
+    const transitionPageMode = useReaderStore((state) => state.pages.transitionPageMode);
 
     const isPreviousType = type === ReaderTransitionPageMode.PREVIOUS;
     const isNextType = type === ReaderTransitionPageMode.NEXT;
@@ -252,7 +245,6 @@ export const ReaderTransitionPage = withPropsFrom(
             };
         },
         useNavBarContext,
-        userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
         ({ chapterId, type }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId' | 'type'>) => {
             const handleBack = useBackButton();
@@ -286,7 +278,6 @@ export const ReaderTransitionPage = withPropsFrom(
         'nextChapterScanlator',
         'readerNavBarWidth',
         'backgroundColor',
-        'transitionPageMode',
         'readingMode',
         'handleBack',
         'shouldShowTransitionPage',

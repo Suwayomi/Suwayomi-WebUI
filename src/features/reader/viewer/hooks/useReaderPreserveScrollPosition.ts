@@ -59,7 +59,7 @@ const usePreserveOnValueChange = (
 const usePreserveOnWindowResize = (
     readingMode: ReadingMode,
     pageScaleMode: ReaderPageScaleMode,
-    setPageToScrollToIndex: React.Dispatch<React.SetStateAction<number | null>>,
+    setPageToScrollToIndex: (index: number | null) => void,
     pageIndex: number,
 ) => {
     const previousDimensionsRef = useRef({ width: window.innerWidth, height: window.innerHeight });

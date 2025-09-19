@@ -9,8 +9,8 @@
 import Box, { BoxProps } from '@mui/material/Box';
 import { memo, ReactNode, useMemo } from 'react';
 import { styled } from '@mui/material/styles';
-import { ReaderProgressBarProps } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
+import { ReaderStatePages } from '@/features/reader/Reader.types.ts';
 
 type StyledWrapperProps = {
     isFirstPage: boolean;
@@ -42,20 +42,20 @@ export const ReaderProgressBarSlotWrapper = memo(
         createProgressBarSlot,
         ...boxProps
     }: {
-        page: ReaderProgressBarProps['pages'][number];
+        page: ReaderStatePages['pages'][number];
         pagesIndex: number;
         isCurrentPage: boolean;
         isLeadingPage: boolean;
         isTrailingPage: boolean;
         totalPages: number;
         showDraggingStyle: boolean;
-        primaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'];
-        secondaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'] | undefined;
+        primaryPageLoadState: ReaderStatePages['pageLoadStates'][number]['loaded'];
+        secondaryPageLoadState: ReaderStatePages['pageLoadStates'][number]['loaded'] | undefined;
         createProgressBarSlot: (
-            page: ReaderProgressBarProps['pages'][number],
+            page: ReaderStatePages['pages'][number],
             pagesIndex: number,
-            primaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'],
-            secondaryPageLoadState: ReaderProgressBarProps['pageLoadStates'][number]['loaded'] | undefined,
+            primaryPageLoadState: ReaderStatePages['pageLoadStates'][number]['loaded'],
+            secondaryPageLoadState: ReaderStatePages['pageLoadStates'][number]['loaded'] | undefined,
             isCurrentPage: boolean,
             isLeadingPage: boolean,
             isTrailingPage: boolean,

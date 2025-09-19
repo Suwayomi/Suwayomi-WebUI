@@ -15,17 +15,17 @@ import { memo, useMemo, useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { ReaderStateChapters, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
-import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ReaderLibraryButton } from '@/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx';
 import { ReaderBookmarkButton } from '@/features/reader/overlay/navigation/components/ReaderBookmarkButton.tsx';
 import { CHAPTER_ACTION_TO_TRANSLATION, FALLBACK_CHAPTER } from '@/features/chapter/Chapter.constants.ts';
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
     const { t } = useTranslation();
@@ -60,16 +60,15 @@ const DownloadButton = ({ currentChapter }: Required<Pick<ReaderStateChapters, '
 };
 
 const BaseReaderNavBarDesktopActions = memo(
-    ({
-        currentChapter,
-        pageLoadStates,
-        setPageLoadStates,
-        setRetryFailedPagesKeyPrefix,
-    }: Required<Pick<ReaderStateChapters, 'currentChapter'>> &
-        Pick<ReaderStatePages, 'pageLoadStates' | 'setPageLoadStates' | 'setRetryFailedPagesKeyPrefix'>) => {
+    ({ currentChapter }: Required<Pick<ReaderStateChapters, 'currentChapter'>>) => {
         const { id, isBookmarked, realUrl } = currentChapter ?? FALLBACK_CHAPTER;
 
         const { t } = useTranslation();
+        const { pageLoadStates, setPageLoadStates, setRetryFailedPagesKeyPrefix } = useReaderStoreShallow((state) => ({
+            pageLoadStates: state.pages.pageLoadStates,
+            setPageLoadStates: state.pages.setPageLoadStates,
+            setRetryFailedPagesKeyPrefix: state.pages.setRetryFailedPagesKeyPrefix,
+        }));
 
         const pageRetryKeyPrefix = useRef<number>(0);
 
@@ -130,6 +129,6 @@ const BaseReaderNavBarDesktopActions = memo(
 
 export const ReaderNavBarDesktopActions = withPropsFrom(
     BaseReaderNavBarDesktopActions,
-    [useReaderStateChaptersContext, userReaderStatePagesContext],
-    ['currentChapter', 'pageLoadStates', 'setPageLoadStates', 'setRetryFailedPagesKeyPrefix'],
+    [useReaderStateChaptersContext],
+    ['currentChapter'],
 );

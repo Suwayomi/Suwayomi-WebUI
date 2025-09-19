@@ -8,11 +8,9 @@
 
 import { BoxProps } from '@mui/material/Box';
 import { TooltipProps } from '@mui/material/Tooltip';
-import { IReaderSettings, PageData, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { IReaderSettings, PageData } from '@/features/reader/Reader.types.ts';
 
-export interface ReaderProgressBarProps
-    extends Pick<ReaderStatePages, 'totalPages' | 'pages' | 'pageLoadStates' | 'currentPageIndex'>,
-        Pick<IReaderSettings, 'progressBarPosition'> {}
+export interface ReaderProgressBarProps extends Pick<IReaderSettings, 'progressBarPosition'> {}
 
 export interface TReaderProgressCurrentPage extends PageData {
     pagesIndex: number;

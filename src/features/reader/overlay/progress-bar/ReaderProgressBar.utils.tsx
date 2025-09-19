@@ -6,15 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    ReaderProgressBarProps,
-    TReaderProgressCurrentPage,
-} from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { getOptionForDirection as getOptionForDirectionImpl } from '@/features/theme/services/ThemeCreator.ts';
-import { ProgressBarPosition } from '@/features/reader/Reader.types.ts';
+import { ProgressBarPosition, ReaderStatePages } from '@/features/reader/Reader.types.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 
-export const getPage = (pageIndex: number, pages: ReaderProgressBarProps['pages']): TReaderProgressCurrentPage => {
+export const getPage = (pageIndex: number, pages: ReaderStatePages['pages']): TReaderProgressCurrentPage => {
     const pagesIndex = pages.findIndex(({ primary, secondary }) =>
         [primary.index, secondary?.index].includes(pageIndex),
     );
@@ -29,13 +26,13 @@ export const getPage = (pageIndex: number, pages: ReaderProgressBarProps['pages'
  * for the double page mode the secondary page index has to be used to be able to correctly detect if the last page is visible
  *
  */
-export const getNextIndexFromPage = (page: ReaderProgressBarProps['pages'][number]) =>
+export const getNextIndexFromPage = (page: ReaderStatePages['pages'][number]) =>
     page.secondary?.index ?? page.primary.index;
 
 export const getNextPageIndex = (
     offset: 'previous' | 'next',
     pagesIndex: number,
-    pages: ReaderProgressBarProps['pages'],
+    pages: ReaderStatePages['pages'],
 ): number => {
     switch (offset) {
         case 'previous':
@@ -50,11 +47,11 @@ export const getNextPageIndex = (
 export const getPageForMousePos = (
     coordinates: { clientX: number; clientY: number },
     element: HTMLElement,
-    pages: ReaderProgressBarProps['pages'],
+    pages: ReaderStatePages['pages'],
     isHorizontalPosition: boolean,
     fullSegmentClicks: boolean,
     getOptionForDirection: typeof getOptionForDirectionImpl,
-): ReaderProgressBarProps['pages'][number] => {
+): ReaderStatePages['pages'][number] => {
     const pos = isHorizontalPosition ? coordinates.clientX : coordinates.clientY;
 
     const { paddingTop, paddingBottom, paddingLeft, paddingRight } = getComputedStyle(element);

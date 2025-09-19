@@ -28,11 +28,9 @@ import {
     ReaderOpenChapterLocationState,
     ReaderResumeMode,
     ReaderStateChapters,
-    ReaderStatePages,
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import {
@@ -77,18 +75,6 @@ const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> 
 const BaseReaderViewer = forwardRef(
     (
         {
-            currentPageIndex,
-            pageToScrollToIndex,
-            setPageToScrollToIndex,
-            pages,
-            totalPages,
-            setPages,
-            setPageLoadStates,
-            setTotalPages,
-            setCurrentPageIndex,
-            transitionPageMode,
-            retryFailedPagesKeyPrefix,
-            setTransitionPageMode,
             readingMode,
             readingDirection,
             shouldUseInfiniteScroll,
@@ -111,34 +97,19 @@ const BaseReaderViewer = forwardRef(
             setReaderStateChapters,
             isCurrentChapterReady,
         }: Pick<
-            ReaderStatePages,
-            | 'currentPageIndex'
-            | 'pageToScrollToIndex'
-            | 'setPageToScrollToIndex'
-            | 'pages'
-            | 'totalPages'
-            | 'setPages'
-            | 'setPageLoadStates'
-            | 'setTotalPages'
-            | 'setCurrentPageIndex'
-            | 'transitionPageMode'
-            | 'retryFailedPagesKeyPrefix'
-            | 'setTransitionPageMode'
+            IReaderSettings,
+            | 'readingMode'
+            | 'readingDirection'
+            | 'shouldUseInfiniteScroll'
+            | 'readerWidth'
+            | 'pageScaleMode'
+            | 'shouldOffsetDoubleSpreads'
+            | 'imagePreLoadAmount'
+            | 'pageGap'
+            | 'customFilter'
+            | 'shouldStretchPage'
+            | 'isStaticNav'
         > &
-            Pick<
-                IReaderSettings,
-                | 'readingMode'
-                | 'readingDirection'
-                | 'shouldUseInfiniteScroll'
-                | 'readerWidth'
-                | 'pageScaleMode'
-                | 'shouldOffsetDoubleSpreads'
-                | 'imagePreLoadAmount'
-                | 'pageGap'
-                | 'customFilter'
-                | 'shouldStretchPage'
-                | 'isStaticNav'
-            > &
             Pick<NavbarContextType, 'readerNavBarWidth'> &
             Pick<
                 ReaderStateChapters,
@@ -157,6 +128,33 @@ const BaseReaderViewer = forwardRef(
     ) => {
         const { direction: themeDirection } = useTheme();
         const isOverlayVisible = useReaderStore((state) => state.overlay.isVisible);
+        const {
+            currentPageIndex,
+            pageToScrollToIndex,
+            setPageToScrollToIndex,
+            pages,
+            totalPages,
+            setPages,
+            setPageLoadStates,
+            setTotalPages,
+            setCurrentPageIndex,
+            transitionPageMode,
+            retryFailedPagesKeyPrefix,
+            setTransitionPageMode,
+        } = useReaderStoreShallow((state) => ({
+            currentPageIndex: state.pages.currentPageIndex,
+            pageToScrollToIndex: state.pages.pageToScrollToIndex,
+            setPageToScrollToIndex: state.pages.setPageToScrollToIndex,
+            pages: state.pages.pages,
+            totalPages: state.pages.totalPages,
+            setPages: state.pages.setPages,
+            setPageLoadStates: state.pages.setPageLoadStates,
+            setTotalPages: state.pages.setTotalPages,
+            setCurrentPageIndex: state.pages.setCurrentPageIndex,
+            transitionPageMode: state.pages.transitionPageMode,
+            retryFailedPagesKeyPrefix: state.pages.retryFailedPagesKeyPrefix,
+            setTransitionPageMode: state.pages.setTransitionPageMode,
+        }));
         const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
             resumeMode: ReaderResumeMode.START,
         };
@@ -445,7 +443,6 @@ const BaseReaderViewer = forwardRef(
 export const ReaderViewer = withPropsFrom(
     memo(BaseReaderViewer),
     [
-        userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
         () => ({ updateCurrentPageIndex: ReaderControls.useUpdateCurrentPageIndex() }),
         useReaderTapZoneContext,
@@ -453,17 +450,6 @@ export const ReaderViewer = withPropsFrom(
         useNavBarContext,
     ],
     [
-        'currentPageIndex',
-        'pageToScrollToIndex',
-        'setPageToScrollToIndex',
-        'pages',
-        'totalPages',
-        'setPages',
-        'setPageLoadStates',
-        'setTotalPages',
-        'setCurrentPageIndex',
-        'retryFailedPagesKeyPrefix',
-        'setTransitionPageMode',
         'readingMode',
         'readingDirection',
         'shouldUseInfiniteScroll',
@@ -476,7 +462,6 @@ export const ReaderViewer = withPropsFrom(
         'shouldStretchPage',
         'isStaticNav',
         'readerNavBarWidth',
-        'transitionPageMode',
         'updateCurrentPageIndex',
         'showPreview',
         'setShowPreview',

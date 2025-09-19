@@ -7,23 +7,35 @@
  */
 
 import { ReaderStatePages, ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
-import { createPageData } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
 
-export const READER_STATE_PAGES_DEFAULTS: ReaderStatePages = {
+export const READER_DEFAULT_PAGES_STATE: Omit<
+    ReaderStatePages,
+    | 'setCurrentPageIndex'
+    | 'setPageToScrollToIndex'
+    | 'setTotalPages'
+    | 'setPageUrls'
+    | 'setPageLoadStates'
+    | 'setPages'
+    | 'setTransitionPageMode'
+    | 'setRetryFailedPagesKeyPrefix'
+    | 'reset'
+> = {
     totalPages: 0,
-    setTotalPages: () => undefined,
     currentPageIndex: 0,
-    setCurrentPageIndex: () => undefined,
     pageToScrollToIndex: null,
-    setPageToScrollToIndex: () => undefined,
     pageUrls: [],
-    setPageUrls: () => undefined,
     pageLoadStates: [{ url: '', loaded: false }],
-    setPageLoadStates: () => undefined,
-    pages: [createPageData('', 0)],
-    setPages: () => undefined,
+    pages: [
+        {
+            name: '1',
+            primary: {
+                index: 0,
+                alt: `Page #1`,
+                url: `${requestManager.getBaseUrl()}`,
+            },
+        },
+    ],
     transitionPageMode: ReaderTransitionPageMode.NONE,
-    setTransitionPageMode: () => undefined,
     retryFailedPagesKeyPrefix: '',
-    setRetryFailedPagesKeyPrefix: () => undefined,
 };

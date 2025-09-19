@@ -19,7 +19,6 @@ import { GET_MANGA_READER } from '@/lib/graphql/queries/MangaQuery.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { TapZoneLayout } from '@/features/reader/tap-zones/TapZoneLayout.tsx';
 import { ReaderRGBAFilter } from '@/features/reader/filters/ReaderRGBAFilter.tsx';
@@ -32,7 +31,6 @@ import {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
     ReaderStateChapters,
-    ReaderStatePages,
     TReaderStateSettingsContext,
 } from '@/features/reader/Reader.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -68,13 +66,6 @@ const BaseReader = ({
     chapterForDuplicatesHandling,
     currentChapter,
     setReaderStateChapters,
-    setTotalPages,
-    setCurrentPageIndex,
-    setPageToScrollToIndex,
-    setPages,
-    setPageUrls,
-    setPageLoadStates,
-    setTransitionPageMode,
     setShowPreview,
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'> &
     Pick<TReaderStateSettingsContext, 'setSettings'> &
@@ -94,16 +85,6 @@ const BaseReader = ({
         | 'chapterForDuplicatesHandling'
         | 'currentChapter'
         | 'setReaderStateChapters'
-    > &
-    Pick<
-        ReaderStatePages,
-        | 'setTotalPages'
-        | 'setCurrentPageIndex'
-        | 'setPageToScrollToIndex'
-        | 'setPages'
-        | 'setPageUrls'
-        | 'setPageLoadStates'
-        | 'setTransitionPageMode'
     > &
     Pick<TReaderTapZoneContext, 'setShowPreview'>) => {
     const { t } = useTranslation();
@@ -149,17 +130,7 @@ const BaseReader = ({
         useReaderStore.getState().setManga(mangaResponse.data?.manga);
     }, [mangaResponse.data?.manga]);
 
-    useReaderResetStates(
-        setReaderStateChapters,
-        setCurrentPageIndex,
-        setPageToScrollToIndex,
-        setTotalPages,
-        setPages,
-        setPageUrls,
-        setPageLoadStates,
-        setTransitionPageMode,
-        setSettings,
-    );
+    useReaderResetStates(setReaderStateChapters, setSettings);
     useReaderSetSettingsState(
         mangaResponse,
         defaultSettingsResponse,
@@ -314,7 +285,6 @@ export const Reader = withPropsFrom(
             const { readingMode, tapZoneLayout, tapZoneInvertMode } = ReaderService.useSettings();
             return { readingMode, tapZoneLayout, tapZoneInvertMode };
         },
-        userReaderStatePagesContext,
         useReaderTapZoneContext,
     ],
     [
@@ -334,13 +304,6 @@ export const Reader = withPropsFrom(
         'chapterForDuplicatesHandling',
         'currentChapter',
         'setReaderStateChapters',
-        'setTotalPages',
-        'setCurrentPageIndex',
-        'setPageToScrollToIndex',
-        'setPages',
-        'setPageUrls',
-        'setPageLoadStates',
-        'setTransitionPageMode',
         'setShowPreview',
     ],
 );

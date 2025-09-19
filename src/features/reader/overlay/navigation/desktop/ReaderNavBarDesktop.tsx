@@ -24,7 +24,6 @@ import { ReaderNavBarDesktopQuickSettings } from '@/features/reader/overlay/navi
 import { ReaderNavBarDesktopActions } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useReaderStateChaptersContext } from '@/features/reader/contexts/state/ReaderStateChaptersContext.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -147,11 +146,6 @@ const BaseReaderNavBarDesktop = ({
 
 export const ReaderNavBarDesktop = withPropsFrom(
     memo(BaseReaderNavBarDesktop),
-    [
-        useNavBarContext,
-        useReaderStateChaptersContext,
-        userReaderStatePagesContext,
-        ReaderService.useSettingsWithoutDefaultFlag,
-    ],
+    [useNavBarContext, useReaderStateChaptersContext, ReaderService.useSettingsWithoutDefaultFlag],
     ['setReaderNavBarWidth', 'chapters', 'currentChapter', 'previousChapter', 'nextChapter', 'isStaticNav'],
 );

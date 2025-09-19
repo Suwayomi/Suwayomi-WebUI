@@ -19,23 +19,24 @@ import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { IReaderSettings, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderNavBarDesktopPageNavigation = ({
-    currentPageIndex,
-    pages,
     readingDirection,
     openPage,
-}: Pick<ReaderStatePages, 'currentPageIndex' | 'pages'> &
-    Pick<IReaderSettings, 'readingDirection'> & {
-        openPage: ReturnType<typeof ReaderControls.useOpenPage>;
-    }) => {
+}: Pick<IReaderSettings, 'readingDirection'> & {
+    openPage: ReturnType<typeof ReaderControls.useOpenPage>;
+}) => {
     const { t } = useTranslation();
     const getOptionForDirection = useGetOptionForDirection();
-    const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
+    const { currentPageIndex, pages } = useReaderStoreShallow((state) => ({
+        currentPageIndex: state.pages.currentPageIndex,
+        pages: state.pages.pages,
+    }));
 
+    const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
     const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
 
     return (
@@ -81,10 +82,6 @@ const BaseReaderNavBarDesktopPageNavigation = ({
 
 export const ReaderNavBarDesktopPageNavigation = withPropsFrom(
     memo(BaseReaderNavBarDesktopPageNavigation),
-    [
-        userReaderStatePagesContext,
-        () => ({ openPage: ReaderControls.useOpenPage() }),
-        ReaderService.useSettingsWithoutDefaultFlag,
-    ],
-    ['currentPageIndex', 'pages', 'readingDirection', 'openPage'],
+    [() => ({ openPage: ReaderControls.useOpenPage() }), ReaderService.useSettingsWithoutDefaultFlag],
+    ['readingDirection', 'openPage'],
 );

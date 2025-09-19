@@ -9,16 +9,12 @@
 import { useTheme } from '@mui/material/styles';
 import { memo, useCallback, useState } from 'react';
 import { ReaderProgressBar } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.tsx';
-import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { IReaderSettings, ProgressBarType } from '@/features/reader/Reader.types.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { ReaderProgressBarDirectionWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarDirectionWrapper.tsx';
-import {
-    ReaderProgressBarProps,
-    TReaderProgressBarContext,
-} from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
@@ -26,7 +22,7 @@ import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-
 import { ReaderProgressBarSlotDesktop } from '@/features/reader/overlay/progress-bar/desktop/components/ReaderProgressBarSlotDesktop.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { getProgressBarPosition } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const BaseStandardReaderProgressBar = ({
     readerNavBarWidth,
@@ -38,19 +34,18 @@ const BaseStandardReaderProgressBar = ({
     progressBarPosition,
     progressBarPositionAutoVertical,
     readerDirection,
-    totalPages,
 }: Pick<NavbarContextType, 'readerNavBarWidth'> &
     Pick<TReaderProgressBarContext, 'isMaximized' | 'setIsMaximized' | 'isDragging'> &
     Pick<
         IReaderSettings,
         'progressBarType' | 'progressBarSize' | 'progressBarPosition' | 'progressBarPositionAutoVertical'
-    > &
-    Pick<ReaderProgressBarProps, 'totalPages'> & {
+    > & {
         readerDirection: ReturnType<typeof ReaderService.useGetThemeDirection>;
     }) => {
     const theme = useTheme();
 
     const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
+    const totalPages = useReaderStore((state) => state.pages.totalPages);
 
     const [, setRefreshProgressBarPosition] = useState({});
     useResizeObserver(
@@ -254,7 +249,6 @@ export const StandardReaderProgressBar = withPropsFrom(
         useReaderProgressBarContext,
         ReaderService.useSettingsWithoutDefaultFlag,
         () => ({ readerDirection: ReaderService.useGetThemeDirection() }),
-        userReaderStatePagesContext,
     ],
     [
         'readerNavBarWidth',
@@ -266,6 +260,5 @@ export const StandardReaderProgressBar = withPropsFrom(
         'progressBarPosition',
         'progressBarPositionAutoVertical',
         'readerDirection',
-        'totalPages',
     ],
 );

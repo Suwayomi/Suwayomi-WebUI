@@ -34,15 +34,11 @@ import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { ReaderProgressBarSlotWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotWrapper.tsx';
-import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { IReaderSettings, ReadingMode } from '@/features/reader/Reader.types.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderProgressBar = ({
-    totalPages,
-    pages,
-    pageLoadStates,
-    currentPageIndex,
     slotProps,
     slots,
     createProgressBarSlot,
@@ -78,6 +74,13 @@ const BaseReaderProgressBar = ({
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
         fullSegmentClicks: boolean;
     }) => {
+    const { pages, pageLoadStates, totalPages, currentPageIndex } = useReaderStoreShallow((state) => ({
+        pages: state.pages.pages,
+        pageLoadStates: state.pages.pageLoadStates,
+        totalPages: state.pages.totalPages,
+        currentPageIndex: state.pages.currentPageIndex,
+    }));
+
     const progressBarRef = useRef<HTMLDivElement | null>(null);
     const draggingDetectionTimeout = useRef<NodeJS.Timeout>(undefined);
 
@@ -250,17 +253,7 @@ export const ReaderProgressBar = withPropsFrom(
     [
         useReaderProgressBarContext,
         () => ({ openPage: ReaderControls.useOpenPage() }),
-        userReaderStatePagesContext,
         ReaderService.useSettingsWithoutDefaultFlag,
     ],
-    [
-        'isDragging',
-        'setIsDragging',
-        'openPage',
-        'pages',
-        'pageLoadStates',
-        'totalPages',
-        'currentPageIndex',
-        'readingMode',
-    ],
+    ['isDragging', 'setIsDragging', 'openPage', 'readingMode'],
 );

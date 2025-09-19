@@ -34,7 +34,6 @@ import { createHandleReaderPageLoadError, createUpdateReaderPageLoadState } from
 import { useReaderConvertPagesForReadingMode } from '@/features/reader/viewer/hooks/useReaderConvertPagesForReadingMode.ts';
 import { ReaderTransitionPage } from '@/features/reader/viewer/components/ReaderTransitionPage.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
-import { READER_STATE_PAGES_DEFAULTS } from '@/features/reader/ReaderContext.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useReaderSetPagesState } from '@/features/reader/viewer/hooks/useReaderSetPagesState.ts';
@@ -44,6 +43,7 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { ReaderInfiniteScrollUpdateChapter } from '@/features/reader/infinite-scroll/ReaderInfiniteScrollUpdateChapter.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import { READER_DEFAULT_PAGES_STATE } from '@/features/reader/ReaderStore.constants.ts';
 
 const BaseReaderChapterViewer = ({
     currentPageIndex,
@@ -138,13 +138,11 @@ const BaseReaderChapterViewer = ({
     const [fetchPages, pagesResponse] = requestManager.useGetChapterPagesFetch(chapterId ?? -1);
 
     const [arePagesFetched, setArePagesFetched] = useState(false);
-    const [totalPages, setTotalPages] = useState<ReaderStatePages['totalPages']>(
-        READER_STATE_PAGES_DEFAULTS.totalPages,
-    );
-    const [pageUrls, setPageUrls] = useState<ReaderStatePages['pageUrls']>(READER_STATE_PAGES_DEFAULTS.pageUrls);
-    const [pages, setPages] = useState<ReaderStatePages['pages']>(READER_STATE_PAGES_DEFAULTS.pages);
+    const [totalPages, setTotalPages] = useState<ReaderStatePages['totalPages']>(READER_DEFAULT_PAGES_STATE.totalPages);
+    const [pageUrls, setPageUrls] = useState<ReaderStatePages['pageUrls']>(READER_DEFAULT_PAGES_STATE.pageUrls);
+    const [pages, setPages] = useState<ReaderStatePages['pages']>(READER_DEFAULT_PAGES_STATE.pages);
     const [pageLoadStates, setPageLoadStates] = useState<ReaderStatePages['pageLoadStates']>(
-        READER_STATE_PAGES_DEFAULTS.pageLoadStates,
+        READER_DEFAULT_PAGES_STATE.pageLoadStates,
     );
     const [pagesToSpreadState, setPagesToSpreadState] = useState<ReaderPageSpreadState[]>(
         pageLoadStates.map(({ url }) => ({ url, isSpread: false })),

@@ -292,23 +292,31 @@ export interface PageData {
     secondary?: SinglePageData;
 }
 
+interface ReaderPageLoadState {
+    url: string;
+    loaded: boolean;
+    error?: boolean;
+}
+
 export interface ReaderStatePages {
     totalPages: number;
-    setTotalPages: React.Dispatch<React.SetStateAction<number>>;
+    setTotalPages: (index: number) => void;
     currentPageIndex: number;
-    setCurrentPageIndex: React.Dispatch<React.SetStateAction<number>>;
+    setCurrentPageIndex: (index: number) => void;
     pageToScrollToIndex: number | null;
-    setPageToScrollToIndex: React.Dispatch<React.SetStateAction<number | null>>;
+    setPageToScrollToIndex: (total: number | null) => void;
     pageUrls: string[];
-    setPageUrls: React.Dispatch<React.SetStateAction<string[]>>;
+    setPageUrls: (urls: string[]) => void;
     pageLoadStates: { url: string; loaded: boolean; error?: boolean }[];
-    setPageLoadStates: React.Dispatch<React.SetStateAction<{ url: string; loaded: boolean; error?: boolean }[]>>;
+    setPageLoadStates: (
+        set: ((prevStates: ReaderPageLoadState[]) => ReaderPageLoadState[]) | ReaderPageLoadState[],
+    ) => void;
     pages: PageData[];
-    setPages: React.Dispatch<React.SetStateAction<PageData[]>>;
+    setPages: (pages: PageData[]) => void;
     transitionPageMode: ReaderTransitionPageMode;
-    setTransitionPageMode: React.Dispatch<React.SetStateAction<ReaderTransitionPageMode>>;
+    setTransitionPageMode: (mode: ReaderTransitionPageMode) => void;
     retryFailedPagesKeyPrefix: string;
-    setRetryFailedPagesKeyPrefix: React.Dispatch<React.SetStateAction<string>>;
+    setRetryFailedPagesKeyPrefix: (prefix: string) => void;
 }
 
 export interface ReaderPagerProps

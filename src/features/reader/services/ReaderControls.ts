@@ -10,7 +10,6 @@ import { MutableRefObject, RefObject, useCallback, useEffect, useMemo } from 're
 import { Direction, useTheme } from '@mui/material/styles';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
-import { userReaderStatePagesContext } from '@/features/reader/contexts/state/ReaderStatePagesContext.tsx';
 import {
     getNextIndexFromPage,
     getNextPageIndex,
@@ -25,6 +24,7 @@ import {
     PageInViewportType,
     ProgressBarPosition,
     ReaderScrollAmount,
+    ReaderStatePages,
     ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
@@ -50,10 +50,7 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import {
-    ReaderProgressBarProps,
-    TReaderProgressCurrentPage,
-} from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const getScrollDirectionInvert = (
@@ -346,30 +343,12 @@ export class ReaderControls {
         forceDirection?: Direction,
         hideOverlay?: boolean,
     ) => void {
-        const { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode } =
-            userReaderStatePagesContext();
         const { previousChapter, nextChapter } = useReaderStateChaptersContext();
         const { setShowPreview } = useReaderTapZoneContext();
         const { readingDirection, readingMode, shouldShowTransitionPage } = ReaderService.useSettings();
         const openChapter = ReaderControls.useOpenChapter();
 
-        const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
-        const previousPageIndex = useMemo(
-            () => getNextPageIndex('previous', currentPage.pagesIndex, pages),
-            [currentPage, pages],
-        );
-        const nextPageIndex = useMemo(
-            () => getNextPageIndex('next', currentPage.pagesIndex, pages),
-            [currentPage, pages],
-        );
-        const indexOfFirstPage = getNextIndexFromPage(pages[0]);
-        const indexOfLastPage = getNextIndexFromPage(pages[pages.length - 1]);
         const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
-
-        const isFirstPage = currentPage.primary.index === 0;
-        const isLastPage = currentPageIndex === indexOfLastPage;
-        const isATransitionPageVisibleFlag = isATransitionPageVisible(transitionPageMode, readingMode.value);
-        const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
 
         return useCallback(
             (page, forceDirection = direction, hideOverlay: boolean = true) => {
@@ -378,6 +357,20 @@ export class ReaderControls {
                     page === 'previous' ? 'next' : 'previous',
                     forceDirection,
                 );
+
+                const { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode } =
+                    getReaderStore().pages;
+
+                const currentPage = getPage(currentPageIndex, pages);
+                const previousPageIndex = getNextPageIndex('previous', currentPage.pagesIndex, pages);
+                const nextPageIndex = getNextPageIndex('next', currentPage.pagesIndex, pages);
+                const indexOfFirstPage = getNextIndexFromPage(pages[0]);
+                const indexOfLastPage = getNextIndexFromPage(pages[pages.length - 1]);
+
+                const isFirstPage = currentPage.primary.index === 0;
+                const isLastPage = currentPageIndex === indexOfLastPage;
+                const isATransitionPageVisibleFlag = isATransitionPageVisible(transitionPageMode, readingMode.value);
+                const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
 
                 if (hideOverlay) {
                     getReaderStore().overlay.setIsVisible(false);
@@ -449,22 +442,7 @@ export class ReaderControls {
 
                 setPageToScrollToIndex(isPreviousMode ? previousPageIndex : nextPageIndex);
             },
-            [
-                direction,
-                indexOfFirstPage,
-                indexOfLastPage,
-                previousPageIndex,
-                nextPageIndex,
-                indexOfLastPage,
-                isATransitionPageVisibleFlag,
-                isContinuousReadingModeActive,
-                isFirstPage,
-                isLastPage,
-                openChapter,
-                !!previousChapter,
-                !!nextChapter,
-                shouldShowTransitionPage,
-            ],
+            [direction, openChapter, !!previousChapter, !!nextChapter, shouldShowTransitionPage, readingMode.value],
         );
     }
 
@@ -473,7 +451,6 @@ export class ReaderControls {
         debounceChapterUpdate?: boolean,
         endReached?: boolean,
     ) => void {
-        const { currentPageIndex, setCurrentPageIndex } = userReaderStatePagesContext();
         const { currentChapter, chapters, previousChapter, nextChapter, visibleChapters, setReaderStateChapters } =
             useReaderStateChaptersContext();
         const updateChapter = ReaderService.useUpdateChapter();
@@ -493,6 +470,8 @@ export class ReaderControls {
 
         return useCallback(
             (pageIndex, debounceChapterUpdate = true, endReached = false) => {
+                const { currentPageIndex, setCurrentPageIndex } = getReaderStore().pages;
+
                 if (pageIndex === currentPageIndex && !endReached) {
                     return;
                 }
@@ -544,7 +523,6 @@ export class ReaderControls {
                 previousChapter?.id,
                 nextChapter?.id,
                 nextChapters,
-                currentPageIndex,
                 downloadAheadLimit,
                 visibleChapters,
             ],
@@ -595,7 +573,6 @@ export class ReaderControls {
         scrollElement: HTMLElement | null,
     ): (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void {
         const { direction: themeDirection } = useTheme();
-        const { currentPageIndex, pages } = userReaderStatePagesContext();
         const { setShowPreview } = useReaderTapZoneContext();
         const { readingMode, readingDirection, isStaticNav, scrollAmount } = ReaderService.useSettings();
         const openPage = ReaderControls.useOpenPage();
@@ -646,8 +623,6 @@ export class ReaderControls {
             },
             [
                 scrollElement,
-                currentPageIndex,
-                pages,
                 readingMode.value,
                 openPage,
                 readingDirection.value,
@@ -664,7 +639,7 @@ export class ReaderControls {
         progressBarRef: RefObject<HTMLDivElement | null>,
         isDragging: boolean,
         currentPage: TReaderProgressCurrentPage,
-        pages: ReaderProgressBarProps['pages'],
+        pages: ReaderStatePages['pages'],
         progressBarPosition: ProgressBarPosition,
         getOptionForDirectionFn: typeof getOptionForDirection,
         fullSegmentClicks: boolean,
