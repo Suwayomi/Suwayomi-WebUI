@@ -18,12 +18,17 @@ import 'dotenv/config';
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig(() => ({
+    base: process.env.VITE_SUBPATH || './',
     build: {
         outDir: 'build',
     },
     server: {
         port: Number(process.env.PORT),
         allowedHosts: process.env.ALLOWED_HOSTS.split(',').map((s) => s.trim()),
+        middlewareMode: false,
+        historyApiFallback: {
+            rewrites: [{ from: /^\/(?!assets).*/, to: '/index.html' }],
+        },
     },
     resolve: {
         alias: {
