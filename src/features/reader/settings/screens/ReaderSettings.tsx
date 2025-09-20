@@ -15,10 +15,10 @@ import { ReaderSettingsTabs } from '@/features/reader/settings/components/Reader
 import { ReaderSettingTab } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { useDisableAllHotkeysWhileMounted } from '@/features/hotkeys/Hotkeys.utils.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
-import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 
 export const ReaderSettings = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
-    const settings = useReaderStore((state) => state.settings);
+    const settings = useReaderSettingsStore((state) => state.settings);
 
     useDisableAllHotkeysWhileMounted(isOpen);
 

@@ -30,17 +30,21 @@ import { FALLBACK_CHAPTER } from '@/features/chapter/Chapter.constants.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import {
+    useReaderChaptersStore,
+    useReaderScrollbarStore,
+    useReaderStore,
+} from '@/features/reader/stores/ReaderStore.ts';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
 const BaseReaderOverlayHeaderMobile = forwardRef<HTMLDivElement, MobileHeaderProps>(({ isVisible }, ref) => {
     const { t } = useTranslation();
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
-    const currentChapter = useReaderStore((state) => state.chapters.currentChapter);
+    const currentChapter = useReaderChaptersStore((state) => state.chapters.currentChapter);
 
     const manga = useReaderStore((state) => state.manga);
-    const scrollbar = useReaderStore((state) => state.scrollbar);
+    const scrollbar = useReaderScrollbarStore((state) => state.scrollbar);
 
     const { id: mangaId, title } = manga ?? DEFAULT_MANGA;
     const { id: chapterId, name, realUrl, isBookmarked } = currentChapter ?? FALLBACK_CHAPTER;

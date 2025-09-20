@@ -28,7 +28,14 @@ import { ReaderProgressBarSlotMobile } from '@/features/reader/overlay/progress-
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { getProgressBarPosition } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import {
+    useReaderChaptersStore,
+    useReaderOverlayStore,
+    useReaderPagesStore,
+    useReaderProgressBarStore,
+    useReaderScrollbarStore,
+    useReaderSettingsStore,
+} from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
 const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, SlideProps['direction']> = {
@@ -48,21 +55,21 @@ const BaseMobileReaderProgressBar = ({
     topOffset?: number;
     bottomOffset?: number;
 }) => {
-    const scrollbar = useReaderStore((state) => state.scrollbar);
-    const isVisible = useReaderStore((state) => state.overlay.isVisible);
-    const { currentPageIndex, pages } = useReaderStore((state) => ({
+    const scrollbar = useReaderScrollbarStore((state) => state.scrollbar);
+    const isVisible = useReaderOverlayStore((state) => state.overlay.isVisible);
+    const { currentPageIndex, pages } = useReaderPagesStore((state) => ({
         currentPageIndex: state.pages.currentPageIndex,
         pages: state.pages.pages,
     }));
-    const { previousChapter, nextChapter } = useReaderStore((state) => ({
+    const { previousChapter, nextChapter } = useReaderChaptersStore((state) => ({
         previousChapter: state.chapters.previousChapter,
         nextChapter: state.chapters.nextChapter,
     }));
-    const { progressBarPosition, progressBarPositionAutoVertical } = useReaderStore((state) => ({
+    const { progressBarPosition, progressBarPositionAutoVertical } = useReaderSettingsStore((state) => ({
         progressBarPosition: state.settings.progressBarPosition,
         progressBarPositionAutoVertical: state.settings.progressBarPositionAutoVertical,
     }));
-    const { setIsMaximized, isDragging } = useReaderStore((state) => ({
+    const { setIsMaximized, isDragging } = useReaderProgressBarStore((state) => ({
         setIsMaximized: state.progressBar.setIsMaximized,
         isDragging: state.progressBar.isDragging,
     }));

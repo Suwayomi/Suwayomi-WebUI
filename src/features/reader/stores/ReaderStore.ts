@@ -116,3 +116,27 @@ const readerStore = create<ReaderStore>()(
 );
 export const useReaderStore = <T>(selector: (state: ReaderStore) => T): T => readerStore(useShallow(selector));
 export const getReaderStore = () => readerStore.getState();
+
+export const useReaderScrollbarStore = useReaderStore;
+export const getReaderScrollbarStore = () => readerStore.getState().scrollbar;
+
+export const useReaderSettingsStore = useReaderStore;
+export const getReaderSettingsStore = () => readerStore.getState().settings;
+
+export const useReaderOverlayStore = useReaderStore;
+export const getReaderOverlayStore = () => readerStore.getState().overlay;
+
+export const useReaderAutoScrollStore = useReaderStore;
+export const getReaderAutoScrollStore = () => readerStore.getState().autoScroll;
+
+export const useReaderPagesStore = useReaderStore;
+export const getReaderPagesStore = () => readerStore.getState().pages;
+
+export const useReaderChaptersStore = useReaderStore;
+export const getReaderChaptersStore = () => readerStore.getState().chapters;
+
+export const useReaderProgressBarStore = useReaderStore;
+export const getReaderProgressBarStore = () => readerStore.getState().progressBar;
+
+export const useReaderTapZoneStore = useReaderStore;
+export const getReaderTapZoneStore = () => readerStore.getState().tapZone;

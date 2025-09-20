@@ -20,7 +20,7 @@ import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 import { getReaderChapterFromCache } from '@/features/reader/Reader.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
-import { getReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderChaptersStore } from '@/features/reader/stores/ReaderStore.ts';
 
 import { READER_DEFAULT_CHAPTERS_STATE } from '@/features/reader/stores/ReaderChaptersStore.ts';
 
@@ -79,7 +79,7 @@ export const useReaderSetChaptersState = (
             navigate('', { replace: true, state: { ...locationState, updateInitialChapter: undefined } });
         }
 
-        getReaderStore().chapters.setReaderStateChapters((prevState) => {
+        getReaderChaptersStore().setReaderStateChapters((prevState) => {
             const hasCurrentChapterChanged = newCurrentChapter?.id !== prevState.currentChapter?.id;
 
             return {

@@ -15,7 +15,7 @@ import {
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { useIntersectionObserver } from '@/base/hooks/useIntersectionObserver.tsx';
-import { getReaderStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderScrollbarStore, useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
 interface ElementIntersection {
@@ -245,7 +245,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
     image: HTMLElement | null,
     scrollElement: HTMLElement | null,
 ) => {
-    const { readingMode, readingDirection, shouldUseInfiniteScroll, shouldShowTransitionPage } = useReaderStore(
+    const { readingMode, readingDirection, shouldUseInfiniteScroll, shouldShowTransitionPage } = useReaderSettingsStore(
         (state) => ({
             readingMode: state.settings.readingMode.value,
             readingDirection: state.settings.readingDirection.value,
@@ -323,8 +323,8 @@ export const useReaderInfiniteScrollUpdateChapter = (
                 const elementIntersectionInfo = getElementIntersectionInfo(
                     readingDirection,
                     entry.target.getBoundingClientRect(),
-                    getReaderStore().scrollbar.xSize,
-                    getReaderStore().scrollbar.ySize,
+                    getReaderScrollbarStore().xSize,
+                    getReaderScrollbarStore().ySize,
                 );
                 const { start: isStartIntersecting, end: isEndIntersecting } = getElementIntersection(
                     elementIntersectionInfo,

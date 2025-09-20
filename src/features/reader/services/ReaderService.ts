@@ -46,7 +46,12 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
-import { getReaderStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import {
+    getReaderChaptersStore,
+    getReaderSettingsStore,
+    getReaderStore,
+    useReaderSettingsStore,
+} from '@/features/reader/stores/ReaderStore.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
@@ -152,11 +157,9 @@ export class ReaderService {
 
         return useCallback(
             (patch) => {
-                const {
-                    manga,
-                    chapters: { currentChapter, mangaChapters, chapters },
-                    settings: { shouldSkipDupChapters },
-                } = getReaderStore();
+                const { manga } = getReaderStore();
+                const { currentChapter, mangaChapters, chapters } = getReaderChaptersStore();
+                const { shouldSkipDupChapters } = getReaderSettingsStore();
 
                 if (!manga || !currentChapter || !mangaChapters) {
                     return;
@@ -227,7 +230,7 @@ export class ReaderService {
 
     static useGetThemeDirection(): Direction {
         const { direction } = useTheme();
-        const readingDirection = useReaderStore((state) => state.settings.readingDirection.value);
+        const readingDirection = useReaderSettingsStore((state) => state.settings.readingDirection.value);
 
         return DIRECTION_TO_READING_DIRECTION[direction] === readingDirection
             ? direction
@@ -336,7 +339,7 @@ export class ReaderService {
 
     static useOverlayMode(): { mode: ReaderOverlayMode; isDesktop: boolean; isMobile: boolean } {
         const isTouchDevice = MediaQuery.useIsTouchDevice();
-        const overlayMode = useReaderStore((state) => state.settings.overlayMode);
+        const overlayMode = useReaderSettingsStore((state) => state.settings.overlayMode);
 
         const isAutoModeSelected = overlayMode === ReaderOverlayMode.AUTO;
         const isDesktopModeSelected = overlayMode === ReaderOverlayMode.DESKTOP;
@@ -353,7 +356,7 @@ export class ReaderService {
     }
 
     static useExit(): () => void {
-        const exitMode = useReaderStore((state) => state.settings.exitMode);
+        const exitMode = useReaderSettingsStore((state) => state.settings.exitMode);
         const handleBack = useBackButton();
         const navigate = useNavigate();
 

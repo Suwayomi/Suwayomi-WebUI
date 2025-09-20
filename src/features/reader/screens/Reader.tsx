@@ -35,7 +35,14 @@ import { useReaderSetChaptersState } from '@/features/reader/hooks/useReaderSetC
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
-import { getReaderStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import {
+    getReaderStore,
+    useReaderChaptersStore,
+    useReaderOverlayStore,
+    useReaderSettingsStore,
+    useReaderStore,
+    useReaderTapZoneStore,
+} from '@/features/reader/stores/ReaderStore.ts';
 
 import { ReaderAutoScroll } from '@/features/reader/auto-scroll/ReaderAutoScroll.tsx';
 
@@ -45,13 +52,15 @@ const BaseReader = ({
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'>) => {
     const { t } = useTranslation();
     const manga = useReaderStore((state) => state.manga);
-    const overlay = useReaderStore((state) => state.overlay);
-    const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderStore((state) => ({
-        mangaChapters: state.chapters.mangaChapters,
-        initialChapter: state.chapters.initialChapter,
-        chapterForDuplicatesHandling: state.chapters.chapterForDuplicatesHandling,
-        currentChapter: state.chapters.currentChapter,
-    }));
+    const overlay = useReaderOverlayStore((state) => state.overlay);
+    const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderChaptersStore(
+        (state) => ({
+            mangaChapters: state.chapters.mangaChapters,
+            initialChapter: state.chapters.initialChapter,
+            chapterForDuplicatesHandling: state.chapters.chapterForDuplicatesHandling,
+            currentChapter: state.chapters.currentChapter,
+        }),
+    );
     const {
         shouldSkipDupChapters,
         shouldSkipFilteredChapters,
@@ -62,7 +71,7 @@ const BaseReader = ({
         shouldShowReadingModePreview,
         shouldShowTapZoneLayoutPreview,
         setSettings,
-    } = useReaderStore((state) => ({
+    } = useReaderSettingsStore((state) => ({
         shouldSkipDupChapters: state.settings.shouldSkipDupChapters,
         shouldSkipFilteredChapters: state.settings.shouldSkipFilteredChapters,
         backgroundColor: state.settings.backgroundColor,
@@ -73,7 +82,7 @@ const BaseReader = ({
         shouldShowTapZoneLayoutPreview: state.settings.shouldShowTapZoneLayoutPreview,
         setSettings: state.settings.setSettings,
     }));
-    const setShowPreview = useReaderStore((state) => state.tapZone.setShowPreview);
+    const setShowPreview = useReaderTapZoneStore((state) => state.tapZone.setShowPreview);
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 

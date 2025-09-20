@@ -15,15 +15,15 @@ import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { DefaultSettingFootnote } from '@/features/reader/settings/components/DefaultSettingFootnote.tsx';
 import { ReaderSettingAutoScroll } from '@/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderAutoScrollStore, useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderBottomBarMobileQuickSettings = () => {
     const { t } = useTranslation();
-    const { isActive, toggleActive } = useReaderStore((state) => ({
+    const { isActive, toggleActive } = useReaderAutoScrollStore((state) => ({
         isActive: state.autoScroll.isActive,
         toggleActive: state.autoScroll.toggleActive,
     }));
-    const { readingMode, readingDirection, autoScroll } = useReaderStore((state) => ({
+    const { readingMode, readingDirection, autoScroll } = useReaderSettingsStore((state) => ({
         readingMode: state.settings.readingMode,
         readingDirection: state.settings.readingDirection,
         autoScroll: state.settings.autoScroll,

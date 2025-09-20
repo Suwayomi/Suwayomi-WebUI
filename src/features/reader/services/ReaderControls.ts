@@ -48,7 +48,13 @@ import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.
 import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
-import { getReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import {
+    getReaderChaptersStore,
+    getReaderOverlayStore,
+    getReaderPagesStore,
+    getReaderSettingsStore,
+    getReaderTapZoneStore,
+} from '@/features/reader/stores/ReaderStore.ts';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,
@@ -118,7 +124,7 @@ export class ReaderControls {
         const getNewScrollPosition = (currentPos: number, elementSize: number) =>
             currentPos + elementSize * scrollAmount * scrollDirection;
 
-        getReaderStore().overlay.setIsVisible(false);
+        getReaderOverlayStore().setIsVisible(false);
         setShowPreview(false);
 
         const doScroll = (
@@ -162,16 +168,15 @@ export class ReaderControls {
         scrollIntoView: boolean = true,
     ): void {
         const {
-            chapters: {
-                currentChapter,
-                previousChapter,
-                nextChapter,
-                chapters,
-                visibleChapters: { lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder },
-                setReaderStateChapters,
-            },
-            settings: { shouldInformAboutMissingChapter, shouldInformAboutScanlatorChange, shouldUseInfiniteScroll },
-        } = getReaderStore();
+            currentChapter,
+            previousChapter,
+            nextChapter,
+            chapters,
+            visibleChapters: { lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder },
+            setReaderStateChapters,
+        } = getReaderChaptersStore();
+        const { shouldInformAboutMissingChapter, shouldInformAboutScanlatorChange, shouldUseInfiniteScroll } =
+            getReaderSettingsStore();
 
         if (!currentChapter) {
             return;
@@ -311,10 +316,9 @@ export class ReaderControls {
     }
 
     static openPage(page: number | 'previous' | 'next', forceDirection?: Direction, hideOverlay: boolean = true): void {
-        const {
-            pages: { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode },
-            settings: { readingDirection, readingMode, shouldShowTransitionPage },
-        } = getReaderStore();
+        const { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode } =
+            getReaderPagesStore();
+        const { readingDirection, readingMode, shouldShowTransitionPage } = getReaderSettingsStore();
 
         const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
 
@@ -336,8 +340,8 @@ export class ReaderControls {
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
 
         if (hideOverlay) {
-            getReaderStore().overlay.setIsVisible(false);
-            getReaderStore().tapZone.setShowPreview(false);
+            getReaderOverlayStore().setIsVisible(false);
+            getReaderTapZoneStore().setShowPreview(false);
         }
 
         const hideTransitionPage = () => setTransitionPageMode(ReaderTransitionPageMode.NONE);
@@ -360,7 +364,7 @@ export class ReaderControls {
             isFirstPage &&
             (!shouldShowTransitionPage || isPreviousTransitionPageVisible) &&
             convertedPage === 'previous' &&
-            !!getReaderStore().chapters.previousChapter;
+            !!getReaderChaptersStore().previousChapter;
         if (shouldOpenPreviousChapter) {
             ReaderControls.openChapter('previous');
             return;
@@ -370,7 +374,7 @@ export class ReaderControls {
             isLastPage &&
             (!shouldShowTransitionPage || isNextTransitionPageVisible) &&
             convertedPage === 'next' &&
-            !!getReaderStore().chapters.nextChapter;
+            !!getReaderChaptersStore().nextChapter;
         if (shouldOpenNextChapter) {
             ReaderControls.openChapter('next');
             return;
@@ -415,17 +419,15 @@ export class ReaderControls {
 
         return useCallback(
             (pageIndex, debounceChapterUpdate = true, endReached = false) => {
+                const { currentPageIndex, setCurrentPageIndex } = getReaderPagesStore();
                 const {
-                    pages: { currentPageIndex, setCurrentPageIndex },
-                    chapters: {
-                        currentChapter,
-                        chapters,
-                        previousChapter,
-                        nextChapter,
-                        visibleChapters,
-                        setReaderStateChapters,
-                    },
-                } = getReaderStore();
+                    currentChapter,
+                    chapters,
+                    previousChapter,
+                    nextChapter,
+                    visibleChapters,
+                    setReaderStateChapters,
+                } = getReaderChaptersStore();
 
                 if (pageIndex === currentPageIndex && !endReached) {
                     return;
@@ -526,14 +528,14 @@ export class ReaderControls {
             return;
         }
 
-        const { readingMode, readingDirection, isStaticNav, scrollAmount } = getReaderStore().settings;
+        const { readingMode, readingDirection, isStaticNav, scrollAmount } = getReaderSettingsStore();
 
         const rect = e.currentTarget.getBoundingClientRect();
         const rectRelativeX = e.clientX - rect.left;
         const rectRelativeY = e.clientY - rect.top;
         const action = ReaderTapZoneService.getAction(rectRelativeX, rectRelativeY);
 
-        getReaderStore().tapZone.setShowPreview(false);
+        getReaderTapZoneStore().setShowPreview(false);
 
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
         const scrollDirection =
@@ -541,7 +543,7 @@ export class ReaderControls {
 
         switch (action) {
             case TapZoneRegionType.MENU:
-                getReaderStore().overlay.setIsVisible(isStaticNav || !getReaderStore().overlay.isVisible);
+                getReaderOverlayStore().setIsVisible(isStaticNav || !getReaderOverlayStore().isVisible);
                 break;
             case TapZoneRegionType.PREVIOUS:
             case TapZoneRegionType.NEXT:
@@ -552,7 +554,7 @@ export class ReaderControls {
                         readingMode.value,
                         readingDirection.value,
                         scrollElement,
-                        getReaderStore().tapZone.setShowPreview,
+                        getReaderTapZoneStore().setShowPreview,
                         scrollAmount,
                     );
                 } else {

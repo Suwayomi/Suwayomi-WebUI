@@ -17,17 +17,17 @@ import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progres
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderPagesStore, useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
 const BaseReaderNavBarDesktopPageNavigation = () => {
     const { t } = useTranslation();
     const getOptionForDirection = useGetOptionForDirection();
-    const { currentPageIndex, pages } = useReaderStore((state) => ({
+    const { currentPageIndex, pages } = useReaderPagesStore((state) => ({
         currentPageIndex: state.pages.currentPageIndex,
         pages: state.pages.pages,
     }));
-    const readingDirection = useReaderStore((state) => state.settings.readingDirection.value);
+    const readingDirection = useReaderSettingsStore((state) => state.settings.readingDirection.value);
 
     const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
     const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];

@@ -17,7 +17,7 @@ import {
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderScrollbarStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
     Object.keys(customFilter)
@@ -86,7 +86,7 @@ const BaseReaderPage = ({
     const { src } = props;
 
     const isTabletWidth = MediaQuery.useIsTabletWidth();
-    const scrollbar = useReaderStore((state) => state.scrollbar);
+    const scrollbar = useReaderScrollbarStore((state) => state.scrollbar);
 
     const handleLoad = useCallback(
         () => onLoad?.(pagesIndex, src, isPrimaryPage),

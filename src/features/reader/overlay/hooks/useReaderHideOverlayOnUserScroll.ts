@@ -8,7 +8,7 @@
 
 import { MutableRefObject, useEffect } from 'react';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { getReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderOverlayStore } from '@/features/reader/stores/ReaderStore.ts';
 
 export const useReaderHideOverlayOnUserScroll = (
     isOverlayVisible: boolean,
@@ -19,7 +19,7 @@ export const useReaderHideOverlayOnUserScroll = (
     useEffect(() => {
         const handleScroll = () => {
             if (isOverlayVisible) {
-                getReaderStore().overlay.setIsVisible(false);
+                getReaderOverlayStore().setIsVisible(false);
             }
 
             if (showPreview) {

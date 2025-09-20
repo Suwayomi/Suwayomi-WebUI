@@ -29,7 +29,11 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
-import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import {
+    useReaderChaptersStore,
+    useReaderSettingsStore,
+    useReaderStore,
+} from '@/features/reader/stores/ReaderStore.ts';
 
 const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolean) => {
     const wasNavBarStaticRef = useRef(isStaticNav);
@@ -56,13 +60,13 @@ const BaseReaderNavBarDesktop = ({
 }: ReaderNavBarDesktopProps & Pick<NavbarContextType, 'setReaderNavBarWidth'>) => {
     const { t } = useTranslation();
     const manga = useReaderStore((state) => state.manga);
-    const { chapters, currentChapter, previousChapter, nextChapter } = useReaderStore((state) => ({
+    const { chapters, currentChapter, previousChapter, nextChapter } = useReaderChaptersStore((state) => ({
         chapters: state.chapters.chapters,
         currentChapter: state.chapters.currentChapter,
         previousChapter: state.chapters.previousChapter,
         nextChapter: state.chapters.nextChapter,
     }));
-    const isStaticNav = useReaderStore((state) => state.settings.isStaticNav);
+    const isStaticNav = useReaderSettingsStore((state) => state.settings.isStaticNav);
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(
