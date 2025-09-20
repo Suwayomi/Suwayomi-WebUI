@@ -23,9 +23,7 @@ import {
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ProgressBarPosition } from '@/features/reader/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarDirectionWrapper.tsx';
-import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { ReaderProgressBarSlotMobile } from '@/features/reader/overlay/progress-bar/mobile/components/ReaderProgressBarSlotMobile.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
@@ -42,12 +40,10 @@ const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, Slid
 };
 
 const BaseMobileReaderProgressBar = ({
-    setIsMaximized,
-    isDragging,
     direction: readerDirection,
     topOffset = 0,
     bottomOffset = 0,
-}: Pick<TReaderProgressBarContext, 'setIsMaximized' | 'isDragging'> & {
+}: {
     direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
     topOffset?: number;
     bottomOffset?: number;
@@ -66,6 +62,10 @@ const BaseMobileReaderProgressBar = ({
     const { progressBarPosition, progressBarPositionAutoVertical } = useReaderStoreShallow((state) => ({
         progressBarPosition: state.settings.progressBarPosition,
         progressBarPositionAutoVertical: state.settings.progressBarPositionAutoVertical,
+    }));
+    const { setIsMaximized, isDragging } = useReaderStoreShallow((state) => ({
+        setIsMaximized: state.progressBar.setIsMaximized,
+        isDragging: state.progressBar.isDragging,
     }));
 
     const [, setRefreshProgressBarPosition] = useState({});
@@ -354,6 +354,6 @@ const BaseMobileReaderProgressBar = ({
 
 export const MobileReaderProgressBar = withPropsFrom(
     memo(BaseMobileReaderProgressBar),
-    [useReaderProgressBarContext, () => ({ direction: ReaderService.useGetThemeDirection() })],
-    ['setIsMaximized', 'isDragging', 'direction'],
+    [() => ({ direction: ReaderService.useGetThemeDirection() })],
+    ['direction'],
 );

@@ -11,10 +11,7 @@ import { ComponentProps, memo, ReactNode, useCallback, useMemo, useRef, useState
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { TypographyProps } from '@mui/material/Typography';
 import { StackProps } from '@mui/material/Stack';
-import {
-    ReaderProgressBarProps,
-    TReaderProgressBarContext,
-} from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import { ReaderProgressBarProps } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { ReaderProgressBarPageNumber } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarPageNumber.tsx';
 import { ReaderProgressBarContainer } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarContainer.tsx';
 import { ReaderProgressBarRoot } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarRoot.tsx';
@@ -32,7 +29,6 @@ import { ReaderProgressBarSlotsActionArea } from '@/features/reader/overlay/prog
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { ReaderProgressBarSlotWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotWrapper.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReadingMode } from '@/features/reader/Reader.types.ts';
@@ -43,13 +39,10 @@ const BaseReaderProgressBar = ({
     slots,
     createProgressBarSlot,
     progressBarPosition,
-    isDragging,
-    setIsDragging,
     openPage,
     direction,
     fullSegmentClicks,
 }: ReaderProgressBarProps &
-    Pick<TReaderProgressBarContext, 'isDragging' | 'setIsDragging'> &
     Pick<ComponentProps<typeof ReaderProgressBarSlotWrapper>, 'createProgressBarSlot'> & {
         slotProps?: {
             container?: StackProps;
@@ -79,6 +72,10 @@ const BaseReaderProgressBar = ({
         currentPageIndex: state.pages.currentPageIndex,
     }));
     const readingMode = useReaderStore((state) => state.settings.readingMode.value);
+    const { isDragging, setIsDragging } = useReaderStoreShallow((state) => ({
+        isDragging: state.progressBar.isDragging,
+        setIsDragging: state.progressBar.setIsDragging,
+    }));
 
     const progressBarRef = useRef<HTMLDivElement | null>(null);
     const draggingDetectionTimeout = useRef<NodeJS.Timeout>(undefined);
@@ -249,6 +246,6 @@ const BaseReaderProgressBar = ({
 
 export const ReaderProgressBar = withPropsFrom(
     memo(BaseReaderProgressBar),
-    [useReaderProgressBarContext, () => ({ openPage: ReaderControls.useOpenPage() })],
-    ['isDragging', 'setIsDragging', 'openPage'],
+    [() => ({ openPage: ReaderControls.useOpenPage() })],
+    ['openPage'],
 );

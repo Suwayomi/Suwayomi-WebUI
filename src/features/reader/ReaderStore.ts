@@ -26,6 +26,10 @@ import {
 import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
 import { READER_DEFAULT_CHAPTERS_STATE, READER_DEFAULT_PAGES_STATE } from '@/features/reader/ReaderStore.constants.ts';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
+import {
+    createReaderProgressBarStoreSlice,
+    ReaderProgressBarStoreSlice,
+} from '@/features/reader/overlay/progress-bar/ReaderProgressBarStore.tsx';
 
 interface ReaderPagesStoreSlice {
     pages: ReaderStatePages & {
@@ -43,7 +47,8 @@ interface ReaderStore
     extends ReaderOverlayStoreSlice,
         ReaderAutoScrollStoreSlice,
         ReaderPagesStoreSlice,
-        ReaderChaptersStoreSlice {
+        ReaderChaptersStoreSlice,
+        ReaderProgressBarStoreSlice {
     reset: () => void;
     manga: TMangaReader | undefined;
     setManga: (manga: TMangaReader | undefined) => void;
@@ -151,6 +156,7 @@ export const useReaderStore = create<ReaderStore>()(
                     ...get().settings,
                     ...DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
                 };
+                get().progressBar.reset();
             }),
         setManga: (manga) =>
             set((draft) => {
@@ -181,6 +187,7 @@ export const useReaderStore = create<ReaderStore>()(
         ...createReaderAutoScrollStoreSlice(set, get, store),
         ...createReaderPagesStoreSlice(set, get, store),
         ...createReaderChaptersStoreSlice(set, get, store),
+        ...createReaderProgressBarStoreSlice(set, get, store),
     })),
 );
 export const useReaderStoreShallow = <T>(selector: (state: ReaderStore) => T): T =>

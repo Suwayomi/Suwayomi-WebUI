@@ -7,11 +7,8 @@
  */
 
 import { ReactNode } from 'react';
-import { ReaderProgressBarContextProvider } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { ReaderTapZoneContextProvider } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 
 export const ReaderContextProvider = ({ children }: { children?: ReactNode }) => (
-    <ReaderTapZoneContextProvider>
-        <ReaderProgressBarContextProvider>{children}</ReaderProgressBarContextProvider>
-    </ReaderTapZoneContextProvider>
+    <ReaderTapZoneContextProvider>{children}</ReaderTapZoneContextProvider>
 );

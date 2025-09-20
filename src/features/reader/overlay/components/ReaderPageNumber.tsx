@@ -14,20 +14,16 @@ import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ProgressBarType, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { reverseString } from '@/base/utils/Strings.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderPageNumber = ({
     isDesktop,
     readerNavBarWidth,
-    isMaximized,
 }: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop'> &
-    Pick<NavbarContextType, 'readerNavBarWidth'> &
-    Pick<TReaderProgressBarContext, 'isMaximized'>) => {
+    Pick<NavbarContextType, 'readerNavBarWidth'>) => {
     const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
     const { currentPageIndex, pages, totalPages } = useReaderStoreShallow((state) => ({
         currentPageIndex: state.pages.currentPageIndex,
@@ -39,6 +35,7 @@ const BaseReaderPageNumber = ({
         shouldShowPageNumber: state.settings.shouldShowPageNumber,
         progressBarType: state.settings.progressBarType,
     }));
+    const isMaximized = useReaderStore((state) => state.progressBar.isMaximized);
 
     const pageName = useMemo(() => {
         const currentPageName = getPage(currentPageIndex, pages).name;
@@ -90,6 +87,6 @@ const BaseReaderPageNumber = ({
 
 export const ReaderPageNumber = withPropsFrom(
     BaseReaderPageNumber,
-    [ReaderService.useOverlayMode, useNavBarContext, useReaderProgressBarContext],
-    ['isDesktop', 'readerNavBarWidth', 'isMaximized'],
+    [ReaderService.useOverlayMode, useNavBarContext],
+    ['isDesktop', 'readerNavBarWidth'],
 );
