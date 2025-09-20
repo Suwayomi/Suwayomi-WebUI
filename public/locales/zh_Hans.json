@@ -97,7 +97,8 @@
                     "label": {
                         "action": {
                             "current": "标记为已读",
-                            "previous": "标记之前的章节为已读"
+                            "previous": "标记之前的章节为已读",
+                            "all": "标记所有章节为已读"
                         },
                         "error_other": "无法将章节标记为已读出错",
                         "success_other": "{{count}}章节标记为已读",
@@ -118,6 +119,9 @@
                         "confirmation_other": "将会把{{count}}个章节标记为未读"
                     }
                 }
+            },
+            "filter_and_sort": {
+                "label": "筛选与排序"
             }
         },
         "error": {
@@ -276,7 +280,8 @@
             "uninstallation_failed_other": "无法卸载插件",
             "update_failed_other": "无法更新插件",
             "add_repository_info": "您必须添加扩展库才能安装扩展程序",
-            "age_rating": "年龄分级"
+            "age_rating": "年龄分级",
+            "available_updates_other": "{{count}}个可用的更新"
         },
         "title_other": "插件",
         "settings": {
@@ -309,7 +314,6 @@
     "global": {
         "button": {
             "cancel": "取消",
-            "clear": "清除",
             "latest": "最新",
             "ok": "Ok",
             "reset": "重置",
@@ -347,7 +351,9 @@
             "save": "保存",
             "open": "打开",
             "open_browser": "在浏览器中打开",
-            "open_webview": "在WebView中打开"
+            "open_webview": "在WebView中打开",
+            "clear_selection": "清除",
+            "download": "下载"
         },
         "date": {
             "label": {
@@ -489,6 +495,10 @@
             "minutes": {
                 "minute_other": "分",
                 "value": "{{count}} $t(global.time.minutes.minute, lowercase)"
+            },
+            "days": {
+                "day_other": "日",
+                "value": "{{count}}$t(global.time.days.day, lowercase)"
             }
         },
         "update": {
@@ -1106,14 +1116,25 @@
                                 "title": "无"
                             }
                         },
-                        "simpleLogin": {
+                        "simple_login": {
                             "label": {
-                                "description": "将显示一个简易登录页面以进行登录。",
-                                "info": "启用此功能后，可能需要刷新此标签页才能显示登录页面。",
-                                "title": "普通登录"
+                                "description": "登录将由服务端处理。",
+                                "info": "启用此功能后，您可能需要刷新此标签页才能显示登录页面。",
+                                "title": "简单登录"
+                            }
+                        },
+                        "ui_login": {
+                            "label": {
+                                "description": "登录将由客户端处理。",
+                                "title": "UI登录"
                             }
                         }
                     }
+                },
+                "jwt": {
+                    "access_token_expiry": "JWT 访问令牌过期时间",
+                    "audience": "JWT 受众声明",
+                    "refresh_token_expiry": "JWT 刷新令牌过期时间"
                 }
             },
             "socks_proxy": {
@@ -1279,6 +1300,43 @@
                     }
                 },
                 "title": "OPDS（开放出版物分发系统）"
+            },
+            "database": {
+                "address": "数据库链接",
+                "password": "$t(global.label.password)",
+                "title": "数据库",
+                "type": {
+                    "h2": "H2",
+                    "postgresql": "PostgreSQL",
+                    "title": "类型"
+                },
+                "username": "$t(global.label.username)"
+            },
+            "koreader": {
+                "sync": {
+                    "check_sum_method": {
+                        "binary": "二进制",
+                        "filename": "文件名",
+                        "title": "校验方法"
+                    },
+                    "device_id": "设备ID",
+                    "server_address": "服务器链接",
+                    "strategy": {
+                        "disabled": "已禁用",
+                        "prompt": "提示",
+                        "receive": "接收",
+                        "send": "发送",
+                        "silent": "静默",
+                        "title": "同步策略"
+                    },
+                    "title": "KOReader同步",
+                    "tolerance": {
+                        "description": "进度比较的绝对容差",
+                        "title": "容差"
+                    },
+                    "user_key": "用户密钥",
+                    "username": "$t(global.label.username)"
+                }
             }
         },
         "webui": {
