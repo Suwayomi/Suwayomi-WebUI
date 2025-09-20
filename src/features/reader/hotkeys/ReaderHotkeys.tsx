@@ -67,7 +67,6 @@ export const ReaderHotkeys = ({
     }));
     const exitReader = ReaderService.useExit();
 
-    const openChapter = ReaderControls.useOpenChapter();
     const openPage = ReaderControls.useOpenPage();
 
     useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_PAGE], () => openPage('previous'), [openPage]);
@@ -96,13 +95,12 @@ export const ReaderHotkeys = ({
                 readingDirection.value,
                 themeDirection,
                 scrollElementRef.current,
-                openChapter,
                 getReaderStore().tapZone.setShowPreview,
                 scrollAmount,
             );
         },
         { preventDefault: true },
-        [themeDirection, openChapter],
+        [themeDirection],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.SCROLL_FORWARD],
@@ -128,23 +126,22 @@ export const ReaderHotkeys = ({
                 readingDirection.value,
                 themeDirection,
                 scrollElementRef.current,
-                openChapter,
                 getReaderStore().tapZone.setShowPreview,
                 scrollAmount,
             );
         },
         { preventDefault: true },
-        [themeDirection, openChapter],
+        [themeDirection],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.PREVIOUS_CHAPTER],
-        () => openChapter(getOptionForDirection('previous', 'next', readerThemeDirection)),
-        [openChapter, readerThemeDirection],
+        () => ReaderControls.openChapter(getOptionForDirection('previous', 'next', readerThemeDirection)),
+        [readerThemeDirection],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.NEXT_CHAPTER],
-        () => openChapter(getOptionForDirection('next', 'previous', readerThemeDirection)),
-        [openChapter, readerThemeDirection],
+        () => ReaderControls.openChapter(getOptionForDirection('next', 'previous', readerThemeDirection)),
+        [readerThemeDirection],
     );
     useHotkeys(hotkeys[ReaderHotkey.TOGGLE_MENU], () =>
         getReaderStore().overlay.setIsVisible(!getReaderStore().overlay.isVisible),

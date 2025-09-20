@@ -7,9 +7,7 @@
  */
 
 import { memo } from 'react';
-import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderInfiniteScrollUpdateChapter } from '@/features/reader/infinite-scroll/useReaderInfiniteScrollUpdateChapter.ts';
-import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const BaseReaderInfiniteScrollUpdateChapter = ({
@@ -20,7 +18,6 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     isCurrentChapter,
     isNextChapterVisible,
     imageWrapper,
-    openChapter,
     scrollElement,
 }: {
     chapterId: ChapterIdInfo['id'];
@@ -30,7 +27,6 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     isCurrentChapter: boolean;
     isNextChapterVisible: boolean;
     imageWrapper: HTMLElement | null;
-    openChapter: ReturnType<typeof ReaderControls.useOpenChapter>;
     scrollElement: HTMLElement | null;
 }) => {
     useReaderInfiniteScrollUpdateChapter(
@@ -39,7 +35,6 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         previousChapterId,
         isCurrentChapter,
         isPreviousChapterVisible,
-        openChapter,
         imageWrapper,
         scrollElement,
     );
@@ -49,7 +44,6 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         nextChapterId,
         isCurrentChapter,
         isNextChapterVisible,
-        openChapter,
         imageWrapper,
         scrollElement,
     );
@@ -57,8 +51,4 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     return null;
 };
 
-export const ReaderInfiniteScrollUpdateChapter = withPropsFrom(
-    memo(BaseReaderInfiniteScrollUpdateChapter),
-    [() => ({ openChapter: ReaderControls.useOpenChapter() })],
-    ['openChapter'],
-);
+export const ReaderInfiniteScrollUpdateChapter = memo(BaseReaderInfiniteScrollUpdateChapter);

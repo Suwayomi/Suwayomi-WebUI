@@ -31,10 +31,8 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
     nextChapter,
     chapters = [],
     readerThemeDirection,
-    openChapter,
 }: Pick<ReaderStateChapters, 'chapters' | 'currentChapter' | 'previousChapter' | 'nextChapter'> & {
     readerThemeDirection: ReturnType<typeof ReaderService.useGetThemeDirection>;
-    openChapter: ReturnType<typeof ReaderControls.useOpenChapter>;
 }) => {
     const { t } = useTranslation();
 
@@ -56,7 +54,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
                     ),
                 )}
                 onClick={() => {
-                    openChapter(getOptionForDirection('previous', 'next', readerThemeDirection));
+                    ReaderControls.openChapter(getOptionForDirection('previous', 'next', readerThemeDirection));
                 }}
                 disabled={getOptionForDirection(!previousChapter, !nextChapter, readerThemeDirection)}
             />
@@ -88,7 +86,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
                     ),
                 )}
                 onClick={() => {
-                    openChapter(getOptionForDirection('next', 'previous', readerThemeDirection));
+                    ReaderControls.openChapter(getOptionForDirection('next', 'previous', readerThemeDirection));
                 }}
                 disabled={getOptionForDirection(!nextChapter, !previousChapter, readerThemeDirection)}
             />
@@ -122,9 +120,6 @@ export const ReaderNavBarDesktopChapterNavigation = withPropsFrom(
         () => ({
             readerThemeDirection: ReaderService.useGetThemeDirection(),
         }),
-        () => ({
-            openChapter: ReaderControls.useOpenChapter(),
-        }),
     ],
-    ['readerThemeDirection', 'openChapter'],
+    ['readerThemeDirection'],
 );

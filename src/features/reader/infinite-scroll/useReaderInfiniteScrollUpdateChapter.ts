@@ -7,7 +7,6 @@
  */
 
 import { useCallback, useEffect, useMemo } from 'react';
-import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
 import {
     isContinuousReadingMode,
@@ -17,6 +16,7 @@ import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { useIntersectionObserver } from '@/base/hooks/useIntersectionObserver.tsx';
 import { getReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
 interface ElementIntersection {
     start: boolean;
@@ -242,7 +242,6 @@ export const useReaderInfiniteScrollUpdateChapter = (
     chapterToOpenId: number | undefined,
     isCurrentChapter: boolean,
     isChapterToOpenVisible: boolean,
-    openChapter: ReturnType<typeof ReaderControls.useOpenChapter>,
     image: HTMLElement | null,
     scrollElement: HTMLElement | null,
 ) => {
@@ -286,7 +285,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
 
             const loadChapter = loadPreviousChapter || loadNextChapter;
             if (loadChapter) {
-                openChapter(chapterToOpenId, undefined, false);
+                ReaderControls.openChapter(chapterToOpenId, undefined, false);
             }
         };
 
@@ -300,7 +299,6 @@ export const useReaderInfiniteScrollUpdateChapter = (
         isCurrentChapter,
         isChapterToOpenVisible,
         chapterToOpenId,
-        openChapter,
     ]);
 
     useIntersectionObserver(
@@ -347,12 +345,12 @@ export const useReaderInfiniteScrollUpdateChapter = (
 
                 const openChapterToOpen = initialOpenPreviousChapter || openNextChapter;
                 if (openChapterToOpen) {
-                    openChapter(chapterToOpenId, !isChapterToOpenVisible, false);
+                    ReaderControls.openChapter(chapterToOpenId, !isChapterToOpenVisible, false);
                     return;
                 }
 
                 if (openPreviousChapter) {
-                    openChapter(chapterId, false, false);
+                    ReaderControls.openChapter(chapterId, false, false);
                 }
             },
             [
@@ -365,7 +363,6 @@ export const useReaderInfiniteScrollUpdateChapter = (
                 readingDirection,
                 shouldUseInfiniteScroll,
                 shouldShowTransitionPage,
-                openChapter,
             ],
         ),
         useMemo(
