@@ -100,7 +100,8 @@
                     "label": {
                         "action": {
                             "current": "Đánh dấu là đã đọc",
-                            "previous": "Đánh dấu các chương trước là đã đọc"
+                            "previous": "Đánh dấu các chương trước là đã đọc",
+                            "all": "Đánh dấu tất cả là đã đọc"
                         },
                         "error_other": "Lỗi đánh dấu chương là đã đọc",
                         "success_other": "{{count}} chương được đánh dấu là đã đọc",
@@ -118,6 +119,9 @@
                         "confirmation_other": "Bạn sắp đánh dấu {{count}} chương là chưa đọc"
                     }
                 }
+            },
+            "filter_and_sort": {
+                "label": "Bộ lọc và sắp xếp"
             }
         },
         "error": {
@@ -262,7 +266,8 @@
             "update_failed_other": "Không thể cập nhật tiện ích",
             "uninstallation_failed_other": "Không thể xóa tiện ích",
             "add_repository_info": "Bạn phải thêm kho tiện ích trước khi cài đặt tiện ích",
-            "age_rating": "Phân loại độ tuổi"
+            "age_rating": "Phân loại độ tuổi",
+            "available_updates_other": "{{count}} bản cập nhật đang chờ"
         },
         "language": {
             "all": "Đa ngôn ngữ",
@@ -310,7 +315,6 @@
         "button": {
             "browse": "Duyệt",
             "cancel": "Hủy bỏ",
-            "clear": "Xóa",
             "filter": "Bộ lọc",
             "latest": "Mới nhất",
             "ok": "Ok",
@@ -347,7 +351,9 @@
             "save": "Lưu",
             "open": "Mở",
             "open_browser": "Mở trong trình duyệt",
-            "open_webview": "Mở trong WebView"
+            "open_webview": "Mở trong WebView",
+            "download": "Tải xuống",
+            "clear_selection": "Xóa"
         },
         "date": {
             "label": {
@@ -509,6 +515,10 @@
             "seconds": {
                 "second_other": "Giây",
                 "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            },
+            "days": {
+                "day_other": "Ngày",
+                "value": "{{count}} $t(global.time.days.day, lowercase)"
             }
         },
         "colors": {
@@ -1129,14 +1139,25 @@
                                 "title": "Không có"
                             }
                         },
-                        "simpleLogin": {
+                        "simple_login": {
                             "label": {
-                                "description": "Một trang đăng nhập đơn giản sẽ được hiển thị để đăng nhập.",
+                                "description": "Việc đăng nhập sẽ được xử lý bởi máy chủ.",
                                 "info": "Khi bạn bật tính năng này, bạn có thể cần phải làm mới tab này để trang đăng nhập xuất hiện.",
                                 "title": "Đăng nhập cơ bản"
                             }
+                        },
+                        "ui_login": {
+                            "label": {
+                                "description": "Việc đăng nhập sẽ được xử lý bởi khách hàng.",
+                                "title": "Giao diện đăng nhập"
+                            }
                         }
                     }
+                },
+                "jwt": {
+                    "access_token_expiry": "Mã truy cập JWT hết hạn",
+                    "refresh_token_expiry": "Làm mới mã truy cập JWT hết hạn",
+                    "audience": "Đối tượng yêu cầu JWT"
                 }
             },
             "cloudflare": {
@@ -1294,6 +1315,43 @@
                     }
                 },
                 "title": "OPDS"
+            },
+            "database": {
+                "address": "URL cơ sở dữ liệu",
+                "password": "$t(global.label.password)",
+                "title": "Cơ sở dữ liệu",
+                "type": {
+                    "h2": "H2",
+                    "postgresql": "PostgreSQL",
+                    "title": "Loại"
+                },
+                "username": "$t(global.label.username)"
+            },
+            "koreader": {
+                "sync": {
+                    "check_sum_method": {
+                        "binary": "Nhị phân",
+                        "filename": "Tên tệp",
+                        "title": "Phương pháp kiểm tra tổng"
+                    },
+                    "device_id": "ID thiết bị",
+                    "server_address": "URL máy chủ",
+                    "strategy": {
+                        "disabled": "Vô hiệu hóa",
+                        "title": "Chiến lược đồng bộ hóa",
+                        "prompt": "Hỏi trước",
+                        "receive": "Nhận",
+                        "send": "Gửi",
+                        "silent": "Im lặng"
+                    },
+                    "title": "Đồng bộ KOReader",
+                    "tolerance": {
+                        "description": "Giới hạn chênh lệch tuyệt đối khi so sánh tiến độ",
+                        "title": "Giới hạn"
+                    },
+                    "user_key": "Khóa người dùng",
+                    "username": "$t(global.label.username)"
+                }
             }
         },
         "device": {

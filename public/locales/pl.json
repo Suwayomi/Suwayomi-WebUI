@@ -316,7 +316,10 @@
             "update_failed_one": "Nie można zaktualizować rozszerzenia",
             "update_failed_few": "Nie można zaktualizować rozszerzeń",
             "update_failed_many": "Nie można zaktualizować rozszerzeń",
-            "age_rating": "Klasyfikacja wiekowa"
+            "age_rating": "Klasyfikacja wiekowa",
+            "available_updates_one": "{{count}} dostępnych aktualizacji",
+            "available_updates_few": "",
+            "available_updates_many": ""
         },
         "language": {
             "all": "Wszystko",
@@ -364,7 +367,6 @@
     },
     "global": {
         "button": {
-            "clear": "Wyczyść",
             "copy": "Kopiuj",
             "create": "Stwórz",
             "delete": "Usuń",
@@ -1363,13 +1365,6 @@
                                 "description": "Wyłącz uwierzytelnianie",
                                 "info": "Twoja biblioteka będzie dostępna. Używaj tej opcji tylko w sieciach prywatnych lub gdy w inny sposób zabezpieczasz dostęp.",
                                 "title": "Brak"
-                            }
-                        },
-                        "simpleLogin": {
-                            "label": {
-                                "description": "Zostanie wyświetlona prosta strona logowania.",
-                                "info": "Po włączeniu tej opcji może być konieczne odświeżenie tej karty, aby pojawiła się strona logowania.",
-                                "title": "Proste Logowanie"
                             }
                         }
                     }

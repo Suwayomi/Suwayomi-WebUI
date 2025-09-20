@@ -409,7 +409,6 @@
     },
     "global": {
         "button": {
-            "clear": "清除",
             "reset": "重置",
             "popular": "熱門",
             "reset_to_default": "重置為預設值",
@@ -987,12 +986,6 @@
                 "title": "認證",
                 "mode": {
                     "option": {
-                        "simpleLogin": {
-                            "label": {
-                                "title": "簡易登入",
-                                "description": "將顯示一個簡易登入頁面以進行登入。"
-                            }
-                        },
                         "basicAuth": {
                             "label": {
                                 "description": "您的瀏覽器將通過對話框提示您輸入憑證。",

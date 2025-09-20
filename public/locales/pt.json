@@ -249,7 +249,6 @@
     "global": {
         "button": {
             "browse": "Navegar",
-            "clear": "Limpar",
             "reset": "Reiniciar",
             "reset_to_default": "Redefinir padrões",
             "resume": "Resumo",
