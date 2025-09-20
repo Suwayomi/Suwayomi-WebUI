@@ -17,7 +17,7 @@ import { useRef } from 'react';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { AUTO_SCROLL_SPEED } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 export const ReaderNavBarDesktopAutoScroll = ({
     autoScroll,

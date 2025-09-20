@@ -10,7 +10,7 @@ import Box from '@mui/material/Box';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderRGBAFilter = ({ readerNavBarWidth }: Pick<NavbarContextType, 'readerNavBarWidth'>) => {
     const {

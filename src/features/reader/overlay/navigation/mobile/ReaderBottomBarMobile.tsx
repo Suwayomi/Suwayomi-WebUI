@@ -24,7 +24,7 @@ import { MobileReaderProgressBar } from '@/features/reader/overlay/progress-bar/
 import { ReaderChapterList } from '@/features/reader/overlay/navigation/components/ReaderChapterList.tsx';
 import { ReaderBottomBarMobileQuickSettings } from '@/features/reader/overlay/navigation/mobile/quick-settings/ReaderBottomBarMobileQuickSettings.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderBottomBarMobile = ({
     openSettings,

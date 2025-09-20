@@ -14,7 +14,7 @@ import { memo } from 'react';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 const ACTION_FALLBACK_MANGA = {
     ...FALLBACK_MANGA,

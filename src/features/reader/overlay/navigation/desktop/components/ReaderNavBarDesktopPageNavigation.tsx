@@ -19,7 +19,7 @@ import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderNavBarDesktopPageNavigation = ({
     openPage,

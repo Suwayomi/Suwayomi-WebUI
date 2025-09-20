@@ -30,7 +30,7 @@ import { FALLBACK_CHAPTER } from '@/features/chapter/Chapter.constants.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 

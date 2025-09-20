@@ -20,8 +20,8 @@ import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 import { getReaderChapterFromCache } from '@/features/reader/Reader.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
-import { getReaderStore } from '@/features/reader/ReaderStore.ts';
-import { READER_DEFAULT_CHAPTERS_STATE } from '@/features/reader/ReaderStore.constants.ts';
+import { getReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { READER_DEFAULT_CHAPTERS_STATE } from '@/features/reader/stores/ReaderStore.constants.ts';
 
 export const useReaderSetChaptersState = (
     chaptersResponse: ReturnType<typeof requestManager.useGetMangaChapters<GetChaptersReaderQuery>>,

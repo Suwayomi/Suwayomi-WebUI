@@ -24,7 +24,10 @@ import {
     ReaderStatePages,
 } from '@/features/reader/Reader.types.ts';
 import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
-import { READER_DEFAULT_CHAPTERS_STATE, READER_DEFAULT_PAGES_STATE } from '@/features/reader/ReaderStore.constants.ts';
+import {
+    READER_DEFAULT_CHAPTERS_STATE,
+    READER_DEFAULT_PAGES_STATE,
+} from '@/features/reader/stores/ReaderStore.constants.ts';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import {
     createReaderProgressBarStoreSlice,

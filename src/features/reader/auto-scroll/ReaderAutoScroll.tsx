@@ -17,7 +17,7 @@ import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { getReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { getReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderAutoScroll = ({
     openPage,

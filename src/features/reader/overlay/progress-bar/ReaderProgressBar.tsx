@@ -32,7 +32,7 @@ import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderProgressBarSlotWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotWrapper.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReadingMode } from '@/features/reader/Reader.types.ts';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderProgressBar = ({
     slotProps,

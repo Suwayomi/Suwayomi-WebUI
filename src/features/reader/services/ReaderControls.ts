@@ -49,7 +49,7 @@ import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.
 import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
-import { getReaderStore } from '@/features/reader/ReaderStore.ts';
+import { getReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,

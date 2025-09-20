@@ -56,7 +56,7 @@ import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types
 import { useReaderPreserveScrollPosition } from '@/features/reader/viewer/hooks/useReaderPreserveScrollPosition.ts';
 
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import { getReaderStore, useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { getReaderStore, useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
