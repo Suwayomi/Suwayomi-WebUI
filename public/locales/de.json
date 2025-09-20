@@ -236,7 +236,8 @@
                     "label": {
                         "action": {
                             "current": "Als gelesen markieren",
-                            "previous": "Vorherige als gelesen markieren"
+                            "previous": "Vorherige als gelesen markieren",
+                            "all": "Alle als gelesen markieren"
                         },
                         "success_one": "Kapitel wurde als gelesen markiert",
                         "success_other": "{{count}} Kapitel wurden als gelesen markiert",
@@ -246,6 +247,9 @@
                         "confirmation_other": "Du bist dabei, {{count}} Kapitel als gelesen zu markieren"
                     }
                 }
+            },
+            "filter_and_sort": {
+                "label": "Filtern und Sortieren"
             }
         },
         "error": {
@@ -629,7 +633,9 @@
             "uninstallation_failed_one": "Die Erweiterung konnte nicht deinstalliert werden",
             "uninstallation_failed_other": "Die Erweiterungen konnten nicht deinstalliert werden",
             "add_repository_info": "Es muss ein Erweiterungs-Repository hinzugefügt werden, bevor Erweiterungen installiert werden können",
-            "age_rating": "Altersfreigabe"
+            "age_rating": "Altersfreigabe",
+            "available_updates_one": "{{count}} verfügbares Update",
+            "available_updates_other": "{{count}} verfügbare Updates"
         },
         "state": {
             "label": {
@@ -764,7 +770,6 @@
             "filter": "Filter",
             "set": "Setzen",
             "reset_to_default": "Auf Standardeinstellungen zurücksetzen",
-            "clear": "Leeren",
             "cancel": "Abbrechen",
             "resume": "Fortfahren",
             "browse": "Suchen",
@@ -799,7 +804,9 @@
             "log_out": "Ausloggen",
             "changelog": "Änderungsprotokoll",
             "open_browser": "Im Browser öffnen",
-            "open_webview": "In WebView öffnen"
+            "open_webview": "In WebView öffnen",
+            "download": "Herunterladen",
+            "clear_selection": "Leeren"
         },
         "error": {
             "label": {
@@ -878,6 +885,11 @@
                 "value": "{{count}} $t(global.time.minutes.minute)",
                 "minute_one": "Minute",
                 "minute_other": "Minuten"
+            },
+            "days": {
+                "day_one": "Tag",
+                "day_other": "Tage",
+                "value": "{{count}}$t(global.time.days.day, lowercase)"
             }
         },
         "colors": {
@@ -1057,14 +1069,25 @@
                                 "title": "Keine"
                             }
                         },
-                        "simpleLogin": {
+                        "simple_login": {
                             "label": {
-                                "description": "Eine einfache Anmeldeseite wird zur Anmeldung präsentiert.",
+                                "description": "Die Anmeldung erfolgt über den Server.",
                                 "info": "Wenn du diese Option aktivierst, kann es sein, dass du die Seite neu laden musst, um die Login-Seite zum ersten Mal zu sehen.",
-                                "title": "Einfacher Login"
+                                "title": "Einfache Anmeldung"
+                            }
+                        },
+                        "ui_login": {
+                            "label": {
+                                "description": "Die Anmeldung erfolgt durch den Klient.",
+                                "title": "UI Anmeldung"
                             }
                         }
                     }
+                },
+                "jwt": {
+                    "access_token_expiry": "JWT Zugrifftoken Ablaufzeit",
+                    "audience": "JWT Audienz Claim",
+                    "refresh_token_expiry": "JWT Aktualisierungstoken Ablaufzeit"
                 }
             },
             "address": {
@@ -1229,6 +1252,43 @@
                     }
                 },
                 "title": "OPDS"
+            },
+            "database": {
+                "address": "Datenbank URL",
+                "password": "$t(global.label.password)",
+                "title": "Datenbank",
+                "type": {
+                    "h2": "H2",
+                    "postgresql": "PostgreSQL",
+                    "title": "Typ"
+                },
+                "username": "$t(global.label.username)"
+            },
+            "koreader": {
+                "sync": {
+                    "check_sum_method": {
+                        "binary": "Binär",
+                        "filename": "Dateiname",
+                        "title": "Prüfsummenmethode"
+                    },
+                    "device_id": "Gerät-ID",
+                    "server_address": "Server URL",
+                    "strategy": {
+                        "disabled": "Deaktiviert",
+                        "prompt": "Nachfragen",
+                        "receive": "Annehmen",
+                        "send": "Senden",
+                        "silent": "Still",
+                        "title": "Synchronisierungsstrategie"
+                    },
+                    "title": "KOReader Sync",
+                    "tolerance": {
+                        "description": "Absolute Toleranz für Fortschrittsvergleich",
+                        "title": "Toleranz"
+                    },
+                    "user_key": "Nutzer Key",
+                    "username": "$t(global.label.username)"
+                }
             }
         },
         "webui": {
