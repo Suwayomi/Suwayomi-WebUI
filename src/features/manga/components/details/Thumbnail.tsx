@@ -18,7 +18,8 @@ import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
 import { MANGA_COVER_ASPECT_RATIO } from '@/features/manga/Manga.constants.ts';
 import { MangaThumbnailInfo } from '@/features/manga/Manga.types.ts';
-import { TAppThemeContext, useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
+import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
+import { TAppThemeContext } from '@/features/theme/AppTheme.types.ts';
 
 export const Thumbnail = ({
     manga,

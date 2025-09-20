@@ -11,7 +11,8 @@ import Stack, { StackProps } from '@mui/material/Stack';
 import { ComponentProps } from 'react';
 import { SuwayomiLogo } from '@/assets/SuwayomiLogo.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
-import { ThemeMode } from '@/features/theme/AppThemeContext.tsx';
+
+import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 
 export const SplashScreen = ({
     slots,

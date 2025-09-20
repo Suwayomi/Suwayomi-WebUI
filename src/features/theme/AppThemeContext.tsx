@@ -7,12 +7,10 @@
  */
 
 import React, { ReactNode, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Palette } from '@vibrant/color';
-import { FastAverageColorResult } from 'fast-average-color';
 import { useTranslation } from 'react-i18next';
 import { Direction, ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
-import { AppTheme, AppThemes, getTheme } from '@/features/theme/services/AppThemes.ts';
+import { AppTheme, getTheme } from '@/features/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -25,25 +23,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { createAndSetTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { DIRECTION_TO_CACHE } from '@/features/theme/ThemeDirectionCache.ts';
-
-export enum ThemeMode {
-    SYSTEM = 'system',
-    DARK = 'dark',
-    LIGHT = 'light',
-}
-
-export type TAppThemeContext = {
-    appTheme: AppThemes;
-    setAppTheme: (theme: AppThemes) => void;
-    themeMode: ThemeMode;
-    setThemeMode: (mode: ThemeMode) => void;
-    shouldUsePureBlackMode: boolean;
-    setShouldUsePureBlackMode: (value: boolean) => void;
-    dynamicColor: (NonNullableProperties<Palette> & { average: FastAverageColorResult }) | null;
-    setDynamicColor: React.Dispatch<
-        React.SetStateAction<(NonNullableProperties<Palette> & { average: FastAverageColorResult }) | null>
-    >;
-};
+import { TAppThemeContext, ThemeMode } from '@/features/theme/AppTheme.types.ts';
 
 export const AppThemeContext = React.createContext<TAppThemeContext>({
     appTheme: 'default',

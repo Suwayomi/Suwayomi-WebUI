@@ -12,9 +12,9 @@ import { DEFAULT_SORT_SETTINGS } from '@/features/migration/Migration.constants.
 import { GlobalUpdateSkipEntriesSettings, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
 import { GridLayout, TranslationKey } from '@/base/Base.types.ts';
 import { getDefaultLanguages } from '@/base/utils/Languages.ts';
-import { ThemeMode } from '@/features/theme/AppThemeContext.tsx';
 import { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
 import { AuthMode, WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
+import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 
 export const MANGA_GRID_WIDTH = {
     min: 100,

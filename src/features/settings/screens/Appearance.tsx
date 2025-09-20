@@ -15,7 +15,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import { useColorScheme } from '@mui/material/styles';
-import { ThemeMode, useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
+import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
@@ -30,7 +30,7 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
+import { MetadataThemeSettings, ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
