@@ -30,6 +30,10 @@ import {
     createReaderProgressBarStoreSlice,
     ReaderProgressBarStoreSlice,
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBarStore.tsx';
+import {
+    createReaderTapZoneStoreSlice,
+    ReaderTapZoneStoreSlice,
+} from '@/features/reader/tap-zones/ReaderTapZoneStore.tsx';
 
 interface ReaderPagesStoreSlice {
     pages: ReaderStatePages & {
@@ -48,7 +52,8 @@ interface ReaderStore
         ReaderAutoScrollStoreSlice,
         ReaderPagesStoreSlice,
         ReaderChaptersStoreSlice,
-        ReaderProgressBarStoreSlice {
+        ReaderProgressBarStoreSlice,
+        ReaderTapZoneStoreSlice {
     reset: () => void;
     manga: TMangaReader | undefined;
     setManga: (manga: TMangaReader | undefined) => void;
@@ -157,6 +162,7 @@ export const useReaderStore = create<ReaderStore>()(
                     ...DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
                 };
                 get().progressBar.reset();
+                get().tapZone.reset();
             }),
         setManga: (manga) =>
             set((draft) => {
@@ -188,6 +194,7 @@ export const useReaderStore = create<ReaderStore>()(
         ...createReaderPagesStoreSlice(set, get, store),
         ...createReaderChaptersStoreSlice(set, get, store),
         ...createReaderProgressBarStoreSlice(set, get, store),
+        ...createReaderTapZoneStoreSlice(set, get, store),
     })),
 );
 export const useReaderStoreShallow = <T>(selector: (state: ReaderStore) => T): T =>

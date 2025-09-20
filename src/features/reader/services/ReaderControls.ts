@@ -35,7 +35,6 @@ import {
     isEndOfPageInViewport,
     isPageInViewport,
 } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { TapZoneRegionType, TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { ReaderTapZoneService } from '@/features/reader/tap-zones/ReaderTapZoneService.ts';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
@@ -334,7 +333,6 @@ export class ReaderControls {
         forceDirection?: Direction,
         hideOverlay?: boolean,
     ) => void {
-        const { setShowPreview } = useReaderTapZoneContext();
         const openChapter = ReaderControls.useOpenChapter();
 
         return useCallback(
@@ -371,7 +369,7 @@ export class ReaderControls {
 
                 if (hideOverlay) {
                     getReaderStore().overlay.setIsVisible(false);
-                    setShowPreview(false);
+                    getReaderStore().tapZone.setShowPreview(false);
                 }
 
                 const hideTransitionPage = () => setTransitionPageMode(ReaderTransitionPageMode.NONE);
@@ -565,7 +563,6 @@ export class ReaderControls {
         scrollElement: HTMLElement | null,
     ): (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void {
         const { direction: themeDirection } = useTheme();
-        const { setShowPreview } = useReaderTapZoneContext();
         const openPage = ReaderControls.useOpenPage();
         const openChapter = ReaderControls.useOpenChapter();
 
@@ -582,7 +579,7 @@ export class ReaderControls {
                 const rectRelativeY = e.clientY - rect.top;
                 const action = ReaderTapZoneService.getAction(rectRelativeX, rectRelativeY);
 
-                setShowPreview(false);
+                getReaderStore().tapZone.setShowPreview(false);
 
                 const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
                 const scrollDirection =
@@ -603,7 +600,7 @@ export class ReaderControls {
                                 themeDirection,
                                 scrollElement,
                                 openChapter,
-                                setShowPreview,
+                                getReaderStore().tapZone.setShowPreview,
                                 scrollAmount,
                             );
                         } else {

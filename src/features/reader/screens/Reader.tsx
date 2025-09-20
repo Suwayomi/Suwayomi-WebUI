@@ -28,7 +28,6 @@ import { ReaderHotkeys } from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { useReaderResetStates } from '@/features/reader/hooks/useReaderResetStates.ts';
 import { useReaderSetSettingsState } from '@/features/reader/hooks/useReaderSetSettingsState.ts';
 import { useReaderShowSettingPreviewOnChange } from '@/features/reader/hooks/useReaderShowSettingPreviewOnChange.ts';
@@ -42,8 +41,7 @@ import { ReaderAutoScroll } from '@/features/reader/auto-scroll/ReaderAutoScroll
 const BaseReader = ({
     setOverride,
     readerNavBarWidth,
-    setShowPreview,
-}: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'> & Pick<TReaderTapZoneContext, 'setShowPreview'>) => {
+}: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'>) => {
     const { t } = useTranslation();
     const manga = useReaderStoreShallow((state) => state.manga);
     const overlay = useReaderStoreShallow((state) => state.overlay);
@@ -76,6 +74,7 @@ const BaseReader = ({
         shouldShowTapZoneLayoutPreview: state.settings.shouldShowTapZoneLayoutPreview,
         setSettings: state.settings.setSettings,
     }));
+    const setShowPreview = useReaderStore((state) => state.tapZone.setShowPreview);
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 

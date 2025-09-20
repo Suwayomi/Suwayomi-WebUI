@@ -13,7 +13,6 @@ import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { READER_SETTING_TABS, ReaderSettingTab } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
@@ -23,8 +22,8 @@ import { ReaderFilterSettings } from '@/features/reader/filters/settings/ReaderF
 import { ReaderBehaviourSettings } from '@/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx';
 import { ReaderDefaultLayoutSettings } from '@/features/reader/settings/layout/ReaderDefaultLayoutSettings.tsx';
 import { ReaderHotkeysSettings } from '@/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx';
-import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
+import { useReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderSettingsTabs = ({
     activeTab,
@@ -33,21 +32,20 @@ const BaseReaderSettingsTabs = ({
     settings,
     updateSetting,
     deleteSetting,
-    setShowPreview,
     mode: overlayMode,
     setTransparent,
-}: Pick<TReaderTapZoneContext, 'setShowPreview'> &
-    Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'mode'> & {
-        activeTab: number;
-        setActiveTab: (tab: number) => void;
-        settings: IReaderSettingsWithDefaultFlag;
-        updateSetting: (...args: Parameters<typeof ReaderService.updateSetting>) => void;
-        areDefaultSettings?: boolean;
-        deleteSetting: (setting: keyof IReaderSettings) => void;
-        setTransparent?: (transparent: boolean) => void;
-    }) => {
+}: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'mode'> & {
+    activeTab: number;
+    setActiveTab: (tab: number) => void;
+    settings: IReaderSettingsWithDefaultFlag;
+    updateSetting: (...args: Parameters<typeof ReaderService.updateSetting>) => void;
+    areDefaultSettings?: boolean;
+    deleteSetting: (setting: keyof IReaderSettings) => void;
+    setTransparent?: (transparent: boolean) => void;
+}) => {
     const { t } = useTranslation();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
+    const setShowPreview = useReaderStore((state) => state.tapZone.setShowPreview);
 
     return (
         <>
@@ -186,8 +184,4 @@ const BaseReaderSettingsTabs = ({
     );
 };
 
-export const ReaderSettingsTabs = withPropsFrom(
-    BaseReaderSettingsTabs,
-    [useReaderTapZoneContext, ReaderService.useOverlayMode],
-    ['setShowPreview', 'mode'],
-);
+export const ReaderSettingsTabs = withPropsFrom(BaseReaderSettingsTabs, [ReaderService.useOverlayMode], ['mode']);

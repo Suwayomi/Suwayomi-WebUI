@@ -9,28 +9,24 @@
 import Box from '@mui/material/Box';
 import { useCallback, useLayoutEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { ReaderTapZoneService } from '@/features/reader/tap-zones/ReaderTapZoneService.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const CANVAS_ID = 'reader-tap-zone-layout-canvas';
 
-const BaseTapZoneLayout = ({
-    readerNavBarWidth,
-    showPreview,
-}: Pick<NavbarContextType, 'readerNavBarWidth'> & Pick<TReaderTapZoneContext, 'showPreview'>) => {
+const BaseTapZoneLayout = ({ readerNavBarWidth }: Pick<NavbarContextType, 'readerNavBarWidth'>) => {
     const theme = useTheme();
     const { tapZoneLayout, tapZoneInvertMode, readingDirection } = useReaderStoreShallow((state) => ({
         tapZoneLayout: state.settings.tapZoneLayout.value,
         tapZoneInvertMode: state.settings.tapZoneInvertMode.value,
         readingDirection: state.settings.readingDirection.value,
     }));
+    const showPreview = useReaderStore((state) => state.tapZone.showPreview);
 
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
@@ -71,8 +67,4 @@ const BaseTapZoneLayout = ({
     );
 };
 
-export const TapZoneLayout = withPropsFrom(
-    BaseTapZoneLayout,
-    [useNavBarContext, useReaderTapZoneContext],
-    ['readerNavBarWidth', 'showPreview'],
-);
+export const TapZoneLayout = withPropsFrom(BaseTapZoneLayout, [useNavBarContext], ['readerNavBarWidth']);

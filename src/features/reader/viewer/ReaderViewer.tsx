@@ -38,8 +38,6 @@ import {
 import { useMouseDragScroll } from '@/base/hooks/useMouseDragScroll.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { useReaderAutoScroll } from '@/features/reader/auto-scroll/hooks/useReaderAutoScroll.ts';
 import { useReaderHideOverlayOnUserScroll } from '@/features/reader/overlay/hooks/useReaderHideOverlayOnUserScroll.ts';
 import { useReaderHorizontalModeInvertXYScrolling } from '@/features/reader/viewer/hooks/useReaderHorizontalModeInvertXYScrolling.ts';
@@ -73,12 +71,9 @@ const BaseReaderViewer = forwardRef(
         {
             readerNavBarWidth,
             updateCurrentPageIndex,
-            showPreview,
-            setShowPreview,
-        }: Pick<NavbarContextType, 'readerNavBarWidth'> &
-            TReaderTapZoneContext & {
-                updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
-            },
+        }: Pick<NavbarContextType, 'readerNavBarWidth'> & {
+            updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
+        },
 
         ref: ForwardedRef<HTMLDivElement | null>,
     ) => {
@@ -148,6 +143,10 @@ const BaseReaderViewer = forwardRef(
             customFilter: state.settings.customFilter,
             shouldStretchPage: state.settings.shouldStretchPage.value,
             isStaticNav: state.settings.isStaticNav,
+        }));
+        const { showPreview, setShowPreview } = useReaderStoreShallow((state) => ({
+            showPreview: state.tapZone.showPreview,
+            setShowPreview: state.tapZone.setShowPreview,
         }));
         const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
             resumeMode: ReaderResumeMode.START,
@@ -435,10 +434,6 @@ const BaseReaderViewer = forwardRef(
 
 export const ReaderViewer = withPropsFrom(
     memo(BaseReaderViewer),
-    [
-        () => ({ updateCurrentPageIndex: ReaderControls.useUpdateCurrentPageIndex() }),
-        useReaderTapZoneContext,
-        useNavBarContext,
-    ],
-    ['readerNavBarWidth', 'updateCurrentPageIndex', 'showPreview', 'setShowPreview'],
+    [() => ({ updateCurrentPageIndex: ReaderControls.useUpdateCurrentPageIndex() }), useNavBarContext],
+    ['readerNavBarWidth', 'updateCurrentPageIndex'],
 );

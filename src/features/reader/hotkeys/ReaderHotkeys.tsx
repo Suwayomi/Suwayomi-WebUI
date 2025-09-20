@@ -24,7 +24,6 @@ import { HotkeyScope } from '@/features/hotkeys/Hotkeys.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { getReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
@@ -66,7 +65,6 @@ export const ReaderHotkeys = ({
     const { hotkeys } = useReaderStoreShallow((state) => ({
         hotkeys: state.settings.hotkeys,
     }));
-    const { setShowPreview } = useReaderTapZoneContext();
     const exitReader = ReaderService.useExit();
 
     const openChapter = ReaderControls.useOpenChapter();
@@ -99,7 +97,7 @@ export const ReaderHotkeys = ({
                 themeDirection,
                 scrollElementRef.current,
                 openChapter,
-                setShowPreview,
+                getReaderStore().tapZone.setShowPreview,
                 scrollAmount,
             );
         },
@@ -131,7 +129,7 @@ export const ReaderHotkeys = ({
                 themeDirection,
                 scrollElementRef.current,
                 openChapter,
-                setShowPreview,
+                getReaderStore().tapZone.setShowPreview,
                 scrollAmount,
             );
         },

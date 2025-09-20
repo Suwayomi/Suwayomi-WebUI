@@ -13,7 +13,6 @@ import { QueryParamProvider } from 'use-query-params';
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 import { SnackbarProvider } from 'notistack';
 import { ActiveDeviceContextProvider } from '@/features/device/DeviceContext.tsx';
-import { ReaderContextProvider } from '@/features/reader/contexts/ReaderContextProvider.tsx';
 import { AppHotkeysProvider } from '@/features/hotkeys/AppHotkeysProvider.tsx';
 import { SnackbarWithDescription } from '@/base/components/feedback/SnackbarWithDescription.tsx';
 import { AppPageHistoryContextProvider } from '@/base/contexts/AppPageHistoryContext.tsx';
@@ -43,9 +42,7 @@ export const AppContext: React.FC<Props> = ({ children }) => (
                                             error: SnackbarWithDescription,
                                         }}
                                     >
-                                        <ReaderContextProvider>
-                                            <AppHotkeysProvider>{children}</AppHotkeysProvider>
-                                        </ReaderContextProvider>
+                                        <AppHotkeysProvider>{children}</AppHotkeysProvider>
                                     </SnackbarProvider>
                                 </ActiveDeviceContextProvider>
                             </AppPageHistoryContextProvider>
