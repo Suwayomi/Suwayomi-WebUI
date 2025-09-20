@@ -7,7 +7,7 @@
  */
 
 import { MutableRefObject, RefObject, useCallback, useEffect } from 'react';
-import { Direction, useTheme } from '@mui/material/styles';
+import { Direction } from '@mui/material/styles';
 import { t as translate } from 'i18next';
 import {
     getNextIndexFromPage,
@@ -16,7 +16,7 @@ import {
     getPageForMousePos,
     getProgressBarPositionInfo,
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
-import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
+import { getCurrentTheme, getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import {
     PageInViewportType,
@@ -89,7 +89,6 @@ export class ReaderControls {
         direction: ScrollDirection,
         readingMode: ReadingMode,
         readingDirection: ReadingDirection,
-        themeDirection: Direction,
         element: HTMLElement,
         setShowPreview: TReaderTapZoneContext['setShowPreview'],
         scrollAmountPercentage: number = ReaderScrollAmount.LARGE,
@@ -99,7 +98,7 @@ export class ReaderControls {
         }
 
         const themeDirectionOfReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
-        const areReadingDirectionsEqual = themeDirection === themeDirectionOfReadingDirection;
+        const areReadingDirectionsEqual = getCurrentTheme().direction === themeDirectionOfReadingDirection;
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
 
         const isAtStartY = Math.abs(element.scrollTop) <= 1;
@@ -522,57 +521,47 @@ export class ReaderControls {
         updateCurrentPageIndex(firstVisibleImageIndex, firstVisibleImageIndex !== lastPageIndex);
     }
 
-    static useHandleClick(
-        scrollElement: HTMLElement | null,
-    ): (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void {
-        const { direction: themeDirection } = useTheme();
+    static handleClick(scrollElement: HTMLElement | null, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
+        if (!scrollElement) {
+            return;
+        }
 
-        return useCallback(
-            (e) => {
-                if (!scrollElement) {
-                    return;
+        const { readingMode, readingDirection, isStaticNav, scrollAmount } = getReaderStore().settings;
+
+        const rect = e.currentTarget.getBoundingClientRect();
+        const rectRelativeX = e.clientX - rect.left;
+        const rectRelativeY = e.clientY - rect.top;
+        const action = ReaderTapZoneService.getAction(rectRelativeX, rectRelativeY);
+
+        getReaderStore().tapZone.setShowPreview(false);
+
+        const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
+        const scrollDirection =
+            readingMode.value === ReadingMode.CONTINUOUS_HORIZONTAL ? ScrollDirection.X : ScrollDirection.Y;
+
+        switch (action) {
+            case TapZoneRegionType.MENU:
+                getReaderStore().overlay.setIsVisible(isStaticNav || !getReaderStore().overlay.isVisible);
+                break;
+            case TapZoneRegionType.PREVIOUS:
+            case TapZoneRegionType.NEXT:
+                if (isContinuousReadingModeActive) {
+                    ReaderControls.scroll(
+                        action === TapZoneRegionType.PREVIOUS ? ScrollOffset.BACKWARD : ScrollOffset.FORWARD,
+                        scrollDirection,
+                        readingMode.value,
+                        readingDirection.value,
+                        scrollElement,
+                        getReaderStore().tapZone.setShowPreview,
+                        scrollAmount,
+                    );
+                } else {
+                    ReaderControls.openPage(action === TapZoneRegionType.PREVIOUS ? 'previous' : 'next', 'ltr');
                 }
-
-                const { readingMode, readingDirection, isStaticNav, scrollAmount } = getReaderStore().settings;
-
-                const rect = e.currentTarget.getBoundingClientRect();
-                const rectRelativeX = e.clientX - rect.left;
-                const rectRelativeY = e.clientY - rect.top;
-                const action = ReaderTapZoneService.getAction(rectRelativeX, rectRelativeY);
-
-                getReaderStore().tapZone.setShowPreview(false);
-
-                const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
-                const scrollDirection =
-                    readingMode.value === ReadingMode.CONTINUOUS_HORIZONTAL ? ScrollDirection.X : ScrollDirection.Y;
-
-                switch (action) {
-                    case TapZoneRegionType.MENU:
-                        getReaderStore().overlay.setIsVisible(isStaticNav || !getReaderStore().overlay.isVisible);
-                        break;
-                    case TapZoneRegionType.PREVIOUS:
-                    case TapZoneRegionType.NEXT:
-                        if (isContinuousReadingModeActive) {
-                            ReaderControls.scroll(
-                                action === TapZoneRegionType.PREVIOUS ? ScrollOffset.BACKWARD : ScrollOffset.FORWARD,
-                                scrollDirection,
-                                readingMode.value,
-                                readingDirection.value,
-                                themeDirection,
-                                scrollElement,
-                                getReaderStore().tapZone.setShowPreview,
-                                scrollAmount,
-                            );
-                        } else {
-                            ReaderControls.openPage(action === TapZoneRegionType.PREVIOUS ? 'previous' : 'next', 'ltr');
-                        }
-                        break;
-                    default:
-                        throw new Error(`Unexpected "TapZoneRegionType" (${action})`);
-                }
-            },
-            [scrollElement, themeDirection],
-        );
+                break;
+            default:
+                throw new Error(`Unexpected "TapZoneRegionType" (${action})`);
+        }
     }
 
     static useHandleProgressDragging(

@@ -175,8 +175,6 @@ const BaseReaderViewer = forwardRef(
             scrollbar.setYSize(scrollbarYSize);
         }, [scrollbarXSize, scrollbarYSize]);
 
-        const handleClick = ReaderControls.useHandleClick(scrollElementRef.current);
-
         const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
         const [{ minChapterViewWidth, minChapterViewHeight, minChapterSizeSourceChapterId }, setChapterViewerSize] =
             useState({
@@ -320,7 +318,7 @@ const BaseReaderViewer = forwardRef(
                         }),
                     }),
                 }}
-                onClick={(e) => !isDragging && handleClick(e)}
+                onClick={(e) => !isDragging && ReaderControls.handleClick(scrollElementRef.current, e)}
                 onScroll={() =>
                     ReaderControls.updateCurrentPageOnScroll(
                         imageRefs,

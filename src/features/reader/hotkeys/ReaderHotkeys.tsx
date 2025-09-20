@@ -8,7 +8,6 @@
 
 import { useHotkeys as useHotKeysHook, useHotkeysContext } from 'react-hotkeys-hook';
 import { useEffect } from 'react';
-import { useTheme } from '@mui/material/styles';
 import { HOTKEY_SCOPES } from '@/features/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { IReaderSettings, ReaderHotkey } from '@/features/reader/Reader.types.ts';
@@ -59,7 +58,6 @@ export const ReaderHotkeys = ({
 }: {
     scrollElementRef: React.MutableRefObject<HTMLElement | null>;
 }) => {
-    const { direction: themeDirection } = useTheme();
     const readerThemeDirection = ReaderService.useGetThemeDirection();
     const { enableScope, disableScope } = useHotkeysContext();
     const { hotkeys } = useReaderStoreShallow((state) => ({
@@ -91,14 +89,12 @@ export const ReaderHotkeys = ({
                 CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
                 readingMode.value,
                 readingDirection.value,
-                themeDirection,
                 scrollElementRef.current,
                 getReaderStore().tapZone.setShowPreview,
                 scrollAmount,
             );
         },
         { preventDefault: true },
-        [themeDirection],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.SCROLL_FORWARD],
@@ -122,14 +118,12 @@ export const ReaderHotkeys = ({
                 CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
                 readingMode.value,
                 readingDirection.value,
-                themeDirection,
                 scrollElementRef.current,
                 getReaderStore().tapZone.setShowPreview,
                 scrollAmount,
             );
         },
         { preventDefault: true },
-        [themeDirection],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.PREVIOUS_CHAPTER],
