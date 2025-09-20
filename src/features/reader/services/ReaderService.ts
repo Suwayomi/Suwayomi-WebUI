@@ -47,6 +47,7 @@ import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 import { getReaderStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -71,15 +72,11 @@ export class ReaderService {
         return ReaderService.chapterUpdateQueues.get(id)!;
     }
 
-    static useNavigateToChapter(): (chapter: TChapterReader, state?: ReaderOpenChapterLocationState) => void {
-        const navigate = useNavigate();
-
-        return useCallback((chapter, state) => {
-            navigate(Chapters.getReaderUrl(chapter), {
-                replace: true,
-                state,
-            });
-        }, []);
+    static navigateToChapter(chapter: TChapterReader, state?: ReaderOpenChapterLocationState): void {
+        ReactRouter.navigate(Chapters.getReaderUrl(chapter), {
+            replace: true,
+            state,
+        });
     }
 
     static downloadAhead(

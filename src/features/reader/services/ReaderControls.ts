@@ -166,8 +166,6 @@ export class ReaderControls {
     ) => void {
         const { t } = useTranslation();
 
-        const openChapter = ReaderService.useNavigateToChapter();
-
         return useCallback(
             (offset, doTransitionCheck = true, scrollIntoView = true) => {
                 const {
@@ -250,7 +248,7 @@ export class ReaderControls {
                             );
                         }
 
-                        openChapter(chapterToOpen, {
+                        ReaderService.navigateToChapter(chapterToOpen, {
                             resumeMode: getReaderOpenChapterResumeMode(
                                 isSpecificChapterMode || !keepRenderedChapters,
                                 isPreviousChapter,
@@ -264,7 +262,7 @@ export class ReaderControls {
 
                 doOpenChapter().catch(defaultPromiseErrorHandler('ReaderControls#useOpenChapter'));
             },
-            [t, openChapter],
+            [t],
         );
     }
 

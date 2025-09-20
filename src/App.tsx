@@ -8,7 +8,7 @@
 
 import CssBaseline from '@mui/material/CssBaseline';
 import React, { useEffect, useLayoutEffect } from 'react';
-import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
@@ -32,6 +32,7 @@ import { LoginPage } from '@/features/authentication/screens/LoginPage.tsx';
 import { AuthGuard } from '@/features/authentication/components/AuthGuard.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -139,6 +140,16 @@ const BackgroundSubscriptions = () => {
     requestManager.useDownloadSubscription({ skip: skipConnection });
     requestManager.useUpdaterSubscription({ skip: skipConnection });
     requestManager.useWebUIUpdateSubscription({ skip: skipConnection });
+
+    return null;
+};
+
+const ReactRouterSetter = () => {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        ReactRouter.setNavigateFn(navigate);
+    }, []);
 
     return null;
 };
@@ -291,6 +302,7 @@ export const App: React.FC = () => (
         <WebUIUpdateChecker />
         <InitialBackgroundRequests />
         <BackgroundSubscriptions />
+        <ReactRouterSetter />
         <CssBaseline enableColorScheme />
         <AuthGuard>
             <Box sx={{ display: 'flex' }}>
