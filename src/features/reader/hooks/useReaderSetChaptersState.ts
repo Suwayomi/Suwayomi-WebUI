@@ -21,7 +21,8 @@ import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 import { getReaderChapterFromCache } from '@/features/reader/Reader.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 import { getReaderStore } from '@/features/reader/stores/ReaderStore.ts';
-import { READER_DEFAULT_CHAPTERS_STATE } from '@/features/reader/stores/ReaderStore.constants.ts';
+
+import { READER_DEFAULT_CHAPTERS_STATE } from '@/features/reader/stores/ReaderChaptersStore.ts';
 
 export const useReaderSetChaptersState = (
     chaptersResponse: ReturnType<typeof requestManager.useGetMangaChapters<GetChaptersReaderQuery>>,

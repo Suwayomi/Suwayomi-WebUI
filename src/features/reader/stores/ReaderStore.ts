@@ -18,9 +18,7 @@ import {
     createReaderAutoScrollStoreSlice,
     ReaderAutoScrollStoreSlice,
 } from '@/features/reader/auto-scroll/ReaderAutoScrollStore.ts';
-import { IReaderSettingsWithDefaultFlag, ReaderStateChapters } from '@/features/reader/Reader.types.ts';
-import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
-import { READER_DEFAULT_CHAPTERS_STATE } from '@/features/reader/stores/ReaderStore.constants.ts';
+import { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import {
     createReaderProgressBarStoreSlice,
@@ -31,12 +29,10 @@ import {
     ReaderTapZoneStoreSlice,
 } from '@/features/reader/tap-zones/ReaderTapZoneStore.tsx';
 import { createReaderPagesStoreSlice, ReaderPagesStoreSlice } from '@/features/reader/stores/ReaderPagesStore.ts';
-
-interface ReaderChaptersStoreSlice {
-    chapters: ReaderStateChapters & {
-        reset: () => void;
-    };
-}
+import {
+    createReaderChaptersStoreSlice,
+    ReaderChaptersStoreSlice,
+} from '@/features/reader/stores/ReaderChaptersStore.ts';
 
 interface ReaderStore
     extends ReaderOverlayStoreSlice,
@@ -66,30 +62,6 @@ const DEFAULT_STATE = {
         ySize: 0,
     },
 } satisfies Pick<ReaderStore, 'manga'> & { scrollbar: Pick<ReaderStore['scrollbar'], 'xSize' | 'ySize'> };
-
-const createReaderChaptersStoreSlice = <T extends ReaderChaptersStoreSlice>(
-    ...[set, get]: Parameters<ImmerStateCreator<T>>
-): ReaderChaptersStoreSlice => ({
-    chapters: {
-        ...READER_DEFAULT_CHAPTERS_STATE.chapters,
-        reset: () => set(() => ({ chapters: { ...get().chapters, ...READER_DEFAULT_CHAPTERS_STATE.chapters } })),
-        setReaderStateChapters: (state) =>
-            set((draft) => {
-                if (typeof state === 'function') {
-                    draft.chapters = {
-                        ...get().chapters,
-                        ...state(get().chapters),
-                    };
-                    return;
-                }
-
-                draft.chapters = {
-                    ...get().chapters,
-                    ...state,
-                };
-            }),
-    },
-});
 
 export const useReaderStore = create<ReaderStore>()(
     immer((set, get, store) => ({
