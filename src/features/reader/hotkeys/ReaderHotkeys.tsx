@@ -67,10 +67,8 @@ export const ReaderHotkeys = ({
     }));
     const exitReader = ReaderService.useExit();
 
-    const openPage = ReaderControls.useOpenPage();
-
-    useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_PAGE], () => openPage('previous'), [openPage]);
-    useHotkeys(hotkeys[ReaderHotkey.NEXT_PAGE], () => openPage('next'), [openPage]);
+    useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_PAGE], () => ReaderControls.openPage('previous'));
+    useHotkeys(hotkeys[ReaderHotkey.NEXT_PAGE], () => ReaderControls.openPage('next'));
     useHotkeys(
         hotkeys[ReaderHotkey.SCROLL_BACKWARD],
         () => {

@@ -14,18 +14,13 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
-import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
-const BaseReaderNavBarDesktopPageNavigation = ({
-    openPage,
-}: {
-    openPage: ReturnType<typeof ReaderControls.useOpenPage>;
-}) => {
+const BaseReaderNavBarDesktopPageNavigation = () => {
     const { t } = useTranslation();
     const getOptionForDirection = useGetOptionForDirection();
     const { currentPageIndex, pages } = useReaderStoreShallow((state) => ({
@@ -47,7 +42,7 @@ const BaseReaderNavBarDesktopPageNavigation = ({
                     getNextIndexFromPage(currentPage) === getNextIndexFromPage(pages.slice(-1)[0]),
                     direction,
                 )}
-                onClick={() => openPage('previous', undefined, false)}
+                onClick={() => ReaderControls.openPage('previous', undefined, false)}
             />
             <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
                 <InputLabel id="reader-nav-bar-desktop-page-select">{t('reader.page_info.label.page')}</InputLabel>
@@ -55,7 +50,7 @@ const BaseReaderNavBarDesktopPageNavigation = ({
                     labelId="reader-nav-bar-desktop-page-select"
                     label={t('reader.page_info.label.page')}
                     value={getNextIndexFromPage(currentPage)}
-                    onChange={(e) => openPage(e.target.value as number, undefined, false)}
+                    onChange={(e) => ReaderControls.openPage(e.target.value as number, undefined, false)}
                 >
                     {pages.map((page) => (
                         <MenuItem key={getNextIndexFromPage(page)} value={getNextIndexFromPage(page)}>
@@ -72,14 +67,10 @@ const BaseReaderNavBarDesktopPageNavigation = ({
                     !currentPage.primary.index,
                     direction,
                 )}
-                onClick={() => openPage('next', undefined, false)}
+                onClick={() => ReaderControls.openPage('next', undefined, false)}
             />
         </Stack>
     );
 };
 
-export const ReaderNavBarDesktopPageNavigation = withPropsFrom(
-    memo(BaseReaderNavBarDesktopPageNavigation),
-    [() => ({ openPage: ReaderControls.useOpenPage() })],
-    ['openPage'],
-);
+export const ReaderNavBarDesktopPageNavigation = memo(BaseReaderNavBarDesktopPageNavigation);

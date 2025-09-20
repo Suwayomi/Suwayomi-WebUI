@@ -311,106 +311,97 @@ export class ReaderControls {
         });
     }
 
-    static useOpenPage(): (
-        page: number | 'previous' | 'next',
-        forceDirection?: Direction,
-        hideOverlay?: boolean,
-    ) => void {
-        return useCallback((page, forceDirection, hideOverlay: boolean = true) => {
-            const {
-                pages: { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode },
-                settings: { readingDirection, readingMode, shouldShowTransitionPage },
-            } = getReaderStore();
+    static openPage(page: number | 'previous' | 'next', forceDirection?: Direction, hideOverlay: boolean = true): void {
+        const {
+            pages: { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode },
+            settings: { readingDirection, readingMode, shouldShowTransitionPage },
+        } = getReaderStore();
 
-            const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
+        const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
 
-            const convertedPage = getOptionForDirection(
-                page,
-                page === 'previous' ? 'next' : 'previous',
-                forceDirection ?? direction,
-            );
+        const convertedPage = getOptionForDirection(
+            page,
+            page === 'previous' ? 'next' : 'previous',
+            forceDirection ?? direction,
+        );
 
-            const currentPage = getPage(currentPageIndex, pages);
-            const previousPageIndex = getNextPageIndex('previous', currentPage.pagesIndex, pages);
-            const nextPageIndex = getNextPageIndex('next', currentPage.pagesIndex, pages);
-            const indexOfFirstPage = getNextIndexFromPage(pages[0]);
-            const indexOfLastPage = getNextIndexFromPage(pages[pages.length - 1]);
+        const currentPage = getPage(currentPageIndex, pages);
+        const previousPageIndex = getNextPageIndex('previous', currentPage.pagesIndex, pages);
+        const nextPageIndex = getNextPageIndex('next', currentPage.pagesIndex, pages);
+        const indexOfFirstPage = getNextIndexFromPage(pages[0]);
+        const indexOfLastPage = getNextIndexFromPage(pages[pages.length - 1]);
 
-            const isFirstPage = currentPage.primary.index === 0;
-            const isLastPage = currentPageIndex === indexOfLastPage;
-            const isATransitionPageVisibleFlag = isATransitionPageVisible(transitionPageMode, readingMode.value);
-            const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
+        const isFirstPage = currentPage.primary.index === 0;
+        const isLastPage = currentPageIndex === indexOfLastPage;
+        const isATransitionPageVisibleFlag = isATransitionPageVisible(transitionPageMode, readingMode.value);
+        const isContinuousReadingModeActive = isContinuousReadingMode(readingMode.value);
 
-            if (hideOverlay) {
-                getReaderStore().overlay.setIsVisible(false);
-                getReaderStore().tapZone.setShowPreview(false);
-            }
+        if (hideOverlay) {
+            getReaderStore().overlay.setIsVisible(false);
+            getReaderStore().tapZone.setShowPreview(false);
+        }
 
-            const hideTransitionPage = () => setTransitionPageMode(ReaderTransitionPageMode.NONE);
+        const hideTransitionPage = () => setTransitionPageMode(ReaderTransitionPageMode.NONE);
 
-            if (typeof page === 'number') {
-                setPageToScrollToIndex(page);
-                hideTransitionPage();
-                return;
-            }
+        if (typeof page === 'number') {
+            setPageToScrollToIndex(page);
+            hideTransitionPage();
+            return;
+        }
 
-            const areContinuousPagerTransitionPagesVisible =
-                isContinuousReadingModeActive && isATransitionPageVisibleFlag;
-            const isPreviousTransitionPageVisible =
-                (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.PREVIOUS) ||
-                areContinuousPagerTransitionPagesVisible;
-            const isNextTransitionPageVisible =
-                (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.NEXT) ||
-                areContinuousPagerTransitionPagesVisible;
+        const areContinuousPagerTransitionPagesVisible = isContinuousReadingModeActive && isATransitionPageVisibleFlag;
+        const isPreviousTransitionPageVisible =
+            (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.PREVIOUS) ||
+            areContinuousPagerTransitionPagesVisible;
+        const isNextTransitionPageVisible =
+            (!isContinuousReadingModeActive && transitionPageMode === ReaderTransitionPageMode.NEXT) ||
+            areContinuousPagerTransitionPagesVisible;
 
-            const shouldOpenPreviousChapter =
-                isFirstPage &&
-                (!shouldShowTransitionPage || isPreviousTransitionPageVisible) &&
-                convertedPage === 'previous' &&
-                !!getReaderStore().chapters.previousChapter;
-            if (shouldOpenPreviousChapter) {
-                ReaderControls.openChapter('previous');
-                return;
-            }
+        const shouldOpenPreviousChapter =
+            isFirstPage &&
+            (!shouldShowTransitionPage || isPreviousTransitionPageVisible) &&
+            convertedPage === 'previous' &&
+            !!getReaderStore().chapters.previousChapter;
+        if (shouldOpenPreviousChapter) {
+            ReaderControls.openChapter('previous');
+            return;
+        }
 
-            const shouldOpenNextChapter =
-                isLastPage &&
-                (!shouldShowTransitionPage || isNextTransitionPageVisible) &&
-                convertedPage === 'next' &&
-                !!getReaderStore().chapters.nextChapter;
-            if (shouldOpenNextChapter) {
-                ReaderControls.openChapter('next');
-                return;
-            }
+        const shouldOpenNextChapter =
+            isLastPage &&
+            (!shouldShowTransitionPage || isNextTransitionPageVisible) &&
+            convertedPage === 'next' &&
+            !!getReaderStore().chapters.nextChapter;
+        if (shouldOpenNextChapter) {
+            ReaderControls.openChapter('next');
+            return;
+        }
 
-            const isPreviousMode = convertedPage === 'previous';
-            const isNextMode = convertedPage === 'next';
+        const isPreviousMode = convertedPage === 'previous';
+        const isNextMode = convertedPage === 'next';
 
-            const closePreviousTransitionPage = isPreviousTransitionPageVisible && isNextMode;
-            const closeNextTransitionPage = isNextTransitionPageVisible && isPreviousMode;
+        const closePreviousTransitionPage = isPreviousTransitionPageVisible && isNextMode;
+        const closeNextTransitionPage = isNextTransitionPageVisible && isPreviousMode;
 
-            const needToHideTransitionPage =
-                isATransitionPageVisibleFlag &&
-                !isContinuousReadingModeActive &&
-                (closePreviousTransitionPage || closeNextTransitionPage);
-            if (needToHideTransitionPage) {
-                hideTransitionPage();
-                setPageToScrollToIndex(isPreviousTransitionPageVisible ? indexOfFirstPage : indexOfLastPage);
+        const needToHideTransitionPage =
+            isATransitionPageVisibleFlag &&
+            !isContinuousReadingModeActive &&
+            (closePreviousTransitionPage || closeNextTransitionPage);
+        if (needToHideTransitionPage) {
+            hideTransitionPage();
+            setPageToScrollToIndex(isPreviousTransitionPageVisible ? indexOfFirstPage : indexOfLastPage);
 
-                return;
-            }
+            return;
+        }
 
-            const needToOpenTransitionPage =
-                ((isFirstPage && isPreviousMode) || (isLastPage && isNextMode)) && !isContinuousReadingModeActive;
-            if (needToOpenTransitionPage) {
-                setTransitionPageMode(
-                    isPreviousMode ? ReaderTransitionPageMode.PREVIOUS : ReaderTransitionPageMode.NEXT,
-                );
-                return;
-            }
+        const needToOpenTransitionPage =
+            ((isFirstPage && isPreviousMode) || (isLastPage && isNextMode)) && !isContinuousReadingModeActive;
+        if (needToOpenTransitionPage) {
+            setTransitionPageMode(isPreviousMode ? ReaderTransitionPageMode.PREVIOUS : ReaderTransitionPageMode.NEXT);
+            return;
+        }
 
-            setPageToScrollToIndex(isPreviousMode ? previousPageIndex : nextPageIndex);
-        }, []);
+        setPageToScrollToIndex(isPreviousMode ? previousPageIndex : nextPageIndex);
     }
 
     static useUpdateCurrentPageIndex(): (
@@ -535,7 +526,6 @@ export class ReaderControls {
         scrollElement: HTMLElement | null,
     ): (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void {
         const { direction: themeDirection } = useTheme();
-        const openPage = ReaderControls.useOpenPage();
 
         return useCallback(
             (e) => {
@@ -574,19 +564,18 @@ export class ReaderControls {
                                 scrollAmount,
                             );
                         } else {
-                            openPage(action === TapZoneRegionType.PREVIOUS ? 'previous' : 'next', 'ltr');
+                            ReaderControls.openPage(action === TapZoneRegionType.PREVIOUS ? 'previous' : 'next', 'ltr');
                         }
                         break;
                     default:
                         throw new Error(`Unexpected "TapZoneRegionType" (${action})`);
                 }
             },
-            [scrollElement, openPage, themeDirection],
+            [scrollElement, themeDirection],
         );
     }
 
     static useHandleProgressDragging(
-        openPage: ReturnType<(typeof ReaderControls)['useOpenPage']>,
         progressBarRef: RefObject<HTMLDivElement | null>,
         isDragging: boolean,
         currentPage: TReaderProgressCurrentPage,
@@ -623,7 +612,7 @@ export class ReaderControls {
                     return;
                 }
 
-                openPage(newPageIndex, undefined, false);
+                ReaderControls.openPage(newPageIndex, undefined, false);
             };
 
             const handleMouseMove = (e: MouseEvent) => {
@@ -643,6 +632,6 @@ export class ReaderControls {
                 document.removeEventListener('mousemove', handleMouseMove);
                 document.removeEventListener('touchmove', handleTouchMove);
             };
-        }, [openPage, isDragging, currentPage, pages, progressBarPosition]);
+        }, [isDragging, currentPage, pages, progressBarPosition]);
     }
 }

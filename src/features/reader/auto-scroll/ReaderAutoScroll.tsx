@@ -20,11 +20,9 @@ import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { getReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderAutoScroll = ({
-    openPage,
     themeDirection,
     combinedDirection,
 }: {
-    openPage: ReturnType<typeof ReaderControls.useOpenPage>;
     themeDirection: Direction;
     combinedDirection: Direction;
 }) => {
@@ -49,8 +47,8 @@ const BaseReaderAutoScroll = ({
     const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
 
     const changePage = useCallback(() => {
-        openPage('next', 'ltr');
-    }, [openPage]);
+        ReaderControls.openPage('next', 'ltr');
+    }, []);
 
     const automaticScrolling = useAutomaticScrolling(
         isContinuousReadingModeActive ? scrollRef : changePage,
@@ -79,9 +77,8 @@ const BaseReaderAutoScroll = ({
 export const ReaderAutoScroll = withPropsFrom(
     memo(BaseReaderAutoScroll),
     [
-        () => ({ openPage: ReaderControls.useOpenPage() }),
         () => ({ themeDirection: useTheme().direction }),
         () => ({ combinedDirection: ReaderService.useGetThemeDirection() }),
     ],
-    ['openPage', 'themeDirection', 'combinedDirection'],
+    ['themeDirection', 'combinedDirection'],
 );

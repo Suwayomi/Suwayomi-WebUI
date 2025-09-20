@@ -28,7 +28,6 @@ import { getOptionForDirection as getOptionForDirectionImpl } from '@/features/t
 import { ReaderProgressBarSlotsActionArea } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotsActionArea.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
-import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderProgressBarSlotWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotWrapper.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReadingMode } from '@/features/reader/Reader.types.ts';
@@ -39,7 +38,6 @@ const BaseReaderProgressBar = ({
     slots,
     createProgressBarSlot,
     progressBarPosition,
-    openPage,
     direction,
     fullSegmentClicks,
 }: ReaderProgressBarProps &
@@ -61,7 +59,6 @@ const BaseReaderProgressBar = ({
         slots?: {
             progressBarCurrentPage?: ReactNode;
         };
-        openPage: ReturnType<typeof ReaderControls.useOpenPage>;
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
         fullSegmentClicks: boolean;
     }) => {
@@ -114,7 +111,6 @@ const BaseReaderProgressBar = ({
     );
 
     ReaderControls.useHandleProgressDragging(
-        openPage,
         progressBarRef,
         isDragging,
         currentPage,
@@ -131,7 +127,7 @@ const BaseReaderProgressBar = ({
 
         const isTouchEvent = 'touches' in e;
 
-        openPage(
+        ReaderControls.openPage(
             getNextIndexFromPage(
                 getPageForMousePos(
                     isTouchEvent ? e.touches[0] : e,
@@ -170,7 +166,7 @@ const BaseReaderProgressBar = ({
                             ? (slotProps?.progressBarPageTexts?.current?.sx ?? [])
                             : [slotProps?.progressBarPageTexts?.current?.sx]),
                     ]}
-                    onClick={() => openPage('previous', 'ltr', false)}
+                    onClick={() => ReaderControls.openPage('previous', 'ltr', false)}
                 >
                     {currentPage.name}
                 </ReaderProgressBarPageNumber>
@@ -235,7 +231,7 @@ const BaseReaderProgressBar = ({
                             ? (slotProps?.progressBarPageTexts?.total?.sx ?? [])
                             : [slotProps?.progressBarPageTexts?.total?.sx]),
                     ]}
-                    onClick={() => openPage('next', 'ltr', false)}
+                    onClick={() => ReaderControls.openPage('next', 'ltr', false)}
                 >
                     {totalPages}
                 </ReaderProgressBarPageNumber>
@@ -244,8 +240,4 @@ const BaseReaderProgressBar = ({
     );
 };
 
-export const ReaderProgressBar = withPropsFrom(
-    memo(BaseReaderProgressBar),
-    [() => ({ openPage: ReaderControls.useOpenPage() })],
-    ['openPage'],
-);
+export const ReaderProgressBar = memo(BaseReaderProgressBar);
