@@ -10,6 +10,7 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
+import { SubpathConfig } from '@/lib/utils/SubpathConfig.ts';
 
 export abstract class BaseClient<Client, ClientConfig, Fetcher> {
     protected abstract client: Client;
@@ -68,7 +69,10 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
             ? import.meta.env.VITE_SERVER_URL_DEFAULT
             : `${protocol}//${hostname}:${port}`;
 
-        return AppStorage.local.getItemParsed('serverBaseURL', defaultUrl);
+        const serverBaseURL = AppStorage.local.getItemParsed('serverBaseURL', defaultUrl);
+
+        // Apply subpath configuration to the base URL
+        return SubpathConfig.getApiBaseUrl(serverBaseURL);
     }
 
     public abstract updateConfig(config: Partial<ClientConfig>): void;
