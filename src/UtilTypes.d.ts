@@ -34,9 +34,13 @@ type TupleUnion<U extends string | number | symbol, R extends any[] = []> = {
     [S in U]: Exclude<U, S> extends never ? [...R, S] : TupleUnion<Exclude<U, S>, [...R, S]>;
 }[U];
 
+type ValueWithDefaultFlag<T> = { value: T; isDefault: boolean };
+
 type TransformRecordToWithDefaultFlag<T extends Record<string, any>> = {
-    [K in keyof T]: { value: T[K]; isDefault: boolean };
+    [K in keyof T]: ValueWithDefaultFlag<T[K]>;
 };
+
+type ExtractValueWithDefaultFlag<T extends ValueWithDefaultFlag<any>> = T extends ValueWithDefaultFlag<infer V> ? V : T;
 
 type MergeObjectsArray<T extends object[]> = T extends [infer F, ...infer R]
     ? F & MergeObjectsArray<R extends object[] ? R : []>

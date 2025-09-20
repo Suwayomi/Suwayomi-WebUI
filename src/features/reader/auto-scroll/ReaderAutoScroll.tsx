@@ -8,7 +8,7 @@
 
 import { memo, useCallback, useEffect } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
-import { IReaderSettings, ReaderScrollAmount, ReadingMode } from '@/features/reader/Reader.types.ts';
+import { ReaderScrollAmount, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
@@ -21,11 +21,9 @@ import { getReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderS
 
 const BaseReaderAutoScroll = ({
     openPage,
-    readingMode,
-    autoScroll,
     themeDirection,
     combinedDirection,
-}: Pick<IReaderSettings, 'readingMode' | 'autoScroll'> & {
+}: {
     openPage: ReturnType<typeof ReaderControls.useOpenPage>;
     themeDirection: Direction;
     combinedDirection: Direction;
@@ -33,6 +31,10 @@ const BaseReaderAutoScroll = ({
     const { scrollRef, direction } = useReaderStoreShallow((state) => ({
         scrollRef: state.autoScroll.scrollRef,
         direction: state.autoScroll.direction,
+    }));
+    const { readingMode, autoScroll } = useReaderStoreShallow((state) => ({
+        readingMode: state.settings.readingMode.value,
+        autoScroll: state.settings.autoScroll,
     }));
 
     const isScrollingInvertedBasedOnReadingDirection =
@@ -77,10 +79,9 @@ const BaseReaderAutoScroll = ({
 export const ReaderAutoScroll = withPropsFrom(
     memo(BaseReaderAutoScroll),
     [
-        ReaderService.useSettingsWithoutDefaultFlag,
         () => ({ openPage: ReaderControls.useOpenPage() }),
         () => ({ themeDirection: useTheme().direction }),
         () => ({ combinedDirection: ReaderService.useGetThemeDirection() }),
     ],
-    ['openPage', 'readingMode', 'themeDirection', 'combinedDirection', 'autoScroll'],
+    ['openPage', 'themeDirection', 'combinedDirection'],
 );

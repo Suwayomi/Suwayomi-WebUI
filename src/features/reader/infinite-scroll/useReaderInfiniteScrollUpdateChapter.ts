@@ -16,7 +16,7 @@ import {
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { useIntersectionObserver } from '@/base/hooks/useIntersectionObserver.tsx';
-import { getReaderStore } from '@/features/reader/ReaderStore.ts';
+import { getReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 interface ElementIntersection {
     start: boolean;
@@ -242,14 +242,19 @@ export const useReaderInfiniteScrollUpdateChapter = (
     chapterToOpenId: number | undefined,
     isCurrentChapter: boolean,
     isChapterToOpenVisible: boolean,
-    readingMode: ReadingMode,
-    readingDirection: ReadingDirection,
-    shouldUseInfiniteScroll: boolean,
     openChapter: ReturnType<typeof ReaderControls.useOpenChapter>,
     image: HTMLElement | null,
     scrollElement: HTMLElement | null,
-    shouldShowTransitionPage: boolean,
 ) => {
+    const { readingMode, readingDirection, shouldUseInfiniteScroll, shouldShowTransitionPage } = useReaderStoreShallow(
+        (state) => ({
+            readingMode: state.settings.readingMode.value,
+            readingDirection: state.settings.readingDirection.value,
+            shouldUseInfiniteScroll: state.settings.shouldUseInfiniteScroll,
+            shouldShowTransitionPage: state.settings.shouldShowTransitionPage,
+        }),
+    );
+
     useEffect(() => {
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
         const isContinuousVerticalReadingModeActive = isContinuousVerticalReadingMode(readingMode);

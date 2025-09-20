@@ -7,21 +7,17 @@
  */
 
 import Box from '@mui/material/Box';
-import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
-const BaseReaderRGBAFilter = ({
-    readerNavBarWidth,
-    customFilter: {
-        rgba: {
-            value: { red, green, blue, alpha, blendMode },
-            enabled,
-        },
-    },
-}: Pick<NavbarContextType, 'readerNavBarWidth'> & Pick<IReaderSettings, 'customFilter'>) => {
+const BaseReaderRGBAFilter = ({ readerNavBarWidth }: Pick<NavbarContextType, 'readerNavBarWidth'>) => {
+    const {
+        value: { red, green, blue, alpha, blendMode },
+        enabled,
+    } = useReaderStoreShallow((state) => state.settings.customFilter.rgba);
+
     if (!enabled) {
         return null;
     }
@@ -42,8 +38,4 @@ const BaseReaderRGBAFilter = ({
     );
 };
 
-export const ReaderRGBAFilter = withPropsFrom(
-    BaseReaderRGBAFilter,
-    [useNavBarContext, ReaderService.useSettingsWithoutDefaultFlag],
-    ['readerNavBarWidth', 'customFilter'],
-);
+export const ReaderRGBAFilter = withPropsFrom(BaseReaderRGBAFilter, [useNavBarContext], ['readerNavBarWidth']);

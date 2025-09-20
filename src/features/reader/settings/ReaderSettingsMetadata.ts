@@ -34,14 +34,6 @@ import { DEFAULT_DEVICE, getActiveDevice } from '@/features/device/services/Devi
 import { APP_METADATA_KEY_PREFIX } from '@/features/metadata/Metadata.constants.ts';
 import { extractOriginalKey } from '@/features/metadata/Metadata.utils.ts';
 
-export const convertFromReaderSettingsWithDefaultFlag = (settings: IReaderSettingsWithDefaultFlag): IReaderSettings =>
-    Object.fromEntries(
-        Object.entries(settings).map(([key, value]) => [
-            key,
-            Object.hasOwn(value, 'value') && Object.hasOwn(value, 'isDefault') ? value.value : value,
-        ]),
-    ) as IReaderSettings;
-
 const convertToSettingsWithDefaultFlag = (
     type: Extract<MetadataHolderType, 'global' | 'manga'>,
     settings: IReaderSettings,

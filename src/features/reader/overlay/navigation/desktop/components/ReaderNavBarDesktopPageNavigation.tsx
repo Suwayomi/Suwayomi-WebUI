@@ -16,17 +16,14 @@ import { Select } from '@/base/components/inputs/Select.tsx';
 import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderNavBarDesktopPageNavigation = ({
-    readingDirection,
     openPage,
-}: Pick<IReaderSettings, 'readingDirection'> & {
+}: {
     openPage: ReturnType<typeof ReaderControls.useOpenPage>;
 }) => {
     const { t } = useTranslation();
@@ -35,6 +32,7 @@ const BaseReaderNavBarDesktopPageNavigation = ({
         currentPageIndex: state.pages.currentPageIndex,
         pages: state.pages.pages,
     }));
+    const readingDirection = useReaderStore((state) => state.settings.readingDirection.value);
 
     const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
     const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
@@ -82,6 +80,6 @@ const BaseReaderNavBarDesktopPageNavigation = ({
 
 export const ReaderNavBarDesktopPageNavigation = withPropsFrom(
     memo(BaseReaderNavBarDesktopPageNavigation),
-    [() => ({ openPage: ReaderControls.useOpenPage() }), ReaderService.useSettingsWithoutDefaultFlag],
-    ['readingDirection', 'openPage'],
+    [() => ({ openPage: ReaderControls.useOpenPage() })],
+    ['openPage'],
 );

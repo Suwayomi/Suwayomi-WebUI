@@ -14,7 +14,6 @@ import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import {
     IReaderSettings,
-    IReaderSettingsWithDefaultFlag,
     ReaderExitMode,
     ReaderOpenChapterLocationState,
     ReaderOverlayMode,
@@ -22,10 +21,7 @@ import {
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import {
-    convertFromReaderSettingsWithDefaultFlag,
-    updateReaderSettings,
-} from '@/features/reader/settings/ReaderSettingsMetadata.ts';
+import { updateReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -34,7 +30,6 @@ import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { useReaderStateSettingsContext } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import {
@@ -51,7 +46,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import { getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
-import { getReaderStore } from '@/features/reader/ReaderStore.ts';
+import { getReaderStore, useReaderStore } from '@/features/reader/ReaderStore.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -154,7 +149,6 @@ export class ReaderService {
     }
 
     static useUpdateChapter(): (patch: UpdateChapterPatchInput) => void {
-        const { shouldSkipDupChapters } = ReaderService.useSettings();
         const {
             settings: { deleteChaptersWhileReading, deleteChaptersWithBookmark, updateProgressAfterReading },
         } = useMetadataServerSettings();
@@ -164,6 +158,7 @@ export class ReaderService {
                 const {
                     manga,
                     chapters: { currentChapter, mangaChapters, chapters },
+                    settings: { shouldSkipDupChapters },
                 } = getReaderStore();
 
                 if (!manga || !currentChapter || !mangaChapters) {
@@ -229,23 +224,15 @@ export class ReaderService {
 
                 ReaderService.getOrCreateChapterUpdateQueue(currentChapter.id).enqueue(`${currentChapter.id}`, update);
             },
-            [shouldSkipDupChapters, deleteChaptersWhileReading, deleteChaptersWithBookmark, updateProgressAfterReading],
+            [deleteChaptersWhileReading, deleteChaptersWithBookmark, updateProgressAfterReading],
         );
-    }
-
-    static useSettings(): IReaderSettingsWithDefaultFlag {
-        return useReaderStateSettingsContext().settings;
-    }
-
-    static useSettingsWithoutDefaultFlag(): IReaderSettings {
-        return convertFromReaderSettingsWithDefaultFlag(ReaderService.useSettings());
     }
 
     static useGetThemeDirection(): Direction {
         const { direction } = useTheme();
-        const { readingDirection } = ReaderService.useSettings();
+        const readingDirection = useReaderStore((state) => state.settings.readingDirection.value);
 
-        return DIRECTION_TO_READING_DIRECTION[direction] === readingDirection.value
+        return DIRECTION_TO_READING_DIRECTION[direction] === readingDirection
             ? direction
             : DIRECTION_TO_INVERTED[direction];
     }
@@ -352,7 +339,7 @@ export class ReaderService {
 
     static useOverlayMode(): { mode: ReaderOverlayMode; isDesktop: boolean; isMobile: boolean } {
         const isTouchDevice = MediaQuery.useIsTouchDevice();
-        const { overlayMode } = ReaderService.useSettings();
+        const overlayMode = useReaderStore((state) => state.settings.overlayMode);
 
         const isAutoModeSelected = overlayMode === ReaderOverlayMode.AUTO;
         const isDesktopModeSelected = overlayMode === ReaderOverlayMode.DESKTOP;
@@ -369,7 +356,7 @@ export class ReaderService {
     }
 
     static useExit(): () => void {
-        const { exitMode } = ReaderService.useSettings();
+        const exitMode = useReaderStore((state) => state.settings.exitMode);
         const handleBack = useBackButton();
         const navigate = useNavigate();
 

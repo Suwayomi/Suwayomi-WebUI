@@ -7,16 +7,12 @@
  */
 
 import { useEffect } from 'react';
-import { TReaderStateSettingsContext } from '@/features/reader/Reader.types.ts';
-import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { getReaderStore } from '@/features/reader/ReaderStore.ts';
 
-export const useReaderResetStates = (setSettings: TReaderStateSettingsContext['setSettings']) => {
+export const useReaderResetStates = () => {
     useEffect(
         () => () => {
             getReaderStore().reset();
-
-            setSettings(DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG);
         },
         [],
     );

@@ -13,21 +13,20 @@ import { ReaderSettingReadingMode } from '@/features/reader/settings/layout/comp
 import { ReaderSettingReadingDirection } from '@/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { DefaultSettingFootnote } from '@/features/reader/settings/components/DefaultSettingFootnote.tsx';
-import { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
-import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderSettingAutoScroll } from '@/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
-const BaseReaderBottomBarMobileQuickSettings = ({
-    readingMode,
-    readingDirection,
-    autoScroll,
-}: Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'readingDirection' | 'autoScroll'>) => {
+const BaseReaderBottomBarMobileQuickSettings = () => {
     const { t } = useTranslation();
     const { isActive, toggleActive } = useReaderStoreShallow((state) => ({
         isActive: state.autoScroll.isActive,
         toggleActive: state.autoScroll.toggleActive,
+    }));
+    const { readingMode, readingDirection, autoScroll } = useReaderStoreShallow((state) => ({
+        readingMode: state.settings.readingMode,
+        readingDirection: state.settings.readingDirection,
+        autoScroll: state.settings.autoScroll,
     }));
 
     return (
@@ -58,8 +57,4 @@ const BaseReaderBottomBarMobileQuickSettings = ({
     );
 };
 
-export const ReaderBottomBarMobileQuickSettings = withPropsFrom(
-    memo(BaseReaderBottomBarMobileQuickSettings),
-    [ReaderService.useSettings],
-    ['readingMode', 'readingDirection', 'autoScroll'],
-);
+export const ReaderBottomBarMobileQuickSettings = memo(BaseReaderBottomBarMobileQuickSettings);

@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { IReaderSettings, ProgressBarType, ReadingDirection } from '@/features/reader/Reader.types.ts';
+import { ProgressBarType, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
@@ -25,18 +25,19 @@ const BaseReaderPageNumber = ({
     isDesktop,
     readerNavBarWidth,
     isMaximized,
-    progressBarType,
-    shouldShowPageNumber,
-    readingDirection,
 }: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop'> &
     Pick<NavbarContextType, 'readerNavBarWidth'> &
-    Pick<TReaderProgressBarContext, 'isMaximized'> &
-    Pick<IReaderSettings, 'progressBarType' | 'shouldShowPageNumber' | 'readingDirection'>) => {
+    Pick<TReaderProgressBarContext, 'isMaximized'>) => {
     const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
     const { currentPageIndex, pages, totalPages } = useReaderStoreShallow((state) => ({
         currentPageIndex: state.pages.currentPageIndex,
         pages: state.pages.pages,
         totalPages: state.pages.totalPages,
+    }));
+    const { readingDirection, shouldShowPageNumber, progressBarType } = useReaderStoreShallow((state) => ({
+        readingDirection: state.settings.readingDirection.value,
+        shouldShowPageNumber: state.settings.shouldShowPageNumber,
+        progressBarType: state.settings.progressBarType,
     }));
 
     const pageName = useMemo(() => {
@@ -89,11 +90,6 @@ const BaseReaderPageNumber = ({
 
 export const ReaderPageNumber = withPropsFrom(
     BaseReaderPageNumber,
-    [
-        ReaderService.useOverlayMode,
-        useNavBarContext,
-        useReaderProgressBarContext,
-        ReaderService.useSettingsWithoutDefaultFlag,
-    ],
-    ['isDesktop', 'readerNavBarWidth', 'isMaximized', 'progressBarType', 'shouldShowPageNumber', 'readingDirection'],
+    [ReaderService.useOverlayMode, useNavBarContext, useReaderProgressBarContext],
+    ['isDesktop', 'readerNavBarWidth', 'isMaximized'],
 );

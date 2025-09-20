@@ -9,15 +9,10 @@
 import { memo } from 'react';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderInfiniteScrollUpdateChapter } from '@/features/reader/infinite-scroll/useReaderInfiniteScrollUpdateChapter.ts';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
-import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const BaseReaderInfiniteScrollUpdateChapter = ({
-    readingMode,
-    readingDirection,
-    shouldUseInfiniteScroll,
     chapterId,
     previousChapterId,
     nextChapterId,
@@ -27,32 +22,26 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
     imageWrapper,
     openChapter,
     scrollElement,
-    shouldShowTransitionPage,
-}: Pick<IReaderSettings, 'shouldShowTransitionPage'> &
-    Pick<IReaderSettings, 'readingMode' | 'readingDirection' | 'shouldUseInfiniteScroll'> & {
-        chapterId: ChapterIdInfo['id'];
-        previousChapterId?: ChapterIdInfo['id'];
-        nextChapterId?: ChapterIdInfo['id'];
-        isPreviousChapterVisible: boolean;
-        isCurrentChapter: boolean;
-        isNextChapterVisible: boolean;
-        imageWrapper: HTMLElement | null;
-        openChapter: ReturnType<typeof ReaderControls.useOpenChapter>;
-        scrollElement: HTMLElement | null;
-    }) => {
+}: {
+    chapterId: ChapterIdInfo['id'];
+    previousChapterId?: ChapterIdInfo['id'];
+    nextChapterId?: ChapterIdInfo['id'];
+    isPreviousChapterVisible: boolean;
+    isCurrentChapter: boolean;
+    isNextChapterVisible: boolean;
+    imageWrapper: HTMLElement | null;
+    openChapter: ReturnType<typeof ReaderControls.useOpenChapter>;
+    scrollElement: HTMLElement | null;
+}) => {
     useReaderInfiniteScrollUpdateChapter(
         'first',
         chapterId,
         previousChapterId,
         isCurrentChapter,
         isPreviousChapterVisible,
-        readingMode,
-        readingDirection,
-        shouldUseInfiniteScroll,
         openChapter,
         imageWrapper,
         scrollElement,
-        shouldShowTransitionPage,
     );
     useReaderInfiniteScrollUpdateChapter(
         'last',
@@ -60,13 +49,9 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
         nextChapterId,
         isCurrentChapter,
         isNextChapterVisible,
-        readingMode,
-        readingDirection,
-        shouldUseInfiniteScroll,
         openChapter,
         imageWrapper,
         scrollElement,
-        shouldShowTransitionPage,
     );
 
     return null;
@@ -74,6 +59,6 @@ const BaseReaderInfiniteScrollUpdateChapter = ({
 
 export const ReaderInfiniteScrollUpdateChapter = withPropsFrom(
     memo(BaseReaderInfiniteScrollUpdateChapter),
-    [() => ({ openChapter: ReaderControls.useOpenChapter() }), ReaderService.useSettingsWithoutDefaultFlag],
-    ['openChapter', 'shouldShowTransitionPage'],
+    [() => ({ openChapter: ReaderControls.useOpenChapter() })],
+    ['openChapter'],
 );

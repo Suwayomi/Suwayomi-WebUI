@@ -25,7 +25,7 @@ import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
-import { getReaderStore } from '@/features/reader/ReaderStore.ts';
+import { getReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;
@@ -63,16 +63,9 @@ export const ReaderHotkeys = ({
     const { direction: themeDirection } = useTheme();
     const readerThemeDirection = ReaderService.useGetThemeDirection();
     const { enableScope, disableScope } = useHotkeysContext();
-    const {
-        hotkeys,
-        pageScaleMode,
-        shouldStretchPage,
-        shouldOffsetDoubleSpreads,
-        readingMode,
-        readingDirection,
-        autoScroll,
-        scrollAmount,
-    } = ReaderService.useSettings();
+    const { hotkeys } = useReaderStoreShallow((state) => ({
+        hotkeys: state.settings.hotkeys,
+    }));
     const { setShowPreview } = useReaderTapZoneContext();
     const exitReader = ReaderService.useExit();
 
@@ -84,10 +77,13 @@ export const ReaderHotkeys = ({
     useHotkeys(
         hotkeys[ReaderHotkey.SCROLL_BACKWARD],
         () => {
-            const automaticScrolling = getReaderStore().autoScroll;
+            const {
+                autoScroll,
+                settings: { readingMode, readingDirection, scrollAmount },
+            } = getReaderStore();
 
-            if (automaticScrolling.isActive) {
-                automaticScrolling.setDirection(ScrollOffset.BACKWARD);
+            if (autoScroll.isActive) {
+                autoScroll.setDirection(ScrollOffset.BACKWARD);
                 return;
             }
 
@@ -108,15 +104,18 @@ export const ReaderHotkeys = ({
             );
         },
         { preventDefault: true },
-        [readingMode.value, readingDirection.value, themeDirection, openChapter, scrollAmount],
+        [themeDirection, openChapter],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.SCROLL_FORWARD],
         () => {
-            const automaticScrolling = getReaderStore().autoScroll;
+            const {
+                autoScroll,
+                settings: { readingMode, readingDirection, scrollAmount },
+            } = getReaderStore();
 
-            if (automaticScrolling.isActive) {
-                automaticScrolling.setDirection(ScrollOffset.FORWARD);
+            if (autoScroll.isActive) {
+                autoScroll.setDirection(ScrollOffset.FORWARD);
                 return;
             }
 
@@ -137,7 +136,7 @@ export const ReaderHotkeys = ({
             );
         },
         { preventDefault: true },
-        [readingMode.value, readingDirection.value, themeDirection, openChapter, scrollAmount],
+        [themeDirection, openChapter],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.PREVIOUS_CHAPTER],
@@ -157,70 +156,55 @@ export const ReaderHotkeys = ({
         () => {
             updateSettingCycleThrough(
                 'pageScaleMode',
-                pageScaleMode.value,
+                getReaderStore().settings.pageScaleMode.value,
                 READER_PAGE_SCALE_MODE_VALUES,
-                pageScaleMode.isDefault,
+                getReaderStore().settings.pageScaleMode.isDefault,
                 true,
             );
         },
-        [pageScaleMode.value, pageScaleMode.isDefault],
+        [],
     );
-    useHotkeys(
-        hotkeys[ReaderHotkey.STRETCH_IMAGE],
-        () => ReaderService.updateSetting('shouldStretchPage', !shouldStretchPage.value),
-        [shouldStretchPage.value],
+    useHotkeys(hotkeys[ReaderHotkey.STRETCH_IMAGE], () =>
+        ReaderService.updateSetting('shouldStretchPage', !getReaderStore().settings.shouldStretchPage.value),
     );
-    useHotkeys(
-        hotkeys[ReaderHotkey.OFFSET_SPREAD_PAGES],
-        () => ReaderService.updateSetting('shouldOffsetDoubleSpreads', !shouldOffsetDoubleSpreads.value),
-        [shouldOffsetDoubleSpreads.value],
+    useHotkeys(hotkeys[ReaderHotkey.OFFSET_SPREAD_PAGES], () =>
+        ReaderService.updateSetting(
+            'shouldOffsetDoubleSpreads',
+            !getReaderStore().settings.shouldOffsetDoubleSpreads.value,
+        ),
     );
-    useHotkeys(
-        hotkeys[ReaderHotkey.CYCLE_READING_MODE],
-        () => {
-            updateSettingCycleThrough(
-                'readingMode',
-                readingMode.value,
-                READING_MODE_VALUES,
-                readingMode.isDefault,
-                true,
-            );
-        },
-        [readingMode.value, readingMode.isDefault],
-    );
-    useHotkeys(
-        hotkeys[ReaderHotkey.CYCLE_READING_DIRECTION],
-        () => {
-            updateSettingCycleThrough(
-                'readingDirection',
-                readingDirection.value,
-                READING_DIRECTION_VALUES,
-                readingDirection.isDefault,
-                true,
-            );
-        },
-        [readingDirection.value, readingDirection.isDefault],
-    );
+    useHotkeys(hotkeys[ReaderHotkey.CYCLE_READING_MODE], () => {
+        updateSettingCycleThrough(
+            'readingMode',
+            getReaderStore().settings.readingMode.value,
+            READING_MODE_VALUES,
+            getReaderStore().settings.readingMode.isDefault,
+            true,
+        );
+    });
+    useHotkeys(hotkeys[ReaderHotkey.CYCLE_READING_DIRECTION], () => {
+        updateSettingCycleThrough(
+            'readingDirection',
+            getReaderStore().settings.readingDirection.value,
+            READING_DIRECTION_VALUES,
+            getReaderStore().settings.readingDirection.isDefault,
+            true,
+        );
+    });
     useHotkeys(hotkeys[ReaderHotkey.TOGGLE_AUTO_SCROLL], () => getReaderStore().autoScroll.toggleActive(), {
         preventDefault: true,
     });
-    useHotkeys(
-        hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE],
-        () =>
-            ReaderService.updateSetting('autoScroll', {
-                ...autoScroll,
-                value: Math.min(AUTO_SCROLL_SPEED.max, autoScroll.value + AUTO_SCROLL_SPEED.step),
-            }),
-        [autoScroll.value],
+    useHotkeys(hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE], () =>
+        ReaderService.updateSetting('autoScroll', {
+            ...getReaderStore().settings.autoScroll,
+            value: Math.min(AUTO_SCROLL_SPEED.max, getReaderStore().settings.autoScroll.value + AUTO_SCROLL_SPEED.step),
+        }),
     );
-    useHotkeys(
-        hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE],
-        () =>
-            ReaderService.updateSetting('autoScroll', {
-                ...autoScroll,
-                value: Math.max(AUTO_SCROLL_SPEED.min, autoScroll.value - AUTO_SCROLL_SPEED.step),
-            }),
-        [autoScroll.value],
+    useHotkeys(hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE], () =>
+        ReaderService.updateSetting('autoScroll', {
+            ...getReaderStore().settings.autoScroll,
+            value: Math.max(AUTO_SCROLL_SPEED.min, getReaderStore().settings.autoScroll.value - AUTO_SCROLL_SPEED.step),
+        }),
     );
     useHotkeys(hotkeys[ReaderHotkey.EXIT_READER], exitReader, [exitReader]);
 

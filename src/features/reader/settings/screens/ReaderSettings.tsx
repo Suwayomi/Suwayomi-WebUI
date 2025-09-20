@@ -15,9 +15,10 @@ import { ReaderSettingsTabs } from '@/features/reader/settings/components/Reader
 import { ReaderSettingTab } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { useDisableAllHotkeysWhileMounted } from '@/features/hotkeys/Hotkeys.utils.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 export const ReaderSettings = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
-    const settings = ReaderService.useSettings();
+    const settings = useReaderStoreShallow((state) => state.settings);
 
     useDisableAllHotkeysWhileMounted(isOpen);
 

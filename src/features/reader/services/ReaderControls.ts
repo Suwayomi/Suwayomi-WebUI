@@ -166,25 +166,26 @@ export class ReaderControls {
         scrollIntoView?: boolean,
     ) => void {
         const { t } = useTranslation();
-        const {
-            readingMode,
-            shouldInformAboutMissingChapter,
-            shouldInformAboutScanlatorChange,
-            shouldUseInfiniteScroll,
-        } = ReaderService.useSettings();
 
         const openChapter = ReaderService.useNavigateToChapter();
 
         return useCallback(
             (offset, doTransitionCheck = true, scrollIntoView = true) => {
                 const {
-                    currentChapter,
-                    previousChapter,
-                    nextChapter,
-                    chapters,
-                    visibleChapters: { lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder },
-                    setReaderStateChapters,
-                } = getReaderStore().chapters;
+                    chapters: {
+                        currentChapter,
+                        previousChapter,
+                        nextChapter,
+                        chapters,
+                        visibleChapters: { lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder },
+                        setReaderStateChapters,
+                    },
+                    settings: {
+                        shouldInformAboutMissingChapter,
+                        shouldInformAboutScanlatorChange,
+                        shouldUseInfiniteScroll,
+                    },
+                } = getReaderStore();
 
                 if (!currentChapter) {
                     return;
@@ -264,14 +265,7 @@ export class ReaderControls {
 
                 doOpenChapter().catch(defaultPromiseErrorHandler('ReaderControls#useOpenChapter'));
             },
-            [
-                t,
-                openChapter,
-                readingMode.value,
-                shouldInformAboutMissingChapter,
-                shouldInformAboutScanlatorChange,
-                shouldUseInfiniteScroll,
-            ],
+            [t, openChapter],
         );
     }
 
@@ -341,21 +335,28 @@ export class ReaderControls {
         hideOverlay?: boolean,
     ) => void {
         const { setShowPreview } = useReaderTapZoneContext();
-        const { readingDirection, readingMode, shouldShowTransitionPage } = ReaderService.useSettings();
         const openChapter = ReaderControls.useOpenChapter();
 
-        const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
-
         return useCallback(
-            (page, forceDirection = direction, hideOverlay: boolean = true) => {
+            (page, forceDirection, hideOverlay: boolean = true) => {
+                const {
+                    pages: {
+                        currentPageIndex,
+                        setPageToScrollToIndex,
+                        pages,
+                        transitionPageMode,
+                        setTransitionPageMode,
+                    },
+                    settings: { readingDirection, readingMode, shouldShowTransitionPage },
+                } = getReaderStore();
+
+                const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
+
                 const convertedPage = getOptionForDirection(
                     page,
                     page === 'previous' ? 'next' : 'previous',
-                    forceDirection,
+                    forceDirection ?? direction,
                 );
-
-                const { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode } =
-                    getReaderStore().pages;
 
                 const currentPage = getPage(currentPageIndex, pages);
                 const previousPageIndex = getNextPageIndex('previous', currentPage.pagesIndex, pages);
@@ -438,7 +439,7 @@ export class ReaderControls {
 
                 setPageToScrollToIndex(isPreviousMode ? previousPageIndex : nextPageIndex);
             },
-            [direction, openChapter, shouldShowTransitionPage, readingMode.value],
+            [openChapter],
         );
     }
 
@@ -565,7 +566,6 @@ export class ReaderControls {
     ): (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void {
         const { direction: themeDirection } = useTheme();
         const { setShowPreview } = useReaderTapZoneContext();
-        const { readingMode, readingDirection, isStaticNav, scrollAmount } = ReaderService.useSettings();
         const openPage = ReaderControls.useOpenPage();
         const openChapter = ReaderControls.useOpenChapter();
 
@@ -574,6 +574,8 @@ export class ReaderControls {
                 if (!scrollElement) {
                     return;
                 }
+
+                const { readingMode, readingDirection, isStaticNav, scrollAmount } = getReaderStore().settings;
 
                 const rect = e.currentTarget.getBoundingClientRect();
                 const rectRelativeX = e.clientX - rect.left;
@@ -612,16 +614,7 @@ export class ReaderControls {
                         throw new Error(`Unexpected "TapZoneRegionType" (${action})`);
                 }
             },
-            [
-                scrollElement,
-                readingMode.value,
-                openPage,
-                readingDirection.value,
-                openChapter,
-                themeDirection,
-                isStaticNav,
-                scrollAmount,
-            ],
+            [scrollElement, openPage, openChapter, themeDirection],
         );
     }
 

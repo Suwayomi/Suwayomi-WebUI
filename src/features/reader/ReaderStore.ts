@@ -18,9 +18,14 @@ import {
     createReaderAutoScrollStoreSlice,
     ReaderAutoScrollStoreSlice,
 } from '@/features/reader/auto-scroll/ReaderAutoScrollStore.ts';
-import { ReaderStateChapters, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import {
+    IReaderSettingsWithDefaultFlag,
+    ReaderStateChapters,
+    ReaderStatePages,
+} from '@/features/reader/Reader.types.ts';
 import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
 import { READER_DEFAULT_CHAPTERS_STATE, READER_DEFAULT_PAGES_STATE } from '@/features/reader/ReaderStore.constants.ts';
+import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 
 interface ReaderPagesStoreSlice {
     pages: ReaderStatePages & {
@@ -47,6 +52,9 @@ interface ReaderStore
         setXSize: (size: number) => void;
         ySize: number;
         setYSize: (size: number) => void;
+    };
+    settings: IReaderSettingsWithDefaultFlag & {
+        setSettings: (settings: IReaderSettingsWithDefaultFlag) => void;
     };
 }
 
@@ -139,6 +147,10 @@ export const useReaderStore = create<ReaderStore>()(
                 get().autoScroll.reset();
                 get().pages.reset();
                 get().chapters.reset();
+                draft.settings = {
+                    ...get().settings,
+                    ...DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
+                };
             }),
         setManga: (manga) =>
             set((draft) => {
@@ -153,6 +165,16 @@ export const useReaderStore = create<ReaderStore>()(
             setYSize: (size) =>
                 set((draft) => {
                     draft.scrollbar.ySize = size;
+                }),
+        },
+        settings: {
+            ...DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
+            setSettings: (settings) =>
+                set((draft) => {
+                    draft.settings = {
+                        ...get().settings,
+                        ...settings,
+                    };
                 }),
         },
         ...createReaderOverlayStoreSlice(set, get, store),

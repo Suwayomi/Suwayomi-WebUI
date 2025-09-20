@@ -35,22 +35,20 @@ import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBarContext.tsx';
 import { ReaderProgressBarSlotWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotWrapper.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import { IReaderSettings, ReadingMode } from '@/features/reader/Reader.types.ts';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { ReadingMode } from '@/features/reader/Reader.types.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const BaseReaderProgressBar = ({
     slotProps,
     slots,
     createProgressBarSlot,
     progressBarPosition,
-    readingMode,
     isDragging,
     setIsDragging,
     openPage,
     direction,
     fullSegmentClicks,
 }: ReaderProgressBarProps &
-    Pick<IReaderSettings, 'readingMode'> &
     Pick<TReaderProgressBarContext, 'isDragging' | 'setIsDragging'> &
     Pick<ComponentProps<typeof ReaderProgressBarSlotWrapper>, 'createProgressBarSlot'> & {
         slotProps?: {
@@ -80,6 +78,7 @@ const BaseReaderProgressBar = ({
         totalPages: state.pages.totalPages,
         currentPageIndex: state.pages.currentPageIndex,
     }));
+    const readingMode = useReaderStore((state) => state.settings.readingMode.value);
 
     const progressBarRef = useRef<HTMLDivElement | null>(null);
     const draggingDetectionTimeout = useRef<NodeJS.Timeout>(undefined);
@@ -250,10 +249,6 @@ const BaseReaderProgressBar = ({
 
 export const ReaderProgressBar = withPropsFrom(
     memo(BaseReaderProgressBar),
-    [
-        useReaderProgressBarContext,
-        () => ({ openPage: ReaderControls.useOpenPage() }),
-        ReaderService.useSettingsWithoutDefaultFlag,
-    ],
-    ['isDragging', 'setIsDragging', 'openPage', 'readingMode'],
+    [useReaderProgressBarContext, () => ({ openPage: ReaderControls.useOpenPage() })],
+    ['isDragging', 'setIsDragging', 'openPage'],
 );

@@ -21,9 +21,7 @@ import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import { useMergedRef } from '@mantine/hooks';
-import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import {
-    IReaderSettings,
     PageInViewportType,
     ReaderOpenChapterLocationState,
     ReaderResumeMode,
@@ -73,36 +71,11 @@ const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> 
 const BaseReaderViewer = forwardRef(
     (
         {
-            readingMode,
-            readingDirection,
-            shouldUseInfiniteScroll,
-            readerWidth,
-            pageScaleMode,
-            shouldOffsetDoubleSpreads,
-            imagePreLoadAmount,
-            pageGap,
-            customFilter,
-            shouldStretchPage,
-            isStaticNav,
             readerNavBarWidth,
             updateCurrentPageIndex,
             showPreview,
             setShowPreview,
-        }: Pick<
-            IReaderSettings,
-            | 'readingMode'
-            | 'readingDirection'
-            | 'shouldUseInfiniteScroll'
-            | 'readerWidth'
-            | 'pageScaleMode'
-            | 'shouldOffsetDoubleSpreads'
-            | 'imagePreLoadAmount'
-            | 'pageGap'
-            | 'customFilter'
-            | 'shouldStretchPage'
-            | 'isStaticNav'
-        > &
-            Pick<NavbarContextType, 'readerNavBarWidth'> &
+        }: Pick<NavbarContextType, 'readerNavBarWidth'> &
             TReaderTapZoneContext & {
                 updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
             },
@@ -152,6 +125,29 @@ const BaseReaderViewer = forwardRef(
             visibleChapters: state.chapters.visibleChapters,
             setReaderStateChapters: state.chapters.setReaderStateChapters,
             isCurrentChapterReady: state.chapters.isCurrentChapterReady,
+        }));
+        const {
+            readingMode,
+            readingDirection,
+            readerWidth,
+            pageScaleMode,
+            shouldOffsetDoubleSpreads,
+            imagePreLoadAmount,
+            pageGap,
+            customFilter,
+            shouldStretchPage,
+            isStaticNav,
+        } = useReaderStoreShallow((state) => ({
+            readingMode: state.settings.readingMode.value,
+            readingDirection: state.settings.readingDirection.value,
+            readerWidth: state.settings.readerWidth.value,
+            pageScaleMode: state.settings.pageScaleMode.value,
+            shouldOffsetDoubleSpreads: state.settings.shouldOffsetDoubleSpreads.value,
+            imagePreLoadAmount: state.settings.imagePreLoadAmount,
+            pageGap: state.settings.pageGap.value,
+            customFilter: state.settings.customFilter,
+            shouldStretchPage: state.settings.shouldStretchPage.value,
+            isStaticNav: state.settings.isStaticNav,
         }));
         const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
             resumeMode: ReaderResumeMode.START,
@@ -408,7 +404,6 @@ const BaseReaderViewer = forwardRef(
                             pageScaleMode={pageScaleMode}
                             shouldOffsetDoubleSpreads={shouldOffsetDoubleSpreads}
                             readingDirection={readingDirection}
-                            shouldUseInfiniteScroll={shouldUseInfiniteScroll}
                             updateCurrentPageIndex={isCurrentChapter ? updateCurrentPageIndex : noOp}
                             scrollIntoView={isCurrentChapter && visibleChapters.scrollIntoView}
                             resumeMode={getReaderChapterViewResumeMode(
@@ -441,26 +436,9 @@ const BaseReaderViewer = forwardRef(
 export const ReaderViewer = withPropsFrom(
     memo(BaseReaderViewer),
     [
-        ReaderService.useSettingsWithoutDefaultFlag,
         () => ({ updateCurrentPageIndex: ReaderControls.useUpdateCurrentPageIndex() }),
         useReaderTapZoneContext,
         useNavBarContext,
     ],
-    [
-        'readingMode',
-        'readingDirection',
-        'shouldUseInfiniteScroll',
-        'readerWidth',
-        'pageScaleMode',
-        'shouldOffsetDoubleSpreads',
-        'imagePreLoadAmount',
-        'pageGap',
-        'customFilter',
-        'shouldStretchPage',
-        'isStaticNav',
-        'readerNavBarWidth',
-        'updateCurrentPageIndex',
-        'showPreview',
-        'setShowPreview',
-    ],
+    ['readerNavBarWidth', 'updateCurrentPageIndex', 'showPreview', 'setShowPreview'],
 );

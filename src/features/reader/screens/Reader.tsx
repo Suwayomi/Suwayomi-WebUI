@@ -22,21 +22,13 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { GET_CHAPTERS_READER } from '@/lib/graphql/queries/ChapterQuery.ts';
 import { TapZoneLayout } from '@/features/reader/tap-zones/TapZoneLayout.tsx';
 import { ReaderRGBAFilter } from '@/features/reader/filters/ReaderRGBAFilter.tsx';
-import { useReaderStateSettingsContext } from '@/features/reader/contexts/state/ReaderStateSettingsContext.tsx';
 import { ReaderViewer } from '@/features/reader/viewer/ReaderViewer.tsx';
-import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ReaderHotkeys } from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
-import {
-    IReaderSettings,
-    IReaderSettingsWithDefaultFlag,
-    TReaderStateSettingsContext,
-} from '@/features/reader/Reader.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { useReaderTapZoneContext } from '@/features/reader/tap-zones/ReaderTapZoneContext.tsx';
 import { useReaderResetStates } from '@/features/reader/hooks/useReaderResetStates.ts';
 import { useReaderSetSettingsState } from '@/features/reader/hooks/useReaderSetSettingsState.ts';
 import { useReaderShowSettingPreviewOnChange } from '@/features/reader/hooks/useReaderShowSettingPreviewOnChange.ts';
@@ -50,28 +42,8 @@ import { ReaderAutoScroll } from '@/features/reader/auto-scroll/ReaderAutoScroll
 const BaseReader = ({
     setOverride,
     readerNavBarWidth,
-    shouldSkipDupChapters,
-    shouldSkipFilteredChapters,
-    backgroundColor,
-    readingMode,
-    tapZoneLayout,
-    tapZoneInvertMode,
-    shouldShowReadingModePreview,
-    shouldShowTapZoneLayoutPreview,
-    setSettings,
     setShowPreview,
-}: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'> &
-    Pick<TReaderStateSettingsContext, 'setSettings'> &
-    Pick<
-        IReaderSettings,
-        | 'shouldSkipDupChapters'
-        | 'shouldSkipFilteredChapters'
-        | 'backgroundColor'
-        | 'shouldShowReadingModePreview'
-        | 'shouldShowTapZoneLayoutPreview'
-    > &
-    Pick<IReaderSettingsWithDefaultFlag, 'readingMode' | 'tapZoneLayout' | 'tapZoneInvertMode'> &
-    Pick<TReaderTapZoneContext, 'setShowPreview'>) => {
+}: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'> & Pick<TReaderTapZoneContext, 'setShowPreview'>) => {
     const { t } = useTranslation();
     const manga = useReaderStoreShallow((state) => state.manga);
     const overlay = useReaderStoreShallow((state) => state.overlay);
@@ -83,6 +55,27 @@ const BaseReader = ({
             currentChapter: state.chapters.currentChapter,
         }),
     );
+    const {
+        shouldSkipDupChapters,
+        shouldSkipFilteredChapters,
+        backgroundColor,
+        readingMode,
+        tapZoneLayout,
+        tapZoneInvertMode,
+        shouldShowReadingModePreview,
+        shouldShowTapZoneLayoutPreview,
+        setSettings,
+    } = useReaderStoreShallow((state) => ({
+        shouldSkipDupChapters: state.settings.shouldSkipDupChapters,
+        shouldSkipFilteredChapters: state.settings.shouldSkipFilteredChapters,
+        backgroundColor: state.settings.backgroundColor,
+        readingMode: state.settings.readingMode,
+        tapZoneLayout: state.settings.tapZoneLayout,
+        tapZoneInvertMode: state.settings.tapZoneInvertMode,
+        shouldShowReadingModePreview: state.settings.shouldShowReadingModePreview,
+        shouldShowTapZoneLayoutPreview: state.settings.shouldShowTapZoneLayoutPreview,
+        setSettings: state.settings.setSettings,
+    }));
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -123,7 +116,7 @@ const BaseReader = ({
         useReaderStore.getState().setManga(mangaResponse.data?.manga);
     }, [mangaResponse.data?.manga]);
 
-    useReaderResetStates(setSettings);
+    useReaderResetStates();
     useReaderSetSettingsState(
         mangaResponse,
         defaultSettingsResponse,
@@ -251,45 +244,4 @@ const BaseReader = ({
     );
 };
 
-export const Reader = withPropsFrom(
-    memo(BaseReader),
-    [
-        useNavBarContext,
-        useReaderStateSettingsContext,
-        () => {
-            const {
-                shouldSkipDupChapters,
-                shouldSkipFilteredChapters,
-                backgroundColor,
-                shouldShowReadingModePreview,
-                shouldShowTapZoneLayoutPreview,
-            } = ReaderService.useSettingsWithoutDefaultFlag();
-            return {
-                shouldSkipDupChapters,
-                shouldSkipFilteredChapters,
-                backgroundColor,
-                shouldShowReadingModePreview,
-                shouldShowTapZoneLayoutPreview,
-            };
-        },
-        () => {
-            const { readingMode, tapZoneLayout, tapZoneInvertMode } = ReaderService.useSettings();
-            return { readingMode, tapZoneLayout, tapZoneInvertMode };
-        },
-        useReaderTapZoneContext,
-    ],
-    [
-        'setOverride',
-        'readerNavBarWidth',
-        'shouldSkipDupChapters',
-        'shouldSkipFilteredChapters',
-        'backgroundColor',
-        'readingMode',
-        'tapZoneLayout',
-        'tapZoneInvertMode',
-        'shouldShowReadingModePreview',
-        'shouldShowTapZoneLayoutPreview',
-        'setSettings',
-        'setShowPreview',
-    ],
-);
+export const Reader = withPropsFrom(memo(BaseReader), [useNavBarContext], ['setOverride', 'readerNavBarWidth']);

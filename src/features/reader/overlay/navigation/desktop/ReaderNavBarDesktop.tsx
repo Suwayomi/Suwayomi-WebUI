@@ -27,10 +27,9 @@ import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
-import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
+import { useReaderStore, useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
 const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolean) => {
     const wasNavBarStaticRef = useRef(isStaticNav);
@@ -54,10 +53,7 @@ const BaseReaderNavBarDesktop = ({
     isVisible,
     openSettings,
     setReaderNavBarWidth,
-    isStaticNav,
-}: ReaderNavBarDesktopProps &
-    Pick<NavbarContextType, 'setReaderNavBarWidth'> &
-    Pick<IReaderSettings, 'isStaticNav'>) => {
+}: ReaderNavBarDesktopProps & Pick<NavbarContextType, 'setReaderNavBarWidth'>) => {
     const { t } = useTranslation();
     const manga = useReaderStoreShallow((state) => state.manga);
     const { chapters, currentChapter, previousChapter, nextChapter } = useReaderStoreShallow((state) => ({
@@ -66,6 +62,7 @@ const BaseReaderNavBarDesktop = ({
         previousChapter: state.chapters.previousChapter,
         nextChapter: state.chapters.nextChapter,
     }));
+    const isStaticNav = useReaderStore((state) => state.settings.isStaticNav);
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(
@@ -146,6 +143,6 @@ const BaseReaderNavBarDesktop = ({
 
 export const ReaderNavBarDesktop = withPropsFrom(
     memo(BaseReaderNavBarDesktop),
-    [useNavBarContext, ReaderService.useSettingsWithoutDefaultFlag],
-    ['setReaderNavBarWidth', 'isStaticNav'],
+    [useNavBarContext],
+    ['setReaderNavBarWidth'],
 );

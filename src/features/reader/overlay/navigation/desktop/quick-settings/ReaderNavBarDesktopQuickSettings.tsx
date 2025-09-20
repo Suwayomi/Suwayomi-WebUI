@@ -10,35 +10,27 @@ import Stack from '@mui/material/Stack';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { memo } from 'react';
 import { ReaderNavBarDesktopPageScale } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx';
 import { ReaderNavBarDesktopReadingMode } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopReadingMode.tsx';
 import { ReaderNavBarDesktopOffsetDoubleSpread } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopOffsetDoubleSpread.tsx';
 import { ReaderNavBarDesktopReadingDirection } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopReadingDirection.tsx';
-import { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { ReaderNavBarDesktopProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderNavBarDesktopAutoScroll } from '@/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx';
+import { useReaderStoreShallow } from '@/features/reader/ReaderStore.ts';
 
-const BaseReaderNavBarDesktopQuickSettings = ({
-    readingMode,
-    shouldOffsetDoubleSpreads,
-    pageScaleMode,
-    shouldStretchPage,
-    readingDirection,
-    autoScroll,
-    openSettings,
-}: Pick<ReaderNavBarDesktopProps, 'openSettings'> &
-    Pick<
-        IReaderSettingsWithDefaultFlag,
-        | 'readingMode'
-        | 'shouldOffsetDoubleSpreads'
-        | 'pageScaleMode'
-        | 'shouldStretchPage'
-        | 'readingDirection'
-        | 'autoScroll'
-    >) => {
+const BaseReaderNavBarDesktopQuickSettings = ({ openSettings }: Pick<ReaderNavBarDesktopProps, 'openSettings'>) => {
     const { t } = useTranslation();
+    const { readingMode, shouldOffsetDoubleSpreads, pageScaleMode, shouldStretchPage, readingDirection, autoScroll } =
+        useReaderStoreShallow((state) => ({
+            readingMode: state.settings.readingMode,
+            shouldOffsetDoubleSpreads: state.settings.shouldOffsetDoubleSpreads,
+            pageScaleMode: state.settings.pageScaleMode,
+            shouldStretchPage: state.settings.shouldStretchPage,
+            readingDirection: state.settings.readingDirection,
+            autoScroll: state.settings.autoScroll,
+        }));
 
     return (
         <Stack sx={{ gap: 1 }}>
@@ -85,15 +77,4 @@ const BaseReaderNavBarDesktopQuickSettings = ({
     );
 };
 
-export const ReaderNavBarDesktopQuickSettings = withPropsFrom(
-    BaseReaderNavBarDesktopQuickSettings,
-    [ReaderService.useSettings],
-    [
-        'readingMode',
-        'shouldOffsetDoubleSpreads',
-        'pageScaleMode',
-        'shouldStretchPage',
-        'readingDirection',
-        'autoScroll',
-    ],
-);
+export const ReaderNavBarDesktopQuickSettings = memo(BaseReaderNavBarDesktopQuickSettings);
