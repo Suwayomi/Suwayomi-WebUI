@@ -18,16 +18,9 @@ import {
     createReaderAutoScrollStoreSlice,
     ReaderAutoScrollStoreSlice,
 } from '@/features/reader/auto-scroll/ReaderAutoScrollStore.ts';
-import {
-    IReaderSettingsWithDefaultFlag,
-    ReaderStateChapters,
-    ReaderStatePages,
-} from '@/features/reader/Reader.types.ts';
+import { IReaderSettingsWithDefaultFlag, ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
-import {
-    READER_DEFAULT_CHAPTERS_STATE,
-    READER_DEFAULT_PAGES_STATE,
-} from '@/features/reader/stores/ReaderStore.constants.ts';
+import { READER_DEFAULT_CHAPTERS_STATE } from '@/features/reader/stores/ReaderStore.constants.ts';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import {
     createReaderProgressBarStoreSlice,
@@ -37,12 +30,7 @@ import {
     createReaderTapZoneStoreSlice,
     ReaderTapZoneStoreSlice,
 } from '@/features/reader/tap-zones/ReaderTapZoneStore.tsx';
-
-interface ReaderPagesStoreSlice {
-    pages: ReaderStatePages & {
-        reset: () => void;
-    };
-}
+import { createReaderPagesStoreSlice, ReaderPagesStoreSlice } from '@/features/reader/stores/ReaderPagesStore.ts';
 
 interface ReaderChaptersStoreSlice {
     chapters: ReaderStateChapters & {
@@ -78,52 +66,6 @@ const DEFAULT_STATE = {
         ySize: 0,
     },
 } satisfies Pick<ReaderStore, 'manga'> & { scrollbar: Pick<ReaderStore['scrollbar'], 'xSize' | 'ySize'> };
-
-const createReaderPagesStoreSlice = <T extends ReaderPagesStoreSlice>(
-    ...[set, get]: Parameters<ImmerStateCreator<T>>
-): ReaderPagesStoreSlice => ({
-    pages: {
-        ...READER_DEFAULT_PAGES_STATE,
-        reset: () => set(() => ({ pages: { ...get().pages, ...READER_DEFAULT_PAGES_STATE } })),
-        setCurrentPageIndex: (index) =>
-            set((draft) => {
-                draft.pages.currentPageIndex = index;
-            }),
-        setPageToScrollToIndex: (index) =>
-            set((draft) => {
-                draft.pages.pageToScrollToIndex = index;
-            }),
-        setTotalPages: (total) =>
-            set((draft) => {
-                draft.pages.totalPages = total;
-            }),
-        setPageUrls: (urls) =>
-            set((draft) => {
-                draft.pages.pageUrls = urls;
-            }),
-        setPageLoadStates: (loadStates) =>
-            set((draft) => {
-                if (typeof loadStates === 'function') {
-                    draft.pages.pageLoadStates = loadStates(get().pages.pageLoadStates);
-                    return;
-                }
-
-                draft.pages.pageLoadStates = loadStates;
-            }),
-        setPages: (pages) =>
-            set((draft) => {
-                draft.pages.pages = pages;
-            }),
-        setTransitionPageMode: (mode) =>
-            set((draft) => {
-                draft.pages.transitionPageMode = mode;
-            }),
-        setRetryFailedPagesKeyPrefix: (prefix) =>
-            set((draft) => {
-                draft.pages.retryFailedPagesKeyPrefix = prefix;
-            }),
-    },
-});
 
 const createReaderChaptersStoreSlice = <T extends ReaderChaptersStoreSlice>(
     ...[set, get]: Parameters<ImmerStateCreator<T>>
