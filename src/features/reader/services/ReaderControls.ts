@@ -8,8 +8,7 @@
 
 import { MutableRefObject, RefObject, useCallback, useEffect } from 'react';
 import { Direction, useTheme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
+import { t as translate } from 'i18next';
 import {
     getNextIndexFromPage,
     getNextPageIndex,
@@ -164,110 +163,103 @@ export class ReaderControls {
         doTransitionCheck?: boolean,
         scrollIntoView?: boolean,
     ) => void {
-        const { t } = useTranslation();
+        return useCallback((offset, doTransitionCheck = true, scrollIntoView = true) => {
+            const {
+                chapters: {
+                    currentChapter,
+                    previousChapter,
+                    nextChapter,
+                    chapters,
+                    visibleChapters: { lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder },
+                    setReaderStateChapters,
+                },
+                settings: {
+                    shouldInformAboutMissingChapter,
+                    shouldInformAboutScanlatorChange,
+                    shouldUseInfiniteScroll,
+                },
+            } = getReaderStore();
 
-        return useCallback(
-            (offset, doTransitionCheck = true, scrollIntoView = true) => {
-                const {
-                    chapters: {
-                        currentChapter,
-                        previousChapter,
-                        nextChapter,
-                        chapters,
-                        visibleChapters: { lastLeadingChapterSourceOrder, lastTrailingChapterSourceOrder },
-                        setReaderStateChapters,
-                    },
-                    settings: {
-                        shouldInformAboutMissingChapter,
-                        shouldInformAboutScanlatorChange,
-                        shouldUseInfiniteScroll,
-                    },
-                } = getReaderStore();
+            if (!currentChapter) {
+                return;
+            }
 
-                if (!currentChapter) {
-                    return;
-                }
+            const isSpecificChapterMode = typeof offset === 'number';
+            const isPreviousOffset = offset === 'previous';
 
-                const isSpecificChapterMode = typeof offset === 'number';
-                const isPreviousOffset = offset === 'previous';
+            const doesPreviousChapterExist = isPreviousOffset && !!previousChapter;
+            const doesNextChapterExist = !isPreviousOffset && !!nextChapter;
 
-                const doesPreviousChapterExist = isPreviousOffset && !!previousChapter;
-                const doesNextChapterExist = !isPreviousOffset && !!nextChapter;
+            const canOpenNextChapter = isSpecificChapterMode || doesPreviousChapterExist || doesNextChapterExist;
+            if (!canOpenNextChapter) {
+                return;
+            }
 
-                const canOpenNextChapter = isSpecificChapterMode || doesPreviousChapterExist || doesNextChapterExist;
-                if (!canOpenNextChapter) {
-                    return;
-                }
-
-                const doOpenChapter = async () => {
-                    const chapterToOpen = (() => {
-                        if (isSpecificChapterMode) {
-                            return chapters.find((chapter) => chapter.id === offset);
-                        }
-
-                        if (isPreviousOffset) {
-                            return previousChapter;
-                        }
-
-                        return nextChapter;
-                    })();
-
-                    if (!chapterToOpen) {
-                        return;
+            const doOpenChapter = async () => {
+                const chapterToOpen = (() => {
+                    if (isSpecificChapterMode) {
+                        return chapters.find((chapter) => chapter.id === offset);
                     }
 
-                    const isPreviousChapter = chapterToOpen.sourceOrder < currentChapter.sourceOrder;
+                    if (isPreviousOffset) {
+                        return previousChapter;
+                    }
 
-                    try {
-                        if (doTransitionCheck) {
-                            await ReaderControls.checkNextChapterConsistency(
-                                t,
-                                isPreviousChapter ? 'previous' : 'next',
-                                currentChapter,
-                                chapterToOpen,
-                                shouldInformAboutMissingChapter,
-                                shouldInformAboutScanlatorChange,
-                            );
-                        }
+                    return nextChapter;
+                })();
 
-                        const isAlreadyLoaded =
-                            lastLeadingChapterSourceOrder <= chapterToOpen.sourceOrder &&
-                            lastTrailingChapterSourceOrder >= chapterToOpen.sourceOrder;
-                        const keepRenderedChapters = shouldUseInfiniteScroll && (!scrollIntoView || isAlreadyLoaded);
+                if (!chapterToOpen) {
+                    return;
+                }
 
-                        if (keepRenderedChapters) {
-                            setReaderStateChapters((prevState) =>
-                                updateReaderStateVisibleChapters(
-                                    isPreviousChapter,
-                                    prevState,
-                                    chapterToOpen.sourceOrder,
-                                    scrollIntoView,
-                                    isPreviousChapter ? false : undefined,
-                                    !isPreviousChapter ? false : undefined,
-                                ),
-                            );
-                        }
+                const isPreviousChapter = chapterToOpen.sourceOrder < currentChapter.sourceOrder;
 
-                        ReaderService.navigateToChapter(chapterToOpen, {
-                            resumeMode: getReaderOpenChapterResumeMode(
-                                isSpecificChapterMode || !keepRenderedChapters,
+                try {
+                    if (doTransitionCheck) {
+                        await ReaderControls.checkNextChapterConsistency(
+                            isPreviousChapter ? 'previous' : 'next',
+                            currentChapter,
+                            chapterToOpen,
+                            shouldInformAboutMissingChapter,
+                            shouldInformAboutScanlatorChange,
+                        );
+                    }
+
+                    const isAlreadyLoaded =
+                        lastLeadingChapterSourceOrder <= chapterToOpen.sourceOrder &&
+                        lastTrailingChapterSourceOrder >= chapterToOpen.sourceOrder;
+                    const keepRenderedChapters = shouldUseInfiniteScroll && (!scrollIntoView || isAlreadyLoaded);
+
+                    if (keepRenderedChapters) {
+                        setReaderStateChapters((prevState) =>
+                            updateReaderStateVisibleChapters(
                                 isPreviousChapter,
+                                prevState,
+                                chapterToOpen.sourceOrder,
+                                scrollIntoView,
+                                isPreviousChapter ? false : undefined,
+                                !isPreviousChapter ? false : undefined,
                             ),
-                            updateInitialChapter: !keepRenderedChapters,
-                        });
-                    } catch (error) {
-                        defaultPromiseErrorHandler('ReaderControls#useOpenChapter#doOpenChapter:')(error);
+                        );
                     }
-                };
 
-                doOpenChapter().catch(defaultPromiseErrorHandler('ReaderControls#useOpenChapter'));
-            },
-            [t],
-        );
+                    ReaderService.navigateToChapter(chapterToOpen, {
+                        resumeMode: getReaderOpenChapterResumeMode(
+                            isSpecificChapterMode || !keepRenderedChapters,
+                            isPreviousChapter,
+                        ),
+                        updateInitialChapter: !keepRenderedChapters,
+                    });
+                } catch (error) {
+                    defaultPromiseErrorHandler('ReaderControls#useOpenChapter#doOpenChapter:')(error);
+                }
+            };
+
+            doOpenChapter().catch(defaultPromiseErrorHandler('ReaderControls#useOpenChapter'));
+        }, []);
     }
 
     private static async checkNextChapterConsistency(
-        t: TFunction,
         offset: 'previous' | 'next',
         currentChapter: TChapterReader | null | undefined,
         chapterToOpen: TChapterReader | null | undefined,
@@ -301,13 +293,13 @@ export class ReaderControls {
 
         const sameScanlator = isSameScanlator
             ? ''
-            : t(offsetToTranslationKeys[offset].scanlator, {
+            : translate(offsetToTranslationKeys[offset].scanlator, {
                   nextScanlator: chapterToOpen.scanlator,
                   currentScanlator: currentChapter.scanlator,
               });
         const continuousChapter = isContinuousChapter
             ? ''
-            : t(offsetToTranslationKeys[offset].chapter_number, {
+            : translate(offsetToTranslationKeys[offset].chapter_number, {
                   count: missingChapters,
                   nextChapter: `#${chapterToOpen.chapterNumber} ${chapterToOpen.name}`,
                   currentChapter: `#${currentChapter.chapterNumber} ${currentChapter.name}`,
@@ -316,11 +308,11 @@ export class ReaderControls {
         const warning = `${sameScanlator}${warningLineBreak}${continuousChapter}`;
 
         await awaitConfirmation({
-            title: t('reader.chapter_transition.warning.title'),
+            title: translate('reader.chapter_transition.warning.title'),
             message: warning,
             actions: {
                 confirm: {
-                    title: t('global.button.open'),
+                    title: translate('global.button.open'),
                 },
             },
         });
