@@ -17,13 +17,13 @@ import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progres
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
 const BaseReaderNavBarDesktopPageNavigation = () => {
     const { t } = useTranslation();
     const getOptionForDirection = useGetOptionForDirection();
-    const { currentPageIndex, pages } = useReaderStoreShallow((state) => ({
+    const { currentPageIndex, pages } = useReaderStore((state) => ({
         currentPageIndex: state.pages.currentPageIndex,
         pages: state.pages.pages,
     }));

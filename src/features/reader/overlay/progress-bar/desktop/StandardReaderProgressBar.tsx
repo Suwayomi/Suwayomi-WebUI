@@ -20,7 +20,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { ReaderProgressBarSlotDesktop } from '@/features/reader/overlay/progress-bar/desktop/components/ReaderProgressBarSlotDesktop.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { getProgressBarPosition } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseStandardReaderProgressBar = ({
     readerNavBarWidth,
@@ -30,16 +30,17 @@ const BaseStandardReaderProgressBar = ({
 }) => {
     const theme = useTheme();
 
-    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
+    const scrollbar = useReaderStore((state) => state.scrollbar);
     const totalPages = useReaderStore((state) => state.pages.totalPages);
-    const { progressBarType, progressBarSize, progressBarPosition, progressBarPositionAutoVertical } =
-        useReaderStoreShallow((state) => ({
+    const { progressBarType, progressBarSize, progressBarPosition, progressBarPositionAutoVertical } = useReaderStore(
+        (state) => ({
             progressBarType: state.settings.progressBarType,
             progressBarSize: state.settings.progressBarSize,
             progressBarPosition: state.settings.progressBarPosition,
             progressBarPositionAutoVertical: state.settings.progressBarPositionAutoVertical,
-        }));
-    const { isMaximized, setIsMaximized, isDragging } = useReaderStoreShallow((state) => ({
+        }),
+    );
+    const { isMaximized, setIsMaximized, isDragging } = useReaderStore((state) => ({
         isMaximized: state.progressBar.isMaximized,
         setIsMaximized: state.progressBar.setIsMaximized,
         isDragging: state.progressBar.isDragging,

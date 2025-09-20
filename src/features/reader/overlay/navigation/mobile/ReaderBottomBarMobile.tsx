@@ -24,7 +24,7 @@ import { MobileReaderProgressBar } from '@/features/reader/overlay/progress-bar/
 import { ReaderChapterList } from '@/features/reader/overlay/navigation/components/ReaderChapterList.tsx';
 import { ReaderBottomBarMobileQuickSettings } from '@/features/reader/overlay/navigation/mobile/quick-settings/ReaderBottomBarMobileQuickSettings.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import { useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderBottomBarMobile = ({
     openSettings,
@@ -32,14 +32,14 @@ const BaseReaderBottomBarMobile = ({
     topOffset = 0,
 }: ReaderBottomBarMobileProps & { topOffset?: number }) => {
     const { t } = useTranslation();
-    const { currentChapter, chapters } = useReaderStoreShallow((state) => ({
+    const { currentChapter, chapters } = useReaderStore((state) => ({
         currentChapter: state.chapters.currentChapter,
         chapters: state.chapters.chapters,
     }));
 
     const chapterListPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-chapter-list-dialog' });
     const quickSettingsPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-quick-settings-dialog' });
-    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
+    const scrollbar = useReaderStore((state) => state.scrollbar);
 
     const [bottomBarRefHeight, setBottomBarRefHeight] = useState(0);
     const bottomBarRef = useRef<HTMLDivElement>(null);

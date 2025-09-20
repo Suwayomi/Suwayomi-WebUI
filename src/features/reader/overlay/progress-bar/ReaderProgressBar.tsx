@@ -31,7 +31,7 @@ import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ReaderProgressBarSlotWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotWrapper.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReadingMode } from '@/features/reader/Reader.types.ts';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderProgressBar = ({
     slotProps,
@@ -62,14 +62,14 @@ const BaseReaderProgressBar = ({
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
         fullSegmentClicks: boolean;
     }) => {
-    const { pages, pageLoadStates, totalPages, currentPageIndex } = useReaderStoreShallow((state) => ({
+    const { pages, pageLoadStates, totalPages, currentPageIndex } = useReaderStore((state) => ({
         pages: state.pages.pages,
         pageLoadStates: state.pages.pageLoadStates,
         totalPages: state.pages.totalPages,
         currentPageIndex: state.pages.currentPageIndex,
     }));
     const readingMode = useReaderStore((state) => state.settings.readingMode.value);
-    const { isDragging, setIsDragging } = useReaderStoreShallow((state) => ({
+    const { isDragging, setIsDragging } = useReaderStore((state) => ({
         isDragging: state.progressBar.isDragging,
         setIsDragging: state.progressBar.setIsDragging,
     }));

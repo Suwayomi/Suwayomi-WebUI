@@ -63,7 +63,7 @@ const DEFAULT_STATE = {
     },
 } satisfies Pick<ReaderStore, 'manga'> & { scrollbar: Pick<ReaderStore['scrollbar'], 'xSize' | 'ySize'> };
 
-export const useReaderStore = create<ReaderStore>()(
+const readerStore = create<ReaderStore>()(
     immer((set, get, store) => ({
         ...DEFAULT_STATE,
         reset: () =>
@@ -114,6 +114,5 @@ export const useReaderStore = create<ReaderStore>()(
         ...createReaderTapZoneStoreSlice(set, get, store),
     })),
 );
-export const useReaderStoreShallow = <T>(selector: (state: ReaderStore) => T): T =>
-    useReaderStore(useShallow(selector));
-export const getReaderStore = () => useReaderStore.getState();
+export const useReaderStore = <T>(selector: (state: ReaderStore) => T): T => readerStore(useShallow(selector));
+export const getReaderStore = () => readerStore.getState();

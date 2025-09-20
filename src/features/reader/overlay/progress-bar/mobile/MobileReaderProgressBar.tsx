@@ -28,7 +28,7 @@ import { ReaderProgressBarSlotMobile } from '@/features/reader/overlay/progress-
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { getProgressBarPosition } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
 const PROGRESS_BAR_POSITION_TO_SLIDE_DIRECTION: Record<ProgressBarPosition, SlideProps['direction']> = {
@@ -48,9 +48,9 @@ const BaseMobileReaderProgressBar = ({
     topOffset?: number;
     bottomOffset?: number;
 }) => {
-    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
+    const scrollbar = useReaderStore((state) => state.scrollbar);
     const isVisible = useReaderStore((state) => state.overlay.isVisible);
-    const { currentPageIndex, pages } = useReaderStoreShallow((state) => ({
+    const { currentPageIndex, pages } = useReaderStore((state) => ({
         currentPageIndex: state.pages.currentPageIndex,
         pages: state.pages.pages,
     }));
@@ -58,11 +58,11 @@ const BaseMobileReaderProgressBar = ({
         previousChapter: state.chapters.previousChapter,
         nextChapter: state.chapters.nextChapter,
     }));
-    const { progressBarPosition, progressBarPositionAutoVertical } = useReaderStoreShallow((state) => ({
+    const { progressBarPosition, progressBarPositionAutoVertical } = useReaderStore((state) => ({
         progressBarPosition: state.settings.progressBarPosition,
         progressBarPositionAutoVertical: state.settings.progressBarPositionAutoVertical,
     }));
-    const { setIsMaximized, isDragging } = useReaderStoreShallow((state) => ({
+    const { setIsMaximized, isDragging } = useReaderStore((state) => ({
         setIsMaximized: state.progressBar.setIsMaximized,
         isDragging: state.progressBar.isDragging,
     }));

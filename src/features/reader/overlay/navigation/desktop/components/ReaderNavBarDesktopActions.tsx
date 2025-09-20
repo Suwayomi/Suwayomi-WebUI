@@ -22,7 +22,7 @@ import { CHAPTER_ACTION_TO_TRANSLATION, FALLBACK_CHAPTER } from '@/features/chap
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ChapterDownloadInfo, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const DownloadButton = ({
@@ -62,12 +62,12 @@ const DownloadButton = ({
 };
 
 export const ReaderNavBarDesktopActions = memo(() => {
-    const currentChapter = useReaderStoreShallow((state) => state.chapters.currentChapter);
+    const currentChapter = useReaderStore((state) => state.chapters.currentChapter);
 
     const { id, isBookmarked, realUrl } = currentChapter ?? FALLBACK_CHAPTER;
 
     const { t } = useTranslation();
-    const { pageLoadStates, setPageLoadStates, setRetryFailedPagesKeyPrefix } = useReaderStoreShallow((state) => ({
+    const { pageLoadStates, setPageLoadStates, setRetryFailedPagesKeyPrefix } = useReaderStore((state) => ({
         pageLoadStates: state.pages.pageLoadStates,
         setPageLoadStates: state.pages.setPageLoadStates,
         setRetryFailedPagesKeyPrefix: state.pages.setRetryFailedPagesKeyPrefix,

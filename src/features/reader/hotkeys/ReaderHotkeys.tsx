@@ -23,7 +23,7 @@ import { HotkeyScope } from '@/features/hotkeys/Hotkeys.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import { getReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;
@@ -60,7 +60,7 @@ export const ReaderHotkeys = ({
 }) => {
     const readerThemeDirection = ReaderService.useGetThemeDirection();
     const { enableScope, disableScope } = useHotkeysContext();
-    const { hotkeys } = useReaderStoreShallow((state) => ({
+    const { hotkeys } = useReaderStore((state) => ({
         hotkeys: state.settings.hotkeys,
     }));
     const exitReader = ReaderService.useExit();

@@ -17,7 +17,7 @@ import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { getReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderAutoScroll = ({
     themeDirection,
@@ -26,11 +26,11 @@ const BaseReaderAutoScroll = ({
     themeDirection: Direction;
     combinedDirection: Direction;
 }) => {
-    const { scrollRef, direction } = useReaderStoreShallow((state) => ({
+    const { scrollRef, direction } = useReaderStore((state) => ({
         scrollRef: state.autoScroll.scrollRef,
         direction: state.autoScroll.direction,
     }));
-    const { readingMode, autoScroll } = useReaderStoreShallow((state) => ({
+    const { readingMode, autoScroll } = useReaderStore((state) => ({
         readingMode: state.settings.readingMode.value,
         autoScroll: state.settings.autoScroll,
     }));

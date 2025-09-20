@@ -56,7 +56,7 @@ import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types
 import { useReaderPreserveScrollPosition } from '@/features/reader/viewer/hooks/useReaderPreserveScrollPosition.ts';
 
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import { getReaderStore, useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -92,7 +92,7 @@ const BaseReaderViewer = forwardRef(
             transitionPageMode,
             retryFailedPagesKeyPrefix,
             setTransitionPageMode,
-        } = useReaderStoreShallow((state) => ({
+        } = useReaderStore((state) => ({
             currentPageIndex: state.pages.currentPageIndex,
             pageToScrollToIndex: state.pages.pageToScrollToIndex,
             setPageToScrollToIndex: state.pages.setPageToScrollToIndex,
@@ -113,7 +113,7 @@ const BaseReaderViewer = forwardRef(
             visibleChapters,
             setReaderStateChapters,
             isCurrentChapterReady,
-        } = useReaderStoreShallow((state) => ({
+        } = useReaderStore((state) => ({
             initialChapter: state.chapters.initialChapter,
             currentChapter: state.chapters.currentChapter,
             chapters: state.chapters.chapters,
@@ -132,7 +132,7 @@ const BaseReaderViewer = forwardRef(
             customFilter,
             shouldStretchPage,
             isStaticNav,
-        } = useReaderStoreShallow((state) => ({
+        } = useReaderStore((state) => ({
             readingMode: state.settings.readingMode.value,
             readingDirection: state.settings.readingDirection.value,
             readerWidth: state.settings.readerWidth.value,
@@ -144,7 +144,7 @@ const BaseReaderViewer = forwardRef(
             shouldStretchPage: state.settings.shouldStretchPage.value,
             isStaticNav: state.settings.isStaticNav,
         }));
-        const { showPreview, setShowPreview } = useReaderStoreShallow((state) => ({
+        const { showPreview, setShowPreview } = useReaderStore((state) => ({
             showPreview: state.tapZone.showPreview,
             setShowPreview: state.tapZone.setShowPreview,
         }));
@@ -159,7 +159,7 @@ const BaseReaderViewer = forwardRef(
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
         const isDragging = useMouseDragScroll(scrollElementRef);
 
-        const automaticScrolling = useReaderStoreShallow((state) => ({
+        const automaticScrolling = useReaderStore((state) => ({
             isPaused: state.autoScroll.isPaused,
             pause: state.autoScroll.pause,
             resume: state.autoScroll.resume,

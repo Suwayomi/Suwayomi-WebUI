@@ -29,7 +29,7 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const useGetPreviousNavBarStaticValue = (isVisible: boolean, isStaticNav: boolean) => {
     const wasNavBarStaticRef = useRef(isStaticNav);
@@ -55,8 +55,8 @@ const BaseReaderNavBarDesktop = ({
     setReaderNavBarWidth,
 }: ReaderNavBarDesktopProps & Pick<NavbarContextType, 'setReaderNavBarWidth'>) => {
     const { t } = useTranslation();
-    const manga = useReaderStoreShallow((state) => state.manga);
-    const { chapters, currentChapter, previousChapter, nextChapter } = useReaderStoreShallow((state) => ({
+    const manga = useReaderStore((state) => state.manga);
+    const { chapters, currentChapter, previousChapter, nextChapter } = useReaderStore((state) => ({
         chapters: state.chapters.chapters,
         currentChapter: state.chapters.currentChapter,
         previousChapter: state.chapters.previousChapter,

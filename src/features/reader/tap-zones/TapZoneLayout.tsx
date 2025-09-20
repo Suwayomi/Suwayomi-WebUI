@@ -15,13 +15,13 @@ import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const CANVAS_ID = 'reader-tap-zone-layout-canvas';
 
 const BaseTapZoneLayout = ({ readerNavBarWidth }: Pick<NavbarContextType, 'readerNavBarWidth'>) => {
     const theme = useTheme();
-    const { tapZoneLayout, tapZoneInvertMode, readingDirection } = useReaderStoreShallow((state) => ({
+    const { tapZoneLayout, tapZoneInvertMode, readingDirection } = useReaderStore((state) => ({
         tapZoneLayout: state.settings.tapZoneLayout.value,
         tapZoneInvertMode: state.settings.tapZoneInvertMode.value,
         readingDirection: state.settings.readingDirection.value,

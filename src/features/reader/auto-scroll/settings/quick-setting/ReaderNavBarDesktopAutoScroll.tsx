@@ -17,7 +17,7 @@ import { useRef } from 'react';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { AUTO_SCROLL_SPEED } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
-import { useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 export const ReaderNavBarDesktopAutoScroll = ({
     autoScroll,
@@ -26,7 +26,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
     setAutoScroll: (newAutoScroll: IReaderSettings['autoScroll'], commit: boolean) => void;
 }) => {
     const { t } = useTranslation();
-    const { isActive, toggleActive } = useReaderStoreShallow((state) => ({
+    const { isActive, toggleActive } = useReaderStore((state) => ({
         isActive: state.autoScroll.isActive,
         toggleActive: state.autoScroll.toggleActive,
     }));

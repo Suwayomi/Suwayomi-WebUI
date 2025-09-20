@@ -17,20 +17,20 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { reverseString } from '@/base/utils/Strings.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderPageNumber = ({
     isDesktop,
     readerNavBarWidth,
 }: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop'> &
     Pick<NavbarContextType, 'readerNavBarWidth'>) => {
-    const scrollbar = useReaderStoreShallow((state) => state.scrollbar);
-    const { currentPageIndex, pages, totalPages } = useReaderStoreShallow((state) => ({
+    const scrollbar = useReaderStore((state) => state.scrollbar);
+    const { currentPageIndex, pages, totalPages } = useReaderStore((state) => ({
         currentPageIndex: state.pages.currentPageIndex,
         pages: state.pages.pages,
         totalPages: state.pages.totalPages,
     }));
-    const { readingDirection, shouldShowPageNumber, progressBarType } = useReaderStoreShallow((state) => ({
+    const { readingDirection, shouldShowPageNumber, progressBarType } = useReaderStore((state) => ({
         readingDirection: state.settings.readingDirection.value,
         shouldShowPageNumber: state.settings.shouldShowPageNumber,
         progressBarType: state.settings.progressBarType,

@@ -15,7 +15,7 @@ import {
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { useIntersectionObserver } from '@/base/hooks/useIntersectionObserver.tsx';
-import { getReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
 interface ElementIntersection {
@@ -245,7 +245,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
     image: HTMLElement | null,
     scrollElement: HTMLElement | null,
 ) => {
-    const { readingMode, readingDirection, shouldUseInfiniteScroll, shouldShowTransitionPage } = useReaderStoreShallow(
+    const { readingMode, readingDirection, shouldUseInfiniteScroll, shouldShowTransitionPage } = useReaderStore(
         (state) => ({
             readingMode: state.settings.readingMode.value,
             readingDirection: state.settings.readingDirection.value,

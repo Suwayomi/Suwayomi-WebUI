@@ -35,7 +35,8 @@ import { useReaderSetChaptersState } from '@/features/reader/hooks/useReaderSetC
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
-import { useReaderStore, useReaderStoreShallow } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+
 import { ReaderAutoScroll } from '@/features/reader/auto-scroll/ReaderAutoScroll.tsx';
 
 const BaseReader = ({
@@ -43,16 +44,14 @@ const BaseReader = ({
     readerNavBarWidth,
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'>) => {
     const { t } = useTranslation();
-    const manga = useReaderStoreShallow((state) => state.manga);
-    const overlay = useReaderStoreShallow((state) => state.overlay);
-    const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderStoreShallow(
-        (state) => ({
-            mangaChapters: state.chapters.mangaChapters,
-            initialChapter: state.chapters.initialChapter,
-            chapterForDuplicatesHandling: state.chapters.chapterForDuplicatesHandling,
-            currentChapter: state.chapters.currentChapter,
-        }),
-    );
+    const manga = useReaderStore((state) => state.manga);
+    const overlay = useReaderStore((state) => state.overlay);
+    const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderStore((state) => ({
+        mangaChapters: state.chapters.mangaChapters,
+        initialChapter: state.chapters.initialChapter,
+        chapterForDuplicatesHandling: state.chapters.chapterForDuplicatesHandling,
+        currentChapter: state.chapters.currentChapter,
+    }));
     const {
         shouldSkipDupChapters,
         shouldSkipFilteredChapters,
@@ -63,7 +62,7 @@ const BaseReader = ({
         shouldShowReadingModePreview,
         shouldShowTapZoneLayoutPreview,
         setSettings,
-    } = useReaderStoreShallow((state) => ({
+    } = useReaderStore((state) => ({
         shouldSkipDupChapters: state.settings.shouldSkipDupChapters,
         shouldSkipFilteredChapters: state.settings.shouldSkipFilteredChapters,
         backgroundColor: state.settings.backgroundColor,
@@ -112,7 +111,7 @@ const BaseReader = ({
     const error = mangaResponse.error ?? chaptersResponse.error ?? defaultSettingsResponse.error;
 
     useEffect(() => {
-        useReaderStore.getState().setManga(mangaResponse.data?.manga);
+        getReaderStore().setManga(mangaResponse.data?.manga);
     }, [mangaResponse.data?.manga]);
 
     useReaderResetStates();
