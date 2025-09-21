@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
+import { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
 import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 
 export interface ReaderChaptersStoreSlice {
@@ -44,25 +44,29 @@ export const READER_DEFAULT_CHAPTERS_STATE = {
 };
 
 export const createReaderChaptersStoreSlice = <T extends ReaderChaptersStoreSlice>(
-    ...[set, get]: Parameters<ImmerStateCreator<T>>
+    ...[createActionName, set, get]: Parameters<SliceCreator<T>>
 ): ReaderChaptersStoreSlice => ({
     chapters: {
         ...READER_DEFAULT_CHAPTERS_STATE.chapters,
         reset: () => ({ chapters: { ...get().chapters, ...READER_DEFAULT_CHAPTERS_STATE.chapters } }),
         setReaderStateChapters: (state) =>
-            set((draft) => {
-                if (typeof state === 'function') {
+            set(
+                (draft) => {
+                    if (typeof state === 'function') {
+                        draft.chapters = {
+                            ...get().chapters,
+                            ...state(get().chapters),
+                        };
+                        return;
+                    }
+
                     draft.chapters = {
                         ...get().chapters,
-                        ...state(get().chapters),
+                        ...state,
                     };
-                    return;
-                }
-
-                draft.chapters = {
-                    ...get().chapters,
-                    ...state,
-                };
-            }),
+                },
+                undefined,
+                createActionName('setReaderStateChapters'),
+            ),
     },
 });

@@ -7,6 +7,7 @@
  */
 
 import { create } from 'zustand';
+import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { useShallow } from 'zustand/react/shallow';
 import { TMangaReader } from '@/features/manga/Manga.types.ts';
@@ -33,6 +34,9 @@ import {
     createReaderChaptersStoreSlice,
     ReaderChaptersStoreSlice,
 } from '@/features/reader/stores/ReaderChaptersStore.ts';
+import { ZustandUtil } from '@/lib/zustand/ZustandUtil.ts';
+
+const UNSERIALIZABLE_KEYS = ['scrollRef'];
 
 interface ReaderStore
     extends ReaderOverlayStoreSlice,
@@ -64,59 +68,100 @@ const DEFAULT_STATE = {
 } satisfies Pick<ReaderStore, 'manga'> & { scrollbar: Pick<ReaderStore['scrollbar'], 'xSize' | 'ySize'> };
 
 const readerStore = create<ReaderStore>()(
-    immer((set, get, store) => ({
-        ...DEFAULT_STATE,
-        reset: () =>
-            set(() => ({
-                ...get(),
+    devtools(
+        immer((set, get, store) => {
+            const createActionName = ZustandUtil.createActionNameCreator('reader');
+            const createActionNameCreator = (name: string) =>
+                ZustandUtil.createActionNameCreator(name, createActionName);
+
+            return {
                 ...DEFAULT_STATE,
+                reset: () =>
+                    set(
+                        () => ({
+                            ...get(),
+                            ...DEFAULT_STATE,
+                            scrollbar: {
+                                ...get().scrollbar,
+                                ...DEFAULT_STATE.scrollbar,
+                            },
+                            settings: {
+                                ...get().settings,
+                                ...DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
+                            },
+                            ...get().overlay.reset(),
+                            ...get().autoScroll.reset(),
+                            ...get().pages.reset(),
+                            ...get().chapters.reset(),
+                            ...get().progressBar.reset(),
+                            ...get().tapZone.reset(),
+                        }),
+                        undefined,
+                        createActionName('reset'),
+                    ),
+                setManga: (manga) =>
+                    set(
+                        (draft) => {
+                            draft.manga = manga;
+                        },
+                        undefined,
+                        createActionName('setManga'),
+                    ),
                 scrollbar: {
-                    ...get().scrollbar,
                     ...DEFAULT_STATE.scrollbar,
+                    setXSize: (size) =>
+                        set(
+                            (draft) => {
+                                draft.scrollbar.xSize = size;
+                            },
+                            undefined,
+                            createActionName('scrollbar', 'setXSize'),
+                        ),
+                    setYSize: (size) =>
+                        set(
+                            (draft) => {
+                                draft.scrollbar.ySize = size;
+                            },
+                            undefined,
+                            createActionName('scrollbar', 'setYSize'),
+                        ),
                 },
                 settings: {
-                    ...get().settings,
                     ...DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
+                    setSettings: (settings) =>
+                        set(
+                            (draft) => {
+                                draft.settings = {
+                                    ...get().settings,
+                                    ...settings,
+                                };
+                            },
+                            undefined,
+                            createActionName('settings', 'setSettings'),
+                        ),
                 },
-                ...get().overlay.reset(),
-                ...get().autoScroll.reset(),
-                ...get().pages.reset(),
-                ...get().chapters.reset(),
-                ...get().progressBar.reset(),
-                ...get().tapZone.reset(),
-            })),
-        setManga: (manga) =>
-            set((draft) => {
-                draft.manga = manga;
-            }),
-        scrollbar: {
-            ...DEFAULT_STATE.scrollbar,
-            setXSize: (size) =>
-                set((draft) => {
-                    draft.scrollbar.xSize = size;
-                }),
-            setYSize: (size) =>
-                set((draft) => {
-                    draft.scrollbar.ySize = size;
-                }),
+                ...createReaderOverlayStoreSlice(createActionNameCreator('overlay'), set, get, store),
+                ...createReaderAutoScrollStoreSlice(createActionNameCreator('autoScroll'), set, get, store),
+                ...createReaderPagesStoreSlice(createActionNameCreator('pages'), set, get, store),
+                ...createReaderChaptersStoreSlice(createActionNameCreator('chapters'), set, get, store),
+                ...createReaderProgressBarStoreSlice(createActionNameCreator('progressBar'), set, get, store),
+                ...createReaderTapZoneStoreSlice(createActionNameCreator('tapZone'), set, get, store),
+            };
+        }),
+        {
+            name: 'ReaderStore',
+            anonymousActionType: 'reader/action',
+            serialize: {
+                replacer: (key: string, value: any) => {
+                    if (UNSERIALIZABLE_KEYS.includes(key)) {
+                        return null;
+                    }
+
+                    return value;
+                },
+            },
         },
-        settings: {
-            ...DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
-            setSettings: (settings) =>
-                set((draft) => {
-                    draft.settings = {
-                        ...get().settings,
-                        ...settings,
-                    };
-                }),
-        },
-        ...createReaderOverlayStoreSlice(set, get, store),
-        ...createReaderAutoScrollStoreSlice(set, get, store),
-        ...createReaderPagesStoreSlice(set, get, store),
-        ...createReaderChaptersStoreSlice(set, get, store),
-        ...createReaderProgressBarStoreSlice(set, get, store),
-        ...createReaderTapZoneStoreSlice(set, get, store),
-    })),
+    ),
 );
 export const useReaderStore = <T>(selector: (state: ReaderStore) => T): T => readerStore(useShallow(selector));
 export const getReaderStore = () => readerStore.getState();

@@ -7,7 +7,7 @@
  */
 
 import { createRef, MutableRefObject } from 'react';
-import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
+import { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
 import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { noOp } from '@/lib/HelperFunctions.ts';
@@ -58,50 +58,86 @@ const DEFAULT_STATE = {
 >;
 
 export const createReaderAutoScrollStoreSlice = <T extends ReaderAutoScrollStoreSlice>(
-    ...[set, get]: Parameters<ImmerStateCreator<T>>
-): ReaderAutoScrollStoreSlice =>
-    ({
-        autoScroll: {
-            ...DEFAULT_STATE,
-            reset: () => ({ autoScroll: { ...get().autoScroll, ...DEFAULT_STATE } }),
-            setIsActive: (active) =>
-                set((draft) => {
+    ...[createActionName, set, get]: Parameters<SliceCreator<T>>
+): ReaderAutoScrollStoreSlice => ({
+    autoScroll: {
+        ...DEFAULT_STATE,
+        reset: () => ({ autoScroll: { ...get().autoScroll, ...DEFAULT_STATE } }),
+        setIsActive: (active) =>
+            set(
+                (draft) => {
                     draft.autoScroll.isActive = active;
-                }),
-            setIsPaused: (paused) =>
-                set((draft) => {
+                },
+                undefined,
+                createActionName('setIsActive'),
+            ),
+        setIsPaused: (paused) =>
+            set(
+                (draft) => {
                     draft.autoScroll.isPaused = paused;
-                }),
-            setStart: (start) =>
-                set((draft) => {
+                },
+                undefined,
+                createActionName('setIsPaused'),
+            ),
+        setStart: (start) =>
+            set(
+                (draft) => {
                     draft.autoScroll.start = start;
-                }),
-            setCancel: (cancel) =>
-                set((draft) => {
+                },
+                undefined,
+                createActionName('setStart'),
+            ),
+        setCancel: (cancel) =>
+            set(
+                (draft) => {
                     draft.autoScroll.cancel = cancel;
-                }),
-            setToggleActive: (toggleActive) =>
-                set((draft) => {
+                },
+                undefined,
+                createActionName('setCancel'),
+            ),
+        setToggleActive: (toggleActive) =>
+            set(
+                (draft) => {
                     draft.autoScroll.toggleActive = toggleActive;
-                }),
-            setPause: (pause) =>
-                set((draft) => {
+                },
+                undefined,
+                createActionName('setToggleActive'),
+            ),
+        setPause: (pause) =>
+            set(
+                (draft) => {
                     draft.autoScroll.pause = pause;
-                }),
-            setResume: (resume) =>
-                set((draft) => {
+                },
+                undefined,
+                createActionName('setPause'),
+            ),
+        setResume: (resume) =>
+            set(
+                (draft) => {
                     draft.autoScroll.resume = resume;
-                }),
-            setInvert: (invert) =>
-                set((draft) => {
+                },
+                undefined,
+                createActionName('setResume'),
+            ),
+        setInvert: (invert) =>
+            set(
+                (draft) => {
                     draft.autoScroll.invert = invert;
-                }),
-            setDirection: (direction) =>
-                set((draft) => {
+                },
+                undefined,
+                createActionName('setInvert'),
+            ),
+        setDirection: (direction) =>
+            set(
+                (draft) => {
                     draft.autoScroll.direction = direction;
-                }),
-            setScrollRef: (scrollElement) =>
-                set((draft) => {
+                },
+                undefined,
+                createActionName('setDirection'),
+            ),
+        setScrollRef: (scrollElement) =>
+            set(
+                (draft) => {
                     if (!scrollElement) {
                         draft.autoScroll.scrollRef = undefined;
                         return;
@@ -111,6 +147,9 @@ export const createReaderAutoScrollStoreSlice = <T extends ReaderAutoScrollStore
                     ref.current = scrollElement;
                     // @ts-expect-error - TS2322: Type MutableRefObject<HTMLElement | null> is not assignable to type WritableDraft<MutableRefObject<HTMLElement | null>>
                     draft.autoScroll.scrollRef = ref;
-                }),
-        },
-    }) satisfies ReaderAutoScrollStoreSlice;
+                },
+                undefined,
+                createActionName('setScrollRef'),
+            ),
+    },
+});

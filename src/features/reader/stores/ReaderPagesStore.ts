@@ -7,7 +7,7 @@
  */
 
 import { ReaderStatePages, ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
-import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
+import { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 export interface ReaderPagesStoreSlice {
@@ -48,47 +48,79 @@ export const READER_DEFAULT_PAGES_STATE: Omit<
 };
 
 export const createReaderPagesStoreSlice = <T extends ReaderPagesStoreSlice>(
-    ...[set, get]: Parameters<ImmerStateCreator<T>>
+    ...[createActionName, set, get]: Parameters<SliceCreator<T>>
 ): ReaderPagesStoreSlice => ({
     pages: {
         ...READER_DEFAULT_PAGES_STATE,
         reset: () => ({ pages: { ...get().pages, ...READER_DEFAULT_PAGES_STATE } }),
         setCurrentPageIndex: (index) =>
-            set((draft) => {
-                draft.pages.currentPageIndex = index;
-            }),
+            set(
+                (draft) => {
+                    draft.pages.currentPageIndex = index;
+                },
+                undefined,
+                createActionName('setCurrentPageIndex'),
+            ),
         setPageToScrollToIndex: (index) =>
-            set((draft) => {
-                draft.pages.pageToScrollToIndex = index;
-            }),
+            set(
+                (draft) => {
+                    draft.pages.pageToScrollToIndex = index;
+                },
+                undefined,
+                createActionName('setPageToScrollToIndex'),
+            ),
         setTotalPages: (total) =>
-            set((draft) => {
-                draft.pages.totalPages = total;
-            }),
+            set(
+                (draft) => {
+                    draft.pages.totalPages = total;
+                },
+                undefined,
+                createActionName('setTotalPages'),
+            ),
         setPageUrls: (urls) =>
-            set((draft) => {
-                draft.pages.pageUrls = urls;
-            }),
+            set(
+                (draft) => {
+                    draft.pages.pageUrls = urls;
+                },
+                undefined,
+                createActionName('setPageUrls'),
+            ),
         setPageLoadStates: (loadStates) =>
-            set((draft) => {
-                if (typeof loadStates === 'function') {
-                    draft.pages.pageLoadStates = loadStates(get().pages.pageLoadStates);
-                    return;
-                }
+            set(
+                (draft) => {
+                    if (typeof loadStates === 'function') {
+                        draft.pages.pageLoadStates = loadStates(get().pages.pageLoadStates);
+                        return;
+                    }
 
-                draft.pages.pageLoadStates = loadStates;
-            }),
+                    draft.pages.pageLoadStates = loadStates;
+                },
+                undefined,
+                createActionName('setPageLoadStates'),
+            ),
         setPages: (pages) =>
-            set((draft) => {
-                draft.pages.pages = pages;
-            }),
+            set(
+                (draft) => {
+                    draft.pages.pages = pages;
+                },
+                undefined,
+                createActionName('setPages'),
+            ),
         setTransitionPageMode: (mode) =>
-            set((draft) => {
-                draft.pages.transitionPageMode = mode;
-            }),
+            set(
+                (draft) => {
+                    draft.pages.transitionPageMode = mode;
+                },
+                undefined,
+                createActionName('setTransitionPageMode'),
+            ),
         setRetryFailedPagesKeyPrefix: (prefix) =>
-            set((draft) => {
-                draft.pages.retryFailedPagesKeyPrefix = prefix;
-            }),
+            set(
+                (draft) => {
+                    draft.pages.retryFailedPagesKeyPrefix = prefix;
+                },
+                undefined,
+                createActionName('setRetryFailedPagesKeyPrefix'),
+            ),
     },
 });

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
+import { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 
 export interface ReaderTapZoneStoreSlice {
@@ -20,14 +20,18 @@ const DEFAULT_STATE = {
 } satisfies Pick<ReaderTapZoneStoreSlice['tapZone'], 'showPreview'>;
 
 export const createReaderTapZoneStoreSlice = <T extends ReaderTapZoneStoreSlice>(
-    ...[set, get]: Parameters<ImmerStateCreator<T>>
+    ...[createActionName, set, get]: Parameters<SliceCreator<T>>
 ): ReaderTapZoneStoreSlice => ({
     tapZone: {
         ...DEFAULT_STATE,
         setShowPreview: (showPreview) =>
-            set((draft) => {
-                draft.tapZone.showPreview = showPreview;
-            }),
+            set(
+                (draft) => {
+                    draft.tapZone.showPreview = showPreview;
+                },
+                undefined,
+                createActionName('setShowPreview'),
+            ),
         reset: () => ({ tapZone: { ...get().tapZone, ...DEFAULT_STATE } }),
     },
 });

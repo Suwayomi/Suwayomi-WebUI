@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ImmerStateCreator } from '@/lib/zustand/Zustand.types.ts';
+import { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
 import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 
 export interface ReaderProgressBarStoreSlice {
@@ -21,18 +21,26 @@ const DEFAULT_STATE = {
 } satisfies Pick<ReaderProgressBarStoreSlice['progressBar'], 'isDragging' | 'isMaximized'>;
 
 export const createReaderProgressBarStoreSlice = <T extends ReaderProgressBarStoreSlice>(
-    ...[set, get]: Parameters<ImmerStateCreator<T>>
+    ...[createActionName, set, get]: Parameters<SliceCreator<T>>
 ): ReaderProgressBarStoreSlice => ({
     progressBar: {
         ...DEFAULT_STATE,
         setIsMaximized: (maximized) =>
-            set((draft) => {
-                draft.progressBar.isMaximized = maximized;
-            }),
+            set(
+                (draft) => {
+                    draft.progressBar.isMaximized = maximized;
+                },
+                undefined,
+                createActionName('setIsMaximized'),
+            ),
         setIsDragging: (dragging) =>
-            set((draft) => {
-                draft.progressBar.isDragging = dragging;
-            }),
+            set(
+                (draft) => {
+                    draft.progressBar.isDragging = dragging;
+                },
+                undefined,
+                createActionName('setIsDragging'),
+            ),
         reset: () => ({ progressBar: { ...get().progressBar, ...DEFAULT_STATE } }),
     },
 });

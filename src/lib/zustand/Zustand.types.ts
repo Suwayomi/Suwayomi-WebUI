@@ -6,6 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { StateCreator } from 'zustand';
+import { StateCreator as ZustandStateCreator } from 'zustand';
 
-export type ImmerStateCreator<T> = StateCreator<T, [['zustand/immer', never], never], [], T>;
+export type StateCreator<T> = ZustandStateCreator<T, [['zustand/devtools', never], ['zustand/immer', never]], [], T>;
+
+export type SliceCreator<T> = (
+    actionNameCreator: (...names: string[]) => string,
+    ...args: Parameters<StateCreator<T>>
+) => T;
