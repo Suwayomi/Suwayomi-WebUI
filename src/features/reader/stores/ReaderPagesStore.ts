@@ -12,7 +12,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 export interface ReaderPagesStoreSlice {
     pages: ReaderStatePages & {
-        reset: () => void;
+        reset: () => ReaderPagesStoreSlice;
     };
 }
 
@@ -52,7 +52,7 @@ export const createReaderPagesStoreSlice = <T extends ReaderPagesStoreSlice>(
 ): ReaderPagesStoreSlice => ({
     pages: {
         ...READER_DEFAULT_PAGES_STATE,
-        reset: () => set(() => ({ pages: { ...get().pages, ...READER_DEFAULT_PAGES_STATE } })),
+        reset: () => ({ pages: { ...get().pages, ...READER_DEFAULT_PAGES_STATE } }),
         setCurrentPageIndex: (index) =>
             set((draft) => {
                 draft.pages.currentPageIndex = index;

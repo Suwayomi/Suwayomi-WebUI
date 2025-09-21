@@ -27,7 +27,7 @@ export interface ReaderAutoScrollStoreSlice {
         invert: boolean;
         setInvert: (invert: boolean) => void;
         direction: ScrollOffset;
-        reset: () => void;
+        reset: () => ReaderAutoScrollStoreSlice;
     };
 }
 
@@ -63,10 +63,7 @@ export const createReaderAutoScrollStoreSlice = <T extends ReaderAutoScrollStore
     ({
         autoScroll: {
             ...DEFAULT_STATE,
-            reset: () =>
-                set((draft) => {
-                    draft.autoScroll = { ...get().autoScroll, ...DEFAULT_STATE };
-                }),
+            reset: () => ({ autoScroll: { ...get().autoScroll, ...DEFAULT_STATE } }),
             setIsActive: (active) =>
                 set((draft) => {
                     draft.autoScroll.isActive = active;

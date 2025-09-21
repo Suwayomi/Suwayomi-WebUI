@@ -67,20 +67,24 @@ const readerStore = create<ReaderStore>()(
     immer((set, get, store) => ({
         ...DEFAULT_STATE,
         reset: () =>
-            set((draft) => {
-                draft.manga = DEFAULT_STATE.manga;
-                draft.scrollbar = { ...get().scrollbar, ...DEFAULT_STATE.scrollbar };
-                get().overlay.reset();
-                get().autoScroll.reset();
-                get().pages.reset();
-                get().chapters.reset();
-                draft.settings = {
+            set(() => ({
+                ...get(),
+                ...DEFAULT_STATE,
+                scrollbar: {
+                    ...get().scrollbar,
+                    ...DEFAULT_STATE.scrollbar,
+                },
+                settings: {
                     ...get().settings,
                     ...DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG,
-                };
-                get().progressBar.reset();
-                get().tapZone.reset();
-            }),
+                },
+                ...get().overlay.reset(),
+                ...get().autoScroll.reset(),
+                ...get().pages.reset(),
+                ...get().chapters.reset(),
+                ...get().progressBar.reset(),
+                ...get().tapZone.reset(),
+            })),
         setManga: (manga) =>
             set((draft) => {
                 draft.manga = manga;

@@ -12,7 +12,7 @@ export interface ReaderOverlayStoreSlice {
     overlay: {
         isVisible: boolean;
         setIsVisible: (visible: boolean) => void;
-        reset: () => void;
+        reset: () => ReaderOverlayStoreSlice;
     };
 }
 
@@ -29,6 +29,6 @@ export const createReaderOverlayStoreSlice = <T extends ReaderOverlayStoreSlice>
             set((draft) => {
                 draft.overlay.isVisible = visible;
             }),
-        reset: () => set(() => ({ overlay: { ...get().overlay, ...DEFAULT_STATE } })),
+        reset: () => ({ overlay: { ...get().overlay, ...DEFAULT_STATE } }),
     },
 });

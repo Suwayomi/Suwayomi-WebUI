@@ -11,13 +11,22 @@ import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 
 export interface ReaderChaptersStoreSlice {
     chapters: ReaderStateChapters & {
-        reset: () => void;
+        setReaderStateChapters: (
+            state: ((state: ReaderStateChapters) => ReaderStateChapters) | ReaderStateChapters,
+        ) => void;
+        reset: () => ReaderChaptersStoreSlice;
     };
 }
 
 export const READER_DEFAULT_CHAPTERS_STATE = {
     chapters: {
+        mangaChapters: undefined,
         chapters: [],
+        chapterForDuplicatesHandling: undefined,
+        initialChapter: undefined,
+        currentChapter: undefined,
+        nextChapter: undefined,
+        previousChapter: undefined,
         isCurrentChapterReady: false,
         visibleChapters: {
             leading: 0,
@@ -39,7 +48,7 @@ export const createReaderChaptersStoreSlice = <T extends ReaderChaptersStoreSlic
 ): ReaderChaptersStoreSlice => ({
     chapters: {
         ...READER_DEFAULT_CHAPTERS_STATE.chapters,
-        reset: () => set(() => ({ chapters: { ...get().chapters, ...READER_DEFAULT_CHAPTERS_STATE.chapters } })),
+        reset: () => ({ chapters: { ...get().chapters, ...READER_DEFAULT_CHAPTERS_STATE.chapters } }),
         setReaderStateChapters: (state) =>
             set((draft) => {
                 if (typeof state === 'function') {

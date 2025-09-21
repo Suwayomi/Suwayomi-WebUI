@@ -11,7 +11,7 @@ import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-ba
 
 export interface ReaderProgressBarStoreSlice {
     progressBar: TReaderProgressBarContext & {
-        reset: () => void;
+        reset: () => ReaderProgressBarStoreSlice;
     };
 }
 
@@ -33,6 +33,6 @@ export const createReaderProgressBarStoreSlice = <T extends ReaderProgressBarSto
             set((draft) => {
                 draft.progressBar.isDragging = dragging;
             }),
-        reset: () => set(() => ({ progressBar: { ...get().progressBar, ...DEFAULT_STATE } })),
+        reset: () => ({ progressBar: { ...get().progressBar, ...DEFAULT_STATE } }),
     },
 });

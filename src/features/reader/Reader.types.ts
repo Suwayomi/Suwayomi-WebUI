@@ -206,7 +206,7 @@ export interface ReaderStateChapters {
      * E.g., in case read chapters are filtered out. This would then lead to the removal of the current chapter
      * after the end of the chapter is reached.
      */
-    mangaChapters?: TChapterReader[];
+    mangaChapters: TChapterReader[] | undefined;
     /**
      * Actual chapters that have been filtered
      *
@@ -215,11 +215,11 @@ export interface ReaderStateChapters {
      *  - Manga chapter list filters
      */
     chapters: TChapterReader[];
-    chapterForDuplicatesHandling?: TChapterReader | null;
-    initialChapter?: TChapterReader | null;
-    currentChapter?: TChapterReader | null;
-    nextChapter?: TChapterReader;
-    previousChapter?: TChapterReader;
+    chapterForDuplicatesHandling: TChapterReader | null | undefined;
+    initialChapter: TChapterReader | null | undefined;
+    currentChapter: TChapterReader | null | undefined;
+    nextChapter: TChapterReader | undefined;
+    previousChapter: TChapterReader | undefined;
     isCurrentChapterReady: boolean;
     /**
      * Based from the initial chapter index
@@ -232,9 +232,8 @@ export interface ReaderStateChapters {
         isLeadingChapterPreloadMode: boolean;
         isTrailingChapterPreloadMode: boolean;
         scrollIntoView: boolean;
-        resumeMode?: ReaderResumeMode;
+        resumeMode: ReaderResumeMode | undefined;
     };
-    setReaderStateChapters: React.Dispatch<React.SetStateAction<Omit<ReaderStateChapters, 'setReaderStateChapters'>>>;
 }
 
 interface ReaderSettingsTypeBaseProps {

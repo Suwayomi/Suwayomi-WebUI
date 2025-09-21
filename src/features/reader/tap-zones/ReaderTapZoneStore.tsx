@@ -11,7 +11,7 @@ import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout
 
 export interface ReaderTapZoneStoreSlice {
     tapZone: TReaderTapZoneContext & {
-        reset: () => void;
+        reset: () => ReaderTapZoneStoreSlice;
     };
 }
 
@@ -28,6 +28,6 @@ export const createReaderTapZoneStoreSlice = <T extends ReaderTapZoneStoreSlice>
             set((draft) => {
                 draft.tapZone.showPreview = showPreview;
             }),
-        reset: () => set(() => ({ tapZone: { ...get().tapZone, ...DEFAULT_STATE } })),
+        reset: () => ({ tapZone: { ...get().tapZone, ...DEFAULT_STATE } }),
     },
 });
