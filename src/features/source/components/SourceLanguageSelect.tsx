@@ -132,7 +132,7 @@ export const SourceLanguageSelect = ({
                                             onChange={(e) => handleChange(language, e.target.checked)}
                                         />
                                     </ListItem>
-                                    {isEnabled && sourcesOfLanguage.length && (
+                                    {isEnabled && !!sourcesOfLanguage.length && (
                                         <Box sx={{ ml: 1 }}>
                                             {sourcesOfLanguage.map((source) => (
                                                 <ListItem key={source.id}>
