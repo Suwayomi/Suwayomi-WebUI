@@ -16,7 +16,6 @@ import {
     ReaderPagerProps,
     ReaderPageSpreadState,
     ReaderResumeMode,
-    ReaderStateChapters,
     ReaderStatePages,
     ReaderTransitionPageMode,
     ReadingDirection,
@@ -45,6 +44,7 @@ import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 import { READER_DEFAULT_PAGES_STATE } from '@/features/reader/stores/ReaderPagesStore.ts';
+import { getReaderChaptersStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderChapterViewer = ({
     currentPageIndex,
@@ -79,7 +79,6 @@ const BaseReaderChapterViewer = ({
     isPreloadMode,
     imageRefs: globalImageRefs,
     scrollIntoView,
-    setReaderStateChapters,
     resumeMode,
     customFilter,
     shouldStretchPage,
@@ -104,8 +103,7 @@ const BaseReaderChapterViewer = ({
     Pick<
         IReaderSettings,
         'readingMode' | 'shouldOffsetDoubleSpreads' | 'readingDirection' | 'readerWidth' | 'pageScaleMode'
-    > &
-    Pick<ReaderStateChapters, 'setReaderStateChapters'> & {
+    > & {
         updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
         chapterId: ChapterIdInfo['id'];
         previousChapterId?: ChapterIdInfo['id'];
@@ -265,7 +263,7 @@ const BaseReaderChapterViewer = ({
         pagesToSpreadState,
         arePagesFetched,
         setArePagesFetched,
-        (value) => updateState(value, noOp, setReaderStateChapters),
+        (value) => updateState(value, noOp, getReaderChaptersStore().setReaderStateChapters),
         (value) => updateState(value, setTotalPages, setContextTotalPages),
         (value) => updateState(value, setPages, setContextPages),
         (value) => updateState(value, setPageUrls, noOp),
@@ -275,7 +273,7 @@ const BaseReaderChapterViewer = ({
         (value) => {
             if ((isInitialChapter && !arePagesFetched) || scrollIntoView) {
                 setPageToScrollToIndex(value);
-                setReaderStateChapters((prevState) => ({
+                getReaderChaptersStore().setReaderStateChapters((prevState) => ({
                     ...prevState,
                     visibleChapters: { ...prevState.visibleChapters, scrollIntoView: false, resumeMode: undefined },
                 }));

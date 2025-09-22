@@ -114,21 +114,15 @@ const BaseReaderViewer = forwardRef(
             retryFailedPagesKeyPrefix: state.pages.retryFailedPagesKeyPrefix,
             setTransitionPageMode: state.pages.setTransitionPageMode,
         }));
-        const {
-            initialChapter,
-            currentChapter,
-            chapters,
-            visibleChapters,
-            setReaderStateChapters,
-            isCurrentChapterReady,
-        } = useReaderChaptersStore((state) => ({
-            initialChapter: state.chapters.initialChapter,
-            currentChapter: state.chapters.currentChapter,
-            chapters: state.chapters.chapters,
-            visibleChapters: state.chapters.visibleChapters,
-            setReaderStateChapters: state.chapters.setReaderStateChapters,
-            isCurrentChapterReady: state.chapters.isCurrentChapterReady,
-        }));
+        const { initialChapter, currentChapter, chapters, visibleChapters, isCurrentChapterReady } =
+            useReaderChaptersStore((state) => ({
+                initialChapter: state.chapters.initialChapter,
+                currentChapter: state.chapters.currentChapter,
+                chapters: state.chapters.chapters,
+                visibleChapters: state.chapters.visibleChapters,
+                setReaderStateChapters: state.chapters.setReaderStateChapters,
+                isCurrentChapterReady: state.chapters.isCurrentChapterReady,
+            }));
         const {
             readingMode,
             readingDirection,
@@ -419,7 +413,6 @@ const BaseReaderViewer = forwardRef(
                                 visibleChapters.resumeMode,
                                 resumeMode,
                             )}
-                            setReaderStateChapters={setReaderStateChapters}
                             setTransitionPageMode={setTransitionPageMode}
                             pageGap={pageGap}
                             imagePreLoadAmount={imagePreLoadAmount}

@@ -17,7 +17,6 @@ import {
     ReaderExitMode,
     ReaderOpenChapterLocationState,
     ReaderOverlayMode,
-    ReaderStateChapters,
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
@@ -53,6 +52,7 @@ import {
     useReaderSettingsStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { ReaderChaptersStoreSlice } from '@/features/reader/stores/ReaderChaptersStore.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -120,7 +120,7 @@ export class ReaderService {
         chapter: TChapterReader | undefined | null,
         lastLeadingChapterSourceOrder: number,
         lastTrailingChapterSourceOrder: number,
-        setReaderStateChapters: ReaderStateChapters['setReaderStateChapters'],
+        setReaderStateChapters: ReaderChaptersStoreSlice['chapters']['setReaderStateChapters'],
         direction: DirectionOffset,
     ): void {
         if (!chapter) {

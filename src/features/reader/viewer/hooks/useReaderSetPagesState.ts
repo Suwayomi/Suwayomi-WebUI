@@ -12,12 +12,12 @@ import { createPagesData } from '@/features/reader/viewer/pager/ReaderPager.util
 import {
     ReaderPageSpreadState,
     ReaderResumeMode,
-    ReaderStateChapters,
     ReaderStatePages,
     ReaderTransitionPageMode,
 } from '@/features/reader/Reader.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
+import { ReaderChaptersStoreSlice } from '@/features/reader/stores/ReaderChaptersStore.ts';
 
 export const useReaderSetPagesState = (
     isCurrentChapter: boolean,
@@ -29,7 +29,7 @@ export const useReaderSetPagesState = (
     pagesToSpreadState: ReaderPageSpreadState[],
     arePagesFetched: boolean,
     setArePagesFetched: (fetched: boolean) => void,
-    setReaderStateChapters: ReaderStateChapters['setReaderStateChapters'],
+    setReaderStateChapters: ReaderChaptersStoreSlice['chapters']['setReaderStateChapters'],
     setTotalPages: ReaderStatePages['setTotalPages'],
     setPages: ReaderStatePages['setPages'],
     setPageUrls: ReaderStatePages['setPageUrls'],
