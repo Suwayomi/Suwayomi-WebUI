@@ -10,6 +10,7 @@ import { use } from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpBackend from 'i18next-http-backend';
+import { SubpathConfig } from '@/lib/utils/SubpathConfig.ts';
 
 /**
  * Keys have to match {@link IsoLanguages} codes, they're used for showing the language name in the dropdown in the {@link Settings}.<br/>
@@ -45,7 +46,7 @@ export const i18n = use(initReactI18next)
         fallbackLng: 'en',
 
         backend: {
-            loadPath: '/locales/{{lng}}.json',
+            loadPath: `${SubpathConfig.getSubpath()}/locales/{{lng}}.json`,
             allowMultiLoading: true,
         },
 

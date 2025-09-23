@@ -17,7 +17,8 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import 'dotenv/config';
 
 // eslint-disable-next-line import/no-default-export
-export default defineConfig(() => ({
+export default defineConfig(({ command }) => ({
+    base: command === 'serve' ? process.env.VITE_SUBPATH || './' : './',
     build: {
         outDir: 'build',
     },
