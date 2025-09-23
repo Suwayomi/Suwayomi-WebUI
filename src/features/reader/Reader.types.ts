@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MutableRefObject } from 'react';
+import { MutableRefObject, Ref } from 'react';
 import { TapZoneInvertMode, TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
@@ -349,6 +349,7 @@ export interface ReaderPagerProps
     isPreloadMode: boolean;
     resumeMode: ReaderResumeMode;
     handleAsInitialRender: boolean;
+    ref?: Ref<HTMLDivElement>;
 }
 
 export enum PageInViewportType {

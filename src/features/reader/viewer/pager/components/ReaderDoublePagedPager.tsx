@@ -7,7 +7,7 @@
  */
 
 import { Direction, useTheme } from '@mui/material/styles';
-import { forwardRef, Fragment, memo, useMemo } from 'react';
+import { Fragment, memo, useMemo } from 'react';
 import { BasePager } from '@/features/reader/viewer/pager/components/BasePager.tsx';
 import {
     IReaderSettings,
@@ -41,10 +41,14 @@ const getPagePosition = (
     return isLtrReadingDirection ? 'right' : 'left';
 };
 
-const BaseReaderDoublePagedPager = forwardRef<
-    HTMLDivElement,
-    ReaderPagerProps & Pick<IReaderSettings, 'readingDirection' | 'pageScaleMode'>
->(({ onLoad, onError, pageLoadStates, retryFailedPagesKeyPrefix, isPreloadMode, ...props }, ref) => {
+const BaseReaderDoublePagedPager = ({
+    onLoad,
+    onError,
+    pageLoadStates,
+    retryFailedPagesKeyPrefix,
+    isPreloadMode,
+    ...props
+}: ReaderPagerProps & Pick<IReaderSettings, 'readingDirection' | 'pageScaleMode'>) => {
     const { currentPageIndex, pages, totalPages, readingDirection, pageScaleMode } = props;
 
     const { direction: themeDirection } = useTheme();
@@ -54,7 +58,6 @@ const BaseReaderDoublePagedPager = forwardRef<
 
     return (
         <BasePager
-            ref={ref}
             {...props}
             createPage={(page, pagesIndex, shouldLoad, shouldDisplay, _setRef, ...baseProps) => {
                 const { primary, secondary } = page;
@@ -129,6 +132,6 @@ const BaseReaderDoublePagedPager = forwardRef<
             }}
         />
     );
-});
+};
 
 export const ReaderDoublePagedPager = memo(BaseReaderDoublePagedPager);

@@ -6,17 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    ForwardedRef,
-    forwardRef,
-    memo,
-    useCallback,
-    useEffect,
-    useLayoutEffect,
-    useMemo,
-    useRef,
-    useState,
-} from 'react';
+import { ForwardedRef, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
@@ -74,362 +64,356 @@ const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> 
     [ReadingMode.WEBTOON]: PageInViewportType.Y,
 };
 
-const BaseReaderViewer = forwardRef(
-    (
-        {
-            readerNavBarWidth,
-            updateCurrentPageIndex,
-        }: Pick<NavbarContextType, 'readerNavBarWidth'> & {
-            updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
+const BaseReaderViewer = ({
+    readerNavBarWidth,
+    updateCurrentPageIndex,
+    ref,
+}: Pick<NavbarContextType, 'readerNavBarWidth'> & {
+    updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>;
+    ref?: ForwardedRef<HTMLDivElement | null>;
+}) => {
+    const { direction: themeDirection } = useTheme();
+    const isOverlayVisible = useReaderOverlayStore((state) => state.overlay.isVisible);
+    const {
+        currentPageIndex,
+        pageToScrollToIndex,
+        setPageToScrollToIndex,
+        pages,
+        totalPages,
+        setPages,
+        setPageLoadStates,
+        setTotalPages,
+        setCurrentPageIndex,
+        transitionPageMode,
+        retryFailedPagesKeyPrefix,
+        setTransitionPageMode,
+    } = useReaderPagesStore((state) => ({
+        currentPageIndex: state.pages.currentPageIndex,
+        pageToScrollToIndex: state.pages.pageToScrollToIndex,
+        setPageToScrollToIndex: state.pages.setPageToScrollToIndex,
+        pages: state.pages.pages,
+        totalPages: state.pages.totalPages,
+        setPages: state.pages.setPages,
+        setPageLoadStates: state.pages.setPageLoadStates,
+        setTotalPages: state.pages.setTotalPages,
+        setCurrentPageIndex: state.pages.setCurrentPageIndex,
+        transitionPageMode: state.pages.transitionPageMode,
+        retryFailedPagesKeyPrefix: state.pages.retryFailedPagesKeyPrefix,
+        setTransitionPageMode: state.pages.setTransitionPageMode,
+    }));
+    const { initialChapter, currentChapter, chapters, visibleChapters, isCurrentChapterReady } = useReaderChaptersStore(
+        (state) => ({
+            initialChapter: state.chapters.initialChapter,
+            currentChapter: state.chapters.currentChapter,
+            chapters: state.chapters.chapters,
+            visibleChapters: state.chapters.visibleChapters,
+            setReaderStateChapters: state.chapters.setReaderStateChapters,
+            isCurrentChapterReady: state.chapters.isCurrentChapterReady,
+        }),
+    );
+    const {
+        readingMode,
+        readingDirection,
+        readerWidth,
+        pageScaleMode,
+        shouldOffsetDoubleSpreads,
+        imagePreLoadAmount,
+        pageGap,
+        customFilter,
+        shouldStretchPage,
+        isStaticNav,
+    } = useReaderSettingsStore((state) => ({
+        readingMode: state.settings.readingMode.value,
+        readingDirection: state.settings.readingDirection.value,
+        readerWidth: state.settings.readerWidth.value,
+        pageScaleMode: state.settings.pageScaleMode.value,
+        shouldOffsetDoubleSpreads: state.settings.shouldOffsetDoubleSpreads.value,
+        imagePreLoadAmount: state.settings.imagePreLoadAmount,
+        pageGap: state.settings.pageGap.value,
+        customFilter: state.settings.customFilter,
+        shouldStretchPage: state.settings.shouldStretchPage.value,
+        isStaticNav: state.settings.isStaticNav,
+    }));
+    const { showPreview, setShowPreview } = useReaderTapZoneStore((state) => ({
+        showPreview: state.tapZone.showPreview,
+        setShowPreview: state.tapZone.setShowPreview,
+    }));
+    const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
+        resumeMode: ReaderResumeMode.START,
+    };
+
+    const scrollElementRef = useRef<HTMLDivElement | null>(null);
+    const mergedRef = useMergedRef(ref, scrollElementRef);
+
+    const isContinuousVerticalReadingModeActive = isContinuousVerticalReadingMode(readingMode);
+    const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
+    const isDragging = useMouseDragScroll(scrollElementRef);
+
+    const automaticScrolling = useReaderAutoScrollStore((state) => ({
+        isPaused: state.autoScroll.isPaused,
+        pause: state.autoScroll.pause,
+        resume: state.autoScroll.resume,
+        setScrollRef: state.autoScroll.setScrollRef,
+    }));
+    useEffect(() => automaticScrolling.setScrollRef(scrollElementRef.current), []);
+
+    const scrollbarXSize = MediaQuery.useGetScrollbarSize('width', scrollElementRef.current);
+    const scrollbarYSize = MediaQuery.useGetScrollbarSize('height', scrollElementRef.current);
+    useLayoutEffect(() => {
+        const { scrollbar } = getReaderStore();
+        scrollbar.setXSize(scrollbarXSize);
+        scrollbar.setYSize(scrollbarYSize);
+    }, [scrollbarXSize, scrollbarYSize]);
+
+    const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
+    const [{ minChapterViewWidth, minChapterViewHeight, minChapterSizeSourceChapterId }, setChapterViewerSize] =
+        useState({
+            minChapterViewWidth: 0,
+            minChapterViewHeight: 0,
+            minChapterSizeSourceChapterId: -1,
+        });
+
+    const [, setTriggerReRender] = useState({});
+
+    const inViewportType = READING_MODE_TO_IN_VIEWPORT_TYPE[readingMode];
+    const isLtrReadingDirection = readingDirection === ReadingDirection.LTR;
+    const initialChapterIndex = useMemo(
+        () => chapters.findIndex((chapter) => chapter.id === initialChapter?.id),
+        [chapters, initialChapter?.id],
+    );
+    const chaptersToRender = useMemo(
+        () =>
+            chapters.slice(
+                Math.max(0, initialChapterIndex - visibleChapters.trailing),
+                Math.min(chapters.length, initialChapterIndex + visibleChapters.leading + 1),
+            ),
+        [chapters, initialChapterIndex, visibleChapters.trailing, visibleChapters.leading],
+    );
+    const currentChapterIndex = useMemo(
+        () => chaptersToRender.findIndex((chapter) => chapter.id === currentChapter?.id),
+        [currentChapter, chaptersToRender],
+    );
+
+    const onChapterViewSizeChange = useCallback(
+        (width: number, height: number, chapterId: ChapterIdInfo['id']) => {
+            if (!isContinuousReadingModeActive) {
+                return;
+            }
+
+            const isSameChapterId = chapterId === minChapterSizeSourceChapterId;
+
+            if (isContinuousVerticalReadingModeActive) {
+                if (!isSameChapterId && minChapterViewWidth >= width) {
+                    return;
+                }
+
+                setChapterViewerSize({
+                    minChapterViewWidth: width,
+                    minChapterViewHeight: 0,
+                    minChapterSizeSourceChapterId: chapterId,
+                });
+                return;
+            }
+
+            if (isSameChapterId || minChapterViewHeight < height) {
+                setChapterViewerSize({
+                    minChapterViewWidth: 0,
+                    minChapterViewHeight: height,
+                    minChapterSizeSourceChapterId: chapterId,
+                });
+            }
         },
+        [
+            isContinuousReadingModeActive,
+            isContinuousVerticalReadingModeActive,
+            minChapterViewWidth,
+            minChapterViewHeight,
+            minChapterSizeSourceChapterId,
+        ],
+    );
 
-        ref: ForwardedRef<HTMLDivElement | null>,
-    ) => {
-        const { direction: themeDirection } = useTheme();
-        const isOverlayVisible = useReaderOverlayStore((state) => state.overlay.isVisible);
-        const {
-            currentPageIndex,
-            pageToScrollToIndex,
-            setPageToScrollToIndex,
-            pages,
-            totalPages,
-            setPages,
-            setPageLoadStates,
-            setTotalPages,
-            setCurrentPageIndex,
-            transitionPageMode,
-            retryFailedPagesKeyPrefix,
-            setTransitionPageMode,
-        } = useReaderPagesStore((state) => ({
-            currentPageIndex: state.pages.currentPageIndex,
-            pageToScrollToIndex: state.pages.pageToScrollToIndex,
-            setPageToScrollToIndex: state.pages.setPageToScrollToIndex,
-            pages: state.pages.pages,
-            totalPages: state.pages.totalPages,
-            setPages: state.pages.setPages,
-            setPageLoadStates: state.pages.setPageLoadStates,
-            setTotalPages: state.pages.setTotalPages,
-            setCurrentPageIndex: state.pages.setCurrentPageIndex,
-            transitionPageMode: state.pages.transitionPageMode,
-            retryFailedPagesKeyPrefix: state.pages.retryFailedPagesKeyPrefix,
-            setTransitionPageMode: state.pages.setTransitionPageMode,
-        }));
-        const { initialChapter, currentChapter, chapters, visibleChapters, isCurrentChapterReady } =
-            useReaderChaptersStore((state) => ({
-                initialChapter: state.chapters.initialChapter,
-                currentChapter: state.chapters.currentChapter,
-                chapters: state.chapters.chapters,
-                visibleChapters: state.chapters.visibleChapters,
-                setReaderStateChapters: state.chapters.setReaderStateChapters,
-                isCurrentChapterReady: state.chapters.isCurrentChapterReady,
-            }));
-        const {
-            readingMode,
-            readingDirection,
-            readerWidth,
-            pageScaleMode,
-            shouldOffsetDoubleSpreads,
-            imagePreLoadAmount,
-            pageGap,
-            customFilter,
-            shouldStretchPage,
-            isStaticNav,
-        } = useReaderSettingsStore((state) => ({
-            readingMode: state.settings.readingMode.value,
-            readingDirection: state.settings.readingDirection.value,
-            readerWidth: state.settings.readerWidth.value,
-            pageScaleMode: state.settings.pageScaleMode.value,
-            shouldOffsetDoubleSpreads: state.settings.shouldOffsetDoubleSpreads.value,
-            imagePreLoadAmount: state.settings.imagePreLoadAmount,
-            pageGap: state.settings.pageGap.value,
-            customFilter: state.settings.customFilter,
-            shouldStretchPage: state.settings.shouldStretchPage.value,
-            isStaticNav: state.settings.isStaticNav,
-        }));
-        const { showPreview, setShowPreview } = useReaderTapZoneStore((state) => ({
-            showPreview: state.tapZone.showPreview,
-            setShowPreview: state.tapZone.setShowPreview,
-        }));
-        const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
-            resumeMode: ReaderResumeMode.START,
-        };
+    useReaderHandlePageSelection(
+        pageToScrollToIndex,
+        currentPageIndex,
+        pages,
+        totalPages,
+        setPageToScrollToIndex,
+        updateCurrentPageIndex,
+        isContinuousReadingModeActive,
+        imageRefs,
+        themeDirection,
+        readingDirection,
+    );
+    useReaderScrollToStartOnPageChange(
+        currentPageIndex,
+        isContinuousReadingModeActive,
+        themeDirection,
+        readingDirection,
+        scrollElementRef,
+    );
+    useReaderHideCursorOnInactivity(scrollElementRef);
+    useReaderHorizontalModeInvertXYScrolling(readingMode, readingDirection, scrollElementRef);
+    useReaderHideOverlayOnUserScroll(isOverlayVisible, showPreview, setShowPreview, scrollElementRef);
+    useReaderAutoScroll(
+        isOverlayVisible,
+        automaticScrolling.isPaused,
+        automaticScrolling.pause,
+        automaticScrolling.resume,
+        isStaticNav,
+    );
+    useReaderPreserveScrollPosition(
+        scrollElementRef,
+        currentChapter?.id,
+        currentChapterIndex,
+        currentPageIndex,
+        chaptersToRender,
+        visibleChapters,
+        readingMode,
+        readingDirection,
+        setPageToScrollToIndex,
+        pageScaleMode,
+    );
 
-        const scrollElementRef = useRef<HTMLDivElement | null>(null);
-        const mergedRef = useMergedRef(ref, scrollElementRef);
+    useLayoutEffect(() => {
+        setChapterViewerSize({
+            minChapterViewWidth: 0,
+            minChapterViewHeight: 0,
+            minChapterSizeSourceChapterId: -1,
+        });
+        setTriggerReRender({});
+    }, [readingMode]);
 
-        const isContinuousVerticalReadingModeActive = isContinuousVerticalReadingMode(readingMode);
-        const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
-        const isDragging = useMouseDragScroll(scrollElementRef);
+    if (!initialChapter || !currentChapter) {
+        throw new Error('ReaderViewer: illegal state - initialChapter and currentChapter should not be undefined');
+    }
 
-        const automaticScrolling = useReaderAutoScrollStore((state) => ({
-            isPaused: state.autoScroll.isPaused,
-            pause: state.autoScroll.pause,
-            resume: state.autoScroll.resume,
-            setScrollRef: state.autoScroll.setScrollRef,
-        }));
-        useEffect(() => automaticScrolling.setScrollRef(scrollElementRef.current), []);
-
-        const scrollbarXSize = MediaQuery.useGetScrollbarSize('width', scrollElementRef.current);
-        const scrollbarYSize = MediaQuery.useGetScrollbarSize('height', scrollElementRef.current);
-        useLayoutEffect(() => {
-            const { scrollbar } = getReaderStore();
-            scrollbar.setXSize(scrollbarXSize);
-            scrollbar.setYSize(scrollbarYSize);
-        }, [scrollbarXSize, scrollbarYSize]);
-
-        const imageRefs = useRef<(HTMLElement | null)[]>(pages.map(() => null));
-        const [{ minChapterViewWidth, minChapterViewHeight, minChapterSizeSourceChapterId }, setChapterViewerSize] =
-            useState({
-                minChapterViewWidth: 0,
-                minChapterViewHeight: 0,
-                minChapterSizeSourceChapterId: -1,
-            });
-
-        const [, setTriggerReRender] = useState({});
-
-        const inViewportType = READING_MODE_TO_IN_VIEWPORT_TYPE[readingMode];
-        const isLtrReadingDirection = readingDirection === ReadingDirection.LTR;
-        const initialChapterIndex = useMemo(
-            () => chapters.findIndex((chapter) => chapter.id === initialChapter?.id),
-            [chapters, initialChapter?.id],
-        );
-        const chaptersToRender = useMemo(
-            () =>
-                chapters.slice(
-                    Math.max(0, initialChapterIndex - visibleChapters.trailing),
-                    Math.min(chapters.length, initialChapterIndex + visibleChapters.leading + 1),
+    return (
+        <Stack
+            ref={mergedRef}
+            sx={{
+                width: '100%',
+                height: '100%',
+                overflow: 'auto',
+                flexWrap: 'nowrap',
+                ...applyStyles(
+                    isContinuousVerticalReadingModeActive && shouldApplyReaderWidth(readerWidth, pageScaleMode),
+                    { alignItems: 'center' },
                 ),
-            [chapters, initialChapterIndex, visibleChapters.trailing, visibleChapters.leading],
-        );
-        const currentChapterIndex = useMemo(
-            () => chaptersToRender.findIndex((chapter) => chapter.id === currentChapter?.id),
-            [currentChapter, chaptersToRender],
-        );
-
-        const onChapterViewSizeChange = useCallback(
-            (width: number, height: number, chapterId: ChapterIdInfo['id']) => {
-                if (!isContinuousReadingModeActive) {
-                    return;
-                }
-
-                const isSameChapterId = chapterId === minChapterSizeSourceChapterId;
-
-                if (isContinuousVerticalReadingModeActive) {
-                    if (!isSameChapterId && minChapterViewWidth >= width) {
-                        return;
-                    }
-
-                    setChapterViewerSize({
-                        minChapterViewWidth: width,
-                        minChapterViewHeight: 0,
-                        minChapterSizeSourceChapterId: chapterId,
-                    });
-                    return;
-                }
-
-                if (isSameChapterId || minChapterViewHeight < height) {
-                    setChapterViewerSize({
-                        minChapterViewWidth: 0,
-                        minChapterViewHeight: height,
-                        minChapterSizeSourceChapterId: chapterId,
-                    });
-                }
-            },
-            [
-                isContinuousReadingModeActive,
-                isContinuousVerticalReadingModeActive,
-                minChapterViewWidth,
-                minChapterViewHeight,
-                minChapterSizeSourceChapterId,
-            ],
-        );
-
-        useReaderHandlePageSelection(
-            pageToScrollToIndex,
-            currentPageIndex,
-            pages,
-            totalPages,
-            setPageToScrollToIndex,
-            updateCurrentPageIndex,
-            isContinuousReadingModeActive,
-            imageRefs,
-            themeDirection,
-            readingDirection,
-        );
-        useReaderScrollToStartOnPageChange(
-            currentPageIndex,
-            isContinuousReadingModeActive,
-            themeDirection,
-            readingDirection,
-            scrollElementRef,
-        );
-        useReaderHideCursorOnInactivity(scrollElementRef);
-        useReaderHorizontalModeInvertXYScrolling(readingMode, readingDirection, scrollElementRef);
-        useReaderHideOverlayOnUserScroll(isOverlayVisible, showPreview, setShowPreview, scrollElementRef);
-        useReaderAutoScroll(
-            isOverlayVisible,
-            automaticScrolling.isPaused,
-            automaticScrolling.pause,
-            automaticScrolling.resume,
-            isStaticNav,
-        );
-        useReaderPreserveScrollPosition(
-            scrollElementRef,
-            currentChapter?.id,
-            currentChapterIndex,
-            currentPageIndex,
-            chaptersToRender,
-            visibleChapters,
-            readingMode,
-            readingDirection,
-            setPageToScrollToIndex,
-            pageScaleMode,
-        );
-
-        useLayoutEffect(() => {
-            setChapterViewerSize({
-                minChapterViewWidth: 0,
-                minChapterViewHeight: 0,
-                minChapterSizeSourceChapterId: -1,
-            });
-            setTriggerReRender({});
-        }, [readingMode]);
-
-        if (!initialChapter || !currentChapter) {
-            throw new Error('ReaderViewer: illegal state - initialChapter and currentChapter should not be undefined');
-        }
-
-        return (
-            <Stack
-                ref={mergedRef}
-                sx={{
-                    width: '100%',
-                    height: '100%',
-                    overflow: 'auto',
-                    flexWrap: 'nowrap',
-                    ...applyStyles(
-                        isContinuousVerticalReadingModeActive && shouldApplyReaderWidth(readerWidth, pageScaleMode),
-                        { alignItems: 'center' },
-                    ),
-                    ...applyStyles(!isContinuousVerticalReadingModeActive, {
-                        ...applyStyles(themeDirection === 'ltr', {
-                            flexDirection: isLtrReadingDirection ? 'row' : 'row-reverse',
-                        }),
-                        ...applyStyles(themeDirection === 'rtl', {
-                            flexDirection: isLtrReadingDirection ? 'row-reverse' : 'row',
-                        }),
+                ...applyStyles(!isContinuousVerticalReadingModeActive, {
+                    ...applyStyles(themeDirection === 'ltr', {
+                        flexDirection: isLtrReadingDirection ? 'row' : 'row-reverse',
                     }),
-                }}
-                onClick={(e) => !isDragging && ReaderControls.handleClick(scrollElementRef.current, e)}
-                onScroll={() =>
-                    ReaderControls.updateCurrentPageOnScroll(
-                        imageRefs,
-                        totalPages - 1,
-                        updateCurrentPageIndex,
-                        inViewportType,
-                        readingDirection,
-                    )
-                }
-            >
-                {chaptersToRender.map((_, index) => {
-                    // chapters are sorted by latest to oldest, thus, loop over it in reversed order
-                    const chapterIndex = Math.max(0, chaptersToRender.length - index - 1);
-                    const chapter = chaptersToRender[chapterIndex];
+                    ...applyStyles(themeDirection === 'rtl', {
+                        flexDirection: isLtrReadingDirection ? 'row-reverse' : 'row',
+                    }),
+                }),
+            }}
+            onClick={(e) => !isDragging && ReaderControls.handleClick(scrollElementRef.current, e)}
+            onScroll={() =>
+                ReaderControls.updateCurrentPageOnScroll(
+                    imageRefs,
+                    totalPages - 1,
+                    updateCurrentPageIndex,
+                    inViewportType,
+                    readingDirection,
+                )
+            }
+        >
+            {chaptersToRender.map((_, index) => {
+                // chapters are sorted by latest to oldest, thus, loop over it in reversed order
+                const chapterIndex = Math.max(0, chaptersToRender.length - index - 1);
+                const chapter = chaptersToRender[chapterIndex];
 
-                    const previousChapter =
-                        chaptersToRender[chapterIndex + 1] ??
-                        chapters[initialChapterIndex + visibleChapters.leading + 1];
-                    const nextChapter =
-                        chaptersToRender[chapterIndex - 1] ??
-                        chapters[initialChapterIndex - visibleChapters.trailing - 1];
+                const previousChapter =
+                    chaptersToRender[chapterIndex + 1] ?? chapters[initialChapterIndex + visibleChapters.leading + 1];
+                const nextChapter =
+                    chaptersToRender[chapterIndex - 1] ?? chapters[initialChapterIndex - visibleChapters.trailing - 1];
 
-                    const isInitialChapter = chapter.id === initialChapter.id;
-                    const isCurrentChapter = chapter.id === currentChapter.id;
-                    const isPreviousChapter = chapter.id === chaptersToRender[currentChapterIndex + 1]?.id;
-                    const isNextChapter = chapter.id === chaptersToRender[currentChapterIndex - 1]?.id;
-                    const isLeadingChapter = initialChapter.sourceOrder > chapter.sourceOrder;
-                    const isTrailingChapter = initialChapter.sourceOrder < chapter.sourceOrder;
-                    const isLastLeadingChapter = visibleChapters.lastLeadingChapterSourceOrder === chapter.sourceOrder;
-                    const isLastTrailingChapter =
-                        visibleChapters.lastTrailingChapterSourceOrder === chapter.sourceOrder;
-                    const isPreloadMode =
-                        (isLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode) ||
-                        (isLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode);
+                const isInitialChapter = chapter.id === initialChapter.id;
+                const isCurrentChapter = chapter.id === currentChapter.id;
+                const isPreviousChapter = chapter.id === chaptersToRender[currentChapterIndex + 1]?.id;
+                const isNextChapter = chapter.id === chaptersToRender[currentChapterIndex - 1]?.id;
+                const isLeadingChapter = initialChapter.sourceOrder > chapter.sourceOrder;
+                const isTrailingChapter = initialChapter.sourceOrder < chapter.sourceOrder;
+                const isLastLeadingChapter = visibleChapters.lastLeadingChapterSourceOrder === chapter.sourceOrder;
+                const isLastTrailingChapter = visibleChapters.lastTrailingChapterSourceOrder === chapter.sourceOrder;
+                const isPreloadMode =
+                    (isLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode) ||
+                    (isLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode);
 
-                    const previousNextChapterVisibility = getPreviousNextChapterVisibility(
-                        chapterIndex,
-                        chaptersToRender,
-                        visibleChapters,
-                    );
+                const previousNextChapterVisibility = getPreviousNextChapterVisibility(
+                    chapterIndex,
+                    chaptersToRender,
+                    visibleChapters,
+                );
 
-                    const isChapterSizeSourceChapter = chapter.id === minChapterSizeSourceChapterId;
+                const isChapterSizeSourceChapter = chapter.id === minChapterSizeSourceChapterId;
 
-                    return (
-                        <ReaderChapterViewer
-                            key={chapter.id}
-                            chapterId={chapter.id}
-                            previousChapterId={previousChapter?.id}
-                            nextChapterId={nextChapter?.id}
-                            isPreviousChapterVisible={previousNextChapterVisibility.previous}
-                            isNextChapterVisible={previousNextChapterVisibility.next}
-                            lastPageRead={coerceIn(chapter.lastPageRead, 0, chapter.pageCount - 1)}
-                            currentPageIndex={getReaderChapterViewerCurrentPageIndex(
-                                currentPageIndex,
-                                chapter,
-                                currentChapter,
-                                isCurrentChapter,
-                                isCurrentChapterReady,
-                                isLeadingChapter,
-                                isTrailingChapter,
-                                visibleChapters,
-                            )}
-                            isInitialChapter={isInitialChapter}
-                            isCurrentChapter={isCurrentChapter}
-                            isPreviousChapter={isPreviousChapter}
-                            isNextChapter={isNextChapter}
-                            isLeadingChapter={isLeadingChapter}
-                            isTrailingChapter={isTrailingChapter}
-                            isPreloadMode={isPreloadMode}
-                            imageRefs={imageRefs}
-                            setPages={setPages}
-                            setPageLoadStates={setPageLoadStates}
-                            setTotalPages={setTotalPages}
-                            setCurrentPageIndex={setCurrentPageIndex}
-                            setPageToScrollToIndex={setPageToScrollToIndex}
-                            transitionPageMode={transitionPageMode}
-                            retryFailedPagesKeyPrefix={retryFailedPagesKeyPrefix}
-                            readingMode={readingMode}
-                            readerWidth={readerWidth}
-                            pageScaleMode={pageScaleMode}
-                            shouldOffsetDoubleSpreads={shouldOffsetDoubleSpreads}
-                            readingDirection={readingDirection}
-                            updateCurrentPageIndex={isCurrentChapter ? updateCurrentPageIndex : noOp}
-                            scrollIntoView={isCurrentChapter && visibleChapters.scrollIntoView}
-                            resumeMode={getReaderChapterViewResumeMode(
-                                isCurrentChapter,
-                                isInitialChapter,
-                                isLeadingChapter,
-                                isTrailingChapter,
-                                visibleChapters.resumeMode,
-                                resumeMode,
-                            )}
-                            setTransitionPageMode={setTransitionPageMode}
-                            pageGap={pageGap}
-                            imagePreLoadAmount={imagePreLoadAmount}
-                            customFilter={customFilter}
-                            shouldStretchPage={shouldStretchPage}
-                            readerNavBarWidth={readerNavBarWidth}
-                            onSizeChange={onChapterViewSizeChange}
-                            minWidth={isChapterSizeSourceChapter ? 0 : minChapterViewWidth}
-                            minHeight={isChapterSizeSourceChapter ? 0 : minChapterViewHeight}
-                            scrollElement={scrollElementRef.current}
-                        />
-                    );
-                })}
-            </Stack>
-        );
-    },
-);
+                return (
+                    <ReaderChapterViewer
+                        key={chapter.id}
+                        chapterId={chapter.id}
+                        previousChapterId={previousChapter?.id}
+                        nextChapterId={nextChapter?.id}
+                        isPreviousChapterVisible={previousNextChapterVisibility.previous}
+                        isNextChapterVisible={previousNextChapterVisibility.next}
+                        lastPageRead={coerceIn(chapter.lastPageRead, 0, chapter.pageCount - 1)}
+                        currentPageIndex={getReaderChapterViewerCurrentPageIndex(
+                            currentPageIndex,
+                            chapter,
+                            currentChapter,
+                            isCurrentChapter,
+                            isCurrentChapterReady,
+                            isLeadingChapter,
+                            isTrailingChapter,
+                            visibleChapters,
+                        )}
+                        isInitialChapter={isInitialChapter}
+                        isCurrentChapter={isCurrentChapter}
+                        isPreviousChapter={isPreviousChapter}
+                        isNextChapter={isNextChapter}
+                        isLeadingChapter={isLeadingChapter}
+                        isTrailingChapter={isTrailingChapter}
+                        isPreloadMode={isPreloadMode}
+                        imageRefs={imageRefs}
+                        setPages={setPages}
+                        setPageLoadStates={setPageLoadStates}
+                        setTotalPages={setTotalPages}
+                        setCurrentPageIndex={setCurrentPageIndex}
+                        setPageToScrollToIndex={setPageToScrollToIndex}
+                        transitionPageMode={transitionPageMode}
+                        retryFailedPagesKeyPrefix={retryFailedPagesKeyPrefix}
+                        readingMode={readingMode}
+                        readerWidth={readerWidth}
+                        pageScaleMode={pageScaleMode}
+                        shouldOffsetDoubleSpreads={shouldOffsetDoubleSpreads}
+                        readingDirection={readingDirection}
+                        updateCurrentPageIndex={isCurrentChapter ? updateCurrentPageIndex : noOp}
+                        scrollIntoView={isCurrentChapter && visibleChapters.scrollIntoView}
+                        resumeMode={getReaderChapterViewResumeMode(
+                            isCurrentChapter,
+                            isInitialChapter,
+                            isLeadingChapter,
+                            isTrailingChapter,
+                            visibleChapters.resumeMode,
+                            resumeMode,
+                        )}
+                        setTransitionPageMode={setTransitionPageMode}
+                        pageGap={pageGap}
+                        imagePreLoadAmount={imagePreLoadAmount}
+                        customFilter={customFilter}
+                        shouldStretchPage={shouldStretchPage}
+                        readerNavBarWidth={readerNavBarWidth}
+                        onSizeChange={onChapterViewSizeChange}
+                        minWidth={isChapterSizeSourceChapter ? 0 : minChapterViewWidth}
+                        minHeight={isChapterSizeSourceChapter ? 0 : minChapterViewHeight}
+                        scrollElement={scrollElementRef.current}
+                    />
+                );
+            })}
+        </Stack>
+    );
+};
 
 export const ReaderViewer = withPropsFrom(
     memo(BaseReaderViewer),

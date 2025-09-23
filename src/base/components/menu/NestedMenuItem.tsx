@@ -16,7 +16,6 @@ import Menu, { MenuProps as MuiMenuProps } from '@mui/material/Menu';
 import { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
 import {
     ElementType,
-    forwardRef,
     HTMLAttributes,
     KeyboardEvent,
     FocusEvent,
@@ -25,6 +24,7 @@ import {
     RefAttributes,
     useRef,
     useState,
+    Ref,
 } from 'react';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -51,9 +51,10 @@ export type NestedMenuItemProps = Omit<MuiMenuItemProps, 'button'> & {
     ContainerProps?: HTMLAttributes<HTMLElement> & RefAttributes<HTMLElement>;
     MenuProps?: Partial<Omit<MuiMenuProps, 'children'>>;
     button?: true | undefined;
+    ref?: Ref<HTMLLIElement | null>;
 };
 
-const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((props, ref) => {
+export const NestedMenuItem = ({ ref, ...props }: NestedMenuItemProps) => {
     const {
         parentMenuOpen,
         label,
@@ -229,7 +230,4 @@ const NestedMenuItem = forwardRef<HTMLLIElement | null, NestedMenuItemProps>((pr
             </Menu>
         </Box>
     );
-});
-
-NestedMenuItem.displayName = 'NestedMenuItem';
-export { NestedMenuItem };
+};

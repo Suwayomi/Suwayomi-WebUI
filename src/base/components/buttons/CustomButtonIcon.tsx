@@ -7,23 +7,19 @@
  */
 
 import Button, { ButtonProps } from '@mui/material/Button';
-import { ForwardedRef, forwardRef } from 'react';
 
-export const CustomButtonIcon = forwardRef(
-    <C extends React.ElementType>(
-        { children, ...props }: ButtonProps<C, { component?: C }>,
-        ref: ForwardedRef<HTMLButtonElement | null>,
-    ) => (
-        <Button
-            ref={ref}
-            {...props}
-            sx={{
-                minWidth: 'unset',
-                px: '10px',
-                ...props.sx,
-            }}
-        >
-            {children}
-        </Button>
-    ),
+export const CustomButtonIcon = <C extends React.ElementType>({
+    children,
+    ...props
+}: ButtonProps<C, { component?: C }>) => (
+    <Button
+        {...props}
+        sx={{
+            minWidth: 'unset',
+            px: '10px',
+            ...props.sx,
+        }}
+    >
+        {children}
+    </Button>
 );

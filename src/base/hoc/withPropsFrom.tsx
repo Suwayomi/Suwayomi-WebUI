@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ComponentType, memo, forwardRef } from 'react';
+import { ComponentType, memo, Ref } from 'react';
 
 type PropsSourceCreator<T, Props extends Record<string, any>> = (props: Props) => T;
 
@@ -21,19 +21,20 @@ export const withPropsFrom = <
     },
     sourcePropKeys: SourcePropKeys[],
 ) =>
-    memo(
-        forwardRef<HTMLElement, Omit<ComponentProps, SourcePropKeys>>((props, ref) => {
-            const sourceProps = propsSources.reduce(
-                (acc, propsSource) => ({ ...acc, ...propsSource(props as Omit<ComponentProps, SourcePropKeys>) }),
-                {},
-            );
+    memo(({ ref, ...props }: Omit<ComponentProps, SourcePropKeys> & { ref?: Ref<HTMLElement> }) => {
+        const sourceProps = propsSources.reduce(
+            (acc, propsSource) => ({
+                ...acc,
+                ...propsSource(props as unknown as Omit<ComponentProps, SourcePropKeys>),
+            }),
+            {},
+        );
 
-            const selectedProps = Object.fromEntries(
-                Object.entries(sourceProps).filter(([key]) => sourcePropKeys.includes(key as SourcePropKeys)),
-            ) as Pick<MergeObjectsArray<SourceProps>, SourcePropKeys>;
+        const selectedProps = Object.fromEntries(
+            Object.entries(sourceProps).filter(([key]) => sourcePropKeys.includes(key as SourcePropKeys)),
+        ) as Pick<MergeObjectsArray<SourceProps>, SourcePropKeys>;
 
-            const combinedProps = { ...props, ...selectedProps } as unknown as ComponentProps;
+        const combinedProps = { ...props, ...selectedProps } as unknown as ComponentProps;
 
-            return <Component {...combinedProps} ref={ref} />;
-        }),
-    );
+        return <Component {...combinedProps} ref={ref} />;
+    });

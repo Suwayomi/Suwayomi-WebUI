@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { forwardRef, useMemo } from 'react';
+import { useMemo } from 'react';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
 import Box, { BoxProps } from '@mui/material/Box';
@@ -17,12 +17,12 @@ import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { DIRECTION_TO_CACHE } from '@/features/theme/ThemeDirectionCache.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 
-const BaseReaderProgressBarDirectionWrapper = forwardRef<
-    HTMLElement,
-    BoxProps & {
-        direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
-    }
->(({ direction, ...boxProps }, ref) => {
+const BaseReaderProgressBarDirectionWrapper = ({
+    direction,
+    ...boxProps
+}: BoxProps & {
+    direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
+}) => {
     const {
         settings: { customThemes, appTheme, themeMode, shouldUsePureBlackMode },
     } = useMetadataServerSettings();
@@ -35,11 +35,11 @@ const BaseReaderProgressBarDirectionWrapper = forwardRef<
     return (
         <CacheProvider value={DIRECTION_TO_CACHE[direction]}>
             <ThemeProvider theme={readerTheme}>
-                <Box {...boxProps} ref={ref} dir={direction} />
+                <Box {...boxProps} dir={direction} />
             </ThemeProvider>
         </CacheProvider>
     );
-});
+};
 
 export const ReaderProgressBarDirectionWrapper = withPropsFrom(
     BaseReaderProgressBarDirectionWrapper,

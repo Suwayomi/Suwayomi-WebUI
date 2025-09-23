@@ -8,7 +8,6 @@
 
 import Tabs, { TabsProps } from '@mui/material/Tabs';
 import { styled } from '@mui/material/styles';
-import { ForwardedRef, forwardRef } from 'react';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 
 const StyledTabsMenu = styled(Tabs)(({ theme }) => ({
@@ -24,23 +23,20 @@ const StyledTabsMenu = styled(Tabs)(({ theme }) => ({
     borderColor: theme.palette.divider,
 }));
 
-export const TabsMenu = forwardRef(
-    ({ children, sx, ...props }: TabsProps, ref: ForwardedRef<HTMLDivElement | null>) => {
-        const { appBarHeight } = useNavBarContext();
+export const TabsMenu = ({ children, sx, ...props }: TabsProps) => {
+    const { appBarHeight } = useNavBarContext();
 
-        return (
-            <StyledTabsMenu
-                sx={{ ...sx, top: appBarHeight }}
-                ref={ref}
-                indicatorColor="primary"
-                textColor="primary"
-                variant="scrollable"
-                scrollButtons="auto"
-                allowScrollButtonsMobile
-                {...props}
-            >
-                {children}
-            </StyledTabsMenu>
-        );
-    },
-);
+    return (
+        <StyledTabsMenu
+            sx={{ ...sx, top: appBarHeight }}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="scrollable"
+            scrollButtons="auto"
+            allowScrollButtonsMobile
+            {...props}
+        >
+            {children}
+        </StyledTabsMenu>
+    );
+};

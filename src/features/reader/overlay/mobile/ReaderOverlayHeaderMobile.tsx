@@ -17,7 +17,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import Slide from '@mui/material/Slide';
-import { forwardRef, memo } from 'react';
+import { memo, Ref } from 'react';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -38,7 +38,7 @@ import {
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
-const BaseReaderOverlayHeaderMobile = forwardRef<HTMLDivElement, MobileHeaderProps>(({ isVisible }, ref) => {
+const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & { ref?: Ref<HTMLDivElement> }) => {
     const { t } = useTranslation();
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
     const currentChapter = useReaderChaptersStore((state) => state.chapters.currentChapter);
@@ -126,6 +126,6 @@ const BaseReaderOverlayHeaderMobile = forwardRef<HTMLDivElement, MobileHeaderPro
             </Stack>
         </Slide>
     );
-});
+};
 
 export const ReaderOverlayHeaderMobile = memo(BaseReaderOverlayHeaderMobile);
