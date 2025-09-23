@@ -52,7 +52,9 @@ const getFontsFromTheme = (obj: Record<string, any>, fonts: string[] = []): stri
 
         const isValidFontProperty = propertyName === 'fontFamily' && propertyType === 'string';
         if (isValidFontProperty) {
-            tmpFonts.push(propertyValue as string);
+            const detectedFonts = propertyValue.split(',') as string[];
+            const normalizedFonts = detectedFonts.map((detectedFont) => detectedFont.replace(/"/g, '').trim());
+            tmpFonts.push(...normalizedFonts);
             // eslint-disable-next-line no-continue
             continue;
         }
