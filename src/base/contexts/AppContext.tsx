@@ -19,7 +19,7 @@ import { AppPageHistoryContextProvider } from '@/base/contexts/AppPageHistoryCon
 import { AppThemeContextProvider } from '@/features/theme/AppThemeContext.tsx';
 import { NavBarContextProvider } from '@/features/navigation-bar/NavbarContext.tsx';
 import { SessionContextProvider } from '@/features/authentication/SessionContext.tsx';
-import { SubpathConfig } from '@/lib/utils/SubpathConfig.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
 interface Props {
     children: React.ReactNode;
@@ -27,7 +27,7 @@ interface Props {
 
 export const AppContext: React.FC<Props> = ({ children }) => (
     <SessionContextProvider>
-        <Router basename={SubpathConfig.getRouterBasename()}>
+        <Router basename={SubpathUtil.getRouterBasename()}>
             <StyledEngineProvider injectFirst>
                 <AppThemeContextProvider>
                     <QueryParamProvider adapter={ReactRouter6Adapter}>
