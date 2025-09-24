@@ -7,7 +7,7 @@
  */
 
 export class SubpathUtil {
-    public static getSubpath(): string | null {
+    public static getSubpath(): string {
         const envSubpath = import.meta.env.VITE_SUBPATH;
         if (envSubpath && envSubpath !== '/') {
             return envSubpath;
@@ -18,7 +18,7 @@ export class SubpathUtil {
             return serverSubpath;
         }
 
-        return null;
+        return '';
     }
 
     private static getServerSubpath(): string | null {
@@ -31,7 +31,7 @@ export class SubpathUtil {
     }
 
     public static getRouterBasename(): string | undefined {
-        return this.getSubpath() ?? undefined;
+        return this.getSubpath() || undefined;
     }
 
     public static getApiBaseUrl(serverUrl: string): string {
