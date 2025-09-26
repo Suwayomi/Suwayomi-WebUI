@@ -42,7 +42,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { Queue } from '@/lib/Queue.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
+import { FALLBACK_MANGA, GLOBAL_READER_SETTINGS_MANGA } from '@/features/manga/Manga.constants.ts';
 import { getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 import {
@@ -247,7 +247,8 @@ export class ReaderService {
         isGlobal: boolean = false,
         profile?: ReadingMode,
     ): void {
-        const { manga } = getReaderStore();
+        const { manga: currentManga } = getReaderStore();
+        const manga = currentManga ?? (isGlobal ? GLOBAL_READER_SETTINGS_MANGA : currentManga);
 
         if (!manga || manga.id === FALLBACK_MANGA.id) {
             return;
@@ -312,7 +313,8 @@ export class ReaderService {
         isGlobal: boolean = false,
         profile?: string,
     ): void {
-        const { manga } = getReaderStore();
+        const { manga: currentManga } = getReaderStore();
+        const manga = currentManga ?? (isGlobal ? GLOBAL_READER_SETTINGS_MANGA : currentManga);
 
         if (!manga || manga.id === FALLBACK_MANGA.id) {
             return;
