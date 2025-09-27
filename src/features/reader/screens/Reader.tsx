@@ -233,6 +233,8 @@ const BaseReader = ({
                 position: 'relative',
                 display: 'flex',
                 flexDirection: 'column',
+                minWidth: `calc(100vw - ${readerNavBarWidth}px)`,
+                maxWidth: `calc(100vw - ${readerNavBarWidth}px)`,
                 width: `calc(100vw - ${readerNavBarWidth}px)`,
                 height: `100vh`,
                 marginLeft: `${readerNavBarWidth}px`,
