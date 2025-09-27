@@ -36,9 +36,9 @@ import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import {
+    getReaderOverlayStore,
     getReaderStore,
     useReaderChaptersStore,
-    useReaderOverlayStore,
     useReaderSettingsStore,
     useReaderStore,
     useReaderTapZoneStore,
@@ -52,7 +52,6 @@ const BaseReader = ({
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'>) => {
     const { t } = useTranslation();
     const manga = useReaderStore((state) => state.manga);
-    const overlay = useReaderOverlayStore((state) => state.overlay);
     const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderChaptersStore(
         (state) => ({
             mangaChapters: state.chapters.mangaChapters,
@@ -160,10 +159,10 @@ const BaseReader = ({
             value: (
                 <Box sx={{ position: 'absolute' }}>
                     <ReaderHotkeys scrollElementRef={scrollElementRef} />
-                    <ReaderOverlay isVisible={overlay.isVisible} />
+                    <ReaderOverlay />
                     {!scrollElementRef.current && (
                         <Box
-                            onClick={() => overlay.setIsVisible(!overlay.isVisible)}
+                            onClick={() => getReaderOverlayStore().setIsVisible(!getReaderOverlayStore().isVisible)}
                             sx={{
                                 position: 'fixed',
                                 top: 0,
@@ -179,7 +178,7 @@ const BaseReader = ({
         });
 
         return () => setOverride({ status: false, value: null });
-    }, [overlay.isVisible, scrollElementRef.current]);
+    }, [scrollElementRef.current]);
 
     if (error) {
         return (

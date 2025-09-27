@@ -8,7 +8,6 @@
 
 import Box from '@mui/material/Box';
 import { memo, useCallback, useRef, useState } from 'react';
-import { BaseReaderOverlayProps, MobileHeaderProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { ReaderSettings } from '@/features/reader/settings/screens/ReaderSettings.tsx';
 import { ReaderPageNumber } from '@/features/reader/overlay/components/ReaderPageNumber.tsx';
 import { StandardReaderProgressBar } from '@/features/reader/overlay/progress-bar/desktop/StandardReaderProgressBar.tsx';
@@ -18,14 +17,14 @@ import { ReaderBottomBarMobile } from '@/features/reader/overlay/navigation/mobi
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
+import { useReaderOverlayStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderOverlay = ({
-    isVisible,
     isDesktop,
     isMobile,
-}: BaseReaderOverlayProps &
-    MobileHeaderProps &
-    Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop' | 'isMobile'>) => {
+}: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop' | 'isMobile'>) => {
+    const isVisible = useReaderOverlayStore((state) => state.overlay.isVisible);
+
     const [areSettingsOpen, setAreSettingsOpen] = useState(false);
 
     const [mobileHeaderHeight, setMobileHeaderHeight] = useState(0);
