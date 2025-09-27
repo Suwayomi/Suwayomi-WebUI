@@ -19,7 +19,7 @@ import {
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
     isHeightPageScaleMode,
-    isReaderWidthEditable,
+    isWidthPageScaleMode,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { getPreviousNextChapterVisibility } from '@/features/reader/Reader.utils.ts';
 import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
@@ -30,18 +30,18 @@ const shouldPreserveOnResizeChange = (
     previousWidth: number,
     previousHeight: number,
 ): boolean => {
-    const isEditableReaderWidth = isReaderWidthEditable(pageScaleMode);
+    if (!isContinuousReadingMode(readingMode)) {
+        return false;
+    }
+
+    const isWidthPageScaleModeActive = isWidthPageScaleMode(pageScaleMode);
     const isHeightPageScaleModeActive = isHeightPageScaleMode(pageScaleMode);
 
     const didWidthChange = previousWidth !== window.innerWidth;
     const didHeightChange = previousHeight !== window.innerHeight;
 
-    const handleWidthChange = isEditableReaderWidth && didWidthChange;
+    const handleWidthChange = isWidthPageScaleModeActive && didWidthChange;
     const handleHeightChange = isHeightPageScaleModeActive && didHeightChange;
-
-    if (!isContinuousVerticalReadingMode(readingMode) && didWidthChange) {
-        return true;
-    }
 
     return handleWidthChange || handleHeightChange;
 };

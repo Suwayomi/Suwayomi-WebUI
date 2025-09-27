@@ -26,8 +26,10 @@ import { ReaderHorizontalPager } from '@/features/reader/viewer/pager/components
 export const isOffsetDoubleSpreadPagesEditable = (readingMode: IReaderSettings['readingMode']): boolean =>
     readingMode === ReadingMode.DOUBLE_PAGE;
 
-export const isReaderWidthEditable = (pageScaleMode: IReaderSettings['pageScaleMode']): boolean =>
+export const isReaderWidthEditable = (pageScaleMode: ReaderPageScaleMode): boolean =>
     [ReaderPageScaleMode.WIDTH, ReaderPageScaleMode.SCREEN].includes(pageScaleMode);
+
+export const isWidthPageScaleMode = (pageScaleMode: ReaderPageScaleMode) => isReaderWidthEditable(pageScaleMode);
 
 export const isHeightPageScaleMode = (pageScaleMode: ReaderPageScaleMode): boolean =>
     [ReaderPageScaleMode.HEIGHT, ReaderPageScaleMode.SCREEN].includes(pageScaleMode);
