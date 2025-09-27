@@ -63,17 +63,31 @@ const usePreserveOnWindowResize = (
     pageIndex: number,
 ) => {
     const previousDimensionsRef = useRef({ width: window.innerWidth, height: window.innerHeight });
+    const isResizeInProgressRef = useRef(false);
+    const activeResizeTimeoutRef = useRef<NodeJS.Timeout>(undefined);
+    const pageIndexOnResizeStartRef = useRef<number | null>(null);
 
     const handleResize = useCallback(() => {
         const { width, height } = previousDimensionsRef.current;
         previousDimensionsRef.current = { width: window.innerWidth, height: window.innerHeight };
 
+        if (!isResizeInProgressRef.current) {
+            isResizeInProgressRef.current = true;
+            pageIndexOnResizeStartRef.current = pageIndex;
+        }
+
         if (!shouldPreserveOnResizeChange(readingMode, pageScaleMode, width, height)) {
             return;
         }
 
-        setPageToScrollToIndex(pageIndex);
-    }, [readingMode, pageScaleMode, pageIndex]);
+        setPageToScrollToIndex(pageIndexOnResizeStartRef.current);
+
+        clearTimeout(activeResizeTimeoutRef.current);
+        activeResizeTimeoutRef.current = setTimeout(() => {
+            isResizeInProgressRef.current = false;
+            pageIndexOnResizeStartRef.current = null;
+        }, 50);
+    }, [readingMode, pageScaleMode]);
 
     useWindowEvent('resize', handleResize);
 };
