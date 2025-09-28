@@ -54,8 +54,8 @@ body:
     options:
       - H2
       - PostgreSQL
-    validations:
-      required: true
+  validations:
+    required: true
 
 - type: input
   id: server-os
