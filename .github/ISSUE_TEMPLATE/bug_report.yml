@@ -37,22 +37,52 @@ body:
     required: true
 
 - type: input
-  id: suwayomi-webui-version
-  attributes:
-    label: Suwayomi-WebUI version
-    description: You can find your Suwayomi-WebUI version in **More → About**.
-    placeholder: |
-      Example: "r1689 STABLE | r2401 PREVIEW"
-  validations:
-    required: true
-
-- type: input
   id: suwayomi-server-version
   attributes:
     label: Suwayomi-Server version
     description: You can find your Suwayomi-Server version in **More → About**.
     placeholder: |
       Example: "v1.1.1 | v1.1.1-r1701"
+  validations:
+    required: true
+
+- type: input
+  id: server-os
+  attributes:
+    label: Server operating system
+    description: The operating system on which Suwayomi-Server is running on
+    placeholder: |
+      Example: "Windows 11 Pro 24H2 | Ubuntu 24.04.2 LTS"
+  validations:
+    required: true
+
+- type: input
+  id: server-desktop-environment
+  attributes:
+    label: Server Desktop Environment
+    description:
+    placeholder: |
+      Example: "Gnome 40"
+  validations:
+    required: false
+
+- type: input
+  id: server-jvm-version
+  attributes:
+    label: Server JVM version
+    description: The java version used to run Suwayomi-Server
+    placeholder: |
+      Example: "openjdk 21.0.5 2024-10-15 LTS"
+  validations:
+    required: true
+
+- type: input
+  id: suwayomi-webui-version
+  attributes:
+    label: Suwayomi-WebUI version
+    description: You can find your Suwayomi-WebUI version in **More → About**.
+    placeholder: |
+      Example: "r1689 STABLE | r2401 PREVIEW"
   validations:
     required: true
 
@@ -73,26 +103,6 @@ body:
     description: The system on which the Suwayomi-WebUI is running on
     placeholder: |
       Example: "Windows 11 Pro 24H2 | Ubuntu 24.04.2 LTS"
-  validations:
-    required: true
-
-- type: input
-  id: server-os
-  attributes:
-    label: Server operating system
-    description: The operating system on which Suwayomi-Server is running on
-    placeholder: |
-      Example: "Windows 11 Pro 24H2 | Ubuntu 24.04.2 LTS"
-  validations:
-    required: true
-
-- type: input
-  id: server-jvm-version
-  attributes:
-    label: Server JVM version
-    description: The java version used to run Suwayomi-Server
-    placeholder: |
-      Example: "openjdk 21.0.5 2024-10-15 LTS"
   validations:
     required: true
 
