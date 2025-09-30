@@ -29,34 +29,27 @@ const DEFAULT_LANGUAGE_TO_TRANSLATION: Record<DefaultLanguage, TranslationKey> =
 
 type LanguageObject = ISOLanguage & { orgCode: string; isoCode: string };
 
-function getISOLanguage(code: string): LanguageObject | null {
+function getISOLanguageFor(code: string, orgCode: string = code, isoCode: string = code): LanguageObject | null {
     if (IsoLanguages[code]) {
         return {
             ...IsoLanguages[code],
-            orgCode: code,
-            isoCode: code,
-        };
-    }
-
-    if (IsoLanguages[code.toLocaleLowerCase()]) {
-        return {
-            ...IsoLanguages[code.toLocaleLowerCase()],
-            orgCode: code,
-            isoCode: code.toLocaleLowerCase(),
-        };
-    }
-
-    const whereToCut = code.indexOf('-') !== -1 ? code.indexOf('-') : code.length;
-    const processedCode = code.toLocaleLowerCase().substring(0, whereToCut);
-    if (IsoLanguages[processedCode]) {
-        return {
-            ...IsoLanguages[processedCode],
-            orgCode: code,
-            isoCode: processedCode,
+            orgCode,
+            isoCode,
         };
     }
 
     return null;
+}
+
+function getISOLanguage(code: string): LanguageObject | null {
+    return (
+        getISOLanguageFor(code) ??
+        getISOLanguageFor(code.toLowerCase(), code) ??
+        getISOLanguageFor(code.replace('-', '_'), code) ??
+        getISOLanguageFor(code.replace('_', '-'), code) ??
+        getISOLanguageFor(code.split('-')[0], code) ??
+        getISOLanguageFor(code.split('_')[0], code)
+    );
 }
 
 export function getLanguage(code: string): LanguageObject {
