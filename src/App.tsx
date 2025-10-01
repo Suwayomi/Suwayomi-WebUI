@@ -13,7 +13,6 @@ import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
 import { AppContext } from '@/base/contexts/AppContext.tsx';
-import '@/i18n';
 import { DefaultNavBar } from '@/features/navigation-bar/components/DefaultNavBar.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateChecker } from '@/features/app-updates/components/WebUIUpdateChecker.tsx';
@@ -21,9 +20,7 @@ import { ServerUpdateChecker } from '@/features/app-updates/components/ServerUpd
 import { lazyLoadFallback } from '@/base/utils/LazyLoad.tsx';
 import { ErrorBoundary } from '@/base/components/feedback/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';

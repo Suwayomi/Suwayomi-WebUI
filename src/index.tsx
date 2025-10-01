@@ -7,6 +7,7 @@
  */
 
 import '@/polyfill.manual';
+import '@/i18n';
 import '@/lib/dayjs/Setup.ts';
 import '@/index.css';
 import { StrictMode } from 'react';
