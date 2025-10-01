@@ -23,10 +23,11 @@ import { deepmerge } from '@mui/utils';
 import { PaletteBackgroundChannel } from '@mui/material/styles/createThemeWithVars';
 import { Palette } from '@vibrant/color';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
-import { AppTheme, loadThemeFonts } from '@/features/theme/services/AppThemes.ts';
+import { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { TAppThemeContext, ThemeMode } from '@/features/theme/AppTheme.types.ts';
+import { ThemeFontLoader } from '@/features/theme/services/ThemeFontLoader.ts';
 
 const SCROLLBAR_SIZE = 14;
 
@@ -276,7 +277,7 @@ let theme: Theme;
 export const getCurrentTheme = () => theme;
 export const createAndSetTheme = (...args: Parameters<typeof createTheme>) => {
     theme = createTheme(...args);
-    loadThemeFonts(theme).catch(defaultPromiseErrorHandler('theme::createAndSetTheme'));
+    ThemeFontLoader.load(theme).catch(defaultPromiseErrorHandler('theme::createAndSetTheme'));
 
     return theme;
 };

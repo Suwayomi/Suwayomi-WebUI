@@ -20,12 +20,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import { bindDialog, usePopupState } from 'material-ui-popup-state/hooks';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
-import { AppTheme, hasMissingFonts, loadThemeFonts } from '@/features/theme/services/AppThemes.ts';
+import { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { createTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { ThemeCreationDialog } from '@/features/theme/components/CreateThemeDialog.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { ThemeFontLoader } from '@/features/theme/services/ThemeFontLoader.ts';
 
 const ThemePreviewBadge = styled(Box)(() => ({
     width: '15px',
@@ -92,14 +93,14 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                 backgroundColor: 'background.default',
                             }}
                             onClick={() => {
-                                const needToLoadFonts = hasMissingFonts(appTheme.muiTheme);
+                                const needToLoadFonts = ThemeFontLoader.hasMissing(appTheme.muiTheme);
                                 if (!needToLoadFonts) {
                                     setAppTheme(appTheme.id);
                                     return;
                                 }
 
                                 makeToast(t('settings.appearance.theme.select.fonts.loading'), 'info');
-                                loadThemeFonts(appTheme.muiTheme)
+                                ThemeFontLoader.load(appTheme.muiTheme)
                                     .then(() => setAppTheme(appTheme.id))
                                     .catch((e) =>
                                         makeToast(
