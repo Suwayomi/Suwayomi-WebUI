@@ -41,7 +41,6 @@
     "@emotion/cache": "11.14.0",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
-    "@fontsource/roboto": "5.2.6",
     "@juggle/resize-observer": "3.4.0",
     "@loadable/component": "5.16.7",
     "@mantine/hooks": "8.2.5",

@@ -7,7 +7,6 @@
  */
 
 import '@/polyfill.manual';
-import '@fontsource/roboto';
 import '@/lib/dayjs/Setup.ts';
 import '@/index.css';
 import { StrictMode } from 'react';
