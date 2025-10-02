@@ -1192,7 +1192,11 @@
     "backup": {
       "action": {
         "create": {
+          "error": {
+            "failure": "Could not create backup"
+          },
           "label": {
+            "in_progress": "Creating backup…",
             "description": "Back up library as a Tachiyomi backup",
             "title": "Create backup"
           }

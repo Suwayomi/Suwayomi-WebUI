@@ -129,6 +129,36 @@ export function Backup() {
         }
     };
 
+    const createBackup = async () => {
+        makeToast(t('settings.backup.action.create.label.in_progress'), 'info');
+
+        const backupFileResponse = await requestManager.createBackupFile({
+            includeCategories: true,
+            includeChapters: true,
+            includeHistory: true,
+            includeClientData: true,
+            includeTracking: true,
+            includeServerSettings: true,
+        }).response;
+
+        const backupFileUrl = backupFileResponse.data?.createBackup.url;
+        if (!backupFileUrl) {
+            makeToast(
+                t('settings.backup.action.create.error.failure'),
+                'error',
+                getErrorMessage(backupFileResponse.errors),
+            );
+            return;
+        }
+
+        const link = document.createElement('a');
+        link.href = backupFileUrl;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     const validateBackup = async (file: File) => {
         try {
             const {
@@ -222,7 +252,7 @@ export function Backup() {
     return (
         <>
             <List sx={{ padding: 0 }}>
-                <ListItemButton component="a" href={requestManager.getExportBackupUrl()} download>
+                <ListItemButton onClick={createBackup}>
                     <ListItemText
                         primary={t('settings.backup.action.create.label.title')}
                         secondary={t('settings.backup.action.create.label.description')}

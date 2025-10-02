@@ -216,6 +216,9 @@ import {
     UserLoginMutationVariables,
     UserRefreshMutation,
     UserRefreshMutationVariables,
+    CreateBackupInput,
+    CreateBackupMutation,
+    CreateBackupMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -298,7 +301,7 @@ import {
 import { STOP_UPDATER, UPDATE_LIBRARY } from '@/lib/graphql/mutations/UpdaterMutation.ts';
 import { GET_LAST_UPDATE_TIMESTAMP, GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/storage/CustomCache.ts';
-import { RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
+import { CREATE_BACKUP, RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
 import { GET_RESTORE_STATUS, VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
 import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/DownloaderSubscription.ts';
 import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
@@ -2697,6 +2700,20 @@ export class RequestManager {
                 update(cache) {
                     cache.evict({ id: cache.identify({ __typename: 'CategoryMetaType', categoryId, key }) });
                 },
+                ...options,
+            },
+        );
+    }
+
+    public createBackupFile(
+        input: CreateBackupInput,
+        options?: MutationOptions<CreateBackupMutation, CreateBackupMutationVariables>,
+    ): AbortableApolloMutationResponse<CreateBackupMutation> {
+        return this.doRequest<CreateBackupMutation, CreateBackupMutationVariables>(
+            GQLMethod.MUTATION,
+            CREATE_BACKUP,
+            { input },
+            {
                 ...options,
             },
         );
