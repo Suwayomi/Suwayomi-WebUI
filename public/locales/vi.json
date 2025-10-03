@@ -122,6 +122,10 @@
             },
             "filter_and_sort": {
                 "label": "Bộ lọc và sắp xếp"
+            },
+            "read": {
+                "resume": "Tiếp tục đọc\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "Bắt đầu đọc\n#{{chapterNumber}}—{{title}}\n{{scanlator}}"
             }
         },
         "error": {
