@@ -53,3 +53,13 @@ type OmitNotMatching<T, K extends keyof T> = {
 type ExtractCommon<T, U> = {
     [K in keyof T & keyof U]: T[K] extends U[K] ? T[K] : never;
 };
+
+type HasRequiredKeys<T> =
+    Exclude<
+        {
+            [K in keyof T]: T extends Record<K, T[K]> ? K : never;
+        }[keyof T],
+        undefined
+    > extends never
+        ? false
+        : true;

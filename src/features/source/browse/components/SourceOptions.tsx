@@ -36,9 +36,9 @@ import { TriStateFilter } from '@/features/source/browse/components/filters/TriS
 import { GroupFilter } from '@/features/source/browse/components/filters/GroupFilter.tsx';
 import { SeparatorFilter } from '@/features/source/browse/components/filters/SeparatorFilter.tsx';
 import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
-import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ISourceMetadata, SourceFilters } from '@/features/source/Source.types.ts';
+import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
 
 interface IFilters {
     sourceFilter: SourceFilters[];
@@ -256,7 +256,7 @@ export function SourceOptions({
                                             selectSavedSearch(savedSearch);
                                         }}
                                         onDelete={() => {
-                                            awaitConfirmation({
+                                            GlobalDialogManager.confirm({
                                                 title: t('global.label.are_you_sure'),
                                                 message: t('source.filter.save_search.dialog.label.delete', {
                                                     name: savedSearch,

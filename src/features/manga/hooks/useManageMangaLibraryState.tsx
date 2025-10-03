@@ -17,11 +17,11 @@ import { getMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { Categories } from '@/features/category/services/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
 
 export const useManageMangaLibraryState = (
     manga: Pick<MangaType, 'id' | 'title'> & Partial<Pick<MangaType, 'inLibrary'>>,
@@ -54,7 +54,7 @@ export const useManageMangaLibraryState = (
 
     const removeFromLibrary = useCallback(async () => {
         if (confirmRemoval) {
-            await awaitConfirmation({
+            await GlobalDialogManager.confirm(`manga-library-state-remove-${manga.id}`, {
                 title: t('global.label.are_you_sure'),
                 message: t('manga.action.library.remove.dialog.label.message', { title: manga.title }),
                 actions: {
@@ -113,7 +113,7 @@ export const useManageMangaLibraryState = (
             try {
                 duplicatedLibraryMangas = await Mangas.getDuplicateLibraryMangas(manga.title).response;
             } catch (e) {
-                await awaitConfirmation({
+                await GlobalDialogManager.confirm(`manga-library-state-add-${manga.id}`, {
                     title: t('global.error.label.failed_to_load_data'),
                     message: t('manga.action.library.add.dialog.duplicate.label.failure', {
                         error: getErrorMessage(e),
@@ -131,7 +131,7 @@ export const useManageMangaLibraryState = (
 
             const doDuplicatesExist = duplicatedLibraryMangas?.data.mangas.totalCount;
             if (doDuplicatesExist) {
-                await awaitConfirmation({
+                await GlobalDialogManager.confirm(`manga-library-state-add-duplicated-${manga.id}`, {
                     title: t('global.label.are_you_sure'),
                     message: t('manga.action.library.add.dialog.duplicate.label.info'),
                     actions: {

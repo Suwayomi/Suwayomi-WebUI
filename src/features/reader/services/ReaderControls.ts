@@ -45,7 +45,6 @@ import {
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
-import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import {
@@ -55,6 +54,7 @@ import {
     getReaderSettingsStore,
     getReaderTapZoneStore,
 } from '@/features/reader/stores/ReaderStore.ts';
+import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,
@@ -304,7 +304,7 @@ export class ReaderControls {
         const warningLineBreak = !isSameScanlator && !isContinuousChapter ? '\n\n' : '';
         const warning = `${sameScanlator}${warningLineBreak}${continuousChapter}`;
 
-        await awaitConfirmation({
+        await GlobalDialogManager.confirm({
             title: translate('reader.chapter_transition.warning.title'),
             message: warning,
             actions: {

@@ -13,11 +13,11 @@ import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
-import { awaitConfirmation } from '@/base/utils/AwaitableDialog.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { extractGraphqlExceptionInfo } from '@/lib/HelperFunctions.ts';
 import { TranslationKey } from '@/base/Base.types.ts';
+import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
 
 const MAX_DESCRIPTION_LENGTH = 200;
 
@@ -83,7 +83,7 @@ export const SnackbarWithDescription = memo(
                     {isDescriptionTooLong || (isGraphqlException && graphqlStackTrace) ? (
                         <Button
                             onClick={() => {
-                                awaitConfirmation({
+                                GlobalDialogManager.confirm({
                                     title:
                                         typeof message === 'string'
                                             ? message

@@ -85,7 +85,13 @@ export const ConfirmDialog = ({
                     }}
                 >
                     {actions.extra.show && (
-                        <Button onClick={onExtra} variant={actions.extra.contain ? 'contained' : undefined}>
+                        <Button
+                            onClick={() => {
+                                onCancel();
+                                onExtra?.();
+                            }}
+                            variant={actions.extra.contain ? 'contained' : undefined}
+                        >
                             {actions.extra.title}
                         </Button>
                     )}

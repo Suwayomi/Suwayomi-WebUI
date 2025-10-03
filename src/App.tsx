@@ -30,6 +30,7 @@ import { AuthGuard } from '@/features/authentication/components/AuthGuard.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { GlobalDialog } from '@/base/global-dialog/GlobalDialog.tsx';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -295,12 +296,17 @@ const ReaderApp = () => (
 export const App: React.FC = () => (
     <AppContext>
         <ScrollToTop />
+        <GlobalDialog />
+
         <ServerUpdateChecker />
         <WebUIUpdateChecker />
         <InitialBackgroundRequests />
         <BackgroundSubscriptions />
+
         <ReactRouterSetter />
+
         <CssBaseline enableColorScheme />
+
         <AuthGuard>
             <Box sx={{ display: 'flex' }}>
                 <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
