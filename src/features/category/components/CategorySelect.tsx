@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { useSelectableCollection } from '@/features/collection/hooks/useSelectableCollection.ts';
+import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { Categories } from '@/features/category/services/Categories.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';

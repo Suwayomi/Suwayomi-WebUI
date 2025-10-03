@@ -20,7 +20,7 @@ import { Link } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
 import Dialog from '@mui/material/Dialog';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { SelectableCollectionReturnType } from '@/features/collection/hooks/useSelectableCollection.ts';
+import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { MenuItem } from '@/base/components/menu/MenuItem.tsx';
 import {
     createGetMenuItemTitle,

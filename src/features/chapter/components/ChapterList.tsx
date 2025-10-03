@@ -21,7 +21,7 @@ import {
 } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { ChaptersToolbarMenu } from '@/features/chapter/components/ChaptersToolbarMenu.tsx';
-import { SelectionFAB } from '@/features/collection/components/SelectionFAB.tsx';
+import { SelectionFAB } from '@/base/collection/components/SelectionFAB.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import {
     ChapterListFieldsFragment,
@@ -29,8 +29,8 @@ import {
     GetChaptersMangaQueryVariables,
     MangaScreenFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
-import { useSelectableCollection } from '@/features/collection/hooks/useSelectableCollection.ts';
-import { SelectableCollectionSelectAll } from '@/features/collection/components/SelectableCollectionSelectAll.tsx';
+import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
+import { SelectableCollectionSelectAll } from '@/base/collection/components/SelectableCollectionSelectAll.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { ChapterActionMenuItems } from '@/features/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';

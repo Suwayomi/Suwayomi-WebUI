@@ -16,7 +16,7 @@ import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import DoneAll from '@mui/icons-material/DoneAll';
 import { ComponentProps, useMemo } from 'react';
-import { SelectableCollectionReturnType } from '@/features/collection/hooks/useSelectableCollection.ts';
+import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { MenuItem } from '@/base/components/menu/MenuItem.tsx';
 import {

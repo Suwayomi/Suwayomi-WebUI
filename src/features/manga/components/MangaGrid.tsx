@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/features/manga/components/cards/MangaCard.tsx';
-import { SelectableCollectionReturnType } from '@/features/collection/hooks/useSelectableCollection.ts';
+import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import { MangaCardProps } from '@/features/manga/Manga.types.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';

@@ -17,7 +17,7 @@ import Stack from '@mui/material/Stack';
 import { useCallback, useMemo } from 'react';
 import { CheckboxProps } from '@mui/material/Checkbox';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { useSelectableCollection } from '@/features/collection/hooks/useSelectableCollection.ts';
+import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
 
 export function CheckboxListSetting<Item>({
     title,

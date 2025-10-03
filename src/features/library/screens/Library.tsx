@@ -23,10 +23,10 @@ import { LibraryToolbarMenu } from '@/features/library/components/LibraryToolbar
 import { LibraryMangaGrid } from '@/features/library/components/LibraryMangaGrid.tsx';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
-import { useSelectableCollection } from '@/features/collection/hooks/useSelectableCollection.ts';
-import { SelectableCollectionSelectMode } from '@/features/collection/components/SelectableCollectionSelectMode.tsx';
+import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
+import { SelectableCollectionSelectMode } from '@/base/collection/components/SelectableCollectionSelectMode.tsx';
 import { useGetVisibleLibraryMangas } from '@/features/library/hooks/useGetVisibleLibraryMangas.ts';
-import { SelectionFAB } from '@/features/collection/components/SelectionFAB.tsx';
+import { SelectionFAB } from '@/base/collection/components/SelectionFAB.tsx';
 import { MangaActionMenuItems } from '@/features/manga/components/MangaActionMenuItems.tsx';
 import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
 import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
