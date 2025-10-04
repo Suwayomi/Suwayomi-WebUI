@@ -29,17 +29,16 @@ import {
 } from '@/base/components/menu/Menu.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
-import { useCategorySelect } from '@/features/category/hooks/useCategorySelect.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { NestedMenuItem } from '@/base/components/menu/NestedMenuItem.tsx';
 import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/features/manga/Manga.types.ts';
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
+import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 
-const ACTION_DISABLES_SELECTION_MODE: MangaAction[] = ['remove_from_library'] as const;
-
-type BaseProps = { onClose: (selectionModeState: boolean) => void; setHideMenu: (hide: boolean) => void };
+type BaseProps = { onClose: () => void; setHideMenu: (hide: boolean) => void };
 
 export type SingleModeProps = {
     manga: Pick<MangaType, 'id' | 'title' | 'sourceId'> & MangaDownloadInfo & MangaUnreadInfo;
@@ -77,16 +76,9 @@ export const MangaActionMenuItems = ({
     const hasUnreadChapters = !!manga?.unreadCount;
     const hasReadChapters = !!manga && manga.unreadCount !== manga.chapters.totalCount;
 
-    const { openCategorySelect, CategorySelectComponent } = useCategorySelect({
-        mangaId: manga?.id,
-        mangaIds: passedSelectedMangas ? Mangas.getIds(selectedMangas) : undefined,
-        onClose: () => onClose(true),
-        addToLibrary: false,
-    });
-
     const handleSelect = () => {
         handleSelection?.(manga.id, true);
-        onClose(true);
+        onClose();
     };
 
     const performAction = (action: MangaAction, mangas: MangaIdInfo[]) => {
@@ -94,7 +86,7 @@ export const MangaActionMenuItems = ({
             wasManuallyMarkedAsRead: true,
         }).catch(defaultPromiseErrorHandler(`MangaActionMenuItems:performAction(${action})`));
 
-        onClose(!ACTION_DISABLES_SELECTION_MODE.includes(action));
+        onClose();
     };
 
     const { downloadableMangas, downloadedMangas, unreadMangas, readMangas } = useMemo(
@@ -127,7 +119,7 @@ export const MangaActionMenuItems = ({
                 >
                     <ChaptersDownloadActionMenuItems
                         mangaIds={isSingleMode ? [manga.id] : Mangas.getIds(selectedMangas)}
-                        closeMenu={() => onClose(true)}
+                        closeMenu={onClose}
                     />
                 </NestedMenuItem>
             )}
@@ -176,8 +168,13 @@ export const MangaActionMenuItems = ({
             )}
             <MenuItem
                 onClick={() => {
-                    openCategorySelect(true);
+                    GlobalDialogManager.show(CategorySelect, {
+                        mangaId: manga?.id,
+                        mangaIds: passedSelectedMangas ? Mangas.getIds(selectedMangas) : undefined,
+                        addToLibrary: false,
+                    });
                     setHideMenu(true);
+                    onClose();
                 }}
                 Icon={Label}
                 title={getMenuItemTitle('change_categories', selectedMangas.length)}
@@ -187,7 +184,6 @@ export const MangaActionMenuItems = ({
                 Icon={FavoriteBorderIcon}
                 title={getMenuItemTitle('remove_from_library', selectedMangas.length)}
             />
-            {CategorySelectComponent}
             {isTrackDialogOpen && (
                 <Dialog
                     open
@@ -196,7 +192,7 @@ export const MangaActionMenuItems = ({
                     scroll="paper"
                     onClose={() => {
                         setIsTrackDialogOpen(false);
-                        onClose(true);
+                        onClose();
                     }}
                 >
                     <TrackManga manga={manga!} />

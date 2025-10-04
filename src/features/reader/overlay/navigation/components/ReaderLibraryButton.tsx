@@ -28,22 +28,15 @@ export const ReaderLibraryButton = memo(() => {
     const { inLibrary } = manga ?? ACTION_FALLBACK_MANGA;
 
     const { t } = useTranslation();
-    const { CategorySelectComponent, updateLibraryState } = useManageMangaLibraryState(
-        manga ?? ACTION_FALLBACK_MANGA,
-        true,
-    );
+    const { updateLibraryState } = useManageMangaLibraryState(manga ?? ACTION_FALLBACK_MANGA, true);
 
     return (
-        <>
-            <CustomTooltip
-                title={inLibrary ? t('manga.action.library.remove.label.action') : t('manga.button.add_to_library')}
-            >
-                <IconButton onClick={updateLibraryState} color="inherit">
-                    {inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                </IconButton>
-            </CustomTooltip>
-
-            {CategorySelectComponent}
-        </>
+        <CustomTooltip
+            title={inLibrary ? t('manga.action.library.remove.label.action') : t('manga.button.add_to_library')}
+        >
+            <IconButton onClick={updateLibraryState} color="inherit">
+                {inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </IconButton>
+        </CustomTooltip>
     );
 });

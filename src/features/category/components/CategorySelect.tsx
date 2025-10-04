@@ -37,8 +37,8 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 type BaseProps = {
-    open: boolean;
-    onClose: (didUpdateCategories: boolean, addToCategories?: number[], removeFromCategories?: number[]) => void;
+    onCancel: () => void;
+    onConfirm: (selectedCategories: { addToCategories?: number[]; removeFromCategories?: number[] }) => void;
 };
 
 type SingleMangaModeProps = {
@@ -94,7 +94,7 @@ const getCategoryCheckedState = (
 export function CategorySelect(props: CategorySelectProps) {
     const { t } = useTranslation();
 
-    const { open, onClose, mangaId, mangaIds: passedMangaIds, addToLibrary = false } = props;
+    const { onCancel, onConfirm, mangaId, mangaIds: passedMangaIds, addToLibrary = false } = props;
 
     const isSingleSelectionMode = mangaId !== undefined;
     const mangaIds = passedMangaIds ?? [mangaId];
@@ -137,7 +137,7 @@ export function CategorySelect(props: CategorySelectProps) {
     const handleCancel = () => {
         setSelectionForKey('categoriesToAdd', mangaCategoryIds);
         setSelectionForKey('categoriesToRemove', []);
-        onClose(false);
+        onCancel();
     };
 
     const handleOk = () => {
@@ -148,7 +148,10 @@ export function CategorySelect(props: CategorySelectProps) {
             ? mangaCategoryIds.filter((categoryId) => !categoriesToAdd.includes(categoryId))
             : categoriesToRemove;
 
-        onClose(true, addToCategories, removeFromCategories);
+        onConfirm({
+            addToCategories,
+            removeFromCategories,
+        });
 
         if (doNotShowAddToLibraryDialogAgain) {
             updateMetadataServerSettings('showAddToLibraryCategorySelectDialog', false).catch((e) =>
@@ -183,7 +186,7 @@ export function CategorySelect(props: CategorySelectProps) {
                 },
             }}
             maxWidth="xs"
-            open={open}
+            open
             onClose={handleCancel}
         >
             <DialogTitle>{t('category.title.set_categories')}</DialogTitle>

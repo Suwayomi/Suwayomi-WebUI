@@ -21,9 +21,10 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { useCategorySelect } from '@/features/category/hooks/useCategorySelect.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
+import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 
 interface IProps {
     manga: Pick<MangaType, 'id' | 'inLibrary' | 'sourceId' | 'title'>;
@@ -43,9 +44,9 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         setAnchorEl(null);
     };
 
-    const { openCategorySelect, CategorySelectComponent } = useCategorySelect({
-        mangaId: manga.id,
-    });
+    const openCategorySelection = () => {
+        GlobalDialogManager.show(CategorySelect, { mangaId: manga.id });
+    };
 
     return (
         <>
@@ -82,7 +83,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <CustomTooltip title={t('manga.label.edit_categories')}>
                                 <IconButton
                                     onClick={() => {
-                                        openCategorySelect(true);
+                                        openCategorySelection();
                                     }}
                                     color="inherit"
                                 >
@@ -142,7 +143,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <MenuItem
                                 key="categories"
                                 onClick={() => {
-                                    openCategorySelect(true);
+                                    openCategorySelection();
                                     handleClose();
                                 }}
                             >
@@ -155,8 +156,6 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                     </Menu>
                 </>
             )}
-
-            {CategorySelectComponent}
         </>
     );
 };

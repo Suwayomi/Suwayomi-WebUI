@@ -10,7 +10,6 @@ import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import gql from 'graphql-tag';
-import { useCategorySelect } from '@/features/category/hooks/useCategorySelect.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
@@ -22,6 +21,7 @@ import { GET_CATEGORIES_BASE } from '@/lib/graphql/queries/CategoryQuery.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
+import { CategorySelect } from '@/features/category/components/CategorySelect';
 
 export const useManageMangaLibraryState = (
     manga: Pick<MangaType, 'id' | 'title'> & Partial<Pick<MangaType, 'inLibrary'>>,
@@ -33,11 +33,7 @@ export const useManageMangaLibraryState = (
     const [isInLibrary, setIsInLibrary] = useState(!!manga.inLibrary);
 
     const addToLibrary = useCallback(
-        (didSubmit: boolean, addToCategories: number[] = [], removeFromCategories: number[] = []) => {
-            if (!didSubmit) {
-                return;
-            }
-
+        (addToCategories: number[] = [], removeFromCategories: number[] = []) => {
             requestManager
                 .updateManga(manga.id, {
                     updateManga: { inLibrary: true },
@@ -66,12 +62,6 @@ export const useManageMangaLibraryState = (
         await Mangas.removeFromLibrary([manga.id], true);
         setIsInLibrary(false);
     }, [manga.id, confirmRemoval]);
-
-    const { openCategorySelect, CategorySelectComponent } = useCategorySelect({
-        mangaId: manga.id,
-        addToLibrary: true,
-        onClose: addToLibrary,
-    });
 
     const updateLibraryState = useCallback(() => {
         const update = async () => {
@@ -144,18 +134,26 @@ export const useManageMangaLibraryState = (
 
             const showCategorySelectDialog = showAddToLibraryCategorySelectDialog && !!userCreatedCategories.length;
             if (!showCategorySelectDialog) {
-                addToLibrary(true, Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
+                addToLibrary(Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
                 return;
             }
 
-            openCategorySelect(true);
+            const { addToCategories, removeFromCategories } = await GlobalDialogManager.show(
+                `manga-library-state-add-categories-${manga.id}`,
+                CategorySelect,
+                {
+                    mangaId: manga.id,
+                    addToLibrary: true,
+                },
+            );
+
+            addToLibrary(addToCategories, removeFromCategories);
         };
 
         update().catch(defaultPromiseErrorHandler('useManageMangaLibraryState::updateLibraryState'));
     }, [isInLibrary, removeFromLibrary, addToLibrary]);
 
     return {
-        CategorySelectComponent,
         updateLibraryState,
         /**
          * In case of browsing the source, the data has to be fetched via a mutation.

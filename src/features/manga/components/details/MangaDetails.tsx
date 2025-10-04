@@ -227,7 +227,7 @@ export const MangaDetails = ({
         }
     }, [manga.source]);
 
-    const { CategorySelectComponent, updateLibraryState } = useManageMangaLibraryState(manga);
+    const { updateLibraryState } = useManageMangaLibraryState(manga);
 
     const copyTitle = async () => {
         try {
@@ -239,59 +239,56 @@ export const MangaDetails = ({
     };
 
     return (
-        <>
-            <DetailsWrapper>
-                <TopContentWrapper url={Mangas.getThumbnailUrl(manga)} mangaThumbnailBackdrop={mangaThumbnailBackdrop}>
-                    <ThumbnailMetadataWrapper>
-                        <Thumbnail manga={manga} mangaDynamicColorSchemes={mangaDynamicColorSchemes} />
-                        <MetadataContainer>
-                            <Stack sx={{ flexDirection: 'row', gap: 1, alignItems: 'flex-start', mb: 1 }}>
-                                <SearchLink query={manga.title} sourceId={manga.sourceId} mode="source.global-search">
-                                    <Typography variant="h5" component="h2" sx={{ wordBreak: 'break-word' }}>
-                                        {manga.title}
-                                    </Typography>
-                                </SearchLink>
-                                <CustomTooltip title={t('global.button.copy')}>
-                                    <IconButton onClick={copyTitle} color="inherit">
-                                        <ContentCopyIcon fontSize="small" />
-                                    </IconButton>
-                                </CustomTooltip>
-                            </Stack>
-                            {manga.author && (
-                                <Metadata
-                                    title={t('manga.label.author')}
-                                    value={valuesToJoinedSearchLinks(Mangas.getAuthors(manga), manga.source?.id, mode)}
-                                />
-                            )}
-                            {manga.artist && (
-                                <Metadata
-                                    title={t('manga.label.artist')}
-                                    value={valuesToJoinedSearchLinks(Mangas.getArtists(manga), manga.source?.id, mode)}
-                                />
-                            )}
+        <DetailsWrapper>
+            <TopContentWrapper url={Mangas.getThumbnailUrl(manga)} mangaThumbnailBackdrop={mangaThumbnailBackdrop}>
+                <ThumbnailMetadataWrapper>
+                    <Thumbnail manga={manga} mangaDynamicColorSchemes={mangaDynamicColorSchemes} />
+                    <MetadataContainer>
+                        <Stack sx={{ flexDirection: 'row', gap: 1, alignItems: 'flex-start', mb: 1 }}>
+                            <SearchLink query={manga.title} sourceId={manga.sourceId} mode="source.global-search">
+                                <Typography variant="h5" component="h2" sx={{ wordBreak: 'break-word' }}>
+                                    {manga.title}
+                                </Typography>
+                            </SearchLink>
+                            <CustomTooltip title={t('global.button.copy')}>
+                                <IconButton onClick={copyTitle} color="inherit">
+                                    <ContentCopyIcon fontSize="small" />
+                                </IconButton>
+                            </CustomTooltip>
+                        </Stack>
+                        {manga.author && (
                             <Metadata
-                                title={t('manga.label.status')}
-                                value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])}
+                                title={t('manga.label.author')}
+                                value={valuesToJoinedSearchLinks(Mangas.getAuthors(manga), manga.source?.id, mode)}
                             />
-                            <Metadata title={t('source.title_one')} value={getSourceName(manga.source)} />
-                        </MetadataContainer>
-                    </ThumbnailMetadataWrapper>
-                    <MangaButtonsContainer>
-                        <CustomButton
-                            size="medium"
-                            onClick={updateLibraryState}
-                            variant={manga.inLibrary ? 'contained' : 'outlined'}
-                        >
-                            {manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                            {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
-                        </CustomButton>
-                        <TrackMangaButton manga={manga} />
-                        <OpenSourceButton url={manga.realUrl} />
-                    </MangaButtonsContainer>
-                </TopContentWrapper>
-                <DescriptionGenre manga={manga} mode={mode} />
-            </DetailsWrapper>
-            {CategorySelectComponent}
-        </>
+                        )}
+                        {manga.artist && (
+                            <Metadata
+                                title={t('manga.label.artist')}
+                                value={valuesToJoinedSearchLinks(Mangas.getArtists(manga), manga.source?.id, mode)}
+                            />
+                        )}
+                        <Metadata
+                            title={t('manga.label.status')}
+                            value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])}
+                        />
+                        <Metadata title={t('source.title_one')} value={getSourceName(manga.source)} />
+                    </MetadataContainer>
+                </ThumbnailMetadataWrapper>
+                <MangaButtonsContainer>
+                    <CustomButton
+                        size="medium"
+                        onClick={updateLibraryState}
+                        variant={manga.inLibrary ? 'contained' : 'outlined'}
+                    >
+                        {manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                        {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
+                    </CustomButton>
+                    <TrackMangaButton manga={manga} />
+                    <OpenSourceButton url={manga.realUrl} />
+                </MangaButtonsContainer>
+            </TopContentWrapper>
+            <DescriptionGenre manga={manga} mode={mode} />
+        </DetailsWrapper>
     );
 };

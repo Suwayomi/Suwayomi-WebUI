@@ -49,10 +49,7 @@ export const MangaCard = memo((props: MangaCardProps) => {
         settings: { showContinueReadingButton },
     } = useMetadataServerSettings();
 
-    const { CategorySelectComponent, updateLibraryState, isInLibrary } = useManageMangaLibraryState(
-        manga,
-        mode === 'source',
-    );
+    const { updateLibraryState, isInLibrary } = useManageMangaLibraryState(manga, mode === 'source');
 
     const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.sourceId, manga.title);
 
@@ -158,7 +155,6 @@ export const MangaCard = memo((props: MangaCardProps) => {
                                 )}
                             </Menu>
                         )}
-                        {CategorySelectComponent}
                     </>
                 )}
             </PopupState>
