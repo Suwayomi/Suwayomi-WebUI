@@ -219,6 +219,7 @@ import {
     CreateBackupInput,
     CreateBackupMutation,
     CreateBackupMutationVariables,
+    RestoreBackupInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -2720,13 +2721,13 @@ export class RequestManager {
     }
 
     public restoreBackupFile(
-        file: File,
+        input: RestoreBackupInput,
         options?: MutationOptions<RestoreBackupMutation, RestoreBackupMutationVariables>,
     ): AbortableApolloMutationResponse<RestoreBackupMutation> {
         return this.doRequest<RestoreBackupMutation, RestoreBackupMutationVariables>(
             GQLMethod.MUTATION,
             RESTORE_BACKUP,
-            { backup: file },
+            input,
             {
                 ...options,
             },
@@ -2745,10 +2746,6 @@ export class RequestManager {
         options?: QueryHookOptions<GetRestoreStatusQuery, GetRestoreStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetRestoreStatusQuery, GetRestoreStatusQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_RESTORE_STATUS, { id }, options);
-    }
-
-    public getExportBackupUrl(): string {
-        return this.getValidUrlFor('backup/export/file');
     }
 
     public startDownloads(

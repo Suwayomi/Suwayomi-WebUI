@@ -117,12 +117,14 @@ export function Backup() {
     };
 
     const createBackup = async () => {
-        const backupFlagInclusionState = await GlobalDialogManager.show(BackupFlagInclusionDialog);
+        const flags = await GlobalDialogManager.show(BackupFlagInclusionDialog, {
+            title: t('settings.backup.action.create.label.title'),
+        });
 
         makeToast(t('settings.backup.action.create.label.in_progress'), 'info');
 
         try {
-            const backupFileResponse = await requestManager.createBackupFile(backupFlagInclusionState).response;
+            const backupFileResponse = await requestManager.createBackupFile({ flags }).response;
 
             const backupFileUrl = backupFileResponse.data?.createBackup.url;
             if (!backupFileUrl) {
@@ -171,11 +173,15 @@ export function Backup() {
         return false;
     };
 
-    const restoreBackup = async (file: File) => {
+    const restoreBackup = async (backup: File) => {
+        const flags = await GlobalDialogManager.show(BackupFlagInclusionDialog, {
+            title: t('settings.backup.action.restore.label.title'),
+        });
+
         try {
             makeToast(t('settings.backup.action.restore.label.in_progress'), 'info');
 
-            const response = await requestManager.restoreBackupFile(file).response;
+            const response = await requestManager.restoreBackupFile({ backup, flags }).response;
             backupRestoreId = response.data?.restoreBackup.id;
             setTriggerReRender(Date.now());
         } catch (e) {

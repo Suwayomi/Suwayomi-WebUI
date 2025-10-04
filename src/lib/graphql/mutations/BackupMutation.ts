@@ -17,8 +17,8 @@ export const CREATE_BACKUP = gql`
 `;
 
 export const RESTORE_BACKUP = gql`
-    mutation RESTORE_BACKUP($backup: Upload!) {
-        restoreBackup(input: { backup: $backup }) {
+    mutation RESTORE_BACKUP($backup: Upload!, $flags: PartialBackupFlagsInput) {
+        restoreBackup(input: { backup: $backup, flags: $flags }) {
             id
             status {
                 mangaProgress

@@ -26,7 +26,11 @@ import {
 } from '@/features/backup/Backup.constants.ts';
 import { BackupFlagGroup, BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 
-export const BackupFlagInclusionDialog = ({ onCancel, onConfirm }: DialogProps<BackupFlagInclusionState>) => {
+export const BackupFlagInclusionDialog = ({
+    onCancel,
+    onConfirm,
+    title,
+}: DialogProps<BackupFlagInclusionState> & { title: string }) => {
     const { t } = useTranslation();
 
     const [includeStateByFlag, setIncludeStateByFlag] = useState(
@@ -34,12 +38,12 @@ export const BackupFlagInclusionDialog = ({ onCancel, onConfirm }: DialogProps<B
     );
 
     return (
-        <Dialog open onAbort={onCancel} maxWidth="xs" fullWidth>
-            <DialogTitle>{t('settings.backup.action.create.label.title')}</DialogTitle>
+        <Dialog open onAbort={onCancel} maxWidth="xs" fullWidth onClose={onCancel}>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <FormGroup sx={{ gap: 2 }}>
                     {Object.entries(BACKUP_FLAGS_BY_GROUP).map(([group, flags]) => (
-                        <Stack>
+                        <Stack key={group}>
                             <Typography>{t(BACKUP_FLAG_GROUP_TO_TRANSLATION[group as BackupFlagGroup])}</Typography>
                             {flags.map((flag) => (
                                 <CheckboxInput

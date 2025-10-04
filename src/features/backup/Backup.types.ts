@@ -6,13 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CreateBackupInput } from '@/lib/graphql/generated/graphql.ts';
+import { PartialBackupFlagsInput } from '@/lib/graphql/generated/graphql.ts';
 
 export enum BackupFlagGroup {
     LIBRARY = 'library',
     SETTINGS = 'settings',
 }
 
-export type BackupFlag = keyof Omit<CreateBackupInput, 'clientMutationId'>;
+export type BackupFlag = keyof PartialBackupFlagsInput;
 
 export type BackupFlagInclusionState = Record<BackupFlag, boolean>;

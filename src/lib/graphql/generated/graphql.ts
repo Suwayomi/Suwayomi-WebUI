@@ -336,12 +336,7 @@ export type ConnectKoSyncAccountInput = {
 
 export type CreateBackupInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
-  includeCategories?: InputMaybe<Scalars['Boolean']['input']>;
-  includeChapters?: InputMaybe<Scalars['Boolean']['input']>;
-  includeClientData?: InputMaybe<Scalars['Boolean']['input']>;
-  includeHistory?: InputMaybe<Scalars['Boolean']['input']>;
-  includeServerSettings?: InputMaybe<Scalars['Boolean']['input']>;
-  includeTracking?: InputMaybe<Scalars['Boolean']['input']>;
+  flags?: InputMaybe<PartialBackupFlagsInput>;
 };
 
 export type CreateBackupPayload = {
@@ -1646,6 +1641,16 @@ export type PageInfo = {
   startCursor?: Maybe<Scalars['Cursor']['output']>;
 };
 
+export type PartialBackupFlagsInput = {
+  includeCategories?: InputMaybe<Scalars['Boolean']['input']>;
+  includeChapters?: InputMaybe<Scalars['Boolean']['input']>;
+  includeClientData?: InputMaybe<Scalars['Boolean']['input']>;
+  includeHistory?: InputMaybe<Scalars['Boolean']['input']>;
+  includeManga?: InputMaybe<Scalars['Boolean']['input']>;
+  includeServerSettings?: InputMaybe<Scalars['Boolean']['input']>;
+  includeTracking?: InputMaybe<Scalars['Boolean']['input']>;
+};
+
 export type PartialSettingsType = Settings & {
   __typename?: 'PartialSettingsType';
   authMode?: Maybe<AuthMode>;
@@ -2066,6 +2071,7 @@ export type ResetSettingsPayload = {
 export type RestoreBackupInput = {
   backup: Scalars['Upload']['input'];
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  flags?: InputMaybe<PartialBackupFlagsInput>;
 };
 
 export type RestoreBackupPayload = {
@@ -3266,6 +3272,7 @@ export type CreateBackupMutation = { __typename?: 'Mutation', createBackup: { __
 
 export type RestoreBackupMutationVariables = Exact<{
   backup: Scalars['Upload']['input'];
+  flags?: InputMaybe<PartialBackupFlagsInput>;
 }>;
 
 
