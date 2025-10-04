@@ -135,7 +135,7 @@ export function Backup() {
             }
 
             const link = document.createElement('a');
-            link.href = backupFileUrl;
+            link.href = requestManager.getValidUrlFor(backupFileUrl, '');
             link.download = '';
             document.body.appendChild(link);
             link.click();
