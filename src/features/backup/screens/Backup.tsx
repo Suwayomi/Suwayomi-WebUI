@@ -39,6 +39,8 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
+import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
+import { BackupFlagInclusionDialog } from '@/features/backup/component/BackupFlagInclusionDialog.tsx';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 
@@ -130,33 +132,32 @@ export function Backup() {
     };
 
     const createBackup = async () => {
+        const backupFlagInclusionState = await GlobalDialogManager.show(BackupFlagInclusionDialog);
+
         makeToast(t('settings.backup.action.create.label.in_progress'), 'info');
 
-        const backupFileResponse = await requestManager.createBackupFile({
-            includeCategories: true,
-            includeChapters: true,
-            includeHistory: true,
-            includeClientData: true,
-            includeTracking: true,
-            includeServerSettings: true,
-        }).response;
+        try {
+            const backupFileResponse = await requestManager.createBackupFile(backupFlagInclusionState).response;
 
-        const backupFileUrl = backupFileResponse.data?.createBackup.url;
-        if (!backupFileUrl) {
-            makeToast(
-                t('settings.backup.action.create.error.failure'),
-                'error',
-                getErrorMessage(backupFileResponse.errors),
-            );
-            return;
+            const backupFileUrl = backupFileResponse.data?.createBackup.url;
+            if (!backupFileUrl) {
+                makeToast(
+                    t('settings.backup.action.create.error.failure'),
+                    'error',
+                    getErrorMessage(backupFileResponse.errors),
+                );
+                return;
+            }
+
+            const link = document.createElement('a');
+            link.href = backupFileUrl;
+            link.download = '';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (e) {
+            makeToast(t('settings.backup.action.create.error.failure'), 'error', getErrorMessage(e));
         }
-
-        const link = document.createElement('a');
-        link.href = backupFileUrl;
-        link.download = '';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
     };
 
     const validateBackup = async (file: File) => {
