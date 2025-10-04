@@ -15,18 +15,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import ListItem from '@mui/material/ListItem';
-import { Link } from 'react-router-dom';
-import Stack from '@mui/material/Stack';
 import { useEventListener, useMergedRef, useWindowEvent } from '@mantine/hooks';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { BackupRestoreState, ValidateBackupQuery } from '@/lib/graphql/generated/graphql.ts';
+import { BackupRestoreState } from '@/lib/graphql/generated/graphql.ts';
 import { Progress } from '@/base/components/feedback/Progress.tsx';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
@@ -35,12 +27,11 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ServerSettings } from '@/features/settings/Settings.types.ts';
-import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
 import { BackupFlagInclusionDialog } from '@/features/backup/component/BackupFlagInclusionDialog.tsx';
+import { BackupValidationDialog } from '@/features/backup/component/BackupValidationDialog.tsx';
 
 type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
 
@@ -71,10 +62,6 @@ export function Backup() {
         skip: !backupRestoreId,
         pollInterval: 1000,
     });
-
-    const [currentBackupFile, setCurrentBackupFile] = useState<File | null>(null);
-    const [isInvalidBackupDialogOpen, setIsInvalidBackupDialogOpen] = useState(false);
-    const [validationResult, setValidationResult] = useState<ValidateBackupQuery['validateBackup']>();
 
     const [, setTriggerReRender] = useState(0);
 
@@ -123,8 +110,6 @@ export function Backup() {
     }, [data?.restoreStatus?.state]);
 
     const resetBackupState = () => {
-        setCurrentBackupFile(null);
-
         const input = document.getElementById('backup-file') as HTMLInputElement;
         if (input) {
             input.value = '';
@@ -167,14 +152,19 @@ export function Backup() {
             } = await requestManager.validateBackupFile(file, { fetchPolicy: 'network-only' }).response;
 
             if (validateBackupData.missingSources.length || validateBackupData.missingTrackers.length) {
-                setValidationResult(validateBackupData);
-                setIsInvalidBackupDialogOpen(true);
-                return false;
+                try {
+                    await GlobalDialogManager.show(`backup-validate-${file.name}`, BackupValidationDialog, {
+                        validationResult: validateBackupData,
+                    });
+                } catch (_) {
+                    return false;
+                }
             }
 
             return true;
         } catch (e) {
             makeToast(t('settings.backup.action.validate.error.label.failure'), 'error', getErrorMessage(e));
+        } finally {
             resetBackupState();
         }
 
@@ -207,16 +197,10 @@ export function Backup() {
             return;
         }
 
-        setCurrentBackupFile(file);
         const isBackupValid = await validateBackup(file);
         if (isBackupValid) {
             await restoreBackup(file);
         }
-    };
-
-    const closeInvalidBackupDialog = () => {
-        setIsInvalidBackupDialogOpen(false);
-        resetBackupState();
     };
 
     useWindowEvent('drop', async (e) => {
@@ -322,88 +306,6 @@ export function Backup() {
                 </List>
             </List>
             <input ref={mergedInputRef} type="file" style={{ display: 'none' }} />
-            <Dialog open={isInvalidBackupDialogOpen}>
-                <DialogTitle>{t('settings.backup.action.validate.dialog.title')}</DialogTitle>
-                <DialogContent dividers>
-                    {!!validationResult?.missingSources.length && (
-                        <List
-                            sx={{ listStyleType: 'initial', listStylePosition: 'inside' }}
-                            subheader={t('settings.backup.action.validate.dialog.content.label.missing_sources')}
-                        >
-                            {validationResult?.missingSources.map(({ id, name }) => (
-                                <ListItem sx={{ display: 'list-item' }} key={id}>
-                                    {`${name} (${id})`}
-                                </ListItem>
-                            ))}
-                        </List>
-                    )}
-                    {!!validationResult?.missingTrackers.length && (
-                        <List
-                            sx={{ listStyleType: 'initial', listStylePosition: 'inside' }}
-                            subheader={t('settings.backup.action.validate.dialog.content.label.missing_trackers')}
-                        >
-                            {validationResult?.missingTrackers.map(({ name }) => (
-                                <ListItem sx={{ display: 'list-item' }} key={name}>
-                                    {`${name}`}
-                                </ListItem>
-                            ))}
-                        </List>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Stack
-                        direction="row"
-                        sx={{
-                            justifyContent: 'space-between',
-                            width: '100%',
-                        }}
-                    >
-                        {!!validationResult?.missingSources.length && (
-                            <Button
-                                onClick={closeInvalidBackupDialog}
-                                component={Link}
-                                to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)}
-                                autoFocus={!!validationResult?.missingSources.length}
-                                variant={validationResult?.missingSources.length ? 'contained' : 'text'}
-                            >
-                                {t('extension.action.label.install')}
-                            </Button>
-                        )}
-                        {!!validationResult?.missingTrackers.length && (
-                            <Button
-                                onClick={closeInvalidBackupDialog}
-                                component={Link}
-                                to={AppRoutes.tracker.path}
-                                autoFocus={!!validationResult?.missingTrackers.length}
-                                variant={validationResult?.missingTrackers.length ? 'contained' : 'text'}
-                            >
-                                {t('global.button.log_in')}
-                            </Button>
-                        )}
-                        <Stack direction="row">
-                            <Button onClick={closeInvalidBackupDialog}>{t('global.button.cancel')}</Button>
-                            <Button
-                                onClick={() => {
-                                    closeInvalidBackupDialog();
-                                    restoreBackup(currentBackupFile!);
-                                }}
-                                autoFocus={
-                                    !validationResult?.missingSources.length &&
-                                    !validationResult?.missingTrackers.length
-                                }
-                                variant={
-                                    !validationResult?.missingSources.length &&
-                                    !validationResult?.missingTrackers.length
-                                        ? 'contained'
-                                        : 'text'
-                                }
-                            >
-                                {t('global.button.restore')}
-                            </Button>
-                        </Stack>
-                    </Stack>
-                </DialogActions>
-            </Dialog>
         </>
     );
 }
