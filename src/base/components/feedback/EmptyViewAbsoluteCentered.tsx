@@ -14,7 +14,7 @@ export function EmptyViewAbsoluteCentered({ sx, ...emptyViewProps }: EmptyViewPr
             {...emptyViewProps}
             sx={{
                 position: 'absolute',
-                minHeight: '-webkit-fill-available',
+                minHeight: 'fill-available',
                 ...sx,
             }}
         />

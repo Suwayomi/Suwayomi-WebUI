@@ -7,6 +7,7 @@
  */
 
 import { MutableRefObject, useEffect, useRef } from 'react';
+import { d } from 'koration';
 
 export const useReaderHideCursorOnInactivity = (scrollElementRef: MutableRefObject<HTMLDivElement | null>) => {
     const mouseInactiveTimeout = useRef<NodeJS.Timeout>(undefined);
@@ -26,7 +27,7 @@ export const useReaderHideCursorOnInactivity = (scrollElementRef: MutableRefObje
             clearTimeout(mouseInactiveTimeout.current);
             mouseInactiveTimeout.current = setTimeout(() => {
                 setCursorVisibility(false);
-            }, 5000);
+            }, d(5).seconds.inWholeMilliseconds);
         };
 
         handleMouseMove();

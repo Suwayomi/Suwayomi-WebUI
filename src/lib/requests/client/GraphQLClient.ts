@@ -24,6 +24,7 @@ import { Client, createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { TypePolicies } from '@apollo/client/cache';
 import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename';
+import { d } from 'koration';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -271,7 +272,7 @@ export class GraphQLClient extends BaseClient<
     }
 
     private createWSClient(lazy: boolean = true): void {
-        const heartbeatInterval = 1000 * 20;
+        const heartbeatInterval = d(20).seconds.inWholeMilliseconds;
 
         this.wsClient = createClient({
             lazy,
@@ -280,7 +281,7 @@ export class GraphQLClient extends BaseClient<
             retryAttempts: Number.MAX_SAFE_INTEGER,
             shouldRetry: () => true,
             retryWait: async (retries) => {
-                const delay = Math.min(1000 * 2 ** retries, heartbeatInterval);
+                const delay = Math.min(d(1).seconds.inWholeMilliseconds * 2 ** retries, heartbeatInterval);
 
                 return new Promise((resolve) => {
                     setTimeout(resolve, delay);
@@ -301,7 +302,7 @@ export class GraphQLClient extends BaseClient<
             lastHeartbeat = Date.now();
         });
 
-        const checkHeartbeatInterval = heartbeatInterval + 1000 * 30;
+        const checkHeartbeatInterval = heartbeatInterval + d(30).seconds.inWholeMilliseconds;
         clearInterval(this.wsClientAliveCheckInterval);
         this.wsClientAliveCheckInterval = setInterval(() => {
             const isHeartbeatMissing = Date.now() - lastHeartbeat > checkHeartbeatInterval * 1.1;

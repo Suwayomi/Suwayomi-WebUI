@@ -14,6 +14,7 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useRef } from 'react';
+import { d } from 'koration';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { AUTO_SCROLL_SPEED } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
@@ -62,7 +63,10 @@ export const ReaderNavBarDesktopAutoScroll = ({
                     setAutoScroll({ ...autoScroll, value }, false);
 
                     clearTimeout(updateTimeout.current);
-                    updateTimeout.current = setTimeout(() => setAutoScroll({ ...autoScroll, value }, true), 1000);
+                    updateTimeout.current = setTimeout(
+                        () => setAutoScroll({ ...autoScroll, value }, true),
+                        d(1).seconds.inWholeMilliseconds,
+                    );
                 }}
                 slotProps={{
                     input: {

@@ -97,7 +97,7 @@ export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyVi
                 textAlign: 'center',
                 alignItems: 'center',
                 justifyContent: 'center',
-                minWidth: '-webkit-fill-available',
+                minWidth: 'fill-available',
                 maxWidth: '100%',
                 minHeight: '100%',
                 pointerEvents: 'none',

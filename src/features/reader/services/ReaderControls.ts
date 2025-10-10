@@ -9,6 +9,7 @@
 import { MutableRefObject, RefObject, useCallback, useEffect } from 'react';
 import { Direction } from '@mui/material/styles';
 import { t as translate } from 'i18next';
+import { d } from 'koration';
 import {
     getNextIndexFromPage,
     getNextPageIndex,
@@ -473,7 +474,10 @@ export class ReaderControls {
 
                 clearTimeout(ReaderControls.updateCurrentPageTimeout);
                 if (debounceChapterUpdate) {
-                    ReaderControls.updateCurrentPageTimeout = setTimeout(handleCurrentPageIndexChange, 1000);
+                    ReaderControls.updateCurrentPageTimeout = setTimeout(
+                        handleCurrentPageIndexChange,
+                        d(1).seconds.inWholeMilliseconds,
+                    );
                     return;
                 }
 

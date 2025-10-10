@@ -65,6 +65,7 @@
     "i18next-http-backend": "3.0.2",
     "immer": "10.1.1",
     "jsonrepair": "3.13.0",
+    "koration": "0.1.0",
     "material-ui-popup-state": "5.3.6",
     "mui-nested-menu": "4.0.1",
     "node-vibrant": "4.0.3",

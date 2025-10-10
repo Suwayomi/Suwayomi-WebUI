@@ -8,13 +8,14 @@
 
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import { d } from 'koration';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { READING_MODE_VALUE_TO_DISPLAY_DATA } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { TranslationKey } from '@/base/Base.types.ts';
 
-const HIDE_PREVIEW_TIMEOUT = 5000;
+const HIDE_PREVIEW_TIMEOUT = d(5).seconds.inWholeMilliseconds;
 
 export const useReaderShowSettingPreviewOnChange = (
     isLoading: boolean,

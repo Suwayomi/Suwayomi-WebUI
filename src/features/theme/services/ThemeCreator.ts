@@ -20,8 +20,8 @@ import { useCallback } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
 import { deepmerge } from '@mui/utils';
 // eslint-disable-next-line no-restricted-imports
-import { PaletteBackgroundChannel } from '@mui/material/styles/createThemeWithVars';
 import { Palette } from '@vibrant/color';
+import { PaletteBackgroundChannel } from 'node_modules/@mui/material/esm/styles/createThemeWithVars';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { LongPressPointerHandlers, LongPressResult } from 'use-long-press/lib/use-long-press.types';
+import { LongPressPointerHandlers, LongPressResult } from 'node_modules/use-long-press/lib/use-long-press.types';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import type { JSX } from 'react';
 import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';

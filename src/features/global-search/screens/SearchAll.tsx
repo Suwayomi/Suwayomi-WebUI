@@ -20,8 +20,9 @@ import PushPinIcon from '@mui/icons-material/PushPin';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useElementSize } from '@mantine/hooks';
-import IconButton from '@mui/material/IconButton'; // ms
+import IconButton from '@mui/material/IconButton';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { d } from 'koration';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { useDebounce } from '@/base/hooks/useDebounce.ts';
@@ -110,7 +111,7 @@ const compareSourcesBySearchResult = (
 
     return 0;
 };
-const TRIGGER_SEARCH_THRESHOLD = 1000; // ms
+const TRIGGER_SEARCH_THRESHOLD = d(1).seconds.inWholeMilliseconds;
 
 const SourceSearchPreview = React.memo(
     ({

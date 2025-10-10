@@ -15,7 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
-import dayjs from 'dayjs';
+import { d } from 'koration';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
@@ -279,28 +279,24 @@ export const ServerSettings = () => {
                         />
                         <NumberSetting
                             settingTitle={t('settings.server.auth.jwt.access_token_expiry')}
-                            settingValue={dayjs.duration(serverSettings.jwtTokenExpiry).humanize()}
-                            value={dayjs.duration(serverSettings.jwtTokenExpiry).asMinutes()}
+                            settingValue={d(serverSettings.jwtTokenExpiry).minutes.humanize()}
+                            value={d(serverSettings.jwtTokenExpiry).minutes.inWholeMinutes}
                             valueUnit={t('global.time.minutes.minute_other')}
                             defaultValue={JWT_ACCESS_TOKEN_EXPIRY.default}
                             minValue={JWT_ACCESS_TOKEN_EXPIRY.min}
                             maxValue={JWT_ACCESS_TOKEN_EXPIRY.max}
-                            handleUpdate={(expiry) =>
-                                updateSetting('jwtTokenExpiry', dayjs.duration(expiry, 'minute').toISOString())
-                            }
+                            handleUpdate={(expiry) => updateSetting('jwtTokenExpiry', d(expiry).minutes.toISOString())}
                             showSlider
                         />
                         <NumberSetting
                             settingTitle={t('settings.server.auth.jwt.refresh_token_expiry')}
-                            settingValue={dayjs.duration(serverSettings.jwtRefreshExpiry).humanize()}
-                            value={dayjs.duration(serverSettings.jwtRefreshExpiry).asDays()}
+                            settingValue={d(serverSettings.jwtRefreshExpiry).days.humanize()}
+                            value={d(serverSettings.jwtRefreshExpiry).days.inWholeDays}
                             valueUnit={t('global.time.days.day_other')}
                             defaultValue={JWT_REFRESH_TOKEN_EXPIRY.default}
                             minValue={JWT_REFRESH_TOKEN_EXPIRY.min}
                             maxValue={JWT_REFRESH_TOKEN_EXPIRY.max}
-                            handleUpdate={(expiry) =>
-                                updateSetting('jwtRefreshExpiry', dayjs.duration(expiry, 'day').toISOString())
-                            }
+                            handleUpdate={(expiry) => updateSetting('jwtRefreshExpiry', d(expiry).days.toISOString())}
                             showSlider
                         />
                     </>

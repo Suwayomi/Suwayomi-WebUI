@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import dayjs from 'dayjs';
+import { d } from 'koration';
 import { DEFAULT_DEVICE } from '@/features/device/services/Device.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/features/migration/Migration.constants.ts';
 import { GlobalUpdateSkipEntriesSettings, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
@@ -170,9 +170,9 @@ export const WEB_UI_INTERFACE_SELECT_VALUES: SelectSettingValue<WebUiInterface>[
 );
 
 export const GLOBAL_UPDATE_INTERVAL = {
-    default: 12,
-    min: 6,
-    max: 24 * 7 * 4, // 1 month
+    default: d(12).hours.inWholeHours,
+    min: d(6).hours.inWholeHours,
+    max: d(1).months.inWholeHours,
 };
 
 export const GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION: {
@@ -184,21 +184,21 @@ export const GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION: {
 };
 
 export const WEB_UI_UPDATE_INTERVAL = {
-    default: 23,
-    min: 1,
-    max: 23,
+    default: d(23).hours.inWholeHours,
+    min: d(1).hours.inWholeHours,
+    max: d(23).hours.inWholeHours,
 };
 
 export const JWT_ACCESS_TOKEN_EXPIRY = {
-    default: dayjs.duration(5, 'minute').asMinutes(),
-    min: dayjs.duration(1, 'minute').asMinutes(),
-    max: dayjs.duration(4, 'hour').asMinutes(),
+    default: d(5).minutes.inWholeMinutes,
+    min: d(1).minutes.inWholeMinutes,
+    max: d(4).hours.inWholeMinutes,
 };
 
 export const JWT_REFRESH_TOKEN_EXPIRY = {
-    default: dayjs.duration(60, 'day').asDays(),
-    min: dayjs.duration(1, 'day').asDays(),
-    max: dayjs.duration(1, 'year').asDays(),
+    default: d(60).days.inWholeDays,
+    min: d(1).days.inWholeDays,
+    max: d(1).years.inWholeDays,
 };
 
 export const KOREADER_SYNC_PERCENTAGE_TOLERANCE = {

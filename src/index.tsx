@@ -9,11 +9,12 @@
 import '@/polyfill.manual';
 import '@/i18n';
 import '@/lib/dayjs/Setup.ts';
+import '@/lib/koration/Setup.ts';
 import '@/index.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { App } from '@/App';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { App } from '@/App';
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready.then((registration) => {
