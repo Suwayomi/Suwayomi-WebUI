@@ -193,6 +193,8 @@ export class GraphQLClient extends BaseClient<
 
     private wsClient!: Client;
 
+    private wsClientAliveCheckInterval: NodeJS.Timeout | undefined = undefined;
+
     constructor(handleRefreshToken: (refreshToken: string) => AbortableApolloMutationResponse<UserRefreshMutation>) {
         super(handleRefreshToken);
 
@@ -268,13 +270,22 @@ export class GraphQLClient extends BaseClient<
         );
     }
 
-    protected createClient() {
+    private createWSClient(lazy: boolean = true): void {
         const heartbeatInterval = 1000 * 20;
 
         this.wsClient = createClient({
+            lazy,
             url: () => this.getBaseUrl().replace(/http(|s)/g, 'ws'),
             keepAlive: heartbeatInterval,
-            retryAttempts: 10,
+            retryAttempts: Number.MAX_SAFE_INTEGER,
+            shouldRetry: () => true,
+            retryWait: async (retries) => {
+                const delay = Math.min(1000 * 2 ** retries, heartbeatInterval);
+
+                return new Promise((resolve) => {
+                    setTimeout(resolve, delay);
+                });
+            },
             connectionParams: () => {
                 const isAuthRequired = AuthManager.isAuthRequired();
                 const accessToken = AuthManager.getAccessToken();
@@ -285,23 +296,26 @@ export class GraphQLClient extends BaseClient<
             },
         });
 
-        let lastHeartbeat: number = 0;
-        this.wsClient.on('connected', () => {
-            lastHeartbeat = Date.now();
-        });
+        let lastHeartbeat: number = Date.now();
         this.wsClient.on('pong', () => {
             lastHeartbeat = Date.now();
         });
 
-        const checkHeartbeatInterval = heartbeatInterval + 1000 * 10;
-        setInterval(() => {
+        const checkHeartbeatInterval = heartbeatInterval + 1000 * 30;
+        clearInterval(this.wsClientAliveCheckInterval);
+        this.wsClientAliveCheckInterval = setInterval(() => {
             const isHeartbeatMissing = Date.now() - lastHeartbeat > checkHeartbeatInterval * 1.1;
             if (isHeartbeatMissing) {
-                // force a reconnect
-                this.wsClient.terminate();
+                this.wsClient.dispose();
+
+                this.createWSClient(false);
+                this.client.setLink(this.createLink());
             }
         }, checkHeartbeatInterval);
+    }
 
+    protected createClient() {
+        this.createWSClient();
         this.client = new ApolloClient({
             cache: new InMemoryCache({
                 // for whatever reason there is some weird TypeError complaining that
