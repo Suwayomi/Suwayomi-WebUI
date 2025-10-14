@@ -14,23 +14,27 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import { d } from 'koration';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { UpdateState, WebUiChannel, WebUiUpdateStatus } from '@/lib/graphql/generated/graphql.ts';
-import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
+import { useLocalStorage, useSessionStorage } from '@/base/hooks/useStorage.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/fragments/InfoFragments.ts';
 import { VersionUpdateInfoDialog } from '@/features/app-updates/components/VersionUpdateInfoDialog.tsx';
 import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
+
+const FORCED_REFRESH_THRESHOLD = d(30).seconds.inWholeMilliseconds;
 
 export const WebUIUpdateChecker = () => {
     const { t } = useTranslation();
 
     const [webUIVersion, setWebUIVersion] = useLocalStorage<string>('webUIVersion');
+    const [initialLoadTimestamp, setInitialLoadTimestamp] = useSessionStorage<number>('webUIInitialLoadTimestamp');
     const [open, setOpen] = useState(false);
 
     const {
@@ -69,6 +73,15 @@ export const WebUIUpdateChecker = () => {
 
     const newVersion = aboutWebUI?.tag;
     const isSameAsCurrent = !newVersion || !webUIVersion || webUIVersion === newVersion;
+
+    // Store initial load timestamp (once per session)
+    if (!initialLoadTimestamp) {
+        setInitialLoadTimestamp(Date.now());
+    }
+
+    // Calculate if forced refresh threshold has been met
+    const timeSinceLoad = Date.now() - (initialLoadTimestamp ?? Date.now());
+    const shouldForceRefresh = timeSinceLoad >= FORCED_REFRESH_THRESHOLD;
 
     const saveInitialVersion = !webUIVersion && !!newVersion;
     if (saveInitialVersion) {
@@ -160,7 +173,7 @@ export const WebUIUpdateChecker = () => {
     }
 
     return (
-        <Dialog open={open}>
+        <Dialog open={open} onClose={shouldForceRefresh ? () => setOpen(false) : noOp}>
             <DialogTitle>{t('settings.about.webui.label.updated')}</DialogTitle>
             <DialogContent>
                 <DialogContentText>
@@ -179,11 +192,14 @@ export const WebUIUpdateChecker = () => {
                     onClick={() => {
                         setWebUIVersion(newVersion);
                         setOpen(false);
-                        window.location.reload();
+
+                        if (shouldForceRefresh) {
+                            window.location.reload();
+                        }
                     }}
                     variant="contained"
                 >
-                    {t('global.button.refresh')}
+                    {t(shouldForceRefresh ? 'global.button.refresh' : 'global.button.ok')}
                 </Button>
             </DialogActions>
         </Dialog>
