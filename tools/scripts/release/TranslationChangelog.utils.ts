@@ -168,14 +168,14 @@ const getLanguageLinesFromChangelog = (): Promise<string[]> => {
     const translationRelevantLines: string[] = [];
     let isTranslationSection = false;
     fileLineReader.on('line', (line) => {
-        if (line.toLowerCase() === '## Translations'.toLowerCase()) {
+        if (line.toLowerCase() === '### Translations'.toLowerCase()) {
             isTranslationSection = true;
             return;
         }
 
-        const isStartOfRemovedLanguages = line.toLowerCase().startsWith('### Removed'.toLowerCase());
-        const isStartOfFullChangelog = line.toLowerCase() === '## Full Changelog'.toLowerCase();
-        const isEndOfLanguageSection = isStartOfRemovedLanguages || isStartOfFullChangelog;
+        const isStartOfRemovedLanguages = line.toLowerCase().startsWith('#### Removed'.toLowerCase());
+        const isContributorsSection = line.toLowerCase().startsWith('### Contributors'.toLowerCase());
+        const isEndOfLanguageSection = isStartOfRemovedLanguages || isContributorsSection;
 
         if (isEndOfLanguageSection) {
             isTranslationSection = false;
@@ -263,13 +263,13 @@ export const createTranslationChangelog = async (
     const updatedLanguages = languageByNewState.false ?? [];
 
     let changelog =
-        '## Translations\n' +
+        '### Translations\n' +
         'Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/)\n' +
         '\n' +
-        'Thank you for your contribution to the translation of the project.\n\n';
+        'Thanks to everyone that contributed to the translation of this project.\n\n';
 
     if (newLanguages.length) {
-        changelog += '### Added\n';
+        changelog += '#### Added\n';
         newLanguages.forEach(({ language, contributors }) => {
             changelog += `- ${language} (by ${contributors.join(', ')})\n`;
         });
@@ -277,7 +277,7 @@ export const createTranslationChangelog = async (
     }
 
     if (updatedLanguages.length) {
-        changelog += '### Updated\n';
+        changelog += '#### Updated\n';
         updatedLanguages.forEach(({ language, contributors }) => {
             changelog += `- ${language} (by ${contributors.join(', ')})\n`;
         });
