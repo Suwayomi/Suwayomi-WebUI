@@ -13,6 +13,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Backup**) Add option to exclude specific data during backup creation
 - (**Backup**) Add option to exclude specific data during backup restore
 - (**Library**/**Manga**) Show chapter information on hover over continue reading button
+- (**Settings**) Add KOReader sync settings
+- (**Settings**) Add database settings
+- (**Browse**) Add "open in webview" button in source browse page
 
 ### Changed
 - (**Category**) Prevent creating categories without a name
@@ -25,8 +28,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Manga**) Fix redirection to tracker settings in case no tracker is logged in
 - (**Library**) Fix showing incorrect info text for an empty category
 - (**Browse**) Prevent infinite loading in case the whole source catalogue has been added to the library and the "hide entries in library" setting is enabled
+- (**Browse**) Fix using incorrect native language name for some sources (e.g., different chinese languages (zh-hans, zh-hant, ...) were all showing the same native name)
 - (**Reader**) Fix mouse drag scrolling intertia effect being locked at 60hz
+- (**Reader**) Fix mouse cursor drift during drag scroll
 - (**Reader**) Fix deletion of chapters while reading
+- (**Reader**) Fix potential page loss during window resize while using continuous horizontal reading mode
 - (**Extension**) Fix handling obsolete extensions as updatable in case they are marked as having an available update
 - (**Theme**) Fix loading of fonts defined in themes
 - (**Backup**) Add option to exclude specific data during backup creation
