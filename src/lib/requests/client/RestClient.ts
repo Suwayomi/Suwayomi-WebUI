@@ -49,56 +49,57 @@ export class RestClient
             config?: RequestInit;
             checkResponseIsJson?: boolean;
         } = {},
-    ): Promise<Response> => {
-        const updatedUrl = url.startsWith('http') ? url : `${this.getBaseUrl()}${url}`;
-        const isAuthRequired = AuthManager.isAuthRequired();
-        const accessToken = AuthManager.getAccessToken();
+    ): Promise<Response> =>
+        this.enqueueRequest(async () => {
+            const updatedUrl = url.startsWith('http') ? url : `${this.getBaseUrl()}${url}`;
+            const isAuthRequired = AuthManager.isAuthRequired();
+            const accessToken = AuthManager.getAccessToken();
 
-        let result: Response;
+            let result: Response;
 
-        switch (httpMethod) {
-            case HttpMethod.GET:
-                result = await this.client(updatedUrl, {
-                    ...this.config,
-                    ...config,
-                    method: httpMethod,
-                    headers: {
+            switch (httpMethod) {
+                case HttpMethod.GET:
+                    result = await this.client(updatedUrl, {
+                        ...this.config,
+                        ...config,
+                        method: httpMethod,
+                        headers: {
+                            ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+                            ...this.config.headers,
+                            ...config?.headers,
+                        },
+                    });
+                    break;
+                case HttpMethod.POST:
+                case HttpMethod.PATCH:
+                case HttpMethod.DELETE:
+                    result = await this.client(updatedUrl, {
                         ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-                        ...this.config.headers,
-                        ...config?.headers,
-                    },
-                });
-                break;
-            case HttpMethod.POST:
-            case HttpMethod.PATCH:
-            case HttpMethod.DELETE:
-                result = await this.client(updatedUrl, {
-                    ...(isAuthRequired && accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
-                    ...this.config,
-                    ...config,
-                    method: httpMethod,
-                    body: JSON.stringify(data),
-                });
-                break;
-            default:
-                throw new Error(`Unexpected HttpMethod "${httpMethod}"`);
-        }
+                        ...this.config,
+                        ...config,
+                        method: httpMethod,
+                        body: JSON.stringify(data),
+                    });
+                    break;
+                default:
+                    throw new Error(`Unexpected HttpMethod "${httpMethod}"`);
+            }
 
-        if (result.status === 401) {
-            await BaseClient.refreshAccessToken(this.handleRefreshToken);
-            return this.fetcher(url, { data, httpMethod, config, checkResponseIsJson });
-        }
+            if (result.status === 401) {
+                await BaseClient.refreshAccessToken(this.handleRefreshToken);
+                return this.fetcher(url, { data, httpMethod, config, checkResponseIsJson });
+            }
 
-        if (result.status !== 200) {
-            throw new Error(`status ${result.status}: ${result.statusText}`);
-        }
+            if (result.status !== 200) {
+                throw new Error(`status ${result.status}: ${result.statusText}`);
+            }
 
-        if (checkResponseIsJson && result.headers.get('content-type') !== 'application/json') {
-            throw new Error('Response is not json');
-        }
+            if (checkResponseIsJson && result.headers.get('content-type') !== 'application/json') {
+                throw new Error('Response is not json');
+            }
 
-        return result;
-    };
+            return result;
+        });
 
     constructor(handleRefreshToken: (refreshToken: string) => AbortableApolloMutationResponse<UserRefreshMutation>) {
         super(handleRefreshToken);

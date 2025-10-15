@@ -298,16 +298,16 @@ export const App: React.FC = () => (
         <ScrollToTop />
         <GlobalDialog />
 
-        <ServerUpdateChecker />
-        <WebUIUpdateChecker />
-        <InitialBackgroundRequests />
-        <BackgroundSubscriptions />
-
-        <ReactRouterSetter />
-
-        <CssBaseline enableColorScheme />
-
         <AuthGuard>
+            <ServerUpdateChecker />
+            <WebUIUpdateChecker />
+            <InitialBackgroundRequests />
+            <BackgroundSubscriptions />
+
+            <ReactRouterSetter />
+
+            <CssBaseline enableColorScheme />
+
             <Box sx={{ display: 'flex' }}>
                 <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
                     <DefaultNavBar />

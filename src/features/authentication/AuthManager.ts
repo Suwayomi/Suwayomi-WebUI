@@ -18,6 +18,10 @@ export class AuthManager {
 
     private static accessToken: string | null = null;
 
+    private static authInitialized: boolean = false;
+
+    private static refreshingToken: boolean = false;
+
     static isAuthRequired(): boolean | null {
         return AppStorage.session.getItemParsed(AuthManager.AUTH_REQUIRED_KEY, null);
     }
@@ -89,5 +93,25 @@ export class AuthManager {
 
     static useListenToReactSessionContextRefreshEvent(): void {
         useSessionStorage(AuthManager.REACT_SESSION_REFRESH_KEY, 0);
+    }
+
+    static isAuthInitialized(): boolean {
+        return AuthManager.authInitialized;
+    }
+
+    static setAuthInitialized(value: boolean): void {
+        AuthManager.authInitialized = value;
+    }
+
+    static isRefreshingToken(): boolean {
+        return AuthManager.refreshingToken;
+    }
+
+    static setIsRefreshingToken(value: boolean): void {
+        AuthManager.refreshingToken = value;
+    }
+
+    static shouldQueueRequests(): boolean {
+        return !AuthManager.isAuthInitialized() || AuthManager.isRefreshingToken();
     }
 }

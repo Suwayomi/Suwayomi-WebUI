@@ -29,6 +29,7 @@ import { MaybeMasked, OperationVariables, Reference } from '@apollo/client/core'
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
+import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import {
     CategoryOrderBy,
     ChapterConditionInput,
@@ -452,6 +453,12 @@ export class RequestManager {
 
     private readonly imageQueue = new Queue(5);
 
+    constructor() {
+        BaseClient.setTokenRefreshCompleteCallback(() => {
+            this.processQueues();
+        });
+    }
+
     public getClient(): IRestClient {
         return this.restClient;
     }
@@ -463,11 +470,17 @@ export class RequestManager {
 
     public reset(): void {
         AuthManager.setAuthRequired(null);
+        AuthManager.setAuthInitialized(false);
         AuthManager.removeTokens();
         this.graphQLClient.client.resetStore();
         this.graphQLClient.terminateSubscriptions();
         this.cache.clear();
         this.imageQueue.clear();
+    }
+
+    public processQueues(): void {
+        this.graphQLClient.processQueue();
+        this.restClient.processQueue();
     }
 
     public getBaseUrl(): string {

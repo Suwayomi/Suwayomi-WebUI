@@ -12,11 +12,12 @@ import {
     ApolloClient,
     ApolloClientOptions,
     ApolloLink,
+    from,
+    fromPromise,
     InMemoryCache,
     NormalizedCacheObject,
     split,
-    from,
-    fromPromise,
+    toPromise,
 } from '@apollo/client';
 import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
@@ -210,6 +211,27 @@ export class GraphQLClient extends BaseClient<
         this.wsClient.terminate();
     }
 
+    protected override shouldQueueRequest(operationName: string | undefined): boolean {
+        const authOperations = ['GET_ABOUT', 'USER_LOGIN', 'USER_REFRESH'];
+        if (authOperations.includes(operationName!)) {
+            return false;
+        }
+
+        return super.shouldQueueRequest();
+    }
+
+    private createAuthGuardLink() {
+        return new ApolloLink((operation, forward) => {
+            const { operationName } = operation;
+
+            if (this.shouldQueueRequest(operationName)) {
+                return fromPromise(this.enqueueRequest(() => toPromise(forward(operation)), operationName));
+            }
+
+            return forward(operation);
+        });
+    }
+
     private createErrorLink() {
         return onError(({ graphQLErrors, operation, forward }) => {
             if (!graphQLErrors) {
@@ -262,6 +284,7 @@ export class GraphQLClient extends BaseClient<
             },
             this.createWSLink(),
             from([
+                this.createAuthGuardLink(),
                 this.createErrorLink(),
                 this.createAuthLink(),
                 removeTypenameLink,

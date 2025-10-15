@@ -11,6 +11,13 @@ import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
+import { ControlledPromise } from '@/lib/ControlledPromise.ts';
+
+interface QueuedRequest {
+    execute: () => void;
+    resolve: (value: any) => void;
+    reject: (error: any) => void;
+}
 
 export abstract class BaseClient<Client, ClientConfig, Fetcher> {
     protected abstract client: Client;
@@ -18,6 +25,14 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
     public abstract readonly fetcher: Fetcher;
 
     private static activeTokenRefreshPromise: Promise<UserRefreshMutation | null | undefined> | null = null;
+
+    private static onTokenRefreshComplete: (() => void) | null = null;
+
+    protected requestQueue: QueuedRequest[] = [];
+
+    public static setTokenRefreshCompleteCallback(callback: (() => void) | null): void {
+        BaseClient.onTokenRefreshComplete = callback;
+    }
 
     protected static async refreshAccessToken(
         refreshFn: (refreshToken: string) => AbortableApolloMutationResponse<UserRefreshMutation>,
@@ -36,6 +51,8 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
             return this.activeTokenRefreshPromise;
         }
 
+        AuthManager.setIsRefreshingToken(true);
+
         const refreshRequest = refreshFn(refreshToken).response;
         this.activeTokenRefreshPromise = refreshRequest.then((result) => result.data);
 
@@ -48,6 +65,9 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
             }
 
             AuthManager.setAccessToken(data.refreshToken.accessToken);
+            AuthManager.setAuthInitialized(true);
+
+            BaseClient.onTokenRefreshComplete?.();
 
             return data;
         } catch (e) {
@@ -55,6 +75,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
             throw e;
         } finally {
             this.activeTokenRefreshPromise = null;
+            AuthManager.setIsRefreshingToken(false);
         }
     }
 
@@ -73,6 +94,46 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
 
         // Apply subpath configuration to the base URL
         return SubpathUtil.getApiBaseUrl(serverBaseURL);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected shouldQueueRequest(operationName?: string): boolean {
+        return AuthManager.shouldQueueRequests();
+    }
+
+    protected enqueueRequest<T>(executor: () => Promise<T>, operationName?: string): Promise<T> {
+        if (!this.shouldQueueRequest(operationName)) {
+            return executor();
+        }
+
+        const { promise: requestPromise, reject, resolve } = new ControlledPromise<T>();
+        this.requestQueue.push({
+            execute: () => {
+                executor().then(resolve).catch(reject);
+            },
+            resolve,
+            reject,
+        });
+
+        return requestPromise;
+    }
+
+    public processQueue(): void {
+        const queue = [...this.requestQueue];
+        this.requestQueue = [];
+
+        queue.forEach((request) => {
+            request.execute();
+        });
+    }
+
+    protected clearQueue(error?: Error): void {
+        const queue = [...this.requestQueue];
+        this.requestQueue = [];
+
+        queue.forEach((request) => {
+            request.reject(error ?? new Error('Request queue cleared'));
+        });
     }
 
     public abstract updateConfig(config: Partial<ClientConfig>): void;
