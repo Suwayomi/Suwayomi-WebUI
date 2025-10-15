@@ -47,6 +47,7 @@ export const LoginPage = () => {
 
             if (data) {
                 AuthManager.setTokens(data.login.accessToken, data.login.refreshToken);
+                requestManager.processQueues();
                 navigate(redirect ?? AppRoutes.root.path);
             }
         } catch (e) {

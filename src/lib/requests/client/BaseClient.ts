@@ -39,7 +39,8 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
     ): Promise<UserRefreshMutation | null | undefined> {
         const refreshToken = AuthManager.getRefreshToken();
 
-        if (!AuthManager.isAuthRequired()) {
+        if (!AuthManager.isAuthInitialized()) {
+            AuthManager.setAuthInitialized(true);
             AuthManager.setAuthRequired(true);
         }
 
@@ -65,7 +66,6 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
             }
 
             AuthManager.setAccessToken(data.refreshToken.accessToken);
-            AuthManager.setAuthInitialized(true);
 
             BaseClient.onTokenRefreshComplete?.();
 
@@ -106,7 +106,10 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
             return executor();
         }
 
-        const { promise: requestPromise, reject, resolve } = new ControlledPromise<T>();
+        const queuedRequest = new ControlledPromise<T>();
+        const resolve = queuedRequest.resolve.bind(queuedRequest);
+        const reject = queuedRequest.reject.bind(queuedRequest);
+
         this.requestQueue.push({
             execute: () => {
                 executor().then(resolve).catch(reject);
@@ -115,7 +118,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
             reject,
         });
 
-        return requestPromise;
+        return queuedRequest.promise;
     }
 
     public processQueue(): void {
