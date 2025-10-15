@@ -25,16 +25,21 @@ import { VersionUpdateInfoDialog } from '@/features/app-updates/components/Versi
 import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
 const FORCED_REFRESH_THRESHOLD = d(30).seconds.inWholeMilliseconds;
 
+const INITIAL_LOAD_TIMESTAMP_KEY = 'webUIInitialLoadTimestamp';
+
+AppStorage.session.setItem(INITIAL_LOAD_TIMESTAMP_KEY, Date.now());
+
 export const WebUIUpdateChecker = () => {
     const { t } = useTranslation();
 
     const [webUIVersion, setWebUIVersion] = useLocalStorage<string>('webUIVersion');
-    const [initialLoadTimestamp, setInitialLoadTimestamp] = useSessionStorage<number>('webUIInitialLoadTimestamp');
+    const [initialLoadTimestamp] = useSessionStorage<number>(INITIAL_LOAD_TIMESTAMP_KEY, Date.now());
     const [open, setOpen] = useState(false);
 
     const {
@@ -73,11 +78,6 @@ export const WebUIUpdateChecker = () => {
 
     const newVersion = aboutWebUI?.tag;
     const isSameAsCurrent = !newVersion || !webUIVersion || webUIVersion === newVersion;
-
-    // Store initial load timestamp (once per session)
-    if (!initialLoadTimestamp) {
-        setInitialLoadTimestamp(Date.now());
-    }
 
     // Calculate if forced refresh threshold has been met
     const timeSinceLoad = Date.now() - (initialLoadTimestamp ?? Date.now());
