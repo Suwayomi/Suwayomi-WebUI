@@ -112,6 +112,8 @@ export class AuthManager {
     }
 
     static shouldQueueRequests(): boolean {
-        return !AuthManager.isAuthInitialized() || AuthManager.isRefreshingToken();
+        const isLoginRequired = AuthManager.isAuthRequired() === true && AuthManager.getAccessToken() === null;
+
+        return !AuthManager.isAuthInitialized() || AuthManager.isRefreshingToken() || isLoginRequired;
     }
 }
