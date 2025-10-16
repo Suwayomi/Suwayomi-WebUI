@@ -103,20 +103,13 @@ const ScrollToTop = () => {
 };
 
 const InitialBackgroundRequests = () => {
-    const { isAuthRequired, accessToken } = AuthManager.useSession();
-    const skipConnection = isAuthRequired == null || (!isAuthRequired && !accessToken);
-
     const [fetchExtensionList] = requestManager.useExtensionListFetch();
 
     useEffect(() => {
-        if (skipConnection) {
-            return;
-        }
-
         // Fetch extension list on startup to show up-to-date number of available extension updates in the navigation bar
         // without having to open the extensions page.
         fetchExtensionList().catch(defaultPromiseErrorHandler('App::InitialBackgroundRequests: extension list'));
-    }, [skipConnection]);
+    }, []);
 
     return null;
 };
@@ -128,10 +121,7 @@ const InitialBackgroundRequests = () => {
  * and thus, data of existing chapters/mangas in the cache get outdated
  */
 const BackgroundSubscriptions = () => {
-    // Listen to session changes
-    const { isAuthRequired, accessToken } = AuthManager.useSession();
-
-    const skipConnection = isAuthRequired == null || (!isAuthRequired && !accessToken);
+    const skipConnection = !AuthManager.useIsAuthenticated();
 
     // Load the full download status once on startup to fill the cache
     requestManager.useGetDownloadStatus({ nextFetchPolicy: 'standby' });
@@ -153,9 +143,8 @@ const ReactRouterSetter = () => {
 };
 
 const PrivateRoutes = () => {
-    const { isAuthRequired, accessToken, refreshToken } = AuthManager.useSession();
+    const isAuthenticated = AuthManager.useIsAuthenticated();
 
-    const isAuthenticated = !isAuthRequired || (isAuthRequired && (accessToken || refreshToken));
     if (!isAuthenticated) {
         return (
             <Navigate

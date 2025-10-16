@@ -30,15 +30,13 @@ export const LoginPage = () => {
     const { t } = useTranslation();
     const { setOverride } = useNavBarContext();
     const navigate = useNavigate();
-    const { isAuthRequired, accessToken, refreshToken } = AuthManager.useSession();
+    const isAuthenticated = AuthManager.useIsAuthenticated();
 
     const [redirect] = useQueryParam(SearchParam.REDIRECT, StringParam);
     const [loginUser, { loading: isLoading }] = requestManager.useLoginUser();
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    const isAuthenticated = !isAuthRequired || (isAuthRequired && !!accessToken && !!refreshToken);
 
     const doLogin = async () => {
         try {
