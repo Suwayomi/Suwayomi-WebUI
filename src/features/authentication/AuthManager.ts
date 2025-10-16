@@ -6,34 +6,71 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { useSyncExternalStore } from 'react';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
-import { useSessionStorage } from '@/base/hooks/useStorage.tsx';
+
+let notifierValue = 0;
 
 export class AuthManager {
-    static readonly AUTH_REQUIRED_KEY = 'auth-required';
-
     static readonly REFRESH_TOKEN_KEY = 'auth-refresh-token';
 
-    static readonly REACT_SESSION_REFRESH_KEY = 'auth-react-session-refresh';
+    private static subscribedCount: number = 0;
+
+    private static subscribers = new Map<number, () => void>();
 
     private static accessToken: string | null = null;
 
     private static authInitialized: boolean = false;
 
+    private static authRequired: boolean | null = null;
+
     private static refreshingToken: boolean = false;
 
+    private static subscribe(callback: () => void): () => void {
+        // eslint-disable-next-line no-plusplus
+        const key = AuthManager.subscribedCount++;
+        this.subscribers.set(key, callback);
+
+        return () => this.unsubscribe(key);
+    }
+
+    private static unsubscribe(key: number): void {
+        this.subscribers.delete(key);
+    }
+
+    private static notify(): void {
+        notifierValue = (notifierValue + 1) % Number.MAX_SAFE_INTEGER;
+        this.subscribers.forEach((callback) => callback());
+    }
+
+    static useSession(): {
+        accessToken: typeof AuthManager.accessToken;
+        refreshToken: ReturnType<typeof AuthManager.getRefreshToken>;
+        isAuthRequired: typeof AuthManager.authRequired;
+        isInitialized: typeof AuthManager.authInitialized;
+        isRefreshingToken: typeof AuthManager.refreshingToken;
+    } {
+        useSyncExternalStore(AuthManager.subscribe.bind(AuthManager), () => notifierValue);
+
+        return {
+            accessToken: AuthManager.accessToken,
+            refreshToken: AuthManager.getRefreshToken(),
+            isAuthRequired: AuthManager.authRequired,
+            isInitialized: AuthManager.authInitialized,
+            isRefreshingToken: AuthManager.refreshingToken,
+        };
+    }
+
+    static isAuthInitialized(): boolean {
+        return AuthManager.authInitialized;
+    }
+
     static isAuthRequired(): boolean | null {
-        return AppStorage.session.getItemParsed(AuthManager.AUTH_REQUIRED_KEY, null);
+        return AuthManager.authRequired;
     }
 
-    static setAuthRequired(value: boolean | null): void {
-        AppStorage.session.setItem(AuthManager.AUTH_REQUIRED_KEY, value);
-    }
-
-    static useIsAuthRequired(): boolean | null {
-        const [value] = useSessionStorage(AuthManager.AUTH_REQUIRED_KEY, null);
-
-        return value;
+    static isRefreshingToken(): boolean {
+        return AuthManager.refreshingToken;
     }
 
     static getAccessToken(): string | null {
@@ -51,14 +88,29 @@ export class AuthManager {
         };
     }
 
+    static setAuthInitialized(value: boolean): void {
+        AuthManager.authInitialized = value;
+        AuthManager.notify();
+    }
+
+    static setAuthRequired(value: boolean | null): void {
+        AuthManager.authRequired = value;
+        AuthManager.notify();
+    }
+
+    static setIsRefreshingToken(value: boolean): void {
+        AuthManager.refreshingToken = value;
+        AuthManager.notify();
+    }
+
     static setAccessToken(token: string): void {
         AuthManager.accessToken = token;
-        AuthManager.refreshReactSessionContext();
+        AuthManager.notify();
     }
 
     static setRefreshToken(token: string): void {
         AppStorage.session.setItem(AuthManager.REFRESH_TOKEN_KEY, token);
-        AuthManager.refreshReactSessionContext();
+        AuthManager.notify();
     }
 
     static setTokens(accessToken: string, refreshToken: string): void {
@@ -68,47 +120,17 @@ export class AuthManager {
 
     static removeAccessToken(): void {
         AuthManager.accessToken = null;
-        AuthManager.refreshReactSessionContext();
+        AuthManager.notify();
     }
 
     static removeRefreshToken(): void {
         AppStorage.session.setItem(AuthManager.REFRESH_TOKEN_KEY, undefined);
-        AuthManager.refreshReactSessionContext();
+        AuthManager.notify();
     }
 
     static removeTokens(): void {
         AuthManager.removeAccessToken();
         AuthManager.removeRefreshToken();
-    }
-
-    private static getNextReactSessionContextId(): number {
-        const id = AppStorage.session.getItemParsed(AuthManager.REACT_SESSION_REFRESH_KEY, 0);
-
-        return (id + 1) % Number.MAX_SAFE_INTEGER;
-    }
-
-    static refreshReactSessionContext(): void {
-        AppStorage.session.setItem(AuthManager.REACT_SESSION_REFRESH_KEY, AuthManager.getNextReactSessionContextId());
-    }
-
-    static useListenToReactSessionContextRefreshEvent(): void {
-        useSessionStorage(AuthManager.REACT_SESSION_REFRESH_KEY, 0);
-    }
-
-    static isAuthInitialized(): boolean {
-        return AuthManager.authInitialized;
-    }
-
-    static setAuthInitialized(value: boolean): void {
-        AuthManager.authInitialized = value;
-    }
-
-    static isRefreshingToken(): boolean {
-        return AuthManager.refreshingToken;
-    }
-
-    static setIsRefreshingToken(value: boolean): void {
-        AuthManager.refreshingToken = value;
     }
 
     static shouldQueueRequests(): boolean {

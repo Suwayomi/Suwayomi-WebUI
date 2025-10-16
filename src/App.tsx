@@ -24,13 +24,13 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
-import { useSessionContext } from '@/features/authentication/SessionContext.tsx';
 import { LoginPage } from '@/features/authentication/screens/LoginPage.tsx';
 import { AuthGuard } from '@/features/authentication/components/AuthGuard.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { GlobalDialog } from '@/base/global-dialog/GlobalDialog.tsx';
+import { AuthManager } from '@/features/authentication/AuthManager.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -103,8 +103,8 @@ const ScrollToTop = () => {
 };
 
 const InitialBackgroundRequests = () => {
-    const { isAuthRequired, accessToken } = useSessionContext();
-    const skipConnection = isAuthRequired == null || (!!isAuthRequired && !accessToken);
+    const { isAuthRequired, accessToken } = AuthManager.useSession();
+    const skipConnection = isAuthRequired == null || (!isAuthRequired && !accessToken);
 
     const [fetchExtensionList] = requestManager.useExtensionListFetch();
 
@@ -129,9 +129,9 @@ const InitialBackgroundRequests = () => {
  */
 const BackgroundSubscriptions = () => {
     // Listen to session changes
-    const { isAuthRequired, accessToken } = useSessionContext();
+    const { isAuthRequired, accessToken } = AuthManager.useSession();
 
-    const skipConnection = isAuthRequired == null || (!!isAuthRequired && !accessToken);
+    const skipConnection = isAuthRequired == null || (!isAuthRequired && !accessToken);
 
     // Load the full download status once on startup to fill the cache
     requestManager.useGetDownloadStatus({ nextFetchPolicy: 'standby' });
@@ -153,7 +153,7 @@ const ReactRouterSetter = () => {
 };
 
 const PrivateRoutes = () => {
-    const { isAuthRequired, accessToken, refreshToken } = useSessionContext();
+    const { isAuthRequired, accessToken, refreshToken } = AuthManager.useSession();
 
     const isAuthenticated = !isAuthRequired || (isAuthRequired && (accessToken || refreshToken));
     if (!isAuthenticated) {

@@ -19,7 +19,6 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { useSessionContext } from '@/features/authentication/SessionContext.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
@@ -31,7 +30,7 @@ export const LoginPage = () => {
     const { t } = useTranslation();
     const { setOverride } = useNavBarContext();
     const navigate = useNavigate();
-    const { isAuthRequired, accessToken, refreshToken } = useSessionContext();
+    const { isAuthRequired, accessToken, refreshToken } = AuthManager.useSession();
 
     const [redirect] = useQueryParam(SearchParam.REDIRECT, StringParam);
     const [loginUser, { loading: isLoading }] = requestManager.useLoginUser();
@@ -39,7 +38,7 @@ export const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const isAuthenticated = !isAuthRequired || (!!isAuthRequired && !!accessToken && !!refreshToken);
+    const isAuthenticated = !isAuthRequired || (isAuthRequired && !!accessToken && !!refreshToken);
 
     const doLogin = async () => {
         try {
