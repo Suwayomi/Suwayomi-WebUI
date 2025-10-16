@@ -103,6 +103,9 @@ const ScrollToTop = () => {
 };
 
 const InitialBackgroundRequests = () => {
+    // Load the full download status once on startup to fill the cache
+    requestManager.useGetDownloadStatus({ nextFetchPolicy: 'standby' });
+
     const [fetchExtensionList] = requestManager.useExtensionListFetch();
 
     useEffect(() => {
@@ -123,8 +126,6 @@ const InitialBackgroundRequests = () => {
 const BackgroundSubscriptions = () => {
     const skipConnection = !AuthManager.useIsAuthenticated();
 
-    // Load the full download status once on startup to fill the cache
-    requestManager.useGetDownloadStatus({ nextFetchPolicy: 'standby' });
     requestManager.useDownloadSubscription({ skip: skipConnection });
     requestManager.useUpdaterSubscription({ skip: skipConnection });
     requestManager.useWebUIUpdateSubscription({ skip: skipConnection });
