@@ -728,7 +728,8 @@
             "save": "Guardar",
             "open": "Abrir",
             "open_browser": "Abrir en el navegador",
-            "open_webview": "Abrir en WebView"
+            "open_webview": "Abrir en WebView",
+            "download": "Descargar"
         },
         "label": {
             "display": "Visualización",
@@ -905,7 +906,7 @@
                         "error_one": "No se pudo eliminar el capitulo.",
                         "error_many": "No se pudieron eliminar los capítulos.",
                         "error_other": "No se pudieron eliminar los capítulos.",
-                        "action": "Eliminar capítulo",
+                        "action": "Eliminar capítulos",
                         "success_one": "Capítulo eliminado.",
                         "success_many": "{{count}} capítulos eliminados.",
                         "success_other": "{{count}} capítulos eliminados.",
@@ -919,7 +920,7 @@
                         "selected": "Descargar seleccionados"
                     },
                     "label": {
-                        "action": "Descargar capítulo",
+                        "action": "Descargar capítulos",
                         "error_one": "No se pudo añadir el capítulo a la cola de descargas.",
                         "error_many": "No se pudieron añadir los capítulos a la cola de descargas.",
                         "error_other": "No se pudieron añadir los capítulos a la cola de descargas.",
@@ -943,7 +944,8 @@
                     "label": {
                         "action": {
                             "current": "Marcar como leído",
-                            "previous": "Marcar anterior como leído"
+                            "previous": "Marcar anteriores como leídos",
+                            "all": "Marcar todos como leídos"
                         },
                         "error_one": "No se pudo marcar el capítulo como leído.",
                         "error_many": "No se pudieron marcar los capítulos como leídos.",
@@ -978,7 +980,10 @@
                 }
             },
             "label": {
-                "select": "Seleccionar capítulo"
+                "select": "Seleccionar"
+            },
+            "filter_and_sort": {
+                "label": "Filtrar y ordenar"
             }
         },
         "option": {
