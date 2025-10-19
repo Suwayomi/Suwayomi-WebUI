@@ -338,6 +338,7 @@ import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/mutations/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -485,6 +486,10 @@ export class RequestManager {
 
     public getBaseUrl(): string {
         return this.restClient.getBaseUrl();
+    }
+
+    public useBaseUrl() {
+        return useLocalStorage(BaseClient.BASE_URL_KEY, () => this.getBaseUrl());
     }
 
     public getValidUrlFor(endpoint: string, apiVersion: string = RequestManager.API_VERSION): string {

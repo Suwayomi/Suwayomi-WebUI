@@ -9,12 +9,11 @@
 import { useTranslation } from 'react-i18next';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 
 export const ServerAddressSetting = () => {
     const { t } = useTranslation();
 
-    const [serverAddress, setServerAddress] = useLocalStorage<string>('serverBaseURL', window.location.origin);
+    const [serverAddress, setServerAddress] = requestManager.useBaseUrl();
 
     const handleServerAddressChange = (address: string) => {
         const serverBaseUrl = address.replaceAll(/(\/)+$/g, '');

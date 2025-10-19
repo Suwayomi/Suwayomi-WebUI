@@ -20,6 +20,8 @@ interface QueuedRequest {
 }
 
 export abstract class BaseClient<Client, ClientConfig, Fetcher> {
+    static readonly BASE_URL_KEY = 'serverBaseURL';
+
     protected abstract client: Client;
 
     public abstract readonly fetcher: Fetcher;
@@ -90,7 +92,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
             ? import.meta.env.VITE_SERVER_URL_DEFAULT
             : `${protocol}//${hostname}:${port}`;
 
-        const serverBaseURL = AppStorage.local.getItemParsed('serverBaseURL', defaultUrl);
+        const serverBaseURL = AppStorage.local.getItemParsed(BaseClient.BASE_URL_KEY, defaultUrl);
 
         // Apply subpath configuration to the base URL
         return SubpathUtil.getApiBaseUrl(serverBaseURL);
