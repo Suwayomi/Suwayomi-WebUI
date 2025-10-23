@@ -103,6 +103,10 @@ export const AppRoutes = {
                 match: 'tracking',
                 path: '/settings/tracking',
             },
+            koreader_sync: {
+                match: 'koreader-sync',
+                path: '/settings/koreader-sync',
+            },
             appearance: {
                 match: 'appearance',
                 path: '/settings/appearance',
