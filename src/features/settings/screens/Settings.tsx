@@ -79,6 +79,12 @@ export function Settings() {
                 </ListItemIcon>
                 <ListItemText primary={t('tracking.title')} />
             </ListItemLink>
+            <ListItemLink to={AppRoutes.settings.childRoutes.koreader_sync.path}>
+                <ListItemIcon>
+                    <SyncIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('settings.server.koreader.sync.title')} />
+            </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.backup.path}>
                 <ListItemIcon>
                     <BackupIcon />

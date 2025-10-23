@@ -1421,13 +1421,38 @@
       },
       "koreader": {
         "sync": {
-          "check_sum_method": {
-            "binary": "Binary",
-            "filename": "Filename",
-            "title": "Check sum method"
-          },
-          "device_id": "Device ID",
+          "title": "KOReader Sync",
+          "description": "Synchronize reading progress with KOReader devices.",
+          "connect": "Connect",
+          "disconnect": "Disconnect",
+          "logged_in_as": "Logged in as",
+          "server_url": "Server URL",
           "server_address": "Server url",
+          "username": "Username",
+          "user_key": "User Key (Password)",
+          "device_id": "Device ID",
+          "device_name": "Device Name",
+          "strategy_forward_title": "Sync to a newer state",
+          "strategy_backward_title": "Sync to an older state",
+          "strategy_prompt": "Prompt",
+          "strategy_keep_local": "Keep local",
+          "strategy_keep_remote": "Keep remote",
+          "strategy_disabled": "Disabled",
+          "check_sum_method": {
+            "title": "Document matching method",
+            "binary": "Binary",
+            "filename": "Filename"
+          },
+          "tolerance": {
+            "title": "Percentage Tolerance",
+            "description": "Sync will not be triggered if the progress difference is within this tolerance."
+          },
+          "message": {
+            "connect_success": "Successfully connected to KOReader Sync server.",
+            "connect_error": "Failed to connect to KOReader Sync server.",
+            "disconnect_success": "Successfully disconnected from KOReader Sync server.",
+            "disconnect_error": "Failed to disconnect from KOReader Sync server."
+          },
           "strategy": {
             "disabled": "Disabled",
             "prompt": "Prompt",
@@ -1435,14 +1460,7 @@
             "send": "Send",
             "silent": "Silent",
             "title": "Sync strategy"
-          },
-          "title": "KOReader sync",
-          "tolerance": {
-            "description": "Absolute tolerance for progress comparison",
-            "title": "Tolerance"
-          },
-          "user_key": "User key",
-          "username": "$t(global.label.username)"
+          }
         }
       },
       "local_source": {
