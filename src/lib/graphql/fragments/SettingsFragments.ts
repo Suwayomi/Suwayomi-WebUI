@@ -103,7 +103,8 @@ export const SERVER_SETTINGS = gql`
         koreaderSyncUserkey
         koreaderSyncDeviceId
         koreaderSyncChecksumMethod
-        koreaderSyncStrategy
+        koreaderSyncStrategyBackward
+        koreaderSyncStrategyForward
         koreaderSyncPercentageTolerance
 
         # Database
