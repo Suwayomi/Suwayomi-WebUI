@@ -31,18 +31,11 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import {
-    AuthMode,
-    DatabaseType,
-    KoreaderSyncChecksumMethod,
-    KoreaderSyncLegacyStrategy,
-    SortOrder,
-} from '@/lib/graphql/generated/graphql';
+import { AuthMode, DatabaseType, SortOrder } from '@/lib/graphql/generated/graphql';
 import {
     AUTH_MODES_SELECT_VALUES,
     JWT_ACCESS_TOKEN_EXPIRY,
     JWT_REFRESH_TOKEN_EXPIRY,
-    KOREADER_SYNC_PERCENTAGE_TOLERANCE,
 } from '@/features/settings/Settings.constants.ts';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -465,87 +458,6 @@ export const ServerSettings = () => {
                         [SortOrder.Desc, { text: t('global.sort.label.desc') }],
                     ]}
                     handleChange={(value) => updateSetting('opdsChapterSortOrder', value)}
-                />
-            </List>
-            <List
-                subheader={
-                    <ListSubheader component="div" id="server-settings-koreader-sync">
-                        {t('settings.server.koreader.sync.title')}
-                    </ListSubheader>
-                }
-            >
-                <TextSetting
-                    settingName={t('settings.server.koreader.sync.server_address')}
-                    handleChange={(url) => updateSetting('koreaderSyncServerUrl', url)}
-                    value={serverSettings.koreaderSyncServerUrl}
-                    placeholder="http://localhost:17200"
-                />
-                <TextSetting
-                    settingName={t('settings.server.koreader.sync.username')}
-                    value={serverSettings.koreaderSyncUsername}
-                    handleChange={(username) => updateSetting('koreaderSyncUsername', username)}
-                />
-                <TextSetting
-                    settingName={t('settings.server.koreader.sync.user_key')}
-                    value={serverSettings.koreaderSyncUserkey}
-                    handleChange={(userkey) => updateSetting('koreaderSyncUserkey', userkey)}
-                    isPassword
-                />
-                <TextSetting
-                    settingName={t('settings.server.koreader.sync.device_id')}
-                    value={serverSettings.koreaderSyncDeviceId}
-                    handleChange={(deviceId) => updateSetting('koreaderSyncDeviceId', deviceId)}
-                />
-                <SelectSetting<KoreaderSyncChecksumMethod>
-                    settingName={t('settings.server.koreader.sync.check_sum_method.title')}
-                    value={serverSettings.koreaderSyncChecksumMethod}
-                    values={[
-                        [
-                            KoreaderSyncChecksumMethod.Binary,
-                            { text: t('settings.server.koreader.sync.check_sum_method.binary') },
-                        ],
-                        [
-                            KoreaderSyncChecksumMethod.Filename,
-                            { text: t('settings.server.koreader.sync.check_sum_method.filename') },
-                        ],
-                    ]}
-                    handleChange={(value) => updateSetting('koreaderSyncChecksumMethod', value)}
-                />
-                <SelectSetting<KoreaderSyncLegacyStrategy>
-                    settingName={t('settings.server.koreader.sync.strategy.title')}
-                    value={serverSettings.koreaderSyncStrategy}
-                    values={[
-                        [
-                            KoreaderSyncLegacyStrategy.Disabled,
-                            { text: t('settings.server.koreader.sync.strategy.disabled') },
-                        ],
-                        [
-                            KoreaderSyncLegacyStrategy.Prompt,
-                            { text: t('settings.server.koreader.sync.strategy.prompt') },
-                        ],
-                        [
-                            KoreaderSyncLegacyStrategy.Silent,
-                            { text: t('settings.server.koreader.sync.strategy.silent') },
-                        ],
-                        [KoreaderSyncLegacyStrategy.Send, { text: t('settings.server.koreader.sync.strategy.send') }],
-                        [
-                            KoreaderSyncLegacyStrategy.Receive,
-                            { text: t('settings.server.koreader.sync.strategy.receive') },
-                        ],
-                    ]}
-                    handleChange={(value) => updateSetting('koreaderSyncStrategy', value)}
-                />
-                <NumberSetting
-                    settingTitle={t('settings.server.koreader.sync.tolerance.title')}
-                    dialogDescription={t('settings.server.koreader.sync.tolerance.description')}
-                    settingValue={serverSettings.koreaderSyncPercentageTolerance.toString()}
-                    value={serverSettings.koreaderSyncPercentageTolerance}
-                    defaultValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.default}
-                    minValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.min}
-                    maxValue={KOREADER_SYNC_PERCENTAGE_TOLERANCE.max}
-                    stepSize={KOREADER_SYNC_PERCENTAGE_TOLERANCE.step}
-                    valueUnit=""
-                    handleUpdate={(tolerance) => updateSetting('koreaderSyncPercentageTolerance', tolerance)}
                 />
             </List>
             <List
