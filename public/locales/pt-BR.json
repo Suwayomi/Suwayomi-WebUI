@@ -68,7 +68,10 @@
                         "error_other": "Não pôde remover os marcadores",
                         "success_one": "Marcador removido do capítulo",
                         "success_many": "Marcador removido de {{count}} capítulos",
-                        "success_other": "Marcador removido de {{count}} capítulos"
+                        "success_other": "Marcador removido de {{count}} capítulos",
+                        "confirmation_one": "Você está prestes a remover um marcador",
+                        "confirmation_many": "Você está prestes a remover {{count}} marcadores",
+                        "confirmation_other": "Você está prestes a remover {{count}} marcadores"
                     }
                 }
             },
@@ -87,7 +90,10 @@
                         "success_one": "Transferência adicionada",
                         "success_many": "{{count}} transferências adicionadas",
                         "success_other": "{{count}} transferências adicionadas",
-                        "unread": "$t(global.filter.label.unread)"
+                        "unread": "$t(global.filter.label.unread)",
+                        "confirmation_one": "Você está prestes a baixar um capítulo",
+                        "confirmation_many": "Você está prestes a baixar {{count}} capítulos\nSuwayomi não é um downloader em massa e muitos downloads podem fazê-lo ser banido dos sites de origem e/ou podem causar problemas de desempenho.",
+                        "confirmation_other": "Você está prestes a baixar {{count}} capítulos\nSuwayomi não é um downloader em massa e muitos downloads podem fazê-lo ser banido dos sites de origem e/ou podem causar problemas de desempenho."
                     },
                     "button": {
                         "selected": "Transferir selecionados"
@@ -104,7 +110,10 @@
                         "success_other": "{{count}} capítulos apagados",
                         "error_one": "Não pôde apagar o capítulo",
                         "error_many": "Não pôde apagar os capítulos",
-                        "error_other": "Não pôde apagar os capítulos"
+                        "error_other": "Não pôde apagar os capítulos",
+                        "confirmation_one": "Você está prestes a deletar um download",
+                        "confirmation_many": "Você está prestes a deletar {{count}} downloads",
+                        "confirmation_other": "Você está prestes a deletar {{count}} downloads"
                     }
                 }
             },
@@ -116,14 +125,18 @@
                     "label": {
                         "action": {
                             "current": "Marcar como lido",
-                            "previous": "Marcar anteriores como lidos"
+                            "previous": "Marcar anteriores como lidos",
+                            "all": "Marcar como tudo lido"
                         },
                         "success_one": "Capítulo marcado como lido",
                         "success_many": "{{count}} capítulos marcados como lidos",
                         "success_other": "{{count}} capítulos marcados como lidos",
                         "error_one": "Não pôde marcar o capítulo como lido",
                         "error_many": "Não pôde marcar os capítulos como lidos",
-                        "error_other": "Não pôde marcar os capítulos como lidos"
+                        "error_other": "Não pôde marcar os capítulos como lidos",
+                        "confirmation_one": "Você está prestes a marcar um capítulo como lido",
+                        "confirmation_many": "Você está prestes a marcar {{count}} capítulos como lido",
+                        "confirmation_other": "Você está prestes a marcar {{count}} capítulos como lidos"
                     },
                     "button": {
                         "selected": "Marcar selecionados como lidos"
@@ -140,9 +153,19 @@
                         "error_other": "Não pôde marcar os capítulos como não lidos",
                         "success_one": "Capítulo marcado como não lido",
                         "success_many": "{{count}} capítulos marcados como não lidos",
-                        "success_other": "{{count}} capítulos marcados como não lidos"
+                        "success_other": "{{count}} capítulos marcados como não lidos",
+                        "confirmation_one": "Você está prestes a marcar um capítulo como não lido",
+                        "confirmation_many": "Você está prestes a marcar {{count}} capítulos como não lidos",
+                        "confirmation_other": "Você está prestes a marcar {{count}} capítulos como não lidos"
                     }
                 }
+            },
+            "filter_and_sort": {
+                "label": "Filtrar e classificar"
+            },
+            "read": {
+                "resume": "Continue lendo\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "Comece a ler\n#{{chapterNumber}} — {{title}}\n{{scanlator}}"
             }
         },
         "error": {
@@ -254,6 +277,13 @@
                 "label": {
                     "cbz": "Salvar como arquivo CBZ"
                 }
+            },
+            "conversion": {
+                "compression_level": "Nível de compressão",
+                "description": "No caso do MIME-Type não estiver definido, o \"padrão\" um vai ser usado para conversão.\nDefina \"{{value}}\" como o tipo do alvo para desativar conversão para MIME-Type",
+                "mime_type": "Tipo de mídia (MIME-Type)",
+                "target": "MIME-Type alvo",
+                "title": "Conversão de download"
             }
         },
         "state": {
@@ -294,7 +324,10 @@
             "uninstallation_failed_many": "Não pôde desinstalar as extensões",
             "uninstallation_failed_other": "Não pôde desinstalar as extensões",
             "add_repository_info": "Você precisa adicionar um repositório de extensões para poder instalar extensões",
-            "age_rating": "Classificação etária"
+            "age_rating": "Classificação etária",
+            "available_updates_one": "{{count}} atualização disponível",
+            "available_updates_many": "{{count}} atualizações disponíveis",
+            "available_updates_other": "{{count}} atualizações disponíveis"
         },
         "language": {
             "other": "Outros",
@@ -378,7 +411,11 @@
             "remind_later": "Lembrar depois",
             "start": "Começar",
             "ok": "Ok",
-            "reset": "Redefinir"
+            "reset": "Redefinir",
+            "clear_selection": "Limpar seleção",
+            "download": "Baixar",
+            "open_browser": "Abrir no navegador",
+            "open_webview": "Abrir no WebView"
         },
         "colors": {
             "black": "Preto",
@@ -518,6 +555,11 @@
                 "second_many": "Segundos",
                 "second_other": "Segundos",
                 "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            },
+            "days": {
+                "day_one": "Dia",
+                "day_many": "Dias",
+                "day_other": "Dias"
             }
         },
         "update": {
@@ -635,7 +677,9 @@
                 "custom_scroll_amount": "Quantidade personalizada de rolagem",
                 "load_next_chapter": "Carregar o próximo capítulo no final",
                 "offset_double_spread": "Offset da Paginação dupla",
-                "fit_page_to_window": "Ajustar página à janela"
+                "fit_page_to_window": "Ajustar página à janela",
+                "skip_filtered_chapters": "Pular capítulos filtrados",
+                "unchangeable_in_reader": "As configurações não podem ser alteradas enquanto o leitor estiver aberto"
             },
             "tap_zones": {
                 "invert": "Inverter zonas de toque",
@@ -951,7 +995,10 @@
                     "error_one": "Não foi possível alterar a categoria do mangá",
                     "error_many": "Não foi possível alterar as categorias dos mangás",
                     "error_other": "Não foi possível alterar as categorias dos mangás",
-                    "action": "Mudas categorias"
+                    "action": "Mudas categorias",
+                    "confirmation_one": "Você está prestes a mudar a categoria de um item",
+                    "confirmation_many": "Você está prestes a mudar a categoria de {{count}} itens",
+                    "confirmation_other": "Você está prestes a mudar a categoria de {{count}} itens"
                 }
             },
             "track": {
@@ -1003,7 +1050,10 @@
                         "error_other": "Não foi possível remover os mangás da sua biblioteca",
                         "success_one": "Mangá removido da sua biblioteca",
                         "success_many": "{{count}} Mangás foram removidos da sua biblioteca",
-                        "success_other": "{{count}} Mangás foram removidos da sua biblioteca"
+                        "success_other": "{{count}} Mangás foram removidos da sua biblioteca",
+                        "confirmation_one": "Você está prestes a remover um item de sua biblioteca",
+                        "confirmation_many": "Você está prestes a remover {{count}} itens de sua biblioteca",
+                        "confirmation_other": "Você está prestes a remover {{count}} itens de sua biblioteca"
                     }
                 }
             },
@@ -1239,7 +1289,8 @@
                         "title": "Localização de backup"
                     }
                 }
-            }
+            },
+            "title": "Backup"
         },
         "clear_cache": {
             "label": {
@@ -1255,9 +1306,120 @@
                     "description": "Selecione um dispositivo para usar suas configurações de interface do usuário armazenadas no servidor",
                     "title": "Dispositivo ativo"
                 }
+            },
+            "devices": {
+                "label": {
+                    "description": "Gerencie seus dispositivos.\nConfigurações especificas da UI armazenadas no servidor são por dispositivos.\nIsso faz com que seja possível ter, por exemplo, configurações diferentes em um desktop e um smartphone",
+                    "title": "Dispositivos"
+                }
+            },
+            "title": {
+                "device": "Dispositivo"
             }
         },
-        "default_value": "{{value}}<0>($t(global.label.default))</0>"
+        "default_value": "{{value}}<0>($t(global.label.default))</0>",
+        "label": {
+            "hide_library_entries": "Esconder itens que já estão na biblioteca",
+            "language_description": "Sinta-se livre para traduzir o projeto em",
+            "manga_item_width": "Largura do item do mangá",
+            "show_nsfw": "Mostrar NSFW",
+            "show_nsfw_description": "Esconder extensões e fontes NSFW",
+            "theme": "Tema"
+        },
+        "server": {
+            "address": {
+                "client": {
+                    "dialog": {
+                        "label": {
+                            "enter_address": "Insira o endereço do servidor"
+                        }
+                    },
+                    "label": {
+                        "description": "O endereço que o client irá usar para se conectar ao servidor"
+                    }
+                },
+                "server": {
+                    "label": {
+                        "ip": "IP",
+                        "port": "Porta"
+                    },
+                    "title": "Ligações de servidor"
+                }
+            },
+            "auth": {
+                "jwt": {
+                    "access_token_expiry": "Expiração do token de acesso JWT"
+                },
+                "label": {
+                    "title": "Modo de autenticação"
+                },
+                "mode": {
+                    "option": {
+                        "basicAuth": {
+                            "label": {
+                                "description": "Seu navegador irá pedir para inserir credências com um diálogo.",
+                                "title": "Autenticação básica"
+                            }
+                        },
+                        "none": {
+                            "label": {
+                                "description": "Desativar autenticação",
+                                "info": "Sua biblioteca será acessível. Use isto somente em networks privadas ou ao garantir o acesso de outra forma.",
+                                "title": "Nenhum"
+                            }
+                        },
+                        "simple_login": {
+                            "label": {
+                                "description": "O servidor será responsável pelo login.",
+                                "info": "Quando habilitar isto, talvez precise atualizar esta aba para que a página de login apareça.",
+                                "title": "Login simples"
+                            }
+                        },
+                        "ui_login": {
+                            "label": {
+                                "description": "O client será o responsável pelo login."
+                            }
+                        }
+                    }
+                },
+                "title": "Autenticação"
+            },
+            "cloudflare": {
+                "flaresolverr": {
+                    "enabled": {
+                        "label": {
+                            "description": "Acesse <2>FlareSolverr</2> para mais informações",
+                            "title": "FlareSolverr habilitado"
+                        }
+                    },
+                    "response_fallback": {
+                        "label": {
+                            "description": "Use a resposta do FlareSolverr se o servidor encontrar um desafio do Cloudflare que o FlareSolverr não detecta e, por isso, não consegue resolver (não funciona para imagens)",
+                            "title": "Resposta alternativa"
+                        }
+                    },
+                    "session": {
+                        "name": {
+                            "label": {
+                                "title": "Nome da sessão do FlareSolverr"
+                            }
+                        },
+                        "ttl": {
+                            "label": {
+                                "description": "O FlareSolverr renovará automaticamente as sessões expiradas conforme o tempo de vida TTL definido em minutos",
+                                "title": "TTL da sessão do FlareSolverr"
+                            }
+                        }
+                    },
+                    "timeout": {
+                        "label": {
+                            "description": "Quanto tempo o FlareSolverr tem para processar a solicitação",
+                            "title": "Tempo limite de requisição do FlareSolverr"
+                        }
+                    }
+                }
+            }
+        }
     },
     "source": {
         "title_one": "Fonte",
