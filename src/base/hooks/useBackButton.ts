@@ -11,7 +11,8 @@ import { useCallback } from 'react';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useAppPageHistoryContext } from '@/base/contexts/AppPageHistoryContext.tsx';
 
-const PAGES_TO_IGNORE: readonly RegExp[] = [/\/manga\/[0-9]+\/chapter\/[0-9]+/g];
+const READER_REGEX = /\/manga\/[0-9]+\/chapter\/[0-9]+/g;
+const PAGES_TO_IGNORE: readonly RegExp[] = [READER_REGEX];
 
 export const useBackButton = () => {
     const navigate = useNavigate();
@@ -19,16 +20,39 @@ export const useBackButton = () => {
     const history = useAppPageHistoryContext();
 
     return useCallback(() => {
-        const isHistoryEmpty = !history.length;
-        const isLastPageInHistoryCurrentPage = history.length === 1 && history[0] === location.pathname;
-        const ignorePreviousPage = history.length && PAGES_TO_IGNORE.some((page) => !!history.slice(-2)[0].match(page));
+        const getDelta = (historyToCheck: string[] = history, delta: number = 0) => {
+            const isHistoryEmpty = !historyToCheck.length;
+            if (isHistoryEmpty) {
+                return 0;
+            }
 
-        const canNavigateBack = !ignorePreviousPage && !isHistoryEmpty && !isLastPageInHistoryCurrentPage;
-        if (canNavigateBack) {
-            navigate(-1);
+            const isLastPageInHistoryCurrentPage =
+                historyToCheck.length === 1 && historyToCheck[0] === location.pathname;
+            if (isLastPageInHistoryCurrentPage) {
+                return 0;
+            }
+
+            const previousPage = historyToCheck.slice(-2)[0];
+
+            const isPreviousPageCurrentPage = previousPage === location.pathname;
+            const ignorePreviousPage = PAGES_TO_IGNORE.some((page) => !!previousPage.match(page));
+
+            const skipPreviousPage = isPreviousPageCurrentPage || ignorePreviousPage;
+            if (!skipPreviousPage) {
+                return delta - 1;
+            }
+
+            return getDelta(historyToCheck.slice(0, -1), delta - 1);
+        };
+
+        const backDelta = getDelta();
+
+        const canNavigateBack = backDelta < 0;
+        if (!canNavigateBack) {
+            navigate(AppRoutes.library.path());
             return;
         }
 
-        navigate(AppRoutes.library.path());
+        navigate(backDelta);
     }, [history, location.pathname]);
 };

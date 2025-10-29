@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 - (**General**) Fix tooltips sometimes causing a layout shift
+- (**General**) Fix back button under some specific conditions (e.g., `library category X` → `mange` → `reader` → `manga` → back button → `library`; should have opened `library category X`)
 - (**Manga**) Fix failing migration with disabled "tracking" data
 - (**Manga**) Fix showing private tracking option for trackers which do not support the option
 - (**Manga**) Fix redirection to tracker settings in case no tracker is logged in
@@ -154,7 +155,7 @@ Thanks to everyone that contributed to this release
 ### Fixed
 - (**General**) Fix custom long press causing native mobile long press menu to get opened
 - (**General**) Fix refreshing data after importing a backup
-- (**Reader**) Fix each key press triggering a keybind (example: "n" -> next page, "ctrl+n" -> next chapter - previously "ctrl+n" would have triggered both keybinds)
+- (**Reader**) Fix each key press triggering a keybind (example: "n" → next page, "ctrl+n" → next chapter - previously "ctrl+n" would have triggered both keybinds)
 - (**Reader**) Fix weird jumpiness while changing pages via progress bar dragging on iOS
 - (**Reader**) Fix resuming a chapter when selecting an already visible chapter (infinite scroll) from the chapter list
 - (**Reader**) Fix continuous reading mode tap zone click scrolling aborting sometimes
