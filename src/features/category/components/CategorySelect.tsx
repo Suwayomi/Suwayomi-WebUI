@@ -244,7 +244,11 @@ export function CategorySelect(props: CategorySelectProps) {
                             width: '100%',
                         }}
                     >
-                        <Button component={Link} to={AppRoutes.settings.childRoutes.categories.path}>
+                        <Button
+                            component={Link}
+                            to={AppRoutes.settings.childRoutes.categories.path}
+                            onClick={onDismiss}
+                        >
                             {t(allCategories.length ? 'global.button.edit' : 'global.button.create')}
                         </Button>
                         <Stack direction="row">
