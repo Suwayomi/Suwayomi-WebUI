@@ -12,6 +12,7 @@ import { Navigate, Outlet, Route, Routes, useLocation, useNavigate } from 'react
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
 import Box from '@mui/material/Box';
+import { AwaitableComponent } from 'awaitable-component';
 import { AppContext } from '@/base/contexts/AppContext.tsx';
 import { DefaultNavBar } from '@/features/navigation-bar/components/DefaultNavBar.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -29,7 +30,6 @@ import { AuthGuard } from '@/features/authentication/components/AuthGuard.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
-import { GlobalDialog } from '@/base/global-dialog/GlobalDialog.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
@@ -286,7 +286,7 @@ const ReaderApp = () => (
 export const App: React.FC = () => (
     <AppContext>
         <ScrollToTop />
-        <GlobalDialog />
+        <AwaitableComponent.Root />
 
         <AuthGuard>
             <ServerUpdateChecker />

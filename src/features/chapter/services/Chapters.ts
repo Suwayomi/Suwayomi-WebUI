@@ -42,7 +42,7 @@ import {
 } from '@/features/chapter/Chapter.types.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
-import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
+import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {
@@ -275,7 +275,7 @@ export class Chapters {
                 assertIsDefined(confirmationMessage);
 
                 try {
-                    await GlobalDialogManager.confirm({
+                    await Confirmation.show({
                         title: translate('global.label.are_you_sure'),
                         message: translate(confirmationMessage, { count: itemCount }),
                         actions: {

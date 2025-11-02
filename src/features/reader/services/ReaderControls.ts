@@ -55,7 +55,7 @@ import {
     getReaderSettingsStore,
     getReaderTapZoneStore,
 } from '@/features/reader/stores/ReaderStore.ts';
-import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
+import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,
@@ -305,7 +305,7 @@ export class ReaderControls {
         const warningLineBreak = !isSameScanlator && !isContinuousChapter ? '\n\n' : '';
         const warning = `${sameScanlator}${warningLineBreak}${continuousChapter}`;
 
-        await GlobalDialogManager.confirm({
+        await Confirmation.show({
             title: translate('reader.chapter_transition.warning.title'),
             message: warning,
             actions: {

@@ -16,8 +16,8 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { AwaitableComponentProps } from 'awaitable-component';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { DialogProps } from '@/base/global-dialog/GlobalDialogManager.tsx';
 import {
     BACKUP_FLAG_GROUP_TO_TRANSLATION,
     BACKUP_FLAGS,
@@ -27,10 +27,12 @@ import {
 import { BackupFlagGroup, BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 
 export const BackupFlagInclusionDialog = ({
-    onCancel,
-    onConfirm,
+    onDismiss,
+    onSubmit,
+    isVisible,
+    onExitComplete,
     title,
-}: DialogProps<BackupFlagInclusionState> & { title: string }) => {
+}: AwaitableComponentProps<BackupFlagInclusionState> & { title: string }) => {
     const { t } = useTranslation();
 
     const [includeStateByFlag, setIncludeStateByFlag] = useState(
@@ -38,7 +40,14 @@ export const BackupFlagInclusionDialog = ({
     );
 
     return (
-        <Dialog open onAbort={onCancel} maxWidth="xs" fullWidth onClose={onCancel}>
+        <Dialog
+            open={isVisible}
+            onTransitionExited={onExitComplete}
+            onAbort={onDismiss}
+            maxWidth="xs"
+            fullWidth
+            onClose={onSubmit}
+        >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <FormGroup sx={{ gap: 2 }}>
@@ -63,10 +72,10 @@ export const BackupFlagInclusionDialog = ({
                 </FormGroup>
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={onCancel} color="primary">
+                <Button autoFocus onClick={onDismiss} color="primary">
                     {t('global.button.cancel')}
                 </Button>
-                <Button onClick={() => onConfirm(includeStateByFlag)} color="primary">
+                <Button onClick={() => onSubmit(includeStateByFlag)} color="primary">
                     {t('global.button.ok')}
                 </Button>
             </DialogActions>

@@ -50,7 +50,7 @@ import {
 } from '@/features/manga/Manga.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
-import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
+import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
@@ -553,7 +553,7 @@ export class Mangas {
                 assertIsDefined(confirmationMessage);
 
                 try {
-                    await GlobalDialogManager.confirm({
+                    await Confirmation.show({
                         title: translate('global.label.are_you_sure'),
                         message: translate(confirmationMessage, { count: itemCount }),
                         actions: {

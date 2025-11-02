@@ -3765,6 +3765,11 @@ available-typed-arrays@^1.0.7:
   dependencies:
     possible-typed-array-names "^1.0.0"
 
+awaitable-component@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/awaitable-component/-/awaitable-component-0.1.0.tgz#7fe5ad6c0b02e8c66a14232f3d5fe8bbbe309a44"
+  integrity sha512-D8NRED2me8NsPLwJltOFKKl93OuV28ZYR/mgsyYl2QWbhgLa69cGJcTW/DnO6NN2iDeZ7Fx8P8QbmEfnDwVJDA==
+
 axe-core@^4.10.0:
   version "4.10.2"
   resolved "https://registry.yarnpkg.com/axe-core/-/axe-core-4.10.2.tgz#85228e3e1d8b8532a27659b332e39b7fa0e022df"

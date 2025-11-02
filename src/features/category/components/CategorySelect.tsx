@@ -16,6 +16,7 @@ import FormGroup from '@mui/material/FormGroup';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
+import { AwaitableComponentProps } from 'awaitable-component';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
@@ -36,10 +37,7 @@ import { GET_MANGA_CATEGORIES } from '@/lib/graphql/queries/MangaQuery.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
-type BaseProps = {
-    onCancel: () => void;
-    onConfirm: (selectedCategories: { addToCategories?: number[]; removeFromCategories?: number[] }) => void;
-};
+type BaseProps = AwaitableComponentProps<{ addToCategories?: number[]; removeFromCategories?: number[] }>;
 
 type SingleMangaModeProps = {
     mangaId: number;
@@ -94,7 +92,15 @@ const getCategoryCheckedState = (
 export function CategorySelect(props: CategorySelectProps) {
     const { t } = useTranslation();
 
-    const { onCancel, onConfirm, mangaId, mangaIds: passedMangaIds, addToLibrary = false } = props;
+    const {
+        onDismiss,
+        onSubmit,
+        isVisible,
+        onExitComplete,
+        mangaId,
+        mangaIds: passedMangaIds,
+        addToLibrary = false,
+    } = props;
 
     const isSingleSelectionMode = mangaId !== undefined;
     const mangaIds = passedMangaIds ?? [mangaId];
@@ -137,7 +143,7 @@ export function CategorySelect(props: CategorySelectProps) {
     const handleCancel = () => {
         setSelectionForKey('categoriesToAdd', mangaCategoryIds);
         setSelectionForKey('categoriesToRemove', []);
-        onCancel();
+        onDismiss();
     };
 
     const handleOk = () => {
@@ -148,7 +154,7 @@ export function CategorySelect(props: CategorySelectProps) {
             ? mangaCategoryIds.filter((categoryId) => !categoriesToAdd.includes(categoryId))
             : categoriesToRemove;
 
-        onConfirm({
+        onSubmit({
             addToCategories,
             removeFromCategories,
         });
@@ -186,7 +192,8 @@ export function CategorySelect(props: CategorySelectProps) {
                 },
             }}
             maxWidth="xs"
-            open
+            open={isVisible}
+            onTransitionExited={onExitComplete}
             onClose={handleCancel}
         >
             <DialogTitle>{t('category.title.set_categories')}</DialogTitle>

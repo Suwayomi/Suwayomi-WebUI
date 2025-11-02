@@ -16,20 +16,22 @@ import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
+import { AwaitableComponentProps } from 'awaitable-component';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { DialogProps } from '@/base/global-dialog/GlobalDialogManager.tsx';
 import { ValidateBackupResult } from '@/lib/graphql/generated/graphql.ts';
 
 export const BackupValidationDialog = ({
     validationResult,
-    onCancel,
-    onConfirm,
-}: DialogProps & { validationResult: ValidateBackupResult }) => {
+    onDismiss,
+    onSubmit,
+    isVisible,
+    onExitComplete,
+}: AwaitableComponentProps & { validationResult: ValidateBackupResult }) => {
     const { t } = useTranslation();
 
     return (
-        <Dialog open>
+        <Dialog open={isVisible} onTransitionExited={onExitComplete} onAbort={onDismiss}>
             <DialogTitle>{t('settings.backup.action.validate.dialog.title')}</DialogTitle>
             <DialogContent dividers>
                 {!!validationResult?.missingSources.length && (
@@ -67,7 +69,7 @@ export const BackupValidationDialog = ({
                 >
                     {!!validationResult?.missingSources.length && (
                         <Button
-                            onClick={onCancel}
+                            onClick={onDismiss}
                             component={Link}
                             to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)}
                             autoFocus={!!validationResult?.missingSources.length}
@@ -78,7 +80,7 @@ export const BackupValidationDialog = ({
                     )}
                     {!!validationResult?.missingTrackers.length && (
                         <Button
-                            onClick={onCancel}
+                            onClick={onDismiss}
                             component={Link}
                             to={AppRoutes.settings.childRoutes.tracking.path}
                             autoFocus={!!validationResult?.missingTrackers.length}
@@ -88,9 +90,9 @@ export const BackupValidationDialog = ({
                         </Button>
                     )}
                     <Stack direction="row">
-                        <Button onClick={onCancel}>{t('global.button.cancel')}</Button>
+                        <Button onClick={onDismiss}>{t('global.button.cancel')}</Button>
                         <Button
-                            onClick={onConfirm}
+                            onClick={onSubmit}
                             autoFocus={
                                 !validationResult?.missingSources.length && !validationResult?.missingTrackers.length
                             }

@@ -19,6 +19,7 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { Link } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
 import Dialog from '@mui/material/Dialog';
+import { AwaitableComponent } from 'awaitable-component';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { MenuItem } from '@/base/components/menu/MenuItem.tsx';
@@ -35,7 +36,6 @@ import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generat
 import { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/features/manga/Manga.types.ts';
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 
 type BaseProps = { onClose: () => void; setHideMenu: (hide: boolean) => void };
@@ -168,7 +168,7 @@ export const MangaActionMenuItems = ({
             )}
             <MenuItem
                 onClick={() => {
-                    GlobalDialogManager.show(CategorySelect, {
+                    AwaitableComponent.show(CategorySelect, {
                         mangaId: manga?.id,
                         mangaIds: passedSelectedMangas ? Mangas.getIds(selectedMangas) : undefined,
                         addToLibrary: false,

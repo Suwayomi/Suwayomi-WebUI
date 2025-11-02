@@ -38,7 +38,7 @@ import { SeparatorFilter } from '@/features/source/browse/components/filters/Sep
 import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ISourceMetadata, SourceFilters } from '@/features/source/Source.types.ts';
-import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
+import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 
 interface IFilters {
     sourceFilter: SourceFilters[];
@@ -256,7 +256,7 @@ export function SourceOptions({
                                             selectSavedSearch(savedSearch);
                                         }}
                                         onDelete={() => {
-                                            GlobalDialogManager.confirm({
+                                            Confirmation.show({
                                                 title: t('global.label.are_you_sure'),
                                                 message: t('source.filter.save_search.dialog.label.delete', {
                                                     name: savedSearch,

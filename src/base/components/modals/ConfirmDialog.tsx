@@ -13,6 +13,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
+import { AwaitableComponentProps } from 'awaitable-component';
 
 type Action = {
     show?: boolean;
@@ -31,15 +32,15 @@ export const ConfirmDialog = ({
     message,
     actions: passedActions,
     onExtra,
-    onCancel,
-    onConfirm,
-}: {
+    onDismiss,
+    onSubmit,
+    isVisible,
+    onExitComplete,
+}: AwaitableComponentProps & {
     title: string;
     message: string;
     actions?: Actions;
     onExtra?: () => void;
-    onCancel: () => void;
-    onConfirm: () => void;
 }) => {
     const { t } = useTranslation();
 
@@ -66,7 +67,7 @@ export const ConfirmDialog = ({
     } satisfies Actions;
 
     return (
-        <Dialog open onClose={onCancel}>
+        <Dialog open={isVisible} onTransitionExited={onExitComplete} onClose={onDismiss}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent
                 sx={{
@@ -87,7 +88,7 @@ export const ConfirmDialog = ({
                     {actions.extra.show && (
                         <Button
                             onClick={() => {
-                                onCancel();
+                                onDismiss();
                                 onExtra?.();
                             }}
                             variant={actions.extra.contain ? 'contained' : undefined}
@@ -102,12 +103,12 @@ export const ConfirmDialog = ({
                         }}
                     >
                         {actions.cancel.show && (
-                            <Button onClick={onCancel} variant={actions.cancel.contain ? 'contained' : undefined}>
+                            <Button onClick={onDismiss} variant={actions.cancel.contain ? 'contained' : undefined}>
                                 {actions.cancel.title}
                             </Button>
                         )}
                         {actions.confirm.show && (
-                            <Button onClick={onConfirm} variant={actions.confirm.contain ? 'contained' : undefined}>
+                            <Button onClick={onSubmit} variant={actions.confirm.contain ? 'contained' : undefined}>
                                 {actions.confirm.title}
                             </Button>
                         )}

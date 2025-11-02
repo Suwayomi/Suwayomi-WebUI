@@ -20,10 +20,10 @@ import { Link } from 'react-router-dom';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
+import { AwaitableComponent } from 'awaitable-component';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 
 interface IProps {
@@ -45,7 +45,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
     };
 
     const openCategorySelection = () => {
-        GlobalDialogManager.show(CategorySelect, { mangaId: manga.id });
+        AwaitableComponent.show(CategorySelect, { mangaId: manga.id });
     };
 
     return (

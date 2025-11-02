@@ -16,6 +16,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListSubheader from '@mui/material/ListSubheader';
 import { t as translate } from 'i18next';
 import { useEventListener, useMergedRef, useWindowEvent } from '@mantine/hooks';
+import { AwaitableComponent } from 'awaitable-component';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { BackupRestoreState } from '@/lib/graphql/generated/graphql.ts';
@@ -29,7 +30,6 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { ServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { GlobalDialogManager } from '@/base/global-dialog/GlobalDialogManager.tsx';
 import { BackupFlagInclusionDialog } from '@/features/backup/component/BackupFlagInclusionDialog.tsx';
 import { BackupValidationDialog } from '@/features/backup/component/BackupValidationDialog.tsx';
 
@@ -117,7 +117,7 @@ export function Backup() {
     };
 
     const createBackup = async () => {
-        const flags = await GlobalDialogManager.show(BackupFlagInclusionDialog, {
+        const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {
             title: t('settings.backup.action.create.label.title'),
         });
 
@@ -155,9 +155,13 @@ export function Backup() {
 
             if (validateBackupData.missingSources.length || validateBackupData.missingTrackers.length) {
                 try {
-                    await GlobalDialogManager.show(`backup-validate-${file.name}`, BackupValidationDialog, {
-                        validationResult: validateBackupData,
-                    });
+                    await AwaitableComponent.show(
+                        BackupValidationDialog,
+                        {
+                            validationResult: validateBackupData,
+                        },
+                        { id: `backup-validate-${file.name}` },
+                    );
                 } catch (_) {
                     return false;
                 }
@@ -174,7 +178,7 @@ export function Backup() {
     };
 
     const restoreBackup = async (backup: File) => {
-        const flags = await GlobalDialogManager.show(BackupFlagInclusionDialog, {
+        const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {
             title: t('settings.backup.action.restore.label.title'),
         });
 
