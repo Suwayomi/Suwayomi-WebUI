@@ -33,7 +33,7 @@ const FORCED_REFRESH_THRESHOLD = d(30).seconds.inWholeMilliseconds;
 
 const INITIAL_LOAD_TIMESTAMP_KEY = 'webUIInitialLoadTimestamp';
 
-AppStorage.session.setItem(INITIAL_LOAD_TIMESTAMP_KEY, Date.now());
+AppStorage.session.setItemIfMissing(INITIAL_LOAD_TIMESTAMP_KEY, Date.now());
 
 export const WebUIUpdateChecker = () => {
     const { t } = useTranslation();

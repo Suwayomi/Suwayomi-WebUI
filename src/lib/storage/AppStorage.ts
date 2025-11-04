@@ -63,6 +63,12 @@ export class Storage {
         this.storage.setItem(key, valueToStore);
         fireEvent(valueToStore as string);
     }
+
+    setItemIfMissing(key: string, value: unknown, emitEvent?: boolean): void {
+        if (this.getItem(key) === null) {
+            this.setItem(key, value, emitEvent);
+        }
+    }
 }
 
 export class AppStorage {
