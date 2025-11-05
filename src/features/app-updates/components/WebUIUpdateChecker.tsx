@@ -26,6 +26,7 @@ import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
+import { BrowserUtil } from '@/lib/BrowserUtil.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -33,7 +34,9 @@ const FORCED_REFRESH_THRESHOLD = d(30).seconds.inWholeMilliseconds;
 
 const INITIAL_LOAD_TIMESTAMP_KEY = 'webUIInitialLoadTimestamp';
 
-AppStorage.session.setItemIfMissing(INITIAL_LOAD_TIMESTAMP_KEY, Date.now());
+if (BrowserUtil.isActualPageLoad()) {
+    AppStorage.session.setItem(INITIAL_LOAD_TIMESTAMP_KEY, Date.now());
+}
 
 export const WebUIUpdateChecker = () => {
     const { t } = useTranslation();
