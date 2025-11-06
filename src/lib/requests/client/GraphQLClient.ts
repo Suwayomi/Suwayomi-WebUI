@@ -331,6 +331,7 @@ export class GraphQLClient extends BaseClient<
             const isHeartbeatMissing = Date.now() - lastHeartbeat > checkHeartbeatInterval * 1.1;
             if (isHeartbeatMissing) {
                 this.wsClient.dispose();
+                this.wsClient.terminate();
 
                 this.createWSClient(false);
                 this.client.setLink(this.createLink());
