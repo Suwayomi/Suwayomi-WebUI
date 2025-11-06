@@ -124,7 +124,9 @@ const InitialBackgroundRequests = () => {
  * and thus, data of existing chapters/mangas in the cache get outdated
  */
 const BackgroundSubscriptions = () => {
-    const skipConnection = !AuthManager.useIsAuthenticated();
+    const { isAuthRequired, accessToken } = AuthManager.useSession();
+
+    const skipConnection = isAuthRequired === null || (isAuthRequired && !accessToken);
 
     requestManager.useDownloadSubscription({ skip: skipConnection });
     requestManager.useUpdaterSubscription({ skip: skipConnection });

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useSyncExternalStore } from 'react';
+import { useMemo, useSyncExternalStore } from 'react';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 let notifierValue = 0;
@@ -52,13 +52,22 @@ export class AuthManager {
     } {
         useSyncExternalStore(AuthManager.subscribe.bind(AuthManager), () => notifierValue);
 
-        return {
-            accessToken: AuthManager.accessToken,
-            refreshToken: AuthManager.getRefreshToken(),
-            isAuthRequired: AuthManager.authRequired,
-            isInitialized: AuthManager.authInitialized,
-            isRefreshingToken: AuthManager.refreshingToken,
-        };
+        return useMemo(
+            () => ({
+                accessToken: AuthManager.accessToken,
+                refreshToken: AuthManager.getRefreshToken(),
+                isAuthRequired: AuthManager.authRequired,
+                isInitialized: AuthManager.authInitialized,
+                isRefreshingToken: AuthManager.refreshingToken,
+            }),
+            [
+                AuthManager.accessToken,
+                AuthManager.getRefreshToken(),
+                AuthManager.authRequired,
+                AuthManager.authInitialized,
+                AuthManager.refreshingToken,
+            ],
+        );
     }
 
     static useIsAuthenticated(): boolean {
