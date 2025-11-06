@@ -26,6 +26,8 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { TypePolicies } from '@apollo/client/cache';
 import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename';
 import { d } from 'koration';
+import { useId } from '@mantine/hooks';
+import { useEffect } from 'react';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -197,6 +199,8 @@ export class GraphQLClient extends BaseClient<
 
     private wsClientAliveCheckInterval: NodeJS.Timeout | undefined = undefined;
 
+    private activeConnectionSubscriptions = new Map<string, () => void>();
+
     constructor(handleRefreshToken: (refreshToken: string) => AbortableApolloMutationResponse<UserRefreshMutation>) {
         super(handleRefreshToken);
 
@@ -335,6 +339,8 @@ export class GraphQLClient extends BaseClient<
 
                 this.createWSClient(false);
                 this.client.setLink(this.createLink());
+
+                this.activeConnectionSubscriptions.forEach((callback) => callback());
             }
         }, checkHeartbeatInterval);
     }
@@ -356,4 +362,19 @@ export class GraphQLClient extends BaseClient<
     }
 
     public override updateConfig() {}
+
+    public useRestartSubscription(restart: () => void) {
+        const id = useId();
+
+        this.activeConnectionSubscriptions.set(id, () => {
+            restart();
+        });
+
+        useEffect(
+            () => () => {
+                this.activeConnectionSubscriptions.delete(id);
+            },
+            [id],
+        );
+    }
 }

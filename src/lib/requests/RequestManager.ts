@@ -1186,11 +1186,16 @@ export class RequestManager {
                     abortRequest,
                 };
             case GQLMethod.USE_SUBSCRIPTION:
-                return useSubscription<Data, Variables>(operation, {
+                // eslint-disable-next-line no-case-declarations
+                const subscription = useSubscription<Data, Variables>(operation, {
                     client: this.graphQLClient.client,
                     variables,
                     ...(options as SubscriptionHookOptions<Data, Variables>),
                 });
+
+                this.graphQLClient.useRestartSubscription(subscription.restart);
+
+                return subscription;
             default:
                 throw new Error(`unexpected GQLRequest type "${method}"`);
         }
