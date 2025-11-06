@@ -324,24 +324,35 @@ export class GraphQLClient extends BaseClient<
             },
         });
 
+        let triedForcedReconnection = false;
         let lastHeartbeat: number = Date.now();
-        this.wsClient.on('pong', () => {
+        this.wsClient.on('message', () => {
             lastHeartbeat = Date.now();
+            triedForcedReconnection = false;
         });
 
         const checkHeartbeatInterval = heartbeatInterval + d(30).seconds.inWholeMilliseconds;
         clearInterval(this.wsClientAliveCheckInterval);
         this.wsClientAliveCheckInterval = setInterval(() => {
             const isHeartbeatMissing = Date.now() - lastHeartbeat > checkHeartbeatInterval * 1.1;
-            if (isHeartbeatMissing) {
-                this.wsClient.dispose();
+            if (!isHeartbeatMissing) {
+                return;
+            }
+
+            if (!triedForcedReconnection) {
+                triedForcedReconnection = true;
                 this.wsClient.terminate();
 
-                this.createWSClient(false);
-                this.client.setLink(this.createLink());
-
-                this.activeConnectionSubscriptions.forEach((callback) => callback());
+                return;
             }
+
+            this.wsClient.dispose();
+            this.wsClient.terminate();
+
+            this.createWSClient(false);
+            this.client.setLink(this.createLink());
+
+            this.activeConnectionSubscriptions.forEach((callback) => callback());
         }, checkHeartbeatInterval);
     }
 
