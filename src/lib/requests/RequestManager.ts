@@ -473,8 +473,10 @@ export class RequestManager {
         AuthManager.setAuthRequired(null);
         AuthManager.setAuthInitialized(false);
         AuthManager.removeTokens();
-        this.graphQLClient.client.resetStore();
-        this.graphQLClient.terminateSubscriptions();
+
+        this.graphQLClient.reset();
+        this.restClient.reset();
+
         this.cache.clear();
         this.imageQueue.clear();
     }

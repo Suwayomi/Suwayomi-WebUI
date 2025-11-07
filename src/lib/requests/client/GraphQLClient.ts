@@ -211,8 +211,32 @@ export class GraphQLClient extends BaseClient<
         return `${super.getBaseUrl()}/api/graphql`;
     }
 
-    public terminateSubscriptions(): void {
+    override reset(): void {
+        super.reset();
+
+        this.client.clearStore();
+        this.client.stop();
+
+        this.resetWsClient(false);
+        this.createClient();
+    }
+
+    private resetWsClient(recreateClient: boolean): void {
+        this.wsClient.dispose();
         this.wsClient.terminate();
+
+        if (!recreateClient) {
+            return;
+        }
+
+        this.createWSClient(false);
+        this.client.setLink(this.createLink());
+
+        this.restartAllSubscriptions();
+    }
+
+    private restartAllSubscriptions(): void {
+        this.activeConnectionSubscriptions.forEach((callback) => callback());
     }
 
     protected override shouldQueueRequest(operationName: string | undefined): boolean {
@@ -346,18 +370,12 @@ export class GraphQLClient extends BaseClient<
                 return;
             }
 
-            this.wsClient.dispose();
-            this.wsClient.terminate();
-
-            this.createWSClient(false);
-            this.client.setLink(this.createLink());
-
-            this.activeConnectionSubscriptions.forEach((callback) => callback());
+            this.resetWsClient(true);
         }, checkHeartbeatInterval);
     }
 
-    protected createClient() {
-        this.createWSClient();
+    protected createClient(createWsClientLazily?: boolean) {
+        this.createWSClient(createWsClientLazily);
         this.client = new ApolloClient({
             cache: new InMemoryCache({
                 // for whatever reason there is some weird TypeError complaining that

@@ -32,6 +32,11 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
 
     protected requestQueue: QueuedRequest[] = [];
 
+    public reset(): void {
+        BaseClient.activeTokenRefreshPromise = null;
+        this.clearQueue(new Error('Client reset'));
+    }
+
     public static setTokenRefreshCompleteCallback(callback: (() => void) | null): void {
         BaseClient.onTokenRefreshComplete = callback;
     }
