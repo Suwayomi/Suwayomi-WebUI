@@ -275,6 +275,11 @@ export class GraphQLClient extends BaseClient<
 
             return fromPromise(BaseClient.refreshAccessToken(this.handleRefreshToken))
                 .filter(Boolean)
+                .map((result) => {
+                    this.restartAllSubscriptions();
+
+                    return result;
+                })
                 .flatMap(() => forward(operation));
         });
     }
