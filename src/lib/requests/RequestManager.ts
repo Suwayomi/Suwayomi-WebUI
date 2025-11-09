@@ -27,6 +27,7 @@ import {
 } from '@apollo/client';
 import { MaybeMasked, OperationVariables, Reference } from '@apollo/client/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { d } from 'koration';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
@@ -569,7 +570,7 @@ export class RequestManager {
         const isFirstPage = pageToRevalidate === 1;
         const isTtlReached =
             Date.now() - (this.cache.getFetchTimestampFor(cacheResultsKey, getVariablesFor(pageToRevalidate)) ?? 0) >=
-            1000 * 60 * 5;
+            d(5).minutes.inWholeMilliseconds;
 
         if (isFirstPage && !isTtlReached) {
             return;
@@ -1362,7 +1363,11 @@ export class RequestManager {
             setUpdatedCache({});
         }, [result.loading]);
 
-        const cachedResult = this.cache.getResponseFor<typeof result>(EXTENSION_LIST_CACHE_KEY, undefined, 1000 * 60);
+        const cachedResult = this.cache.getResponseFor<typeof result>(
+            EXTENSION_LIST_CACHE_KEY,
+            undefined,
+            d(1).minutes.inWholeMilliseconds,
+        );
         const normalizedCachedResult = useMemo(
             () =>
                 !cachedResult
