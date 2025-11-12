@@ -10,7 +10,7 @@ import { MutableRefObject, useEffect } from 'react';
 import { ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { PointerDeviceUtil } from '@/lib/PointerDeviceUtil.ts';
 
-export const useReaderHorizontalModeInvertXYScrolling = (
+export const useReaderHorizontalModeRevampScrolling = (
     readingMode: ReadingMode,
     readingDirection: ReadingDirection,
     scrollElementRef: MutableRefObject<HTMLDivElement | null>,

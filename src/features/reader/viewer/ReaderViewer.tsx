@@ -30,7 +30,7 @@ import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderAutoScroll } from '@/features/reader/auto-scroll/hooks/useReaderAutoScroll.ts';
 import { useReaderHideOverlayOnUserScroll } from '@/features/reader/overlay/hooks/useReaderHideOverlayOnUserScroll.ts';
-import { useReaderHorizontalModeInvertXYScrolling } from '@/features/reader/viewer/hooks/useReaderHorizontalModeInvertXYScrolling.ts';
+import { useReaderHorizontalModeRevampScrolling } from '@/features/reader/viewer/hooks/useReaderHorizontalModeRevampScrolling.ts';
 import { useReaderHideCursorOnInactivity } from '@/features/reader/viewer/hooks/useReaderHideCursorOnInactivity.ts';
 import { useReaderScrollToStartOnPageChange } from '@/features/reader/viewer/hooks/useReaderScrollToStartOnPageChange.ts';
 import { useReaderHandlePageSelection } from '@/features/reader/viewer/hooks/useReaderHandlePageSelection.ts';
@@ -252,7 +252,7 @@ const BaseReaderViewer = ({
         scrollElementRef,
     );
     useReaderHideCursorOnInactivity(scrollElementRef);
-    useReaderHorizontalModeInvertXYScrolling(readingMode, readingDirection, scrollElementRef);
+    useReaderHorizontalModeRevampScrolling(readingMode, readingDirection, scrollElementRef);
     useReaderHideOverlayOnUserScroll(isOverlayVisible, showPreview, setShowPreview, scrollElementRef);
     useReaderAutoScroll(
         isOverlayVisible,
