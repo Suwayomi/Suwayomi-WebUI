@@ -358,6 +358,7 @@ export const useReaderPreserveScrollPosition = (
     readingDirection: ReadingDirection,
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
+    shouldStretchPage: boolean,
 ) => {
     usePreserveOnInfiniteScrollPreviousChapterInitialRender(
         scrollElementRef,
@@ -372,4 +373,6 @@ export const useReaderPreserveScrollPosition = (
     usePreserveOnWindowResize(readingMode, pageScaleMode, setPageToScrollToIndex, currentPageIndex);
     usePreserveOnValueChange(readingDirection, currentPageIndex, setPageToScrollToIndex);
     usePreserveOnValueChange(readingMode, currentPageIndex, setPageToScrollToIndex);
+    usePreserveOnValueChange(pageScaleMode, currentPageIndex, setPageToScrollToIndex);
+    usePreserveOnValueChange(shouldStretchPage, currentPageIndex, setPageToScrollToIndex);
 };
