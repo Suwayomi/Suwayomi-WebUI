@@ -87,7 +87,7 @@ const usePreserveOnWindowResize = (
             isResizeInProgressRef.current = false;
             pageIndexOnResizeStartRef.current = null;
         }, 50);
-    }, [readingMode, pageScaleMode]);
+    }, [readingMode, pageScaleMode, pageIndex]);
 
     useWindowEvent('resize', handleResize);
 };
