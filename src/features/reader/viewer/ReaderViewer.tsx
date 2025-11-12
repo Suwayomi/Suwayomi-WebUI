@@ -273,6 +273,7 @@ const BaseReaderViewer = ({
         setPageToScrollToIndex,
         pageScaleMode,
         shouldStretchPage,
+        readerWidth,
     );
 
     useLayoutEffect(() => {

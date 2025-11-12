@@ -9,6 +9,7 @@
 import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { useWindowEvent } from '@mantine/hooks';
 import {
+    IReaderSettingsManga,
     ReaderPageScaleMode,
     ReaderStateChapters,
     ReaderStatePages,
@@ -359,6 +360,7 @@ export const useReaderPreserveScrollPosition = (
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
     shouldStretchPage: boolean,
+    readerWidth: IReaderSettingsManga['readerWidth'],
 ) => {
     usePreserveOnInfiniteScrollPreviousChapterInitialRender(
         scrollElementRef,
@@ -375,4 +377,5 @@ export const useReaderPreserveScrollPosition = (
     usePreserveOnValueChange(readingMode, currentPageIndex, setPageToScrollToIndex);
     usePreserveOnValueChange(pageScaleMode, currentPageIndex, setPageToScrollToIndex);
     usePreserveOnValueChange(shouldStretchPage, currentPageIndex, setPageToScrollToIndex);
+    usePreserveOnValueChange(readerWidth, currentPageIndex, setPageToScrollToIndex);
 };

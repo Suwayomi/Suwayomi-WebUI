@@ -34,7 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Fix mouse drag scrolling inertia effect being locked at 60hz
 - (**Reader**) Fix mouse cursor drift during drag scroll
 - (**Reader**) Fix deletion of chapters while reading
-- (**Reader**) Fix potential page loss during window resize while using continuous horizontal reading mode
+- (**Reader**) Fix potential page loss (continuous horizontal mode window resize, reader width change, page scale change)
 - (**Extension**) Fix handling obsolete extensions as updatable in case they are marked as having an available update
 - (**Theme**) Fix loading of fonts defined in themes
 - (**Reader**) Fix broken scrolling in continuous horizontal reading mode
