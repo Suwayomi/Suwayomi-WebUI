@@ -33,7 +33,7 @@ import {
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;
-    return useHotKeysHook(keys, callback, { ...options, ...HOTKEY_SCOPES.reader }, dependencies);
+    return useHotKeysHook(keys, callback, { preventDefault: true, ...options, ...HOTKEY_SCOPES.reader }, dependencies);
 };
 
 const updateSettingCycleThrough = <Setting extends keyof IReaderSettings>(
@@ -73,60 +73,52 @@ export const ReaderHotkeys = ({
 
     useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_PAGE], () => ReaderControls.openPage('previous'));
     useHotkeys(hotkeys[ReaderHotkey.NEXT_PAGE], () => ReaderControls.openPage('next'));
-    useHotkeys(
-        hotkeys[ReaderHotkey.SCROLL_BACKWARD],
-        () => {
-            const autoScroll = getReaderAutoScrollStore();
-            const { readingMode, readingDirection, scrollAmount } = getReaderSettingsStore();
+    useHotkeys(hotkeys[ReaderHotkey.SCROLL_BACKWARD], () => {
+        const autoScroll = getReaderAutoScrollStore();
+        const { readingMode, readingDirection, scrollAmount } = getReaderSettingsStore();
 
-            if (autoScroll.isActive) {
-                autoScroll.setDirection(ScrollOffset.BACKWARD);
-                return;
-            }
+        if (autoScroll.isActive) {
+            autoScroll.setDirection(ScrollOffset.BACKWARD);
+            return;
+        }
 
-            if (!scrollElementRef.current) {
-                return;
-            }
+        if (!scrollElementRef.current) {
+            return;
+        }
 
-            ReaderControls.scroll(
-                ScrollOffset.BACKWARD,
-                CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
-                readingMode.value,
-                readingDirection.value,
-                scrollElementRef.current,
-                getReaderTapZoneStore().setShowPreview,
-                scrollAmount,
-            );
-        },
-        { preventDefault: true },
-    );
-    useHotkeys(
-        hotkeys[ReaderHotkey.SCROLL_FORWARD],
-        () => {
-            const autoScroll = getReaderAutoScrollStore();
-            const { readingMode, readingDirection, scrollAmount } = getReaderSettingsStore();
+        ReaderControls.scroll(
+            ScrollOffset.BACKWARD,
+            CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
+            readingMode.value,
+            readingDirection.value,
+            scrollElementRef.current,
+            getReaderTapZoneStore().setShowPreview,
+            scrollAmount,
+        );
+    });
+    useHotkeys(hotkeys[ReaderHotkey.SCROLL_FORWARD], () => {
+        const autoScroll = getReaderAutoScrollStore();
+        const { readingMode, readingDirection, scrollAmount } = getReaderSettingsStore();
 
-            if (autoScroll.isActive) {
-                autoScroll.setDirection(ScrollOffset.FORWARD);
-                return;
-            }
+        if (autoScroll.isActive) {
+            autoScroll.setDirection(ScrollOffset.FORWARD);
+            return;
+        }
 
-            if (!scrollElementRef.current) {
-                return;
-            }
+        if (!scrollElementRef.current) {
+            return;
+        }
 
-            ReaderControls.scroll(
-                ScrollOffset.FORWARD,
-                CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
-                readingMode.value,
-                readingDirection.value,
-                scrollElementRef.current,
-                getReaderTapZoneStore().setShowPreview,
-                scrollAmount,
-            );
-        },
-        { preventDefault: true },
-    );
+        ReaderControls.scroll(
+            ScrollOffset.FORWARD,
+            CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION[readingMode.value],
+            readingMode.value,
+            readingDirection.value,
+            scrollElementRef.current,
+            getReaderTapZoneStore().setShowPreview,
+            scrollAmount,
+        );
+    });
     useHotkeys(
         hotkeys[ReaderHotkey.PREVIOUS_CHAPTER],
         () => ReaderControls.openChapter(getOptionForDirection('previous', 'next', readerThemeDirection)),
@@ -180,9 +172,7 @@ export const ReaderHotkeys = ({
             true,
         );
     });
-    useHotkeys(hotkeys[ReaderHotkey.TOGGLE_AUTO_SCROLL], () => getReaderAutoScrollStore().toggleActive(), {
-        preventDefault: true,
-    });
+    useHotkeys(hotkeys[ReaderHotkey.TOGGLE_AUTO_SCROLL], () => getReaderAutoScrollStore().toggleActive(), {});
     useHotkeys(hotkeys[ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE], () =>
         ReaderService.updateSetting('autoScroll', {
             ...getReaderSettingsStore().autoScroll,
