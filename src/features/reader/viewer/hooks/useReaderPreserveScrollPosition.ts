@@ -377,5 +377,5 @@ export const useReaderPreserveScrollPosition = (
     usePreserveOnValueChange(readingMode, currentPageIndex, setPageToScrollToIndex);
     usePreserveOnValueChange(pageScaleMode, currentPageIndex, setPageToScrollToIndex);
     usePreserveOnValueChange(shouldStretchPage, currentPageIndex, setPageToScrollToIndex);
-    usePreserveOnValueChange(readerWidth, currentPageIndex, setPageToScrollToIndex);
+    usePreserveOnValueChange(`${readerWidth.value}_${readerWidth.enabled}`, currentPageIndex, setPageToScrollToIndex);
 };
