@@ -333,13 +333,21 @@ type InViewportThresholds = {
     left?: number;
     right?: number;
 };
-const getIsPageInViewportInfo = (
-    element: HTMLElement,
+type InViewportOptions = {
+    /**
+     * The pages aren't always properly scrolled to the start/end (e.g., via scrollIntoView) which results in a side to be slightly
+     * visible (e.g. 0.0123px) breaking the visibility detection
+     */
+    truncateValues?: boolean;
     /**
      * Thresholds are not considered for the detection of an image filling the whole viewport.
      * They are only used for detecting if a specific side of an image is inside the viewport
      */
-    argThresholds?: InViewportThresholds,
+    thresholds?: InViewportThresholds;
+};
+const getIsPageInViewportInfo = (
+    element: HTMLElement,
+    { truncateValues, thresholds: argThresholds }: InViewportOptions = { truncateValues: false, thresholds: {} },
 ): {
     isLeftInViewport: boolean;
     isRightInViewport: boolean;
@@ -348,7 +356,13 @@ const getIsPageInViewportInfo = (
     isBottomInViewport: boolean;
     isFillingHeightViewportCompletely: boolean;
 } => {
-    const { top, bottom, left, right } = element.getBoundingClientRect();
+    const { top: topRaw, bottom: bottomRaw, left: leftRaw, right: rightRaw } = element.getBoundingClientRect();
+
+    const maybeTruncateValue = (value: number): number => (truncateValues ? Math.trunc(value) : value);
+    const top = maybeTruncateValue(topRaw);
+    const bottom = maybeTruncateValue(bottomRaw);
+    const left = maybeTruncateValue(leftRaw);
+    const right = maybeTruncateValue(rightRaw);
 
     const thresholds = {
         top: 0,
@@ -379,7 +393,7 @@ const getIsPageInViewportInfo = (
 export const isPageInViewport = (
     element: HTMLElement,
     type: PageInViewportType,
-    thresholds?: InViewportThresholds,
+    options?: InViewportOptions,
 ): boolean => {
     const {
         isLeftInViewport,
@@ -388,7 +402,7 @@ export const isPageInViewport = (
         isTopInViewport,
         isBottomInViewport,
         isFillingHeightViewportCompletely,
-    } = getIsPageInViewportInfo(element, thresholds);
+    } = getIsPageInViewportInfo(element, options);
 
     const isInViewportX = isLeftInViewport || isRightInViewport || isFillingWidthViewportCompletely;
     const isInViewportY = isTopInViewport || isBottomInViewport || isFillingHeightViewportCompletely;

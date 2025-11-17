@@ -494,22 +494,8 @@ export class ReaderControls {
         type: PageInViewportType,
         readingDirection: ReadingDirection,
     ) {
-        const themeDirectionForReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
-
         const firstVisibleImageIndex = imageRefs.current.findIndex(
-            (image) =>
-                image &&
-                isPageInViewport(
-                    image,
-                    type,
-                    // the pages aren't always properly scrolled to the top which results in the leading page to still be slightly
-                    // visible (e.g. 0.0123px) breaking the "first visible image" detection
-                    {
-                        bottom: 1,
-                        left: getOptionForDirection(0, 1, themeDirectionForReadingDirection),
-                        right: getOptionForDirection(1, 0, themeDirectionForReadingDirection),
-                    },
-                ),
+            (image) => image && isPageInViewport(image, type, { truncateValues: true }),
         );
         const lastPage = imageRefs.current?.[imageRefs.current.length - 1];
         const isEndReached = lastPage && isEndOfPageInViewport(lastPage, type, readingDirection);
