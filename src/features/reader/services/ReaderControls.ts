@@ -506,7 +506,7 @@ export class ReaderControls {
                     // visible (e.g. 0.0123px) breaking the "first visible image" detection
                     {
                         bottom: 1,
-                        left: getOptionForDirection(0, window.innerWidth + 1, themeDirectionForReadingDirection),
+                        left: getOptionForDirection(0, 1, themeDirectionForReadingDirection),
                         right: getOptionForDirection(1, 0, themeDirectionForReadingDirection),
                     },
                 ),
