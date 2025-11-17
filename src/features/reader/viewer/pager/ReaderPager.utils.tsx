@@ -33,7 +33,6 @@ import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { DirectionOffset } from '@/base/Base.types.ts';
 
 type CSSObject = ReturnType<Theme['applyStyles']>;
 
@@ -588,22 +587,13 @@ export const isATransitionPageVisible = (activeMode: ReaderTransitionPageMode, r
     activeMode !== ReaderTransitionPageMode.NONE || isContinuousReadingMode(readingMode);
 
 export const getScrollIntoViewInlineOption = (
-    offset: DirectionOffset,
     themeDirection: Direction,
     readingDirection: ReadingDirection,
 ): ScrollIntoViewOptions['inline'] => {
     const themeDirectionForReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
 
     if (themeDirection === 'ltr') {
-        if (offset === DirectionOffset.PREVIOUS) {
-            return getOptionForDirection('start', 'end', themeDirectionForReadingDirection);
-        }
-
         return getOptionForDirection('start', 'end', themeDirectionForReadingDirection);
-    }
-
-    if (offset === DirectionOffset.PREVIOUS) {
-        return getOptionForDirection('end', 'start', themeDirectionForReadingDirection);
     }
 
     return getOptionForDirection('end', 'start', themeDirectionForReadingDirection);

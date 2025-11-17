@@ -234,7 +234,6 @@ const BaseReaderViewer = ({
 
     useReaderHandlePageSelection(
         pageToScrollToIndex,
-        currentPageIndex,
         pages,
         totalPages,
         setPageToScrollToIndex,

@@ -12,11 +12,9 @@ import { ReaderStatePages, ReadingDirection } from '@/features/reader/Reader.typ
 import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getScrollIntoViewInlineOption } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
-import { DirectionOffset } from '@/base/Base.types.ts';
 
 export const useReaderHandlePageSelection = (
     pageToScrollToIndex: ReaderStatePages['pageToScrollToIndex'],
-    currentPageIndex: number,
     pages: ReaderStatePages['pages'],
     totalPages: number,
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
@@ -34,13 +32,11 @@ export const useReaderHandlePageSelection = (
         const pageToScrollTo = getPage(pageToScrollToIndex, pages);
 
         if (isContinuousReadingModeActive) {
-            const directionOffset =
-                pageToScrollToIndex > currentPageIndex ? DirectionOffset.PREVIOUS : DirectionOffset.NEXT;
             const imageRef = imageRefs.current[pageToScrollTo.pagesIndex];
 
             imageRef?.scrollIntoView({
                 block: 'start',
-                inline: getScrollIntoViewInlineOption(directionOffset, themeDirection, readingDirection),
+                inline: getScrollIntoViewInlineOption(themeDirection, readingDirection),
             });
         }
 
