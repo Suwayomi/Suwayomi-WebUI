@@ -82,6 +82,10 @@ const { GlobalReaderSettings } = loadable(
     () => import('@/features/reader/settings/screens/GlobalReaderSettings.tsx'),
     lazyLoadFallback,
 );
+const { KoreaderSyncSettings } = loadable(
+    () => import('@/features/settings/screens/KoreaderSyncSettings.tsx'),
+    lazyLoadFallback,
+);
 const { More } = loadable(() => import('@/features/settings/screens/More.tsx'), lazyLoadFallback);
 const { Reader } = loadable(() => import('@/features/reader/screens/Reader.tsx'), lazyLoadFallback);
 const { HistorySettings } = loadable(() => import('@/features/history/screens/HistorySettings.tsx'), lazyLoadFallback);
@@ -234,6 +238,10 @@ const MainApp = () => {
                             <Route
                                 path={AppRoutes.settings.childRoutes.tracking.match}
                                 element={<TrackingSettings />}
+                            />
+                            <Route
+                                path={AppRoutes.settings.childRoutes.koreader_sync.match}
+                                element={<KoreaderSyncSettings />}
                             />
                             <Route path={AppRoutes.settings.childRoutes.appearance.match} element={<Appearance />} />
                         </Route>
