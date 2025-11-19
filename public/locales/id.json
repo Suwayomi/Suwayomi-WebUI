@@ -97,14 +97,15 @@
                     "label": {
                         "action": {
                             "current": "Tandai telah dibaca",
-                            "previous": "Tandai sebelumnya telah dibaca"
+                            "previous": "Tandai sebelumnya telah dibaca",
+                            "all": "Tandai semua telah dibaca"
                         },
                         "error_other": "Tidak dapat menandai bab telah dibaca",
                         "success_other": "{{count}} chapter ditandai telah dibaca",
                         "confirmation_other": "Kamu akan menandai {{count}} bab sebagai telah dibaca"
                     },
                     "button": {
-                        "selected": "Tandai pilihan telah dibaca"
+                        "selected": "Tandai terpilih telah dibaca"
                     }
                 },
                 "remove": {
@@ -118,6 +119,13 @@
                         "confirmation_other": "Kamu akan menandai {{count}} bab sebagai belum dibaca"
                     }
                 }
+            },
+            "filter_and_sort": {
+                "label": "Saring dan Urutkan"
+            },
+            "read": {
+                "resume": "Lanjutkan membaca\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "Mulai membaca\n#{{chapterNumber}} — {{title}}\n{{scanlator}}"
             }
         },
         "error": {
