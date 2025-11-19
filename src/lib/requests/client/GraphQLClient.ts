@@ -28,6 +28,7 @@ import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename
 import { d } from 'koration';
 import { useId } from '@mantine/hooks';
 import { useEffect } from 'react';
+import { GraphQLFormattedError } from 'graphql';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -260,16 +261,18 @@ export class GraphQLClient extends BaseClient<
         });
     }
 
+    private isAuthError(errors: readonly GraphQLFormattedError[]): boolean {
+        return errors.some((graphQLError) =>
+            graphQLError.message.includes('suwayomi.tachidesk.server.user.UnauthorizedException'),
+        );
+    }
+
     private createErrorLink() {
         return onError(({ graphQLErrors, operation, forward }) => {
             if (!graphQLErrors) {
                 return undefined;
             }
-
-            const isAuthError = graphQLErrors.some((graphQLError) =>
-                graphQLError.message.includes('suwayomi.tachidesk.server.user.UnauthorizedException'),
-            );
-            if (!isAuthError) {
+            if (!this.isAuthError(graphQLErrors)) {
                 return undefined;
             }
 
@@ -355,9 +358,22 @@ export class GraphQLClient extends BaseClient<
 
         let triedForcedReconnection = false;
         let lastHeartbeat: number = Date.now();
-        this.wsClient.on('message', () => {
+        this.wsClient.on('message', async (e) => {
             lastHeartbeat = Date.now();
             triedForcedReconnection = false;
+
+            if (e.type !== 'error') {
+                return;
+            }
+
+            if (!AuthManager.isRefreshingToken() && this.isAuthError(e.payload)) {
+                try {
+                    await BaseClient.refreshAccessToken(this.handleRefreshToken);
+                    this.resetWsClient(true);
+                } catch (_) {
+                    // Ignore
+                }
+            }
         });
 
         const checkHeartbeatInterval = heartbeatInterval + d(30).seconds.inWholeMilliseconds;
@@ -375,6 +391,7 @@ export class GraphQLClient extends BaseClient<
                 return;
             }
 
+            clearInterval(this.wsClientAliveCheckInterval);
             this.resetWsClient(true);
         }, checkHeartbeatInterval);
     }
