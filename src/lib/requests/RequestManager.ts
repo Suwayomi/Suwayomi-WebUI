@@ -467,7 +467,7 @@ export class RequestManager {
         const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
         const isHttp2 = isHttps && this.detectHttp2();
 
-        this.imageQueue = new SourceAwareQueue(isHttp2, 5);
+        this.imageQueue = new SourceAwareQueue(!isHttp2, 5);
 
         BaseClient.setTokenRefreshCompleteCallback(() => {
             this.processQueues();
@@ -954,7 +954,6 @@ export class RequestManager {
 
     private getSourceIdFromUrl(url: string): string | null {
         try {
-            console.log('asdf', new URL(url).searchParams.get('sourceId'));
             return new URL(url).searchParams.get('sourceId');
         } catch {
             return null;

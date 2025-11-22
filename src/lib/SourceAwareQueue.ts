@@ -12,14 +12,16 @@ import { Sources } from '@/features/source/services/Sources.ts';
 export class SourceAwareQueue {
     private static readonly DEFAULT_ID = '__global__';
 
-    private readonly queueBySource = new Map<string, Queue>([
-        [SourceAwareQueue.DEFAULT_ID, new Queue(this.concurrencyPerSource)],
-    ]);
+    private readonly queueBySource: Map<string, Queue>;
 
     constructor(
         private readonly areConnectionsLimited: boolean,
         private readonly concurrencyPerSource = 5,
-    ) {}
+    ) {
+        this.queueBySource = new Map<string, Queue>([
+            [SourceAwareQueue.DEFAULT_ID, new Queue(this.concurrencyPerSource)],
+        ]);
+    }
 
     private getConcurrencyFor(sourceId: string | null): number {
         const isLocalSource = sourceId === Sources.LOCAL_SOURCE_ID;
