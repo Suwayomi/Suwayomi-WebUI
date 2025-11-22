@@ -18,6 +18,8 @@ import {
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { ReaderChaptersStoreSlice } from '@/features/reader/stores/ReaderChaptersStore.ts';
+import { getReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { UrlUtil } from '@/lib/UrlUtil.ts';
 
 export const useReaderSetPagesState = (
     isCurrentChapter: boolean,
@@ -48,7 +50,10 @@ export const useReaderSetPagesState = (
         }
 
         const { pages: pagesFromResponse } = pagesPayload;
-        const newPages = pagesFromResponse.length ? pagesFromResponse : [''];
+        const tmpPages = pagesFromResponse.length ? pagesFromResponse : [''];
+        const newPages = tmpPages.map((page) =>
+            UrlUtil.addParams(page, { sourceId: getReaderStore().manga?.sourceId }),
+        );
         const initialReaderPageIndex = getInitialReaderPageIndex(resumeMode, lastPageRead ?? 0, newPages.length - 1);
 
         const didPagesChange = previousPageData.current !== pagesPayload?.pages;

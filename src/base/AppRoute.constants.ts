@@ -12,6 +12,7 @@ import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { ChapterSourceOrderInfo } from '@/features/chapter/Chapter.types.ts';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { SearchParam } from '@/base/Base.types.ts';
+import { UrlUtil } from '@/lib/UrlUtil.ts';
 
 type AppRouteInfo = {
     match: string;
@@ -19,16 +20,6 @@ type AppRouteInfo = {
 };
 
 type TAppRoutes = Record<string, AppRouteInfo & { childRoutes?: TAppRoutes }>;
-
-const createParam = (name: string, value: any): string => (value ? `${name}=${encodeURIComponent(value)}` : '');
-
-const createQueryParam = (query: string | null | undefined): string => createParam(SearchParam.QUERY, query);
-
-const addParams = (path: string, ...params: string[]) => {
-    const joinedParams = params.filter(Boolean).join('&');
-
-    return `${path}${joinedParams ? `?${joinedParams}` : ''}`;
-};
 
 export const AppRoutes = {
     root: {
@@ -120,7 +111,7 @@ export const AppRoutes = {
             browse: {
                 match: ':sourceId',
                 path: (sourceId: SourceType['id'], query?: string | null | undefined) =>
-                    addParams(`/sources/${sourceId}`, createQueryParam(query)),
+                    UrlUtil.addQueryParam(`/sources/${sourceId}`, query),
             },
             configure: {
                 match: ':sourceId/configure',
@@ -128,7 +119,7 @@ export const AppRoutes = {
             },
             searchAll: {
                 match: 'all/search',
-                path: (query?: string | null | undefined) => addParams('/sources/all/search', createQueryParam(query)),
+                path: (query?: string | null | undefined) => UrlUtil.addQueryParam('/sources/all/search', query),
             },
         },
     },
@@ -162,7 +153,10 @@ export const AppRoutes = {
     library: {
         match: 'library',
         path: (tab?: string, search?: string) =>
-            addParams('/library', createParam(SearchParam.TAB, tab), createQueryParam(search)),
+            UrlUtil.addParams('/library', {
+                ...UrlUtil.createTabParam(tab),
+                ...UrlUtil.createQueryParam(search),
+            }),
     },
     updates: {
         match: 'updates',
@@ -178,7 +172,10 @@ export const AppRoutes = {
     },
     browse: {
         match: 'browse',
-        path: (tab?: BrowseTab) => addParams('/browse', createParam(SearchParam.TAB, tab)),
+        path: (tab?: BrowseTab) =>
+            UrlUtil.addParams('/browse', {
+                [SearchParam.TAB]: tab,
+            }),
     },
     migrate: {
         match: 'migrate/source/:sourceId',
@@ -188,7 +185,7 @@ export const AppRoutes = {
             search: {
                 match: 'manga/:mangaId/search',
                 path: (sourceId: SourceType['id'], mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
-                    addParams(`/migrate/source/${sourceId}/manga/${mangaId}/search`, createQueryParam(query)),
+                    UrlUtil.addQueryParam(`/migrate/source/${sourceId}/manga/${mangaId}/search`, query),
             },
         },
     },

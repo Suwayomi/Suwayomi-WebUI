@@ -39,6 +39,7 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                     <Box sx={{ display: 'flex', flexGrow: 1, gap: 1 }}>
                         <ChapterCardThumbnail
                             mangaId={manga.id}
+                            sourceId={manga.sourceId}
                             mangaTitle={manga.title}
                             thumbnailUrl={manga.thumbnailUrl}
                             thumbnailUrlLastFetched={manga.thumbnailUrlLastFetched}

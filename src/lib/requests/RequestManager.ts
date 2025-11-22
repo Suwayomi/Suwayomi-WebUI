@@ -315,7 +315,8 @@ import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { Queue, QueuePriority } from '@/lib/Queue.ts';
+import { QueuePriority } from '@/lib/Queue.ts';
+import { SourceAwareQueue } from '@/lib/SourceAwareQueue.ts';
 import { TRACKER_SEARCH } from '@/lib/graphql/queries/TrackerQuery.ts';
 import {
     TRACKER_BIND,
@@ -460,12 +461,27 @@ export class RequestManager {
 
     private readonly cache = new CustomCache();
 
-    private readonly imageQueue = new Queue(5);
+    private readonly imageQueue: SourceAwareQueue;
 
     constructor() {
+        const isHttps = typeof window !== 'undefined' && window.location.protocol === 'https:';
+        const isHttp2 = isHttps && this.detectHttp2();
+
+        this.imageQueue = new SourceAwareQueue(isHttp2, 5);
+
         BaseClient.setTokenRefreshCompleteCallback(() => {
             this.processQueues();
         });
+    }
+
+    private detectHttp2(): boolean {
+        const entries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
+
+        if (!entries.length) {
+            return false;
+        }
+
+        return ['h2', 'h3'].includes(entries[0].nextHopProtocol);
     }
 
     public getClient(): IRestClient {
@@ -896,8 +912,8 @@ export class RequestManager {
      * will just cause new source image requests to be sent to the server, which then will cause the server
      * to become really slow for image requests to the same source
      */
-    private abortImageRequest(key: string, abort: () => void): void {
-        if (this.imageQueue.isProcessing(key)) {
+    private abortImageRequest(key: string, sourceId: string | null, abort: () => void): void {
+        if (this.imageQueue.isProcessing(sourceId, key)) {
             return;
         }
 
@@ -936,12 +952,23 @@ export class RequestManager {
         return url;
     }
 
+    private getSourceIdFromUrl(url: string): string | null {
+        try {
+            console.log('asdf', new URL(url).searchParams.get('sourceId'));
+            return new URL(url).searchParams.get('sourceId');
+        } catch {
+            return null;
+        }
+    }
+
     private async maybeEnqueueImageRequest<T>(
         url: string,
         request: () => Promise<T>,
         priority?: QueuePriority,
         ignoreQueue?: boolean,
     ): Promise<ReturnType<typeof this.imageQueue.enqueue<T>> & { fromCache?: boolean }> {
+        const sourceId = this.getSourceIdFromUrl(url);
+
         try {
             const isCached = await ImageCache.has(url);
             if (!!ignoreQueue || isCached) {
@@ -952,9 +979,9 @@ export class RequestManager {
                 };
             }
 
-            return this.imageQueue.enqueue(url, request, priority);
+            return this.imageQueue.enqueue(sourceId, url, request, priority);
         } catch (error) {
-            return this.imageQueue.enqueue(url, request, priority);
+            return this.imageQueue.enqueue(sourceId, url, request, priority);
         }
     }
 
@@ -1009,7 +1036,8 @@ export class RequestManager {
 
         return {
             response,
-            abortRequest: (reason?: any) => this.abortImageRequest(key, () => abortRequest(reason)),
+            abortRequest: (reason?: any) =>
+                this.abortImageRequest(key, this.getSourceIdFromUrl(url), () => abortRequest(reason)),
             cleanup: () => {},
             fromCache: !!fromCache,
         };
@@ -1065,7 +1093,8 @@ export class RequestManager {
 
         return {
             response,
-            abortRequest: (reason?: any) => this.abortImageRequest(key, () => abortRequest(reason)),
+            abortRequest: (reason?: any) =>
+                this.abortImageRequest(key, this.getSourceIdFromUrl(url), () => abortRequest(reason)),
             cleanup: () => URL.revokeObjectURL(objectUrl),
             fromCache: !!fromCache,
         };

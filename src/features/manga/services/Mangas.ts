@@ -51,6 +51,7 @@ import {
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
+import { UrlUtil } from '@/lib/UrlUtil.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
@@ -172,10 +173,12 @@ export class Mangas {
     }
 
     static getThumbnailUrl(manga: Partial<MangaThumbnailInfo>): string {
-        const thumbnailUrl = manga.thumbnailUrl
-            ? `${manga.thumbnailUrl}?fetchedAt=${manga.thumbnailUrlLastFetched}`
-            : '';
-        return requestManager.getValidImgUrlFor(thumbnailUrl);
+        const url = UrlUtil.addParams(manga.thumbnailUrl ?? '', {
+            fetchedAt: manga.thumbnailUrlLastFetched,
+            sourceId: manga.sourceId,
+        });
+
+        return requestManager.getValidImgUrlFor(url);
     }
 
     static getDuplicateLibraryMangas(

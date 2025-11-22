@@ -36,7 +36,7 @@ export type MangaChapterCountInfo = { chapters: Pick<MangaTypeGql['chapters'], '
 export type MangaInLibraryInfo = Pick<MangaTypeGql, 'inLibrary'>;
 export type MangaDownloadInfo = Pick<MangaTypeGql, 'downloadCount'> & MangaChapterCountInfo;
 export type MangaUnreadInfo = Pick<MangaTypeGql, 'unreadCount'> & MangaChapterCountInfo;
-export type MangaThumbnailInfo = Pick<MangaTypeGql, 'thumbnailUrl' | 'thumbnailUrlLastFetched'>;
+export type MangaThumbnailInfo = Pick<MangaTypeGql, 'thumbnailUrl' | 'thumbnailUrlLastFetched' | 'sourceId'>;
 export type MangaTrackRecordInfo = MangaIdInfo & {
     trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] };
 };
