@@ -150,7 +150,7 @@ class PointerDeviceUtilClass {
         const medianIndex = Math.floor(deltas.length / 2);
 
         const oddMedian = deltas[medianIndex].delta;
-        const evenMedian = (deltas[medianIndex].delta + deltas[medianIndex + 1].delta) / 2;
+        const evenMedian = (deltas[medianIndex].delta + deltas[Math.min(deltas.length - 1, medianIndex + 1)].delta) / 2;
         const median = isEven ? evenMedian : oddMedian;
 
         return median < this.TRACK_PAD_DELTA_THRESHOLD;
