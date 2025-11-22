@@ -225,14 +225,14 @@ export const useMouseDragScroll = (
             previousClickPosY.current = [e.pageY, e.pageY, e.pageY];
             previousClickTime.current = [Date.now() - 2, Date.now() - 1, Date.now()];
 
-            element.addEventListener('mousemove', handleMouseMove);
+            element.addEventListener('mousemove', handleMouseMove, { passive: true });
             element.addEventListener('mouseup', handleMouseUp);
 
             clearInertiaInterval();
         };
 
         element.addEventListener('mousedown', handleMouseDown);
-        element.addEventListener('wheel', clearInertiaInterval);
+        element.addEventListener('wheel', clearInertiaInterval, { passive: true });
         return () => {
             element.removeEventListener('mousedown', handleMouseDown);
             element.removeEventListener('wheel', clearInertiaInterval);

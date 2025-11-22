@@ -31,7 +31,7 @@ export const useReaderHideCursorOnInactivity = (scrollElementRef: MutableRefObje
         };
 
         handleMouseMove();
-        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mousemove', handleMouseMove, { passive: true });
         return () => {
             setCursorVisibility(true);
             window.removeEventListener('mousemove', handleMouseMove);

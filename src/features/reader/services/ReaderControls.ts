@@ -606,8 +606,8 @@ export class ReaderControls {
                 }
             };
 
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('touchmove', handleTouchMove);
+            document.addEventListener('mousemove', handleMouseMove, { passive: true });
+            document.addEventListener('touchmove', handleTouchMove, { passive: true });
 
             return () => {
                 document.removeEventListener('mousemove', handleMouseMove);

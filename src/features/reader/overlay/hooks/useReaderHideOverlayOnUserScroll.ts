@@ -27,8 +27,8 @@ export const useReaderHideOverlayOnUserScroll = (
             }
         };
 
-        scrollElementRef.current?.addEventListener('wheel', handleScroll);
-        scrollElementRef.current?.addEventListener('touchmove', handleScroll);
+        scrollElementRef.current?.addEventListener('wheel', handleScroll, { passive: true });
+        scrollElementRef.current?.addEventListener('touchmove', handleScroll, { passive: true });
         return () => {
             scrollElementRef.current?.removeEventListener('wheel', handleScroll);
             scrollElementRef.current?.removeEventListener('touchmove', handleScroll);

@@ -289,7 +289,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
             }
         };
 
-        scrollElement.addEventListener('scroll', onScroll);
+        scrollElement.addEventListener('scroll', onScroll, { passive: true });
         return () => scrollElement.removeEventListener('scroll', onScroll);
     }, [
         readingMode,
