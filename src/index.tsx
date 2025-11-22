@@ -11,6 +11,7 @@ import '@/i18n';
 import '@/lib/dayjs/Setup.ts';
 import '@/lib/koration/Setup.ts';
 import '@/index.css';
+import '@/lib/PointerDeviceUtil.ts';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
