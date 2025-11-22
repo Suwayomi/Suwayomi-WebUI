@@ -122,10 +122,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
 
                 const image = await imageRequest.response;
 
-                if (!imageRequest.fromCache) {
-                    updateImageState(false);
-                }
-
+                updateImageState(false);
                 setImageSourceUrl(image);
             } catch (e) {
                 const wasAborted =
