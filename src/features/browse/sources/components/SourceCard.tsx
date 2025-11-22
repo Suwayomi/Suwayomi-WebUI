@@ -67,7 +67,15 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                 state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
             >
                 <ListCardContent>
-                    <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={sourceName} />
+                    <ListCardAvatar
+                        iconUrl={requestManager.getValidImgUrlFor(iconUrl)}
+                        alt={sourceName}
+                        slots={{
+                            spinnerImageProps: {
+                                ignoreQueue: true,
+                            },
+                        }}
+                    />
                     <Stack
                         sx={{
                             justifyContent: 'center',

@@ -43,6 +43,9 @@ export const TrackerUntrackedCard = ({
                                 variant: 'rounded',
                                 sx: { width: 64, height: 64 },
                             },
+                            spinnerImageProps: {
+                                ignoreQueue: true,
+                            },
                         }}
                     />
                     <Button sx={{ flexGrow: '1' }} onClick={onClick}>

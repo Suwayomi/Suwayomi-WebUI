@@ -392,6 +392,12 @@ type SubscriptionHookOptions<Data = any, Variables extends OperationVariables = 
 type AbortableRequest = { abortRequest: AbortController['abort'] };
 
 export type ImageRequest = { response: Promise<string>; cleanup: () => void; fromCache: boolean } & AbortableRequest;
+type ImageRequestOptions = {
+    priority?: QueuePriority;
+    shouldDecode?: boolean;
+    disableCors?: boolean;
+    ignoreQueue?: boolean;
+};
 
 export type AbortabaleApolloQueryResponse<Data = any> = {
     response: Promise<ApolloQueryResult<MaybeMasked<Data>>>;
@@ -934,13 +940,15 @@ export class RequestManager {
         url: string,
         request: () => Promise<T>,
         priority?: QueuePriority,
+        ignoreQueue?: boolean,
     ): Promise<ReturnType<typeof this.imageQueue.enqueue<T>> & { fromCache?: boolean }> {
         try {
-            if (await ImageCache.has(url)) {
+            const isCached = await ImageCache.has(url);
+            if (!!ignoreQueue || isCached) {
                 return {
                     key: `image-cache-${url}`,
                     promise: request(),
-                    fromCache: true,
+                    fromCache: isCached,
                 };
             }
 
@@ -952,11 +960,7 @@ export class RequestManager {
 
     private async fetchImageViaTag(
         url: string,
-        {
-            priority,
-            shouldDecode,
-            disableCors,
-        }: { priority?: QueuePriority; shouldDecode?: boolean; disableCors?: boolean } = {},
+        { priority, shouldDecode, disableCors, ignoreQueue }: ImageRequestOptions = {},
     ): Promise<ImageRequest> {
         const imgRequest = new ControlledPromise<string>();
         imgRequest.promise.catch(() => {});
@@ -1000,6 +1004,7 @@ export class RequestManager {
                 return imgRequest.promise;
             },
             priority,
+            ignoreQueue,
         );
 
         return {
@@ -1025,11 +1030,7 @@ export class RequestManager {
      */
     private async fetchImageViaFetchApi(
         url: string,
-        {
-            priority,
-            shouldDecode,
-            disableCors,
-        }: { priority?: QueuePriority; shouldDecode?: boolean; disableCors?: boolean } = {},
+        { priority, shouldDecode, disableCors, ignoreQueue }: ImageRequestOptions = {},
     ): Promise<ImageRequest> {
         let objectUrl: string = '';
         const { abortRequest, signal } = this.createAbortController();
@@ -1059,6 +1060,7 @@ export class RequestManager {
                         return imageUrl;
                     }),
             priority,
+            ignoreQueue,
         );
 
         return {
@@ -1077,17 +1079,13 @@ export class RequestManager {
      */
     public async requestImage(
         url: string,
-        options: {
-            priority?: QueuePriority;
-            useFetchApi?: boolean;
-            shouldDecode?: boolean;
-            disableCors?: boolean;
-        } = {},
+        options: ImageRequestOptions & { useFetchApi?: boolean } = {},
     ): Promise<ImageRequest> {
         const finalOptions = {
             useFetchApi: AuthManager.isAuthRequired(),
             shouldDecode: false,
             disableCors: false,
+            ignoreQueue: false,
             ...Object.fromEntries(Object.entries(options).filter(([, value]) => value !== undefined)),
         };
 

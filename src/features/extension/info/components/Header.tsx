@@ -14,7 +14,7 @@ import { TExtension } from '@/features/extension/Extensions.types.ts';
 
 export const Header = ({ name, pkgName, iconUrl, repo }: TExtension) => (
     <Stack sx={{ alignItems: 'center' }}>
-        <SpinnerImage alt={name} src={requestManager.getValidImgUrlFor(iconUrl)} />
+        <SpinnerImage alt={name} src={requestManager.getValidImgUrlFor(iconUrl)} ignoreQueue />
         <Typography variant="h5" component="h2">
             {name}
         </Typography>

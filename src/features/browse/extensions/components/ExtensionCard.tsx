@@ -102,7 +102,15 @@ export function ExtensionCard(props: IProps) {
         <Card>
             <OptionalCardActionAreaLink disabled={!isInstalled} to={AppRoutes.extension.childRoutes.info.path(pkgName)}>
                 <ListCardContent>
-                    <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={name} />
+                    <ListCardAvatar
+                        iconUrl={requestManager.getValidImgUrlFor(iconUrl)}
+                        alt={name}
+                        slots={{
+                            spinnerImageProps: {
+                                ignoreQueue: true,
+                            },
+                        }}
+                    />
                     <Stack
                         sx={{
                             justifyContent: 'center',

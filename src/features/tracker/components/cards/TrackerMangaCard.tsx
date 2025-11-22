@@ -156,6 +156,7 @@ export const TrackerMangaCard = ({
                                     <SpinnerImage
                                         useFetchApi={false}
                                         disableCors
+                                        ignoreQueue
                                         alt={manga.title}
                                         src={manga.coverUrl}
                                         spinnerStyle={{ width: '100%', height: '100%' }}

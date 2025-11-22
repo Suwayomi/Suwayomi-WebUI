@@ -36,7 +36,15 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
             <CardActionArea component={Link} to={AppRoutes.migrate.path(id)}>
                 <ListCardContent sx={{ justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', gap: 1 }}>
-                        <ListCardAvatar iconUrl={requestManager.getValidImgUrlFor(iconUrl)} alt={sourceName} />
+                        <ListCardAvatar
+                            iconUrl={requestManager.getValidImgUrlFor(iconUrl)}
+                            alt={sourceName}
+                            slots={{
+                                spinnerImageProps: {
+                                    ignoreQueue: true,
+                                },
+                            }}
+                        />
                         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                             <Typography variant="h6" component="h3">
                                 {sourceName}

@@ -91,6 +91,9 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
                                         variant: 'rounded',
                                         sx: { width: 64, height: 64 },
                                     },
+                                    spinnerImageProps: {
+                                        ignoreQueue: true,
+                                    },
                                 }}
                             />
                         </ListItemAvatar>

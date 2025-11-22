@@ -147,6 +147,9 @@ export const SourceLanguageSelect = ({
                                                                         height: 32,
                                                                     },
                                                                 },
+                                                                spinnerImageProps: {
+                                                                    ignoreQueue: true,
+                                                                },
                                                             }}
                                                         />
                                                     </ListItemAvatar>

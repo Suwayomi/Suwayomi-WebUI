@@ -38,6 +38,7 @@ export interface SpinnerImageProps {
     shouldDecode?: boolean;
     useFetchApi?: boolean;
     disableCors?: boolean;
+    ignoreQueue?: boolean;
 
     priority?: Priority;
 
@@ -52,6 +53,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
         shouldDecode,
         useFetchApi,
         disableCors,
+        ignoreQueue,
         src,
         alt,
         onLoad,
@@ -111,6 +113,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                     shouldDecode,
                     useFetchApi,
                     disableCors,
+                    ignoreQueue,
                 });
 
                 if (!imageRequest.fromCache) {
