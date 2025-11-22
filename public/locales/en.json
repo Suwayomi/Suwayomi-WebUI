@@ -1269,9 +1269,9 @@
     "clear_cache": {
       "label": {
         "description": "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used",
-        "failure": "Could not clear the server cache",
-        "success": "Cleared the server cache",
-        "title": "Clear server cache"
+        "failure": "Could not clear the cache",
+        "success": "Cleared the cache",
+        "title": "Clear cache"
       }
     },
     "default_value": "{{value}}<0>($t(global.label.default))</0>",

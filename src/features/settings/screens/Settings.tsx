@@ -29,6 +29,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
 
 export function Settings() {
     const { t } = useTranslation();
@@ -37,9 +38,9 @@ export function Settings() {
 
     const [triggerClearServerCache, { loading: isClearingServerCache }] = requestManager.useClearServerCache();
 
-    const clearServerCache = async () => {
+    const clearCache = async () => {
         try {
-            await triggerClearServerCache();
+            await Promise.all([triggerClearServerCache(), ImageCache.clear()]);
             makeToast(t('settings.clear_cache.label.success'), 'success');
         } catch (e) {
             makeToast(t('settings.clear_cache.label.failure'), 'error', getErrorMessage(e));
@@ -85,7 +86,7 @@ export function Settings() {
                 <ListItemText primary={t('settings.backup.title')} />
             </ListItemLink>
 
-            <ListItemButton disabled={isClearingServerCache} onClick={clearServerCache}>
+            <ListItemButton disabled={isClearingServerCache} onClick={clearCache}>
                 <ListItemIcon>
                     <DeleteForeverIcon />
                 </ListItemIcon>

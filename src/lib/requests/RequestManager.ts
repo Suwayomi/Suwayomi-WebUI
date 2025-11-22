@@ -340,6 +340,7 @@ import { updateMetadataList } from '@/features/metadata/services/MetadataApolloC
 import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/mutations/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
+import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -390,7 +391,7 @@ type SubscriptionHookOptions<Data = any, Variables extends OperationVariables = 
 
 type AbortableRequest = { abortRequest: AbortController['abort'] };
 
-type ImageRequest = { response: Promise<string>; cleanup: () => void } & AbortableRequest;
+export type ImageRequest = { response: Promise<string>; cleanup: () => void; fromCache: boolean } & AbortableRequest;
 
 export type AbortabaleApolloQueryResponse<Data = any> = {
     response: Promise<ApolloQueryResult<MaybeMasked<Data>>>;
@@ -929,14 +930,34 @@ export class RequestManager {
         return url;
     }
 
-    private fetchImageViaTag(
+    private async maybeEnqueueImageRequest<T>(
+        url: string,
+        request: () => Promise<T>,
+        priority?: QueuePriority,
+    ): Promise<ReturnType<typeof this.imageQueue.enqueue<T>> & { fromCache?: boolean }> {
+        try {
+            if (await ImageCache.has(url)) {
+                return {
+                    key: `image-cache-${url}`,
+                    promise: request(),
+                    fromCache: true,
+                };
+            }
+
+            return this.imageQueue.enqueue(url, request, priority);
+        } catch (error) {
+            return this.imageQueue.enqueue(url, request, priority);
+        }
+    }
+
+    private async fetchImageViaTag(
         url: string,
         {
             priority,
             shouldDecode,
             disableCors,
         }: { priority?: QueuePriority; shouldDecode?: boolean; disableCors?: boolean } = {},
-    ): ImageRequest {
+    ): Promise<ImageRequest> {
         const imgRequest = new ControlledPromise<string>();
         imgRequest.promise.catch(() => {});
 
@@ -949,7 +970,11 @@ export class RequestManager {
             imgRequest.reject(reason);
         };
 
-        const { key, promise: response } = this.imageQueue.enqueue(
+        const {
+            key,
+            promise: response,
+            fromCache,
+        } = await this.maybeEnqueueImageRequest(
             url,
             async () => {
                 // throws error in case request was already aborted
@@ -981,6 +1006,7 @@ export class RequestManager {
             response,
             abortRequest: (reason?: any) => this.abortImageRequest(key, () => abortRequest(reason)),
             cleanup: () => {},
+            fromCache: !!fromCache,
         };
     }
 
@@ -997,17 +1023,22 @@ export class RequestManager {
      * img.src = imageUrl;
      *
      */
-    private fetchImageViaFetchApi(
+    private async fetchImageViaFetchApi(
         url: string,
         {
             priority,
             shouldDecode,
             disableCors,
         }: { priority?: QueuePriority; shouldDecode?: boolean; disableCors?: boolean } = {},
-    ): ImageRequest {
+    ): Promise<ImageRequest> {
         let objectUrl: string = '';
         const { abortRequest, signal } = this.createAbortController();
-        const { key, promise: response } = this.imageQueue.enqueue(
+
+        const {
+            key,
+            promise: response,
+            fromCache,
+        } = await this.maybeEnqueueImageRequest(
             url,
             () =>
                 this.restClient
@@ -1034,6 +1065,7 @@ export class RequestManager {
             response,
             abortRequest: (reason?: any) => this.abortImageRequest(key, () => abortRequest(reason)),
             cleanup: () => URL.revokeObjectURL(objectUrl),
+            fromCache: !!fromCache,
         };
     }
 
@@ -1043,7 +1075,7 @@ export class RequestManager {
      * options:
      * - shouldDecode: decodes the image in case the browser is Firefox to prevent a flickering/blinking when an image gets visible for the first time
      */
-    public requestImage(
+    public async requestImage(
         url: string,
         options: {
             priority?: QueuePriority;
@@ -1051,7 +1083,7 @@ export class RequestManager {
             shouldDecode?: boolean;
             disableCors?: boolean;
         } = {},
-    ): ImageRequest {
+    ): Promise<ImageRequest> {
         const finalOptions = {
             useFetchApi: AuthManager.isAuthRequired(),
             shouldDecode: false,

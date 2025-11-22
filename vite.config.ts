@@ -14,6 +14,7 @@ import react from '@vitejs/plugin-react-swc';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import legacy from '@vitejs/plugin-legacy';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import { VitePWA } from 'vite-plugin-pwa';
 import 'dotenv/config';
 
 // eslint-disable-next-line import/no-default-export
@@ -48,6 +49,44 @@ export default defineConfig(({ command }) => ({
         }),
         nodePolyfills({
             include: ['assert'],
+        }),
+        // Only setup image runtime caching
+        VitePWA({
+            registerType: 'autoUpdate',
+            manifest: false, // Use existing manifest
+            devOptions: {
+                enabled: true,
+            },
+            workbox: {
+                globPatterns: [],
+                runtimeCaching: [
+                    {
+                        urlPattern: ({ request, url }) => {
+                            if (request.destination === 'image') {
+                                return true;
+                            }
+
+                            const { pathname } = url;
+                            return (
+                                pathname.match(/\/chapter\/[0-9]+\/page\/[0-9]+/g) ||
+                                pathname.match(/\/manga\/[0-9]+\/thumbnail/g) ||
+                                pathname.includes('/extension/icon/')
+                            );
+                        },
+                        handler: 'CacheFirst',
+                        options: {
+                            cacheName: 'image-cache',
+                            expiration: {
+                                maxEntries: 10000,
+                                purgeOnQuotaError: true,
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
+                        },
+                    },
+                ],
+            },
         }),
     ],
 }));

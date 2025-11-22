@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Browse**) Add "open in webview" button in source browse page
 
 ### Changed
+- (**General**) Improve loading of images
 - (**Category**) Prevent creating categories without a name
 - (**WebUI Update**) Do not require a forced page refresh when an update has been detected in case the app just got opened
 

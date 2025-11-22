@@ -16,10 +16,11 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import { useTranslation } from 'react-i18next';
 import ImageIcon from '@mui/icons-material/Image';
 import { SxProps, Theme } from '@mui/material/styles';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { ImageRequest, requestManager } from '@/lib/requests/RequestManager.ts';
 import { Priority } from '@/lib/Queue.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useIntersectionObserver } from '@/base/hooks/useIntersectionObserver.tsx';
+import { noOp } from '@/lib/HelperFunctions.ts';
 
 export interface SpinnerImageProps {
     shouldLoad?: boolean;
@@ -97,38 +98,32 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
             return () => {};
         }
 
-        const imageRequest = requestManager.requestImage(src, {
-            priority,
-            shouldDecode,
-            useFetchApi,
-            disableCors,
-        });
-        let cacheTimeout: NodeJS.Timeout;
-
+        let imageRequest: ImageRequest = {
+            response: Promise.resolve(''),
+            cleanup: noOp,
+            abortRequest: noOp,
+            fromCache: false,
+        };
         const fetchImage = async () => {
             try {
-                const updateImage = async () => {
-                    const image = await imageRequest.response;
+                imageRequest = await requestManager.requestImage(src, {
+                    priority,
+                    shouldDecode,
+                    useFetchApi,
+                    disableCors,
+                });
 
-                    updateImageState(false);
-                    setImageSourceUrl(image);
-                };
-
-                const checkCache = await Promise.race([
-                    imageRequest.response,
-                    new Promise((resolve) => {
-                        cacheTimeout = setTimeout(resolve, 50);
-                    }),
-                ]);
-                const isImageCached = !!checkCache;
-
-                if (isImageCached) {
-                    await updateImage();
-                    return;
+                if (!imageRequest.fromCache) {
+                    updateImageState(true);
                 }
 
-                updateImageState(true);
-                await updateImage();
+                const image = await imageRequest.response;
+
+                if (!imageRequest.fromCache) {
+                    updateImageState(false);
+                }
+
+                setImageSourceUrl(image);
             } catch (e) {
                 const wasAborted =
                     e instanceof Error && (e.name === 'AbortError' || e.message === 'Component was unmounted');
@@ -140,7 +135,6 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
 
         return () => {
             imageRequest.cleanup();
-            clearTimeout(cacheTimeout);
             imageRequest.abortRequest(new Error('Component was unmounted'));
         };
     }, [src, imgLoadRetryKey, retryKeyPrefix, showMissingImageIcon, shouldLoad]);
@@ -181,7 +175,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                 />
             )}
 
-            {(isLoading || (src && !imageSourceUrl) || hasError) && (
+            {(!!isLoading || (src && !imageSourceUrl) || hasError) && (
                 <Stack
                     ref={loadingIndicatorRef}
                     sx={{
@@ -198,9 +192,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                             justifyContent: 'center',
                         }}
                     >
-                        {isVisible && (isLoading || (src && !imageSourceUrl && !hasError)) && (
-                            <CircularProgress thickness={5} />
-                        )}
+                        {isVisible && !!isLoading && <CircularProgress thickness={5} />}
                         {hasError && isLoading === false && (
                             <>
                                 <BrokenImageIcon />
