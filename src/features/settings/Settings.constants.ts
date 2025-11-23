@@ -13,7 +13,14 @@ import { GlobalUpdateSkipEntriesSettings, MetadataServerSettings } from '@/featu
 import { GridLayout, TranslationKey } from '@/base/Base.types.ts';
 import { getDefaultLanguages } from '@/base/utils/Languages.ts';
 import { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
-import { AuthMode, WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
+import {
+    AuthMode,
+    KoreaderSyncChecksumMethod,
+    KoreaderSyncConflictStrategy,
+    WebUiChannel,
+    WebUiFlavor,
+    WebUiInterface,
+} from '@/lib/graphql/generated/graphql.ts';
 import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 
 export const MANGA_GRID_WIDTH = {
@@ -207,3 +214,45 @@ export const KOREADER_SYNC_PERCENTAGE_TOLERANCE = {
     max: 1,
     step: 0.05,
 };
+
+export const KOREADER_SYNC_CONFLICT_STRATEGIES = Object.values(KoreaderSyncConflictStrategy);
+export const KOREADER_SYNC_CONFLICT_STRATEGY_TO_TRANSLATION_KEYS: Record<
+    KoreaderSyncConflictStrategy,
+    SelectSettingValueDisplayInfo
+> = {
+    [KoreaderSyncConflictStrategy.Disabled]: {
+        text: 'settings.server.koreader.sync.strategy.option.disabled',
+    },
+    [KoreaderSyncConflictStrategy.KeepLocal]: {
+        text: 'settings.server.koreader.sync.strategy.option.keep_local',
+    },
+    [KoreaderSyncConflictStrategy.KeepRemote]: {
+        text: 'settings.server.koreader.sync.strategy.option.keep_remote',
+    },
+    [KoreaderSyncConflictStrategy.Prompt]: {
+        text: 'settings.server.koreader.sync.strategy.option.prompt',
+    },
+};
+export const KOREADER_SYNC_CONFLICT_STRATEGY_SELECT_VALUES: SelectSettingValue<KoreaderSyncConflictStrategy>[] =
+    KOREADER_SYNC_CONFLICT_STRATEGIES.map((strategy) => [
+        strategy,
+        KOREADER_SYNC_CONFLICT_STRATEGY_TO_TRANSLATION_KEYS[strategy],
+    ]);
+
+export const KOREADER_SYNC_CHECKSUM_METHODES = Object.values(KoreaderSyncChecksumMethod);
+export const KOREADER_SYNC_CHECKSUM_METHOD_TO_TRANSLATION_KEYS: Record<
+    KoreaderSyncChecksumMethod,
+    SelectSettingValueDisplayInfo
+> = {
+    [KoreaderSyncChecksumMethod.Binary]: {
+        text: 'settings.server.koreader.sync.check_sum_method.binary',
+    },
+    [KoreaderSyncChecksumMethod.Filename]: {
+        text: 'settings.server.koreader.sync.check_sum_method.filename',
+    },
+};
+export const KOREADER_SYNC_CHECKSUM_METHOD_SELECT_VALUES: SelectSettingValue<KoreaderSyncChecksumMethod>[] =
+    KOREADER_SYNC_CHECKSUM_METHODES.map((method) => [
+        method,
+        KOREADER_SYNC_CHECKSUM_METHOD_TO_TRANSLATION_KEYS[method],
+    ]);

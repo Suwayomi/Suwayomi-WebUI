@@ -222,12 +222,13 @@ import {
     CreateBackupMutation,
     CreateBackupMutationVariables,
     RestoreBackupInput,
-    ConnectKoSyncAccountInput,
-    KoSyncConnectPayload,
-    LogoutKoSyncAccountInput,
-    LogoutKoSyncAccountPayload,
+    KoSyncLoginMutation,
+    KoSyncLoginMutationVariables,
+    KoSyncLogoutMutation,
+    KoSyncLogoutMutationVariables,
+    GetKoSyncStatusQuery,
+    GetKoSyncStatusQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
-import { CONNECT_KOSYNC_ACCOUNT, LOGOUT_KOSYNC_ACCOUNT } from '@/lib/graphql/mutations/KoreaderSyncMutation.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
 import {
@@ -346,12 +347,9 @@ import { updateMetadataList } from '@/features/metadata/services/MetadataApolloC
 import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/mutations/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
+import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/mutations/KoreaderSyncMutation.ts';
+import { GET_KO_SYNC_STATUS } from '@/lib/graphql/queries/KoreaderSyncQuery.ts';
 import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
-
-type ConnectKoSyncAccountMutation = { connectKoSyncAccount: KoSyncConnectPayload };
-type ConnectKoSyncAccountMutationVariables = { input: ConnectKoSyncAccountInput };
-type LogoutKoSyncAccountMutation = { logoutKoSyncAccount: LogoutKoSyncAccountPayload };
-type LogoutKoSyncAccountMutationVariables = { input: LogoutKoSyncAccountInput };
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -2153,21 +2151,6 @@ export class RequestManager {
         return [wrappedMutate, result];
     }
 
-    public updateServerSettings(
-        key: string,
-        value: any,
-        options?: MutationOptions<UpdateServerSettingsMutation, UpdateServerSettingsMutationVariables>,
-    ): AbortableApolloMutationResponse<UpdateServerSettingsMutation> {
-        const input: any = { settings: { [key]: value } };
-
-        return this.doRequest<UpdateServerSettingsMutation, UpdateServerSettingsMutationVariables>(
-            GQLMethod.MUTATION,
-            UPDATE_SERVER_SETTINGS,
-            { input },
-            options,
-        );
-    }
-
     public updateMangasCategories(
         mangaIds: number[],
         patch: UpdateMangaCategoriesPatchInput,
@@ -3384,16 +3367,34 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_MUTATION, USER_LOGIN, undefined, options);
     }
 
-    public useConnectKoSyncAccount(
-        options?: MutationHookOptions<ConnectKoSyncAccountMutation, ConnectKoSyncAccountMutationVariables>,
-    ): AbortableApolloUseMutationResponse<ConnectKoSyncAccountMutation, ConnectKoSyncAccountMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, CONNECT_KOSYNC_ACCOUNT, undefined, options);
+    public useKoSyncStatus(
+        options?: QueryHookOptions<GetKoSyncStatusQuery, GetKoSyncStatusQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetKoSyncStatusQuery, GetKoSyncStatusQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_KO_SYNC_STATUS, undefined, options);
     }
 
-    public useLogoutKoSyncAccount(
-        options?: MutationHookOptions<LogoutKoSyncAccountMutation, LogoutKoSyncAccountMutationVariables>,
-    ): AbortableApolloUseMutationResponse<LogoutKoSyncAccountMutation, LogoutKoSyncAccountMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, LOGOUT_KOSYNC_ACCOUNT, undefined, options);
+    public koSyncLogin(
+        serverAddress: string,
+        username: string,
+        password: string,
+        options?: MutationOptions<KoSyncLoginMutation, KoSyncLoginMutationVariables>,
+    ): AbortableApolloMutationResponse<KoSyncLoginMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            KO_SYNC_LOGIN,
+            {
+                serverAddress,
+                username,
+                password,
+            },
+            options,
+        );
+    }
+
+    public koSyncLogout(
+        options?: MutationOptions<KoSyncLogoutMutation, KoSyncLogoutMutationVariables>,
+    ): AbortableApolloMutationResponse<KoSyncLogoutMutation> {
+        return this.doRequest(GQLMethod.MUTATION, KO_SYNC_LOGOUT, undefined, options);
     }
 
     public refreshUser(
