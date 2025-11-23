@@ -27,19 +27,21 @@ export const LoginDialog = ({
     loginLogout,
     username: initialUsername = '',
     password: initialPassword = '',
+    serverUrl: initialServerUrl = '',
+    withServerUrl = false,
 }: AwaitableComponentProps<void> & {
     title: string;
     isLoggedIn: boolean;
     isLoading: boolean;
-    loginLogout: (username: string, password: string) => void;
     loginLogout: (username: string, password: string, serverUrl?: string) => void;
     username?: string;
     password?: string;
+    serverUrl?: string;
+    withServerUrl?: boolean;
 }) => {
     const { t } = useTranslation();
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [serverUrl, setServerUrl] = useState(initialServerUrl);
     const [username, setUsername] = useState(initialUsername);
     const [password, setPassword] = useState(initialPassword);
 
@@ -48,6 +50,19 @@ export const LoginDialog = ({
             <DialogTitle>{title}</DialogTitle>
             {!isLoggedIn && (
                 <DialogContent>
+                    {withServerUrl && (
+                        <TextField
+                            margin="dense"
+                            id="serverUrl"
+                            name="serverUrl"
+                            label={t('settings.about.server.label.address')}
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            value={serverUrl}
+                            onChange={(e) => setServerUrl(e.target.value)}
+                        />
+                    )}
                     <TextField
                         autoFocus
                         margin="dense"
@@ -71,8 +86,11 @@ export const LoginDialog = ({
                 <Button onClick={() => onSubmit()}>{t('global.button.cancel')}</Button>
                 <Button
                     variant="contained"
-                    disabled={!isLoggedIn && (isLoading || !username.length || !password.length)}
-                    onClick={() => loginLogout(username, password)}
+                    disabled={
+                        !isLoggedIn &&
+                        (isLoading || !username.length || !password.length || (withServerUrl && !serverUrl?.length))
+                    }
+                    onClick={() => loginLogout(username, password, serverUrl)}
                 >
                     {t(isLoggedIn ? 'global.button.log_out' : 'global.button.log_in')}
                 </Button>

@@ -7,29 +7,35 @@
  */
 
 import gql from 'graphql-tag';
+import { KO_SYNC_STATUS } from '@/lib/graphql/fragments/KoreaderSyncFragments.ts';
 import { SERVER_SETTINGS } from '@/lib/graphql/fragments/SettingsFragments.ts';
 
-export const CONNECT_KOSYNC_ACCOUNT = gql`
+export const KO_SYNC_LOGIN = gql`
     ${SERVER_SETTINGS}
-    mutation CONNECT_KOSYNC_ACCOUNT($input: ConnectKoSyncAccountInput!) {
-        connectKoSyncAccount(input: $input) {
-            success
-            message
-            username
+    ${KO_SYNC_STATUS}
+
+    mutation KO_SYNC_LOGIN($username: String!, $password: String!, $serverAddress: String!) {
+        setSettings(input: { settings: { koreaderSyncServerUrl: $serverAddress } }) {
             settings {
                 ...SERVER_SETTINGS
+            }
+        }
+        connectKoSyncAccount(input: { username: $username, password: $password }) {
+            message
+            status {
+                ...KO_SYNC_STATUS
             }
         }
     }
 `;
 
-export const LOGOUT_KOSYNC_ACCOUNT = gql`
-    ${SERVER_SETTINGS}
-    mutation LOGOUT_KOSYNC_ACCOUNT($input: LogoutKoSyncAccountInput!) {
-        logoutKoSyncAccount(input: $input) {
-            success
-            settings {
-                ...SERVER_SETTINGS
+export const KO_SYNC_LOGOUT = gql`
+    ${KO_SYNC_STATUS}
+
+    mutation KO_SYNC_LOGOUT {
+        logoutKoSyncAccount(input: {}) {
+            status {
+                ...KO_SYNC_STATUS
             }
         }
     }
