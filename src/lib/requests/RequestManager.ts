@@ -3287,22 +3287,33 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, document, undefined, options);
     }
 
-    public useLogoutFromTracker(
-        options?: MutationHookOptions<TrackerLogoutMutation, TrackerLogoutMutationVariables>,
-    ): AbortableApolloUseMutationResponse<TrackerLogoutMutation, TrackerLogoutMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGOUT, undefined, options);
+    public logoutFromTracker(
+        trackerId: TrackerLogoutMutationVariables['trackerId'],
+        options?: MutationOptions<TrackerLogoutMutation, TrackerLogoutMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerLogoutMutation> {
+        return this.doRequest(GQLMethod.MUTATION, TRACKER_LOGOUT, { trackerId }, options);
     }
 
-    public useLoginToTrackerOauth(
-        options?: MutationHookOptions<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables>,
-    ): AbortableApolloUseMutationResponse<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_OAUTH, undefined, options);
+    public loginToTrackerOauth(
+        trackerId: number,
+        callbackUrl: string,
+        options?: MutationOptions<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerLoginOauthMutation> {
+        return this.doRequest(GQLMethod.MUTATION, TRACKER_LOGIN_OAUTH, { input: { trackerId, callbackUrl } }, options);
     }
 
-    public useLoginToTrackerCredentials(
-        options?: MutationHookOptions<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables>,
-    ): AbortableApolloUseMutationResponse<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_CREDENTIALS, undefined, options);
+    public loginTrackerCredentials(
+        trackerId: number,
+        username: string,
+        password: string,
+        options?: MutationOptions<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerLoginCredentialsMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            TRACKER_LOGIN_CREDENTIALS,
+            { input: { trackerId, username, password } },
+            options,
+        );
     }
 
     public useTrackerSearch(
