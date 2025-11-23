@@ -172,6 +172,12 @@ export type CategoryUpdateType = {
   status: CategoryJobStatus;
 };
 
+export enum CbzMediaType {
+  Compatible = 'COMPATIBLE',
+  Legacy = 'LEGACY',
+  Modern = 'MODERN'
+}
+
 export type ChapterConditionInput = {
   chapterNumber?: InputMaybe<Scalars['Float']['input']>;
   fetchedAt?: InputMaybe<Scalars['LongString']['input']>;
@@ -199,7 +205,7 @@ export type ChapterEdge = Edge & {
 
 export type ChapterFilterInput = {
   and?: InputMaybe<Array<ChapterFilterInput>>;
-  chapterNumber?: InputMaybe<FloatFilterInput>;
+  chapterNumber?: InputMaybe<DoubleFilterInput>;
   fetchedAt?: InputMaybe<LongFilterInput>;
   id?: InputMaybe<IntFilterInput>;
   inLibrary?: InputMaybe<BooleanFilterInput>;
@@ -331,6 +337,7 @@ export type ClearDownloaderPayload = {
 export type ConnectKoSyncAccountInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   password: Scalars['String']['input'];
+  serverAddress: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
 
@@ -785,24 +792,6 @@ export type FilterChangeInput = {
   triState?: InputMaybe<TriState>;
 };
 
-export type FloatFilterInput = {
-  distinctFrom?: InputMaybe<Scalars['Float']['input']>;
-  distinctFromAll?: InputMaybe<Array<Scalars['Float']['input']>>;
-  distinctFromAny?: InputMaybe<Array<Scalars['Float']['input']>>;
-  equalTo?: InputMaybe<Scalars['Float']['input']>;
-  greaterThan?: InputMaybe<Scalars['Float']['input']>;
-  greaterThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
-  in?: InputMaybe<Array<Scalars['Float']['input']>>;
-  isNull?: InputMaybe<Scalars['Boolean']['input']>;
-  lessThan?: InputMaybe<Scalars['Float']['input']>;
-  lessThanOrEqualTo?: InputMaybe<Scalars['Float']['input']>;
-  notDistinctFrom?: InputMaybe<Scalars['Float']['input']>;
-  notEqualTo?: InputMaybe<Scalars['Float']['input']>;
-  notEqualToAll?: InputMaybe<Array<Scalars['Float']['input']>>;
-  notEqualToAny?: InputMaybe<Array<Scalars['Float']['input']>>;
-  notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
-};
-
 export type GlobalMetaNodeList = NodeList & {
   __typename?: 'GlobalMetaNodeList';
   edges: Array<MetaEdge>;
@@ -872,14 +861,13 @@ export type KoSyncConnectPayload = {
   __typename?: 'KoSyncConnectPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
   message?: Maybe<Scalars['String']['output']>;
-  settings: SettingsType;
-  success: Scalars['Boolean']['output'];
-  username?: Maybe<Scalars['String']['output']>;
+  status: KoSyncStatusPayload;
 };
 
 export type KoSyncStatusPayload = {
   __typename?: 'KoSyncStatusPayload';
   isLoggedIn: Scalars['Boolean']['output'];
+  serverAddress?: Maybe<Scalars['String']['output']>;
   username?: Maybe<Scalars['String']['output']>;
 };
 
@@ -980,8 +968,7 @@ export type LogoutKoSyncAccountInput = {
 export type LogoutKoSyncAccountPayload = {
   __typename?: 'LogoutKoSyncAccountPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
-  settings: SettingsType;
-  success: Scalars['Boolean']['output'];
+  status: KoSyncStatusPayload;
 };
 
 export type LogoutTrackerInput = {
@@ -1656,6 +1643,13 @@ export type PartialSettingsType = Settings & {
   authMode?: Maybe<AuthMode>;
   authPassword?: Maybe<Scalars['String']['output']>;
   authUsername?: Maybe<Scalars['String']['output']>;
+  autoBackupIncludeCategories?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeChapters?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeClientData?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeHistory?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeManga?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeServerSettings?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeTracking?: Maybe<Scalars['Boolean']['output']>;
   /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
   autoDownloadIgnoreReUploads?: Maybe<Scalars['Boolean']['output']>;
@@ -1700,20 +1694,25 @@ export type PartialSettingsType = Settings & {
   jwtRefreshExpiry?: Maybe<Scalars['Duration']['output']>;
   jwtTokenExpiry?: Maybe<Scalars['Duration']['output']>;
   koreaderSyncChecksumMethod?: Maybe<KoreaderSyncChecksumMethod>;
+  /** @deprecated Moved to preference store. Is supposed to be random and gets auto generated, replace with MOVE TO PREFERENCES */
   koreaderSyncDeviceId?: Maybe<Scalars['String']['output']>;
   koreaderSyncPercentageTolerance?: Maybe<Scalars['Float']['output']>;
+  /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
   koreaderSyncServerUrl?: Maybe<Scalars['String']['output']>;
   /** @deprecated Replaced with koreaderSyncStrategyForward and koreaderSyncStrategyBackward, replace with koreaderSyncStrategyForward, koreaderSyncStrategyBackward */
   koreaderSyncStrategy?: Maybe<KoreaderSyncLegacyStrategy>;
   koreaderSyncStrategyBackward?: Maybe<KoreaderSyncConflictStrategy>;
   koreaderSyncStrategyForward?: Maybe<KoreaderSyncConflictStrategy>;
+  /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
   koreaderSyncUserkey?: Maybe<Scalars['String']['output']>;
+  /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
   koreaderSyncUsername?: Maybe<Scalars['String']['output']>;
   localSourcePath?: Maybe<Scalars['String']['output']>;
   maxLogFileSize?: Maybe<Scalars['String']['output']>;
   maxLogFiles?: Maybe<Scalars['Int']['output']>;
   maxLogFolderSize?: Maybe<Scalars['String']['output']>;
   maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
+  opdsCbzMimetype?: Maybe<CbzMediaType>;
   opdsChapterSortOrder?: Maybe<SortOrder>;
   opdsEnablePageReadProgress?: Maybe<Scalars['Boolean']['output']>;
   opdsItemsPerPage?: Maybe<Scalars['Int']['output']>;
@@ -1722,6 +1721,7 @@ export type PartialSettingsType = Settings & {
   opdsShowOnlyUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
+  serveConversions?: Maybe<Array<SettingsDownloadConversionType>>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
   socksProxyPassword?: Maybe<Scalars['String']['output']>;
@@ -1730,6 +1730,7 @@ export type PartialSettingsType = Settings & {
   socksProxyVersion?: Maybe<Scalars['Int']['output']>;
   systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
   updateMangas?: Maybe<Scalars['Boolean']['output']>;
+  useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
   webUIChannel?: Maybe<WebUiChannel>;
   webUIFlavor?: Maybe<WebUiFlavor>;
   webUIInterface?: Maybe<WebUiInterface>;
@@ -1740,6 +1741,13 @@ export type PartialSettingsTypeInput = {
   authMode?: InputMaybe<AuthMode>;
   authPassword?: InputMaybe<Scalars['String']['input']>;
   authUsername?: InputMaybe<Scalars['String']['input']>;
+  autoBackupIncludeCategories?: InputMaybe<Scalars['Boolean']['input']>;
+  autoBackupIncludeChapters?: InputMaybe<Scalars['Boolean']['input']>;
+  autoBackupIncludeClientData?: InputMaybe<Scalars['Boolean']['input']>;
+  autoBackupIncludeHistory?: InputMaybe<Scalars['Boolean']['input']>;
+  autoBackupIncludeManga?: InputMaybe<Scalars['Boolean']['input']>;
+  autoBackupIncludeServerSettings?: InputMaybe<Scalars['Boolean']['input']>;
+  autoBackupIncludeTracking?: InputMaybe<Scalars['Boolean']['input']>;
   autoDownloadIgnoreReUploads?: InputMaybe<Scalars['Boolean']['input']>;
   autoDownloadNewChapters?: InputMaybe<Scalars['Boolean']['input']>;
   autoDownloadNewChaptersLimit?: InputMaybe<Scalars['Int']['input']>;
@@ -1774,18 +1782,15 @@ export type PartialSettingsTypeInput = {
   jwtRefreshExpiry?: InputMaybe<Scalars['Duration']['input']>;
   jwtTokenExpiry?: InputMaybe<Scalars['Duration']['input']>;
   koreaderSyncChecksumMethod?: InputMaybe<KoreaderSyncChecksumMethod>;
-  koreaderSyncDeviceId?: InputMaybe<Scalars['String']['input']>;
   koreaderSyncPercentageTolerance?: InputMaybe<Scalars['Float']['input']>;
-  koreaderSyncServerUrl?: InputMaybe<Scalars['String']['input']>;
   koreaderSyncStrategyBackward?: InputMaybe<KoreaderSyncConflictStrategy>;
   koreaderSyncStrategyForward?: InputMaybe<KoreaderSyncConflictStrategy>;
-  koreaderSyncUserkey?: InputMaybe<Scalars['String']['input']>;
-  koreaderSyncUsername?: InputMaybe<Scalars['String']['input']>;
   localSourcePath?: InputMaybe<Scalars['String']['input']>;
   maxLogFileSize?: InputMaybe<Scalars['String']['input']>;
   maxLogFiles?: InputMaybe<Scalars['Int']['input']>;
   maxLogFolderSize?: InputMaybe<Scalars['String']['input']>;
   maxSourcesInParallel?: InputMaybe<Scalars['Int']['input']>;
+  opdsCbzMimetype?: InputMaybe<CbzMediaType>;
   opdsChapterSortOrder?: InputMaybe<SortOrder>;
   opdsEnablePageReadProgress?: InputMaybe<Scalars['Boolean']['input']>;
   opdsItemsPerPage?: InputMaybe<Scalars['Int']['input']>;
@@ -1794,6 +1799,7 @@ export type PartialSettingsTypeInput = {
   opdsShowOnlyUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
   opdsUseBinaryFileSizes?: InputMaybe<Scalars['Boolean']['input']>;
   port?: InputMaybe<Scalars['Int']['input']>;
+  serveConversions?: InputMaybe<Array<SettingsDownloadConversionTypeInput>>;
   socksProxyEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   socksProxyHost?: InputMaybe<Scalars['String']['input']>;
   socksProxyPassword?: InputMaybe<Scalars['String']['input']>;
@@ -1802,6 +1808,7 @@ export type PartialSettingsTypeInput = {
   socksProxyVersion?: InputMaybe<Scalars['Int']['input']>;
   systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
+  useHikariConnectionPool?: InputMaybe<Scalars['Boolean']['input']>;
   webUIChannel?: InputMaybe<WebUiChannel>;
   webUIFlavor?: InputMaybe<WebUiFlavor>;
   webUIInterface?: InputMaybe<WebUiInterface>;
@@ -2173,6 +2180,13 @@ export type Settings = {
   authMode?: Maybe<AuthMode>;
   authPassword?: Maybe<Scalars['String']['output']>;
   authUsername?: Maybe<Scalars['String']['output']>;
+  autoBackupIncludeCategories?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeChapters?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeClientData?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeHistory?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeManga?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeServerSettings?: Maybe<Scalars['Boolean']['output']>;
+  autoBackupIncludeTracking?: Maybe<Scalars['Boolean']['output']>;
   /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit?: Maybe<Scalars['Int']['output']>;
   autoDownloadIgnoreReUploads?: Maybe<Scalars['Boolean']['output']>;
@@ -2217,20 +2231,25 @@ export type Settings = {
   jwtRefreshExpiry?: Maybe<Scalars['Duration']['output']>;
   jwtTokenExpiry?: Maybe<Scalars['Duration']['output']>;
   koreaderSyncChecksumMethod?: Maybe<KoreaderSyncChecksumMethod>;
+  /** @deprecated Moved to preference store. Is supposed to be random and gets auto generated, replace with MOVE TO PREFERENCES */
   koreaderSyncDeviceId?: Maybe<Scalars['String']['output']>;
   koreaderSyncPercentageTolerance?: Maybe<Scalars['Float']['output']>;
+  /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
   koreaderSyncServerUrl?: Maybe<Scalars['String']['output']>;
   /** @deprecated Replaced with koreaderSyncStrategyForward and koreaderSyncStrategyBackward, replace with koreaderSyncStrategyForward, koreaderSyncStrategyBackward */
   koreaderSyncStrategy?: Maybe<KoreaderSyncLegacyStrategy>;
   koreaderSyncStrategyBackward?: Maybe<KoreaderSyncConflictStrategy>;
   koreaderSyncStrategyForward?: Maybe<KoreaderSyncConflictStrategy>;
+  /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
   koreaderSyncUserkey?: Maybe<Scalars['String']['output']>;
+  /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
   koreaderSyncUsername?: Maybe<Scalars['String']['output']>;
   localSourcePath?: Maybe<Scalars['String']['output']>;
   maxLogFileSize?: Maybe<Scalars['String']['output']>;
   maxLogFiles?: Maybe<Scalars['Int']['output']>;
   maxLogFolderSize?: Maybe<Scalars['String']['output']>;
   maxSourcesInParallel?: Maybe<Scalars['Int']['output']>;
+  opdsCbzMimetype?: Maybe<CbzMediaType>;
   opdsChapterSortOrder?: Maybe<SortOrder>;
   opdsEnablePageReadProgress?: Maybe<Scalars['Boolean']['output']>;
   opdsItemsPerPage?: Maybe<Scalars['Int']['output']>;
@@ -2239,6 +2258,7 @@ export type Settings = {
   opdsShowOnlyUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
   opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
   port?: Maybe<Scalars['Int']['output']>;
+  serveConversions?: Maybe<Array<SettingsDownloadConversion>>;
   socksProxyEnabled?: Maybe<Scalars['Boolean']['output']>;
   socksProxyHost?: Maybe<Scalars['String']['output']>;
   socksProxyPassword?: Maybe<Scalars['String']['output']>;
@@ -2247,6 +2267,7 @@ export type Settings = {
   socksProxyVersion?: Maybe<Scalars['Int']['output']>;
   systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
   updateMangas?: Maybe<Scalars['Boolean']['output']>;
+  useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
   webUIChannel?: Maybe<WebUiChannel>;
   webUIFlavor?: Maybe<WebUiFlavor>;
   webUIInterface?: Maybe<WebUiInterface>;
@@ -2254,20 +2275,45 @@ export type Settings = {
 };
 
 export type SettingsDownloadConversion = {
+  callTimeout?: Maybe<Scalars['Duration']['output']>;
   compressionLevel?: Maybe<Scalars['Float']['output']>;
+  connectTimeout?: Maybe<Scalars['Duration']['output']>;
+  headers?: Maybe<Array<SettingsDownloadConversionHeader>>;
   mimeType: Scalars['String']['output'];
   target: Scalars['String']['output'];
 };
 
+export type SettingsDownloadConversionHeader = {
+  name: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
+export type SettingsDownloadConversionHeaderType = SettingsDownloadConversionHeader & {
+  __typename?: 'SettingsDownloadConversionHeaderType';
+  name: Scalars['String']['output'];
+  value: Scalars['String']['output'];
+};
+
+export type SettingsDownloadConversionHeaderTypeInput = {
+  name: Scalars['String']['input'];
+  value: Scalars['String']['input'];
+};
+
 export type SettingsDownloadConversionType = SettingsDownloadConversion & {
   __typename?: 'SettingsDownloadConversionType';
+  callTimeout?: Maybe<Scalars['Duration']['output']>;
   compressionLevel?: Maybe<Scalars['Float']['output']>;
+  connectTimeout?: Maybe<Scalars['Duration']['output']>;
+  headers?: Maybe<Array<SettingsDownloadConversionHeaderType>>;
   mimeType: Scalars['String']['output'];
   target: Scalars['String']['output'];
 };
 
 export type SettingsDownloadConversionTypeInput = {
+  callTimeout?: InputMaybe<Scalars['Duration']['input']>;
   compressionLevel?: InputMaybe<Scalars['Float']['input']>;
+  connectTimeout?: InputMaybe<Scalars['Duration']['input']>;
+  headers?: InputMaybe<Array<SettingsDownloadConversionHeaderTypeInput>>;
   mimeType: Scalars['String']['input'];
   target: Scalars['String']['input'];
 };
@@ -2277,6 +2323,13 @@ export type SettingsType = Settings & {
   authMode: AuthMode;
   authPassword: Scalars['String']['output'];
   authUsername: Scalars['String']['output'];
+  autoBackupIncludeCategories: Scalars['Boolean']['output'];
+  autoBackupIncludeChapters: Scalars['Boolean']['output'];
+  autoBackupIncludeClientData: Scalars['Boolean']['output'];
+  autoBackupIncludeHistory: Scalars['Boolean']['output'];
+  autoBackupIncludeManga: Scalars['Boolean']['output'];
+  autoBackupIncludeServerSettings: Scalars['Boolean']['output'];
+  autoBackupIncludeTracking: Scalars['Boolean']['output'];
   /** @deprecated Replaced with autoDownloadNewChaptersLimit, replace with autoDownloadNewChaptersLimit */
   autoDownloadAheadLimit: Scalars['Int']['output'];
   autoDownloadIgnoreReUploads: Scalars['Boolean']['output'];
@@ -2321,20 +2374,25 @@ export type SettingsType = Settings & {
   jwtRefreshExpiry: Scalars['Duration']['output'];
   jwtTokenExpiry: Scalars['Duration']['output'];
   koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod;
+  /** @deprecated Moved to preference store. Is supposed to be random and gets auto generated, replace with MOVE TO PREFERENCES */
   koreaderSyncDeviceId: Scalars['String']['output'];
   koreaderSyncPercentageTolerance: Scalars['Float']['output'];
+  /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
   koreaderSyncServerUrl: Scalars['String']['output'];
   /** @deprecated Replaced with koreaderSyncStrategyForward and koreaderSyncStrategyBackward, replace with koreaderSyncStrategyForward, koreaderSyncStrategyBackward */
   koreaderSyncStrategy: KoreaderSyncLegacyStrategy;
   koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy;
   koreaderSyncStrategyForward: KoreaderSyncConflictStrategy;
+  /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
   koreaderSyncUserkey: Scalars['String']['output'];
+  /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
   koreaderSyncUsername: Scalars['String']['output'];
   localSourcePath: Scalars['String']['output'];
   maxLogFileSize: Scalars['String']['output'];
   maxLogFiles: Scalars['Int']['output'];
   maxLogFolderSize: Scalars['String']['output'];
   maxSourcesInParallel: Scalars['Int']['output'];
+  opdsCbzMimetype: CbzMediaType;
   opdsChapterSortOrder: SortOrder;
   opdsEnablePageReadProgress: Scalars['Boolean']['output'];
   opdsItemsPerPage: Scalars['Int']['output'];
@@ -2343,6 +2401,7 @@ export type SettingsType = Settings & {
   opdsShowOnlyUnreadChapters: Scalars['Boolean']['output'];
   opdsUseBinaryFileSizes: Scalars['Boolean']['output'];
   port: Scalars['Int']['output'];
+  serveConversions: Array<SettingsDownloadConversionType>;
   socksProxyEnabled: Scalars['Boolean']['output'];
   socksProxyHost: Scalars['String']['output'];
   socksProxyPassword: Scalars['String']['output'];
@@ -2351,6 +2410,7 @@ export type SettingsType = Settings & {
   socksProxyVersion: Scalars['Int']['output'];
   systemTrayEnabled: Scalars['Boolean']['output'];
   updateMangas: Scalars['Boolean']['output'];
+  useHikariConnectionPool: Scalars['Boolean']['output'];
   webUIChannel: WebUiChannel;
   webUIFlavor: WebUiFlavor;
   webUIInterface: WebUiInterface;
@@ -3211,6 +3271,8 @@ export type WebuiUpdateInfoFragment = { __typename?: 'WebUIUpdateInfo', channel:
 
 export type WebuiUpdateStatusFragment = { __typename?: 'WebUIUpdateStatus', progress: number, state: UpdateState, info: { __typename?: 'WebUIUpdateInfo', channel: WebUiChannel, tag: string } };
 
+export type KoSyncStatusFragment = { __typename?: 'KoSyncStatusPayload', isLoggedIn: boolean, serverAddress?: string | null, username?: string | null };
+
 export type MangaMetaFieldsFragment = { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string };
 
 export type MangaBaseFieldsFragment = { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string };
@@ -3227,7 +3289,7 @@ export type MangaScreenFieldsFragment = { __typename?: 'MangaType', artist?: str
 
 export type MangaLibraryDuplicateScreenFieldsFragment = { __typename?: 'MangaType', description?: string | null, id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename?: 'ChapterNodeList', totalCount: number } };
 
-export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> };
+export type ServerSettingsFragment = { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> };
 
 export type SourceMetaFieldsFragment = { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string };
 
@@ -3510,19 +3572,19 @@ export type ClearServerCacheMutationVariables = Exact<{
 
 export type ClearServerCacheMutation = { __typename?: 'Mutation', clearCachedImages: { __typename?: 'ClearCachedImagesPayload', cachedPages?: boolean | null, cachedThumbnails?: boolean | null, downloadedThumbnails?: boolean | null } };
 
-export type ConnectKosyncAccountMutationVariables = Exact<{
-  input: ConnectKoSyncAccountInput;
+export type KoSyncLoginMutationVariables = Exact<{
+  serverAddress: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 }>;
 
 
-export type ConnectKosyncAccountMutation = { __typename?: 'Mutation', connectKoSyncAccount: { __typename?: 'KoSyncConnectPayload', success: boolean, message?: string | null, username?: string | null, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
+export type KoSyncLoginMutation = { __typename?: 'Mutation', connectKoSyncAccount: { __typename?: 'KoSyncConnectPayload', message?: string | null, status: { __typename?: 'KoSyncStatusPayload', isLoggedIn: boolean, serverAddress?: string | null, username?: string | null } } };
 
-export type LogoutKosyncAccountMutationVariables = Exact<{
-  input: LogoutKoSyncAccountInput;
-}>;
+export type KoSyncLogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutKosyncAccountMutation = { __typename?: 'Mutation', logoutKoSyncAccount: { __typename?: 'LogoutKoSyncAccountPayload', success: boolean, settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
+export type KoSyncLogoutMutation = { __typename?: 'Mutation', logoutKoSyncAccount: { __typename?: 'LogoutKoSyncAccountPayload', status: { __typename?: 'KoSyncStatusPayload', isLoggedIn: boolean, serverAddress?: string | null, username?: string | null } } };
 
 export type DeleteMangaMetadataMutationVariables = Exact<{
   input: DeleteMangaMetaInput;
@@ -3604,14 +3666,14 @@ export type ResetServerSettingsMutationVariables = Exact<{
 }>;
 
 
-export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
+export type ResetServerSettingsMutation = { __typename?: 'Mutation', resetSettings: { __typename?: 'ResetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
 
 export type UpdateServerSettingsMutationVariables = Exact<{
   input: SetSettingsInput;
 }>;
 
 
-export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
+export type UpdateServerSettingsMutation = { __typename?: 'Mutation', setSettings: { __typename?: 'SetSettingsPayload', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } } };
 
 export type GetSourceMangasFetchMutationVariables = Exact<{
   input: FetchSourceMangaInput;
@@ -3895,6 +3957,11 @@ export type GetGlobalMetadatasQueryVariables = Exact<{
 
 export type GetGlobalMetadatasQuery = { __typename?: 'Query', metas: { __typename?: 'GlobalMetaNodeList', totalCount: number, nodes: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }>, pageInfo: { __typename?: 'PageInfo', endCursor?: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null } } };
 
+export type GetKoSyncStatusQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetKoSyncStatusQuery = { __typename?: 'Query', koSyncStatus: { __typename?: 'KoSyncStatusPayload', isLoggedIn: boolean, serverAddress?: string | null, username?: string | null } };
+
 export type GetMangaScreenQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
@@ -4010,7 +4077,7 @@ export type GetWebuiUpdateStatusQuery = { __typename?: 'Query', getWebUIUpdateSt
 export type GetServerSettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncServerUrl: string, koreaderSyncUsername: string, koreaderSyncUserkey: string, koreaderSyncDeviceId: string, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } };
+export type GetServerSettingsQuery = { __typename?: 'Query', settings: { __typename?: 'SettingsType', ip: string, port: number, socksProxyEnabled: boolean, socksProxyVersion: number, socksProxyHost: string, socksProxyPort: string, socksProxyUsername: string, socksProxyPassword: string, webUIFlavor: WebUiFlavor, initialOpenInBrowserEnabled: boolean, webUIInterface: WebUiInterface, electronPath: string, webUIChannel: WebUiChannel, webUIUpdateCheckInterval: number, downloadAsCbz: boolean, downloadsPath: string, autoDownloadNewChapters: boolean, excludeEntryWithUnreadChapters: boolean, autoDownloadNewChaptersLimit: number, autoDownloadIgnoreReUploads: boolean, extensionRepos: Array<string>, maxSourcesInParallel: number, excludeUnreadChapters: boolean, excludeNotStarted: boolean, excludeCompleted: boolean, globalUpdateInterval: number, updateMangas: boolean, authMode: AuthMode, authPassword: string, authUsername: string, jwtAudience: string, jwtTokenExpiry: string, jwtRefreshExpiry: string, debugLogsEnabled: boolean, systemTrayEnabled: boolean, maxLogFileSize: string, maxLogFiles: number, maxLogFolderSize: string, backupPath: string, backupTime: string, backupInterval: number, backupTTL: number, localSourcePath: string, flareSolverrEnabled: boolean, flareSolverrUrl: string, flareSolverrTimeout: number, flareSolverrSessionName: string, flareSolverrSessionTtl: number, flareSolverrAsResponseFallback: boolean, opdsUseBinaryFileSizes: boolean, opdsItemsPerPage: number, opdsEnablePageReadProgress: boolean, opdsMarkAsReadOnDownload: boolean, opdsShowOnlyUnreadChapters: boolean, opdsShowOnlyDownloadedChapters: boolean, opdsChapterSortOrder: SortOrder, koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod, koreaderSyncStrategyBackward: KoreaderSyncConflictStrategy, koreaderSyncStrategyForward: KoreaderSyncConflictStrategy, koreaderSyncPercentageTolerance: number, databaseType: DatabaseType, databaseUrl: string, databaseUsername: string, databasePassword: string, downloadConversions: Array<{ __typename?: 'SettingsDownloadConversionType', mimeType: string, target: string, compressionLevel?: number | null }> } };
 
 export type GetSourceBrowseQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

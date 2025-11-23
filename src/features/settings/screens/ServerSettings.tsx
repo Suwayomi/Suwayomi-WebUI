@@ -40,6 +40,7 @@ import {
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { ServerSettings as ServerSettingsType } from '@/features/settings/Settings.types.ts';
+import { KoreaderSyncSettings } from '@/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx';
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {
@@ -72,6 +73,8 @@ export const ServerSettings = () => {
         notifyOnNetworkStatusChange: true,
     });
     const [mutateSettings] = requestManager.useUpdateServerSettings();
+
+    const koSyncStatus = requestManager.useKoSyncStatus();
 
     const updateSetting = async <Setting extends keyof ServerSettingsType>(
         setting: Setting,
@@ -113,7 +116,7 @@ export const ServerSettings = () => {
         [serverInformAvailableUpdate],
     );
 
-    const loading = areMetadataServerSettingsLoading || areServerSettingsLoading;
+    const loading = areMetadataServerSettingsLoading || areServerSettingsLoading || koSyncStatus.loading;
     if (loading) {
         return (
             <>
@@ -123,7 +126,7 @@ export const ServerSettings = () => {
         );
     }
 
-    const error = metadataServerSettingsError ?? serverSettingsError;
+    const error = metadataServerSettingsError ?? serverSettingsError ?? koSyncStatus.error;
     if (error) {
         return (
             <>
@@ -143,6 +146,12 @@ export const ServerSettings = () => {
                                 defaultPromiseErrorHandler('ServerSettings::refetchServerSettings'),
                             );
                         }
+
+                        if (koSyncStatus.error) {
+                            koSyncStatus
+                                .refetch()
+                                .catch(defaultPromiseErrorHandler('ServerSettings::koSyncStatus.refetch'));
+                        }
                     }}
                 />
             </>
@@ -150,6 +159,7 @@ export const ServerSettings = () => {
     }
 
     const serverSettings = data!.settings;
+    const koreaderSyncStatus = koSyncStatus.data!.koSyncStatus;
     const authModeDisabled = !serverSettings.authUsername?.trim() || !serverSettings.authPassword?.trim();
     const isH2Database = serverSettings.databaseType === DatabaseType.H2;
 
@@ -460,6 +470,13 @@ export const ServerSettings = () => {
                     handleChange={(value) => updateSetting('opdsChapterSortOrder', value)}
                 />
             </List>
+            <KoreaderSyncSettings
+                settings={serverSettings}
+                serverAddress={koreaderSyncStatus.serverAddress}
+                username={koreaderSyncStatus.username}
+                isLoggedIn={koreaderSyncStatus.isLoggedIn}
+                updateSetting={updateSetting}
+            />
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-database">
