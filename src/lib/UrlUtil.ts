@@ -18,13 +18,13 @@ export class UrlUtil {
     }
 
     static createTabParam(tab: string | null | undefined): { [SearchParam.TAB]: string } {
-        return { ...this.createParams({ [SearchParam.TAB]: tab }).entries() } as unknown as {
+        return Object.fromEntries(this.createParams({ [SearchParam.TAB]: tab }).entries()) as unknown as {
             [SearchParam.TAB]: string;
         };
     }
 
     static createQueryParam(query: string | null | undefined): { [SearchParam.QUERY]: string } {
-        return { ...this.createParams({ [SearchParam.QUERY]: query }).entries() } as unknown as {
+        return Object.fromEntries(this.createParams({ [SearchParam.QUERY]: query }).entries()) as unknown as {
             [SearchParam.QUERY]: string;
         };
     }
