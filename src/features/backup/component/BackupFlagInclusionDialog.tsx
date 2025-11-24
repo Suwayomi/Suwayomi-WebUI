@@ -40,14 +40,7 @@ export const BackupFlagInclusionDialog = ({
     );
 
     return (
-        <Dialog
-            open={isVisible}
-            onTransitionExited={onExitComplete}
-            onAbort={onDismiss}
-            maxWidth="xs"
-            fullWidth
-            onClose={onSubmit}
-        >
+        <Dialog open={isVisible} onTransitionExited={onExitComplete} maxWidth="xs" fullWidth onClose={onDismiss}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <FormGroup sx={{ gap: 2 }}>

@@ -31,7 +31,7 @@ export const BackupValidationDialog = ({
     const { t } = useTranslation();
 
     return (
-        <Dialog open={isVisible} onTransitionExited={onExitComplete} onAbort={onDismiss}>
+        <Dialog open={isVisible} onTransitionExited={onExitComplete} onClose={onDismiss}>
             <DialogTitle>{t('settings.backup.action.validate.dialog.title')}</DialogTitle>
             <DialogContent dividers>
                 {!!validationResult?.missingSources.length && (
