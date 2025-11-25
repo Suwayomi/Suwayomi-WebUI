@@ -87,7 +87,8 @@
                     "label": {
                         "action": {
                             "current": "Oznacz jako przeczytane",
-                            "previous": "Oznacz poprzednie jako przeczytane"
+                            "previous": "Oznacz poprzednie jako przeczytane",
+                            "all": "Oznacz wszystko jako przeczytane"
                         },
                         "error_one": "Nie można oznaczyć rozdziału jako przeczytany",
                         "error_few": "Nie można oznaczyć rozdziałów jako przeczytane",
@@ -117,6 +118,9 @@
                         "selected": "Oznacz wybrane jako nieprzeczytane"
                     }
                 }
+            },
+            "filter_and_sort": {
+                "label": "Filtruj i sortuj"
             }
         },
         "error": {

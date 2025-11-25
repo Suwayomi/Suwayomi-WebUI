@@ -705,7 +705,7 @@
                 "add_to_library": {
                     "category_selection": {
                         "label": {
-                            "description": "當新增漫畫到書櫃時，顯示分類選擇對話框",
+                            "description": "標籤",
                             "title": "分類選擇對話框"
                         }
                     }

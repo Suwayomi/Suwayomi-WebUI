@@ -122,6 +122,10 @@
             },
             "filter_and_sort": {
                 "label": "Bộ lọc và sắp xếp"
+            },
+            "read": {
+                "resume": "Tiếp tục đọc\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "Bắt đầu đọc\n#{{chapterNumber}}—{{title}}\n{{scanlator}}"
             }
         },
         "error": {
@@ -1065,7 +1069,11 @@
                 "create": {
                     "label": {
                         "title": "Tạo bản sao lưu",
-                        "description": "Sao lưu thư viện bằng định dạng Tachiyomi"
+                        "description": "Sao lưu thư viện bằng định dạng Tachiyomi",
+                        "in_progress": "Đang tạo bản sao lưu…"
+                    },
+                    "error": {
+                        "failure": "Không thể tạo bản sao lưu"
                     }
                 }
             },
@@ -1086,6 +1094,19 @@
                         "description": "Địa chỉ đến thư mục trên máy chủ mà bản sao lưu nên lưu vào"
                     }
                 }
+            },
+            "flag": {
+                "categories": "Danh mục",
+                "chapters": "Các chương",
+                "client_data": "Dữ liệu máy khách",
+                "group": {
+                    "library": "Thư viện",
+                    "settings": "Cài đặt"
+                },
+                "history": "Lịch sử",
+                "manga": "Truyện trong thư viện",
+                "server_settings": "Cài đặt máy chủ",
+                "tracking": "Theo dõi"
             }
         },
         "label": {
@@ -1515,7 +1536,7 @@
                     },
                     "success": "Đã chọn chủ đề"
                 },
-                "mode": "Chế độ của chủ đề"
+                "mode": "Giao diện chủ đề"
             },
             "title": "Giao diện",
             "manga_thumbnail_backdrop": {
