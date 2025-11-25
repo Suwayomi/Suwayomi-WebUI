@@ -29,7 +29,7 @@
                 },
                 "other": {
                     "label": {
-                        "show_continue_reading_button": "\"Lesen fortsetzen\"-Knopf anzeigen"
+                        "show_continue_reading_button": "Weiterlesen-Knopf anzeigen"
                     }
                 }
             }
@@ -250,6 +250,10 @@
             },
             "filter_and_sort": {
                 "label": "Filtern und Sortieren"
+            },
+            "read": {
+                "resume": "Weiterlesen\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "Anfangen\n#{{chapterNumber}} — {{title}}\n{{scanlator}}"
             }
         },
         "error": {
@@ -963,7 +967,11 @@
                 "create": {
                     "label": {
                         "title": "Backup erstellen",
-                        "description": "Bibliothek als Tachiyomi-Backup sichern"
+                        "description": "Bibliothek als Tachiyomi-Backup sichern",
+                        "in_progress": "Backup wird erstellt…"
+                    },
+                    "error": {
+                        "failure": "Backup konnte nicht erstellt werden"
                     }
                 },
                 "validate": {
@@ -1000,6 +1008,19 @@
                         "title": "Backup Speicherort"
                     }
                 }
+            },
+            "flag": {
+                "categories": "Kategorien",
+                "chapters": "Kapitel",
+                "client_data": "Endgerät-Daten",
+                "group": {
+                    "library": "Bibliothek",
+                    "settings": "Einstellungen"
+                },
+                "history": "Verlauf",
+                "manga": "Bibliothek Einträge",
+                "server_settings": "Server Einstellungen",
+                "tracking": "Tracking"
             }
         },
         "label": {
@@ -1438,10 +1459,10 @@
         },
         "clear_cache": {
             "label": {
-                "title": "Server Cache leeren",
+                "title": "Cache leeren",
                 "description": "Der Cache des Clients (Browser, Electron) sollte ebenso gelöscht werden, ansonsten wird der Client-Cache weiterhin verwendet",
-                "failure": "Server Cache konnte nicht geleert werden",
-                "success": "Server Cache geleert"
+                "failure": "Cache konnte nicht geleert werden",
+                "success": "Cache geleert"
             }
         },
         "device": {
@@ -1643,8 +1664,8 @@
         "action": {
             "button": {
                 "add_tracking": "Tracking hinzufügen",
-                "track_privately": "Privat tracken",
-                "track_publicly": "Öffentlich tracken"
+                "track_privately": "Privat verfolgen",
+                "track_publicly": "Öffentlich verfolgen"
             },
             "login": {
                 "label": {

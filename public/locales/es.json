@@ -55,9 +55,26 @@
                 "create": {
                     "label": {
                         "description": "Hacer una copia de seguridad de la biblioteca como una copia de seguridad de Tachiyomi",
-                        "title": "Crear una copia de seguridad"
+                        "title": "Crear una copia de seguridad",
+                        "in_progress": "Creando copia de seguridad…"
+                    },
+                    "error": {
+                        "failure": "No se pudo crear una copia de seguridad"
                     }
                 }
+            },
+            "flag": {
+                "categories": "Categorías",
+                "chapters": "Capitulos",
+                "client_data": "Datos del cliente",
+                "group": {
+                    "library": "Biblioteca",
+                    "settings": "Ajustes"
+                },
+                "history": "Historial",
+                "manga": "Entradas de la biblioteca",
+                "server_settings": "Ajustes del servidor",
+                "tracking": "Seguimiento"
             }
         },
         "about": {
@@ -120,8 +137,25 @@
                                 "info": "Tu biblioteca será accesible. Usa esto solo en redes privadas o cuando asegures el acceso de otra manera.",
                                 "title": "Ninguna"
                             }
+                        },
+                        "simple_login": {
+                            "label": {
+                                "description": "El inicio de sesión será gestionado por el servidor.",
+                                "info": "Cuando habilite esto, es posible que deba actualizar esta pestaña para que aparezca la página de inicio de sesión.",
+                                "title": "Inicio de sesión simple"
+                            }
+                        },
+                        "ui_login": {
+                            "label": {
+                                "description": "El inicio de sesión será manejado por el cliente."
+                            }
                         }
                     }
+                },
+                "jwt": {
+                    "access_token_expiry": "Caducidad del token de acceso JWT",
+                    "audience": "Reclamo de audiencia de JWT",
+                    "refresh_token_expiry": "Vencimiento del token de actualización de JWT"
                 }
             },
             "address": {
@@ -294,6 +328,36 @@
                     }
                 },
                 "title": "OPDS"
+            },
+            "database": {
+                "address": "URL de la base de datos",
+                "title": "Base de datos",
+                "type": {
+                    "postgresql": "PostgreSQL",
+                    "title": "Tipo"
+                }
+            },
+            "koreader": {
+                "sync": {
+                    "check_sum_method": {
+                        "binary": "Binario",
+                        "filename": "Nombre del archivo",
+                        "title": "Método de Checksum"
+                    },
+                    "device_id": "ID del dispositivo",
+                    "server_address": "URL del servidor",
+                    "strategy": {
+                        "disabled": "Deshabilitado",
+                        "send": "Enviar",
+                        "title": "Estrategia de sincronización"
+                    },
+                    "title": "Sincronización de KOReader",
+                    "tolerance": {
+                        "description": "Tolerancia absoluta para la comparación del progreso",
+                        "title": "Tolerancia"
+                    },
+                    "user_key": "Clave de usuario"
+                }
             }
         },
         "webui": {
@@ -728,7 +792,8 @@
             "save": "Guardar",
             "open": "Abrir",
             "open_browser": "Abrir en el navegador",
-            "open_webview": "Abrir en WebView"
+            "open_webview": "Abrir en WebView",
+            "download": "Descargar"
         },
         "label": {
             "display": "Visualización",
@@ -829,6 +894,11 @@
                 "second_many": "Segundos",
                 "second_other": "Segundos",
                 "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            },
+            "days": {
+                "day_one": "Dia",
+                "day_many": "Dias",
+                "day_other": "Dias"
             }
         },
         "update": {
@@ -905,7 +975,7 @@
                         "error_one": "No se pudo eliminar el capitulo.",
                         "error_many": "No se pudieron eliminar los capítulos.",
                         "error_other": "No se pudieron eliminar los capítulos.",
-                        "action": "Eliminar capítulo",
+                        "action": "Eliminar capítulos",
                         "success_one": "Capítulo eliminado.",
                         "success_many": "{{count}} capítulos eliminados.",
                         "success_other": "{{count}} capítulos eliminados.",
@@ -919,7 +989,7 @@
                         "selected": "Descargar seleccionados"
                     },
                     "label": {
-                        "action": "Descargar capítulo",
+                        "action": "Descargar capítulos",
                         "error_one": "No se pudo añadir el capítulo a la cola de descargas.",
                         "error_many": "No se pudieron añadir los capítulos a la cola de descargas.",
                         "error_other": "No se pudieron añadir los capítulos a la cola de descargas.",
@@ -943,7 +1013,8 @@
                     "label": {
                         "action": {
                             "current": "Marcar como leído",
-                            "previous": "Marcar anterior como leído"
+                            "previous": "Marcar anteriores como leídos",
+                            "all": "Marcar todos como leídos"
                         },
                         "error_one": "No se pudo marcar el capítulo como leído.",
                         "error_many": "No se pudieron marcar los capítulos como leídos.",
@@ -978,7 +1049,14 @@
                 }
             },
             "label": {
-                "select": "Seleccionar capítulo"
+                "select": "Seleccionar"
+            },
+            "filter_and_sort": {
+                "label": "Filtrar y ordenar"
+            },
+            "read": {
+                "resume": "Siguir leyendo\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "Empezar a Leer\n#{{chapterNumber}} — {{title}}\n{{scanlator}}"
             }
         },
         "option": {
@@ -1336,9 +1414,9 @@
             "update_failed_other": "No se han podido actualizar las extensiones",
             "add_repository_info": "Tienes que añadir un repositorio de extensiones para poder instalar extensiones",
             "age_rating": "Clasificación de edad",
-            "available_updates_one": "{{count}} actualizaciones disponibles",
-            "available_updates_many": "",
-            "available_updates_other": ""
+            "available_updates_one": "{{count}} actualización disponible",
+            "available_updates_many": "{{count}} actualizaciones disponibles",
+            "available_updates_other": "{{count}} actualizaciones disponibles"
         },
         "title_one": "Extensión",
         "title_many": "Extensiones",

@@ -122,6 +122,10 @@
             },
             "filter_and_sort": {
                 "label": "筛选与排序"
+            },
+            "read": {
+                "resume": "继续阅读\n#{{chapterNumber}}——{{title}}\n{{scanlator}}",
+                "start": "开始阅读\n#{{chapterNumber}}——{{title}}\n{{scanlator}}"
             }
         },
         "error": {
@@ -1031,7 +1035,11 @@
                 "create": {
                     "label": {
                         "title": "创建备份",
-                        "description": "将库备份为Tachiyomi备份"
+                        "description": "将库备份为Tachiyomi备份",
+                        "in_progress": "正在创建备份……"
+                    },
+                    "error": {
+                        "failure": "无法创建备份"
                     }
                 },
                 "validate": {
@@ -1050,6 +1058,19 @@
                         }
                     }
                 }
+            },
+            "flag": {
+                "categories": "分类",
+                "chapters": "章节",
+                "client_data": "客户端数据",
+                "group": {
+                    "library": "书架",
+                    "settings": "设置"
+                },
+                "history": "历史",
+                "manga": "书架项目",
+                "server_settings": "服务端设置",
+                "tracking": "追踪"
             }
         },
         "label": {
