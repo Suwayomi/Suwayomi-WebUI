@@ -53,6 +53,7 @@ import {
     getReaderOverlayStore,
     getReaderPagesStore,
     getReaderSettingsStore,
+    getReaderStore,
     getReaderTapZoneStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
@@ -494,8 +495,34 @@ export class ReaderControls {
         type: PageInViewportType,
         readingDirection: ReadingDirection,
     ) {
+        const themeDirectionOfReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
+        // In case the reader navigation bar is static, the readers "viewport" x position gets moved, thus, this needs to be considered as a threshold.
+        const scrollContainerX = getReaderStore().autoScroll.scrollRef?.current?.getBoundingClientRect().x ?? 0;
+        const pageHorizontalEndInViewportThreshold = getOptionForDirection(
+            scrollContainerX + 1,
+            window.innerWidth + 1,
+            themeDirectionOfReadingDirection,
+        );
+
         const firstVisibleImageIndex = imageRefs.current.findIndex(
-            (image) => image && isPageInViewport(image, type, { truncateValues: true }),
+            (image) =>
+                image &&
+                isPageInViewport(image, type, {
+                    truncateValues: true,
+                    thresholds: {
+                        bottom: 1,
+                        left: getOptionForDirection(
+                            0,
+                            pageHorizontalEndInViewportThreshold,
+                            themeDirectionOfReadingDirection,
+                        ),
+                        right: getOptionForDirection(
+                            pageHorizontalEndInViewportThreshold,
+                            0,
+                            themeDirectionOfReadingDirection,
+                        ),
+                    },
+                }),
         );
         const lastPage = imageRefs.current?.[imageRefs.current.length - 1];
         const isEndReached = lastPage && isEndOfPageInViewport(lastPage, type, readingDirection);
