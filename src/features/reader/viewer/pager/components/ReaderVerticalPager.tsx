@@ -36,7 +36,7 @@ const BaseReaderVerticalPager = ({
                     isPreloadMode,
                     onLoad,
                     onError,
-                    shouldLoad,
+                    shouldLoad || pageLoadStates[page.primary.index].loaded,
                     !isPreloadMode,
                     currentPageIndex,
                     totalPages,
