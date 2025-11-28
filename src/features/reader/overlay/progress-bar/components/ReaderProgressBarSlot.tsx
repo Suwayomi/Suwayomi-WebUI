@@ -19,6 +19,7 @@ export const ReaderProgressBarSlot = memo(
             {...slotProps?.tooltip}
             title={pageName}
             placement={READER_PROGRESS_BAR_POSITION_TO_PLACEMENT[progressBarPosition]}
+            disableTouchListener
         >
             <Box {...slotProps?.box} sx={{ width: '100%', height: '100%', ...slotProps?.box?.sx }}>
                 {children}

@@ -29,6 +29,7 @@ export const ReaderProgressBarCurrentPageSlot = ({
             tooltip: { sx: { backgroundColor: 'primary.main', color: 'primary.contrastText' } },
         }}
         placement={READER_PROGRESS_BAR_POSITION_TO_PLACEMENT[progressBarPosition]}
+        disableTouchListener
     >
         <Box
             {...boxProps}
