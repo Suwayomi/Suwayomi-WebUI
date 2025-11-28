@@ -96,7 +96,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
     );
 
     useEffect(() => {
-        if (showMissingImageIcon || !shouldLoad) {
+        if (showMissingImageIcon || !shouldLoad || !!imageSourceUrl) {
             return () => {};
         }
 
