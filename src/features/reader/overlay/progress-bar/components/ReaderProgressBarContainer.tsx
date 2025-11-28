@@ -35,4 +35,5 @@ export const ReaderProgressBarContainer = styled(Stack, {
     ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isRight, {
         alignItems: theme.direction === 'ltr' ? 'flex-end' : 'flex-start',
     }),
+    WebkitTapHighlightColor: 'transparent',
 }));
