@@ -60,9 +60,20 @@ const BaseReaderNavBarDesktop = ({
 }: ReaderNavBarDesktopProps & Pick<NavbarContextType, 'setReaderNavBarWidth'>) => {
     const { t } = useTranslation();
     const manga = useReaderStore((state) => state.manga);
-    const { chapters, currentChapter, previousChapter, nextChapter } = useReaderChaptersStore((state) => ({
+    const {
+        chapters,
+        currentChapterId,
+        currentChapterName,
+        currentChapterNumber,
+        currentChapterScanlator,
+        previousChapter,
+        nextChapter,
+    } = useReaderChaptersStore((state) => ({
         chapters: state.chapters.chapters,
-        currentChapter: state.chapters.currentChapter,
+        currentChapterId: state.chapters.currentChapter?.id,
+        currentChapterName: state.chapters.currentChapter?.name,
+        currentChapterNumber: state.chapters.currentChapter?.chapterNumber,
+        currentChapterScanlator: state.chapters.currentChapter?.scanlator,
         previousChapter: state.chapters.previousChapter,
         nextChapter: state.chapters.nextChapter,
     }));
@@ -113,13 +124,13 @@ const BaseReaderNavBarDesktop = ({
                             </IconButton>
                         </CustomTooltip>
                     </Stack>
-                    {manga && currentChapter ? (
+                    {manga && currentChapterId !== undefined ? (
                         <>
                             <ReaderNavBarDesktopMetadata
                                 mangaId={manga.id}
                                 mangaTitle={manga.title}
-                                chapterTitle={currentChapter.name}
-                                scanlator={currentChapter.scanlator}
+                                chapterTitle={currentChapterName ?? ''}
+                                scanlator={currentChapterScanlator}
                             />
                             <ReaderNavBarDesktopActions />
                         </>
@@ -132,7 +143,9 @@ const BaseReaderNavBarDesktop = ({
                         <ReaderNavBarDesktopPageNavigation />
                         <ReaderNavBarDesktopChapterNavigation
                             chapters={chapters}
-                            currentChapter={currentChapter}
+                            currentChapterId={currentChapterId}
+                            currentChapterName={currentChapterName}
+                            currentChapterNumber={currentChapterNumber}
                             nextChapter={nextChapter}
                             previousChapter={previousChapter}
                         />

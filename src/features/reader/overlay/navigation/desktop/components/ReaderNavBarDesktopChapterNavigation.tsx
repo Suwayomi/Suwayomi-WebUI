@@ -24,23 +24,30 @@ import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
+import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const BaseReaderNavBarDesktopChapterNavigation = ({
-    currentChapter,
+    currentChapterId,
+    currentChapterName,
+    currentChapterNumber,
     previousChapter,
     nextChapter,
     chapters = [],
     readerThemeDirection,
-}: Pick<ReaderStateChapters, 'chapters' | 'currentChapter' | 'previousChapter' | 'nextChapter'> & {
-    readerThemeDirection: ReturnType<typeof ReaderService.useGetThemeDirection>;
-}) => {
+}: {
+    currentChapterId: ChapterIdInfo['id'] | undefined;
+    currentChapterName: string | undefined;
+    currentChapterNumber: number | undefined;
+} & Pick<ReaderStateChapters, 'chapters' | 'previousChapter' | 'nextChapter'> & {
+        readerThemeDirection: ReturnType<typeof ReaderService.useGetThemeDirection>;
+    }) => {
     const { t } = useTranslation();
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'reader-nav-bar-desktop-chapter-list' });
 
     useLayoutEffect(() => {
         popupState.close();
-    }, [currentChapter?.id]);
+    }, [currentChapterId]);
 
     return (
         <Stack sx={{ flexDirection: 'row', gap: 1 }} dir="ltr">
@@ -63,15 +70,15 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
                 <Select
                     {...bindTrigger(popupState)}
                     open={popupState.isOpen}
-                    value={currentChapter?.id ?? 0}
+                    value={currentChapterId ?? 0}
                     // hide actual select menu
                     MenuProps={{ sx: { visibility: 'hidden' } }}
                     label={t('chapter.title_one')}
                     labelId="reader-nav-bar-desktop-chapter-select"
                 >
                     {/* hacky way to use the select component with a custom menu, the only possible value that is needed is the current chapter */}
-                    <MenuItem key={currentChapter?.id} value={currentChapter?.id ?? 0}>
-                        {currentChapter ? `#${currentChapter.chapterNumber} ${currentChapter.name}` : ''}
+                    <MenuItem key={currentChapterId} value={currentChapterId ?? 0}>
+                        {currentChapterNumber !== undefined ? `#${currentChapterNumber} ${currentChapterName}` : ''}
                     </MenuItem>
                 </Select>
             </FormControl>
@@ -105,7 +112,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
                             minHeight: '150px',
                             maxHeight: '300px',
                         }}
-                        currentChapter={currentChapter}
+                        currentChapterId={currentChapterId}
                         chapters={chapters}
                     />
                 </Box>

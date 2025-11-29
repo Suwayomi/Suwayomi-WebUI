@@ -32,8 +32,8 @@ const BaseReaderBottomBarMobile = ({
     topOffset = 0,
 }: ReaderBottomBarMobileProps & { topOffset?: number }) => {
     const { t } = useTranslation();
-    const { currentChapter, chapters } = useReaderChaptersStore((state) => ({
-        currentChapter: state.chapters.currentChapter,
+    const { currentChapterId, chapters } = useReaderChaptersStore((state) => ({
+        currentChapterId: state.chapters.currentChapter?.id,
         chapters: state.chapters.chapters,
     }));
 
@@ -50,7 +50,7 @@ const BaseReaderBottomBarMobile = ({
 
     useLayoutEffect(() => {
         chapterListPopupState.close();
-    }, [currentChapter?.id]);
+    }, [currentChapterId]);
 
     return (
         <>
@@ -112,7 +112,7 @@ const BaseReaderBottomBarMobile = ({
                                 minHeight: '15vh',
                                 maxHeight: '75vh',
                             }}
-                            currentChapter={currentChapter}
+                            currentChapterId={currentChapterId}
                             chapters={chapters}
                         />
                     </DialogContent>

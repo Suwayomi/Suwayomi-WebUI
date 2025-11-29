@@ -9,7 +9,7 @@
 import { ChapterAction, ChapterListOptions, ChapterSortMode } from '@/features/chapter/Chapter.types.ts';
 import { TranslationKey } from '@/base/Base.types.ts';
 
-export const FALLBACK_CHAPTER = { id: -1, name: '', realUrl: '', isBookmarked: false };
+export const FALLBACK_CHAPTER = { id: -1, name: '', realUrl: '', isDownloaded: false, isBookmarked: false };
 
 export const DEFAULT_CHAPTER_OPTIONS: ChapterListOptions = {
     unread: undefined,

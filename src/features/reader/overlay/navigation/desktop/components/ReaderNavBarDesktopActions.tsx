@@ -25,19 +25,17 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useReaderChaptersStore, useReaderPagesStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ChapterDownloadInfo, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
-const DownloadButton = ({
-    currentChapter,
-}: {
-    currentChapter: NullAndUndefined<ChapterIdInfo & ChapterDownloadInfo>;
-}) => {
+const DownloadButton = ({ id = -1, isDownloaded }: ChapterIdInfo & ChapterDownloadInfo) => {
     const { t } = useTranslation();
 
-    const downloadStatus = Chapters.useDownloadStatusFromCache(currentChapter?.id ?? -1);
+    const downloadStatus = Chapters.useDownloadStatusFromCache(id);
 
-    if (currentChapter && Chapters.isDownloaded(currentChapter)) {
+    const isDisabled = id === undefined;
+
+    if (id !== undefined && isDownloaded) {
         return (
             <CustomTooltip title={t(CHAPTER_ACTION_TO_TRANSLATION.delete.action.single)}>
-                <IconButton onClick={() => Chapters.performAction('delete', [currentChapter.id], {})} color="inherit">
+                <IconButton onClick={() => Chapters.performAction('delete', [id], {})} color="inherit">
                     <DeleteIcon />
                 </IconButton>
             </CustomTooltip>
@@ -49,10 +47,10 @@ const DownloadButton = ({
     }
 
     return (
-        <CustomTooltip title={t(CHAPTER_ACTION_TO_TRANSLATION.download.action.single)} disabled={!currentChapter}>
+        <CustomTooltip title={t(CHAPTER_ACTION_TO_TRANSLATION.download.action.single)} disabled={isDisabled}>
             <IconButton
-                disabled={!currentChapter}
-                onClick={() => Chapters.performAction('download', [currentChapter?.id ?? -1], {})}
+                disabled={isDisabled}
+                onClick={() => Chapters.performAction('download', [id], {})}
                 color="inherit"
             >
                 <DownloadIcon />
@@ -62,9 +60,12 @@ const DownloadButton = ({
 };
 
 export const ReaderNavBarDesktopActions = memo(() => {
-    const currentChapter = useReaderChaptersStore((state) => state.chapters.currentChapter);
-
-    const { id, isBookmarked, realUrl } = currentChapter ?? FALLBACK_CHAPTER;
+    const { id, isDownloaded, isBookmarked, realUrl } = useReaderChaptersStore((state) => ({
+        id: state.chapters.currentChapter?.id ?? FALLBACK_CHAPTER.id,
+        isDownloaded: state.chapters.currentChapter?.isDownloaded ?? FALLBACK_CHAPTER.isDownloaded,
+        isBookmarked: state.chapters.currentChapter?.isBookmarked ?? FALLBACK_CHAPTER.isBookmarked,
+        realUrl: state.chapters.currentChapter?.realUrl ?? FALLBACK_CHAPTER.realUrl,
+    }));
 
     const { t } = useTranslation();
     const { pageLoadStates, setPageLoadStates, setRetryFailedPagesKeyPrefix } = useReaderPagesStore((state) => ({
@@ -102,7 +103,7 @@ export const ReaderNavBarDesktopActions = memo(() => {
                     <ReplayIcon />
                 </IconButton>
             </CustomTooltip>
-            <DownloadButton currentChapter={currentChapter} />
+            <DownloadButton id={id} isDownloaded={isDownloaded} />
             <CustomTooltip title={t('global.button.open_browser')} disabled={!realUrl}>
                 <IconButton disabled={!realUrl} href={realUrl ?? ''} rel="noreferrer" target="_blank" color="inherit">
                     <IconBrowser />
