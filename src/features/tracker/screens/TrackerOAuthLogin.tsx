@@ -23,19 +23,10 @@ export const TrackerOAuthLogin = () => {
         url.searchParams.get('state') ?? '{}',
     );
 
-    const [loginTrackerOAuth, { loading: isLoginInProgress }] = requestManager.useLoginToTrackerOauth();
-
     useEffect(() => {
         const login = async () => {
             try {
-                await loginTrackerOAuth({
-                    variables: {
-                        input: {
-                            callbackUrl: window.location.href,
-                            trackerId,
-                        },
-                    },
-                });
+                await requestManager.loginToTrackerOauth(trackerId, window.location.href).response;
             } catch (e) {
                 makeToast(t('tracking.action.login.label.failure', { name: trackerName }), 'error', getErrorMessage(e));
             }
@@ -46,9 +37,5 @@ export const TrackerOAuthLogin = () => {
         login();
     }, [trackerId]);
 
-    if (isLoginInProgress) {
-        return t('tracking.action.login.label.progress', { name: trackerName });
-    }
-
-    return null;
+    return t('tracking.action.login.label.progress', { name: trackerName });
 };

@@ -471,6 +471,7 @@
       "load_in_progress": "Still loading required data…",
       "loading": "Loading…",
       "logged_in": "Logged in",
+      "logged_out": "Logged out",
       "medium": "Medium",
       "menu": "Menu",
       "mobile": "Mobile",
@@ -1424,25 +1425,35 @@
           "check_sum_method": {
             "binary": "Binary",
             "filename": "Filename",
-            "title": "Check sum method"
+            "title": "Document matching method"
           },
+          "description": "Synchronize reading progress with KOReader devices.",
           "device_id": "Device ID",
-          "server_address": "Server url",
+          "device_name": "Device Name",
+          "logged_in_as": "Username: {{username}}, Server: {{serverAddress}}",
+          "message": {
+            "connect_error": "Failed to connect to KOReader Sync server.",
+            "connect_success": "Successfully connected to KOReader Sync server.",
+            "disconnect_error": "Failed to disconnect from KOReader Sync server.",
+            "disconnect_success": "Successfully disconnected from KOReader Sync server."
+          },
+          "server_address": "Server address",
+          "status": "Sync status",
           "strategy": {
-            "disabled": "Disabled",
-            "prompt": "Prompt",
-            "receive": "Receive",
-            "send": "Send",
-            "silent": "Silent",
-            "title": "Sync strategy"
+            "backward_title": "Sync to an older state",
+            "forward_title": "Sync to a newer state",
+            "option": {
+              "disabled": "Disabled",
+              "keep_local": "Keep local",
+              "keep_remote": "Keep remote",
+              "prompt": "Prompt"
+            }
           },
-          "title": "KOReader sync",
+          "title": "KOReader Sync",
           "tolerance": {
-            "description": "Absolute tolerance for progress comparison",
-            "title": "Tolerance"
-          },
-          "user_key": "User key",
-          "username": "$t(global.label.username)"
+            "description": "Sync will not be triggered if the progress difference is within this tolerance.",
+            "title": "Percentage Tolerance"
+          }
         }
       },
       "local_source": {
