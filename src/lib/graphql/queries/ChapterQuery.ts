@@ -103,6 +103,9 @@ export const GET_CHAPTERS_UPDATES = gql`
         $offset: Int
         $order: [ChapterOrderInput!]
     ) {
+        lastUpdateTimestamp {
+            timestamp
+        }
         chapters(
             after: $after
             before: $before
