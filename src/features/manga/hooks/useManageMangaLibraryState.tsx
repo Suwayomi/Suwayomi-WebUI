@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import gql from 'graphql-tag';
@@ -32,6 +32,10 @@ export const useManageMangaLibraryState = (
     const navigate = useNavigate();
 
     const [isInLibrary, setIsInLibrary] = useState(!!manga.inLibrary);
+
+    useEffect(() => {
+        setIsInLibrary(!!manga.inLibrary);
+    }, [manga.id]);
 
     const addToLibrary = useCallback(
         (addToCategories: number[] = [], removeFromCategories: number[] = []) => {

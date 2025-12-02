@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Manga**) Fix showing private tracking option for trackers which do not support the option
 - (**Manga**) Fix redirection to tracker settings in case no tracker is logged in
 - (**Manga**) Fix closing the category select dialog after clicking edit/create button while adding an entry to the library
+- (**Manga**) Fix "in library" button after clicking "show duplicate entry" in the "duplicate entry detected" dialog
 - (**Library**) Fix showing incorrect info text for an empty category
 - (**Browse**) Prevent infinite loading in case the whole source catalogue has been added to the library and the "hide entries in library" setting is enabled
 - (**Browse**) Fix using incorrect native language name for some sources (e.g., different chinese languages (zh-hans, zh-hant, ...) were all showing the same native name)
