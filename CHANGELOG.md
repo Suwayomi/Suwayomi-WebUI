@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**General**) Improve loading of images
 - (**Category**) Prevent creating categories without a name
 - (**WebUI Update**) Do not require a forced page refresh when an update has been detected in case the app just got opened
+- (**Manga**) Change "duplicate entry detected" dialog "show entry" button to be a link instead of a button
 
 ### Fixed
 - (**General**) Fix tooltips sometimes causing a layout shift
