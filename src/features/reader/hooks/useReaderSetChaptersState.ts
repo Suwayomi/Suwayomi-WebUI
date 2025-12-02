@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -40,66 +40,36 @@ export const useReaderSetChaptersState = (
     const { updateInitialChapter } = locationState ?? {};
     const finalInitialChapter = updateInitialChapter ? undefined : initialChapter;
 
-    const newMangaChapters = chaptersResponse.data?.chapters.nodes;
-    const newCurrentChapter = useMemo(
-        () => (newMangaChapters ? (newMangaChapters[newMangaChapters.length - chapterSourceOrder] ?? null) : undefined),
-        [newMangaChapters, chapterSourceOrder],
-    );
-    const newInitialChapter = finalInitialChapter ?? newCurrentChapter;
-    const newChapterForDuplicatesHandling = chapterForDuplicatesHandling ?? newCurrentChapter;
-
-    const filteredChapters = useMemo(() => {
-        if (!newMangaChapters) {
-            return newMangaChapters;
-        }
-
-        return shouldSkipFilteredChapters
-            ? filterChapters(mangaChapters ?? newMangaChapters, chapterListOptions)
-            : newMangaChapters;
-    }, [newMangaChapters, shouldSkipFilteredChapters, mangaChapters, chapterListOptions]);
-
-    const uniqueChapters = useMemo(() => {
-        if (!filteredChapters || !newChapterForDuplicatesHandling) {
-            return filteredChapters;
-        }
-
-        return shouldSkipDupChapters
-            ? Chapters.removeDuplicates(newChapterForDuplicatesHandling, filteredChapters)
-            : filteredChapters;
-    }, [filteredChapters, shouldSkipDupChapters, newChapterForDuplicatesHandling]);
-
-    const visibleChapters = useMemo(() => {
-        if (!uniqueChapters) {
-            return [];
-        }
-
-        return uniqueChapters.map((chapter) => getReaderChapterFromCache(chapter.id)!);
-    }, [uniqueChapters]);
-
-    const prevVisibleChaptersRef = useRef<typeof visibleChapters>([]);
-
     useEffect(() => {
-        // Check if visibleChapters actually changed by comparing chapter IDs
-        const hasChaptersChanged =
-            visibleChapters.length !== prevVisibleChaptersRef.current.length ||
-            visibleChapters.some((chapter, index) => chapter.id !== prevVisibleChaptersRef.current[index]?.id);
+        const newMangaChapters = chaptersResponse.data?.chapters.nodes;
+        const newCurrentChapter = newMangaChapters
+            ? (newMangaChapters[newMangaChapters.length - chapterSourceOrder] ?? null)
+            : undefined;
+        const newInitialChapter = finalInitialChapter ?? newCurrentChapter;
+        const newChapterForDuplicatesHandling = chapterForDuplicatesHandling ?? newCurrentChapter;
 
-        // Use the previous reference if chapters haven't actually changed
-        const stableVisibleChapters = hasChaptersChanged ? visibleChapters : prevVisibleChaptersRef.current;
+        const visibleChapters = (() => {
+            if (!newMangaChapters || !newChapterForDuplicatesHandling) {
+                return [];
+            }
 
-        // Update the ref for next comparison
-        if (hasChaptersChanged) {
-            prevVisibleChaptersRef.current = visibleChapters;
-        }
+            const filteredChapters = shouldSkipFilteredChapters
+                ? filterChapters(mangaChapters ?? newMangaChapters, chapterListOptions)
+                : newMangaChapters;
+            const uniqueChapters = shouldSkipDupChapters
+                ? Chapters.removeDuplicates(newChapterForDuplicatesHandling, filteredChapters)
+                : filteredChapters;
 
+            return uniqueChapters.map((chapter) => getReaderChapterFromCache(chapter.id)!);
+        })();
         const nextChapter =
             newCurrentChapter &&
-            Chapters.getNextChapter(newCurrentChapter, stableVisibleChapters, {
+            Chapters.getNextChapter(newCurrentChapter, visibleChapters, {
                 offset: DirectionOffset.NEXT,
             });
         const previousChapter =
             newCurrentChapter &&
-            Chapters.getNextChapter(newCurrentChapter, stableVisibleChapters, {
+            Chapters.getNextChapter(newCurrentChapter, visibleChapters, {
                 offset: DirectionOffset.PREVIOUS,
             });
 
@@ -115,7 +85,7 @@ export const useReaderSetChaptersState = (
             return {
                 ...prevState,
                 mangaChapters: prevState.mangaChapters ?? newMangaChapters,
-                chapters: stableVisibleChapters,
+                chapters: visibleChapters,
                 initialChapter: newInitialChapter,
                 chapterForDuplicatesHandling: newChapterForDuplicatesHandling,
                 currentChapter: newCurrentChapter,
@@ -140,12 +110,11 @@ export const useReaderSetChaptersState = (
             };
         });
     }, [
-        visibleChapters,
-        newCurrentChapter,
-        newInitialChapter,
+        chaptersResponse.data?.chapters.nodes,
+        chapterSourceOrder,
+        shouldSkipDupChapters,
+        shouldSkipFilteredChapters,
         finalInitialChapter,
-        newMangaChapters,
-        newChapterForDuplicatesHandling,
-        locationState,
+        chapterListOptions,
     ]);
 };
