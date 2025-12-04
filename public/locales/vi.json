@@ -1397,9 +1397,9 @@
         },
         "clear_cache": {
             "label": {
-                "success": "Đã xóa dữ liệu tạm thời của máy chủ",
-                "title": "Xóa dữ liệu tạm thời của máy chủ",
-                "failure": "Không thể xóa dữ liệu dữ liệu tạm thời của máy chủ",
+                "success": "Đã xóa bộ nhớ đệm",
+                "title": "Xóa bộ nhớ đệm",
+                "failure": "Không thể xóa bộ nhớ đệm",
                 "description": "Bộ nhớ đệm của máy khách (trình duyệt, electron) sẽ bị xóa, còn không bộ nhớ đệm của máy khách sẽ tiếp tục được dùng"
             }
         },
