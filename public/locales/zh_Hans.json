@@ -1445,10 +1445,10 @@
         },
         "clear_cache": {
             "label": {
-                "title": "清除服务器缓存",
-                "success": "已清除服务器缓存",
+                "title": "清除缓存",
+                "success": "已清除缓存",
                 "description": "客户端的缓存（浏览器、electron）应该与之一起清除，否则，客户端缓存将继续被使用",
-                "failure": "无法清除服务器缓存"
+                "failure": "无法清除缓存"
             }
         },
         "device": {
