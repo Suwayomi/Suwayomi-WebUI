@@ -7,48 +7,33 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import { useState } from 'react';
-import PopupState, { bindDialog, bindTrigger } from 'material-ui-popup-state';
 import ListItemButton from '@mui/material/ListItemButton';
 import Chip from '@mui/material/Chip';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction';
 import ListItemText from '@mui/material/ListItemText';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import TextField from '@mui/material/TextField';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import { PasswordTextField } from '@/base/components/inputs/PasswordTextField.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { TTrackerSearch } from '@/features/tracker/Tracker.types.ts';
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
+import { CredentialsLogin } from '@/base/components/modals/LoginDialog.tsx';
 
 export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) => {
     const { t } = useTranslation();
-
-    const [loginTrackerCredentials, { loading: isCredentialLoginInProgress }] =
-        requestManager.useLoginToTrackerCredentials();
-    const [logoutFromTracker] = requestManager.useLogoutFromTracker();
-
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
 
     const isOAuthLogin = !tracker.isLoggedIn && !!tracker.authUrl;
 
     const handleLogout = async () => {
         try {
-            await logoutFromTracker({ variables: { trackerId: tracker.id } });
+            await requestManager.logoutFromTracker(tracker.id).response;
         } catch (e) {
             makeToast(t('tracking.action.logout.label.failure', { name: tracker.name }), 'error', getErrorMessage(e));
         }
     };
 
-    const handleLogin = async () => {
+    const handleLogin = async (username: string, password: string) => {
         if (isOAuthLogin) {
             const state = {
                 redirectUrl: `${window.location.origin}/tracker/login/oauth`,
@@ -62,99 +47,107 @@ export const SettingsTrackerCard = ({ tracker }: { tracker: TTrackerSearch }) =>
         }
 
         try {
-            await loginTrackerCredentials({ variables: { input: { trackerId: tracker.id, username, password } } });
+            await requestManager.loginTrackerCredentials(tracker.id, username, password).response;
         } catch (e) {
             makeToast(t('tracking.action.login.label.failure', { name: tracker.name }), 'error', getErrorMessage(e));
         }
     };
 
-    const onClick = (openPopup: () => void) => {
-        if (!isOAuthLogin) {
-            openPopup();
+    const login = async (initialUsername?: string, initialPassword?: string) => {
+        if (isOAuthLogin) {
+            const state = {
+                redirectUrl: `${window.location.origin}/tracker/login/oauth`,
+                clientName: 'Suwayomi-WebUI',
+                trackerId: tracker.id,
+                trackerName: tracker.name,
+            };
+
+            window.open(`${tracker.authUrl}&state=${JSON.stringify(state)}`, '_self');
             return;
         }
 
-        handleLogin();
+        const controlled = CredentialsLogin.showControlled(
+            {
+                title: t(
+                    Trackers.isLoggedIn(tracker)
+                        ? 'tracking.settings.dialog.title.log_out'
+                        : 'tracking.settings.dialog.title.log_in',
+                    { name: tracker.name },
+                ),
+                isLoading: false,
+                isLoggedIn: Trackers.isLoggedIn(tracker),
+                username: initialUsername,
+                password: initialPassword,
+                loginLogout: async (username, password) => {
+                    controlled.update({
+                        isLoading: true,
+                        loginLogout: noOp,
+                    });
+
+                    if (Trackers.isLoggedIn(tracker)) {
+                        try {
+                            await handleLogout();
+
+                            controlled.submit();
+                        } catch (e) {
+                            makeToast(
+                                t('tracking.action.logout.label.failure', { name: tracker.name }),
+                                'error',
+                                getErrorMessage(e),
+                            );
+                        }
+
+                        return;
+                    }
+
+                    try {
+                        await handleLogin(username, password);
+
+                        controlled.submit();
+                    } catch (e) {
+                        makeToast(
+                            t('tracking.action.login.label.failure', { name: tracker.name }),
+                            'error',
+                            getErrorMessage(e),
+                        );
+
+                        const RETRY_KEY = '__retry__';
+                        const retry = await Promise.race([controlled.promise, Promise.resolve(RETRY_KEY)]);
+                        if (retry === RETRY_KEY) {
+                            login(username, password);
+                        }
+                    }
+                },
+            },
+            { id: 'tracker-login-dialog' },
+        );
+
+        await controlled.promise;
     };
 
     return (
-        <PopupState variant="popover" popupId="tracker-dialog">
-            {(popupState) => (
-                <>
-                    <ListItemButton {...bindTrigger(popupState)} onClick={() => onClick(popupState.open)}>
-                        <ListItemAvatar sx={{ paddingRight: '20px' }}>
-                            <AvatarSpinner
-                                alt={`${tracker.name}`}
-                                iconUrl={requestManager.getValidImgUrlFor(tracker.icon)}
-                                slots={{
-                                    avatarProps: {
-                                        variant: 'rounded',
-                                        sx: { width: 64, height: 64 },
-                                    },
-                                    spinnerImageProps: {
-                                        ignoreQueue: true,
-                                    },
-                                }}
-                            />
-                        </ListItemAvatar>
-                        <ListItemText primary={tracker.name} />
-                        {Trackers.isLoggedIn(tracker) && (
-                            <ListItemSecondaryAction>
-                                <Chip label={t('global.label.logged_in')} color="success" />
-                            </ListItemSecondaryAction>
-                        )}
-                    </ListItemButton>
-                    <Dialog
-                        {...bindDialog(popupState)}
-                        open={(Trackers.isLoggedIn(tracker) || !tracker.authUrl) && popupState.isOpen}
-                        disableRestoreFocus
-                    >
-                        <DialogTitle>
-                            {t(
-                                Trackers.isLoggedIn(tracker)
-                                    ? 'tracking.settings.dialog.title.log_out'
-                                    : 'tracking.settings.dialog.title.log_in',
-                                { name: tracker.name },
-                            )}
-                        </DialogTitle>
-                        {!isOAuthLogin && !tracker.isLoggedIn && (
-                            <DialogContent>
-                                <TextField
-                                    autoFocus
-                                    margin="dense"
-                                    id="username"
-                                    name="username"
-                                    label={t('global.label.username')}
-                                    type="text"
-                                    fullWidth
-                                    variant="standard"
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
-                                <PasswordTextField
-                                    margin="dense"
-                                    fullWidth
-                                    variant="standard"
-                                    onChange={(e) => setPassword(e.target.value)}
-                                />
-                            </DialogContent>
-                        )}
-                        <DialogActions>
-                            <Button onClick={popupState.close}>{t('global.button.cancel')}</Button>
-                            <Button
-                                variant="contained"
-                                disabled={
-                                    !isOAuthLogin &&
-                                    !tracker.isLoggedIn &&
-                                    (isCredentialLoginInProgress || !username.length || !password.length)
-                                }
-                                onClick={() => (Trackers.isLoggedIn(tracker) ? handleLogout() : handleLogin())}
-                            >
-                                {t(Trackers.isLoggedIn(tracker) ? 'global.button.log_out' : 'global.button.log_in')}
-                            </Button>
-                        </DialogActions>
-                    </Dialog>
-                </>
+        <ListItemButton onClick={() => login()}>
+            <ListItemAvatar sx={{ paddingRight: '20px' }}>
+                <AvatarSpinner
+                    alt={`${tracker.name}`}
+                    iconUrl={requestManager.getValidImgUrlFor(tracker.icon)}
+                    slots={{
+                        avatarProps: {
+                            variant: 'rounded',
+                            sx: { width: 64, height: 64 },
+                        },
+                        spinnerImageProps: {
+                            ignoreQueue: true,
+                        },
+                    }}
+                />
+            </ListItemAvatar>
+            <ListItemText primary={tracker.name} />
+            {Trackers.isLoggedIn(tracker) && (
+                <ListItemSecondaryAction>
+                    <Chip label={t('global.label.logged_in')} color="success" />
+                </ListItemSecondaryAction>
             )}
-        </PopupState>
+        </ListItemButton>
     );
 };

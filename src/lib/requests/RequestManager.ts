@@ -222,6 +222,12 @@ import {
     CreateBackupMutation,
     CreateBackupMutationVariables,
     RestoreBackupInput,
+    KoSyncLoginMutation,
+    KoSyncLoginMutationVariables,
+    KoSyncLogoutMutation,
+    KoSyncLogoutMutationVariables,
+    GetKoSyncStatusQuery,
+    GetKoSyncStatusQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
 import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
@@ -341,6 +347,8 @@ import { updateMetadataList } from '@/features/metadata/services/MetadataApolloC
 import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/mutations/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
+import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/mutations/KoreaderSyncMutation.ts';
+import { GET_KO_SYNC_STATUS } from '@/lib/graphql/queries/KoreaderSyncQuery.ts';
 import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
 
 enum GQLMethod {
@@ -3262,22 +3270,33 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, document, undefined, options);
     }
 
-    public useLogoutFromTracker(
-        options?: MutationHookOptions<TrackerLogoutMutation, TrackerLogoutMutationVariables>,
-    ): AbortableApolloUseMutationResponse<TrackerLogoutMutation, TrackerLogoutMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGOUT, undefined, options);
+    public logoutFromTracker(
+        trackerId: TrackerLogoutMutationVariables['trackerId'],
+        options?: MutationOptions<TrackerLogoutMutation, TrackerLogoutMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerLogoutMutation> {
+        return this.doRequest(GQLMethod.MUTATION, TRACKER_LOGOUT, { trackerId }, options);
     }
 
-    public useLoginToTrackerOauth(
-        options?: MutationHookOptions<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables>,
-    ): AbortableApolloUseMutationResponse<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_OAUTH, undefined, options);
+    public loginToTrackerOauth(
+        trackerId: number,
+        callbackUrl: string,
+        options?: MutationOptions<TrackerLoginOauthMutation, TrackerLoginOauthMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerLoginOauthMutation> {
+        return this.doRequest(GQLMethod.MUTATION, TRACKER_LOGIN_OAUTH, { input: { trackerId, callbackUrl } }, options);
     }
 
-    public useLoginToTrackerCredentials(
-        options?: MutationHookOptions<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables>,
-    ): AbortableApolloUseMutationResponse<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_LOGIN_CREDENTIALS, undefined, options);
+    public loginTrackerCredentials(
+        trackerId: number,
+        username: string,
+        password: string,
+        options?: MutationOptions<TrackerLoginCredentialsMutation, TrackerLoginCredentialsMutationVariables>,
+    ): AbortableApolloMutationResponse<TrackerLoginCredentialsMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            TRACKER_LOGIN_CREDENTIALS,
+            { input: { trackerId, username, password } },
+            options,
+        );
     }
 
     public useTrackerSearch(
@@ -3346,6 +3365,36 @@ export class RequestManager {
         options?: MutationHookOptions<UserLoginMutation, UserLoginMutationVariables>,
     ): AbortableApolloUseMutationResponse<UserLoginMutation, UserLoginMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, USER_LOGIN, undefined, options);
+    }
+
+    public useKoSyncStatus(
+        options?: QueryHookOptions<GetKoSyncStatusQuery, GetKoSyncStatusQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetKoSyncStatusQuery, GetKoSyncStatusQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_KO_SYNC_STATUS, undefined, options);
+    }
+
+    public koSyncLogin(
+        serverAddress: string,
+        username: string,
+        password: string,
+        options?: MutationOptions<KoSyncLoginMutation, KoSyncLoginMutationVariables>,
+    ): AbortableApolloMutationResponse<KoSyncLoginMutation> {
+        return this.doRequest(
+            GQLMethod.MUTATION,
+            KO_SYNC_LOGIN,
+            {
+                serverAddress,
+                username,
+                password,
+            },
+            options,
+        );
+    }
+
+    public koSyncLogout(
+        options?: MutationOptions<KoSyncLogoutMutation, KoSyncLogoutMutationVariables>,
+    ): AbortableApolloMutationResponse<KoSyncLogoutMutation> {
+        return this.doRequest(GQLMethod.MUTATION, KO_SYNC_LOGOUT, undefined, options);
     }
 
     public refreshUser(
