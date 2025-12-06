@@ -1516,6 +1516,13 @@
             "unit_other": "items"
           }
         },
+        "cbz_mime_type": {
+          "compatible": "Compatible",
+          "description": "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\nModern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients.",
+          "legacy": "Legacy",
+          "modern": "Modern",
+          "title": "CBZ MIME-Type"
+        },
         "chapter_sort_order": {
           "label": {
             "description": "Choose the order in which chapters are displayed.",

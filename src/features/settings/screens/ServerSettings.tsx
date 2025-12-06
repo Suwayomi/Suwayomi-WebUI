@@ -31,7 +31,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { AuthMode, DatabaseType, SortOrder } from '@/lib/graphql/generated/graphql';
+import { AuthMode, CbzMediaType, DatabaseType, SortOrder } from '@/lib/graphql/generated/graphql';
 import {
     AUTH_MODES_SELECT_VALUES,
     JWT_ACCESS_TOKEN_EXPIRY,
@@ -468,6 +468,17 @@ export const ServerSettings = () => {
                         [SortOrder.Desc, { text: t('global.sort.label.desc') }],
                     ]}
                     handleChange={(value) => updateSetting('opdsChapterSortOrder', value)}
+                />
+                <SelectSetting<CbzMediaType>
+                    settingName={t('settings.server.opds.cbz_mime_type.title')}
+                    dialogDescription={t('settings.server.opds.cbz_mime_type.description')}
+                    value={serverSettings.opdsCbzMimetype}
+                    values={[
+                        [CbzMediaType.Legacy, { text: t('settings.server.opds.cbz_mime_type.legacy') }],
+                        [CbzMediaType.Modern, { text: t('settings.server.opds.cbz_mime_type.modern') }],
+                        [CbzMediaType.Compatible, { text: t('settings.server.opds.cbz_mime_type.compatible') }],
+                    ]}
+                    handleChange={(value) => updateSetting('opdsCbzMimetype', value)}
                 />
             </List>
             <KoreaderSyncSettings
