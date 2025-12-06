@@ -14,7 +14,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { d } from 'koration';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { UpdateState, WebUiChannel, WebUiUpdateStatus } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage, useSessionStorage } from '@/base/hooks/useStorage.tsx';
@@ -29,8 +28,6 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { BrowserUtil } from '@/lib/BrowserUtil.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
-
-const FORCED_REFRESH_THRESHOLD = d(30).seconds.inWholeMilliseconds;
 
 const INITIAL_LOAD_TIMESTAMP_KEY = 'webUIInitialLoadTimestamp';
 
@@ -82,9 +79,7 @@ export const WebUIUpdateChecker = () => {
     const newVersion = aboutWebUI?.tag;
     const isSameAsCurrent = !newVersion || !webUIVersion || webUIVersion === newVersion;
 
-    // Calculate if forced refresh threshold has been met
-    const timeSinceLoad = Date.now() - (initialLoadTimestamp ?? Date.now());
-    const shouldForceRefresh = timeSinceLoad >= FORCED_REFRESH_THRESHOLD;
+    const shouldForceRefresh = initialLoadTimestamp < Number(aboutWebUI?.updateTimestamp);
 
     const saveInitialVersion = !webUIVersion && !!newVersion;
     if (saveInitialVersion) {

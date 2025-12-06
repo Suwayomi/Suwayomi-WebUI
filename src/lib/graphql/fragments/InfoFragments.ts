@@ -12,6 +12,7 @@ export const ABOUT_WEBUI = gql`
     fragment ABOUT_WEBUI on AboutWebUI {
         channel
         tag
+        updateTimestamp
     }
 `;
 

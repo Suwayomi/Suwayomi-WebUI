@@ -34,6 +34,7 @@ export type AboutWebUi = {
   __typename?: 'AboutWebUI';
   channel: WebUiChannel;
   tag: Scalars['String']['output'];
+  updateTimestamp: Scalars['LongString']['output'];
 };
 
 export enum AuthMode {
@@ -3263,7 +3264,7 @@ export type PageInfoFragment = { __typename?: 'PageInfo', endCursor?: string | n
 
 export type GlobalMetadataFragment = { __typename?: 'GlobalMetaType', key: string, value: string };
 
-export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: WebUiChannel, tag: string };
+export type AboutWebuiFragment = { __typename?: 'AboutWebUI', channel: WebUiChannel, tag: string, updateTimestamp: string };
 
 export type WebuiUpdateCheckFragment = { __typename?: 'WebUIUpdateCheck', channel: WebUiChannel, tag: string, updateAvailable: boolean };
 
@@ -4057,7 +4058,7 @@ export type GetLibraryMangaCountQuery = { __typename?: 'Query', mangas: { __type
 export type GetAboutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAboutQuery = { __typename?: 'Query', aboutServer: { __typename?: 'AboutServerPayload', buildTime: string, buildType: string, discord: string, github: string, name: string, revision: string, version: string }, aboutWebUI: { __typename?: 'AboutWebUI', channel: WebUiChannel, tag: string } };
+export type GetAboutQuery = { __typename?: 'Query', aboutServer: { __typename?: 'AboutServerPayload', buildTime: string, buildType: string, discord: string, github: string, name: string, version: string }, aboutWebUI: { __typename?: 'AboutWebUI', channel: WebUiChannel, tag: string, updateTimestamp: string } };
 
 export type CheckForServerUpdatesQueryVariables = Exact<{ [key: string]: never; }>;
 

@@ -18,7 +18,6 @@ export const GET_ABOUT = gql`
             discord
             github
             name
-            revision
             version
         }
         aboutWebUI {

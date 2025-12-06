@@ -14,10 +14,11 @@ export type AboutServerPayloadFieldPolicy = {
 	revision?: FieldPolicy<any> | FieldReadFunction<any>,
 	version?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type AboutWebUIKeySpecifier = ('channel' | 'tag' | AboutWebUIKeySpecifier)[];
+export type AboutWebUIKeySpecifier = ('channel' | 'tag' | 'updateTimestamp' | AboutWebUIKeySpecifier)[];
 export type AboutWebUIFieldPolicy = {
 	channel?: FieldPolicy<any> | FieldReadFunction<any>,
-	tag?: FieldPolicy<any> | FieldReadFunction<any>
+	tag?: FieldPolicy<any> | FieldReadFunction<any>,
+	updateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type BackupRestoreStatusKeySpecifier = ('mangaProgress' | 'state' | 'totalManga' | BackupRestoreStatusKeySpecifier)[];
 export type BackupRestoreStatusFieldPolicy = {
