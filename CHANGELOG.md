@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Library**/**Manga**) Show chapter information on hover over continue reading button
 - (**Settings**) Add KOReader sync settings
 - (**Settings**) Add database settings
+- (**Settings**) Add hikari connection pool database setting
 - (**Browse**) Add "open in webview" button in source browse page
 
 ### Changed

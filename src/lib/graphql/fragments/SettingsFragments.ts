@@ -108,5 +108,6 @@ export const SERVER_SETTINGS = gql`
         databaseUrl
         databaseUsername
         databasePassword
+        useHikariConnectionPool
     }
 `;

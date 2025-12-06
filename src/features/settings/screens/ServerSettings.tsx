@@ -513,6 +513,17 @@ export const ServerSettings = () => {
                     disabled={isH2Database}
                     isPassword
                 />
+                <ListItem>
+                    <ListItemText
+                        primary={t('settings.server.database.hikari_connection_pool.title')}
+                        secondary={t('settings.server.database.hikari_connection_pool.description')}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.useHikariConnectionPool}
+                        onChange={(e) => updateSetting('useHikariConnectionPool', e.target.checked)}
+                    />
+                </ListItem>
             </List>
             <List
                 subheader={

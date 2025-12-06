@@ -1411,6 +1411,10 @@
       },
       "database": {
         "address": "Database url",
+        "hikari_connection_pool": {
+          "description": "Improves performance, but may cause issues for some installations where data cannot be read from the database",
+          "title": "Hikari connection pool"
+        },
         "password": "$t(global.label.password)",
         "title": "Database",
         "type": {
