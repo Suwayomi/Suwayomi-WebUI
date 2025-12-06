@@ -80,6 +80,7 @@ const typePolicies: StrictTypedTypePolicies = {
     UpdaterJobsInfoType: { keyFields: [] },
     WebUIUpdateStatus: { keyFields: [] },
     UpdateStatus: { keyFields: [] },
+    KoSyncStatusPayload: { keyFields: [] },
     Query: {
         fields: {
             manga(_, { args, toReference }) {

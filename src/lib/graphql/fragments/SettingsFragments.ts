@@ -98,12 +98,9 @@ export const SERVER_SETTINGS = gql`
         opdsChapterSortOrder
 
         # KOReader sync
-        koreaderSyncServerUrl
-        koreaderSyncUsername
-        koreaderSyncUserkey
-        koreaderSyncDeviceId
         koreaderSyncChecksumMethod
-        koreaderSyncStrategy
+        koreaderSyncStrategyBackward
+        koreaderSyncStrategyForward
         koreaderSyncPercentageTolerance
 
         # Database
