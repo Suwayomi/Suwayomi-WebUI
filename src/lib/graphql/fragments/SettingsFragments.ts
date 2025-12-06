@@ -77,6 +77,14 @@ export const SERVER_SETTINGS = gql`
         backupInterval
         backupTTL
 
+        autoBackupIncludeCategories
+        autoBackupIncludeChapters
+        autoBackupIncludeClientData
+        autoBackupIncludeHistory
+        autoBackupIncludeManga
+        autoBackupIncludeServerSettings
+        autoBackupIncludeTracking
+
         # local source
         localSourcePath
 

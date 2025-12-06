@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListSubheader from '@mui/material/ListSubheader';
-import { t as translate } from 'i18next';
 import { useEventListener, useMergedRef, useWindowEvent } from '@mantine/hooks';
 import { AwaitableComponent } from 'awaitable-component';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -27,21 +26,17 @@ import { TimeSetting } from '@/base/components/settings/TimeSetting.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { ServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { BackupFlagInclusionDialog } from '@/features/backup/component/BackupFlagInclusionDialog.tsx';
 import { BackupValidationDialog } from '@/features/backup/component/BackupValidationDialog.tsx';
-
-type BackupSettingsType = Pick<ServerSettings, 'backupPath' | 'backupTime' | 'backupInterval' | 'backupTTL'>;
-
-const getBackupCleanupDisplayValue = (ttl: number): string => {
-    if (ttl === 0) {
-        return translate('global.label.never');
-    }
-
-    return translate('settings.backup.automated.cleanup.label.value', { days: ttl, count: ttl });
-};
+import {
+    convertToAutoBackupFlags,
+    convertToBackupFlags,
+    getAutoBackupFlagsInfo,
+    getBackupCleanupDisplayValue,
+} from '@/features/backup/Backup.utils.ts';
+import { BackupSettingsType } from '@/features/backup/Backup.types.ts';
 
 let backupRestoreId: string | undefined;
 
@@ -81,6 +76,14 @@ export function Backup() {
         value: BackupSettingsType[Setting],
     ) => {
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
+            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        );
+    };
+
+    const updateSettings = <Setting extends keyof BackupSettingsType>(
+        settings: Record<Setting, BackupSettingsType[Setting]>,
+    ) => {
+        mutateSettings({ variables: { input: { settings } } }).catch((e) =>
             makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
         );
     };
@@ -280,6 +283,39 @@ export function Backup() {
                         }
                         handleChange={(path) => updateSetting('backupPath', path)}
                     />
+                    <ListItemButton
+                        onClick={async () => {
+                            try {
+                                const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {
+                                    title: t('settings.backup.automated.flags.title'),
+                                    flags: convertToBackupFlags(backupSettings),
+                                });
+
+                                updateSettings(convertToAutoBackupFlags(flags));
+                            } catch (e) {
+                                // Ignore
+                            }
+                        }}
+                    >
+                        <ListItemText
+                            primary={t('settings.backup.automated.flags.title')}
+                            secondary={
+                                <>
+                                    <span>
+                                        {t('category.settings.inclusion.label.include', {
+                                            includedCategoriesText: getAutoBackupFlagsInfo(backupSettings).true,
+                                        })}
+                                    </span>
+                                    <span>
+                                        {t('category.settings.inclusion.label.exclude', {
+                                            excludedCategoriesText: getAutoBackupFlagsInfo(backupSettings).false,
+                                        })}
+                                    </span>
+                                </>
+                            }
+                            secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                        />
+                    </ListItemButton>
                     <TimeSetting
                         settingName={t('settings.backup.automated.label.time')}
                         value={backupSettings.backupTime}

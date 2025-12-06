@@ -32,11 +32,12 @@ export const BackupFlagInclusionDialog = ({
     isVisible,
     onExitComplete,
     title,
-}: AwaitableComponentProps<BackupFlagInclusionState> & { title: string }) => {
+    flags,
+}: AwaitableComponentProps<BackupFlagInclusionState> & { title: string; flags?: BackupFlagInclusionState }) => {
     const { t } = useTranslation();
 
     const [includeStateByFlag, setIncludeStateByFlag] = useState(
-        Object.fromEntries(BACKUP_FLAGS.map((flag) => [flag, true])) as BackupFlagInclusionState,
+        Object.fromEntries(BACKUP_FLAGS.map((flag) => [flag, flags?.[flag] ?? true])) as BackupFlagInclusionState,
     );
 
     return (
@@ -44,10 +45,10 @@ export const BackupFlagInclusionDialog = ({
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <FormGroup sx={{ gap: 2 }}>
-                    {Object.entries(BACKUP_FLAGS_BY_GROUP).map(([group, flags]) => (
+                    {Object.entries(BACKUP_FLAGS_BY_GROUP).map(([group, groupFlags]) => (
                         <Stack key={group}>
                             <Typography>{t(BACKUP_FLAG_GROUP_TO_TRANSLATION[group as BackupFlagGroup])}</Typography>
-                            {flags.map((flag) => (
+                            {groupFlags.map((flag) => (
                                 <CheckboxInput
                                     key={flag}
                                     label={t(BACKUP_FLAGS_TO_TRANSLATION[flag])}

@@ -1250,6 +1250,9 @@
             "description": "The path to the directory on the server where automated backups should get saved in",
             "title": "Backup location"
           }
+        },
+        "flags": {
+          "title": "Backup data"
         }
       },
       "flag": {

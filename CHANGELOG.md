@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Settings**) Add database settings
 - (**Settings**) Add hikari connection pool database setting
 - (**Settings**) Add OPDS CBZ MIME-Type setting
+- (**Settings**) Add automatic backup data inclusion setting
 - (**Browse**) Add "open in webview" button in source browse page
 
 ### Changed
