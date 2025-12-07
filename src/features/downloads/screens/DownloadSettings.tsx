@@ -32,7 +32,8 @@ import { MetadataDownloadSettings } from '@/features/downloads/Downloads.types.t
 import { ServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { DownloadConversionSetting } from '@/features/downloads/components/DownloadConversionSetting.tsx';
+import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 type DownloadSettingsType = Pick<
     ServerSettings,
@@ -128,10 +129,9 @@ export const DownloadSettings = () => {
                     onChange={(e) => updateSetting('downloadAsCbz', e.target.checked)}
                 />
             </ListItem>
-            <DownloadConversionSetting
-                conversions={downloadSettings?.downloadConversions}
-                updateSetting={(conversions) => updateSetting('downloadConversions', conversions)}
-            />
+            <ListItemLink to={AppRoutes.settings.childRoutes.download.childRoutes.conversions.path}>
+                <ListItemText primary={t('download.settings.conversion.title')} />
+            </ListItemLink>
             <List
                 subheader={
                     <ListSubheader component="div" id="download-settings-auto-delete-downloads">

@@ -69,6 +69,12 @@ export const AppRoutes = {
             download: {
                 match: 'download',
                 path: '/settings/download',
+                childRoutes: {
+                    conversions: {
+                        match: 'conversions',
+                        path: '/settings/download/conversions',
+                    },
+                },
             },
             backup: {
                 match: 'backup',

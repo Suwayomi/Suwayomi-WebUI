@@ -60,6 +60,10 @@ const { DownloadSettings } = loadable(
     () => import('@/features/downloads/screens/DownloadSettings.tsx'),
     lazyLoadFallback,
 );
+const { DownloadConversionSettings } = loadable(
+    () => import('@/features/downloads/screens/DownloadConversionSettings.tsx'),
+    lazyLoadFallback,
+);
 const { ServerSettings } = loadable(() => import('@/features/settings/screens/ServerSettings.tsx'), lazyLoadFallback);
 const { BrowseSettings } = loadable(() => import('@/features/browse/screens/BrowseSettings.tsx'), lazyLoadFallback);
 const { WebUISettings } = loadable(() => import('@/features/settings/screens/WebUISettings.tsx'), lazyLoadFallback);
@@ -221,10 +225,13 @@ const MainApp = () => {
                                     element={<LibraryDuplicates />}
                                 />
                             </Route>
-                            <Route
-                                path={AppRoutes.settings.childRoutes.download.match}
-                                element={<DownloadSettings />}
-                            />
+                            <Route path={AppRoutes.settings.childRoutes.download.match}>
+                                <Route index element={<DownloadSettings />} />
+                                <Route
+                                    path={AppRoutes.settings.childRoutes.download.childRoutes.conversions.match}
+                                    element={<DownloadConversionSettings />}
+                                />
+                            </Route>
                             <Route path={AppRoutes.settings.childRoutes.backup.match} element={<Backup />} />
                             <Route path={AppRoutes.settings.childRoutes.server.match} element={<ServerSettings />} />
                             <Route path={AppRoutes.settings.childRoutes.webui.match} element={<WebUISettings />} />

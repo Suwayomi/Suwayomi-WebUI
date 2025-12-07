@@ -7,24 +7,21 @@
  */
 
 import { useTranslation } from 'react-i18next';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContentText from '@mui/material/DialogContentText';
-import { SettingsDownloadConversion } from '@/lib/graphql/generated/graphql.ts';
-import { DOWNLOAD_CONVERSION_COMPRESSION } from '@/features/downloads/Downloads.constants.ts';
-import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { useTheme } from '@mui/material/styles';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { DOWNLOAD_CONVERSION_COMPRESSION } from '@/features/downloads/Downloads.constants.ts';
+import { SettingsDownloadConversion } from '@/lib/graphql/generated/graphql.ts';
+
+const INPUT_WIDTH = 250;
 
 const DEFAULT_MIME_TYPE = 'default';
 const MIME_TYPE_PREFIX = 'image/';
@@ -127,7 +124,7 @@ const MimeTypeTextField = ({
 
     return (
         <TextField
-            sx={{ maxWidth: 150 }}
+            sx={{ width: INPUT_WIDTH }}
             autoFocus={shouldAutoFocus}
             label={label}
             value={value}
@@ -158,6 +155,7 @@ const Conversion = ({
     isDuplicate: boolean;
 }) => {
     const { t } = useTranslation();
+    const theme = useTheme();
 
     const isCompressionLevelValid = isValidCompressionLevel(compressionLevel);
     const isDefault = isDefaultMimeType(mimeType) && !isDuplicate;
@@ -179,6 +177,10 @@ const Conversion = ({
                     flexDirection: 'row',
                     alignItems: 'baseline',
                     flexWrap: 'wrap',
+                    [theme.breakpoints.down('md')]: {
+                        flexDirection: 'column',
+                        width: '100%',
+                    },
                 }}
             >
                 <MimeTypeTextField
@@ -213,6 +215,7 @@ const Conversion = ({
                     }
                 />
                 <TextField
+                    sx={{ width: INPUT_WIDTH }}
                     label={t('download.settings.conversion.compression_level')}
                     value={compressionLevel ?? ''}
                     type="number"
@@ -256,7 +259,6 @@ export const DownloadConversionSetting = ({
 }) => {
     const { t } = useTranslation();
 
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [tmpConversions, setTmpConversions] = useState(normalizeConversions(maybeAddDefault(conversions)));
     const [focusedMimeTypeTextFieldIndex, setFocusedMimeTypeTextFieldIndex] = useState(DEFAULT_FOCUS_INDEX);
 
@@ -264,98 +266,63 @@ export const DownloadConversionSetting = ({
 
     const hasChanged = didUpdateConversions(normalizeConversions(maybeAddDefault(conversions)), tmpConversions);
 
-    const onClose = (newConversions: SettingsDownloadConversion[] = conversions) => {
-        setTmpConversions(normalizeConversions(maybeAddDefault(newConversions)));
-        setIsDialogOpen(false);
-    };
-
-    const onCancel = () => {
-        onClose(conversions);
-    };
-
     const onSubmit = async () => {
         try {
             await updateSetting(toValidServerConversions(tmpConversions));
-            onClose(toValidServerConversions(tmpConversions));
         } catch (e) {
             // ignore error
         }
     };
 
     return (
-        <>
-            <ListItemButton disabled={false} onClick={() => setIsDialogOpen(true)}>
-                <ListItemText
-                    primary={t('download.settings.conversion.title')}
-                    secondary={conversions
-                        .map((conversion) => `${conversion.mimeType} → ${conversion.target}`)
-                        .join('; ')}
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
-                />
-            </ListItemButton>
-            <Dialog open={isDialogOpen} onClose={onCancel}>
-                <DialogTitle>{t('download.settings.conversion.title')}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText sx={{ mb: 2, whiteSpace: 'pre-line' }}>
-                        {t('download.settings.conversion.description', { value: 'none' })}
-                    </DialogContentText>
-                    <Stack sx={{ flexDirection: 'column', gap: 3 }}>
-                        {tmpConversions.map((conversion, index) => {
-                            const { mimeType } = conversion;
+        <Stack sx={{ p: 2, gap: 3 }}>
+            <Typography>{t('download.settings.conversion.description', { value: 'none' })}</Typography>
+            <Stack sx={{ flexDirection: 'column', gap: 5 }}>
+                {tmpConversions.map((conversion, index) => {
+                    const { mimeType } = conversion;
 
-                            const isDuplicate = isDuplicateConversion(mimeType, index, tmpConversions);
-                            const shouldAutoFocusMimeTypeTextField = index === focusedMimeTypeTextFieldIndex;
+                    const isDuplicate = isDuplicateConversion(mimeType, index, tmpConversions);
+                    const shouldAutoFocusMimeTypeTextField = index === focusedMimeTypeTextFieldIndex;
 
-                            return (
-                                <Conversion
-                                    // eslint-disable-next-line react/no-array-index-key
-                                    key={`${mimeType}-${index}`}
-                                    conversion={conversion}
-                                    isDuplicate={isDuplicate}
-                                    setFocusMimeTypeTextField={(focus) =>
-                                        setFocusedMimeTypeTextFieldIndex(focus ? index : DEFAULT_FOCUS_INDEX)
-                                    }
-                                    shouldAutoFocusMimeTypeTextField={shouldAutoFocusMimeTypeTextField}
-                                    onChange={(newConversion) => {
-                                        setTmpConversions((prev) =>
-                                            maybeAddDefault(
-                                                prev.toSpliced(index, 1, ...(newConversion ? [newConversion] : [])),
-                                            ),
-                                        );
-                                    }}
-                                />
-                            );
-                        })}
-                    </Stack>
-                </DialogContent>
-                <DialogActions>
-                    <Stack
-                        direction="row"
-                        sx={{
-                            justifyContent: 'space-between',
-                            width: '100%',
-                        }}
-                    >
-                        <Button
-                            variant="outlined"
-                            onClick={() => {
-                                setTmpConversions((prev) => [
-                                    ...prev,
-                                    { mimeType: '', target: '', compressionLevel: null },
-                                ]);
+                    return (
+                        <Conversion
+                            // eslint-disable-next-line react/no-array-index-key
+                            key={`${mimeType}-${index}`}
+                            conversion={conversion}
+                            isDuplicate={isDuplicate}
+                            setFocusMimeTypeTextField={(focus) =>
+                                setFocusedMimeTypeTextFieldIndex(focus ? index : DEFAULT_FOCUS_INDEX)
+                            }
+                            shouldAutoFocusMimeTypeTextField={shouldAutoFocusMimeTypeTextField}
+                            onChange={(newConversion) => {
+                                setTmpConversions((prev) =>
+                                    maybeAddDefault(
+                                        prev.toSpliced(index, 1, ...(newConversion ? [newConversion] : [])),
+                                    ),
+                                );
                             }}
-                        >
-                            {t('global.button.add')}
-                        </Button>
-                        <Stack direction="row">
-                            <Button onClick={onCancel}>{t('global.button.cancel')}</Button>
-                            <Button disabled={hasInvalidConversion || !hasChanged} onClick={onSubmit}>
-                                {t('global.button.ok')}
-                            </Button>
-                        </Stack>
-                    </Stack>
-                </DialogActions>
-            </Dialog>
-        </>
+                        />
+                    );
+                })}
+            </Stack>
+            <Stack
+                direction="row"
+                sx={{
+                    gap: 2,
+                }}
+            >
+                <Button
+                    variant="outlined"
+                    onClick={() => {
+                        setTmpConversions((prev) => [...prev, { mimeType: '', target: '' }]);
+                    }}
+                >
+                    {t('global.button.add')}
+                </Button>
+                <Button variant="contained" disabled={hasInvalidConversion || !hasChanged} onClick={onSubmit}>
+                    {t('global.button.save')}
+                </Button>
+            </Stack>
+        </Stack>
     );
 };
