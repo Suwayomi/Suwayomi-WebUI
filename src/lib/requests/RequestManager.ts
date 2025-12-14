@@ -625,7 +625,12 @@ export class RequestManager {
         >(cacheResultsKey, getVariablesFor(pageToRevalidate));
         const isCachedPageInvalid = checkIfCachedPageIsInvalid(cachedPageData, revalidationResponse);
 
-        this.cache.cacheResponse(cacheResultsKey, getVariablesFor(pageToRevalidate), revalidationResponse);
+        this.cache.cacheResponse(cacheResultsKey, getVariablesFor(pageToRevalidate), {
+            ...revalidationResponse,
+            called: true,
+            isLoading: false,
+            size: pageToRevalidate,
+        });
 
         if (!hasNextPage(revalidationResponse)) {
             const currentCachedPages = this.cache.getResponseFor<Set<number>>(cachePagesKey, getVariablesFor(0))!;
