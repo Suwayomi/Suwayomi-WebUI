@@ -350,6 +350,7 @@ import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/mutations/KoreaderSyncMutation.ts';
 import { GET_KO_SYNC_STATUS } from '@/lib/graphql/queries/KoreaderSyncQuery.ts';
 import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
+import { Sources } from '@/features/source/services/Sources.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -453,9 +454,10 @@ const CACHE_PAGES_KEY = 'GET_SOURCE_MANGAS_FETCH_PAGES';
 const CACHE_RESULTS_KEY = 'GET_SOURCE_MANGAS_FETCH';
 
 export const SPECIAL_ED_SOURCES = {
-    REVALIDATION: [
+    REVALIDATION_UNSUPPORTED: [
         '57122881048805941', // e-hentai
     ],
+    REVALIDATION_SKIP_TTL: [Sources.LOCAL_SOURCE_ID],
 };
 
 // TODO - extract logic to reduce the size of this file... grew waaaaaaaaaaaaay too big peepoFat
@@ -594,7 +596,7 @@ export class RequestManager {
         maxPage: number,
         signal: AbortSignal,
     ): Promise<void> {
-        if (SPECIAL_ED_SOURCES.REVALIDATION.includes(sourceId)) {
+        if (SPECIAL_ED_SOURCES.REVALIDATION_UNSUPPORTED.includes(sourceId)) {
             return;
         }
 
@@ -603,7 +605,7 @@ export class RequestManager {
             Date.now() - (this.cache.getFetchTimestampFor(cacheResultsKey, getVariablesFor(pageToRevalidate)) ?? 0) >=
             d(5).minutes.inWholeMilliseconds;
 
-        if (isFirstPage && !isTtlReached) {
+        if (isFirstPage && !isTtlReached && !SPECIAL_ED_SOURCES.REVALIDATION_SKIP_TTL.includes(sourceId)) {
             return;
         }
 

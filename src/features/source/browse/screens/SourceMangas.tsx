@@ -404,7 +404,7 @@ export function SourceMangas() {
             return;
         }
 
-        const requiresClear = SPECIAL_ED_SOURCES.REVALIDATION.includes(sourceId);
+        const requiresClear = SPECIAL_ED_SOURCES.REVALIDATION_UNSUPPORTED.includes(sourceId);
         if (!requiresClear) {
             return;
         }
