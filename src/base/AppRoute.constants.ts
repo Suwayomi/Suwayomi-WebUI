@@ -85,6 +85,10 @@ export const AppRoutes = {
                         match: 'processing/downloads',
                         path: '/settings/images/processing/downloads',
                     },
+                    processingServe: {
+                        match: 'processing/serve',
+                        path: '/settings/images/processing/serve',
+                    },
                 },
             },
             backup: {

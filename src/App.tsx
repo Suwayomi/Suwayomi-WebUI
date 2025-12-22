@@ -31,6 +31,7 @@ import { SearchParam } from '@/base/Base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
+import { ImageProcessingType } from '@/features/settings/Settings.types.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -246,7 +247,11 @@ const MainApp = () => {
                                 <Route index element={<ImagesSettings />} />
                                 <Route
                                     path={AppRoutes.settings.childRoutes.images.childRoutes.processingDownloads.match}
-                                    element={<ImageProcessingSetting />}
+                                    element={<ImageProcessingSetting type={ImageProcessingType.DOWNLOAD} />}
+                                />
+                                <Route
+                                    path={AppRoutes.settings.childRoutes.images.childRoutes.processingServe.match}
+                                    element={<ImageProcessingSetting type={ImageProcessingType.SERVE} />}
                                 />
                             </Route>
                             <Route path={AppRoutes.settings.childRoutes.backup.match} element={<Backup />} />

@@ -11,6 +11,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ImageProcessingTargetMode } from '@/features/settings/Settings.types.ts';
 import { IMAGE_PROCESSING_INPUT_WIDTH, MIME_TYPE_PREFIX } from '@/features/settings/Settings.constants.ts';
+import { isUrlTargetMode } from '@/features/settings/ImageProcessing.utils.ts';
 
 export const MimeTypeTextField = ({
     shouldAutoFocus,
@@ -32,7 +33,7 @@ export const MimeTypeTextField = ({
     const { t } = useTranslation();
 
     const isImageMode = mode === ImageProcessingTargetMode.IMAGE;
-    const isValidUrl = !value.length || value.match(/^https?:\/\//);
+    const isValidUrl = !value.length || isUrlTargetMode(value);
     const isValid = !isDuplicate && (isImageMode || isValidUrl);
 
     return (

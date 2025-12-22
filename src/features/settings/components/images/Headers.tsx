@@ -29,7 +29,7 @@ export const Headers = ({
 
     return (
         <Collapse in={open}>
-            <Stack sx={{ justifyContent: 'start', gap: 2 }}>
+            <Stack sx={{ justifyContent: 'start', gap: 2, pt: 2 }}>
                 <Typography>{t('download.settings.conversion.headers.title')}</Typography>
                 {headers?.map((header, index) => (
                     <Header

@@ -11,8 +11,12 @@ import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import {
+    IMAGE_PROCESSING_TYPE_TO_SETTING,
+    IMAGE_PROCESSING_TYPE_TO_TRANSLATION,
+} from '@/features/settings/Settings.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ServerSettings } from '@/features/settings/Settings.types.ts';
+import { ImageProcessingType, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -31,10 +35,10 @@ import {
 } from '@/features/settings/ImageProcessing.utils.ts';
 import { Processing } from '@/features/settings/components/images/Processing.tsx';
 
-export const ImageProcessingSetting = () => {
+export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) => {
     const { t } = useTranslation();
 
-    useAppTitle(t('download.settings.conversion.title'));
+    useAppTitle(t(IMAGE_PROCESSING_TYPE_TO_TRANSLATION[type]));
 
     const { data, loading, error, refetch } = requestManager.useGetServerSettings({
         notifyOnNetworkStatusChange: true,
@@ -50,14 +54,16 @@ export const ImageProcessingSetting = () => {
             <EmptyViewAbsoluteCentered
                 message={t('global.error.label.failed_to_load_data')}
                 messageExtra={getErrorMessage(error)}
-                retry={() => refetch().catch(defaultPromiseErrorHandler('DownloadConversionSetting::refetch'))}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('ImageProcessingSetting::refetch'))}
             />
         );
     }
 
-    assertIsDefined(data?.settings?.downloadConversions);
+    const settingKey = IMAGE_PROCESSING_TYPE_TO_SETTING[type];
 
-    const conversions = data?.settings?.downloadConversions;
+    assertIsDefined(data?.settings?.[settingKey]);
+
+    const conversions = data?.settings?.[settingKey];
 
     const [tmpConversions, setTmpConversions] = useState(
         normalizeConversions(maybeAddDefault(addStableIdToConversions(conversions))),
@@ -69,8 +75,8 @@ export const ImageProcessingSetting = () => {
         tmpConversions,
     );
 
-    const updateSetting = (value: ServerSettings['downloadConversions']): Promise<any> => {
-        const mutation = mutateSettings({ variables: { input: { settings: { downloadConversions: value } } } });
+    const updateSetting = (value: ServerSettings[typeof settingKey]): Promise<any> => {
+        const mutation = mutateSettings({ variables: { input: { settings: { [settingKey]: value } } } });
         mutation.catch((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
 
         return mutation;

@@ -67,7 +67,7 @@ export const Processing = ({
     const isDisabled = isDefault && !target && compressionLevel == null;
 
     return (
-        <Stack sx={{ gap: 2 }}>
+        <Stack>
             <Stack
                 sx={{
                     gap: 1,
@@ -103,7 +103,13 @@ export const Processing = ({
                             });
                         }}
                     />
-                    <TypographyMaxLines sx={{ mx: 1 }}>→</TypographyMaxLines>
+                    <TypographyMaxLines
+                        sx={{
+                            [theme.breakpoints.up('md')]: { mx: 1 },
+                        }}
+                    >
+                        →
+                    </TypographyMaxLines>
                     <FormControl sx={{ minWidth: '100px' }}>
                         <InputLabel id="image-conversion-target-mode-label">
                             {t('download.settings.conversion.target_modes.title')}

@@ -12,7 +12,9 @@ import { DEFAULT_SORT_SETTINGS } from '@/features/migration/Migration.constants.
 import {
     GlobalUpdateSkipEntriesSettings,
     ImageProcessingTargetMode,
+    ImageProcessingType,
     MetadataServerSettings,
+    ServerSettings,
 } from '@/features/settings/Settings.types.ts';
 import { GridLayout, TranslationKey } from '@/base/Base.types.ts';
 import { getDefaultLanguages } from '@/base/utils/Languages.ts';
@@ -296,3 +298,16 @@ export const IMAGE_PROCESSING_TARGET_MODES_SELECT_VALUES: SelectSettingValue<Ima
 export const IMAGE_PROCESSING_INPUT_WIDTH = 250;
 export const DEFAULT_MIME_TYPE = 'default';
 export const MIME_TYPE_PREFIX = 'image/';
+
+export const IMAGE_PROCESSING_TYPE_TO_TRANSLATION: Record<ImageProcessingType, TranslationKey> = {
+    [ImageProcessingType.DOWNLOAD]: 'download.settings.conversion.title',
+    [ImageProcessingType.SERVE]: 'settings.images.processing.serve.title',
+};
+
+export const IMAGE_PROCESSING_TYPE_TO_SETTING: Record<
+    ImageProcessingType,
+    Extract<keyof ServerSettings, 'downloadConversions' | 'serveConversions'>
+> = {
+    [ImageProcessingType.DOWNLOAD]: 'downloadConversions',
+    [ImageProcessingType.SERVE]: 'serveConversions',
+};

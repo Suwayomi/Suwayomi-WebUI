@@ -48,6 +48,17 @@ export const SERVER_SETTINGS = gql`
             callTimeout
             connectTimeout
         }
+        serveConversions {
+            mimeType
+            target
+            compressionLevel
+            headers {
+                name
+                value
+            }
+            callTimeout
+            connectTimeout
+        }
 
         # extensions
         extensionRepos

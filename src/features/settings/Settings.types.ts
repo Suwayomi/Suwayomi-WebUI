@@ -64,6 +64,11 @@ export enum ImageProcessingTargetMode {
     URL = 'url',
 }
 
+export enum ImageProcessingType {
+    DOWNLOAD = 'download',
+    SERVE = 'serve',
+}
+
 export type TSettingsDownloadConversionHeader = SettingsDownloadConversionHeader & {
     /**
      * The conversion object does not have a stable key, which causes issues when editing the settings

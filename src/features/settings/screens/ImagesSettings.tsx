@@ -53,6 +53,9 @@ export const ImagesSettings = () => {
                 <ListItemLink to={AppRoutes.settings.childRoutes.images.childRoutes.processingDownloads.path}>
                     <ListItemText primary={t('download.settings.conversion.title')} />
                 </ListItemLink>
+                <ListItemLink to={AppRoutes.settings.childRoutes.images.childRoutes.processingServe.path}>
+                    <ListItemText primary={t('settings.images.processing.serve.title')} />
+                </ListItemLink>
             </List>
         </List>
     );

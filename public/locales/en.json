@@ -237,7 +237,7 @@
             "title": "URL"
           }
         },
-        "title": "Downloaded image processing"
+        "title": "Image download processing"
       },
       "delete_chapters": {
         "label": {
@@ -1322,6 +1322,13 @@
     },
     "images": {
       "processing": {
+        "download": {
+          "description": "Images are processed once during the download"
+        },
+        "serve": {
+          "description": "Images are processed on every request",
+          "title": "Image serve processing"
+        },
         "title": "Image processing"
       },
       "title": "Images"

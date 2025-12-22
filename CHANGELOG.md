@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Settings**) Add OPDS CBZ MIME-Type setting
 - (**Settings**) Add automatic backup data inclusion setting
 - (**Settings**) Add "external image processing" settings for downloaded images
+- (**Settings**) Add serve image processing settings
 - (**Browse**) Add "open in webview" button in source browse page
 
 ### Changed
