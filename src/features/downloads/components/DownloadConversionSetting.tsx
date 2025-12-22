@@ -16,40 +16,163 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material/styles';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import { d } from 'koration';
+import Collapse from '@mui/material/Collapse';
+import { useElementSize } from '@mantine/hooks';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { DOWNLOAD_CONVERSION_COMPRESSION } from '@/features/downloads/Downloads.constants.ts';
-import { SettingsDownloadConversion } from '@/lib/graphql/generated/graphql.ts';
+import {
+    DOWNLOAD_CONVERSION_COMPRESSION,
+    IMAGE_CONVERSION_CALL_TIMEOUT,
+    IMAGE_CONVERSION_CONNECT_TIMEOUT,
+} from '@/features/downloads/Downloads.constants.ts';
+import {
+    Maybe,
+    SettingsDownloadConversion,
+    SettingsDownloadConversionHeader,
+    SettingsDownloadConversionType,
+} from '@/lib/graphql/generated/graphql.ts';
+import { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
+import { Select } from '@/base/components/inputs/Select.tsx';
+import { TranslationKey } from '@/base/Base.types.ts';
+
+export type TSettingsDownloadConversionHeader = SettingsDownloadConversionHeader & {
+    /**
+     * The conversion object does not have a stable key, which causes issues when editing the settings
+     */
+    id: number;
+};
+
+export type TSettingsDownloadConversion = Omit<SettingsDownloadConversion, 'headers'> & {
+    /**
+     * The conversion object does not have a stable key, which causes issues when editing the settings
+     */
+    id: number;
+    mode: TargetMode;
+    headers?: Maybe<TSettingsDownloadConversionHeader[]>;
+};
+
+let COUNTER = 0;
 
 const INPUT_WIDTH = 250;
 
 const DEFAULT_MIME_TYPE = 'default';
 const MIME_TYPE_PREFIX = 'image/';
-const DEFAULT_FOCUS_INDEX = -1;
+
+enum TargetMode {
+    IMAGE = 'image',
+    URL = 'url',
+}
+
+const TARGET_MODES = Object.values(TargetMode);
+const TARGET_MODES_TO_TRANSLATION_KEY: { [flavor in TargetMode]: SelectSettingValueDisplayInfo } = {
+    [TargetMode.IMAGE]: {
+        text: 'download.settings.conversion.target_modes.image.title',
+        description: 'download.settings.conversion.target_modes.image.description',
+    },
+    [TargetMode.URL]: {
+        text: 'download.settings.conversion.target_modes.url.title',
+        description: 'download.settings.conversion.target_modes.image.description',
+    },
+};
+export const TARGET_MODES_SELECT_VALUES: SelectSettingValue<TargetMode>[] = TARGET_MODES.map((mode) => [
+    mode,
+    TARGET_MODES_TO_TRANSLATION_KEY[mode],
+]);
 
 const normalizeMimeType = (mimeType: string): string => mimeType.replace(MIME_TYPE_PREFIX, '');
 
 const isDefaultMimeType = (mimeType: string): boolean =>
     normalizeMimeType(mimeType.toLowerCase().trim()) === DEFAULT_MIME_TYPE;
 
+const isDuplicateHeader = (
+    header: string,
+    index: number,
+    headers: SettingsDownloadConversionType['headers'],
+): boolean => headers?.slice(0, index).some(({ name }) => name === header) ?? false;
+
+const hasDuplicateHeaders = (headers: SettingsDownloadConversionType['headers']): boolean =>
+    headers?.some((header, index) => isDuplicateHeader(header.name, index, headers)) ?? false;
+
 const isDuplicateConversion = (mimeType: string, index: number, conversions: SettingsDownloadConversion[]): boolean =>
     conversions.slice(0, index).some((conversion) => conversion.mimeType === mimeType);
 
+export const isUrlTargetMode = (target: string): boolean => target !== '' && !!target.match(/^https?:\/\//);
+
+const isValidNumberSetting = (value: number | null | undefined, min: number, max: number): boolean =>
+    value == null || (value >= min && value <= max);
+
+const isValidCallTimeoutSetting = (timeout: string | null | undefined): boolean =>
+    isValidNumberSetting(
+        timeout ? d(timeout).seconds.inWholeSeconds : null,
+        IMAGE_CONVERSION_CALL_TIMEOUT.min,
+        IMAGE_CONVERSION_CALL_TIMEOUT.max,
+    );
+
+const isValidConnectTimeoutSetting = (timeout: string | null | undefined): boolean =>
+    isValidNumberSetting(
+        timeout ? d(timeout).seconds.inWholeSeconds : null,
+        IMAGE_CONVERSION_CONNECT_TIMEOUT.min,
+        IMAGE_CONVERSION_CONNECT_TIMEOUT.max,
+    );
+
 const isValidCompressionLevel = (compression: number | null | undefined): boolean =>
-    compression == null ||
-    (compression >= DOWNLOAD_CONVERSION_COMPRESSION.min && compression <= DOWNLOAD_CONVERSION_COMPRESSION.max);
+    isValidNumberSetting(compression, DOWNLOAD_CONVERSION_COMPRESSION.min, DOWNLOAD_CONVERSION_COMPRESSION.max);
 
 const isUnsetConversion = (mimeType: string, target: string): boolean => mimeType === '' && target === '';
 
-const containsInvalidConversion = (conversions: SettingsDownloadConversion[]): boolean =>
+const isInvalidTarget = (target: string, mode: TargetMode, mimeType: string): boolean => {
+    if (isDefaultMimeType(mimeType) && !target) {
+        return false;
+    }
+
+    return mode === TargetMode.URL && !isUrlTargetMode(target);
+};
+
+const containsInvalidConversion = (conversions: TSettingsDownloadConversion[]): boolean =>
     conversions.some(
-        ({ mimeType, compressionLevel, target }, index) =>
+        ({ mimeType, compressionLevel, target, callTimeout, connectTimeout, headers, mode }, index) =>
             isUnsetConversion(mimeType, target) ||
+            isInvalidTarget(target, mode, mimeType) ||
             !isValidCompressionLevel(compressionLevel) ||
-            isDuplicateConversion(mimeType, index, conversions),
+            !isValidCallTimeoutSetting(callTimeout) ||
+            !isValidConnectTimeoutSetting(connectTimeout) ||
+            isDuplicateConversion(mimeType, index, conversions) ||
+            hasDuplicateHeaders(headers),
     );
 
-const normalizeConversions = (conversions: SettingsDownloadConversion[]): SettingsDownloadConversion[] =>
+const getTargetMode = (target: string): TargetMode => {
+    if (isUrlTargetMode(target)) {
+        return TargetMode.URL;
+    }
+
+    return TargetMode.IMAGE;
+};
+
+export const addStableIdToHeaders = (
+    headers: (SettingsDownloadConversionHeader | TSettingsDownloadConversionHeader)[],
+): TSettingsDownloadConversionHeader[] =>
+    headers.map((header) => ({
+        // eslint-disable-next-line no-plusplus
+        id: (header as TSettingsDownloadConversionHeader).id ?? COUNTER++,
+        ...header,
+    }));
+
+export const addStableIdToConversions = (
+    conversions: (SettingsDownloadConversion | TSettingsDownloadConversion)[],
+): TSettingsDownloadConversion[] =>
+    conversions.map((conversion) => ({
+        // eslint-disable-next-line no-plusplus
+        id: (conversion as TSettingsDownloadConversion).id ?? COUNTER++,
+        ...conversion,
+        mode: getTargetMode(conversion.target),
+        headers: conversion.headers ? addStableIdToHeaders(conversion.headers) : null,
+    }));
+
+const normalizeConversions = (conversions: TSettingsDownloadConversion[]): TSettingsDownloadConversion[] =>
     conversions.map((conversion) => ({
         ...conversion,
         mimeType: normalizeMimeType(conversion.mimeType),
@@ -64,16 +187,17 @@ const toValidServerMimeType = (mimeType: string): string => {
     return `${MIME_TYPE_PREFIX}${mimeType}`;
 };
 
-const toValidServerConversions = (conversions: SettingsDownloadConversion[]): SettingsDownloadConversion[] =>
+const toValidServerConversions = (conversions: TSettingsDownloadConversion[]): SettingsDownloadConversion[] =>
     conversions
         .filter(({ mimeType, target }) => !!mimeType && !!target)
-        .map((conversion) => ({
+        .map(({ id, mode, ...conversion }) => ({
             ...conversion,
             mimeType: toValidServerMimeType(conversion.mimeType),
-            target: `${MIME_TYPE_PREFIX}${conversion.target}`,
+            target: isUrlTargetMode(conversion.target) ? conversion.target : `${MIME_TYPE_PREFIX}${conversion.target}`,
+            headers: conversion.headers?.map(({ id: headerId, ...header }) => header) ?? null,
         }));
 
-const maybeAddDefault = (conversions: SettingsDownloadConversion[]) => {
+const maybeAddDefault = (conversions: TSettingsDownloadConversion[]): TSettingsDownloadConversion[] => {
     const isDefaultDefined = conversions.some(({ mimeType }) => isDefaultMimeType(mimeType));
 
     return [
@@ -81,30 +205,50 @@ const maybeAddDefault = (conversions: SettingsDownloadConversion[]) => {
             ? []
             : [
                   {
+                      id: -1,
+                      mode: TargetMode.IMAGE,
                       mimeType: DEFAULT_MIME_TYPE,
                       target: '',
                       compressionLevel: null,
+                      headers: null,
+                      callTimeout: null,
+                      connectTimeout: null,
                   },
               ]),
         ...conversions,
     ];
 };
 
+const normalizeHeaders = (
+    headers: SettingsDownloadConversionType['headers'],
+): SettingsDownloadConversionType['headers'] => headers?.filter(({ name }) => name !== '');
+
 const didUpdateConversions = (
-    conversions: SettingsDownloadConversion[],
-    tmpConversions: SettingsDownloadConversion[],
+    conversions: TSettingsDownloadConversion[],
+    tmpConversions: TSettingsDownloadConversion[],
 ): boolean => {
     if (conversions.length !== tmpConversions.length) {
         return true;
     }
 
-    return conversions.some(({ mimeType, target, compressionLevel }, index) => {
+    return conversions.some(({ mimeType, target, compressionLevel, callTimeout, connectTimeout, headers }, index) => {
         const tmpConversion = tmpConversions[index];
+
+        const orgHeaders = normalizeHeaders(headers);
+        const tmpHeaders = normalizeHeaders(tmpConversion.headers);
 
         return (
             normalizeMimeType(mimeType) !== tmpConversion.mimeType ||
             normalizeMimeType(target) !== tmpConversion.target ||
-            compressionLevel !== tmpConversion.compressionLevel
+            compressionLevel !== tmpConversion.compressionLevel ||
+            callTimeout !== tmpConversion.callTimeout ||
+            connectTimeout !== tmpConversion.connectTimeout ||
+            (orgHeaders?.length ?? 0) !== (tmpHeaders?.length ?? 0) ||
+            !!orgHeaders?.some(
+                (header, headerIndex) =>
+                    header.name !== tmpHeaders?.[headerIndex]?.name ||
+                    header.value !== tmpHeaders?.[headerIndex]?.value,
+            )
         );
     });
 };
@@ -116,6 +260,7 @@ const MimeTypeTextField = ({
     label,
     value,
     onUpdate,
+    mode,
 }: {
     shouldAutoFocus: boolean;
     isDefault: boolean;
@@ -123,8 +268,13 @@ const MimeTypeTextField = ({
     label: string;
     value: string;
     onUpdate: (value: string) => void;
+    mode: TargetMode;
 }) => {
     const { t } = useTranslation();
+
+    const isImageMode = mode === TargetMode.IMAGE;
+    const isValidUrl = value === '' || isUrlTargetMode(value);
+    const isValid = !isDuplicate && (isImageMode || isValidUrl);
 
     return (
         <TextField
@@ -133,11 +283,13 @@ const MimeTypeTextField = ({
             label={label}
             value={value}
             disabled={isDefault}
-            error={isDuplicate}
-            helperText={isDuplicate && t('global.error.label.invalid_input')}
+            error={!isValid}
+            helperText={!isValid && t('global.error.label.invalid_input')}
             slotProps={{
                 input: {
-                    startAdornment: <InputAdornment position="start">{MIME_TYPE_PREFIX}</InputAdornment>,
+                    startAdornment: (
+                        <InputAdornment position="start">{isImageMode ? MIME_TYPE_PREFIX : null}</InputAdornment>
+                    ),
                 },
             }}
             onChange={(e) => onUpdate(e.target.value.trim())}
@@ -145,25 +297,18 @@ const MimeTypeTextField = ({
     );
 };
 
-const Conversion = ({
-    shouldAutoFocusMimeTypeTextField,
-    conversion: { mimeType, target, compressionLevel },
-    setFocusMimeTypeTextField,
+const Header = ({
+    id,
+    name,
+    value,
     onChange,
     isDuplicate,
 }: {
-    shouldAutoFocusMimeTypeTextField: boolean;
-    conversion: SettingsDownloadConversion;
-    setFocusMimeTypeTextField: (focus: boolean) => void;
-    onChange: (newConversion: SettingsDownloadConversion | null) => void;
     isDuplicate: boolean;
-}) => {
+    onChange: (header: TSettingsDownloadConversionHeader | null) => void;
+} & TSettingsDownloadConversionHeader) => {
     const { t } = useTranslation();
     const theme = useTheme();
-
-    const isCompressionLevelValid = isValidCompressionLevel(compressionLevel);
-    const isDefault = isDefaultMimeType(mimeType) && !isDuplicate;
-    const isDisabled = isDefault && !target && compressionLevel == null;
 
     return (
         <Stack
@@ -172,84 +317,307 @@ const Conversion = ({
                 flexDirection: 'row',
                 flexWrap: 'nowrap',
                 alignItems: 'center',
-                pt: 1,
             }}
         >
             <Stack
                 sx={{
-                    gap: 1,
                     flexDirection: 'row',
-                    alignItems: 'baseline',
-                    flexWrap: 'wrap',
+                    gap: 2,
                     [theme.breakpoints.down('md')]: {
                         flexDirection: 'column',
                         width: '100%',
                     },
                 }}
             >
-                <MimeTypeTextField
-                    shouldAutoFocus={shouldAutoFocusMimeTypeTextField}
-                    isDefault={isDefault}
-                    isDuplicate={isDuplicate}
-                    label={t('download.settings.conversion.mime_type')}
-                    value={mimeType}
-                    onUpdate={(value) => {
-                        setFocusMimeTypeTextField(true);
-
+                <TextField
+                    autoFocus
+                    sx={{ width: INPUT_WIDTH }}
+                    label={t('download.settings.conversion.headers.name')}
+                    value={name}
+                    error={isDuplicate}
+                    helperText={isDuplicate && t('global.error.label.invalid_input')}
+                    onChange={(e) =>
                         onChange({
-                            mimeType: value,
-                            target,
-                            compressionLevel,
-                        });
-                    }}
-                />
-                <TypographyMaxLines sx={{ mx: 1 }}>→</TypographyMaxLines>
-                <MimeTypeTextField
-                    shouldAutoFocus={false}
-                    isDefault={false}
-                    isDuplicate={false}
-                    label={t('download.settings.conversion.target')}
-                    value={target}
-                    onUpdate={(value) =>
-                        onChange({
-                            mimeType,
-                            target: value,
-                            compressionLevel,
+                            id,
+                            name: e.target.value,
+                            value,
                         })
                     }
                 />
                 <TextField
                     sx={{ width: INPUT_WIDTH }}
-                    label={t('download.settings.conversion.compression_level')}
-                    value={compressionLevel ?? ''}
-                    type="number"
-                    error={!isCompressionLevelValid}
-                    helperText={!isCompressionLevelValid ? t('global.error.label.invalid_input') : ''}
-                    slotProps={{
-                        input: {
-                            inputProps: DOWNLOAD_CONVERSION_COMPRESSION,
-                        },
-                    }}
-                    onChange={(e) => {
+                    label={t('download.settings.conversion.headers.value')}
+                    value={value}
+                    onChange={(e) =>
                         onChange({
-                            mimeType,
-                            target,
-                            compressionLevel: e.target.value ? Number(e.target.value) : undefined,
-                        });
-                    }}
+                            id,
+                            name,
+                            value: e.target.value,
+                        })
+                    }
                 />
             </Stack>
-            <CustomTooltip disabled={isDisabled} title={t('chapter.action.download.delete.label.action')}>
+            <CustomTooltip disabled={false} title={t('chapter.action.download.delete.label.action')}>
                 <IconButton
-                    disabled={isDisabled}
                     onClick={() => {
-                        setFocusMimeTypeTextField(false);
                         onChange(null);
                     }}
                 >
                     <DeleteIcon />
                 </IconButton>
             </CustomTooltip>
+        </Stack>
+    );
+};
+
+const Headers = ({
+    open,
+    headers,
+    onChange,
+}: {
+    open: boolean;
+    headers: Maybe<TSettingsDownloadConversionHeader[]> | undefined;
+    onChange: (headers: Maybe<TSettingsDownloadConversionHeader[]>) => void;
+}) => {
+    const { t } = useTranslation();
+
+    return (
+        <Collapse in={open}>
+            <Stack sx={{ justifyContent: 'start', gap: 2 }}>
+                <Typography>{t('download.settings.conversion.headers.title')}</Typography>
+                {headers?.map((header, index) => (
+                    <Header
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={index}
+                        {...header}
+                        isDuplicate={isDuplicateHeader(header.name, index, headers)}
+                        onChange={(updatedHeader) => {
+                            const isDeletion = updatedHeader == null;
+                            if (isDeletion) {
+                                onChange(headers?.toSpliced(index, 1));
+                                return;
+                            }
+
+                            onChange((headers ?? []).toSpliced(index, 1, updatedHeader));
+                        }}
+                    />
+                ))}
+                <Button
+                    onClick={() => onChange([...(headers ?? []), ...addStableIdToHeaders([{ name: '', value: '' }])])}
+                    variant="contained"
+                    sx={{ width: 'fit-content' }}
+                >
+                    Add
+                </Button>
+            </Stack>
+        </Collapse>
+    );
+};
+
+const Conversion = ({
+    conversion,
+    conversion: { mimeType, target, compressionLevel, headers, callTimeout, connectTimeout },
+    onChange,
+    isDuplicate,
+}: {
+    conversion: TSettingsDownloadConversion;
+    onChange: (newConversion: TSettingsDownloadConversion | null) => void;
+    isDuplicate: boolean;
+}) => {
+    const { t } = useTranslation();
+    const theme = useTheme();
+
+    const { ref: textFieldRef, height: textFieldHeight } = useElementSize();
+
+    const [targetMode, setTargetMode] = useState(getTargetMode(target));
+    const [areHeadersCollapsed, setAreHeadersCollapsed] = useState(true);
+
+    const isImageMode = targetMode === TargetMode.IMAGE;
+
+    const isCallTimeoutValid = isValidCallTimeoutSetting(callTimeout);
+    const isConnectTimeoutValid = isValidConnectTimeoutSetting(connectTimeout);
+    const isCompressionLevelValid = isValidCompressionLevel(compressionLevel);
+    const isDefault = isDefaultMimeType(mimeType) && !isDuplicate;
+    const isDisabled = isDefault && !target && compressionLevel == null;
+
+    return (
+        <Stack sx={{ gap: 2 }}>
+            <Stack
+                sx={{
+                    gap: 1,
+                    flexDirection: 'row',
+                    flexWrap: 'nowrap',
+                    alignItems: 'center',
+                    pt: 1,
+                }}
+            >
+                <Stack
+                    sx={{
+                        gap: 1,
+                        flexDirection: 'row',
+                        alignItems: 'baseline',
+                        flexWrap: 'wrap',
+                        [theme.breakpoints.down('md')]: {
+                            flexDirection: 'column',
+                            width: '100%',
+                        },
+                    }}
+                >
+                    <MimeTypeTextField
+                        mode={TargetMode.IMAGE}
+                        shouldAutoFocus
+                        isDefault={isDefault}
+                        isDuplicate={isDuplicate}
+                        label={t('download.settings.conversion.mime_type')}
+                        value={mimeType}
+                        onUpdate={(value) => {
+                            onChange({
+                                ...conversion,
+                                mimeType: value,
+                            });
+                        }}
+                    />
+                    <TypographyMaxLines sx={{ mx: 1 }}>→</TypographyMaxLines>
+                    <FormControl sx={{ minWidth: '100px' }}>
+                        <InputLabel id="image-conversion-target-mode-label">
+                            {t('download.settings.conversion.target_modes.title')}
+                        </InputLabel>
+                        <Select
+                            ref={textFieldRef}
+                            id="image-conversion-target-mode"
+                            labelId="image-conversion-target-mode-label"
+                            label={t('download.settings.conversion.target_modes.title')}
+                            value={targetMode}
+                            onChange={(e) => setTargetMode(e.target.value)}
+                        >
+                            {TARGET_MODES_SELECT_VALUES.map(([selectValue, { text: selectText }]) => (
+                                <MenuItem key={selectValue} value={selectValue}>
+                                    {t(selectText as TranslationKey)}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <MimeTypeTextField
+                        mode={targetMode}
+                        shouldAutoFocus={false}
+                        isDefault={false}
+                        isDuplicate={false}
+                        label={t('download.settings.conversion.target')}
+                        value={target}
+                        onUpdate={(value) =>
+                            onChange({
+                                ...conversion,
+                                target: value,
+                            })
+                        }
+                    />
+                    {isImageMode ? (
+                        <TextField
+                            sx={{ width: INPUT_WIDTH }}
+                            label={t('download.settings.conversion.compression_level')}
+                            value={compressionLevel ?? ''}
+                            type="number"
+                            error={!isCompressionLevelValid}
+                            helperText={!isCompressionLevelValid ? t('global.error.label.invalid_input') : ''}
+                            slotProps={{
+                                input: {
+                                    inputProps: DOWNLOAD_CONVERSION_COMPRESSION,
+                                },
+                            }}
+                            onChange={(e) => {
+                                onChange({
+                                    ...conversion,
+                                    compressionLevel: e.target.value ? Number(e.target.value) : null,
+                                });
+                            }}
+                        />
+                    ) : (
+                        <>
+                            <TextField
+                                sx={{ width: INPUT_WIDTH }}
+                                label={t('download.settings.conversion.call_timeout')}
+                                value={callTimeout ? d(callTimeout).seconds.inWholeSeconds : ''}
+                                type="number"
+                                error={!isCallTimeoutValid}
+                                helperText={!isCallTimeoutValid ? t('global.error.label.invalid_input') : ''}
+                                slotProps={{
+                                    input: {
+                                        inputProps: IMAGE_CONVERSION_CALL_TIMEOUT,
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                {t('global.date.label.second_other')}
+                                            </InputAdornment>
+                                        ),
+                                    },
+                                }}
+                                onChange={(e) => {
+                                    onChange({
+                                        ...conversion,
+                                        callTimeout: e.target.value
+                                            ? d(Number(e.target.value)).seconds.toISOString()
+                                            : null,
+                                    });
+                                }}
+                            />
+                            <TextField
+                                sx={{ width: INPUT_WIDTH }}
+                                label={t('download.settings.conversion.connect_timeout')}
+                                value={connectTimeout ? d(connectTimeout).seconds.inWholeSeconds : ''}
+                                type="number"
+                                error={!isConnectTimeoutValid}
+                                helperText={!isConnectTimeoutValid ? t('global.error.label.invalid_input') : ''}
+                                slotProps={{
+                                    input: {
+                                        inputProps: IMAGE_CONVERSION_CONNECT_TIMEOUT,
+                                        endAdornment: (
+                                            <InputAdornment position="end">
+                                                {t('global.date.label.second_other')}
+                                            </InputAdornment>
+                                        ),
+                                    },
+                                }}
+                                onChange={(e) => {
+                                    onChange({
+                                        ...conversion,
+                                        connectTimeout: e.target.value
+                                            ? d(Number(e.target.value)).seconds.toISOString()
+                                            : null,
+                                    });
+                                }}
+                            />
+                            <Button
+                                onClick={() => setAreHeadersCollapsed(!areHeadersCollapsed)}
+                                variant={areHeadersCollapsed ? 'outlined' : 'contained'}
+                                sx={{ height: textFieldHeight }}
+                            >
+                                {t('download.settings.conversion.headers.button', {
+                                    count: headers?.length ?? 0,
+                                })}
+                            </Button>
+                        </>
+                    )}
+                </Stack>
+                <CustomTooltip disabled={isDisabled} title={t('chapter.action.download.delete.label.action')}>
+                    <IconButton
+                        disabled={isDisabled}
+                        onClick={() => {
+                            onChange(null);
+                        }}
+                    >
+                        <DeleteIcon />
+                    </IconButton>
+                </CustomTooltip>
+            </Stack>
+            <Headers
+                open={!areHeadersCollapsed}
+                headers={headers}
+                onChange={(updatedHeaders) =>
+                    onChange({
+                        ...conversion,
+                        headers: updatedHeaders,
+                    })
+                }
+            />
         </Stack>
     );
 };
@@ -263,12 +631,15 @@ export const DownloadConversionSetting = ({
 }) => {
     const { t } = useTranslation();
 
-    const [tmpConversions, setTmpConversions] = useState(normalizeConversions(maybeAddDefault(conversions)));
-    const [focusedMimeTypeTextFieldIndex, setFocusedMimeTypeTextFieldIndex] = useState(DEFAULT_FOCUS_INDEX);
+    const [tmpConversions, setTmpConversions] = useState(
+        normalizeConversions(maybeAddDefault(addStableIdToConversions(conversions))),
+    );
 
     const hasInvalidConversion = containsInvalidConversion(tmpConversions);
-
-    const hasChanged = didUpdateConversions(normalizeConversions(maybeAddDefault(conversions)), tmpConversions);
+    const hasChanged = didUpdateConversions(
+        normalizeConversions(maybeAddDefault(addStableIdToConversions(conversions))),
+        tmpConversions,
+    );
 
     const onSubmit = async () => {
         try {
@@ -286,18 +657,12 @@ export const DownloadConversionSetting = ({
                     const { mimeType } = conversion;
 
                     const isDuplicate = isDuplicateConversion(mimeType, index, tmpConversions);
-                    const shouldAutoFocusMimeTypeTextField = index === focusedMimeTypeTextFieldIndex;
 
                     return (
                         <Conversion
-                            // eslint-disable-next-line react/no-array-index-key
-                            key={`${mimeType}-${index}`}
+                            key={conversion.id}
                             conversion={conversion}
                             isDuplicate={isDuplicate}
-                            setFocusMimeTypeTextField={(focus) =>
-                                setFocusedMimeTypeTextFieldIndex(focus ? index : DEFAULT_FOCUS_INDEX)
-                            }
-                            shouldAutoFocusMimeTypeTextField={shouldAutoFocusMimeTypeTextField}
                             onChange={(newConversion) => {
                                 setTmpConversions((prev) =>
                                     maybeAddDefault(
@@ -312,13 +677,16 @@ export const DownloadConversionSetting = ({
             <Stack
                 direction="row"
                 sx={{
-                    gap: 2,
+                    gap: 1,
                 }}
             >
                 <Button
                     variant="outlined"
                     onClick={() => {
-                        setTmpConversions((prev) => [...prev, { mimeType: '', target: '' }]);
+                        setTmpConversions((prev) => [
+                            ...prev,
+                            ...addStableIdToConversions([{ mimeType: '', target: '' }]),
+                        ]);
                     }}
                 >
                     {t('global.button.add')}

@@ -214,10 +214,29 @@
         "title": "Auto-download"
       },
       "conversion": {
+        "call_timeout": "Call timeout",
         "compression_level": "Compression level",
+        "connect_timeout": "Connect timeout",
         "description": "In case no MIME-Type is defined, the \"default\" one will be used for the conversion.\nSet \"{{value}}\" as the target type to disable conversion for a MIME-Type",
+        "headers": {
+          "button": "Headers ({{count}})",
+          "name": "Name",
+          "title": "Headers",
+          "value": "Value"
+        },
         "mime_type": "MIME-Type",
         "target": "MIME-Type target",
+        "target_modes": {
+          "image": {
+            "description": "Convert images to different formats",
+            "title": "Image"
+          },
+          "title": "Target mode",
+          "url": {
+            "description": "Image conversion will be handled by an external service",
+            "title": "URL"
+          }
+        },
         "title": "Download conversion"
       },
       "delete_chapters": {
@@ -397,6 +416,8 @@
       "label": {
         "day_one": "Day",
         "day_other": "Days",
+        "second_one": "Second",
+        "second_other": "Seconds",
         "today": "Today",
         "today_at": "Today at {{timeString}}",
         "yesterday": "Yesterday",
@@ -1241,6 +1262,9 @@
             "value": "Delete backups that are older than $t(global.date.value.label.day)"
           }
         },
+        "flags": {
+          "title": "Backup data"
+        },
         "label": {
           "interval": "Backup interval",
           "time": "Backup time"
@@ -1250,9 +1274,6 @@
             "description": "The path to the directory on the server where automated backups should get saved in",
             "title": "Backup location"
           }
-        },
-        "flags": {
-          "title": "Backup data"
         }
       },
       "flag": {

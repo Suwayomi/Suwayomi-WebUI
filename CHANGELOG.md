@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Settings**) Add hikari connection pool database setting
 - (**Settings**) Add OPDS CBZ MIME-Type setting
 - (**Settings**) Add automatic backup data inclusion setting
+- (**Settings**) Add "external image processing" settings for downloaded images
 - (**Browse**) Add "open in webview" button in source browse page
 
 ### Changed
@@ -82,6 +83,7 @@ Thanks to everyone that contributed to this release
 - (**General**) Add support for the suwayomi WebView
 - (**Settings**) Add new OPDS server settings
 - (**Settings**) Add new "simple login" authentication setting
+- (**Settings**) Add "download conversion" settings
 - (**Reader**) Add option to change auto scroll direction by using the scroll backward/forward hotkeys while auto scrolling is active
 - (**Manga**) Display score and total chapters, if available, in the tracker search results
 - (**Manga**) Add support for private track bindings

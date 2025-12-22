@@ -41,6 +41,12 @@ export const SERVER_SETTINGS = gql`
             mimeType
             target
             compressionLevel
+            headers {
+                name
+                value
+            }
+            callTimeout
+            connectTimeout
         }
 
         # extensions
