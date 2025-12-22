@@ -39,10 +39,14 @@ const isValidCompressionLevel = (compression: number | null | undefined): boolea
     compression == null ||
     (compression >= DOWNLOAD_CONVERSION_COMPRESSION.min && compression <= DOWNLOAD_CONVERSION_COMPRESSION.max);
 
+const isUnsetConversion = (mimeType: string, target: string): boolean => mimeType === '' && target === '';
+
 const containsInvalidConversion = (conversions: SettingsDownloadConversion[]): boolean =>
     conversions.some(
-        ({ mimeType, compressionLevel }, index) =>
-            !isValidCompressionLevel(compressionLevel) || isDuplicateConversion(mimeType, index, conversions),
+        ({ mimeType, compressionLevel, target }, index) =>
+            isUnsetConversion(mimeType, target) ||
+            !isValidCompressionLevel(compressionLevel) ||
+            isDuplicateConversion(mimeType, index, conversions),
     );
 
 const normalizeConversions = (conversions: SettingsDownloadConversion[]): SettingsDownloadConversion[] =>
