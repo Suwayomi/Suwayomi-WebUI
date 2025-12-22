@@ -23,7 +23,7 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GetCategoriesSettingsQueryVariables, GetSourceSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
-import { GET_SOURCE_SETTINGS } from '@/lib/graphql/queries/SourceQuery.ts';
+import { GET_SOURCE_SETTINGS } from '@/lib/graphql/source/SourceQuery.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { PreferenceProps } from '@/features/source/Source.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';

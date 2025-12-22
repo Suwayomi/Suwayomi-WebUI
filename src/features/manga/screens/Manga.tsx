@@ -24,7 +24,7 @@ import { MangaToolbarMenu } from '@/features/manga/components/MangaToolbarMenu.t
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
-import { GET_MANGA_SCREEN } from '@/lib/graphql/queries/MangaQuery.ts';
+import { GET_MANGA_SCREEN } from '@/lib/graphql/manga/MangaQuery.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { MangaLocationState } from '@/features/manga/Manga.types.ts';

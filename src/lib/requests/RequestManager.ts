@@ -229,22 +229,22 @@ import {
     GetKoSyncStatusQuery,
     GetKoSyncStatusQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
-import { GET_GLOBAL_METADATAS } from '@/lib/graphql/queries/GlobalMetadataQuery.ts';
-import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/mutations/GlobalMetadataMutation.ts';
+import { GET_GLOBAL_METADATAS } from '@/lib/graphql/metadata/GlobalMetadataQuery.ts';
+import { DELETE_GLOBAL_METADATA, SET_GLOBAL_METADATA } from '@/lib/graphql/metadata/GlobalMetadataMutation.ts';
 import {
     CHECK_FOR_SERVER_UPDATES,
     CHECK_FOR_WEBUI_UPDATE,
     GET_ABOUT,
     GET_WEBUI_UPDATE_STATUS,
-} from '@/lib/graphql/queries/ServerInfoQuery.ts';
-import { GET_EXTENSION, GET_EXTENSIONS } from '@/lib/graphql/queries/ExtensionQuery.ts';
+} from '@/lib/graphql/server/ServerInfoQuery.ts';
+import { GET_EXTENSION, GET_EXTENSIONS } from '@/lib/graphql/extension/ExtensionQuery.ts';
 import {
     GET_EXTENSIONS_FETCH,
     INSTALL_EXTERNAL_EXTENSION,
     UPDATE_EXTENSION,
     UPDATE_EXTENSIONS,
-} from '@/lib/graphql/mutations/ExtensionMutation.ts';
-import { GET_MIGRATABLE_SOURCES, GET_SOURCES_LIST } from '@/lib/graphql/queries/SourceQuery.ts';
+} from '@/lib/graphql/extension/ExtensionMutation.ts';
+import { GET_MIGRATABLE_SOURCES, GET_SOURCES_LIST } from '@/lib/graphql/source/SourceQuery.ts';
 import {
     DELETE_MANGA_METADATA,
     GET_MANGA_FETCH,
@@ -254,25 +254,25 @@ import {
     UPDATE_MANGA_CATEGORIES,
     UPDATE_MANGAS,
     UPDATE_MANGAS_CATEGORIES,
-} from '@/lib/graphql/mutations/MangaMutation.ts';
+} from '@/lib/graphql/manga/MangaMutation.ts';
 import {
     GET_MANGA_TO_MIGRATE,
     GET_MANGA_TRACK_RECORDS,
     GET_MANGAS_LIBRARY,
     GET_MIGRATABLE_SOURCE_MANGAS,
-} from '@/lib/graphql/queries/MangaQuery.ts';
+} from '@/lib/graphql/manga/MangaQuery.ts';
 import {
     GET_CATEGORIES_BASE,
     GET_CATEGORIES_LIBRARY,
     GET_CATEGORIES_SETTINGS,
     GET_CATEGORY_MANGAS,
-} from '@/lib/graphql/queries/CategoryQuery.ts';
+} from '@/lib/graphql/category/CategoryQuery.ts';
 import {
     DELETE_SOURCE_METADATA,
     GET_SOURCE_MANGAS_FETCH,
     SET_SOURCE_METADATA,
     UPDATE_SOURCE_PREFERENCES,
-} from '@/lib/graphql/mutations/SourceMutation.ts';
+} from '@/lib/graphql/source/SourceMutation.ts';
 import {
     CLEAR_DOWNLOADER,
     DELETE_DOWNLOADED_CHAPTER,
@@ -284,13 +284,13 @@ import {
     REORDER_CHAPTER_DOWNLOAD,
     START_DOWNLOADER,
     STOP_DOWNLOADER,
-} from '@/lib/graphql/mutations/DownloaderMutation.ts';
+} from '@/lib/graphql/download/DownloaderMutation.ts';
 import {
     GET_CHAPTERS_HISTORY,
     GET_CHAPTERS_MANGA,
     GET_CHAPTERS_UPDATES,
     GET_MANGAS_CHAPTER_IDS_WITH_STATE,
-} from '@/lib/graphql/queries/ChapterQuery.ts';
+} from '@/lib/graphql/chapter/ChapterQuery.ts';
 import {
     DELETE_CHAPTER_METADATA,
     GET_CHAPTER_PAGES_FETCH,
@@ -298,7 +298,7 @@ import {
     SET_CHAPTER_METADATA,
     UPDATE_CHAPTER,
     UPDATE_CHAPTERS,
-} from '@/lib/graphql/mutations/ChapterMutation.ts';
+} from '@/lib/graphql/chapter/ChapterMutation.ts';
 import {
     CREATE_CATEGORY,
     DELETE_CATEGORY,
@@ -306,24 +306,24 @@ import {
     SET_CATEGORY_METADATA,
     UPDATE_CATEGORY,
     UPDATE_CATEGORY_ORDER,
-} from '@/lib/graphql/mutations/CategoryMutation.ts';
-import { STOP_UPDATER, UPDATE_LIBRARY } from '@/lib/graphql/mutations/UpdaterMutation.ts';
-import { GET_LAST_UPDATE_TIMESTAMP, GET_UPDATE_STATUS } from '@/lib/graphql/queries/UpdaterQuery.ts';
+} from '@/lib/graphql/category/CategoryMutation.ts';
+import { STOP_UPDATER, UPDATE_LIBRARY } from '@/lib/graphql/updater/UpdaterMutation.ts';
+import { GET_LAST_UPDATE_TIMESTAMP, GET_UPDATE_STATUS } from '@/lib/graphql/updater/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/storage/CustomCache.ts';
-import { CREATE_BACKUP, RESTORE_BACKUP } from '@/lib/graphql/mutations/BackupMutation.ts';
-import { GET_RESTORE_STATUS, VALIDATE_BACKUP } from '@/lib/graphql/queries/BackupQuery.ts';
-import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/subscriptions/DownloaderSubscription.ts';
-import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/subscriptions/UpdaterSubscription.ts';
-import { GET_SERVER_SETTINGS } from '@/lib/graphql/queries/SettingsQuery.ts';
-import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/mutations/SettingsMutation.ts';
-import { CLEAR_SERVER_CACHE } from '@/lib/graphql/mutations/ImageMutation.ts';
-import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/mutations/ServerInfoMutation.ts';
-import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/subscriptions/ServerInfoSubscription.ts';
-import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/queries/DownloaderQuery.ts';
+import { CREATE_BACKUP, RESTORE_BACKUP } from '@/lib/graphql/backup/BackupMutation.ts';
+import { GET_RESTORE_STATUS, VALIDATE_BACKUP } from '@/lib/graphql/backup/BackupQuery.ts';
+import { DOWNLOAD_STATUS_SUBSCRIPTION } from '@/lib/graphql/download/DownloaderSubscription.ts';
+import { UPDATER_SUBSCRIPTION } from '@/lib/graphql/updater/UpdaterSubscription.ts';
+import { GET_SERVER_SETTINGS } from '@/lib/graphql/settings/SettingsQuery.ts';
+import { UPDATE_SERVER_SETTINGS } from '@/lib/graphql/settings/SettingsMutation.ts';
+import { CLEAR_SERVER_CACHE } from '@/lib/graphql/image/ImageMutation.ts';
+import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/server/ServerInfoMutation.ts';
+import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/server/ServerInfoSubscription.ts';
+import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/download/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { QueuePriority } from '@/lib/Queue.ts';
 import { SourceAwareQueue } from '@/lib/SourceAwareQueue.ts';
-import { TRACKER_SEARCH } from '@/lib/graphql/queries/TrackerQuery.ts';
+import { TRACKER_SEARCH } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import {
     TRACKER_BIND,
     TRACKER_FETCH_BIND,
@@ -332,23 +332,23 @@ import {
     TRACKER_LOGOUT,
     TRACKER_UNBIND,
     TRACKER_UPDATE_BIND,
-} from '@/lib/graphql/mutations/TrackerMutation.ts';
+} from '@/lib/graphql/tracker/TrackerMutation.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
-import { DOWNLOAD_STATUS_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
-import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/fragments/ExtensionFragments.ts';
-import { MANGA_BASE_FIELDS, MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
-import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
-import { CATEGORY_META_FIELDS } from '@/lib/graphql/fragments/CategoryFragments.ts';
-import { SOURCE_META_FIELDS } from '@/lib/graphql/fragments/SourceFragments.ts';
-import { CHAPTER_META_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
+import { DOWNLOAD_STATUS_FIELDS } from '@/lib/graphql/download/DownloadFragments.ts';
+import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/extension/ExtensionFragments.ts';
+import { MANGA_BASE_FIELDS, MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
+import { GLOBAL_METADATA } from '@/lib/graphql/common/Fragments.ts';
+import { CATEGORY_META_FIELDS } from '@/lib/graphql/category/CategoryFragments.ts';
+import { SOURCE_META_FIELDS } from '@/lib/graphql/source/SourceFragments.ts';
+import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
-import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/mutations/UserMutation.ts';
+import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
-import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/mutations/KoreaderSyncMutation.ts';
-import { GET_KO_SYNC_STATUS } from '@/lib/graphql/queries/KoreaderSyncQuery.ts';
+import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/koreader/KoreaderSyncMutation.ts';
+import { GET_KO_SYNC_STATUS } from '@/lib/graphql/koreader/KoreaderSyncQuery.ts';
 import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
 

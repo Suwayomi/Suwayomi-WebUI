@@ -29,7 +29,7 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { ChapterCard } from '@/features/chapter/components/cards/ChapterCard.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetChaptersMangaQuery } from '@/lib/graphql/generated/graphql.ts';
-import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
+import { GET_CHAPTERS_MANGA } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import { CHAPTER_ACTION_TO_TRANSLATION } from '@/features/chapter/Chapter.constants.ts';
 import {
     ChapterAction,

@@ -18,7 +18,7 @@ import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { CustomButton } from '@/base/components/buttons/CustomButton.tsx';
 import { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/queries/TrackerQuery.ts';
+import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import { MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 

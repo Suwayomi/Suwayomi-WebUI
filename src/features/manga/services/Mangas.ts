@@ -22,8 +22,8 @@ import {
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
-import { MANGA_BASE_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
+import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
+import { MANGA_BASE_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import {
     MangaAction,

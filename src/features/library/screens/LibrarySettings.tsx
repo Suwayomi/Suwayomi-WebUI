@@ -32,8 +32,8 @@ import {
     GetMangasBaseQuery,
     GetMangasBaseQueryVariables,
 } from '@/lib/graphql/generated/graphql.ts';
-import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/queries/CategoryQuery.ts';
-import { GET_MANGAS_BASE } from '@/lib/graphql/queries/MangaQuery.ts';
+import { GET_CATEGORIES_SETTINGS } from '@/lib/graphql/category/CategoryQuery.ts';
+import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
 import { MetadataLibrarySettings } from '@/features/library/Library.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';

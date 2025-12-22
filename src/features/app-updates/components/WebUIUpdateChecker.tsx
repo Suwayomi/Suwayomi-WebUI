@@ -19,7 +19,7 @@ import { UpdateState, WebUiChannel, WebUiUpdateStatus } from '@/lib/graphql/gene
 import { useLocalStorage, useSessionStorage } from '@/base/hooks/useStorage.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/fragments/InfoFragments.ts';
+import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/server/InfoFragments.ts';
 import { VersionUpdateInfoDialog } from '@/features/app-updates/components/VersionUpdateInfoDialog.tsx';
 import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';

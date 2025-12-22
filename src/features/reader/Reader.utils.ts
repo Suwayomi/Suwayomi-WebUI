@@ -16,7 +16,7 @@ import {
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { CHAPTER_READER_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
+import { CHAPTER_READER_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import { isPageOfOutdatedPageLoadStates, isSpreadPage } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 

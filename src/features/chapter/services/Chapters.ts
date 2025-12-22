@@ -17,13 +17,13 @@ import {
     DownloadState,
     DownloadTypeFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
-import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/fragments/ChapterFragments.ts';
+import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { ReaderOpenChapterLocationState, ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/fragments/DownloadFragments.ts';
+import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/download/DownloadFragments.ts';
 import { epochToDate, getDateString } from '@/base/utils/DateHelper.ts';
 import {
     CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED,

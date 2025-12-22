@@ -19,10 +19,10 @@ import {
     MangaType,
     SortOrder,
 } from '@/lib/graphql/generated/graphql.ts';
-import { MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
+import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { GET_CHAPTERS_MANGA } from '@/lib/graphql/queries/ChapterQuery.ts';
+import { GET_CHAPTERS_MANGA } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { makeToast } from '@/base/utils/Toast.ts';

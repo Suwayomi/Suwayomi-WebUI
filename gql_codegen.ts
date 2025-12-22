@@ -13,13 +13,7 @@ import 'dotenv/config';
 const config: CodegenConfig = {
     overwrite: true,
     schema: process.env.CODEGEN_SERVER_URL_GQL,
-    documents: [
-        'src/lib/graphql/queries/**',
-        'src/lib/graphql/mutations/**',
-        'src/lib/graphql/subscriptions/**',
-        'src/lib/graphql/fragments/**',
-        'src/lib/graphql/Fragments.ts',
-    ],
+    documents: ['src/lib/graphql/**', '!src/lib/graphql/generated/**'],
     ignoreNoDocuments: true,
     generates: {
         'src/lib/graphql/generated/graphql.ts': {

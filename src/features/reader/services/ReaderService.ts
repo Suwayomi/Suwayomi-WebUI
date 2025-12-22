@@ -22,10 +22,10 @@ import {
 } from '@/features/reader/Reader.types.ts';
 import { updateReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { MANGA_META_FIELDS } from '@/lib/graphql/fragments/MangaFragments.ts';
+import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
-import { GLOBAL_METADATA } from '@/lib/graphql/fragments/Fragments.ts';
+import { GLOBAL_METADATA } from '@/lib/graphql/common/Fragments.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';

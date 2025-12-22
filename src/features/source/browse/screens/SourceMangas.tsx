@@ -43,7 +43,7 @@ import { useLocalStorage, useSessionStorage } from '@/base/hooks/useStorage.tsx'
 import { MANGA_GRID_SNAPSHOT_KEY } from '@/features/manga/components/MangaGrid.tsx';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { GET_SOURCE_BROWSE } from '@/lib/graphql/queries/SourceQuery.ts';
+import { GET_SOURCE_BROWSE } from '@/lib/graphql/source/SourceQuery.ts';
 import { IPos, SourceIdInfo } from '@/features/source/Source.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
