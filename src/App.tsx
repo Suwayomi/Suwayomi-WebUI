@@ -60,8 +60,9 @@ const { DownloadSettings } = loadable(
     () => import('@/features/downloads/screens/DownloadSettings.tsx'),
     lazyLoadFallback,
 );
-const { DownloadConversionSettings } = loadable(
-    () => import('@/features/downloads/screens/DownloadConversionSettings.tsx'),
+const { ImagesSettings } = loadable(() => import('@/features/settings/screens/ImagesSettings.tsx'), lazyLoadFallback);
+const { ImageProcessingSetting } = loadable(
+    () => import('@/features/settings/screens/ImageProcessingSetting.tsx'),
     lazyLoadFallback,
 );
 const { ServerSettings } = loadable(() => import('@/features/settings/screens/ServerSettings.tsx'), lazyLoadFallback);
@@ -227,9 +228,25 @@ const MainApp = () => {
                             </Route>
                             <Route path={AppRoutes.settings.childRoutes.download.match}>
                                 <Route index element={<DownloadSettings />} />
+                                {/* TODO: deprecated - got moved to "settings/images/processing/downloads" */}
                                 <Route
                                     path={AppRoutes.settings.childRoutes.download.childRoutes.conversions.match}
-                                    element={<DownloadConversionSettings />}
+                                    element={
+                                        <Navigate
+                                            to={
+                                                AppRoutes.settings.childRoutes.images.childRoutes.processingDownloads
+                                                    .path
+                                            }
+                                            replace
+                                        />
+                                    }
+                                />
+                            </Route>
+                            <Route path={AppRoutes.settings.childRoutes.images.match}>
+                                <Route index element={<ImagesSettings />} />
+                                <Route
+                                    path={AppRoutes.settings.childRoutes.images.childRoutes.processingDownloads.match}
+                                    element={<ImageProcessingSetting />}
                                 />
                             </Route>
                             <Route path={AppRoutes.settings.childRoutes.backup.match} element={<Backup />} />
@@ -255,6 +272,7 @@ const MainApp = () => {
                             <Route path={AppRoutes.sources.childRoutes.searchAll.match} element={<SearchAll />} />
                         </Route>
                         <Route path={AppRoutes.extension.match}>
+                            {/* TODO: deprecated - "source" and "extension" page got merged into "browse" */}
                             <Route
                                 index
                                 element={<Navigate to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)} replace />}

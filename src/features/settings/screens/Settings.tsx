@@ -23,6 +23,7 @@ import DevicesIcon from '@mui/icons-material/Devices';
 import SyncIcon from '@mui/icons-material/Sync';
 import PaletteIcon from '@mui/icons-material/Palette';
 import HistoryIcon from '@mui/icons-material/History';
+import ImageIcon from '@mui/icons-material/Image';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -72,6 +73,12 @@ export function Settings() {
                     <GetAppOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={t('download.title.download')} />
+            </ListItemLink>
+            <ListItemLink to={AppRoutes.settings.childRoutes.images.path}>
+                <ListItemIcon>
+                    <ImageIcon />
+                </ListItemIcon>
+                <ListItemText primary={t('settings.images.title')} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.tracking.path}>
                 <ListItemIcon>

@@ -217,7 +217,7 @@
         "call_timeout": "Call timeout",
         "compression_level": "Compression level",
         "connect_timeout": "Connect timeout",
-        "description": "In case no MIME-Type is defined, the \"default\" one will be used for the conversion.\nSet \"{{value}}\" as the target type to disable conversion for a MIME-Type",
+        "description": "In case no MIME-Type is defined, the \"default\" one will be used for the processing.\nSet \"{{value}}\" as the target type to disable processing for a MIME-Type",
         "headers": {
           "button": "Headers ({{count}})",
           "name": "Name",
@@ -237,7 +237,7 @@
             "title": "URL"
           }
         },
-        "title": "Download conversion"
+        "title": "Downloaded image processing"
       },
       "delete_chapters": {
         "label": {
@@ -1319,6 +1319,12 @@
       "title": {
         "device": "Device"
       }
+    },
+    "images": {
+      "processing": {
+        "title": "Image processing"
+      },
+      "title": "Images"
     },
     "label": {
       "hide_library_entries": "Hide entries already in library",

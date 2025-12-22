@@ -25,11 +25,6 @@ import { useElementSize } from '@mantine/hooks';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import {
-    DOWNLOAD_CONVERSION_COMPRESSION,
-    IMAGE_CONVERSION_CALL_TIMEOUT,
-    IMAGE_CONVERSION_CONNECT_TIMEOUT,
-} from '@/features/downloads/Downloads.constants.ts';
-import {
     Maybe,
     SettingsDownloadConversion,
     SettingsDownloadConversionHeader,
@@ -38,6 +33,20 @@ import {
 import { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { TranslationKey } from '@/base/Base.types.ts';
+import {
+    IMAGE_PROCESSING_CALL_TIMEOUT,
+    IMAGE_PROCESSING_COMPRESSION,
+    IMAGE_PROCESSING_CONNECT_TIMEOUT,
+} from '@/features/settings/Settings.constants.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { ServerSettings } from '@/features/settings/Settings.types.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { assertIsDefined } from '@/base/Asserts.ts';
+import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 
 export type TSettingsDownloadConversionHeader = SettingsDownloadConversionHeader & {
     /**
@@ -108,19 +117,19 @@ const isValidNumberSetting = (value: number | null | undefined, min: number, max
 const isValidCallTimeoutSetting = (timeout: string | null | undefined): boolean =>
     isValidNumberSetting(
         timeout ? d(timeout).seconds.inWholeSeconds : null,
-        IMAGE_CONVERSION_CALL_TIMEOUT.min,
-        IMAGE_CONVERSION_CALL_TIMEOUT.max,
+        IMAGE_PROCESSING_CALL_TIMEOUT.min,
+        IMAGE_PROCESSING_CALL_TIMEOUT.max,
     );
 
 const isValidConnectTimeoutSetting = (timeout: string | null | undefined): boolean =>
     isValidNumberSetting(
         timeout ? d(timeout).seconds.inWholeSeconds : null,
-        IMAGE_CONVERSION_CONNECT_TIMEOUT.min,
-        IMAGE_CONVERSION_CONNECT_TIMEOUT.max,
+        IMAGE_PROCESSING_CONNECT_TIMEOUT.min,
+        IMAGE_PROCESSING_CONNECT_TIMEOUT.max,
     );
 
 const isValidCompressionLevel = (compression: number | null | undefined): boolean =>
-    isValidNumberSetting(compression, DOWNLOAD_CONVERSION_COMPRESSION.min, DOWNLOAD_CONVERSION_COMPRESSION.max);
+    isValidNumberSetting(compression, IMAGE_PROCESSING_COMPRESSION.min, IMAGE_PROCESSING_COMPRESSION.max);
 
 const isUnsetConversion = (mimeType: string, target: string): boolean => mimeType === '' && target === '';
 
@@ -521,7 +530,7 @@ const Conversion = ({
                             helperText={!isCompressionLevelValid ? t('global.error.label.invalid_input') : ''}
                             slotProps={{
                                 input: {
-                                    inputProps: DOWNLOAD_CONVERSION_COMPRESSION,
+                                    inputProps: IMAGE_PROCESSING_COMPRESSION,
                                 },
                             }}
                             onChange={(e) => {
@@ -542,7 +551,7 @@ const Conversion = ({
                                 helperText={!isCallTimeoutValid ? t('global.error.label.invalid_input') : ''}
                                 slotProps={{
                                     input: {
-                                        inputProps: IMAGE_CONVERSION_CALL_TIMEOUT,
+                                        inputProps: IMAGE_PROCESSING_CALL_TIMEOUT,
                                         endAdornment: (
                                             <InputAdornment position="end">
                                                 {t('global.date.label.second_other')}
@@ -568,7 +577,7 @@ const Conversion = ({
                                 helperText={!isConnectTimeoutValid ? t('global.error.label.invalid_input') : ''}
                                 slotProps={{
                                     input: {
-                                        inputProps: IMAGE_CONVERSION_CONNECT_TIMEOUT,
+                                        inputProps: IMAGE_PROCESSING_CONNECT_TIMEOUT,
                                         endAdornment: (
                                             <InputAdornment position="end">
                                                 {t('global.date.label.second_other')}
@@ -622,14 +631,33 @@ const Conversion = ({
     );
 };
 
-export const DownloadConversionSetting = ({
-    conversions,
-    updateSetting,
-}: {
-    conversions: SettingsDownloadConversion[];
-    updateSetting: (conversions: SettingsDownloadConversion[]) => Promise<void>;
-}) => {
+export const ImageProcessingSetting = () => {
     const { t } = useTranslation();
+
+    useAppTitle(t('download.settings.conversion.title'));
+
+    const { data, loading, error, refetch } = requestManager.useGetServerSettings({
+        notifyOnNetworkStatusChange: true,
+    });
+    const [mutateSettings] = requestManager.useUpdateServerSettings();
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t('global.error.label.failed_to_load_data')}
+                messageExtra={getErrorMessage(error)}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('DownloadConversionSetting::refetch'))}
+            />
+        );
+    }
+
+    assertIsDefined(data?.settings?.downloadConversions);
+
+    const conversions = data?.settings?.downloadConversions;
 
     const [tmpConversions, setTmpConversions] = useState(
         normalizeConversions(maybeAddDefault(addStableIdToConversions(conversions))),
@@ -640,6 +668,13 @@ export const DownloadConversionSetting = ({
         normalizeConversions(maybeAddDefault(addStableIdToConversions(conversions))),
         tmpConversions,
     );
+
+    const updateSetting = (value: ServerSettings['downloadConversions']): Promise<any> => {
+        const mutation = mutateSettings({ variables: { input: { settings: { downloadConversions: value } } } });
+        mutation.catch((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
+
+        return mutation;
+    };
 
     const onSubmit = async () => {
         try {

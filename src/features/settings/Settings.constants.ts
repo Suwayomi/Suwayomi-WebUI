@@ -256,3 +256,19 @@ export const KOREADER_SYNC_CHECKSUM_METHOD_SELECT_VALUES: SelectSettingValue<Kor
         method,
         KOREADER_SYNC_CHECKSUM_METHOD_TO_TRANSLATION_KEYS[method],
     ]);
+
+export const IMAGE_PROCESSING_COMPRESSION = {
+    min: 0,
+    max: 1,
+    step: 0.01,
+};
+export const IMAGE_PROCESSING_CALL_TIMEOUT = {
+    min: d(10).seconds.inWholeSeconds,
+    max: d(10).minutes.inWholeSeconds,
+    step: d(10).seconds.inWholeSeconds,
+};
+export const IMAGE_PROCESSING_CONNECT_TIMEOUT = {
+    min: d(10).seconds.inWholeSeconds,
+    max: d(10).minutes.inWholeSeconds,
+    step: d(10).seconds.inWholeSeconds,
+};
