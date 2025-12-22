@@ -14,7 +14,12 @@ import { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import { MetadataTrackingSettings } from '@/features/tracker/Tracker.types.ts';
 import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
-import { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import {
+    GetServerSettingsQuery,
+    Maybe,
+    SettingsDownloadConversion,
+    SettingsDownloadConversionHeader,
+} from '@/lib/graphql/generated/graphql.ts';
 import { MetadataHistorySettings } from '@/features/history/History.types.ts';
 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
@@ -53,3 +58,24 @@ export type GlobalUpdateSkipEntriesSettings = Pick<
 >;
 
 export type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;
+
+export enum ImageProcessingTargetMode {
+    IMAGE = 'image',
+    URL = 'url',
+}
+
+export type TSettingsDownloadConversionHeader = SettingsDownloadConversionHeader & {
+    /**
+     * The conversion object does not have a stable key, which causes issues when editing the settings
+     */
+    id: number;
+};
+
+export type TSettingsDownloadConversion = Omit<SettingsDownloadConversion, 'headers'> & {
+    /**
+     * The conversion object does not have a stable key, which causes issues when editing the settings
+     */
+    id: number;
+    mode: ImageProcessingTargetMode;
+    headers?: Maybe<TSettingsDownloadConversionHeader[]>;
+};

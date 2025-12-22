@@ -9,7 +9,11 @@
 import { d } from 'koration';
 import { DEFAULT_DEVICE } from '@/features/device/services/Device.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/features/migration/Migration.constants.ts';
-import { GlobalUpdateSkipEntriesSettings, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
+import {
+    GlobalUpdateSkipEntriesSettings,
+    ImageProcessingTargetMode,
+    MetadataServerSettings,
+} from '@/features/settings/Settings.types.ts';
 import { GridLayout, TranslationKey } from '@/base/Base.types.ts';
 import { getDefaultLanguages } from '@/base/utils/Languages.ts';
 import { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
@@ -272,3 +276,23 @@ export const IMAGE_PROCESSING_CONNECT_TIMEOUT = {
     max: d(10).minutes.inWholeSeconds,
     step: d(10).seconds.inWholeSeconds,
 };
+
+const IMAGE_PROCESSING_TARGET_MODES = Object.values(ImageProcessingTargetMode);
+const IMAGE_PROCESSING_TARGET_MODES_TO_TRANSLATION_KEY: {
+    [flavor in ImageProcessingTargetMode]: SelectSettingValueDisplayInfo;
+} = {
+    [ImageProcessingTargetMode.IMAGE]: {
+        text: 'download.settings.conversion.target_modes.image.title',
+        description: 'download.settings.conversion.target_modes.image.description',
+    },
+    [ImageProcessingTargetMode.URL]: {
+        text: 'download.settings.conversion.target_modes.url.title',
+        description: 'download.settings.conversion.target_modes.image.description',
+    },
+};
+export const IMAGE_PROCESSING_TARGET_MODES_SELECT_VALUES: SelectSettingValue<ImageProcessingTargetMode>[] =
+    IMAGE_PROCESSING_TARGET_MODES.map((mode) => [mode, IMAGE_PROCESSING_TARGET_MODES_TO_TRANSLATION_KEY[mode]]);
+
+export const IMAGE_PROCESSING_INPUT_WIDTH = 250;
+export const DEFAULT_MIME_TYPE = 'default';
+export const MIME_TYPE_PREFIX = 'image/';
