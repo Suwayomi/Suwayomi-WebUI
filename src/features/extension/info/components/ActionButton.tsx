@@ -22,7 +22,7 @@ export const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TE
     const installedState = getInstalledState(isInstalled, isObsolete, hasUpdate);
 
     return (
-        <Box sx={{ px: 1 }}>
+        <Box sx={{ px: 1, flexGrow: 1, flexBasis: 0 }}>
             <Button
                 sx={{
                     width: '100%',

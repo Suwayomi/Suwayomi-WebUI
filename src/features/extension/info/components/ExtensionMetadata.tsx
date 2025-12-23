@@ -26,6 +26,7 @@ export const ExtensionMetadata = ({
                     flexDirection: 'column-reverse',
                     alignItems: 'center',
                     flexGrow: 1,
+                    flexBasis: 0,
                 },
             }}
             titleProps={{
