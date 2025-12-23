@@ -47,6 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Fix current page detection in continuous horizontal mode with right-to-left reading mode
 - (**Reader**) Fix occasionally jumping to random pages in continuous reading modes
 - (**Extension**) Fix handling obsolete extensions as updatable in case they are marked as having an available update
+- (**Extension**) Fix being unable to uninstall an extension that can be updated
 - (**Theme**) Fix loading of fonts defined in themes
 - (**Reader**) Fix broken scrolling in continuous horizontal reading mode
 

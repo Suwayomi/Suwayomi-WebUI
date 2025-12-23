@@ -78,7 +78,10 @@ export const ExtensionInfo = () => {
         <Stack sx={{ gap: 2 }}>
             <Header {...extension} />
             <Meta {...extension} />
-            <ActionButton {...extension} />
+            <Stack sx={{ flexDirection: 'row' }}>
+                <ActionButton {...{ ...extension, isInstalled: true, hasUpdate: false }} />
+                {extension.hasUpdate && <ActionButton {...extension} />}
+            </Stack>
             <Box sx={{ px: 1 }}>
                 {sources.map((source) => (
                     <SourceCard key={source.id} {...source} />
