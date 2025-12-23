@@ -283,6 +283,9 @@ const IMAGE_PROCESSING_TARGET_MODES = Object.values(ImageProcessingTargetMode);
 const IMAGE_PROCESSING_TARGET_MODES_TO_TRANSLATION_KEY: {
     [flavor in ImageProcessingTargetMode]: SelectSettingValueDisplayInfo;
 } = {
+    [ImageProcessingTargetMode.DISABLED]: {
+        text: 'global.label.disabled',
+    },
     [ImageProcessingTargetMode.IMAGE]: {
         text: 'download.settings.conversion.target_modes.image.title',
         description: 'download.settings.conversion.target_modes.image.description',
@@ -298,6 +301,7 @@ export const IMAGE_PROCESSING_TARGET_MODES_SELECT_VALUES: SelectSettingValue<Ima
 export const IMAGE_PROCESSING_INPUT_WIDTH = 250;
 export const DEFAULT_MIME_TYPE = 'default';
 export const MIME_TYPE_PREFIX = 'image/';
+export const TARGET_DISABLED = 'none';
 
 export const IMAGE_PROCESSING_TYPE_TO_TRANSLATION: Record<ImageProcessingType, TranslationKey> = {
     [ImageProcessingType.DOWNLOAD]: 'download.settings.conversion.title',

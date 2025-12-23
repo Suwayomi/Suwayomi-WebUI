@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import {
     IMAGE_PROCESSING_TYPE_TO_SETTING,
     IMAGE_PROCESSING_TYPE_TO_TRANSLATION,
+    TARGET_DISABLED,
 } from '@/features/settings/Settings.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ImageProcessingType, ServerSettings } from '@/features/settings/Settings.types.ts';
@@ -92,7 +93,7 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
 
     return (
         <Stack sx={{ p: 2, gap: 3 }}>
-            <Typography>{t('download.settings.conversion.description', { value: 'none' })}</Typography>
+            <Typography>{t('download.settings.conversion.description', { value: TARGET_DISABLED })}</Typography>
             <Stack sx={{ flexDirection: 'column', gap: 5 }}>
                 {tmpConversions.map((conversion, index) => {
                     const { mimeType } = conversion;

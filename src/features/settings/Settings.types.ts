@@ -60,6 +60,7 @@ export type GlobalUpdateSkipEntriesSettings = Pick<
 export type LibrarySettingsType = Pick<ServerSettings, 'updateMangas'>;
 
 export enum ImageProcessingTargetMode {
+    DISABLED = 'disabled',
     IMAGE = 'image',
     URL = 'url',
 }

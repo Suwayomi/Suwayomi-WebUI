@@ -18,6 +18,7 @@ import {
     IMAGE_PROCESSING_COMPRESSION,
     IMAGE_PROCESSING_CONNECT_TIMEOUT,
     MIME_TYPE_PREFIX,
+    TARGET_DISABLED,
 } from '@/features/settings/Settings.constants.ts';
 import {
     SettingsDownloadConversion,
@@ -92,7 +93,13 @@ export const containsInvalidConversion = (conversions: TSettingsDownloadConversi
     );
 
 export const getTargetMode = (target: string): ImageProcessingTargetMode => {
-    if (isUrlTargetMode(target)) {
+    const normalizedTargetMode = normalizeMimeType(target);
+
+    if (normalizedTargetMode === TARGET_DISABLED) {
+        return ImageProcessingTargetMode.DISABLED;
+    }
+
+    if (isUrlTargetMode(normalizedTargetMode)) {
         return ImageProcessingTargetMode.URL;
     }
 
@@ -115,7 +122,7 @@ export const addStableIdToConversions = (
         // eslint-disable-next-line no-plusplus
         id: (conversion as TSettingsDownloadConversion).id ?? COUNTER++,
         ...conversion,
-        mode: getTargetMode(conversion.target),
+        mode: getTargetMode(normalizeMimeType(conversion.target)),
         headers: conversion.headers ? addStableIdToHeaders(conversion.headers) : null,
     }));
 

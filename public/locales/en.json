@@ -217,7 +217,7 @@
         "call_timeout": "Call timeout",
         "compression_level": "Compression level",
         "connect_timeout": "Connect timeout",
-        "description": "In case no MIME-Type is defined, the \"default\" one will be used for the processing.\nSet \"{{value}}\" as the target type to disable processing for a MIME-Type",
+        "description": "In case no MIME-Type is defined, the \"default\" one will be used for the processing.\nSet the target mode to disabled to prevent processing for a MIME-Type",
         "headers": {
           "button": "Headers ({{count}})",
           "name": "Name",

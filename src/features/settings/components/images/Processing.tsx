@@ -29,6 +29,7 @@ import {
     IMAGE_PROCESSING_CONNECT_TIMEOUT,
     IMAGE_PROCESSING_INPUT_WIDTH,
     IMAGE_PROCESSING_TARGET_MODES_SELECT_VALUES,
+    TARGET_DISABLED,
 } from '@/features/settings/Settings.constants.ts';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
@@ -58,6 +59,7 @@ export const Processing = ({
 
     const [areHeadersCollapsed, setAreHeadersCollapsed] = useState(true);
 
+    const isDisabledMode = mode === ImageProcessingTargetMode.DISABLED;
     const isImageMode = mode === ImageProcessingTargetMode.IMAGE;
 
     const isCallTimeoutValid = isValidCallTimeoutSetting(callTimeout);
@@ -124,6 +126,8 @@ export const Processing = ({
                                 onChange({
                                     ...conversion,
                                     mode: e.target.value,
+                                    target:
+                                        e.target.value === ImageProcessingTargetMode.DISABLED ? TARGET_DISABLED : '',
                                 })
                             }
                         >
@@ -134,105 +138,117 @@ export const Processing = ({
                             ))}
                         </Select>
                     </FormControl>
-                    <MimeTypeTextField
-                        mode={mode}
-                        shouldAutoFocus={false}
-                        isDefault={false}
-                        isDuplicate={false}
-                        label={t('download.settings.conversion.target')}
-                        value={target}
-                        onUpdate={(value) =>
-                            onChange({
-                                ...conversion,
-                                target: value,
-                            })
-                        }
-                    />
-                    {isImageMode ? (
-                        <TextField
-                            sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
-                            label={t('download.settings.conversion.compression_level')}
-                            value={compressionLevel ?? ''}
-                            type="number"
-                            error={!isCompressionLevelValid}
-                            helperText={!isCompressionLevelValid ? t('global.error.label.invalid_input') : ''}
-                            slotProps={{
-                                input: {
-                                    inputProps: IMAGE_PROCESSING_COMPRESSION,
-                                },
-                            }}
-                            onChange={(e) => {
+                    {!isDisabledMode && (
+                        <MimeTypeTextField
+                            mode={mode}
+                            shouldAutoFocus={false}
+                            isDefault={false}
+                            isDuplicate={false}
+                            label={t('download.settings.conversion.target')}
+                            value={target}
+                            onUpdate={(value) =>
                                 onChange({
                                     ...conversion,
-                                    compressionLevel: e.target.value ? Number(e.target.value) : null,
-                                });
-                            }}
+                                    target: value,
+                                })
+                            }
                         />
-                    ) : (
-                        <>
-                            <TextField
-                                sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
-                                label={t('download.settings.conversion.call_timeout')}
-                                value={callTimeout ? d(callTimeout).seconds.inWholeSeconds : ''}
-                                type="number"
-                                error={!isCallTimeoutValid}
-                                helperText={!isCallTimeoutValid ? t('global.error.label.invalid_input') : ''}
-                                slotProps={{
-                                    input: {
-                                        inputProps: IMAGE_PROCESSING_CALL_TIMEOUT,
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                {t('global.date.label.second_other')}
-                                            </InputAdornment>
-                                        ),
-                                    },
-                                }}
-                                onChange={(e) => {
-                                    onChange({
-                                        ...conversion,
-                                        callTimeout: e.target.value
-                                            ? d(Number(e.target.value)).seconds.toISOString()
-                                            : null,
-                                    });
-                                }}
-                            />
-                            <TextField
-                                sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
-                                label={t('download.settings.conversion.connect_timeout')}
-                                value={connectTimeout ? d(connectTimeout).seconds.inWholeSeconds : ''}
-                                type="number"
-                                error={!isConnectTimeoutValid}
-                                helperText={!isConnectTimeoutValid ? t('global.error.label.invalid_input') : ''}
-                                slotProps={{
-                                    input: {
-                                        inputProps: IMAGE_PROCESSING_CONNECT_TIMEOUT,
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                {t('global.date.label.second_other')}
-                                            </InputAdornment>
-                                        ),
-                                    },
-                                }}
-                                onChange={(e) => {
-                                    onChange({
-                                        ...conversion,
-                                        connectTimeout: e.target.value
-                                            ? d(Number(e.target.value)).seconds.toISOString()
-                                            : null,
-                                    });
-                                }}
-                            />
-                            <Button
-                                onClick={() => setAreHeadersCollapsed(!areHeadersCollapsed)}
-                                variant={areHeadersCollapsed ? 'outlined' : 'contained'}
-                                sx={{ height: textFieldHeight }}
-                            >
-                                {t('download.settings.conversion.headers.button', {
-                                    count: headers?.length ?? 0,
-                                })}
-                            </Button>
-                        </>
                     )}
+                    {(() => {
+                        if (isDisabledMode) {
+                            return null;
+                        }
+
+                        if (isImageMode) {
+                            return (
+                                <TextField
+                                    sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
+                                    label={t('download.settings.conversion.compression_level')}
+                                    value={compressionLevel ?? ''}
+                                    type="number"
+                                    error={!isCompressionLevelValid}
+                                    helperText={!isCompressionLevelValid ? t('global.error.label.invalid_input') : ''}
+                                    slotProps={{
+                                        input: {
+                                            inputProps: IMAGE_PROCESSING_COMPRESSION,
+                                        },
+                                    }}
+                                    onChange={(e) => {
+                                        onChange({
+                                            ...conversion,
+                                            compressionLevel: e.target.value ? Number(e.target.value) : null,
+                                        });
+                                    }}
+                                />
+                            );
+                        }
+
+                        return (
+                            <>
+                                <TextField
+                                    sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
+                                    label={t('download.settings.conversion.call_timeout')}
+                                    value={callTimeout ? d(callTimeout).seconds.inWholeSeconds : ''}
+                                    type="number"
+                                    error={!isCallTimeoutValid}
+                                    helperText={!isCallTimeoutValid ? t('global.error.label.invalid_input') : ''}
+                                    slotProps={{
+                                        input: {
+                                            inputProps: IMAGE_PROCESSING_CALL_TIMEOUT,
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    {t('global.date.label.second_other')}
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                    }}
+                                    onChange={(e) => {
+                                        onChange({
+                                            ...conversion,
+                                            callTimeout: e.target.value
+                                                ? d(Number(e.target.value)).seconds.toISOString()
+                                                : null,
+                                        });
+                                    }}
+                                />
+                                <TextField
+                                    sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
+                                    label={t('download.settings.conversion.connect_timeout')}
+                                    value={connectTimeout ? d(connectTimeout).seconds.inWholeSeconds : ''}
+                                    type="number"
+                                    error={!isConnectTimeoutValid}
+                                    helperText={!isConnectTimeoutValid ? t('global.error.label.invalid_input') : ''}
+                                    slotProps={{
+                                        input: {
+                                            inputProps: IMAGE_PROCESSING_CONNECT_TIMEOUT,
+                                            endAdornment: (
+                                                <InputAdornment position="end">
+                                                    {t('global.date.label.second_other')}
+                                                </InputAdornment>
+                                            ),
+                                        },
+                                    }}
+                                    onChange={(e) => {
+                                        onChange({
+                                            ...conversion,
+                                            connectTimeout: e.target.value
+                                                ? d(Number(e.target.value)).seconds.toISOString()
+                                                : null,
+                                        });
+                                    }}
+                                />
+                                <Button
+                                    onClick={() => setAreHeadersCollapsed(!areHeadersCollapsed)}
+                                    variant={areHeadersCollapsed ? 'outlined' : 'contained'}
+                                    sx={{ height: textFieldHeight }}
+                                >
+                                    {t('download.settings.conversion.headers.button', {
+                                        count: headers?.length ?? 0,
+                                    })}
+                                </Button>
+                            </>
+                        );
+                    })()}
                 </Stack>
                 <CustomTooltip disabled={isDisabled} title={t('chapter.action.download.delete.label.action')}>
                     <IconButton
