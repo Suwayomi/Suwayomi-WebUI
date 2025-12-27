@@ -778,21 +778,11 @@
                     },
                     "device_id": "ID d’appareil",
                     "server_address": "URL du serveur",
-                    "strategy": {
-                        "disabled": "Désactivé",
-                        "prompt": "Invite",
-                        "receive": "Recevoir",
-                        "send": "Envoyer",
-                        "silent": "Silencieux",
-                        "title": "Stratégie de synchronisation"
-                    },
                     "title": "Synchronisation KOReader",
                     "tolerance": {
                         "description": "Tolérance absolue pour la comparaison de progression",
                         "title": "Tolérance"
-                    },
-                    "user_key": "Clé utilisateur",
-                    "username": "$t(global.label.username)"
+                    }
                 }
             },
             "opds": {
