@@ -346,17 +346,11 @@
                     },
                     "device_id": "ID del dispositivo",
                     "server_address": "URL del servidor",
-                    "strategy": {
-                        "disabled": "Deshabilitado",
-                        "send": "Enviar",
-                        "title": "Estrategia de sincronización"
-                    },
                     "title": "Sincronización de KOReader",
                     "tolerance": {
                         "description": "Tolerancia absoluta para la comparación del progreso",
                         "title": "Tolerancia"
-                    },
-                    "user_key": "Clave de usuario"
+                    }
                 }
             }
         },

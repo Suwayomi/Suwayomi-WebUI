@@ -242,10 +242,29 @@
             },
             "conversion": {
                 "compression_level": "压缩级别",
-                "description": "如果未指定 MIME 类型，将使用“默认”类型进行转换。\n将目标类型设为 “{{value}}”可禁用MIME 类型的转换",
+                "description": "当未指定 MIME 类型时，将使用“默认”类型进行处理。\n将目标模式设为“禁用”可跳过该 MIME 类型的处理",
                 "mime_type": "MIME 类型",
-                "title": "下载时转换格式",
-                "target": "目标 MIME 类型"
+                "title": "图片下载处理",
+                "target": "目标 MIME 类型",
+                "call_timeout": "调用超时",
+                "connect_timeout": "连接超时",
+                "headers": {
+                    "button": "请求头{{count}}",
+                    "name": "名称",
+                    "title": "请求头",
+                    "value": "值"
+                },
+                "target_modes": {
+                    "image": {
+                        "description": "将图片转换为其他格式",
+                        "title": "图片"
+                    },
+                    "title": "目标模式",
+                    "url": {
+                        "description": "图片转换将由外部服务处理",
+                        "title": "链接"
+                    }
+                }
             }
         },
         "title": {
@@ -365,7 +384,8 @@
                 "today_at": "今天{{timeString}}",
                 "yesterday_at": "昨天{{timeString}}",
                 "yesterday": "昨天",
-                "day_other": "日"
+                "day_other": "日",
+                "second_other": "秒"
             },
             "value": {
                 "label": {
@@ -465,7 +485,8 @@
             "stopped": "已停止",
             "tiny": "微",
             "scanlator": "搬运组",
-            "version": "版本"
+            "version": "版本",
+            "logged_out": "已登出"
         },
         "language": {
             "label": {
@@ -1014,6 +1035,9 @@
                         "title": "备份位置",
                         "description": "服务器上保存自动备份的目录路径"
                     }
+                },
+                "flags": {
+                    "title": "数据备份"
                 }
             },
             "action": {
@@ -1320,7 +1344,14 @@
                         "title": "仅显示未阅读的章节"
                     }
                 },
-                "title": "OPDS（开放出版物分发系统）"
+                "title": "OPDS（开放出版物分发系统）",
+                "cbz_mime_type": {
+                    "compatible": "兼容",
+                    "description": "控制 Suwayomi 在 OPDS 条目中为 CBZ 压缩包发送的 MIME 类型，同时也会影响全局 CBZ 下载。\nModern 遵循最新的 IANA 标准（2017），而 LEGACY（已弃用的 .cbz MIME 类型）和 COMPATIBLE（已弃用的所有漫画压缩包 MIME 类型）可能对旧版客户端更兼容。",
+                    "legacy": "旧版",
+                    "modern": "新版",
+                    "title": "CBZ MIME 类型"
+                }
             },
             "database": {
                 "address": "数据库链接",
@@ -1331,32 +1362,51 @@
                     "postgresql": "PostgreSQL",
                     "title": "类型"
                 },
-                "username": "$t(global.label.username)"
+                "username": "$t(global.label.username)",
+                "hikari_connection_pool": {
+                    "description": "可提升性能，但在某些环境中可能会因无法从数据库读取数据而导致问题",
+                    "title": "Hikari连接池"
+                }
             },
             "koreader": {
                 "sync": {
                     "check_sum_method": {
                         "binary": "二进制",
                         "filename": "文件名",
-                        "title": "校验方法"
+                        "title": "文档校验方法"
                     },
                     "device_id": "设备ID",
-                    "server_address": "服务器链接",
-                    "strategy": {
-                        "disabled": "已禁用",
-                        "prompt": "提示",
-                        "receive": "接收",
-                        "send": "发送",
-                        "silent": "静默",
-                        "title": "同步策略"
-                    },
+                    "server_address": "服务器地址",
                     "title": "KOReader同步",
                     "tolerance": {
-                        "description": "进度比较的绝对容差",
+                        "description": "如果进度差异在此容忍范围内则不会触发同步。",
                         "title": "容差"
                     },
-                    "user_key": "用户密钥",
-                    "username": "$t(global.label.username)"
+                    "connection": {
+                        "connect": "连接到KOReader同步服务器",
+                        "connected": "已用{{username}}连接至{{serverAddress}}",
+                        "disconnect": "断开KOReader同步服务器",
+                        "disconnected": "已断开",
+                        "message": {
+                            "connect_error": "连接KOReader同步服务器失败。",
+                            "connect_success": "成功连接KOReader同步服务器。",
+                            "disconnect_error": "断开KOReader同步服务器失败。",
+                            "disconnect_success": "成功断开KOReader同步服务器。"
+                        },
+                        "status": "同步状态"
+                    },
+                    "description": "与KOReader设备同步阅读进度。",
+                    "device_name": "设备名称",
+                    "strategy": {
+                        "backward_title": "同步到一个较旧的状态",
+                        "forward_title": "同步到一个较新的状态",
+                        "option": {
+                            "disabled": "已禁用",
+                            "keep_local": "保持本地",
+                            "keep_remote": "保持远程",
+                            "prompt": "询问"
+                        }
+                    }
                 }
             }
         },
@@ -1445,10 +1495,10 @@
         },
         "clear_cache": {
             "label": {
-                "title": "清除服务器缓存",
-                "success": "已清除服务器缓存",
+                "title": "清除缓存",
+                "success": "已清除缓存",
                 "description": "客户端的缓存（浏览器、electron）应该与之一起清除，否则，客户端缓存将继续被使用",
-                "failure": "无法清除服务器缓存"
+                "failure": "无法清除缓存"
             }
         },
         "device": {
@@ -1533,7 +1583,20 @@
                 "title": "动态调整漫画页面的主题颜色"
             }
         },
-        "default_value": "{{value}}<0>($t(global.label.default))</0>"
+        "default_value": "{{value}}<0>($t(global.label.default))</0>",
+        "images": {
+            "processing": {
+                "download": {
+                    "description": "图片仅在下载时进行一次处理"
+                },
+                "serve": {
+                    "description": "图片在每次请求时都会处理",
+                    "title": "图片服务处理"
+                },
+                "title": "图片处理"
+            },
+            "title": "图像"
+        }
     },
     "source": {
         "local_source": {

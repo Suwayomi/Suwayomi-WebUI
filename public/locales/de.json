@@ -767,7 +767,8 @@
             "tiny": "Winzig",
             "info": "Information",
             "scanlator": "Scanlator",
-            "version": "Version"
+            "version": "Version",
+            "logged_out": "Ausgeloggt"
         },
         "button": {
             "ok": "OK",
@@ -1290,25 +1291,40 @@
                     "check_sum_method": {
                         "binary": "Binär",
                         "filename": "Dateiname",
-                        "title": "Prüfsummenmethode"
+                        "title": "Dokumentabgleichsmethode"
                     },
                     "device_id": "Gerät-ID",
-                    "server_address": "Server URL",
-                    "strategy": {
-                        "disabled": "Deaktiviert",
-                        "prompt": "Nachfragen",
-                        "receive": "Annehmen",
-                        "send": "Senden",
-                        "silent": "Still",
-                        "title": "Synchronisierungsstrategie"
-                    },
+                    "server_address": "Server Adresse",
                     "title": "KOReader Sync",
                     "tolerance": {
-                        "description": "Absolute Toleranz für Fortschrittsvergleich",
-                        "title": "Toleranz"
+                        "description": "Synchronisierung wird nicht stattfinden, wenn die Differenz in Fortschritt diese Toleranz nicht überschreitet.",
+                        "title": "Prozentuelle Toleranz"
                     },
-                    "user_key": "Nutzer Key",
-                    "username": "$t(global.label.username)"
+                    "connection": {
+                        "connect": "Mit KOReader Sync Server verbinden",
+                        "connected": "Verbunden als {{username}} zu {{serverAddress}}",
+                        "disconnect": "Verbindung zu KOReader Sync Server trennen",
+                        "disconnected": "Nicht verbunden",
+                        "message": {
+                            "connect_error": "Fehler beim Verbinden zum KOReader Sync Server.",
+                            "connect_success": "Verbindung zum KOReader Sync Server erfolgreich.",
+                            "disconnect_error": "Fehler beim Trennen der Verbindung zum KOReader Sync Server.",
+                            "disconnect_success": "Verbindung zum KOReader Sync Server erfolgreich getrennt."
+                        },
+                        "status": "Sync Status"
+                    },
+                    "description": "Synchronisiere Lesefortschritt mit KOReader Geräten.",
+                    "device_name": "Gerätename",
+                    "strategy": {
+                        "backward_title": "Synchronisieren zu älterem Zustand",
+                        "forward_title": "Synchronisieren zu neuerem Zustand",
+                        "option": {
+                            "disabled": "Deaktiviert",
+                            "keep_local": "Lokale Änderungen behalten",
+                            "keep_remote": "Entferne Änderungen behalten",
+                            "prompt": "Nachfragen"
+                        }
+                    }
                 }
             }
         },

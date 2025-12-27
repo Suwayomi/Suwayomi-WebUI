@@ -63,7 +63,8 @@
                     "label": {
                         "action": {
                             "current": "읽음으로 표시",
-                            "previous": "이전 장을 읽음으로 표시"
+                            "previous": "이전 장을 읽음으로 표시",
+                            "all": "모두 읽음 표시"
                         },
                         "error_other": "챕터를 읽음으로 표시할 수 없음니다",
                         "success_other": "{{count}} 개의 챕터를 읽음으로 표시",
@@ -81,6 +82,13 @@
                         "confirmation_other": "챕터 {{count}}개를 읽지 않음으로 표시하려고 합니다"
                     }
                 }
+            },
+            "filter_and_sort": {
+                "label": "필터 및 정렬"
+            },
+            "read": {
+                "resume": "이어 읽기\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "첫 화부터 읽기\n#{{chapterNumber}} — {{title}}\n{{scanlator}}"
             }
         },
         "error": {
@@ -159,10 +167,29 @@
             },
             "conversion": {
                 "compression_level": "압축 수준",
-                "description": "MIME-Type이 지정되지 않은 경우, 변환에는 \"기본값\"이 사용됩니다.\n변환을 비활성화하려면 대상 형식을 \"none\"으로 설정하세요",
+                "description": "MIME 유형이 지정되지 않으면 \"기본\" 설정으로 처리됩니다.\n특정 MIME 유형을 처리하고 싶지 않다면 대상 모드를 \"비활성\"으로 설정하십시오.",
                 "mime_type": "MIME-Type",
                 "target": "MIME-Type 대상",
-                "title": "다운로드 변환"
+                "title": "이미지 다운로드 처리중",
+                "call_timeout": "호출 시간 초과",
+                "connect_timeout": "연결 시간 초과",
+                "headers": {
+                    "button": "헤더 ({{count}})",
+                    "name": "이름",
+                    "title": "Headers",
+                    "value": "값"
+                },
+                "target_modes": {
+                    "image": {
+                        "description": "이미지를 다른 형식으로 변환합니다",
+                        "title": "이미지"
+                    },
+                    "title": "대상 모드",
+                    "url": {
+                        "description": "이미지 변환을 외부 서비스에서 처리합니다",
+                        "title": "URL"
+                    }
+                }
             },
             "delete_chapters": {
                 "label": {
@@ -225,7 +252,8 @@
             "add_repository_info": "확장 기능을 설치하려면 확장 저장소를 추가해야 합니다",
             "age_rating": "연령 등급",
             "uninstallation_failed_other": "확장 기능을 제거할 수 없습니다",
-            "update_failed_other": "확장 기능을 업데이트할 수 없습니다"
+            "update_failed_other": "확장 기능을 업데이트할 수 없습니다",
+            "available_updates_other": "{{count}} 업데이트 가능"
         },
         "language": {
             "all": "모든 언어",
@@ -309,7 +337,9 @@
             "show_less": "간략히 보기",
             "show_more": "자세히 보기",
             "stop": "중지",
-            "submit": "제출"
+            "submit": "제출",
+            "clear_selection": "초기화",
+            "download": "다운로드"
         },
         "date": {
             "label": {
@@ -317,7 +347,8 @@
                 "yesterday": "어제",
                 "today_at": "오늘 {{timeString}}",
                 "yesterday_at": "어제 {{timeString}}",
-                "day_other": "일"
+                "day_other": "일",
+                "second_other": "초"
             },
             "value": {
                 "label": {
@@ -417,7 +448,8 @@
             "username": "사용자 이름",
             "version": "버전",
             "vertical": "세로",
-            "warning": "경고"
+            "warning": "경고",
+            "logged_out": "로그아웃"
         },
         "language": {
             "label": {
@@ -456,6 +488,10 @@
             "seconds": {
                 "value": "{{count}} $t(global.time.seconds.second, lowercase)",
                 "second_other": "초"
+            },
+            "days": {
+                "day_other": "일",
+                "value": "{{count}} $t(global.time.days.day, lowercase)"
             }
         },
         "unit": {
@@ -1135,7 +1171,11 @@
                 "create": {
                     "label": {
                         "description": "라이브러리를 Tachiyomi 백업으로 백업",
-                        "title": "백업 만들기"
+                        "title": "백업 만들기",
+                        "in_progress": "백업 생성중…"
+                    },
+                    "error": {
+                        "failure": "백업을 생성할 수 없습니다"
                     }
                 },
                 "restore": {
@@ -1186,16 +1226,32 @@
                         "description": "자동 백업이 저장될 서버의 디렉터리 경로",
                         "title": "백업 위치"
                     }
+                },
+                "flags": {
+                    "title": "백업 데이터"
                 }
             },
-            "title": "백업"
+            "title": "백업",
+            "flag": {
+                "categories": "카테고리",
+                "chapters": "챕터",
+                "client_data": "클라이언트 데이터",
+                "group": {
+                    "library": "라이브러리",
+                    "settings": "설정"
+                },
+                "history": "기록",
+                "manga": "라이브러리 항목",
+                "server_settings": "서버 설정",
+                "tracking": "추적중"
+            }
         },
         "clear_cache": {
             "label": {
                 "description": "클라이언트(브라우저, electron)의 캐시도 함께 지워져야 합니다. 그렇지 않으면 클라이언트 캐시가 계속 사용됩니다",
-                "failure": "서버 캐시를 지울 수 없습니다",
-                "success": "서버 캐시가 지워졌습니다",
-                "title": "서버 캐시 지우기"
+                "failure": "캐시를 지울 수 없습니다",
+                "success": "캐시가 지워졌습니다",
+                "title": "캐시 지우기"
             }
         },
         "default_value": "{{value}}<0>($t(global.label.default))</0>",
@@ -1267,125 +1323,143 @@
                                 "info": "라이브러리에 접근할 수 있습니다. 개인 네트워크에서만 사용하거나 다른 방법으로 접근을 보호할 때 사용하세요.",
                                 "title": "없음"
                             }
+                        },
+                        "simple_login": {
+                            "label": {
+                                "description": "로그인은 서버에서 처리됩니다.",
+                                "info": "이 기능을 활성화하면 로그인 페이지가 나타나도록 이 탭을 새로 고침해야 할 수 있습니다.",
+                                "title": "심플 로그인"
+                            }
+                        },
+                        "ui_login": {
+                            "label": {
+                                "description": "로그인은 클라이언트 측에서 처리합니다.",
+                                "title": "UI 로그인"
+                            }
                         }
                     }
                 },
-                "title": "설정 방법에 대한 정보는 <2>FlareSolverr</2>을(를) 참조하세요"
+                "title": "로그인 방법",
+                "jwt": {
+                    "access_token_expiry": "JWT 액세스 토큰 만료",
+                    "audience": "JWT 대상 요청",
+                    "refresh_token_expiry": "JWT 갱신 토큰 만료"
+                }
             },
             "cloudflare": {
                 "flaresolverr": {
                     "enabled": {
                         "label": {
-                            "description": "FlareSolverr 활성화됨",
-                            "title": "서버가 Cloudflare 챌린지를 만나고 FlareSolverr는 만나지 않아 챌린지를 해결할 수 없는 경우 FlareSolverr 응답을 사용합니다 (이미지에는 작동하지 않음)"
+                            "description": "설정 방법에 대한 자세한 내용은 <2>FlareSolverr</2>를 참조하세요",
+                            "title": "FlareSolverr 활성화"
                         }
                     },
                     "response_fallback": {
                         "label": {
-                            "description": "응답 대체",
-                            "title": "FlareSolverr 세션 이름"
+                            "description": "서버가 Cloudflare 챌린지를 만나고 FlareSolverr는 만나지 않아 챌린지를 해결할 수 없는 경우 FlareSolverr 응답을 사용합니다 (이미지에는 작동하지 않음)",
+                            "title": "응답 대체"
                         }
                     },
                     "session": {
                         "name": {
                             "label": {
-                                "title": "FlareSolverr는 분 단위로 제공된 TTL을 기반으로 만료된 세션을 자동으로 교체합니다"
+                                "title": "FlareSolverr 세션 이름"
                             }
                         },
                         "ttl": {
                             "label": {
-                                "description": "FlareSolverr 세션 TTL",
-                                "title": "FlareSolverr가 요청을 처리하는 데 걸리는 시간"
+                                "description": "FlareSolverr는 분 단위로 제공된 TTL을 기반으로 만료된 세션을 자동으로 교체합니다",
+                                "title": "FlareSolverr 세션 TTL"
                             }
                         }
                     },
                     "timeout": {
                         "label": {
-                            "description": "FlareSolverr 요청 시간 초과",
-                            "title": "FlareSolverr 서버 주소"
+                            "description": "FlareSolverr가 요청을 처리하는 데 걸리는 시간",
+                            "title": "FlareSolverr 요청 시간 초과"
                         }
                     },
                     "url": {
                         "label": {
-                            "description": "FlareSolverr 서버 URL",
-                            "title": "Cloudflare 우회"
+                            "description": "FlareSolverr 서버 주소",
+                            "title": "FlareSolverr 서버 URL"
                         }
                     }
                 },
-                "title": "로컬 출처 파일이 저장되는 서버의 디렉터리 경로"
+                "title": "Cloudflare 우회"
             },
             "local_source": {
                 "path": {
                     "label": {
-                        "description": "로컬 출처 위치",
-                        "title": "로그 파일 정리"
+                        "description": "서버에서 로컬 소스 파일이 저장되는 디렉터리의 경로입니다",
+                        "title": "로컬 소스 위치"
                     }
                 }
             },
             "misc": {
                 "log_files": {
                     "file_cleanup": {
-                        "title": "로그 파일 삭제",
+                        "title": "로그 파일 정리",
                         "value": "$t(global.date.value.label.day)보다 오래된 로그 파일을 삭제합니다"
                     },
                     "file_size": {
-                        "description": "최대 로그 파일 크기",
+                        "description": "가능한 값의 예: 1(바이트), 1KB(킬로바이트), 1MB(메가바이트), 1GB(기가바이트)",
                         "title": "최대 로그 파일 크기"
                     },
                     "total_size": {
                         "description": "$t(settings.server.misc.log_files.file_size.description)",
-                        "title": "개인 정보가 안전하지 않은 정보가 포함된 로그가 포함됩니다"
+                        "title": "모든 로그 파일의 최대 크기"
                     }
                 },
                 "log_level": {
                     "graphql": {
                         "label": {
-                            "description": "GraphQL 디버그 로그 활성화",
-                            "title": "디버그 로그 활성화"
+                            "description": "개인 정보가 안전하지 않은 정보가 포함된 로그가 포함됩니다",
+                            "title": "GraphQL 디버그 로그 활성화"
                         }
                     },
                     "label": {
-                        "server": "기타"
+                        "server": "디버그 로그 활성화"
                     }
                 },
-                "title": "서버를 실행 중인 시스템에 이 아이콘이 표시됩니다",
+                "title": "기타",
                 "tray_icon": {
                     "label": {
-                        "description": "시스템 트레이에 아이콘 표시",
-                        "title": "파일 크기를 십진수(KB, MB, GB) 대신 이진수(KiB, MiB, GiB)로 표시"
+                        "description": "서버를 실행 중인 시스템에 이 아이콘이 표시됩니다",
+                        "title": "시스템 트레이에 아이콘 표시"
                     }
                 }
             },
             "opds": {
                 "binary_file_sizes": {
                     "label": {
-                        "description": "이진수 파일 크기",
-                        "title": "항목",
+                        "description": "파일 크기를 십진수(KB, MB, GB) 대신 이진수(KiB, MiB, GiB)로 표시",
+                        "title": "이진수 파일 크기",
                         "unit_other": "항목"
                     }
                 },
                 "chapter_sort_order": {
                     "label": {
-                        "description": "챕터 정렬 순서.",
-                        "title": "페이지 스트리밍 중 각 챕터의 페이지별 읽기 진행 상황을 추적하고 업데이트합니다"
+                        "description": "챕터가 표시되는 순서를 선택하세요.",
+                        "title": "챕터 정렬 순서"
                     }
                 },
                 "enable_page_read_progress": {
                     "label": {
-                        "description": "페이지 읽기 진행 상황 활성화",
-                        "title": "\"OPDS 피드(예: 라이브러리 기록, 만화 챕터)의 페이지당 항목 수입니다. 값이 높으면 클라이언트 성능에 영향을 미칠 수 있습니다.\""
+                        "description": "페이지 스트리밍 중 각 챕터의 페이지별 읽기 진행 상황을 추적하고 업데이트합니다",
+                        "title": "페이지 읽기 진행 상황 활성화"
                     }
                 },
                 "items_per_page": {
                     "label": {
                         "description": "OPDS 피드의 페이지당 항목 수(예: 도서관 내역, 만화 장).\n값이 높을수록 클라이언트 성능에 영향을 줄 수 있습니다.",
-                        "title": "항목",
+                        "title": "페이지당 항목 수",
                         "unit_other": "항목"
                     }
                 },
                 "mark_as_read_on_download": {
                     "label": {
-                        "description": "다운로드 시 챕터를 읽은 것으로 표시.",
+                        "description": "챕터를 다운로드할 때 자동으로 읽음 표시합니다.",
                         "title": "다운로드 시 챕터를 읽음으로 표시"
                     }
                 },
@@ -1397,11 +1471,18 @@
                 },
                 "show_only_unread_chapters": {
                     "label": {
-                        "description": "읽지 않은 챕터만 표시.",
-                        "title": "OPDS"
+                        "description": "아직 읽지 않은 챕터만 표시되도록 만화 피드를 필터링하세요.",
+                        "title": "읽지 않은 챕터만 표시"
                     }
                 },
-                "title": "병렬 출처 요청"
+                "title": "OPDS",
+                "cbz_mime_type": {
+                    "compatible": "Compatible",
+                    "description": "Suwayomi가 CBZ 아카이브용 OPDS 항목에 전송하는 MimeType을 제어합니다. 또한 전체 CBZ 다운로드에도 영향을 미칩니다.\nModern은 최근 IANA 표준(2017)을 따르는 반면, LEGACY(.cbz에 사용되는 더 이상 사용되지 않는 MIME 유형) 및 COMPATIBLE(모든 만화 아카이브에 사용되는 더 이상 사용되지 않는 MIME 유형)은 이전 클라이언트와의 호환성이 더 높을 수 있습니다.",
+                    "legacy": "Legacy",
+                    "modern": "Modern",
+                    "title": "CBZ MIME 유형"
+                }
             },
             "requests": {
                 "sources": {
@@ -1412,40 +1493,96 @@
                         }
                     }
                 },
-                "title": "SOCKS 프록시 사용"
+                "title": "요청"
             },
             "socks_proxy": {
                 "label": {
-                    "enable": "SOCKS 호스트",
-                    "host": "SOCKS 비밀번호",
-                    "password": "SOCKS 포트",
-                    "port": "SOCKS 사용자 이름",
-                    "username": "SOCKS 버전",
-                    "version": "SOCKS 프록시"
+                    "enable": "SOCKS 프록시 사용",
+                    "host": "SOCKS 호스트",
+                    "password": "SOCKS 비밀번호",
+                    "port": "SOCKS 포트",
+                    "username": "SOCKS 사용자 이름",
+                    "version": "SOCKS 버전"
                 },
-                "title": "서버"
+                "title": "SOCKS 프록시"
             },
             "title": {
-                "server": "설정"
+                "server": "서버"
+            },
+            "database": {
+                "address": "데이터베이스 주소",
+                "hikari_connection_pool": {
+                    "description": "성능이 향상되지만, 일부 설치 환경에서는 데이터베이스에서 데이터를 읽을 수 없는 문제가 발생할 수 있습니다",
+                    "title": "Hikari 연결 풀"
+                },
+                "password": "$t(global.label.password)",
+                "title": "데이터베이스",
+                "type": {
+                    "h2": "H2",
+                    "postgresql": "PostgreSQL",
+                    "title": "유형"
+                },
+                "username": "$t(global.label.username)"
+            },
+            "koreader": {
+                "sync": {
+                    "check_sum_method": {
+                        "binary": "Binary",
+                        "filename": "파일 이름",
+                        "title": "체크섬 방식"
+                    },
+                    "connection": {
+                        "connect": "KOReader 동기화 서버에 연결",
+                        "connected": "{{username}}님이 {{serverAddress}}에 연결되었습니다",
+                        "disconnect": "KOReader 동기화 서버에서 연결 해제",
+                        "disconnected": "연결 해제됨",
+                        "message": {
+                            "connect_error": "KOReader 동기화 서버에 연결하지 못했습니다.",
+                            "connect_success": "KOReader 동기화 서버에 성공적으로 연결되었습니다.",
+                            "disconnect_error": "KOReader 동기화 서버 연결 해제에 실패했습니다.",
+                            "disconnect_success": "KOReader 동기화 서버와의 연결이 성공적으로 해제되었습니다."
+                        },
+                        "status": "동기화 상태"
+                    },
+                    "description": "KOReader 기기와 읽기 진행 상황을 동기화하세요.",
+                    "device_id": "디바이스 ID",
+                    "device_name": "디바이스 이름",
+                    "server_address": "서버 주소",
+                    "strategy": {
+                        "backward_title": "이전 상태로 동기화",
+                        "forward_title": "최신 상태로 동기화",
+                        "option": {
+                            "disabled": "비활성화",
+                            "keep_local": "로컬 유지",
+                            "keep_remote": "리모트 유지",
+                            "prompt": "Prompt"
+                        }
+                    },
+                    "title": "KOReader 동기화",
+                    "tolerance": {
+                        "description": "진행률 차이가 이 허용 오차 범위 내에 있으면 동기화가 트리거되지 않습니다.",
+                        "title": "백분율 허용 오차"
+                    }
+                }
             }
         },
-        "title": "업데이트 간격",
+        "title": "설정",
         "webui": {
             "auto_update": {
                 "label": {
-                    "interval": "최신 버전 자동 다운로드",
-                    "title": "채널"
+                    "interval": "업데이트 간격",
+                    "title": "최신 버전 자동 다운로드"
                 }
             },
             "channel": {
                 "label": {
-                    "title": "서버 릴리스와 함께 제공된 버전 사용"
+                    "title": "채널"
                 },
                 "option": {
                     "bundled": {
                         "label": {
-                            "description": "번들",
-                            "title": "내장"
+                            "description": "서버 릴리스와 함께 제공된 버전 사용",
+                            "title": "번들"
                         }
                     },
                     "preview": {
@@ -1458,32 +1595,32 @@
                     "stable": {
                         "label": {
                             "description": "최신 버전을 사용하세요.",
-                            "title": "서버의 Electron 설치 경로"
+                            "title": "안정됨"
                         }
                     }
                 }
             },
             "electron_path": {
                 "label": {
-                    "description": "Electron 경로",
-                    "title": "이 설정을 변경한 후 \"정보\" 페이지로 이동하여 webUI 업데이트를 확인하고 설치하세요"
+                    "description": "서버의 Electron 설치 경로",
+                    "title": "Electron 경로"
                 }
             },
             "flavor": {
                 "label": {
-                    "info": "맛",
+                    "info": "이 설정을 변경한 후 \"정보\" 페이지로 이동하여 webUI 업데이트를 확인하고 설치하세요",
                     "title": "버전"
                 },
                 "option": {
                     "custom": {
                         "label": {
                             "description": "사용자 지정 $t(settings.webui.title.webui)를 사용하세요.\n사용자 지정 $t(settings.webui.title.webui)를 사용하려면 서버의 루트 디렉터리에 있는 \"webUI\" 디렉터리의 내용을 사용자 지정 $t(settings.webui.title.webui)의 파일로 교체하세요",
-                            "title": "스벨트로 구축된 미리보기 중심 웹 프론트엔드"
+                            "title": "커스텀"
                         }
                     },
                     "vui": {
                         "label": {
-                            "description": "VUI",
+                            "description": "스벨트로 구축된 미리보기 중심 웹 프론트엔드",
                             "title": "VUI"
                         }
                     },
@@ -1497,11 +1634,11 @@
             "interface": {
                 "label": {
                     "description": "서버를 시작할 때 $t(settings.webui.title.webui)를 시작할 위치",
-                    "title": "브라우저"
+                    "title": "인터페이스"
                 },
                 "option": {
                     "label": {
-                        "browser": "Electron",
+                        "browser": "브라우저",
                         "electron": "Electron"
                     }
                 }
@@ -1510,8 +1647,21 @@
                 "initial_open_browser": "서버를 시작할 때 $t(settings.webui.title.webui)를 엽니다"
             },
             "title": {
-                "webui": "출처 구성"
+                "webui": "웹 UI"
             }
+        },
+        "images": {
+            "processing": {
+                "download": {
+                    "description": "다운로드 시 이미지를 한 번 처리합니다"
+                },
+                "serve": {
+                    "description": "요청이 있을 때마다 이미지를 처리합니다",
+                    "title": "이미지 제공 시 처리"
+                },
+                "title": "이미지 처리"
+            },
+            "title": "이미지"
         }
     },
     "source": {
@@ -1520,7 +1670,7 @@
         },
         "error": {
             "label": {
-                "no_sources_found": "출처를 찾을 수 없습니다. 설치된 확장 프로그램을 확인하세요.",
+                "no_sources_found": "소스를 찾을 수 없습니다. 확장 프로그램을 설치하세요.",
                 "source_not_found": "소스를 찾을 수 없습니다. 설치된 확장 프로그램을 확인하세요."
             }
         },
@@ -1532,33 +1682,33 @@
                 "dialog": {
                     "label": {
                         "delete": "저장된 검색 \"{{name}}\"이(가) 삭제됩니다",
-                        "title": "검색 삭제"
+                        "title": "현제 검색 저장"
                     }
                 },
                 "label": {
-                    "delete": "검색 저장",
-                    "save": "확인"
+                    "delete": "검색 삭제",
+                    "save": "검색 저장"
                 }
             }
         },
         "local_source": {
             "label": {
-                "checkout": "로컬 출처 가이드",
-                "guide": "로컬 출처"
+                "checkout": "확인",
+                "guide": "로컬 소스 가이드"
             },
-            "title": "출처 고정"
+            "title": "로컬 소스"
         },
         "pin": {
-            "add": "출처 고정 해제",
-            "remove": "출처"
+            "add": "출처 고정",
+            "remove": "출처 고정해제"
         },
         "title_other": "출처"
     },
     "tracking": {
         "action": {
             "button": {
-                "add_tracking": "비공개로 추적",
-                "track_privately": "공개적으로 추적",
+                "add_tracking": "추적 추가",
+                "track_privately": "비공개 추적",
                 "track_publicly": "공개 추적"
             },
             "login": {
@@ -1575,35 +1725,35 @@
         },
         "error": {
             "label": {
-                "could_not_fetch_track_info": "추적 정보를 불러올 수 없습니다",
-                "could_not_load_track_info": "\"ID를 통해 검색하세요 (\"\"id:<ID>\"\", 예: \"\"id:13\"\") \"\"my:<Title>\"\"을 통해 목록으로 검색을 제한하세요 (예: \"\"my:One Piece\"\")\""
+                "could_not_fetch_track_info": "트래커에서 최신 추적정보를 불러올 수 없습니다",
+                "could_not_load_track_info": "추적 정보를 불러올 수 없습니다"
             }
         },
         "my_anime_list": {
             "search": {
                 "label": {
-                    "hint": "\"id:<ID>\"로 ID를 검색하세요(예: \"id:13\").\n\"my:<Title>\"로 검색 범위를 제한하세요(예: \"my:One Piece\")"
+                    "hint": "\"id:<ID>\"로 ID를 검색하세요(예: \"id:13\")\n\"my:<Title>\"로 검색 범위를 제한하세요(예: \"my:One Piece\")"
                 }
             }
         },
         "publishing": {
             "status": {
-                "cancelled": "현재 출판 중",
+                "cancelled": "$(manga.status.cancelled)",
                 "currently_publishing": "현재 출판 중",
                 "finished": "$t(global.label.finished)",
-                "hiatus": "아직 출판되지 않음",
-                "not_yet_published": "아직 출시되지 않음",
-                "not_yet_released": "출시 중",
-                "releasing": "동인지"
+                "hiatus": "$(manga.status.hiatus)",
+                "not_yet_published": "연재 전",
+                "not_yet_released": "출시 전",
+                "releasing": "연재중"
             },
             "type": {
                 "doujinshi": "동인지",
                 "manga": "$t(manga.title_one)",
                 "manhua": "$t(manga.type.manhua)",
                 "manhwa": "$t(manga.type.manhwa)",
-                "novel": "OEL",
-                "oel": "단편",
-                "one_shot": "원샷",
+                "novel": "소설",
+                "oel": "영문 만화",
+                "one_shot": "단편",
                 "unknown": "$t(global.label.unknown)"
             }
         },
@@ -1615,18 +1765,18 @@
                 }
             },
             "label": {
-                "update_progress_manual": "읽은 후 진행 상황 업데이트",
-                "update_progress_reading": "한 번에 여러 만화를 읽은 것으로 표시할 때는 작동하지 않습니다",
-                "update_progress_reading_description": "트래커"
+                "update_progress_manual": "직접 읽음 처리 후 진행도 업데이트",
+                "update_progress_reading": "읽은 후 자동으로 진행도 업데이트",
+                "update_progress_reading_description": "여러 만화를 한꺼번에 읽음 처리할 때는 작동하지 않습니다"
             },
             "title": {
                 "trackers": "추적"
             }
         },
-        "title": "완료 날짜",
+        "title": "추적중",
         "track_record": {
             "label": {
-                "finish_date": "점수",
+                "finish_date": "완독일",
                 "score": "시작 날짜",
                 "start_date": "시작일"
             }
