@@ -12,43 +12,47 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 import { Maybe } from '@/lib/graphql/generated/graphql.ts';
-import { addStableIdToHeaders, isDuplicateHeader } from '@/features/settings/ImageProcessing.utils.ts';
-import { Header } from '@/features/settings/components/images/Header.tsx';
-import { TSettingsDownloadConversionHeader } from '@/features/settings/Settings.types.ts';
+import { addStableIdToKeyValueItems, isDuplicateKeyValueItem } from '@/features/settings/ImageProcessing.utils.ts';
+import { KeyValueItem } from '@/features/settings/components/images/KeyValueItem.tsx';
+import { TSettingsDownloadConversionKeyValueItem } from '@/features/settings/Settings.types.ts';
 
-export const Headers = ({
+export const KeyValueItems = ({
+    title,
     open,
-    headers,
+    items,
     onChange,
 }: {
+    title: string;
     open: boolean;
-    headers: Maybe<TSettingsDownloadConversionHeader[] | undefined>;
-    onChange: (headers: Maybe<TSettingsDownloadConversionHeader[]>) => void;
+    items: Maybe<TSettingsDownloadConversionKeyValueItem[] | undefined>;
+    onChange: (items: Maybe<TSettingsDownloadConversionKeyValueItem[]>) => void;
 }) => {
     const { t } = useTranslation();
 
     return (
         <Collapse in={open}>
             <Stack sx={{ justifyContent: 'start', gap: 2, pt: 2 }}>
-                <Typography>{t('download.settings.conversion.headers.title')}</Typography>
-                {headers?.map((header, index) => (
-                    <Header
+                <Typography>{title}</Typography>
+                {items?.map((header, index) => (
+                    <KeyValueItem
                         key={header.id}
                         {...header}
-                        isDuplicate={isDuplicateHeader(header.name, index, headers)}
+                        isDuplicate={isDuplicateKeyValueItem(header.name, index, items)}
                         onChange={(updatedHeader) => {
                             const isDeletion = updatedHeader == null;
                             if (isDeletion) {
-                                onChange(headers?.toSpliced(index, 1));
+                                onChange(items?.toSpliced(index, 1));
                                 return;
                             }
 
-                            onChange((headers ?? []).toSpliced(index, 1, updatedHeader));
+                            onChange((items ?? []).toSpliced(index, 1, updatedHeader));
                         }}
                     />
                 ))}
                 <Button
-                    onClick={() => onChange([...(headers ?? []), ...addStableIdToHeaders([{ name: '', value: '' }])])}
+                    onClick={() =>
+                        onChange([...(items ?? []), ...addStableIdToKeyValueItems([{ name: '', value: '' }])])
+                    }
                     variant="contained"
                     sx={{ width: 'fit-content' }}
                 >

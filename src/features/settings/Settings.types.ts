@@ -70,7 +70,7 @@ export enum ImageProcessingType {
     SERVE = 'serve',
 }
 
-export type TSettingsDownloadConversionHeader = SettingsDownloadConversionHeader & {
+export type TSettingsDownloadConversionKeyValueItem = SettingsDownloadConversionHeader & {
     /**
      * The conversion object does not have a stable key, which causes issues when editing the settings
      */
@@ -83,5 +83,6 @@ export type TSettingsDownloadConversion = Omit<SettingsDownloadConversion, 'head
      */
     id: number;
     mode: ImageProcessingTargetMode;
-    headers?: Maybe<TSettingsDownloadConversionHeader[]>;
+    headers?: Maybe<TSettingsDownloadConversionKeyValueItem[]>;
+    searchParams?: Maybe<TSettingsDownloadConversionKeyValueItem[]>;
 };

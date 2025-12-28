@@ -92,7 +92,7 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
     };
 
     return (
-        <Stack sx={{ p: 2, gap: 3 }}>
+        <Stack sx={{ p: 2, gap: 5 }}>
             <Typography>{t('download.settings.conversion.description', { value: TARGET_DISABLED })}</Typography>
             <Stack sx={{ flexDirection: 'column', gap: 5 }}>
                 {tmpConversions.map((conversion, index) => {

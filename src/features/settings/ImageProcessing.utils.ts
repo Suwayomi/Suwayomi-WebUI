@@ -10,7 +10,7 @@ import { d } from 'koration';
 import {
     ImageProcessingTargetMode,
     TSettingsDownloadConversion,
-    TSettingsDownloadConversionHeader,
+    TSettingsDownloadConversionKeyValueItem,
 } from '@/features/settings/Settings.types.ts';
 import {
     DEFAULT_MIME_TYPE,
@@ -21,10 +21,13 @@ import {
     TARGET_DISABLED,
 } from '@/features/settings/Settings.constants.ts';
 import {
+    Maybe,
     SettingsDownloadConversion,
     SettingsDownloadConversionHeader,
     SettingsDownloadConversionType,
 } from '@/lib/graphql/generated/graphql.ts';
+import { UrlUtil } from '@/lib/UrlUtil.ts';
+import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 
 let COUNTER = 0;
 
@@ -33,14 +36,14 @@ const normalizeMimeType = (mimeType: string): string => mimeType.replace(MIME_TY
 export const isDefaultMimeType = (mimeType: string): boolean =>
     normalizeMimeType(mimeType.toLowerCase().trim()) === DEFAULT_MIME_TYPE;
 
-export const isDuplicateHeader = (
+export const isDuplicateKeyValueItem = (
     header: string,
     index: number,
     headers: SettingsDownloadConversionType['headers'],
 ): boolean => headers?.slice(0, index).some(({ name }) => name === header) ?? false;
 
-const hasDuplicateHeaders = (headers: SettingsDownloadConversionType['headers']): boolean =>
-    headers?.some((header, index) => isDuplicateHeader(header.name, index, headers)) ?? false;
+const hasDuplicateKeyValueItems = (headers: SettingsDownloadConversionType['headers']): boolean =>
+    headers?.some((header, index) => isDuplicateKeyValueItem(header.name, index, headers)) ?? false;
 
 export const isDuplicateConversion = (
     mimeType: string,
@@ -82,14 +85,15 @@ const isInvalidTarget = (target: string, mode: ImageProcessingTargetMode, mimeTy
 
 export const containsInvalidConversion = (conversions: TSettingsDownloadConversion[]): boolean =>
     conversions.some(
-        ({ mimeType, compressionLevel, target, callTimeout, connectTimeout, headers, mode }, index) =>
+        ({ mimeType, compressionLevel, target, callTimeout, connectTimeout, headers, searchParams, mode }, index) =>
             isUnsetConversion(mimeType, target) ||
             isInvalidTarget(target, mode, mimeType) ||
             !isValidCompressionLevel(compressionLevel) ||
             !isValidCallTimeoutSetting(callTimeout) ||
             !isValidConnectTimeoutSetting(connectTimeout) ||
             isDuplicateConversion(mimeType, index, conversions) ||
-            hasDuplicateHeaders(headers),
+            hasDuplicateKeyValueItems(headers) ||
+            hasDuplicateKeyValueItems(searchParams),
     );
 
 export const getTargetMode = (target: string): ImageProcessingTargetMode => {
@@ -106,13 +110,22 @@ export const getTargetMode = (target: string): ImageProcessingTargetMode => {
     return ImageProcessingTargetMode.IMAGE;
 };
 
-export const addStableIdToHeaders = (
-    headers: (SettingsDownloadConversionHeader | TSettingsDownloadConversionHeader)[],
-): TSettingsDownloadConversionHeader[] =>
-    headers.map((header) => ({
+export const extractSearchParams = (url: string): SettingsDownloadConversionHeader[] => {
+    const urlObject = UrlUtil.asUrl(url);
+
+    return [...(urlObject?.searchParams ?? []).entries()].map(([key, value]) => ({
+        name: String(key),
+        value: jsonSaveParse(value) ?? value,
+    }));
+};
+
+export const addStableIdToKeyValueItems = (
+    items: (SettingsDownloadConversionHeader | TSettingsDownloadConversionKeyValueItem)[],
+): TSettingsDownloadConversionKeyValueItem[] =>
+    items.map((item) => ({
         // eslint-disable-next-line no-plusplus
-        id: (header as TSettingsDownloadConversionHeader).id ?? COUNTER++,
-        ...header,
+        id: (item as TSettingsDownloadConversionKeyValueItem).id ?? COUNTER++,
+        ...item,
     }));
 
 export const addStableIdToConversions = (
@@ -123,8 +136,28 @@ export const addStableIdToConversions = (
         id: (conversion as TSettingsDownloadConversion).id ?? COUNTER++,
         ...conversion,
         mode: getTargetMode(normalizeMimeType(conversion.target)),
-        headers: conversion.headers ? addStableIdToHeaders(conversion.headers) : null,
+        headers: conversion.headers ? addStableIdToKeyValueItems(conversion.headers) : null,
+        searchParams: addStableIdToKeyValueItems(extractSearchParams(conversion.target)),
     }));
+
+export const getUpdatedSearchParams = (
+    url: string,
+    existingParams: Maybe<TSettingsDownloadConversionKeyValueItem[] | undefined>,
+): TSettingsDownloadConversionKeyValueItem[] => {
+    const urlObject = UrlUtil.asUrl(url);
+
+    const params = [...(urlObject?.searchParams?.entries() ?? [])].map(([key, value]) => ({ name: key, value }));
+    const paramsWithRetainedStableId = params.map((param) => {
+        const existingParam = existingParams?.find(({ name }) => name === param.name);
+
+        return {
+            id: existingParam?.id,
+            ...param,
+        };
+    });
+
+    return addStableIdToKeyValueItems(paramsWithRetainedStableId);
+};
 
 export const normalizeConversions = (conversions: TSettingsDownloadConversion[]): TSettingsDownloadConversion[] =>
     conversions.map((conversion) => ({
@@ -144,7 +177,7 @@ const toValidServerMimeType = (mimeType: string): string => {
 export const toValidServerConversions = (conversions: TSettingsDownloadConversion[]): SettingsDownloadConversion[] =>
     conversions
         .filter(({ mimeType, target }) => !!mimeType && !!target)
-        .map(({ id, mode, ...conversion }) => ({
+        .map(({ id, mode, searchParams, ...conversion }) => ({
             ...conversion,
             mimeType: toValidServerMimeType(conversion.mimeType),
             target: isUrlTargetMode(conversion.target) ? conversion.target : `${MIME_TYPE_PREFIX}${conversion.target}`,

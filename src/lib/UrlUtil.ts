@@ -9,6 +9,14 @@
 import { SearchParam } from '@/base/Base.types.ts';
 
 export class UrlUtil {
+    static asUrl(url: string): URL | null {
+        try {
+            return new URL(url);
+        } catch (e) {
+            return null;
+        }
+    }
+
     static createParams(params: Record<SearchParam | string, string | null | undefined>): URLSearchParams {
         const paramEntries = Object.entries(params).filter(
             (entry): entry is [string, string] => typeof entry[1] === 'string',

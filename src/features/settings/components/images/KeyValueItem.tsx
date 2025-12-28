@@ -14,9 +14,9 @@ import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { IMAGE_PROCESSING_INPUT_WIDTH } from '@/features/settings/Settings.constants.ts';
-import { TSettingsDownloadConversionHeader } from '@/features/settings/Settings.types';
+import { TSettingsDownloadConversionKeyValueItem } from '@/features/settings/Settings.types';
 
-export const Header = ({
+export const KeyValueItem = ({
     id,
     name,
     value,
@@ -24,8 +24,8 @@ export const Header = ({
     isDuplicate,
 }: {
     isDuplicate: boolean;
-    onChange: (header: TSettingsDownloadConversionHeader | null) => void;
-} & TSettingsDownloadConversionHeader) => {
+    onChange: (header: TSettingsDownloadConversionKeyValueItem | null) => void;
+} & TSettingsDownloadConversionKeyValueItem) => {
     const { t } = useTranslation();
     const theme = useTheme();
 

@@ -20,7 +20,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { d } from 'koration';
 import { useElementSize } from '@mantine/hooks';
-import { Headers } from '@/features/settings/components/images/Headers.tsx';
+import { KeyValueItems } from '@/features/settings/components/images/KeyValueItems.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { TranslationKey } from '@/base/Base.types.ts';
 import {
@@ -36,15 +36,18 @@ import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.t
 import { MimeTypeTextField } from '@/features/settings/components/images/MimeTypeTextField.tsx';
 import { ImageProcessingTargetMode, TSettingsDownloadConversion } from '@/features/settings/Settings.types.ts';
 import {
+    getUpdatedSearchParams,
     isDefaultMimeType,
+    isUrlTargetMode,
     isValidCallTimeoutSetting,
     isValidCompressionLevel,
     isValidConnectTimeoutSetting,
 } from '@/features/settings/ImageProcessing.utils.ts';
+import { UrlUtil } from '@/lib/UrlUtil.ts';
 
 export const Processing = ({
     conversion,
-    conversion: { mode, mimeType, target, compressionLevel, headers, callTimeout, connectTimeout },
+    conversion: { mode, mimeType, target, compressionLevel, headers, searchParams, callTimeout, connectTimeout },
     onChange,
     isDuplicate,
 }: {
@@ -57,10 +60,12 @@ export const Processing = ({
 
     const { ref: textFieldRef, height: textFieldHeight } = useElementSize();
 
+    const [areSearchParamsCollapsed, setAreSearchParamsCollapsed] = useState(true);
     const [areHeadersCollapsed, setAreHeadersCollapsed] = useState(true);
 
     const isDisabledMode = mode === ImageProcessingTargetMode.DISABLED;
     const isImageMode = mode === ImageProcessingTargetMode.IMAGE;
+    const isUrlMode = mode === ImageProcessingTargetMode.URL;
 
     const isCallTimeoutValid = isValidCallTimeoutSetting(callTimeout);
     const isConnectTimeoutValid = isValidConnectTimeoutSetting(connectTimeout);
@@ -122,14 +127,21 @@ export const Processing = ({
                             labelId="image-conversion-target-mode-label"
                             label={t('download.settings.conversion.target_modes.title')}
                             value={mode}
-                            onChange={(e) =>
+                            onChange={(e) => {
+                                if (!isUrlMode) {
+                                    setAreSearchParamsCollapsed(true);
+                                    setAreHeadersCollapsed(true);
+                                }
+
                                 onChange({
                                     ...conversion,
                                     mode: e.target.value,
                                     target:
                                         e.target.value === ImageProcessingTargetMode.DISABLED ? TARGET_DISABLED : '',
-                                })
-                            }
+                                    headers: !isUrlMode ? null : headers,
+                                    searchParams: !isUrlMode ? null : searchParams,
+                                });
+                            }}
                         >
                             {IMAGE_PROCESSING_TARGET_MODES_SELECT_VALUES.map(([selectValue, { text: selectText }]) => (
                                 <MenuItem key={selectValue} value={selectValue}>
@@ -146,12 +158,13 @@ export const Processing = ({
                             isDuplicate={false}
                             label={t('download.settings.conversion.target')}
                             value={target}
-                            onUpdate={(value) =>
+                            onUpdate={(value) => {
                                 onChange({
                                     ...conversion,
                                     target: value,
-                                })
-                            }
+                                    searchParams: isImageMode ? null : getUpdatedSearchParams(value, searchParams),
+                                });
+                            }}
                         />
                     )}
                     {(() => {
@@ -238,6 +251,16 @@ export const Processing = ({
                                     }}
                                 />
                                 <Button
+                                    disabled={!isUrlTargetMode(target)}
+                                    onClick={() => setAreSearchParamsCollapsed(!areSearchParamsCollapsed)}
+                                    variant={areSearchParamsCollapsed ? 'outlined' : 'contained'}
+                                    sx={{ height: textFieldHeight }}
+                                >
+                                    {t('download.settings.conversion.search_params.button', {
+                                        count: searchParams?.length ?? 0,
+                                    })}
+                                </Button>
+                                <Button
                                     onClick={() => setAreHeadersCollapsed(!areHeadersCollapsed)}
                                     variant={areHeadersCollapsed ? 'outlined' : 'contained'}
                                     sx={{ height: textFieldHeight }}
@@ -261,9 +284,25 @@ export const Processing = ({
                     </IconButton>
                 </CustomTooltip>
             </Stack>
-            <Headers
-                open={!areHeadersCollapsed}
-                headers={headers}
+            <KeyValueItems
+                title={t('download.settings.conversion.search_params.title')}
+                open={isUrlMode && !areSearchParamsCollapsed}
+                items={searchParams}
+                onChange={(params) => {
+                    const baseUrl = target?.split('?')[0] ?? '';
+                    const updatedParams = Object.fromEntries(params?.map(({ name, value }) => [name, value]) ?? []);
+
+                    onChange({
+                        ...conversion,
+                        target: UrlUtil.addParams(baseUrl, updatedParams),
+                        searchParams: params,
+                    });
+                }}
+            />
+            <KeyValueItems
+                title={t('download.settings.conversion.headers.title')}
+                open={isUrlMode && !areHeadersCollapsed}
+                items={headers}
                 onChange={(updatedHeaders) =>
                     onChange({
                         ...conversion,

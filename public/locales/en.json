@@ -225,6 +225,10 @@
           "value": "Value"
         },
         "mime_type": "MIME-Type",
+        "search_params": {
+          "button": "Search parameters ({{count}})",
+          "title": "Search parameters"
+        },
         "target": "MIME-Type target",
         "target_modes": {
           "image": {
