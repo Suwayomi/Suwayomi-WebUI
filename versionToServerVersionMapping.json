@@ -1,6 +1,16 @@
 [
   {
     "uiVersion": "PREVIEW",
+    "serverVersion": "r2038"
+  },
+  {
+    "tag": "v20251230.01",
+    "uiVersion": "r2937",
+    "serverVersion": "r2038"
+  },
+  {
+    "tag": "OLD_PREVIEW",
+    "uiVersion": "r2937",
     "serverVersion": "r2031"
   },
   {
