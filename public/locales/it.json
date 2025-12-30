@@ -1023,21 +1023,11 @@
                     },
                     "device_id": "ID dispositivo",
                     "server_address": "URL server",
-                    "strategy": {
-                        "disabled": "Disabilitato",
-                        "prompt": "Richiesta",
-                        "receive": "Ricezione",
-                        "send": "Trasmissione",
-                        "silent": "Silenzioso",
-                        "title": "Strategia sincronizzazione"
-                    },
                     "title": "Sincronizzazione KOReader",
                     "tolerance": {
                         "description": "Tolleranza assoluta per il confronto dei progressi",
                         "title": "Tolleranza"
-                    },
-                    "user_key": "Chiave Utente",
-                    "username": "$t(global.label.username)"
+                    }
                 }
             },
             "opds": {
@@ -1304,10 +1294,10 @@
         },
         "clear_cache": {
             "label": {
-                "title": "Cancella la cache del server",
+                "title": "Cancella la cache",
                 "description": "La cache del client (browser, electron) deve essere cancellata insieme ad essa, altrimenti la cache del client continuerà ad essere utilizzata",
-                "success": "Cancellata la cache del server",
-                "failure": "Impossibile cancellare la cache del server"
+                "success": "Cancellata la cache",
+                "failure": "Impossibile cancellare la cache"
             }
         },
         "appearance": {
@@ -1316,7 +1306,7 @@
                     "action": "Creando il tema…",
                     "dialog": {
                         "error": {
-                            "invalid_json": "json invalido",
+                            "invalid_json": "JSON non valido",
                             "invalid_name": "Il nome del tema deve essere unico ed è limitato a 16 caratteri"
                         },
                         "description": "Guarda la <0>documentazione MUI</0> ufficiale su come personalizzare il tema.\nL'API della palette non è supportata, devi utilizzare la nuova <1>API degli schemi di colori</1>.\n\nPuoi usare creatori di temi come <2>MUI Theme Creator</2>, comunque, devi poi adattare l'oggetto creato in base alla nuova API degli schemi di colori.\n\nNel caso in cui non venga definito alcuno sfondo, verrà calcolato uno sfondo in base al colore primario",
@@ -1344,7 +1334,7 @@
                         "error": "Impossibile caricare i font del tema",
                         "loading": "Caricando i font del tema…"
                     },
-                    "success": "Teme selezionato"
+                    "success": "Tema selezionato"
                 },
                 "themes": {
                     "bright_pink": "Rosa Brillante",

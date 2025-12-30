@@ -1,1 +1,420 @@
-{}
+{
+    "category": {
+        "dialog": {
+            "title": {
+                "edit_category_one": "ویرایش دسته بندی",
+                "edit_category_other": "ویرایش دسته بندی ها",
+                "new_category": "دسته بندی جدید"
+            }
+        },
+        "error": {
+            "label": {
+                "create_failure": "ساخت دسته بندی انجام نشد",
+                "empty": "دسته بندی خالی است",
+                "request_failure": "بارگیری دسته بندی انجام نشد"
+            },
+            "no_categories_found": {
+                "label": {
+                    "info": "هنوز هیچ دسته بندی ندارید."
+                }
+            }
+        },
+        "label": {
+            "category_name": "نام دسته بندی",
+            "use_as_default_category": "دسته بندی پیش‌فرض هنگام افزودن مانگا جدید به کتابخانه"
+        },
+        "title": {
+            "category_one": "دسته بندی",
+            "category_other": "دسته بندی ها",
+            "set_categories": "تعیین دسته‌ بندی"
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
+    },
+    "chapter": {
+        "action": {
+            "bookmark": {
+                "add": {
+                    "button": {
+                        "selected": "نشانک موارد انتخابی"
+                    },
+                    "label": {
+                        "action": "افزودن نشانک",
+                        "error_one": "افزودن چپتر به نشانک‌ انجام نشد",
+                        "error_other": "افزودن چپتر ها به نشانک‌ انجام نشد",
+                        "success_one": "چپتر نشانه‌گذاری شد",
+                        "success_other": "{{count}} چپتر نشانه‌گذاری شد"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "حذف نشانک‌ موارد انتخابی"
+                    },
+                    "label": {
+                        "action": "حذف نشانک",
+                        "confirmation_one": "شما در حال حذف کردن یک نشانک هستید",
+                        "confirmation_other": "شما در حال حذف کردن {{count}} نشانک هستید",
+                        "error_one": "حذف نشانک انجام نشد",
+                        "error_other": "حذف نشانک ها انجام نشد",
+                        "success_one": "نشانک چپتر حذف شد",
+                        "success_other": "نشانک {{count}} چپتر حذف شد"
+                    }
+                }
+            },
+            "download": {
+                "add": {
+                    "button": {
+                        "selected": "دانلود موارد انتخابی"
+                    },
+                    "label": {
+                        "action": "دانلود",
+                        "confirmation_one": "شما در حال دانلود یک چپتر هستید",
+                        "confirmation_other": "شما در حال دانلود {{count}} چپتر هستید.\nSuwayomi برنامه دانلود گروهی نیست و تعداد دانلود زیاد ممکن است باعث مسدود شدن شما توسط منابع شود و یا در عملکرد برنامه اختلال ایجاد کند.",
+                        "error_one": "افزودن به دانلود انجام نشد",
+                        "error_other": "افزودن به دانلودها انجام نشد",
+                        "next_one": "چپتر بعدی",
+                        "next_other": "{{count}} چپتر بعدی",
+                        "success_one": "دانلود اضافه شد",
+                        "success_other": "{{count}} دانلود اضافه شد",
+                        "unread": "$t(global.filter.label.unread)",
+                        "ahead": "$t(download.settings.download_ahead.title) {{count}}",
+                        "all": "$t(extension.language.all)"
+                    }
+                },
+                "delete": {
+                    "button": {
+                        "selected": "حذف موارد انتخابی"
+                    },
+                    "label": {
+                        "action": "حذف",
+                        "confirmation_one": "شما در حال حذف کردن یک دانلود هستید",
+                        "confirmation_other": "شما در حال حذف کردن {{count}} دانلود هستید",
+                        "error_one": "حذف چپتر انجام نشد",
+                        "error_other": "حذف چپتر ها انجام نشد",
+                        "success_one": "چپتر حذف شد",
+                        "success_other": "{{count}} چپتر حذف شد"
+                    }
+                }
+            },
+            "filter_and_sort": {
+                "label": "فیلتر و مرتب‌ سازی"
+            },
+            "label": {
+                "select": "انتخاب"
+            },
+            "mark_as_read": {
+                "add": {
+                    "button": {
+                        "selected": "علامت‌ زدن موارد انتخابی به‌ عنوان خوانده‌ شده"
+                    },
+                    "label": {
+                        "action": {
+                            "all": "علامت‌ زدن همه به‌ عنوان خوانده‌ شده",
+                            "current": "علامت‌ زدن به‌ عنوان خوانده‌ شده",
+                            "previous": "علامت‌ زدن قبلی به‌ عنوان خوانده‌ شده"
+                        },
+                        "confirmation_one": "شما در حال علامت‌ زدن یک چپتر به‌ عنوان خوانده‌ شده هستید",
+                        "confirmation_other": "شما در حال علامت‌ زدن {{count}} چپتر به‌ عنوان خوانده‌ شده هستید",
+                        "error_one": "علامت‌ زدن چپتر به‌ عنوان خوانده‌ شده انجام نشد",
+                        "error_other": "علامت‌ زدن چپتر ها به‌ عنوان خوانده‌ شده انجام نشد",
+                        "success_one": "چپتر به‌ عنوان خوانده‌ شده علامت‌ زده شد",
+                        "success_other": "{{count}} چپتر به‌ عنوان خوانده‌ شده علامت‌ زده شد"
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "علامت‌ زدن موارد انتخابی به‌ عنوان خوانده‌ نشده"
+                    },
+                    "label": {
+                        "action": "علامت‌ زدن به‌ عنوان خوانده‌ نشده",
+                        "confirmation_one": "شما در حال علامت‌ زدن یک چپتر به‌ عنوان خوانده‌ نشده هستید",
+                        "confirmation_other": "شما در حال علامت‌ زدن {{count}} چپتر به‌ عنوان خوانده‌ نشده هستید",
+                        "error_one": "علامت‌ زدن چپتر به‌ عنوان خوانده‌ نشده انجام نشد",
+                        "error_other": "علامت‌ زدن چپتر به‌ عنوان خوانده‌ نشده انجام نشد",
+                        "success_one": "چپتر به‌ عنوان خوانده‌ نشده علامت‌ زده شد",
+                        "success_other": "{{count}} چپتر به‌ عنوان خوانده‌ نشده علامت‌ زده شد"
+                    }
+                }
+            },
+            "read": {
+                "resume": "ادامه خواندن\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "شروع خواندن\n#{{chapterNumber}} — {{title}}\n{{scanlator}}"
+            }
+        },
+        "error": {
+            "label": {
+                "no_chapter_found": "چپتری پیدا نشد",
+                "no_matches": "چپتری مطابق با فیلتر پیدا نشد"
+            }
+        },
+        "missing_one": "{{count}} چپتر موجود نیست",
+        "missing_other": "{{count}} چپتر موجود نیست",
+        "option": {
+            "display": {
+                "label": {
+                    "chapter_number": "شماره چپتر",
+                    "source_title": "عنوان منبع"
+                }
+            },
+            "exclude_scanlators": "حذف گروه ترجمه"
+        },
+        "status": {
+            "label": {
+                "downloaded": "دانلود شده"
+            }
+        },
+        "title_one": "چپتر",
+        "title_other": "چپتر ها",
+        "value_one": "{{count}} چپتر",
+        "value_other": "{{count}} چپتر"
+    },
+    "download": {
+        "queue": {
+            "error": {
+                "label": {
+                    "failed_delete_all": "حذف همه دانلود ها از صف انجام نشد",
+                    "failed_to_remove": "حذف دانلود از صف انجام نشد.",
+                    "failed_to_retry": "تلاش مجدد برای دانلود ناموفق انجام نشد."
+                }
+            },
+            "info": {
+                "paused": "متوقف شده — $t(download.queue.info.remaining)",
+                "remaining": "{{count}} باقی مانده"
+            },
+            "label": {
+                "delete_all": "حذف همه",
+                "no_downloads": "دانلودی وجود ندارد"
+            }
+        },
+        "settings": {
+            "auto_download": {
+                "download_limit": {
+                    "label": {
+                        "description": "تعداد چپتر های جدیدی که دانلود می‌شوند را محدود کنید.",
+                        "title": "محدودیت دانلود چپتر"
+                    }
+                },
+                "label": {
+                    "ignore_re_uploads": "چپتر های دوباره آپلود شده را نادیده بگیر",
+                    "ignore_with_unread_chapters": "دانلود خودکار چپتر ها برای مواردی که چپتر خوانده نشده دارند را نادیده بگیر",
+                    "new_chapters": "دانلود چپتر های جدید"
+                },
+                "title": "دانلود خودکار"
+            },
+            "conversion": {
+                "compression_level": "میزان فشرده‌ سازی",
+                "description": "اگر نوع MIME تعریف نشده باشد، نوع \"پیش‌ فرض\" برای تبدیل استفاده خواهد شد.\nبرای غیرفعال کردن تبدیل برای یک نوع MIME {{value}} را به‌عنوان نوع هدف قرار دهید",
+                "mime_type": "نوع MIME",
+                "target": "هدف نوع MIME",
+                "title": "تبدیل دانلود"
+            },
+            "delete_chapters": {
+                "label": {
+                    "allow_deletion_of_bookmarked": "اجازه حذف چپتر های نشانک‌ گذاری‌ شده",
+                    "manually_marked_as_read": "حذف چپتر بعد از علامت‌ گذاری دستی به‌ عنوان خوانده‌ شده"
+                },
+                "title": "حذف چپتر ها",
+                "while_reading": {
+                    "label": {
+                        "title": "حذف چپتر های تمام‌ شده هنگام خواندن"
+                    },
+                    "option": {
+                        "label": {
+                            "fifth": "پنج چپتر قبل از آخرین چپتر خوانده‌ شده",
+                            "first": "آخرین چپتر خوانده شده",
+                            "fourth": "چهار چپتر قبل از آخرین چپتر خوانده‌ شده",
+                            "second": "دو چپتر قبل از آخرین چپتر خوانده‌ شده",
+                            "third": "سه چپتر قبل از آخرین چپتر خوانده‌ شده"
+                        }
+                    }
+                }
+            },
+            "download_ahead": {
+                "label": {
+                    "description": "هنگام خواندن، چند چپتر دانلود شوند.",
+                    "disclaimer": "تنها در صورتی کار می‌کند که چپتر فعلی و چپتر بعدی از قبل دانلود شده باشند.",
+                    "unread_chapters_to_download": "تعداد چپتر های خوانده‌ نشده برای دانلود",
+                    "value": "{{chapters}} $t(chapter.title)",
+                    "while_reading": "دانلود خودکار هنگام خواندن"
+                },
+                "title": "دانلود جلوتر"
+            },
+            "download_path": {
+                "label": {
+                    "description": "مسیر دایرکتوری سرور که فایل‌ های دانلود شده باید در آن ذخیره شوند",
+                    "title": "مکان دانلود"
+                }
+            },
+            "file_type": {
+                "label": {
+                    "cbz": "ذخیره به عنوان فایل فشرده CBZ"
+                }
+            }
+        },
+        "state": {
+            "label": {
+                "downloading": "در حال دانلود",
+                "error": "خطا",
+                "finished": "$t(global.label.finished)",
+                "queued": "در صف انتظار"
+            }
+        },
+        "title": {
+            "download": "دانلود ها",
+            "queue": "صف دانلود"
+        }
+    },
+    "extension": {
+        "action": {
+            "label": {
+                "install": "نصب",
+                "install_external": "نصب افزونه خارجی",
+                "uninstall": "حذف نصب",
+                "update": "به‌روزرسانی",
+                "update_all": "به‌روزرسانی همه"
+            }
+        },
+        "label": {
+            "add_repository_info": "برای نصب افزونه‌ ها باید یک مرکز افزونه اضافه کنید",
+            "age_rating": "رده سنی",
+            "available_updates_one": "{{count}} به‌روزرسانی موجود است",
+            "available_updates_other": "{{count}} به‌روزرسانی موجود است",
+            "installation_failed_one": "نصب افزونه انجام نشد",
+            "installation_failed_other": "نصب افزونه ها انجام نشد",
+            "installed_successfully_one": "افزونه نصب شد",
+            "installed_successfully_other": "افزونه ها نصب شد",
+            "installing_file": "در حال نصب افزونه…",
+            "uninstallation_failed_one": "حذف افزونه انجام نشد",
+            "uninstallation_failed_other": "حذف افزونه ها انجام نشد",
+            "update_failed_one": "به‌روزرسانی افزونه انجام نشد",
+            "update_failed_other": "به‌روزرسانی افزونه ها انجام نشد"
+        },
+        "language": {
+            "all": "همه",
+            "other": "سایر"
+        },
+        "settings": {
+            "dialog": {
+                "title": "تنظیمات افزونه برای هر زبان"
+            },
+            "repositories": {
+                "custom": {
+                    "dialog": {
+                        "action": {
+                            "button": {
+                                "add": "افزودن مخزن"
+                            }
+                        }
+                    },
+                    "error": {
+                        "label": {
+                            "invalid_url": "آدرس مخزن نامعتبر است"
+                        }
+                    },
+                    "label": {
+                        "description": "مخزن‌ هایی برای نصب افزونه‌ها اضافه کنید",
+                        "disclaimer": "<strong> برنامه Suwayomi هیچ پشتیبانی‌ ای برای مخزن‌ ها یا افزونه‌های شخص ثالث ارائه نمی‌دهد!</strong><br/>با احتیاط استفاده کنید، زیرا ممکن است افراد مخرب این مخزن‌ها را ایجاد کرده باشند.<br/>شما به‌عنوان کاربر مسئول هستید که امنیت و اعتماد خود به هر مخزن یا افزونه را تأیید کنید.",
+                        "title": "مخزن های افزونه"
+                    }
+                }
+            }
+        },
+        "state": {
+            "label": {
+                "installed": "نصب شده",
+                "installing": "در حال نصب",
+                "obsolete": "از رده خارج شده",
+                "uninstalling": "در حال حدف",
+                "update_pending": "در انتظار به‌روزرسانی",
+                "updating": "در حال به‌روزرسانی"
+            }
+        },
+        "title_one": "افزونه",
+        "title_other": "افزونه ها"
+    },
+    "global": {
+        "button": {
+            "add": "اضافه",
+            "browse": "جست و جو",
+            "cancel": "لغو",
+            "changelog": "گزارش تغییرات",
+            "clear_selection": "خالی کردن",
+            "copy": "کپی",
+            "create": "ایجاد",
+            "delete": "حذف",
+            "deselect": "لغو انتخاب",
+            "dont_show_dialog_again": "این پنجره را دیگر نمایش نده",
+            "download": "دانلود",
+            "edit": "ویرایش",
+            "filter": "فیلتر",
+            "ignore": "نادیده گرفتن",
+            "latest": "تازه‌ ترین",
+            "log_in": "ورود",
+            "log_out": "خروج",
+            "migrate": "تغییر مکان",
+            "ok": "باشه",
+            "open": "باز کردن",
+            "open_browser": "باز کردن در مرورگر",
+            "open_webview": "باز کردن در WebView",
+            "options": "تنظیمات",
+            "popular": "پرطرفدار",
+            "refresh": "بارگذاری مجدد",
+            "remind_later": "بعداً یادآوری کن",
+            "remove": "حذف",
+            "reset": "بازنشانی",
+            "reset_to_default": "بازنشانی به پیش‌فرض",
+            "restore": "بازیابی",
+            "resume": "ادامه",
+            "retry": "تلاش دوباره",
+            "save": "ذخیره",
+            "select": "انتخاب",
+            "select_all": "انتخاب همه",
+            "set": "تنظیم",
+            "show_less": "کمتر نمایش بده",
+            "show_more": "بیشتر نمایش بده",
+            "start": "شروع",
+            "stop": "متوقف کردن",
+            "submit": "ثبت"
+        },
+        "colors": {
+            "black": "سیاه",
+            "gray": "خاکستری",
+            "white": "سفید"
+        },
+        "date": {
+            "label": {
+                "day_one": "روز",
+                "day_other": "روز ها",
+                "today": "امروز",
+                "today_at": "امروز ساعت {{timeString}}",
+                "yesterday": "دیروز",
+                "yesterday_at": "دیروز ساعت {{timeString}}"
+            },
+            "value": {
+                "label": {
+                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "failed_to_load_data": "بارگذاری داده‌ها ممکن نشد",
+                "failed_to_save_changes": "ذخیره تغییرات انجام نشد",
+                "invalid_action": "این عمل معتبر نیست",
+                "invalid_file_type": "نوع فایل نامعتبر است",
+                "invalid_input": "ورودی نامعتبر است",
+                "unrecoverable_error": "خطایی رخ داد\nخطایی رخ داد که قابل بازیابی نیست",
+                "update_failed": "بررسی به‌روزرسانی‌ها انجام نشد"
+            }
+        },
+        "filter": {
+            "label": {
+                "bookmarked": "نشانک‌ گذاری شده",
+                "downloaded": "دانلود شده",
+                "duplicate_chapters": "چپتر های تکراری",
+                "started": "شروع شده",
+                "tracked": "دنبال شده",
+                "unread": "نخوانده"
+            }
+        }
+    }
+}

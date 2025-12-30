@@ -767,7 +767,8 @@
             "tiny": "Winzig",
             "info": "Information",
             "scanlator": "Scanlator",
-            "version": "Version"
+            "version": "Version",
+            "logged_out": "Ausgeloggt"
         },
         "button": {
             "ok": "OK",
@@ -850,7 +851,9 @@
                 "yesterday": "Gestern",
                 "today": "Heute",
                 "day_one": "Tag",
-                "day_other": "Tage"
+                "day_other": "Tage",
+                "second_one": "Sekunde",
+                "second_other": "Sekunden"
             },
             "value": {
                 "label": {
@@ -1007,6 +1010,9 @@
                         "description": "Der Pfad zum Verzeichnis auf dem Server, in dem automatisierte Backups gespeichert werden sollen",
                         "title": "Backup Speicherort"
                     }
+                },
+                "flags": {
+                    "title": "Backup Daten"
                 }
             },
             "flag": {
@@ -1272,7 +1278,14 @@
                         "title": "Zeige nur ungelesene Kapitel"
                     }
                 },
-                "title": "OPDS"
+                "title": "OPDS",
+                "cbz_mime_type": {
+                    "compatible": "Kompatibel",
+                    "description": "Gibt den MimeType vor, den Suwayomi in OPDS Einträgen für CBZ Archive sendet. Beeinflusst auch den globalen CBZ Download.\nModern folgt neuen IANA Standards (2-17), während Legacy (alter MimeType für .cbz) und Kompatibel (alter MimeType für alle Comic-Buch Archive) Kompatibilität mit älteren Lesegeräten erhöhen können.",
+                    "legacy": "Legacy",
+                    "modern": "Modern",
+                    "title": "CBZ MIME-Type"
+                }
             },
             "database": {
                 "address": "Datenbank URL",
@@ -1283,32 +1296,51 @@
                     "postgresql": "PostgreSQL",
                     "title": "Typ"
                 },
-                "username": "$t(global.label.username)"
+                "username": "$t(global.label.username)",
+                "hikari_connection_pool": {
+                    "description": "Verbessert Performance, kann aber bei manchen Installationen zu Problemen führen, sodass keine Daten von der Datenbank gelesen werden können",
+                    "title": "Hikari Connection Pool"
+                }
             },
             "koreader": {
                 "sync": {
                     "check_sum_method": {
                         "binary": "Binär",
                         "filename": "Dateiname",
-                        "title": "Prüfsummenmethode"
+                        "title": "Dokumentabgleichsmethode"
                     },
                     "device_id": "Gerät-ID",
-                    "server_address": "Server URL",
-                    "strategy": {
-                        "disabled": "Deaktiviert",
-                        "prompt": "Nachfragen",
-                        "receive": "Annehmen",
-                        "send": "Senden",
-                        "silent": "Still",
-                        "title": "Synchronisierungsstrategie"
-                    },
+                    "server_address": "Server Adresse",
                     "title": "KOReader Sync",
                     "tolerance": {
-                        "description": "Absolute Toleranz für Fortschrittsvergleich",
-                        "title": "Toleranz"
+                        "description": "Synchronisierung wird nicht stattfinden, wenn die Differenz in Fortschritt diese Toleranz nicht überschreitet.",
+                        "title": "Prozentuelle Toleranz"
                     },
-                    "user_key": "Nutzer Key",
-                    "username": "$t(global.label.username)"
+                    "connection": {
+                        "connect": "Mit KOReader Sync Server verbinden",
+                        "connected": "Verbunden als {{username}} zu {{serverAddress}}",
+                        "disconnect": "Verbindung zu KOReader Sync Server trennen",
+                        "disconnected": "Nicht verbunden",
+                        "message": {
+                            "connect_error": "Fehler beim Verbinden zum KOReader Sync Server.",
+                            "connect_success": "Verbindung zum KOReader Sync Server erfolgreich.",
+                            "disconnect_error": "Fehler beim Trennen der Verbindung zum KOReader Sync Server.",
+                            "disconnect_success": "Verbindung zum KOReader Sync Server erfolgreich getrennt."
+                        },
+                        "status": "Sync Status"
+                    },
+                    "description": "Synchronisiere Lesefortschritt mit KOReader Geräten.",
+                    "device_name": "Gerätename",
+                    "strategy": {
+                        "backward_title": "Synchronisieren zu älterem Zustand",
+                        "forward_title": "Synchronisieren zu neuerem Zustand",
+                        "option": {
+                            "disabled": "Deaktiviert",
+                            "keep_local": "Lokale Änderungen behalten",
+                            "keep_remote": "Entferne Änderungen behalten",
+                            "prompt": "Nachfragen"
+                        }
+                    }
                 }
             }
         },
@@ -1485,7 +1517,20 @@
                 "placeholder": "Smartphone Name 1 | Länge: 16, Zeichen: Buchstaben, Zahlen, -, _"
             }
         },
-        "default_value": "{{value}}<0>($t(global.label.default))</0>"
+        "default_value": "{{value}}<0>($t(global.label.default))</0>",
+        "images": {
+            "processing": {
+                "download": {
+                    "description": "Bilder werden einmalig beim Download verarbeitet"
+                },
+                "serve": {
+                    "description": "Bilder werden bei jedem Aufruf verarbeitet",
+                    "title": "Bild Aufruf Verarbeitung"
+                },
+                "title": "Bild Verarbeitung"
+            },
+            "title": "Bilder"
+        }
     },
     "download": {
         "queue": {
@@ -1577,10 +1622,29 @@
             },
             "conversion": {
                 "compression_level": "Bildkompression Level",
-                "description": "Wenn kein MIME-Typ definiert ist, wird \"default\" für die Konvertierung verwendet.\nNutze \"{{value}}\" um die Konvertierung für einen gewissen MIME-Typ zu deaktivieren",
+                "description": "Wenn kein MIME-Typ definiert ist, wird \"default\" für die Verarbeitung verwendet.\nSetze den Zielmodus zu disabled, um die Verarbeitung für einen gewissen MIME-Typ zu deaktivieren",
                 "mime_type": "MIME-Typ",
                 "target": "MIME-Typ Ziel",
-                "title": "Download Konvertierung"
+                "title": "Bild Download Verarbeitung",
+                "call_timeout": "Aufruf Timeout",
+                "connect_timeout": "Verbindungstimeout",
+                "headers": {
+                    "button": "Header ({{count}})",
+                    "name": "Name",
+                    "title": "Header",
+                    "value": "Wert"
+                },
+                "target_modes": {
+                    "image": {
+                        "description": "Konvertiere Bilder zu verschiedenen Formaten",
+                        "title": "Bild"
+                    },
+                    "title": "Zielmodus",
+                    "url": {
+                        "description": "Bild Konvertierung wird von externem Service durchgeführt",
+                        "title": "URL"
+                    }
+                }
             }
         },
         "title": {
