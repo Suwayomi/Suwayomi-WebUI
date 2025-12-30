@@ -76,6 +76,11 @@ Thanks to everyone that contributed to the translation of this project.
 - Italian (by Gino Cicatiello)
 - Turkish (by Metin)
 
+### Contributors
+Thanks to everyone that contributed to this release
+
+@schroda, @github-actions[bot], @weblate, @cpiber, @ginocic, @infyProductions, @Metincloup, @Micka149, @dejavui, @TheRay82, @plum7x, @aizhimoran, @zeedif, @AdrianRSouza, @ritma-bws, @CBujeda, @rogervc, @UnknownSkyrimPasserby, @mrintrepide, @q1114938967, @sksper1-stack, @renjfk, @Smileskun, @bornav, @9811pc, @imammansyur, @cho558, @marimo-nekomimi, @Dusky-dev
+
 ## [20250801.01] (r2717) - 2025-08-01
 
 ### Fixed
@@ -626,7 +631,7 @@ Thanks to everyone that contributed to this release
 
 @schroda, @jesusFx, @QuietBlade, @anvstin, @guohuageng, @plum7x, @HiyoriTUK, @aizhimoran, @JiPaix, @Yuhyeong, @a18ccms, @chancez, @rickymcmuffin, @zmmx, @alexandrejournet, @ibaraki-douji, @nitezs, @misaka10843, @Becods, @skrewde, @xconkhi9x, @cnmorocho, @Wip-Sama, @Kefir2105, @RafieHardinur, @SuperMario229, @Alexandre-P-J, @AriaMoradi, @NathanBnm, @FumoVite, @JoHena, @bandysharif, @DevCoz, @comradekingu, @Zereef, @akabhirav
 
-[unreleased]: https://github.com/suwayomi/suwayomi-webui/compare/20251230.01...HEAD
+[unreleased]: https://github.com/suwayomi/suwayomi-webui/compare/v20251230.01...HEAD
 [20251230.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20250801.01...v20251230.01
 [20250801.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20250731.01...v20250801.01
 [20250731.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20250703.01...v20250731.01
