@@ -272,7 +272,7 @@
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
                         "all": "$t(extension.language.all)",
                         "unread": "$t(global.filter.label.unread)",
-                        "next_other": "$t(reader.button.next_chapter)",
+                        "next_other": "下 {{count}} 個章節",
                         "confirmation_other": "您即將下載 {{count}} 個章節。\nSuwayomi 不是一個大量夏下載工具，太多的下載可能導致您被來源封鎖或性能問題。"
                     },
                     "button": {
@@ -302,7 +302,8 @@
                     "label": {
                         "action": {
                             "current": "標記為已讀",
-                            "previous": "標記之前的章節為已讀"
+                            "previous": "標記之前的章節為已讀",
+                            "all": "標記所有章節為已讀"
                         },
                         "error_other": "無法標記章節為已讀",
                         "success_other": "{{count}}章節已標記為已讀",
@@ -320,6 +321,13 @@
                         "confirmation_other": "您即將標記 {{count}} 個章節為未讀"
                     }
                 }
+            },
+            "filter_and_sort": {
+                "label": "篩選與排序"
+            },
+            "read": {
+                "resume": "繼續閱讀\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "開始閱讀\n#{{chapterNumber}} — {{title}}\n{{scanlator}}"
             }
         },
         "error": {
@@ -364,7 +372,8 @@
             "uninstallation_failed_other": "無法解除安裝此擴充套件",
             "update_failed_other": "無法更新此擴充套件",
             "add_repository_info": "您必須新增擴充套件儲存庫才能夠安裝擴充套件",
-            "age_rating": "年齡分級"
+            "age_rating": "年齡分級",
+            "available_updates_other": "{{count}} 個可用更新"
         },
         "title_other": "擴充套件",
         "action": {
@@ -447,7 +456,9 @@
             "save": "儲存",
             "open": "開啟",
             "open_browser": "在瀏覽器中開啟",
-            "open_webview": "在 WebView 中開啟"
+            "open_webview": "在 WebView 中開啟",
+            "clear_selection": "清除",
+            "download": "下載"
         },
         "date": {
             "label": {
@@ -525,7 +536,9 @@
             "last_used": "上次使用",
             "scanlator": "掃譯者",
             "stopped": "已停止",
-            "version": "版本"
+            "version": "版本",
+            "logged_out": "已登出",
+            "tiny": "微"
         },
         "language": {
             "label": {
@@ -608,6 +621,10 @@
             "seconds": {
                 "second_other": "秒",
                 "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            },
+            "days": {
+                "day_other": "日",
+                "value": "{{count}} $t(global.time.days.day, lowercase)"
             }
         },
         "colors": {
@@ -762,7 +779,8 @@
             "label": {
                 "update_category": "更新分類",
                 "stop_update": "停止全域更新",
-                "update_library": "更新書櫃"
+                "update_library": "更新書櫃",
+                "search_globally": "全域搜尋「{{query}}」"
             }
         }
     },
@@ -795,7 +813,8 @@
                 "label": {
                     "success_other": "已變更{{count}}本漫畫的分類",
                     "action": "變更分類名稱",
-                    "error_other": "無法變更此漫畫的分類"
+                    "error_other": "無法變更此漫畫的分類",
+                    "confirmation_other": "您將變更 {{count}} 個條目的分類"
                 },
                 "button": {
                     "selected": "變更已選擇的分類名稱"
@@ -806,7 +825,8 @@
                     "label": {
                         "success_other": "已從書櫃中移除{{count}}本漫畫",
                         "action": "從書櫃中移除",
-                        "error_other": "無法從書櫃中移除漫畫"
+                        "error_other": "無法從書櫃中移除漫畫",
+                        "confirmation_other": "您將從書櫃中移除 {{count}} 個條目"
                     },
                     "button": {
                         "selected": "從書櫃中移除選取項目"
@@ -934,7 +954,11 @@
                 "create": {
                     "label": {
                         "description": "備份書櫃為 Tachiyomi 備份",
-                        "title": "建立備份"
+                        "title": "建立備份",
+                        "in_progress": "正在建立備份…"
+                    },
+                    "error": {
+                        "failure": "無法建立備份"
                     }
                 },
                 "restore": {
@@ -970,6 +994,19 @@
                     "interval": "備份間隔",
                     "time": "備份時間"
                 }
+            },
+            "flag": {
+                "categories": "分類",
+                "chapters": "章節",
+                "client_data": "客戶端資料",
+                "group": {
+                    "library": "書櫃",
+                    "settings": "設定"
+                },
+                "history": "歷史記錄",
+                "manga": "書櫃項目",
+                "server_settings": "伺服器設定",
+                "tracking": "追蹤"
             }
         },
         "label": {
@@ -995,7 +1032,21 @@
                         "none": {
                             "label": {
                                 "title": "無",
-                                "description": "禁用認證"
+                                "description": "禁用認證",
+                                "info": "您的書櫃將可從外部存取。僅在私人網路或者確保存取安全時使用此功能。"
+                            }
+                        },
+                        "simple_login": {
+                            "label": {
+                                "description": "登入將由伺服端處理。",
+                                "info": "啟用此功能後，您可能需要重新整理此分頁以顯示登陸頁面。",
+                                "title": "簡易登入"
+                            }
+                        },
+                        "ui_login": {
+                            "label": {
+                                "description": "登入將由客戶端處理。",
+                                "title": "UI 登入"
                             }
                         }
                     }
@@ -1161,7 +1212,62 @@
                     "label": {
                         "title": "啟用頁面閱讀進度"
                     }
+                },
+                "chapter_sort_order": {
+                    "label": {
+                        "title": "章節排序"
+                    }
                 }
+            },
+            "koreader": {
+                "sync": {
+                    "device_id": "裝置 ID",
+                    "device_name": "裝置名稱",
+                    "server_address": "伺服器位址",
+                    "check_sum_method": {
+                        "binary": "二進制",
+                        "filename": "檔名",
+                        "title": "文件校驗方法"
+                    },
+                    "connection": {
+                        "connect": "連接至 KOReader 同步伺服器",
+                        "connected": "已用 {{username}} 連接至 {{serverAddress}}",
+                        "disconnect": "斷開連接 KOReader 同步伺服器",
+                        "disconnected": "已斷開連接",
+                        "message": {
+                            "connect_error": "連接至 KOReader 同步伺服器失敗。",
+                            "connect_success": "成功連接至 KOReader 同步伺服器。",
+                            "disconnect_error": "斷開連接 KOReader 同步伺服器失敗。",
+                            "disconnect_success": "成功斷開連接 KOReader 同步伺服器。"
+                        },
+                        "status": "同步狀態"
+                    },
+                    "description": "與 KOReader 裝置同步閱讀進度。",
+                    "strategy": {
+                        "backward_title": "同步至一個較舊的狀態",
+                        "forward_title": "同步至一個較新的狀態",
+                        "option": {
+                            "disabled": "已禁用",
+                            "keep_local": "保持本機",
+                            "keep_remote": "保持遠端"
+                        }
+                    },
+                    "title": "KOReader 同步",
+                    "tolerance": {
+                        "title": "寬容百分比"
+                    }
+                }
+            },
+            "database": {
+                "address": "資料庫 URL",
+                "password": "$t(global.label.password)",
+                "title": "資料庫",
+                "type": {
+                    "h2": "H2",
+                    "postgresql": "PostgreSQL",
+                    "title": "類型"
+                },
+                "username": "$t(global.label.username)"
             }
         },
         "webui": {
@@ -1250,9 +1356,9 @@
         "clear_cache": {
             "label": {
                 "description": "客戶端（瀏覽器、Electron）應與之一併清除。否則，客戶端快取將繼續被使用",
-                "failure": "無法清除伺服器快取",
-                "success": "已清除伺服器快取",
-                "title": "清除伺服器快取"
+                "failure": "無法清除快取",
+                "success": "已清除快取",
+                "title": "清除快取"
             }
         },
         "device": {
@@ -1399,6 +1505,10 @@
             "label": {
                 "no_downloads": "沒有下載",
                 "delete_all": "刪除所有"
+            },
+            "info": {
+                "paused": "已暫停 — $t(download.queue.info.remaining)",
+                "remaining": "剩餘 {{count}} 個"
             }
         },
         "state": {
@@ -1569,13 +1679,17 @@
                 "manhwa": "$t(manga.type.manhwa)",
                 "doujinshi": "同人",
                 "novel": "小說",
-                "one_shot": "單篇"
+                "one_shot": "單篇",
+                "oel": "OEL 漫畫"
             },
             "status": {
                 "not_yet_published": "尚未發布",
                 "finished": "$t(global.label.finished)",
                 "hiatus": "$(manga.status.hiatus)",
-                "cancelled": "$(manga.status.cancelled)"
+                "cancelled": "$(manga.status.cancelled)",
+                "currently_publishing": "連載中",
+                "not_yet_released": "尚未發行",
+                "releasing": "發行中"
             }
         }
     },

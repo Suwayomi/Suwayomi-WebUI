@@ -3,14 +3,15 @@
         "dialog": {
             "title": {
                 "edit_category_one": "Kategoriyi düzenle",
-                "edit_category_other": "",
+                "edit_category_other": "Kategorileri düzenle",
                 "new_category": "Yeni kategori"
             }
         },
         "error": {
             "label": {
                 "empty": "Kategori boştur",
-                "request_failure": "Kategoriler yüklenemedi"
+                "request_failure": "Kategoriler yüklenemedi",
+                "create_failure": "Kategori oluşturulamadı"
             },
             "no_categories_found": {
                 "label": {
@@ -34,7 +35,8 @@
                     "exclude": "Hariç Tut: {{excludedCategoriesText}}"
                 }
             }
-        }
+        },
+        "value": "{{count}} $t(category.title.category, lowercase)"
     },
     "download": {
         "settings": {
@@ -98,6 +100,32 @@
                 "label": {
                     "cbz": "CBZ arşivi olarak kaydet"
                 }
+            },
+            "conversion": {
+                "call_timeout": "Çağrı zaman aşımı",
+                "compression_level": "Sıkıştırma seviyesi",
+                "connect_timeout": "Bağlantı zaman aşımı",
+                "description": "MIME türü tanımlanmamışsa, işleme için “varsayılan” tür kullanılır.\nMIME türü için işlemeyi önlemek için hedef modunu devre dışı olarak ayarlayın",
+                "headers": {
+                    "button": "Başlıklar ({{count}})",
+                    "name": "Ad",
+                    "title": "Başlıklar",
+                    "value": "Değer"
+                },
+                "mime_type": "MIME Tipi",
+                "target": "Hedef MIME Tipi",
+                "target_modes": {
+                    "image": {
+                        "description": "Görüntüleri farklı formatlara dönüştür",
+                        "title": "Görüntü"
+                    },
+                    "title": "Hedef modu",
+                    "url": {
+                        "description": "Görüntü dönüştürme işlemi harici bir hizmet tarafından gerçekleştirilecektir",
+                        "title": "URL"
+                    }
+                },
+                "title": "Görüntü indirme işlemi"
             }
         },
         "queue": {
@@ -111,6 +139,10 @@
             "label": {
                 "no_downloads": "İndirme bulunamadı",
                 "delete_all": "Hepsini sil"
+            },
+            "info": {
+                "paused": "Durduruldu — $t(download.queue.info.remaining)",
+                "remaining": "{{count}} kaldı"
             }
         },
         "state": {
@@ -120,6 +152,10 @@
                 "queued": "Kuyruğa eklendi",
                 "downloading": "İndiriliyor"
             }
+        },
+        "title": {
+            "download": "İndirmeler",
+            "queue": "İndirme kuyruğu"
         }
     },
     "extension": {
@@ -144,6 +180,9 @@
                         }
                     }
                 }
+            },
+            "dialog": {
+                "title": "Dil başına uzantı ayarları"
             }
         },
         "action": {
@@ -165,7 +204,10 @@
             "uninstallation_failed_one": "Eklenti kaldırılamadı",
             "uninstallation_failed_other": "Eklentiler kaldırılamadı",
             "update_failed_one": "Eklenti güncellenemedi",
-            "update_failed_other": "Eklentiler güncellenemedi"
+            "update_failed_other": "Eklentiler güncellenemedi",
+            "age_rating": "Yaş sınırlaması",
+            "available_updates_one": "{{count}} güncelleme mevcut",
+            "available_updates_other": "{{count}} güncelleme mevcut"
         },
         "language": {
             "all": "Hepsi",
@@ -192,7 +234,8 @@
                 "failed_to_save_changes": "Değişiklikler kaydedilemedi",
                 "invalid_input": "Geçersiz girdi",
                 "invalid_file_type": "Geçersiz dosya tipi",
-                "update_failed": "Güncellemeler kontrol edilemedi"
+                "update_failed": "Güncellemeler kontrol edilemedi",
+                "unrecoverable_error": "Bir şeyler yanlış gitti \nGideremediğimiz bir hata oluştu"
             }
         },
         "filter": {
@@ -201,7 +244,8 @@
                 "downloaded": "İndirildi",
                 "unread": "Okunmamış",
                 "tracked": "Takip edildi",
-                "duplicate_chapters": "Yinelenen bölümler"
+                "duplicate_chapters": "Yinelenen bölümler",
+                "started": "Başladı"
             }
         },
         "language": {
@@ -254,7 +298,11 @@
             "retry": "Tekrar dene",
             "select": "Seç",
             "save": "Kaydet",
-            "open": "Aç"
+            "open": "Aç",
+            "clear_selection": "Temizle",
+            "download": "İndir",
+            "open_browser": "Tarayıcıda aç",
+            "open_webview": "WebView'de aç"
         },
         "date": {
             "value": {
@@ -268,7 +316,9 @@
                 "today": "Bugün",
                 "yesterday": "Dün",
                 "today_at": "Bugün {{timeString}}'de",
-                "yesterday_at": "Dün saat {{timeString}}"
+                "yesterday_at": "Dün saat {{timeString}}",
+                "second_one": "Saniye",
+                "second_other": "Saniye"
             }
         },
         "label": {
@@ -320,8 +370,22 @@
             "footnote": "{{value}}<0>$t(global.label.asterisk)</0>",
             "auto": "Otomatik",
             "success": "Başarılı",
-            "both": "İkisini Birden",
-            "bottom": "Alt"
+            "both": "İkisini birden",
+            "bottom": "Alt",
+            "dark": "Karanlık",
+            "large": "Büyük",
+            "last_used": "Son kullanılan",
+            "light": "Aydınlık",
+            "logged_out": "Oturum kapatıldı",
+            "medium": "Orta",
+            "more": "Daha fazla",
+            "pinned": "Sabitlenmiş",
+            "scanlator": "Çeviri ekibi",
+            "small": "Küçük",
+            "stopped": "Durdurulmuş",
+            "system": "Sistem",
+            "tiny": "Çok küçük",
+            "version": "Versiyon"
         },
         "update": {
             "label": {
@@ -372,6 +436,11 @@
                 "second_one": "Saniye",
                 "second_other": "Saniye",
                 "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            },
+            "days": {
+                "day_one": "Gün",
+                "day_other": "Gün",
+                "value": "{{count}} $t(global.time.days.day, lowercase)"
             }
         },
         "unit": {
@@ -525,7 +594,8 @@
             "label": {
                 "update_category": "Kategoriyi güncelle",
                 "stop_update": "Genel güncellemeyi durdur",
-                "update_library": "Kütüphaneyi güncelle"
+                "update_library": "Kütüphaneyi güncelle",
+                "search_globally": "“{{query}}” ifadesini genel olarak ara"
             }
         },
         "title": "Kütüphane"
@@ -541,7 +611,9 @@
                     "error_one": "Manga kategorisi değiştirilemedi",
                     "error_other": "Manga kategorileri değiştirilemedi",
                     "success_one": "Manga kategorileri değiştirildi",
-                    "success_other": "{{count}} adet manganın kategorileri değiştirildi"
+                    "success_other": "{{count}} adet manganın kategorileri değiştirildi",
+                    "confirmation_one": "Bir girdinin kategorisini değiştirmek üzeresiniz.",
+                    "confirmation_other": "{{count}} girdinin kategorisini değiştirmek üzeresiniz."
                 }
             },
             "track": {
@@ -588,7 +660,9 @@
                         "success_one": "{{count}}Manga kütüphaneden kaldırıldı",
                         "success_other": "{{count}} adet manga kütüphaneden kaldırıldı",
                         "error_one": "Manga kütüphaneden kaldırılamadı",
-                        "error_other": "Mangalar kütüphaneden kaldırılamadı"
+                        "error_other": "Mangalar kütüphaneden kaldırılamadı",
+                        "confirmation_one": "Kütüphanenizden bir girdiyi silmek üzeresiniz.",
+                        "confirmation_other": "Kütüphanenizden {{count}} girdiyi silmek üzeresiniz."
                     },
                     "button": {
                         "selected": "Seçilenleri kütüphaneden kaldır"
@@ -635,6 +709,14 @@
             "completed": "Tamamlandı",
             "publishing_finished": "Yayımı tamamlandı",
             "unknown": "$t(global.label.unknown)"
+        },
+        "type": {
+            "comic": "Çizgi roman",
+            "long_strip": "Uzun şerit",
+            "manga": "$t(manga.title_one)",
+            "manhua": "Manhua",
+            "manhwa": "Manhwa",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)"
         }
     },
     "reader": {
@@ -719,7 +801,17 @@
             "background_color": "Arkaplan rengi",
             "image_preload_amount": "Resimleri önceden yükle",
             "active_setting": "Etkin ayar",
-            "exit_mode": "Çıkışta sayfayı aç"
+            "exit_mode": "Çıkışta sayfayı aç",
+            "auto_scroll": {
+                "smooth": "Düzgün otomatik kaydırma",
+                "speed": "Otomatik kaydırma hızı",
+                "title": "Otomatik kaydırma"
+            },
+            "chapter_transition": {
+                "warning": {
+                    "scanlator_change": "Bölüm geçişinde çevirici ekip değişikliği hakkında bilgi verin"
+                }
+            }
         },
         "title": "Okuyucu — Manga {{mangaId}} Bölüm {{chapterIndex}}",
         "button": {
@@ -1243,14 +1335,16 @@
                     "label": {
                         "all": "$t(extension.language.all)",
                         "ahead": "$t(download.settings.download_ahead.title) ({{count}})",
-                        "next_one": "$t(reader.button.next_chapter)",
-                        "next_other": "",
+                        "next_one": "Sonraki bölüm",
+                        "next_other": "Sonraki {{count}} bölüm",
                         "unread": "$t(global.filter.label.unread)",
                         "success_one": "İndirme kuyruğuna eklendi",
                         "success_other": "{{count}} adet indirme kuyruğına eklendi",
                         "action": "İndir",
                         "error_one": "İndirme kuyruğuna eklenemedi",
-                        "error_other": "İndirmeler kuyruğa eklenemedi"
+                        "error_other": "İndirmeler kuyruğa eklenemedi",
+                        "confirmation_one": "Bir bölüm indirmek üzeresiniz",
+                        "confirmation_other": "{{count}} bölüm indirmek üzeresiniz\nSuwayomi toplu indirme yapmaz ve çok fazla indirme yapmak kaynaklardan yasaklanmanıza ve/veya performans sorunlarına neden olabilir."
                     },
                     "button": {
                         "selected": "Seçileni indir"
@@ -1262,7 +1356,9 @@
                         "error_other": "Bölümler silinemedi",
                         "success_one": "Bölüm silindi",
                         "success_other": "{{count}} adet bölüm silindi",
-                        "action": "Sil"
+                        "action": "Sil",
+                        "confirmation_one": "Bir indirmeyi silmek üzeresiniz",
+                        "confirmation_other": "{{count}} indirmeyi silmek üzeresiniz"
                     },
                     "button": {
                         "selected": "Seçileni sil"
@@ -1274,12 +1370,15 @@
                     "label": {
                         "action": {
                             "previous": "Öncekini okundu olarak işaretle",
-                            "current": "Okunmuş olarak işaretle"
+                            "current": "Okunmuş olarak işaretle",
+                            "all": "Hepsini okundu olarak işarerle"
                         },
                         "error_one": "Bölüm okunmuş olarak işaretlenemedi",
                         "error_other": "Bölümler okunmuş olarak işaretlenemedi",
                         "success_one": "Bölüm okundu olarak işaretlendi",
-                        "success_other": "{{count}} adet bölüm okundu olarak işaretlendi"
+                        "success_other": "{{count}} adet bölüm okundu olarak işaretlendi",
+                        "confirmation_one": "Bir bölümü okundu olarak işaretlemek üzeresiniz",
+                        "confirmation_other": "{{count}} bölümü okundu olarak işaretlemek üzeresiniz"
                     },
                     "button": {
                         "selected": "Seçilenleri okunmuş olarak işaretle"
@@ -1291,7 +1390,9 @@
                         "error_one": "Bölüm okunmamış olarak işaretlenemedi",
                         "error_other": "Bölümler okunmamış olarak işaretlenemedi",
                         "success_one": "Bölüm okunmamış olarak işaretlendi",
-                        "success_other": "{{count}} adet bölüm okunmamış olarak işaretlendi"
+                        "success_other": "{{count}} adet bölüm okunmamış olarak işaretlendi",
+                        "confirmation_one": "Bir bölümü okunmadı olarak işaretlemek üzeresiniz",
+                        "confirmation_other": "{{count}} bölümü okunmadı olarak işaretlemek üzeresiniz"
                     },
                     "button": {
                         "selected": "Seçilenleri okunmamış olarak işaretle"
@@ -1305,7 +1406,9 @@
                         "success_other": "{{count}} adet bölüm yer imlerinden silindi",
                         "action": "Yer imini sil",
                         "error_one": "Yer imi silinemedi",
-                        "error_other": "Yer imleri silinemedi"
+                        "error_other": "Yer imleri silinemedi",
+                        "confirmation_one": "Bir yer imini silmek üzeresiniz",
+                        "confirmation_other": "{{count}} yer imini silmek üzeresiniz"
                     },
                     "button": {
                         "selected": "Seçilenleri yer imlerinden sil"
@@ -1326,6 +1429,13 @@
             },
             "label": {
                 "select": "Seç"
+            },
+            "filter_and_sort": {
+                "label": "Filtrele ve sırala"
+            },
+            "read": {
+                "resume": "Okumaya devam et\n#{{chapterNumber}} — {{title}}\n{{scanlator}}",
+                "start": "Okumaya başla\n#{{chapterNumber}} — {{title}}\n{{scanlator}}"
             }
         },
         "error": {
@@ -1345,10 +1455,15 @@
                     "source_title": "Kaynak",
                     "chapter_number": "Bölüm numarası"
                 }
-            }
+            },
+            "exclude_scanlators": "Çeviri ekibini hariç tut"
         },
         "title_one": "Bölüm",
-        "title_other": "Bölümler"
+        "title_other": "Bölümler",
+        "missing_one": "{{count}} bölüm kayıp",
+        "missing_other": "{{count}} bölüm kayıp",
+        "value_one": "{{count}} bölüm",
+        "value_other": "{{count}} bölüm"
     },
     "migrate": {
         "dialog": {
@@ -1424,5 +1539,16 @@
         },
         "title_one": "Tuş Ataması",
         "title_other": "Tuş Atamaları"
+    },
+    "history": {
+        "error": {
+            "label": {
+                "no_history_available": "Henüz hiçbir seri okumadınız."
+            }
+        },
+        "settings": {
+            "hide": "Geçimişi gizle"
+        },
+        "title": "Geçmiş"
     }
 }
