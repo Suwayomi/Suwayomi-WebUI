@@ -45,7 +45,7 @@ export const Thumbnail = ({
         img.src = Mangas.getThumbnailUrl(manga);
 
         img.onload = () => {
-            const isLargeImage = img.width > 600 && img.height > 600;
+            const isLargeImage = img.width > 600 && img.height > 900;
 
             Promise.all([
                 Vibrant.from(img).getPalette(),
