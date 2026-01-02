@@ -11,7 +11,6 @@ import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { bindDialog } from 'material-ui-popup-state/hooks';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -19,6 +18,7 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import { jsonrepair } from 'jsonrepair';
+import { AwaitableComponentProps } from 'awaitable-component';
 import { getErrorMessage, jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { AppTheme, isThemeNameUnique } from '@/features/theme/services/AppThemes.ts';
 import {
@@ -91,11 +91,13 @@ const dialogModeToTranslationKey: Record<
 };
 
 export const ThemeCreationDialog = ({
-    bindDialogProps,
     mode,
     appTheme = baseCustomTheme,
-}: {
-    bindDialogProps: ReturnType<typeof bindDialog>;
+    isVisible,
+    onExitComplete,
+    onSubmit,
+    onDismiss,
+}: AwaitableComponentProps<void> & {
     mode: DialogMode;
     appTheme?: AppTheme;
 }) => {
@@ -117,7 +119,7 @@ export const ThemeCreationDialog = ({
     const [didThemeChange, setDidThemeChange] = useState(mode === 'create');
 
     return (
-        <Dialog {...bindDialogProps} fullWidth maxWidth="md">
+        <Dialog open={isVisible} onTransitionExited={onExitComplete} fullWidth maxWidth="md">
             <DialogTitle>{t(dialogModeToTranslationKey[mode].title)}</DialogTitle>
             <DialogContent>
                 {loading && <LoadingPlaceholder />}
@@ -212,12 +214,12 @@ export const ThemeCreationDialog = ({
                 )}
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={bindDialogProps.onClose} color="primary">
+                <Button autoFocus onClick={() => onDismiss()} color="primary">
                     {t('global.button.cancel')}
                 </Button>
                 <Button
                     disabled={invalidTheme || invalidName || isCreating || !didThemeChange || !theme.id.length}
-                    onClick={(e) => {
+                    onClick={() => {
                         makeToast(t(dialogModeToTranslationKey[mode].action, { theme: theme.getName() }), 'info');
 
                         setIsCreating(true);
@@ -227,7 +229,7 @@ export const ThemeCreationDialog = ({
                                     t(dialogModeToTranslationKey[mode].success, { theme: theme.getName() }),
                                     'success',
                                 );
-                                bindDialogProps.onClose(e);
+                                onSubmit();
                             })
                             .catch((updateError) =>
                                 makeToast(
