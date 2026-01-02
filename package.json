@@ -72,6 +72,7 @@
     "node-vibrant": "4.0.3",
     "notistack": "3.0.2",
     "p-limit": "7.2.0",
+    "polished": "4.3.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-hotkeys-hook": "5.2.1",

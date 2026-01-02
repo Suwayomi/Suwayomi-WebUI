@@ -19,9 +19,9 @@ import {
 import { useCallback } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
 import { deepmerge } from '@mui/utils';
-// eslint-disable-next-line no-restricted-imports
 import { Palette } from '@vibrant/color';
 import { PaletteBackgroundChannel } from 'node_modules/@mui/material/esm/styles/createThemeWithVars';
+import { complement } from 'polished';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -69,7 +69,7 @@ const getBackgroundColor = (
     return undefined;
 };
 
-const createAppThemeWithDynamicPrimaryColor = (
+const createAppThemeWithDynamicColors = (
     primaryColor: string | null | undefined,
     appTheme: AppTheme['muiTheme'],
 ): AppTheme['muiTheme'] => {
@@ -80,8 +80,18 @@ const createAppThemeWithDynamicPrimaryColor = (
     return {
         ...appTheme,
         colorSchemes: {
-            light: { palette: { primary: { main: primaryColor } } },
-            dark: { palette: { primary: { main: primaryColor } } },
+            light: {
+                palette: {
+                    primary: { main: primaryColor },
+                    secondary: { main: complement(primaryColor) },
+                },
+            },
+            dark: {
+                palette: {
+                    primary: { main: primaryColor },
+                    secondary: { main: complement(primaryColor) },
+                },
+            },
         },
     } satisfies AppTheme['muiTheme'];
 };
@@ -138,7 +148,7 @@ const createAppColorTheme = (
     setPureBlackMode: boolean,
     mode: Exclude<ThemeMode, ThemeMode.SYSTEM>,
 ): AppTheme['muiTheme'] => {
-    const appThemeWithDominantPrimaryColor = createAppThemeWithDynamicPrimaryColor(dynamicColor?.average.hex, appTheme);
+    const appThemeWithDominantPrimaryColor = createAppThemeWithDynamicColors(dynamicColor?.average.hex, appTheme);
     const themePrimaryColorForBackground = createMuiTheme({
         ...appThemeWithDominantPrimaryColor,
         defaultColorScheme: mode,
@@ -173,7 +183,7 @@ const createAppColorTheme = (
         },
     });
 
-    const appThemeWithVibrantPrimaryColor = createAppThemeWithDynamicPrimaryColor(
+    const appThemeWithVibrantPrimaryColor = createAppThemeWithDynamicColors(
         getHighestPopulationColor(dynamicColor, mode),
         themeBackgroundColor,
     );
