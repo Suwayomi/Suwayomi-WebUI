@@ -17,7 +17,6 @@ import {
 import { useCallback } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
 import { deepmerge } from '@mui/utils';
-import { Palette } from '@vibrant/color';
 import { PaletteBackgroundChannel } from 'node_modules/@mui/material/esm/styles/createThemeWithVars';
 import { complement, hsl, parseToHsl } from 'polished';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
@@ -98,50 +97,15 @@ const createAppThemeWithDynamicColors = (
     } satisfies AppTheme['muiTheme'];
 };
 
-const getHighestPopulationColor = (
-    palette: NonNullableProperties<Palette> | null,
+const getVibrantColorForTheme = (
+    palette: TAppThemeContext['dynamicColor'] | null,
     mode: Exclude<ThemeMode, ThemeMode.SYSTEM>,
-): string | null => {
+): string | undefined => {
     if (!palette) {
-        return null;
+        return undefined;
     }
 
-    let highestPopulation = 0;
-    let highestPopulationKey: string = '';
-    let highestPopulationColor: string = '';
-
-    // eslint-disable-next-line guard-for-in
-    for (const key in palette) {
-        const swatch = palette[key];
-
-        if (swatch.population > highestPopulation) {
-            highestPopulationKey = key;
-            highestPopulation = swatch.population;
-            highestPopulationColor = swatch.hex;
-        }
-    }
-
-    if (mode === ThemeMode.LIGHT) {
-        if (highestPopulationKey.startsWith('Light')) {
-            return palette[highestPopulationKey.replace('Light', 'Dark')].hex;
-        }
-
-        if (!highestPopulationKey.startsWith('Dark')) {
-            return palette[`Dark${highestPopulationKey}`].hex;
-        }
-    }
-
-    if (mode === ThemeMode.DARK) {
-        if (highestPopulationKey.startsWith('Dark')) {
-            return palette[highestPopulationKey.replace('Dark', 'Light')].hex;
-        }
-
-        if (!highestPopulationKey.startsWith('Light')) {
-            return palette[`Light${highestPopulationKey}`].hex;
-        }
-    }
-
-    return highestPopulationColor;
+    return mode === ThemeMode.LIGHT ? palette.DarkVibrant.hex : palette.LightVibrant.hex;
 };
 
 const createAppColorTheme = (
@@ -186,7 +150,7 @@ const createAppColorTheme = (
     });
 
     const appThemeWithVibrantPrimaryColor = createAppThemeWithDynamicColors(
-        getHighestPopulationColor(dynamicColor, mode),
+        getVibrantColorForTheme(dynamicColor, mode),
         themeBackgroundColor,
     );
     return deepmerge(themeBackgroundColor, appThemeWithVibrantPrimaryColor);
