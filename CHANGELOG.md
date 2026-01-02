@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 - (**Theme**) Improve automatic theme background colors
 - (**Theme**) Adjust "primary color" of dynamic color theme on manga pages
+- (**Theme**) Increase max length of custom theme names to 32 (previously 16)
 
 ## [20251230.01] (r2937) - 2025-12-30
 

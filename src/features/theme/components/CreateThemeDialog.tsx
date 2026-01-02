@@ -179,7 +179,7 @@ export const ThemeCreationDialog = ({
                             onChange={(e) => {
                                 const name = e.target.value.trim();
 
-                                const isValidLength = name.length <= 16;
+                                const isValidLength = name.length <= 32;
                                 const isUnique = isThemeNameUnique(name, customThemes);
                                 setInvalidName(!isValidLength || !isUnique);
 
