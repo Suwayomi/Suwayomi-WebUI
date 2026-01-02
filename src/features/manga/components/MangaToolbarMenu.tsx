@@ -21,10 +21,17 @@ import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { AwaitableComponent } from 'awaitable-component';
+import ColorLensIcon from '@mui/icons-material/ColorLens';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
+import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
+import { createAppColorTheme } from '@/features/theme/services/ThemeCreator.ts';
+import { getTheme } from '@/features/theme/services/AppThemes.ts';
+import { ThemeCreationDialog } from '@/features/theme/components/CreateThemeDialog.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 interface IProps {
     manga: Pick<MangaType, 'id' | 'inLibrary' | 'sourceId' | 'title'>;
@@ -37,6 +44,8 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
 
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
+    const { settings } = useMetadataServerSettings();
+    const { dynamicColor, appTheme, shouldUsePureBlackMode, themeMode } = useAppThemeContext();
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -48,10 +57,37 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         AwaitableComponent.show(CategorySelect, { mangaId: manga.id });
     };
 
+    const saveDynamicColorTheme = () => {
+        AwaitableComponent.show(ThemeCreationDialog, {
+            mode: 'create',
+            appTheme: {
+                id: '',
+                getName: () => '',
+                isCustom: true,
+                muiTheme: createAppColorTheme(
+                    getTheme(appTheme, settings.customThemes).muiTheme,
+                    dynamicColor,
+                    shouldUsePureBlackMode,
+                    MediaQuery.getThemeMode(themeMode),
+                ),
+            },
+        });
+    };
+
     return (
         <>
             {isLargeScreen && (
                 <>
+                    {settings.mangaDynamicColorSchemes && (
+                        <CustomTooltip
+                            title={t('settings.appearance.manga_dynamic_color_schemes.save')}
+                            disabled={refreshing}
+                        >
+                            <IconButton onClick={saveDynamicColorTheme} disabled={refreshing} color="inherit">
+                                <ColorLensIcon />
+                            </IconButton>
+                        </CustomTooltip>
+                    )}
                     <CustomTooltip title={t('manga.label.reload_from_source')} disabled={refreshing}>
                         <IconButton
                             onClick={() => {
@@ -127,6 +163,14 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             </ListItemIcon>
                             <ListItemText>{t('manga.label.reload_from_source')}</ListItemText>
                         </MenuItem>
+                        {settings.mangaDynamicColorSchemes && (
+                            <MenuItem onClick={saveDynamicColorTheme}>
+                                <ListItemIcon>
+                                    <ColorLensIcon fontSize="small" />
+                                </ListItemIcon>
+                                <ListItemText>{t('settings.appearance.manga_dynamic_color_schemes.save')}</ListItemText>
+                            </MenuItem>
+                        )}
                         {manga.inLibrary && [
                             <MenuItem
                                 key="migrate"

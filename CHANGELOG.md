@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased] (Preview)
 
+### Added
+- (**Theme**) Add an option to save the dynamic color theme on the manga page as a custom theme
+
 ### Changed
 - (**Theme**) Improve automatic theme background colors
 - (**Theme**) Adjust "primary color" of dynamic color theme on manga pages

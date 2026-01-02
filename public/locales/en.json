@@ -1156,6 +1156,8 @@
     "appearance": {
       "manga_dynamic_color_schemes": {
         "description": "Changes the theme colors on the manga page based on the thumbnail",
+        "save": "Save color theme",
+        "set_active": "Set as active theme",
         "title": "Dynamic theme colors on manga page"
       },
       "manga_thumbnail_backdrop": {

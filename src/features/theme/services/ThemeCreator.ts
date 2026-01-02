@@ -19,13 +19,13 @@ import { useCallback } from 'react';
 import { deepmerge } from '@mui/utils';
 import { PaletteBackgroundChannel } from 'node_modules/@mui/material/esm/styles/createThemeWithVars';
 import { complement, hsl, parseToHsl } from 'polished';
-import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { TAppThemeContext, ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { ThemeFontLoader } from '@/features/theme/services/ThemeFontLoader.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 const SCROLLBAR_SIZE = 14;
 
@@ -108,7 +108,7 @@ const getVibrantColorForTheme = (
     return mode === ThemeMode.LIGHT ? palette.DarkVibrant.hex : palette.LightVibrant.hex;
 };
 
-const createAppColorTheme = (
+export const createAppColorTheme = (
     appTheme: AppTheme['muiTheme'],
     dynamicColor: TAppThemeContext['dynamicColor'],
     setPureBlackMode: boolean,
@@ -163,9 +163,7 @@ export const createTheme = (
     direction: Direction = 'ltr',
     dynamicColor: TAppThemeContext['dynamicColor'] = null,
 ) => {
-    const systemMode = MediaQuery.getSystemThemeMode();
-
-    const mode = themeMode === ThemeMode.SYSTEM ? systemMode : themeMode;
+    const mode = MediaQuery.getThemeMode(themeMode);
     const isDarkMode = mode === ThemeMode.DARK;
     const setPureBlackMode = isDarkMode && pureBlackMode;
 
