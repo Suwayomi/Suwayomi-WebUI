@@ -59,7 +59,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
 
     const saveDynamicColorTheme = () => {
         AwaitableComponent.show(ThemeCreationDialog, {
-            mode: 'create',
+            mode: 'save_dynamic',
             appTheme: {
                 id: '',
                 getName: () => '',
