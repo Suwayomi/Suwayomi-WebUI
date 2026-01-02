@@ -71,10 +71,11 @@ const getBackgroundColor = (
 };
 
 const createAppThemeWithDynamicColors = (
-    primaryColor: string | null | undefined,
+    primaryColorDark: string | null | undefined,
+    primaryColorLight: string | null | undefined,
     appTheme: AppTheme['muiTheme'],
 ): AppTheme['muiTheme'] => {
-    if (!primaryColor) {
+    if (!primaryColorDark || !primaryColorLight) {
         return appTheme;
     }
 
@@ -83,14 +84,14 @@ const createAppThemeWithDynamicColors = (
         colorSchemes: {
             light: {
                 palette: {
-                    primary: { main: primaryColor },
-                    secondary: { main: complement(primaryColor) },
+                    primary: { main: primaryColorLight },
+                    secondary: { main: complement(primaryColorLight) },
                 },
             },
             dark: {
                 palette: {
-                    primary: { main: primaryColor },
-                    secondary: { main: complement(primaryColor) },
+                    primary: { main: primaryColorDark },
+                    secondary: { main: complement(primaryColorDark) },
                 },
             },
         },
@@ -114,7 +115,11 @@ export const createAppColorTheme = (
     setPureBlackMode: boolean,
     mode: Exclude<ThemeMode, ThemeMode.SYSTEM>,
 ): AppTheme['muiTheme'] => {
-    const appThemeWithDominantPrimaryColor = createAppThemeWithDynamicColors(dynamicColor?.average.hex, appTheme);
+    const appThemeWithDominantPrimaryColor = createAppThemeWithDynamicColors(
+        dynamicColor?.average.hex,
+        dynamicColor?.average.hex,
+        appTheme,
+    );
     const themePrimaryColorForBackground = createMuiTheme({
         ...appThemeWithDominantPrimaryColor,
         defaultColorScheme: mode,
@@ -150,7 +155,8 @@ export const createAppColorTheme = (
     });
 
     const appThemeWithVibrantPrimaryColor = createAppThemeWithDynamicColors(
-        getVibrantColorForTheme(dynamicColor, mode),
+        getVibrantColorForTheme(dynamicColor, ThemeMode.DARK),
+        getVibrantColorForTheme(dynamicColor, ThemeMode.LIGHT),
         themeBackgroundColor,
     );
     return deepmerge(themeBackgroundColor, appThemeWithVibrantPrimaryColor);
