@@ -8,9 +8,7 @@
 
 import {
     createTheme as createMuiTheme,
-    darken,
     Direction,
-    lighten,
     responsiveFontSizes,
     Theme,
     TypeBackground,
@@ -21,13 +19,14 @@ import { useCallback } from 'react';
 import { deepmerge } from '@mui/utils';
 import { Palette } from '@vibrant/color';
 import { PaletteBackgroundChannel } from 'node_modules/@mui/material/esm/styles/createThemeWithVars';
-import { complement } from 'polished';
+import { complement, hsl, parseToHsl } from 'polished';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { TAppThemeContext, ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { ThemeFontLoader } from '@/features/theme/services/ThemeFontLoader.ts';
+import { coerceIn } from '@/lib/HelperFunctions.ts';
 
 const SCROLLBAR_SIZE = 14;
 
@@ -44,15 +43,21 @@ const getBackgroundColor = (
         };
     }
 
+    const createColors = (color: string, lightnessPaper: number, lightnessDefault: number) => {
+        const colorHsl = parseToHsl(color);
+
+        return {
+            paper: hsl(colorHsl.hue, coerceIn(colorHsl.saturation + 0.15, 0, 1), lightnessPaper),
+            default: hsl(colorHsl.hue, coerceIn(colorHsl.saturation + 0.15, 0, 1), lightnessDefault),
+        };
+    };
+
     if (type === 'light' && !!theme.colorSchemes.light) {
         if (typeof appTheme.colorSchemes?.light === 'object' && appTheme.colorSchemes.light.palette?.background) {
             return appTheme.colorSchemes.light.palette.background;
         }
 
-        return {
-            paper: lighten(theme.colorSchemes.light.palette.primary.dark, 0.7),
-            default: lighten(theme.colorSchemes.light.palette.primary.dark, 0.8),
-        };
+        return createColors(theme.colorSchemes.light.palette.primary.dark, 0.87, 0.93);
     }
 
     if (type === 'dark' && !!theme.colorSchemes.dark) {
@@ -60,10 +65,7 @@ const getBackgroundColor = (
             return appTheme.colorSchemes.dark.palette.background;
         }
 
-        return {
-            paper: darken(theme.colorSchemes.dark.palette.primary.dark, 0.8),
-            default: darken(theme.colorSchemes.dark.palette.primary.dark, 0.9),
-        };
+        return createColors(theme.colorSchemes.dark.palette.primary.dark, 0.06, 0.03);
     }
 
     return undefined;
