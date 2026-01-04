@@ -242,10 +242,33 @@
             },
             "conversion": {
                 "compression_level": "Mức độ nén",
-                "description": "Trong trường hợp không xác định MIME-Type, MIME-Type \"mặc định\" sẽ được sử dụng để chuyển đổi. \nĐặt \"{{value}}\" làm loại mục tiêu để tắt chuyển đổi cho Loại MIME",
+                "description": "Trong trường hợp không có MIME-Type nào được xác định, loại \"mặc định\" sẽ được sử dụng để xử lý.\nĐặt chế độ đích thành tắt để ngăn việc xử lý MIME-Type",
                 "mime_type": "MIME-Type",
-                "title": "Chuyển đổi tải xuống",
-                "target": "MIME-Type target"
+                "title": "Xử lý hình ảnh tải xuống",
+                "target": "MIME-Type target",
+                "call_timeout": "Hết thời gian chờ",
+                "connect_timeout": "Hết thời gian kết nối",
+                "headers": {
+                    "button": "Tiêu đề ({{count}})",
+                    "name": "Tên",
+                    "title": "Tiêu đề",
+                    "value": "Giá trị"
+                },
+                "search_params": {
+                    "button": "Tham số tìm kiếm ({{count}})",
+                    "title": "Tham số tìm kiếm"
+                },
+                "target_modes": {
+                    "image": {
+                        "description": "Chuyển đổi hình ảnh sang các định dạng khác nhau",
+                        "title": "Hình ảnh"
+                    },
+                    "title": "Chọn kiểu",
+                    "url": {
+                        "description": "Việc chuyển đổi hình ảnh sẽ do một dịch vụ bên ngoài thực hiện",
+                        "title": "URL"
+                    }
+                }
             }
         },
         "title": {
@@ -365,7 +388,8 @@
                 "today_at": "Hôm nay {{timeString}}",
                 "yesterday_at": "Hôm qua {{timeString}}",
                 "yesterday": "Hôm qua",
-                "day_other": "Ngày"
+                "day_other": "Ngày",
+                "second_other": "Giây"
             },
             "value": {
                 "label": {
@@ -465,7 +489,8 @@
             "stopped": "Đã dừng lại",
             "tiny": "Nhỏ nhất",
             "scanlator": "Nhóm dịch",
-            "version": "Phiên bản"
+            "version": "Phiên bản",
+            "logged_out": "Đã đăng xuất"
         },
         "language": {
             "label": {
@@ -1093,6 +1118,9 @@
                         "title": "Nơi lưu trữ bản sao lưu",
                         "description": "Địa chỉ đến thư mục trên máy chủ mà bản sao lưu nên lưu vào"
                     }
+                },
+                "flags": {
+                    "title": "Sao lưu dữ liệu"
                 }
             },
             "flag": {
@@ -1335,7 +1363,14 @@
                         "title": "Chỉ hiển thị các chương chưa đọc"
                     }
                 },
-                "title": "OPDS"
+                "title": "OPDS",
+                "cbz_mime_type": {
+                    "compatible": "Tương thích",
+                    "description": "Kiểm soát MimeType mà Suwayomi gửi trong các mục OPDS cho kho lưu trữ CBZ. Cũng ảnh hưởng đến việc tải xuống CBZ toàn cầu.\nHiện đại tuân theo tiêu chuẩn IANA gần đây (2017), trong khi DI SẢN/LEGACY (kiểu mimetype không được dùng nữa cho .cbz) và TƯƠNG THÍCH/COMPATIBLE (kiểu mimetype không được dùng cho tất cả các kho lưu trữ truyện tranh) có thể tương thích hơn với các ứng dụng khách cũ hơn.",
+                    "legacy": "Di sản",
+                    "modern": "Hiện đại",
+                    "title": "Loại CBZ MIME"
+                }
             },
             "database": {
                 "address": "URL cơ sở dữ liệu",
@@ -1346,21 +1381,50 @@
                     "postgresql": "PostgreSQL",
                     "title": "Loại"
                 },
-                "username": "$t(global.label.username)"
+                "username": "$t(global.label.username)",
+                "hikari_connection_pool": {
+                    "description": "Cải thiện hiệu suất nhưng có thể gây ra sự cố cho một số cài đặt mà dữ liệu không thể đọc được từ cơ sở dữ liệu",
+                    "title": "Nhóm kết nối Hikari"
+                }
             },
             "koreader": {
                 "sync": {
                     "check_sum_method": {
                         "binary": "Nhị phân",
                         "filename": "Tên tệp",
-                        "title": "Phương pháp kiểm tra tổng"
+                        "title": "Phương pháp đối chiếu tài liệu"
                     },
                     "device_id": "ID thiết bị",
-                    "server_address": "URL máy chủ",
-                    "title": "Đồng bộ KOReader",
+                    "server_address": "Địa chỉ máy chủ",
+                    "title": "Đồng bộ hóa KOReader",
                     "tolerance": {
-                        "description": "Giới hạn chênh lệch tuyệt đối khi so sánh tiến độ",
+                        "description": "Đồng bộ hóa sẽ không được kích hoạt nếu chênh lệch tiến độ nằm trong dung sai này.",
                         "title": "Giới hạn"
+                    },
+                    "connection": {
+                        "connect": "Kết nối với máy chủ KOReader Sync",
+                        "connected": "Đã kết nối với {{username}} đến {{serverAddress}}",
+                        "disconnect": "Ngắt kết nối khỏi máy chủ KOReader Sync",
+                        "disconnected": "Đã ngắt kết nối",
+                        "message": {
+                            "connect_error": "Không thể kết nối với máy chủ KOReader Sync.",
+                            "connect_success": "Đã kết nối thành công với máy chủ KOReader Sync.",
+                            "disconnect_error": "Không thể ngắt kết nối khỏi máy chủ KOReader Sync.",
+                            "disconnect_success": "Đã ngắt kết nối thành công khỏi máy chủ KOReader Sync."
+                        },
+                        "status": "Trạng thái đồng bộ"
+                    },
+                    "description": "Đồng bộ tiến trình đọc với các thiết bị KOReader.",
+                    "device_name": "Tên thiết bị",
+                    "strategy": {
+                        "backward_title": "Đồng bộ hóa với trạng thái cũ hơn",
+                        "forward_title": "Đồng bộ hóa sang trạng thái mới hơn",
+                        "option": {
+                            "disabled": "Tắt",
+                            "keep_local": "Giữ cục bộ",
+                            "keep_remote": "Giữ điều khiển",
+                            "prompt": "Nhắc nhở"
+                        }
                     }
                 }
             }
@@ -1535,10 +1599,25 @@
             },
             "manga_dynamic_color_schemes": {
                 "description": "Chủ đề được thay đổi dựa trên ảnh bìa truyện",
-                "title": "Chủ đề động trong trang truyện"
+                "title": "Chủ đề động trong trang truyện",
+                "save": "Lưu chủ đề động",
+                "set_active": "Đặt làm chủ đề"
             }
         },
-        "default_value": "{{value}}<0>($t(global.label.default))</0>"
+        "default_value": "{{value}}<0>($t(global.label.default))</0>",
+        "images": {
+            "processing": {
+                "download": {
+                    "description": "Hình ảnh được xử lý một lần trong quá trình tải xuống"
+                },
+                "serve": {
+                    "description": "Hình ảnh được xử lý theo mọi yêu cầu",
+                    "title": "Xử lý hình ảnh"
+                },
+                "title": "Xử lý ảnh"
+            },
+            "title": "Hình ảnh"
+        }
     },
     "source": {
         "configuration": {

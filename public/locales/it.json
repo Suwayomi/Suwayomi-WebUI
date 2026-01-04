@@ -266,7 +266,26 @@
                 "description": "Se non è definito alcun tipo MIME, per la conversione verrà utilizzato quello \"predefinito\".\nImpostare \"{{value}}\" come tipo di destinazione per disabilitare la conversione per un tipo MIME",
                 "mime_type": "Tipo MIME",
                 "target": "Destinazione tipo MIME",
-                "title": "Conversione scaricamento"
+                "title": "Conversione scaricamento",
+                "call_timeout": "Timeout della chiamata",
+                "connect_timeout": "Timeout della connessione",
+                "headers": {
+                    "button": "Intestazioni ({{count}})",
+                    "name": "Nome",
+                    "title": "Intestazioni",
+                    "value": "Valore"
+                },
+                "search_params": {
+                    "button": "Parametri di ricerca ({{count}})",
+                    "title": "Parametri di ricerca"
+                },
+                "target_modes": {
+                    "image": {
+                        "description": "Convertire le immagini in formati diversi",
+                        "title": "Immagine"
+                    },
+                    "title": "Modalità di destinazione"
+                }
             }
         },
         "queue": {
@@ -792,7 +811,7 @@
             "licensed": "Licenziato",
             "ongoing": "in corso",
             "publishing_finished": "Pubblicazione terminata",
-            "hiatus": "Interruzione",
+            "hiatus": "Sospeso",
             "cancelled": "Cancellato",
             "completed": "Completato",
             "unknown": "$t(global.label.unknown)"
@@ -1464,7 +1483,7 @@
                 "badge": {
                     "title": "Badge",
                     "label": {
-                        "download_badges": "Scarica i badge",
+                        "download_badges": "Badge scaricati",
                         "unread_badges": "Badge non letti"
                     }
                 },
