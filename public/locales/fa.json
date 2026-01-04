@@ -28,7 +28,15 @@
             "category_other": "دسته بندی ها",
             "set_categories": "تعیین دسته‌ بندی"
         },
-        "value": "{{count}} $t(category.title.category, lowercase)"
+        "value": "{{count}} $t(category.title.category, lowercase)",
+        "settings": {
+            "inclusion": {
+                "label": {
+                    "exclude": "نادیده گرفتن: {{excludedCategoriesText}}",
+                    "include": "لحاظ کردن: {{includedCategoriesText}}"
+                }
+            }
+        }
     },
     "chapter": {
         "action": {
@@ -129,7 +137,7 @@
                         "confirmation_one": "شما در حال علامت‌ زدن یک چپتر به‌ عنوان خوانده‌ نشده هستید",
                         "confirmation_other": "شما در حال علامت‌ زدن {{count}} چپتر به‌ عنوان خوانده‌ نشده هستید",
                         "error_one": "علامت‌ زدن چپتر به‌ عنوان خوانده‌ نشده انجام نشد",
-                        "error_other": "علامت‌ زدن چپتر به‌ عنوان خوانده‌ نشده انجام نشد",
+                        "error_other": "علامت‌ زدن چپتر ها به‌ عنوان خوانده‌ نشده انجام نشد",
                         "success_one": "چپتر به‌ عنوان خوانده‌ نشده علامت‌ زده شد",
                         "success_other": "{{count}} چپتر به‌ عنوان خوانده‌ نشده علامت‌ زده شد"
                     }
@@ -155,7 +163,7 @@
                     "source_title": "عنوان منبع"
                 }
             },
-            "exclude_scanlators": "حذف گروه ترجمه"
+            "exclude_scanlators": "نادیده گرفتن گروه ترجمه"
         },
         "status": {
             "label": {
@@ -198,14 +206,42 @@
                     "ignore_with_unread_chapters": "دانلود خودکار چپتر ها برای مواردی که چپتر خوانده نشده دارند را نادیده بگیر",
                     "new_chapters": "دانلود چپتر های جدید"
                 },
-                "title": "دانلود خودکار"
+                "title": "دانلود خودکار",
+                "categories": {
+                    "label": {
+                        "include_in_download": "محتویات موجود در دسته‌بندی‌های نادیده گرفته شده، دانلود نخواهند شد؛ حتی اگر در دسته‌بندی‌های لحاظ شده نیز وجود داشته باشند"
+                    }
+                }
             },
             "conversion": {
                 "compression_level": "میزان فشرده‌ سازی",
-                "description": "اگر نوع MIME تعریف نشده باشد، نوع \"پیش‌ فرض\" برای تبدیل استفاده خواهد شد.\nبرای غیرفعال کردن تبدیل برای یک نوع MIME {{value}} را به‌عنوان نوع هدف قرار دهید",
+                "description": "اگر نوع MIME تعریف نشده باشد، نوع \"پیش‌ فرض\" برای تبدیل استفاده خواهد شد.\nبرای جلوگیری از پردازش یک نوع MIME، حالت هدف را روی غیرفعال تنظیم کنید",
                 "mime_type": "نوع MIME",
                 "target": "هدف نوع MIME",
-                "title": "تبدیل دانلود"
+                "title": "پردازش دانلود تصویر",
+                "headers": {
+                    "button": "{{count}} سربرگ",
+                    "title": "سربرگ ها",
+                    "name": "نام",
+                    "value": "مقدار"
+                },
+                "search_params": {
+                    "button": "{{count}} پارامتر جست و جو",
+                    "title": "پارامتر های جست و جو"
+                },
+                "target_modes": {
+                    "image": {
+                        "description": "تبدیل تصاویر به فرمت های مختلف",
+                        "title": "تصویر"
+                    },
+                    "url": {
+                        "title": "آدرس اینترنتی",
+                        "description": "تبدیل تصویر توسط یک سرویس خارجی انجام می‌شود"
+                    },
+                    "title": "حالت هدف"
+                },
+                "connect_timeout": "محدودیت زمانی اتصال",
+                "call_timeout": "محدودیت زمانی فراخوانی"
             },
             "delete_chapters": {
                 "label": {
@@ -387,7 +423,9 @@
                 "today": "امروز",
                 "today_at": "امروز ساعت {{timeString}}",
                 "yesterday": "دیروز",
-                "yesterday_at": "دیروز ساعت {{timeString}}"
+                "yesterday_at": "دیروز ساعت {{timeString}}",
+                "second_one": "ثانیه",
+                "second_other": "ثانیه"
             },
             "value": {
                 "label": {
@@ -415,6 +453,889 @@
                 "tracked": "دنبال شده",
                 "unread": "نخوانده"
             }
+        },
+        "grid_layout": {
+            "label": {
+                "list": "لیست",
+                "comfortable_grid": "جدول دلباز",
+                "compact_grid": "جدول فشرده"
+            },
+            "title": "حالت نمایش"
+        },
+        "label": {
+            "asterisk": "*",
+            "auto": "خودکار",
+            "both": "هر دو",
+            "bottom": "پایین",
+            "default": "پیش فرض",
+            "discord": "دیسکورد",
+            "disabled": "غیر فعال شده",
+            "advanced": "پیشرفته",
+            "are_you_sure": "مطمئن هستید؟",
+            "browse": "مرور",
+            "client": "سیستم رابط",
+            "close": "بستن",
+            "copied_clipboard": "در کلیپ‌ بورد کپی شد",
+            "dark": "تیره",
+            "desktop": "دسکتاپ",
+            "display": "نمایش",
+            "error": "ارور",
+            "filter": "فیلتر",
+            "finished": "پایان‌ یافته",
+            "github": "گیت هاب",
+            "hidden": "پنهان",
+            "info": "اطلاعات",
+            "last_used": "آخرین استفاده",
+            "left": "چپ",
+            "large": "بزرگ",
+            "light": "روشن",
+            "links": "لینک ها",
+            "menu": "منو",
+            "mobile": "موبایل",
+            "more": "بیشتر",
+            "never": "هرگز",
+            "next": "بعد",
+            "open_in_browser": "باز کردن در مرورگر",
+            "password": "گذرواژه",
+            "pinned": "پین شده",
+            "previous": "قبلی",
+            "right": "راست",
+            "scanlator": "ترجمه گر",
+            "share": "اشتراک",
+            "small": "کوچک",
+            "system": "سیستم",
+            "tiny": "ریز",
+            "username": "نام کاربری",
+            "version": "نسخه",
+            "warning": "اخطار",
+            "general": "عمومی",
+            "horizontal": "افقی",
+            "load_in_progress": "همچنان در حال بارگذاری داده‌ های لازم…",
+            "loading": "در حال بارگذاری…",
+            "logged_in": "وارد شده",
+            "logged_out": "خارج شده",
+            "medium": "متوسط",
+            "none": "هیچ‌ کدام",
+            "other": "سایر",
+            "placeholder": "جای نگهدار",
+            "sort": "مرتب‌ سازی",
+            "standard": "استاندارد",
+            "started": "شروع شده",
+            "stopped": "پایان یافته",
+            "success": "موفق",
+            "type": "نوع",
+            "unknown": "نامشخص",
+            "vertical": "عمودی",
+            "footnote": "{{value}}<0>$t(global.label.asterisk)</0>"
+        },
+        "language": {
+            "label": {
+                "language": "زبان",
+                "language_with_code": "زبان با کد: {{code}}"
+            },
+            "title": {
+                "weblate": "وب لیت",
+                "enabled_languages": "زبان‌ های مجاز"
+            },
+            "error": {
+                "load": "بارگذاری زبان انجام نشد"
+            }
+        },
+        "time": {
+            "days": {
+                "day_one": "روز",
+                "day_other": "روز",
+                "value": "{{count}} $t(global.time.days.day, lowercase)"
+            },
+            "hour_short": "س",
+            "minutes": {
+                "minute_one": "دقیقه",
+                "minute_other": "دقیقه",
+                "value": "{{count}} $t(global.time.minutes.minute, lowercase)"
+            },
+            "seconds": {
+                "second_one": "ثانیه",
+                "second_other": "ثانیه",
+                "value": "{{count}} $t(global.time.seconds.second, lowercase)"
+            }
+        },
+        "sort": {
+            "label": {
+                "asc": "صعودی",
+                "by_chapter_number": "بر اساس شماره چپتر",
+                "by_fetch_date": "بر اساس تاریخ دریافت",
+                "by_source": "بر اساس منبع",
+                "by_upload_date": "بر اساس تاریخ آپلود",
+                "desc": "نزولی"
+            }
+        },
+        "unit": {
+            "px": "پیکسل"
+        },
+        "update": {
+            "label": {
+                "available": "به‌روزرسانی موجود است",
+                "check_failure": "بررسی به‌روزرسانی انجام نشد",
+                "checking": "در حال بررسی به‌روزرسانی",
+                "info": "نسخه سرور {{version}} {{channel}} برای دانلود در دسترس است",
+                "up_to_date": "این آخرین نسخه است",
+                "update_failure": "به‌روزرسانی ناموفق بود",
+                "update_success": "{{name}} به نسخه {{version}} {{channel}} به‌روزرسانی شد",
+                "updating": "{{progress}}% | در حال به‌روزرسانی…"
+            },
+            "settings": {
+                "inform": {
+                    "label": {
+                        "description": "در صورت وجود نسخه جدید، یک پنجره نمایش داده میشود",
+                        "title": "اطلاع‌رسانی درباره به‌روزرسانی موجود"
+                    }
+                }
+            }
+        },
+        "value": "{{value}}{{unit}}"
+    },
+    "history": {
+        "settings": {
+            "hide": "پنهان کردن تاریخچه"
+        },
+        "title": "تاریخچه",
+        "error": {
+            "label": {
+                "no_history_available": "هنوز هیچ مجموعه‌ ای را نخوانده‌ اید."
+            }
         }
+    },
+    "library": {
+        "option": {
+            "sort": {
+                "label": {
+                    "alphabetically": "A-Z",
+                    "by_last_read": "اخیراً خوانده‌ شده",
+                    "by_latest_fetched_chapter": "آخرین چپتر دریافت‌ شده",
+                    "by_date_added": "اخیراً اضافه‌ شده",
+                    "by_latest_uploaded_chapter": "آخرین چپتر آپلود شده",
+                    "by_total_chapters": "مجموع چپتر ها",
+                    "by_unread_chapters": "چپتر های خوانده‌ نشده"
+                }
+            },
+            "display": {
+                "badge": {
+                    "label": {
+                        "download_badges": "نشان‌ های دانلود",
+                        "unread_badges": "نشان‌ های خوانده‌ نشده"
+                    },
+                    "title": "نشان‌ ها"
+                },
+                "other": {
+                    "label": {
+                        "show_continue_reading_button": "نمایش دکمه ادامه خواندن"
+                    }
+                },
+                "tab": {
+                    "label": {
+                        "show_number_of_items": "نمایش تعداد آیتم ها"
+                    },
+                    "title": "زبانه‌ ها"
+                }
+            }
+        },
+        "settings": {
+            "global_update": {
+                "label": {
+                    "last_update": "اخرین به‌روزرسانی: {{date}}",
+                    "last_update_tooltip": "$t(library.settings.global_update.title) ($t(library.settings.global_update.label.last_update, lowercase))"
+                },
+                "auto_update": {
+                    "interval": {
+                        "label": {
+                            "title": "بازه به‌روزرسانی خودکار",
+                            "value": "{{hours}}$t(global.time.hour_short)"
+                        }
+                    },
+                    "label": {
+                        "title": "به‌روزرسانی های خودکار"
+                    }
+                },
+                "categories": {
+                    "label": {
+                        "info": "محتویات موجود در دسته‌بندی‌های نادیده گرفته شده، حتی اگر در دسته‌بندی‌ های لحاظ شده نیز باشند، به‌روزرسانی نخواهند شد"
+                    }
+                },
+                "entries": {
+                    "label": {
+                        "completed": "با وضعیت «تکمیل‌ شده»",
+                        "not_started": "که هنوز شروع نشده‌ اند",
+                        "unread_chapters": "با چپتر(های) خوانده‌نشده"
+                    },
+                    "title": "رد کردن به‌روزرسانی محتویات"
+                },
+                "metadata": {
+                    "label": {
+                        "description": "بررسی برای کاور و جزئیات جدید هنگام به‌روزرسانی کتابخانه",
+                        "title": "نوسازی خودکار متادیتا"
+                    }
+                },
+                "title": "به‌روزرسانی سراسری"
+            },
+            "advanced": {
+                "database": {
+                    "cleanup": {
+                        "label": {
+                            "description": "حذف مانگا های خارج از کتابخانه از دسته‌بندی‌ ها",
+                            "error": "حذف مانگا های خارج از کتابخانه از دسته‌بندی‌ ها انجام نشد",
+                            "success": "مانگا های خارج از کتابخانه از دسته‌بندی‌ ها حذف شدند",
+                            "title": "مرتب کردن پایگاه داده"
+                        }
+                    }
+                },
+                "duplicates": {
+                    "label": {
+                        "description": "نمایش همه محتویات تکراری در کتابخانه",
+                        "title": "محتویات تکراری"
+                    },
+                    "settings": {
+                        "label": {
+                            "check_description": "بررسی توضیحات"
+                        }
+                    }
+                }
+            },
+            "general": {
+                "add_to_library": {
+                    "category_selection": {
+                        "label": {
+                            "description": "نمایش پنجره انتخاب دسته‌بندی هنگام افزودن مانگا به کتابخانه",
+                            "title": "پنجره انتخاب دسته‌بندی"
+                        }
+                    }
+                },
+                "remove_from_library": {
+                    "remove_from_categories": {
+                        "label": {
+                            "description": "حذف مانگا از دسته‌بندی‌ ها هنگام حذف از کتابخانه",
+                            "title": "فراموش کردن دسته‌بندی‌ های مانگا"
+                        }
+                    }
+                },
+                "search": {
+                    "ignore_filters": {
+                        "label": {
+                            "description": "نتایج جستجو شامل مانگا هایی خواهد بود که با فیلتر های فعلی مطابقت ندارند",
+                            "title": "نادیده گرفتن فیلتر ها هنگام جستجو"
+                        }
+                    }
+                }
+            }
+        },
+        "action": {
+            "label": {
+                "search_globally": "جستجوی سراسری {{query}}",
+                "stop_update": "توقف به‌روزرسانی سراسری",
+                "update_category": "به‌روزرسانی دسته‌بندی",
+                "update_library": "به‌روزرسانی کتابخانه"
+            }
+        },
+        "error": {
+            "label": {
+                "add_to_library": "افزودن مانگا به کتابخانه انجام نشد!",
+                "empty": "کتابخانه شما خالی است",
+                "no_matches": "هیچ مانگایی با این فیلتر مطابقت ندارد",
+                "remove_from_library": "حذف مانگا از کتابخانه انجام نشد!",
+                "stop_global_update": "توقف به‌روزرسانی سراسری انجام نشد"
+            }
+        },
+        "info": {
+            "label": {
+                "added_to_library": "مانگا به کتابخانه اضافه شد!",
+                "removed_from_library": "مانگا از کتابخانه حذف شد!"
+            }
+        },
+        "title": "کتابخانه"
+    },
+    "hotkeys": {
+        "create": {
+            "dialog": {
+                "label": "کلیدهای ثبت‌شده: <Keys/>",
+                "placeholder": "کلیدها را فشار دهید",
+                "title": "ثبت کلید میانبر"
+            },
+            "error": {
+                "exists": "این کلید میانبر از قبل وجود دارد"
+            }
+        },
+        "info": {
+            "delete": "روی کلید کلیک کنید تا میانبر حذف شود"
+        },
+        "title_one": "کلید میانبر",
+        "title_other": "کلیدهای میانبر"
+    },
+    "manga": {
+        "type": {
+            "manga": "$t(manga.title_one)",
+            "comic": "کمیک",
+            "manhua": "مانها",
+            "manhwa": "مانهوا",
+            "long_strip": "نوار بلند",
+            "webtoon": "$t(reader.settings.reader_type.label.webtoon)"
+        },
+        "title_one": "مانگا",
+        "title_other": "",
+        "button": {
+            "add_to_library": "اضافه کردن به کتابخانه",
+            "in_library": "در کتابخانه",
+            "track": {
+                "active_one": "{{count}} ردیاب",
+                "active_other": "{{count}} ردیاب",
+                "start": "ردیابی"
+            }
+        },
+        "label": {
+            "author": "نویسنده",
+            "artist": "طراح",
+            "edit_categories": "ویرایش دسته بندی مانگا",
+            "status": "وضعیت",
+            "reload_from_source": "بارگذاری مجدد داده‌ها از منبع"
+        },
+        "status": {
+            "cancelled": "کنسل شده",
+            "completed": "پایان یافته",
+            "ongoing": "در حال انتشار",
+            "hiatus": "وقفه",
+            "licensed": "دارای مجوز",
+            "publishing_finished": "انتشار به پایان رسیده",
+            "unknown": "$t(global.label.unknown)"
+        },
+        "action": {
+            "category": {
+                "button": {
+                    "selected": "تغییر دسته‌بندی موارد انتخاب‌شده"
+                },
+                "label": {
+                    "action": "تغییر دسته‌بندی‌ها",
+                    "confirmation_one": "شما در حال تغییر دسته‌بندی یک محتوا هستید",
+                    "confirmation_other": "شما در حال تغییر دسته‌بندی {{count}} محتوا هستید",
+                    "error_one": "تغییر دسته‌بندی‌های مانگا انجام نشد",
+                    "error_other": "تغییر دسته‌بندی‌های مانگا انجام نشد",
+                    "success_one": "دسته‌بندی‌های مانگا تغییر کرد",
+                    "success_other": "دسته‌بندی‌های {{count}} مانگا تغییر کرد"
+                }
+            },
+            "library": {
+                "add": {
+                    "dialog": {
+                        "duplicate": {
+                            "label": {
+                                "failure": "بررسی مانگاهای تکراری در کتابخانه انجام نشد.\n\nارور: {{error}}",
+                                "info": "محتوایی با همین نام در کتابخانه شما وجود دارد."
+                            }
+                        }
+                    }
+                },
+                "remove": {
+                    "button": {
+                        "selected": "حذف موارد انتخاب‌شده از کتابخانه"
+                    },
+                    "dialog": {
+                        "label": {
+                            "message": "شما در حال حذف «{{title}}» از کتابخانه هستید"
+                        }
+                    },
+                    "label": {
+                        "action": "حذف از کتابخانه",
+                        "confirmation_one": "شما در حال حذف یک محتوا از کتابخانه هستید",
+                        "confirmation_other": "شما در حال حذف {{count}} محتوا از کتابخانه هستید",
+                        "error_one": "حذف مانگا از کتابخانه انجام نشد",
+                        "error_other": "حذف مانگا از کتابخانه انجام نشد",
+                        "success_one": "مانگا از کتابخانه حذف شد",
+                        "success_other": "{{count}} مانگا از کتابخانه حذف شد"
+                    }
+                }
+            },
+            "migrate": {
+                "label": {
+                    "error": "انتقال مانگا انجام نشد",
+                    "success": "مانگا با موفقیت انتقال یافت"
+                }
+            },
+            "track": {
+                "add": {
+                    "label": {
+                        "action": "ردیابی",
+                        "error": "ردیابی مانگا انجام نشد",
+                        "success": "مانگا ردیابی‌شده"
+                    }
+                },
+                "remove": {
+                    "dialog": {
+                        "label": {
+                            "delete_remote_track": "همچنین از {{tracker}} حذف شود",
+                            "description": "این کار ردیابی را به‌صورت محلی حذف می‌کند.",
+                            "title": "ردیابی {{tracker}} حذف شود؟"
+                        }
+                    },
+                    "label": {
+                        "error": "قطع ردیابی مانگا انجام نشد",
+                        "success": "ردیابی مانگا قطع شد"
+                    }
+                }
+            }
+        },
+        "error": {
+            "label": {
+                "no_mangas_found": "هیچ مانگایی پیدا نشد",
+                "no_matches": "هیچ مانگایی با این فیلتر مطابقت ندارد",
+                "request_failure": "بارگذاری مانگا انجام نشد"
+            }
+        }
+    },
+    "reader": {
+        "button": {
+            "chapter_list": "لیست چپتر",
+            "next_chapter": "چپتر بعدی",
+            "next_page": "صفحه بعدی",
+            "open_menu": "باز کردن منو",
+            "close_menu": "بستن منو",
+            "previous_chapter": "چپتر قبلی",
+            "previous_page": "صفحه قبلی",
+            "exit": "خروج از خواننده",
+            "retry_load_pages": "تلاش مجدد برای صفحات خطادار"
+        },
+        "error": {
+            "label": {
+                "chapter_not_found": "چپتر وجود ندارد",
+                "no_pages_found": "هیچ صفحه ای پیدا نشد",
+                "next_chapter_does_not_exist": "چپتر بعدی برای باز کردن وجود ندارد",
+                "prev_chapter_does_not_exist": "چپتر قبلی برای باز کردن وجود ندارد"
+            }
+        },
+        "page_info": {
+            "label": {
+                "of_max_pages": "از {{maxPages}}",
+                "page": "صفحه",
+                "currently_on_page": "در حال حاضر در صفحه"
+            }
+        },
+        "settings": {
+            "background_color": "رنگ پس زمینه",
+            "custom_filter": {
+                "rgba": {
+                    "blue": "آبی",
+                    "green": "سبز",
+                    "red": "قرمز",
+                    "alpha": "آلفا",
+                    "blend_mode": {
+                        "darken": "تیره‌ تر",
+                        "lighten": "روشن‌ تر",
+                        "multiply": "تکثیر",
+                        "overlay": "هم‌ پوشانی",
+                        "screen": "صفحه",
+                        "title": "حالت ترکیب فیلتر رنگ"
+                    },
+                    "title": "فیلترهای رنگ سفارشی"
+                },
+                "sepia": "سپیا",
+                "brightness": "روشنایی سفارشی",
+                "contrast": "کنتراست سفارشی",
+                "grayscale": "سیاه‌ و سفید",
+                "hue": "ته‌رنگ سفارشی",
+                "invert": "معکوس",
+                "saturate": "اشباع سفارشی",
+                "title": "فیلتر سفارشی"
+            },
+            "hotkey": {
+                "next_chapter": "چپتر بعدی",
+                "next_page": "صفحه بعدی",
+                "previous_chapter": "چپتر قبلی",
+                "previous_page": "صفحه قبلی",
+                "auto_scroll": "روشن/خاموش کردن اسکرول خودکار",
+                "auto_scroll_speed_decrease": "کاهش سرعت اسکرول خودکار",
+                "auto_scroll_speed_increase": "افزایش سرعت اسکرول خودکار",
+                "menu": "نمایش/مخفی‌سازی منو",
+                "offset_spread_pages": "روشن/خاموش کردن جابجایی صفحات باز شده",
+                "reading_direction": "تغییر چرخه‌ای جهت خواندن",
+                "reading_mode": "تغییر چرخه‌ای حالت خواندن",
+                "scale_type": "تغییر چرخه‌ای نوع مقیاس تصویر",
+                "scroll_backward": "اسکرول به عقب",
+                "scroll_forward": "اسکرول به جلو",
+                "stretch_image": "روشن/خاموش کردن کشیدن تصویر"
+            },
+            "reading_direction": {
+                "ltr": "چپ به راست",
+                "rtl": "راست به چپ"
+            },
+            "reader_type": {
+                "label": {
+                    "webtoon": "وبتون",
+                    "single_page": "تک صفحه",
+                    "double_page": "دو صفحه",
+                    "continuous_horizontal": "پیوسته افقی",
+                    "continuous_vertical": "پیوسته عمودی"
+                }
+            },
+            "tap_zones": {
+                "right_left": "راست و چپ",
+                "edge": "لبه",
+                "invert": "معکوس کردن ناحیه‌های لمس",
+                "kindle": "کیندل",
+                "l_shape": "L-شکل",
+                "title": "ناحیه‌های لمس"
+            },
+            "active_setting": "تنظیم فعال",
+            "auto_scroll": {
+                "smooth": "اسکرول خودکار نرم",
+                "speed": "سرعت اسکرول خودکار",
+                "title": "اسکرول خودکار"
+            },
+            "auto_webtoon_mode": {
+                "description": "استفاده خودکار از حالت وب‌تون برای مواردی که احتمالاً از قالب نوار بلند استفاده می‌کنند",
+                "title": "حالت وب‌تون خودکار"
+            },
+            "chapter_transition": {
+                "warning": {
+                    "missing_chapter": "اطلاع‌رسانی درباره چپترهای جاافتاده هنگام تغییر چپتر",
+                    "scanlator_change": "اطلاع‌رسانی درباره عوض شدن ترجمه گر هنگام تغییر چپتر"
+                }
+            },
+            "error": {
+                "label": {
+                    "failed_to_save_settings": "ذخیره تنظیمات خواننده روی سرور انجام نشد"
+                }
+            },
+            "exit_mode": "باز کردن صفحه هنگام خروج",
+            "image_preload_amount": "پیش‌بارگذاری تصاویر",
+            "infinite_scroll": {
+                "description": "نمایش چپترهای قبلی و بعدی هنگام خواندن در حالت‌های پیوسته برای اسکرول بدون وقفه بین چپترها.",
+                "title": "نمایش پیوسته چپترها"
+            },
+            "label": {
+                "behaviour": "رفتار",
+                "custom_scroll_amount": "مقدار اسکرول سفارشی",
+                "fit_page_to_window": "تطبیق صفحه با پنجره",
+                "layout": "چیدمان",
+                "limit_reader_width": "محدود کردن عرض خواننده",
+                "load_next_chapter": "بارگذاری چپتر بعدی در پایان",
+                "offset_double_spread": "جابجایی صفحات دوگانه",
+                "page_gap": "فاصله بین صفحات",
+                "reader_type": "نوع خواننده",
+                "reader_width": "عرض خواننده",
+                "reading_direction": "جهت خواندن",
+                "reading_mode": "حالت خواندن",
+                "show_page_number": "نمایش شماره صفحه",
+                "skip_dup_chapters": "رد کردن چپترهای تکراری",
+                "skip_filtered_chapters": "رد کردن چپترهای دارای فیلتر",
+                "static_navigation": "ناوبری ثابت",
+                "unchangeable_in_reader": "هنگام باز بودن خواننده، تنظیمات قابل تغییر نیست"
+            },
+            "overlay_mode": "حالت هم‌ پوشانی",
+            "page_scale": {
+                "height": "تطبیق با ارتفاع",
+                "original": "اندازه اصلی",
+                "screen": "تطبیق با صفحه",
+                "stretch": "کشیدن صفحات کوچک",
+                "title": "نوع مقیاس",
+                "width": "تطبیق با عرض"
+            },
+            "preview": {
+                "reading_mode": {
+                    "description": "نمایش کوتاه حالت فعلی هنگام باز شدن خواننده یا تغییر حالت",
+                    "title": "نمایش حالت خواندن"
+                },
+                "tap_zones": {
+                    "description": "پیش‌نمایش کوتاه ناحیه‌های لمس هنگام باز شدن خواننده یا تغییر چیدمان",
+                    "title": "نمایش هم‌پوشانی ناحیه‌های لمس"
+                }
+            },
+            "progress_bar": {
+                "auto_vertical_position": {
+                    "title": "موقعیت عمودی خودکار نوار پیشرفت"
+                },
+                "position": "موقعیت نوار پیشرفت",
+                "size": "اندازه نوار پیشرفت",
+                "style": "سبک نوار پیشرفت"
+            },
+            "scroll_amount": "مقدار اسکرول",
+            "show_transition_page": "نمایش صفحه تغییر",
+            "source_series": "تنظیمات مجموعه",
+            "title": {
+                "quick_settings": "تنظیمات سریع",
+                "reader": "خواننده"
+            }
+        },
+        "chapter_transition": {
+            "warning": {
+                "next": {
+                    "chapter_number_one": "یک چپتر وجود ندارد.\nفعلی: {{currentChapter}}\nبعدی: {{nextChapter}}",
+                    "chapter_number_other": "{{count}} چپتر وجود ندارد.\nفعلی: {{currentChapter}}\nبعدی: {{nextChapter}}",
+                    "scanlator": "چپتر بعدی ترجمه گر متفاوتی با چپتر فعلی دارد.\nفعلی: {{currentScanlator}}\nبعدی: {{nextScanlator}}"
+                },
+                "previous": {
+                    "chapter_number_one": "یک چپتر وجود ندارد.\nقبلی: {{nextChapter}}\nفعلی: {{currentChapter}}",
+                    "chapter_number_other": "{{count}} چپتر وجود ندارد.\nقبلی: {{nextChapter}}\nفعلی: {{currentChapter}}",
+                    "scanlator": "چپتر قبلی ترجمه گر متفاوتی با چپتر فعلی دارد.\nقبلی: {{nextScanlator}}\nفعلی: {{currentScanlator}}"
+                },
+                "title": "هشدار تغییر چپتر"
+            }
+        },
+        "title": "خواننده — مانگا {{mangaId}} چپتر {{chapterIndex}}",
+        "transition_page": {
+            "current": "فعلی:",
+            "exit": {
+                "manga_page": "خروج به صفحه مانگا",
+                "previous_page": "خروج به صفحه قبلی"
+            },
+            "first_chapter": "چپتر قبلی وجود ندارد",
+            "last_chapter": "چپتر بعدی وجود ندارد"
+        }
+    },
+    "search": {
+        "title": {
+            "search": "جست و جو",
+            "global_search": "جستجوی سراسری"
+        },
+        "error": {
+            "label": {
+                "failed_to_save_settings": "ذخیره تنظیمات پیش‌فرض جستجو روی سرور انجام نشد",
+                "source_search_failed": "جستجو در منبع انجام نشد"
+            }
+        },
+        "filter": {
+            "has_results": "دارای نتیجه"
+        }
+    },
+    "settings": {
+        "about": {
+            "server": {
+                "label": {
+                    "address": "آدرس سرور",
+                    "build_time": "زمان ساخت",
+                    "version": "نسخه سرور"
+                }
+            },
+            "title": "درباره",
+            "webui": {
+                "label": {
+                    "updated": "نسخه به‌روزرسانی شده",
+                    "version": "نسخه $t(settings.webui.title.webui)",
+                    "channel": "کانال $t(settings.webui.title.webui)",
+                    "info": "نسخه {{version}} ({{channel}}) از $t(settings.webui.title.webui) برای دانلود در دسترس است"
+                }
+            }
+        },
+        "appearance": {
+            "theme": {
+                "create": {
+                    "action": "در حال ساخت تم…",
+                    "dialog": {
+                        "theme_name": "نام"
+                    },
+                    "failure": "ساخت تم انجام نشد",
+                    "success": "تم ساخته شد",
+                    "title": "ساخت تم"
+                },
+                "delete": {
+                    "action": "در حال حذف تم \"{{theme}}\"…",
+                    "failure": "حذف تم \"{{theme}}\" انجام نشد",
+                    "success": "تم \"{{theme}}\" حذف شد"
+                },
+                "edit": {
+                    "title": "ویرایش تم"
+                },
+                "select": {
+                    "success": "تم انتخاب شده"
+                },
+                "themes": {
+                    "bright_pink": "صورتی روشن",
+                    "crimson": "زرشکی",
+                    "dune": "شنی",
+                    "forest_dew": "شبنم جنگلی",
+                    "lavender": "اسطوخودوس",
+                    "minty_miracles": "معجزات نعنایی",
+                    "mountain_sunset": "غروب کوهستانی",
+                    "orange_juice": "آب پرتقال",
+                    "rosegold": "رزگلد",
+                    "tree_frog_green": "سبز قورباغه درختی",
+                    "veronica": "ورونیکا",
+                    "ying_and_yang": "یین و یانگ"
+                },
+                "title": "تم"
+            }
+        },
+        "backup": {
+            "flag": {
+                "group": {
+                    "library": "کتابخانه",
+                    "settings": "تنظیمات"
+                },
+                "history": "تاریخچه",
+                "manga": "محتویات کتابخانه",
+                "server_settings": "تنظیمات سرور"
+            }
+        },
+        "device": {
+            "active_device": {
+                "label": {
+                    "title": "دستگاه فعال"
+                }
+            },
+            "devices": {
+                "label": {
+                    "title": "دستگاه‌ ها"
+                }
+            },
+            "title": {
+                "device": "دستگاه"
+            }
+        },
+        "images": {
+            "title": "تصاویر"
+        },
+        "label": {
+            "theme": "تم"
+        },
+        "server": {
+            "address": {
+                "server": {
+                    "label": {
+                        "ip": "آی پی",
+                        "port": "پورت"
+                    }
+                }
+            },
+            "database": {
+                "address": "آدرس اینترنتی پایگاه داده",
+                "title": "پایگاه داده",
+                "type": {
+                    "title": "نوع"
+                }
+            },
+            "koreader": {
+                "sync": {
+                    "device_name": "نام دستگاه",
+                    "server_address": "آدرس سرور"
+                }
+            },
+            "opds": {
+                "binary_file_sizes": {
+                    "label": {
+                        "unit_one": "آیتم",
+                        "unit_other": "آیتم"
+                    }
+                },
+                "cbz_mime_type": {
+                    "modern": "مدرن"
+                },
+                "items_per_page": {
+                    "label": {
+                        "unit_one": "آیتم",
+                        "unit_other": "آیتم"
+                    }
+                },
+                "show_only_downloaded_chapters": {
+                    "label": {
+                        "title": "فقط چپتر های دانلود شده را نشان بده"
+                    }
+                }
+            },
+            "requests": {
+                "title": "درخواست ها"
+            },
+            "socks_proxy": {
+                "label": {
+                    "enable": "از پروکسی SOCKS استفاده کن",
+                    "host": "هاست SOCKS",
+                    "password": "گذرواژه SOCKS",
+                    "port": "پورت SOCKS",
+                    "username": "نام کاربری SOCKS",
+                    "version": "نسخه SOCKS"
+                },
+                "title": "پروکسی SOCKS"
+            },
+            "title": {
+                "server": "سرور"
+            }
+        },
+        "title": "تنظیمات",
+        "webui": {
+            "auto_update": {
+                "label": {
+                    "interval": "بازه به‌روزرسانی"
+                }
+            },
+            "electron_path": {
+                "label": {
+                    "title": "مسیر الکترون"
+                }
+            },
+            "interface": {
+                "option": {
+                    "label": {
+                        "browser": "مرورگر",
+                        "electron": "الکترون"
+                    }
+                }
+            }
+        }
+    },
+    "source": {
+        "extension_info": {
+            "title": "اطلاعات افزونه"
+        },
+        "filter": {
+            "save_search": {
+                "label": {
+                    "delete": "حذف جست و جو",
+                    "save": "ذخیره جست و جو"
+                }
+            }
+        }
+    },
+    "tracking": {
+        "publishing": {
+            "type": {
+                "novel": "رمان"
+            }
+        },
+        "settings": {
+            "dialog": {
+                "title": {
+                    "log_in": "ورود به {{name}}",
+                    "log_out": "خروج از {{name}}"
+                }
+            }
+        },
+        "track_record": {
+            "label": {
+                "finish_date": "تاریخ پایان",
+                "score": "امتیاز",
+                "start_date": "تاریخ شروع"
+            }
+        }
+    },
+    "updates": {
+        "title": "به‌روزرسانی ها"
+    },
+    "migrate": {
+        "dialog": {
+            "action": {
+                "button": {
+                    "show_entry": "نمایش محتوا"
+                }
+            },
+            "label": {
+                "delete_downloaded": "حذف دانلودشده‌ها"
+            },
+            "title": "انتخاب داده‌ برای لحاظ شدن"
+        },
+        "search": {
+            "title": "$t(migrate.title) \"{{title}}\""
+        },
+        "label": {
+            "info": "در حال انتقال مانگا…"
+        },
+        "sort": {
+            "by_manga_count": "بر اساس تعداد مانگا",
+            "by_source_name": "بر اساس نام منبع"
+        },
+        "title": "انتقال"
     }
 }

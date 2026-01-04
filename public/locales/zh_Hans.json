@@ -264,6 +264,10 @@
                         "description": "图片转换将由外部服务处理",
                         "title": "链接"
                     }
+                },
+                "search_params": {
+                    "button": "搜索参数（{{count}}）",
+                    "title": "搜索参数"
                 }
             }
         },
