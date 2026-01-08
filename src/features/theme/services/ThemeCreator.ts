@@ -19,6 +19,7 @@ import { useCallback } from 'react';
 import { deepmerge } from '@mui/utils';
 import { PaletteBackgroundChannel } from 'node_modules/@mui/material/esm/styles/createThemeWithVars';
 import { complement, hsl, parseToHsl } from 'polished';
+import { HslaColor, HslColor } from 'polished/lib/types/color';
 import { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
@@ -28,6 +29,26 @@ import { coerceIn } from '@/lib/HelperFunctions.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 const SCROLLBAR_SIZE = 14;
+
+const isNeutralColor = (color: HslColor | HslaColor): boolean => {
+    const isDesaturated = color.saturation < 0.08;
+    const isNearBlack = color.lightness < 0.03;
+    const isNearWhite = color.lightness > 0.97;
+
+    return isDesaturated || isNearBlack || isNearWhite;
+};
+
+const createBackgroundColors = (color: string, lightnessPaper: number, lightnessDefault: number): TypeBackground => {
+    const colorHsl = parseToHsl(color);
+
+    const saturationBoost = isNeutralColor(colorHsl) ? 0 : 0.15;
+    const saturation = coerceIn(colorHsl.saturation + saturationBoost, 0, 1);
+
+    return {
+        paper: hsl(colorHsl.hue, saturation, lightnessPaper),
+        default: hsl(colorHsl.hue, saturation, lightnessDefault),
+    };
+};
 
 const getBackgroundColor = (
     type: 'light' | 'dark',
@@ -42,21 +63,12 @@ const getBackgroundColor = (
         };
     }
 
-    const createColors = (color: string, lightnessPaper: number, lightnessDefault: number) => {
-        const colorHsl = parseToHsl(color);
-
-        return {
-            paper: hsl(colorHsl.hue, coerceIn(colorHsl.saturation + 0.15, 0, 1), lightnessPaper),
-            default: hsl(colorHsl.hue, coerceIn(colorHsl.saturation + 0.15, 0, 1), lightnessDefault),
-        };
-    };
-
     if (type === 'light' && !!theme.colorSchemes.light) {
         if (typeof appTheme.colorSchemes?.light === 'object' && appTheme.colorSchemes.light.palette?.background) {
             return appTheme.colorSchemes.light.palette.background;
         }
 
-        return createColors(theme.colorSchemes.light.palette.primary.dark, 0.87, 0.93);
+        return createBackgroundColors(theme.colorSchemes.light.palette.primary.dark, 0.87, 0.93);
     }
 
     if (type === 'dark' && !!theme.colorSchemes.dark) {
@@ -64,7 +76,7 @@ const getBackgroundColor = (
             return appTheme.colorSchemes.dark.palette.background;
         }
 
-        return createColors(theme.colorSchemes.dark.palette.primary.dark, 0.06, 0.03);
+        return createBackgroundColors(theme.colorSchemes.dark.palette.primary.dark, 0.06, 0.03);
     }
 
     return undefined;
