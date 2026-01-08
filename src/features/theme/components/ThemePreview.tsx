@@ -18,6 +18,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { AwaitableComponent } from 'awaitable-component';
+import Paper from '@mui/material/Paper';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { AppTheme } from '@/features/theme/services/AppThemes.ts';
@@ -150,7 +151,7 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                                 size="small"
                                                 sx={{ mt: -0.5 }}
                                             >
-                                                <CustomTooltip title={t('global.button.delete')}>
+                                                <CustomTooltip title={t('global.button.delete')} placement="auto">
                                                     <DeleteIcon />
                                                 </CustomTooltip>
                                             </IconButton>
@@ -169,18 +170,17 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                                 component="div"
                                                 size="small"
                                             >
-                                                <CustomTooltip title={t('global.button.edit')}>
+                                                <CustomTooltip title={t('global.button.edit')} placement="auto">
                                                     <EditIcon />
                                                 </CustomTooltip>
                                             </IconButton>
                                         )}
                                     </Stack>
                                 </Stack>
-                                <Box
+                                <Paper
                                     sx={{
                                         width: '55%',
                                         height: '65%',
-                                        backgroundColor: 'background.paper',
                                         p: 1,
                                         borderRadius: 1,
                                     }}
@@ -196,7 +196,7 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                         <ThemePreviewBadge sx={{ backgroundColor: 'primary.main' }} />
                                         <ThemePreviewBadge sx={{ backgroundColor: 'secondary.main' }} />
                                     </Stack>
-                                </Box>
+                                </Paper>
                             </Stack>
                             <Stack
                                 sx={{

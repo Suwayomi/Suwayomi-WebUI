@@ -58,7 +58,7 @@ const getBackgroundColor = (
 ): (Partial<TypeBackground> & Partial<PaletteBackgroundChannel>) | undefined => {
     if (setPureBlackMode) {
         return {
-            paper: '#111',
+            paper: '#000',
             default: '#000',
         };
     }

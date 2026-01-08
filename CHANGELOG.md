@@ -10,6 +10,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Theme**) Add an option to save the dynamic color theme on the manga page as a custom theme
 
 ### Changed
+- (**Theme**) Change "pure black mode" paper background color to true black
+
+### Changed
 - (**Theme**) Improve automatic theme background colors
 - (**Theme**) Adjust "primary color" of dynamic color theme on manga pages
 - (**Theme**) Increase max length of custom theme names to 32 (previously 16)
