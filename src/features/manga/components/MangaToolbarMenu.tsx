@@ -78,13 +78,6 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         <>
             {isLargeScreen && (
                 <>
-                    {settings.mangaDynamicColorSchemes && (
-                        <CustomTooltip title={t('settings.appearance.manga_dynamic_color_schemes.save')}>
-                            <IconButton onClick={saveDynamicColorTheme} color="inherit">
-                                <ColorLensIcon />
-                            </IconButton>
-                        </CustomTooltip>
-                    )}
                     <CustomTooltip title={t('manga.label.reload_from_source')} disabled={refreshing}>
                         <IconButton
                             onClick={() => {
@@ -96,6 +89,13 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <Refresh />
                         </IconButton>
                     </CustomTooltip>
+                    {settings.mangaDynamicColorSchemes && (
+                        <CustomTooltip title={t('settings.appearance.manga_dynamic_color_schemes.save')}>
+                            <IconButton onClick={saveDynamicColorTheme} color="inherit">
+                                <ColorLensIcon />
+                            </IconButton>
+                        </CustomTooltip>
+                    )}
                     {manga.inLibrary && (
                         <>
                             <CustomTooltip title={t('global.button.migrate')}>
