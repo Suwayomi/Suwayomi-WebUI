@@ -126,7 +126,7 @@ export const ThemeCreationDialog = ({
     const [invalidName, setInvalidName] = useState(false);
     const [invalidTheme, setInvalidTheme] = useState(false);
     const [isCreating, setIsCreating] = useState(false);
-    const [didThemeChange, setDidThemeChange] = useState(mode === 'create');
+    const [didThemeChange, setDidThemeChange] = useState(['create', 'save_dynamic'].includes(mode));
     const [setAsActiveTheme, setSetAsActiveTheme] = useState(false);
 
     return (
