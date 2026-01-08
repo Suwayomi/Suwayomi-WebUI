@@ -79,11 +79,8 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
             {isLargeScreen && (
                 <>
                     {settings.mangaDynamicColorSchemes && (
-                        <CustomTooltip
-                            title={t('settings.appearance.manga_dynamic_color_schemes.save')}
-                            disabled={refreshing}
-                        >
-                            <IconButton onClick={saveDynamicColorTheme} disabled={refreshing} color="inherit">
+                        <CustomTooltip title={t('settings.appearance.manga_dynamic_color_schemes.save')}>
+                            <IconButton onClick={saveDynamicColorTheme} color="inherit">
                                 <ColorLensIcon />
                             </IconButton>
                         </CustomTooltip>
