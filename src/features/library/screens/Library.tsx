@@ -8,7 +8,7 @@
 
 import Chip, { ChipProps } from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { useCallback, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
 import { useTranslation } from 'react-i18next';
@@ -60,6 +60,7 @@ const TitleSizeTag = ({ sx, ...props }: ChipProps) => (
 
 export function Library() {
     const { t } = useTranslation();
+    const theme = useTheme();
 
     const {
         settings: { showTabSize },
@@ -190,7 +191,12 @@ export function Library() {
     useAppTitle(
         <TitleWithSizeTag>
             {t('library.title')}
-            {showTabSize && <TitleSizeTag sx={{ color: 'inherit' }} label={librarySize} />}
+            {showTabSize && (
+                <TitleSizeTag
+                    sx={{ ...theme.applyStyles('light', { backgroundColor: 'background.paper' }) }}
+                    label={librarySize}
+                />
+            )}
         </TitleWithSizeTag>,
         t('library.title'),
         [t, showTabSize, librarySize],
