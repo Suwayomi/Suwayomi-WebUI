@@ -857,7 +857,7 @@
             },
             "value": {
                 "label": {
-                    "day": "{{days}} $t(global.date.label.day, lowercase)"
+                    "day": "{{days}} $t(global.date.label.day)"
                 }
             }
         },
@@ -896,7 +896,7 @@
             "days": {
                 "day_one": "Tag",
                 "day_other": "Tage",
-                "value": "{{count}}$t(global.time.days.day, lowercase)"
+                "value": "{{count}}$t(global.time.days.day)"
             }
         },
         "colors": {
@@ -946,7 +946,7 @@
                 }
             }
         },
-        "value": "{{count}} $t(category.title.category, lowercase)"
+        "value": "{{count}} $t(category.title.category)"
     },
     "settings": {
         "backup": {
@@ -1485,7 +1485,9 @@
             },
             "manga_dynamic_color_schemes": {
                 "title": "Dynamische Theme-Farben auf der Manga Seite",
-                "description": "Setzt die Theme-Farben auf der Manga Seite basieren auf dem Thumbnail"
+                "description": "Setzt die Theme-Farben auf der Manga Seite basieren auf dem Thumbnail",
+                "save": "Dynamische Theme-Farben abspeichern",
+                "set_active": "Als aktives Theme setzen"
             },
             "title": "Erscheinung"
         },
@@ -1644,6 +1646,10 @@
                         "description": "Bild Konvertierung wird von externem Service durchgeführt",
                         "title": "URL"
                     }
+                },
+                "search_params": {
+                    "button": "Suchparameter ({{count}})",
+                    "title": "Suchparameter"
                 }
             }
         },
