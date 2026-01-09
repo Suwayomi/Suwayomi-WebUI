@@ -18,6 +18,9 @@
                         "title": "Ubicación de la copia de seguridad",
                         "description": "La ruta al directorio del servidor donde deberían ser guardadas las copias de seguridad automatizadas"
                     }
+                },
+                "flags": {
+                    "title": "Datos de la copia de seguridad"
                 }
             },
             "action": {
@@ -147,7 +150,8 @@
                         },
                         "ui_login": {
                             "label": {
-                                "description": "El inicio de sesión será manejado por el cliente."
+                                "description": "El inicio de sesión será manejado por el cliente.",
+                                "title": "UI Iniciar sesión"
                             }
                         }
                     }
@@ -327,7 +331,12 @@
                         "title": "Mostrar solo capítulos no leídos"
                     }
                 },
-                "title": "OPDS"
+                "title": "OPDS",
+                "cbz_mime_type": {
+                    "compatible": "Es compatible",
+                    "legacy": "Legado",
+                    "modern": "Moderno"
+                }
             },
             "database": {
                 "address": "URL de la base de datos",
@@ -335,6 +344,9 @@
                 "type": {
                     "postgresql": "PostgreSQL",
                     "title": "Tipo"
+                },
+                "hikari_connection_pool": {
+                    "description": "Mejora el rendimiento, pero puede causar problemas para algunas instalaciones donde los datos no pueden ser leidos desde la base de datos"
                 }
             },
             "koreader": {
@@ -342,14 +354,36 @@
                     "check_sum_method": {
                         "binary": "Binario",
                         "filename": "Nombre del archivo",
-                        "title": "Método de Checksum"
+                        "title": "Método de emparejamiento de documentos"
                     },
                     "device_id": "ID del dispositivo",
-                    "server_address": "URL del servidor",
+                    "server_address": "Direccion  del servidor",
                     "title": "Sincronización de KOReader",
                     "tolerance": {
-                        "description": "Tolerancia absoluta para la comparación del progreso",
+                        "description": "La sincronizacion no sera activada si la diferencia del progreso está detro de esta tolerancia",
                         "title": "Tolerancia"
+                    },
+                    "connection": {
+                        "connected": "Conectado como {{username}} al {{serverAddress}}",
+                        "disconnect": "Desconectado del servidor de sincronizacion KOReader",
+                        "disconnected": "Desconectado",
+                        "message": {
+                            "connect_error": "Fallo al conectar al servidor de sincronizacion KOReader.",
+                            "connect_success": "Exitosamente conectado al servidor de sincronizacion KOReader.",
+                            "disconnect_error": "Fallo al desconectar del servidor de sincronizacion de KOReader.",
+                            "disconnect_success": "Desconectado con exito del servidor de sincronizacion KOReader."
+                        },
+                        "status": "Estado de sincronizacion"
+                    },
+                    "device_name": "Nombre del Dispositivo",
+                    "strategy": {
+                        "backward_title": "Sincronizado a un estado anterior",
+                        "forward_title": "Sincronizando a un nuevo estado",
+                        "option": {
+                            "disabled": "Deshabilitado",
+                            "keep_local": "Mantener local",
+                            "keep_remote": "Mantener Remoto"
+                        }
                     }
                 }
             }
@@ -439,10 +473,10 @@
         },
         "clear_cache": {
             "label": {
-                "title": "Borrar la caché del servidor",
-                "success": "Se ha borrado la caché del servidor",
+                "title": "Borrar cache",
+                "success": "Caché borrado",
                 "description": "La caché del cliente (navegador, electrón) debe borrarse al mismo tiempo, de lo contrario, la caché del cliente seguirá siendo utilizada",
-                "failure": "No se ha podido borrar la caché del servidor"
+                "failure": "No se ha podido borrar la caché"
             }
         },
         "device": {
@@ -524,10 +558,24 @@
             },
             "manga_dynamic_color_schemes": {
                 "description": "Cambia los colores del tema en la página del manga basándose en la portada",
-                "title": "Colores de tema dinámicos en la página del manga"
+                "title": "Colores de tema dinámicos en la página del manga",
+                "save": "Guardar tema de color dinámico",
+                "set_active": "Establecer como tema activo"
             }
         },
-        "default_value": "{{value}}<0>($t(global.label.default))</0>"
+        "default_value": "{{value}}<0>($t(global.label.default))</0>",
+        "images": {
+            "processing": {
+                "download": {
+                    "description": "Las imágenes son procesadas una vez durante la de descarga"
+                },
+                "serve": {
+                    "description": "Las imágenes son procesadas en cada solicitud"
+                },
+                "title": "Procesando imágen"
+            },
+            "title": "Imágenes"
+        }
     },
     "updates": {
         "title": "Actualizaciones",
@@ -718,7 +766,10 @@
                 "today_at": "Hoy a las {{timeString}}",
                 "day_one": "Día",
                 "day_many": "Días",
-                "day_other": "Días"
+                "day_other": "Días",
+                "second_one": "Segundo",
+                "second_many": "Segundos",
+                "second_other": "Segundos"
             },
             "value": {
                 "label": {
@@ -787,7 +838,8 @@
             "open": "Abrir",
             "open_browser": "Abrir en el navegador",
             "open_webview": "Abrir en WebView",
-            "download": "Descargar"
+            "download": "Descargar",
+            "clear_selection": "Despejar"
         },
         "label": {
             "display": "Visualización",
@@ -852,7 +904,8 @@
             "pinned": "Fijado",
             "stopped": "Detenido",
             "tiny": "Diminuto",
-            "version": "Versión"
+            "version": "Versión",
+            "logged_out": "Sesión Cerrada"
         },
         "error": {
             "label": {
@@ -1666,7 +1719,25 @@
                 "description": "En caso de que no se defina ningún tipo MIME, se usará el \"predeterminado\" para la conversión.\nEstablezca \"{{value}}\" como tipo de destino para desactivar la conversión de un tipo MIME.",
                 "mime_type": "Tipo MIME",
                 "target": "Tipo MIME de destino",
-                "title": "Conversión de descarga"
+                "title": "Procesando descarga de imagen",
+                "headers": {
+                    "name": "Nombre",
+                    "title": "Encabezados"
+                },
+                "search_params": {
+                    "button": "Buscar parametros ({{count}})",
+                    "title": "Buscar parámetros"
+                },
+                "target_modes": {
+                    "image": {
+                        "description": "Convertir imagenes a diferentes formatos",
+                        "title": "Imágen"
+                    },
+                    "url": {
+                        "description": "La conversión de imagenes será manejada por un servico externo",
+                        "title": "URL"
+                    }
+                }
             }
         },
         "title": {
