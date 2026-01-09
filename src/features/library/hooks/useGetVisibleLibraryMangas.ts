@@ -183,12 +183,7 @@ const sortManga = <Manga extends TMangaSort>(
             case 'dateAdded':
                 return (a, b) => sortByNumber(a.inLibraryAt, b.inLibraryAt);
             case 'unreadChapters':
-                return (a, b) => {
-                    if (a.unreadCount === b.unreadCount) return 0;
-                    if (a.unreadCount === 0) return desc ? -1 : 1;
-                    if (b.unreadCount === 0) return desc ? 1 : -1;
-                    return sortByNumber(a.unreadCount, b.unreadCount);
-                };
+                return (a, b) => sortByNumber(a.unreadCount, b.unreadCount);
             case 'lastRead':
                 return (a, b) => sortByNumber(a.lastReadChapter?.lastReadAt, b.lastReadChapter?.lastReadAt);
             case 'latestUploadedChapter':
