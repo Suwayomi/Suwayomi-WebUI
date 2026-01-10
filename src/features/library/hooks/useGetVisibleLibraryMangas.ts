@@ -161,7 +161,7 @@ const filterMangas = <Manga extends TMangasFilter>(
 
 const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(a) - Number(b);
 
-const sortByString = (a: string, b: string): number => a.localeCompare(b);
+const sortByString = (a: string, b: string): number => a.localeCompare(b, undefined, { sensitivity: 'base' });
 
 type TMangaSort = Pick<MangaType, 'title' | 'inLibraryAt' | 'unreadCount'> &
     MangaChapterCountInfo & {
@@ -176,37 +176,38 @@ const sortManga = <Manga extends TMangaSort>(
 ): Manga[] => {
     const result = [...manga];
 
-    switch (sort) {
-        case 'alphabetically':
-            result.sort((a, b) => sortByString(a.title, b.title));
-            break;
-        case 'dateAdded':
-            result.sort((a, b) => sortByNumber(a.inLibraryAt, b.inLibraryAt));
-            break;
-        case 'unreadChapters':
-            result.sort((a, b) => sortByNumber(a.unreadCount, b.unreadCount));
-            break;
-        case 'lastRead':
-            result.sort((a, b) => sortByNumber(a.lastReadChapter?.lastReadAt, b.lastReadChapter?.lastReadAt));
-            break;
-        case 'latestUploadedChapter':
-            result.sort((a, b) =>
-                sortByNumber(a.latestUploadedChapter?.uploadDate, b.latestUploadedChapter?.uploadDate),
-            );
-            break;
-        case 'latestFetchedChapter':
-            result.sort((a, b) => sortByNumber(a.latestFetchedChapter?.fetchedAt, b.latestFetchedChapter?.fetchedAt));
-            break;
-        case 'totalChapters':
-            result.sort((a, b) => sortByNumber(a.chapters.totalCount, b.chapters.totalCount));
-            break;
-        default:
-            break;
-    }
+    const primaryComparator = ((): ((a: Manga, b: Manga) => number) => {
+        switch (sort) {
+            case 'alphabetically':
+                return (a, b) => sortByString(a.title, b.title);
+            case 'dateAdded':
+                return (a, b) => sortByNumber(a.inLibraryAt, b.inLibraryAt);
+            case 'unreadChapters':
+                return (a, b) => sortByNumber(a.unreadCount, b.unreadCount);
+            case 'lastRead':
+                return (a, b) => sortByNumber(a.lastReadChapter?.lastReadAt, b.lastReadChapter?.lastReadAt);
+            case 'latestUploadedChapter':
+                return (a, b) => sortByNumber(a.latestUploadedChapter?.uploadDate, b.latestUploadedChapter?.uploadDate);
+            case 'latestFetchedChapter':
+                return (a, b) => sortByNumber(a.latestFetchedChapter?.fetchedAt, b.latestFetchedChapter?.fetchedAt);
+            case 'totalChapters':
+                return (a, b) => sortByNumber(a.chapters.totalCount, b.chapters.totalCount);
+            default:
+                return () => 0;
+        }
+    })();
 
-    if (desc) {
-        result.reverse();
-    }
+    result.sort((a, b) => {
+        const cmp = primaryComparator(a, b);
+        if (cmp !== 0) {
+            if (desc) {
+                return -cmp;
+            }
+            return cmp;
+        }
+
+        return sortByString(a.title, b.title);
+    });
 
     return result;
 };
