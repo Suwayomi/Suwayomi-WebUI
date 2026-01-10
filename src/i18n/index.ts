@@ -24,6 +24,7 @@ export const i18nResources = [
     'de',
     'en',
     'es',
+    'fa',
     'fr',
     'it',
     'ja',
