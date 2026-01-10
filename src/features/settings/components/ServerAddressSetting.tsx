@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 export const ServerAddressSetting = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [serverAddress, setServerAddress] = requestManager.useBaseUrl();
 
@@ -23,7 +23,7 @@ export const ServerAddressSetting = () => {
 
     return (
         <TextSetting
-            settingName={t('settings.about.server.label.address')}
+            settingName={t`Server address`}
             handleChange={handleServerAddressChange}
             value={serverAddress}
             placeholder="http://localhost:4567"

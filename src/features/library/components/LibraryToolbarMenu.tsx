@@ -9,7 +9,7 @@
 import FilterList from '@mui/icons-material/FilterList';
 import IconButton from '@mui/material/IconButton';
 import { ComponentProps, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { LibraryOptionsPanel } from '@/features/library/components/LibraryOptionsPanel.tsx';
 import { getCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
@@ -19,7 +19,7 @@ export const LibraryToolbarMenu = ({
 }: {
     category: ComponentProps<typeof LibraryOptionsPanel>['category'];
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [open, setOpen] = useState(false);
     const options = getCategoryMetadata(category);
@@ -34,7 +34,7 @@ export const LibraryToolbarMenu = ({
 
     return (
         <>
-            <CustomTooltip title={t('settings.title')}>
+            <CustomTooltip title={t`Settings`}>
                 <IconButton onClick={() => setOpen(!open)} color={active ? 'warning' : 'inherit'}>
                     <FilterList />
                 </IconButton>

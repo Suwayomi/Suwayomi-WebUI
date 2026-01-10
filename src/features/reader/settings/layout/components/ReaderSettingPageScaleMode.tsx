@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import {
     PAGE_SCALE_VALUE_TO_DISPLAY_DATA,
@@ -23,12 +23,12 @@ export const ReaderSettingPageScaleMode = ({
     Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
         setPageScaleMode: (mode: IReaderSettings['pageScaleMode']) => void;
     }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <ButtonSelectInput
             {...buttonSelectInputProps}
-            label={t('reader.settings.page_scale.title')}
+            label={t`Scale type`}
             value={pageScaleMode.isDefault ? undefined : pageScaleMode.value}
             defaultValue={pageScaleMode.isDefault ? pageScaleMode.value : undefined}
             values={READER_PAGE_SCALE_MODE_VALUES}

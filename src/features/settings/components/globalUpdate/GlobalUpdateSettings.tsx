@@ -8,10 +8,10 @@
 
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
-import { useTranslation } from 'react-i18next';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
+import { useLingui } from '@lingui/react/macro';
 import {
     CategoriesInclusionSetting,
     CategoriesInclusionSettingProps,
@@ -30,7 +30,7 @@ export const GlobalUpdateSettings = ({
     serverSettings: ServerSettings;
     categories: CategoriesInclusionSettingProps['categories'];
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const { updateMangas } = serverSettings;
     const [mutateSettings] = requestManager.useUpdateServerSettings();
@@ -42,7 +42,7 @@ export const GlobalUpdateSettings = ({
         try {
             await mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
         } catch (e) {
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e));
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
         }
     };
 
@@ -50,7 +50,7 @@ export const GlobalUpdateSettings = ({
         <List
             subheader={
                 <ListSubheader component="div" id="global-update-settings">
-                    {t('library.settings.global_update.title')}
+                    {t`Global update`}
                 </ListSubheader>
             }
         >
@@ -59,12 +59,12 @@ export const GlobalUpdateSettings = ({
             <CategoriesInclusionSetting
                 categories={categories}
                 includeField="includeInUpdate"
-                dialogText={t('library.settings.global_update.categories.label.info')}
+                dialogText={t`Entries in excluded categories will not be updated even if they are also in included categories`}
             />
             <ListItem>
                 <ListItemText
-                    primary={t('library.settings.global_update.metadata.label.title')}
-                    secondary={t('library.settings.global_update.metadata.label.description')}
+                    primary={t`Automatically refresh metadata`}
+                    secondary={t`Check for new cover and details when updating library`}
                 />
                 <Switch
                     edge="end"

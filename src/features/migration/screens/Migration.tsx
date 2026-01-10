@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import List from '@mui/material/List';
 import Stack from '@mui/material/Stack';
@@ -15,6 +14,7 @@ import SortByAlphaIcon from '@mui/icons-material/SortByAlpha';
 import TagIcon from '@mui/icons-material/Tag';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -23,7 +23,7 @@ import { MigrationCard, TMigratableSource } from '@/features/migration/component
 import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SortBy, SortOrder, SortSettings, TMigratableSourcesResult } from '@/features/migration/Migration.types.ts';
-import { sortByToTranslationKey, sortOrderToTranslationKey } from '@/features/migration/Migration.constants.ts';
+import { sortByToTranslation, sortOrderToTranslation } from '@/features/migration/Migration.constants.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -75,14 +75,14 @@ const getMigratableSources = (
 };
 
 export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { appBarHeight } = useNavBarContext();
 
     const {
         settings: { migrateSortSettings },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<'migrateSortSettings'>((e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
     const { sortBy, sortOrder } = migrateSortSettings;
 
@@ -101,7 +101,7 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Migration::refetch'))}
             />
@@ -123,7 +123,7 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
                     zIndex: 1,
                 }}
             >
-                <CustomTooltip title={t(sortByToTranslationKey[sortBy])}>
+                <CustomTooltip title={t(sortByToTranslation[sortBy])}>
                     <IconButton
                         color="inherit"
                         onClick={() =>
@@ -133,7 +133,7 @@ export const Migration = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
                         {sortBy ? <TagIcon /> : <SortByAlphaIcon />}
                     </IconButton>
                 </CustomTooltip>
-                <CustomTooltip title={t(sortOrderToTranslationKey[sortOrder])}>
+                <CustomTooltip title={t(sortOrderToTranslation[sortOrder])}>
                     <IconButton
                         color="inherit"
                         onClick={() =>

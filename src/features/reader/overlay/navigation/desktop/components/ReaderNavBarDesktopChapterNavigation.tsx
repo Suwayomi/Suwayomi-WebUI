@@ -7,7 +7,6 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import { memo, useLayoutEffect } from 'react';
@@ -16,6 +15,7 @@ import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { Link } from 'react-router-dom';
+import { useLingui } from '@lingui/react/macro';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { ReaderChapterList } from '@/features/reader/overlay/navigation/components/ReaderChapterList.tsx';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
@@ -41,7 +41,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
 } & Pick<ReaderStateChapters, 'chapters' | 'previousChapter' | 'nextChapter'> & {
         readerThemeDirection: ReturnType<typeof ReaderService.useGetThemeDirection>;
     }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'reader-nav-bar-desktop-chapter-list' });
 
@@ -53,27 +53,21 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
         <Stack sx={{ flexDirection: 'row', gap: 1 }} dir="ltr">
             <ReaderNavBarDesktopNextPreviousButton
                 type="previous"
-                title={t(
-                    getOptionForDirection(
-                        'reader.button.previous_chapter',
-                        'reader.button.next_chapter',
-                        readerThemeDirection,
-                    ),
-                )}
+                title={getOptionForDirection(t`Previous chapter`, t`Next chapter`, readerThemeDirection)}
                 onClick={() => {
                     ReaderControls.openChapter(getOptionForDirection('previous', 'next', readerThemeDirection));
                 }}
                 disabled={getOptionForDirection(!previousChapter, !nextChapter, readerThemeDirection)}
             />
             <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
-                <InputLabel id="reader-nav-bar-desktop-chapter-select">{t('chapter.title_one')}</InputLabel>
+                <InputLabel id="reader-nav-bar-desktop-chapter-select">{t`Chapter`}</InputLabel>
                 <Select
                     {...bindTrigger(popupState)}
                     open={popupState.isOpen}
                     value={currentChapterId ?? 0}
                     // hide actual select menu
                     MenuProps={{ sx: { visibility: 'hidden' } }}
-                    label={t('chapter.title_one')}
+                    label={t`Chapter`}
                     labelId="reader-nav-bar-desktop-chapter-select"
                 >
                     {/* hacky way to use the select component with a custom menu, the only possible value that is needed is the current chapter */}
@@ -85,13 +79,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
             <ReaderNavBarDesktopNextPreviousButton
                 component={Link}
                 type="next"
-                title={t(
-                    getOptionForDirection(
-                        'reader.button.next_chapter',
-                        'reader.button.previous_chapter',
-                        readerThemeDirection,
-                    ),
-                )}
+                title={getOptionForDirection(t`Next chapter`, t`Previous chapter`, readerThemeDirection)}
                 onClick={() => {
                     ReaderControls.openChapter(getOptionForDirection('next', 'previous', readerThemeDirection));
                 }}

@@ -10,11 +10,11 @@ import IconButton from '@mui/material/IconButton';
 import DragHandleIcon from '@mui/icons-material/DragHandle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CategoryType } from '@/lib/graphql/generated/graphql.ts';
@@ -27,7 +27,7 @@ export const CategorySettingsCard = ({
     category: Pick<CategoryType, 'id' | 'name'>;
     onEdit: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const deleteCategory = () => {
         requestManager.deleteCategory(category.id);
@@ -42,12 +42,12 @@ export const CategorySettingsCard = ({
                         {category.name}
                     </Typography>
                     <Stack sx={{ flexDirection: 'row' }}>
-                        <CustomTooltip title={t('global.button.edit')}>
+                        <CustomTooltip title={t`Edit`}>
                             <IconButton component={Box} onClick={onEdit}>
                                 <EditIcon />
                             </IconButton>
                         </CustomTooltip>
-                        <CustomTooltip title={t('chapter.action.download.delete.label.action')}>
+                        <CustomTooltip title={t`Delete`}>
                             <IconButton component={Box} onClick={deleteCategory}>
                                 <DeleteIcon />
                             </IconButton>

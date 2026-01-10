@@ -8,7 +8,7 @@
 
 import Stack from '@mui/material/Stack';
 import { ComponentProps } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { ReaderLayoutSettings } from '@/features/reader/settings/layout/ReaderLayoutSettings.tsx';
 import { ReaderSettingProfileSettings } from '@/features/reader/settings/layout/components/ReaderSettingProfileSettings.tsx';
 import {
@@ -28,7 +28,7 @@ export const ReaderDefaultLayoutSettings = ({
 }) => {
     const { updateSetting, isSeriesMode } = props;
 
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack sx={{ gap: 2, pb: Number(!isSeriesMode) * 2 }}>

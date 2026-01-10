@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
+import { useLingui } from '@lingui/react/macro';
+import { plural } from '@lingui/core/macro';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/base/hooks/usePersistedValue.tsx';
 import { updateMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
@@ -25,7 +26,7 @@ export const DownloadAheadSetting = ({
 }: {
     downloadAheadLimit: MetadataServerSettings['downloadAheadLimit'];
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const shouldDownloadAhead = !!downloadAheadLimit;
     const [currentDownloadAheadLimit, persistDownloadAheadLimit] = usePersistedValue(
@@ -38,7 +39,7 @@ export const DownloadAheadSetting = ({
     const updateSetting = (value: MetadataDownloadSettings['downloadAheadLimit']) => {
         persistDownloadAheadLimit(value === 0 ? currentDownloadAheadLimit : value);
         updateMetadataServerSettings('downloadAheadLimit', value).catch((e) =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
         );
     };
 
@@ -50,14 +51,14 @@ export const DownloadAheadSetting = ({
     return (
         <List>
             <ListItem>
-                <ListItemText primary={t('download.settings.download_ahead.label.while_reading')} />
+                <ListItemText primary={t`Auto download while reading`} />
                 <Switch edge="end" checked={shouldDownloadAhead} onChange={(e) => setDoAutoUpdates(e.target.checked)} />
             </ListItem>
             <NumberSetting
-                settingTitle={t('download.settings.download_ahead.label.unread_chapters_to_download')}
-                settingValue={t('download.settings.download_ahead.label.value', {
-                    chapters: currentDownloadAheadLimit,
-                    count: currentDownloadAheadLimit,
+                settingTitle={t`Number of unread chapters to download`}
+                settingValue={plural(currentDownloadAheadLimit, {
+                    one: '# Chapter',
+                    other: '# Chapters',
                 })}
                 value={currentDownloadAheadLimit}
                 minValue={DOWNLOAD_AHEAD.min}
@@ -65,9 +66,9 @@ export const DownloadAheadSetting = ({
                 defaultValue={DOWNLOAD_AHEAD.default}
                 stepSize={DOWNLOAD_AHEAD.step}
                 showSlider
-                dialogDescription={t('download.settings.download_ahead.label.description')}
-                dialogDisclaimer={t('download.settings.download_ahead.label.disclaimer')}
-                valueUnit={t('chapter.title_one')}
+                dialogDescription={t`How many chapters should get downloaded while reading.`}
+                dialogDisclaimer={t`Only works if the current chapter plus the next chapter are already downloaded.`}
+                valueUnit={t`Chapter`}
                 handleUpdate={updateSetting}
                 disabled={!shouldDownloadAhead}
             />

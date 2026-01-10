@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings, ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS, PROGRESS_BAR_SIZE } from '@/features/reader/settings/ReaderSettings.constants.tsx';
@@ -21,7 +21,7 @@ export const ReaderSettingProgressBarSize = ({
     setProgressBarSize: (size: number, commit: boolean) => void;
     onDefault: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const isChangeable = overlayMode === ReaderOverlayMode.DESKTOP && progressBarType === ProgressBarType.STANDARD;
 
     if (!isChangeable) {
@@ -30,8 +30,8 @@ export const ReaderSettingProgressBarSize = ({
 
     return (
         <SliderInput
-            label={t('reader.settings.progress_bar.size')}
-            value={t('global.value', { value: progressBarSize, unit: t('global.unit.px') })}
+            label={t`Progress bar size`}
+            value={`${progressBarSize}${t`px`}`}
             onDefault={onDefault}
             slotProps={{
                 slider: {

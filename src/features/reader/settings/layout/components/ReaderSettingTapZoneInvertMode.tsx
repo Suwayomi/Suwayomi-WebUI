@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
@@ -21,19 +22,19 @@ enum TapZonesInvertOption {
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<TapZonesInvertOption> = {
     [TapZonesInvertOption.NONE]: {
-        title: 'global.label.none',
+        title: msg`None`,
         icon: null,
     },
     [TapZonesInvertOption.HORIZONTAL]: {
-        title: 'global.label.horizontal',
+        title: msg`Horizontal`,
         icon: null,
     },
     [TapZonesInvertOption.VERTICAL]: {
-        title: 'global.label.vertical',
+        title: msg`Vertical`,
         icon: null,
     },
     [TapZonesInvertOption.BOTH]: {
-        title: 'global.label.both',
+        title: msg`Both`,
         icon: null,
     },
 };
@@ -83,14 +84,14 @@ export const ReaderSettingTapZoneInvertMode = ({
     Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
         setTapZoneInvertMode: (invert: IReaderSettings['tapZoneInvertMode']) => void;
     }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const tapZonesInvertOption = convertTapZoneInvertModeToOption(tapZoneInvertMode.value);
 
     return (
         <ButtonSelectInput
             {...buttonSelectInputProps}
-            label={t('reader.settings.tap_zones.invert')}
+            label={t`Invert tap zones`}
             value={tapZoneInvertMode.isDefault ? undefined : tapZonesInvertOption}
             defaultValue={tapZoneInvertMode.isDefault ? tapZonesInvertOption : undefined}
             values={TAP_ZONES_INVERT_OPTION_VALUES}

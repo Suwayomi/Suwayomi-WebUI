@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
+import { useLingui } from '@lingui/react/macro';
 import { Maybe } from '@/lib/graphql/generated/graphql.ts';
 import { addStableIdToKeyValueItems, isDuplicateKeyValueItem } from '@/features/settings/ImageProcessing.utils.ts';
 import { KeyValueItem } from '@/features/settings/components/images/KeyValueItem.tsx';
@@ -27,7 +27,7 @@ export const KeyValueItems = ({
     items: Maybe<TSettingsDownloadConversionKeyValueItem[] | undefined>;
     onChange: (items: Maybe<TSettingsDownloadConversionKeyValueItem[]>) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Collapse in={open}>
@@ -56,7 +56,7 @@ export const KeyValueItems = ({
                     variant="contained"
                     sx={{ width: 'fit-content' }}
                 >
-                    {t('global.button.add')}
+                    {t`Add`}
                 </Button>
             </Stack>
         </Collapse>

@@ -6,18 +6,19 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import RadioGroup from '@mui/material/RadioGroup';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
-import { CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY } from '@/features/chapter/Chapter.constants.ts';
+import { CHAPTER_SORT_OPTIONS_TO_TRANSLATION } from '@/features/chapter/Chapter.constants.ts';
 import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 import { updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { ChapterExcludeSanlatorsFilter } from '@/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx';
-import { TranslationKey } from '@/base/Base.types.ts';
 
 interface IProps {
     open: boolean;
@@ -28,10 +29,10 @@ interface IProps {
     excludedScanlators: string[];
 }
 
-const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
-    filter: 'global.label.filter',
-    sort: 'global.label.sort',
-    display: 'global.label.display',
+const TITLES: { [key in 'filter' | 'sort' | 'display']: MessageDescriptor } = {
+    filter: msg`Filter`,
+    sort: msg`Sort`,
+    display: msg`Display`,
 };
 
 export const ChapterOptions: React.FC<IProps> = ({
@@ -42,7 +43,7 @@ export const ChapterOptions: React.FC<IProps> = ({
     scanlators,
     excludedScanlators,
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <OptionsTabs<'filter' | 'sort' | 'display'>
@@ -56,17 +57,17 @@ export const ChapterOptions: React.FC<IProps> = ({
                     return (
                         <>
                             <ThreeStateCheckboxInput
-                                label={t('global.filter.label.unread')}
+                                label={t`Unread`}
                                 checked={options.unread}
                                 onChange={(c) => updateOption('unread', c)}
                             />
                             <ThreeStateCheckboxInput
-                                label={t('global.filter.label.downloaded')}
+                                label={t`Downloaded`}
                                 checked={options.downloaded}
                                 onChange={(c) => updateOption('downloaded', c)}
                             />
                             <ThreeStateCheckboxInput
-                                label={t('global.filter.label.bookmarked')}
+                                label={t`Bookmarked`}
                                 checked={options.bookmarked}
                                 onChange={(c) => updateOption('bookmarked', c)}
                             />
@@ -79,7 +80,7 @@ export const ChapterOptions: React.FC<IProps> = ({
                     );
                 }
                 if (key === 'sort') {
-                    return Object.entries(CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY).map(([mode, label]) => (
+                    return Object.entries(CHAPTER_SORT_OPTIONS_TO_TRANSLATION).map(([mode, label]) => (
                         <SortRadioInput
                             key={mode}
                             label={t(label)}
@@ -87,10 +88,7 @@ export const ChapterOptions: React.FC<IProps> = ({
                             sortDescending={options.reverse}
                             onClick={() =>
                                 mode !== options.sortBy
-                                    ? updateOption(
-                                          'sortBy',
-                                          mode as keyof typeof CHAPTER_SORT_OPTIONS_TO_TRANSLATION_KEY,
-                                      )
+                                    ? updateOption('sortBy', mode as keyof typeof CHAPTER_SORT_OPTIONS_TO_TRANSLATION)
                                     : updateOption('reverse', !options.reverse)
                             }
                         />
@@ -102,8 +100,8 @@ export const ChapterOptions: React.FC<IProps> = ({
                             onChange={() => updateOption('showChapterNumber', !options.showChapterNumber)}
                             value={options.showChapterNumber}
                         >
-                            <RadioInput label={t('chapter.option.display.label.source_title')} value={false} />
-                            <RadioInput label={t('chapter.option.display.label.chapter_number')} value />
+                            <RadioInput label={t`Source title`} value={false} />
+                            <RadioInput label={t`Chapter number`} value />
                         </RadioGroup>
                     );
                 }

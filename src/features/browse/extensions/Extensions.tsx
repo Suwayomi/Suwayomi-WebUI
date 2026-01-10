@@ -14,9 +14,9 @@ import { StringParam, useQueryParam } from 'use-query-params';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useWindowEvent } from '@mantine/hooks';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
@@ -42,7 +42,7 @@ import {
     ExtensionState,
     TExtension,
 } from '@/features/extension/Extensions.types.ts';
-import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP } from '@/features/extension/Extensions.constants.ts';
+import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP } from '@/features/extension/Extensions.constants.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import {
@@ -52,6 +52,7 @@ import {
 import { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { SearchParam } from '@/base/Base.types.ts';
+import { i18n } from '@/i18n';
 
 const LANGUAGE = 0;
 const EXTENSIONS = 1;
@@ -73,7 +74,7 @@ const GroupHeader = ({
     setUpdatingExtensionIds: (ids: TExtension['pkgName'][]) => void;
     handleExtensionUpdate: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <StyledGroupHeader
@@ -96,8 +97,10 @@ const GroupHeader = ({
                             .response.then(() => handleExtensionUpdate())
                             .catch((e) =>
                                 makeToast(
-                                    t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[ExtensionAction.UPDATE], {
-                                        count: groupExtensionIds.length,
+                                    /* lingui-extract-ignore */
+                                    i18n.t({
+                                        ...EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP[ExtensionAction.UPDATE],
+                                        values: { count: groupExtensionIds.length },
                                     }),
                                     'error',
                                     getErrorMessage(e),
@@ -106,7 +109,7 @@ const GroupHeader = ({
                             .finally(() => setUpdatingExtensionIds([]));
                     }}
                 >
-                    {t('extension.action.label.update_all')}
+                    {t`Update all`}
                 </Button>
             )}
         </StyledGroupHeader>
@@ -114,7 +117,7 @@ const GroupHeader = ({
 };
 
 export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const {
         data: serverSettingsData,
@@ -130,7 +133,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataBrowseSettings, 'extensionLanguages'>
-    >((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
+    >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
 
@@ -170,18 +173,18 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
 
     const submitExternalExtension = (file: File) => {
         if (!file.name.toLowerCase().endsWith('apk')) {
-            makeToast(t('global.error.label.invalid_file_type'), 'error');
+            makeToast(t`Invalid filetype`, 'error');
             return;
         }
 
-        makeToast(t('extension.label.installing_file'), 'info');
+        makeToast(t`Installing extension file…`, 'info');
         requestManager
             .installExternalExtension(file)
             .response.then(() => {
                 handleExtensionUpdate();
-                makeToast(t('extension.label.installed_successfully'), 'success');
+                makeToast(t`Extension installed`, 'success');
             })
-            .catch((e) => makeToast(t('extension.label.installation_failed'), 'error', getErrorMessage(e)));
+            .catch((e) => makeToast(t`Could not install the extension`, 'error', getErrorMessage(e)));
     };
 
     useEffect(() => {
@@ -191,7 +194,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     useAppAction(
         <>
             <AppbarSearch />
-            <CustomTooltip title={t('extension.action.label.install_external')}>
+            <CustomTooltip title={t`Install external extension`}>
                 <IconButton
                     onClick={() => {
                         const input = document.createElement('input');
@@ -241,7 +244,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (serverSettingsError) {
@@ -267,9 +270,9 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     paddingTop: '20px',
                 }}
             >
-                <Typography>{t('extension.label.add_repository_info')}</Typography>
+                <Typography>{t`You have to add a extension repository to be able to install extensions`}</Typography>
                 <Button component={Link} variant="contained" to={AppRoutes.settings.childRoutes.browse.path}>
-                    {t('settings.title')}
+                    {t`Settings`}
                 </Button>
             </Stack>
         );

@@ -7,7 +7,7 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
@@ -29,7 +29,7 @@ export const ReaderSettingWidth = ({
         updateSetting: (...args: Parameters<typeof ReaderService.updateSetting>) => void;
         setTransparent?: (transparent: boolean) => void;
     }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     if (!isReaderWidthEditable(pageScaleMode)) {
         return null;
@@ -39,7 +39,7 @@ export const ReaderSettingWidth = ({
         <Stack>
             <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <CheckboxInput
-                    label={t('reader.settings.label.limit_reader_width')}
+                    label={t`Limit reader width`}
                     checked={readerWidth.enabled}
                     onChange={(_, checked) => updateSetting('readerWidth', { ...readerWidth, enabled: checked }, true)}
                 />
@@ -47,8 +47,8 @@ export const ReaderSettingWidth = ({
             </Stack>
             {readerWidth.enabled && (
                 <SliderInput
-                    label={t('reader.settings.label.reader_width')}
-                    value={t('global.value', { value: readerWidth.value, unit: '%' })}
+                    label={t`Reader width`}
+                    value={`${readerWidth.value}%`}
                     slotProps={{
                         slider: {
                             defaultValue: DEFAULT_READER_SETTINGS.readerWidth.value,

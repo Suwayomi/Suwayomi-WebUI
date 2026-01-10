@@ -6,22 +6,23 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
 import { BackupFlag, BackupFlagGroup } from '@/features/backup/Backup.types.ts';
-import { TranslationKey } from '@/base/Base.types.ts';
 
-export const BACKUP_FLAGS_TO_TRANSLATION: Record<BackupFlag, TranslationKey> = {
-    includeManga: 'settings.backup.flag.manga',
-    includeCategories: 'settings.backup.flag.categories',
-    includeChapters: 'settings.backup.flag.chapters',
-    includeClientData: 'settings.backup.flag.client_data',
-    includeHistory: 'settings.backup.flag.history',
-    includeServerSettings: 'settings.backup.flag.server_settings',
-    includeTracking: 'settings.backup.flag.tracking',
+export const BACKUP_FLAGS_TO_TRANSLATION: Record<BackupFlag, MessageDescriptor> = {
+    includeManga: msg`Library entries`,
+    includeCategories: msg`Categories`,
+    includeChapters: msg`Chapters`,
+    includeClientData: msg`Client data`,
+    includeHistory: msg`History`,
+    includeServerSettings: msg`Server settings`,
+    includeTracking: msg`Tracking`,
 };
 
-export const BACKUP_FLAG_GROUP_TO_TRANSLATION: Record<BackupFlagGroup, TranslationKey> = {
-    [BackupFlagGroup.LIBRARY]: 'settings.backup.flag.group.library',
-    [BackupFlagGroup.SETTINGS]: 'settings.backup.flag.group.settings',
+export const BACKUP_FLAG_GROUP_TO_TRANSLATION: Record<BackupFlagGroup, MessageDescriptor> = {
+    [BackupFlagGroup.LIBRARY]: msg`Library`,
+    [BackupFlagGroup.SETTINGS]: msg`Settings`,
 };
 
 export const BACKUP_FLAGS = Object.keys(BACKUP_FLAGS_TO_TRANSLATION) as readonly BackupFlag[];

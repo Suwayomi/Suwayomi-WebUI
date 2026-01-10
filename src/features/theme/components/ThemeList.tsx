@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
 import { useMemo } from 'react';
+import { useLingui } from '@lingui/react/macro';
 import { appThemes } from '@/features/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -24,7 +24,7 @@ import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const ThemeList = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const {
         settings: { customThemes },
@@ -53,7 +53,7 @@ export const ThemeList = () => {
     if (error) {
         return (
             <EmptyView
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('ThemeList::refetch'))}
             />
@@ -70,23 +70,14 @@ export const ThemeList = () => {
                     key={theme.id}
                     appTheme={theme}
                     onDelete={() => {
-                        makeToast(t('settings.appearance.theme.delete.action', { theme: theme.getName() }), 'info');
+                        makeToast(t`Deleting theme "${theme.getName()}"…`, 'info');
                         updateCustomThemes(
                             'customThemes',
                             Object.fromEntries(Object.entries(customThemes).filter(([id]) => id !== theme.id)),
                         )
-                            .then(() =>
-                                makeToast(
-                                    t('settings.appearance.theme.delete.success', { theme: theme.getName() }),
-                                    'success',
-                                ),
-                            )
+                            .then(() => makeToast(t`Deleted theme "${theme.getName()}"`, 'success'))
                             .catch((e) =>
-                                makeToast(
-                                    t('settings.appearance.theme.delete.failure', { theme: theme.getName() }),
-                                    'error',
-                                    getErrorMessage(e),
-                                ),
+                                makeToast(t`Could not delete theme "${theme.getName()}"`, 'error', getErrorMessage(e)),
                             );
                     }}
                 />

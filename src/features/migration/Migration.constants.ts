@@ -6,18 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
 import { SortBy, SortOrder } from '@/features/migration/Migration.types.ts';
 
-import { TranslationKey } from '@/base/Base.types.ts';
-
-export const sortByToTranslationKey: Record<SortBy, TranslationKey> = {
-    [SortBy.SOURCE_NAME]: 'migrate.sort.by_source_name',
-    [SortBy.MANGA_COUNT]: 'migrate.sort.by_manga_count',
+export const sortByToTranslation: Record<SortBy, MessageDescriptor> = {
+    [SortBy.SOURCE_NAME]: msg`By source name`,
+    [SortBy.MANGA_COUNT]: msg`By manga count`,
 };
 
-export const sortOrderToTranslationKey: Record<SortBy, TranslationKey> = {
-    [SortOrder.ASC]: 'global.sort.label.asc',
-    [SortOrder.DESC]: 'global.sort.label.desc',
+export const sortOrderToTranslation: Record<SortBy, MessageDescriptor> = {
+    [SortOrder.ASC]: msg`Ascending`,
+    [SortOrder.DESC]: msg`Descending`,
 };
 
 export const DEFAULT_SORT_SETTINGS = {

@@ -7,15 +7,15 @@
  */
 
 import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const TrackerOAuthLogin = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const navigate = useNavigate();
 
     const url = new URL(window.location.href);
@@ -28,7 +28,7 @@ export const TrackerOAuthLogin = () => {
             try {
                 await requestManager.loginToTrackerOauth(trackerId, window.location.href).response;
             } catch (e) {
-                makeToast(t('tracking.action.login.label.failure', { name: trackerName }), 'error', getErrorMessage(e));
+                makeToast(t`Could not log in to ${trackerName}`, 'error', getErrorMessage(e));
             }
 
             navigate(AppRoutes.settings.childRoutes.tracking.path, { replace: true });
@@ -37,5 +37,5 @@ export const TrackerOAuthLogin = () => {
         login();
     }, [trackerId]);
 
-    return t('tracking.action.login.label.progress', { name: trackerName });
+    return t`Logging in to ${trackerName}…`;
 };

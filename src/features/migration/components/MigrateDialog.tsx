@@ -11,11 +11,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import FormGroup from '@mui/material/FormGroup';
+import { useLingui } from '@lingui/react/macro';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -29,7 +29,7 @@ import { MigrateMode } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrateTo: number; onClose: () => void }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const navigate = useNavigate();
 
@@ -51,7 +51,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
             throw new Error(`MigrateDialog::migrate: unexpected mangaId "${mangaId}"`);
         }
 
-        makeToast(t('migrate.label.info'), 'info');
+        makeToast(t`Migrating manga…`, 'info');
 
         setIsMigrationInProcess(true);
 
@@ -72,30 +72,30 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
 
     return (
         <Dialog open fullWidth onClose={onClose}>
-            <DialogTitle>{t('migrate.dialog.title')}</DialogTitle>
+            <DialogTitle>{t`Select data to include`}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
                     <CheckboxInput
                         disabled={isMigrationInProcess}
-                        label={t('chapter.title_one')}
+                        label={t`Chapter`}
                         checked={migrateChapters}
                         onChange={(_, checked) => setMigrationFlag('migrateChapters', checked)}
                     />
                     <CheckboxInput
                         disabled={isMigrationInProcess}
-                        label={t('category.title.category_one')}
+                        label={t`Category`}
                         checked={migrateCategories}
                         onChange={(_, checked) => setMigrationFlag('migrateCategories', checked)}
                     />
                     <CheckboxInput
                         disabled={isMigrationInProcess}
-                        label={t('tracking.title')}
+                        label={t`Tracking`}
                         checked={migrateTracking}
                         onChange={(_, checked) => setMigrationFlag('migrateTracking', checked)}
                     />
                     <CheckboxInput
                         disabled={isMigrationInProcess}
-                        label={t('migrate.dialog.label.delete_downloaded')}
+                        label={t`Delete downloaded`}
                         checked={deleteChapters}
                         onChange={(_, checked) => setMigrationFlag('deleteChapters', checked)}
                     />
@@ -114,17 +114,17 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                         component={Link}
                         to={AppRoutes.manga.path(mangaIdToMigrateTo)}
                     >
-                        {t('migrate.dialog.action.button.show_entry')}
+                        {t`Show entry`}
                     </Button>
                     <Stack direction="row">
                         <Button disabled={isMigrationInProcess} onClick={onClose}>
-                            {t('global.button.cancel')}
+                            {t`Cancel`}
                         </Button>
                         <Button disabled={isMigrationInProcess} onClick={() => migrate('copy')}>
-                            {t('global.button.copy')}
+                            {t`Copy`}
                         </Button>
                         <Button disabled={isMigrationInProcess} onClick={() => migrate('migrate')}>
-                            {t('global.button.migrate')}
+                            {t`Migrate`}
                         </Button>
                     </Stack>
                 </Stack>

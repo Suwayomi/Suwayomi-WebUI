@@ -7,11 +7,11 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
 import MenuItem from '@mui/material/MenuItem';
 import { memo, useMemo } from 'react';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
+import { useLingui } from '@lingui/react/macro';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
@@ -21,7 +21,7 @@ import { useReaderPagesStore, useReaderSettingsStore } from '@/features/reader/s
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
 const BaseReaderNavBarDesktopPageNavigation = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const getOptionForDirection = useGetOptionForDirection();
     const { currentPageIndex, pages } = useReaderPagesStore((state) => ({
         currentPageIndex: state.pages.currentPageIndex,
@@ -36,7 +36,7 @@ const BaseReaderNavBarDesktopPageNavigation = () => {
         <Stack sx={{ flexDirection: 'row', gap: 1 }} dir="ltr">
             <ReaderNavBarDesktopNextPreviousButton
                 type="previous"
-                title={t(getOptionForDirection('reader.button.previous_page', 'reader.button.next_page', direction))}
+                title={getOptionForDirection(t`Previous page`, t`Next page`, direction)}
                 disabled={getOptionForDirection(
                     !currentPage.primary.index,
                     getNextIndexFromPage(currentPage) === getNextIndexFromPage(pages.slice(-1)[0]),
@@ -45,10 +45,10 @@ const BaseReaderNavBarDesktopPageNavigation = () => {
                 onClick={() => ReaderControls.openPage('previous', undefined, false)}
             />
             <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
-                <InputLabel id="reader-nav-bar-desktop-page-select">{t('reader.page_info.label.page')}</InputLabel>
+                <InputLabel id="reader-nav-bar-desktop-page-select">{t`Page`}</InputLabel>
                 <Select
                     labelId="reader-nav-bar-desktop-page-select"
-                    label={t('reader.page_info.label.page')}
+                    label={t`Page`}
                     value={getNextIndexFromPage(currentPage)}
                     onChange={(e) => ReaderControls.openPage(e.target.value as number, undefined, false)}
                 >
@@ -61,7 +61,7 @@ const BaseReaderNavBarDesktopPageNavigation = () => {
             </FormControl>
             <ReaderNavBarDesktopNextPreviousButton
                 type="next"
-                title={t(getOptionForDirection('reader.button.next_page', 'reader.button.previous_page', direction))}
+                title={getOptionForDirection(t`Next page`, t`Previous page`, direction)}
                 disabled={getOptionForDirection(
                     getNextIndexFromPage(currentPage) === getNextIndexFromPage(pages.slice(-1)[0]),
                     !currentPage.primary.index,

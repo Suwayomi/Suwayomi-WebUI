@@ -7,7 +7,7 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
@@ -23,18 +23,18 @@ export const ReaderSettingSaturate = ({
         commit: boolean,
     ) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack>
             <CheckboxInput
-                label={t('reader.settings.custom_filter.saturate')}
+                label={t`Custom saturate`}
                 checked={saturate.enabled}
                 onChange={(_, checked) => updateSetting('saturate', { ...saturate, enabled: checked }, true)}
             />
             {saturate.enabled && (
                 <SliderInput
-                    label={t('reader.settings.custom_filter.saturate')}
+                    label={t`Custom saturate`}
                     value={saturate.value}
                     onDefault={() =>
                         updateSetting(

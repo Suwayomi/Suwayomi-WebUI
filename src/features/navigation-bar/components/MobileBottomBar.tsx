@@ -8,19 +8,19 @@
 
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import { useTranslation } from 'react-i18next';
 import Paper from '@mui/material/Paper';
 import { CSSProperties, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
+import { useLingui } from '@lingui/react/macro';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { StaticAppRoute } from '@/base/AppRoute.constants.ts';
 
 export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const theme = useTheme();
     const { setBottomBarHeight } = useNavBarContext();
     const location = useLocation();

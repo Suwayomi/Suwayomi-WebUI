@@ -11,10 +11,10 @@
 import { type JSX, useMemo, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { SxProps, Theme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Collapse from '@mui/material/Collapse';
+import { useLingui } from '@lingui/react/macro';
 import { extractGraphqlExceptionInfo } from '@/lib/HelperFunctions.ts';
 
 const ERROR_FACES = ['(･o･;)', 'Σ(ಠ_ಠ)', 'ಥ_ಥ', '(˘･_･˘)', '(；￣Д￣)', '(･Д･。'];
@@ -33,7 +33,7 @@ export interface EmptyViewProps {
 }
 
 const ExtraMessage = ({ messageExtra }: Pick<EmptyViewProps, 'messageExtra'>) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [showFullError, setShowFullError] = useState(false);
 
@@ -69,7 +69,7 @@ const ExtraMessage = ({ messageExtra }: Pick<EmptyViewProps, 'messageExtra'>) =>
                     {graphqlError}…
                 </Typography>
                 <Button variant="text" onClick={() => setShowFullError(!showFullError)} sx={{ pointerEvents: 'all' }}>
-                    {t(showFullError ? 'global.button.show_less' : 'global.button.show_more')}
+                    {showFullError ? t`Show less` : t`Show more`}
                 </Button>
             </Stack>
             <Collapse in={showFullError}>
@@ -86,7 +86,7 @@ const ExtraMessage = ({ messageExtra }: Pick<EmptyViewProps, 'messageExtra'>) =>
 };
 
 export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyViewProps) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const errorFace = useMemo(() => getRandomErrorFace(), []);
 
@@ -115,7 +115,7 @@ export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyVi
             <ExtraMessage messageExtra={messageExtra} />
             {retry && (
                 <Button onClick={retry} sx={{ pointerEvents: 'all' }}>
-                    {t('global.button.retry')}
+                    {t`Retry`}
                 </Button>
             )}
         </Stack>

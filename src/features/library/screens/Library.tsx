@@ -11,10 +11,11 @@ import Tab from '@mui/material/Tab';
 import { styled, useTheme } from '@mui/material/styles';
 import { useCallback, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import { useLingui } from '@lingui/react/macro';
+import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -59,7 +60,7 @@ const TitleSizeTag = ({ sx, ...props }: ChipProps) => (
 );
 
 export function Library() {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const theme = useTheme();
 
     const {
@@ -155,7 +156,7 @@ export function Library() {
         }
 
         return (
-            <SelectionFAB selectedItemsCount={selectedItemIds.length} title="manga.title">
+            <SelectionFAB title={plural(selectedItemIds.length, { one: '# manga', other: '# manga' })}>
                 {(handleClose, setHideMenu) => (
                     <MangaActionMenuItems
                         selectedMangas={selectedMangas}
@@ -181,7 +182,7 @@ export function Library() {
                         to={AppRoutes.sources.childRoutes.searchAll.path(query)}
                         sx={{ textTransform: 'none', width: '100%' }}
                     >
-                        {t('library.action.label.search_globally', { query })}
+                        {t`Search for "${query}" globally`}
                     </Button>
                 </Box>
             ),
@@ -190,7 +191,7 @@ export function Library() {
 
     useAppTitle(
         <TitleWithSizeTag>
-            {t('library.title')}
+            {t`Library`}
             {showTabSize && (
                 <TitleSizeTag
                     sx={{ ...theme.applyStyles('light', { backgroundColor: 'background.paper' }) }}
@@ -198,7 +199,7 @@ export function Library() {
                 />
             )}
         </TitleWithSizeTag>,
-        t('library.title'),
+        t`Library`,
         [t, showTabSize, librarySize],
     );
     useAppAction(
@@ -240,7 +241,7 @@ export function Library() {
     if (tabsError != null || librarySizeResponse.error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={tabsError?.message ?? librarySizeResponse.error?.message}
                 retry={() => {
                     if (tabsError) {
@@ -260,7 +261,7 @@ export function Library() {
     }
 
     if (tabs.length === 0) {
-        return <EmptyViewAbsoluteCentered message={t('library.error.label.empty')} />;
+        return <EmptyViewAbsoluteCentered message={t`Your library is empty`} />;
     }
 
     if (tabs.length === 1) {
@@ -271,7 +272,7 @@ export function Library() {
                     // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
                     key={filterKey}
                     mangas={mangas}
-                    message={mangaError ? t('manga.error.label.request_failure') : t('library.error.label.empty')}
+                    message={mangaError ? t`Could not load manga` : t`Your library is empty`}
                     messageExtra={mangaError?.message}
                     isLoading={mangaLoading}
                     selectedMangaIds={selectedItemIds}
@@ -310,9 +311,7 @@ export function Library() {
                             // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
                             key={filterKey}
                             mangas={mangas}
-                            message={
-                                mangaError ? t('manga.error.label.request_failure') : t('category.error.label.empty')
-                            }
+                            message={mangaError ? t`Could not load manga` : t`The category is empty`}
                             messageExtra={mangaError?.message}
                             isLoading={mangaLoading}
                             selectedMangaIds={selectedItemIds}

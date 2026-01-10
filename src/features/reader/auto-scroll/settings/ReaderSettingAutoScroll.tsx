@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { plural } from '@lingui/core/macro';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
@@ -18,18 +19,21 @@ export const ReaderSettingAutoScroll = ({
 }: Pick<IReaderSettings, 'autoScroll'> & {
     setAutoScroll: (updatedAutoScroll: IReaderSettings['autoScroll'], commit: boolean) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <>
             <CheckboxInput
-                label={t('reader.settings.auto_scroll.smooth')}
+                label={t`Smooth auto scrolling`}
                 checked={autoScroll.smooth}
                 onChange={(_, checked) => setAutoScroll({ ...autoScroll, smooth: checked }, true)}
             />
             <SliderInput
-                label={t('reader.settings.auto_scroll.speed')}
-                value={t('global.time.seconds.value', { count: autoScroll.value })}
+                label={t`Auto scroll speed`}
+                value={plural(autoScroll.value, {
+                    one: '# second',
+                    other: '# seconds',
+                })}
                 onDefault={() =>
                     setAutoScroll({ ...autoScroll, value: DEFAULT_READER_SETTINGS.autoScroll.value }, true)
                 }

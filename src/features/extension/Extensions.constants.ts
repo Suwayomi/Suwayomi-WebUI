@@ -6,6 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
 import {
     ExtensionAction,
     ExtensionGroupState,
@@ -14,7 +16,6 @@ import {
     InstalledStates,
 } from '@/features/extension/Extensions.types.ts';
 import { DefaultLanguage } from '@/base/utils/Languages.ts';
-import { TranslationKey } from '@/base/Base.types.ts';
 
 export const EXTENSION_ACTION_TO_STATE_MAP: { [action in ExtensionAction]: ExtensionState } = {
     [ExtensionAction.UPDATE]: ExtensionState.UPDATING,
@@ -28,31 +29,33 @@ export const EXTENSION_ACTION_TO_NEXT_ACTION_MAP: { [action in ExtensionAction]:
     [ExtensionAction.INSTALL]: ExtensionAction.UNINSTALL,
 } as const;
 
-export const INSTALLED_STATE_TO_TRANSLATION_KEY_MAP: { [installedState in InstalledStates]: TranslationKey } = {
-    [InstalledState.UNINSTALL]: 'extension.action.label.uninstall',
-    [InstalledState.INSTALL]: 'extension.action.label.install',
-    [InstalledState.UPDATE]: 'extension.action.label.update',
-    [InstalledState.OBSOLETE]: 'extension.state.label.obsolete',
-    [InstalledState.UPDATING]: 'extension.state.label.updating',
-    [InstalledState.UNINSTALLING]: 'extension.state.label.uninstalling',
-    [InstalledState.INSTALLING]: 'extension.state.label.installing',
+export const INSTALLED_STATE_TO_TRANSLATION_MAP: { [installedState in InstalledStates]: MessageDescriptor } = {
+    [InstalledState.UNINSTALL]: msg`Uninstall`,
+    [InstalledState.INSTALL]: msg`Install`,
+    [InstalledState.UPDATE]: msg`Update`,
+    [InstalledState.OBSOLETE]: msg`Obsolete`,
+    [InstalledState.UPDATING]: msg`Updating`,
+    [InstalledState.UNINSTALLING]: msg`Uninstalling`,
+    [InstalledState.INSTALLING]: msg`Installing`,
 } as const;
 
-export const EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP: {
-    [action in ExtensionAction]: TranslationKey;
+export const EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP: {
+    [action in ExtensionAction]: MessageDescriptor;
 } = {
-    [ExtensionAction.UPDATE]: 'extension.label.update_failed',
-    [ExtensionAction.INSTALL]: 'extension.label.installation_failed',
-    [ExtensionAction.UNINSTALL]: 'extension.label.uninstallation_failed',
+    [ExtensionAction.UPDATE]: msg`{count, plural, one {Could not update the extension} other {Could not update the extensions}}`,
+    [ExtensionAction.INSTALL]: msg`{count, plural, one {Could not install the extension} other {Could not install the extensions}}`,
+    [ExtensionAction.UNINSTALL]: msg`{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}`,
 };
 
-export const extensionLanguageToTranslationKey: { [state in ExtensionGroupState | DefaultLanguage]: TranslationKey } = {
-    [ExtensionGroupState.INSTALLED]: 'extension.state.label.installed',
-    [ExtensionGroupState.UPDATE_PENDING]: 'extension.state.label.update_pending',
-    [ExtensionGroupState.OBSOLETE]: 'extension.state.label.obsolete',
-    [DefaultLanguage.ALL]: 'extension.language.all',
-    [DefaultLanguage.OTHER]: 'extension.language.other',
-    [DefaultLanguage.LOCAL_SOURCE]: 'extension.language.other',
-    [DefaultLanguage.PINNED]: 'global.label.pinned',
-    [DefaultLanguage.LAST_USED_SOURCE]: 'global.label.last_used',
+export const extensionLanguageToTranslation: {
+    [state in ExtensionGroupState | DefaultLanguage]: MessageDescriptor;
+} = {
+    [ExtensionGroupState.INSTALLED]: msg`Installed`,
+    [ExtensionGroupState.UPDATE_PENDING]: msg`Update pending`,
+    [ExtensionGroupState.OBSOLETE]: msg`Obsolete`,
+    [DefaultLanguage.ALL]: msg`All`,
+    [DefaultLanguage.OTHER]: msg`Other`,
+    [DefaultLanguage.LOCAL_SOURCE]: msg`Other`,
+    [DefaultLanguage.PINNED]: msg`Pinned`,
+    [DefaultLanguage.LAST_USED_SOURCE]: msg`Last used`,
 };

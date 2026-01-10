@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
-import { t as translate } from 'i18next';
+import { useLingui } from '@lingui/react/macro';
+import { plural, t as translate } from '@lingui/core/macro';
 import { GlobalUpdateSettings } from '@/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import {
@@ -56,16 +56,16 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
                 clearCategories: true,
             }).response;
         }
-        makeToast(translate('library.settings.advanced.database.cleanup.label.success'), 'success');
+        makeToast(translate`Removed non library manga from categories`, 'success');
     } catch (e) {
-        makeToast(translate('library.settings.advanced.database.cleanup.label.error'), 'error', getErrorMessage(e));
+        makeToast(translate`Could not remove non library manga from categories`, 'error', getErrorMessage(e));
     }
 };
 
 export function LibrarySettings() {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('library.title'));
+    useAppTitle(t`Library`);
 
     const categories = requestManager.useGetCategories<GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables>(
         GET_CATEGORIES_SETTINGS,
@@ -78,7 +78,7 @@ export function LibrarySettings() {
     } = useMetadataServerSettings();
 
     const setSettingValue = createUpdateMetadataServerSettings<keyof MetadataLibrarySettings>((e) =>
-        makeToast(t('search.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
+        makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
 
     // -1 for the DEFAULT category
@@ -93,7 +93,7 @@ export function LibrarySettings() {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (serverSettings.error) {
@@ -121,20 +121,23 @@ export function LibrarySettings() {
             <List
                 subheader={
                     <ListSubheader component="div" id="library-category-settings">
-                        {t('category.title.category_other')}
+                        {t`Categories`}
                     </ListSubheader>
                 }
             >
                 <ListItemLink to={AppRoutes.settings.childRoutes.categories.path}>
                     <ListItemText
-                        primary={t('category.dialog.title.edit_category_other')}
-                        secondary={t('category.value', { count: categoryCount })}
+                        primary={t`Edit categories`}
+                        secondary={plural(categoryCount, {
+                            one: '# category',
+                            other: '# categories',
+                        })}
                     />
                 </ListItemLink>
                 <ListItem>
                     <ListItemText
-                        primary={t('library.settings.general.add_to_library.category_selection.label.title')}
-                        secondary={t('library.settings.general.add_to_library.category_selection.label.description')}
+                        primary={t`Category selection dialog`}
+                        secondary={t`Show the category selection dialog when adding a manga to the library`}
                     />
                     <Switch
                         edge="end"
@@ -144,10 +147,8 @@ export function LibrarySettings() {
                 </ListItem>
                 <ListItem>
                     <ListItemText
-                        primary={t('library.settings.general.remove_from_library.remove_from_categories.label.title')}
-                        secondary={t(
-                            'library.settings.general.remove_from_library.remove_from_categories.label.description',
-                        )}
+                        primary={t`Forget manga categories`}
+                        secondary={t`Remove manga from categories when removing them from the library`}
                     />
                     <Switch
                         edge="end"
@@ -159,14 +160,14 @@ export function LibrarySettings() {
             <List
                 subheader={
                     <ListSubheader component="div" id="library-general-settings">
-                        {t('global.label.general')}
+                        {t`General`}
                     </ListSubheader>
                 }
             >
                 <ListItem>
                     <ListItemText
-                        primary={t('library.settings.general.search.ignore_filters.label.title')}
-                        secondary={t('library.settings.general.search.ignore_filters.label.description')}
+                        primary={t`Ignore filters when searching`}
+                        secondary={t`Search results will include manga that do not match the current filters`}
                     />
                     <Switch
                         edge="end"
@@ -182,20 +183,20 @@ export function LibrarySettings() {
             <List
                 subheader={
                     <ListSubheader component="div" id="library-advanced">
-                        {t('global.label.advanced')}
+                        {t`Advanced`}
                     </ListSubheader>
                 }
             >
                 <ListItemButton onClick={() => removeNonLibraryMangasFromCategories()}>
                     <ListItemText
-                        primary={t('library.settings.advanced.database.cleanup.label.title')}
-                        secondary={t('library.settings.advanced.database.cleanup.label.description')}
+                        primary={t`Cleanup database`}
+                        secondary={t`Remove non library manga from categories`}
                     />
                 </ListItemButton>
                 <ListItemLink to={AppRoutes.settings.childRoutes.library.childRoutes.duplicates.path}>
                     <ListItemText
-                        primary={t('library.settings.advanced.duplicates.label.title')}
-                        secondary={t('library.settings.advanced.duplicates.label.description')}
+                        primary={t`Duplicated entries`}
+                        secondary={t`Show all duplicated entries in your library`}
                     />
                 </ListItemLink>
             </List>

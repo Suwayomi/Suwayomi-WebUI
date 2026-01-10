@@ -7,10 +7,10 @@
  */
 
 import IconButton from '@mui/material/IconButton';
-import { useTranslation } from 'react-i18next';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { memo } from 'react';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
 import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
@@ -27,13 +27,11 @@ export const ReaderLibraryButton = memo(() => {
 
     const { inLibrary } = manga ?? ACTION_FALLBACK_MANGA;
 
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { updateLibraryState } = useManageMangaLibraryState(manga ?? ACTION_FALLBACK_MANGA, true);
 
     return (
-        <CustomTooltip
-            title={inLibrary ? t('manga.action.library.remove.label.action') : t('manga.button.add_to_library')}
-        >
+        <CustomTooltip title={inLibrary ? t`Remove from the library` : t`Add To Library`}>
             <IconButton onClick={updateLibraryState} color="inherit">
                 {inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>

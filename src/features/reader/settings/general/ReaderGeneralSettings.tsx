@@ -7,7 +7,7 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { ReaderSettingProgressBarType } from '@/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx';
 import { ReaderSettingProgressBarSize } from '@/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarSize.tsx';
 import { ReaderSettingProgressBarPosition } from '@/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx';
@@ -27,7 +27,7 @@ export const ReaderGeneralSettings = ({
     updateSetting,
     onDefault,
 }: Pick<IReaderSettings, 'overlayMode'> & ReaderSettingsTypeProps) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack sx={{ gap: 2 }}>
@@ -58,7 +58,7 @@ export const ReaderGeneralSettings = ({
             />
             {(settings.progressBarType === ProgressBarType.HIDDEN || overlayMode === ReaderOverlayMode.MOBILE) && (
                 <CheckboxInput
-                    label={t('reader.settings.label.show_page_number')}
+                    label={t`Show page number`}
                     checked={settings.shouldShowPageNumber}
                     onChange={(_, checked) => updateSetting('shouldShowPageNumber', checked)}
                 />

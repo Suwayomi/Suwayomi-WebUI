@@ -6,10 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import { MutableRefObject, RefObject, useCallback, useEffect } from 'react';
 import { Direction } from '@mui/material/styles';
-import { t as translate } from 'i18next';
 import { d } from 'koration';
+import { msg, t } from '@lingui/core/macro';
 import {
     getNextIndexFromPage,
     getNextPageIndex,
@@ -28,7 +29,7 @@ import {
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import { DirectionOffset, ScrollDirection, ScrollOffset, TranslationKey } from '@/base/Base.types.ts';
+import { DirectionOffset, ScrollDirection, ScrollOffset } from '@/base/Base.types';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import {
     isATransitionPageVisible,
@@ -57,6 +58,7 @@ import {
     getReaderTapZoneStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
+import { i18n } from '@/i18n';
 
 const getScrollDirectionInvert = (
     scrollDirection: ScrollDirection,
@@ -279,39 +281,47 @@ export class ReaderControls {
             return;
         }
 
-        const offsetToTranslationKeys: Record<typeof offset, Record<'scanlator' | 'chapter_number', TranslationKey>> = {
+        const offsetToTranslations: Record<typeof offset, Record<'scanlator' | 'chapter_number', MessageDescriptor>> = {
             previous: {
-                scanlator: 'reader.chapter_transition.warning.previous.scanlator',
-                chapter_number: 'reader.chapter_transition.warning.previous.chapter_number',
+                scanlator: msg`The previous chapter has a different scanlator then the current one.\nPrevious: {nextScanlator}\nCurrent: {currentScanlator}`,
+                chapter_number: msg`{count, plural, one {There is # missing chapter.\nPrevious: {nextChapter}\nCurrent: {currentChapter}} other {There are # missing chapters.\nPrevious: {nextChapter}\nCurrent: {currentChapter}}}`,
             },
             next: {
-                scanlator: 'reader.chapter_transition.warning.next.scanlator',
-                chapter_number: 'reader.chapter_transition.warning.next.chapter_number',
+                scanlator: msg`The next chapter has a different scanlator then the current one.\nCurrent: {currentScanlator}\nNext: {nextScanlator}`,
+                chapter_number: msg`{count, plural, one {There is # missing chapter.\nCurrent: {currentChapter}\nNext: {nextChapter}} other {There are # missing chapters.\nCurrent: {currentChapter}\nNext: {nextChapter}}}`,
             },
         };
 
         const sameScanlator = isSameScanlator
             ? ''
-            : translate(offsetToTranslationKeys[offset].scanlator, {
-                  nextScanlator: chapterToOpen.scanlator,
-                  currentScanlator: currentChapter.scanlator,
+            : /* lingui-extract-ignore */
+              i18n.t({
+                  ...offsetToTranslations[offset].scanlator,
+                  values: {
+                      nextScanlator: chapterToOpen.scanlator,
+                      currentScanlator: currentChapter.scanlator,
+                  },
               });
         const continuousChapter = isContinuousChapter
             ? ''
-            : translate(offsetToTranslationKeys[offset].chapter_number, {
-                  count: missingChapters,
-                  nextChapter: `#${chapterToOpen.chapterNumber} ${chapterToOpen.name}`,
-                  currentChapter: `#${currentChapter.chapterNumber} ${currentChapter.name}`,
+            : /* lingui-extract-ignore */
+              i18n.t({
+                  ...offsetToTranslations[offset].chapter_number,
+                  values: {
+                      count: missingChapters,
+                      nextChapter: `#${chapterToOpen.chapterNumber} ${chapterToOpen.name}`,
+                      currentChapter: `#${currentChapter.chapterNumber} ${currentChapter.name}`,
+                  },
               });
         const warningLineBreak = !isSameScanlator && !isContinuousChapter ? '\n\n' : '';
         const warning = `${sameScanlator}${warningLineBreak}${continuousChapter}`;
 
         await Confirmation.show({
-            title: translate('reader.chapter_transition.warning.title'),
+            title: t`Chapter transition warning`,
             message: warning,
             actions: {
                 confirm: {
-                    title: translate('global.button.open'),
+                    title: t`Open`,
                 },
             },
         });

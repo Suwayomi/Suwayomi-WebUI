@@ -6,26 +6,27 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 import { IReaderSettingsWithDefaultFlag, ReaderBackgroundColor } from '@/features/reader/Reader.types.ts';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderBackgroundColor> = {
     [ReaderBackgroundColor.THEME]: {
-        title: 'settings.appearance.theme.title',
+        title: msg`Theme`,
         icon: null,
     },
     [ReaderBackgroundColor.BLACK]: {
-        title: 'global.colors.black',
+        title: msg`Black`,
         icon: null,
     },
     [ReaderBackgroundColor.GRAY]: {
-        title: 'global.colors.gray',
+        title: msg`Gray`,
         icon: null,
     },
     [ReaderBackgroundColor.WHITE]: {
-        title: 'global.colors.white',
+        title: msg`White`,
         icon: null,
     },
 };
@@ -40,11 +41,11 @@ export const ReaderSettingBackgroundColor = ({
 }: Pick<IReaderSettingsWithDefaultFlag, 'backgroundColor'> & {
     updateSetting: (color: ReaderBackgroundColor) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <ButtonSelectInput
-            label={t('reader.settings.background_color')}
+            label={t`Background color`}
             value={backgroundColor}
             values={READER_BACKGROUND_COLOR_VALUES}
             setValue={updateSetting}

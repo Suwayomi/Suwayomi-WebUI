@@ -7,7 +7,6 @@
  */
 
 import Button from '@mui/material/Button';
-import { useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import Stack from '@mui/material/Stack';
 import { useEffect, useMemo, useState } from 'react';
@@ -22,6 +21,7 @@ import PopupState, { bindPopover, bindTrigger } from 'material-ui-popup-state';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -32,8 +32,8 @@ import { DIALOG_PADDING } from '@/features/tracker/Tracker.constants.ts';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { Tracker, TrackerIdInfo, TTrackerBind } from '@/features/tracker/Tracker.types.ts';
@@ -53,7 +53,7 @@ const TrackButton = ({
     closeSearchMode: () => void;
     supportsPrivateTracking: boolean;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const [bindTracker, bindTrackerMutation] = requestManager.useBindTracker();
 
     const trackManga = (asPrivate: boolean) => {
@@ -65,10 +65,10 @@ const TrackButton = ({
             variables: { input: { mangaId, remoteId: selectedTrackerRemoteId, trackerId, private: asPrivate } },
         })
             .then(() => {
-                makeToast(t('manga.action.track.add.label.success'), 'success');
+                makeToast(t`Tracked manga`, 'success');
                 closeSearchMode();
             })
-            .catch((e) => makeToast(t('manga.action.track.add.label.error'), 'error', getErrorMessage(e)));
+            .catch((e) => makeToast(t`Could not track manga`, 'error', getErrorMessage(e)));
     };
 
     return (
@@ -92,13 +92,10 @@ const TrackButton = ({
                 onClick={() => trackManga(false)}
                 sx={{ flexBasis: '65%' }}
             >
-                {t('manga.action.track.add.label.action')}
+                {t`Track`}
             </Button>
             {supportsPrivateTracking && (
-                <CustomTooltip
-                    title={t('tracking.action.button.track_privately')}
-                    disabled={bindTrackerMutation.loading}
-                >
+                <CustomTooltip title={t`Track privately`} disabled={bindTrackerMutation.loading}>
                     <CustomButtonIcon
                         disabled={bindTrackerMutation.loading}
                         sx={{ flexBasis: '10%', maxWidth: '100px' }}
@@ -124,7 +121,7 @@ export const TrackerSearch = ({
     closeSearchMode: () => void;
     trackedId?: string;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const getOptionForDirection = useGetOptionForDirection();
 
     const [searchString, setSearchString] = useState<string>(manga.title);
@@ -197,7 +194,7 @@ export const TrackerSearch = ({
                                                     }}
                                                 >
                                                     <Typography sx={{ padding: 1, whiteSpace: 'pre-line' }}>
-                                                        {t('tracking.my_anime_list.search.label.hint')}
+                                                        {t`Search for a ID via "id:<ID>" (e.g. "id:13")\nLimit search to your lists via "my:<Title>" (e.g. "my:One Piece")`}
                                                     </Typography>
                                                 </Popover>
                                             </>
@@ -217,11 +214,11 @@ export const TrackerSearch = ({
                     ...applyStyles(hasNoResults || hasError, { position: 'relative' }),
                 }}
             >
-                {hasNoResults && <EmptyViewAbsoluteCentered message={t('manga.error.label.no_mangas_found')} />}
+                {hasNoResults && <EmptyViewAbsoluteCentered message={t`No manga found`} />}
                 {trackerSearch.loading && <LoadingPlaceholder />}
                 {hasError && (
                     <EmptyViewAbsoluteCentered
-                        message={t('global.error.label.failed_to_load_data')}
+                        message={t`Unable to load data`}
                         messageExtra={getErrorMessage(trackerSearch.error)}
                         retry={() =>
                             trackerSearch.refetch().catch(defaultPromiseErrorHandler('TrackerSearch::refetch'))

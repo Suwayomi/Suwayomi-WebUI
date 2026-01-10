@@ -6,15 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { useLingui } from '@lingui/react/macro';
 import {
     IMAGE_PROCESSING_TYPE_TO_SETTING,
     IMAGE_PROCESSING_TYPE_TO_TRANSLATION,
-    TARGET_DISABLED,
 } from '@/features/settings/Settings.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ImageProcessingType, ServerSettings } from '@/features/settings/Settings.types.ts';
@@ -37,7 +36,7 @@ import {
 import { Processing } from '@/features/settings/components/images/Processing.tsx';
 
 export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     useAppTitle(t(IMAGE_PROCESSING_TYPE_TO_TRANSLATION[type]));
 
@@ -53,7 +52,7 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('ImageProcessingSetting::refetch'))}
             />
@@ -78,7 +77,7 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
 
     const updateSetting = (value: ServerSettings[typeof settingKey]): Promise<any> => {
         const mutation = mutateSettings({ variables: { input: { settings: { [settingKey]: value } } } });
-        mutation.catch((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
+        mutation.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
         return mutation;
     };
@@ -93,7 +92,9 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
 
     return (
         <Stack sx={{ p: 2, gap: 5 }}>
-            <Typography>{t('download.settings.conversion.description', { value: TARGET_DISABLED })}</Typography>
+            <Typography>
+                {t`In case no MIME-Type is defined, the "default" one will be used for the processing.\nSet the target mode to disabled to prevent processing for a MIME-Type`}
+            </Typography>
             <Stack sx={{ flexDirection: 'column', gap: 5 }}>
                 {tmpConversions.map((conversion, index) => {
                     const { mimeType } = conversion;
@@ -140,10 +141,10 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
                         ]);
                     }}
                 >
-                    {t('global.button.add')}
+                    {t`Add`}
                 </Button>
                 <Button variant="contained" disabled={hasInvalidConversion || !hasChanged} onClick={onSubmit}>
-                    {t('global.button.save')}
+                    {t`Save`}
                 </Button>
             </Stack>
         </Stack>

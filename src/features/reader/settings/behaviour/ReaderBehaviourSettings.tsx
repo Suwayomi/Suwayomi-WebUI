@@ -7,9 +7,9 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { useLingui } from '@lingui/react/macro';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { IReaderSettingsWithDefaultFlag, ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
@@ -34,7 +34,7 @@ export const ReaderBehaviourSettings = ({
         ...args: Parameters<typeof ReaderService.updateSetting>
     ) => ReturnType<typeof ReaderService.updateSetting>;
 } & ReaderSettingsTypeProps) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack sx={{ gap: 2 }}>
@@ -47,17 +47,17 @@ export const ReaderBehaviourSettings = ({
                 setScrollAmount={(value, commit) => updateSetting('scrollAmount', value, commit)}
             />
             <CheckboxInput
-                label={t('reader.settings.label.skip_dup_chapters')}
+                label={t`Skip duplicate chapters`}
                 checked={settings.shouldSkipDupChapters}
                 onChange={(_, checked) => updateSetting('shouldSkipDupChapters', checked)}
             />
             <CheckboxInput
                 label={
                     <Box>
-                        <Typography>{t('reader.settings.label.skip_filtered_chapters')}</Typography>
+                        <Typography>{t`Skip filtered chapters`}</Typography>
                         {isDefaultable && (
                             <Typography variant="body2" color="textDisabled">
-                                {t('reader.settings.label.unchangeable_in_reader')}
+                                {t`Setting can not be changed while the reader is opened`}
                             </Typography>
                         )}
                     </Box>
@@ -68,7 +68,7 @@ export const ReaderBehaviourSettings = ({
             />
             {isOffsetDoubleSpreadPagesEditable(settings.readingMode.value) && (
                 <CheckboxInput
-                    label={t('reader.settings.label.offset_double_spread')}
+                    label={t`Offset double spreads`}
                     checked={settings.shouldOffsetDoubleSpreads.value}
                     onChange={(_, checked) => updateSetting('shouldOffsetDoubleSpreads', checked)}
                 />
@@ -76,9 +76,9 @@ export const ReaderBehaviourSettings = ({
             <CheckboxInput
                 label={
                     <Box>
-                        <Typography>{t('reader.settings.infinite_scroll.title')}</Typography>
+                        <Typography>{t`Continuous chapter display`}</Typography>
                         <Typography variant="body2" color="textDisabled">
-                            {t('reader.settings.infinite_scroll.description')}
+                            {t`Keep previous and upcoming chapters visible while reading in continuous reading modes, allowing seamless scrolling between chapters.`}
                         </Typography>
                     </Box>
                 }
@@ -88,9 +88,9 @@ export const ReaderBehaviourSettings = ({
             <CheckboxInput
                 label={
                     <Box>
-                        <Typography>{t('reader.settings.preview.reading_mode.title')}</Typography>
+                        <Typography>{t`Show reading mode`}</Typography>
                         <Typography variant="body2" color="textDisabled">
-                            {t('reader.settings.preview.reading_mode.description')}
+                            {t`Briefly show current mode when reader is opened or mode got changed`}
                         </Typography>
                     </Box>
                 }
@@ -100,9 +100,9 @@ export const ReaderBehaviourSettings = ({
             <CheckboxInput
                 label={
                     <Box>
-                        <Typography>{t('reader.settings.preview.tap_zones.title')}</Typography>
+                        <Typography>{t`Show tap zones overlay`}</Typography>
                         <Typography variant="body2" color="textDisabled">
-                            {t('reader.settings.preview.tap_zones.description')}
+                            {t`Briefly show tap zone layout preview when reader is opened or layout got changed`}
                         </Typography>
                     </Box>
                 }
@@ -112,9 +112,9 @@ export const ReaderBehaviourSettings = ({
             <CheckboxInput
                 label={
                     <Box>
-                        <Typography>{t('reader.settings.auto_webtoon_mode.title')}</Typography>
+                        <Typography>{t`Auto webtoon mode`}</Typography>
                         <Typography variant="body2" color="textDisabled">
-                            {t('reader.settings.auto_webtoon_mode.description')}
+                            {t`Automatically use webtoon mode for entries that are detected to likely use the long strip format`}
                         </Typography>
                     </Box>
                 }
@@ -122,17 +122,17 @@ export const ReaderBehaviourSettings = ({
                 onChange={(_, checked) => updateSetting('shouldUseAutoWebtoonMode', checked)}
             />
             <CheckboxInput
-                label={t('reader.settings.show_transition_page')}
+                label={t`Show transition page`}
                 checked={settings.shouldShowTransitionPage}
                 onChange={(_, checked) => updateSetting('shouldShowTransitionPage', checked)}
             />
             <CheckboxInput
-                label={t('reader.settings.chapter_transition.warning.missing_chapter')}
+                label={t`Inform about missing chapters on chapter transition`}
                 checked={settings.shouldInformAboutMissingChapter}
                 onChange={(_, checked) => updateSetting('shouldInformAboutMissingChapter', checked)}
             />
             <CheckboxInput
-                label={t('reader.settings.chapter_transition.warning.scanlator_change')}
+                label={t`Inform about changing scanlator on chapter transition`}
                 checked={settings.shouldInformAboutScanlatorChange}
                 onChange={(_, checked) => updateSetting('shouldInformAboutScanlatorChange', checked)}
             />
@@ -141,7 +141,7 @@ export const ReaderBehaviourSettings = ({
                 setAutoScroll={(...args) => updateSetting('autoScroll', ...args)}
             />
             <SliderInput
-                label={t('reader.settings.image_preload_amount')}
+                label={t`Preload images`}
                 value={settings.imagePreLoadAmount}
                 onDefault={() => onDefault?.('imagePreLoadAmount')}
                 slotProps={{

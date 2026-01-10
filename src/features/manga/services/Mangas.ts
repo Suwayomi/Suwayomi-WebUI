@@ -6,8 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import i18next, { t as translate } from 'i18next';
 import { DocumentNode, Unmasked } from '@apollo/client/core';
+import { t } from '@lingui/core/macro';
+import { i18n } from '@/i18n';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     ChapterConditionInput,
@@ -557,11 +558,12 @@ export class Mangas {
 
                 try {
                     await Confirmation.show({
-                        title: translate('global.label.are_you_sure'),
-                        message: translate(confirmationMessage, { count: itemCount }),
+                        title: t`Are you sure?`,
+                        /* lingui-extract-ignore */
+                        message: i18n.t({ ...confirmationMessage, values: { count: itemCount } }),
                         actions: {
                             confirm: {
-                                title: translate('global.button.ok'),
+                                title: t`Ok`,
                             },
                         },
                     });
@@ -571,10 +573,15 @@ export class Mangas {
             }
 
             await fnToExecute();
-            makeToast(translate(MANGA_ACTION_TO_TRANSLATION[action].success, { count: itemCount }), 'success');
+            makeToast(
+                /* lingui-extract-ignore */
+                i18n.t({ ...MANGA_ACTION_TO_TRANSLATION[action].success, values: { count: itemCount } }),
+                'success',
+            );
         } catch (e) {
             makeToast(
-                translate(MANGA_ACTION_TO_TRANSLATION[action].error, { count: itemCount }),
+                /* lingui-extract-ignore */
+                i18n.t({ ...MANGA_ACTION_TO_TRANSLATION[action].error, values: { count: itemCount } }),
                 'error',
                 getErrorMessage(e),
             );
@@ -650,9 +657,14 @@ export class Mangas {
         const translateMangaTagsByMangaTypeEntries = Object.entries(MANGA_TAGS_BY_MANGA_TYPE).map(
             ([mangaType, tags]) => [
                 mangaType,
-                ['en', i18next.language, manga.source?.lang]
+                ['en', i18n.locale, manga.source?.lang]
                     .filter((lng) => !!lng)
-                    .flatMap((language) => tags.flatMap((tag) => translate(tag, { lng: language }))),
+                    .flatMap((language) =>
+                        tags.flatMap((tag) =>
+                            /* lingui-extract-ignore */
+                            i18n.t({ ...tag, values: { lng: language } }),
+                        ),
+                    ),
             ],
         );
         const translatedMangaTagsByMangaType = Object.fromEntries(translateMangaTagsByMangaTypeEntries) as Record<

@@ -13,8 +13,8 @@ import Typography from '@mui/material/Typography';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import DownloadIcon from '@mui/icons-material/Download';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import { t as translate } from 'i18next';
 import DownloadingIcon from '@mui/icons-material/Downloading';
+import { t } from '@lingui/core/macro';
 import { UpdateState } from '@/lib/graphql/generated/graphql.ts';
 
 export type BaseVersionInfoProps = {
@@ -69,27 +69,27 @@ const getUpdateCheckButtonText = (
 ) => {
     const isUpdating = updateState === UpdateState.Downloading;
     if (isUpdating) {
-        return translate('global.update.label.updating', { progress });
+        return t`${progress}% | Updating…`;
     }
 
     const didUpdateFail = updateState === UpdateState.Error;
     if (didUpdateFail) {
-        return translate('global.update.label.update_failure');
+        return t`Update failed`;
     }
 
     if (isLoading) {
-        return translate('global.update.label.checking');
+        return t`Checking for update`;
     }
 
     if (error) {
-        return translate('global.update.label.check_failure');
+        return t`Could not check for update`;
     }
 
     if (isUpdateAvailable) {
-        return translate('global.update.label.available');
+        return t`Update available`;
     }
 
-    return translate('global.update.label.up_to_date');
+    return t`This is the latest version`;
 };
 
 export const VersionInfo = ({

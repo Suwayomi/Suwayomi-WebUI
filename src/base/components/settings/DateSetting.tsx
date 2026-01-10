@@ -15,11 +15,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useLingui } from '@lingui/react/macro';
 
 export const DateSetting = ({
     settingName,
@@ -34,7 +34,7 @@ export const DateSetting = ({
     handleChange: (path?: string | null) => void;
     remove?: boolean;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(value ?? defaultValue);
@@ -85,7 +85,6 @@ export const DateSetting = ({
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
-
             <Dialog open={isDialogOpen} onClose={closeDialog}>
                 <DialogTitle>{settingName}</DialogTitle>
                 <DialogContent>
@@ -117,7 +116,7 @@ export const DateSetting = ({
                                     }}
                                     color="primary"
                                 >
-                                    {t('global.button.reset_to_default')}
+                                    {t`Reset to Default`}
                                 </Button>
                             )}
                             {remove && (
@@ -128,13 +127,13 @@ export const DateSetting = ({
                                     }}
                                     color="primary"
                                 >
-                                    {t('global.button.remove')}
+                                    {t`Remove`}
                                 </Button>
                             )}
                         </Stack>
                         <Stack direction="row">
                             <Button onClick={closeDialogWithReset} color="primary">
-                                {t('global.button.cancel')}
+                                {t`Cancel`}
                             </Button>
                             <Button
                                 onClick={() => {
@@ -142,7 +141,7 @@ export const DateSetting = ({
                                 }}
                                 color="primary"
                             >
-                                {t('global.button.ok')}
+                                {t`Ok`}
                             </Button>
                         </Stack>
                     </Stack>

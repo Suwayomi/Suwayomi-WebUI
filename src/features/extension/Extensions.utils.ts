@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { t } from 'i18next';
 import {
     ExtensionAction,
     ExtensionGroupState,
@@ -23,14 +22,15 @@ import {
     toComparableLanguages,
 } from '@/base/utils/Languages.ts';
 import {
-    EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP,
-    extensionLanguageToTranslationKey,
+    EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP,
+    extensionLanguageToTranslation,
 } from '@/features/extension/Extensions.constants.ts';
 import { enhancedCleanup } from '@/base/utils/Strings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { toUniqueISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
+import { i18n } from '@/i18n';
 
 export const getInstalledState = (
     isInstalled: boolean,
@@ -65,7 +65,7 @@ export const isExtensionStateOrLanguage = (languageCode: string): boolean =>
 
 export const translateExtensionLanguage = (languageCode: string): string =>
     isExtensionStateOrLanguage(languageCode)
-        ? t(extensionLanguageToTranslationKey[languageCode as ExtensionGroupState | DefaultLanguage])
+        ? i18n._(extensionLanguageToTranslation[languageCode as ExtensionGroupState | DefaultLanguage])
         : languageCodeToName(languageCode);
 
 export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExtensionsResult {
@@ -165,7 +165,8 @@ export const updateExtension = async (
         }
     } catch (e) {
         makeToast(
-            t(EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP[action], { count: 1 }),
+            /* lingui-extract-ignore */
+            i18n.t({ ...EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP[action], values: { count: 1 } }),
             'error',
             getErrorMessage(e),
         );

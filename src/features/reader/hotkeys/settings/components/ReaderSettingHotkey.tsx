@@ -6,37 +6,38 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';
 import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import IconButton from '@mui/material/IconButton';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ReaderHotkey } from '@/features/reader/Reader.types.ts';
 import { DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { RecordHotkey } from '@/features/reader/hotkeys/settings/components/RecordHotkey.tsx';
 import { Hotkey } from '@/features/reader/hotkeys/settings/components/Hotkey.tsx';
 import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
-import { TranslationKey } from '@/base/Base.types.ts';
 
-const READER_HOTKEY_TO_TITLE: Record<ReaderHotkey, TranslationKey> = {
-    [ReaderHotkey.PREVIOUS_PAGE]: 'reader.settings.hotkey.previous_page',
-    [ReaderHotkey.NEXT_PAGE]: 'reader.settings.hotkey.next_page',
-    [ReaderHotkey.SCROLL_BACKWARD]: 'reader.settings.hotkey.scroll_backward',
-    [ReaderHotkey.SCROLL_FORWARD]: 'reader.settings.hotkey.scroll_forward',
-    [ReaderHotkey.PREVIOUS_CHAPTER]: 'reader.settings.hotkey.previous_chapter',
-    [ReaderHotkey.NEXT_CHAPTER]: 'reader.settings.hotkey.next_chapter',
-    [ReaderHotkey.TOGGLE_MENU]: 'reader.settings.hotkey.menu',
-    [ReaderHotkey.CYCLE_SCALE_TYPE]: 'reader.settings.hotkey.scale_type',
-    [ReaderHotkey.STRETCH_IMAGE]: 'reader.settings.hotkey.stretch_image',
-    [ReaderHotkey.OFFSET_SPREAD_PAGES]: 'reader.settings.hotkey.offset_spread_pages',
-    [ReaderHotkey.CYCLE_READING_MODE]: 'reader.settings.hotkey.reading_mode',
-    [ReaderHotkey.CYCLE_READING_DIRECTION]: 'reader.settings.hotkey.reading_direction',
-    [ReaderHotkey.TOGGLE_AUTO_SCROLL]: 'reader.settings.hotkey.auto_scroll',
-    [ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE]: 'reader.settings.hotkey.auto_scroll_speed_increase',
-    [ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE]: 'reader.settings.hotkey.auto_scroll_speed_decrease',
-    [ReaderHotkey.EXIT_READER]: 'reader.button.exit',
+const READER_HOTKEY_TO_TITLE: Record<ReaderHotkey, MessageDescriptor> = {
+    [ReaderHotkey.PREVIOUS_PAGE]: msg`Previous page`,
+    [ReaderHotkey.NEXT_PAGE]: msg`Next page`,
+    [ReaderHotkey.SCROLL_BACKWARD]: msg`Scroll backward`,
+    [ReaderHotkey.SCROLL_FORWARD]: msg`Scroll forward`,
+    [ReaderHotkey.PREVIOUS_CHAPTER]: msg`Previous chapter`,
+    [ReaderHotkey.NEXT_CHAPTER]: msg`Next chapter`,
+    [ReaderHotkey.TOGGLE_MENU]: msg`Toggle menu`,
+    [ReaderHotkey.CYCLE_SCALE_TYPE]: msg`Cycle image scale type`,
+    [ReaderHotkey.STRETCH_IMAGE]: msg`Toggle stretch image`,
+    [ReaderHotkey.OFFSET_SPREAD_PAGES]: msg`Toggle offset spread pages`,
+    [ReaderHotkey.CYCLE_READING_MODE]: msg`Cycle reading mode`,
+    [ReaderHotkey.CYCLE_READING_DIRECTION]: msg`Cycle reading direction`,
+    [ReaderHotkey.TOGGLE_AUTO_SCROLL]: msg`Toggle auto scroll`,
+    [ReaderHotkey.AUTO_SCROLL_SPEED_INCREASE]: msg`Increase auto scroll speed`,
+    [ReaderHotkey.AUTO_SCROLL_SPEED_DECREASE]: msg`Decrease auto scroll speed`,
+    [ReaderHotkey.EXIT_READER]: msg`Exit reader`,
 };
 
 export const ReaderSettingHotkey = ({
@@ -50,7 +51,7 @@ export const ReaderSettingHotkey = ({
     existingKeys: string[];
     updateSetting: (keys: string[]) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const popupState = usePopupState({ popupId: 'reader-setting-record-hotkey', variant: 'dialog' });
 
     return (
@@ -61,7 +62,7 @@ export const ReaderSettingHotkey = ({
                     keys={keys}
                     removeKey={(keyToRemove) => updateSetting(keys.filter((key) => key !== keyToRemove))}
                 />
-                <CustomTooltip title={t('global.button.add')}>
+                <CustomTooltip title={t`Add`}>
                     <IconButton {...bindTrigger(popupState)} color="inherit">
                         <AddIcon />
                     </IconButton>

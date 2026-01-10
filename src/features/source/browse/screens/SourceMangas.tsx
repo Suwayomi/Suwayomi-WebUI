@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useQueryParam, StringParam } from 'use-query-params';
-import { useTranslation } from 'react-i18next';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -19,6 +19,8 @@ import { styled } from '@mui/material/styles';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import {
     requestManager,
@@ -49,7 +51,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import { GridLayout, SearchParam, TranslationKey } from '@/base/Base.types.ts';
+import { GridLayout, SearchParam } from '@/base/Base.types';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
@@ -83,10 +85,10 @@ export enum SourceContentType {
     SEARCH,
 }
 
-const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]: TranslationKey } = {
-    [SourceContentType.POPULAR]: 'manga.error.label.no_mangas_found',
-    [SourceContentType.LATEST]: 'manga.error.label.no_mangas_found',
-    [SourceContentType.SEARCH]: 'manga.error.label.no_matches',
+const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]: MessageDescriptor } = {
+    [SourceContentType.POPULAR]: msg`No manga found`,
+    [SourceContentType.LATEST]: msg`No manga found`,
+    [SourceContentType.SEARCH]: msg`No manga matches this filter`,
 };
 
 const getUniqueMangas = <Manga extends MangaIdInfo>(mangas: Manga[]): Manga[] => {
@@ -207,7 +209,7 @@ const useSourceManga = (
 };
 
 export function SourceMangas() {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { appBarHeight } = useNavBarContext();
 
     const { sourceId } = useParams<{ sourceId: string }>();
@@ -301,7 +303,7 @@ export function SourceMangas() {
     const filters = source?.filters ?? [];
     const { savedSearches = {} } = useGetSourceMetadata(source ?? DEFAULT_SOURCE);
     const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(source ?? { id: '-1' }, (e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
 
     const selectSavedSearch = useCallback(
@@ -343,9 +345,9 @@ export function SourceMangas() {
     const isLocalSource = sourceId === Sources.LOCAL_SOURCE_ID;
     const messageExtra = isLocalSource ? (
         <>
-            <span>{t('source.local_source.label.checkout')} </span>
+            <span>{t`Check out`} </span>
             <Link href="https://github.com/Suwayomi/Suwayomi-Server/wiki/Local-Source" target="_blank" rel="noreferrer">
-                {t('source.local_source.label.guide')}
+                {t`Local source guide`}
             </Link>
         </>
     ) : undefined;
@@ -413,11 +415,11 @@ export function SourceMangas() {
     }, [clearCache]);
 
     useAppTitleAndAction(
-        source?.displayName ?? t('source.title_one'),
+        source?.displayName ?? t`Source`,
         <>
             <AppbarSearch />
             <SourceGridLayout />
-            <CustomTooltip title={t('global.button.open_webview')} disabled={!source?.baseUrl}>
+            <CustomTooltip title={t`Open in WebView`} disabled={!source?.baseUrl}>
                 <IconButton
                     disabled={!source?.baseUrl}
                     href={source?.baseUrl ? requestManager.getWebviewUrl(source?.baseUrl) : ''}
@@ -429,7 +431,7 @@ export function SourceMangas() {
                 </IconButton>
             </CustomTooltip>
             {source?.isConfigurable && (
-                <CustomTooltip title={t('settings.title')}>
+                <CustomTooltip title={t`Settings`}>
                     <IconButton
                         onClick={() => navigate(AppRoutes.sources.childRoutes.configure.path(sourceId))}
                         aria-label="display more actions"
@@ -454,7 +456,7 @@ export function SourceMangas() {
                     startIcon={<FavoriteIcon />}
                     onClick={() => updateContentType(SourceContentType.POPULAR)}
                 >
-                    {t('global.button.popular')}
+                    {t`Popular`}
                 </ContentTypeButton>
                 {source?.supportsLatest === undefined || source.supportsLatest ? (
                     <ContentTypeButton
@@ -463,7 +465,7 @@ export function SourceMangas() {
                         startIcon={<NewReleasesIcon />}
                         onClick={() => updateContentType(SourceContentType.LATEST)}
                     >
-                        {t('global.button.latest')}
+                        {t`Latest`}
                     </ContentTypeButton>
                 ) : null}
                 <ContentTypeButton
@@ -471,10 +473,9 @@ export function SourceMangas() {
                     startIcon={<FilterListIcon />}
                     onClick={() => updateContentType(SourceContentType.SEARCH, query)}
                 >
-                    {t('global.button.filter')}
+                    {t`Filter`}
                 </ContentTypeButton>
             </ContentTypeMenu>
-
             {(isLoading || !error || (!!error && !!mangas.length)) && (
                 <BaseMangaGrid
                     // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
@@ -491,15 +492,13 @@ export function SourceMangas() {
                     inLibraryIndicator
                 />
             )}
-
             {error && (
                 <EmptyViewComponent
-                    message={t('global.error.label.failed_to_load_data')}
+                    message={t`Unable to load data`}
                     messageExtra={getErrorMessage(error)}
                     retry={() => loadPage(lastPageNum).catch(defaultPromiseErrorHandler('SourceMangas::refetch'))}
                 />
             )}
-
             {contentType === SourceContentType.SEARCH && (
                 <SourceOptions
                     savedSearches={savedSearches}

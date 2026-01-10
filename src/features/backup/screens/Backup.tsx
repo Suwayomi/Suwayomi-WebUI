@@ -10,12 +10,13 @@ import { useEffect, useRef, useState } from 'react';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
-import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListSubheader from '@mui/material/ListSubheader';
 import { useEventListener, useMergedRef, useWindowEvent } from '@mantine/hooks';
 import { AwaitableComponent } from 'awaitable-component';
+import { useLingui } from '@lingui/react/macro';
+import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { BackupRestoreState } from '@/lib/graphql/generated/graphql.ts';
@@ -41,9 +42,9 @@ import { BackupSettingsType } from '@/features/backup/Backup.types.ts';
 let backupRestoreId: string | undefined;
 
 export function Backup() {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('settings.backup.title'));
+    useAppTitle(t`Backup`);
 
     const {
         data: settingsData,
@@ -76,7 +77,7 @@ export function Backup() {
         value: BackupSettingsType[Setting],
     ) => {
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
         );
     };
 
@@ -84,7 +85,7 @@ export function Backup() {
         settings: Record<Setting, BackupSettingsType[Setting]>,
     ) => {
         mutateSettings({ variables: { input: { settings } } }).catch((e) =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
         );
     };
 
@@ -99,11 +100,11 @@ export function Backup() {
         const isRestoreFinished = isSuccess || isFailure;
         if (isRestoreFinished) {
             if (isSuccess) {
-                makeToast(t('settings.backup.action.restore.label.success'), 'success');
+                makeToast(t`Backup restored.`, 'success');
             }
 
             if (isFailure) {
-                makeToast(t('settings.backup.action.restore.error.label.failure'), 'error');
+                makeToast(t`Could not restore backup`, 'error');
             }
 
             requestManager.reset();
@@ -121,21 +122,17 @@ export function Backup() {
 
     const createBackup = async () => {
         const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {
-            title: t('settings.backup.action.create.label.title'),
+            title: t`Create backup`,
         });
 
-        makeToast(t('settings.backup.action.create.label.in_progress'), 'info');
+        makeToast(t`Creating backup…`, 'info');
 
         try {
             const backupFileResponse = await requestManager.createBackupFile({ flags }).response;
 
             const backupFileUrl = backupFileResponse.data?.createBackup.url;
             if (!backupFileUrl) {
-                makeToast(
-                    t('settings.backup.action.create.error.failure'),
-                    'error',
-                    getErrorMessage(backupFileResponse.errors),
-                );
+                makeToast(t`Could not create backup`, 'error', getErrorMessage(backupFileResponse.errors));
                 return;
             }
 
@@ -146,7 +143,7 @@ export function Backup() {
             link.click();
             document.body.removeChild(link);
         } catch (e) {
-            makeToast(t('settings.backup.action.create.error.failure'), 'error', getErrorMessage(e));
+            makeToast(t`Could not create backup`, 'error', getErrorMessage(e));
         }
     };
 
@@ -172,7 +169,7 @@ export function Backup() {
 
             return true;
         } catch (e) {
-            makeToast(t('settings.backup.action.validate.error.label.failure'), 'error', getErrorMessage(e));
+            makeToast(t`Could not validate backup`, 'error', getErrorMessage(e));
         } finally {
             resetBackupState();
         }
@@ -182,17 +179,17 @@ export function Backup() {
 
     const restoreBackup = async (backup: File) => {
         const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {
-            title: t('settings.backup.action.restore.label.title'),
+            title: t`Restore Backup`,
         });
 
         try {
-            makeToast(t('settings.backup.action.restore.label.in_progress'), 'info');
+            makeToast(t`Restoring backup…`, 'info');
 
             const response = await requestManager.restoreBackupFile({ backup, flags }).response;
             backupRestoreId = response.data?.restoreBackup.id;
             setTriggerReRender(Date.now());
         } catch (e) {
-            makeToast(t('settings.backup.action.restore.error.label.failure'), 'error', getErrorMessage(e));
+            makeToast(t`Could not restore backup`, 'error', getErrorMessage(e));
         } finally {
             resetBackupState();
         }
@@ -200,13 +197,13 @@ export function Backup() {
 
     const submitBackup = async (file: File) => {
         if (file.name.toLowerCase().endsWith('json')) {
-            makeToast(t('settings.backup.action.restore.error.label.legacy_backup_unsupported'), 'error');
+            makeToast(t`legacy backups are not supported!`, 'error');
             return;
         }
 
         const isValidFilename = file.name.toLowerCase().match(/proto\.gz$|tachibk$/g);
         if (!isValidFilename) {
-            makeToast(t('global.error.label.invalid_file_type'), 'error');
+            makeToast(t`Invalid filetype`, 'error');
             return;
         }
 
@@ -238,7 +235,7 @@ export function Backup() {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Backup::refetch'))}
             />
@@ -247,19 +244,20 @@ export function Backup() {
 
     const backupSettings = settingsData!.settings;
 
+    const autoBackupFlagsInfo = getAutoBackupFlagsInfo(backupSettings);
+    const includedCategoriesText = autoBackupFlagsInfo.true;
+    const excludedCategoriesText = autoBackupFlagsInfo.false;
+
     return (
         <>
             <List sx={{ padding: 0 }}>
                 <ListItemButton onClick={createBackup}>
-                    <ListItemText
-                        primary={t('settings.backup.action.create.label.title')}
-                        secondary={t('settings.backup.action.create.label.description')}
-                    />
+                    <ListItemText primary={t`Create backup`} secondary={t`Back up library as a Tachiyomi backup`} />
                 </ListItemButton>
                 <ListItemButton onClick={() => inputRef.current?.click()} disabled={!!backupRestoreId}>
                     <ListItemText
-                        primary={t('settings.backup.action.restore.label.title')}
-                        secondary={t('settings.backup.action.restore.label.description')}
+                        primary={t`Restore Backup`}
+                        secondary={t`You can also drag and drop the backup file here to restore it`}
                     />
                     {backupRestoreId ? (
                         <ListItemIcon>
@@ -275,19 +273,17 @@ export function Backup() {
                     }
                 >
                     <TextSetting
-                        settingName={t('settings.backup.automated.location.label.title')}
-                        dialogDescription={t('settings.backup.automated.location.label.description')}
+                        settingName={t`Backup location`}
+                        dialogDescription={t`The path to the directory on the server where automated backups should get saved in`}
                         value={backupSettings.backupPath}
-                        settingDescription={
-                            backupSettings.backupPath.length ? backupSettings.backupPath : t('global.label.default')
-                        }
+                        settingDescription={backupSettings.backupPath.length ? backupSettings.backupPath : t`Default`}
                         handleChange={(path) => updateSetting('backupPath', path)}
                     />
                     <ListItemButton
                         onClick={async () => {
                             try {
                                 const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {
-                                    title: t('settings.backup.automated.flags.title'),
+                                    title: t`Backup data`,
                                     flags: convertToBackupFlags(backupSettings),
                                 });
 
@@ -298,54 +294,46 @@ export function Backup() {
                         }}
                     >
                         <ListItemText
-                            primary={t('settings.backup.automated.flags.title')}
+                            primary={t`Backup data`}
                             secondary={
                                 <>
-                                    <span>
-                                        {t('category.settings.inclusion.label.include', {
-                                            includedCategoriesText: getAutoBackupFlagsInfo(backupSettings).true,
-                                        })}
-                                    </span>
-                                    <span>
-                                        {t('category.settings.inclusion.label.exclude', {
-                                            excludedCategoriesText: getAutoBackupFlagsInfo(backupSettings).false,
-                                        })}
-                                    </span>
+                                    <span>{t`Include: ${includedCategoriesText}`}</span>
+                                    <span>{t`Exclude: ${excludedCategoriesText}`}</span>
                                 </>
                             }
                             secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                         />
                     </ListItemButton>
                     <TimeSetting
-                        settingName={t('settings.backup.automated.label.time')}
+                        settingName={t`Backup time`}
                         value={backupSettings.backupTime}
                         defaultValue="00:00"
                         handleChange={(time: string) => updateSetting('backupTime', time)}
                     />
                     <NumberSetting
-                        settingTitle={t('settings.backup.automated.label.interval')}
-                        settingValue={t('global.date.value.label.day', {
-                            days: backupSettings.backupInterval,
-                            count: backupSettings.backupInterval,
+                        settingTitle={t`Backup interval`}
+                        settingValue={plural(backupSettings.backupInterval, {
+                            one: '# day',
+                            other: '# days',
                         })}
                         value={backupSettings.backupInterval}
                         defaultValue={1}
                         minValue={1}
                         maxValue={31}
                         stepSize={1}
-                        valueUnit={t('global.date.label.day_one')}
+                        valueUnit={t`Day`}
                         showSlider
                         handleUpdate={(interval: number) => updateSetting('backupInterval', interval)}
                     />
                     <NumberSetting
-                        settingTitle={t('settings.backup.automated.cleanup.label.title')}
+                        settingTitle={t`Backup cleanup`}
                         settingValue={getBackupCleanupDisplayValue(backupSettings.backupTTL)}
                         value={backupSettings.backupTTL}
                         defaultValue={14}
                         minValue={0}
                         maxValue={1000}
                         stepSize={1}
-                        valueUnit={t('global.date.label.day_one')}
+                        valueUnit={t`Day`}
                         showSlider
                         handleUpdate={(ttl: number) => updateSetting('backupTTL', ttl)}
                     />

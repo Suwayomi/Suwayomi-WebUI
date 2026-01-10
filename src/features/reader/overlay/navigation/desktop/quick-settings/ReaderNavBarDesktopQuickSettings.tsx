@@ -7,10 +7,10 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { memo } from 'react';
+import { useLingui } from '@lingui/react/macro';
 import { ReaderNavBarDesktopPageScale } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx';
 import { ReaderNavBarDesktopReadingMode } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopReadingMode.tsx';
 import { ReaderNavBarDesktopOffsetDoubleSpread } from '@/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopOffsetDoubleSpread.tsx';
@@ -21,7 +21,7 @@ import { ReaderNavBarDesktopAutoScroll } from '@/features/reader/auto-scroll/set
 import { useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderNavBarDesktopQuickSettings = ({ openSettings }: Pick<ReaderNavBarDesktopProps, 'openSettings'>) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { readingMode, shouldOffsetDoubleSpreads, pageScaleMode, shouldStretchPage, readingDirection, autoScroll } =
         useReaderSettingsStore((state) => ({
             readingMode: state.settings.readingMode,
@@ -71,7 +71,7 @@ const BaseReaderNavBarDesktopQuickSettings = ({ openSettings }: Pick<ReaderNavBa
                 variant="contained"
                 startIcon={<SettingsIcon />}
             >
-                {t('settings.title')}
+                {t`Settings`}
             </Button>
         </Stack>
     );

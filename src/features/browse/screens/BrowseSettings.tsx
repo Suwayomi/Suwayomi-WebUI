@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Trans, useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
+import { Trans, useLingui } from '@lingui/react/macro';
+import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { MutableListSetting } from '@/base/components/settings/MutableListSetting.tsx';
@@ -31,9 +32,9 @@ import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
 export const BrowseSettings = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('global.label.browse'));
+    useAppTitle(t`Browse`);
 
     const { data, loading, error, refetch } = requestManager.useGetServerSettings({
         notifyOnNetworkStatusChange: true,
@@ -45,7 +46,7 @@ export const BrowseSettings = () => {
         value: ExtensionsSettings[Setting],
     ) => {
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
         );
     };
 
@@ -53,7 +54,7 @@ export const BrowseSettings = () => {
         settings: { hideLibraryEntries, showNsfw },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataBrowseSettings>((e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
 
     if (loading) {
@@ -63,7 +64,7 @@ export const BrowseSettings = () => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('BrowseSettings::refetch'))}
             />
@@ -75,7 +76,7 @@ export const BrowseSettings = () => {
     return (
         <List sx={{ pt: 0 }}>
             <ListItem>
-                <ListItemText primary={t('settings.label.hide_library_entries')} />
+                <ListItemText primary={t`Hide entries already in library`} />
                 <Switch
                     edge="end"
                     checked={hideLibraryEntries}
@@ -83,10 +84,7 @@ export const BrowseSettings = () => {
                 />
             </ListItem>
             <ListItem>
-                <ListItemText
-                    primary={t('settings.label.show_nsfw')}
-                    secondary={t('settings.label.show_nsfw_description')}
-                />
+                <ListItemText primary={t`Show NSFW`} secondary={t`Hide NSFW extensions and sources`} />
                 <Switch
                     edge="end"
                     checked={showNsfw}
@@ -94,12 +92,12 @@ export const BrowseSettings = () => {
                 />
             </ListItem>
             <NumberSetting
-                settingTitle={t('settings.server.requests.sources.parallel.label.title')}
-                settingValue={t('settings.server.requests.sources.parallel.label.value', {
-                    value: serverSettings.maxSourcesInParallel,
-                    count: serverSettings.maxSourcesInParallel,
+                settingTitle={t`Parallel source requests`}
+                settingValue={plural(serverSettings.maxSourcesInParallel, {
+                    one: '# Source',
+                    other: '# Sources',
                 })}
-                valueUnit={t('source.title_one')}
+                valueUnit={t`Source`}
                 value={serverSettings.maxSourcesInParallel}
                 defaultValue={6}
                 minValue={1}
@@ -109,10 +107,10 @@ export const BrowseSettings = () => {
                 handleUpdate={(parallelSources) => updateSetting('maxSourcesInParallel', parallelSources)}
             />
             <MutableListSetting
-                settingName={t('extension.settings.repositories.custom.label.title')}
-                description={t('extension.settings.repositories.custom.label.description')}
+                settingName={t`Extension repositories`}
+                description={t`Add repositories from which extensions can be installed`}
                 dialogDisclaimer={
-                    <Trans i18nKey="extension.settings.repositories.custom.label.disclaimer">
+                    <Trans>
                         <strong>Suwayomi does not provide any support for 3rd party repositories or extensions!</strong>
                         <br />
                         Use with caution as there could be malicious actors making those repositories.
@@ -125,22 +123,20 @@ export const BrowseSettings = () => {
                     requestManager.clearExtensionCache();
                 }}
                 valueInfos={serverSettings.extensionRepos.map((extensionRepo) => [extensionRepo])}
-                addItemButtonTitle={t('extension.settings.repositories.custom.dialog.action.button.add')}
+                addItemButtonTitle={t`Add repository`}
                 placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
                 validateItem={(repo) =>
                     !!repo.match(
                         /https:\/\/(www\.|raw\.)?(github|githubusercontent)\.com\/([^/]+)\/([^/]+)((\/tree|\/blob)?\/([^/\n]*))?(\/([^/\n]*\.json)?)?/g,
                     )
                 }
-                invalidItemError={t('extension.settings.repositories.custom.error.label.invalid_url')}
+                invalidItemError={t`Invalid repository url`}
             />
             <TextSetting
-                settingName={t('settings.server.local_source.path.label.title')}
-                dialogDescription={t('settings.server.local_source.path.label.description')}
+                settingName={t`Local source location`}
+                dialogDescription={t`The path to the directory on the server where local source files are saved in`}
                 value={serverSettings.localSourcePath}
-                settingDescription={
-                    serverSettings.localSourcePath.length ? serverSettings.localSourcePath : t('global.label.default')
-                }
+                settingDescription={serverSettings.localSourcePath.length ? serverSettings.localSourcePath : t`Default`}
                 handleChange={(path) => updateSetting('localSourcePath', path)}
             />
         </List>

@@ -15,13 +15,13 @@ import ListItemText from '@mui/material/ListItemText';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { AwaitableComponent } from 'awaitable-component';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
@@ -40,7 +40,7 @@ interface IProps {
 }
 
 export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const theme = useTheme();
     const isLargeScreen = useMediaQuery(theme.breakpoints.up('sm'));
@@ -78,7 +78,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         <>
             {isLargeScreen && (
                 <>
-                    <CustomTooltip title={t('manga.label.reload_from_source')} disabled={refreshing}>
+                    <CustomTooltip title={t`Reload data from source`} disabled={refreshing}>
                         <IconButton
                             onClick={() => {
                                 onRefresh();
@@ -90,7 +90,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         </IconButton>
                     </CustomTooltip>
                     {settings.mangaDynamicColorSchemes && (
-                        <CustomTooltip title={t('settings.appearance.manga_dynamic_color_schemes.save')}>
+                        <CustomTooltip title={t`Save dynamic color theme`}>
                             <IconButton onClick={saveDynamicColorTheme} color="inherit">
                                 <ColorLensIcon />
                             </IconButton>
@@ -98,7 +98,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                     )}
                     {manga.inLibrary && (
                         <>
-                            <CustomTooltip title={t('global.button.migrate')}>
+                            <CustomTooltip title={t`Migrate`}>
                                 <Link
                                     to={AppRoutes.migrate.childRoutes.search.path(
                                         manga.sourceId,
@@ -113,7 +113,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                     </IconButton>
                                 </Link>
                             </CustomTooltip>
-                            <CustomTooltip title={t('manga.label.edit_categories')}>
+                            <CustomTooltip title={t`Edit manga categories`}>
                                 <IconButton
                                     onClick={() => {
                                         openCategorySelection();
@@ -158,14 +158,14 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <ListItemIcon>
                                 <Refresh fontSize="small" />
                             </ListItemIcon>
-                            <ListItemText>{t('manga.label.reload_from_source')}</ListItemText>
+                            <ListItemText>{t`Reload data from source`}</ListItemText>
                         </MenuItem>
                         {settings.mangaDynamicColorSchemes && (
                             <MenuItem onClick={saveDynamicColorTheme}>
                                 <ListItemIcon>
                                     <ColorLensIcon fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText>{t('settings.appearance.manga_dynamic_color_schemes.save')}</ListItemText>
+                                <ListItemText>{t`Save dynamic color theme`}</ListItemText>
                             </MenuItem>
                         )}
                         {manga.inLibrary && [
@@ -179,7 +179,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                 <ListItemIcon>
                                     <SyncAltIcon fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText>{t('migrate.title')}</ListItemText>
+                                <ListItemText>{t`Migrate`}</ListItemText>
                             </MenuItem>,
                             <MenuItem
                                 key="categories"
@@ -191,7 +191,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                 <ListItemIcon>
                                     <Label fontSize="small" />
                                 </ListItemIcon>
-                                <ListItemText>{t('manga.label.edit_categories')}</ListItemText>
+                                <ListItemText>{t`Edit manga categories`}</ListItemText>
                             </MenuItem>,
                         ]}
                     </Menu>

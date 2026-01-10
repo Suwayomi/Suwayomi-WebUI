@@ -14,7 +14,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import TextField from '@mui/material/TextField';
 import DialogActions from '@mui/material/DialogActions';
 import { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { PasswordTextField } from '@/base/components/inputs/PasswordTextField.tsx';
 
 export type TextSettingDialogProps = {
@@ -42,7 +42,7 @@ export const TextSettingDialog = ({
     setIsDialogOpen,
     validate = () => true,
 }: TextSettingDialogProps) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [dialogValue, setDialogValue] = useState(value ?? '');
     const [isValidValue, setIsValidValue] = useState(true);
@@ -89,7 +89,7 @@ export const TextSettingDialog = ({
                     placeholder={placeholder}
                     value={dialogValue}
                     error={error}
-                    helperText={error ? t('global.error.label.invalid_input') : ''}
+                    helperText={error ? t`Invalid input` : ''}
                     onChange={(e) => {
                         const newValue = e.target.value;
 
@@ -100,10 +100,10 @@ export const TextSettingDialog = ({
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => closeDialog()} color="primary">
-                    {t('global.button.cancel')}
+                    {t`Cancel`}
                 </Button>
                 <Button onClick={() => updateSetting()} disabled={!isValidValue} color="primary">
-                    {t('global.button.ok')}
+                    {t`Ok`}
                 </Button>
             </DialogActions>
         </Dialog>

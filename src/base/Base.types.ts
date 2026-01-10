@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import { ReactNode } from 'react';
-import { ParseKeys } from 'i18next';
 
 export enum GridLayout {
     Compact = 0,
@@ -20,11 +20,9 @@ export enum DirectionOffset {
     NEXT = 1,
 }
 
-export type TranslationKey = ParseKeys;
-
-interface DisplayDataTranslationKey {
+interface DisplayDataTranslation {
     isTitleString?: never;
-    title: TranslationKey;
+    title: MessageDescriptor;
     icon: ReactNode;
 }
 
@@ -34,7 +32,7 @@ interface DisplayDataString {
     icon: ReactNode;
 }
 
-type DisplayData = DisplayDataTranslationKey | DisplayDataString;
+type DisplayData = DisplayDataTranslation | DisplayDataString;
 
 export type ValueToDisplayData<Value extends string | number> = Record<Value, DisplayData>;
 

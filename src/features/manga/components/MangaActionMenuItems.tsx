@@ -11,7 +11,6 @@ import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
 import RemoveDone from '@mui/icons-material/RemoveDone';
 import Done from '@mui/icons-material/Done';
-import { useTranslation } from 'react-i18next';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Label from '@mui/icons-material/Label';
 import { useMemo, useState } from 'react';
@@ -20,6 +19,7 @@ import { Link } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
 import Dialog from '@mui/material/Dialog';
 import { AwaitableComponent } from 'awaitable-component';
+import { useLingui } from '@lingui/react/macro';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { MenuItem } from '@/base/components/menu/MenuItem.tsx';
@@ -60,7 +60,7 @@ export const MangaActionMenuItems = ({
     onClose,
     setHideMenu,
 }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [isTrackDialogOpen, setIsTrackDialogOpen] = useState(false);
 
@@ -108,7 +108,7 @@ export const MangaActionMenuItems = ({
     return (
         <>
             {!!handleSelection && isSingleMode && (
-                <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t('chapter.action.label.select')} />
+                <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t`Select`} />
             )}
             {shouldShowMenuItem(!isFullyDownloaded) && (
                 <NestedMenuItem

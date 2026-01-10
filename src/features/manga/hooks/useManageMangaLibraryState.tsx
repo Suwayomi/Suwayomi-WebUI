@@ -7,9 +7,9 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import gql from 'graphql-tag';
 import { AwaitableComponent } from 'awaitable-component';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
@@ -27,7 +27,7 @@ export const useManageMangaLibraryState = (
     manga: Pick<MangaType, 'id' | 'title'> & Partial<Pick<MangaType, 'inLibrary'>>,
     confirmRemoval: boolean = false,
 ) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [isInLibrary, setIsInLibrary] = useState(!!manga.inLibrary);
 
@@ -42,10 +42,10 @@ export const useManageMangaLibraryState = (
                     updateManga: { inLibrary: true },
                     updateMangaCategories: { addToCategories, removeFromCategories },
                 })
-                .response.then(() => makeToast(t('library.info.label.added_to_library'), 'success'))
+                .response.then(() => makeToast(t`Added manga to library!`, 'success'))
                 .then(() => setIsInLibrary(true))
                 .catch((e) => {
-                    makeToast(t('library.error.label.add_to_library'), 'error', getErrorMessage(e));
+                    makeToast(t`Could not add manga to library!`, 'error', getErrorMessage(e));
                 });
         },
         [manga.id],
@@ -55,10 +55,12 @@ export const useManageMangaLibraryState = (
         if (confirmRemoval) {
             await Confirmation.show(
                 {
-                    title: t('global.label.are_you_sure'),
-                    message: t('manga.action.library.remove.dialog.label.message', { title: manga.title }),
+                    title: t`Are you sure?`,
+                    message: t`You are about to remove "${manga.title}" from your library`,
                     actions: {
-                        confirm: { title: t('global.button.remove') },
+                        confirm: {
+                            title: t`Remove`,
+                        },
                     },
                 },
                 { id: `manga-library-state-remove-${manga.id}` },
@@ -83,7 +85,7 @@ export const useManageMangaLibraryState = (
                 showAddToLibraryCategorySelectDialog = (await getMetadataServerSettings())
                     .showAddToLibraryCategorySelectDialog;
             } catch (e) {
-                makeToast(t('global.error.label.failed_to_load_data'), 'error', getErrorMessage(e));
+                makeToast(t`Unable to load data`, 'error', getErrorMessage(e));
                 return;
             }
 
@@ -98,7 +100,7 @@ export const useManageMangaLibraryState = (
                     GetCategoriesBaseQueryVariables
                 >(GET_CATEGORIES_BASE).response;
             } catch (e) {
-                makeToast(t('category.error.label.request_failure'), 'error', getErrorMessage(e));
+                makeToast(t`Could not load categories`, 'error', getErrorMessage(e));
                 return;
             }
             const userCreatedCategories = Categories.getUserCreated(categories.data.categories.nodes);
@@ -109,15 +111,20 @@ export const useManageMangaLibraryState = (
             try {
                 duplicatedLibraryMangas = await Mangas.getDuplicateLibraryMangas(manga.title).response;
             } catch (e) {
+                const errorMessage = getErrorMessage(e);
                 await Confirmation.show(
                     {
-                        title: t('global.error.label.failed_to_load_data'),
-                        message: t('manga.action.library.add.dialog.duplicate.label.failure', {
-                            error: getErrorMessage(e),
-                        }),
+                        title: t`Unable to load data`,
+                        message: t`Could not check for duplicated manga in your library.\n\nError: ${errorMessage}`,
                         actions: {
-                            extra: { show: true, title: t('global.button.retry'), contain: true },
-                            confirm: { title: t('global.button.add') },
+                            extra: {
+                                show: true,
+                                title: t`Retry`,
+                                contain: true,
+                            },
+                            confirm: {
+                                title: t`Add`,
+                            },
                         },
                         onExtra: () =>
                             update().catch(
@@ -132,16 +139,18 @@ export const useManageMangaLibraryState = (
             if (doDuplicatesExist) {
                 await Confirmation.show(
                     {
-                        title: t('global.label.are_you_sure'),
-                        message: t('manga.action.library.add.dialog.duplicate.label.info'),
+                        title: t`Are you sure?`,
+                        message: t`You have an entry in your library with the same name.`,
                         actions: {
                             extra: {
                                 show: true,
-                                title: t('migrate.dialog.action.button.show_entry'),
+                                title: t`Show entry`,
                                 contain: true,
                                 link: AppRoutes.manga.path(duplicatedLibraryMangas!.data.mangas.nodes[0].id),
                             },
-                            confirm: { title: t('global.button.add') },
+                            confirm: {
+                                title: t`Add`,
+                            },
                         },
                         onExtra: () => {},
                     },

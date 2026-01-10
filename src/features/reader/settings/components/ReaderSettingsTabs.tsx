@@ -8,7 +8,7 @@
 
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
@@ -43,7 +43,7 @@ const BaseReaderSettingsTabs = ({
     deleteSetting: (setting: keyof IReaderSettings) => void;
     setTransparent?: (transparent: boolean) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
     const setShowPreview = useReaderTapZoneStore((state) => state.tapZone.setShowPreview);
 

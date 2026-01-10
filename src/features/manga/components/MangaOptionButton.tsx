@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { BaseSyntheticEvent, ChangeEvent, useMemo, ForwardedRef } from 'react';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -14,6 +13,7 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
@@ -34,7 +34,7 @@ export const MangaOptionButton = ({
     popupState: PopupState;
     ref?: ForwardedRef<HTMLButtonElement | null>;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const bindTriggerProps = useMemo(() => bindTrigger(popupState), [popupState]);
 
@@ -59,7 +59,7 @@ export const MangaOptionButton = ({
         }
 
         return (
-            <CustomTooltip title={t(selected ? 'global.button.deselect' : 'global.button.select')}>
+            <CustomTooltip title={selected ? t`Deselect` : t`Select`}>
                 <Checkbox {...MUIUtil.preventRippleProp()} checked={selected} onChange={handleSelectionChange} />
             </CustomTooltip>
         );
@@ -67,7 +67,7 @@ export const MangaOptionButton = ({
 
     if (asCheckbox) {
         return (
-            <CustomTooltip title={t('global.button.options')}>
+            <CustomTooltip title={t`Options`}>
                 <IconButton
                     ref={ref}
                     {...MUIUtil.preventRippleProp(bindTriggerProps, { onClick: preventDefaultAction })}
@@ -80,7 +80,7 @@ export const MangaOptionButton = ({
     }
 
     return (
-        <CustomTooltip title={t('global.button.options')}>
+        <CustomTooltip title={t`Options`}>
             <Button
                 ref={ref}
                 {...MUIUtil.preventRippleProp(bindTriggerProps, { onClick: preventDefaultAction })}

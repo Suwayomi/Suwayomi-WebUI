@@ -9,12 +9,12 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CARD_STYLING } from '@/features/tracker/Tracker.constants.ts';
-
 import { TTrackerBase } from '@/features/tracker/Tracker.types.ts';
+
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 
 export const TrackerUntrackedCard = ({
@@ -24,7 +24,7 @@ export const TrackerUntrackedCard = ({
     tracker: Pick<TTrackerBase, 'name' | 'icon'>;
     onClick: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Card sx={CARD_STYLING}>
@@ -49,7 +49,7 @@ export const TrackerUntrackedCard = ({
                         }}
                     />
                     <Button sx={{ flexGrow: '1' }} onClick={onClick}>
-                        {t('tracking.action.button.add_tracking')}
+                        {t`Add tracking`}
                     </Button>
                 </Stack>
             </CardContent>

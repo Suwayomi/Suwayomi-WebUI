@@ -8,6 +8,7 @@
   },
   "include": [
     "vite.config.ts",
-    "gql_codegen.ts"
+    "gql_codegen.ts",
+    "lingui.config.ts"
   ]
 }

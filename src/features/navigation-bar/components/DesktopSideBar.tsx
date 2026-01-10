@@ -10,7 +10,6 @@ import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -22,6 +21,7 @@ import Box from '@mui/material/Box';
 import ListItem from '@mui/material/ListItem';
 import Badge from '@mui/material/Badge';
 import Typography from '@mui/material/Typography';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
@@ -40,7 +40,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent, useBadge }: NavbarItem) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const location = useLocation();
     const { isCollapsed } = useNavBarContext();
     const theme = useTheme();

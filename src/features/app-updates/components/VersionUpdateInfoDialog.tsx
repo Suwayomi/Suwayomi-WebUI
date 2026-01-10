@@ -15,8 +15,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
+import { useLingui } from '@lingui/react/macro';
 import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.tsx';
 
 interface BaseProps {
@@ -48,7 +48,7 @@ export const VersionUpdateInfoDialog = ({
     changelogUrl,
     disabled,
 }: VersionUpdateInfoDialogProps) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const updateChecker = useUpdateChecker(...updateCheckerProps);
 
@@ -58,7 +58,7 @@ export const VersionUpdateInfoDialog = ({
 
     return (
         <Dialog open>
-            <DialogTitle>{t('global.update.label.available')}</DialogTitle>
+            <DialogTitle>{t`Update available`}</DialogTitle>
             <DialogContent>
                 <DialogContentText>{info}</DialogContentText>
             </DialogContent>
@@ -72,7 +72,7 @@ export const VersionUpdateInfoDialog = ({
                 >
                     {changelogUrl && (
                         <Button href={changelogUrl} target="_blank" rel="noreferrer">
-                            {t('global.button.changelog')}
+                            {t`Changelog`}
                         </Button>
                     )}
                     <Stack direction="row">
@@ -80,7 +80,7 @@ export const VersionUpdateInfoDialog = ({
                             {(popupState) => (
                                 <>
                                     <Button disabled={disabled} {...bindTrigger(popupState)}>
-                                        {t('global.label.close')}
+                                        {t`Close`}
                                     </Button>
                                     <Menu {...bindMenu(popupState)}>
                                         <MenuItem
@@ -89,7 +89,7 @@ export const VersionUpdateInfoDialog = ({
                                                 popupState.close();
                                             }}
                                         >
-                                            {t('global.button.remind_later')}
+                                            {t`Remind later`}
                                         </MenuItem>
                                         <MenuItem
                                             onClick={() => {
@@ -97,7 +97,7 @@ export const VersionUpdateInfoDialog = ({
                                                 popupState.close();
                                             }}
                                         >
-                                            {t('global.button.ignore')}
+                                            {t`Ignore`}
                                         </MenuItem>
                                     </Menu>
                                 </>

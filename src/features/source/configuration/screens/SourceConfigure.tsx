@@ -9,7 +9,7 @@
 import { createElement } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { cloneObject } from '@/base/utils/cloneObject.tsx';
 import {
@@ -47,9 +47,9 @@ function getPrefComponent(type: string) {
 }
 
 export function SourceConfigure() {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('source.configuration.title'));
+    useAppTitle(t`Source Configuration`);
 
     const { sourceId } = useParams<{ sourceId: string }>();
     const { data, loading, error, refetch } = requestManager.useGetSource<
@@ -65,9 +65,7 @@ export function SourceConfigure() {
         (type, value) => {
             requestManager
                 .setSourcePreferences(sourceId, { position, [type]: value })
-                .response.catch((e) =>
-                    makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
-                );
+                .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
         };
 
     if (loading) {
@@ -77,7 +75,7 @@ export function SourceConfigure() {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('SourceConfigure::refetch'))}
             />

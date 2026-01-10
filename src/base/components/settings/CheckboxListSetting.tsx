@@ -12,10 +12,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import FormGroup from '@mui/material/FormGroup';
-import { useTranslation } from 'react-i18next';
 import Stack from '@mui/material/Stack';
 import { useCallback, useMemo } from 'react';
 import { CheckboxProps } from '@mui/material/Checkbox';
+import { useLingui } from '@lingui/react/macro';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
 
@@ -42,7 +42,7 @@ export function CheckboxListSetting<Item>({
         checkbox?: Omit<CheckboxProps, 'checked' | 'onChange' | 'label'>;
     };
 }) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const itemIds = useMemo(() => items.map(getId), [items]);
     const currentSelectedItemIds = useMemo(() => items.filter(isChecked).map(getId), [items]);
@@ -105,15 +105,15 @@ export function CheckboxListSetting<Item>({
                         }}
                     >
                         <Button onClick={() => handleSelectAll(!selectedItemIds.length, items.map(getId))}>
-                            {t(selectedItemIds.length ? 'global.button.reset' : 'global.button.select_all')}
+                            {selectedItemIds.length ? t`Reset` : t`Select all`}
                         </Button>
                         <Stack direction="row">
                             <Button autoFocus onClick={handleCancel} color="primary">
-                                {t('global.button.cancel')}
+                                {t`Cancel`}
                             </Button>
                             {!!items.length && (
                                 <Button onClick={handleOk} color="primary">
-                                    {t('global.button.ok')}
+                                    {t`Ok`}
                                 </Button>
                             )}
                         </Stack>

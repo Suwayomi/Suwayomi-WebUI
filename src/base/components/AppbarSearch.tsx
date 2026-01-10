@@ -10,10 +10,10 @@ import React, { useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import { useQueryParam, StringParam } from 'use-query-params';
-import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { SearchTextField } from '@/base/components/inputs/SearchTextField.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
@@ -26,7 +26,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const { isClosable = true } = props;
 
     const theme = useTheme();
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [prevLocationKey, setPrevLocationKey] = useState<string>();
     const location = useLocation();
@@ -119,7 +119,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     }
 
     return (
-        <CustomTooltip title={t('search.title.search')}>
+        <CustomTooltip title={t`Search`}>
             <IconButton onClick={() => updateSearchOpenState(true)} color="inherit">
                 <SearchIcon />
             </IconButton>

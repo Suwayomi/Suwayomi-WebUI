@@ -6,10 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { t } from 'i18next';
-import { TranslationKey } from '@/base/Base.types.ts';
+import { MessageDescriptor } from '@lingui/core';
+import { msg, t } from '@lingui/core/macro';
 
 import { getISOLanguage, getPreferredISOLanguageCodes, LanguageObject } from '@/lib/ISOLanguageUtil.ts';
+
+import { i18n } from '@/i18n';
 
 export enum DefaultLanguage {
     ALL = 'all',
@@ -19,12 +21,12 @@ export enum DefaultLanguage {
     LAST_USED_SOURCE = 'last_used_source',
 }
 
-const DEFAULT_LANGUAGE_TO_TRANSLATION: Record<DefaultLanguage, TranslationKey> = {
-    [DefaultLanguage.ALL]: 'extension.language.all',
-    [DefaultLanguage.OTHER]: 'extension.language.other',
-    [DefaultLanguage.LOCAL_SOURCE]: 'extension.language.other',
-    [DefaultLanguage.PINNED]: 'global.label.pinned',
-    [DefaultLanguage.LAST_USED_SOURCE]: 'global.label.last_used',
+const DEFAULT_LANGUAGE_TO_TRANSLATION: Record<DefaultLanguage, MessageDescriptor> = {
+    [DefaultLanguage.ALL]: msg`All`,
+    [DefaultLanguage.OTHER]: msg`Other`,
+    [DefaultLanguage.LOCAL_SOURCE]: msg`Other`,
+    [DefaultLanguage.PINNED]: msg`Pinned`,
+    [DefaultLanguage.LAST_USED_SOURCE]: msg`Last used`,
 };
 
 export function getLanguage(code: string): LanguageObject {
@@ -37,15 +39,15 @@ export function getLanguage(code: string): LanguageObject {
     return {
         orgCode: code,
         isoCode: code,
-        name: t('global.language.label.language_with_code', { code }),
-        nativeName: t('global.language.label.language_with_code', { code }),
+        name: t`Language with code: ${code}`,
+        nativeName: t`Language with code: ${code}`,
     };
 }
 
 export function languageCodeToName(code: string): string {
     const isCustomLanguage = Object.keys(DEFAULT_LANGUAGE_TO_TRANSLATION).includes(code);
     if (isCustomLanguage) {
-        return t(DEFAULT_LANGUAGE_TO_TRANSLATION[code as DefaultLanguage]);
+        return i18n._(DEFAULT_LANGUAGE_TO_TRANSLATION[code as DefaultLanguage]);
     }
 
     return getLanguage(code).nativeName;

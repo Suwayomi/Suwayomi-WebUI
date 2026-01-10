@@ -12,7 +12,6 @@ import Typography from '@mui/material/Typography';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { StringParam, useQueryParam } from 'use-query-params';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -23,6 +22,7 @@ import { useElementSize } from '@mantine/hooks';
 import IconButton from '@mui/material/IconButton';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { d } from 'koration';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { useDebounce } from '@/base/hooks/useDebounce.ts';
@@ -128,7 +128,7 @@ const SourceSearchPreview = React.memo(
         emptyQuery: boolean;
     } & Pick<MangaCardProps, 'mode'> &
         Pick<MetadataBrowseSettings, 'shouldShowOnlySourcesWithResults'>) => {
-        const { t } = useTranslation();
+        const { t } = useLingui();
 
         const { id, name, lang } = source;
 
@@ -163,9 +163,9 @@ const SourceSearchPreview = React.memo(
 
         let errorMessage: string | undefined;
         if (error) {
-            errorMessage = t('search.error.label.source_search_failed');
+            errorMessage = t`Could not search source`;
         } else if (noMangasFound) {
-            errorMessage = t('manga.error.label.no_mangas_found');
+            errorMessage = t`No manga found`;
         }
 
         if ((!isLoading && !searchString) || emptyQuery) {
@@ -188,7 +188,7 @@ const SourceSearchPreview = React.memo(
                             <Typography variant="h5">{name}</Typography>
                             <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
                         </Box>
-                        <CustomTooltip title={t('global.button.show_more')}>
+                        <CustomTooltip title={t`Show more`}>
                             <IconButton {...MUIUtil.preventRippleProp()}>
                                 <ArrowForwardIcon />
                             </IconButton>
@@ -232,7 +232,7 @@ const SourceSearchPreview = React.memo(
 );
 
 export const SearchAll: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const navigate = useNavigate();
     const { pathname, state } = useLocation<{ mangaTitle?: string; shouldShowOnlyPinnedSources?: boolean }>();
     const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
@@ -288,11 +288,11 @@ export const SearchAll: React.FC = () => {
     );
 
     const updateMetadataSettings = createUpdateMetadataServerSettings<'shouldShowOnlySourcesWithResults'>((e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
 
     useAppTitleAndAction(
-        t(isMigrateMode ? 'migrate.search.title' : 'search.title.global_search', { title: state?.mangaTitle }),
+        isMigrateMode ? t`Migrate "${state?.mangaTitle}"` : t`Global Search`,
         <>
             <AppbarSearch isClosable={false} />
             <SourceLanguageSelect
@@ -312,7 +312,7 @@ export const SearchAll: React.FC = () => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('SearchAll::refetch'))}
             />
@@ -351,7 +351,7 @@ export const SearchAll: React.FC = () => {
                             )
                         }
                     >
-                        {t('global.label.pinned')}
+                        {t`Pinned`}
                     </Button>
                     <Button
                         startIcon={<DoneAllIcon />}
@@ -369,7 +369,7 @@ export const SearchAll: React.FC = () => {
                             )
                         }
                     >
-                        {t('extension.language.all')}
+                        {t`All`}
                     </Button>
                 </Stack>
                 <Button
@@ -379,7 +379,7 @@ export const SearchAll: React.FC = () => {
                         updateMetadataSettings('shouldShowOnlySourcesWithResults', !shouldShowOnlySourcesWithResults)
                     }
                 >
-                    {t('search.filter.has_results')}
+                    {t`Has results`}
                 </Button>
             </Stack>
             <Box sx={{ pt: `${filterHeaderHeight}px` }}>

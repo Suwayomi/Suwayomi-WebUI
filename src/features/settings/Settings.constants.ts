@@ -6,6 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
 import { d } from 'koration';
 import { DEFAULT_DEVICE } from '@/features/device/services/Device.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/features/migration/Migration.constants.ts';
@@ -16,7 +18,7 @@ import {
     MetadataServerSettings,
     ServerSettings,
 } from '@/features/settings/Settings.types.ts';
-import { GridLayout, TranslationKey } from '@/base/Base.types.ts';
+import { GridLayout } from '@/base/Base.types';
 import { getDefaultLanguages } from '@/base/utils/Languages.ts';
 import { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
 import {
@@ -93,93 +95,93 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
 };
 
 const AUTH_MODES = [AuthMode.None].concat(Object.values(AuthMode).filter((mode) => mode !== AuthMode.None));
-const AUTH_MODES_TO_TRANSLATION_KEY: { [mode in AuthMode]: SelectSettingValueDisplayInfo } = {
+const AUTH_MODES_TO_TRANSLATION: { [mode in AuthMode]: SelectSettingValueDisplayInfo } = {
     [AuthMode.None]: {
-        text: 'settings.server.auth.mode.option.none.label.title',
-        description: 'settings.server.auth.mode.option.none.label.description',
-        disclaimer: 'settings.server.auth.mode.option.none.label.info',
+        text: msg`None`,
+        description: msg`Disable authentication`,
+        disclaimer: msg`Your library will be accessible. Use this only on private networks or when otherwise securing access.`,
     },
     [AuthMode.BasicAuth]: {
-        text: 'settings.server.auth.mode.option.basicAuth.label.title',
-        description: 'settings.server.auth.mode.option.basicAuth.label.description',
+        text: msg`Basic Authentication`,
+        description: msg`Your browser will prompt you to enter credentials with a dialog.`,
     },
     [AuthMode.SimpleLogin]: {
-        text: 'settings.server.auth.mode.option.simple_login.label.title',
-        description: 'settings.server.auth.mode.option.simple_login.label.description',
-        disclaimer: 'settings.server.auth.mode.option.simple_login.label.info',
+        text: msg`Simple Login`,
+        description: msg`The login will be handled by the server.`,
+        disclaimer: msg`When you enable this, you may need to refresh this tab for the login page to appear.`,
     },
     [AuthMode.UiLogin]: {
-        text: 'settings.server.auth.mode.option.ui_login.label.title',
-        description: 'settings.server.auth.mode.option.ui_login.label.description',
+        text: msg`UI Login`,
+        description: msg`The login will be handled by the client.`,
     },
 };
 export const AUTH_MODES_SELECT_VALUES: SelectSettingValue<AuthMode>[] = AUTH_MODES.map((mode) => [
     mode,
-    AUTH_MODES_TO_TRANSLATION_KEY[mode],
+    AUTH_MODES_TO_TRANSLATION[mode],
 ]);
 
 const WEB_UI_FLAVORS = Object.values(WebUiFlavor);
-const WEB_UI_FLAVOR_TO_TRANSLATION_KEY: { [flavor in WebUiFlavor]: SelectSettingValueDisplayInfo } = {
+const WEB_UI_FLAVOR_TO_TRANSLATION: { [flavor in WebUiFlavor]: SelectSettingValueDisplayInfo } = {
     [WebUiFlavor.Webui]: {
-        text: 'settings.webui.title.webui',
-        description: 'settings.webui.flavor.option.webui.label.description',
-        disclaimer: 'settings.webui.flavor.label.info',
+        text: msg`WebUI`,
+        description: msg`Use the default WebUI`,
+        disclaimer: msg`After changing this setting go to the "About" page and check for a webUI update and install it`,
     },
     [WebUiFlavor.Vui]: {
-        text: 'settings.webui.flavor.option.vui.label.title',
-        description: 'settings.webui.flavor.option.vui.label.description',
-        disclaimer: 'settings.webui.flavor.label.info',
+        text: msg`VUI`,
+        description: msg`A preview focused web frontend built with svelte`,
+        disclaimer: msg`After changing this setting go to the "About" page and check for a webUI update and install it`,
     },
     [WebUiFlavor.Custom]: {
-        text: 'settings.webui.flavor.option.custom.label.title',
-        description: 'settings.webui.flavor.option.custom.label.description',
+        text: msg`Custom`,
+        description: msg`Use a custom WebUI.\nTo use a custom WebUI replace the content of the "webUI" directory in the root directory on the server with the files of the custom WebUI`,
     },
 };
 export const WEB_UI_FLAVOR_SELECT_VALUES: SelectSettingValue<WebUiFlavor>[] = WEB_UI_FLAVORS.map((flavor) => [
     flavor,
-    WEB_UI_FLAVOR_TO_TRANSLATION_KEY[flavor],
+    WEB_UI_FLAVOR_TO_TRANSLATION[flavor],
 ]);
 
 const WEB_UI_CHANNELS = Object.values(WebUiChannel);
-const WEB_UI_CHANNEL_TO_TRANSLATION_KEYS: {
+const WEB_UI_CHANNEL_TO_TRANSLATIONS: {
     [channel in WebUiChannel]: SelectSettingValueDisplayInfo;
 } = {
     [WebUiChannel.Bundled]: {
-        text: 'settings.webui.channel.option.bundled.label.title',
-        description: 'settings.webui.channel.option.bundled.label.description',
-        disclaimer: 'settings.webui.flavor.label.info',
+        text: msg`Bundled`,
+        description: msg`Use the version that was delivered with the server release`,
+        disclaimer: msg`After changing this setting go to the "About" page and check for a webUI update and install it`,
     },
     [WebUiChannel.Stable]: {
-        text: 'settings.webui.channel.option.stable.label.title',
-        description: 'settings.webui.channel.option.stable.label.description',
-        disclaimer: 'settings.webui.flavor.label.info',
+        text: msg`Stable`,
+        description: msg`Use the latest released version.`,
+        disclaimer: msg`After changing this setting go to the "About" page and check for a webUI update and install it`,
     },
     [WebUiChannel.Preview]: {
-        text: 'settings.webui.channel.option.preview.label.title',
-        description: 'settings.webui.channel.option.preview.label.description',
-        disclaimer: 'settings.webui.channel.option.preview.label.disclaimer',
+        text: msg`Preview`,
+        description: msg`Use the latest features and help us get them ready for a stable release.`,
+        disclaimer: msg`Features and changes in this version might not be completely ready yet and can cause bugs.\nMake sure that you have automatic backups enabled to prevent loss of your library!\n\nAfter changing this setting go to the "About" page and check for a webUI update and install it`,
     },
 };
 export const WEB_UI_CHANNEL_SELECT_VALUES: SelectSettingValue<WebUiChannel>[] = WEB_UI_CHANNELS.map((channel) => [
     channel,
-    WEB_UI_CHANNEL_TO_TRANSLATION_KEYS[channel],
+    WEB_UI_CHANNEL_TO_TRANSLATIONS[channel],
 ]);
 
 const WEB_UI_INTERFACES = Object.values(WebUiInterface);
-const WEB_UI_INTERFACE_TO_TRANSLATION_KEYS: {
+const WEB_UI_INTERFACE_TO_TRANSLATIONS: {
     [webUIInterface in WebUiInterface]: SelectSettingValueDisplayInfo;
 } = {
     [WebUiInterface.Browser]: {
-        text: 'settings.webui.interface.option.label.browser',
-        description: 'settings.webui.interface.label.description',
+        text: msg`Browser`,
+        description: msg`Where to start the WebUI when starting the server`,
     },
     [WebUiInterface.Electron]: {
-        text: 'settings.webui.interface.option.label.electron',
-        description: 'settings.webui.interface.label.description',
+        text: msg`Electron`,
+        description: msg`Where to start the WebUI when starting the server`,
     },
 };
 export const WEB_UI_INTERFACE_SELECT_VALUES: SelectSettingValue<WebUiInterface>[] = WEB_UI_INTERFACES.map(
-    (webUIInterface) => [webUIInterface, WEB_UI_INTERFACE_TO_TRANSLATION_KEYS[webUIInterface]],
+    (webUIInterface) => [webUIInterface, WEB_UI_INTERFACE_TO_TRANSLATIONS[webUIInterface]],
 );
 
 export const GLOBAL_UPDATE_INTERVAL = {
@@ -189,11 +191,11 @@ export const GLOBAL_UPDATE_INTERVAL = {
 };
 
 export const GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION: {
-    [setting in keyof GlobalUpdateSkipEntriesSettings]: TranslationKey;
+    [setting in keyof GlobalUpdateSkipEntriesSettings]: MessageDescriptor;
 } = {
-    excludeUnreadChapters: 'library.settings.global_update.entries.label.unread_chapters',
-    excludeNotStarted: 'library.settings.global_update.entries.label.not_started',
-    excludeCompleted: 'library.settings.global_update.entries.label.completed',
+    excludeUnreadChapters: msg`With unread chapter(s)`,
+    excludeNotStarted: msg`That haven't been started`,
+    excludeCompleted: msg`With "Completed" status`,
 };
 
 export const WEB_UI_UPDATE_INTERVAL = {
@@ -222,46 +224,43 @@ export const KOREADER_SYNC_PERCENTAGE_TOLERANCE = {
 };
 
 export const KOREADER_SYNC_CONFLICT_STRATEGIES = Object.values(KoreaderSyncConflictStrategy);
-export const KOREADER_SYNC_CONFLICT_STRATEGY_TO_TRANSLATION_KEYS: Record<
+export const KOREADER_SYNC_CONFLICT_STRATEGY_TO_TRANSLATIONS: Record<
     KoreaderSyncConflictStrategy,
     SelectSettingValueDisplayInfo
 > = {
     [KoreaderSyncConflictStrategy.Disabled]: {
-        text: 'settings.server.koreader.sync.strategy.option.disabled',
+        text: msg`Disabled`,
     },
     [KoreaderSyncConflictStrategy.KeepLocal]: {
-        text: 'settings.server.koreader.sync.strategy.option.keep_local',
+        text: msg`Keep local`,
     },
     [KoreaderSyncConflictStrategy.KeepRemote]: {
-        text: 'settings.server.koreader.sync.strategy.option.keep_remote',
+        text: msg`Keep remote`,
     },
     [KoreaderSyncConflictStrategy.Prompt]: {
-        text: 'settings.server.koreader.sync.strategy.option.prompt',
+        text: msg`Prompt`,
     },
 };
 export const KOREADER_SYNC_CONFLICT_STRATEGY_SELECT_VALUES: SelectSettingValue<KoreaderSyncConflictStrategy>[] =
     KOREADER_SYNC_CONFLICT_STRATEGIES.map((strategy) => [
         strategy,
-        KOREADER_SYNC_CONFLICT_STRATEGY_TO_TRANSLATION_KEYS[strategy],
+        KOREADER_SYNC_CONFLICT_STRATEGY_TO_TRANSLATIONS[strategy],
     ]);
 
 export const KOREADER_SYNC_CHECKSUM_METHODES = Object.values(KoreaderSyncChecksumMethod);
-export const KOREADER_SYNC_CHECKSUM_METHOD_TO_TRANSLATION_KEYS: Record<
+export const KOREADER_SYNC_CHECKSUM_METHOD_TO_TRANSLATIONS: Record<
     KoreaderSyncChecksumMethod,
     SelectSettingValueDisplayInfo
 > = {
     [KoreaderSyncChecksumMethod.Binary]: {
-        text: 'settings.server.koreader.sync.check_sum_method.binary',
+        text: msg`Binary`,
     },
     [KoreaderSyncChecksumMethod.Filename]: {
-        text: 'settings.server.koreader.sync.check_sum_method.filename',
+        text: msg`Filename`,
     },
 };
 export const KOREADER_SYNC_CHECKSUM_METHOD_SELECT_VALUES: SelectSettingValue<KoreaderSyncChecksumMethod>[] =
-    KOREADER_SYNC_CHECKSUM_METHODES.map((method) => [
-        method,
-        KOREADER_SYNC_CHECKSUM_METHOD_TO_TRANSLATION_KEYS[method],
-    ]);
+    KOREADER_SYNC_CHECKSUM_METHODES.map((method) => [method, KOREADER_SYNC_CHECKSUM_METHOD_TO_TRANSLATIONS[method]]);
 
 export const IMAGE_PROCESSING_COMPRESSION = {
     min: 0,
@@ -280,32 +279,32 @@ export const IMAGE_PROCESSING_CONNECT_TIMEOUT = {
 };
 
 const IMAGE_PROCESSING_TARGET_MODES = Object.values(ImageProcessingTargetMode);
-const IMAGE_PROCESSING_TARGET_MODES_TO_TRANSLATION_KEY: {
+const IMAGE_PROCESSING_TARGET_MODES_TO_TRANSLATION: {
     [flavor in ImageProcessingTargetMode]: SelectSettingValueDisplayInfo;
 } = {
     [ImageProcessingTargetMode.DISABLED]: {
-        text: 'global.label.disabled',
+        text: msg`Disabled`,
     },
     [ImageProcessingTargetMode.IMAGE]: {
-        text: 'download.settings.conversion.target_modes.image.title',
-        description: 'download.settings.conversion.target_modes.image.description',
+        text: msg`Image`,
+        description: msg`Convert images to different formats`,
     },
     [ImageProcessingTargetMode.URL]: {
-        text: 'download.settings.conversion.target_modes.url.title',
-        description: 'download.settings.conversion.target_modes.image.description',
+        text: msg`URL`,
+        description: msg`Convert images to different formats`,
     },
 };
 export const IMAGE_PROCESSING_TARGET_MODES_SELECT_VALUES: SelectSettingValue<ImageProcessingTargetMode>[] =
-    IMAGE_PROCESSING_TARGET_MODES.map((mode) => [mode, IMAGE_PROCESSING_TARGET_MODES_TO_TRANSLATION_KEY[mode]]);
+    IMAGE_PROCESSING_TARGET_MODES.map((mode) => [mode, IMAGE_PROCESSING_TARGET_MODES_TO_TRANSLATION[mode]]);
 
 export const IMAGE_PROCESSING_INPUT_WIDTH = 250;
 export const DEFAULT_MIME_TYPE = 'default';
 export const MIME_TYPE_PREFIX = 'image/';
 export const TARGET_DISABLED = 'none';
 
-export const IMAGE_PROCESSING_TYPE_TO_TRANSLATION: Record<ImageProcessingType, TranslationKey> = {
-    [ImageProcessingType.DOWNLOAD]: 'download.settings.conversion.title',
-    [ImageProcessingType.SERVE]: 'settings.images.processing.serve.title',
+export const IMAGE_PROCESSING_TYPE_TO_TRANSLATION: Record<ImageProcessingType, MessageDescriptor> = {
+    [ImageProcessingType.DOWNLOAD]: msg`Image download processing`,
+    [ImageProcessingType.SERVE]: msg`Image serve processing`,
 };
 
 export const IMAGE_PROCESSING_TYPE_TO_SETTING: Record<

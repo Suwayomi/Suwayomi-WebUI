@@ -7,7 +7,7 @@
  */
 
 import Checkbox from '@mui/material/Checkbox';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 
 export const SelectableCollectionSelectAll = ({
@@ -19,10 +19,10 @@ export const SelectableCollectionSelectAll = ({
     areNoItemsSelected: boolean;
     onChange: (checked: boolean) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
-        <CustomTooltip title={t(!areAllItemsSelected ? 'global.button.select_all' : 'global.button.clear_selection')}>
+        <CustomTooltip title={!areAllItemsSelected ? t`Select all` : t`Clear`}>
             <Checkbox
                 sx={{
                     padding: '8px',

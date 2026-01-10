@@ -9,9 +9,9 @@
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
-import { useTranslation } from 'react-i18next';
 import ListSubheader from '@mui/material/ListSubheader';
 import Divider from '@mui/material/Divider';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -24,9 +24,9 @@ import { epochToDate } from '@/base/utils/DateHelper.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 
 export function About() {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('settings.about.title'));
+    useAppTitle(t`About`);
 
     const { data, loading, error, refetch } = requestManager.useGetAbout({ notifyOnNetworkStatusChange: true });
 
@@ -57,7 +57,7 @@ export function About() {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('About::refetch'))}
             />
@@ -78,19 +78,16 @@ export function About() {
                 sx={{ padding: 0 }}
                 subheader={
                     <ListSubheader component="div" id="about-server-info">
-                        {t('settings.server.title.server')}
+                        {t`Server`}
                     </ListSubheader>
                 }
             >
                 <ListItem>
-                    <ListItemText
-                        primary={t('settings.server.title.server')}
-                        secondary={`${aboutServer.name} (${aboutServer.buildType})`}
-                    />
+                    <ListItemText primary={t`Server`} secondary={`${aboutServer.name} (${aboutServer.buildType})`} />
                 </ListItem>
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.about.server.label.version')}
+                        primary={t`Server version`}
                         secondary={
                             <VersionInfo
                                 version={aboutServer.version}
@@ -106,7 +103,7 @@ export function About() {
                 </ListItem>
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.about.server.label.build_time')}
+                        primary={t`Build time`}
                         secondary={epochToDate(Number(aboutServer.buildTime)).toString()}
                     />
                 </ListItem>
@@ -116,19 +113,16 @@ export function About() {
                 sx={{ padding: 0 }}
                 subheader={
                     <ListSubheader component="div" id="about-webui-info">
-                        {t('settings.webui.title.webui')}
+                        {t`WebUI`}
                     </ListSubheader>
                 }
             >
                 <ListItem>
-                    <ListItemText
-                        primary={t('settings.about.webui.label.channel')}
-                        secondary={aboutWebUI.channel.toLocaleUpperCase()}
-                    />
+                    <ListItemText primary={t`WebUI channel`} secondary={aboutWebUI.channel.toLocaleUpperCase()} />
                 </ListItem>
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.about.webui.label.version')}
+                        primary={t`WebUI version`}
                         secondary={
                             <VersionInfo
                                 version={aboutWebUI.tag}
@@ -152,21 +146,18 @@ export function About() {
             <List
                 subheader={
                     <ListSubheader component="div" id="about-links">
-                        {t('global.label.links')}
+                        {t`Links`}
                     </ListSubheader>
                 }
             >
                 <ListItemLink to={aboutServer.github} target="_blank" rel="noreferrer">
-                    <ListItemText primary={t('settings.about.server.label.github')} secondary={aboutServer.github} />
+                    <ListItemText primary={t`GitHub Server`} secondary={aboutServer.github} />
                 </ListItemLink>
                 <ListItemLink to="https://github.com/Suwayomi/Suwayomi-WebUI" target="_blank" rel="noreferrer">
-                    <ListItemText
-                        primary={t('settings.about.webui.label.github')}
-                        secondary="https://github.com/Suwayomi/Suwayomi-WebUI"
-                    />
+                    <ListItemText primary={t`GitHub WebUI`} secondary="https://github.com/Suwayomi/Suwayomi-WebUI" />
                 </ListItemLink>
                 <ListItemLink to={aboutServer.discord} target="_blank" rel="noreferrer">
-                    <ListItemText primary={t('global.label.discord')} secondary={aboutServer.discord} />
+                    <ListItemText primary={t`Discord`} secondary={aboutServer.discord} />
                 </ListItemLink>
             </List>
         </List>

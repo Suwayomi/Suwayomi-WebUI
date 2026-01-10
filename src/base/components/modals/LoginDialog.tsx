@@ -9,13 +9,13 @@
 import Dialog from '@mui/material/Dialog';
 import { AwaitableComponent, AwaitableComponentProps } from 'awaitable-component';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useTranslation } from 'react-i18next';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useLingui } from '@lingui/react/macro';
 import { PasswordTextField } from '@/base/components/inputs/PasswordTextField.tsx';
 
 export const LoginDialog = ({
@@ -42,7 +42,7 @@ export const LoginDialog = ({
     serverAddress?: string;
     withServerAddress?: boolean;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [serverAddress, setServerAddress] = useState(initialServerAddress);
     const [username, setUsername] = useState(initialUsername);
@@ -60,7 +60,7 @@ export const LoginDialog = ({
                                 margin="dense"
                                 id="serverAddress"
                                 name="serverAddress"
-                                label={t('settings.about.server.label.address')}
+                                label={t`Server address`}
                                 type="text"
                                 fullWidth
                                 variant="standard"
@@ -73,7 +73,7 @@ export const LoginDialog = ({
                             margin="dense"
                             id="username"
                             name="username"
-                            label={t('global.label.username')}
+                            label={t`Username`}
                             type="text"
                             fullWidth
                             variant="standard"
@@ -89,7 +89,7 @@ export const LoginDialog = ({
                 )}
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => onSubmit()}>{t('global.button.cancel')}</Button>
+                <Button onClick={() => onSubmit()}>{t`Cancel`}</Button>
                 <Button
                     variant="contained"
                     disabled={
@@ -101,7 +101,7 @@ export const LoginDialog = ({
                     }
                     onClick={() => loginLogout(username, password, serverAddress)}
                 >
-                    {t(isLoggedIn ? 'global.button.log_out' : 'global.button.log_in')}
+                    {isLoggedIn ? t`Log out` : t`Log in`}
                 </Button>
             </DialogActions>
         </Dialog>

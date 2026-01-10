@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { ValueRotationButton } from '@/base/components/buttons/ValueRotationButton.tsx';
 import { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
 import {
@@ -23,12 +23,12 @@ export const ReaderNavBarDesktopReadingMode = ({
     Pick<MultiValueButtonDefaultableProps<ReadingMode>, 'isDefaultable' | 'onDefault'> & {
         setReadingMode: (mode: ReadingMode) => void;
     }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <ValueRotationButton
             {...buttonSelectInputProps}
-            tooltip={t('reader.settings.label.reading_mode')}
+            tooltip={t`Reading mode`}
             value={readingMode.isDefault ? undefined : readingMode.value}
             defaultValue={readingMode.isDefault ? readingMode.value : undefined}
             values={READING_MODE_VALUES}

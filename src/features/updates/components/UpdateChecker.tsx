@@ -9,12 +9,12 @@
 import { useEffect, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ClearIcon from '@mui/icons-material/Clear';
 import Stack from '@mui/material/Stack';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -22,8 +22,8 @@ import { Progress } from '@/base/components/feedback/Progress.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { dateTimeFormatter } from '@/base/utils/DateHelper.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
-
 import { CategoryIdInfo } from '@/features/category/Category.types.ts';
+
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 let lastRunningState = false;
@@ -35,16 +35,19 @@ export function UpdateChecker({
     categoryId?: CategoryIdInfo['id'];
     handleFinishedUpdate?: () => void;
 }) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
 
     const [isHovered, setIsHovered] = useState(false);
 
     const { data: lastUpdateTimestampData, refetch: reFetchLastTimestamp } =
         requestManager.useGetLastGlobalUpdateTimestamp();
-    const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
+
     const { data: updaterData } = requestManager.useGetGlobalUpdateSummary();
     const status = updaterData?.libraryUpdateStatus;
+
+    const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
+    const date = lastUpdateTimestamp ? dateTimeFormatter.format(+lastUpdateTimestamp) : '-';
 
     const isRunning = !!status?.jobsInfo.isRunning;
     const progress = status ? (status.jobsInfo.finishedJobs / status.jobsInfo.totalJobs) * 100 : 0;
@@ -72,7 +75,7 @@ export function UpdateChecker({
             reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
         } catch (e) {
             lastRunningState = false;
-            makeToast(t('global.error.label.update_failed'), 'error', getErrorMessage(e));
+            makeToast(t`Could not check for updates`, 'error', getErrorMessage(e));
         }
     };
 
@@ -80,7 +83,7 @@ export function UpdateChecker({
         try {
             await requestManager.resetGlobalUpdate();
         } catch (e) {
-            makeToast(t('library.error.label.stop_global_update'), 'error', getErrorMessage(e));
+            makeToast(t`Could not stop global update`, 'error', getErrorMessage(e));
         }
     };
 
@@ -96,15 +99,7 @@ export function UpdateChecker({
         <PopupState variant="popover" popupId="library-update-checker-menu">
             {(popupState) => (
                 <>
-                    <CustomTooltip
-                        title={
-                            isRunning
-                                ? t('library.action.label.stop_update')
-                                : t('library.settings.global_update.label.last_update_tooltip', {
-                                      date: lastUpdateTimestamp ? dateTimeFormatter.format(+lastUpdateTimestamp) : '-',
-                                  })
-                        }
-                    >
+                    <CustomTooltip title={isRunning ? t`Stop global update` : t`Global update (last update: ${date})`}>
                         <IconButton
                             sx={{ position: 'relative' }}
                             {...(categoryId !== undefined && !isRunning
@@ -137,7 +132,7 @@ export function UpdateChecker({
                                 onClick();
                             }}
                         >
-                            {t('library.action.label.update_library')}
+                            {t`Update library`}
                         </MenuItem>
                         <MenuItem
                             onClick={() => {
@@ -145,7 +140,7 @@ export function UpdateChecker({
                                 onClick(categoryId);
                             }}
                         >
-                            {t('library.action.label.update_category')}
+                            {t`Update category`}
                         </MenuItem>
                     </Menu>
                 </>

@@ -7,7 +7,7 @@
  */
 
 import { ReactElement } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip';
 import {
     ChapterNameInfo,
@@ -28,7 +28,7 @@ export const ContinueReadingTooltip = ({
     ChapterScanlatorInfo & {
         children: ReactElement;
     }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const isFirstChapter = sourceOrder === 1;
 
@@ -41,11 +41,11 @@ export const ContinueReadingTooltip = ({
                     },
                 },
             }}
-            title={t(isFirstChapter ? 'chapter.action.read.start' : 'chapter.action.read.resume', {
-                chapterNumber,
-                title: name,
-                scanlator,
-            })}
+            title={
+                isFirstChapter
+                    ? t`Start reading\n#${chapterNumber} — ${name}\n${scanlator}`
+                    : t`Continue reading\n#${chapterNumber} — ${name}\n${scanlator}`
+            }
         >
             {children}
         </CustomTooltip>

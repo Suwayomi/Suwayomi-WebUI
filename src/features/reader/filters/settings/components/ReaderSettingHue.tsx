@@ -7,7 +7,7 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
@@ -23,18 +23,18 @@ export const ReaderSettingHue = ({
         commit: boolean,
     ) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack>
             <CheckboxInput
-                label={t('reader.settings.custom_filter.hue')}
+                label={t`Custom hue`}
                 checked={hue.enabled}
                 onChange={(_, checked) => updateSetting('hue', { ...hue, enabled: checked }, true)}
             />
             {hue.enabled && (
                 <SliderInput
-                    label={t('reader.settings.custom_filter.hue')}
+                    label={t`Custom hue`}
                     value={hue.value}
                     onDefault={() =>
                         updateSetting('hue', { ...hue, value: DEFAULT_READER_SETTINGS.customFilter.hue.value }, true)

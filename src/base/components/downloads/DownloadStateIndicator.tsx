@@ -6,24 +6,25 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import { TranslationKey } from '@/base/Base.types.ts';
 
-const DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP: { [state in DownloadState]: TranslationKey } = {
-    DOWNLOADING: 'download.state.label.downloading',
-    ERROR: 'download.state.label.error',
-    FINISHED: 'download.state.label.finished',
-    QUEUED: 'download.state.label.queued',
+const DOWNLOAD_STATE_TO_TRANSLATION_MAP: { [state in DownloadState]: MessageDescriptor } = {
+    DOWNLOADING: msg`Downloading`,
+    ERROR: msg`Error`,
+    FINISHED: msg`Finished`,
+    QUEUED: msg`Queued`,
 } as const;
 
 export const DownloadStateIndicator = ({ chapterId, color }: { chapterId: ChapterIdInfo['id']; color?: string }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const download = Chapters.useDownloadStatusFromCache(chapterId);
 
@@ -35,6 +36,7 @@ export const DownloadStateIndicator = ({ chapterId, color }: { chapterId: Chapte
     const isPartiallyDownloaded = download.progress !== 0;
 
     const progress = `${Math.round(download.progress * 100)}%`;
+    const stateText = t(DOWNLOAD_STATE_TO_TRANSLATION_MAP[download.state]);
 
     return (
         <Box
@@ -61,11 +63,12 @@ export const DownloadStateIndicator = ({ chapterId, color }: { chapterId: Chapte
                 <Typography variant="caption" component="div" sx={{ color }}>
                     <>
                         {isDownloading && progress}
-                        {!isDownloading &&
-                            t('global.value', {
-                                value: t(DOWNLOAD_STATE_TO_TRANSLATION_KEY_MAP[download.state]),
-                                unit: isPartiallyDownloaded ? ` (${progress})` : '',
-                            })}
+                        {!isDownloading && (
+                            <>
+                                {stateText}
+                                {isPartiallyDownloaded ? ` (${progress})` : ''}
+                            </>
+                        )}
                     </>
                 </Typography>
             </Box>

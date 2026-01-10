@@ -13,9 +13,9 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { useTranslation } from 'react-i18next';
 import ImageIcon from '@mui/icons-material/Image';
 import { SxProps, Theme } from '@mui/material/styles';
+import { useLingui } from '@lingui/react/macro';
 import { ImageRequest, requestManager } from '@/lib/requests/RequestManager.ts';
 import { Priority } from '@/lib/Queue.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
@@ -65,7 +65,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
         retryKeyPrefix,
     } = props;
 
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const loadingIndicatorRef = useRef<HTMLDivElement | null>(null);
 
@@ -174,7 +174,6 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                     draggable={false}
                 />
             )}
-
             {(!!isLoading || (src && !imageSourceUrl) || hasError) && (
                 <Stack
                     ref={loadingIndicatorRef}
@@ -205,7 +204,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                                     }}
                                     size={small ? 'small' : 'large'}
                                 >
-                                    {small ? <RefreshIcon /> : t('global.button.retry')}
+                                    {small ? <RefreshIcon /> : t`Retry`}
                                 </Button>
                             </>
                         )}

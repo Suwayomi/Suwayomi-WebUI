@@ -17,10 +17,10 @@ import {
 import { WeblateLanguageStatistic } from './Weblate.types.ts';
 import { TRANSLATED_PERCENT_THRESHOLD } from './Weblate.constants.ts';
 
-const FILE_PATH = 'src/i18n/index.ts';
+const FILE_PATH = 'src/i18n/locales.json';
 
 const outputFilePath = path.join(import.meta.dirname, `../../../${FILE_PATH}`);
-const resourcesDirPath = path.join(import.meta.dirname, '../../../public/locales');
+const resourcesDirPath = path.join(import.meta.dirname, '../../../src/i18n/locales');
 
 const extractLanguageCode = (resourceFileNames: string): string =>
     path.basename(resourceFileNames, path.extname(resourceFileNames));
@@ -52,18 +52,13 @@ const generateResources = async () => {
         .filter((resourceFileName) => meetsTranslatedPercentThreshold(resourceFileName, weblateLanguageStats))
         .map(extractLanguageCode);
 
-    const outputFileContent = fs.readFileSync(outputFilePath, 'utf-8');
+    const localesConfig = JSON.parse(fs.readFileSync(outputFilePath, 'utf-8'));
 
-    const updatedFileContent = outputFileContent.replace(
-        /(export const i18nResources = \[)[\s\S]*?(])/g,
-        `$1'${resourceNames.join("', '")}'$2`,
-    );
+    localesConfig.locales = resourceNames;
 
-    fs.writeFileSync(outputFilePath, updatedFileContent);
+    fs.writeFileSync(outputFilePath, `${JSON.stringify(localesConfig, null, 2)}\n`);
 
     execSync('yarn tsc', { stdio: 'inherit' });
-
-    execSync(`yarn eslint --fix ${FILE_PATH}`, { stdio: 'inherit' });
 
     const hasFileChanged = execSync('git status --porcelain').toString().includes(FILE_PATH);
     if (!hasFileChanged) {

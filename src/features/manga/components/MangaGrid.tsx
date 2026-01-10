@@ -10,7 +10,7 @@ import React, { ForwardedRef, Ref, useCallback, useLayoutEffect, useMemo, useRef
 import Grid, { GridTypeMap } from '@mui/material/Grid';
 import Box, { BoxProps } from '@mui/material/Box';
 import { GridItemProps } from 'react-virtuoso';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/features/manga/components/cards/MangaCard.tsx';
@@ -209,7 +209,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     retry,
     gridWrapperProps,
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const { navBarWidth } = useNavBarContext();
     const {
@@ -313,7 +313,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
         return (
             <EmptyViewAbsoluteCentered
                 noFaces={noFaces}
-                message={message ?? t('manga.error.label.no_mangas_found')}
+                message={message ?? t`No manga found`}
                 messageExtra={messageExtra}
                 retry={retry}
             />

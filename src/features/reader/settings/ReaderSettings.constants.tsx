@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
@@ -13,7 +14,8 @@ import ExpandIcon from '@mui/icons-material/Expand';
 import CropOriginalIcon from '@mui/icons-material/CropOriginal';
 import { TooltipProps } from '@mui/material/Tooltip';
 import { Direction } from '@mui/material/styles';
-import { ScrollDirection, TranslationKey, ValueToDisplayData } from '@/base/Base.types.ts';
+import { msg } from '@lingui/core/macro';
+import { ScrollDirection, ValueToDisplayData } from '@/base/Base.types';
 import {
     IReaderSettings,
     IReaderSettingsGlobal,
@@ -252,11 +254,11 @@ export const READER_PROGRESS_BAR_POSITION_TO_PLACEMENT: Record<ProgressBarPositi
 
 export const READING_DIRECTION_VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingDirection> = {
     [ReadingDirection.LTR]: {
-        title: 'reader.settings.reading_direction.ltr',
+        title: msg`Left to right`,
         icon: <ArrowCircleRightIcon />,
     },
     [ReadingDirection.RTL]: {
-        title: 'reader.settings.reading_direction.rtl',
+        title: msg`Right to left`,
         icon: <ArrowCircleLeftIcon />,
     },
 };
@@ -265,19 +267,19 @@ export const READING_DIRECTION_VALUES = Object.values(ReadingDirection).filter((
 
 export const PAGE_SCALE_VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderPageScaleMode> = {
     [ReaderPageScaleMode.WIDTH]: {
-        title: 'reader.settings.page_scale.width',
+        title: msg`Fit width`,
         icon: <ExpandIcon sx={{ transform: 'rotate(90deg)' }} />,
     },
     [ReaderPageScaleMode.HEIGHT]: {
-        title: 'reader.settings.page_scale.height',
+        title: msg`Fit height`,
         icon: <ExpandIcon />,
     },
     [ReaderPageScaleMode.SCREEN]: {
-        title: 'reader.settings.page_scale.screen',
+        title: msg`Fit screen`,
         icon: <ZoomOutMapIcon />,
     },
     [ReaderPageScaleMode.ORIGINAL]: {
-        title: 'reader.settings.page_scale.original',
+        title: msg`Original size`,
         icon: <CropOriginalIcon />,
     },
 };
@@ -295,23 +297,23 @@ export const READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED: Record<ReaderPageScaleMo
 
 export const READING_MODE_VALUE_TO_DISPLAY_DATA = {
     [ReadingMode.SINGLE_PAGE]: {
-        title: 'reader.settings.reader_type.label.single_page',
+        title: msg`Single page`,
         icon: <SinglePageIcon />,
     },
     [ReadingMode.DOUBLE_PAGE]: {
-        title: 'reader.settings.reader_type.label.double_page',
+        title: msg`Double page`,
         icon: <DoublePageIcon />,
     },
     [ReadingMode.CONTINUOUS_VERTICAL]: {
-        title: 'reader.settings.reader_type.label.continuous_vertical',
+        title: msg`Continuous vertical`,
         icon: <ContinuousVerticalPageIcon />,
     },
     [ReadingMode.CONTINUOUS_HORIZONTAL]: {
-        title: 'reader.settings.reader_type.label.continuous_horizontal',
+        title: msg`Continuous horizontal`,
         icon: <ContinuousHorizontalPageIcon />,
     },
     [ReadingMode.WEBTOON]: {
-        title: 'reader.settings.reader_type.label.webtoon',
+        title: msg`Webtoon`,
         icon: <WebtoonPageIcon />,
     },
 } satisfies ValueToDisplayData<ReadingMode>;
@@ -330,33 +332,33 @@ export const READER_SETTING_TABS: Record<
     ReaderSettingTab,
     {
         id: ReaderSettingTab;
-        label: TranslationKey;
+        label: MessageDescriptor;
         supportsTouchDevices: boolean;
     }
 > = {
     [ReaderSettingTab.LAYOUT]: {
         id: ReaderSettingTab.LAYOUT,
-        label: 'reader.settings.label.layout',
+        label: msg`Layout`,
         supportsTouchDevices: true,
     },
     [ReaderSettingTab.GENERAL]: {
         id: ReaderSettingTab.GENERAL,
-        label: 'global.label.general',
+        label: msg`General`,
         supportsTouchDevices: true,
     },
     [ReaderSettingTab.FILTER]: {
         id: ReaderSettingTab.FILTER,
-        label: 'reader.settings.custom_filter.title',
+        label: msg`Custom filter`,
         supportsTouchDevices: true,
     },
     [ReaderSettingTab.BEHAVIOUR]: {
         id: ReaderSettingTab.BEHAVIOUR,
-        label: 'reader.settings.label.behaviour',
+        label: msg`Behaviour`,
         supportsTouchDevices: true,
     },
     [ReaderSettingTab.HOTKEYS]: {
         id: ReaderSettingTab.HOTKEYS,
-        label: 'hotkeys.title_other',
+        label: msg`Keybinds`,
         supportsTouchDevices: false,
     },
 };
@@ -385,27 +387,27 @@ export const CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION: Record<
 
 export const READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA = {
     [ReaderBlendMode.DEFAULT]: {
-        title: 'reader.settings.custom_filter.rgba.blend_mode.default',
+        title: msg`Default`,
         icon: null,
     },
     [ReaderBlendMode.MULTIPLY]: {
-        title: 'reader.settings.custom_filter.rgba.blend_mode.multiply',
+        title: msg`Multiply`,
         icon: null,
     },
     [ReaderBlendMode.SCREEN]: {
-        title: 'reader.settings.custom_filter.rgba.blend_mode.screen',
+        title: msg`Screen`,
         icon: null,
     },
     [ReaderBlendMode.OVERLAY]: {
-        title: 'reader.settings.custom_filter.rgba.blend_mode.overlay',
+        title: msg`Overlay`,
         icon: null,
     },
     [ReaderBlendMode.DARKEN]: {
-        title: 'reader.settings.custom_filter.rgba.blend_mode.darken',
+        title: msg`Darken`,
         icon: null,
     },
     [ReaderBlendMode.LIGHTEN]: {
-        title: 'reader.settings.custom_filter.rgba.blend_mode.lighten',
+        title: msg`Lighten`,
         icon: null,
     },
 } satisfies ValueToDisplayData<ReaderBlendMode>;

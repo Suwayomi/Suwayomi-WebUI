@@ -10,8 +10,8 @@ import { useCallback, useMemo } from 'react';
 import IconButton from '@mui/material/IconButton';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
 import Typography from '@mui/material/Typography';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DefaultLanguage } from '@/base/utils/Languages.ts';
@@ -32,7 +32,7 @@ import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupIt
 import { SourceLanguageSelect } from '@/features/source/components/SourceLanguageSelect.tsx';
 
 export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const { languages: shownLangs, setLanguages: setShownLangs } = SourceService.useLanguages();
     const {
@@ -97,7 +97,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
 
     useAppAction(
         <>
-            <CustomTooltip title={t('search.title.global_search')}>
+            <CustomTooltip title={t`Global Search`}>
                 <IconButton onClick={() => navigate(AppRoutes.sources.childRoutes.searchAll.path())} color="inherit">
                     <TravelExploreIcon />
                 </IconButton>
@@ -117,7 +117,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
             />
@@ -125,7 +125,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     }
 
     if (sources?.length === 0) {
-        return <EmptyViewAbsoluteCentered message={t('source.error.label.no_sources_found')} />;
+        return <EmptyViewAbsoluteCentered message={t`No sources found. Install Some extensions first.`} />;
     }
 
     return (

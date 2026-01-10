@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import i18next, { t as translate } from 'i18next';
 import { CSSProperties } from 'react';
 import {
     ReaderTapZoneRect,
@@ -19,6 +18,8 @@ import {
     READER_TAP_ZONE_LAYOUTS,
     TAP_ZONE_REGION_TYPE_DATA,
 } from '@/features/reader/tap-zones/ReaderTapZone.constants.ts';
+
+import { i18n } from '@/i18n';
 
 interface InvertMode extends TapZoneInvertMode {
     isRTL: boolean;
@@ -78,7 +79,7 @@ export class ReaderTapZoneService {
         const isSameWidth = this.width === canvasWidth;
         const isSameHeight = this.height === canvasHeight;
         const doesCanvasExist = !!this.canvas;
-        const isSameLanguage = this.language === i18next.language;
+        const isSameLanguage = this.language === i18n.locale;
         const isSameInvertMode =
             this.invertMode?.vertical === invertMode.vertical &&
             this.invertMode.horizontal === invertMode.horizontal &&
@@ -104,8 +105,8 @@ export class ReaderTapZoneService {
         regions: TapZoneRegion[],
     ): void {
         regions.forEach(({ type, rect: [rectX, rectY, rectWidth, rectHeight] }) => {
-            const { text: translationKey, color } = TAP_ZONE_REGION_TYPE_DATA[type];
-            const text = translate(translationKey);
+            const { text: translation, color } = TAP_ZONE_REGION_TYPE_DATA[type];
+            const text = i18n._(translation);
 
             const calcActualValue = (value: number, size: number) => (value / 100) * size;
             const x = calcActualValue(rectX, canvasWidth);
@@ -168,7 +169,7 @@ export class ReaderTapZoneService {
         this.canvas = canvas;
         this.width = canvasWidth;
         this.height = canvasHeight;
-        this.language = i18next.language;
+        this.language = i18n.locale;
         this.invertMode = invertMode;
         this.regions = regions;
         this.fontStyle = fontStyle;

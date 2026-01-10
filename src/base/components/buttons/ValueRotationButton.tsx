@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { ReactNode, useMemo } from 'react';
 import Button from '@mui/material/Button';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MultiValueButtonProps } from '@/base/Base.types.ts';
 import { getNextRotationValue } from '@/base/utils/ValueRotationButton.utils.ts';
@@ -25,7 +25,7 @@ export const ValueRotationButton = <Value extends string | number>({
     onDefault,
     defaultIcon,
 }: MultiValueButtonProps<Value> & { defaultIcon?: ReactNode }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const isDefault = value === undefined;
     const indexOfValue = useMemo(() => {
@@ -47,11 +47,11 @@ export const ValueRotationButton = <Value extends string | number>({
                     size="large"
                 >
                     {defaultValue === undefined ? (
-                        t('global.label.default')
+                        t`Default`
                     ) : (
                         <Superscript
-                            i18nKey="settings.default_value"
-                            value={
+                            superscript={`(${t`Default`})`}
+                            text={
                                 valueToDisplayData[defaultValue].isTitleString
                                     ? valueToDisplayData[defaultValue].title
                                     : t(valueToDisplayData[defaultValue].title)

@@ -6,18 +6,19 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { IReaderSettings, ReaderExitMode } from '@/features/reader/Reader.types.ts';
 import { ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderExitMode> = {
     [ReaderExitMode.PREVIOUS]: {
-        title: 'global.label.previous',
+        title: msg`Previous`,
         icon: null,
     },
     [ReaderExitMode.MANGA]: {
-        title: 'manga.title_one',
+        title: msg`Manga`,
         icon: null,
     },
 };
@@ -30,11 +31,11 @@ export const ReaderSettingExitMode = ({
 }: Pick<IReaderSettings, 'exitMode'> & {
     setExitMode: (mode: ReaderExitMode) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <ButtonSelectInput
-            label={t('reader.settings.exit_mode')}
+            label={t`Open page on exit`}
             value={exitMode}
             values={READER_EXIT_MODE_VALUES}
             setValue={setExitMode}

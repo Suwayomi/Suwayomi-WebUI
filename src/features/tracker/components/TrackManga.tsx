@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import DialogContent from '@mui/material/DialogContent';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
@@ -38,7 +38,7 @@ const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracke
 };
 
 export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'title'> }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const navigate = useNavigate();
 
     const [searchModeForTracker, setSearchModeForTracker] = useState<number>();
@@ -81,7 +81,7 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
             mangaTrackRecords
                 .filter((trackRecord) => trackersInUseIds.includes(trackRecord.trackerId))
                 .map((trackRecord) => requestManager.fetchTrackBind(trackRecord.id).response),
-        ).catch((e) => makeToast(t('tracking.error.label.could_not_fetch_track_info'), 'error', getErrorMessage(e)));
+        ).catch((e) => makeToast(t`Could not load latest track info from tracker`, 'error', getErrorMessage(e)));
     }, [mangaTrackRecords]);
 
     const trackerComponents = useMemo(
@@ -112,7 +112,7 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
     if (error) {
         return (
             <EmptyView
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (trackerList.error) {

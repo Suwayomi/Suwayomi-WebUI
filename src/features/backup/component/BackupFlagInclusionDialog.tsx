@@ -11,12 +11,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import FormGroup from '@mui/material/FormGroup';
-import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { AwaitableComponentProps } from 'awaitable-component';
+import { useLingui } from '@lingui/react/macro';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import {
     BACKUP_FLAG_GROUP_TO_TRANSLATION,
@@ -34,7 +34,7 @@ export const BackupFlagInclusionDialog = ({
     title,
     flags,
 }: AwaitableComponentProps<BackupFlagInclusionState> & { title: string; flags?: BackupFlagInclusionState }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [includeStateByFlag, setIncludeStateByFlag] = useState(
         Object.fromEntries(BACKUP_FLAGS.map((flag) => [flag, flags?.[flag] ?? true])) as BackupFlagInclusionState,
@@ -67,10 +67,10 @@ export const BackupFlagInclusionDialog = ({
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={onDismiss} color="primary">
-                    {t('global.button.cancel')}
+                    {t`Cancel`}
                 </Button>
                 <Button onClick={() => onSubmit(includeStateByFlag)} color="primary">
-                    {t('global.button.ok')}
+                    {t`Ok`}
                 </Button>
             </DialogActions>
         </Dialog>

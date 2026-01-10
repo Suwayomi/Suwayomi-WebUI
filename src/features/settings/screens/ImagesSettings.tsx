@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText';
 import ListSubheader from '@mui/material/ListSubheader';
 import ListItemButton from '@mui/material/ListItemButton';
+import { useLingui } from '@lingui/react/macro';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
@@ -20,18 +20,18 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const ImagesSettings = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('settings.images.title'));
+    useAppTitle(t`Images`);
 
     const [triggerClearServerCache, { loading: isClearingServerCache }] = requestManager.useClearServerCache();
 
     const clearCache = async () => {
         try {
             await Promise.all([triggerClearServerCache(), ImageCache.clear()]);
-            makeToast(t('settings.clear_cache.label.success'), 'success');
+            makeToast(t`Cleared the cache`, 'success');
         } catch (e) {
-            makeToast(t('settings.clear_cache.label.failure'), 'error', getErrorMessage(e));
+            makeToast(t`Could not clear the cache`, 'error', getErrorMessage(e));
         }
     };
 
@@ -39,22 +39,22 @@ export const ImagesSettings = () => {
         <List sx={{ pt: 0 }}>
             <ListItemButton disabled={isClearingServerCache} onClick={clearCache}>
                 <ListItemText
-                    primary={t('settings.clear_cache.label.title')}
-                    secondary={t('settings.clear_cache.label.description')}
+                    primary={t`Clear cache`}
+                    secondary={t`The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used`}
                 />
             </ListItemButton>
             <List
                 subheader={
                     <ListSubheader component="div" id="image-processing-settings">
-                        {t('settings.images.processing.title')}
+                        {t`Image processing`}
                     </ListSubheader>
                 }
             >
                 <ListItemLink to={AppRoutes.settings.childRoutes.images.childRoutes.processingDownloads.path}>
-                    <ListItemText primary={t('download.settings.conversion.title')} />
+                    <ListItemText primary={t`Image download processing`} />
                 </ListItemLink>
                 <ListItemLink to={AppRoutes.settings.childRoutes.images.childRoutes.processingServe.path}>
-                    <ListItemText primary={t('settings.images.processing.serve.title')} />
+                    <ListItemText primary={t`Image serve processing`} />
                 </ListItemLink>
             </List>
         </List>

@@ -6,9 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
@@ -28,23 +30,23 @@ import {
 import { LibrarySortMode } from '@/features/library/Library.types.ts';
 import { CategoryMetadataInfo } from '@/features/category/Category.types.ts';
 import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
-import { GridLayout, TranslationKey } from '@/base/Base.types.ts';
+import { GridLayout } from '@/base/Base.types';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
-const TITLES: { [key in 'filter' | 'sort' | 'display']: TranslationKey } = {
-    filter: 'global.label.filter',
-    sort: 'global.label.sort',
-    display: 'global.label.display',
+const TITLES: { [key in 'filter' | 'sort' | 'display']: MessageDescriptor } = {
+    filter: msg`Filter`,
+    sort: msg`Sort`,
+    display: msg`Display`,
 };
 
-const SORT_OPTIONS: [LibrarySortMode, TranslationKey][] = [
-    ['unreadChapters', 'library.option.sort.label.by_unread_chapters'],
-    ['totalChapters', 'library.option.sort.label.by_total_chapters'],
-    ['alphabetically', 'library.option.sort.label.alphabetically'],
-    ['dateAdded', 'library.option.sort.label.by_date_added'],
-    ['lastRead', 'library.option.sort.label.by_last_read'],
-    ['latestFetchedChapter', 'library.option.sort.label.by_latest_fetched_chapter'],
-    ['latestUploadedChapter', 'library.option.sort.label.by_latest_uploaded_chapter'],
+const SORT_OPTIONS: [LibrarySortMode, MessageDescriptor][] = [
+    ['unreadChapters', msg`Unread chapters`],
+    ['totalChapters', msg`Total chapters`],
+    ['alphabetically', msg`A-Z`],
+    ['dateAdded', msg`Recently added`],
+    ['lastRead', msg`Recently read`],
+    ['latestFetchedChapter', msg`Latest fetched chapter`],
+    ['latestUploadedChapter', msg`Latest uploaded chapter`],
 ];
 
 export const LibraryOptionsPanel = ({
@@ -56,21 +58,21 @@ export const LibraryOptionsPanel = ({
     open: boolean;
     onClose: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
 
     const categoryLibraryOptions = useGetCategoryMetadata(category);
     const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, (e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
 
     const {
         settings: { showTabSize, showContinueReadingButton, showDownloadBadge, showUnreadBadge, gridLayout },
     } = useMetadataServerSettings();
     const setSettingValue = createUpdateMetadataServerSettings((e) =>
-        makeToast(t('search.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
+        makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
 
     return (
@@ -84,31 +86,31 @@ export const LibraryOptionsPanel = ({
                     return (
                         <>
                             <ThreeStateCheckboxInput
-                                label={t('global.filter.label.unread')}
+                                label={t`Unread`}
                                 checked={categoryLibraryOptions.hasUnreadChapters}
                                 onChange={(c) => updateCategoryLibraryOptions('hasUnreadChapters', c)}
                             />
                             <ThreeStateCheckboxInput
-                                label={t('global.filter.label.started')}
+                                label={t`Started`}
                                 checked={categoryLibraryOptions.hasReadChapters}
                                 onChange={(c) => updateCategoryLibraryOptions('hasReadChapters', c)}
                             />
                             <ThreeStateCheckboxInput
-                                label={t('global.filter.label.downloaded')}
+                                label={t`Downloaded`}
                                 checked={categoryLibraryOptions.hasDownloadedChapters}
                                 onChange={(c) => updateCategoryLibraryOptions('hasDownloadedChapters', c)}
                             />
                             <ThreeStateCheckboxInput
-                                label={t('global.filter.label.bookmarked')}
+                                label={t`Bookmarked`}
                                 checked={categoryLibraryOptions.hasBookmarkedChapters}
                                 onChange={(c) => updateCategoryLibraryOptions('hasBookmarkedChapters', c)}
                             />
                             <ThreeStateCheckboxInput
-                                label={t('global.filter.label.duplicate_chapters')}
+                                label={t`Duplicate chapters`}
                                 checked={categoryLibraryOptions.hasDuplicateChapters}
                                 onChange={(c) => updateCategoryLibraryOptions('hasDuplicateChapters', c)}
                             />
-                            <FormLabel sx={{ mt: 2 }}>{t('manga.label.status')}</FormLabel>
+                            <FormLabel sx={{ mt: 2 }}>{t`Status`}</FormLabel>
                             {Object.values(MangaStatus).map((status) => (
                                 <ThreeStateCheckboxInput
                                     key={status}
@@ -122,7 +124,7 @@ export const LibraryOptionsPanel = ({
                                     }
                                 />
                             ))}
-                            <FormLabel sx={{ mt: 2 }}>{t('global.filter.label.tracked')}</FormLabel>
+                            <FormLabel sx={{ mt: 2 }}>{t`Tracked`}</FormLabel>
                             {loggedInTrackers.map((tracker) => (
                                 <ThreeStateCheckboxInput
                                     key={tracker.id}
@@ -157,50 +159,47 @@ export const LibraryOptionsPanel = ({
                 if (key === 'display') {
                     return (
                         <>
-                            <FormLabel>{t('global.grid_layout.title')}</FormLabel>
+                            <FormLabel>{t`Display mode`}</FormLabel>
                             <RadioGroup
                                 onChange={(e) => updateMetadataServerSettings('gridLayout', Number(e.target.value))}
                                 value={gridLayout}
                             >
                                 <RadioInput
-                                    label={t('global.grid_layout.label.compact_grid')}
+                                    label={t`Compact grid`}
                                     value={GridLayout.Compact}
                                     checked={gridLayout == null || gridLayout === GridLayout.Compact}
                                 />
                                 <RadioInput
-                                    label={t('global.grid_layout.label.comfortable_grid')}
+                                    label={t`Comfortable grid`}
                                     value={GridLayout.Comfortable}
                                     checked={gridLayout === GridLayout.Comfortable}
                                 />
                                 <RadioInput
-                                    label={t('global.grid_layout.label.list')}
+                                    label={t`List`}
                                     value={GridLayout.List}
                                     checked={gridLayout === GridLayout.List}
                                 />
                             </RadioGroup>
-
-                            <FormLabel sx={{ mt: 2 }}>{t('library.option.display.badge.title')}</FormLabel>
+                            <FormLabel sx={{ mt: 2 }}>{t`Badges`}</FormLabel>
                             <CheckboxInput
-                                label={t('library.option.display.badge.label.unread_badges')}
+                                label={t`Unread badges`}
                                 checked={showUnreadBadge}
                                 onChange={() => updateMetadataServerSettings('showUnreadBadge', !showUnreadBadge)}
                             />
                             <CheckboxInput
-                                label={t('library.option.display.badge.label.download_badges')}
+                                label={t`Download badges`}
                                 checked={showDownloadBadge}
                                 onChange={() => updateMetadataServerSettings('showDownloadBadge', !showDownloadBadge)}
                             />
-
-                            <FormLabel sx={{ mt: 2 }}>{t('library.option.display.tab.title')}</FormLabel>
+                            <FormLabel sx={{ mt: 2 }}>{t`Tabs`}</FormLabel>
                             <CheckboxInput
-                                label={t('library.option.display.tab.label.show_number_of_items')}
+                                label={t`Show number of items`}
                                 checked={showTabSize}
                                 onChange={() => setSettingValue('showTabSize', !showTabSize)}
                             />
-
-                            <FormLabel sx={{ mt: 2 }}>{t('global.label.other')}</FormLabel>
+                            <FormLabel sx={{ mt: 2 }}>{t`Other`}</FormLabel>
                             <CheckboxInput
-                                label={t('library.option.display.other.label.show_continue_reading_button')}
+                                label={t`Show continue reading button`}
                                 checked={showContinueReadingButton}
                                 onChange={() =>
                                     updateMetadataServerSettings(

@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -14,6 +13,7 @@ import Button from '@mui/material/Button';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { StringParam, useQueryParam } from 'use-query-params';
+import { useLingui } from '@lingui/react/macro';
 import { PasswordTextField } from '@/base/components/inputs/PasswordTextField.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -27,7 +27,7 @@ import { ServerAddressSetting } from '@/features/settings/components/ServerAddre
 
 export const LoginPage = () => {
     const theme = useTheme();
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { setOverride } = useNavBarContext();
     const navigate = useNavigate();
     const isAuthenticated = AuthManager.useIsAuthenticated();
@@ -48,7 +48,7 @@ export const LoginPage = () => {
                 navigate(redirect ?? AppRoutes.root.path);
             }
         } catch (e) {
-            makeToast(t('tracking.action.login.label.failure', { name: 'Suwayomi' }), 'error', getErrorMessage(e));
+            makeToast(t`Could not log in to Suwayomi`, 'error', getErrorMessage(e));
         }
     };
 
@@ -113,7 +113,7 @@ export const LoginPage = () => {
                             margin="dense"
                             id="username"
                             name="username"
-                            label={t('global.label.username')}
+                            label={t`Username`}
                             type="text"
                             fullWidth
                             variant="standard"
@@ -127,7 +127,7 @@ export const LoginPage = () => {
                         />
                     </Stack>
                     <Button disabled={isLoading || (!username && !password)} variant="contained" onClick={doLogin}>
-                        {t('global.button.log_in')}
+                        {t`Log in`}
                     </Button>
                     <Stack sx={{ position: 'absolute', left: 0, bottom: 0 }}>
                         <ServerAddressSetting />

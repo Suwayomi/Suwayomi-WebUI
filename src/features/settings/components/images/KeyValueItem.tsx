@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { IMAGE_PROCESSING_INPUT_WIDTH } from '@/features/settings/Settings.constants.ts';
 import { TSettingsDownloadConversionKeyValueItem } from '@/features/settings/Settings.types';
@@ -26,7 +26,7 @@ export const KeyValueItem = ({
     isDuplicate: boolean;
     onChange: (header: TSettingsDownloadConversionKeyValueItem | null) => void;
 } & TSettingsDownloadConversionKeyValueItem) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const theme = useTheme();
 
     return (
@@ -51,10 +51,10 @@ export const KeyValueItem = ({
                 <TextField
                     autoFocus
                     sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
-                    label={t('download.settings.conversion.headers.name')}
+                    label={t`Name`}
                     value={name}
                     error={isDuplicate}
-                    helperText={isDuplicate && t('global.error.label.invalid_input')}
+                    helperText={isDuplicate && t`Invalid input`}
                     onChange={(e) =>
                         onChange({
                             id,
@@ -65,7 +65,7 @@ export const KeyValueItem = ({
                 />
                 <TextField
                     sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
-                    label={t('download.settings.conversion.headers.value')}
+                    label={t`Value`}
                     value={value}
                     onChange={(e) =>
                         onChange({
@@ -76,7 +76,7 @@ export const KeyValueItem = ({
                     }
                 />
             </Stack>
-            <CustomTooltip disabled={false} title={t('chapter.action.download.delete.label.action')}>
+            <CustomTooltip disabled={false} title={t`Delete`}>
                 <IconButton
                     onClick={() => {
                         onChange(null);

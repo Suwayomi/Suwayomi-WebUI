@@ -10,11 +10,11 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { AwaitableComponentProps } from 'awaitable-component';
 import { Link as RouterLink } from 'react-router-dom';
+import { useLingui } from '@lingui/react/macro';
 
 type Action = {
     show?: boolean;
@@ -43,7 +43,7 @@ export const ConfirmDialog = ({
     actions?: Actions;
     onExtra?: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const actions = {
         extra: {
@@ -54,12 +54,12 @@ export const ConfirmDialog = ({
         },
         cancel: {
             show: passedActions?.cancel?.show ?? true,
-            title: passedActions?.cancel?.title ?? t('global.button.cancel'),
+            title: passedActions?.cancel?.title ?? t`Cancel`,
             contain: passedActions?.cancel?.contain ?? false,
         },
         confirm: {
             show: passedActions?.confirm?.show ?? true,
-            title: passedActions?.confirm?.title ?? t('global.button.ok'),
+            title: passedActions?.confirm?.title ?? t`Ok`,
             contain:
                 !passedActions?.extra?.contain &&
                 !passedActions?.cancel?.contain &&

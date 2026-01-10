@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { useCallback } from 'react';
+import { useLingui } from '@lingui/react/macro';
 import {
     SourceDisplayNameInfo,
     SourceIdInfo,
@@ -151,13 +151,13 @@ export class Sources {
         languages: string[];
         setLanguages: (languages: string[]) => void;
     } {
-        const { t } = useTranslation();
+        const { t } = useLingui();
         const {
             settings: { sourceLanguages },
         } = useMetadataServerSettings();
 
         const updateSetting = createUpdateMetadataServerSettings<'sourceLanguages'>((e) =>
-            makeToast(t('global.error.label.failed_to_save_changes', getErrorMessage(e)), 'error'),
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
         );
         const setLanguages = useCallback((languages: string[]) => updateSetting('sourceLanguages', languages), []);
 

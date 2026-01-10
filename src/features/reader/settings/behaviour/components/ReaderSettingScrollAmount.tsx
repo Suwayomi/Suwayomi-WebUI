@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { IReaderSettings, ReaderScrollAmount } from '@/features/reader/Reader.types.ts';
 import { ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
@@ -15,19 +16,19 @@ import { DEFAULT_READER_SETTINGS, SCROLL_AMOUNT } from '@/features/reader/settin
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderScrollAmount> = {
     [ReaderScrollAmount.TINY]: {
-        title: 'global.label.tiny',
+        title: msg`Tiny`,
         icon: null,
     },
     [ReaderScrollAmount.SMALL]: {
-        title: 'global.label.small',
+        title: msg`Small`,
         icon: null,
     },
     [ReaderScrollAmount.MEDIUM]: {
-        title: 'global.label.medium',
+        title: msg`Medium`,
         icon: null,
     },
     [ReaderScrollAmount.LARGE]: {
-        title: 'global.label.large',
+        title: msg`Large`,
         icon: null,
     },
 };
@@ -40,20 +41,20 @@ export const ReaderSettingScrollAmount = ({
 }: Pick<IReaderSettings, 'scrollAmount'> & {
     setScrollAmount: (amount: ReaderScrollAmount, commit: boolean) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <>
             <ButtonSelectInput
-                label={t('reader.settings.scroll_amount')}
+                label={t`Scroll amount`}
                 value={scrollAmount}
                 values={READER_SCROLL_AMOUNT_VALUES}
                 setValue={(value) => setScrollAmount(value as number, true)}
                 valueToDisplayData={VALUE_TO_DISPLAY_DATA}
             />
             <SliderInput
-                label={t('reader.settings.label.custom_scroll_amount')}
-                value={t('global.value', { value: scrollAmount, unit: '%' })}
+                label={t`Custom scroll amount`}
+                value={`${scrollAmount}%`}
                 onDefault={() => setScrollAmount(DEFAULT_READER_SETTINGS.scrollAmount, true)}
                 slotProps={{
                     slider: {

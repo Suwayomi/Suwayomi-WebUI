@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import PauseCircleFilledIcon from '@mui/icons-material/PauseCircleFilled';
 import PlayCircleFilledIcon from '@mui/icons-material/PlayCircleFilled';
@@ -15,6 +14,8 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import { useRef } from 'react';
 import { d } from 'koration';
+import { useLingui } from '@lingui/react/macro';
+import { plural } from '@lingui/core/macro';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { AUTO_SCROLL_SPEED } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
@@ -26,7 +27,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
 }: Pick<IReaderSettings, 'autoScroll'> & {
     setAutoScroll: (newAutoScroll: IReaderSettings['autoScroll'], commit: boolean) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { isActive, toggleActive } = useReaderAutoScrollStore((state) => ({
         isActive: state.autoScroll.isActive,
         toggleActive: state.autoScroll.toggleActive,
@@ -44,7 +45,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
                 variant="contained"
                 startIcon={isActive ? <PauseCircleFilledIcon /> : <PlayCircleFilledIcon />}
             >
-                {t('reader.settings.auto_scroll.title')}
+                {t`Auto scroll`}
             </Button>
             <TextField
                 value={autoScroll.value}
@@ -73,7 +74,10 @@ export const ReaderNavBarDesktopAutoScroll = ({
                         inputProps: AUTO_SCROLL_SPEED,
                         endAdornment: (
                             <InputAdornment position="end">
-                                {t('global.time.seconds.second', { count: autoScroll.value })}
+                                {plural(autoScroll.value, {
+                                    one: 'Second',
+                                    other: 'Seconds',
+                                })}
                             </InputAdornment>
                         ),
                     },

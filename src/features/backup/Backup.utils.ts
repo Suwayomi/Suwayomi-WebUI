@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { t as translate } from 'i18next';
+import { plural, t } from '@lingui/core/macro';
 import { AutoBackupFlagInclusionState, BackupFlag, BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 import { BACKUP_FLAGS_TO_TRANSLATION } from '@/features/backup/Backup.constants.ts';
 
@@ -32,11 +32,11 @@ export const convertToBackupFlags = (flags: AutoBackupFlagInclusionState): Backu
 
 const getIncludeExcludeText = (count: number, allCount: number, specificText: string): string => {
     if (count === 0) {
-        return translate('global.label.none');
+        return t`None`;
     }
 
     if (count === allCount) {
-        return translate('extension.language.all');
+        return t`All`;
     }
 
     return specificText;
@@ -49,9 +49,9 @@ export const getAutoBackupFlagsInfo = (autoFlags: AutoBackupFlagInclusionState):
     const flagsByState = Object.groupBy(Object.entries(flags), ([, value]) => value.toString());
 
     const includedFlagsString =
-        flagsByState.true?.map(([key]) => translate(BACKUP_FLAGS_TO_TRANSLATION[key as BackupFlag])).join(', ') ?? '';
+        flagsByState.true?.map(([key]) => t(BACKUP_FLAGS_TO_TRANSLATION[key as BackupFlag])).join(', ') ?? '';
     const excludedFlagsString =
-        flagsByState.false?.map(([key]) => translate(BACKUP_FLAGS_TO_TRANSLATION[key as BackupFlag])).join(', ') ?? '';
+        flagsByState.false?.map(([key]) => t(BACKUP_FLAGS_TO_TRANSLATION[key as BackupFlag])).join(', ') ?? '';
 
     return {
         false: getIncludeExcludeText(flagsByState.false?.length ?? 0, totalFlags, excludedFlagsString),
@@ -61,8 +61,11 @@ export const getAutoBackupFlagsInfo = (autoFlags: AutoBackupFlagInclusionState):
 
 export const getBackupCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {
-        return translate('global.label.never');
+        return t`Never`;
     }
 
-    return translate('settings.backup.automated.cleanup.label.value', { days: ttl, count: ttl });
+    return plural(ttl, {
+        one: `Delete backups that are older than # day`,
+        other: `Delete backups that are older than # days`,
+    });
 };

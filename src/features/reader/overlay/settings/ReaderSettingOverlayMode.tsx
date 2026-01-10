@@ -6,25 +6,26 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import ComputerIcon from '@mui/icons-material/Computer';
 import AutoModeIcon from '@mui/icons-material/AutoMode';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { IReaderSettings, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
 import { ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderOverlayMode> = {
     [ReaderOverlayMode.AUTO]: {
-        title: 'global.label.auto',
+        title: msg`Auto`,
         icon: <AutoModeIcon />,
     },
     [ReaderOverlayMode.DESKTOP]: {
-        title: 'global.label.desktop',
+        title: msg`Desktop`,
         icon: <ComputerIcon />,
     },
     [ReaderOverlayMode.MOBILE]: {
-        title: 'global.label.mobile',
+        title: msg`Mobile`,
         icon: <PhoneIphoneIcon />,
     },
 };
@@ -37,11 +38,11 @@ export const ReaderSettingOverlayMode = ({
 }: Pick<IReaderSettings, 'overlayMode'> & {
     setOverlayMode: (mode: ReaderOverlayMode) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <ButtonSelectInput
-            label={t('reader.settings.overlay_mode')}
+            label={t`Overlay mode`}
             value={overlayMode}
             values={READING_MODE_VALUES}
             setValue={setOverlayMode}

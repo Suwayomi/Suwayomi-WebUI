@@ -7,25 +7,19 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { TExtension } from '@/features/extension/Extensions.types.ts';
 import { ExtensionMetadata } from '@/features/extension/info/components/ExtensionMetadata.tsx';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 
 export const Meta = ({ versionName, lang, isNsfw }: TExtension) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-            <ExtensionMetadata title={t('global.label.version')} value={versionName} />
-            <ExtensionMetadata title={t('global.language.label.language')} value={languageCodeToName(lang)} />
-            {isNsfw && (
-                <ExtensionMetadata
-                    title={t('extension.label.age_rating')}
-                    value="18+"
-                    valueProps={{ color: 'error' }}
-                />
-            )}
+            <ExtensionMetadata title={t`Version`} value={versionName} />
+            <ExtensionMetadata title={t`Language`} value={languageCodeToName(lang)} />
+            {isNsfw && <ExtensionMetadata title={t`Age rating`} value="18+" valueProps={{ color: 'error' }} />}
         </Stack>
     );
 };

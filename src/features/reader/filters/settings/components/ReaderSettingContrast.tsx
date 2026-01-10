@@ -7,7 +7,7 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
@@ -23,18 +23,18 @@ export const ReaderSettingContrast = ({
         commit: boolean,
     ) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack>
             <CheckboxInput
-                label={t('reader.settings.custom_filter.contrast')}
+                label={t`Custom contrast`}
                 checked={contrast.enabled}
                 onChange={(_, checked) => updateSetting('contrast', { ...contrast, enabled: checked }, true)}
             />
             {contrast.enabled && (
                 <SliderInput
-                    label={t('reader.settings.custom_filter.contrast')}
+                    label={t`Custom contrast`}
                     value={contrast.value}
                     onDefault={() =>
                         updateSetting(

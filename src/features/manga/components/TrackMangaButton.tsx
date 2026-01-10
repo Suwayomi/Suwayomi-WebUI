@@ -8,10 +8,11 @@
 
 import { useNavigate } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
-import { useTranslation } from 'react-i18next';
 import PopupState, { bindDialog, bindTrigger } from 'material-ui-popup-state';
 import Dialog from '@mui/material/Dialog';
 import CheckIcon from '@mui/icons-material/Check';
+import { useLingui } from '@lingui/react/macro';
+import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
@@ -23,7 +24,7 @@ import { MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick<MangaType, 'title'> }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const navigate = useNavigate();
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
@@ -35,7 +36,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
 
     const handleClick = (openPopup: () => void) => {
         if (trackerList.error) {
-            makeToast(t('tracking.error.label.could_not_load_track_info'), 'error', trackerList.error?.toString());
+            makeToast(t`Could not load track info`, 'error', trackerList.error?.toString());
             return;
         }
 
@@ -60,8 +61,11 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
                     >
                         {trackersInUse.length ? <CheckIcon /> : <SyncIcon />}
                         {trackersInUse.length
-                            ? t('manga.button.track.active', { count: trackersInUse.length })
-                            : t('manga.button.track.start')}
+                            ? plural(trackersInUse.length, {
+                                  one: '# Tracker',
+                                  other: '# Tracker',
+                              })
+                            : t`Tracking`}
                     </CustomButton>
                     {popupState.isOpen && (
                         <Dialog {...bindDialog(popupState)} maxWidth="md" fullWidth scroll="paper">

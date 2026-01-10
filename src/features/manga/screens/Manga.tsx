@@ -12,9 +12,9 @@ import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import React, { useEffect, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useLocation, useParams } from 'react-router-dom';
 import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ChapterList } from '@/features/chapter/components/ChapterList.tsx';
@@ -30,7 +30,7 @@ import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitl
 import { MangaLocationState } from '@/features/manga/Manga.types.ts';
 
 export const Manga: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { id } = useParams<{ id: string }>();
     const { mode } = useLocation<MangaLocationState>().state ?? {};
 
@@ -61,7 +61,7 @@ export const Manga: React.FC = () => {
     }, [manga]);
 
     useAppTitleAndAction(
-        manga?.title ?? t('manga.title_one'),
+        manga?.title ?? t`Manga`,
         <Stack
             direction="row"
             sx={{
@@ -72,7 +72,7 @@ export const Manga: React.FC = () => {
                 <CustomTooltip
                     title={
                         <>
-                            {t('manga.error.label.request_failure')}
+                            {t`Could not load manga`}
                             <br />
                             {getErrorMessage(error)}
                         </>
@@ -94,12 +94,7 @@ export const Manga: React.FC = () => {
     );
 
     if (error && !manga) {
-        return (
-            <EmptyViewAbsoluteCentered
-                message={t('manga.error.label.request_failure')}
-                messageExtra={getErrorMessage(error)}
-            />
-        );
+        return <EmptyViewAbsoluteCentered message={t`Could not load manga`} messageExtra={getErrorMessage(error)} />;
     }
     return (
         <Box sx={{ display: { md: 'flex' }, overflow: 'hidden' }}>

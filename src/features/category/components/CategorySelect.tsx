@@ -13,10 +13,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import FormGroup from '@mui/material/FormGroup';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import { AwaitableComponentProps } from 'awaitable-component';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
@@ -90,7 +90,7 @@ const getCategoryCheckedState = (
 };
 
 export function CategorySelect(props: CategorySelectProps) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const {
         onDismiss,
@@ -161,7 +161,7 @@ export function CategorySelect(props: CategorySelectProps) {
 
         if (doNotShowAddToLibraryDialogAgain) {
             updateMetadataServerSettings('showAddToLibraryCategorySelectDialog', false).catch((e) =>
-                makeToast(t('search.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
+                makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
             );
         }
 
@@ -196,10 +196,10 @@ export function CategorySelect(props: CategorySelectProps) {
             onTransitionExited={onExitComplete}
             onClose={handleCancel}
         >
-            <DialogTitle>{t('category.title.set_categories')}</DialogTitle>
+            <DialogTitle>{t`Set categories`}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
-                    {allCategories.length === 0 && <span>{t('category.error.no_categories_found.label.info')}</span>}
+                    {allCategories.length === 0 && <span>{t`You don't have any categories yet.`}</span>}
                     {allCategories.map((category) => (
                         <ThreeStateCheckboxInput
                             checked={getCategoryCheckedState(
@@ -232,7 +232,7 @@ export function CategorySelect(props: CategorySelectProps) {
                         <CheckboxInput
                             sx={{ margin: 0 }}
                             size="small"
-                            label={t('global.button.dont_show_dialog_again')}
+                            label={t`Don't show this dialog again`}
                             onChange={(e) => setDoNotShowAddToLibraryDialogAgain(e.target.checked)}
                         />
                     )}
@@ -249,15 +249,15 @@ export function CategorySelect(props: CategorySelectProps) {
                             to={AppRoutes.settings.childRoutes.categories.path}
                             onClick={onDismiss}
                         >
-                            {t(allCategories.length ? 'global.button.edit' : 'global.button.create')}
+                            {allCategories.length ? t`Edit` : t`Create`}
                         </Button>
                         <Stack direction="row">
                             <Button autoFocus onClick={handleCancel} color="primary">
-                                {t('global.button.cancel')}
+                                {t`Cancel`}
                             </Button>
                             {!!allCategories.length && (
                                 <Button onClick={handleOk} color="primary">
-                                    {t('global.button.ok')}
+                                    {t`Ok`}
                                 </Button>
                             )}
                         </Stack>

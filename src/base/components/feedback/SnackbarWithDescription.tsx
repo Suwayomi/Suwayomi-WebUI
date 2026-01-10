@@ -6,27 +6,28 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import { closeSnackbar, CustomContentProps, SnackbarContent, VariantType } from 'notistack';
 import { ForwardedRef, Fragment, memo } from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';
-import { useTranslation } from 'react-i18next';
 import { useTheme } from '@mui/material/styles';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { extractGraphqlExceptionInfo } from '@/lib/HelperFunctions.ts';
-import { TranslationKey } from '@/base/Base.types.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 
 const MAX_DESCRIPTION_LENGTH = 200;
 
-const SNACKBAR_VARIANT_TO_TRANSLATION_KEY: Record<VariantType, TranslationKey> = {
-    default: 'global.label.info',
-    info: 'global.label.info',
-    success: 'global.label.success',
-    warning: 'global.label.warning',
-    error: 'global.label.error',
+const SNACKBAR_VARIANT_TO_TRANSLATION: Record<VariantType, MessageDescriptor> = {
+    default: msg`Information`,
+    info: msg`Information`,
+    success: msg`Success`,
+    warning: msg`Warning`,
+    error: msg`Error`,
 };
 
 export const SnackbarWithDescription = memo(
@@ -41,7 +42,7 @@ export const SnackbarWithDescription = memo(
         description?: string;
         ref?: ForwardedRef<HTMLDivElement>;
     }) => {
-        const { t } = useTranslation();
+        const { t } = useLingui();
         const theme = useTheme();
 
         const severity = variant === 'default' ? 'info' : variant;
@@ -87,11 +88,13 @@ export const SnackbarWithDescription = memo(
                                     title:
                                         typeof message === 'string'
                                             ? message
-                                            : t(SNACKBAR_VARIANT_TO_TRANSLATION_KEY[variant]),
+                                            : t(SNACKBAR_VARIANT_TO_TRANSLATION[variant]),
                                     message: description ?? '',
                                     actions: {
                                         cancel: { show: false },
-                                        confirm: { title: t('global.label.close') },
+                                        confirm: {
+                                            title: t`Close`,
+                                        },
                                     },
                                 }).catch(
                                     defaultPromiseErrorHandler(
@@ -101,7 +104,7 @@ export const SnackbarWithDescription = memo(
                             }}
                             size="small"
                         >
-                            {t('global.button.show_more')}
+                            {t`Show more`}
                         </Button>
                     ) : (
                         ''

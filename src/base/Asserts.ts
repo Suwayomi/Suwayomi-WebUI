@@ -6,10 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { AssertionError } from 'assert';
-
 export function assertIsDefined<T>(value: T | undefined): asserts value is NonNullable<T> {
     if (value === undefined || value === null) {
-        throw new AssertionError({ message: 'Value is undefined or null' });
+        throw new Error('Value is undefined or null');
     }
 }

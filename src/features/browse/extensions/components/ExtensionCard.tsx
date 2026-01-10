@@ -10,10 +10,10 @@ import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Stack from '@mui/material/Stack';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import {
@@ -26,7 +26,7 @@ import {
 import {
     EXTENSION_ACTION_TO_NEXT_ACTION_MAP,
     EXTENSION_ACTION_TO_STATE_MAP,
-    INSTALLED_STATE_TO_TRANSLATION_KEY_MAP,
+    INSTALLED_STATE_TO_TRANSLATION_MAP,
 } from '@/features/extension/Extensions.constants.ts';
 import { getInstalledState, updateExtension } from '@/features/extension/Extensions.utils.ts';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
@@ -45,7 +45,7 @@ interface IProps {
 }
 
 export function ExtensionCard(props: IProps) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const {
         extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw, repo },
@@ -134,7 +134,7 @@ export function ExtensionCard(props: IProps) {
                         {showSourceRepo && <Typography variant="caption">{repo}</Typography>}
                     </Stack>
                     {isInstalled && (
-                        <CustomTooltip title={t('settings.title')}>
+                        <CustomTooltip title={t`Settings`}>
                             <IconButton color="inherit" {...MUIUtil.preventRippleProp()}>
                                 <SettingsIcon />
                             </IconButton>
@@ -151,7 +151,7 @@ export function ExtensionCard(props: IProps) {
                             handleButtonClick();
                         }}
                     >
-                        {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
+                        {t(INSTALLED_STATE_TO_TRANSLATION_MAP[installedState])}
                     </Button>
                 </ListCardContent>
             </OptionalCardActionAreaLink>

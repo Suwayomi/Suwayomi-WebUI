@@ -9,7 +9,7 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { ReaderSettingReadingMode } from '@/features/reader/settings/layout/components/ReaderSettingReadingMode.tsx';
 import { ReaderSettingReadingDirection } from '@/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx';
 import { ReaderSettingTapZoneLayout } from '@/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx';
@@ -35,14 +35,14 @@ export const ReaderLayoutSettings = ({
     setShowPreview: TReaderTapZoneContext['setShowPreview'];
     isSeriesMode?: boolean;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack sx={{ gap: 2 }}>
             <DefaultSettingFootnote areDefaultSettings={!isDefaultable} />
             {isSeriesMode && (
                 <>
-                    <Typography>{t('reader.settings.source_series')}</Typography>
+                    <Typography>{t`Series settings`}</Typography>
                     <ReaderSettingReadingMode
                         readingMode={settings.readingMode}
                         setReadingMode={(value) => updateSetting('readingMode', value)}

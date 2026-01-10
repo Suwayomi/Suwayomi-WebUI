@@ -1,1 +1,3 @@
 yarn lint-staged
+yarn i18n:extract
+git add src/i18n/locales/*.po

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Trans, useTranslation } from 'react-i18next';
+import { MessageDescriptor } from '@lingui/core';
 import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -19,6 +19,8 @@ import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import { jsonrepair } from 'jsonrepair';
 import { AwaitableComponentProps } from 'awaitable-component';
+import { Trans, useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { getErrorMessage, jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { AppTheme, isThemeNameUnique } from '@/features/theme/services/AppThemes.ts';
 import {
@@ -30,7 +32,6 @@ import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
-import { TranslationKey } from '@/base/Base.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 
@@ -66,36 +67,36 @@ const baseCustomTheme: AppTheme = {
 
 type DialogMode = 'create' | 'edit' | 'save_dynamic';
 
-const dialogModeToTranslationKey: Record<
+const dialogModeToTranslation: Record<
     DialogMode,
     {
-        title: TranslationKey;
-        button: TranslationKey;
-        action: TranslationKey;
-        success: TranslationKey;
-        failure: TranslationKey;
+        title: MessageDescriptor;
+        button: MessageDescriptor;
+        action: MessageDescriptor;
+        success: MessageDescriptor;
+        failure: MessageDescriptor;
     }
 > = {
     create: {
-        title: 'settings.appearance.theme.create.title',
-        button: 'global.button.ok',
-        action: 'settings.appearance.theme.create.action',
-        success: 'settings.appearance.theme.create.success',
-        failure: 'settings.appearance.theme.create.failure',
+        title: msg`Create theme`,
+        button: msg`Ok`,
+        action: msg`Creating theme…`,
+        success: msg`Created theme`,
+        failure: msg`Could not create theme`,
     },
     edit: {
-        title: 'settings.appearance.theme.edit.title',
-        button: 'global.button.save',
-        action: 'settings.appearance.theme.edit.action',
-        success: 'settings.appearance.theme.edit.success',
-        failure: 'settings.appearance.theme.edit.failure',
+        title: msg`Edit theme`,
+        button: msg`Save`,
+        action: msg`Saving theme changes…`,
+        success: msg`Saved theme changes`,
+        failure: msg`Could not save theme changes`,
     },
     save_dynamic: {
-        title: 'settings.appearance.manga_dynamic_color_schemes.save',
-        button: 'global.button.save',
-        action: 'settings.appearance.theme.create.action',
-        success: 'settings.appearance.theme.create.success',
-        failure: 'settings.appearance.theme.create.failure',
+        title: msg`Save dynamic color theme`,
+        button: msg`Save`,
+        action: msg`Creating theme…`,
+        success: msg`Created theme`,
+        failure: msg`Could not create theme`,
     },
 };
 
@@ -110,7 +111,7 @@ export const ThemeCreationDialog = ({
     mode: DialogMode;
     appTheme?: AppTheme;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const {
         settings: { customThemes },
@@ -131,12 +132,12 @@ export const ThemeCreationDialog = ({
 
     return (
         <Dialog open={isVisible} onTransitionExited={onExitComplete} fullWidth maxWidth="md">
-            <DialogTitle>{t(dialogModeToTranslationKey[mode].title)}</DialogTitle>
+            <DialogTitle>{t(dialogModeToTranslation[mode].title)}</DialogTitle>
             <DialogContent>
                 {loading && <LoadingPlaceholder />}
                 {error && (
                     <EmptyView
-                        message={t('global.error.label.failed_to_load_data')}
+                        message={t`Unable to load data`}
                         messageExtra={getErrorMessage(error)}
                         retry={() => refetch().catch(defaultPromiseErrorHandler('ThemeCreationDialog::refetch'))}
                     />
@@ -144,21 +145,29 @@ export const ThemeCreationDialog = ({
                 {!error && (
                     <Stack sx={{ gap: 2, whiteSpace: 'pre-line' }}>
                         <Typography>
-                            <Trans i18nKey="settings.appearance.theme.create.dialog.description">
+                            <Trans>
+                                See the official{' '}
                                 <Link
                                     href="https://mui.com/material-ui/customization/how-to-customize/"
                                     target="_blank"
                                     rel="noreferrer"
                                 >
                                     MUI documentation
-                                </Link>
+                                </Link>{' '}
+                                for how to customize the theme.
+                                <br />
+                                The palette API is not supported, you have to use the new
                                 <Link
                                     href="https://mui.com/material-ui/customization/palette/#color-schemes"
                                     target="_blank"
                                     rel="noreferrer"
                                 >
-                                    MUI documentation
+                                    color schemes API
                                 </Link>
+                                .
+                                <br />
+                                <br />
+                                You can use theme creators like{' '}
                                 <Link
                                     href="https://zenoo.github.io/mui-theme-creator/"
                                     target="_blank"
@@ -166,16 +175,21 @@ export const ThemeCreationDialog = ({
                                 >
                                     MUI Theme Creator
                                 </Link>{' '}
-                                , copy everything after &quot;themeOptions&quot; from &quot;{'{'}&quot; to &quot;{'}'}
-                                &quot; and paste it into the &quot;theme&quot; text field.
+                                , however, you have to adjust the created object according to the new color schemes API.
+                                <br />
+                                <br />
+                                In case no background is defined, a background will be calculated based on the primary
+                                color.
                             </Trans>
                         </Typography>
                         <TextField
                             disabled={mode === 'edit'}
-                            label={t('settings.appearance.theme.create.dialog.theme_name')}
+                            label={t`Name`}
                             value={theme.getName()}
                             error={invalidName}
-                            helperText={invalidName && t('settings.appearance.theme.create.dialog.error.invalid_name')}
+                            helperText={
+                                invalidName && t`The theme name must be unique and has a limit of 16 characters`
+                            }
                             onChange={(e) => {
                                 const name = e.target.value.trim();
 
@@ -191,10 +205,10 @@ export const ThemeCreationDialog = ({
                             }}
                         />
                         <TextField
-                            label={t('settings.appearance.theme.title')}
+                            label={t`Theme`}
                             multiline
                             error={invalidTheme}
-                            helperText={invalidTheme && t('settings.appearance.theme.create.dialog.error.invalid_json')}
+                            helperText={invalidTheme && t`Invalid json`}
                             defaultValue={JSON.stringify(theme.muiTheme, null, 2)}
                             onChange={(e) => {
                                 const invalidThemeStr = 'invalid';
@@ -229,29 +243,23 @@ export const ThemeCreationDialog = ({
                     <CheckboxInput
                         sx={{ margin: 0 }}
                         size="small"
-                        label={t('settings.appearance.manga_dynamic_color_schemes.set_active')}
+                        label={t`Set as active theme`}
                         checked={setAsActiveTheme}
                         onChange={(_, checked) => setSetAsActiveTheme(checked)}
                     />
                     <Stack sx={{ flexDirection: 'row', justifyContent: 'end' }}>
                         <Button autoFocus onClick={() => onDismiss()} color="primary">
-                            {t('global.button.cancel')}
+                            {t`Cancel`}
                         </Button>
                         <Button
                             disabled={invalidTheme || invalidName || isCreating || !didThemeChange || !theme.id.length}
                             onClick={() => {
-                                makeToast(
-                                    t(dialogModeToTranslationKey[mode].action, { theme: theme.getName() }),
-                                    'info',
-                                );
+                                makeToast(t(dialogModeToTranslation[mode].action), 'info');
 
                                 setIsCreating(true);
                                 updateCustomThemes('customThemes', { ...customThemes, [theme.id]: theme })
                                     .then(() => {
-                                        makeToast(
-                                            t(dialogModeToTranslationKey[mode].success, { theme: theme.getName() }),
-                                            'success',
-                                        );
+                                        makeToast(t(dialogModeToTranslation[mode].success), 'success');
 
                                         if (setAsActiveTheme) {
                                             setAppTheme(theme.getName());
@@ -261,7 +269,7 @@ export const ThemeCreationDialog = ({
                                     })
                                     .catch((updateError) =>
                                         makeToast(
-                                            t(dialogModeToTranslationKey[mode].failure, { theme: theme.getName() }),
+                                            t(dialogModeToTranslation[mode].failure),
                                             'error',
                                             getErrorMessage(updateError),
                                         ),
@@ -270,7 +278,7 @@ export const ThemeCreationDialog = ({
                             }}
                             color="primary"
                         >
-                            {t(dialogModeToTranslationKey[mode].button)}
+                            {t(dialogModeToTranslation[mode].button)}
                         </Button>
                     </Stack>
                 </Stack>

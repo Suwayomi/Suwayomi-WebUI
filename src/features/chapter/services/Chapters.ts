@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { t as translate } from 'i18next';
 import { DocumentNode, MaybeMasked, Unmasked, useFragment } from '@apollo/client';
+import { t } from '@lingui/core/macro';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
@@ -18,8 +18,8 @@ import {
     DownloadTypeFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
-
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+
 import { ReaderOpenChapterLocationState, ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -43,6 +43,7 @@ import {
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
+import { i18n } from '@/i18n';
 
 export class Chapters {
     static getIds(chapters: { id: number }[]): number[] {
@@ -276,11 +277,12 @@ export class Chapters {
 
                 try {
                     await Confirmation.show({
-                        title: translate('global.label.are_you_sure'),
-                        message: translate(confirmationMessage, { count: itemCount }),
+                        title: t`Are you sure?`,
+                        /* lingui-extract-ignore */
+                        message: i18n.t({ ...confirmationMessage, values: { count: itemCount } }),
                         actions: {
                             confirm: {
-                                title: translate('global.button.ok'),
+                                title: t`Ok`,
                             },
                         },
                     });
@@ -290,10 +292,15 @@ export class Chapters {
             }
 
             await fnToExecute();
-            makeToast(translate(CHAPTER_ACTION_TO_TRANSLATION[action].success, { count: itemCount }), 'success');
+            makeToast(
+                /* lingui-extract-ignore */
+                i18n.t({ ...CHAPTER_ACTION_TO_TRANSLATION[action].success, values: { count: itemCount } }),
+                'success',
+            );
         } catch (e) {
             makeToast(
-                translate(CHAPTER_ACTION_TO_TRANSLATION[action].error, { count: itemCount }),
+                /* lingui-extract-ignore */
+                i18n.t({ ...CHAPTER_ACTION_TO_TRANSLATION[action].error, values: { count: itemCount } }),
                 'error',
                 getErrorMessage(e),
             );

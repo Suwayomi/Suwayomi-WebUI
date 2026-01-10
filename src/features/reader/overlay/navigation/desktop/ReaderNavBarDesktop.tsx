@@ -7,13 +7,13 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import Divider from '@mui/material/Divider';
 import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ReaderNavBarDesktopProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { ReaderNavContainer } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavContainer.tsx';
@@ -58,7 +58,7 @@ const BaseReaderNavBarDesktop = ({
     openSettings,
     setReaderNavBarWidth,
 }: ReaderNavBarDesktopProps & Pick<NavbarContextType, 'setReaderNavBarWidth'>) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const manga = useReaderStore((state) => state.manga);
     const {
         chapters,
@@ -112,7 +112,7 @@ const BaseReaderNavBarDesktop = ({
                 <Stack sx={{ p: 2, gap: 2, backgroundColor: 'action.hover' }}>
                     <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                         <ReaderExitButton />
-                        <CustomTooltip title={t('reader.settings.label.static_navigation')}>
+                        <CustomTooltip title={t`Static navigation`}>
                             <IconButton
                                 onClick={() => {
                                     setReaderNavBarWidth(0);

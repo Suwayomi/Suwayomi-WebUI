@@ -7,9 +7,9 @@
  */
 
 import { styled } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useLingui } from '@lingui/react/macro';
 import { MangaCardMode } from '@/features/manga/Manga.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
@@ -42,7 +42,7 @@ export const MangaBadges = ({
     downloadCount?: number;
     mode: MangaCardMode;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const isTouchDevice = MediaQuery.useIsTouchDevice();
 
@@ -69,7 +69,7 @@ export const MangaBadges = ({
                     }}
                     color={isInLibrary ? 'error' : 'primary'}
                 >
-                    {t(isInLibrary ? 'manga.action.library.remove.label.action' : 'manga.button.add_to_library')}
+                    {isInLibrary ? t`Remove from the library` : t`Add To Library`}
                 </Button>
             )}
             {inLibraryIndicator && isInLibrary && (
@@ -77,7 +77,7 @@ export const MangaBadges = ({
                     className="source-manga-library-state-indicator"
                     sx={{ backgroundColor: 'primary.dark', color: 'primary.contrastText', p: 0.3 }}
                 >
-                    {t('manga.button.in_library')}
+                    {t`In Library`}
                 </Typography>
             )}
             {((showUnreadBadge && mode === 'default') || mode === 'duplicate') && (unread ?? 0) > 0 && (

@@ -6,28 +6,29 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
-
 import {
     CUSTOM_FILTER,
     DEFAULT_READER_SETTINGS,
     READER_BLEND_MODE_VALUE_TO_DISPLAY_DATA,
     READER_BLEND_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
+
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
-import { TranslationKey } from '@/base/Base.types.ts';
 
 type RGBAType = Exclude<keyof IReaderSettings['customFilter']['rgba']['value'], 'blendMode'>;
 
-const RGBA_TYPE_TO_TRANSLATION_KEY: Record<RGBAType, TranslationKey> = {
-    red: 'reader.settings.custom_filter.rgba.red',
-    green: 'reader.settings.custom_filter.rgba.green',
-    blue: 'reader.settings.custom_filter.rgba.blue',
-    alpha: 'reader.settings.custom_filter.rgba.alpha',
+const RGBA_TYPE_TO_TRANSLATION: Record<RGBAType, MessageDescriptor> = {
+    red: msg`Red`,
+    green: msg`Green`,
+    blue: msg`Blue`,
+    alpha: msg`Alpha`,
 };
 
 export const ReaderSettingRGBA = ({
@@ -40,12 +41,12 @@ export const ReaderSettingRGBA = ({
         commit: boolean,
     ) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack>
             <CheckboxInput
-                label={t('reader.settings.custom_filter.rgba.title')}
+                label={t`Custom color filters`}
                 checked={rgba.enabled}
                 onChange={(_, checked) => updateSetting('rgba', { ...rgba, enabled: checked }, true)}
             />
@@ -59,7 +60,7 @@ export const ReaderSettingRGBA = ({
                         return (
                             <SliderInput
                                 key={key}
-                                label={t(RGBA_TYPE_TO_TRANSLATION_KEY[key as RGBAType])}
+                                label={t(RGBA_TYPE_TO_TRANSLATION[key as RGBAType])}
                                 value={value}
                                 onDefault={() =>
                                     updateSetting(
@@ -101,7 +102,7 @@ export const ReaderSettingRGBA = ({
                         );
                     })}
                     <ButtonSelectInput
-                        label={t('reader.settings.custom_filter.rgba.blend_mode.title')}
+                        label={t`Color filter blend mode`}
                         value={rgba.value.blendMode}
                         values={READER_BLEND_MODE_VALUES}
                         setValue={(value) =>

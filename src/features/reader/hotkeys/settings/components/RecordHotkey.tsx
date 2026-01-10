@@ -8,7 +8,6 @@
 
 import { useEffect } from 'react';
 import Stack from '@mui/material/Stack';
-import { Trans, useTranslation } from 'react-i18next';
 import { useRecordHotkeys } from 'react-hotkeys-hook';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -16,6 +15,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Trans, useLingui } from '@lingui/react/macro';
 import { Hotkey } from '@/features/reader/hotkeys/settings/components/Hotkey.tsx';
 
 export const RecordHotkey = ({
@@ -27,7 +27,7 @@ export const RecordHotkey = ({
     onCreate: (keys: string[]) => void;
     existingKeys: string[];
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [recordedKeys, { start, stop, resetKeys }] = useRecordHotkeys();
     const keys = [[...recordedKeys].join('+')];
@@ -45,23 +45,15 @@ export const RecordHotkey = ({
 
     return (
         <Dialog open onClose={onClose} fullWidth>
-            <DialogTitle>{t('hotkeys.create.dialog.title')}</DialogTitle>
+            <DialogTitle>{t`Record keybind`}</DialogTitle>
             <DialogContent>
                 <Stack sx={{ flexDirection: 'row', gap: 1 }}>
-                    <Trans
-                        i18nKey="hotkeys.create.dialog.label"
-                        components={{
-                            Keys: recordedKeys.size ? (
-                                <Hotkey keys={keys} />
-                            ) : (
-                                <Typography>{t('hotkeys.create.dialog.placeholder')}</Typography>
-                            ),
-                        }}
-                    >
-                        Recorded keys:
+                    <Trans>
+                        Recorded hotkeys:{' '}
+                        {recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>}
                     </Trans>
                 </Stack>
-                {isExistingKey && <Typography color="error">{t('hotkeys.create.error.exists')}</Typography>}
+                {isExistingKey && <Typography color="error">{t`Hotkey already exists`}</Typography>}
             </DialogContent>
             <DialogActions>
                 <Stack
@@ -71,9 +63,9 @@ export const RecordHotkey = ({
                         width: '100%',
                     }}
                 >
-                    <Button onClick={resetKeys}>{t('global.button.reset')}</Button>
+                    <Button onClick={resetKeys}>{t`Reset`}</Button>
                     <Stack direction="row">
-                        <Button onClick={onClose}>{t('global.button.cancel')}</Button>
+                        <Button onClick={onClose}>{t`Cancel`}</Button>
                         <Button
                             disabled={isExistingKey}
                             onClick={() => {
@@ -81,7 +73,7 @@ export const RecordHotkey = ({
                                 onCreate(keys);
                             }}
                         >
-                            {t('global.button.create')}
+                            {t`Create`}
                         </Button>
                     </Stack>
                 </Stack>

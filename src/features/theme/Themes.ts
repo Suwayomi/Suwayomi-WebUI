@@ -7,7 +7,7 @@
  */
 
 import { CssVarsThemeOptions } from '@mui/material/styles';
-import { t as translate } from 'i18next';
+import { t } from '@lingui/core/macro';
 
 export type TBaseTheme = {
     isCustom: boolean;
@@ -18,7 +18,7 @@ export type TBaseTheme = {
 export const themes = {
     default: {
         isCustom: false,
-        getName: () => translate('global.label.default'),
+        getName: () => t`Default`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -46,7 +46,7 @@ export const themes = {
     },
     lavender: {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.lavender'),
+        getName: () => t`Lavender`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -82,7 +82,7 @@ export const themes = {
     },
     dune: {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.dune'),
+        getName: () => t`Dune`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -110,7 +110,7 @@ export const themes = {
     },
     rosegold: {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.rosegold'),
+        getName: () => t`Rosegold`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -142,7 +142,7 @@ export const themes = {
     },
     'forest dew': {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.forest_dew'),
+        getName: () => t`Forest Dew`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -170,7 +170,7 @@ export const themes = {
     },
     'montain sunset': {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.mountain_sunset'),
+        getName: () => t`Mountain Sunset`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -202,7 +202,7 @@ export const themes = {
     },
     crimson: {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.crimson'),
+        getName: () => t`Crimson`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -230,7 +230,7 @@ export const themes = {
     },
     'minty miracles': {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.minty_miracles'),
+        getName: () => t`Minty Miracles`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -262,7 +262,7 @@ export const themes = {
     },
     'orange juice': {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.orange_juice'),
+        getName: () => t`Orange Juice`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -294,7 +294,7 @@ export const themes = {
     },
     'bright pink': {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.bright_pink'),
+        getName: () => t`Bright Pink`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -322,7 +322,7 @@ export const themes = {
     },
     veronica: {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.veronica'),
+        getName: () => t`Veronica`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -350,7 +350,7 @@ export const themes = {
     },
     'tree frog green': {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.tree_frog_green'),
+        getName: () => t`Tree Frog Green`,
         muiTheme: {
             colorSchemes: {
                 light: {
@@ -382,7 +382,7 @@ export const themes = {
     },
     'ying and yang': {
         isCustom: false,
-        getName: () => translate('settings.appearance.theme.themes.ying_and_yang'),
+        getName: () => t`Ying & Yang`,
         muiTheme: {
             colorSchemes: {
                 light: {

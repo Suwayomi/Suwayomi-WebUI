@@ -8,8 +8,8 @@
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import { useTranslation } from 'react-i18next';
-import { INSTALLED_STATE_TO_TRANSLATION_KEY_MAP } from '@/features/extension/Extensions.constants.ts';
+import { useLingui } from '@lingui/react/macro';
+import { INSTALLED_STATE_TO_TRANSLATION_MAP } from '@/features/extension/Extensions.constants.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getInstalledState, updateExtension } from '@/features/extension/Extensions.utils.ts';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
@@ -17,7 +17,7 @@ import { ExtensionAction, InstalledState, TExtension } from '@/features/extensio
 
 export const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TExtension) => {
     const handleBack = useBackButton();
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const installedState = getInstalledState(isInstalled, isObsolete, hasUpdate);
 
@@ -44,7 +44,7 @@ export const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TE
                     }
                 }}
             >
-                {t(INSTALLED_STATE_TO_TRANSLATION_KEY_MAP[installedState])}
+                {t(INSTALLED_STATE_TO_TRANSLATION_MAP[installedState])}
             </Button>
         </Box>
     );

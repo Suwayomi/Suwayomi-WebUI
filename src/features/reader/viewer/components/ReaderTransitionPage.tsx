@@ -8,11 +8,11 @@
 
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import { ComponentProps, memo, useMemo } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings, ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
@@ -97,7 +97,7 @@ const BaseReaderTransitionPage = ({
     type: Exclude<ReaderTransitionPageMode, ReaderTransitionPageMode.NONE | ReaderTransitionPageMode.BOTH>;
     handleBack: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const manga = useReaderStore((state) => state.manga);
     const scrollbar = useReaderScrollbarStore((state) => state.scrollbar);
     const transitionPageMode = useReaderPagesStore((state) => state.pages.transitionPageMode);
@@ -162,12 +162,12 @@ const BaseReaderTransitionPage = ({
                 }}
             >
                 {isPreviousType && isFirstChapter && (
-                    <Typography variant="h6">{t('reader.transition_page.first_chapter')}</Typography>
+                    <Typography variant="h6">{t`There is no previous chapter`}</Typography>
                 )}
                 <Stack sx={{ gap: 5 }}>
                     {isPreviousType && !isFirstChapter && (
                         <ChapterInfo
-                            title={t('reader.transition_page.previous')}
+                            title={t`Previous:`}
                             name={previousChapterName}
                             scanlator={previousChapterScanlator}
                             backgroundColor={backgroundColor}
@@ -175,9 +175,7 @@ const BaseReaderTransitionPage = ({
                     )}
                     {!!currentChapterName && (
                         <ChapterInfo
-                            title={t(
-                                isPreviousType ? 'reader.transition_page.current' : 'reader.transition_page.finished',
-                            )}
+                            title={isPreviousType ? t`Current:` : t`Finished:`}
                             name={currentChapterName}
                             scanlator={currentChapterScanlator}
                             backgroundColor={backgroundColor}
@@ -185,16 +183,14 @@ const BaseReaderTransitionPage = ({
                     )}
                     {isNextType && !isLastChapter && (
                         <ChapterInfo
-                            title={t('reader.transition_page.next')}
+                            title={t`Next:`}
                             name={nextChapterName}
                             scanlator={nextChapterScanlator}
                             backgroundColor={backgroundColor}
                         />
                     )}
                 </Stack>
-                {isNextType && isLastChapter && (
-                    <Typography variant="h6">{t('reader.transition_page.last_chapter')}</Typography>
-                )}
+                {isNextType && isLastChapter && <Typography variant="h6">{t`There is no next chapter`}</Typography>}
                 {((isPreviousType && isFirstChapter) || (isNextType && isLastChapter)) && (
                     <Stack sx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 1 }}>
                         <Button
@@ -205,7 +201,7 @@ const BaseReaderTransitionPage = ({
                             }}
                             variant="contained"
                         >
-                            {t('reader.transition_page.exit.previous_page')}
+                            {t`Exit to previous page`}
                         </Button>
                         <Button
                             sx={{ flexGrow: 1 }}
@@ -216,7 +212,7 @@ const BaseReaderTransitionPage = ({
                             variant="contained"
                             to={AppRoutes.manga.path(manga?.id ?? -1)}
                         >
-                            {t('reader.transition_page.exit.manga_page')}
+                            {t`Exit to manga page`}
                         </Button>
                     </Stack>
                 )}

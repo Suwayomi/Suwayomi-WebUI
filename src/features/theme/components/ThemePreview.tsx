@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -19,6 +18,7 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { AwaitableComponent } from 'awaitable-component';
 import Paper from '@mui/material/Paper';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { AppTheme } from '@/features/theme/services/AppThemes.ts';
@@ -37,7 +37,7 @@ const ThemePreviewBadge = styled(Box)(() => ({
 export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDelete: () => void }) => {
     const { getName } = appTheme;
 
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const theme = useTheme();
     const { themeMode, setAppTheme, appTheme: activeAppTheme, shouldUsePureBlackMode } = useAppThemeContext();
 
@@ -95,16 +95,10 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                 return;
                             }
 
-                            makeToast(t('settings.appearance.theme.select.fonts.loading'), 'info');
+                            makeToast(t`Loading theme fonts…`, 'info');
                             ThemeFontLoader.load(appTheme.muiTheme)
                                 .then(() => setAppTheme(appTheme.id))
-                                .catch((e) =>
-                                    makeToast(
-                                        t('settings.appearance.theme.select.fonts.error'),
-                                        'error',
-                                        getErrorMessage(e),
-                                    ),
-                                );
+                                .catch((e) => makeToast(t`Could not load theme fonts`, 'error', getErrorMessage(e)));
                         }}
                     >
                         <Stack sx={{ height: '100%', m: 0 }}>
@@ -151,7 +145,7 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                                 size="small"
                                                 sx={{ mt: -0.5 }}
                                             >
-                                                <CustomTooltip title={t('global.button.delete')} placement="auto">
+                                                <CustomTooltip title={t`Delete`} placement="auto">
                                                     <DeleteIcon />
                                                 </CustomTooltip>
                                             </IconButton>
@@ -170,7 +164,7 @@ export const ThemePreview = ({ appTheme, onDelete }: { appTheme: AppTheme; onDel
                                                 component="div"
                                                 size="small"
                                             >
-                                                <CustomTooltip title={t('global.button.edit')} placement="auto">
+                                                <CustomTooltip title={t`Edit`} placement="auto">
                                                     <EditIcon />
                                                 </CustomTooltip>
                                             </IconButton>

@@ -11,7 +11,8 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { ComponentProps, useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ResumeFab } from '@/features/manga/components/ResumeFAB.tsx';
 import {
@@ -82,7 +83,7 @@ const ChapterListFAB = ({
 }) => {
     if (selectedChapters.length) {
         return (
-            <SelectionFAB selectedItemsCount={selectedChapters.length} title="chapter.title_one">
+            <SelectionFAB title={plural(selectedChapters.length, { one: '# chapter', other: '# chapters' })}>
                 {(handleClose) => (
                     <ChapterActionMenuItems
                         selectedChapters={selectedChapters}
@@ -110,7 +111,7 @@ export const ChapterList = ({
     manga: Pick<MangaScreenFieldsFragment, 'id' | 'firstUnreadChapter' | 'chapters' | 'unreadCount' | 'downloadCount'>;
     isRefreshing: boolean;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { appBarHeight } = useNavBarContext();
 
     const isMobileWidth = MediaQuery.useIsBelowWidth('md');
@@ -126,7 +127,7 @@ export const ChapterList = ({
 
     const options = useChapterListOptions(manga);
     const updateOption = updateChapterListOptions(manga, (e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
     const {
         data: chaptersData,
@@ -173,7 +174,7 @@ export const ChapterList = ({
         return (
             <Stack sx={{ justifyContent: 'center', position: 'relative', flexGrow: 1 }}>
                 <EmptyViewAbsoluteCentered
-                    message={t('global.error.label.failed_to_load_data')}
+                    message={t`Unable to load data`}
                     messageExtra={getErrorMessage(error)}
                     retry={() => refetch().catch(defaultPromiseErrorHandler('ChapterList::refetch'))}
                 />
@@ -193,13 +194,17 @@ export const ChapterList = ({
                 >
                     <Stack>
                         <Typography variant="h5" component="h3">
-                            {t('chapter.value', { count: visibleChapters.length })}
+                            {plural(visibleChapters.length, {
+                                one: '# chapter',
+                                other: '# chapters',
+                            })}
                         </Typography>
                         {!!missingChapterCount && (
                             <Typography variant="body2" color="warning">
-                                {`${t('chapter.missing', {
-                                    count: missingChapterCount,
-                                })}`}
+                                {plural(missingChapterCount, {
+                                    one: 'Missing # chapter',
+                                    other: 'Missing # chapters',
+                                })}
                             </Typography>
                         )}
                     </Stack>
@@ -225,10 +230,8 @@ export const ChapterList = ({
                     </Stack>
                 </ChapterListHeader>
 
-                {noChaptersFound && <EmptyViewAbsoluteCentered message={t('chapter.error.label.no_chapter_found')} />}
-                {noChaptersMatchingFilter && (
-                    <EmptyViewAbsoluteCentered message={t('chapter.error.label.no_matches')} />
-                )}
+                {noChaptersFound && <EmptyViewAbsoluteCentered message={t`No chapters found`} />}
+                {noChaptersMatchingFilter && <EmptyViewAbsoluteCentered message={t`No chapters matching filter`} />}
 
                 <StyledVirtuoso
                     persistKey={`manga-${manga.id}-chapter-list`}

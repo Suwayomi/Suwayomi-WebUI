@@ -15,13 +15,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
-
+import { useLingui } from '@lingui/react/macro';
 import { EditTextPreferenceProps } from '@/features/source/Source.types.ts';
 
 export function EditTextPreference(props: EditTextPreferenceProps) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const {
         EditTextPreferenceTitle: title,
@@ -69,10 +68,10 @@ export function EditTextPreference(props: EditTextPreferenceProps) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleDialogCancel} color="primary">
-                        {t('global.button.cancel')}
+                        {t`Cancel`}
                     </Button>
                     <Button onClick={handleDialogSubmit} color="primary">
-                        {t('global.button.ok')}
+                        {t`Ok`}
                     </Button>
                 </DialogActions>
             </Dialog>

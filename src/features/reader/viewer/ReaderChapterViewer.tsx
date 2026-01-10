@@ -9,8 +9,8 @@
 import { memo, MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
+import { useLingui } from '@lingui/react/macro';
 import {
     IReaderSettings,
     ReaderPagerProps,
@@ -42,8 +42,8 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { ReaderInfiniteScrollUpdateChapter } from '@/features/reader/infinite-scroll/ReaderInfiniteScrollUpdateChapter.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-
 import { READER_DEFAULT_PAGES_STATE } from '@/features/reader/stores/ReaderPagesStore.ts';
+
 import { getReaderChaptersStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderChapterViewer = ({
@@ -125,7 +125,7 @@ const BaseReaderChapterViewer = ({
         minHeight: number;
         scrollElement: HTMLElement | null;
     }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { direction: themeDirection } = useTheme();
 
     const [fetchPages, pagesResponse] = requestManager.useGetChapterPagesFetch(chapterId ?? -1);
@@ -319,7 +319,7 @@ const BaseReaderChapterViewer = ({
                 }}
             >
                 <EmptyViewAbsoluteCentered
-                    message={t('global.error.label.failed_to_load_data')}
+                    message={t`Unable to load data`}
                     messageExtra={getErrorMessage(pagesResponse.error)}
                     retry={() => {
                         doFetchPages();
@@ -355,7 +355,7 @@ const BaseReaderChapterViewer = ({
 
         return (
             <Box sx={{ minWidth: '100%', minHeight: '100%', position: 'relative' }}>
-                <EmptyViewAbsoluteCentered message={t('reader.error.label.no_pages_found')} retry={doFetchPages} />
+                <EmptyViewAbsoluteCentered message={t`No pages found`} retry={doFetchPages} />
             </Box>
         );
     }

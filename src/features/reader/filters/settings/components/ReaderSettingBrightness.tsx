@@ -7,11 +7,10 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
-
 import { CUSTOM_FILTER, DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
 export const ReaderSettingBrightness = ({
@@ -24,18 +23,18 @@ export const ReaderSettingBrightness = ({
         commit: boolean,
     ) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack>
             <CheckboxInput
-                label={t('reader.settings.custom_filter.brightness')}
+                label={t`Custom brightness`}
                 checked={brightness.enabled}
                 onChange={(_, checked) => updateSetting('brightness', { ...brightness, enabled: checked }, true)}
             />
             {brightness.enabled && (
                 <SliderInput
-                    label={t('reader.settings.custom_filter.brightness')}
+                    label={t`Custom brightness`}
                     value={brightness.value}
                     onDefault={() =>
                         updateSetting(

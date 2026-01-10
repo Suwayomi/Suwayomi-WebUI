@@ -6,17 +6,17 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { useCallback } from 'react';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/base/hooks/usePersistedValue.tsx';
-
 import { ServerSettings } from '@/features/settings/Settings.types.ts';
+
 import { GLOBAL_UPDATE_INTERVAL } from '@/features/settings/Settings.constants.ts';
 
 export const GlobalUpdateSettingsInterval = ({
@@ -24,7 +24,7 @@ export const GlobalUpdateSettingsInterval = ({
 }: {
     globalUpdateInterval: ServerSettings['globalUpdateInterval'];
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const autoUpdateIntervalHours = globalUpdateInterval;
     const doAutoUpdates = !!autoUpdateIntervalHours;
@@ -54,20 +54,18 @@ export const GlobalUpdateSettingsInterval = ({
     return (
         <List>
             <ListItem>
-                <ListItemText primary={t('library.settings.global_update.auto_update.label.title')} />
+                <ListItemText primary={t`Automatic updates`} />
                 <Switch edge="end" checked={doAutoUpdates} onChange={(e) => setDoAutoUpdates(e.target.checked)} />
             </ListItem>
             <NumberSetting
-                settingTitle={t('library.settings.global_update.auto_update.interval.label.title')}
-                settingValue={t('library.settings.global_update.auto_update.interval.label.value', {
-                    hours: currentAutoUpdateIntervalHours,
-                })}
+                settingTitle={t`Automatic update interval`}
+                settingValue={t`${currentAutoUpdateIntervalHours}h`}
                 value={currentAutoUpdateIntervalHours}
                 minValue={GLOBAL_UPDATE_INTERVAL.min}
                 maxValue={GLOBAL_UPDATE_INTERVAL.max}
                 defaultValue={GLOBAL_UPDATE_INTERVAL.default}
                 showSlider
-                valueUnit={t('global.time.hour_short')}
+                valueUnit={t`h`}
                 handleUpdate={updateSetting}
                 disabled={!doAutoUpdates}
             />

@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
@@ -35,9 +35,9 @@ import {
 } from '@/features/settings/Settings.constants.ts';
 
 export const WebUISettings = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('settings.webui.title.webui'));
+    useAppTitle(t`WebUI`);
 
     const {
         settings: { webUIInformAvailableUpdate },
@@ -46,7 +46,7 @@ export const WebUISettings = () => {
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataUpdateSettings, 'webUIInformAvailableUpdate'>
-    >((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
+    >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
     const {
         data,
@@ -67,7 +67,7 @@ export const WebUISettings = () => {
         }
 
         mutateSettings({ variables: { input: { settings: { [setting]: value } } } }).catch((e) =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
         );
     };
 
@@ -80,7 +80,7 @@ export const WebUISettings = () => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (metadataServerSettingsError) {
@@ -105,13 +105,13 @@ export const WebUISettings = () => {
     return (
         <List sx={{ pt: 0 }}>
             <SelectSetting<WebUiFlavor>
-                settingName={t('settings.webui.flavor.label.title')}
+                settingName={t`Flavor`}
                 value={webUISettings.webUIFlavor}
                 values={WEB_UI_FLAVOR_SELECT_VALUES}
                 handleChange={(flavor) => updateSetting('webUIFlavor', flavor)}
             />
             <ListItem>
-                <ListItemText primary={t('settings.webui.label.initial_open_browser')} />
+                <ListItemText primary={t`Open the WebUI when starting the server`} />
                 <Switch
                     edge="end"
                     checked={webUISettings.initialOpenInBrowserEnabled}
@@ -119,22 +119,20 @@ export const WebUISettings = () => {
                 />
             </ListItem>
             <SelectSetting<WebUiInterface>
-                settingName={t('settings.webui.interface.label.title')}
+                settingName={t`Interface`}
                 value={webUISettings.webUIInterface}
                 values={WEB_UI_INTERFACE_SELECT_VALUES}
                 handleChange={(webUIInterface) => updateSetting('webUIInterface', webUIInterface)}
             />
             <TextSetting
-                settingName={t('settings.webui.electron_path.label.title')}
-                dialogDescription={t('settings.webui.electron_path.label.description')}
+                settingName={t`Electron path`}
+                dialogDescription={t`The path to the electron installation on the server`}
                 value={webUISettings.electronPath}
-                settingDescription={
-                    webUISettings.electronPath.length ? webUISettings.electronPath : t('global.label.default')
-                }
+                settingDescription={webUISettings.electronPath.length ? webUISettings.electronPath : t`Default`}
                 handleChange={(path) => updateSetting('electronPath', path)}
             />
             <SelectSetting<WebUiChannel>
-                settingName={t('settings.webui.channel.label.title')}
+                settingName={t`Channel`}
                 value={webUISettings.webUIChannel}
                 values={WEB_UI_CHANNEL_SELECT_VALUES}
                 handleChange={(channel) => updateSetting('webUIChannel', channel)}
@@ -147,8 +145,8 @@ export const WebUISettings = () => {
             {!webUISettings.webUIUpdateCheckInterval && (
                 <ListItem>
                     <ListItemText
-                        primary={t('global.update.settings.inform.label.title')}
-                        secondary={t('global.update.settings.inform.label.description')}
+                        primary={t`Inform about available update`}
+                        secondary={t`Shows a dialog in case a new version is available`}
                     />
                     <Switch
                         edge="end"

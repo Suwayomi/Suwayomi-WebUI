@@ -9,7 +9,6 @@
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
@@ -19,6 +18,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useLayoutEffect, useRef, useState } from 'react';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
@@ -52,7 +52,7 @@ const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: b
 
 const SUMMARY_COLLAPSED_SIZE = 50;
 const TrackerMangaCardSummary = ({ summary }: { summary: string }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const summaryRef = useRef<HTMLParagraphElement>(null);
 
@@ -85,7 +85,7 @@ const TrackerMangaCardSummary = ({ summary }: { summary: string }) => {
                         setIsSummaryExpanded(!isSummaryExpanded);
                     }}
                 >
-                    {t(isSummaryExpanded ? 'global.button.show_less' : 'global.button.show_more')}
+                    {isSummaryExpanded ? t`Show less` : t`Show more`}
                 </Button>
             )}
         </>
@@ -115,7 +115,7 @@ export const TrackerMangaCard = ({
     selected: boolean;
     onSelect: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     return (
@@ -175,25 +175,19 @@ export const TrackerMangaCard = ({
                                 </TrackerMangaCardLink>
                                 {manga.publishingType && (
                                     <Metadata
-                                        title={t('global.label.type')}
+                                        title={t`Type`}
                                         value={t(PUBLISHING_TYPE_TO_TRANSLATION[Trackers.getPublishingType(manga)])}
                                     />
                                 )}
-                                {manga.startDate && (
-                                    <Metadata title={t('global.label.started')} value={manga.startDate} />
-                                )}
+                                {manga.startDate && <Metadata title={t`Started`} value={manga.startDate} />}
                                 {manga.publishingStatus && (
                                     <Metadata
-                                        title={t('manga.label.status')}
+                                        title={t`Status`}
                                         value={t(PUBLISHING_STATUS_TO_TRANSLATION[Trackers.getPublishingStatus(manga)])}
                                     />
                                 )}
-                                {manga.score > 0 && (
-                                    <Metadata title={t('tracking.track_record.label.score')} value={manga.score} />
-                                )}
-                                {manga.totalChapters > 0 && (
-                                    <Metadata title={t('chapter.title_other')} value={manga.totalChapters} />
-                                )}
+                                {manga.score > 0 && <Metadata title={t`Score`} value={manga.score} />}
+                                {manga.totalChapters > 0 && <Metadata title={t`Chapter`} value={manga.totalChapters} />}
                             </Stack>
                         </Stack>
                         <TrackerMangaCardSummary summary={manga.summary} />

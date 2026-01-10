@@ -10,14 +10,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled } from '@mui/material/styles';
 import { ComponentProps, ReactNode, useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { t as translate } from 'i18next';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import { useLingui } from '@lingui/react/macro';
+import { t as translate } from '@lingui/core/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
@@ -136,11 +136,11 @@ const MangaButtonsContainer = styled('div')(({ theme }) => ({
 }));
 
 const OpenSourceButton = ({ url }: { url?: string | null }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <ButtonGroup>
-            <CustomTooltip title={t('global.button.open_browser')} disabled={!url}>
+            <CustomTooltip title={t`Open in browser`} disabled={!url}>
                 <CustomButtonIcon
                     size="medium"
                     disabled={!url}
@@ -153,7 +153,7 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
                     <IconBrowser />
                 </CustomButtonIcon>
             </CustomTooltip>
-            <CustomTooltip title={t('global.button.open_webview')} disabled={!url}>
+            <CustomTooltip title={t`Open in WebView`} disabled={!url}>
                 <CustomButtonIcon
                     size="medium"
                     disabled={!url}
@@ -172,11 +172,11 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
 
 function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): string {
     if (!source) {
-        return translate('global.label.unknown');
+        return translate`Unknown`;
     }
 
     if (Sources.isLocalSource(source)) {
-        return translate('source.local_source.title');
+        return translate`Local source`;
     }
 
     return source.displayName ?? source.id;
@@ -215,7 +215,7 @@ export const MangaDetails = ({
         };
     mode: MangaLocationState['mode'];
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const {
         settings: { mangaThumbnailBackdrop, mangaDynamicColorSchemes },
@@ -223,16 +223,16 @@ export const MangaDetails = ({
 
     useEffect(() => {
         if (!manga.source) {
-            makeToast(translate('source.error.label.source_not_found'), 'error');
+            makeToast(t`Could not find source. Check your installed extensions.`, 'error');
         }
-    }, [manga.source]);
+    }, [manga.source, t]);
 
     const { updateLibraryState } = useManageMangaLibraryState(manga);
 
     const copyTitle = async () => {
         try {
             await navigator.clipboard.writeText(manga.title);
-            makeToast(t('global.label.copied_clipboard'), 'info');
+            makeToast(t`Copied to clipboard`, 'info');
         } catch (e) {
             defaultPromiseErrorHandler('MangaDetails::copyTitleLongPress')(e);
         }
@@ -250,7 +250,7 @@ export const MangaDetails = ({
                                     {manga.title}
                                 </Typography>
                             </SearchLink>
-                            <CustomTooltip title={t('global.button.copy')}>
+                            <CustomTooltip title={t`Copy`}>
                                 <IconButton onClick={copyTitle} color="inherit">
                                     <ContentCopyIcon fontSize="small" />
                                 </IconButton>
@@ -258,21 +258,18 @@ export const MangaDetails = ({
                         </Stack>
                         {manga.author && (
                             <Metadata
-                                title={t('manga.label.author')}
+                                title={t`Author`}
                                 value={valuesToJoinedSearchLinks(Mangas.getAuthors(manga), manga.source?.id, mode)}
                             />
                         )}
                         {manga.artist && (
                             <Metadata
-                                title={t('manga.label.artist')}
+                                title={t`Artist`}
                                 value={valuesToJoinedSearchLinks(Mangas.getArtists(manga), manga.source?.id, mode)}
                             />
                         )}
-                        <Metadata
-                            title={t('manga.label.status')}
-                            value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])}
-                        />
-                        <Metadata title={t('source.title_one')} value={getSourceName(manga.source)} />
+                        <Metadata title={t`Status`} value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])} />
+                        <Metadata title={t`Source`} value={getSourceName(manga.source)} />
                     </MetadataContainer>
                 </ThumbnailMetadataWrapper>
                 <MangaButtonsContainer>
@@ -282,7 +279,7 @@ export const MangaDetails = ({
                         variant={manga.inLibrary ? 'contained' : 'outlined'}
                     >
                         {manga.inLibrary ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                        {manga.inLibrary ? t('manga.button.in_library') : t('manga.button.add_to_library')}
+                        {manga.inLibrary ? t`In Library` : t`Add To Library`}
                     </CustomButton>
                     <TrackMangaButton manga={manga} />
                     <OpenSourceButton url={manga.realUrl} />

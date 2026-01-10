@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
+import { useLingui } from '@lingui/react/macro';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -24,16 +24,16 @@ import { MetadataHistorySettings } from '@/features/history/History.types.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 
 export const HistorySettings = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('history.title'));
+    useAppTitle(t`History`);
 
     const {
         settings: { hideHistory },
         request: { loading, error, refetch },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<keyof MetadataHistorySettings>((e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
 
     if (loading) {
@@ -43,7 +43,7 @@ export const HistorySettings = () => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('HistorySettings::refetch'))}
             />
@@ -53,7 +53,7 @@ export const HistorySettings = () => {
     return (
         <List sx={{ pt: 0 }}>
             <ListItem>
-                <ListItemText primary={t('history.settings.hide')} />
+                <ListItemText primary={t`Hide history`} />
                 <Switch
                     edge="end"
                     checked={hideHistory}

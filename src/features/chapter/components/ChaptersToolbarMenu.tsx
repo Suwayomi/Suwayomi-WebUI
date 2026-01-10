@@ -9,12 +9,12 @@
 import FilterList from '@mui/icons-material/FilterList';
 import IconButton from '@mui/material/IconButton';
 import * as React from 'react';
-import { useTranslation } from 'react-i18next';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import Menu from '@mui/material/Menu';
 import DownloadIcon from '@mui/icons-material/Download';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
 import { useMemo } from 'react';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ChapterOptions } from '@/features/chapter/components/ChapterOptions.tsx';
 import { isFilterActive, updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
@@ -45,7 +45,7 @@ export const ChaptersToolbarMenu = ({
     scanlators,
     excludeScanlators,
 }: IProps) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [open, setOpen] = React.useState(false);
     const isFiltered = isFilterActive(options);
@@ -55,7 +55,7 @@ export const ChaptersToolbarMenu = ({
 
     return (
         <>
-            <CustomTooltip title={t('chapter.action.mark_as_read.add.label.action.all')} disabled={areAllChaptersRead}>
+            <CustomTooltip title={t`Mark all as read`} disabled={areAllChaptersRead}>
                 <IconButton
                     disabled={areAllChaptersRead}
                     onClick={() => Chapters.markAsRead(Chapters.getNonRead(chapters), true, mangaId)}
@@ -67,7 +67,7 @@ export const ChaptersToolbarMenu = ({
             <PopupState variant="popover" popupId="chapterlist-download-button">
                 {(popupState) => (
                     <>
-                        <CustomTooltip title={t('global.button.download')} disabled={areAllChaptersRead}>
+                        <CustomTooltip title={t`Download`} disabled={areAllChaptersRead}>
                             <IconButton
                                 disabled={areAllChaptersDownloaded}
                                 {...bindTrigger(popupState)}
@@ -84,7 +84,7 @@ export const ChaptersToolbarMenu = ({
                     </>
                 )}
             </PopupState>
-            <CustomTooltip title={t('chapter.action.filter_and_sort.label')}>
+            <CustomTooltip title={t`Filter and sort`}>
                 <IconButton onClick={() => setOpen(true)} color="inherit">
                     <FilterList color={isFiltered ? 'warning' : undefined} />
                 </IconButton>

@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,7 +15,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { t as translate } from 'i18next';
+import { useLingui } from '@lingui/react/macro';
+import { t as translate } from '@lingui/core/macro';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { IncludeOrExclude } from '@/lib/graphql/generated/graphql.ts';
@@ -68,11 +68,11 @@ const getCategoryUpdateInfo = (
     const noSpecificallyIncludedCategories = areIncluded && !categories.length && unsetCategories;
     const includesAllCategories = categories.length === allCategories;
     if (noSpecificallyIncludedCategories || includesAllCategories) {
-        return translate('extension.language.all');
+        return translate`All`;
     }
 
     if (!categories.length) {
-        return translate('global.label.none');
+        return translate`None`;
     }
 
     return categories.map((category) => category.name).join(', ');
@@ -91,7 +91,7 @@ export const CategoriesInclusionSetting = ({
     includeField,
     dialogText,
 }: CategoriesInclusionSettingProps) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [dialogCategories, setDialogCategories] = useState(categories);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -141,7 +141,7 @@ export const CategoriesInclusionSetting = ({
             // TODO - update cache immediately
             // mutate(categoriesEndpoint, [...dialogCategories], { revalidate: false });
         } catch (e) {
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e));
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
             // mutate(categoriesEndpoint, [...categories]);
         }
     };
@@ -155,27 +155,18 @@ export const CategoriesInclusionSetting = ({
         <>
             <ListItemButton onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
-                    primary={t('category.title.category_other')}
+                    primary={t`Category`}
                     secondary={
                         <>
-                            <span>
-                                {t('category.settings.inclusion.label.include', {
-                                    includedCategoriesText,
-                                })}
-                            </span>
-                            <span>
-                                {t('category.settings.inclusion.label.exclude', {
-                                    excludedCategoriesText,
-                                })}
-                            </span>
+                            <span>{t`Include: ${includedCategoriesText}`}</span>
+                            <span>{t`Exclude: ${excludedCategoriesText}`}</span>
                         </>
                     }
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
-
             <Dialog open={isDialogOpen} onClose={closeDialog}>
-                <DialogTitle>{t('category.title.category_other')}</DialogTitle>
+                <DialogTitle>{t`Category`}</DialogTitle>
                 <DialogContent>
                     {dialogText && <DialogContentText sx={{ paddingBottom: '10px' }}>{dialogText}</DialogContentText>}
                     <CheckboxContainer>
@@ -207,10 +198,10 @@ export const CategoriesInclusionSetting = ({
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeDialog} color="primary">
-                        {t('global.button.cancel')}
+                        {t`Cancel`}
                     </Button>
                     <Button onClick={updateCategories} color="primary">
-                        {t('global.button.ok')}
+                        {t`Ok`}
                     </Button>
                 </DialogActions>
             </Dialog>

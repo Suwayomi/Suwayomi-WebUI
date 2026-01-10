@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
+import { useLingui } from '@lingui/react/macro';
 import { OffsetDoubleSpreadIcon } from '@/assets/icons/svg/OffsetDoubleSpreadIcon.tsx';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { isOffsetDoubleSpreadPagesEditable } from '@/features/reader/settings/ReaderSettings.utils.tsx';
@@ -19,7 +19,7 @@ export const ReaderNavBarDesktopOffsetDoubleSpread = ({
 }: Pick<IReaderSettings, 'readingMode' | 'shouldOffsetDoubleSpreads'> & {
     setShouldOffsetDoubleSpreads: (offset: boolean) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     if (!isOffsetDoubleSpreadPagesEditable(readingMode)) {
         return null;
@@ -34,7 +34,7 @@ export const ReaderNavBarDesktopOffsetDoubleSpread = ({
             variant="contained"
             startIcon={<OffsetDoubleSpreadIcon />}
         >
-            {t('reader.settings.label.offset_double_spread')}
+            {t`Offset double spreads`}
         </Button>
     );
 };

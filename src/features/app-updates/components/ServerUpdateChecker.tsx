@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -14,6 +13,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.tsx';
 import { VersionUpdateInfoDialog } from '@/features/app-updates/components/VersionUpdateInfoDialog.tsx';
@@ -24,7 +24,7 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 const disabledUpdateCheck = () => Promise.resolve();
 
 export const ServerUpdateChecker = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [serverVersion, setServerVersion] = useLocalStorage<string>('serverVersion');
     const [open, setOpen] = useState(false);
@@ -98,11 +98,8 @@ export const ServerUpdateChecker = () => {
 
         return (
             <VersionUpdateInfoDialog
-                info={t('global.update.label.info', {
-                    channel: selectedServerChannelInfo.channel,
-                    version: selectedServerChannelInfo.tag,
-                })}
-                actionTitle={t('global.button.download')}
+                info={t`Server version ${selectedServerChannelInfo.tag} (${selectedServerChannelInfo.channel}) available for download`}
+                actionTitle={t`Download`}
                 actionUrl={selectedServerChannelInfo.url}
                 updateCheckerProps={['server', checkForUpdate, selectedServerChannelInfo?.tag]}
             />
@@ -115,20 +112,14 @@ export const ServerUpdateChecker = () => {
 
     return (
         <Dialog open={open}>
-            <DialogTitle>{t('settings.about.webui.label.updated')}</DialogTitle>
+            <DialogTitle>{t`Updated version`}</DialogTitle>
             <DialogContent>
-                <DialogContentText>
-                    {t('global.update.label.update_success', {
-                        name: t('settings.server.title.server'),
-                        version,
-                        channel: aboutServer?.buildType,
-                    })}
-                </DialogContentText>
+                <DialogContentText>{t`Server was updated to version ${version} (${aboutServer?.buildType})`}</DialogContentText>
             </DialogContent>
             <DialogActions>
                 {changelogUrl && (
                     <Button href={changelogUrl} target="_blank" rel="noreferrer">
-                        {t('global.button.changelog')}
+                        {t`Changelog`}
                     </Button>
                 )}
                 <Button
@@ -138,7 +129,7 @@ export const ServerUpdateChecker = () => {
                     }}
                     variant="contained"
                 >
-                    {t('global.button.ok')}
+                    {t`Ok`}
                 </Button>
             </DialogActions>
         </Dialog>

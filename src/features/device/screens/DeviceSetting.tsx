@@ -10,7 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import {
     updateMetadataServerSettings,
     useMetadataServerSettings,
@@ -28,9 +28,9 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 
 export const DeviceSetting = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('settings.device.title.device'));
+    useAppTitle(t`Device`);
 
     const {
         metadata,
@@ -55,7 +55,7 @@ export const DeviceSetting = () => {
         }
 
         updateMetadataServerSettings(setting, value).catch((e) =>
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
         );
     };
 
@@ -66,7 +66,7 @@ export const DeviceSetting = () => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('DeviceSetting::refetch'))}
             />
@@ -76,32 +76,30 @@ export const DeviceSetting = () => {
     return (
         <List sx={{ pt: 0 }}>
             <MutableListSetting
-                settingName={t('settings.device.devices.label.title')}
-                description={t('settings.device.devices.label.description')}
+                settingName={t`Devices`}
+                description={t`Manage your existing devices.\nUI specific settings that are stored on the server are per device.\nThis makes it possible to have e.g. different settings on a desktop and a smartphone`}
                 handleChange={(deviceList) => {
                     updateMetadataSetting('devices', [
-                        ...new Set(
-                            [DEFAULT_DEVICE, ...deviceList].filter((device) => device !== t('global.label.default')),
-                        ),
+                        ...new Set([DEFAULT_DEVICE, ...deviceList].filter((device) => device !== t`Default`)),
                     ]);
                 }}
                 valueInfos={devices.map((device) => [
-                    device === DEFAULT_DEVICE ? t('global.label.default') : device,
+                    device === DEFAULT_DEVICE ? t`Default` : device,
                     { mutable: false, deletable: device !== DEFAULT_DEVICE },
                 ])}
-                addItemButtonTitle={t('global.button.create')}
+                addItemButtonTitle={t`Create`}
                 validateItem={(device) => device.length <= 16 && !!device.match(/^[a-zA-Z0-9\-_]+$/g)}
-                placeholder={t('settings.device.label.placeholder')}
+                placeholder={t`Smartphone_Name-1 | length: 16, chars: letters, numbers, -, _`}
             />
             <ListItem>
                 <ListItemText
-                    primary={t('settings.device.active_device.label.title')}
-                    secondary={t('settings.device.active_device.label.description')}
+                    primary={t`Active device`}
+                    secondary={t`Select a device to use its server stored UI settings`}
                 />
                 <Select value={activeDevice} onChange={({ target: { value: device } }) => setActiveDevice(device)}>
                     {devices.map((device) => (
                         <MenuItem key={device} value={device}>
-                            {device === DEFAULT_DEVICE ? t('global.label.default') : device}
+                            {device === DEFAULT_DEVICE ? t`Default` : device}
                         </MenuItem>
                     ))}
                 </Select>

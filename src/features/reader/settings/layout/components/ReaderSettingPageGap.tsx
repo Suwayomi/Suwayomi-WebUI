@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS, PAGE_GAP } from '@/features/reader/settings/ReaderSettings.constants.tsx';
@@ -23,7 +23,7 @@ export const ReaderSettingPageGap = ({
     Pick<MultiValueButtonDefaultableProps<IReaderSettings['pageGap']>, 'isDefaultable' | 'onDefault'> & {
         updateSetting: (gap: number, commit: boolean) => void;
     }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const isChangeable = readingMode.value !== ReadingMode.WEBTOON && isContinuousReadingMode(readingMode.value);
     if (!isChangeable) {
@@ -32,8 +32,8 @@ export const ReaderSettingPageGap = ({
 
     return (
         <SliderInput
-            label={t('reader.settings.label.page_gap')}
-            value={t('global.value', { value: pageGap.value, unit: t('global.unit.px') })}
+            label={t`Page gap`}
+            value={`${pageGap.value}${t`px`}`}
             onDefault={isDefaultable ? onDefault : undefined}
             slotProps={{
                 slider: {

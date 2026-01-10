@@ -13,8 +13,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
 import legacy from '@vitejs/plugin-legacy';
-import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import { VitePWA } from 'vite-plugin-pwa';
+import { lingui } from '@lingui/vite-plugin';
 import 'dotenv/config';
 
 // eslint-disable-next-line import/no-default-export
@@ -36,7 +36,10 @@ export default defineConfig(({ command }) => ({
         include: ['@mui/material/Tooltip'],
     },
     plugins: [
-        react(),
+        react({
+            plugins: [['@lingui/swc-plugin', {}]],
+        }),
+        lingui(),
         viteTsconfigPaths(),
         legacy({
             modernPolyfills: [
@@ -46,9 +49,6 @@ export default defineConfig(({ command }) => ({
                 'es/array/find-last-index',
                 'es/object/group-by',
             ],
-        }),
-        nodePolyfills({
-            include: ['assert'],
         }),
         // Only setup image runtime caching
         VitePWA({

@@ -6,15 +6,19 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import '@/polyfill.manual';
-import '@/i18n';
-import '@/lib/dayjs/Setup.ts';
-import '@/lib/koration/Setup.ts';
-import '@/index.css';
-import '@/lib/PointerDeviceUtil.ts';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+
+import '@/index.css';
+import '@/polyfill.manual';
+import { initializeLocalization } from '@/i18n';
+import '@/lib/dayjs/Setup.ts';
+import '@/lib/koration/Setup.ts';
+import '@/lib/PointerDeviceUtil.ts';
 import { App } from '@/App';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+
+initializeLocalization().catch(defaultPromiseErrorHandler('i18n', true));
 
 const container = document.getElementById('root');
 const root = createRoot(container!);

@@ -6,6 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
+import { msg } from '@lingui/core/macro';
 import { MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { MangaAction, MangaIdInfo, MangaType } from '@/features/manga/Manga.types.ts';
 import {
@@ -13,7 +15,6 @@ import {
     CHAPTER_ACTION_TO_TRANSLATION,
 } from '@/features/chapter/Chapter.constants.ts';
 import { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
-import { TranslationKey } from '@/base/Base.types.ts';
 
 export const FALLBACK_MANGA: MangaIdInfo & GqlMetaHolder = { id: -1 };
 
@@ -21,14 +22,14 @@ export const GLOBAL_READER_SETTINGS_MANGA: MangaIdInfo = { id: -2 };
 
 export const MANGA_COVER_ASPECT_RATIO = '1 / 1.5';
 
-export const MANGA_STATUS_TO_TRANSLATION: Record<MangaStatus, TranslationKey> = {
-    [MangaStatus.Cancelled]: 'manga.status.cancelled',
-    [MangaStatus.Completed]: 'manga.status.completed',
-    [MangaStatus.Licensed]: 'manga.status.licensed',
-    [MangaStatus.Ongoing]: 'manga.status.ongoing',
-    [MangaStatus.OnHiatus]: 'manga.status.hiatus',
-    [MangaStatus.PublishingFinished]: 'manga.status.publishing_finished',
-    [MangaStatus.Unknown]: 'manga.status.unknown',
+export const MANGA_STATUS_TO_TRANSLATION: Record<MangaStatus, MessageDescriptor> = {
+    [MangaStatus.Cancelled]: msg`Cancelled`,
+    [MangaStatus.Completed]: msg`Completed`,
+    [MangaStatus.Licensed]: msg`Licensed`,
+    [MangaStatus.Ongoing]: msg`Ongoing`,
+    [MangaStatus.OnHiatus]: msg`Hiatus`,
+    [MangaStatus.PublishingFinished]: msg`Publishing finished`,
+    [MangaStatus.Unknown]: msg`Unknown`,
 };
 
 export const MANGA_ACTION_TO_CONFIRMATION_REQUIRED: Record<
@@ -45,48 +46,48 @@ export const MANGA_ACTION_TO_CONFIRMATION_REQUIRED: Record<
 export const MANGA_ACTION_TO_TRANSLATION: {
     [key in MangaAction]: {
         action: {
-            single: TranslationKey;
-            selected: TranslationKey;
+            single: MessageDescriptor;
+            selected: MessageDescriptor;
         };
-        confirmation?: TranslationKey;
-        success: TranslationKey;
-        error: TranslationKey;
+        confirmation?: MessageDescriptor;
+        success: MessageDescriptor;
+        error: MessageDescriptor;
     };
 } = {
     ...CHAPTER_ACTION_TO_TRANSLATION,
     remove_from_library: {
         action: {
-            single: 'manga.action.library.remove.label.action',
-            selected: 'manga.action.library.remove.button.selected',
+            single: msg`Remove from the library`,
+            selected: msg`Remove selected from the library`,
         },
-        confirmation: 'manga.action.library.remove.label.confirmation',
-        success: 'manga.action.library.remove.label.success',
-        error: 'manga.action.library.remove.label.error',
+        confirmation: msg`{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}`,
+        success: msg`{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}`,
+        error: msg`{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}`,
     },
     change_categories: {
         action: {
-            single: 'manga.action.category.label.action',
-            selected: 'manga.action.category.button.selected',
+            single: msg`Change categories`,
+            selected: msg`Change categories of selected`,
         },
-        confirmation: 'manga.action.category.label.confirmation',
-        success: 'manga.action.category.label.success',
-        error: 'manga.action.category.label.error',
+        confirmation: msg`{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}`,
+        success: msg`{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}`,
+        error: msg`{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}`,
     },
     migrate: {
         action: {
-            single: 'global.button.migrate',
-            selected: 'global.button.migrate', // not supported
+            single: msg`Migrate`,
+            selected: msg`Migrate`, // not supported
         },
-        success: 'manga.action.migrate.label.success',
-        error: 'manga.action.migrate.label.error',
+        success: msg`Successfully migrated manga`,
+        error: msg`Could not migrate manga`,
     },
     track: {
         action: {
-            single: 'manga.action.track.add.label.action',
-            selected: 'manga.action.track.add.label.action', // not supported
+            single: msg`Track`,
+            selected: msg`Track`, // not supported
         },
-        success: 'manga.action.track.add.label.success',
-        error: 'manga.action.track.add.label.error',
+        success: msg`Tracked manga`,
+        error: msg`Could not track manga`,
     },
 };
 
@@ -151,10 +152,10 @@ export const SOURCES_BY_MANGA_TYPE: Record<MangaType, string[]> = {
     ],
 };
 
-export const MANGA_TAGS_BY_MANGA_TYPE: Record<MangaType, TranslationKey[]> = {
-    [MangaType.MANGA]: ['manga.type.manga'],
-    [MangaType.COMIC]: ['manga.type.comic'],
-    [MangaType.WEBTOON]: ['manga.type.webtoon', 'manga.type.long_strip'],
-    [MangaType.MANHWA]: ['manga.type.manhwa', 'manga.type.long_strip'],
-    [MangaType.MANHUA]: ['manga.type.manhua', 'manga.type.long_strip'],
+export const MANGA_TAGS_BY_MANGA_TYPE: Record<MangaType, MessageDescriptor[]> = {
+    [MangaType.MANGA]: [msg`Manga`],
+    [MangaType.COMIC]: [msg`Comic`],
+    [MangaType.WEBTOON]: [msg`Webtoon`, msg`Long strip`],
+    [MangaType.MANHWA]: [msg`Manhwa`, msg`Long strip`],
+    [MangaType.MANHUA]: [msg`Manhua`, msg`Long strip`],
 };

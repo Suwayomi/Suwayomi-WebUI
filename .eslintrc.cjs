@@ -1,5 +1,5 @@
 module.exports = {
-    extends: ['airbnb', 'airbnb-typescript', 'prettier'],
+    extends: ['airbnb', 'airbnb-typescript', 'prettier', 'plugin:lingui/recommended'],
     plugins: [
         'unused-imports',
         'eslint-plugin-import',
@@ -15,6 +15,8 @@ module.exports = {
         {
             files: ['*'],
             rules: {
+                'lingui/no-expression-in-message': 'off',
+
                 'no-param-reassign': ['error', { props: true, ignorePropertyModificationsForRegex: ["^draft"] }],
 
                 'unused-imports/no-unused-imports': 'error',

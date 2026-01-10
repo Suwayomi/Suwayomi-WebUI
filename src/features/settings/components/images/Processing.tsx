@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -20,9 +19,10 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { d } from 'koration';
 import { useElementSize } from '@mantine/hooks';
+import { useLingui } from '@lingui/react/macro';
+import { MessageDescriptor } from '@lingui/core';
 import { KeyValueItems } from '@/features/settings/components/images/KeyValueItems.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { TranslationKey } from '@/base/Base.types.ts';
 import {
     IMAGE_PROCESSING_CALL_TIMEOUT,
     IMAGE_PROCESSING_COMPRESSION,
@@ -55,7 +55,7 @@ export const Processing = ({
     onChange: (newConversion: TSettingsDownloadConversion | null) => void;
     isDuplicate: boolean;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const theme = useTheme();
 
     const { ref: textFieldRef, height: textFieldHeight } = useElementSize();
@@ -101,7 +101,7 @@ export const Processing = ({
                         shouldAutoFocus
                         isDefault={isDefault}
                         isDuplicate={isDuplicate}
-                        label={t('download.settings.conversion.mime_type')}
+                        label={t`MIME-Type`}
                         value={mimeType}
                         onUpdate={(value) => {
                             onChange({
@@ -118,14 +118,12 @@ export const Processing = ({
                         →
                     </TypographyMaxLines>
                     <FormControl sx={{ minWidth: '100px' }}>
-                        <InputLabel id="image-conversion-target-mode-label">
-                            {t('download.settings.conversion.target_modes.title')}
-                        </InputLabel>
+                        <InputLabel id="image-conversion-target-mode-label">{t`Target mode`}</InputLabel>
                         <Select
                             ref={textFieldRef}
                             id="image-conversion-target-mode"
                             labelId="image-conversion-target-mode-label"
-                            label={t('download.settings.conversion.target_modes.title')}
+                            label={t`Target mode`}
                             value={mode}
                             onChange={(e) => {
                                 if (!isUrlMode) {
@@ -145,7 +143,7 @@ export const Processing = ({
                         >
                             {IMAGE_PROCESSING_TARGET_MODES_SELECT_VALUES.map(([selectValue, { text: selectText }]) => (
                                 <MenuItem key={selectValue} value={selectValue}>
-                                    {t(selectText as TranslationKey)}
+                                    {t(selectText as MessageDescriptor)}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -156,7 +154,7 @@ export const Processing = ({
                             shouldAutoFocus={false}
                             isDefault={false}
                             isDuplicate={false}
-                            label={t('download.settings.conversion.target')}
+                            label={t`MIME-Type target`}
                             value={target}
                             onUpdate={(value) => {
                                 onChange({
@@ -176,11 +174,11 @@ export const Processing = ({
                             return (
                                 <TextField
                                     sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
-                                    label={t('download.settings.conversion.compression_level')}
+                                    label={t`Compression level`}
                                     value={compressionLevel ?? ''}
                                     type="number"
                                     error={!isCompressionLevelValid}
-                                    helperText={!isCompressionLevelValid ? t('global.error.label.invalid_input') : ''}
+                                    helperText={!isCompressionLevelValid ? t`Invalid input` : ''}
                                     slotProps={{
                                         input: {
                                             inputProps: IMAGE_PROCESSING_COMPRESSION,
@@ -200,19 +198,15 @@ export const Processing = ({
                             <>
                                 <TextField
                                     sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
-                                    label={t('download.settings.conversion.call_timeout')}
+                                    label={t`Call timeout`}
                                     value={callTimeout ? d(callTimeout).seconds.inWholeSeconds : ''}
                                     type="number"
                                     error={!isCallTimeoutValid}
-                                    helperText={!isCallTimeoutValid ? t('global.error.label.invalid_input') : ''}
+                                    helperText={!isCallTimeoutValid ? t`Invalid input` : ''}
                                     slotProps={{
                                         input: {
                                             inputProps: IMAGE_PROCESSING_CALL_TIMEOUT,
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    {t('global.date.label.second_other')}
-                                                </InputAdornment>
-                                            ),
+                                            endAdornment: <InputAdornment position="end">{t`Second`}</InputAdornment>,
                                         },
                                     }}
                                     onChange={(e) => {
@@ -226,19 +220,15 @@ export const Processing = ({
                                 />
                                 <TextField
                                     sx={{ width: IMAGE_PROCESSING_INPUT_WIDTH }}
-                                    label={t('download.settings.conversion.connect_timeout')}
+                                    label={t`Connect timeout`}
                                     value={connectTimeout ? d(connectTimeout).seconds.inWholeSeconds : ''}
                                     type="number"
                                     error={!isConnectTimeoutValid}
-                                    helperText={!isConnectTimeoutValid ? t('global.error.label.invalid_input') : ''}
+                                    helperText={!isConnectTimeoutValid ? t`Invalid input` : ''}
                                     slotProps={{
                                         input: {
                                             inputProps: IMAGE_PROCESSING_CONNECT_TIMEOUT,
-                                            endAdornment: (
-                                                <InputAdornment position="end">
-                                                    {t('global.date.label.second_other')}
-                                                </InputAdornment>
-                                            ),
+                                            endAdornment: <InputAdornment position="end">{t`Second`}</InputAdornment>,
                                         },
                                     }}
                                     onChange={(e) => {
@@ -256,24 +246,20 @@ export const Processing = ({
                                     variant={areSearchParamsCollapsed ? 'outlined' : 'contained'}
                                     sx={{ height: textFieldHeight }}
                                 >
-                                    {t('download.settings.conversion.search_params.button', {
-                                        count: searchParams?.length ?? 0,
-                                    })}
+                                    {t`Search parameters (${searchParams?.length ?? 0})`}
                                 </Button>
                                 <Button
                                     onClick={() => setAreHeadersCollapsed(!areHeadersCollapsed)}
                                     variant={areHeadersCollapsed ? 'outlined' : 'contained'}
                                     sx={{ height: textFieldHeight }}
                                 >
-                                    {t('download.settings.conversion.headers.button', {
-                                        count: headers?.length ?? 0,
-                                    })}
+                                    {t`Headers (${headers?.length ?? 0})`}
                                 </Button>
                             </>
                         );
                     })()}
                 </Stack>
-                <CustomTooltip disabled={isDisabled} title={t('chapter.action.download.delete.label.action')}>
+                <CustomTooltip disabled={isDisabled} title={t`Delete`}>
                     <IconButton
                         disabled={isDisabled}
                         onClick={() => {
@@ -285,7 +271,7 @@ export const Processing = ({
                 </CustomTooltip>
             </Stack>
             <KeyValueItems
-                title={t('download.settings.conversion.search_params.title')}
+                title={t`Search parameters`}
                 open={isUrlMode && !areSearchParamsCollapsed}
                 items={searchParams}
                 onChange={(params) => {
@@ -300,7 +286,7 @@ export const Processing = ({
                 }}
             />
             <KeyValueItems
-                title={t('download.settings.conversion.headers.title')}
+                title={t`Headers`}
                 open={isUrlMode && !areHeadersCollapsed}
                 items={headers}
                 onChange={(updatedHeaders) =>

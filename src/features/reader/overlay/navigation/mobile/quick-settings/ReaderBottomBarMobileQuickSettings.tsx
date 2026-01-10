@@ -8,7 +8,7 @@
 
 import Stack from '@mui/material/Stack';
 import { memo } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { ReaderSettingReadingMode } from '@/features/reader/settings/layout/components/ReaderSettingReadingMode.tsx';
 import { ReaderSettingReadingDirection } from '@/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
@@ -18,7 +18,7 @@ import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { useReaderAutoScrollStore, useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderBottomBarMobileQuickSettings = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { isActive, toggleActive } = useReaderAutoScrollStore((state) => ({
         isActive: state.autoScroll.isActive,
         toggleActive: state.autoScroll.toggleActive,
@@ -44,11 +44,7 @@ const BaseReaderBottomBarMobileQuickSettings = () => {
                 isDefaultable
                 onDefault={() => ReaderService.deleteSetting('readingDirection')}
             />
-            <CheckboxInput
-                label={t('reader.settings.auto_scroll.title')}
-                checked={isActive}
-                onChange={() => toggleActive()}
-            />
+            <CheckboxInput label={t`Auto scroll`} checked={isActive} onChange={() => toggleActive()} />
             <ReaderSettingAutoScroll
                 autoScroll={autoScroll}
                 setAutoScroll={(...args) => ReaderService.updateSetting('autoScroll', ...args)}

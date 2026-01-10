@@ -7,9 +7,9 @@
  */
 
 import React, { ReactNode, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Direction, ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
+import { useLingui } from '@lingui/react/macro';
 import { AppTheme, getTheme } from '@/features/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -24,6 +24,7 @@ import { createAndSetTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { DIRECTION_TO_CACHE } from '@/features/theme/ThemeDirectionCache.ts';
 import { TAppThemeContext, ThemeMode } from '@/features/theme/AppTheme.types.ts';
+import { getLanguageReadingDirection } from '@/lib/ISOLanguageUtil.ts';
 
 export const AppThemeContext = React.createContext<TAppThemeContext>({
     appTheme: 'default',
@@ -39,7 +40,7 @@ export const AppThemeContext = React.createContext<TAppThemeContext>({
 export const useAppThemeContext = () => useContext(AppThemeContext);
 
 export const AppThemeContextProvider = ({ children }: { children: ReactNode }) => {
-    const { t, i18n } = useTranslation();
+    const { t, i18n } = useLingui();
     const {
         request: metadataServerSettingsRequest,
         settings: { appTheme: serverAppTheme, themeMode, shouldUsePureBlackMode, customThemes },
@@ -60,10 +61,10 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
 
     const appTheme = areMetadataServerSettingsReady ? serverAppTheme : localAppTheme.id;
     const actualThemeMode = areMetadataServerSettingsReady ? themeMode : localThemeMode;
-    const currentDirection = i18n.dir();
+    const currentDirection = getLanguageReadingDirection(i18n.locale);
 
     const updateSetting = createUpdateMetadataServerSettings<'appTheme' | 'themeMode' | 'shouldUsePureBlackMode'>((e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
 
     const appThemeContext = useMemo(

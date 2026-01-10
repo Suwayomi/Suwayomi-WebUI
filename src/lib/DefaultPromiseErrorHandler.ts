@@ -6,11 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-export const defaultPromiseErrorHandler = (name: string) => (error: any) => {
-    if (import.meta.env.PROD) {
-        return;
-    }
+export const defaultPromiseErrorHandler =
+    (name: string, allowProd: boolean = false) =>
+    (error: any) => {
+        if (!allowProd && import.meta.env.PROD) {
+            return;
+        }
 
-    // eslint-disable-next-line no-console
-    console.error(`${name} failed due to`, error);
-};
+        // eslint-disable-next-line no-console
+        console.error(`${name} failed due to`, error);
+    };

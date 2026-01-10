@@ -9,10 +9,10 @@
 import { ComponentProps, useMemo, useState } from 'react';
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -31,10 +31,10 @@ import { CREATE_NEW_CATEGORY_ID } from '@/features/category/Category.constants.t
 import { CreateOrEditCategoryDialog } from '@/features/category/components/CreateOrEditCategoryDialog.tsx';
 
 export function CategorySettings() {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const dndSensors = DndKitUtil.useSensorsForDevice();
 
-    useAppTitle(t('category.dialog.title.edit_category_other'));
+    useAppTitle(t`Edit categories`);
 
     const { data, loading, error, refetch } = requestManager.useGetCategories<
         GetCategoriesSettingsQuery,
@@ -96,7 +96,7 @@ export function CategorySettings() {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('category.error.label.request_failure')}
+                message={t`Could not load categories`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('CategorySettings::refetch'))}
             />

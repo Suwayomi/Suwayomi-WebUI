@@ -8,7 +8,7 @@
 
 import { Component, ErrorInfo, ReactNode, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { t } from 'i18next';
+import { t } from '@lingui/core/macro';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 
@@ -57,7 +57,7 @@ class RealErrorBoundary extends Component<Props, State> {
         if (error) {
             return (
                 <EmptyView
-                    message={t('global.error.label.unrecoverable_error')}
+                    message={t`Something went wrong\nAn error occurred that we cannot recover from`}
                     messageExtra={getErrorMessage(error)}
                     retry={() => window.location.reload()}
                 />

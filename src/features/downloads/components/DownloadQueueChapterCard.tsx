@@ -14,7 +14,7 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import { memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ChapterDownloadRetryButton } from '@/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
 import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
@@ -32,7 +32,7 @@ import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 export const DownloadQueueChapterCard = memo(
     ({ item, status }: { item: ChapterDownloadStatus; status: DownloaderState }) => {
-        const { t } = useTranslation();
+        const { t } = useLingui();
         const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
 
         const handleDelete = useCallback(
@@ -53,7 +53,7 @@ export const DownloadQueueChapterCard = memo(
                         requestManager.deleteDownloadedChapter(chapter.id).response,
                     ]);
                 } catch (e) {
-                    makeToast(t('download.queue.error.label.failed_to_remove'), 'error', getErrorMessage(e));
+                    makeToast(t`Could not remove the download from the queue.`, 'error', getErrorMessage(e));
                 }
 
                 if (!isRunning) {
@@ -83,7 +83,7 @@ export const DownloadQueueChapterCard = memo(
                             <ChapterCardMetadata title={item.manga.title} secondaryText={item.chapter.name} />
                             <DownloadStateIndicator chapterId={item.chapter.id} />
                             <ChapterDownloadRetryButton chapterId={item.chapter.id} />
-                            <CustomTooltip title={t('chapter.action.download.delete.label.action')}>
+                            <CustomTooltip title={t`Delete`}>
                                 <IconButton
                                     {...MUIUtil.preventRippleProp()}
                                     onClick={(e) => {

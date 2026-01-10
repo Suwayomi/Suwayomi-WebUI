@@ -8,7 +8,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TMigratableSource } from '@/features/migration/components/MigrationCard.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -25,7 +25,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 
 export const Migrate = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const { sourceId: paramSourceId } = useParams<{ sourceId: string }>();
 
@@ -68,7 +68,7 @@ export const Migrate = () => {
     });
 
     useAppTitleAndAction(
-        name ?? sourceId ?? t('migrate.title'),
+        name ?? sourceId ?? t`Migrate`,
         <GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />,
         [gridLayout],
     );
@@ -96,7 +96,7 @@ export const Migrate = () => {
         const error = (hasErrorSource ? sourceError : mangasError)!;
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (hasErrorSource) {

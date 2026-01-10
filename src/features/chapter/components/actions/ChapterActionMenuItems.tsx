@@ -11,11 +11,11 @@ import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
 import RemoveDone from '@mui/icons-material/RemoveDone';
 import Done from '@mui/icons-material/Done';
-import { useTranslation } from 'react-i18next';
 import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import DoneAll from '@mui/icons-material/DoneAll';
 import { ComponentProps, useMemo } from 'react';
+import { useLingui } from '@lingui/react/macro';
 import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { MenuItem } from '@/base/components/menu/MenuItem.tsx';
@@ -74,7 +74,7 @@ export const ChapterActionMenuItems = ({
     onClose,
     selectable = true,
 }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const isSingleMode = !!chapter;
     const { isDownloaded, isRead, isBookmarked } = chapter ?? {};
@@ -173,7 +173,7 @@ export const ChapterActionMenuItems = ({
     return (
         <>
             {isSingleMode && selectable && (
-                <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t('chapter.action.label.select')} />
+                <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t`Select`} />
             )}
             {isSingleMode && (
                 <>
@@ -184,7 +184,7 @@ export const ChapterActionMenuItems = ({
                             window.open(chapter!.realUrl!, '_blank', 'noopener,noreferrer');
                             onClose();
                         }}
-                        title={t('global.button.open_browser')}
+                        title={t`Open in browser`}
                     />
                     <MenuItem
                         Icon={IconWebView}
@@ -197,7 +197,7 @@ export const ChapterActionMenuItems = ({
                             );
                             onClose();
                         }}
-                        title={t('global.button.open_webview')}
+                        title={t`Open in WebView`}
                     />
                 </>
             )}
@@ -255,7 +255,7 @@ export const ChapterActionMenuItems = ({
                 <MenuItem
                     onClick={() => performAction('mark_prev_as_read', [])}
                     Icon={DoneAll}
-                    title={t('chapter.action.mark_as_read.add.label.action.previous')}
+                    title={t`Mark previous as read`}
                 />
             )}
         </>

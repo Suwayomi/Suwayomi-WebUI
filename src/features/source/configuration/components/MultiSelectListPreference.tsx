@@ -16,8 +16,8 @@ import FormGroup from '@mui/material/FormGroup';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
-import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
+import { useLingui } from '@lingui/react/macro';
 import { cloneObject } from '@/base/utils/cloneObject.tsx';
 import { MultiSelectListPreferenceProps } from '@/features/source/Source.types.ts';
 
@@ -30,7 +30,7 @@ interface IListDialogProps {
 }
 
 function ListDialog(props: IListDialogProps) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const { selectedValues: selectedValuesProp, open, onClose, values, title } = props;
     const [selectedValues, setSelectedValues] = React.useState(selectedValuesProp);
@@ -94,9 +94,9 @@ function ListDialog(props: IListDialogProps) {
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleCancel}>
-                    {t('global.button.cancel')}
+                    {t`Cancel`}
                 </Button>
-                <Button onClick={handleOk}>{t('global.button.ok')}</Button>
+                <Button onClick={handleOk}>{t`Ok`}</Button>
             </DialogActions>
         </Dialog>
     );

@@ -12,7 +12,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
@@ -26,10 +26,10 @@ export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas'][
 
 // TODO - cleanup source/extension components
 export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratableSource) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const isLocalSource = Number(id) === 0;
-    const sourceName = isLocalSource ? t('source.local_source.title') : name;
+    const sourceName = isLocalSource ? t`Local source` : name;
 
     return (
         <Card>

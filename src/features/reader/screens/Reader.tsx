@@ -9,7 +9,7 @@
 import Box from '@mui/material/Box';
 import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { useDefaultReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { ReaderOverlay } from '@/features/reader/overlay/ReaderOverlay.tsx';
@@ -43,14 +43,13 @@ import {
     useReaderStore,
     useReaderTapZoneStore,
 } from '@/features/reader/stores/ReaderStore.ts';
-
 import { ReaderAutoScroll } from '@/features/reader/auto-scroll/ReaderAutoScroll.tsx';
 
 const BaseReader = ({
     setOverride,
     readerNavBarWidth,
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'>) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const manga = useReaderStore((state) => state.manga);
     const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderChaptersStore(
         (state) => ({
@@ -99,7 +98,7 @@ const BaseReader = ({
 
     useAppTitle(
         !manga || !currentChapter
-            ? t('reader.title', { mangaId, chapterIndex: chapterSourceOrder })
+            ? t`Reader — Manga ${mangaId} Chapter ${chapterSourceOrder}`
             : `${manga.title}: ${currentChapter.name}`,
     );
 
@@ -183,7 +182,7 @@ const BaseReader = ({
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => {
                     if (mangaResponse.error) {
@@ -220,7 +219,7 @@ const BaseReader = ({
     }
 
     if (currentChapter === null) {
-        return <EmptyViewAbsoluteCentered message={t('reader.error.label.chapter_not_found')} />;
+        return <EmptyViewAbsoluteCentered message={t`Chapter does not exist`} />;
     }
 
     if (!manga || !currentChapter) {

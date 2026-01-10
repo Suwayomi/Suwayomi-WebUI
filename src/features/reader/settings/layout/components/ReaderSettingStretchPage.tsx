@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
@@ -19,7 +19,7 @@ export const ReaderSettingStretchPage = ({
 }: Pick<IReaderSettings, 'pageScaleMode' | 'shouldStretchPage'> & {
     setShouldStretchPage: (mode: IReaderSettings['shouldStretchPage']) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     if (!READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED[pageScaleMode]) {
         return null;
@@ -31,7 +31,7 @@ export const ReaderSettingStretchPage = ({
                 onClick={() => setShouldStretchPage(!shouldStretchPage)}
                 variant={shouldStretchPage ? 'contained' : 'outlined'}
             >
-                {t('reader.settings.page_scale.stretch')}
+                {t`Stretch small pages`}
             </Button>
         </Box>
     );

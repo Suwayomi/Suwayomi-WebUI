@@ -17,8 +17,8 @@ import IconButton from '@mui/material/IconButton';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
-import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
 import { languageSortComparator } from '@/base/utils/Languages.ts';
@@ -31,7 +31,7 @@ interface IProps {
 }
 
 export function LanguageSelect(props: IProps) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const { selectedLanguages, setSelectedLanguages, languages } = props;
     const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueISOLanguageCodes(selectedLanguages));
@@ -66,13 +66,13 @@ export function LanguageSelect(props: IProps) {
 
     return (
         <>
-            <CustomTooltip title={t('settings.title')}>
+            <CustomTooltip title={t`Settings`}>
                 <IconButton onClick={() => setOpen(true)} aria-label="display more actions" edge="end" color="inherit">
                     <FilterListIcon />
                 </IconButton>
             </CustomTooltip>
             <Dialog fullWidth maxWidth="xs" open={open} onClose={handleCancel}>
-                <DialogTitle>{t('global.language.title.enabled_languages')}</DialogTitle>
+                <DialogTitle>{t`Allowed Languages`}</DialogTitle>
                 <DialogContent dividers sx={{ padding: 0 }}>
                     <Virtuoso
                         style={{
@@ -97,10 +97,10 @@ export function LanguageSelect(props: IProps) {
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleCancel} color="primary">
-                        {t('global.button.cancel')}
+                        {t`Cancel`}
                     </Button>
                     <Button onClick={handleOk} color="primary">
-                        {t('global.button.ok')}
+                        {t`Ok`}
                     </Button>
                 </DialogActions>
             </Dialog>

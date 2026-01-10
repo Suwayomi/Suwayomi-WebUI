@@ -8,7 +8,6 @@
 
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { useTranslation } from 'react-i18next';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -28,6 +27,7 @@ import PopupState, { bindDialog, bindMenu, bindTrigger } from 'material-ui-popup
 import { useMemo, useState } from 'react';
 import Badge from '@mui/material/Badge';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
@@ -63,7 +63,7 @@ const TrackerActiveRemoveBind = ({
     onClick: () => void;
     onClose: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [removeRemoteTracking, setRemoveRemoteTracking] = useState(false);
 
@@ -71,8 +71,8 @@ const TrackerActiveRemoveBind = ({
         onClose();
         requestManager
             .unbindTracker(trackerRecordId, removeRemoteTracking)
-            .response.then(() => makeToast(t('manga.action.track.remove.label.success'), 'success'))
-            .catch((e) => makeToast(t('manga.action.track.remove.label.error'), 'error', getErrorMessage(e)));
+            .response.then(() => makeToast(t`Untracked manga`, 'success'))
+            .catch((e) => makeToast(t`Could not untrack manga`, 'error', getErrorMessage(e)));
     };
 
     return (
@@ -86,7 +86,7 @@ const TrackerActiveRemoveBind = ({
                             popupState.open();
                         }}
                     >
-                        {t('global.button.remove')}
+                        {t`Remove`}
                     </MenuItem>
                     <Dialog
                         {...bindDialog(popupState)}
@@ -95,18 +95,14 @@ const TrackerActiveRemoveBind = ({
                             popupState.close();
                         }}
                     >
-                        <DialogTitle>
-                            {t('manga.action.track.remove.dialog.label.title', { tracker: tracker.name })}
-                        </DialogTitle>
+                        <DialogTitle>{t`Remove ${tracker.name} tracking?`}</DialogTitle>
                         <DialogContent dividers>
-                            <Typography>{t('manga.action.track.remove.dialog.label.description')}</Typography>
+                            <Typography>{t`This will remove the tracking locally.`}</Typography>
                             {tracker.supportsTrackDeletion && (
                                 <FormGroup>
                                     <CheckboxInput
                                         disabled={false}
-                                        label={t('manga.action.track.remove.dialog.label.delete_remote_track', {
-                                            tracker: tracker.name,
-                                        })}
+                                        label={t`Also remove from ${tracker.name}`}
                                         checked={removeRemoteTracking}
                                         onChange={(_, checked) => setRemoveRemoteTracking(checked)}
                                     />
@@ -121,7 +117,7 @@ const TrackerActiveRemoveBind = ({
                                     onClose();
                                 }}
                             >
-                                {t('global.button.cancel')}
+                                {t`Cancel`}
                             </Button>
                             <Button
                                 onClick={() => {
@@ -130,7 +126,7 @@ const TrackerActiveRemoveBind = ({
                                     removeBind();
                                 }}
                             >
-                                {t('global.button.ok')}
+                                {t`Ok`}
                             </Button>
                         </DialogActions>
                     </Dialog>
@@ -151,7 +147,7 @@ const TrackerUpdatePrivateStatus = ({
     closeMenu: () => void;
     supportsPrivateTracking: TTrackerActive['supportsPrivateTracking'];
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     if (!supportsPrivateTracking) {
         return null;
@@ -162,13 +158,11 @@ const TrackerUpdatePrivateStatus = ({
             onClick={() => {
                 requestManager
                     .updateTrackerBind(trackRecordId, { private: !isPrivate })
-                    .response.catch((e) =>
-                        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
-                    );
+                    .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
                 closeMenu();
             }}
         >
-            {t(isPrivate ? 'tracking.action.button.track_publicly' : 'tracking.action.button.track_privately')}
+            {isPrivate ? t`Track publicly` : t`Track privately`}
         </MenuItem>
     );
 };
@@ -183,7 +177,7 @@ const TrackerActiveHeader = ({
     tracker: TTrackerActive;
     openSearch: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack
@@ -218,7 +212,6 @@ const TrackerActiveHeader = ({
                     />
                 </TrackerActiveLink>
             </Badge>
-
             <ListItemButton sx={{ flexGrow: 1 }} onClick={openSearch}>
                 <CustomTooltip title={trackRecord.title}>
                     <TypographyMaxLines flexGrow={1} lines={1}>
@@ -243,9 +236,7 @@ const TrackerActiveHeader = ({
                                         key={`tracker-active-menu-item-browser-${tracker.id}`}
                                         url={trackRecord.remoteUrl}
                                     >
-                                        <MenuItem onClick={() => onClose()}>
-                                            {t('global.label.open_in_browser')}
-                                        </MenuItem>
+                                        <MenuItem onClick={() => onClose()}>{t`Open in browser`}</MenuItem>
                                     </TrackerActiveLink>,
                                     <TrackerActiveRemoveBind
                                         key={`tracker-active-menu-item-remove-${tracker.id}`}
@@ -287,7 +278,7 @@ export const TrackerActiveCard = ({
     tracker: TTrackerBind;
     onClick: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const isScoreUnset = isUnsetScore(trackRecord.displayScore);
     const currentScore = isScoreUnset ? tracker.scores[0] : trackRecord.displayScore;
@@ -306,9 +297,7 @@ export const TrackerActiveCard = ({
     const updateTrackerBind = (patch: Parameters<typeof requestManager.updateTrackerBind>[1]) => {
         requestManager
             .updateTrackerBind(trackRecord.id, patch)
-            .response.catch((e) =>
-                makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
-            );
+            .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
     };
 
     return (
@@ -320,7 +309,7 @@ export const TrackerActiveCard = ({
                         <Box sx={{ padding: 1 }}>
                             <TrackerActiveCardInfoRow>
                                 <ListPreference
-                                    ListPreferenceTitle={t('manga.label.status')}
+                                    ListPreferenceTitle={t`Status`}
                                     entries={tracker.statuses.map((status) => status.name)}
                                     key="status"
                                     type="ListPreference"
@@ -331,8 +320,8 @@ export const TrackerActiveCard = ({
                                 />
                                 <Divider orientation="vertical" flexItem />
                                 <NumberSetting
-                                    settingTitle={t('chapter.title_other')}
-                                    dialogTitle={t('chapter.title_other')}
+                                    settingTitle={t`Chapter`}
+                                    dialogTitle={t`Chapter`}
                                     settingValue={`${trackRecord.lastChapterRead}/${trackRecord.totalChapters}`}
                                     value={trackRecord.lastChapterRead}
                                     minValue={0}
@@ -342,7 +331,7 @@ export const TrackerActiveCard = ({
                                 />
                                 <Divider orientation="vertical" flexItem />
                                 <SelectSetting<string>
-                                    settingName={t('tracking.track_record.label.score')}
+                                    settingName={t`Score`}
                                     value={currentScore}
                                     values={selectSettingValues}
                                     handleChange={(score) => updateTrackerBind({ scoreString: score })}
@@ -351,7 +340,7 @@ export const TrackerActiveCard = ({
                             <Divider />
                             <TrackerActiveCardInfoRow>
                                 <DateSetting
-                                    settingName={t('tracking.track_record.label.start_date')}
+                                    settingName={t`Start date`}
                                     value={Trackers.getDateString(trackRecord.startDate)}
                                     remove
                                     handleChange={(startDate) =>
@@ -360,7 +349,7 @@ export const TrackerActiveCard = ({
                                 />
                                 <Divider orientation="vertical" flexItem />
                                 <DateSetting
-                                    settingName={t('tracking.track_record.label.finish_date')}
+                                    settingName={t`Finish date`}
                                     value={Trackers.getDateString(trackRecord.finishDate)}
                                     remove
                                     handleChange={(finishDate) =>

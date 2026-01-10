@@ -17,7 +17,6 @@ import Typography from '@mui/material/Typography';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import ListItemButton from '@mui/material/ListItemButton';
 import * as React from 'react';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -25,6 +24,7 @@ import Slider from '@mui/material/Slider';
 import DialogContentText from '@mui/material/DialogContentText';
 import InfoIcon from '@mui/icons-material/Info';
 import { SxProps, Theme } from '@mui/material/styles';
+import { useLingui } from '@lingui/react/macro';
 
 type BaseProps = {
     settingTitle: string;
@@ -70,7 +70,7 @@ export const NumberSetting = ({
     handleLiveUpdate,
     listItemTextSx: sx,
 }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dialogValue, setDialogValue] = useState(value);
@@ -125,7 +125,6 @@ export const NumberSetting = ({
                     secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
                 />
             </ListItemButton>
-
             <Dialog open={isDialogOpen} onClose={cancel}>
                 <DialogTitle>{dialogTitle}</DialogTitle>
                 <DialogContent>
@@ -172,7 +171,7 @@ export const NumberSetting = ({
                         value={dialogValue}
                         type="number"
                         error={isInvalid}
-                        helperText={isInvalid ? t('global.error.label.invalid_input') : ''}
+                        helperText={isInvalid ? t`Invalid input` : ''}
                         onChange={(e) => {
                             const newValue = Number(e.target.value);
                             updateValue(newValue, false);
@@ -201,14 +200,14 @@ export const NumberSetting = ({
                 <DialogActions>
                     {defaultValue !== undefined ? (
                         <Button onClick={resetToDefault} color="primary">
-                            {t('global.button.reset_to_default')}
+                            {t`Reset to Default`}
                         </Button>
                     ) : null}
                     <Button onClick={cancel} color="primary">
-                        {t('global.button.cancel')}
+                        {t`Cancel`}
                     </Button>
                     <Button disabled={isInvalid} onClick={submit} color="primary">
-                        {t('global.button.ok')}
+                        {t`Ok`}
                     </Button>
                 </DialogActions>
             </Dialog>

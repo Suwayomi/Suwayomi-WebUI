@@ -7,8 +7,8 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
 import Button from '@mui/material/Button';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MultiValueButtonProps } from '@/base/Base.types.ts';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
@@ -22,13 +22,13 @@ export const ButtonSelect = <Value extends string | number>({
     isDefaultable,
     onDefault,
 }: MultiValueButtonProps<Value>) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack sx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 1 }}>
             {isDefaultable && (
                 <Button key="default" onClick={onDefault} variant={value === undefined ? 'contained' : 'outlined'}>
-                    {t('global.label.default')}
+                    {t`Default`}
                 </Button>
             )}
             {values.map((displayValue) => {
@@ -39,13 +39,13 @@ export const ButtonSelect = <Value extends string | number>({
                     : t(valueToDisplayData[displayValue].title);
 
                 return (
-                    <CustomTooltip key={displayValue} title={isDefault ? t('reader.settings.active_setting') : ''}>
+                    <CustomTooltip key={displayValue} title={isDefault ? t`Active setting` : ''}>
                         <Button
                             onClick={() => setValue(displayValue)}
                             variant={displayValue === value ? 'contained' : 'outlined'}
                             startIcon={valueToDisplayData[displayValue].icon}
                         >
-                            {isDefault ? <Superscript i18nKey="global.label.footnote" value={text} /> : text}
+                            {isDefault ? <Superscript superscript="*" text={text} /> : text}
                         </Button>
                     </CustomTooltip>
                 );

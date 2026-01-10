@@ -8,18 +8,18 @@
 
 import { Fragment } from 'react';
 import Stack from '@mui/material/Stack';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { Kbd } from '@/base/components/texts/Kbd.tsx';
 
 export const Hotkey = ({ keys, removeKey }: { keys: string[]; removeKey?: (key: string) => void }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     return (
         <Stack sx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 1 }}>
             {keys.map((key, index) => (
                 <Fragment key={key}>
-                    <CustomTooltip title={t('global.button.delete')} hidden={!removeKey}>
+                    <CustomTooltip title={t`Delete`} hidden={!removeKey}>
                         <Stack
                             sx={{
                                 flexDirection: 'row',

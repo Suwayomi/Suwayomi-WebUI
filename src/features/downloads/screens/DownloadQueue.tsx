@@ -11,11 +11,11 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useWindowEvent } from '@mantine/hooks';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -34,9 +34,9 @@ import { ChapterDownloadStatus } from '@/features/chapter/Chapter.types.ts';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
 
 export const DownloadQueue: React.FC = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('download.title.queue'));
+    useAppTitle(t`Download queue`);
 
     const [reorderDownload, { reset: revertReorder }] = requestManager.useReorderChapterInDownloadQueue();
 
@@ -60,7 +60,7 @@ export const DownloadQueue: React.FC = () => {
         try {
             await requestManager.clearDownloads().response;
         } catch (e) {
-            makeToast(t('download.queue.error.label.failed_delete_all'), 'error', getErrorMessage(e));
+            makeToast(t`Could not remove all downloads from the queue`, 'error', getErrorMessage(e));
         }
     };
 
@@ -99,16 +99,13 @@ export const DownloadQueue: React.FC = () => {
 
     useAppAction(
         <>
-            <CustomTooltip title={t('download.queue.label.delete_all')}>
+            <CustomTooltip title={t`Delete all`}>
                 <IconButton onClick={clearQueue} color="inherit">
                     <DeleteSweepIcon />
                 </IconButton>
             </CustomTooltip>
 
-            <CustomTooltip
-                title={t(status === DownloaderState.Started ? 'global.button.stop' : 'global.button.start')}
-                disabled={isQueueEmpty}
-            >
+            <CustomTooltip title={status === DownloaderState.Started ? t`Stop` : t`Start`} disabled={isQueueEmpty}>
                 <IconButton onClick={toggleQueueStatus} disabled={isQueueEmpty} color="inherit">
                     {status === DownloaderState.Stopped ? <PlayArrowIcon /> : <PauseIcon />}
                 </IconButton>
@@ -135,7 +132,7 @@ export const DownloadQueue: React.FC = () => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('DownloadQueue::refetch'))}
             />
@@ -143,7 +140,7 @@ export const DownloadQueue: React.FC = () => {
     }
 
     if (isQueueEmpty) {
-        return <EmptyViewAbsoluteCentered message={t('download.queue.label.no_downloads')} />;
+        return <EmptyViewAbsoluteCentered message={t`No downloads`} />;
     }
 
     return (

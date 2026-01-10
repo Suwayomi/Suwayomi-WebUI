@@ -8,8 +8,8 @@
 
 import { useCallback, useRef, useState } from 'react';
 import Tab from '@mui/material/Tab';
-import { useTranslation } from 'react-i18next';
 import { StringParam, useQueryParam } from 'use-query-params';
+import { useLingui } from '@lingui/react/macro';
 import { Sources } from '@/features/browse/sources/Sources.tsx';
 import { Extensions } from '@/features/browse/extensions/Extensions.tsx';
 import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
@@ -23,8 +23,8 @@ import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 
 export function Browse() {
-    const { t } = useTranslation();
-    useAppTitle(t('global.label.browse'));
+    const { t } = useLingui();
+    useAppTitle(t`Browse`);
 
     const tabsMenuRef = useRef<HTMLDivElement | null>(null);
     const [tabsMenuHeight, setTabsMenuHeight] = useState(0);
@@ -49,9 +49,9 @@ export function Browse() {
                 value={tabName}
                 onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}
             >
-                <Tab value={BrowseTab.SOURCES} sx={{ textTransform: 'none' }} label={t('source.title_other')} />
-                <Tab value={BrowseTab.EXTENSIONS} sx={{ textTransform: 'none' }} label={t('extension.title_other')} />
-                <Tab value={BrowseTab.MIGRATE} sx={{ textTransform: 'none' }} label={t('migrate.title')} />
+                <Tab value={BrowseTab.SOURCES} sx={{ textTransform: 'none' }} label={t`Source`} />
+                <Tab value={BrowseTab.EXTENSIONS} sx={{ textTransform: 'none' }} label={t`Extension`} />
+                <Tab value={BrowseTab.MIGRATE} sx={{ textTransform: 'none' }} label={t`Migrate`} />
             </TabsMenu>
             <TabPanel index={BrowseTab.SOURCE_DEPRECATED} currentIndex={tabName}>
                 <Sources tabsMenuHeight={tabsMenuHeight} />

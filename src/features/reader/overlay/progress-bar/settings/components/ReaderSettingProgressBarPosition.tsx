@@ -6,10 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import AutoModeIcon from '@mui/icons-material/AutoMode';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import {
     IReaderSettings,
     ProgressBarPosition,
@@ -20,19 +21,19 @@ import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.ts
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ProgressBarPosition> = {
     [ProgressBarPosition.AUTO]: {
-        title: 'global.label.auto',
+        title: msg`Auto`,
         icon: <AutoModeIcon />,
     },
     [ProgressBarPosition.BOTTOM]: {
-        title: 'global.label.bottom',
+        title: msg`Bottom`,
         icon: <ArrowBackIosNewIcon sx={{ transform: 'rotate(90deg)' }} />,
     },
     [ProgressBarPosition.LEFT]: {
-        title: 'global.label.left',
+        title: msg`Left`,
         icon: <ArrowForwardIosIcon />,
     },
     [ProgressBarPosition.RIGHT]: {
-        title: 'global.label.right',
+        title: msg`Right`,
         icon: <ArrowBackIosNewIcon />,
     },
 };
@@ -55,14 +56,14 @@ export const ReaderSettingProgressBarPosition = ({
         value: IReaderSettings[Position],
     ) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const isAutoPosition = progressBarPosition === ProgressBarPosition.AUTO;
 
     return (
         <>
             <ButtonSelectInput
-                label={t('reader.settings.progress_bar.position')}
+                label={t`Progress bar position`}
                 value={progressBarPosition}
                 values={PROGRESS_BAR_POSITION_VALUES}
                 setValue={(position) => updateSetting('progressBarPosition', position)}
@@ -70,7 +71,7 @@ export const ReaderSettingProgressBarPosition = ({
             />
             {isAutoPosition && (
                 <ButtonSelectInput
-                    label={t('reader.settings.progress_bar.auto_vertical_position.title')}
+                    label={t`Automatic progress bar vertical position`}
                     value={progressBarPositionAutoVertical}
                     values={PROGRESS_BAR_AUTO_VERTICAL_POSITION_VALUES}
                     setValue={(position) => updateSetting('progressBarPositionAutoVertical', position)}

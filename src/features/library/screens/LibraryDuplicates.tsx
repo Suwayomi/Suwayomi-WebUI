@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -15,6 +14,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { GridLayouts } from '@/base/components/GridLayouts.tsx';
@@ -37,7 +37,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 
 export const LibraryDuplicates = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [gridLayout, setGridLayout] = useLocalStorage('libraryDuplicatesGridLayout', GridLayout.List);
     const [checkAlternativeTitles, setCheckAlternativeTitles] = useLocalStorage(
@@ -46,7 +46,7 @@ export const LibraryDuplicates = () => {
     );
 
     useAppTitleAndAction(
-        t('library.settings.advanced.duplicates.label.title'),
+        t`Duplicated entries`,
         <>
             <GridLayouts gridLayout={gridLayout} onChange={setGridLayout} />
             <PopupState variant="popover" popupId="library-dupliactes-settings">
@@ -58,7 +58,7 @@ export const LibraryDuplicates = () => {
                         <Menu {...bindMenu(popupState)}>
                             <MenuItem>
                                 <CheckboxInput
-                                    label={t('library.settings.advanced.duplicates.settings.label.check_description')}
+                                    label={t`Check description`}
                                     checked={checkAlternativeTitles}
                                     onChange={(_, checked) => setCheckAlternativeTitles(checked)}
                                 />
@@ -130,7 +130,7 @@ export const LibraryDuplicates = () => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('LibraryDuplicates::refetch'))}
             />

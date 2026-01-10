@@ -11,7 +11,6 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import IconButton from '@mui/material/IconButton';
 import SaveIcon from '@mui/icons-material/Save';
 import Chip from '@mui/material/Chip';
@@ -23,6 +22,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { OptionsPanel } from '@/base/components/modals/OptionsPanel.tsx';
 import { CheckBoxFilter } from '@/features/source/browse/components/filters/CheckBoxFilter.tsx';
@@ -168,7 +168,7 @@ export function SourceOptions({
     setTriggerUpdate,
     update,
 }: IFilters1) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const [FilterOptions, setFilterOptions] = useState(false);
     const [newSavedSearch, setNewSavedSearch] = useState('');
 
@@ -189,23 +189,22 @@ export function SourceOptions({
         <>
             <StyledFab onClick={() => setFilterOptions(!FilterOptions)} variant="extended" color="primary">
                 <FilterListIcon />
-                {t('global.button.filter')}
+                {t`Filter`}
             </StyledFab>
-
             <OptionsPanel open={FilterOptions} onClose={() => setFilterOptions(false)}>
                 <Box sx={{ p: 2, pb: savedSearchesExist ? undefined : 0 }}>
                     <Box sx={{ display: 'flex', pb: 1 }}>
-                        <Button onClick={handleReset}>{t('global.button.reset')}</Button>
+                        <Button onClick={handleReset}>{t`Reset`}</Button>
                         <PopupState variant="dialog" popupId="source-browse-save-search">
                             {(popupState) => (
                                 <>
-                                    <CustomTooltip title={t('source.filter.save_search.label.save')}>
+                                    <CustomTooltip title={t`Save search`}>
                                         <IconButton sx={{ marginLeft: 'auto' }} {...bindTrigger(popupState)}>
                                             <SaveIcon />
                                         </IconButton>
                                     </CustomTooltip>
                                     <Dialog {...bindDialog(popupState)} maxWidth="xs" fullWidth>
-                                        <DialogTitle>{t('source.filter.save_search.dialog.label.title')}</DialogTitle>
+                                        <DialogTitle>{t`Save current search`}</DialogTitle>
                                         <DialogContent>
                                             <TextField
                                                 sx={{ width: '100%' }}
@@ -223,7 +222,7 @@ export function SourceOptions({
                                                     popupState.close();
                                                 }}
                                             >
-                                                {t('global.button.cancel')}
+                                                {t`Cancel`}
                                             </Button>
                                             <Button
                                                 onClick={() => {
@@ -232,7 +231,7 @@ export function SourceOptions({
                                                     popupState.close();
                                                 }}
                                             >
-                                                {t('global.button.ok')}
+                                                {t`Ok`}
                                             </Button>
                                         </DialogActions>
                                     </Dialog>
@@ -241,7 +240,7 @@ export function SourceOptions({
                         </PopupState>
 
                         <Button variant="contained" onClick={handleSubmit}>
-                            {t('global.button.submit')}
+                            {t`Submit`}
                         </Button>
                     </Box>
                     {savedSearchesExist && (
@@ -257,19 +256,19 @@ export function SourceOptions({
                                         }}
                                         onDelete={() => {
                                             Confirmation.show({
-                                                title: t('global.label.are_you_sure'),
-                                                message: t('source.filter.save_search.dialog.label.delete', {
-                                                    name: savedSearch,
-                                                }),
+                                                title: t`Are you sure?`,
+                                                message: t`This will delete the saved search "${savedSearch}"`,
                                                 actions: {
-                                                    confirm: { title: t('global.button.delete') },
+                                                    confirm: {
+                                                        title: t`Delete`,
+                                                    },
                                                 },
                                             })
                                                 .then(() => updateSavedSearches(savedSearch, 'delete'))
                                                 .catch(defaultPromiseErrorHandler('SourceOptions::deleteSavedSearch'));
                                         }}
                                         deleteIcon={
-                                            <CustomTooltip title={t('source.filter.save_search.label.delete')}>
+                                            <CustomTooltip title={t`Delete search`}>
                                                 <DeleteIcon />
                                             </CustomTooltip>
                                         }

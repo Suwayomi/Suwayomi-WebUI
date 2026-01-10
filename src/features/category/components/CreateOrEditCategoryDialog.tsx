@@ -15,7 +15,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CategoryDefaultInfo, CategoryIdInfo, CategoryNameInfo } from '@/features/category/Category.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -31,7 +31,7 @@ export const CreateOrEditCategoryDialog = ({
 }) => {
     const isEditMode = !!category;
 
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const [dialogName, setDialogName] = useState(category?.name);
     const [dialogDefault, setDialogDefault] = useState(!!category?.default);
@@ -47,47 +47,43 @@ export const CreateOrEditCategoryDialog = ({
         if (isEditMode) {
             requestManager
                 .updateCategory(category.id, { name: dialogName, default: dialogDefault })
-                .response.catch((e) =>
-                    makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
-                );
+                .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
             return;
         }
 
         requestManager
             .createCategory({ name: dialogName, default: dialogDefault })
-            .response.catch((e) => makeToast(t('category.error.label.create_failure'), 'error', getErrorMessage(e)));
+            .response.catch((e) => makeToast(t`Could not create category`, 'error', getErrorMessage(e)));
     };
 
     return (
         <Dialog open onClose={onClose}>
-            <DialogTitle id="form-dialog-title">
-                {isEditMode ? t('category.dialog.title.edit_category_one') : t('category.dialog.title.new_category')}
-            </DialogTitle>
+            <DialogTitle id="form-dialog-title">{isEditMode ? t`Edit category` : t`New category`}</DialogTitle>
             <DialogContent>
                 <TextField
                     autoFocus
                     margin="dense"
                     id="name"
-                    label={t('category.label.category_name')}
+                    label={t`Category Name`}
                     type="text"
                     fullWidth
                     value={dialogName}
                     onChange={(e) => setDialogName(e.target.value.trim())}
                     error={isInvalidName}
-                    helperText={isInvalidName ? t`global.error.label.invalid_input` : undefined}
+                    helperText={isInvalidName ? t`Invalid input` : undefined}
                 />
                 <FormControlLabel
                     control={<Checkbox checked={dialogDefault} onChange={(e) => setDialogDefault(e.target.checked)} />}
-                    label={t('category.label.use_as_default_category')}
+                    label={t`Default category when adding new manga to the library`}
                 />
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose} color="primary">
-                    {t('global.button.cancel')}
+                    {t`Cancel`}
                 </Button>
                 <Button onClick={handleDialogSubmit} color="primary" disabled={!canSubmit}>
-                    {t('global.button.submit')}
+                    {t`Submit`}
                 </Button>
             </DialogActions>
         </Dialog>

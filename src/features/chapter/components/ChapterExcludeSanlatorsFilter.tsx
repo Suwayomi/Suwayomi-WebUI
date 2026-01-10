@@ -7,9 +7,9 @@
  */
 
 import { bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
-import { useTranslation } from 'react-i18next';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import DisabledByDefaultRounded from '@mui/icons-material/DisabledByDefaultRounded';
+import { useLingui } from '@lingui/react/macro';
 import { CheckboxListSetting } from '@/base/components/settings/CheckboxListSetting.tsx';
 import { updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
@@ -23,7 +23,7 @@ export const ChapterExcludeSanlatorsFilter = ({
     scanlators: string[];
     excludedScanlators: string[];
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const popupState = usePopupState({ variant: 'dialog', popupId: 'chapter-list-options-scanlator-filter-dialog' });
 
     if (!scanlators.length) {
@@ -34,13 +34,13 @@ export const ChapterExcludeSanlatorsFilter = ({
         <>
             <CheckboxInput
                 {...bindTrigger(popupState)}
-                label={t('global.label.scanlator')}
+                label={t`Scanlator`}
                 icon={<PeopleAltOutlinedIcon />}
                 checkedIcon={<PeopleAltOutlinedIcon color="warning" />}
                 checked={!!excludedScanlators.length}
             />
             <CheckboxListSetting
-                title={t('chapter.option.exclude_scanlators')}
+                title={t`Exclude scanlators`}
                 open={popupState.isOpen}
                 onClose={(selectedScanlators) => {
                     if (selectedScanlators) {

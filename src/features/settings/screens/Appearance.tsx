@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -15,11 +14,12 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import { useColorScheme } from '@mui/material/styles';
+import { useLingui } from '@lingui/react/macro';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
-import { I18nResourceCode, i18nResources } from '@/i18n';
+import { I18nResourceCode, i18nResources, loadCatalog } from '@/i18n';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { ThemeList } from '@/features/theme/components/ThemeList.tsx';
 import {
@@ -38,19 +38,19 @@ import { MANGA_GRID_WIDTH, SERVER_SETTINGS_METADATA_DEFAULT } from '@/features/s
 import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
 
 export const Appearance = () => {
-    const { t, i18n } = useTranslation();
+    const { t, i18n } = useLingui();
     const { themeMode, setThemeMode, shouldUsePureBlackMode, setShouldUsePureBlackMode } = useAppThemeContext();
     const { mode, setMode } = useColorScheme();
     const actualThemeMode = (mode ?? themeMode) as ThemeMode;
 
-    useAppTitle(t('settings.appearance.title'));
+    useAppTitle(t`Appearance`);
 
     const {
         settings: { mangaThumbnailBackdrop, mangaDynamicColorSchemes, mangaGridItemWidth },
         request: { loading, error, refetch },
     } = useMetadataServerSettings();
     const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataThemeSettings>((e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
 
     const isDarkMode = MediaQuery.getThemeMode(actualThemeMode) === ThemeMode.DARK;
@@ -62,7 +62,7 @@ export const Appearance = () => {
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
-                message={t('global.error.label.failed_to_load_data')}
+                message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => refetch().catch(defaultPromiseErrorHandler('Appearance::refetch'))}
             />
@@ -73,12 +73,12 @@ export const Appearance = () => {
         <List
             subheader={
                 <ListSubheader component="div" id="appearance-theme">
-                    {t('settings.appearance.theme.title')}
+                    {t`Theme`}
                 </ListSubheader>
             }
         >
             <ListItem>
-                <ListItemText primary={t('settings.appearance.theme.mode')} />
+                <ListItemText primary={t`Theme mode`} />
                 <Select<ThemeMode>
                     value={actualThemeMode}
                     onChange={(e) => {
@@ -91,20 +91,20 @@ export const Appearance = () => {
                     }}
                 >
                     <MenuItem key={ThemeMode.SYSTEM} value={ThemeMode.SYSTEM}>
-                        {t('global.label.system')}
+                        {t`System`}
                     </MenuItem>
                     <MenuItem key={ThemeMode.DARK} value={ThemeMode.DARK}>
-                        {t('global.label.dark')}
+                        {t`Dark`}
                     </MenuItem>
                     <MenuItem key={ThemeMode.LIGHT} value={ThemeMode.LIGHT}>
-                        {t('global.label.light')}
+                        {t`Light`}
                     </MenuItem>
                 </Select>
             </ListItem>
             <ThemeList />
             {isDarkMode && (
                 <ListItem>
-                    <ListItemText primary={t('settings.appearance.theme.pure_black_mode')} />
+                    <ListItemText primary={t`Pure black dark mode`} />
                     <Switch
                         checked={shouldUsePureBlackMode}
                         onChange={(_, enabled) => setShouldUsePureBlackMode(enabled)}
@@ -114,33 +114,31 @@ export const Appearance = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="appearance-theme">
-                        {t('global.label.display')}
+                        {t`Display`}
                     </ListSubheader>
                 }
             >
                 <ListItem>
                     <ListItemText
-                        primary={t('global.language.label.language')}
+                        primary={t`Language`}
                         secondary={
                             <>
-                                <span>{t('settings.label.language_description')} </span>
+                                <span>{t`Feel free to translate the project on`} </span>
                                 <Link
                                     href="https://hosted.weblate.org/projects/suwayomi/suwayomi-webui"
                                     target="_blank"
                                     rel="noreferrer"
                                 >
-                                    {t('global.language.title.weblate')}
+                                    {t`Weblate`}
                                 </Link>
                             </>
                         }
                     />
                     <Select
-                        value={i18nResources.includes(i18n.language as I18nResourceCode) ? i18n.language : 'en'}
+                        value={i18nResources.includes(i18n.locale as I18nResourceCode) ? i18n.locale : 'en'}
                         onChange={({ target: { value: language } }) =>
-                            i18n.changeLanguage(language, (e) => {
-                                if (e) {
-                                    makeToast(t('global.language.error.load'), 'error', getErrorMessage(e));
-                                }
+                            loadCatalog(language).catch((e: Error) => {
+                                makeToast(t`Could not load language`, 'error', getErrorMessage(e));
                             })
                         }
                     >
@@ -152,7 +150,7 @@ export const Appearance = () => {
                     </Select>
                 </ListItem>
                 <NumberSetting
-                    settingTitle={t('settings.label.manga_item_width')}
+                    settingTitle={t`Manga item width`}
                     settingValue={`px: ${mangaGridItemWidth}`}
                     value={mangaGridItemWidth}
                     defaultValue={SERVER_SETTINGS_METADATA_DEFAULT.mangaGridItemWidth}
@@ -166,8 +164,8 @@ export const Appearance = () => {
 
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.appearance.manga_thumbnail_backdrop.title')}
-                        secondary={t('settings.appearance.manga_thumbnail_backdrop.description')}
+                        primary={t`Manga thumbnail as background`}
+                        secondary={t`Sets the manga thumbnail as the background image on the manga page`}
                     />
                     <Switch
                         edge="end"
@@ -178,8 +176,8 @@ export const Appearance = () => {
 
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.appearance.manga_dynamic_color_schemes.title')}
-                        secondary={t('settings.appearance.manga_dynamic_color_schemes.description')}
+                        primary={t`Dynamic theme colors on manga page`}
+                        secondary={t`Changes the theme colors on the manga page based on the thumbnail`}
                     />
                     <Switch
                         edge="end"

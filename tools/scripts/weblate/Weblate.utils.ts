@@ -77,7 +77,7 @@ export const getWeblateLanguageStatsFor = (
     const langaugeStats = stats.find((stat) => normalizeCode(stat.code) === normalizeCode(code));
 
     if (!langaugeStats) {
-        throw new Error(`Weblate language stats for "${code} do not exist`);
+        throw new Error(`Weblate language stats for "${code}" do not exist`);
     }
 
     return langaugeStats;

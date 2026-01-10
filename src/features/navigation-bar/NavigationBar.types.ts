@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import { ReactNode } from 'react';
 import { StaticAppRoute } from '@/base/AppRoute.constants.ts';
-import { TranslationKey } from '@/base/Base.types.ts';
 
 export interface INavbarOverride {
     status: boolean;
@@ -25,8 +25,8 @@ export enum NavBarItemMoreGroup {
 
 export interface NavbarItem {
     path: StaticAppRoute;
-    title: TranslationKey;
-    moreTitle?: TranslationKey;
+    title: MessageDescriptor;
+    moreTitle?: MessageDescriptor;
     SelectedIconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     IconComponent: OverridableComponent<SvgIconTypeMap<{}, 'svg'>>;
     show: 'mobile' | 'desktop' | 'both';

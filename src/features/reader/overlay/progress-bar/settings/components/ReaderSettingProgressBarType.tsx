@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
+import { msg } from '@lingui/core/macro';
 import { IReaderSettings, ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
 import { ValueToDisplayData } from '@/base/Base.types.ts';
 import { HiddenProgressBarIcon } from '@/assets/icons/svg/HiddenProgressBarIcon.tsx';
@@ -15,11 +16,11 @@ import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.ts
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ProgressBarType> = {
     [ProgressBarType.HIDDEN]: {
-        title: 'global.label.hidden',
+        title: msg`Hidden`,
         icon: <HiddenProgressBarIcon />,
     },
     [ProgressBarType.STANDARD]: {
-        title: 'global.label.standard',
+        title: msg`Standard`,
         icon: <StandardProgressBarIcon />,
     },
 };
@@ -33,7 +34,7 @@ export const ReaderSettingProgressBarType = ({
 }: Pick<IReaderSettings, 'progressBarType' | 'overlayMode'> & {
     setProgressBarType: (progressBarType: ProgressBarType) => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     if (overlayMode !== ReaderOverlayMode.DESKTOP) {
         return null;
@@ -41,7 +42,7 @@ export const ReaderSettingProgressBarType = ({
 
     return (
         <ButtonSelectInput
-            label={t('reader.settings.progress_bar.style')}
+            label={t`Progress bar style`}
             value={progressBarType}
             values={PROGRESS_BAR_TYPE_VALUES}
             setValue={setProgressBarType}

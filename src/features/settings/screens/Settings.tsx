@@ -11,7 +11,6 @@ import List from '@mui/material/List';
 import BackupIcon from '@mui/icons-material/Backup';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useTranslation } from 'react-i18next';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
 import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import DnsIcon from '@mui/icons-material/Dns';
@@ -22,14 +21,15 @@ import SyncIcon from '@mui/icons-material/Sync';
 import PaletteIcon from '@mui/icons-material/Palette';
 import HistoryIcon from '@mui/icons-material/History';
 import ImageIcon from '@mui/icons-material/Image';
+import { useLingui } from '@lingui/react/macro';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 
 export function Settings() {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('settings.title'));
+    useAppTitle(t`Settings`);
 
     return (
         <List sx={{ padding: 0 }}>
@@ -37,74 +37,73 @@ export function Settings() {
                 <ListItemIcon>
                     <PaletteIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('settings.appearance.title')} />
+                <ListItemText primary={t`Appearance`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.reader.path}>
                 <ListItemIcon>
                     <AutoStoriesIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('reader.settings.title.reader')} />
+                <ListItemText primary={t`Reader`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.library.path}>
                 <ListItemIcon>
                     <CollectionsOutlinedBookmarkIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('library.title')} />
+                <ListItemText primary={t`Library`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.download.path}>
                 <ListItemIcon>
                     <GetAppOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('download.title.download')} />
+                <ListItemText primary={t`Downloads`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.images.path}>
                 <ListItemIcon>
                     <ImageIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('settings.images.title')} />
+                <ListItemText primary={t`Images`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.tracking.path}>
                 <ListItemIcon>
                     <SyncIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('tracking.title')} />
+                <ListItemText primary={t`Tracking`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.backup.path}>
                 <ListItemIcon>
                     <BackupIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('settings.backup.title')} />
+                <ListItemText primary={t`Backup`} />
             </ListItemLink>
-
             <ListItemLink to={AppRoutes.settings.childRoutes.browse.path}>
                 <ListItemIcon>
                     <ExploreOutlinedIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('global.label.browse')} />
+                <ListItemText primary={t`Browse`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.history.path}>
                 <ListItemIcon>
                     <HistoryIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('history.title')} />
+                <ListItemText primary={t`History`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.device.path}>
                 <ListItemIcon>
                     <DevicesIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('settings.device.title.device')} />
+                <ListItemText primary={t`Device`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.webui.path}>
                 <ListItemIcon>
                     <WebIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('settings.webui.title.webui')} />
+                <ListItemText primary={t`WebUI`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.childRoutes.server.path}>
                 <ListItemIcon>
                     <DnsIcon />
                 </ListItemIcon>
-                <ListItemText primary={t('settings.server.title.server')} />
+                <ListItemText primary={t`Server`} />
             </ListItemLink>
         </List>
     );

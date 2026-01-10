@@ -6,30 +6,27 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { t as translate } from 'i18next';
-
-import { TranslationKey } from '@/base/Base.types.ts';
+import { MessageDescriptor } from '@lingui/core';
+import { i18n } from '@/i18n';
 
 export const createGetMenuItemTitle =
     <Action extends string>(
         isSingleMode: boolean,
-        actionToTranslationKey: Record<
+        actionToTranslation: Record<
             Action,
             {
                 action: {
-                    single: TranslationKey;
-                    selected: TranslationKey;
+                    single: MessageDescriptor;
+                    selected: MessageDescriptor;
                 };
-                success: TranslationKey;
-                error: TranslationKey;
+                success: MessageDescriptor;
+                error: MessageDescriptor;
             }
         >,
     ) =>
     (action: Action, count: number): string => {
         const countSuffix = count > 0 ? ` (${count})` : '';
-        return `${translate(
-            actionToTranslationKey[action].action[isSingleMode ? 'single' : 'selected'],
-        )}${countSuffix}`;
+        return `${i18n._(actionToTranslation[action].action[isSingleMode ? 'single' : 'selected'])}${countSuffix}`;
     };
 
 export const createShouldShowMenuItem =

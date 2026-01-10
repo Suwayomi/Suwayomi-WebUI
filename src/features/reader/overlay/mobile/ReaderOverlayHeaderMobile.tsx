@@ -11,13 +11,13 @@ import Stack from '@mui/material/Stack';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import MenuItem from '@mui/material/MenuItem';
-import { useTranslation } from 'react-i18next';
 import Menu from '@mui/material/Menu';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { alpha } from '@mui/material/styles';
 import Slide from '@mui/material/Slide';
 import { memo, Ref } from 'react';
+import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -39,7 +39,7 @@ import {
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
 const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & { ref?: Ref<HTMLDivElement> }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
     const currentChapter = useReaderChaptersStore((state) => state.chapters.currentChapter);
 
@@ -102,7 +102,7 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                         rel="noreferrer"
                         target="_blank"
                     >
-                        {t('global.button.open_browser')}
+                        {t`Open in browser`}
                     </MenuItem>
                     <MenuItem
                         component={Link}
@@ -111,16 +111,16 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                         rel="noreferrer"
                         target="_blank"
                     >
-                        {t('global.button.open_webview')}
+                        {t`Open in WebView`}
                     </MenuItem>
                     <MenuItem
                         disabled={!realUrl}
                         onClick={async () => {
                             await navigator.clipboard.writeText(title);
-                            makeToast(t('global.label.copied_clipboard'), 'info');
+                            makeToast(t`Copied to clipboard`, 'info');
                         }}
                     >
-                        {t('global.label.share')}
+                        {t`Share`}
                     </MenuItem>
                 </Menu>
             </Stack>

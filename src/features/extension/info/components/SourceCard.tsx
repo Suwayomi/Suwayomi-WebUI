@@ -7,13 +7,13 @@
  */
 
 import Typography from '@mui/material/Typography';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
 import Switch from '@mui/material/Switch';
 import CardActionArea from '@mui/material/CardActionArea';
+import { useLingui } from '@lingui/react/macro';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
@@ -29,11 +29,11 @@ import { SourceConfigurableInfo, SourceIdInfo, SourceLanguageInfo } from '@/feat
 export const SourceCard = (source: SourceIdInfo & SourceLanguageInfo & SourceConfigurableInfo) => {
     const { id, isConfigurable } = source;
 
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const { isEnabled } = useGetSourceMetadata(source);
 
     const updateSetting = createUpdateSourceMetadata(source, (e) =>
-        makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)),
+        makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
 
     return (
@@ -45,7 +45,7 @@ export const SourceCard = (source: SourceIdInfo & SourceLanguageInfo & SourceCon
                             {translateExtensionLanguage(Sources.getLanguage(source))}
                         </Typography>
                         {isConfigurable && (
-                            <CustomTooltip title={t('settings.title')}>
+                            <CustomTooltip title={t`Settings`}>
                                 <IconButton
                                     component={Link}
                                     to={AppRoutes.sources.childRoutes.configure.path(id)}

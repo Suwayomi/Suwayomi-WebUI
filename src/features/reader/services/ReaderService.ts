@@ -9,7 +9,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Direction, useTheme } from '@mui/material/styles';
-import { t as translate } from 'i18next';
+import { t } from '@lingui/core/macro';
 import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import {
@@ -299,11 +299,7 @@ export class ReaderService {
 
         if (commit) {
             updateReaderSettings(manga, setting, value, isGlobal, profile).catch((e) =>
-                makeToast(
-                    translate('reader.settings.error.label.failed_to_save_settings'),
-                    'error',
-                    getErrorMessage(e),
-                ),
+                makeToast(t`Could not save the reader settings to the server`, 'error', getErrorMessage(e)),
             );
         }
     }
@@ -335,7 +331,7 @@ export class ReaderService {
             ? () => requestManager.deleteGlobalMeta(key).response
             : () => requestManager.deleteMangaMeta(manga.id, key).response;
         deleteSetting().catch((e) =>
-            makeToast(translate('reader.settings.error.label.failed_to_save_settings'), 'error', getErrorMessage(e)),
+            makeToast(t`Could not save the reader settings to the server`, 'error', getErrorMessage(e)),
         );
     }
 

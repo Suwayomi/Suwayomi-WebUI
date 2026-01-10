@@ -6,8 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { t as translate } from 'i18next';
-import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
@@ -16,6 +14,8 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { useLingui } from '@lingui/react/macro';
+import { t as translate } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { CheckboxContainer } from '@/base/components/inputs/CheckboxContainer.ts';
@@ -28,20 +28,20 @@ const getSkipMangasText = (settings: GlobalUpdateSkipEntriesSettings) => {
     const skipSettings: string[] = [];
 
     if (settings.excludeUnreadChapters) {
-        skipSettings.push(translate(GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION.excludeUnreadChapters) as string);
+        skipSettings.push(translate(GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION.excludeUnreadChapters));
     }
 
     if (settings.excludeNotStarted) {
-        skipSettings.push(translate(GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION.excludeNotStarted) as string);
+        skipSettings.push(translate(GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION.excludeNotStarted));
     }
 
     if (settings.excludeCompleted) {
-        skipSettings.push(translate(GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION.excludeCompleted) as string);
+        skipSettings.push(translate(GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION.excludeCompleted));
     }
 
     const isNothingExcluded = !skipSettings.length;
     if (isNothingExcluded) {
-        skipSettings.push(translate('global.label.none'));
+        skipSettings.push(translate`None`);
     }
 
     return skipSettings.join(', ');
@@ -54,7 +54,7 @@ const extractSkipEntriesSettings = (serverSettings: ServerSettings): GlobalUpdat
 });
 
 export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings: ServerSettings }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const globalUpdateSettings = extractSkipEntriesSettings(serverSettings);
     const [mutateSettings] = requestManager.useUpdateServerSettings();
@@ -81,7 +81,7 @@ export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings
         try {
             await mutateSettings({ variables: { input: { settings: dialogSettings } } });
         } catch (e) {
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e));
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
         }
     };
 
@@ -106,14 +106,13 @@ export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings
         <>
             <ListItemButton onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
-                    primary={t('library.settings.global_update.entries.title')}
+                    primary={t`Skip updating entries`}
                     secondary={skipEntriesText}
                     onClick={() => setIsDialogOpen(true)}
                 />
             </ListItemButton>
-
             <Dialog open={isDialogOpen} onClose={closeDialog}>
-                <DialogTitle>{t('library.settings.global_update.entries.title')}</DialogTitle>
+                <DialogTitle>{t`Skip updating entries`}</DialogTitle>
                 <DialogContent>
                     <CheckboxContainer>
                         {Object.entries(dialogSettings).map(([setting, value]) => (
@@ -137,10 +136,10 @@ export const GlobalUpdateSettingsEntries = ({ serverSettings }: { serverSettings
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeDialog} color="primary">
-                        {t('global.button.cancel')}
+                        {t`Cancel`}
                     </Button>
                     <Button onClick={updateSettings} color="primary">
-                        {t('global.button.ok')}
+                        {t`Ok`}
                     </Button>
                 </DialogActions>
             </Dialog>

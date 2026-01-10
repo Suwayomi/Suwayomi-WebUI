@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Trans, useTranslation } from 'react-i18next';
 import { useMemo } from 'react';
 import Link from '@mui/material/Link';
 import List from '@mui/material/List';
@@ -14,8 +13,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import ListSubheader from '@mui/material/ListSubheader';
-import { t as translate } from 'i18next';
 import { d } from 'koration';
+import { Trans, useLingui } from '@lingui/react/macro';
+import { plural, t as translate } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
@@ -44,16 +44,19 @@ import { KoreaderSyncSettings } from '@/features/settings/components/koreaderSyn
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {
-        return translate('global.label.never');
+        return translate`Never`;
     }
 
-    return translate('settings.server.misc.log_files.file_cleanup.value', { days: ttl, count: ttl });
+    return plural(ttl, {
+        one: 'Delete log files that are older than # day',
+        other: 'Delete log files that are older than # days',
+    });
 };
 
 export const ServerSettings = () => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
-    useAppTitle(t('settings.server.title.server'));
+    useAppTitle(t`Server`);
 
     const {
         settings: { serverInformAvailableUpdate },
@@ -62,7 +65,7 @@ export const ServerSettings = () => {
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
         keyof Pick<MetadataUpdateSettings, 'serverInformAvailableUpdate'>
-    >((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
+    >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
     const {
         data,
@@ -85,7 +88,7 @@ export const ServerSettings = () => {
             await mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
             onCompletion?.(true);
         } catch (e) {
-            makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e));
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
             onCompletion?.(false);
         }
     };
@@ -95,15 +98,15 @@ export const ServerSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-client">
-                        {t('global.label.client')}
+                        {t`Client`}
                     </ListSubheader>
                 }
             >
                 <ServerAddressSetting />
                 <ListItem>
                     <ListItemText
-                        primary={t('global.update.settings.inform.label.title')}
-                        secondary={t('global.update.settings.inform.label.description')}
+                        primary={t`Inform about available update`}
+                        secondary={t`Shows a dialog in case a new version is available`}
                     />
                     <Switch
                         edge="end"
@@ -132,7 +135,7 @@ export const ServerSettings = () => {
             <>
                 {localSettings}
                 <EmptyViewAbsoluteCentered
-                    message={t('global.error.label.failed_to_load_data')}
+                    message={t`Unable to load data`}
                     messageExtra={getErrorMessage(error)}
                     retry={() => {
                         if (metadataServerSettingsError) {
@@ -169,34 +172,34 @@ export const ServerSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-server-address">
-                        {t('settings.server.address.server.title')}
+                        {t`Server bindings`}
                     </ListSubheader>
                 }
             >
                 <TextSetting
-                    settingName={t('settings.server.address.server.label.ip')}
+                    settingName={t`IP`}
                     handleChange={(ip) => updateSetting('ip', ip)}
                     value={serverSettings.ip}
                     placeholder="0.0.0.0"
                 />
                 <NumberSetting
-                    settingTitle={t('settings.server.address.server.label.port')}
+                    settingTitle={t`Port`}
                     settingValue={serverSettings.port.toString()}
                     handleUpdate={(port) => updateSetting('port', port)}
                     value={serverSettings.port}
                     defaultValue={4567}
-                    valueUnit={t('settings.server.address.server.label.port')}
+                    valueUnit={t`Port`}
                 />
             </List>
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-socks-proxy">
-                        {t('settings.server.socks_proxy.title')}
+                        {t`SOCKS proxy`}
                     </ListSubheader>
                 }
             >
                 <ListItem>
-                    <ListItemText primary={t('settings.server.socks_proxy.label.enable')} />
+                    <ListItemText primary={t`Use SOCKS proxy`} />
                     <Switch
                         edge="end"
                         checked={serverSettings.socksProxyEnabled}
@@ -204,7 +207,7 @@ export const ServerSettings = () => {
                     />
                 </ListItem>
                 <SelectSetting<number>
-                    settingName={t('settings.server.socks_proxy.label.version')}
+                    settingName={t`SOCKS version`}
                     value={serverSettings.socksProxyVersion}
                     values={[
                         [4, { text: '4' }],
@@ -213,22 +216,22 @@ export const ServerSettings = () => {
                     handleChange={(socksProxyVersion) => updateSetting('socksProxyVersion', socksProxyVersion)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.socks_proxy.label.host')}
+                    settingName={t`SOCKS host`}
                     value={serverSettings.socksProxyHost}
                     handleChange={(proxyHost) => updateSetting('socksProxyHost', proxyHost)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.socks_proxy.label.port')}
+                    settingName={t`SOCKS port`}
                     value={serverSettings.socksProxyPort}
                     handleChange={(proxyPort) => updateSetting('socksProxyPort', proxyPort)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.socks_proxy.label.username')}
+                    settingName={t`SOCKS username`}
                     value={serverSettings.socksProxyUsername}
                     handleChange={(proxyUsername) => updateSetting('socksProxyUsername', proxyUsername)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.socks_proxy.label.password')}
+                    settingName={t`SOCKS password`}
                     value={serverSettings.socksProxyPassword}
                     handleChange={(proxyPassword) => updateSetting('socksProxyPassword', proxyPassword)}
                     isPassword
@@ -237,12 +240,12 @@ export const ServerSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-auth">
-                        {t('settings.server.auth.title')}
+                        {t`Authentication`}
                     </ListSubheader>
                 }
             >
                 <SelectSetting<AuthMode>
-                    settingName={t('settings.server.auth.label.title')}
+                    settingName={t`Authentication Mode`}
                     value={serverSettings.authMode}
                     values={AUTH_MODES_SELECT_VALUES}
                     handleChange={(mode) => {
@@ -261,13 +264,13 @@ export const ServerSettings = () => {
                     disabled={authModeDisabled}
                 />
                 <TextSetting
-                    settingName={t('settings.server.auth.label.username')}
+                    settingName={t`Username`}
                     value={serverSettings.authUsername}
                     validate={(value) => serverSettings.authMode === AuthMode.None || !!value.trim()}
                     handleChange={(authUsername) => updateSetting('authUsername', authUsername)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.auth.label.password')}
+                    settingName={t`Password`}
                     value={serverSettings.authPassword}
                     isPassword
                     validate={(value) => serverSettings.authMode === AuthMode.None || !!value.trim()}
@@ -276,15 +279,15 @@ export const ServerSettings = () => {
                 {serverSettings.authMode === AuthMode.UiLogin && (
                     <>
                         <TextSetting
-                            settingName={t('settings.server.auth.jwt.audience')}
+                            settingName={t`JWT audience claim`}
                             value={serverSettings.jwtAudience}
                             handleChange={(audience) => updateSetting('jwtAudience', audience)}
                         />
                         <NumberSetting
-                            settingTitle={t('settings.server.auth.jwt.access_token_expiry')}
+                            settingTitle={t`JWT access token expiry`}
                             settingValue={d(serverSettings.jwtTokenExpiry).minutes.humanize()}
                             value={d(serverSettings.jwtTokenExpiry).minutes.inWholeMinutes}
-                            valueUnit={t('global.time.minutes.minute_other')}
+                            valueUnit={t`Minute`}
                             defaultValue={JWT_ACCESS_TOKEN_EXPIRY.default}
                             minValue={JWT_ACCESS_TOKEN_EXPIRY.min}
                             maxValue={JWT_ACCESS_TOKEN_EXPIRY.max}
@@ -292,10 +295,10 @@ export const ServerSettings = () => {
                             showSlider
                         />
                         <NumberSetting
-                            settingTitle={t('settings.server.auth.jwt.refresh_token_expiry')}
+                            settingTitle={t`JWT refresh token expiry`}
                             settingValue={d(serverSettings.jwtRefreshExpiry).days.humanize()}
                             value={d(serverSettings.jwtRefreshExpiry).days.inWholeDays}
-                            valueUnit={t('global.time.days.day_other')}
+                            valueUnit={t`Day`}
                             defaultValue={JWT_REFRESH_TOKEN_EXPIRY.default}
                             minValue={JWT_REFRESH_TOKEN_EXPIRY.min}
                             maxValue={JWT_REFRESH_TOKEN_EXPIRY.max}
@@ -308,15 +311,15 @@ export const ServerSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-clouadflare-bypass">
-                        {t('settings.server.cloudflare.title')}
+                        {t`Cloudflare bypass`}
                     </ListSubheader>
                 }
             >
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.server.cloudflare.flaresolverr.enabled.label.title')}
+                        primary={t`FlareSolverr enabled`}
                         secondary={
-                            <Trans i18nKey="settings.server.cloudflare.flaresolverr.enabled.label.description">
+                            <Trans>
                                 See{' '}
                                 <Link
                                     href="https://github.com/FlareSolverr/FlareSolverr?tab=readme-ov-file#installation"
@@ -336,46 +339,52 @@ export const ServerSettings = () => {
                     />
                 </ListItem>
                 <TextSetting
-                    settingName={t('settings.server.cloudflare.flaresolverr.url.label.title')}
-                    dialogDescription={t('settings.server.cloudflare.flaresolverr.url.label.description')}
+                    settingName={t`FlareSolverr server url`}
+                    dialogDescription={t`The address of the FlareSolverr server`}
                     value={serverSettings.flareSolverrUrl}
                     handleChange={(url) => updateSetting('flareSolverrUrl', url)}
                 />
                 <NumberSetting
-                    settingTitle={t('settings.server.cloudflare.flaresolverr.timeout.label.title')}
-                    settingValue={t('global.time.seconds.value', { count: serverSettings.flareSolverrTimeout })}
-                    dialogDescription={t('settings.server.cloudflare.flaresolverr.timeout.label.description')}
+                    settingTitle={t`FlareSolverr request timeout`}
+                    settingValue={plural(serverSettings.flareSolverrTimeout, {
+                        one: '# second',
+                        other: '# seconds',
+                    })}
+                    dialogDescription={t`How much time FlareSolverr has to handle the request`}
                     value={serverSettings.flareSolverrTimeout}
                     defaultValue={60}
                     minValue={20}
                     maxValue={60 * 5}
                     stepSize={1}
                     showSlider
-                    valueUnit={t('global.time.seconds.second_other')}
+                    valueUnit={t`Second`}
                     handleUpdate={(timeout) => updateSetting('flareSolverrTimeout', timeout)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.cloudflare.flaresolverr.session.name.label.title')}
+                    settingName={t`FlareSolverr session name`}
                     value={serverSettings.flareSolverrSessionName}
                     handleChange={(sessionName) => updateSetting('flareSolverrSessionName', sessionName)}
                 />
                 <NumberSetting
-                    settingTitle={t('settings.server.cloudflare.flaresolverr.session.ttl.label.title')}
-                    settingValue={t('global.time.minutes.value', { count: serverSettings.flareSolverrSessionTtl })}
-                    dialogDescription={t('settings.server.cloudflare.flaresolverr.session.ttl.label.description')}
+                    settingTitle={t`FlareSolverr session TTL`}
+                    settingValue={plural(serverSettings.flareSolverrSessionTtl, {
+                        one: '# minute',
+                        other: '# minutes',
+                    })}
+                    dialogDescription={t`FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes`}
                     value={serverSettings.flareSolverrSessionTtl}
                     defaultValue={15}
                     minValue={1}
                     maxValue={60}
                     stepSize={1}
                     showSlider
-                    valueUnit={t('global.time.minutes.minute_other')}
+                    valueUnit={t`Minute`}
                     handleUpdate={(sessionTTL) => updateSetting('flareSolverrSessionTtl', sessionTTL)}
                 />
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.server.cloudflare.flaresolverr.response_fallback.label.title')}
-                        secondary={t('settings.server.cloudflare.flaresolverr.response_fallback.label.description')}
+                        primary={t`Response fallback`}
+                        secondary={t`Use the FlareSolverr response in case the server runs into a Cloudflare challenge while FlareSolverr does not and is therefore unable to solve the challenge (does not work for images)`}
                     />
                     <Switch
                         edge="end"
@@ -387,14 +396,14 @@ export const ServerSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-opds">
-                        {t('settings.server.opds.title')}
+                        {t`OPDS`}
                     </ListSubheader>
                 }
             >
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.server.opds.binary_file_sizes.label.title')}
-                        secondary={t('settings.server.opds.binary_file_sizes.label.description')}
+                        primary={t`Binary file size`}
+                        secondary={t`Display file sizes in binary (KiB, MiB, GiB) instead of decimal (KB, MB, GB)`}
                     />
                     <Switch
                         edge="end"
@@ -403,22 +412,22 @@ export const ServerSettings = () => {
                     />
                 </ListItem>
                 <NumberSetting
-                    settingTitle={t('settings.server.opds.items_per_page.label.title')}
+                    settingTitle={t`Items per page`}
                     settingValue={serverSettings.opdsItemsPerPage.toString()}
-                    dialogDescription={t('settings.server.opds.items_per_page.label.description')}
+                    dialogDescription={t`Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\nHigher values may affect client performance.`}
                     value={serverSettings.opdsItemsPerPage}
                     defaultValue={50}
                     minValue={10}
                     maxValue={5000}
                     stepSize={10}
                     showSlider
-                    valueUnit={t('settings.server.opds.items_per_page.label.unit_other')}
+                    valueUnit={t`item`}
                     handleUpdate={(value) => updateSetting('opdsItemsPerPage', value)}
                 />
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.server.opds.enable_page_read_progress.label.title')}
-                        secondary={t('settings.server.opds.enable_page_read_progress.label.description')}
+                        primary={t`Enable page read progress`}
+                        secondary={t`Track and update your reading progress by page for each chapter during page streaming`}
                     />
                     <Switch
                         edge="end"
@@ -428,8 +437,8 @@ export const ServerSettings = () => {
                 </ListItem>
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.server.opds.mark_as_read_on_download.label.title')}
-                        secondary={t('settings.server.opds.mark_as_read_on_download.label.description')}
+                        primary={t`Mark chapters as read on download`}
+                        secondary={t`Automatically mark chapters as read when you download them.`}
                     />
                     <Switch
                         edge="end"
@@ -439,8 +448,8 @@ export const ServerSettings = () => {
                 </ListItem>
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.server.opds.show_only_unread_chapters.label.title')}
-                        secondary={t('settings.server.opds.show_only_unread_chapters.label.description')}
+                        primary={t`Show only unread chapters`}
+                        secondary={t`Filter manga feed to display only chapters you haven’t read yet.`}
                     />
                     <Switch
                         edge="end"
@@ -450,8 +459,8 @@ export const ServerSettings = () => {
                 </ListItem>
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.server.opds.show_only_downloaded_chapters.label.title')}
-                        secondary={t('settings.server.opds.show_only_downloaded_chapters.label.description')}
+                        primary={t`Show only downloaded chapters`}
+                        secondary={t`Filter manga feed to display only chapters you have downloaded.`}
                     />
                     <Switch
                         edge="end"
@@ -460,23 +469,48 @@ export const ServerSettings = () => {
                     />
                 </ListItem>
                 <SelectSetting<SortOrder>
-                    settingName={t('settings.server.opds.chapter_sort_order.label.title')}
-                    dialogDescription={t('settings.server.opds.chapter_sort_order.label.description')}
+                    settingName={t`Chapter sort order`}
+                    dialogDescription={t`Choose the order in which chapters are displayed.`}
                     value={serverSettings.opdsChapterSortOrder}
                     values={[
-                        [SortOrder.Asc, { text: t('global.sort.label.asc') }],
-                        [SortOrder.Desc, { text: t('global.sort.label.desc') }],
+                        [
+                            SortOrder.Asc,
+                            {
+                                text: t`Ascending`,
+                            },
+                        ],
+                        [
+                            SortOrder.Desc,
+                            {
+                                text: t`Descending`,
+                            },
+                        ],
                     ]}
                     handleChange={(value) => updateSetting('opdsChapterSortOrder', value)}
                 />
                 <SelectSetting<CbzMediaType>
-                    settingName={t('settings.server.opds.cbz_mime_type.title')}
-                    dialogDescription={t('settings.server.opds.cbz_mime_type.description')}
+                    settingName={t`CBZ MIME-Type`}
+                    dialogDescription={t`Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\nModern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients.`}
                     value={serverSettings.opdsCbzMimetype}
                     values={[
-                        [CbzMediaType.Legacy, { text: t('settings.server.opds.cbz_mime_type.legacy') }],
-                        [CbzMediaType.Modern, { text: t('settings.server.opds.cbz_mime_type.modern') }],
-                        [CbzMediaType.Compatible, { text: t('settings.server.opds.cbz_mime_type.compatible') }],
+                        [
+                            CbzMediaType.Legacy,
+                            {
+                                text: t`Legacy`,
+                            },
+                        ],
+                        [
+                            CbzMediaType.Modern,
+                            {
+                                text: t`Modern`,
+                            },
+                        ],
+                        [
+                            CbzMediaType.Compatible,
+                            {
+                                text: t`Compatible`,
+                            },
+                        ],
                     ]}
                     handleChange={(value) => updateSetting('opdsCbzMimetype', value)}
                 />
@@ -491,34 +525,44 @@ export const ServerSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-database">
-                        {t('settings.server.database.title')}
+                        {t`Database`}
                     </ListSubheader>
                 }
             >
                 <SelectSetting<DatabaseType>
-                    settingName={t('settings.server.database.type.title')}
+                    settingName={t`Type`}
                     value={serverSettings.databaseType}
                     values={[
-                        [DatabaseType.H2, { text: t('settings.server.database.type.h2') }],
-                        [DatabaseType.Postgresql, { text: t('settings.server.database.type.postgresql') }],
+                        [
+                            DatabaseType.H2,
+                            {
+                                text: t`H2`,
+                            },
+                        ],
+                        [
+                            DatabaseType.Postgresql,
+                            {
+                                text: t`PostgreSQL`,
+                            },
+                        ],
                     ]}
                     handleChange={(value) => updateSetting('databaseType', value)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.database.address')}
+                    settingName={t`Database url`}
                     handleChange={(url) => updateSetting('databaseUrl', url)}
                     value={serverSettings.databaseUrl}
                     placeholder="postgresql://localhost:5432/suwayomi"
                     disabled={isH2Database}
                 />
                 <TextSetting
-                    settingName={t('settings.server.database.username')}
+                    settingName={t`Username`}
                     value={serverSettings.databaseUsername}
                     handleChange={(username) => updateSetting('databaseUsername', username)}
                     disabled={isH2Database}
                 />
                 <TextSetting
-                    settingName={t('settings.server.database.password')}
+                    settingName={t`Password`}
                     value={serverSettings.databasePassword}
                     handleChange={(password) => updateSetting('databasePassword', password)}
                     disabled={isH2Database}
@@ -526,8 +570,8 @@ export const ServerSettings = () => {
                 />
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.server.database.hikari_connection_pool.title')}
-                        secondary={t('settings.server.database.hikari_connection_pool.description')}
+                        primary={t`Hikari connection pool`}
+                        secondary={t`Improves performance, but may cause issues for some installations where data cannot be read from the database`}
                     />
                     <Switch
                         edge="end"
@@ -539,12 +583,12 @@ export const ServerSettings = () => {
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-misc">
-                        {t('settings.server.misc.title')}
+                        {t`Misc`}
                     </ListSubheader>
                 }
             >
                 <ListItem>
-                    <ListItemText primary={t('settings.server.misc.log_level.label.server')} />
+                    <ListItemText primary={t`Enable debug logs`} />
                     <Switch
                         edge="end"
                         checked={serverSettings.debugLogsEnabled}
@@ -553,8 +597,8 @@ export const ServerSettings = () => {
                 </ListItem>
                 <ListItem>
                     <ListItemText
-                        primary={t('settings.server.misc.tray_icon.label.title')}
-                        secondary={t('settings.server.misc.tray_icon.label.description')}
+                        primary={t`Show icon in system tray`}
+                        secondary={t`This icon will be shown on the system that is running the server`}
                     />
                     <Switch
                         edge="end"
@@ -563,23 +607,23 @@ export const ServerSettings = () => {
                     />
                 </ListItem>
                 <NumberSetting
-                    settingTitle={t('settings.server.misc.log_files.file_cleanup.title')}
+                    settingTitle={t`Log file cleanup`}
                     settingValue={getLogFilesCleanupDisplayValue(serverSettings.maxLogFiles)}
                     value={serverSettings.maxLogFiles}
-                    valueUnit={t('global.date.label.day_one')}
+                    valueUnit={t`Day`}
                     handleUpdate={(maxFiles) => updateSetting('maxLogFiles', maxFiles)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.misc.log_files.file_size.title')}
+                    settingName={t`Maximum log file size`}
                     value={serverSettings.maxLogFileSize}
-                    dialogDescription={t('settings.server.misc.log_files.file_size.description')}
+                    dialogDescription={t`Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)`}
                     validate={(value) => !!value.match(/^[0-9]+(|kb|KB|mb|MB|gb|GB)$/g)}
                     handleChange={(maxLogFileSize) => updateSetting('maxLogFileSize', maxLogFileSize)}
                 />
                 <TextSetting
-                    settingName={t('settings.server.misc.log_files.total_size.title')}
+                    settingName={t`Maximum size of all log files`}
                     value={serverSettings.maxLogFolderSize}
-                    dialogDescription={t('settings.server.misc.log_files.total_size.description')}
+                    dialogDescription={t`Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)`}
                     validate={(value) => !!value.match(/^[0-9]+(|kb|KB|mb|MB|gb|GB)$/g)}
                     handleChange={(maxLogFolderSize) => updateSetting('maxLogFolderSize', maxLogFolderSize)}
                 />

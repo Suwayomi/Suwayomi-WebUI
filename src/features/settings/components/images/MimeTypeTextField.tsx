@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useTranslation } from 'react-i18next';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
+import { useLingui } from '@lingui/react/macro';
 import { ImageProcessingTargetMode } from '@/features/settings/Settings.types.ts';
 import { IMAGE_PROCESSING_INPUT_WIDTH, MIME_TYPE_PREFIX } from '@/features/settings/Settings.constants.ts';
 import { isUrlTargetMode } from '@/features/settings/ImageProcessing.utils.ts';
@@ -30,7 +30,7 @@ export const MimeTypeTextField = ({
     onUpdate: (value: string) => void;
     mode: ImageProcessingTargetMode;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const isImageMode = mode === ImageProcessingTargetMode.IMAGE;
     const isValidUrl = !value.length || isUrlTargetMode(value);
@@ -44,7 +44,7 @@ export const MimeTypeTextField = ({
             value={value}
             disabled={isDefault}
             error={!isValid}
-            helperText={!isValid && t('global.error.label.invalid_input')}
+            helperText={!isValid && t`Invalid input`}
             slotProps={{
                 input: {
                     startAdornment: (

@@ -7,7 +7,7 @@
  */
 
 import dayjs, { Dayjs } from 'dayjs';
-import { t } from 'i18next';
+import { t } from '@lingui/core/macro';
 
 export const timeFormatter = new Intl.DateTimeFormat(navigator.language, { hour: '2-digit', minute: '2-digit' });
 export const dateFormatter = new Intl.DateTimeFormat(navigator.language, {
@@ -53,18 +53,18 @@ export const getDateString = (date: Dayjs | number, withTime: boolean = false) =
 
     if (actualDate.isToday()) {
         if (withTime) {
-            return t('global.date.label.today_at', { timeString });
+            return t`Today at ${timeString}`;
         }
 
-        return t('global.date.label.today');
+        return t`Today`;
     }
 
     if (actualDate.isYesterday()) {
         if (withTime) {
-            return t('global.date.label.yesterday_at', { timeString });
+            return t`Yesterday at ${timeString}`;
         }
 
-        return t('global.date.label.yesterday');
+        return t`Yesterday`;
     }
 
     return dateFormatter.format(actualDate.toDate());

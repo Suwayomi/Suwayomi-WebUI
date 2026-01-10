@@ -6,9 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { MessageDescriptor } from '@lingui/core';
 import MenuItem from '@mui/material/MenuItem';
-import { useTranslation } from 'react-i18next';
 import gql from 'graphql-tag';
+import { msg } from '@lingui/core/macro';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -28,26 +29,46 @@ import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { CHAPTER_ACTION_TO_TRANSLATION } from '@/features/chapter/Chapter.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { TranslationKey } from '@/base/Base.types.ts';
+import { i18n } from '@/i18n';
 
 const DOWNLOAD_OPTIONS: {
-    title: TranslationKey;
+    title: MessageDescriptor;
     getCount: (downloadAheadLimit: number) => number | undefined;
     onlyUnread?: boolean;
     isDownloadAhead?: boolean;
 }[] = [
-    { title: 'chapter.action.download.add.label.next', getCount: () => 1 },
-    { title: 'chapter.action.download.add.label.next', getCount: () => 5 },
-    { title: 'chapter.action.download.add.label.next', getCount: () => 10 },
-    { title: 'chapter.action.download.add.label.next', getCount: () => 25 },
     {
-        title: 'chapter.action.download.add.label.ahead',
+        title: msg`{count, plural, one {Next chapter} other {Next # chapters}}`,
+        getCount: () => 1,
+    },
+    {
+        title: msg`{count, plural, one {Next chapter} other {Next # chapters}}`,
+        getCount: () => 5,
+    },
+    {
+        title: msg`{count, plural, one {Next chapter} other {Next # chapters}}`,
+        getCount: () => 10,
+    },
+    {
+        title: msg`{count, plural, one {Next chapter} other {Next # chapters}}`,
+        getCount: () => 25,
+    },
+    {
+        title: msg`Download ahead ({count})`,
         getCount: (downloadAheadLimit) => downloadAheadLimit,
         onlyUnread: true,
         isDownloadAhead: true,
     },
-    { title: 'chapter.action.download.add.label.unread', getCount: () => undefined, onlyUnread: true },
-    { title: 'chapter.action.download.add.label.all', getCount: () => undefined, onlyUnread: false },
+    {
+        title: msg`Unread`,
+        getCount: () => undefined,
+        onlyUnread: true,
+    },
+    {
+        title: msg`All`,
+        getCount: () => undefined,
+        onlyUnread: false,
+    },
 ];
 
 const handleDownload = async (
@@ -131,8 +152,6 @@ export const ChaptersDownloadActionMenuItems = ({
     mangaIds: MangaType['id'][];
     closeMenu: () => void;
 }) => {
-    const { t } = useTranslation();
-
     const {
         settings: { downloadAheadLimit },
     } = useMetadataServerSettings();
@@ -140,8 +159,10 @@ export const ChaptersDownloadActionMenuItems = ({
     const handleSelect = (size?: number, onlyUnread: boolean = true, downloadAhead: boolean = false) => {
         handleDownload(mangaIds, onlyUnread, size, downloadAhead).catch((e) =>
             makeToast(
-                t(CHAPTER_ACTION_TO_TRANSLATION.download.error, {
-                    count: size,
+                /* lingui-extract-ignore */
+                i18n.t({
+                    ...CHAPTER_ACTION_TO_TRANSLATION.download.error,
+                    values: { count: size },
                 }),
                 'error',
                 getErrorMessage(e),
@@ -155,10 +176,16 @@ export const ChaptersDownloadActionMenuItems = ({
         <>
             {DOWNLOAD_OPTIONS.map(({ title, getCount, onlyUnread, isDownloadAhead }) => (
                 <MenuItem
-                    key={t(title, { count: getCount(downloadAheadLimit) })}
+                    key={
+                        /* lingui-extract-ignore */
+                        i18n.t({ ...title, values: { count: getCount(downloadAheadLimit) } })
+                    }
                     onClick={() => handleSelect(getCount(downloadAheadLimit), onlyUnread, isDownloadAhead)}
                 >
-                    {t(title, { count: getCount(downloadAheadLimit) })}
+                    {
+                        /* lingui-extract-ignore */
+                        i18n.t({ ...title, values: { count: getCount(downloadAheadLimit) } })
+                    }
                 </MenuItem>
             ))}
         </>

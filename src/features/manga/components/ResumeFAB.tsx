@@ -8,7 +8,7 @@
 
 import { Link } from 'react-router-dom';
 import PlayArrow from '@mui/icons-material/PlayArrow';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import {
@@ -31,7 +31,7 @@ export function ResumeFab({
         ChapterNameInfo &
         ChapterScanlatorInfo;
 }) {
-    const { t } = useTranslation();
+    const { t } = useLingui();
 
     const { sourceOrder, name, chapterNumber, scanlator } = chapter;
     const isFirstChapter = sourceOrder === 1;
@@ -51,7 +51,7 @@ export function ResumeFab({
                 state={Chapters.getReaderOpenChapterLocationState(chapter)}
             >
                 <PlayArrow />
-                {isFirstChapter ? t('global.button.start') : t('global.button.resume')}
+                {isFirstChapter ? t`Start` : t`Resume`}
             </StyledFab>
         </ContinueReadingTooltip>
     );

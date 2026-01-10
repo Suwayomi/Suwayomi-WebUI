@@ -8,11 +8,11 @@
 
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useTranslation } from 'react-i18next';
+import { useLingui } from '@lingui/react/macro';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 export const DefaultSettingFootnote = ({ areDefaultSettings }: { areDefaultSettings?: boolean }) => {
-    const { t } = useTranslation();
+    const { t } = useLingui();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
 
     if (!isTouchDevice || areDefaultSettings) {
@@ -21,7 +21,7 @@ export const DefaultSettingFootnote = ({ areDefaultSettings }: { areDefaultSetti
 
     return (
         <Stack sx={{ alignItems: 'end' }}>
-            <Typography variant="caption">{t('reader.settings.default_setting_footnote')}</Typography>
+            <Typography variant="caption">{t`*: Active setting`}</Typography>
         </Stack>
     );
 };
