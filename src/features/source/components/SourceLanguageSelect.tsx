@@ -23,7 +23,7 @@ import Box from '@mui/material/Box';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
-import { languageSortComparator, toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
+import { languageSortComparator } from '@/base/utils/Languages.ts';
 import {
     SourceDisplayNameInfo,
     SourceIconInfo,
@@ -38,6 +38,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { toUniqueISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
 
 export const SourceLanguageSelect = ({
     selectedLanguages,
@@ -59,14 +60,14 @@ export const SourceLanguageSelect = ({
 
     const [tmpSourceIdToEnabledState, setTmpSourceIdToEnabledState] = useState<Record<SourceIdInfo['id'], boolean>>({});
 
-    const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
+    const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueISOLanguageCodes(selectedLanguages));
     const [open, setOpen] = useState<boolean>(false);
 
     const sourcesByLanguage = useMemo(() => Sources.groupByLanguage(sources), [sources]);
 
     const languagesSortedBySelectState = useMemo(
         () =>
-            toUniqueLanguageCodes([
+            toUniqueISOLanguageCodes([
                 ...tmpSelectedLanguages.toSorted(languageSortComparator),
                 ...languages.toSorted(languageSortComparator),
             ]),
@@ -77,7 +78,7 @@ export const SourceLanguageSelect = ({
         setOpen(false);
 
         setTmpSourceIdToEnabledState({});
-        setTmpSelectedLanguages(toUniqueLanguageCodes(selectedLanguages));
+        setTmpSelectedLanguages(toUniqueISOLanguageCodes(selectedLanguages));
     };
 
     const handleOk = () => {
@@ -89,7 +90,7 @@ export const SourceLanguageSelect = ({
             ),
         ).catch((e) => makeToast(t('global.error.label.failed_to_save_changes'), 'error', getErrorMessage(e)));
         setTmpSourceIdToEnabledState({});
-        setSelectedLanguages(toUniqueLanguageCodes(tmpSelectedLanguages));
+        setSelectedLanguages(toUniqueISOLanguageCodes(tmpSelectedLanguages));
     };
 
     const handleChange = (language: string, selected: boolean) => {

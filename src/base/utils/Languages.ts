@@ -7,9 +7,9 @@
  */
 
 import { t } from 'i18next';
-import { ISOLanguage, IsoLanguages } from '@/base/IsoLanguages.ts';
-
 import { TranslationKey } from '@/base/Base.types.ts';
+
+import { getISOLanguage, getPreferredISOLanguageCodes, LanguageObject } from '@/lib/ISOLanguageUtil.ts';
 
 export enum DefaultLanguage {
     ALL = 'all',
@@ -26,31 +26,6 @@ const DEFAULT_LANGUAGE_TO_TRANSLATION: Record<DefaultLanguage, TranslationKey> =
     [DefaultLanguage.PINNED]: 'global.label.pinned',
     [DefaultLanguage.LAST_USED_SOURCE]: 'global.label.last_used',
 };
-
-type LanguageObject = ISOLanguage & { orgCode: string; isoCode: string };
-
-function getISOLanguageFor(code: string, orgCode: string = code, isoCode: string = code): LanguageObject | null {
-    if (IsoLanguages[code]) {
-        return {
-            ...IsoLanguages[code],
-            orgCode,
-            isoCode,
-        };
-    }
-
-    return null;
-}
-
-function getISOLanguage(code: string): LanguageObject | null {
-    return (
-        getISOLanguageFor(code) ??
-        getISOLanguageFor(code.toLowerCase(), code) ??
-        getISOLanguageFor(code.replace('-', '_'), code) ??
-        getISOLanguageFor(code.replace('_', '-'), code) ??
-        getISOLanguageFor(code.split('-')[0], code) ??
-        getISOLanguageFor(code.split('_')[0], code)
-    );
-}
 
 export function getLanguage(code: string): LanguageObject {
     const isoLanguage = getISOLanguage(code);
@@ -76,31 +51,12 @@ export function languageCodeToName(code: string): string {
     return getLanguage(code).nativeName;
 }
 
-export const toUniqueLanguageCodes = (codes: string[]): string[] => {
-    const languages = codes.map((code) => getLanguage(code));
-    const languagesByIsoCode = Object.groupBy(languages, (language) => language.isoCode);
-
-    return Object.entries(languagesByIsoCode)
-        .filter(([, languagesOfIsoCode]) => !!languagesOfIsoCode?.length)
-        .map(([, languagesOfIsoCode]) => languagesOfIsoCode![0].orgCode);
-};
-
 export const toComparableLanguage = (code: string): string => getLanguage(code).isoCode;
 
 export const toComparableLanguages = (codes: string[]): string[] => codes.map(toComparableLanguage);
 
-function defaultNativeLang(): readonly string[] {
-    const preferredLanguages = toUniqueLanguageCodes([...navigator.languages]);
-
-    if (!preferredLanguages.length) {
-        return ['en'];
-    }
-
-    return preferredLanguages;
-}
-
 export function getDefaultLanguages(): string[] {
-    return [...defaultNativeLang(), DefaultLanguage.ALL];
+    return [...getPreferredISOLanguageCodes(), DefaultLanguage.ALL];
 }
 
 /**

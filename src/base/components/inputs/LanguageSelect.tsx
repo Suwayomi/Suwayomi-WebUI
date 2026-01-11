@@ -21,7 +21,8 @@ import { useTranslation } from 'react-i18next';
 import { Virtuoso } from 'react-virtuoso';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
-import { languageSortComparator, toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
+import { languageSortComparator } from '@/base/utils/Languages.ts';
+import { toUniqueISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
 
 interface IProps {
     selectedLanguages: string[];
@@ -33,12 +34,12 @@ export function LanguageSelect(props: IProps) {
     const { t } = useTranslation();
 
     const { selectedLanguages, setSelectedLanguages, languages } = props;
-    const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
+    const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueISOLanguageCodes(selectedLanguages));
     const [open, setOpen] = useState<boolean>(false);
 
     const languagesSortedBySelectState = useMemo(
         () =>
-            toUniqueLanguageCodes([
+            toUniqueISOLanguageCodes([
                 ...tmpSelectedLanguages.toSorted(languageSortComparator),
                 ...languages.toSorted(languageSortComparator),
             ]),
@@ -47,12 +48,12 @@ export function LanguageSelect(props: IProps) {
 
     const handleCancel = () => {
         setOpen(false);
-        setTmpSelectedLanguages(toUniqueLanguageCodes(selectedLanguages));
+        setTmpSelectedLanguages(toUniqueISOLanguageCodes(selectedLanguages));
     };
 
     const handleOk = () => {
         setOpen(false);
-        setSelectedLanguages(toUniqueLanguageCodes(tmpSelectedLanguages));
+        setSelectedLanguages(toUniqueISOLanguageCodes(tmpSelectedLanguages));
     };
 
     const handleChange = (language: string, selected: boolean) => {

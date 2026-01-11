@@ -21,7 +21,6 @@ import {
     languageSpecialSortComparator,
     toComparableLanguage,
     toComparableLanguages,
-    toUniqueLanguageCodes,
 } from '@/base/utils/Languages.ts';
 import {
     EXTENSION_ACTION_TO_FAILURE_TRANSLATION_KEY_MAP,
@@ -31,6 +30,7 @@ import { enhancedCleanup } from '@/base/utils/Strings.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { toUniqueISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
 
 export const getInstalledState = (
     isInstalled: boolean,
@@ -131,7 +131,7 @@ export const filterExtensions = (
         query?: string | null | undefined;
     } = {},
 ): TExtension[] => {
-    const normalizedSelectedLanguages = toComparableLanguages(toUniqueLanguageCodes(selectedLanguages ?? []));
+    const normalizedSelectedLanguages = toComparableLanguages(toUniqueISOLanguageCodes(selectedLanguages ?? []));
 
     return extensions
         .filter(
