@@ -21,6 +21,7 @@ import {
     languageSpecialSortComparator,
     toComparableLanguage,
     toComparableLanguages,
+    toUniqueLanguageCodes,
 } from '@/base/utils/Languages.ts';
 import { getSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import {
@@ -29,7 +30,6 @@ import {
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { toUniqueISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
 
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';
@@ -98,7 +98,7 @@ export class Sources {
             enabled?: boolean;
         } = {},
     ): Source[] {
-        const normalizedLanguages = toComparableLanguages(toUniqueISOLanguageCodes(languages ?? []));
+        const normalizedLanguages = toComparableLanguages(toUniqueLanguageCodes(languages ?? []));
 
         return sources
             .filter(

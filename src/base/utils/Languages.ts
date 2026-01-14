@@ -53,6 +53,15 @@ export function languageCodeToName(code: string): string {
     return getLanguage(code).nativeName;
 }
 
+export const toUniqueLanguageCodes = (codes: string[]): string[] => {
+    const languages = codes.map((code) => getLanguage(code));
+    const languagesByIsoCode = Object.groupBy(languages, (language) => language.isoCode);
+
+    return Object.entries(languagesByIsoCode)
+        .filter(([, languagesOfIsoCode]) => !!languagesOfIsoCode?.length)
+        .map(([, languagesOfIsoCode]) => languagesOfIsoCode![0].orgCode);
+};
+
 export const toComparableLanguage = (code: string): string => getLanguage(code).isoCode;
 
 export const toComparableLanguages = (codes: string[]): string[] => codes.map(toComparableLanguage);

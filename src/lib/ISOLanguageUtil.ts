@@ -101,7 +101,7 @@ export function getISOLanguage(code: string): LanguageObject | null {
     );
 }
 
-export const toUniqueISOLanguageCodes = (codes: string[]): string[] => {
+const toUniqueISOLanguageCodes = (codes: string[]): string[] => {
     const languages = codes.map((code) => getISOLanguage(code)).filter((code) => code !== null);
     const languagesByIsoCode = Object.groupBy(languages, (language) => language.isoCode);
 
