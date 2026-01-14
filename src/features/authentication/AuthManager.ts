@@ -93,7 +93,7 @@ export class AuthManager {
     }
 
     static getRefreshToken(): string | null {
-        return AppStorage.session.getItemParsed(AuthManager.REFRESH_TOKEN_KEY, null);
+        return AppStorage.local.getItemParsed(AuthManager.REFRESH_TOKEN_KEY, null);
     }
 
     static getTokens(): { accessToken: string | null; refreshToken: string | null } {
@@ -124,7 +124,7 @@ export class AuthManager {
     }
 
     static setRefreshToken(token: string): void {
-        AppStorage.session.setItem(AuthManager.REFRESH_TOKEN_KEY, token);
+        AppStorage.local.setItem(AuthManager.REFRESH_TOKEN_KEY, token);
         AuthManager.notify();
     }
 
@@ -139,7 +139,7 @@ export class AuthManager {
     }
 
     static removeRefreshToken(): void {
-        AppStorage.session.setItem(AuthManager.REFRESH_TOKEN_KEY, undefined);
+        AppStorage.local.setItem(AuthManager.REFRESH_TOKEN_KEY, undefined);
         AuthManager.notify();
     }
 
