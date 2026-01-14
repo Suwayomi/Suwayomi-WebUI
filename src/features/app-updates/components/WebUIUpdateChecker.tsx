@@ -119,6 +119,7 @@ export const WebUIUpdateChecker = () => {
                 __typename: 'AboutWebUI',
                 channel: webUIUpdateStatusData!.getWebUIUpdateStatus.info.channel,
                 tag: webUIUpdateStatusData!.getWebUIUpdateStatus.info.tag,
+                updateTimestamp: Date.now(),
             },
         });
         requestManager.graphQLClient.client.cache.writeFragment({
