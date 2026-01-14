@@ -21,6 +21,7 @@ import { Virtuoso } from 'react-virtuoso';
 import Box from '@mui/material/Box';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { useLingui } from '@lingui/react/macro';
+import Checkbox from '@mui/material/Checkbox';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
 import { languageSortComparator, toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
@@ -154,7 +155,7 @@ export const SourceLanguageSelect = ({
                                                         />
                                                     </ListItemAvatar>
                                                     <ListItemText primary={source.name} />
-                                                    <Switch
+                                                    <Checkbox
                                                         checked={
                                                             tmpSourceIdToEnabledState[source.id] ??
                                                             getSourceMetadata(source).isEnabled
