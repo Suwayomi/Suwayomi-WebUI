@@ -58,7 +58,9 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     );
     const sourcesByLanguage = useMemo(() => {
         const lastUsedSource = SourceService.getLastUsedSource(lastUsedSourceId, filteredSources);
-        const groupedByLanguageTuple = Object.entries(SourceService.groupByLanguage(filteredSources));
+        const groupedByLanguageTuple = Object.entries(
+            SourceService.groupByLanguage(filteredSources, { withPinnedGroup: true }),
+        );
 
         if (lastUsedSource) {
             return [

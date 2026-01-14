@@ -29,10 +29,9 @@ interface IProps {
     languages: string[];
 }
 
-export function LanguageSelect(props: IProps) {
+export function LanguageSelect({ selectedLanguages, setSelectedLanguages, languages }: IProps) {
     const { t } = useLingui();
 
-    const { selectedLanguages, setSelectedLanguages, languages } = props;
     const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
     const [open, setOpen] = useState<boolean>(false);
 

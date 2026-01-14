@@ -52,9 +52,10 @@ export class Sources {
 
     static groupByLanguage<Source extends SourceIdInfo & SourceLanguageInfo & SourceDisplayNameInfo & SourceMetaInfo>(
         sources: Source[],
+        { withPinnedGroup = false }: { withPinnedGroup?: boolean } = {},
     ): Record<string, Source[]> {
         const sourcesByLanguage = Object.groupBy(sources, (source) => {
-            if (getSourceMetadata(source).isPinned) {
+            if (withPinnedGroup && getSourceMetadata(source).isPinned) {
                 return DefaultLanguage.PINNED;
             }
 
@@ -64,11 +65,11 @@ export class Sources {
             const isAPinned = a === DefaultLanguage.PINNED;
             const isBPinned = b === DefaultLanguage.PINNED;
 
-            if (isAPinned) {
+            if (withPinnedGroup && isAPinned) {
                 return -1;
             }
 
-            if (isBPinned) {
+            if (withPinnedGroup && isBPinned) {
                 return 1;
             }
 
