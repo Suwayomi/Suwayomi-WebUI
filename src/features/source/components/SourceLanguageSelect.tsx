@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -17,8 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
-import { Virtuoso } from 'react-virtuoso';
-import Box from '@mui/material/Box';
+import { GroupedVirtuoso } from 'react-virtuoso';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { useLingui } from '@lingui/react/macro';
 import Checkbox from '@mui/material/Checkbox';
@@ -39,6 +38,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 
 export const SourceLanguageSelect = ({
     selectedLanguages,
@@ -72,6 +72,33 @@ export const SourceLanguageSelect = ({
                 ...languages.toSorted(languageSortComparator),
             ]),
         [languages, tmpSelectedLanguages],
+    );
+
+    const flattenedSourcesByLanguages = useMemo(
+        () => Object.values(languagesSortedBySelectState.map((language) => sourcesByLanguage[language])).flat(),
+        [languagesSortedBySelectState, sourcesByLanguage],
+    );
+
+    const groupCounts = useMemo(
+        () =>
+            languagesSortedBySelectState.map((language) => {
+                const isEnabled = tmpSelectedLanguages.includes(language);
+                if (!isEnabled) {
+                    return 0;
+                }
+
+                return sourcesByLanguage[language].length ?? 0;
+            }),
+        [sourcesByLanguage, languagesSortedBySelectState],
+    );
+
+    const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
+        groupCounts,
+        useCallback((index) => languagesSortedBySelectState[index], [languagesSortedBySelectState]),
+        useCallback(
+            (index) => flattenedSourcesByLanguages[index].id,
+            [sourcesByLanguage, languagesSortedBySelectState],
+        ),
     );
 
     const handleCancel = () => {
@@ -111,67 +138,69 @@ export const SourceLanguageSelect = ({
             <Dialog fullWidth maxWidth="xs" open={open} onClose={handleCancel}>
                 <DialogTitle>{t`Allowed Languages`}</DialogTitle>
                 <DialogContent dividers sx={{ padding: 0 }}>
-                    <Virtuoso
+                    <GroupedVirtuoso
                         style={{
                             height: languagesSortedBySelectState.length * 54,
                             minHeight: '25vh',
                             maxHeight: '50vh',
                         }}
-                        data={languagesSortedBySelectState}
+                        groupCounts={groupCounts}
                         increaseViewportBy={400}
-                        computeItemKey={(index) => languagesSortedBySelectState[index]}
-                        itemContent={(_index, language) => {
-                            const sourcesOfLanguage = sourcesByLanguage[language] ?? [];
+                        computeItemKey={computeItemKey}
+                        groupContent={(index) => {
+                            const language = languagesSortedBySelectState[index];
                             const isEnabled = tmpSelectedLanguages.includes(language);
 
                             return (
-                                <>
-                                    <ListItem>
-                                        <ListItemText primary={translateExtensionLanguage(language)} />
-                                        <Switch
-                                            checked={isEnabled}
-                                            onChange={(e) => handleChange(language, e.target.checked)}
+                                <ListItem
+                                    sx={{
+                                        backgroundColor: 'background.paper',
+                                        backgroundImage: 'var(--Paper-overlay)',
+                                    }}
+                                >
+                                    <ListItemText primary={translateExtensionLanguage(language)} />
+                                    <Switch
+                                        checked={isEnabled}
+                                        onChange={(e) => handleChange(language, e.target.checked)}
+                                    />
+                                </ListItem>
+                            );
+                        }}
+                        itemContent={(index) => {
+                            const source = flattenedSourcesByLanguages[index];
+
+                            return (
+                                <ListItem sx={{ pl: 3 }}>
+                                    <ListItemAvatar sx={{ minWidth: 32, mr: 1 }}>
+                                        <ListCardAvatar
+                                            iconUrl={requestManager.getValidImgUrlFor(source.iconUrl)}
+                                            alt={source.name}
+                                            slots={{
+                                                avatarProps: {
+                                                    sx: {
+                                                        width: 32,
+                                                        height: 32,
+                                                    },
+                                                },
+                                                spinnerImageProps: {
+                                                    ignoreQueue: true,
+                                                },
+                                            }}
                                         />
-                                    </ListItem>
-                                    {isEnabled && !!sourcesOfLanguage.length && (
-                                        <Box sx={{ ml: 1 }}>
-                                            {sourcesOfLanguage.map((source) => (
-                                                <ListItem key={source.id}>
-                                                    <ListItemAvatar sx={{ minWidth: 32, mr: 1 }}>
-                                                        <ListCardAvatar
-                                                            iconUrl={requestManager.getValidImgUrlFor(source.iconUrl)}
-                                                            alt={source.name}
-                                                            slots={{
-                                                                avatarProps: {
-                                                                    sx: {
-                                                                        width: 32,
-                                                                        height: 32,
-                                                                    },
-                                                                },
-                                                                spinnerImageProps: {
-                                                                    ignoreQueue: true,
-                                                                },
-                                                            }}
-                                                        />
-                                                    </ListItemAvatar>
-                                                    <ListItemText primary={source.name} />
-                                                    <Checkbox
-                                                        checked={
-                                                            tmpSourceIdToEnabledState[source.id] ??
-                                                            getSourceMetadata(source).isEnabled
-                                                        }
-                                                        onChange={(e) =>
-                                                            setTmpSourceIdToEnabledState({
-                                                                ...tmpSourceIdToEnabledState,
-                                                                [source.id]: e.target.checked,
-                                                            })
-                                                        }
-                                                    />
-                                                </ListItem>
-                                            ))}
-                                        </Box>
-                                    )}
-                                </>
+                                    </ListItemAvatar>
+                                    <ListItemText primary={source.name} />
+                                    <Checkbox
+                                        checked={
+                                            tmpSourceIdToEnabledState[source.id] ?? getSourceMetadata(source).isEnabled
+                                        }
+                                        onChange={(e) =>
+                                            setTmpSourceIdToEnabledState({
+                                                ...tmpSourceIdToEnabledState,
+                                                [source.id]: e.target.checked,
+                                            })
+                                        }
+                                    />
+                                </ListItem>
                             );
                         }}
                     />
