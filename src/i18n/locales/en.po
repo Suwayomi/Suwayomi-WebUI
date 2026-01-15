@@ -235,11 +235,6 @@ msgstr "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
 msgstr "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
 
-#. placeholder {0}: aboutWebUI?.channel
-#: src/features/app-updates/components/WebUIUpdateChecker.tsx
-msgid "{name} was updated to version {newVersion} ({0})"
-msgstr "{name} was updated to version {newVersion} ({0})"
-
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "{progress}% | Updating…"
 msgstr "{progress}% | Updating…"
@@ -3621,6 +3616,11 @@ msgstr "WebUI version"
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "WebUI version {0} ({1}) available for download"
 msgstr "WebUI version {0} ({1}) available for download"
+
+#. placeholder {0}: aboutWebUI?.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI was updated to version {newVersion} ({0})"
+msgstr "WebUI was updated to version {newVersion} ({0})"
 
 #: src/features/settings/Settings.constants.ts
 msgid "When you enable this, you may need to refresh this tab for the login page to appear."

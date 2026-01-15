@@ -166,7 +166,7 @@ export const WebUIUpdateChecker = () => {
         <Dialog open={open} onClose={shouldForceRefresh ? () => setOpen(false) : noOp}>
             <DialogTitle>{t`Updated version`}</DialogTitle>
             <DialogContent>
-                <DialogContentText>{t`{name} was updated to version ${newVersion} (${aboutWebUI?.channel})`}</DialogContentText>
+                <DialogContentText>{t`WebUI was updated to version ${newVersion} (${aboutWebUI?.channel})`}</DialogContentText>
             </DialogContent>
             <DialogActions>
                 <Button href={changelogUrl} target="_blank" rel="noreferrer">
