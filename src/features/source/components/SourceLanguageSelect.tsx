@@ -87,7 +87,7 @@ export const SourceLanguageSelect = ({
                     return 0;
                 }
 
-                return sourcesByLanguage[language].length ?? 0;
+                return sourcesByLanguage[language]?.length ?? 0;
             }),
         [sourcesByLanguage, languagesSortedBySelectState],
     );
