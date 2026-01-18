@@ -7,7 +7,7 @@
  */
 
 import { MessageDescriptor } from '@lingui/core';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
@@ -22,7 +22,7 @@ import { AwaitableComponentProps } from 'awaitable-component';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import { getErrorMessage, jsonSaveParse } from '@/lib/HelperFunctions.ts';
-import { AppTheme, isThemeNameUnique } from '@/features/theme/services/AppThemes.ts';
+import { AppTheme, getTheme, isThemeNameUnique } from '@/features/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -34,36 +34,8 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
-
-const baseCustomTheme: AppTheme = {
-    id: '',
-    isCustom: true,
-    getName: () => '',
-    muiTheme: {
-        colorSchemes: {
-            light: {
-                palette: {
-                    primary: {
-                        main: '#1976d2',
-                    },
-                    secondary: {
-                        main: '#9c27b0',
-                    },
-                },
-            },
-            dark: {
-                palette: {
-                    primary: {
-                        main: '#1976d2',
-                    },
-                    secondary: {
-                        main: '#9c27b0',
-                    },
-                },
-            },
-        },
-    },
-};
+import { createAppColorTheme } from '@/features/theme/services/ThemeCreator.ts';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 type DialogMode = 'create' | 'edit' | 'save_dynamic';
 
@@ -102,7 +74,7 @@ const dialogModeToTranslation: Record<
 
 export const ThemeCreationDialog = ({
     mode,
-    appTheme = baseCustomTheme,
+    appTheme: passedAppTheme,
     isVisible,
     onExitComplete,
     onSubmit,
@@ -117,7 +89,29 @@ export const ThemeCreationDialog = ({
         settings: { customThemes },
         request: { loading, error, refetch },
     } = useMetadataServerSettings();
-    const { setAppTheme } = useAppThemeContext();
+    const {
+        setAppTheme,
+        dynamicColor,
+        appTheme: activeAppTheme,
+        shouldUsePureBlackMode,
+        themeMode,
+    } = useAppThemeContext();
+
+    const defaultAppTheme = useMemo(
+        () => ({
+            id: '',
+            getName: () => '',
+            isCustom: true,
+            muiTheme: createAppColorTheme(
+                getTheme(activeAppTheme, customThemes).muiTheme,
+                dynamicColor,
+                shouldUsePureBlackMode,
+                MediaQuery.getThemeMode(themeMode),
+            ),
+        }),
+        [activeAppTheme, customThemes, dynamicColor, shouldUsePureBlackMode, themeMode],
+    );
+    const appTheme = passedAppTheme ?? defaultAppTheme;
 
     const updateCustomThemes = createUpdateMetadataServerSettings<keyof MetadataThemeSettings>((e) => {
         throw e;
