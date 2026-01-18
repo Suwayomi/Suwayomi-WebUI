@@ -148,8 +148,7 @@ export const ChapterCard = memo((props: IProps) => {
                                     }
                                     slotProps={{
                                         title: {
-                                            variant: 'h6',
-                                            component: 'h3',
+                                            variant: 'subtitle1',
                                             sx: applyStyles(mode === 'reader' && isActiveChapter, {
                                                 color: theme.palette.primary.contrastText,
                                             }),
