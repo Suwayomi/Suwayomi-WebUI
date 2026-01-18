@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 - (**General**) Preserve refresh token (UI Login) over sessions
+- (**General**) Reduce base font size
 - (**Theme**) Improve automatic theme background colors
 - (**Theme**) Adjust "primary color" of dynamic color theme on manga pages
 - (**Theme**) Increase max length of custom theme names to 32 (previously 16)

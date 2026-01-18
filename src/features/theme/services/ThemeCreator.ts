@@ -199,6 +199,10 @@ export const createTheme = (
         deepmerge(appColorTheme, {
             defaultColorScheme: mode,
             direction,
+            typography: {
+                fontSize: 13,
+                ...appTheme.muiTheme.typography,
+            },
             components: {
                 ...appTheme.muiTheme.components,
                 MuiUseMediaQuery: {
