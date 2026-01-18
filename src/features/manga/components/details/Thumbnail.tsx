@@ -89,16 +89,18 @@ export const Thumbnail = ({
                     borderRadius: 1,
                     overflow: 'hidden',
                     backgroundColor: 'background.paper',
-                    width: '150px',
+                    width: '125px',
                     maxHeight: 'fit-content',
                     aspectRatio: MANGA_COVER_ASPECT_RATIO,
                     flexShrink: 0,
                     flexGrow: 0,
                     [theme.breakpoints.up('lg')]: {
                         width: '200px',
+                        maxHeight: 'fit-content',
                     },
                     [theme.breakpoints.up('xl')]: {
                         width: '300px',
+                        maxHeight: 'fit-content',
                     },
                 }}
             >
