@@ -22,6 +22,7 @@ import { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/gra
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import { MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick<MangaType, 'title'> }) => {
     const { t } = useLingui();
@@ -54,7 +55,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
                 <>
                     <CustomButton
                         {...bindTrigger(popupState)}
-                        size="medium"
+                        size={MediaQuery.useIsMobileWidth() ? 'small' : 'medium'}
                         disabled={trackerList.loading || !!trackerList.error}
                         onClick={() => handleClick(popupState.open)}
                         variant={trackersInUse.length ? 'contained' : 'outlined'}

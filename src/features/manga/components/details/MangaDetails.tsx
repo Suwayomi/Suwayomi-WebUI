@@ -54,6 +54,7 @@ import { SearchLink } from '@/features/manga/components/details/SearchLink.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -274,7 +275,7 @@ export const MangaDetails = ({
                 </ThumbnailMetadataWrapper>
                 <MangaButtonsContainer>
                     <CustomButton
-                        size="medium"
+                        size={MediaQuery.useIsMobileWidth() ? 'small' : 'medium'}
                         onClick={updateLibraryState}
                         variant={manga.inLibrary ? 'contained' : 'outlined'}
                     >
