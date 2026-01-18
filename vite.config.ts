@@ -16,6 +16,7 @@ import legacy from '@vitejs/plugin-legacy';
 import { VitePWA } from 'vite-plugin-pwa';
 import { lingui } from '@lingui/vite-plugin';
 import 'dotenv/config';
+import { d } from 'koration';
 
 // eslint-disable-next-line import/no-default-export
 export default defineConfig(({ command }) => ({
@@ -70,6 +71,8 @@ export default defineConfig(({ command }) => ({
                             // !!! IMPORTANT !!! - Update along with ImageCache.ts
                             cacheName: 'image-cache-chapter-pages',
                             expiration: {
+                                // Max age from server
+                                maxAgeSeconds: d(1).days.inWholeSeconds,
                                 maxEntries: 2500,
                                 purgeOnQuotaError: true,
                             },
@@ -88,6 +91,8 @@ export default defineConfig(({ command }) => ({
                             // !!! IMPORTANT !!! - Update along with ImageCache.ts
                             cacheName: 'image-cache-manga-thumbnails',
                             expiration: {
+                                // Max age from server
+                                maxAgeSeconds: d(1).days.inWholeSeconds,
                                 maxEntries: 5000,
                                 purgeOnQuotaError: true,
                             },
@@ -106,6 +111,8 @@ export default defineConfig(({ command }) => ({
                             // !!! IMPORTANT !!! - Update along with ImageCache.ts
                             cacheName: 'image-cache-extension-icons',
                             expiration: {
+                                // Max age from server
+                                maxAgeSeconds: d(365).days.inWholeSeconds,
                                 maxEntries: 300,
                                 purgeOnQuotaError: true,
                             },
@@ -121,6 +128,7 @@ export default defineConfig(({ command }) => ({
                             // !!! IMPORTANT !!! - Update along with ImageCache.ts
                             cacheName: 'image-cache-other',
                             expiration: {
+                                maxAgeSeconds: d(4).days.inWholeSeconds,
                                 maxEntries: 500,
                                 purgeOnQuotaError: true,
                             },
