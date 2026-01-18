@@ -18,7 +18,9 @@ export enum ImageCacheKey {
 
 const IMAGE_CACHE_KEYS = Object.values(ImageCacheKey);
 
-caches.delete('image-cache').catch(defaultPromiseErrorHandler('ImageCache: delete removed "image-cache"'));
+if (window.caches) {
+    caches.delete('image-cache').catch(defaultPromiseErrorHandler('ImageCache: delete removed "image-cache"'));
+}
 
 export class ImageCache {
     // !!! IMPORTANT !!! - Update along with vite.config.ts workbox config
