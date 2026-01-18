@@ -61,23 +61,67 @@ export default defineConfig(({ command }) => ({
                 globPatterns: [],
                 runtimeCaching: [
                     {
-                        urlPattern: ({ request, url }) => {
-                            if (request.destination === 'image') {
-                                return true;
-                            }
-
+                        urlPattern: ({ url }) => {
                             const { pathname } = url;
-                            return (
-                                pathname.match(/\/chapter\/[0-9]+\/page\/[0-9]+/g) ||
-                                pathname.match(/\/manga\/[0-9]+\/thumbnail/g) ||
-                                pathname.includes('/extension/icon/')
-                            );
+                            return pathname.match(/\/chapter\/[0-9]+\/page\/[0-9]+/g);
                         },
                         handler: 'CacheFirst',
                         options: {
-                            cacheName: 'image-cache',
+                            // !!! IMPORTANT !!! - Update along with ImageCache.ts
+                            cacheName: 'image-cache-chapter-pages',
                             expiration: {
-                                maxEntries: 10000,
+                                maxEntries: 2500,
+                                purgeOnQuotaError: true,
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
+                        },
+                    },
+                    {
+                        urlPattern: ({ url }) => {
+                            const { pathname } = url;
+                            return pathname.match(/\/manga\/[0-9]+\/thumbnail/g);
+                        },
+                        handler: 'CacheFirst',
+                        options: {
+                            // !!! IMPORTANT !!! - Update along with ImageCache.ts
+                            cacheName: 'image-cache-manga-thumbnails',
+                            expiration: {
+                                maxEntries: 5000,
+                                purgeOnQuotaError: true,
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
+                        },
+                    },
+                    {
+                        urlPattern: ({ url }) => {
+                            const { pathname } = url;
+                            return pathname.includes('/extension/icon/');
+                        },
+                        handler: 'CacheFirst',
+                        options: {
+                            // !!! IMPORTANT !!! - Update along with ImageCache.ts
+                            cacheName: 'image-cache-extension-icons',
+                            expiration: {
+                                maxEntries: 300,
+                                purgeOnQuotaError: true,
+                            },
+                            cacheableResponse: {
+                                statuses: [0, 200],
+                            },
+                        },
+                    },
+                    {
+                        urlPattern: ({ request }) => request.destination === 'image',
+                        handler: 'CacheFirst',
+                        options: {
+                            // !!! IMPORTANT !!! - Update along with ImageCache.ts
+                            cacheName: 'image-cache-other',
+                            expiration: {
+                                maxEntries: 500,
                                 purgeOnQuotaError: true,
                             },
                             cacheableResponse: {
