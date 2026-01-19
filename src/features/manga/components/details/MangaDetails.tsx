@@ -80,6 +80,7 @@ const TopContentWrapper = ({
     <Stack
         sx={{
             position: 'relative',
+            overflow: 'hidden',
         }}
     >
         {mangaThumbnailBackdrop && (
