@@ -80,11 +80,15 @@ const TopContentWrapper = ({
     <Stack
         sx={{
             position: 'relative',
-            overflow: 'hidden',
         }}
     >
         {mangaThumbnailBackdrop && (
-            <>
+            <Stack
+                sx={{
+                    overflowX: 'hidden',
+                    minHeight: 'fit-content',
+                }}
+            >
                 <SpinnerImage
                     spinnerStyle={{ display: 'none' }}
                     imgStyle={{
@@ -114,7 +118,7 @@ const TopContentWrapper = ({
                             }),
                     }}
                 />
-            </>
+            </Stack>
         )}
         {children}
     </Stack>
