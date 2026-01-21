@@ -985,6 +985,10 @@ msgstr "Could not restore backup"
 msgid "Could not retry failed download."
 msgstr "Could not retry failed download."
 
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr "Could not save changes"
+
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/library/screens/LibrarySettings.tsx

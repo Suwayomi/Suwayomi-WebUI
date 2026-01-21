@@ -19,7 +19,7 @@ import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
-import { I18nResourceCode, i18nResources, loadCatalog } from '@/i18n';
+import { i18nResources, loadCatalog } from '@/i18n';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { ThemeList } from '@/features/theme/components/ThemeList.tsx';
 import {
@@ -38,7 +38,7 @@ import { MANGA_GRID_WIDTH, SERVER_SETTINGS_METADATA_DEFAULT } from '@/features/s
 import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
 
 export const Appearance = () => {
-    const { t, i18n } = useLingui();
+    const { t } = useLingui();
     const { themeMode, setThemeMode, shouldUsePureBlackMode, setShouldUsePureBlackMode } = useAppThemeContext();
     const { mode, setMode } = useColorScheme();
     const actualThemeMode = (mode ?? themeMode) as ThemeMode;
@@ -46,7 +46,7 @@ export const Appearance = () => {
     useAppTitle(t`Appearance`);
 
     const {
-        settings: { mangaThumbnailBackdrop, mangaDynamicColorSchemes, mangaGridItemWidth },
+        settings: { mangaThumbnailBackdrop, mangaDynamicColorSchemes, mangaGridItemWidth, locale },
         request: { loading, error, refetch },
     } = useMetadataServerSettings();
     const updateMetadataSetting = createUpdateMetadataServerSettings<keyof MetadataThemeSettings>((e) =>
@@ -135,12 +135,15 @@ export const Appearance = () => {
                         }
                     />
                     <Select
-                        value={i18nResources.includes(i18n.locale as I18nResourceCode) ? i18n.locale : 'en'}
-                        onChange={({ target: { value: language } }) =>
-                            loadCatalog(language).catch((e: Error) => {
+                        value={locale}
+                        onChange={({ target: { value: newLocale } }) => {
+                            updateMetadataSetting('locale', newLocale).catch((e) =>
+                                makeToast(t`Could not save changes`, 'error', getErrorMessage(e)),
+                            );
+                            loadCatalog(newLocale).catch((e: Error) => {
                                 makeToast(t`Could not load language`, 'error', getErrorMessage(e));
-                            })
-                        }
+                            });
+                        }}
                     >
                         {i18nResources.map((language) => (
                             <MenuItem key={language} value={language}>

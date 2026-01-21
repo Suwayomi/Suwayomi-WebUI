@@ -25,6 +25,8 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { DIRECTION_TO_CACHE } from '@/features/theme/ThemeDirectionCache.ts';
 import { TAppThemeContext, ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getLanguageReadingDirection } from '@/lib/ISOLanguageUtil.ts';
+import { loadCatalog } from '@/i18n';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 export const AppThemeContext = React.createContext<TAppThemeContext>({
     appTheme: 'default',
@@ -40,10 +42,10 @@ export const AppThemeContext = React.createContext<TAppThemeContext>({
 export const useAppThemeContext = () => useContext(AppThemeContext);
 
 export const AppThemeContextProvider = ({ children }: { children: ReactNode }) => {
-    const { t, i18n } = useLingui();
+    const { t } = useLingui();
     const {
         request: metadataServerSettingsRequest,
-        settings: { appTheme: serverAppTheme, themeMode, shouldUsePureBlackMode, customThemes },
+        settings: { appTheme: serverAppTheme, themeMode, shouldUsePureBlackMode, customThemes, locale },
     } = useMetadataServerSettings();
     const [localAppTheme, setLocalAppTheme] = useLocalStorage<AppTheme>(
         'appTheme',
@@ -61,7 +63,7 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
 
     const appTheme = areMetadataServerSettingsReady ? serverAppTheme : localAppTheme.id;
     const actualThemeMode = areMetadataServerSettingsReady ? themeMode : localThemeMode;
-    const currentDirection = getLanguageReadingDirection(i18n.locale);
+    const currentDirection = getLanguageReadingDirection(locale);
 
     const updateSetting = createUpdateMetadataServerSettings<'appTheme' | 'themeMode' | 'shouldUsePureBlackMode'>((e) =>
         makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
@@ -107,6 +109,14 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
 
         return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        if (!areMetadataServerSettingsReady) {
+            return;
+        }
+
+        loadCatalog(locale).catch(defaultPromiseErrorHandler('AppThemeContextProvider::loadCatalog'));
+    }, [areMetadataServerSettingsReady]);
 
     useEffect(() => {
         if (!areMetadataServerSettingsReady) {

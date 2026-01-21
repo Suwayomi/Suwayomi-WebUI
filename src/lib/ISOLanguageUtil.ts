@@ -7,6 +7,7 @@
  */
 
 import { ISOLanguage, IsoLanguages } from '@/base/IsoLanguages.ts';
+import { i18nResources } from '@/i18n';
 
 export type LanguageObject = ISOLanguage & { orgCode: string; isoCode: string };
 
@@ -136,4 +137,13 @@ export function getLanguageReadingDirection(code: string): 'ltr' | 'rtl' {
     }
 
     return 'ltr';
+}
+
+export function detectLocale(): string {
+    const normalizedLanguageCodes = getPreferredISOLanguageCodes()
+        .filter((code) => code !== null)
+        .filter((code) => getISOLanguage(code))
+        .filter((code) => i18nResources.includes(code as (typeof i18nResources)[number]));
+
+    return normalizedLanguageCodes[0] ?? DEFAULT_LANGUAGE;
 }

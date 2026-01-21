@@ -30,6 +30,7 @@ import {
     WebUiInterface,
 } from '@/lib/graphql/generated/graphql.ts';
 import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
+import { getPreferredISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
 
 export const MANGA_GRID_WIDTH = {
     min: 100,
@@ -85,6 +86,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     serverInformAvailableUpdate: true,
 
     // themes
+    locale: getPreferredISOLanguageCodes()[0],
     appTheme: 'default',
     themeMode: ThemeMode.SYSTEM,
     shouldUsePureBlackMode: false,

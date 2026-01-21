@@ -33,6 +33,8 @@ import { ISourceMetadata } from '@/features/source/Source.types.ts';
 import { LibraryOptions } from '@/features/library/Library.types.ts';
 import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { detectLocale, getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
+import { i18nResources } from '@/i18n';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI';
 
@@ -374,6 +376,18 @@ export const APP_METADATA: Record<
     excludedScanlators: {
         convert: convertToObject<string[]>,
     },
+    locale: {
+        convert: convertToString,
+        toConstrainedValue: (value: string) => {
+            const locale = getISOLanguage(value)?.isoCode;
+
+            if (!locale || !i18nResources.includes(locale)) {
+                return detectLocale();
+            }
+
+            return locale;
+        },
+    },
 } as const;
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA);
@@ -446,6 +460,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'isEnabled',
 
     // themes
+    'locale',
     'customThemes',
     'mangaThumbnailBackdrop',
     'mangaDynamicColorSchemes',

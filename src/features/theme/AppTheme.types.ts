@@ -29,6 +29,7 @@ export type TAppThemeContext = {
     >;
 };
 export type MetadataThemeSettings = {
+    locale: string;
     appTheme: AppThemes;
     themeMode: ThemeMode;
     shouldUsePureBlackMode: boolean;
