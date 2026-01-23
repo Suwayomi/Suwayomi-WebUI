@@ -8,10 +8,13 @@
 
 import { ISOLanguage, IsoLanguages } from '@/base/IsoLanguages.ts';
 import { i18nResources } from '@/i18n';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 export type LanguageObject = ISOLanguage & { orgCode: string; isoCode: string };
 
 export const DEFAULT_LANGUAGE = 'en';
+
+export const SELECTED_LANGUAGE_CODE_KEY = 'i18n:selected-language';
 
 // source: https://github.com/i18next/i18next/blob/485b4ec8183952b3de8fe5e79dff6467c3afd9d3/src/i18next.js#L561
 const RTL_LANGUAGES = [
@@ -140,7 +143,11 @@ export function getLanguageReadingDirection(code: string): 'ltr' | 'rtl' {
 }
 
 export function detectLocale(): string {
-    const normalizedLanguageCodes = getPreferredISOLanguageCodes()
+    const storedLanguage = AppStorage.local.getItem(SELECTED_LANGUAGE_CODE_KEY);
+    const preferredLanguages = getPreferredISOLanguageCodes();
+    const languageCodes = [storedLanguage, ...preferredLanguages];
+
+    const normalizedLanguageCodes = languageCodes
         .filter((code) => code !== null)
         .filter((code) => getISOLanguage(code))
         .filter((code) => i18nResources.includes(code as (typeof i18nResources)[number]));

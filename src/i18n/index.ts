@@ -7,8 +7,9 @@
  */
 
 import { i18n } from '@lingui/core';
-import { detectLocale } from '@/lib/ISOLanguageUtil.ts';
+import { detectLocale, SELECTED_LANGUAGE_CODE_KEY } from '@/lib/ISOLanguageUtil.ts';
 import localesConfig from '@/i18n/locales.json';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 export const i18nResources = localesConfig.locales;
 
@@ -21,6 +22,8 @@ export async function loadCatalog(locale: string): Promise<void> {
 
     const { messages } = await import(`./locales/${localeToLoad}.po`);
     i18n.loadAndActivate({ locale: localeToLoad, messages });
+
+    AppStorage.local.setItem(SELECTED_LANGUAGE_CODE_KEY, localeToLoad);
 }
 
 export async function initializeLocalization(): Promise<void> {
