@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script>
+        (() => {
+            if (document.querySelector('base')) {
+                return
+            }
+
+            const base = document.createElement('base');
+            base.href = '/';
+            document.head.prepend(base);
+        })()
+    </script>
     <title>Suwayomi</title>
     <meta name="apple-mobile-web-app-title" content="Suwayomi" />
     <meta
