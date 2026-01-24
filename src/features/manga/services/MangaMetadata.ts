@@ -68,7 +68,7 @@ export const updateMangaMetadata = async <
     manga: MangaIdInfo & GqlMetaHolder,
     metadataKey: MetadataKey,
     value: MangaMetadata[MetadataKey],
-): Promise<void[]> =>
+): Promise<void> =>
     requestUpdateMangaMetadata(manga, [
         [metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]],
     ]);
@@ -77,6 +77,6 @@ export const createUpdateMangaMetadata =
     <Settings extends MangaMetadataKeys>(
         manga: MangaIdInfo & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateMangaMetadata'),
-    ): ((...args: OmitFirst<Parameters<typeof updateMangaMetadata<Settings>>>) => Promise<void | void[]>) =>
+    ): ((...args: OmitFirst<Parameters<typeof updateMangaMetadata<Settings>>>) => Promise<void>) =>
     (metadataKey, value) =>
         updateMangaMetadata(manga, metadataKey, value).catch(handleError);

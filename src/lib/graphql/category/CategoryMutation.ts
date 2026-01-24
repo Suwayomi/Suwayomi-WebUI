@@ -33,9 +33,9 @@ export const DELETE_CATEGORY = gql`
 export const DELETE_CATEGORY_METADATA = gql`
     ${CATEGORY_META_FIELDS}
 
-    mutation DELETE_CATEGORY_METADATA($input: DeleteCategoryMetaInput!) {
-        deleteCategoryMeta(input: $input) {
-            meta {
+    mutation DELETE_CATEGORY_METADATA($input: DeleteCategoryMetasInput!) {
+        deleteCategoryMetas(input: $input) {
+            metas {
                 ...CATEGORY_META_FIELDS
             }
         }
@@ -45,9 +45,9 @@ export const DELETE_CATEGORY_METADATA = gql`
 export const SET_CATEGORY_METADATA = gql`
     ${CATEGORY_META_FIELDS}
 
-    mutation SET_CATEGORY_METADATA($input: SetCategoryMetaInput!) {
-        setCategoryMeta(input: $input) {
-            meta {
+    mutation SET_CATEGORY_METADATA($input: SetCategoryMetasInput!) {
+        setCategoryMetas(input: $input) {
+            metas {
                 ...CATEGORY_META_FIELDS
             }
         }

@@ -11,9 +11,9 @@ import { GLOBAL_METADATA } from '@/lib/graphql/common/Fragments.ts';
 
 export const DELETE_GLOBAL_METADATA = gql`
     ${GLOBAL_METADATA}
-    mutation DELETE_GLOBAL_METADATA($input: DeleteGlobalMetaInput!) {
-        deleteGlobalMeta(input: $input) {
-            meta {
+    mutation DELETE_GLOBAL_METADATA($input: DeleteGlobalMetasInput!) {
+        deleteGlobalMetas(input: $input) {
+            metas {
                 ...GLOBAL_METADATA
             }
         }
@@ -22,9 +22,9 @@ export const DELETE_GLOBAL_METADATA = gql`
 
 export const SET_GLOBAL_METADATA = gql`
     ${GLOBAL_METADATA}
-    mutation SET_GLOBAL_METADATA($input: SetGlobalMetaInput!) {
-        setGlobalMeta(input: $input) {
-            meta {
+    mutation SET_GLOBAL_METADATA($input: SetGlobalMetasInput!) {
+        setGlobalMetas(input: $input) {
+            metas {
                 ...GLOBAL_METADATA
             }
         }

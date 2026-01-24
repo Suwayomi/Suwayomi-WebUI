@@ -391,6 +391,24 @@ export type DeleteCategoryMetaPayload = {
   meta?: Maybe<CategoryMetaType>;
 };
 
+export type DeleteCategoryMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<DeleteCategoryMetasItemInput>;
+};
+
+export type DeleteCategoryMetasItemInput = {
+  categoryIds: Array<Scalars['Int']['input']>;
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type DeleteCategoryMetasPayload = {
+  __typename?: 'DeleteCategoryMetasPayload';
+  categories: Array<CategoryType>;
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<CategoryMetaType>;
+};
+
 export type DeleteCategoryPayload = {
   __typename?: 'DeleteCategoryPayload';
   category?: Maybe<CategoryType>;
@@ -409,6 +427,24 @@ export type DeleteChapterMetaPayload = {
   chapter: ChapterType;
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta?: Maybe<ChapterMetaType>;
+};
+
+export type DeleteChapterMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<DeleteChapterMetasItemInput>;
+};
+
+export type DeleteChapterMetasItemInput = {
+  chapterIds: Array<Scalars['Int']['input']>;
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type DeleteChapterMetasPayload = {
+  __typename?: 'DeleteChapterMetasPayload';
+  chapters: Array<ChapterType>;
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<ChapterMetaType>;
 };
 
 export type DeleteDownloadedChapterInput = {
@@ -444,6 +480,18 @@ export type DeleteGlobalMetaPayload = {
   meta?: Maybe<GlobalMetaType>;
 };
 
+export type DeleteGlobalMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type DeleteGlobalMetasPayload = {
+  __typename?: 'DeleteGlobalMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<GlobalMetaType>;
+};
+
 export type DeleteMangaMetaInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   key: Scalars['String']['input'];
@@ -457,6 +505,24 @@ export type DeleteMangaMetaPayload = {
   meta?: Maybe<MangaMetaType>;
 };
 
+export type DeleteMangaMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<DeleteMangaMetasItemInput>;
+};
+
+export type DeleteMangaMetasItemInput = {
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  mangaIds: Array<Scalars['Int']['input']>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type DeleteMangaMetasPayload = {
+  __typename?: 'DeleteMangaMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  mangas: Array<MangaType>;
+  metas: Array<MangaMetaType>;
+};
+
 export type DeleteSourceMetaInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   key: Scalars['String']['input'];
@@ -468,6 +534,24 @@ export type DeleteSourceMetaPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta?: Maybe<SourceMetaType>;
   source?: Maybe<SourceType>;
+};
+
+export type DeleteSourceMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<DeleteSourceMetasItemInput>;
+};
+
+export type DeleteSourceMetasItemInput = {
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+  sourceIds: Array<Scalars['LongString']['input']>;
+};
+
+export type DeleteSourceMetasPayload = {
+  __typename?: 'DeleteSourceMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<SourceMetaType>;
+  sources: Array<SourceType>;
 };
 
 export type DequeueChapterDownloadInput = {
@@ -1185,6 +1269,11 @@ export type MetaFilterInput = {
   value?: InputMaybe<StringFilterInput>;
 };
 
+export type MetaInput = {
+  key: Scalars['String']['input'];
+  value: Scalars['String']['input'];
+};
+
 export enum MetaOrderBy {
   Key = 'KEY',
   Value = 'VALUE'
@@ -1225,12 +1314,17 @@ export type Mutation = {
   createCategory?: Maybe<CreateCategoryPayload>;
   deleteCategory?: Maybe<DeleteCategoryPayload>;
   deleteCategoryMeta?: Maybe<DeleteCategoryMetaPayload>;
+  deleteCategoryMetas?: Maybe<DeleteCategoryMetasPayload>;
   deleteChapterMeta?: Maybe<DeleteChapterMetaPayload>;
+  deleteChapterMetas?: Maybe<DeleteChapterMetasPayload>;
   deleteDownloadedChapter?: Maybe<DeleteDownloadedChapterPayload>;
   deleteDownloadedChapters?: Maybe<DeleteDownloadedChaptersPayload>;
   deleteGlobalMeta?: Maybe<DeleteGlobalMetaPayload>;
+  deleteGlobalMetas?: Maybe<DeleteGlobalMetasPayload>;
   deleteMangaMeta?: Maybe<DeleteMangaMetaPayload>;
+  deleteMangaMetas?: Maybe<DeleteMangaMetasPayload>;
   deleteSourceMeta?: Maybe<DeleteSourceMetaPayload>;
+  deleteSourceMetas?: Maybe<DeleteSourceMetasPayload>;
   dequeueChapterDownload?: Maybe<DequeueChapterDownloadPayload>;
   dequeueChapterDownloads?: Maybe<DequeueChapterDownloadsPayload>;
   enqueueChapterDownload?: Maybe<EnqueueChapterDownloadPayload>;
@@ -1255,11 +1349,16 @@ export type Mutation = {
   resetWebUIUpdateStatus?: Maybe<WebUiUpdateStatus>;
   restoreBackup: RestoreBackupPayload;
   setCategoryMeta?: Maybe<SetCategoryMetaPayload>;
+  setCategoryMetas?: Maybe<SetCategoryMetasPayload>;
   setChapterMeta?: Maybe<SetChapterMetaPayload>;
+  setChapterMetas?: Maybe<SetChapterMetasPayload>;
   setGlobalMeta?: Maybe<SetGlobalMetaPayload>;
+  setGlobalMetas?: Maybe<SetGlobalMetasPayload>;
   setMangaMeta?: Maybe<SetMangaMetaPayload>;
+  setMangaMetas?: Maybe<SetMangaMetasPayload>;
   setSettings: SetSettingsPayload;
   setSourceMeta?: Maybe<SetSourceMetaPayload>;
+  setSourceMetas?: Maybe<SetSourceMetasPayload>;
   startDownloader?: Maybe<StartDownloaderPayload>;
   stopDownloader?: Maybe<StopDownloaderPayload>;
   trackProgress?: Maybe<TrackProgressPayload>;
@@ -1325,8 +1424,18 @@ export type MutationDeleteCategoryMetaArgs = {
 };
 
 
+export type MutationDeleteCategoryMetasArgs = {
+  input: DeleteCategoryMetasInput;
+};
+
+
 export type MutationDeleteChapterMetaArgs = {
   input: DeleteChapterMetaInput;
+};
+
+
+export type MutationDeleteChapterMetasArgs = {
+  input: DeleteChapterMetasInput;
 };
 
 
@@ -1345,13 +1454,28 @@ export type MutationDeleteGlobalMetaArgs = {
 };
 
 
+export type MutationDeleteGlobalMetasArgs = {
+  input: DeleteGlobalMetasInput;
+};
+
+
 export type MutationDeleteMangaMetaArgs = {
   input: DeleteMangaMetaInput;
 };
 
 
+export type MutationDeleteMangaMetasArgs = {
+  input: DeleteMangaMetasInput;
+};
+
+
 export type MutationDeleteSourceMetaArgs = {
   input: DeleteSourceMetaInput;
+};
+
+
+export type MutationDeleteSourceMetasArgs = {
+  input: DeleteSourceMetasInput;
 };
 
 
@@ -1470,8 +1594,18 @@ export type MutationSetCategoryMetaArgs = {
 };
 
 
+export type MutationSetCategoryMetasArgs = {
+  input: SetCategoryMetasInput;
+};
+
+
 export type MutationSetChapterMetaArgs = {
   input: SetChapterMetaInput;
+};
+
+
+export type MutationSetChapterMetasArgs = {
+  input: SetChapterMetasInput;
 };
 
 
@@ -1480,8 +1614,18 @@ export type MutationSetGlobalMetaArgs = {
 };
 
 
+export type MutationSetGlobalMetasArgs = {
+  input: SetGlobalMetasInput;
+};
+
+
 export type MutationSetMangaMetaArgs = {
   input: SetMangaMetaInput;
+};
+
+
+export type MutationSetMangaMetasArgs = {
+  input: SetMangaMetasInput;
 };
 
 
@@ -1492,6 +1636,11 @@ export type MutationSetSettingsArgs = {
 
 export type MutationSetSourceMetaArgs = {
   input: SetSourceMetaInput;
+};
+
+
+export type MutationSetSourceMetasArgs = {
+  input: SetSourceMetasInput;
 };
 
 
@@ -2122,6 +2271,23 @@ export type SetCategoryMetaPayload = {
   meta: CategoryMetaType;
 };
 
+export type SetCategoryMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<SetCategoryMetasItemInput>;
+};
+
+export type SetCategoryMetasItemInput = {
+  categoryIds: Array<Scalars['Int']['input']>;
+  metas: Array<MetaInput>;
+};
+
+export type SetCategoryMetasPayload = {
+  __typename?: 'SetCategoryMetasPayload';
+  categories: Array<CategoryType>;
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<CategoryMetaType>;
+};
+
 export type SetChapterMetaInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   meta: ChapterMetaTypeInput;
@@ -2131,6 +2297,23 @@ export type SetChapterMetaPayload = {
   __typename?: 'SetChapterMetaPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta: ChapterMetaType;
+};
+
+export type SetChapterMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<SetChapterMetasItemInput>;
+};
+
+export type SetChapterMetasItemInput = {
+  chapterIds: Array<Scalars['Int']['input']>;
+  metas: Array<MetaInput>;
+};
+
+export type SetChapterMetasPayload = {
+  __typename?: 'SetChapterMetasPayload';
+  chapters: Array<ChapterType>;
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<ChapterMetaType>;
 };
 
 export type SetGlobalMetaInput = {
@@ -2144,6 +2327,17 @@ export type SetGlobalMetaPayload = {
   meta: GlobalMetaType;
 };
 
+export type SetGlobalMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  metas: Array<MetaInput>;
+};
+
+export type SetGlobalMetasPayload = {
+  __typename?: 'SetGlobalMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<GlobalMetaType>;
+};
+
 export type SetMangaMetaInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   meta: MangaMetaTypeInput;
@@ -2153,6 +2347,23 @@ export type SetMangaMetaPayload = {
   __typename?: 'SetMangaMetaPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta: MangaMetaType;
+};
+
+export type SetMangaMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<SetMangaMetasItemInput>;
+};
+
+export type SetMangaMetasItemInput = {
+  mangaIds: Array<Scalars['Int']['input']>;
+  metas: Array<MetaInput>;
+};
+
+export type SetMangaMetasPayload = {
+  __typename?: 'SetMangaMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  mangas: Array<MangaType>;
+  metas: Array<MangaMetaType>;
 };
 
 export type SetSettingsInput = {
@@ -2175,6 +2386,23 @@ export type SetSourceMetaPayload = {
   __typename?: 'SetSourceMetaPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta: SourceMetaType;
+};
+
+export type SetSourceMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<SetSourceMetasItemInput>;
+};
+
+export type SetSourceMetasItemInput = {
+  metas: Array<MetaInput>;
+  sourceIds: Array<Scalars['LongString']['input']>;
+};
+
+export type SetSourceMetasPayload = {
+  __typename?: 'SetSourceMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<SourceMetaType>;
+  sources: Array<SourceType>;
 };
 
 export type Settings = {
@@ -3282,18 +3510,18 @@ export type DeleteCategoryMutationVariables = Exact<{
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?: { __typename?: 'DeleteCategoryPayload', category?: { __typename?: 'CategoryType', id: number } | null } | null };
 
 export type DeleteCategoryMetadataMutationVariables = Exact<{
-  input: DeleteCategoryMetaInput;
+  input: DeleteCategoryMetasInput;
 }>;
 
 
-export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta?: { __typename?: 'DeleteCategoryMetaPayload', meta?: { __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string } | null } | null };
+export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMetas?: { __typename?: 'DeleteCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null };
 
 export type SetCategoryMetadataMutationVariables = Exact<{
-  input: SetCategoryMetaInput;
+  input: SetCategoryMetasInput;
 }>;
 
 
-export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMeta?: { __typename?: 'SetCategoryMetaPayload', meta: { __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string } } | null };
+export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMetas?: { __typename?: 'SetCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null };
 
 export type UpdateCategoryMutationVariables = Exact<{
   input: UpdateCategoryInput;
@@ -3388,11 +3616,11 @@ export type ChapterUpdateListFieldsFragment = { __typename?: 'ChapterType', fetc
 export type ChapterHistoryListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } };
 
 export type DeleteChapterMetadataMutationVariables = Exact<{
-  input: DeleteChapterMetaInput;
+  input: DeleteChapterMetasInput;
 }>;
 
 
-export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMeta?: { __typename?: 'DeleteChapterMetaPayload', meta?: { __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string } | null } | null };
+export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMetas?: { __typename?: 'DeleteChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null };
 
 export type GetChapterPagesFetchMutationVariables = Exact<{
   input: FetchChapterPagesInput;
@@ -3409,11 +3637,11 @@ export type GetMangaChaptersFetchMutationVariables = Exact<{
 export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, firstUnreadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, isRead: boolean, mangaId: number, chapterNumber: number, name: string, scanlator?: string | null } | null, lastReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestFetchedChapter?: { __typename?: 'ChapterType', id: number, fetchedAt: string } | null, latestUploadedChapter?: { __typename?: 'ChapterType', id: number, uploadDate: string } | null } }> } | null };
 
 export type SetChapterMetadataMutationVariables = Exact<{
-  input: SetChapterMetaInput;
+  input: SetChapterMetasInput;
 }>;
 
 
-export type SetChapterMetadataMutation = { __typename?: 'Mutation', setChapterMeta?: { __typename?: 'SetChapterMetaPayload', meta: { __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string } } | null };
+export type SetChapterMetadataMutation = { __typename?: 'Mutation', setChapterMetas?: { __typename?: 'SetChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null };
 
 export type UpdateChapterMutationVariables = Exact<{
   input: UpdateChapterInput;
@@ -3697,11 +3925,11 @@ export type MangaScreenFieldsFragment = { __typename?: 'MangaType', artist?: str
 export type MangaLibraryDuplicateScreenFieldsFragment = { __typename?: 'MangaType', description?: string | null, id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename?: 'ChapterNodeList', totalCount: number } };
 
 export type DeleteMangaMetadataMutationVariables = Exact<{
-  input: DeleteMangaMetaInput;
+  input: DeleteMangaMetasInput;
 }>;
 
 
-export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMeta?: { __typename?: 'DeleteMangaMetaPayload', meta?: { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string } | null } | null };
+export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMetas?: { __typename?: 'DeleteMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null };
 
 export type GetMangaFetchMutationVariables = Exact<{
   input: FetchMangaInput;
@@ -3721,11 +3949,11 @@ export type GetMangaToMigrateToFetchMutationVariables = Exact<{
 export type GetMangaToMigrateToFetchMutation = { __typename?: 'Mutation', fetchManga?: { __typename?: 'FetchMangaPayload', manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number }> } } } | null, fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> } | null };
 
 export type SetMangaMetadataMutationVariables = Exact<{
-  input: SetMangaMetaInput;
+  input: SetMangaMetasInput;
 }>;
 
 
-export type SetMangaMetadataMutation = { __typename?: 'Mutation', setMangaMeta?: { __typename?: 'SetMangaMetaPayload', meta: { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string } } | null };
+export type SetMangaMetadataMutation = { __typename?: 'Mutation', setMangaMetas?: { __typename?: 'SetMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null };
 
 export type UpdateMangaMutationVariables = Exact<{
   input: UpdateMangaInput;
@@ -3852,18 +4080,18 @@ export type GetLibraryMangaCountQueryVariables = Exact<{ [key: string]: never; }
 export type GetLibraryMangaCountQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', totalCount: number } };
 
 export type DeleteGlobalMetadataMutationVariables = Exact<{
-  input: DeleteGlobalMetaInput;
+  input: DeleteGlobalMetasInput;
 }>;
 
 
-export type DeleteGlobalMetadataMutation = { __typename?: 'Mutation', deleteGlobalMeta?: { __typename?: 'DeleteGlobalMetaPayload', meta?: { __typename?: 'GlobalMetaType', key: string, value: string } | null } | null };
+export type DeleteGlobalMetadataMutation = { __typename?: 'Mutation', deleteGlobalMetas?: { __typename?: 'DeleteGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null };
 
 export type SetGlobalMetadataMutationVariables = Exact<{
-  input: SetGlobalMetaInput;
+  input: SetGlobalMetasInput;
 }>;
 
 
-export type SetGlobalMetadataMutation = { __typename?: 'Mutation', setGlobalMeta?: { __typename?: 'SetGlobalMetaPayload', meta: { __typename?: 'GlobalMetaType', key: string, value: string } } | null };
+export type SetGlobalMetadataMutation = { __typename?: 'Mutation', setGlobalMetas?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null };
 
 export type GetGlobalMetadataQueryVariables = Exact<{
   key: Scalars['String']['input'];
@@ -3979,18 +4207,18 @@ export type UpdateSourcePreferencesMutationVariables = Exact<{
 export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference?: { __typename?: 'UpdateSourcePreferencePayload', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } } | null };
 
 export type SetSourceMetadataMutationVariables = Exact<{
-  input: SetSourceMetaInput;
+  input: SetSourceMetasInput;
 }>;
 
 
-export type SetSourceMetadataMutation = { __typename?: 'Mutation', setSourceMeta?: { __typename?: 'SetSourceMetaPayload', meta: { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string } } | null };
+export type SetSourceMetadataMutation = { __typename?: 'Mutation', setSourceMetas?: { __typename?: 'SetSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null };
 
 export type DeleteSourceMetadataMutationVariables = Exact<{
-  input: DeleteSourceMetaInput;
+  input: DeleteSourceMetasInput;
 }>;
 
 
-export type DeleteSourceMetadataMutation = { __typename?: 'Mutation', deleteSourceMeta?: { __typename?: 'DeleteSourceMetaPayload', meta?: { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string } | null } | null };
+export type DeleteSourceMetadataMutation = { __typename?: 'Mutation', deleteSourceMetas?: { __typename?: 'DeleteSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null };
 
 export type GetSourceBrowseQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

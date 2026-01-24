@@ -80,7 +80,7 @@ export const updateCategoryMetadata = async <
     category: CategoryIdInfo & GqlMetaHolder,
     metadataKey: MetadataKey,
     value: ICategoryMetadata[MetadataKey],
-): Promise<void[]> =>
+): Promise<void> =>
     requestUpdateCategoryMetadata(category, [
         [metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]],
     ]);
@@ -89,6 +89,6 @@ export const createUpdateCategoryMetadata =
     <Settings extends CategoryMetadataKeys>(
         category: CategoryIdInfo & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateCategoryMetadata'),
-    ): ((...args: OmitFirst<Parameters<typeof updateCategoryMetadata<Settings>>>) => Promise<void | void[]>) =>
+    ): ((...args: OmitFirst<Parameters<typeof updateCategoryMetadata<Settings>>>) => Promise<void>) =>
     (metadataKey, value) =>
         updateCategoryMetadata(category, metadataKey, value).catch(handleError);

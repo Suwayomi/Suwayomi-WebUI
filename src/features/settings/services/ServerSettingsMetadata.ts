@@ -64,12 +64,11 @@ export const updateMetadataServerSettings = async <
 >(
     setting: Setting,
     value: MetadataServerSettings[Setting],
-): Promise<void[]> =>
-    requestUpdateServerMetadata([[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]);
+): Promise<void> => requestUpdateServerMetadata([[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]);
 
 export const createUpdateMetadataServerSettings =
     <Settings extends MetadataServerSettingKeys>(
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateMetadataServerSettings'),
-    ): ((...args: Parameters<typeof updateMetadataServerSettings<Settings>>) => Promise<void | void[]>) =>
+    ): ((...args: Parameters<typeof updateMetadataServerSettings<Settings>>) => Promise<void>) =>
     (setting, value) =>
         updateMetadataServerSettings(setting, value).catch(handleError);

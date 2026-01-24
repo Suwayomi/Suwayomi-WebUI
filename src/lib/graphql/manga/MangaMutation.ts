@@ -12,9 +12,9 @@ import { MANGA_META_FIELDS, MANGA_SCREEN_FIELDS } from '@/lib/graphql/manga/Mang
 export const DELETE_MANGA_METADATA = gql`
     ${MANGA_META_FIELDS}
 
-    mutation DELETE_MANGA_METADATA($input: DeleteMangaMetaInput!) {
-        deleteMangaMeta(input: $input) {
-            meta {
+    mutation DELETE_MANGA_METADATA($input: DeleteMangaMetasInput!) {
+        deleteMangaMetas(input: $input) {
+            metas {
                 ...MANGA_META_FIELDS
             }
         }
@@ -79,9 +79,9 @@ export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
 export const SET_MANGA_METADATA = gql`
     ${MANGA_META_FIELDS}
 
-    mutation SET_MANGA_METADATA($input: SetMangaMetaInput!) {
-        setMangaMeta(input: $input) {
-            meta {
+    mutation SET_MANGA_METADATA($input: SetMangaMetasInput!) {
+        setMangaMetas(input: $input) {
+            metas {
                 ...MANGA_META_FIELDS
             }
         }

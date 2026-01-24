@@ -8,26 +8,27 @@
 
 import { ReadFieldFunction } from '@apollo/client/cache/core/types/common';
 import { Reference } from '@apollo/client/utilities';
+import { MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 export const updateMetadataList = (
-    key: string,
+    meta: MetaType[],
     existingMetas: Reference[] | undefined,
     readField: ReadFieldFunction,
-    createMetaRef: () => Reference | undefined,
+    createMetaRef: (meta: MetaType) => Reference | undefined,
     deleted: boolean = false,
-): (Reference | undefined)[] | undefined => {
+) => {
     if (!existingMetas) {
         return existingMetas;
     }
 
     if (deleted) {
-        return existingMetas.filter((metaRef: Reference) => readField('key', metaRef) !== key);
+        return existingMetas.filter((metaRef: Reference) => meta.some(({ key }) => key === readField('key', metaRef)));
     }
 
-    const exists = existingMetas.some((metaRef: Reference) => readField('key', metaRef) === key);
-    if (exists) {
-        return existingMetas;
-    }
+    const newMetas = meta.filter(({ key }) =>
+        existingMetas.every((metaRef: Reference) => readField('key', metaRef) !== key),
+    );
+    const newMetaRefs = newMetas.map(createMetaRef);
 
-    return [...existingMetas, createMetaRef()];
+    return [...existingMetas, ...newMetaRefs];
 };

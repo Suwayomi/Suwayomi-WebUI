@@ -224,7 +224,7 @@ export const updateReaderSettings = async <Setting extends keyof IReaderSettings
     value: IReaderSettings[Setting],
     isGlobal: boolean = false,
     profile?: ReadingMode,
-): Promise<void[]> => {
+): Promise<void> => {
     const isGlobalSetting = isGlobal || GLOBAL_READER_SETTING_KEYS.includes(setting);
     if (isGlobalSetting) {
         return requestUpdateServerMetadata(
@@ -244,6 +244,6 @@ export const createUpdateReaderSettings =
         manga: Pick<MangaType, 'id'> & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateReaderSettings'),
         profile?: ReadingMode,
-    ): ((...args: OmitFirst<Parameters<typeof updateReaderSettings<Settings>>>) => Promise<void | void[]>) =>
+    ): ((...args: OmitFirst<Parameters<typeof updateReaderSettings<Settings>>>) => Promise<void>) =>
     (setting, value, isGlobal) =>
         updateReaderSettings(manga, setting, value, isGlobal, profile).catch(handleError);

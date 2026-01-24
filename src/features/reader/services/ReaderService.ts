@@ -289,6 +289,7 @@ export class ReaderService {
             return;
         }
         const key = getMetadataKey(setting, profile !== undefined ? [profile?.toString()] : undefined);
+        const metaValue = JSON.stringify(value);
 
         const { cache } = requestManager.graphQLClient.client;
 
@@ -299,7 +300,7 @@ export class ReaderService {
                 data: {
                     __typename: 'GlobalMetaType',
                     key,
-                    value: JSON.stringify(value),
+                    value: metaValue,
                 },
             });
             cache.modify({
@@ -307,7 +308,12 @@ export class ReaderService {
                     metas(existingMetas, { readField }) {
                         return {
                             ...existingMetas,
-                            nodes: updateMetadataList(key, existingMetas?.nodes, readField, () => reference),
+                            nodes: updateMetadataList(
+                                [{ key, value: metaValue }],
+                                existingMetas?.nodes,
+                                readField,
+                                () => reference,
+                            ),
                         };
                     },
                 },
@@ -319,14 +325,19 @@ export class ReaderService {
                     __typename: 'MangaMetaType',
                     mangaId: manga.id,
                     key,
-                    value: JSON.stringify(value),
+                    value: metaValue,
                 },
             });
             cache.modify({
                 id: cache.identify({ __typename: 'MangaType', id: manga.id }),
                 fields: {
                     meta(existingMetas, { readField }) {
-                        return updateMetadataList(key, existingMetas, readField, () => reference);
+                        return updateMetadataList(
+                            [{ key, value: metaValue }],
+                            existingMetas,
+                            readField,
+                            () => reference,
+                        );
                     },
                 },
             });
@@ -363,8 +374,8 @@ export class ReaderService {
         }
 
         const deleteSetting = isGlobalSetting
-            ? () => requestManager.deleteGlobalMeta(key).response
-            : () => requestManager.deleteMangaMeta(manga.id, key).response;
+            ? () => requestManager.deleteGlobalMeta({ keys: [key] }).response
+            : () => requestManager.deleteMangaMeta({ items: [{ mangaIds: [manga.id], keys: [key] }] }).response;
         deleteSetting().catch((e) =>
             makeToast(t`Could not save the reader settings to the server`, 'error', getErrorMessage(e)),
         );

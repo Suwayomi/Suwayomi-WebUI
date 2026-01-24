@@ -50,7 +50,7 @@ export const updateSourceMetadata = async <
     source: SourceIdInfo & GqlMetaHolder,
     metadataKey: MetadataKey,
     value: ISourceMetadata[MetadataKey],
-): Promise<void[]> =>
+): Promise<void> =>
     requestUpdateSourceMetadata(source, [
         [metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]],
     ]);
@@ -59,6 +59,6 @@ export const createUpdateSourceMetadata =
     <Settings extends SourceMetadataKeys>(
         source: SourceIdInfo & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateSourceMetadata'),
-    ): ((...args: OmitFirst<Parameters<typeof updateSourceMetadata<Settings>>>) => Promise<void | void[]>) =>
+    ): ((...args: OmitFirst<Parameters<typeof updateSourceMetadata<Settings>>>) => Promise<void>) =>
     (metadataKey, value) =>
         updateSourceMetadata(source, metadataKey, value).catch(handleError);
