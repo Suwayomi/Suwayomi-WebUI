@@ -1815,6 +1815,10 @@ msgstr "Inform about missing chapters on chapter transition"
 msgid "Inform about updated version"
 msgstr "Inform about updated version"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr "Inform about version update"
+
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Information"
@@ -3022,6 +3026,10 @@ msgstr "Shows a dialog in case a new version is available"
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
 msgstr "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr "Shows a dialog in case the version of the server has changed"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Simple Login"

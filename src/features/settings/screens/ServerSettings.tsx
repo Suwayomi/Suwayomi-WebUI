@@ -59,12 +59,12 @@ export const ServerSettings = () => {
     useAppTitle(t`Server`);
 
     const {
-        settings: { serverInformAvailableUpdate },
+        settings: { serverInformAvailableUpdate, serverInformVersionUpdated },
         loading: areMetadataServerSettingsLoading,
         request: { error: metadataServerSettingsError, refetch: refetchServerMetadataSettings },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
-        keyof Pick<MetadataUpdateSettings, 'serverInformAvailableUpdate'>
+        keyof Pick<MetadataUpdateSettings, 'serverInformAvailableUpdate' | 'serverInformVersionUpdated'>
     >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
     const {
@@ -105,6 +105,17 @@ export const ServerSettings = () => {
                 <ServerAddressSetting />
                 <ListItem>
                     <ListItemText
+                        primary={t`Inform about version update`}
+                        secondary={t`Shows a dialog in case the version of the server has changed`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverInformVersionUpdated}
+                        onChange={(e) => updateMetadataServerSettings('serverInformVersionUpdated', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
                         primary={t`Inform about available update`}
                         secondary={t`Shows a dialog in case a new version is available`}
                     />
@@ -116,7 +127,7 @@ export const ServerSettings = () => {
                 </ListItem>
             </List>
         ),
-        [serverInformAvailableUpdate],
+        [serverInformVersionUpdated, serverInformAvailableUpdate],
     );
 
     const loading = areMetadataServerSettingsLoading || areServerSettingsLoading || koSyncStatus.loading;

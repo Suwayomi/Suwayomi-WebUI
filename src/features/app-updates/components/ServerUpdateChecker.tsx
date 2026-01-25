@@ -30,7 +30,8 @@ export const ServerUpdateChecker = () => {
     const [open, setOpen] = useState(false);
 
     const {
-        settings: { serverInformAvailableUpdate },
+        settings: { serverInformAvailableUpdate, serverInformVersionUpdated },
+        loading: areMetadataServerSettingsLoading,
     } = useMetadataServerSettings();
 
     const {
@@ -70,8 +71,12 @@ export const ServerUpdateChecker = () => {
         setServerVersion(version);
     }
 
-    if (!isSameAsCurrent && !open) {
-        setOpen(true);
+    if (!areMetadataServerSettingsLoading && !isSameAsCurrent && !open) {
+        if (serverInformVersionUpdated) {
+            setOpen(true);
+        } else {
+            setServerVersion(version);
+        }
     }
 
     if (isCheckingForServerUpdate) {
