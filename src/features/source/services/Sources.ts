@@ -110,32 +110,28 @@ export class Sources {
     ): Source[] {
         const normalizedLanguages = toComparableLanguages(toUniqueLanguageCodes(languages ?? []));
 
-        return sources
-            .filter(
+        const filters: [Condition: any, CheckKeepLocalSource: boolean, Filter: (source: Source) => boolean][] = [
+            [isNsfw, true, (source: Source) => source.isNsfw === isNsfw],
+            [
+                languages,
+                true,
+                (source: Source) => normalizedLanguages.includes(toComparableLanguage(Sources.getLanguage(source))),
+            ],
+            [pinned, true, (source: Source) => getSourceMetadata(source).isPinned === pinned],
+            [enabled, true, (source: Source) => getSourceMetadata(source).isEnabled === enabled],
+            [removeLocalSource, false, (source: Source) => !removeLocalSource || !Sources.isLocalSource(source)],
+        ];
+
+        return filters.reduce((sourcesToFilter, [condition, checkKeepLocalSource, filter]) => {
+            if (condition === undefined) {
+                return sourcesToFilter;
+            }
+
+            return sourcesToFilter.filter(
                 (source) =>
-                    isNsfw === undefined ||
-                    source.isNsfw === isNsfw ||
-                    (keepLocalSource && Sources.isLocalSource(source)),
-            )
-            .filter(
-                (source) =>
-                    !languages ||
-                    normalizedLanguages.includes(toComparableLanguage(Sources.getLanguage(source))) ||
-                    (keepLocalSource && Sources.isLocalSource(source)),
-            )
-            .filter(
-                (source) =>
-                    pinned === undefined ||
-                    getSourceMetadata(source).isPinned === pinned ||
-                    (keepLocalSource && Sources.isLocalSource(source)),
-            )
-            .filter(
-                (source) =>
-                    enabled === undefined ||
-                    getSourceMetadata(source).isEnabled === enabled ||
-                    (keepLocalSource && Sources.isLocalSource(source)),
-            )
-            .filter((source) => !removeLocalSource || !Sources.isLocalSource(source));
+                    filter(source) || (checkKeepLocalSource && keepLocalSource && Sources.isLocalSource(source)),
+            );
+        }, sources);
     }
 
     static areFromMultipleRepos<Source extends SourceIdInfo & SourceRepoInfo>(sources: Source[]): boolean {
