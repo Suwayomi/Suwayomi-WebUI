@@ -68,37 +68,38 @@ export const SourceLanguageSelect = ({
     const languagesSortedBySelectState = useMemo(
         () =>
             toUniqueLanguageCodes([
-                ...tmpSelectedLanguages.toSorted(languageSortComparator),
+                ...tmpSelectedLanguages
+                    .filter((language) => languages.includes(language))
+                    .toSorted(languageSortComparator),
                 ...languages.toSorted(languageSortComparator),
             ]),
         [languages, tmpSelectedLanguages],
     );
 
     const flattenedSourcesByLanguages = useMemo(
-        () => Object.values(languagesSortedBySelectState.map((language) => sourcesByLanguage[language])).flat(),
+        () => languagesSortedBySelectState.map((language) => sourcesByLanguage[language] ?? []).flat(),
         [languagesSortedBySelectState, sourcesByLanguage],
     );
 
     const groupCounts = useMemo(
         () =>
             languagesSortedBySelectState.map((language) => {
-                const isEnabled = tmpSelectedLanguages.includes(language);
+                const isEnabled = tmpSelectedLanguages
+                    .filter((selectedLanguage) => languages.includes(selectedLanguage))
+                    .includes(language);
                 if (!isEnabled) {
                     return 0;
                 }
 
-                return sourcesByLanguage[language]?.length ?? 0;
+                return sourcesByLanguage[language].length;
             }),
-        [sourcesByLanguage, languagesSortedBySelectState],
+        [sourcesByLanguage, languagesSortedBySelectState, languages],
     );
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
         useCallback((index) => languagesSortedBySelectState[index], [languagesSortedBySelectState]),
-        useCallback(
-            (index) => flattenedSourcesByLanguages[index].id,
-            [sourcesByLanguage, languagesSortedBySelectState],
-        ),
+        useCallback((index) => flattenedSourcesByLanguages[index].id, [flattenedSourcesByLanguages]),
     );
 
     const handleCancel = () => {
