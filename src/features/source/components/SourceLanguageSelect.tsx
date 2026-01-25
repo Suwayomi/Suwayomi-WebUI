@@ -21,6 +21,7 @@ import { GroupedVirtuoso } from 'react-virtuoso';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { useLingui } from '@lingui/react/macro';
 import Checkbox from '@mui/material/Checkbox';
+import Box from '@mui/material/Box';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
 import { languageSortComparator, toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
@@ -139,6 +140,7 @@ export const SourceLanguageSelect = ({
             <Dialog fullWidth maxWidth="xs" open={open} onClose={handleCancel}>
                 <DialogTitle>{t`Allowed Languages`}</DialogTitle>
                 <DialogContent dividers sx={{ padding: 0 }}>
+                    {!languages.length && <Box sx={{ p: 1 }}>{t`No sources installed`}</Box>}
                     <GroupedVirtuoso
                         style={{
                             height: languagesSortedBySelectState.length * 54,

@@ -2300,6 +2300,10 @@ msgstr "No pages found"
 msgid "No sources found. Install Some extensions first."
 msgstr "No sources found. Install Some extensions first."
 
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr "No sources installed"
+
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx

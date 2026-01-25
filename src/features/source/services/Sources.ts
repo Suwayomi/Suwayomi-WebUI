@@ -46,8 +46,15 @@ export class Sources {
         return source.lang;
     }
 
-    static getLanguages(sources: (SourceIdInfo & SourceLanguageInfo)[]): string[] {
-        return [...new Set(sources.map(Sources.getLanguage))];
+    static getLanguages(
+        sources: (SourceIdInfo & SourceLanguageInfo)[],
+        { excludeLocalSource = false }: { excludeLocalSource?: boolean } = {},
+    ): string[] {
+        const filteredSources = excludeLocalSource
+            ? sources.filter((source) => !Sources.isLocalSource(source))
+            : sources;
+
+        return [...new Set(filteredSources.map(Sources.getLanguage))];
     }
 
     static groupByLanguage<Source extends SourceIdInfo & SourceLanguageInfo & SourceDisplayNameInfo & SourceMetaInfo>(

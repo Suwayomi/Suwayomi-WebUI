@@ -56,6 +56,14 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
             }),
         [sources, shownLangs],
     );
+    const sourcesForLanguageFilter = useMemo(
+        () =>
+            SourceService.filter(sources ?? [], {
+                showNsfw,
+                keepLocalSource: false,
+            }),
+        [sources],
+    );
     const sourcesByLanguage = useMemo(() => {
         const lastUsedSource = SourceService.getLastUsedSource(lastUsedSourceId, filteredSources);
         const groupedByLanguageTuple = Object.entries(
@@ -72,7 +80,10 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         return groupedByLanguageTuple;
     }, [filteredSources]);
 
-    const sourceLanguages = useMemo(() => SourceService.getLanguages(sources ?? []), [sources]);
+    const sourceLanguages = useMemo(
+        () => SourceService.getLanguages(sourcesForLanguageFilter, { excludeLocalSource: true }),
+        [sources],
+    );
     const areSourcesFromDifferentRepos = useMemo(
         () => SourceService.areFromMultipleRepos(filteredSources),
         [filteredSources],
@@ -108,10 +119,10 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 selectedLanguages={shownLangs}
                 setSelectedLanguages={setShownLangs}
                 languages={sourceLanguages}
-                sources={sources ?? []}
+                sources={sourcesForLanguageFilter}
             />
         </>,
-        [t, shownLangs, sourceLanguages, sources],
+        [t, shownLangs, sourceLanguages, sourcesForLanguageFilter],
     );
 
     if (isLoading) return <LoadingPlaceholder />;
