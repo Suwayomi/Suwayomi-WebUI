@@ -60,7 +60,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         () =>
             SourceService.filter(sources ?? [], {
                 showNsfw,
-                keepLocalSource: false,
+                removeLocalSource: true,
             }),
         [sources],
     );

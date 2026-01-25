@@ -98,12 +98,14 @@ export class Sources {
             keepLocalSource,
             pinned,
             enabled,
+            removeLocalSource,
         }: {
             showNsfw?: boolean;
             languages?: string[];
             keepLocalSource?: boolean;
             pinned?: boolean;
             enabled?: boolean;
+            removeLocalSource?: boolean;
         } = {},
     ): Source[] {
         const normalizedLanguages = toComparableLanguages(toUniqueLanguageCodes(languages ?? []));
@@ -135,7 +137,8 @@ export class Sources {
                     !enabled ||
                     getSourceMetadata(source).isEnabled ||
                     (keepLocalSource && Sources.isLocalSource(source)),
-            );
+            )
+            .filter((source) => !removeLocalSource || !Sources.isLocalSource(source));
     }
 
     static areFromMultipleRepos<Source extends SourceIdInfo & SourceRepoInfo>(sources: Source[]): boolean {

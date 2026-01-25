@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 - (**Library**) Fix total library size chip color in light mode 
 - (**Browse**) Fix missing pinned sources in the source language filter
+- (**Browse**) Fix incorrectly showing "local source" source in the source language filter (the local source can't be disabled)
 
 ## [20251230.01] (r2937) - 2025-12-30
 
