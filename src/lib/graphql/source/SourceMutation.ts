@@ -58,3 +58,32 @@ export const DELETE_SOURCE_METADATA = gql`
         }
     }
 `;
+
+export const UPDATE_SOURCE_METADATA = gql`
+    ${SOURCE_META_FIELDS}
+
+    mutation UPDATE_SOURCE_METADATA(
+        $updateInput: SetSourceMetasInput!
+        $hasUpdates: Boolean!
+        $deleteInput: DeleteSourceMetasInput!
+        $hasDeletions: Boolean!
+        $migrateInput: SetSourceMetasInput!
+        $isMigration: Boolean!
+    ) {
+        updatedMeta: setSourceMetas(input: $updateInput) @include(if: $hasUpdates) {
+            metas {
+                ...SOURCE_META_FIELDS
+            }
+        }
+        deletedMeta: deleteSourceMetas(input: $deleteInput) @include(if: $hasDeletions) {
+            metas {
+                ...SOURCE_META_FIELDS
+            }
+        }
+        migrationMeta: setSourceMetas(input: $migrateInput) @include(if: $isMigration) {
+            metas {
+                ...SOURCE_META_FIELDS
+            }
+        }
+    }
+`;

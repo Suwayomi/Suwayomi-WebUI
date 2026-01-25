@@ -10,8 +10,8 @@ import { useEffect, useMemo } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
-    requestUpdateMangaMetadata,
-    requestUpdateServerMetadata,
+    requestMangaMetadataUpdate,
+    requestServerMetadataUpdate,
 } from '@/features/metadata/services/MetadataUpdater.ts';
 import { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
@@ -227,17 +227,16 @@ export const updateReaderSettings = async <Setting extends keyof IReaderSettings
 ): Promise<void> => {
     const isGlobalSetting = isGlobal || GLOBAL_READER_SETTING_KEYS.includes(setting);
     if (isGlobalSetting) {
-        return requestUpdateServerMetadata(
-            [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
-            profile !== undefined ? [profile?.toString()] : undefined,
-        );
+        return requestServerMetadataUpdate({
+            update: [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
+            keyPrefixes: profile !== undefined ? [profile?.toString()] : undefined,
+        });
     }
 
-    return requestUpdateMangaMetadata(
-        manga,
-        [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
-        profile !== undefined ? [profile?.toString()] : undefined,
-    );
+    return requestMangaMetadataUpdate(manga, {
+        update: [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
+        keyPrefixes: profile !== undefined ? [profile?.toString()] : undefined,
+    });
 };
 export const createUpdateReaderSettings =
     <Settings extends keyof IReaderSettings>(

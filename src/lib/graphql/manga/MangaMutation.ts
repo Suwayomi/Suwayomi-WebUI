@@ -194,3 +194,32 @@ export const UPDATE_MANGAS_CATEGORIES = gql`
         }
     }
 `;
+
+export const UPDATE_MANGA_METADATA = gql`
+    ${MANGA_META_FIELDS}
+
+    mutation UPDATE_MANGA_METADATA(
+        $updateInput: SetMangaMetasInput!
+        $hasUpdates: Boolean!
+        $deleteInput: DeleteMangaMetasInput!
+        $hasDeletions: Boolean!
+        $migrateInput: SetMangaMetasInput!
+        $isMigration: Boolean!
+    ) {
+        updatedMeta: setMangaMetas(input: $updateInput) @include(if: $hasUpdates) {
+            metas {
+                ...MANGA_META_FIELDS
+            }
+        }
+        deletedMeta: deleteMangaMetas(input: $deleteInput) @include(if: $hasDeletions) {
+            metas {
+                ...MANGA_META_FIELDS
+            }
+        }
+        migrationMeta: setMangaMetas(input: $migrateInput) @include(if: $isMigration) {
+            metas {
+                ...MANGA_META_FIELDS
+            }
+        }
+    }
+`;

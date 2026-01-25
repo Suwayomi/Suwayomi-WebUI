@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { requestUpdateCategoryMetadata } from '@/features/metadata/services/MetadataUpdater.ts';
+import { requestCategoryMetadataUpdate } from '@/features/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LibraryOptions } from '@/features/library/Library.types.ts';
 import { CategoryIdInfo, CategoryMetadataKeys, ICategoryMetadata } from '@/features/category/Category.types.ts';
@@ -81,9 +81,9 @@ export const updateCategoryMetadata = async <
     metadataKey: MetadataKey,
     value: ICategoryMetadata[MetadataKey],
 ): Promise<void> =>
-    requestUpdateCategoryMetadata(category, [
-        [metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]],
-    ]);
+    requestCategoryMetadataUpdate(category, {
+        update: [[metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]]],
+    });
 
 export const createUpdateCategoryMetadata =
     <Settings extends CategoryMetadataKeys>(

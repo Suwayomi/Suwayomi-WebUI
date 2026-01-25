@@ -3552,6 +3552,18 @@ export type UpdateCategoryOrderMutationVariables = Exact<{
 
 export type UpdateCategoryOrderMutation = { __typename?: 'Mutation', updateCategoryOrder?: { __typename?: 'UpdateCategoryOrderPayload', categories: Array<{ __typename?: 'CategoryType', id: number, order: number }> } | null };
 
+export type UpdateCategoryMetadataMutationVariables = Exact<{
+  updateInput: SetCategoryMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  deleteInput: DeleteCategoryMetasInput;
+  hasDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetCategoryMetasInput;
+  isMigration: Scalars['Boolean']['input'];
+}>;
+
+
+export type UpdateCategoryMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null };
+
 export type GetCategoriesBaseQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3670,6 +3682,18 @@ export type UpdateChaptersMutationVariables = Exact<{
 
 
 export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters?: { __typename?: 'UpdateChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: string, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, bookmarkCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null, firstUnreadChapter?: { __typename?: 'ChapterType', id: number } | null } }> } | null, deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } | null, trackProgress?: { __typename?: 'TrackProgressPayload', trackRecords: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, private: boolean }> } | null };
+
+export type UpdateChapterMetadataMutationVariables = Exact<{
+  updateInput: SetChapterMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  deleteInput: DeleteChapterMetasInput;
+  hasDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetChapterMetasInput;
+  isMigration: Scalars['Boolean']['input'];
+}>;
+
+
+export type UpdateChapterMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null };
 
 export type GetChaptersReaderQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3987,6 +4011,18 @@ export type UpdateMangasCategoriesMutationVariables = Exact<{
 
 export type UpdateMangasCategoriesMutation = { __typename?: 'Mutation', updateMangasCategories?: { __typename?: 'UpdateMangasCategoriesPayload', mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null };
 
+export type UpdateMangaMetadataMutationVariables = Exact<{
+  updateInput: SetMangaMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  deleteInput: DeleteMangaMetasInput;
+  hasDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetMangaMetasInput;
+  isMigration: Scalars['Boolean']['input'];
+}>;
+
+
+export type UpdateMangaMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null };
+
 export type GetMangaScreenQueryVariables = Exact<{
   id: Scalars['Int']['input'];
 }>;
@@ -4092,6 +4128,18 @@ export type SetGlobalMetadataMutationVariables = Exact<{
 
 
 export type SetGlobalMetadataMutation = { __typename?: 'Mutation', setGlobalMetas?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null };
+
+export type UpdateGlobalMetadataMutationVariables = Exact<{
+  updateInput: SetGlobalMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  deleteInput: DeleteGlobalMetasInput;
+  hasDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetGlobalMetasInput;
+  isMigration: Scalars['Boolean']['input'];
+}>;
+
+
+export type UpdateGlobalMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null };
 
 export type GetGlobalMetadataQueryVariables = Exact<{
   key: Scalars['String']['input'];
@@ -4219,6 +4267,18 @@ export type DeleteSourceMetadataMutationVariables = Exact<{
 
 
 export type DeleteSourceMetadataMutation = { __typename?: 'Mutation', deleteSourceMetas?: { __typename?: 'DeleteSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null };
+
+export type UpdateSourceMetadataMutationVariables = Exact<{
+  updateInput: SetSourceMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  deleteInput: DeleteSourceMetasInput;
+  hasDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetSourceMetasInput;
+  isMigration: Scalars['Boolean']['input'];
+}>;
+
+
+export type UpdateSourceMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null };
 
 export type GetSourceBrowseQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

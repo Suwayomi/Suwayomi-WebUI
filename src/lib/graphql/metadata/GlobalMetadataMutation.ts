@@ -30,3 +30,31 @@ export const SET_GLOBAL_METADATA = gql`
         }
     }
 `;
+
+export const UPDATE_GLOBAL_METADATA = gql`
+    ${GLOBAL_METADATA}
+    mutation UPDATE_GLOBAL_METADATA(
+        $updateInput: SetGlobalMetasInput!
+        $hasUpdates: Boolean!
+        $deleteInput: DeleteGlobalMetasInput!
+        $hasDeletions: Boolean!
+        $migrateInput: SetGlobalMetasInput!
+        $isMigration: Boolean!
+    ) {
+        updatedMeta: setGlobalMetas(input: $updateInput) @include(if: $hasUpdates) {
+            metas {
+                ...GLOBAL_METADATA
+            }
+        }
+        deletedMeta: deleteGlobalMetas(input: $deleteInput) @include(if: $hasDeletions) {
+            metas {
+                ...GLOBAL_METADATA
+            }
+        }
+        migrationMeta: setGlobalMetas(input: $migrateInput) @include(if: $isMigration) {
+            metas {
+                ...GLOBAL_METADATA
+            }
+        }
+    }
+`;

@@ -104,3 +104,32 @@ export const UPDATE_CATEGORY_ORDER = gql`
         }
     }
 `;
+
+export const UPDATE_CATEGORY_METADATA = gql`
+    ${CATEGORY_META_FIELDS}
+
+    mutation UPDATE_CATEGORY_METADATA(
+        $updateInput: SetCategoryMetasInput!
+        $hasUpdates: Boolean!
+        $deleteInput: DeleteCategoryMetasInput!
+        $hasDeletions: Boolean!
+        $migrateInput: SetCategoryMetasInput!
+        $isMigration: Boolean!
+    ) {
+        updatedMeta: setCategoryMetas(input: $updateInput) @include(if: $hasUpdates) {
+            metas {
+                ...CATEGORY_META_FIELDS
+            }
+        }
+        deletedMeta: deleteCategoryMetas(input: $deleteInput) @include(if: $hasDeletions) {
+            metas {
+                ...CATEGORY_META_FIELDS
+            }
+        }
+        migrationMeta: setCategoryMetas(input: $migrateInput) @include(if: $isMigration) {
+            metas {
+                ...CATEGORY_META_FIELDS
+            }
+        }
+    }
+`;

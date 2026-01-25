@@ -8,7 +8,7 @@
 
 import { useEffect, useMemo } from 'react';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { requestUpdateServerMetadata } from '@/features/metadata/services/MetadataUpdater.ts';
+import { requestServerMetadataUpdate } from '@/features/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SERVER_SETTINGS_METADATA_DEFAULT } from '@/features/settings/Settings.constants.ts';
 import { MetadataServerSettingKeys, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
@@ -64,7 +64,8 @@ export const updateMetadataServerSettings = async <
 >(
     setting: Setting,
     value: MetadataServerSettings[Setting],
-): Promise<void> => requestUpdateServerMetadata([[setting, convertSettingsToMetadata({ [setting]: value })[setting]]]);
+): Promise<void> =>
+    requestServerMetadataUpdate({ update: [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]] });
 
 export const createUpdateMetadataServerSettings =
     <Settings extends MetadataServerSettingKeys>(

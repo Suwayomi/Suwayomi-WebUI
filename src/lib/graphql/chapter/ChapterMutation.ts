@@ -181,3 +181,32 @@ export const UPDATE_CHAPTERS = gql`
         }
     }
 `;
+
+export const UPDATE_CHAPTER_METADATA = gql`
+    ${CHAPTER_META_FIELDS}
+
+    mutation UPDATE_CHAPTER_METADATA(
+        $updateInput: SetChapterMetasInput!
+        $hasUpdates: Boolean!
+        $deleteInput: DeleteChapterMetasInput!
+        $hasDeletions: Boolean!
+        $migrateInput: SetChapterMetasInput!
+        $isMigration: Boolean!
+    ) {
+        updatedMeta: setChapterMetas(input: $updateInput) @include(if: $hasUpdates) {
+            metas {
+                ...CHAPTER_META_FIELDS
+            }
+        }
+        deletedMeta: deleteChapterMetas(input: $deleteInput) @include(if: $hasDeletions) {
+            metas {
+                ...CHAPTER_META_FIELDS
+            }
+        }
+        migrationMeta: setChapterMetas(input: $migrateInput) @include(if: $isMigration) {
+            metas {
+                ...CHAPTER_META_FIELDS
+            }
+        }
+    }
+`;

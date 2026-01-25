@@ -24,7 +24,7 @@ import { extractOriginalKey, getMetadataKey } from '@/features/metadata/Metadata
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { CategoryIdInfo } from '@/features/category/Category.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { getMetadataDeleteFunction, getMetadataUpdateFunction } from '@/features/metadata/services/MetadataUpdater.ts';
+import { getMetadataUpdateFunction } from '@/features/metadata/services/MetadataUpdater.ts';
 import { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
@@ -295,7 +295,6 @@ const commitMigratedMetadata = (
     ]) as MetadataKeyValuePair[];
 
     const updateMetadata = getMetadataUpdateFunction(type, metadataHolder ?? { id: -1, meta: {} });
-    const deleteMetadata = getMetadataDeleteFunction(type, metadataHolder ?? { id: -1, meta: {} });
 
     useEffectFn(() => {
         (async () => {
@@ -317,9 +316,12 @@ const commitMigratedMetadata = (
             commitedMigrations.add(itemMigrationKey);
 
             try {
-                await updateMetadata([...metadataToUpdate], undefined, true);
-                await deleteMetadata(metadataKeysToDelete, undefined, true);
-                await updateMetadata([['migration', METADATA_MIGRATIONS.length]]);
+                await updateMetadata({
+                    update: metadataToUpdate,
+                    delete: metadataKeysToDelete,
+                    migrate: [['migration', METADATA_MIGRATIONS.length]],
+                    isMetadataKey: true,
+                });
             } catch (e) {
                 commitedMigrations.delete(itemMigrationKey);
 
