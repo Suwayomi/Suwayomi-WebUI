@@ -35,6 +35,7 @@ import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { detectLocale, getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
 import { i18nResources } from '@/i18n';
+import { toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI';
 
@@ -333,10 +334,7 @@ export const APP_METADATA: Record<
     showChapterNumber: {
         convert: convertToBoolean,
     },
-    extensionLanguages: {
-        convert: convertToObject<string[]>,
-    },
-    sourceLanguages: {
+    browseLanguages: {
         convert: convertToObject<string[]>,
     },
     showNsfw: {
@@ -437,8 +435,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // browse
     'hideLibraryEntries',
-    'extensionLanguages',
-    'sourceLanguages',
+    'browseLanguages',
     'showNsfw',
     'lastUsedSourceId',
     'shouldShowOnlySourcesWithResults',
@@ -490,11 +487,14 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
  * getting migrated, the key in the value migration is the "old" key (before the migration to the
  * new key).
  *
+ * For new metadata migrations, the value migrations have already been applied while the key migrations are still outstanding (same as for the value migrations)
+ *
  * Migration order (function "applyMetadataMigrations"):
  * 1. app metadata key prefix
  * 2. app metadata values
- * 3. app metadata keys
- * 4. app metadata keys deletion
+ * 3. create new app metadata with values from existing metadata
+ * 4. app metadata keys
+ * 5. app metadata keys deletion
  *
  * @example
  * // changes:
@@ -665,5 +665,26 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
                 newValue: `${ProgressBarPosition.RIGHT}`,
             },
         ],
+    },
+    {
+        values: [
+            {
+                key: 'sourceLanguages',
+                oldValue: /^\[.*]$/g,
+                newValue: (sourceLanguagesValue, key, oldMetadata) => {
+                    const extensionLanguagesKey = key.replace('sourceLanguages', 'extensionLanguages');
+                    const extensionLanguagesValue = oldMetadata[extensionLanguagesKey];
+
+                    const convertedSourceLanguages = convertToObject<string[]>(sourceLanguagesValue, []);
+                    const convertedExtensionLanguages = convertToObject<string[]>(extensionLanguagesValue, []);
+
+                    return JSON.stringify(
+                        toUniqueLanguageCodes([...convertedSourceLanguages, ...convertedExtensionLanguages]),
+                    );
+                },
+            },
+        ],
+        keys: [{ oldKey: 'sourceLanguages', newKey: 'browseLanguages' }],
+        deleteKeys: ['sourceLanguages', 'extensionLanguages'],
     },
 ];

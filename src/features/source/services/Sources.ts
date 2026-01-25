@@ -157,16 +157,16 @@ export class Sources {
     } {
         const { t } = useLingui();
         const {
-            settings: { sourceLanguages },
+            settings: { browseLanguages },
         } = useMetadataServerSettings();
 
-        const updateSetting = createUpdateMetadataServerSettings<'sourceLanguages'>((e) =>
+        const updateSetting = createUpdateMetadataServerSettings<'browseLanguages'>((e) =>
             makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
         );
-        const setLanguages = useCallback((languages: string[]) => updateSetting('sourceLanguages', languages), []);
+        const setLanguages = useCallback((languages: string[]) => updateSetting('browseLanguages', languages), []);
 
         return {
-            languages: sourceLanguages,
+            languages: browseLanguages,
             setLanguages,
         };
     }

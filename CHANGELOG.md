@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Theme**) Increase max length of custom theme names to 32 (previously 16)
 - (**Theme**) Change "pure black mode" paper background color to true black
 - (**Library**) Improve library manga sorting
+- (**Browse**) Merge languages filter of the sources and extensions into one
 
 ### Fixed
 - (**Library**) Fix total library size chip color in light mode 

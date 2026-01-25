@@ -87,7 +87,8 @@ const applyMetadataValueMigration = (meta: Metadata, migration: IMetadataMigrati
                 (oldValue === undefined && meta[metaKey] === oldValue) ||
                 (oldValue !== undefined && meta[metaKey].match(oldValue))
             ) {
-                migratedMetadata[metaKey] = typeof newValue === 'function' ? newValue(meta[metaKey]) : newValue;
+                migratedMetadata[metaKey] =
+                    typeof newValue === 'function' ? newValue(meta[metaKey], metaKey, appMetadata) : newValue;
             }
         };
 

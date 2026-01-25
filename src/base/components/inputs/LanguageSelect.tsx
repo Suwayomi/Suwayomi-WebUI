@@ -38,7 +38,9 @@ export function LanguageSelect({ selectedLanguages, setSelectedLanguages, langua
     const languagesSortedBySelectState = useMemo(
         () =>
             toUniqueLanguageCodes([
-                ...tmpSelectedLanguages.toSorted(languageSortComparator),
+                ...tmpSelectedLanguages
+                    .filter((language) => languages.includes(language))
+                    .toSorted(languageSortComparator),
                 ...languages.toSorted(languageSortComparator),
             ]),
         [languages, tmpSelectedLanguages],

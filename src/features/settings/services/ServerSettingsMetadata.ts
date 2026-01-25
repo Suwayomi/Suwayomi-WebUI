@@ -23,8 +23,7 @@ export const convertSettingsToMetadata = (
     devices: JSON.stringify(settings.devices),
     customThemes: JSON.stringify(settings.customThemes),
     migrateSortSettings: JSON.stringify(settings.migrateSortSettings),
-    extensionLanguages: JSON.stringify(settings.extensionLanguages),
-    sourceLanguages: JSON.stringify(settings.sourceLanguages),
+    browseLanguages: JSON.stringify(settings.browseLanguages),
 });
 
 const getMetadataServerSettingsWithDefaultFallback = (

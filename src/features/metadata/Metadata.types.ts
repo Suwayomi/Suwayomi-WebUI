@@ -22,7 +22,7 @@ export interface IMetadataMigration {
          */
         key?: string;
         oldValue: string | RegExp | undefined;
-        newValue: string | ((oldValue: string) => string);
+        newValue: string | ((oldValue: string, key: string, oldMetadata: Metadata) => string);
     }[];
     keys?: { oldKey: string; newKey: string }[];
     deleteKeys?: string[];

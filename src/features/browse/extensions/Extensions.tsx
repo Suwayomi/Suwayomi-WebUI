@@ -129,10 +129,10 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         requestManager.useExtensionListFetch();
 
     const {
-        settings: { extensionLanguages: shownLangs, showNsfw },
+        settings: { browseLanguages: shownLangs, showNsfw },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
-        keyof Pick<MetadataBrowseSettings, 'extensionLanguages'>
+        keyof Pick<MetadataBrowseSettings, 'browseLanguages'>
     >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
@@ -220,7 +220,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
             <LanguageSelect
                 selectedLanguages={shownLangs}
                 setSelectedLanguages={(languages: string[]) =>
-                    updateMetadataServerSettings('extensionLanguages', languages)
+                    updateMetadataServerSettings('browseLanguages', languages)
                 }
                 languages={allLangs}
             />
