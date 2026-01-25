@@ -93,14 +93,14 @@ export class Sources {
     static filter<Source extends SourceIdInfo & SourceLanguageInfo & SourceNsfwInfo>(
         sources: Source[],
         {
-            showNsfw,
+            isNsfw,
             languages,
             keepLocalSource,
             pinned,
             enabled,
             removeLocalSource,
         }: {
-            showNsfw?: boolean;
+            isNsfw?: boolean;
             languages?: string[];
             keepLocalSource?: boolean;
             pinned?: boolean;
@@ -113,9 +113,8 @@ export class Sources {
         return sources
             .filter(
                 (source) =>
-                    showNsfw === undefined ||
-                    showNsfw ||
-                    !source.isNsfw ||
+                    isNsfw === undefined ||
+                    source.isNsfw === isNsfw ||
                     (keepLocalSource && Sources.isLocalSource(source)),
             )
             .filter(
@@ -127,15 +126,13 @@ export class Sources {
             .filter(
                 (source) =>
                     pinned === undefined ||
-                    !pinned ||
-                    getSourceMetadata(source).isPinned ||
+                    getSourceMetadata(source).isPinned === pinned ||
                     (keepLocalSource && Sources.isLocalSource(source)),
             )
             .filter(
                 (source) =>
                     enabled === undefined ||
-                    !enabled ||
-                    getSourceMetadata(source).isEnabled ||
+                    getSourceMetadata(source).isEnabled === enabled ||
                     (keepLocalSource && Sources.isLocalSource(source)),
             )
             .filter((source) => !removeLocalSource || !Sources.isLocalSource(source));

@@ -259,7 +259,7 @@ export const SearchAll: React.FC = () => {
     const filteredSources = useMemo(
         () =>
             Sources.filter(sources, {
-                showNsfw,
+                isNsfw: showNsfw ? undefined : false,
                 languages: shownLangs,
                 keepLocalSource: true,
                 pinned: shouldShowOnlyPinnedSources,
