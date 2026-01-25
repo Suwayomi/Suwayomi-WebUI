@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - (**Theme**) Add an option to save the dynamic color theme on the manga page as a custom theme
+- (**WebUI Update**) Add an option to (partially) disable showing information when the webUI got updated
 
 ### Changed
 - (**General**) Preserve refresh token (UI Login) over sessions

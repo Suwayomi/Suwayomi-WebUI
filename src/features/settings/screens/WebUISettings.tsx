@@ -40,12 +40,12 @@ export const WebUISettings = () => {
     useAppTitle(t`WebUI`);
 
     const {
-        settings: { webUIInformAvailableUpdate },
+        settings: { webUIInformAvailableUpdate, webUIInformVersionUpdated },
         loading: areMetadataServerSettingsLoading,
         request: { error: metadataServerSettingsError, refetch: refetchServerMetadataSettings },
     } = useMetadataServerSettings();
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<
-        keyof Pick<MetadataUpdateSettings, 'webUIInformAvailableUpdate'>
+        keyof Pick<MetadataUpdateSettings, 'webUIInformAvailableUpdate' | 'webUIInformVersionUpdated'>
     >((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
     const {
@@ -142,6 +142,17 @@ export const WebUISettings = () => {
                 disabled={isCustomWebUI}
                 updateCheckInterval={webUISettings.webUIUpdateCheckInterval}
             />
+            <ListItem>
+                <ListItemText
+                    primary={t`Inform about updated version`}
+                    secondary={t`Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting.`}
+                />
+                <Switch
+                    edge="end"
+                    checked={webUIInformVersionUpdated}
+                    onChange={(e) => updateMetadataServerSettings('webUIInformVersionUpdated', e.target.checked)}
+                />
+            </ListItem>
             {!webUISettings.webUIUpdateCheckInterval && (
                 <ListItem>
                     <ListItemText

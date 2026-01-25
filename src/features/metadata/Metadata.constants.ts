@@ -135,6 +135,9 @@ export const APP_METADATA: Record<
     webUIInformAvailableUpdate: {
         convert: convertToBoolean,
     },
+    webUIInformVersionUpdated: {
+        convert: convertToBoolean,
+    },
     serverInformAvailableUpdate: {
         convert: convertToBoolean,
     },
@@ -449,6 +452,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
 
     // updates
     'webUIInformAvailableUpdate',
+    'webUIInformVersionUpdated',
     'serverInformAvailableUpdate',
 
     // sources

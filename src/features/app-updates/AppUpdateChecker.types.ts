@@ -8,5 +8,6 @@
 
 export type MetadataUpdateSettings = {
     webUIInformAvailableUpdate: boolean;
+    webUIInformVersionUpdated: boolean;
     serverInformAvailableUpdate: boolean;
 };

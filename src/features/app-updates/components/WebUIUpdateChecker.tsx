@@ -43,7 +43,8 @@ export const WebUIUpdateChecker = () => {
     const [open, setOpen] = useState(false);
 
     const {
-        settings: { webUIInformAvailableUpdate },
+        settings: { webUIInformAvailableUpdate, webUIInformVersionUpdated },
+        loading: areMetadataServerSettingsLoading,
     } = useMetadataServerSettings();
     const serverSettings = requestManager.useGetServerSettings();
     const isAutoUpdateEnabled = !!serverSettings.data?.settings.webUIUpdateCheckInterval;
@@ -86,8 +87,12 @@ export const WebUIUpdateChecker = () => {
         setWebUIVersion(newVersion);
     }
 
-    if (!isSameAsCurrent && !open) {
-        setOpen(true);
+    if (!areMetadataServerSettingsLoading && !isSameAsCurrent && !open) {
+        if (webUIInformVersionUpdated) {
+            setOpen(true);
+        } else {
+            setWebUIVersion(newVersion);
+        }
     }
 
     useEffect(() => {

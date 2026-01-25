@@ -1811,6 +1811,10 @@ msgstr "Inform about changing scanlator on chapter transition"
 msgid "Inform about missing chapters on chapter transition"
 msgstr "Inform about missing chapters on chapter transition"
 
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr "Inform about updated version"
+
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Information"
@@ -3014,6 +3018,10 @@ msgstr "Show transition page"
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Shows a dialog in case a new version is available"
 msgstr "Shows a dialog in case a new version is available"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
 
 #: src/features/settings/Settings.constants.ts
 msgid "Simple Login"
