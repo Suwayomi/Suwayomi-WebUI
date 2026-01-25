@@ -71,7 +71,7 @@ export class VirtuosoUtil {
             }
         }
 
-        throw new Error(`Unexpected "${index}" (${index}) and "groupCounts" (${groupCounts})`);
+        throw new Error(`Unexpected "index" (${index}) and "groupCounts" (${groupCounts})`);
     }
 
     static useCreateConvertIndex(
@@ -97,8 +97,15 @@ export class VirtuosoUtil {
     ): (index: number) => React.Key {
         const convertIndex = this.useCreateConvertIndex(groupCounts);
 
+        const totalGroupItems = useMemo(() => groupCounts.reduce((acc, count) => acc + count, 0), [groupCounts]);
+
         return useCallback(
             (index) => {
+                // GroupedVirtuoso bug: If there are only empty groups, computeItemKey gets called with a none-existent index which leads to "convertIndex" to throw an error
+                if (index > groupCounts.length - 1 && totalGroupItems === 0) {
+                    return -1;
+                }
+
                 const { type, index: convertedIndex, groupIndex } = convertIndex(index);
 
                 switch (type) {
