@@ -37,9 +37,12 @@ export const getMetadataKey = (key: string, prefixes: string[] = [], appPrefix: 
     return `${finalPrefix.join('_')}_${key}`;
 };
 
-export const doesMetadataKeyExistIn = (
+export const doesAppMetadataKeyExistIn = (
     meta: Metadata | undefined,
     key: string,
     prefixes?: string[],
     appPrefix?: string,
 ): boolean => Object.prototype.hasOwnProperty.call(meta ?? {}, getMetadataKey(key, prefixes, appPrefix));
+
+export const doesMetadataKeyExistIn = (meta: Metadata | undefined, key: string): boolean =>
+    Object.prototype.hasOwnProperty.call(meta ?? {}, key);

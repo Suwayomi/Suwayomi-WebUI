@@ -18,7 +18,7 @@ import { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
 
 export const FALLBACK_MANGA: MangaIdInfo & GqlMetaHolder = { id: -1 };
 
-export const GLOBAL_READER_SETTINGS_MANGA: MangaIdInfo = { id: -2 };
+export const GLOBAL_READER_SETTINGS_MANGA: MangaIdInfo & GqlMetaHolder = { id: -2 };
 
 export const MANGA_COVER_ASPECT_RATIO = '1 / 1.5';
 

@@ -20,13 +20,10 @@ import {
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import { updateReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
-import { GLOBAL_METADATA } from '@/lib/graphql/common/Fragments.ts';
-import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
@@ -54,6 +51,13 @@ import {
 } from '@/features/reader/stores/ReaderStore.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
+import { getMetadataUpdateFunction } from '@/features/metadata/services/MetadataUpdater.ts';
+import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts';
+import { MetadataValueCache } from '@/features/metadata/services/MetadataValueCache.ts';
+import { convertFromGqlMeta, convertToGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
+import { GLOBAL_METADATA } from '@/lib/graphql/common/Fragments.ts';
+import { AppMetadataKeys, GqlMetaHolder, Metadata, MetadataHolderType } from '@/features/metadata/Metadata.types.ts';
+import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -272,6 +276,37 @@ export class ReaderService {
         ReaderService.updateSetting('shouldOffsetDoubleSpreads', shouldOffset);
     }
 
+    private static getMetadataWithUnmodifiedKey(
+        metaHolder: (MangaIdInfo & GqlMetaHolder) | GqlMetaHolder,
+        metaHolderType: MetadataHolderType,
+        key: string,
+        isGlobalSetting: boolean,
+    ): Metadata | undefined {
+        // Since we update the value in the apollo cache before sending the mutation, we need the actual unmodified value
+        // to be able to handle updating chunked metadata
+        const unmodifiedOriginalValue =
+            MetadataValueCache.getCachedValue(
+                metaHolderType,
+                isGlobalSetting ? undefined : (metaHolder as MangaIdInfo).id,
+                key,
+            ) ?? '';
+
+        const currentMetadata = isGlobalSetting
+            ? MetadataChunker.getExistingMetadata(metaHolder, metaHolderType)
+            : convertFromGqlMeta(metaHolder.meta);
+
+        const settingMetaKeysToDelete = MetadataChunker.computeChunkDeletions(currentMetadata, key, 0);
+        const currentMetadataWithoutKey = convertToGqlMeta(currentMetadata)?.filter(
+            (meta) => !settingMetaKeysToDelete.includes(meta.key),
+        );
+        const existingMeta = {
+            ...convertFromGqlMeta(currentMetadataWithoutKey),
+            ...convertFromGqlMeta(MetadataChunker.chunkValue(key, unmodifiedOriginalValue.toString())),
+        };
+
+        return existingMeta;
+    }
+
     /**
      * Writes the change immediately to the cache and sends a mutation in case "commit" is true.
      */
@@ -283,60 +318,66 @@ export class ReaderService {
         profile?: ReadingMode,
     ): void {
         const { manga: currentManga } = getReaderStore();
-        const manga = currentManga ?? (isGlobal ? GLOBAL_READER_SETTINGS_MANGA : currentManga);
+        const manga = isGlobal ? GLOBAL_READER_SETTINGS_MANGA : (currentManga ?? FALLBACK_MANGA);
 
         if (!manga || manga.id === FALLBACK_MANGA.id) {
             return;
         }
+
+        const isGlobalSetting = isGlobal || GLOBAL_READER_SETTING_KEYS.includes(setting);
+        const metaHolderType = isGlobalSetting ? 'global' : 'manga';
+
         const key = getMetadataKey(setting, profile !== undefined ? [profile?.toString()] : undefined);
         const metaValue = JSON.stringify(value);
+        const chunkedMeta = MetadataChunker.chunkValue(key, metaValue);
+
+        const existingMeta = this.getMetadataWithUnmodifiedKey(manga, metaHolderType, key, isGlobalSetting);
+
+        const keysToDelete = MetadataChunker.computeChunkDeletions(existingMeta, key, chunkedMeta.length - 1);
+
+        const updatedMetadata = convertToGqlMeta({
+            ...existingMeta,
+            ...convertFromGqlMeta(chunkedMeta),
+        })?.filter((meta) => !keysToDelete.includes(meta.key));
 
         const { cache } = requestManager.graphQLClient.client;
 
-        const isGlobalSetting = isGlobal || GLOBAL_READER_SETTING_KEYS.includes(setting);
         if (isGlobalSetting) {
-            const reference = cache.writeFragment({
-                fragment: GLOBAL_METADATA,
-                data: {
-                    __typename: 'GlobalMetaType',
-                    key,
-                    value: metaValue,
-                },
-            });
             cache.modify({
                 fields: {
-                    metas(existingMetas, { readField }) {
+                    metas(existingMetas) {
                         return {
                             ...existingMetas,
-                            nodes: updateMetadataList(
-                                [{ key, value: metaValue }],
-                                existingMetas?.nodes,
-                                readField,
-                                () => reference,
+                            nodes: updatedMetadata?.map((meta) =>
+                                cache.writeFragment({
+                                    fragment: GLOBAL_METADATA,
+                                    data: {
+                                        __typename: 'GlobalMetaType',
+                                        mangaId: manga.id,
+                                        key: meta.key,
+                                        value: meta.value,
+                                    },
+                                }),
                             ),
                         };
                     },
                 },
             });
         } else {
-            const reference = cache.writeFragment({
-                fragment: MANGA_META_FIELDS,
-                data: {
-                    __typename: 'MangaMetaType',
-                    mangaId: manga.id,
-                    key,
-                    value: metaValue,
-                },
-            });
             cache.modify({
                 id: cache.identify({ __typename: 'MangaType', id: manga.id }),
                 fields: {
-                    meta(existingMetas, { readField }) {
-                        return updateMetadataList(
-                            [{ key, value: metaValue }],
-                            existingMetas,
-                            readField,
-                            () => reference,
+                    meta() {
+                        return updatedMetadata?.map((meta) =>
+                            cache.writeFragment({
+                                fragment: MANGA_META_FIELDS,
+                                data: {
+                                    __typename: 'MangaMetaType',
+                                    mangaId: manga.id,
+                                    key: meta.key,
+                                    value: meta.value,
+                                },
+                            }),
                         );
                     },
                 },
@@ -344,41 +385,42 @@ export class ReaderService {
         }
 
         if (commit) {
-            updateReaderSettings(manga, setting, value, isGlobal, profile).catch((e) =>
-                makeToast(t`Could not save the reader settings to the server`, 'error', getErrorMessage(e)),
-            );
+            getMetadataUpdateFunction(metaHolderType, { id: manga.id, meta: convertFromGqlMeta(updatedMetadata) })({
+                update: [[setting, metaValue]],
+                delete: keysToDelete as AppMetadataKeys[],
+                keyPrefixes: profile !== undefined ? [profile.toString()] : undefined,
+            }).catch((e) => {
+                makeToast(t`Could not save the reader settings to the server`, 'error', getErrorMessage(e));
+            });
         }
     }
 
     static deleteSetting<Setting extends keyof IReaderSettings>(
         setting: Setting,
         isGlobal: boolean = false,
-        profile?: string,
+        profile?: ReadingMode,
     ): void {
         const { manga: currentManga } = getReaderStore();
-        const manga = currentManga ?? (isGlobal ? GLOBAL_READER_SETTINGS_MANGA : currentManga);
+        const manga = isGlobal ? GLOBAL_READER_SETTINGS_MANGA : (currentManga ?? FALLBACK_MANGA);
 
         if (!manga || manga.id === FALLBACK_MANGA.id) {
             return;
         }
 
-        const key = getMetadataKey(setting, profile !== undefined ? [profile] : undefined);
-
-        const { cache } = requestManager.graphQLClient.client;
-
+        const key = getMetadataKey(setting, profile !== undefined ? [profile?.toString()] : undefined);
         const isGlobalSetting = isGlobal || GLOBAL_READER_SETTING_KEYS.includes(setting);
-        if (isGlobalSetting) {
-            cache.evict({ id: cache.identify({ __typename: 'GlobalMetaType', key }) });
-        } else {
-            cache.evict({ id: cache.identify({ __typename: 'MangaMetaType', mangaId: manga.id, key }) });
-        }
+        const metaHolderType = isGlobalSetting ? 'global' : 'manga';
 
-        const deleteSetting = isGlobalSetting
-            ? () => requestManager.deleteGlobalMeta({ keys: [key] }).response
-            : () => requestManager.deleteMangaMeta({ items: [{ mangaIds: [manga.id], keys: [key] }] }).response;
-        deleteSetting().catch((e) =>
-            makeToast(t`Could not save the reader settings to the server`, 'error', getErrorMessage(e)),
-        );
+        const existingMeta = this.getMetadataWithUnmodifiedKey(manga, metaHolderType, key, isGlobalSetting);
+
+        const keysToDelete = MetadataChunker.computeChunkDeletions(existingMeta, key, 0);
+
+        const updatedMetadata = convertToGqlMeta(existingMeta)?.filter((meta) => !keysToDelete.includes(meta.key));
+
+        getMetadataUpdateFunction(metaHolderType, { id: manga.id, meta: convertFromGqlMeta(updatedMetadata) })({
+            delete: [setting],
+            keyPrefixes: profile !== undefined ? [`${profile}`] : undefined,
+        }).catch((e) => makeToast(t`Could not save the reader settings to the server`, 'error', getErrorMessage(e)));
     }
 
     static useOverlayMode(): { mode: ReaderOverlayMode; isDesktop: boolean; isMobile: boolean } {

@@ -18,8 +18,10 @@ import {
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import { convertToGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
+import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts';
 import { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import { MetaInput } from '@/lib/graphql/generated/graphql.ts';
 
 type MetadataUpdateOptions = {
     update?: MetadataKeyValuePair[];
@@ -52,19 +54,47 @@ const requestMetadataUpdate = async (
         );
     }
 
-    const updateMetas = keysToValues.map(([key, value]) => ({
-        key: isMetadataKey ? key : getMetadataKey(key, keyPrefixes),
-        value: `${value}`,
-    }));
-    const deleteKeys = keysToDelete.map((key) => (isMetadataKey ? key : getMetadataKey(key, keyPrefixes)));
+    const existingMetadata = MetadataChunker.getExistingMetadata(metadataHolder, holderType);
+
+    const allUpdateMetas: MetaInput[] = [];
+    const allDeleteKeys: string[] = [];
+
+    keysToValues.forEach(([key, value]) => {
+        const fullKey = isMetadataKey ? key : getMetadataKey(key, keyPrefixes);
+        const stringValue = `${value}`;
+
+        const chunkEntries = MetadataChunker.chunkValue(fullKey, stringValue);
+        allUpdateMetas.push(...chunkEntries);
+
+        const doFullCleanup = !!existingMetadata;
+        if (doFullCleanup) {
+            const newChunkCount = chunkEntries.length - 1;
+            allDeleteKeys.push(...MetadataChunker.computeChunkDeletions(existingMetadata, fullKey, newChunkCount));
+        } else {
+            const isNowChunked = chunkEntries.length > 1;
+            if (!isNowChunked) {
+                allDeleteKeys.push(MetadataChunker.getChunkLengthKey(fullKey));
+            }
+        }
+    });
+
+    keysToDelete.forEach((key) => {
+        const fullKey = isMetadataKey ? key : getMetadataKey(key, keyPrefixes);
+        allDeleteKeys.push(fullKey);
+
+        allDeleteKeys.push(...MetadataChunker.computeChunkDeletions(existingMetadata, fullKey, 0));
+    });
+
+    const uniqueDeleteKeys = [...new Set(allDeleteKeys)];
+
     const migrateMetas = keysToMigrate.map(([key, value]) => ({
         key: getMetadataKey(key, keyPrefixes),
         value: `${value}`,
     }));
 
     const updateMetaInput = {
-        updateInput: { metas: updateMetas },
-        deleteInput: { keys: deleteKeys },
+        updateInput: { metas: allUpdateMetas },
+        deleteInput: { keys: uniqueDeleteKeys },
         migrateInput: { metas: migrateMetas },
     };
 

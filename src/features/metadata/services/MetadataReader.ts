@@ -19,6 +19,7 @@ import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 import { CategoryIdInfo } from '@/features/category/Category.types.ts';
 import { doesMetadataKeyExistIn, getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
+import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts';
 import { applyMetadataMigrations } from '@/features/metadata/services/MetadataMigrations.ts';
 import { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
@@ -55,15 +56,21 @@ const getRawMetadataValueFrom = (
     key: string,
     prefixes?: string[],
 ): string | undefined => {
-    if (
-        metadata === undefined ||
-        !doesMetadataKeyExistIn(metadata, key, prefixes) ||
-        metadata[getMetadataKey(key, prefixes)] === undefined
-    ) {
+    if (metadata === undefined) {
         return undefined;
     }
 
-    return metadata[getMetadataKey(key, prefixes)];
+    const fullKey = getMetadataKey(key, prefixes);
+
+    if (doesMetadataKeyExistIn(metadata, fullKey) && metadata[fullKey] !== undefined) {
+        return metadata[fullKey];
+    }
+
+    if (MetadataChunker.isChunkedInMetadata(metadata, fullKey)) {
+        return MetadataChunker.reassembleChunkedValue(metadata, fullKey);
+    }
+
+    return undefined;
 };
 
 const getMetadataValueFrom = <Key extends AppMetadataKeys, Value extends AllowedMetadataValueTypes>(

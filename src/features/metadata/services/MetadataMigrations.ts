@@ -25,6 +25,7 @@ import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { CategoryIdInfo } from '@/features/category/Category.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getMetadataUpdateFunction } from '@/features/metadata/services/MetadataUpdater.ts';
+import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts';
 import { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
@@ -278,7 +279,8 @@ const commitMigratedMetadata = (
     migratedMetadata: Metadata,
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),
 ): void => {
-    const metadata = metadataHolder?.meta;
+    const rawMetadata = metadataHolder?.meta;
+    const metadata = MetadataChunker.reassembleAllChunkedValues(rawMetadata);
 
     const migrationId = Number(metadata?.[getMetadataKey('migration')] ?? 1);
 
@@ -293,6 +295,16 @@ const commitMigratedMetadata = (
         key,
         migratedMetadata[key],
     ]) as MetadataKeyValuePair[];
+
+    // Expand app keys to chunk keys for deletion (e.g., some_key -> some_key_0, some_key_1, some_key_2, ..., some_key_n, some_key_length
+    const keysToDelete = metadataKeysToDelete.flatMap((fullKey) => {
+        if (rawMetadata && MetadataChunker.isChunkedInMetadata(rawMetadata, fullKey)) {
+            const count = MetadataChunker.getExistingChunkCount(rawMetadata, fullKey);
+            const chunkKeys = Array.from({ length: count }, (_, i) => MetadataChunker.getChunkIndexKey(fullKey, i));
+            return [MetadataChunker.getChunkLengthKey(fullKey), ...chunkKeys];
+        }
+        return [fullKey];
+    }) as AppMetadataKeys[];
 
     const updateMetadata = getMetadataUpdateFunction(type, metadataHolder ?? { id: -1, meta: {} });
 
@@ -318,7 +330,7 @@ const commitMigratedMetadata = (
             try {
                 await updateMetadata({
                     update: metadataToUpdate,
-                    delete: metadataKeysToDelete,
+                    delete: keysToDelete,
                     migrate: [['migration', METADATA_MIGRATIONS.length]],
                     isMetadataKey: true,
                 });
@@ -343,7 +355,8 @@ export const applyMetadataMigrations = (
         | (SourceIdInfo & MetadataHolder),
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),
 ): Metadata | undefined => {
-    const meta = { ...(metadataHolder?.meta ?? {}) };
+    const rawMeta = metadataHolder?.meta ?? {};
+    const meta = MetadataChunker.reassembleAllChunkedValues(rawMeta) ?? {};
 
     const migrationIdKey = getMetadataKey('migration');
     const appliedMigrationId = Number.isNaN(Number(meta[migrationIdKey]))
