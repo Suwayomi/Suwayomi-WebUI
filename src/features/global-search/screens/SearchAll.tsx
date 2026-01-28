@@ -262,7 +262,7 @@ export const SearchAll: React.FC = () => {
                 isNsfw: showNsfw ? undefined : false,
                 languages: shownLangs,
                 keepLocalSource: true,
-                pinned: shouldShowOnlyPinnedSources,
+                pinned: shouldShowOnlyPinnedSources ? true : undefined,
                 enabled: true,
             }),
         [sources, shownLangs, shouldShowOnlyPinnedSources],
