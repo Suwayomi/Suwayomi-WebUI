@@ -30,30 +30,6 @@ export const DELETE_CATEGORY = gql`
     }
 `;
 
-export const DELETE_CATEGORY_METADATA = gql`
-    ${CATEGORY_META_FIELDS}
-
-    mutation DELETE_CATEGORY_METADATA($input: DeleteCategoryMetasInput!) {
-        deleteCategoryMetas(input: $input) {
-            metas {
-                ...CATEGORY_META_FIELDS
-            }
-        }
-    }
-`;
-
-export const SET_CATEGORY_METADATA = gql`
-    ${CATEGORY_META_FIELDS}
-
-    mutation SET_CATEGORY_METADATA($input: SetCategoryMetasInput!) {
-        setCategoryMetas(input: $input) {
-            metas {
-                ...CATEGORY_META_FIELDS
-            }
-        }
-    }
-`;
-
 export const UPDATE_CATEGORY = gql`
     mutation UPDATE_CATEGORY(
         $input: UpdateCategoryInput!

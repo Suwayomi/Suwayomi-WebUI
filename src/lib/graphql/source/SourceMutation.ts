@@ -35,30 +35,6 @@ export const UPDATE_SOURCE_PREFERENCES = gql`
     }
 `;
 
-export const SET_SOURCE_METADATA = gql`
-    ${SOURCE_META_FIELDS}
-
-    mutation SET_SOURCE_METADATA($input: SetSourceMetasInput!) {
-        setSourceMetas(input: $input) {
-            metas {
-                ...SOURCE_META_FIELDS
-            }
-        }
-    }
-`;
-
-export const DELETE_SOURCE_METADATA = gql`
-    ${SOURCE_META_FIELDS}
-
-    mutation DELETE_SOURCE_METADATA($input: DeleteSourceMetasInput!) {
-        deleteSourceMetas(input: $input) {
-            metas {
-                ...SOURCE_META_FIELDS
-            }
-        }
-    }
-`;
-
 export const UPDATE_SOURCE_METADATA = gql`
     ${SOURCE_META_FIELDS}
 

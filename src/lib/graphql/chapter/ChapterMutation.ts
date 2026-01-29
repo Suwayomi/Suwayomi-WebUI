@@ -11,18 +11,6 @@ import { CHAPTER_LIST_FIELDS, CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/
 import { TRACK_RECORD_BIND_FIELDS } from '@/lib/graphql/tracker/TrackRecordFragments.ts';
 import { MANGA_CHAPTER_NODE_FIELDS, MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 
-export const DELETE_CHAPTER_METADATA = gql`
-    ${CHAPTER_META_FIELDS}
-
-    mutation DELETE_CHAPTER_METADATA($input: DeleteChapterMetasInput!) {
-        deleteChapterMetas(input: $input) {
-            metas {
-                ...CHAPTER_META_FIELDS
-            }
-        }
-    }
-`;
-
 // makes the server fetch and return the pages of a chapter
 export const GET_CHAPTER_PAGES_FETCH = gql`
     mutation GET_CHAPTER_PAGES_FETCH($input: FetchChapterPagesInput!) {
@@ -51,18 +39,6 @@ export const GET_MANGA_CHAPTERS_FETCH = gql`
                     ...MANGA_CHAPTER_STAT_FIELDS
                     ...MANGA_CHAPTER_NODE_FIELDS
                 }
-            }
-        }
-    }
-`;
-
-export const SET_CHAPTER_METADATA = gql`
-    ${CHAPTER_META_FIELDS}
-
-    mutation SET_CHAPTER_METADATA($input: SetChapterMetasInput!) {
-        setChapterMetas(input: $input) {
-            metas {
-                ...CHAPTER_META_FIELDS
             }
         }
     }

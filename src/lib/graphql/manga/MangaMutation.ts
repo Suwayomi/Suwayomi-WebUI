@@ -9,18 +9,6 @@
 import gql from 'graphql-tag';
 import { MANGA_META_FIELDS, MANGA_SCREEN_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 
-export const DELETE_MANGA_METADATA = gql`
-    ${MANGA_META_FIELDS}
-
-    mutation DELETE_MANGA_METADATA($input: DeleteMangaMetasInput!) {
-        deleteMangaMetas(input: $input) {
-            metas {
-                ...MANGA_META_FIELDS
-            }
-        }
-    }
-`;
-
 // makes the server fetch and return the manga
 export const GET_MANGA_FETCH = gql`
     ${MANGA_SCREEN_FIELDS}
@@ -71,18 +59,6 @@ export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
                 isRead
                 isDownloaded
                 isBookmarked
-            }
-        }
-    }
-`;
-
-export const SET_MANGA_METADATA = gql`
-    ${MANGA_META_FIELDS}
-
-    mutation SET_MANGA_METADATA($input: SetMangaMetasInput!) {
-        setMangaMetas(input: $input) {
-            metas {
-                ...MANGA_META_FIELDS
             }
         }
     }
