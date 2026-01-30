@@ -34,8 +34,8 @@ export const i18nResources = [
     'ta',
     'tr',
     'vi',
-    'zh_Hans',
-    'zh_Hant',
+    'zh-Hans',
+    'zh-Hant',
 ] as const;
 
 export type I18nResourceCode = (typeof i18nResources)[number];

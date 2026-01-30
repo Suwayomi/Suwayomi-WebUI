@@ -30,8 +30,8 @@ export default defineConfig({
         'ta',
         'tr',
         'vi',
-        'zh_Hans',
-        'zh_Hant',
+        'zh-Hans',
+        'zh-Hant',
     ],
     catalogs: [
         {
