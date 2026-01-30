@@ -2439,7 +2439,7 @@ msgid "See <0>FlareSolverr</0> for information on how to set it up"
 msgstr "请见 <2>FlareSolverr</2> 以了解如何设定的信息"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
-msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new<2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5> , however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
+msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
 msgstr ""
 "查看官方 <0>MUI 文档</0>，了解如何自定义主题。调色板 API 不再受到支持，您需要"
 "使用新的 <1>色彩方案 API</1>。您可以使用主题创建器，例如 <2>MUI 主题创建器</"

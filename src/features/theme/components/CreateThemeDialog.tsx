@@ -150,7 +150,7 @@ export const ThemeCreationDialog = ({
                                 </Link>{' '}
                                 for how to customize the theme.
                                 <br />
-                                The palette API is not supported, you have to use the new
+                                The palette API is not supported, you have to use the new{' '}
                                 <Link
                                     href="https://mui.com/material-ui/customization/palette/#color-schemes"
                                     target="_blank"
@@ -168,7 +168,7 @@ export const ThemeCreationDialog = ({
                                     rel="noreferrer"
                                 >
                                     MUI Theme Creator
-                                </Link>{' '}
+                                </Link>
                                 , however, you have to adjust the created object according to the new color schemes API.
                                 <br />
                                 <br />

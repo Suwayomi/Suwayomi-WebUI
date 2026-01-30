@@ -2851,8 +2851,8 @@ msgid "See <0>FlareSolverr</0> for information on how to set it up"
 msgstr "See <0>FlareSolverr</0> for information on how to set it up"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
-msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new<2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5> , however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
-msgstr "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new<2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5> , however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
+msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
+msgstr "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/chapter/components/cards/ChapterCard.tsx
