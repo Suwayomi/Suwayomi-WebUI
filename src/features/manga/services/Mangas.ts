@@ -53,6 +53,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
+import { DEFAULT_LANGUAGE } from '@/lib/ISOLanguageUtil.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
@@ -657,7 +658,7 @@ export class Mangas {
         const translateMangaTagsByMangaTypeEntries = Object.entries(MANGA_TAGS_BY_MANGA_TYPE).map(
             ([mangaType, tags]) => [
                 mangaType,
-                ['en', i18n.locale, manga.source?.lang]
+                [DEFAULT_LANGUAGE, i18n.locale, manga.source?.lang]
                     .filter((lng) => !!lng)
                     .flatMap((language) =>
                         tags.flatMap((tag) =>
@@ -667,6 +668,7 @@ export class Mangas {
                     ),
             ],
         );
+
         const translatedMangaTagsByMangaType = Object.fromEntries(translateMangaTagsByMangaTypeEntries) as Record<
             string,
             string[]

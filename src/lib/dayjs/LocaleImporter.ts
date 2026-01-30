@@ -7,6 +7,7 @@
  */
 
 import { DAYJS_LOCALES, DayJsLocale } from '@/lib/dayjs/Locales.ts';
+import { DEFAULT_LANGUAGE } from '@/lib/ISOLanguageUtil.ts';
 
 export const getDayJsLocale = (locale: string): DayJsLocale => {
     if (DAYJS_LOCALES.includes(locale as DayJsLocale)) {
@@ -22,7 +23,7 @@ export const getDayJsLocale = (locale: string): DayJsLocale => {
         return convertedLocale as DayJsLocale;
     }
 
-    return 'en';
+    return DEFAULT_LANGUAGE;
 };
 
 export const importDayJsLocale = async (locale: string): Promise<DayJsLocale> => {
