@@ -17,9 +17,11 @@ import {
 import { WeblateLanguageStatistic } from './Weblate.types.ts';
 import { TRANSLATED_PERCENT_THRESHOLD } from './Weblate.constants.ts';
 
-const FILE_PATH = 'src/i18n/locales.json';
+const I18N_INDEX_PATH = 'src/i18n/index.ts';
+const LINGUI_CONFIG_PATH = 'lingui.config.ts';
 
-const outputFilePath = path.join(import.meta.dirname, `../../../${FILE_PATH}`);
+const i18nIndexFilePath = path.join(import.meta.dirname, `../../../${I18N_INDEX_PATH}`);
+const linguiConfigFilePath = path.join(import.meta.dirname, `../../../${LINGUI_CONFIG_PATH}`);
 const resourcesDirPath = path.join(import.meta.dirname, '../../../src/i18n/locales');
 
 const extractLanguageCode = (resourceFileNames: string): string =>
@@ -43,6 +45,25 @@ const meetsTranslatedPercentThreshold = (
     return meetsThreshold;
 };
 
+const formatLocalesArray = (locales: string[]): string => locales.map((locale) => `'${locale}'`).join(', ');
+
+const updateI18nIndex = (locales: string[]): void => {
+    const content = fs.readFileSync(i18nIndexFilePath, 'utf-8');
+    const localesArrayStr = formatLocalesArray(locales);
+    const updatedContent = content.replace(
+        /(export const i18nResources = \[)[\s\S]*?(] as const)/g,
+        `$1${localesArrayStr}$2`,
+    );
+    fs.writeFileSync(i18nIndexFilePath, updatedContent);
+};
+
+const updateLinguiConfig = (locales: string[]): void => {
+    const content = fs.readFileSync(linguiConfigFilePath, 'utf-8');
+    const localesArrayStr = formatLocalesArray(locales);
+    const updatedContent = content.replace(/(locales: \[)[\s\S]*?(],)/g, `$1${localesArrayStr}$2`);
+    fs.writeFileSync(linguiConfigFilePath, updatedContent);
+};
+
 const generateResources = async () => {
     const weblateLanguageStats = await fetchWeblateLanguageStats();
 
@@ -52,21 +73,26 @@ const generateResources = async () => {
         .filter((resourceFileName) => meetsTranslatedPercentThreshold(resourceFileName, weblateLanguageStats))
         .map(extractLanguageCode);
 
-    const localesConfig = JSON.parse(fs.readFileSync(outputFilePath, 'utf-8'));
-
-    localesConfig.locales = resourceNames;
-
-    fs.writeFileSync(outputFilePath, `${JSON.stringify(localesConfig, null, 2)}\n`);
+    updateI18nIndex(resourceNames);
+    updateLinguiConfig(resourceNames);
 
     execSync('yarn tsc', { stdio: 'inherit' });
+    execSync(`yarn eslint --fix ${I18N_INDEX_PATH} ${LINGUI_CONFIG_PATH}`, { stdio: 'inherit' });
 
-    const hasFileChanged = execSync('git status --porcelain').toString().includes(FILE_PATH);
-    if (!hasFileChanged) {
+    const hasI18nIndexChanged = execSync('git status --porcelain').toString().includes(I18N_INDEX_PATH);
+    const hasLinguiConfigChanged = execSync('git status --porcelain').toString().includes(LINGUI_CONFIG_PATH);
+
+    if (!hasI18nIndexChanged && !hasLinguiConfigChanged) {
         return;
     }
 
     execSync('git reset');
-    execSync(`git add ${FILE_PATH}`);
+    if (hasI18nIndexChanged) {
+        execSync(`git add ${I18N_INDEX_PATH}`);
+    }
+    if (hasLinguiConfigChanged) {
+        execSync(`git add ${LINGUI_CONFIG_PATH}`);
+    }
     execSync('git commit -m "Update available languages"');
 };
 

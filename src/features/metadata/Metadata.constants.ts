@@ -34,7 +34,7 @@ import { LibraryOptions } from '@/features/library/Library.types.ts';
 import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { detectLocale, getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
-import { i18nResources } from '@/i18n';
+import { I18nResourceCode, i18nResources } from '@/i18n';
 import { toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI';
@@ -385,7 +385,7 @@ export const APP_METADATA: Record<
         toConstrainedValue: (value: string) => {
             const locale = getISOLanguage(value)?.isoCode;
 
-            if (!locale || !i18nResources.includes(locale)) {
+            if (!locale || !i18nResources.includes(locale as I18nResourceCode)) {
                 return detectLocale();
             }
 
