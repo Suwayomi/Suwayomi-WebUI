@@ -3,16 +3,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.973Z\n"
-"PO-Revision-Date: 2026-01-17 03:01+0000\n"
-"Last-Translator: plum7x <plumgift@hotmail.com>\n"
+"PO-Revision-Date: 2026-02-02 12:21+0000\n"
+"Last-Translator: 圭紫 <kaceykoo@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hant/>\n"
-"Language: zh_Hant\n"
+"Language: zh-Hant\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
 #: src/features/settings/screens/ServerSettings.tsx
@@ -3358,3 +3358,8 @@ msgstr "WebUI 版本 {0} ({1}) 可供下載"
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "You are about to remove \"{0}\" from your library"
 msgstr "您即將從書櫃中刪除「{0}」"
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr "{0}% | 更新中…"
