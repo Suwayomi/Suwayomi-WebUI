@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.799Z\n"
-"PO-Revision-Date: 2026-01-19 21:01+0000\n"
+"PO-Revision-Date: 2026-02-02 22:30+0000\n"
 "Last-Translator: Constantin Piber <cp.piber@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/de/>\n"
@@ -3773,3 +3773,30 @@ msgstr "WebUI wurde zu Version {newVersion} ({0}) aktualisiert"
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "You are about to remove \"{0}\" from your library"
 msgstr "Du bist dabei, \"{0}\" aus deiner Bibliothek zu entfernen"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr "Änderungen konnten nicht gespeichert werden"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr "Benachrichtigen, wenn die Version aktualisiert wurde"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr "Benachrichtigen, wenn die Version aktualisiert wurde"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr "Keine Quellen installiert"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr ""
+"Zeigt einen Dialog an, wenn die Version aktualisiert wurde. Dieser Dialog "
+"wird immer angezeigt, sollte das Neuladen der App nötig sein, unabhängig von "
+"dieser Einstellung."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr "Zeigt einen Dialog an, wenn die Server-Version aktualisiert wurde"
