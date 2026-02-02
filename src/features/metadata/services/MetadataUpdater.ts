@@ -92,28 +92,50 @@ const requestMetadataUpdate = async (
         value: `${value}`,
     }));
 
-    const updateMetaInput = {
-        updateInput: { metas: allUpdateMetas },
-        deleteInput: { keys: uniqueDeleteKeys },
-        migrateInput: { metas: migrateMetas },
-    };
-
     switch (holderType) {
-        case 'category':
-            await requestManager.updateCategoryMeta([(metadataHolder as CategoryIdInfo).id], updateMetaInput).response;
+        case 'category': {
+            const categoryId = (metadataHolder as CategoryIdInfo).id;
+            await requestManager.updateCategoryMeta({
+                updateInput: { items: [{ categoryIds: [categoryId], metas: allUpdateMetas }] },
+                deleteInput: { items: [{ categoryIds: [categoryId], keys: uniqueDeleteKeys }] },
+                migrateInput: { items: [{ categoryIds: [categoryId], metas: migrateMetas }] },
+            }).response;
             break;
-        case 'chapter':
-            await requestManager.updateChapterMeta([(metadataHolder as ChapterIdInfo).id], updateMetaInput).response;
+        }
+        case 'chapter': {
+            const chapterId = (metadataHolder as ChapterIdInfo).id;
+            await requestManager.updateChapterMeta({
+                updateInput: { items: [{ chapterIds: [chapterId], metas: allUpdateMetas }] },
+                deleteInput: { items: [{ chapterIds: [chapterId], keys: uniqueDeleteKeys }] },
+                migrateInput: { items: [{ chapterIds: [chapterId], metas: migrateMetas }] },
+            }).response;
             break;
+        }
         case 'global':
-            await requestManager.updateGlobalMeta(updateMetaInput).response;
+            await requestManager.updateGlobalMeta({
+                updateInput: { metas: allUpdateMetas },
+                deleteInput: { keys: uniqueDeleteKeys },
+                migrateInput: { metas: migrateMetas },
+            }).response;
             break;
-        case 'manga':
-            await requestManager.updateMangaMeta([(metadataHolder as MangaIdInfo).id], updateMetaInput).response;
+        case 'manga': {
+            const mangaId = (metadataHolder as MangaIdInfo).id;
+            await requestManager.updateMangaMeta({
+                updateInput: { items: [{ mangaIds: [mangaId], metas: allUpdateMetas }] },
+                deleteInput: { items: [{ mangaIds: [mangaId], keys: uniqueDeleteKeys }] },
+                migrateInput: { items: [{ mangaIds: [mangaId], metas: migrateMetas }] },
+            }).response;
             break;
-        case 'source':
-            await requestManager.updateSourceMeta([(metadataHolder as SourceIdInfo).id], updateMetaInput).response;
+        }
+        case 'source': {
+            const sourceId = (metadataHolder as SourceIdInfo).id;
+            await requestManager.updateSourceMeta({
+                updateInput: { items: [{ sourceIds: [sourceId], metas: allUpdateMetas }] },
+                deleteInput: { items: [{ sourceIds: [sourceId], keys: uniqueDeleteKeys }] },
+                migrateInput: { items: [{ sourceIds: [sourceId], metas: migrateMetas }] },
+            }).response;
             break;
+        }
         default:
             throw new Error(`requestMetadataUpdate: unknown holderType "${holderType}"`);
     }

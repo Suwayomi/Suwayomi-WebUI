@@ -220,14 +220,14 @@ import {
     UpdateCategoryMetadataMutationVariables,
     UpdateSourceMetadataMutation,
     UpdateSourceMetadataMutationVariables,
-    SetCategoryMetasItemInput,
-    DeleteCategoryMetasItemInput,
-    SetSourceMetasItemInput,
-    DeleteSourceMetasItemInput,
-    SetMangaMetasItemInput,
-    DeleteMangaMetasItemInput,
-    SetChapterMetasItemInput,
-    DeleteChapterMetasItemInput,
+    SetSourceMetasInput,
+    DeleteSourceMetasInput,
+    SetMangaMetasInput,
+    DeleteMangaMetasInput,
+    SetChapterMetasInput,
+    DeleteChapterMetasInput,
+    SetCategoryMetasInput,
+    DeleteCategoryMetasInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/metadata/GlobalMetadataQuery.ts';
 import { UPDATE_GLOBAL_METADATA } from '@/lib/graphql/metadata/GlobalMetadataMutation.ts';
@@ -339,8 +339,6 @@ import { SOURCE_META_FIELDS } from '@/lib/graphql/source/SourceFragments.ts';
 import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
 import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import { CategoryIdInfo } from '@/features/category/Category.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -349,7 +347,6 @@ import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/koreader/KoreaderSy
 import { GET_KO_SYNC_STATUS } from '@/lib/graphql/koreader/KoreaderSyncQuery.ts';
 import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
-import { SourceIdInfo } from '@/features/source/Source.types.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -1309,7 +1306,7 @@ export class RequestManager {
                 deleteInput,
                 hasDeletions: !!deleteInput.keys?.length || !!deleteInput.prefixes?.length,
                 migrateInput,
-                isMigration: !!migrateInput.metas.length,
+                isMigration: !!updateInput.metas.length,
             },
             {
                 optimisticResponse: {
@@ -1714,15 +1711,14 @@ export class RequestManager {
     }
 
     public updateSourceMeta(
-        sourceIds: SourceIdInfo['id'][],
         {
-            updateInput = { metas: [] },
-            deleteInput = { keys: [] },
-            migrateInput = { metas: [] },
+            updateInput = { items: [] },
+            deleteInput = { items: [] },
+            migrateInput = { items: [] },
         }: {
-            updateInput?: Omit<SetSourceMetasItemInput, 'sourceIds'>;
-            deleteInput?: Omit<DeleteSourceMetasItemInput, 'sourceIds'>;
-            migrateInput?: Omit<SetSourceMetasItemInput, 'sourceIds'>;
+            updateInput?: SetSourceMetasInput;
+            deleteInput?: DeleteSourceMetasInput;
+            migrateInput?: SetSourceMetasInput;
         },
         options?: MutationOptions<UpdateSourceMetadataMutation, UpdateSourceMetadataMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateSourceMetadataMutation> {
@@ -1730,60 +1726,75 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_SOURCE_METADATA,
             {
-                updateInput: { items: [{ ...updateInput, sourceIds }] },
-                hasUpdates: !!updateInput.metas.length,
-                deleteInput: { items: [{ ...deleteInput, sourceIds }] },
-                hasDeletions: !!deleteInput.keys?.length || !!deleteInput.prefixes?.length,
-                migrateInput: { items: [{ ...migrateInput, sourceIds }] },
-                isMigration: !!migrateInput.metas.length,
+                updateInput,
+                hasUpdates: updateInput.items.some((item) => !!item.metas?.length),
+                deleteInput,
+                hasDeletions: deleteInput.items.some((item) => !!item.keys?.length || !!item.prefixes?.length),
+                migrateInput,
+                isMigration: migrateInput.items.some((item) => !!item.metas?.length),
             },
             {
                 optimisticResponse: {
                     __typename: 'Mutation',
                     updatedMeta: {
                         __typename: 'SetSourceMetasPayload',
-                        metas: sourceIds.flatMap((sourceId) =>
-                            (updateInput?.metas ?? []).map((meta) => ({
-                                __typename: 'SourceMetaType' as const,
-                                sourceId,
-                                key: meta.key,
-                                value: meta.value,
-                            })),
+                        metas: (updateInput?.items ?? []).flatMap((item) =>
+                            item.sourceIds.flatMap((sourceId) =>
+                                item.metas.map((meta) => ({
+                                    __typename: 'SourceMetaType' as const,
+                                    sourceId,
+                                    key: meta.key,
+                                    value: meta.value,
+                                })),
+                            ),
                         ),
                     },
                     deletedMeta: {
                         __typename: 'DeleteSourceMetasPayload',
-                        metas: sourceIds.flatMap((sourceId) =>
-                            (deleteInput?.keys ?? []).map((key) => ({
-                                __typename: 'SourceMetaType' as const,
-                                sourceId,
-                                key,
-                                value: '',
-                            })),
+                        metas: (deleteInput?.items ?? []).flatMap((item) =>
+                            item.sourceIds.flatMap((sourceId) =>
+                                (item.keys ?? []).map((key) => ({
+                                    __typename: 'SourceMetaType' as const,
+                                    sourceId,
+                                    key,
+                                    value: '',
+                                })),
+                            ),
                         ),
                     },
                     migrationMeta: {
                         __typename: 'SetSourceMetasPayload',
-                        metas: sourceIds.flatMap((sourceId) =>
-                            (migrateInput?.metas ?? []).map((meta) => ({
-                                __typename: 'SourceMetaType' as const,
-                                sourceId,
-                                key: meta.key,
-                                value: meta.value,
-                            })),
+                        metas: (migrateInput?.items ?? []).flatMap((item) =>
+                            item.sourceIds.flatMap((sourceId) =>
+                                item.metas.map((meta) => ({
+                                    __typename: 'SourceMetaType' as const,
+                                    sourceId,
+                                    key: meta.key,
+                                    value: meta.value,
+                                })),
+                            ),
                         ),
                     },
                 },
                 update(cache, { data }) {
-                    sourceIds?.forEach((sourceId) => {
-                        deleteInput?.keys?.forEach((key) => {
-                            cache.evict({ id: cache.identify({ __typename: 'SourceMetaType', sourceId, key }) });
-                        });
-                    });
+                    deleteInput?.items.forEach((item) =>
+                        item.sourceIds.forEach((sourceId) =>
+                            item.keys?.forEach((key) => {
+                                cache.evict({
+                                    id: cache.identify({ __typename: 'SourceMetaType', sourceId, key }),
+                                });
+                            }),
+                        ),
+                    );
 
                     if (!data?.updatedMeta && !data?.migrationMeta) {
                         return;
                     }
+
+                    const sourceIds = [
+                        ...updateInput.items.flatMap((item) => item.sourceIds),
+                        ...migrateInput.items.flatMap((item) => item.sourceIds),
+                    ];
 
                     sourceIds.forEach((sourceId) => {
                         cache.modify({
@@ -1791,8 +1802,10 @@ export class RequestManager {
                             fields: {
                                 meta(existingMetas, { readField }) {
                                     const updatedMeta = [
-                                        ...(data?.updatedMeta?.metas ?? []),
-                                        ...(data?.migrationMeta?.metas ?? []),
+                                        ...(data?.updatedMeta?.metas.filter((meta) => meta.sourceId === sourceId) ??
+                                            []),
+                                        ...(data?.migrationMeta?.metas.filter((meta) => meta.sourceId === sourceId) ??
+                                            []),
                                     ];
 
                                     return updateMetadataList(updatedMeta, existingMetas, readField, (meta) =>
@@ -2261,15 +2274,14 @@ export class RequestManager {
     }
 
     public updateMangaMeta(
-        mangaIds: MangaIdInfo['id'][],
         {
-            updateInput = { metas: [] },
-            deleteInput = { keys: [] },
-            migrateInput = { metas: [] },
+            updateInput = { items: [] },
+            deleteInput = { items: [] },
+            migrateInput = { items: [] },
         }: {
-            updateInput?: Omit<SetMangaMetasItemInput, 'mangaIds'>;
-            deleteInput?: Omit<DeleteMangaMetasItemInput, 'mangaIds'>;
-            migrateInput?: Omit<SetMangaMetasItemInput, 'mangaIds'>;
+            updateInput?: SetMangaMetasInput;
+            deleteInput?: DeleteMangaMetasInput;
+            migrateInput?: SetMangaMetasInput;
         },
         options?: MutationOptions<UpdateMangaMetadataMutation, UpdateMangaMetadataMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateMangaMetadataMutation> {
@@ -2277,60 +2289,75 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_MANGA_METADATA,
             {
-                updateInput: { items: [{ ...updateInput, mangaIds }] },
-                hasUpdates: !!updateInput.metas.length,
-                deleteInput: { items: [{ ...deleteInput, mangaIds }] },
-                hasDeletions: !!deleteInput.keys?.length || !!deleteInput.prefixes?.length,
-                migrateInput: { items: [{ ...migrateInput, mangaIds }] },
-                isMigration: !!migrateInput.metas.length,
+                updateInput,
+                hasUpdates: updateInput.items.some((item) => !!item.metas?.length),
+                deleteInput,
+                hasDeletions: deleteInput.items.some((item) => !!item.keys?.length || !!item.prefixes?.length),
+                migrateInput,
+                isMigration: migrateInput.items.some((item) => !!item.metas?.length),
             },
             {
                 optimisticResponse: {
                     __typename: 'Mutation',
                     updatedMeta: {
                         __typename: 'SetMangaMetasPayload',
-                        metas: mangaIds.flatMap((mangaId) =>
-                            (updateInput?.metas ?? []).map((meta) => ({
-                                __typename: 'MangaMetaType' as const,
-                                mangaId,
-                                key: meta.key,
-                                value: meta.value,
-                            })),
+                        metas: (updateInput?.items ?? []).flatMap((item) =>
+                            item.mangaIds.flatMap((mangaId) =>
+                                item.metas.map((meta) => ({
+                                    __typename: 'MangaMetaType' as const,
+                                    mangaId,
+                                    key: meta.key,
+                                    value: meta.value,
+                                })),
+                            ),
                         ),
                     },
                     deletedMeta: {
                         __typename: 'DeleteMangaMetasPayload',
-                        metas: mangaIds.flatMap((mangaId) =>
-                            (deleteInput?.keys ?? []).map((key) => ({
-                                __typename: 'MangaMetaType' as const,
-                                mangaId,
-                                key,
-                                value: '',
-                            })),
+                        metas: (deleteInput?.items ?? []).flatMap((item) =>
+                            item.mangaIds.flatMap((mangaId) =>
+                                (item.keys ?? []).map((key) => ({
+                                    __typename: 'MangaMetaType' as const,
+                                    mangaId,
+                                    key,
+                                    value: '',
+                                })),
+                            ),
                         ),
                     },
                     migrationMeta: {
                         __typename: 'SetMangaMetasPayload',
-                        metas: mangaIds.flatMap((mangaId) =>
-                            (migrateInput?.metas ?? []).map((meta) => ({
-                                __typename: 'MangaMetaType' as const,
-                                mangaId,
-                                key: meta.key,
-                                value: meta.value,
-                            })),
+                        metas: (migrateInput?.items ?? []).flatMap((item) =>
+                            item.mangaIds.flatMap((mangaId) =>
+                                item.metas.map((meta) => ({
+                                    __typename: 'MangaMetaType' as const,
+                                    mangaId,
+                                    key: meta.key,
+                                    value: meta.value,
+                                })),
+                            ),
                         ),
                     },
                 },
                 update(cache, { data }) {
-                    mangaIds.forEach((mangaId) => {
-                        deleteInput?.keys?.forEach((key) => {
-                            cache.evict({ id: cache.identify({ __typename: 'MangaMetaType', mangaId, key }) });
-                        });
-                    });
+                    deleteInput?.items.forEach((item) =>
+                        item.mangaIds.forEach((mangaId) =>
+                            item.keys?.forEach((key) => {
+                                cache.evict({
+                                    id: cache.identify({ __typename: 'MangaMetaType', mangaId, key }),
+                                });
+                            }),
+                        ),
+                    );
 
                     if (!data?.updatedMeta && !data?.migrationMeta) {
                         return;
                     }
+
+                    const mangaIds = [
+                        ...updateInput.items.flatMap((item) => item.mangaIds),
+                        ...migrateInput.items.flatMap((item) => item.mangaIds),
+                    ];
 
                     mangaIds.forEach((mangaId) => {
                         cache.modify({
@@ -2338,8 +2365,9 @@ export class RequestManager {
                             fields: {
                                 meta(existingMetas, { readField }) {
                                     const updatedMeta = [
-                                        ...(data?.updatedMeta?.metas ?? []),
-                                        ...(data?.migrationMeta?.metas ?? []),
+                                        ...(data?.updatedMeta?.metas.filter((meta) => meta.mangaId === mangaId) ?? []),
+                                        ...(data?.migrationMeta?.metas.filter((meta) => meta.mangaId === mangaId) ??
+                                            []),
                                     ];
 
                                     return updateMetadataList(updatedMeta, existingMetas, readField, (meta) =>
@@ -2514,15 +2542,14 @@ export class RequestManager {
     }
 
     public updateChapterMeta(
-        chapterIds: ChapterIdInfo['id'][],
         {
-            updateInput = { metas: [] },
-            deleteInput = { keys: [] },
-            migrateInput = { metas: [] },
+            updateInput = { items: [] },
+            deleteInput = { items: [] },
+            migrateInput = { items: [] },
         }: {
-            updateInput?: Omit<SetChapterMetasItemInput, 'chapterIds'>;
-            deleteInput?: Omit<DeleteChapterMetasItemInput, 'chapterIds'>;
-            migrateInput?: Omit<SetChapterMetasItemInput, 'chapterIds'>;
+            updateInput?: SetChapterMetasInput;
+            deleteInput?: DeleteChapterMetasInput;
+            migrateInput?: SetChapterMetasInput;
         },
         options?: MutationOptions<UpdateChapterMetadataMutation, UpdateChapterMetadataMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateChapterMetadataMutation> {
@@ -2530,60 +2557,75 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_CHAPTER_METADATA,
             {
-                updateInput: { items: [{ ...updateInput, chapterIds }] },
-                hasUpdates: !!updateInput.metas.length,
-                deleteInput: { items: [{ ...deleteInput, chapterIds }] },
-                hasDeletions: !!deleteInput.keys?.length || !!deleteInput.prefixes?.length,
-                migrateInput: { items: [{ ...migrateInput, chapterIds }] },
-                isMigration: !!migrateInput.metas.length,
+                updateInput,
+                hasUpdates: updateInput.items.some((item) => !!item.metas?.length),
+                deleteInput,
+                hasDeletions: deleteInput.items.some((item) => !!item.keys?.length || !!item.prefixes?.length),
+                migrateInput,
+                isMigration: migrateInput.items.some((item) => !!item.metas?.length),
             },
             {
                 optimisticResponse: {
                     __typename: 'Mutation',
                     updatedMeta: {
                         __typename: 'SetChapterMetasPayload',
-                        metas: chapterIds.flatMap((chapterId) =>
-                            (updateInput?.metas ?? []).map((meta) => ({
-                                __typename: 'ChapterMetaType' as const,
-                                chapterId,
-                                key: meta.key,
-                                value: meta.value,
-                            })),
+                        metas: (updateInput?.items ?? []).flatMap((item) =>
+                            item.chapterIds.flatMap((chapterId) =>
+                                item.metas.map((meta) => ({
+                                    __typename: 'ChapterMetaType' as const,
+                                    chapterId,
+                                    key: meta.key,
+                                    value: meta.value,
+                                })),
+                            ),
                         ),
                     },
                     deletedMeta: {
                         __typename: 'DeleteChapterMetasPayload',
-                        metas: chapterIds.flatMap((chapterId) =>
-                            (deleteInput?.keys ?? []).map((key) => ({
-                                __typename: 'ChapterMetaType' as const,
-                                chapterId,
-                                key,
-                                value: '',
-                            })),
+                        metas: (deleteInput?.items ?? []).flatMap((item) =>
+                            item.chapterIds.flatMap((chapterId) =>
+                                (item.keys ?? []).map((key) => ({
+                                    __typename: 'ChapterMetaType' as const,
+                                    chapterId,
+                                    key,
+                                    value: '',
+                                })),
+                            ),
                         ),
                     },
                     migrationMeta: {
                         __typename: 'SetChapterMetasPayload',
-                        metas: chapterIds.flatMap((chapterId) =>
-                            (migrateInput?.metas ?? []).map((meta) => ({
-                                __typename: 'ChapterMetaType' as const,
-                                chapterId,
-                                key: meta.key,
-                                value: meta.value,
-                            })),
+                        metas: (migrateInput?.items ?? []).flatMap((item) =>
+                            item.chapterIds.flatMap((chapterId) =>
+                                item.metas.map((meta) => ({
+                                    __typename: 'ChapterMetaType' as const,
+                                    chapterId,
+                                    key: meta.key,
+                                    value: meta.value,
+                                })),
+                            ),
                         ),
                     },
                 },
                 update(cache, { data }) {
-                    chapterIds.forEach((chapterId) => {
-                        deleteInput?.keys?.forEach((key) => {
-                            cache.evict({ id: cache.identify({ __typename: 'ChapterMetaType', chapterId, key }) });
-                        });
-                    });
+                    deleteInput?.items.forEach((item) =>
+                        item.chapterIds.forEach((chapterId) =>
+                            item.keys?.forEach((key) => {
+                                cache.evict({
+                                    id: cache.identify({ __typename: 'ChapterMetaType', chapterId, key }),
+                                });
+                            }),
+                        ),
+                    );
 
                     if (!data?.updatedMeta && !data?.migrationMeta) {
                         return;
                     }
+
+                    const chapterIds = [
+                        ...updateInput.items.flatMap((item) => item.chapterIds),
+                        ...migrateInput.items.flatMap((item) => item.chapterIds),
+                    ];
 
                     chapterIds.forEach((chapterId) => {
                         cache.modify({
@@ -2591,8 +2633,10 @@ export class RequestManager {
                             fields: {
                                 meta(existingMetas, { readField }) {
                                     const updatedMeta = [
-                                        ...(data?.updatedMeta?.metas ?? []),
-                                        ...(data?.migrationMeta?.metas ?? []),
+                                        ...(data?.updatedMeta?.metas.filter((meta) => meta.chapterId === chapterId) ??
+                                            []),
+                                        ...(data?.migrationMeta?.metas.filter((meta) => meta.chapterId === chapterId) ??
+                                            []),
                                     ];
 
                                     return updateMetadataList(updatedMeta, existingMetas, readField, (meta) =>
@@ -2818,15 +2862,14 @@ export class RequestManager {
     }
 
     public updateCategoryMeta(
-        categoryIds: CategoryIdInfo['id'][],
         {
-            updateInput = { metas: [] },
-            deleteInput = { keys: [] },
-            migrateInput = { metas: [] },
+            updateInput = { items: [] },
+            deleteInput = { items: [] },
+            migrateInput = { items: [] },
         }: {
-            updateInput?: Omit<SetCategoryMetasItemInput, 'categoryIds'>;
-            deleteInput?: Omit<DeleteCategoryMetasItemInput, 'categoryIds'>;
-            migrateInput?: Omit<SetCategoryMetasItemInput, 'categoryIds'>;
+            updateInput?: SetCategoryMetasInput;
+            deleteInput?: DeleteCategoryMetasInput;
+            migrateInput?: SetCategoryMetasInput;
         },
         options?: MutationOptions<UpdateCategoryMetadataMutation, UpdateCategoryMetadataMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateCategoryMetadataMutation> {
@@ -2834,60 +2877,75 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_CATEGORY_METADATA,
             {
-                updateInput: { items: [{ ...updateInput, categoryIds }] },
-                hasUpdates: !!updateInput.metas.length,
-                deleteInput: { items: [{ ...deleteInput, categoryIds }] },
-                hasDeletions: !!deleteInput.keys?.length || !!deleteInput.prefixes?.length,
-                migrateInput: { items: [{ ...migrateInput, categoryIds }] },
-                isMigration: !!migrateInput.metas.length,
+                updateInput,
+                hasUpdates: updateInput.items.some((item) => !!item.metas?.length),
+                deleteInput,
+                hasDeletions: deleteInput.items.some((item) => !!item.keys?.length || !!item.prefixes?.length),
+                migrateInput,
+                isMigration: migrateInput.items.some((item) => !!item.metas?.length),
             },
             {
                 optimisticResponse: {
                     __typename: 'Mutation',
                     updatedMeta: {
                         __typename: 'SetCategoryMetasPayload',
-                        metas: categoryIds.flatMap((categoryId) =>
-                            (updateInput?.metas ?? []).map((meta) => ({
-                                __typename: 'CategoryMetaType' as const,
-                                categoryId,
-                                key: meta.key,
-                                value: meta.value,
-                            })),
+                        metas: (updateInput?.items ?? []).flatMap((item) =>
+                            item.categoryIds.flatMap((categoryId) =>
+                                item.metas.map((meta) => ({
+                                    __typename: 'CategoryMetaType' as const,
+                                    categoryId,
+                                    key: meta.key,
+                                    value: meta.value,
+                                })),
+                            ),
                         ),
                     },
                     deletedMeta: {
                         __typename: 'DeleteCategoryMetasPayload',
-                        metas: categoryIds.flatMap((categoryId) =>
-                            (deleteInput?.keys ?? []).map((key) => ({
-                                __typename: 'CategoryMetaType' as const,
-                                categoryId,
-                                key,
-                                value: '',
-                            })),
+                        metas: (deleteInput?.items ?? []).flatMap((item) =>
+                            item.categoryIds.flatMap((categoryId) =>
+                                (item.keys ?? []).map((key) => ({
+                                    __typename: 'CategoryMetaType' as const,
+                                    categoryId,
+                                    key,
+                                    value: '',
+                                })),
+                            ),
                         ),
                     },
                     migrationMeta: {
                         __typename: 'SetCategoryMetasPayload',
-                        metas: categoryIds.flatMap((categoryId) =>
-                            (migrateInput?.metas ?? []).map((meta) => ({
-                                __typename: 'CategoryMetaType' as const,
-                                categoryId,
-                                key: meta.key,
-                                value: meta.value,
-                            })),
+                        metas: (migrateInput?.items ?? []).flatMap((item) =>
+                            item.categoryIds.flatMap((categoryId) =>
+                                item.metas.map((meta) => ({
+                                    __typename: 'CategoryMetaType' as const,
+                                    categoryId,
+                                    key: meta.key,
+                                    value: meta.value,
+                                })),
+                            ),
                         ),
                     },
                 },
                 update(cache, { data }) {
-                    categoryIds.forEach((categoryId) => {
-                        deleteInput?.keys?.forEach((key) => {
-                            cache.evict({ id: cache.identify({ __typename: 'CategoryMetaType', categoryId, key }) });
-                        });
-                    });
+                    deleteInput?.items.forEach((item) =>
+                        item.categoryIds.forEach((categoryId) =>
+                            item.keys?.forEach((key) => {
+                                cache.evict({
+                                    id: cache.identify({ __typename: 'CategoryMetaType', categoryId, key }),
+                                });
+                            }),
+                        ),
+                    );
 
                     if (!data?.updatedMeta && !data?.migrationMeta) {
                         return;
                     }
+
+                    const categoryIds = [
+                        ...updateInput.items.flatMap((item) => item.categoryIds),
+                        ...migrateInput.items.flatMap((item) => item.categoryIds),
+                    ];
 
                     categoryIds.forEach((categoryId) => {
                         cache.modify({
@@ -2895,8 +2953,11 @@ export class RequestManager {
                             fields: {
                                 meta(existingMetas, { readField }) {
                                     const updatedMeta = [
-                                        ...(data?.updatedMeta?.metas ?? []),
-                                        ...(data?.migrationMeta?.metas ?? []),
+                                        ...(data?.updatedMeta?.metas.filter((meta) => meta.categoryId === categoryId) ??
+                                            []),
+                                        ...(data?.migrationMeta?.metas.filter(
+                                            (meta) => meta.categoryId === categoryId,
+                                        ) ?? []),
                                     ];
 
                                     return updateMetadataList(updatedMeta, existingMetas, readField, (meta) =>
