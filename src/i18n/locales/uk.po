@@ -13,18 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#. placeholder {0}: serverSettings.flareSolverrSessionTtl
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "{0, plural, one {# minute} other {# minutes}}"
-msgstr "{count} хвилина"
-
-#. placeholder {0}: autoScroll.value
-#. placeholder {0}: serverSettings.flareSolverrTimeout
-#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "{0, plural, one {# second} other {# seconds}}"
-msgstr "{count} секунда"
-
 #: src/features/app-updates/components/VersionInfo.tsx
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "{progress}% | Updating…"
@@ -1187,7 +1175,7 @@ msgstr "Передостання прочитана глава"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "See <0>FlareSolverr</0> for information on how to set it up"
-msgstr "Див. <2>FlareSolverr</2> для отримання інформації щодо налаштування"
+msgstr "Див. <0>FlareSolverr</0> для отримання інформації щодо налаштування"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/manga/components/MangaOptionButton.tsx

@@ -2171,7 +2171,7 @@ msgstr "Grabar combinación de tecla"
 #. placeholder {0}: recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 msgid "Recorded hotkeys: {0}"
-msgstr "Teclas grabadas: <Keys/>"
+msgstr "Teclas grabadas: {0}"
 
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Red"
@@ -2386,7 +2386,7 @@ msgstr "Penúltimo capítulo leído"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "See <0>FlareSolverr</0> for information on how to set it up"
-msgstr "Ver <2>FlareSolverr</2> para información sobre cómo configurarlo"
+msgstr "Ver <0>FlareSolverr</0> para información sobre cómo configurarlo"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."

@@ -13,22 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#. placeholder {0}: serverSettings.flareSolverrSessionTtl
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "{0, plural, one {# minute} other {# minutes}}"
-msgstr "{count}minute"
-
-#. placeholder {0}: autoScroll.value
-#. placeholder {0}: serverSettings.flareSolverrTimeout
-#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "{0, plural, one {# second} other {# seconds}}"
-msgstr "{count}second"
-
-#: src/features/library/screens/LibrarySettings.tsx
-msgid "{categoryCount, plural, one {# category} other {# categories}}"
-msgstr "{count}category"
-
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
 msgstr "残り{count}件"
@@ -2008,7 +1992,7 @@ msgstr "キー設定を保存する"
 #. placeholder {0}: recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 msgid "Recorded hotkeys: {0}"
-msgstr "記録されたキー：<Keys/>"
+msgstr "記録されたキー：{0}"
 
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Red"
@@ -2213,7 +2197,7 @@ msgstr "最後に読んだ章から2つ"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "See <0>FlareSolverr</0> for information on how to set it up"
-msgstr "設定方法に関する情報は、<2>FlareSolverr</2>を参照してください"
+msgstr "設定方法に関する情報は、<0>FlareSolverr</0>を参照してください"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."

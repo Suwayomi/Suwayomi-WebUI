@@ -1796,7 +1796,7 @@ msgstr "Tuş atamasını kaydet"
 #. placeholder {0}: recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 msgid "Recorded hotkeys: {0}"
-msgstr "Kaydedilen tuşlar: <Keys/>"
+msgstr "Kaydedilen tuşlar: {0}"
 
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Red"
@@ -1984,7 +1984,7 @@ msgstr "Sondan ikinci okunan bölüm"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "See <0>FlareSolverr</0> for information on how to set it up"
-msgstr "Kurulumu hakkında bilgi için <2>FlareSolverr</2>'a bakın"
+msgstr "Kurulumu hakkında bilgi için <0>FlareSolverr</0>'a bakın"
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/chapter/components/cards/ChapterCard.tsx

@@ -1074,7 +1074,7 @@ msgstr "Recent gelezen"
 #. placeholder {0}: recordedKeys.size ? ( <Hotkey keys={keys} /> ) : ( <Typography> {t({ id: 'hotkeys.create.dialog.placeholder', message: 'Press keys', })} </Typography> )
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 msgid "Recorded hotkeys: {0}"
-msgstr "Opgenomen toetsen: <Keys/>"
+msgstr "Opgenomen toetsen: {0}"
 
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Refresh"

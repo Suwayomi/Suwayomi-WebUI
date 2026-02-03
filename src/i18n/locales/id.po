@@ -13,22 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#. placeholder {0}: serverSettings.flareSolverrSessionTtl
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "{0, plural, one {# minute} other {# minutes}}"
-msgstr "{count} minute"
-
-#. placeholder {0}: autoScroll.value
-#. placeholder {0}: serverSettings.flareSolverrTimeout
-#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "{0, plural, one {# second} other {# seconds}}"
-msgstr "{count} second"
-
-#: src/features/library/screens/LibrarySettings.tsx
-msgid "{categoryCount, plural, one {# category} other {# categories}}"
-msgstr "{count} category"
-
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
 msgstr "Tersisa {count}"
@@ -1268,7 +1252,7 @@ msgstr "Rekam tombol pintas"
 #. placeholder {0}: recordedKeys.size ? ( <Hotkey keys={keys} /> ) : ( <Typography> {t({ id: 'hotkeys.create.dialog.placeholder', message: 'Press keys', })} </Typography> )
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 msgid "Recorded hotkeys: {0}"
-msgstr "Kunci yang tercatat: <Keys/>"
+msgstr "Kunci yang tercatat: {0}"
 
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Refresh"

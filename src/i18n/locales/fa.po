@@ -2210,11 +2210,6 @@ msgstr "اخیراً خوانده‌ شده"
 msgid "Record keybind"
 msgstr "ثبت کلید میانبر"
 
-#. placeholder {0}: recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>
-#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
-msgid "Recorded hotkeys: {0}"
-msgstr "کلیدهای ثبت‌شده: <Keys/>"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Red"
 msgstr "قرمز"
@@ -2425,21 +2420,6 @@ msgstr "نتایج جستجو شامل مانگا هایی خواهد بود ک�
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Second to last read chapter"
 msgstr "دو چپتر قبل از آخرین چپتر خوانده‌ شده"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "See <0>FlareSolverr</0> for information on how to set it up"
-msgstr "برای اطلاعات درباره نحوه راه‌اندازی، <2>FlareSolverr</2> را ببینید"
-
-#: src/features/theme/components/CreateThemeDialog.tsx
-msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
-msgstr ""
-"برای نحوه سفارشی‌سازی تم، <0>مستندات رسمی MUI</0> را ببینید.\n"
-"API پالت پشتیبانی نمی‌شود و باید از <1>API طرح‌های رنگی</1> جدید استفاده کنید.\n"
-"\n"
-"می‌توانید از ابزارهایی مانند <2>MUI Theme Creator</2> استفاده کنید، اما باید شیء ساخته‌شده را مطابق API جدید طرح‌های رنگی تنظیم کنید.\n"
-"\n"
-"در صورت تعریف نشدن پس‌زمینه، پس‌زمینه‌ای بر اساس رنگ اصلی محاسبه می‌شود\n"
-""
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/chapter/components/cards/ChapterCard.tsx

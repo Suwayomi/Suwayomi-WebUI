@@ -13,10 +13,6 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/features/library/screens/LibrarySettings.tsx
-msgid "{categoryCount, plural, one {# category} other {# categories}}"
-msgstr "{count} فئات"
-
 #: src/features/app-updates/components/VersionInfo.tsx
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "{progress}% | Updating…"
@@ -1361,11 +1357,6 @@ msgstr "قرأت مؤخرا"
 msgid "Record keybind"
 msgstr "تسجيل مفتاح الربط"
 
-#. placeholder {0}: recordedKeys.size ? ( <Hotkey keys={keys} /> ) : ( <Typography> {t({ id: 'hotkeys.create.dialog.placeholder', message: 'Press keys', })} </Typography> )
-#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
-msgid "Recorded hotkeys: {0}"
-msgstr "المفاتيح المسجلة:<Keys/>"
-
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Refresh"
 msgstr "انعاش"
@@ -1482,10 +1473,6 @@ msgstr "ستتضمن نتائج البحث المانجا التي لا تتطا
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Second to last read chapter"
 msgstr "الفصل الثاني قبل الأخير قراءة"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "See <0>FlareSolverr</0> for information on how to set it up"
-msgstr "راجع <2>FlareSolverr</2> للحصول على معلومات حول كيفية إعداده"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
