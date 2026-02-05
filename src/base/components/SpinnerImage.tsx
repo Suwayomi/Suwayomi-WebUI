@@ -16,6 +16,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ImageIcon from '@mui/icons-material/Image';
 import { SxProps, Theme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
+import { usePrevious } from '@mantine/hooks';
 import { ImageRequest, requestManager } from '@/lib/requests/RequestManager.ts';
 import { Priority } from '@/lib/Queue.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
@@ -71,6 +72,8 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
 
     const showMissingImageIcon = !src.length;
 
+    const previousSrc = usePrevious(src);
+
     const [imageSourceUrl, setImageSourceUrl] = useState<string>();
     const [imgLoadRetryKey, setImgLoadRetryKey] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean>();
@@ -96,7 +99,10 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
     );
 
     useEffect(() => {
-        if (showMissingImageIcon || !shouldLoad || !!imageSourceUrl) {
+        const didSrcChange = previousSrc !== src;
+        const isLoadedAndSrcUnchanged = !!imageSourceUrl && !didSrcChange;
+
+        if (showMissingImageIcon || !shouldLoad || isLoadedAndSrcUnchanged) {
             return () => {};
         }
 
