@@ -51,6 +51,16 @@
 
     if (backgroundColor) {
         document.documentElement.style.backgroundColor = backgroundColor;
+        // android chromium-based browser/pwa background color (e.g. top status bar and navigation bar) will change dynamically based on meta theme-color
+        let themeColorMeta = document.querySelector('meta[name="theme-color"]');
+        if (!themeColorMeta) {
+            themeColorMeta = document.createElement('meta');
+            themeColorMeta.setAttribute('name', 'theme-color');
+            document.head.appendChild(themeColorMeta);
+        }
+        if (themeColorMeta.getAttribute('content') !== backgroundColor) {
+            themeColorMeta.setAttribute('content', backgroundColor);
+        }
     }
 </script>
 <!--
