@@ -131,8 +131,19 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
     useEffect(() => {
         // The set background color is not necessary anymore, since the theme has been loaded
         document.documentElement.style.backgroundColor = '';
+        const themeBackgroundColor = theme.palette.background.default;
 
-        AppStorage.local.setItem('theme_background', theme.palette.background.default);
+        AppStorage.local.setItem('theme_background', themeBackgroundColor);
+        // android chromium-based browser/pwa background color (e.g. top status bar and navigation bar) will change dynamically based on meta theme-color
+        let themeColorMeta = document.querySelector('meta[name="theme-color"]');
+        if (!themeColorMeta) {
+            themeColorMeta = document.createElement('meta');
+            themeColorMeta.setAttribute('name', 'theme-color');
+            document.head.appendChild(themeColorMeta);
+        }
+        if (themeColorMeta.getAttribute('content') !== themeBackgroundColor) {
+            themeColorMeta.setAttribute('content', themeBackgroundColor);
+        }
     }, [theme.palette.background.default]);
 
     if (directionRef.current !== currentDirection) {
