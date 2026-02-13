@@ -1,76 +1,81 @@
 [
-  {
-    "uiVersion": "PREVIEW",
-    "serverVersion": "r2038"
-  },
-  {
-    "tag": "v20251230.01",
-    "uiVersion": "r2937",
-    "serverVersion": "r2038"
-  },
-  {
-    "tag": "OLD_PREVIEW",
-    "uiVersion": "r2937",
-    "serverVersion": "r2031"
-  },
-  {
-    "tag": "OLD_PREVIEW",
-    "uiVersion": "r2914",
-    "serverVersion": "r1960"
-  },
-  {
-    "tag": "OLD_PREVIEW",
-    "uiVersion": "r2843",
-    "serverVersion": "r1941"
-  },
-  {
-    "tag": "OLD_PREVIEW",
-    "uiVersion": "r2817",
-    "serverVersion": "r1910"
-  },
-  {
-    "tag": "OLD_PREVIEW",
-    "uiVersion": "r2765",
-    "serverVersion": "r1901"
-  },
-  {
-    "tag": "OLD_PREVIEW",
-    "uiVersion": "r2763",
-    "serverVersion": "r1868"
-  },
-  {
-    "tag": "v20250801.01",
-    "uiVersion": "r2717",
-    "serverVersion": "r1856"
-  },
-  {
-    "tag": "v20250731.01",
-    "uiVersion": "r2715",
-    "serverVersion": "r1856"
-  },
-  {
-    "tag": "v20250703.01",
-    "uiVersion": "r2643",
-    "serverVersion": "r1719"
-  },
-  {
-    "tag": "v1.5.1",
-    "uiVersion": "r2467",
-    "serverVersion": "r1719"
-  },
-  {
-    "tag": "v1.5.0",
-    "uiVersion": "r2461",
-    "serverVersion": "r1716"
-  },
-  {
-    "tag": "v1.1.0",
-    "uiVersion": "r1689",
-    "serverVersion": "r1527"
-  },
-  {
-    "tag": "v1.0.0",
-    "uiVersion": "r1411",
-    "serverVersion": "r1498"
-  }
+    {
+        "uiVersion": "PREVIEW",
+        "serverVersion": "r2062"
+    },
+    {
+        "tag": "v20251230.01",
+        "uiVersion": "r2981",
+        "serverVersion": "r2062"
+    },
+    {
+        "tag": "v20251230.01",
+        "uiVersion": "r2937",
+        "serverVersion": "r2038"
+    },
+    {
+        "tag": "OLD_PREVIEW",
+        "uiVersion": "r2937",
+        "serverVersion": "r2031"
+    },
+    {
+        "tag": "OLD_PREVIEW",
+        "uiVersion": "r2914",
+        "serverVersion": "r1960"
+    },
+    {
+        "tag": "OLD_PREVIEW",
+        "uiVersion": "r2843",
+        "serverVersion": "r1941"
+    },
+    {
+        "tag": "OLD_PREVIEW",
+        "uiVersion": "r2817",
+        "serverVersion": "r1910"
+    },
+    {
+        "tag": "OLD_PREVIEW",
+        "uiVersion": "r2765",
+        "serverVersion": "r1901"
+    },
+    {
+        "tag": "OLD_PREVIEW",
+        "uiVersion": "r2763",
+        "serverVersion": "r1868"
+    },
+    {
+        "tag": "v20250801.01",
+        "uiVersion": "r2717",
+        "serverVersion": "r1856"
+    },
+    {
+        "tag": "v20250731.01",
+        "uiVersion": "r2715",
+        "serverVersion": "r1856"
+    },
+    {
+        "tag": "v20250703.01",
+        "uiVersion": "r2643",
+        "serverVersion": "r1719"
+    },
+    {
+        "tag": "v1.5.1",
+        "uiVersion": "r2467",
+        "serverVersion": "r1719"
+    },
+    {
+        "tag": "v1.5.0",
+        "uiVersion": "r2461",
+        "serverVersion": "r1716"
+    },
+    {
+        "tag": "v1.1.0",
+        "uiVersion": "r1689",
+        "serverVersion": "r1527"
+    },
+    {
+        "tag": "v1.0.0",
+        "uiVersion": "r1411",
+        "serverVersion": "r1498"
+    }
 ]
