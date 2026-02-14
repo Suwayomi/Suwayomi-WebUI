@@ -1309,12 +1309,6 @@ msgstr "Ignorer les chapitres réuploadés"
 msgid "Image download processing"
 msgstr "Conversion de téléchargement"
 
-#: src/features/settings/screens/ImageProcessingSetting.tsx
-msgid ""
-"In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
-"Set the target mode to disabled to prevent processing for a MIME-Type"
-msgstr ""
-
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
 msgid "In Library"
