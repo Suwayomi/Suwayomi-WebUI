@@ -66,7 +66,7 @@ export const ReaderBehaviourSettings = ({
                 onChange={(_, checked) => updateSetting('shouldSkipFilteredChapters', checked)}
                 disabled={isDefaultable}
             />
-            {isOffsetDoubleSpreadPagesEditable(settings.readingMode.value) && (
+            {(isOffsetDoubleSpreadPagesEditable(settings.readingMode.value) || !isDefaultable) && (
                 <CheckboxInput
                     label={t`Offset double spreads`}
                     checked={settings.shouldOffsetDoubleSpreads.value}
