@@ -2897,7 +2897,7 @@ msgid "Toggle menu"
 msgstr "展示菜单"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "展示错位跨页"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

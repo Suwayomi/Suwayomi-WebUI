@@ -2686,7 +2686,7 @@ msgid "Toggle menu"
 msgstr "Menu à bascule"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "Activer la compensation de pages à rallonge"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

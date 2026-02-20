@@ -2622,7 +2622,7 @@ msgid "Toggle menu"
 msgstr "Przełącz menu"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "Przełącz offset rozłożonych stron"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

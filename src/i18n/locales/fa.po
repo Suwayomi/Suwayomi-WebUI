@@ -2879,7 +2879,7 @@ msgid "Toggle menu"
 msgstr "نمایش/مخفی‌سازی منو"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "روشن/خاموش کردن جابجایی صفحات باز شده"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

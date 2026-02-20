@@ -2900,7 +2900,7 @@ msgid "Toggle menu"
 msgstr "Bật/Tắt danh sách"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "Bật/Tắt bù trừ trang đôi"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

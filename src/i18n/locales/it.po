@@ -2793,7 +2793,7 @@ msgid "Toggle menu"
 msgstr "Attiva/Disattiva menù"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "Attiva/disattiva le pagine di offset"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

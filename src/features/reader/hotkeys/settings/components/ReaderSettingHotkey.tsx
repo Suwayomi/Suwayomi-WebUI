@@ -31,7 +31,7 @@ const READER_HOTKEY_TO_TITLE: Record<ReaderHotkey, MessageDescriptor> = {
     [ReaderHotkey.TOGGLE_MENU]: msg`Toggle menu`,
     [ReaderHotkey.CYCLE_SCALE_TYPE]: msg`Cycle image scale type`,
     [ReaderHotkey.STRETCH_IMAGE]: msg`Toggle stretch image`,
-    [ReaderHotkey.OFFSET_SPREAD_PAGES]: msg`Toggle offset spread pages`,
+    [ReaderHotkey.OFFSET_SPREAD_PAGES]: msg`Toggle offset double spreads`,
     [ReaderHotkey.CYCLE_READING_MODE]: msg`Cycle reading mode`,
     [ReaderHotkey.CYCLE_READING_DIRECTION]: msg`Cycle reading direction`,
     [ReaderHotkey.TOGGLE_AUTO_SCROLL]: msg`Toggle auto scroll`,

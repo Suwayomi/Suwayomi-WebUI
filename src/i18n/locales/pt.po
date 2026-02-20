@@ -2497,7 +2497,7 @@ msgid "Toggle menu"
 msgstr "Ativar menu"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "Alternar deslocamento de páginas duplas"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

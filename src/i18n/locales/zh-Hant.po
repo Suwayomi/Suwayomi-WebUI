@@ -2746,7 +2746,7 @@ msgid "Toggle menu"
 msgstr "開關選單"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "調整跨頁偏移"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

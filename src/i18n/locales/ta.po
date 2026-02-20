@@ -2612,7 +2612,7 @@ msgid "Toggle menu"
 msgstr "மெனுவை மாற்றவும்"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "ஆஃப்செட் பரவலான பக்கங்களை மாற்றவும்"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

@@ -3767,5 +3767,5 @@ msgid "The path to the electron installation on the server"
 msgstr "A szerveren lévő electron telepítésre mutató útvonal"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "Oldalpárok eltolásának ki/bekapcsolása"

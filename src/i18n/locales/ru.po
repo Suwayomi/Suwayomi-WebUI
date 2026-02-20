@@ -2903,7 +2903,7 @@ msgid "Toggle menu"
 msgstr "Переключить меню"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "Переключить смещенние страниц"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

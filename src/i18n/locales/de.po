@@ -2900,7 +2900,7 @@ msgid "Toggle menu"
 msgstr "Menü umschalten"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
 msgstr "Doppelseiten-Versatz umschalten"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

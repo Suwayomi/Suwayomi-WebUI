@@ -3349,8 +3349,8 @@ msgid "Toggle menu"
 msgstr "Toggle menu"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset spread pages"
-msgstr "Toggle offset spread pages"
+msgid "Toggle offset double spreads"
+msgstr "Toggle offset double spreads"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Toggle stretch image"
