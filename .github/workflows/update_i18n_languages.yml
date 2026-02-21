@@ -48,6 +48,7 @@ jobs:
           cd master
           echo "WEBLATE_TOKEN=${{ secrets.MY_SECRET }}" > .env
           yarn i18n:gen-resources
+          yarn manga:gen-type-tags
 
       - name: Push changes
         run: |

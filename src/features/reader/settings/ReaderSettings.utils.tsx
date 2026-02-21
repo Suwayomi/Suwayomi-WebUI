@@ -16,7 +16,7 @@ import {
     ReaderPageScaleMode,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import { MangaGenreInfo, MangaSourceLngInfo, MangaSourceNameInfo } from '@/features/manga/Manga.types.ts';
+import { MangaGenreInfo, MangaSourceNameInfo } from '@/features/manga/Manga.types.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { ReaderPagedPager } from '@/features/reader/viewer/pager/components/ReaderPagedPager.tsx';
 import { ReaderDoublePagedPager } from '@/features/reader/viewer/pager/components/ReaderDoublePagedPager.tsx';
@@ -57,7 +57,7 @@ export const isContinuousVerticalReadingMode = (readingMode: IReaderSettings['re
     [ReadingMode.CONTINUOUS_VERTICAL, ReadingMode.WEBTOON].includes(readingMode);
 
 export const isAutoWebtoonMode = (
-    manga: MangaGenreInfo & MangaSourceNameInfo & MangaSourceLngInfo,
+    manga: MangaGenreInfo & MangaSourceNameInfo,
     shouldUseAutoWebtoonMode: IReaderSettings['shouldUseAutoWebtoonMode'],
     readingMode: IReaderSettingsWithDefaultFlag['readingMode'],
 ): boolean => shouldUseAutoWebtoonMode && readingMode.isDefault && Mangas.isLongStripType(manga);

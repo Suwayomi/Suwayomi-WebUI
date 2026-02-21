@@ -35,7 +35,6 @@ import {
     MangaGenreInfo,
     MangaIdInfo,
     MangaLocationState,
-    MangaSourceLngInfo,
     MangaSourceNameInfo,
     MangaThumbnailInfo,
     MangaTitleInfo,
@@ -53,7 +52,6 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
-import { DEFAULT_LANGUAGE } from '@/lib/ISOLanguageUtil.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
@@ -630,7 +628,7 @@ export class Mangas {
         }
     }
 
-    static getType(manga: MangaGenreInfo & MangaSourceNameInfo & MangaSourceLngInfo): MangaType {
+    static getType(manga: MangaGenreInfo & MangaSourceNameInfo): MangaType {
         if (Mangas.isType(manga, MangaType.MANGA)) {
             return MangaType.MANGA;
         }
@@ -654,35 +652,16 @@ export class Mangas {
         return MangaType.MANGA;
     }
 
-    static isType(manga: MangaGenreInfo & MangaSourceNameInfo & MangaSourceLngInfo, type: MangaType): boolean {
-        const translateMangaTagsByMangaTypeEntries = Object.entries(MANGA_TAGS_BY_MANGA_TYPE).map(
-            ([mangaType, tags]) => [
-                mangaType,
-                [DEFAULT_LANGUAGE, i18n.locale, manga.source?.lang]
-                    .filter((lng) => !!lng)
-                    .flatMap((language) =>
-                        tags.flatMap((tag) =>
-                            /* lingui-extract-ignore */
-                            i18n.t({ ...tag, values: { lng: language } }),
-                        ),
-                    ),
-            ],
-        );
-
-        const translatedMangaTagsByMangaType = Object.fromEntries(translateMangaTagsByMangaTypeEntries) as Record<
-            string,
-            string[]
-        >;
-
+    static isType(manga: MangaGenreInfo & MangaSourceNameInfo, type: MangaType): boolean {
         const isMatchByGenre = manga.genre.some((genre) =>
-            translatedMangaTagsByMangaType[type].some((tag) => genre.toLowerCase().includes(tag.toLowerCase())),
+            MANGA_TAGS_BY_MANGA_TYPE[type].some((tag) => genre.toLowerCase().includes(tag.toLowerCase())),
         );
         const isMatchBySource = SOURCES_BY_MANGA_TYPE[type].includes(manga.source?.name.toLowerCase() ?? '');
 
         return isMatchByGenre || isMatchBySource;
     }
 
-    static isLongStripType(manga: MangaGenreInfo & MangaSourceNameInfo & MangaSourceLngInfo): boolean {
+    static isLongStripType(manga: MangaGenreInfo & MangaSourceNameInfo): boolean {
         return (
             Mangas.isType(manga, MangaType.WEBTOON) ||
             Mangas.isType(manga, MangaType.MANHWA) ||

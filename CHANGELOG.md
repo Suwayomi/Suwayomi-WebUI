@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Browse**) Fix missing pinned sources in the source language filter
 - (**Browse**) Fix incorrectly showing "local source" source in the source language filter (the local source can't be disabled)
 - (**Reader**) Fix page shift when toggling the "offset double spreads" setting (currently: enable: shift to the right; disable: shift to the left – now: inverted)
+- (**Reader**) Fix "auto webtoon mode" detection for manga source languages other than english and the current selected language
 
 ## [20251230.01] (r2937) - 2025-12-30
 

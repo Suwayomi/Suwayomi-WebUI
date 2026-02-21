@@ -26,6 +26,7 @@
     "dayjs:gen-locales-array": "tsx tools/scripts/dayjs/generateDayJsLocales.ts",
     "dayjs:gen-locales-import": "tsx tools/scripts/dayjs/generateDayJsLocalesImport.ts",
     "dayjs:gen-locales": "yarn dayjs:gen-locales-array && yarn dayjs:gen-locales-import",
+    "manga:gen-type-tags": "tsx tools/scripts/manga/generateMangaTypeTags.ts",
     "prepare": "husky"
   },
   "engines": {
