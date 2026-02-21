@@ -49,6 +49,7 @@ import { getReaderChaptersStore } from '@/features/reader/stores/ReaderStore.ts'
 const BaseReaderChapterViewer = ({
     currentPageIndex,
     setPages: setContextPages,
+    setPageUrls: setContextPageUrls,
     setPageLoadStates: setContextPageLoadStates,
     setTotalPages: setContextTotalPages,
     setCurrentPageIndex: setContextCurrentPageIndex,
@@ -91,6 +92,7 @@ const BaseReaderChapterViewer = ({
     ReaderStatePages,
     | 'currentPageIndex'
     | 'setPages'
+    | 'setPageUrls'
     | 'setPageLoadStates'
     | 'setTotalPages'
     | 'setCurrentPageIndex'
@@ -266,7 +268,7 @@ const BaseReaderChapterViewer = ({
         (value) => updateState(value, noOp, getReaderChaptersStore().setReaderStateChapters),
         (value) => updateState(value, setTotalPages, setContextTotalPages),
         (value) => updateState(value, setPages, setContextPages),
-        (value) => updateState(value, setPageUrls, noOp),
+        (value) => updateState(value, setPageUrls, setContextPageUrls),
         (value) => updateState(value, setPageLoadStates, setContextPageLoadStates),
         (value) => updateState(value, setPagesToSpreadState, noOp),
         (value) => updateState(value, noOp, setContextCurrentPageIndex),
