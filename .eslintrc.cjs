@@ -99,6 +99,7 @@ module.exports = {
         {
             files: ['tools/scripts/**/*'],
             rules: {
+                'no-console': 'off',
                 'no-relative-import-paths/no-relative-import-paths': 'off',
                 'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
             },
