@@ -66,7 +66,7 @@ export const ReaderHotkeys = ({
     const readerThemeDirection = ReaderService.useGetThemeDirection();
     const { enableScope, disableScope } = useHotkeysContext();
     const { hotkeys } = useReaderSettingsStore((state) => ({
-        hotkeys: state.settings.hotkeys,
+        hotkeys: state.hotkeys,
     }));
     const exitReader = ReaderService.useExit();
 

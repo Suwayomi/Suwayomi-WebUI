@@ -247,10 +247,10 @@ export const useReaderInfiniteScrollUpdateChapter = (
 ) => {
     const { readingMode, readingDirection, shouldUseInfiniteScroll, shouldShowTransitionPage } = useReaderSettingsStore(
         (state) => ({
-            readingMode: state.settings.readingMode.value,
-            readingDirection: state.settings.readingDirection.value,
-            shouldUseInfiniteScroll: state.settings.shouldUseInfiniteScroll,
-            shouldShowTransitionPage: state.settings.shouldShowTransitionPage,
+            readingMode: state.readingMode.value,
+            readingDirection: state.readingDirection.value,
+            shouldUseInfiniteScroll: state.shouldUseInfiniteScroll,
+            shouldShowTransitionPage: state.shouldShowTransitionPage,
         }),
     );
 

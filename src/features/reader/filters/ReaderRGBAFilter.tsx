@@ -16,7 +16,7 @@ const BaseReaderRGBAFilter = ({ readerNavBarWidth }: Pick<NavbarContextType, 're
     const {
         value: { red, green, blue, alpha, blendMode },
         enabled,
-    } = useReaderSettingsStore((state) => state.settings.customFilter.rgba);
+    } = useReaderSettingsStore((state) => state.customFilter.rgba);
 
     if (!enabled) {
         return null;

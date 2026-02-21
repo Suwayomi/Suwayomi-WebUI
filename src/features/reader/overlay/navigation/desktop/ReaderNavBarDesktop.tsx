@@ -69,15 +69,15 @@ const BaseReaderNavBarDesktop = ({
         previousChapter,
         nextChapter,
     } = useReaderChaptersStore((state) => ({
-        chapters: state.chapters.chapters,
-        currentChapterId: state.chapters.currentChapter?.id,
-        currentChapterName: state.chapters.currentChapter?.name,
-        currentChapterNumber: state.chapters.currentChapter?.chapterNumber,
-        currentChapterScanlator: state.chapters.currentChapter?.scanlator,
-        previousChapter: state.chapters.previousChapter,
-        nextChapter: state.chapters.nextChapter,
+        chapters: state.chapters,
+        currentChapterId: state.currentChapter?.id,
+        currentChapterName: state.currentChapter?.name,
+        currentChapterNumber: state.currentChapter?.chapterNumber,
+        currentChapterScanlator: state.currentChapter?.scanlator,
+        previousChapter: state.previousChapter,
+        nextChapter: state.nextChapter,
     }));
-    const isStaticNav = useReaderSettingsStore((state) => state.settings.isStaticNav);
+    const isStaticNav = useReaderSettingsStore((state) => state.isStaticNav);
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(

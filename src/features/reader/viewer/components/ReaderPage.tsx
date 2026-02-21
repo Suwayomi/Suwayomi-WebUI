@@ -86,7 +86,7 @@ const BaseReaderPage = ({
     const { src } = props;
 
     const isTabletWidth = MediaQuery.useIsTabletWidth();
-    const scrollbar = useReaderScrollbarStore((state) => state.scrollbar);
+    const scrollbar = useReaderScrollbarStore((state) => state);
 
     const handleLoad = useCallback(
         () => onLoad?.(pagesIndex, src, isPrimaryPage),

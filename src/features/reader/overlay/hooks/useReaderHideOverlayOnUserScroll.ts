@@ -18,7 +18,7 @@ export const useReaderHideOverlayOnUserScroll = (
     scrollElementRef: MutableRefObject<HTMLDivElement | null>,
 ) => {
     const { showPreview } = useReaderTapZoneStore((state) => ({
-        showPreview: state.tapZone.showPreview,
+        showPreview: state.showPreview,
     }));
 
     useEffect(() => {

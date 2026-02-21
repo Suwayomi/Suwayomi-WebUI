@@ -24,10 +24,10 @@ const BaseReaderNavBarDesktopPageNavigation = () => {
     const { t } = useLingui();
     const getOptionForDirection = useGetOptionForDirection();
     const { currentPageIndex, pages } = useReaderPagesStore((state) => ({
-        currentPageIndex: state.pages.currentPageIndex,
-        pages: state.pages.pages,
+        currentPageIndex: state.currentPageIndex,
+        pages: state.pages,
     }));
-    const readingDirection = useReaderSettingsStore((state) => state.settings.readingDirection.value);
+    const readingDirection = useReaderSettingsStore((state) => state.readingDirection.value);
 
     const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);
     const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];

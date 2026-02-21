@@ -28,7 +28,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
     setAutoScroll: (newAutoScroll: IReaderSettings['autoScroll'], commit: boolean) => void;
 }) => {
     const { t } = useLingui();
-    const isActive = useReaderAutoScrollStore((state) => state.autoScroll.isActive);
+    const isActive = useReaderAutoScrollStore((state) => state.isActive);
 
     const updateTimeout = useRef<NodeJS.Timeout>(undefined);
 

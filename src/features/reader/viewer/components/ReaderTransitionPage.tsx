@@ -99,12 +99,12 @@ const BaseReaderTransitionPage = ({
 }) => {
     const { t } = useLingui();
     const manga = useReaderStore((state) => state.manga);
-    const scrollbar = useReaderScrollbarStore((state) => state.scrollbar);
-    const transitionPageMode = useReaderPagesStore((state) => state.pages.transitionPageMode);
+    const scrollbar = useReaderScrollbarStore((state) => state);
+    const transitionPageMode = useReaderPagesStore((state) => state.transitionPageMode);
     const { readingMode, backgroundColor, shouldShowTransitionPage } = useReaderSettingsStore((state) => ({
-        readingMode: state.settings.readingMode.value,
-        backgroundColor: state.settings.backgroundColor,
-        shouldShowTransitionPage: state.settings.shouldShowTransitionPage,
+        readingMode: state.readingMode.value,
+        backgroundColor: state.backgroundColor,
+        shouldShowTransitionPage: state.shouldShowTransitionPage,
     }));
 
     const isPreviousType = type === ReaderTransitionPageMode.PREVIOUS;
@@ -225,7 +225,7 @@ export const ReaderTransitionPage = withPropsFrom(
     memo(BaseReaderTransitionPage) as typeof BaseReaderTransitionPage,
     [
         ({ chapterId }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId'>) => {
-            const chapters = useReaderChaptersStore((state) => state.chapters.chapters);
+            const chapters = useReaderChaptersStore((state) => state.chapters);
 
             const currentChapterIndex = useMemo(
                 () => chapters.findIndex((chapter) => chapter.id === chapterId),
@@ -248,7 +248,7 @@ export const ReaderTransitionPage = withPropsFrom(
         useNavBarContext,
         ({ chapterId, type }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId' | 'type'>) => {
             const handleBack = useBackButton();
-            const chapters = useReaderChaptersStore((state) => state.chapters.chapters);
+            const chapters = useReaderChaptersStore((state) => state.chapters);
 
             const currentChapterIndex = useMemo(
                 () => chapters.findIndex((chapter) => chapter.id === chapterId),

@@ -72,23 +72,23 @@ const BaseReaderViewer = ({
     ref?: ForwardedRef<HTMLDivElement | null>;
 }) => {
     const { direction: themeDirection } = useTheme();
-    const isOverlayVisible = useReaderOverlayStore((state) => state.overlay.isVisible);
+    const isOverlayVisible = useReaderOverlayStore((state) => state.isVisible);
     const { currentPageIndex, pageToScrollToIndex, pages, totalPages, transitionPageMode, retryFailedPagesKeyPrefix } =
         useReaderPagesStore((state) => ({
-            currentPageIndex: state.pages.currentPageIndex,
-            pageToScrollToIndex: state.pages.pageToScrollToIndex,
-            pages: state.pages.pages,
-            totalPages: state.pages.totalPages,
-            transitionPageMode: state.pages.transitionPageMode,
-            retryFailedPagesKeyPrefix: state.pages.retryFailedPagesKeyPrefix,
+            currentPageIndex: state.currentPageIndex,
+            pageToScrollToIndex: state.pageToScrollToIndex,
+            pages: state.pages,
+            totalPages: state.totalPages,
+            transitionPageMode: state.transitionPageMode,
+            retryFailedPagesKeyPrefix: state.retryFailedPagesKeyPrefix,
         }));
     const { initialChapter, currentChapter, chapters, visibleChapters, isCurrentChapterReady } = useReaderChaptersStore(
         (state) => ({
-            initialChapter: state.chapters.initialChapter,
-            currentChapter: state.chapters.currentChapter,
-            chapters: state.chapters.chapters,
-            visibleChapters: state.chapters.visibleChapters,
-            isCurrentChapterReady: state.chapters.isCurrentChapterReady,
+            initialChapter: state.initialChapter,
+            currentChapter: state.currentChapter,
+            chapters: state.chapters,
+            visibleChapters: state.visibleChapters,
+            isCurrentChapterReady: state.isCurrentChapterReady,
         }),
     );
     const {
@@ -103,16 +103,16 @@ const BaseReaderViewer = ({
         shouldStretchPage,
         isStaticNav,
     } = useReaderSettingsStore((state) => ({
-        readingMode: state.settings.readingMode.value,
-        readingDirection: state.settings.readingDirection.value,
-        readerWidth: state.settings.readerWidth.value,
-        pageScaleMode: state.settings.pageScaleMode.value,
-        shouldOffsetDoubleSpreads: state.settings.shouldOffsetDoubleSpreads.value,
-        imagePreLoadAmount: state.settings.imagePreLoadAmount,
-        pageGap: state.settings.pageGap.value,
-        customFilter: state.settings.customFilter,
-        shouldStretchPage: state.settings.shouldStretchPage.value,
-        isStaticNav: state.settings.isStaticNav,
+        readingMode: state.readingMode.value,
+        readingDirection: state.readingDirection.value,
+        readerWidth: state.readerWidth.value,
+        pageScaleMode: state.pageScaleMode.value,
+        shouldOffsetDoubleSpreads: state.shouldOffsetDoubleSpreads.value,
+        imagePreLoadAmount: state.imagePreLoadAmount,
+        pageGap: state.pageGap.value,
+        customFilter: state.customFilter,
+        shouldStretchPage: state.shouldStretchPage.value,
+        isStaticNav: state.isStaticNav,
     }));
     const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
         resumeMode: ReaderResumeMode.START,

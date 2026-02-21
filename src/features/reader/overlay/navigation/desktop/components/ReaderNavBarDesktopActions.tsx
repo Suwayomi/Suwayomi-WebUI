@@ -65,14 +65,14 @@ const DownloadButton = ({ id = -1, isDownloaded }: ChapterIdInfo & ChapterDownlo
 
 export const ReaderNavBarDesktopActions = memo(() => {
     const { id, isDownloaded, isBookmarked, realUrl } = useReaderChaptersStore((state) => ({
-        id: state.chapters.currentChapter?.id ?? FALLBACK_CHAPTER.id,
-        isDownloaded: state.chapters.currentChapter?.isDownloaded ?? FALLBACK_CHAPTER.isDownloaded,
-        isBookmarked: state.chapters.currentChapter?.isBookmarked ?? FALLBACK_CHAPTER.isBookmarked,
-        realUrl: state.chapters.currentChapter?.realUrl ?? FALLBACK_CHAPTER.realUrl,
+        id: state.currentChapter?.id ?? FALLBACK_CHAPTER.id,
+        isDownloaded: state.currentChapter?.isDownloaded ?? FALLBACK_CHAPTER.isDownloaded,
+        isBookmarked: state.currentChapter?.isBookmarked ?? FALLBACK_CHAPTER.isBookmarked,
+        realUrl: state.currentChapter?.realUrl ?? FALLBACK_CHAPTER.realUrl,
     }));
 
     const { t } = useLingui();
-    const pageLoadStates = useReaderPagesStore((state) => state.pages.pageLoadStates);
+    const pageLoadStates = useReaderPagesStore((state) => state.pageLoadStates);
 
     const pageRetryKeyPrefix = useRef<number>(0);
 

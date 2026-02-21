@@ -230,7 +230,7 @@ export class ReaderService {
 
     static useGetThemeDirection(): Direction {
         const { direction } = useTheme();
-        const readingDirection = useReaderSettingsStore((state) => state.settings.readingDirection.value);
+        const readingDirection = useReaderSettingsStore((state) => state.readingDirection.value);
 
         return DIRECTION_TO_READING_DIRECTION[direction] === readingDirection
             ? direction
@@ -372,7 +372,7 @@ export class ReaderService {
 
     static useOverlayMode(): { mode: ReaderOverlayMode; isDesktop: boolean; isMobile: boolean } {
         const isTouchDevice = MediaQuery.useIsTouchDevice();
-        const overlayMode = useReaderSettingsStore((state) => state.settings.overlayMode);
+        const overlayMode = useReaderSettingsStore((state) => state.overlayMode);
 
         const isAutoModeSelected = overlayMode === ReaderOverlayMode.AUTO;
         const isDesktopModeSelected = overlayMode === ReaderOverlayMode.DESKTOP;
@@ -389,7 +389,7 @@ export class ReaderService {
     }
 
     static useExit(): () => void {
-        const exitMode = useReaderSettingsStore((state) => state.settings.exitMode);
+        const exitMode = useReaderSettingsStore((state) => state.exitMode);
         const handleBack = useBackButton();
         const navigate = useNavigate();
 

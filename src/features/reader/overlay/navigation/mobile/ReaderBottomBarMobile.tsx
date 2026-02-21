@@ -33,13 +33,13 @@ const BaseReaderBottomBarMobile = ({
 }: ReaderBottomBarMobileProps & { topOffset?: number }) => {
     const { t } = useLingui();
     const { currentChapterId, chapters } = useReaderChaptersStore((state) => ({
-        currentChapterId: state.chapters.currentChapter?.id,
-        chapters: state.chapters.chapters,
+        currentChapterId: state.currentChapter?.id,
+        chapters: state.chapters,
     }));
 
     const chapterListPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-chapter-list-dialog' });
     const quickSettingsPopupState = usePopupState({ variant: 'dialog', popupId: 'reader-quick-settings-dialog' });
-    const scrollbar = useReaderScrollbarStore((state) => state.scrollbar);
+    const scrollbar = useReaderScrollbarStore((state) => state);
 
     const [bottomBarRefHeight, setBottomBarRefHeight] = useState(0);
     const bottomBarRef = useRef<HTMLDivElement>(null);

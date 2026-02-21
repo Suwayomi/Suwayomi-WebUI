@@ -18,7 +18,7 @@ import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 
 export const ReaderSettings = ({ isOpen, close }: { isOpen: boolean; close: () => void }) => {
-    const settings = useReaderSettingsStore((state) => state.settings);
+    const settings = useReaderSettingsStore((state) => state);
 
     useDisableAllHotkeysWhileMounted(isOpen);
 

@@ -29,18 +29,18 @@ const BaseReaderPageNumber = ({
     readerNavBarWidth,
 }: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop'> &
     Pick<NavbarContextType, 'readerNavBarWidth'>) => {
-    const scrollbar = useReaderScrollbarStore((state) => state.scrollbar);
+    const scrollbar = useReaderScrollbarStore((state) => state);
     const { currentPageIndex, pages, totalPages } = useReaderPagesStore((state) => ({
-        currentPageIndex: state.pages.currentPageIndex,
-        pages: state.pages.pages,
-        totalPages: state.pages.totalPages,
+        currentPageIndex: state.currentPageIndex,
+        pages: state.pages,
+        totalPages: state.totalPages,
     }));
     const { readingDirection, shouldShowPageNumber, progressBarType } = useReaderSettingsStore((state) => ({
-        readingDirection: state.settings.readingDirection.value,
-        shouldShowPageNumber: state.settings.shouldShowPageNumber,
-        progressBarType: state.settings.progressBarType,
+        readingDirection: state.readingDirection.value,
+        shouldShowPageNumber: state.shouldShowPageNumber,
+        progressBarType: state.progressBarType,
     }));
-    const isMaximized = useReaderProgressBarStore((state) => state.progressBar.isMaximized);
+    const isMaximized = useReaderProgressBarStore((state) => state.isMaximized);
 
     const pageName = useMemo(() => {
         const currentPageName = getPage(currentPageIndex, pages).name;

@@ -166,26 +166,34 @@ const readerStore = create<ReaderStore>()(
 export const useReaderStore = <T>(selector: (state: ReaderStore) => T): T => readerStore(useShallow(selector));
 export const getReaderStore = () => readerStore.getState();
 
-export const useReaderScrollbarStore = useReaderStore;
+export const useReaderScrollbarStore = <T>(selector: (state: ReaderStore['scrollbar']) => T): T =>
+    readerStore(useShallow((state) => selector(state.scrollbar)));
 export const getReaderScrollbarStore = () => readerStore.getState().scrollbar;
 
-export const useReaderSettingsStore = useReaderStore;
+export const useReaderSettingsStore = <T>(selector: (state: ReaderStore['settings']) => T): T =>
+    readerStore(useShallow((state) => selector(state.settings)));
 export const getReaderSettingsStore = () => readerStore.getState().settings;
 
-export const useReaderOverlayStore = useReaderStore;
+export const useReaderOverlayStore = <T>(selector: (state: ReaderOverlayStoreSlice['overlay']) => T): T =>
+    readerStore(useShallow((state) => selector(state.overlay)));
 export const getReaderOverlayStore = () => readerStore.getState().overlay;
 
-export const useReaderAutoScrollStore = useReaderStore;
+export const useReaderAutoScrollStore = <T>(selector: (state: ReaderAutoScrollStoreSlice['autoScroll']) => T): T =>
+    readerStore(useShallow((state) => selector(state.autoScroll)));
 export const getReaderAutoScrollStore = () => readerStore.getState().autoScroll;
 
-export const useReaderPagesStore = useReaderStore;
+export const useReaderPagesStore = <T>(selector: (state: ReaderPagesStoreSlice['pages']) => T): T =>
+    readerStore(useShallow((state) => selector(state.pages)));
 export const getReaderPagesStore = () => readerStore.getState().pages;
 
-export const useReaderChaptersStore = useReaderStore;
+export const useReaderChaptersStore = <T>(selector: (state: ReaderChaptersStoreSlice['chapters']) => T): T =>
+    readerStore(useShallow((state) => selector(state.chapters)));
 export const getReaderChaptersStore = () => readerStore.getState().chapters;
 
-export const useReaderProgressBarStore = useReaderStore;
+export const useReaderProgressBarStore = <T>(selector: (state: ReaderProgressBarStoreSlice['progressBar']) => T): T =>
+    readerStore(useShallow((state) => selector(state.progressBar)));
 export const getReaderProgressBarStore = () => readerStore.getState().progressBar;
 
-export const useReaderTapZoneStore = useReaderStore;
+export const useReaderTapZoneStore = <T>(selector: (state: ReaderTapZoneStoreSlice['tapZone']) => T): T =>
+    readerStore(useShallow((state) => selector(state.tapZone)));
 export const getReaderTapZoneStore = () => readerStore.getState().tapZone;

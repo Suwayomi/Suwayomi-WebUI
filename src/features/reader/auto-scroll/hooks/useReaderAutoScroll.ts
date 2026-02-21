@@ -12,7 +12,7 @@ import { getReaderAutoScrollStore, useReaderAutoScrollStore } from '@/features/r
 
 export const useReaderAutoScroll = (isOverlayVisible: boolean, isStaticNav: IReaderSettings['isStaticNav']): void => {
     const { isPaused } = useReaderAutoScrollStore((state) => ({
-        isPaused: state.autoScroll.isPaused,
+        isPaused: state.isPaused,
     }));
 
     useEffect(() => {

@@ -22,11 +22,11 @@ const CANVAS_ID = 'reader-tap-zone-layout-canvas';
 const BaseTapZoneLayout = ({ readerNavBarWidth }: Pick<NavbarContextType, 'readerNavBarWidth'>) => {
     const theme = useTheme();
     const { tapZoneLayout, tapZoneInvertMode, readingDirection } = useReaderSettingsStore((state) => ({
-        tapZoneLayout: state.settings.tapZoneLayout.value,
-        tapZoneInvertMode: state.settings.tapZoneInvertMode.value,
-        readingDirection: state.settings.readingDirection.value,
+        tapZoneLayout: state.tapZoneLayout.value,
+        tapZoneInvertMode: state.tapZoneInvertMode.value,
+        readingDirection: state.readingDirection.value,
     }));
-    const showPreview = useReaderTapZoneStore((state) => state.tapZone.showPreview);
+    const showPreview = useReaderTapZoneStore((state) => state.showPreview);
 
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);

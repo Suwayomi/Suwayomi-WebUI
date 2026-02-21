@@ -31,12 +31,12 @@ const BaseReaderAutoScroll = ({
     combinedDirection: Direction;
 }) => {
     const { scrollRef, direction } = useReaderAutoScrollStore((state) => ({
-        scrollRef: state.autoScroll.scrollRef,
-        direction: state.autoScroll.direction,
+        scrollRef: state.scrollRef,
+        direction: state.direction,
     }));
     const { readingMode, autoScroll } = useReaderSettingsStore((state) => ({
-        readingMode: state.settings.readingMode.value,
-        autoScroll: state.settings.autoScroll,
+        readingMode: state.readingMode.value,
+        autoScroll: state.autoScroll,
     }));
 
     const isScrollingInvertedBasedOnReadingDirection =

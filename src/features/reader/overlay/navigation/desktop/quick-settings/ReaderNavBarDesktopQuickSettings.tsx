@@ -24,12 +24,12 @@ const BaseReaderNavBarDesktopQuickSettings = ({ openSettings }: Pick<ReaderNavBa
     const { t } = useLingui();
     const { readingMode, shouldOffsetDoubleSpreads, pageScaleMode, shouldStretchPage, readingDirection, autoScroll } =
         useReaderSettingsStore((state) => ({
-            readingMode: state.settings.readingMode,
-            shouldOffsetDoubleSpreads: state.settings.shouldOffsetDoubleSpreads,
-            pageScaleMode: state.settings.pageScaleMode,
-            shouldStretchPage: state.settings.shouldStretchPage,
-            readingDirection: state.settings.readingDirection,
-            autoScroll: state.settings.autoScroll,
+            readingMode: state.readingMode,
+            shouldOffsetDoubleSpreads: state.shouldOffsetDoubleSpreads,
+            pageScaleMode: state.pageScaleMode,
+            shouldStretchPage: state.shouldStretchPage,
+            readingDirection: state.readingDirection,
+            autoScroll: state.autoScroll,
         }));
 
     return (
