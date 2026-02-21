@@ -10,6 +10,7 @@ import { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-b
 import { getOptionForDirection as getOptionForDirectionImpl } from '@/features/theme/services/ThemeCreator.ts';
 import { ProgressBarPosition, ReaderStatePages } from '@/features/reader/Reader.types.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
+import { DirectionOffset } from '@/base/Base.types.ts';
 
 export const getPage = (pageIndex: number, pages: ReaderStatePages['pages']): TReaderProgressCurrentPage => {
     const pagesIndex = pages.findIndex(({ primary, secondary }) =>
@@ -34,14 +35,9 @@ export const getNextPageIndex = (
     pagesIndex: number,
     pages: ReaderStatePages['pages'],
 ): number => {
-    switch (offset) {
-        case 'previous':
-            return getNextIndexFromPage(pages[Math.max(0, pagesIndex - 1)]);
-        case 'next':
-            return getNextIndexFromPage(pages[Math.min(pages.length - 1, pagesIndex + 1)]);
-        default:
-            throw new Error(`Unexpected offset "${offset}"`);
-    }
+    const offsetNumber = offset === 'previous' ? DirectionOffset.PREVIOUS : DirectionOffset.NEXT;
+
+    return getNextIndexFromPage(pages[coerceIn(pagesIndex + offsetNumber, 0, pages.length - 1)]);
 };
 
 export const getPageForMousePos = (
