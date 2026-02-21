@@ -82,6 +82,7 @@ const BaseReaderViewer = ({
         totalPages,
         setPages,
         setPageUrls,
+        setPageSpreadStates,
         setPageLoadStates,
         setTotalPages,
         setCurrentPageIndex,
@@ -96,6 +97,7 @@ const BaseReaderViewer = ({
         totalPages: state.pages.totalPages,
         setPages: state.pages.setPages,
         setPageUrls: state.pages.setPageUrls,
+        setPageSpreadStates: state.pages.setPageSpreadStates,
         setPageLoadStates: state.pages.setPageLoadStates,
         setTotalPages: state.pages.setTotalPages,
         setCurrentPageIndex: state.pages.setCurrentPageIndex,
@@ -381,6 +383,7 @@ const BaseReaderViewer = ({
                         imageRefs={imageRefs}
                         setPages={setPages}
                         setPageUrls={setPageUrls}
+                        setPageSpreadStates={setPageSpreadStates}
                         setPageLoadStates={setPageLoadStates}
                         setTotalPages={setTotalPages}
                         setCurrentPageIndex={setCurrentPageIndex}

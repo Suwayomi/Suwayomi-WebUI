@@ -149,10 +149,7 @@ export const ReaderHotkeys = ({
         ReaderService.updateSetting('shouldStretchPage', !getReaderSettingsStore().shouldStretchPage.value),
     );
     useHotkeys(hotkeys[ReaderHotkey.OFFSET_SPREAD_PAGES], () =>
-        ReaderService.updateSetting(
-            'shouldOffsetDoubleSpreads',
-            !getReaderSettingsStore().shouldOffsetDoubleSpreads.value,
-        ),
+        ReaderService.setOffsetDoubleSpreads(!getReaderSettingsStore().shouldOffsetDoubleSpreads.value),
     );
     useHotkeys(hotkeys[ReaderHotkey.CYCLE_READING_MODE], () => {
         updateSettingCycleThrough(

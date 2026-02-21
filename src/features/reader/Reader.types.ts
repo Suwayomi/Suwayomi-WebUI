@@ -306,7 +306,11 @@ export interface ReaderStatePages {
     setPageToScrollToIndex: (total: number | null) => void;
     pageUrls: string[];
     setPageUrls: (urls: string[]) => void;
-    pageLoadStates: { url: string; loaded: boolean; error?: boolean }[];
+    pageSpreadStates: ReaderPageSpreadState[];
+    setPageSpreadStates: (
+        set: ((prevStates: ReaderPageSpreadState[]) => ReaderPageSpreadState[]) | ReaderPageSpreadState[],
+    ) => void;
+    pageLoadStates: ReaderPageLoadState[];
     setPageLoadStates: (
         set: ((prevStates: ReaderPageLoadState[]) => ReaderPageLoadState[]) | ReaderPageLoadState[],
     ) => void;

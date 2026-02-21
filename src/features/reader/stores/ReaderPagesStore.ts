@@ -22,6 +22,7 @@ export const READER_DEFAULT_PAGES_STATE: Omit<
     | 'setPageToScrollToIndex'
     | 'setTotalPages'
     | 'setPageUrls'
+    | 'setPageSpreadStates'
     | 'setPageLoadStates'
     | 'setPages'
     | 'setTransitionPageMode'
@@ -32,6 +33,7 @@ export const READER_DEFAULT_PAGES_STATE: Omit<
     currentPageIndex: 0,
     pageToScrollToIndex: null,
     pageUrls: [],
+    pageSpreadStates: [{ url: '', isSpread: false }],
     pageLoadStates: [{ url: '', loaded: false }],
     pages: [
         {
@@ -84,6 +86,19 @@ export const createReaderPagesStoreSlice = <T extends ReaderPagesStoreSlice>(
                 },
                 undefined,
                 createActionName('setPageUrls'),
+            ),
+        setPageSpreadStates: (spreadStates) =>
+            set(
+                (draft) => {
+                    if (typeof spreadStates === 'function') {
+                        draft.pages.pageSpreadStates = spreadStates(get().pages.pageSpreadStates);
+                        return;
+                    }
+
+                    draft.pages.pageSpreadStates = spreadStates;
+                },
+                undefined,
+                createActionName('setPageSpreadStates'),
             ),
         setPageLoadStates: (loadStates) =>
             set(

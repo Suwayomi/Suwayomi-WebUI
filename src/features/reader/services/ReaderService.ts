@@ -47,12 +47,14 @@ import { getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 import {
     getReaderChaptersStore,
+    getReaderPagesStore,
     getReaderSettingsStore,
     getReaderStore,
     useReaderSettingsStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { ReaderChaptersStoreSlice } from '@/features/reader/stores/ReaderChaptersStore.ts';
+import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -235,6 +237,41 @@ export class ReaderService {
         return DIRECTION_TO_READING_DIRECTION[direction] === readingDirection
             ? direction
             : DIRECTION_TO_INVERTED[direction];
+    }
+
+    /**
+     * Updates the setting and updated the current page index accordingly.
+     *
+     * In case the current page is a spread page, the page index won't get changed.
+     *
+     * Enable:
+     *  Push pages to the left
+     *
+     *  Page 3+2 -> Page 2+1 - the third page gets pushed to the left, out of the screen
+     *
+     * Disable:
+     *  Push pages to the right
+     *
+     *  Page 3+2 -> Page 4+3 - the second page gets pushed to the right, out of the screen
+     */
+    static setOffsetDoubleSpreads(shouldOffset: boolean): void {
+        const { pages, currentPageIndex, pageSpreadStates } = getReaderPagesStore();
+        const { readingMode } = getReaderSettingsStore();
+
+        const isDoublePageMode = readingMode.value === ReadingMode.DOUBLE_PAGE;
+        const isSpreadPage = !!pageSpreadStates[currentPageIndex]?.isSpread;
+
+        const updatePageIndex = isDoublePageMode && !isSpreadPage;
+        if (!updatePageIndex) {
+            ReaderService.updateSetting('shouldOffsetDoubleSpreads', shouldOffset);
+            return;
+        }
+
+        const page = getPage(currentPageIndex, pages);
+        const updatedPageIndex = shouldOffset ? page.primary.index : currentPageIndex;
+
+        getReaderPagesStore().setCurrentPageIndex(updatedPageIndex);
+        ReaderService.updateSetting('shouldOffsetDoubleSpreads', shouldOffset);
     }
 
     /**

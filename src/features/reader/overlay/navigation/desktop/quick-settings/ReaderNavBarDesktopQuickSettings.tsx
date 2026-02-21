@@ -43,9 +43,7 @@ const BaseReaderNavBarDesktopQuickSettings = ({ openSettings }: Pick<ReaderNavBa
             <ReaderNavBarDesktopOffsetDoubleSpread
                 readingMode={readingMode.value}
                 shouldOffsetDoubleSpreads={shouldOffsetDoubleSpreads.value}
-                setShouldOffsetDoubleSpreads={(value) =>
-                    ReaderService.updateSetting('shouldOffsetDoubleSpreads', value)
-                }
+                setShouldOffsetDoubleSpreads={(value) => ReaderService.setOffsetDoubleSpreads(value)}
             />
             <ReaderNavBarDesktopPageScale
                 pageScaleMode={pageScaleMode}

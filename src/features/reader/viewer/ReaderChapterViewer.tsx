@@ -50,6 +50,7 @@ const BaseReaderChapterViewer = ({
     currentPageIndex,
     setPages: setContextPages,
     setPageUrls: setContextPageUrls,
+    setPageSpreadStates: setContextPageSpreadStates,
     setPageLoadStates: setContextPageLoadStates,
     setTotalPages: setContextTotalPages,
     setCurrentPageIndex: setContextCurrentPageIndex,
@@ -93,6 +94,7 @@ const BaseReaderChapterViewer = ({
     | 'currentPageIndex'
     | 'setPages'
     | 'setPageUrls'
+    | 'setPageSpreadStates'
     | 'setPageLoadStates'
     | 'setTotalPages'
     | 'setCurrentPageIndex'
@@ -140,7 +142,7 @@ const BaseReaderChapterViewer = ({
         READER_DEFAULT_PAGES_STATE.pageLoadStates,
     );
     const [pagesToSpreadState, setPagesToSpreadState] = useState<ReaderPageSpreadState[]>(
-        pageLoadStates.map(({ url }) => ({ url, isSpread: false })),
+        READER_DEFAULT_PAGES_STATE.pageSpreadStates,
     );
 
     const ref = useRef<HTMLDivElement>(null);
@@ -201,7 +203,13 @@ const BaseReaderChapterViewer = ({
         () =>
             createUpdateReaderPageLoadState(
                 actualPages,
-                setPagesToSpreadState,
+                (value) => {
+                    if (isCurrentChapterRef.current) {
+                        setContextPageSpreadStates(value);
+                    }
+
+                    setPagesToSpreadState(value);
+                },
                 (value) => {
                     if (isCurrentChapterRef.current) {
                         setContextPageLoadStates(value);
@@ -270,7 +278,7 @@ const BaseReaderChapterViewer = ({
         (value) => updateState(value, setPages, setContextPages),
         (value) => updateState(value, setPageUrls, setContextPageUrls),
         (value) => updateState(value, setPageLoadStates, setContextPageLoadStates),
-        (value) => updateState(value, setPagesToSpreadState, noOp),
+        (value) => updateState(value, setPagesToSpreadState, setContextPageSpreadStates),
         (value) => updateState(value, noOp, setContextCurrentPageIndex),
         (value) => {
             if ((isInitialChapter && !arePagesFetched) || scrollIntoView) {
