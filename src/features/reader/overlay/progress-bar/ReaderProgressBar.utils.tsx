@@ -27,8 +27,7 @@ export const getPage = (pageIndex: number, pages: ReaderStatePages['pages']): TR
  * for the double page mode the secondary page index has to be used to be able to correctly detect if the last page is visible
  *
  */
-export const getNextIndexFromPage = (page: ReaderStatePages['pages'][number]) =>
-    page.secondary?.index ?? page.primary.index;
+export const getIndexOfPage = (page: ReaderStatePages['pages'][number]) => page.secondary?.index ?? page.primary.index;
 
 export const getNextPageIndex = (
     offset: 'previous' | 'next',
@@ -37,7 +36,7 @@ export const getNextPageIndex = (
 ): number => {
     const offsetNumber = offset === 'previous' ? DirectionOffset.PREVIOUS : DirectionOffset.NEXT;
 
-    return getNextIndexFromPage(pages[coerceIn(pagesIndex + offsetNumber, 0, pages.length - 1)]);
+    return getIndexOfPage(pages[coerceIn(pagesIndex + offsetNumber, 0, pages.length - 1)]);
 };
 
 export const getPageForMousePos = (

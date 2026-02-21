@@ -9,7 +9,7 @@
 import { MutableRefObject, useLayoutEffect } from 'react';
 import { Direction } from '@mui/material/styles';
 import { ReaderStatePages, ReadingDirection } from '@/features/reader/Reader.types.ts';
-import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
+import { getIndexOfPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getScrollIntoViewInlineOption } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
@@ -40,7 +40,7 @@ export const useReaderHandlePageSelection = (
             });
         }
 
-        const newPageIndex = getNextIndexFromPage(pageToScrollTo);
+        const newPageIndex = getIndexOfPage(pageToScrollTo);
         const isLastPage = newPageIndex === totalPages - 1;
 
         setPageToScrollToIndex(null);

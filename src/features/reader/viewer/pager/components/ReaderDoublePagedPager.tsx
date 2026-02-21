@@ -17,7 +17,7 @@ import {
 } from '@/features/reader/Reader.types.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { createReaderPage } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
+import { getIndexOfPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 
 const getPagePosition = (
     pageType: 'first' | 'second',
@@ -62,7 +62,7 @@ const BaseReaderDoublePagedPager = ({
             createPage={(page, pagesIndex, shouldLoad, shouldDisplay, _setRef, ...baseProps) => {
                 const { primary, secondary } = page;
 
-                const currentSecondaryPageIndex = getNextIndexFromPage(currentPage);
+                const currentSecondaryPageIndex = getIndexOfPage(currentPage);
 
                 const hasSecondaryPage = !!secondary;
                 const isPrimaryPage = currentPage.primary.index === primary.index;

@@ -12,7 +12,7 @@ import { Direction } from '@mui/material/styles';
 import { d } from 'koration';
 import { msg, t } from '@lingui/core/macro';
 import {
-    getNextIndexFromPage,
+    getIndexOfPage,
     getNextPageIndex,
     getPage,
     getPageForMousePos,
@@ -343,8 +343,8 @@ export class ReaderControls {
         const currentPage = getPage(currentPageIndex, pages);
         const previousPageIndex = getNextPageIndex('previous', currentPage.pagesIndex, pages);
         const nextPageIndex = getNextPageIndex('next', currentPage.pagesIndex, pages);
-        const indexOfFirstPage = getNextIndexFromPage(pages[0]);
-        const indexOfLastPage = getNextIndexFromPage(pages[pages.length - 1]);
+        const indexOfFirstPage = getIndexOfPage(pages[0]);
+        const indexOfLastPage = getIndexOfPage(pages[pages.length - 1]);
 
         const isFirstPage = currentPage.primary.index === 0;
         const isLastPage = currentPageIndex === indexOfLastPage;
@@ -614,7 +614,7 @@ export class ReaderControls {
                     return;
                 }
 
-                const newPageIndex = getNextIndexFromPage(
+                const newPageIndex = getIndexOfPage(
                     getPageForMousePos(
                         coordinates,
                         progressBarRef.current,
@@ -625,7 +625,7 @@ export class ReaderControls {
                     ),
                 );
 
-                const hasCurrentPageIndexChanged = getNextIndexFromPage(currentPage) !== newPageIndex;
+                const hasCurrentPageIndexChanged = getIndexOfPage(currentPage) !== newPageIndex;
                 if (!hasCurrentPageIndexChanged) {
                     return;
                 }

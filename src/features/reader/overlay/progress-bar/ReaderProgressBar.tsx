@@ -19,7 +19,7 @@ import { ReaderProgressBarSlotsContainer } from '@/features/reader/overlay/progr
 import { ProgressBarHighlightReadPages } from '@/features/reader/overlay/progress-bar/components/ProgressBarHighlightReadPages.tsx';
 import { ReaderProgressBarCurrentPageSlot } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarCurrentPageSlot.tsx';
 import {
-    getNextIndexFromPage,
+    getIndexOfPage,
     getPage,
     getPageForMousePos,
     getProgressBarPositionInfo,
@@ -132,7 +132,7 @@ const BaseReaderProgressBar = ({
         const isTouchEvent = 'touches' in e;
 
         ReaderControls.openPage(
-            getNextIndexFromPage(
+            getIndexOfPage(
                 getPageForMousePos(
                     isTouchEvent ? e.touches[0] : e,
                     progressBarRef.current,

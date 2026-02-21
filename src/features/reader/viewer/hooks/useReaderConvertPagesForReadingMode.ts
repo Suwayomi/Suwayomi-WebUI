@@ -8,7 +8,7 @@
 
 import { useLayoutEffect, useState } from 'react';
 import { ReaderPageSpreadState, ReaderStatePages, ReadingMode } from '@/features/reader/Reader.types.ts';
-import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
+import { getIndexOfPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { createPagesData } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
@@ -37,7 +37,7 @@ export const useReaderConvertPagesForReadingMode = (
         const convertPagesToDoublePageMode = readingMode === ReadingMode.DOUBLE_PAGE;
         if (convertPagesToDoublePageMode) {
             if (!wasDoublePageMode) {
-                updateCurrentPageIndex(getNextIndexFromPage(getPage(currentPageIndex, actualPages)));
+                updateCurrentPageIndex(getIndexOfPage(getPage(currentPageIndex, actualPages)));
             }
             setPages(actualPages);
             setWasDoublePageMode(readingMode === ReadingMode.DOUBLE_PAGE);

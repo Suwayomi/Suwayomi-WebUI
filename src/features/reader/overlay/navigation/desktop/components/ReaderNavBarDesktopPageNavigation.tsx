@@ -13,7 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useLingui } from '@lingui/react/macro';
 import { Select } from '@/base/components/inputs/Select.tsx';
-import { getNextIndexFromPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
+import { getIndexOfPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopNextPreviousButton.tsx';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
@@ -39,7 +39,7 @@ const BaseReaderNavBarDesktopPageNavigation = () => {
                 title={getOptionForDirection(t`Previous page`, t`Next page`, direction)}
                 disabled={getOptionForDirection(
                     !currentPage.primary.index,
-                    getNextIndexFromPage(currentPage) === getNextIndexFromPage(pages.slice(-1)[0]),
+                    getIndexOfPage(currentPage) === getIndexOfPage(pages.slice(-1)[0]),
                     direction,
                 )}
                 onClick={() => ReaderControls.openPage('previous', undefined, false)}
@@ -49,11 +49,11 @@ const BaseReaderNavBarDesktopPageNavigation = () => {
                 <Select
                     labelId="reader-nav-bar-desktop-page-select"
                     label={t`Page`}
-                    value={getNextIndexFromPage(currentPage)}
+                    value={getIndexOfPage(currentPage)}
                     onChange={(e) => ReaderControls.openPage(e.target.value as number, undefined, false)}
                 >
                     {pages.map((page) => (
-                        <MenuItem key={getNextIndexFromPage(page)} value={getNextIndexFromPage(page)}>
+                        <MenuItem key={getIndexOfPage(page)} value={getIndexOfPage(page)}>
                             {page.name}
                         </MenuItem>
                     ))}
@@ -63,7 +63,7 @@ const BaseReaderNavBarDesktopPageNavigation = () => {
                 type="next"
                 title={getOptionForDirection(t`Next page`, t`Previous page`, direction)}
                 disabled={getOptionForDirection(
-                    getNextIndexFromPage(currentPage) === getNextIndexFromPage(pages.slice(-1)[0]),
+                    getIndexOfPage(currentPage) === getIndexOfPage(pages.slice(-1)[0]),
                     !currentPage.primary.index,
                     direction,
                 )}
