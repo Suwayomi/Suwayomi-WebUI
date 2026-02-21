@@ -25,6 +25,7 @@ import {
     useReaderProgressBarStore,
     useReaderScrollbarStore,
     useReaderSettingsStore,
+    getReaderProgressBarStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseStandardReaderProgressBar = ({
@@ -44,9 +45,8 @@ const BaseStandardReaderProgressBar = ({
             progressBarPosition: state.settings.progressBarPosition,
             progressBarPositionAutoVertical: state.settings.progressBarPositionAutoVertical,
         }));
-    const { isMaximized, setIsMaximized, isDragging } = useReaderProgressBarStore((state) => ({
+    const { isMaximized, isDragging } = useReaderProgressBarStore((state) => ({
         isMaximized: state.progressBar.isMaximized,
-        setIsMaximized: state.progressBar.setIsMaximized,
         isDragging: state.progressBar.isDragging,
     }));
 
@@ -151,8 +151,8 @@ const BaseStandardReaderProgressBar = ({
                                 pointerEvents: 'none',
                             }),
                         },
-                        onMouseEnter: () => setIsMaximized(true),
-                        onMouseLeave: () => setIsMaximized(false),
+                        onMouseEnter: () => getReaderProgressBarStore().setIsMaximized(true),
+                        onMouseLeave: () => getReaderProgressBarStore().setIsMaximized(false),
                     },
                     progressBarRoot: {
                         sx: {

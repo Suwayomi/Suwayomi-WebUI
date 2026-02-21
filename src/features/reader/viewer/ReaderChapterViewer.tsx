@@ -44,21 +44,13 @@ import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import { READER_DEFAULT_PAGES_STATE } from '@/features/reader/stores/ReaderPagesStore.ts';
 
-import { getReaderChaptersStore } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderChaptersStore, getReaderPagesStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderChapterViewer = ({
     currentPageIndex,
-    setPages: setContextPages,
-    setPageUrls: setContextPageUrls,
-    setPageSpreadStates: setContextPageSpreadStates,
-    setPageLoadStates: setContextPageLoadStates,
-    setTotalPages: setContextTotalPages,
-    setCurrentPageIndex: setContextCurrentPageIndex,
     updateCurrentPageIndex,
-    setPageToScrollToIndex,
     transitionPageMode,
     retryFailedPagesKeyPrefix,
-    setTransitionPageMode,
     readingMode,
     readerWidth,
     pageScaleMode,
@@ -89,20 +81,7 @@ const BaseReaderChapterViewer = ({
     minWidth,
     minHeight,
     scrollElement,
-}: Pick<
-    ReaderStatePages,
-    | 'currentPageIndex'
-    | 'setPages'
-    | 'setPageUrls'
-    | 'setPageSpreadStates'
-    | 'setPageLoadStates'
-    | 'setTotalPages'
-    | 'setCurrentPageIndex'
-    | 'setPageToScrollToIndex'
-    | 'transitionPageMode'
-    | 'retryFailedPagesKeyPrefix'
-    | 'setTransitionPageMode'
-> &
+}: Pick<ReaderStatePages, 'currentPageIndex' | 'transitionPageMode' | 'retryFailedPagesKeyPrefix'> &
     Omit<ReaderPagerProps, 'pages' | 'totalPages' | 'pageLoadStates' | 'handleAsInitialRender' | 'resumeMode'> &
     Pick<
         IReaderSettings,
@@ -205,14 +184,14 @@ const BaseReaderChapterViewer = ({
                 actualPages,
                 (value) => {
                     if (isCurrentChapterRef.current) {
-                        setContextPageSpreadStates(value);
+                        getReaderPagesStore().setPageSpreadStates(value);
                     }
 
                     setPagesToSpreadState(value);
                 },
                 (value) => {
                     if (isCurrentChapterRef.current) {
-                        setContextPageLoadStates(value);
+                        getReaderPagesStore().setPageLoadStates(value);
                     }
 
                     setPageLoadStates(value);
@@ -226,7 +205,7 @@ const BaseReaderChapterViewer = ({
         () =>
             createHandleReaderPageLoadError((value) => {
                 if (isCurrentChapterRef.current) {
-                    setContextPageLoadStates(value);
+                    getReaderPagesStore().setPageLoadStates(value);
                 }
 
                 setPageLoadStates(value);
@@ -274,29 +253,35 @@ const BaseReaderChapterViewer = ({
         arePagesFetched,
         setArePagesFetched,
         (value) => updateState(value, noOp, getReaderChaptersStore().setReaderStateChapters),
-        (value) => updateState(value, setTotalPages, setContextTotalPages),
-        (value) => updateState(value, setPages, setContextPages),
-        (value) => updateState(value, setPageUrls, setContextPageUrls),
-        (value) => updateState(value, setPageLoadStates, setContextPageLoadStates),
-        (value) => updateState(value, setPagesToSpreadState, setContextPageSpreadStates),
-        (value) => updateState(value, noOp, setContextCurrentPageIndex),
+        (value) => updateState(value, setTotalPages, getReaderPagesStore().setTotalPages.bind(getReaderPagesStore())),
+        (value) => updateState(value, setPages, getReaderPagesStore().setPages.bind(getReaderPagesStore())),
+        (value) => updateState(value, setPageUrls, getReaderPagesStore().setPageUrls.bind(getReaderPagesStore())),
+        (value) =>
+            updateState(value, setPageLoadStates, getReaderPagesStore().setPageLoadStates.bind(getReaderPagesStore())),
+        (value) =>
+            updateState(
+                value,
+                setPagesToSpreadState,
+                getReaderPagesStore().setPageSpreadStates.bind(getReaderPagesStore()),
+            ),
+        (value) => updateState(value, noOp, getReaderPagesStore().setCurrentPageIndex.bind(getReaderPagesStore())),
         (value) => {
             if ((isInitialChapter && !arePagesFetched) || scrollIntoView) {
-                setPageToScrollToIndex(value);
+                getReaderPagesStore().setPageToScrollToIndex(value);
                 getReaderChaptersStore().setReaderStateChapters((prevState) => ({
                     ...prevState,
                     visibleChapters: { ...prevState.visibleChapters, scrollIntoView: false, resumeMode: undefined },
                 }));
             }
         },
-        (value) => updateState(value, noOp, setTransitionPageMode),
+        (value) => updateState(value, noOp, getReaderPagesStore().setTransitionPageMode.bind(getReaderPagesStore())),
     );
 
     useReaderConvertPagesForReadingMode(
         currentPageIndex,
         actualPages,
         pageUrls,
-        (value) => updateState(value, setPages, setContextPages, true),
+        (value) => updateState(value, setPages, getReaderPagesStore().setPages.bind(getReaderPagesStore()), true),
         (value) => updateState(value, setPagesToSpreadState, noOp, true),
         (value) => updateState(value, noOp, updateCurrentPageIndex),
         readingMode,

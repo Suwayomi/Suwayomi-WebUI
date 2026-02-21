@@ -13,16 +13,16 @@ import {
     useDefaultReaderSettings,
 } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { isAutoWebtoonMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { ReadingMode, TReaderStateSettingsContext } from '@/features/reader/Reader.types.ts';
+import { ReadingMode } from '@/features/reader/Reader.types.ts';
 import { GetMangaReaderQuery } from '@/lib/graphql/generated/graphql.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
+import { getReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 
 export const useReaderSetSettingsState = (
     mangaResponse: ReturnType<typeof requestManager.useGetManga<GetMangaReaderQuery>>,
     defaultSettingsResponse: ReturnType<typeof useDefaultReaderSettings>['request'],
     defaultSettings: ReturnType<typeof useDefaultReaderSettings>['settings'],
     defaultSettingsMetadata: ReturnType<typeof useDefaultReaderSettings>['metadata'],
-    setSettings: TReaderStateSettingsContext['setSettings'],
     setAreSettingsSet: (areSet: boolean) => void,
 ) => {
     useEffect(() => {
@@ -56,7 +56,7 @@ export const useReaderSetSettingsState = (
         );
 
         const finalSettings = getReaderSettingsFor(mangaFromResponse, profileSettings);
-        setSettings(finalSettings);
+        getReaderSettingsStore().setSettings(finalSettings);
         setAreSettingsSet(true);
     }, [mangaResponse.data?.manga, defaultSettings]);
 };

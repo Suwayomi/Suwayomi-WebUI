@@ -15,14 +15,15 @@ import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { DefaultSettingFootnote } from '@/features/reader/settings/components/DefaultSettingFootnote.tsx';
 import { ReaderSettingAutoScroll } from '@/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { useReaderAutoScrollStore, useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
+import {
+    getReaderAutoScrollStore,
+    useReaderAutoScrollStore,
+    useReaderSettingsStore,
+} from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderBottomBarMobileQuickSettings = () => {
     const { t } = useLingui();
-    const { isActive, toggleActive } = useReaderAutoScrollStore((state) => ({
-        isActive: state.autoScroll.isActive,
-        toggleActive: state.autoScroll.toggleActive,
-    }));
+    const isActive = useReaderAutoScrollStore((state) => state.autoScroll.isActive);
     const { readingMode, readingDirection, autoScroll } = useReaderSettingsStore((state) => ({
         readingMode: state.settings.readingMode,
         readingDirection: state.settings.readingDirection,
@@ -44,7 +45,11 @@ const BaseReaderBottomBarMobileQuickSettings = () => {
                 isDefaultable
                 onDefault={() => ReaderService.deleteSetting('readingDirection')}
             />
-            <CheckboxInput label={t`Auto scroll`} checked={isActive} onChange={() => toggleActive()} />
+            <CheckboxInput
+                label={t`Auto scroll`}
+                checked={isActive}
+                onChange={() => getReaderAutoScrollStore().toggleActive()}
+            />
             <ReaderSettingAutoScroll
                 autoScroll={autoScroll}
                 setAutoScroll={(...args) => ReaderService.updateSetting('autoScroll', ...args)}

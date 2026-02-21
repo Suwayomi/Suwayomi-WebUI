@@ -47,13 +47,12 @@ import { useReaderPreserveScrollPosition } from '@/features/reader/viewer/hooks/
 
 import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import {
+    getReaderAutoScrollStore,
     getReaderStore,
-    useReaderAutoScrollStore,
     useReaderChaptersStore,
     useReaderOverlayStore,
     useReaderPagesStore,
     useReaderSettingsStore,
-    useReaderTapZoneStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
@@ -74,44 +73,21 @@ const BaseReaderViewer = ({
 }) => {
     const { direction: themeDirection } = useTheme();
     const isOverlayVisible = useReaderOverlayStore((state) => state.overlay.isVisible);
-    const {
-        currentPageIndex,
-        pageToScrollToIndex,
-        setPageToScrollToIndex,
-        pages,
-        totalPages,
-        setPages,
-        setPageUrls,
-        setPageSpreadStates,
-        setPageLoadStates,
-        setTotalPages,
-        setCurrentPageIndex,
-        transitionPageMode,
-        retryFailedPagesKeyPrefix,
-        setTransitionPageMode,
-    } = useReaderPagesStore((state) => ({
-        currentPageIndex: state.pages.currentPageIndex,
-        pageToScrollToIndex: state.pages.pageToScrollToIndex,
-        setPageToScrollToIndex: state.pages.setPageToScrollToIndex,
-        pages: state.pages.pages,
-        totalPages: state.pages.totalPages,
-        setPages: state.pages.setPages,
-        setPageUrls: state.pages.setPageUrls,
-        setPageSpreadStates: state.pages.setPageSpreadStates,
-        setPageLoadStates: state.pages.setPageLoadStates,
-        setTotalPages: state.pages.setTotalPages,
-        setCurrentPageIndex: state.pages.setCurrentPageIndex,
-        transitionPageMode: state.pages.transitionPageMode,
-        retryFailedPagesKeyPrefix: state.pages.retryFailedPagesKeyPrefix,
-        setTransitionPageMode: state.pages.setTransitionPageMode,
-    }));
+    const { currentPageIndex, pageToScrollToIndex, pages, totalPages, transitionPageMode, retryFailedPagesKeyPrefix } =
+        useReaderPagesStore((state) => ({
+            currentPageIndex: state.pages.currentPageIndex,
+            pageToScrollToIndex: state.pages.pageToScrollToIndex,
+            pages: state.pages.pages,
+            totalPages: state.pages.totalPages,
+            transitionPageMode: state.pages.transitionPageMode,
+            retryFailedPagesKeyPrefix: state.pages.retryFailedPagesKeyPrefix,
+        }));
     const { initialChapter, currentChapter, chapters, visibleChapters, isCurrentChapterReady } = useReaderChaptersStore(
         (state) => ({
             initialChapter: state.chapters.initialChapter,
             currentChapter: state.chapters.currentChapter,
             chapters: state.chapters.chapters,
             visibleChapters: state.chapters.visibleChapters,
-            setReaderStateChapters: state.chapters.setReaderStateChapters,
             isCurrentChapterReady: state.chapters.isCurrentChapterReady,
         }),
     );
@@ -138,10 +114,6 @@ const BaseReaderViewer = ({
         shouldStretchPage: state.settings.shouldStretchPage.value,
         isStaticNav: state.settings.isStaticNav,
     }));
-    const { showPreview, setShowPreview } = useReaderTapZoneStore((state) => ({
-        showPreview: state.tapZone.showPreview,
-        setShowPreview: state.tapZone.setShowPreview,
-    }));
     const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
         resumeMode: ReaderResumeMode.START,
     };
@@ -153,13 +125,7 @@ const BaseReaderViewer = ({
     const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
     const isDragging = useMouseDragScroll(scrollElementRef);
 
-    const automaticScrolling = useReaderAutoScrollStore((state) => ({
-        isPaused: state.autoScroll.isPaused,
-        pause: state.autoScroll.pause,
-        resume: state.autoScroll.resume,
-        setScrollRef: state.autoScroll.setScrollRef,
-    }));
-    useEffect(() => automaticScrolling.setScrollRef(scrollElementRef.current), []);
+    useEffect(() => getReaderAutoScrollStore().setScrollRef(scrollElementRef.current), []);
 
     const scrollbarXSize = MediaQuery.useGetScrollbarSize('width', scrollElementRef.current);
     const scrollbarYSize = MediaQuery.useGetScrollbarSize('height', scrollElementRef.current);
@@ -240,7 +206,6 @@ const BaseReaderViewer = ({
         pageToScrollToIndex,
         pages,
         totalPages,
-        setPageToScrollToIndex,
         updateCurrentPageIndex,
         isContinuousReadingModeActive,
         imageRefs,
@@ -256,14 +221,8 @@ const BaseReaderViewer = ({
     );
     useReaderHideCursorOnInactivity(scrollElementRef);
     useReaderHorizontalModeRevampScrolling(readingMode, readingDirection, scrollElementRef);
-    useReaderHideOverlayOnUserScroll(isOverlayVisible, showPreview, setShowPreview, scrollElementRef);
-    useReaderAutoScroll(
-        isOverlayVisible,
-        automaticScrolling.isPaused,
-        automaticScrolling.pause,
-        automaticScrolling.resume,
-        isStaticNav,
-    );
+    useReaderHideOverlayOnUserScroll(isOverlayVisible, scrollElementRef);
+    useReaderAutoScroll(isOverlayVisible, isStaticNav);
     useReaderPreserveScrollPosition(
         scrollElementRef,
         currentChapter?.id,
@@ -273,7 +232,6 @@ const BaseReaderViewer = ({
         visibleChapters,
         readingMode,
         readingDirection,
-        setPageToScrollToIndex,
         pageScaleMode,
         shouldStretchPage,
         readerWidth,
@@ -381,13 +339,6 @@ const BaseReaderViewer = ({
                         isTrailingChapter={isTrailingChapter}
                         isPreloadMode={isPreloadMode}
                         imageRefs={imageRefs}
-                        setPages={setPages}
-                        setPageUrls={setPageUrls}
-                        setPageSpreadStates={setPageSpreadStates}
-                        setPageLoadStates={setPageLoadStates}
-                        setTotalPages={setTotalPages}
-                        setCurrentPageIndex={setCurrentPageIndex}
-                        setPageToScrollToIndex={setPageToScrollToIndex}
                         transitionPageMode={transitionPageMode}
                         retryFailedPagesKeyPrefix={retryFailedPagesKeyPrefix}
                         readingMode={readingMode}
@@ -405,7 +356,6 @@ const BaseReaderViewer = ({
                             visibleChapters.resumeMode,
                             resumeMode,
                         )}
-                        setTransitionPageMode={setTransitionPageMode}
                         pageGap={pageGap}
                         imagePreLoadAmount={imagePreLoadAmount}
                         customFilter={customFilter}

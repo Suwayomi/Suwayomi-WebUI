@@ -13,7 +13,7 @@ import { useLingui } from '@lingui/react/macro';
 import { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { READING_MODE_VALUE_TO_DISPLAY_DATA } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { getReaderTapZoneStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const HIDE_PREVIEW_TIMEOUT = d(5).seconds.inWholeMilliseconds;
 
@@ -26,7 +26,6 @@ export const useReaderShowSettingPreviewOnChange = (
     tapZoneInvertMode: IReaderSettingsWithDefaultFlag['tapZoneInvertMode'],
     shouldShowReadingModePreview: IReaderSettings['shouldShowReadingModePreview'],
     shouldShowTapZoneLayoutPreview: IReaderSettings['shouldShowTapZoneLayoutPreview'],
-    setShowPreview: TReaderTapZoneContext['setShowPreview'],
 ) => {
     const { t } = useLingui();
 
@@ -55,9 +54,9 @@ export const useReaderShowSettingPreviewOnChange = (
             JSON.stringify(tapZoneInvertMode) !== JSON.stringify(previousTapZoneInvertMode.current);
         const showTapZoneLayoutPreview = shouldShowTapZoneLayoutPreview && didTapZoneLayoutChange;
         if (showTapZoneLayoutPreview) {
-            setShowPreview(true);
+            getReaderTapZoneStore().setShowPreview(true);
             if (isInitialPreview.current) {
-                setTimeout(() => setShowPreview(false), HIDE_PREVIEW_TIMEOUT);
+                setTimeout(() => getReaderTapZoneStore().setShowPreview(false), HIDE_PREVIEW_TIMEOUT);
             }
         }
         previousTapZoneLayout.current = tapZoneLayout;

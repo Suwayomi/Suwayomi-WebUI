@@ -12,7 +12,6 @@ import {
     IReaderSettingsManga,
     ReaderPageScaleMode,
     ReaderStateChapters,
-    ReaderStatePages,
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
@@ -24,6 +23,7 @@ import {
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { getPreviousNextChapterVisibility } from '@/features/reader/Reader.utils.ts';
 import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
+import { getReaderPagesStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const shouldPreserveOnResizeChange = (
     readingMode: ReadingMode,
@@ -47,22 +47,13 @@ const shouldPreserveOnResizeChange = (
     return handleWidthChange || handleHeightChange;
 };
 
-const usePreserveOnValueChange = (
-    value: unknown,
-    currentPageIndex: number,
-    setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
-) => {
+const usePreserveOnValueChange = (value: unknown, currentPageIndex: number) => {
     useLayoutEffect(() => {
-        setPageToScrollToIndex(currentPageIndex);
+        getReaderPagesStore().setPageToScrollToIndex(currentPageIndex);
     }, [value]);
 };
 
-const usePreserveOnWindowResize = (
-    readingMode: ReadingMode,
-    pageScaleMode: ReaderPageScaleMode,
-    setPageToScrollToIndex: (index: number | null) => void,
-    pageIndex: number,
-) => {
+const usePreserveOnWindowResize = (readingMode: ReadingMode, pageScaleMode: ReaderPageScaleMode, pageIndex: number) => {
     const previousDimensionsRef = useRef({ width: window.innerWidth, height: window.innerHeight });
     const isResizeInProgressRef = useRef(false);
     const activeResizeTimeoutRef = useRef<NodeJS.Timeout>(undefined);
@@ -81,7 +72,7 @@ const usePreserveOnWindowResize = (
             return;
         }
 
-        setPageToScrollToIndex(pageIndexOnResizeStartRef.current);
+        getReaderPagesStore().setPageToScrollToIndex(pageIndexOnResizeStartRef.current);
 
         clearTimeout(activeResizeTimeoutRef.current);
         activeResizeTimeoutRef.current = setTimeout(() => {
@@ -357,7 +348,6 @@ export const useReaderPreserveScrollPosition = (
     visibleChapters: ReaderStateChapters['visibleChapters'],
     readingMode: ReadingMode,
     readingDirection: ReadingDirection,
-    setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     pageScaleMode: ReaderPageScaleMode,
     shouldStretchPage: boolean,
     readerWidth: IReaderSettingsManga['readerWidth'],
@@ -372,10 +362,10 @@ export const useReaderPreserveScrollPosition = (
         isContinuousReadingMode(readingMode),
     );
     usePreserveOnLeadingPageRender(scrollElementRef, readingMode);
-    usePreserveOnWindowResize(readingMode, pageScaleMode, setPageToScrollToIndex, currentPageIndex);
-    usePreserveOnValueChange(readingDirection, currentPageIndex, setPageToScrollToIndex);
-    usePreserveOnValueChange(readingMode, currentPageIndex, setPageToScrollToIndex);
-    usePreserveOnValueChange(pageScaleMode, currentPageIndex, setPageToScrollToIndex);
-    usePreserveOnValueChange(shouldStretchPage, currentPageIndex, setPageToScrollToIndex);
-    usePreserveOnValueChange(`${readerWidth.value}_${readerWidth.enabled}`, currentPageIndex, setPageToScrollToIndex);
+    usePreserveOnWindowResize(readingMode, pageScaleMode, currentPageIndex);
+    usePreserveOnValueChange(readingDirection, currentPageIndex);
+    usePreserveOnValueChange(readingMode, currentPageIndex);
+    usePreserveOnValueChange(pageScaleMode, currentPageIndex);
+    usePreserveOnValueChange(shouldStretchPage, currentPageIndex);
+    usePreserveOnValueChange(`${readerWidth.value}_${readerWidth.enabled}`, currentPageIndex);
 };

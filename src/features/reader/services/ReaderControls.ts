@@ -36,7 +36,7 @@ import {
     isEndOfPageInViewport,
     isPageInViewport,
 } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { TapZoneRegionType, TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { TapZoneRegionType } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { ReaderTapZoneService } from '@/features/reader/tap-zones/ReaderTapZoneService.ts';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import {
@@ -100,7 +100,6 @@ export class ReaderControls {
         readingMode: ReadingMode,
         readingDirection: ReadingDirection,
         element: HTMLElement,
-        setShowPreview: TReaderTapZoneContext['setShowPreview'],
         scrollAmountPercentage: number = ReaderScrollAmount.LARGE,
     ): void {
         if (!element) {
@@ -129,7 +128,7 @@ export class ReaderControls {
             currentPos + elementSize * scrollAmount * scrollDirection;
 
         getReaderOverlayStore().setIsVisible(false);
-        setShowPreview(false);
+        getReaderTapZoneStore().setShowPreview(false);
 
         const doScroll = (
             isAtStartForDirection: boolean,
@@ -432,14 +431,8 @@ export class ReaderControls {
         return useCallback(
             (pageIndex, debounceChapterUpdate = true, endReached = false) => {
                 const { currentPageIndex, setCurrentPageIndex } = getReaderPagesStore();
-                const {
-                    currentChapter,
-                    chapters,
-                    previousChapter,
-                    nextChapter,
-                    visibleChapters,
-                    setReaderStateChapters,
-                } = getReaderChaptersStore();
+                const { currentChapter, chapters, previousChapter, nextChapter, visibleChapters } =
+                    getReaderChaptersStore();
 
                 if (pageIndex === currentPageIndex && !endReached) {
                     return;
@@ -464,7 +457,6 @@ export class ReaderControls {
                     direction === DirectionOffset.NEXT ? nextChapter : previousChapter,
                     visibleChapters.lastLeadingChapterSourceOrder,
                     visibleChapters.lastTrailingChapterSourceOrder,
-                    setReaderStateChapters,
                     direction,
                 );
 
@@ -581,7 +573,6 @@ export class ReaderControls {
                         readingMode.value,
                         readingDirection.value,
                         scrollElement,
-                        getReaderTapZoneStore().setShowPreview,
                         scrollAmount,
                     );
                 } else {

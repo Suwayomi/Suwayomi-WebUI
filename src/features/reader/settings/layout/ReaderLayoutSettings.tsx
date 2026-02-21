@@ -20,11 +20,10 @@ import { ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
 import { ReaderSettingPageGap } from '@/features/reader/settings/layout/components/ReaderSettingPageGap.tsx';
 import { ReaderSettingWidth } from '@/features/reader/settings/layout/components/ReaderSettingWidth.tsx';
 import { DefaultSettingFootnote } from '@/features/reader/settings/components/DefaultSettingFootnote.tsx';
-import { TReaderTapZoneContext } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { getReaderTapZoneStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderDefaultLayoutSettings } from '@/features/reader/settings/layout/ReaderDefaultLayoutSettings.tsx';
 
 export const ReaderLayoutSettings = ({
-    setShowPreview,
     settings,
     updateSetting,
     isDefaultable,
@@ -32,7 +31,6 @@ export const ReaderLayoutSettings = ({
     isSeriesMode,
     setTransparent,
 }: ReaderSettingsTypeProps & {
-    setShowPreview: TReaderTapZoneContext['setShowPreview'];
     isSeriesMode?: boolean;
 }) => {
     const { t } = useLingui();
@@ -67,24 +65,24 @@ export const ReaderLayoutSettings = ({
             <ReaderSettingTapZoneLayout
                 tapZoneLayout={settings.tapZoneLayout}
                 setTapZoneLayout={(value) => {
-                    setShowPreview(true);
+                    getReaderTapZoneStore().setShowPreview(true);
                     updateSetting('tapZoneLayout', value);
                 }}
                 isDefaultable={isDefaultable}
                 onDefault={() => {
-                    setShowPreview(true);
+                    getReaderTapZoneStore().setShowPreview(true);
                     onDefault?.('tapZoneLayout');
                 }}
             />
             <ReaderSettingTapZoneInvertMode
                 tapZoneInvertMode={settings.tapZoneInvertMode}
                 setTapZoneInvertMode={(value) => {
-                    setShowPreview(true);
+                    getReaderTapZoneStore().setShowPreview(true);
                     updateSetting('tapZoneInvertMode', value);
                 }}
                 isDefaultable={isDefaultable}
                 onDefault={() => {
-                    setShowPreview(true);
+                    getReaderTapZoneStore().setShowPreview(true);
                     onDefault?.('tapZoneInvertMode');
                 }}
             />

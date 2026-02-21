@@ -41,7 +41,6 @@ import {
     useReaderChaptersStore,
     useReaderSettingsStore,
     useReaderStore,
-    useReaderTapZoneStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderAutoScroll } from '@/features/reader/auto-scroll/ReaderAutoScroll.tsx';
 
@@ -68,7 +67,6 @@ const BaseReader = ({
         tapZoneInvertMode,
         shouldShowReadingModePreview,
         shouldShowTapZoneLayoutPreview,
-        setSettings,
     } = useReaderSettingsStore((state) => ({
         shouldSkipDupChapters: state.settings.shouldSkipDupChapters,
         shouldSkipFilteredChapters: state.settings.shouldSkipFilteredChapters,
@@ -78,9 +76,7 @@ const BaseReader = ({
         tapZoneInvertMode: state.settings.tapZoneInvertMode,
         shouldShowReadingModePreview: state.settings.shouldShowReadingModePreview,
         shouldShowTapZoneLayoutPreview: state.settings.shouldShowTapZoneLayoutPreview,
-        setSettings: state.settings.setSettings,
     }));
-    const setShowPreview = useReaderTapZoneStore((state) => state.tapZone.setShowPreview);
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -127,7 +123,6 @@ const BaseReader = ({
         defaultSettingsResponse,
         defaultSettings,
         defaultSettingsMetadata,
-        setSettings,
         setAreSettingsSet,
     );
     useReaderShowSettingPreviewOnChange(
@@ -139,7 +134,6 @@ const BaseReader = ({
         tapZoneInvertMode,
         shouldShowReadingModePreview,
         shouldShowTapZoneLayoutPreview,
-        setShowPreview,
     );
     useReaderSetChaptersState(
         chaptersResponse,

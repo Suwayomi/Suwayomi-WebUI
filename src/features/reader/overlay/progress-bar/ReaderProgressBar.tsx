@@ -32,6 +32,7 @@ import { ReaderProgressBarSlotWrapper } from '@/features/reader/overlay/progress
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReadingMode } from '@/features/reader/Reader.types.ts';
 import {
+    getReaderProgressBarStore,
     useReaderPagesStore,
     useReaderProgressBarStore,
     useReaderSettingsStore,
@@ -73,10 +74,7 @@ const BaseReaderProgressBar = ({
         currentPageIndex: state.pages.currentPageIndex,
     }));
     const readingMode = useReaderSettingsStore((state) => state.settings.readingMode.value);
-    const { isDragging, setIsDragging } = useReaderProgressBarStore((state) => ({
-        isDragging: state.progressBar.isDragging,
-        setIsDragging: state.progressBar.setIsDragging,
-    }));
+    const isDragging = useReaderProgressBarStore((state) => state.progressBar.isDragging);
 
     const progressBarRef = useRef<HTMLDivElement | null>(null);
     const draggingDetectionTimeout = useRef<NodeJS.Timeout>(undefined);
@@ -147,11 +145,11 @@ const BaseReaderProgressBar = ({
         );
 
         clearTimeout(draggingDetectionTimeout.current);
-        draggingDetectionTimeout.current = setTimeout(() => setIsDragging(true), 250);
+        draggingDetectionTimeout.current = setTimeout(() => getReaderProgressBarStore().setIsDragging(true), 250);
     };
 
     const handleMouseUp = () => {
-        setIsDragging(false);
+        getReaderProgressBarStore().setIsDragging(false);
         clearTimeout(draggingDetectionTimeout.current);
     };
 
@@ -174,7 +172,7 @@ const BaseReaderProgressBar = ({
                 >
                     {currentPage.name}
                 </ReaderProgressBarPageNumber>
-                <ClickAwayListener onClickAway={() => setIsDragging(false)}>
+                <ClickAwayListener onClickAway={() => getReaderProgressBarStore().setIsDragging(false)}>
                     <ReaderProgressBarSlotsActionArea
                         {...slotProps?.progressBarSlotsActionArea}
                         onMouseDown={handleMouseDown}

@@ -22,7 +22,11 @@ import { CHAPTER_ACTION_TO_TRANSLATION, FALLBACK_CHAPTER } from '@/features/chap
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { useReaderChaptersStore, useReaderPagesStore } from '@/features/reader/stores/ReaderStore.ts';
+import {
+    getReaderPagesStore,
+    useReaderChaptersStore,
+    useReaderPagesStore,
+} from '@/features/reader/stores/ReaderStore.ts';
 import { ChapterDownloadInfo, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const DownloadButton = ({ id = -1, isDownloaded }: ChapterIdInfo & ChapterDownloadInfo) => {
@@ -68,11 +72,7 @@ export const ReaderNavBarDesktopActions = memo(() => {
     }));
 
     const { t } = useLingui();
-    const { pageLoadStates, setPageLoadStates, setRetryFailedPagesKeyPrefix } = useReaderPagesStore((state) => ({
-        pageLoadStates: state.pages.pageLoadStates,
-        setPageLoadStates: state.pages.setPageLoadStates,
-        setRetryFailedPagesKeyPrefix: state.pages.setRetryFailedPagesKeyPrefix,
-    }));
+    const pageLoadStates = useReaderPagesStore((state) => state.pages.pageLoadStates);
 
     const pageRetryKeyPrefix = useRef<number>(0);
 
@@ -88,13 +88,13 @@ export const ReaderNavBarDesktopActions = memo(() => {
             <CustomTooltip title={t`Retry errored pages`} disabled={!haveSomePagesFailedToLoad}>
                 <IconButton
                     onClick={() => {
-                        setPageLoadStates((statePageLoadStates) =>
+                        getReaderPagesStore().setPageLoadStates((statePageLoadStates) =>
                             statePageLoadStates.map((pageLoadState) => ({
                                 url: pageLoadState.url,
                                 loaded: pageLoadState.loaded,
                             })),
                         );
-                        setRetryFailedPagesKeyPrefix(`${pageRetryKeyPrefix.current}`);
+                        getReaderPagesStore().setRetryFailedPagesKeyPrefix(`${pageRetryKeyPrefix.current}`);
                         pageRetryKeyPrefix.current = (pageRetryKeyPrefix.current + 1) % 1000;
                     }}
                     disabled={!haveSomePagesFailedToLoad}

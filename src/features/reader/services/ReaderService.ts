@@ -53,7 +53,6 @@ import {
     useReaderSettingsStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
-import { ReaderChaptersStoreSlice } from '@/features/reader/stores/ReaderChaptersStore.ts';
 import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
@@ -122,7 +121,6 @@ export class ReaderService {
         chapter: TChapterReader | undefined | null,
         lastLeadingChapterSourceOrder: number,
         lastTrailingChapterSourceOrder: number,
-        setReaderStateChapters: ReaderChaptersStoreSlice['chapters']['setReaderStateChapters'],
         direction: DirectionOffset,
     ): void {
         if (!chapter) {
@@ -140,7 +138,7 @@ export class ReaderService {
             return;
         }
 
-        setReaderStateChapters((state) =>
+        getReaderChaptersStore().setReaderStateChapters((state) =>
             updateReaderStateVisibleChapters(
                 isPreviousChapter,
                 state,

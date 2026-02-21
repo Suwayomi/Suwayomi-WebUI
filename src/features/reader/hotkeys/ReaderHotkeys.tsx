@@ -27,7 +27,6 @@ import {
     getReaderAutoScrollStore,
     getReaderOverlayStore,
     getReaderSettingsStore,
-    getReaderTapZoneStore,
     useReaderSettingsStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 
@@ -92,7 +91,6 @@ export const ReaderHotkeys = ({
             readingMode.value,
             readingDirection.value,
             scrollElementRef.current,
-            getReaderTapZoneStore().setShowPreview,
             scrollAmount,
         );
     });
@@ -115,7 +113,6 @@ export const ReaderHotkeys = ({
             readingMode.value,
             readingDirection.value,
             scrollElementRef.current,
-            getReaderTapZoneStore().setShowPreview,
             scrollAmount,
         );
     });

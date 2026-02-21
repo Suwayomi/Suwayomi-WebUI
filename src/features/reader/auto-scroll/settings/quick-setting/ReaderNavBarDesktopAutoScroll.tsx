@@ -19,7 +19,7 @@ import { plural } from '@lingui/core/macro';
 import { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { AUTO_SCROLL_SPEED } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
-import { useReaderAutoScrollStore } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderAutoScrollStore, useReaderAutoScrollStore } from '@/features/reader/stores/ReaderStore.ts';
 
 export const ReaderNavBarDesktopAutoScroll = ({
     autoScroll,
@@ -28,10 +28,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
     setAutoScroll: (newAutoScroll: IReaderSettings['autoScroll'], commit: boolean) => void;
 }) => {
     const { t } = useLingui();
-    const { isActive, toggleActive } = useReaderAutoScrollStore((state) => ({
-        isActive: state.autoScroll.isActive,
-        toggleActive: state.autoScroll.toggleActive,
-    }));
+    const isActive = useReaderAutoScrollStore((state) => state.autoScroll.isActive);
 
     const updateTimeout = useRef<NodeJS.Timeout>(undefined);
 
@@ -40,7 +37,7 @@ export const ReaderNavBarDesktopAutoScroll = ({
             <Button
                 sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
                 size="large"
-                onClick={toggleActive}
+                onClick={() => getReaderAutoScrollStore().toggleActive()}
                 color={isActive ? 'secondary' : 'primary'}
                 variant="contained"
                 startIcon={isActive ? <PauseCircleFilledIcon /> : <PlayCircleFilledIcon />}

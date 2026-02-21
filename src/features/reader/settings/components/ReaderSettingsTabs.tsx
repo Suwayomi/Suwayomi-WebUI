@@ -23,7 +23,6 @@ import { ReaderBehaviourSettings } from '@/features/reader/settings/behaviour/Re
 import { ReaderDefaultLayoutSettings } from '@/features/reader/settings/layout/ReaderDefaultLayoutSettings.tsx';
 import { ReaderHotkeysSettings } from '@/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { useReaderTapZoneStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const BaseReaderSettingsTabs = ({
     activeTab,
@@ -45,7 +44,6 @@ const BaseReaderSettingsTabs = ({
 }) => {
     const { t } = useLingui();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
-    const setShowPreview = useReaderTapZoneStore((state) => state.tapZone.setShowPreview);
 
     return (
         <>
@@ -99,7 +97,6 @@ const BaseReaderSettingsTabs = ({
                                     <ReaderLayoutSettings
                                         settings={settings}
                                         updateSetting={(...args) => updateSetting(...args)}
-                                        setShowPreview={setShowPreview!}
                                         isDefaultable={!areDefaultSettings}
                                         onDefault={(...args) => deleteSetting?.(...args)}
                                         isSeriesMode

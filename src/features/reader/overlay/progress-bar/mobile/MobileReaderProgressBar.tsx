@@ -35,6 +35,7 @@ import {
     useReaderProgressBarStore,
     useReaderScrollbarStore,
     useReaderSettingsStore,
+    getReaderProgressBarStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
@@ -69,10 +70,7 @@ const BaseMobileReaderProgressBar = ({
         progressBarPosition: state.settings.progressBarPosition,
         progressBarPositionAutoVertical: state.settings.progressBarPositionAutoVertical,
     }));
-    const { setIsMaximized, isDragging } = useReaderProgressBarStore((state) => ({
-        setIsMaximized: state.progressBar.setIsMaximized,
-        isDragging: state.progressBar.isDragging,
-    }));
+    const isDragging = useReaderProgressBarStore((state) => state.progressBar.isDragging);
 
     const [, setRefreshProgressBarPosition] = useState({});
     useResizeObserver(
@@ -218,9 +216,9 @@ const BaseMobileReaderProgressBar = ({
     );
 
     useLayoutEffect(() => {
-        setIsMaximized(isVisible);
+        getReaderProgressBarStore().setIsMaximized(isVisible);
 
-        return () => setIsMaximized(false);
+        return () => getReaderProgressBarStore().setIsMaximized(false);
     }, [isVisible]);
 
     return (

@@ -49,7 +49,6 @@ export const ReaderSettingProfileSettings = ({
             <Stack sx={{ px: Number(!isSeriesMode) * 2 }}>
                 <ReaderLayoutSettings
                     {...props}
-                    setShowPreview={() => {}}
                     settings={adjustedSettings}
                     updateSetting={(setting, value, commit) => updateSetting(setting, value, commit, true, profile)}
                 />
