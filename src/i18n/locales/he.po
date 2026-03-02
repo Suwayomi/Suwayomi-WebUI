@@ -1,0 +1,860 @@
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2026-03-02 11:09+0000\n"
+"Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
+"Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
+"webui/he/>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
+"n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Weblate 5.16.1-dev\n"
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr "%{0} | מעדכן…"
+
+#. placeholder {0}: selectedChapters.length
+#. placeholder {0}: visibleChapters.length
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/ChapterList.tsx
+msgid "{0, plural, one {# chapter} other {# chapters}}"
+msgstr "{0, plural, one {פרק #} other {# פרקים}}"
+
+#. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "{0, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{0, plural, one {פרק #} other {# פרקים}}"
+
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {יום #} other {# ימים}}"
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr "{0, plural, one {מנגה #} other {# מנגות}}"
+
+#. placeholder {0}: serverSettings.flareSolverrSessionTtl
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# minute} other {# minutes}}"
+msgstr "{0, plural, one {דקה #} other {# דקות}}"
+
+#. placeholder {0}: autoScroll.value
+#. placeholder {0}: serverSettings.flareSolverrTimeout
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# second} other {# seconds}}"
+msgstr "{0, plural, one {שנייה #} other {# שניות}}"
+
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr "{0, plural, one {מקור #} other {# מקורות}}"
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr "{0, plural, one {שנייה} other {שניות}}"
+
+#. placeholder {0}: trackersInUse.length
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "{0, plural, one {# Tracker} other {# Tracker}}"
+msgstr "{0, plural, one {טראקר #} other {# טראקרים}}"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr "{availableUpdates, plural, one {עדכון # זמין} other {# עדכונים זמינים}}"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "{categoryCount, plural, one {# category} other {# categories}}"
+msgstr "{categoryCount, plural, one {קטגוריה #} other {# קטגוריות}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr ""
+"{count, plural, one {קטגוריות המנגה עודכנו} other {הקטגוריות של # מנגות "
+"עודכנו}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr "{count, plural, one {סימנייה הוסרה} other {# סימניות הוסרו}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr "{count, plural, one {סימנייה נשמרה} other {# סימניות נשמרו}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr "{count, plural, one {פרק נמחק} other {# פרקים נמחקו}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr "{count, plural, one {פרק סומן כ'נקרא'} other {# פרקים סומנו כ'נקרא'}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr ""
+"{count, plural, one {פרק סומן כ'לא נקרא'} other {# פרקים סומנו כ'לא נקרא'}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr "{count, plural, one {הוספת ההורדה נכשלה} other {הוספת ההורדות נכשלה}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr ""
+"{count, plural, one {הוספת הסימנייה נכשלה} other {הוספת הסימניות נכשלה}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr ""
+"{count, plural, one {עדכון קטגוריות המנגה נכשל} other {עדכון קטגוריות המנגות "
+"נכשל}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr "{count, plural, one {מחיקת הפרק נכשלה} other {מחיקת הפרקים נכשלה}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr "{count, plural, one {התקנת התוסף נכשלה} other {התקנת התוספים נכשלה}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
+msgstr ""
+"{count, plural, one {סימון הפרק כ'נקרא' נכשל} other {סימון הפרקים כ'נקרא' "
+"נכשל}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
+msgstr ""
+"{count, plural, one {סימון הפרק כ'לא נקרא' נכשל} other {סימון הפרקים כ'לא "
+"נקרא' נכשל}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
+msgstr ""
+"{count, plural, one {הסרת המנגה מהספרייה נכשלה} other {הסרת המנגות מהספרייה "
+"נכשלה}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
+msgstr "{count, plural, one {הסרת הסימנייה נכשלה} other {הסרת הסימניות נכשלה}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
+msgstr "{count, plural, one {הסרת התוסף נכשלה} other {הסרת התוספים נכשלה}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
+msgstr "{count, plural, one {עדכון התוסף נכשל} other {עדכון התוספים נכשל}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download added} other {# downloads added}}"
+msgstr "{count, plural, one {ההורדה נוספה} other {# הורדות נוספו}}"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
+msgstr "{count, plural, one {הפרק הבא} other {# הפרקים הבאים}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+msgstr ""
+"{count, plural, one {המנגה הוסרה מהספרייה} other {# מנגות הוסרו מהספרייה}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}} other {There are # missing chapters.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}}}"
+msgstr ""
+"{count, plural, one {חסר פרק #.\n"
+"נוכחי: {currentChapter}\n"
+"הבא: {nextChapter}} other {חסרים # פרקים.\n"
+"נוכחי: {currentChapter}\n"
+"הבא: {nextChapter}}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}} other {There are # missing chapters.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}}}"
+msgstr ""
+"{count, plural, one {חסר פרק #.\n"
+"הקודם: {nextChapter}\n"
+"נוכחי: {currentChapter}} other {חסרים # פרקים.\n"
+"הקודם: {nextChapter}\n"
+"נוכחי: {currentChapter}}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
+msgstr ""
+"{count, plural, one {שינוי הקטגוריה של רשומה אחת} other {שינוי הקטגוריה של # "
+"רשומות}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
+msgstr "{count, plural, one {מחיקה של הורדה אחת} other {מחיקה של # הורדות}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid ""
+"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+msgstr ""
+"{count, plural, one {הורדת פרק אחד עומדת להתחיל} other {הורדת # פרקים עומדת "
+"להתחיל.\n"
+"Suwayomi אינה מיועדת לביצוע הורדה המונית. מספר רב מדי של הורדות עלול להוביל "
+"לחסימה מהמקורות ו/או לגרום לבעיות בביצועים.}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+msgstr ""
+"{count, plural, one {סימון פרק אחד כ'נקרא'} other {סימון # פרקים כ'נקרא'}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
+msgstr ""
+"{count, plural, one {סימון פרק אחד כ'לא נקרא'} other {סימון # פרקים כ'לא "
+"נקרא'}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
+msgstr "{count, plural, one {הסרת סימנייה אחת} other {הסרת # סימניות}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+msgstr ""
+"{count, plural, one {הסרת רשומה אחת מהספרייה} other {הסרת # רשומות מהספרייה}}"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{count} remaining"
+msgstr "{count} נותרו"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "{currentAutoUpdateIntervalHours}h"
+msgstr "{currentAutoUpdateIntervalHours} שעות"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{currentDownloadAheadLimit, plural, one {פרק #} other {# פרקים}}"
+
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
+msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr "{missingChapterCount, plural, one {פרק # חסר} other {# פרקים חסרים}}"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "{progress}% | Updating…"
+msgstr "%{progress} | מעדכן…"
+
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {מחיקת גיבויים שגילם עולה על יום #} other {מחיקת גיבויים "
+"שגילם עולה על # ימים}}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {מחיקת קבצי רישום אירועים שגילם עולה על יום #} other "
+"{מחיקת קבצי רישום אירועים שגילם עולה על # ימים}}"
+
+#: src/features/reader/settings/components/DefaultSettingFootnote.tsx
+msgid "*: Active setting"
+msgstr "*: הגדרה פעילה"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
+msgstr ""
+"<0>Suwayomi אינה מספקת תמיכה עבור מאגרים או תוספים חיצוניים.</0><1/>יש לנקוט "
+"בזהירות, שכן גורמים זדוניים עלולים ליצור מאגרים אלו.<2/>באחריות המשתמש לוודא "
+"את רמת האבטחה והאמינות של כל מאגר או תוסף."
+
+#: src/features/settings/Settings.constants.ts
+msgid "A preview focused web frontend built with svelte"
+msgstr "ממשק משתמש בדפדפן, בנוי ב-Svelte ומתמקד בתצוגה מקדימה"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "A-Z"
+msgstr "א-ת"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/About.tsx
+msgid "About"
+msgstr "אודות"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Active device"
+msgstr "מכשיר פעיל"
+
+#: src/base/components/buttons/ButtonSelect.tsx
+msgid "Active setting"
+msgstr "הגדרה פעילה"
+
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/settings/components/images/KeyValueItems.tsx
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+msgid "Add"
+msgstr "הוספה"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Add bookmark"
+msgstr "הוספת סימנייה"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Add repositories from which extensions can be installed"
+msgstr "הוספת מאגרים שמהם ניתן להתקין תוספים"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Add repository"
+msgstr "הוספת מאגר"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/manga/components/MangaBadges.tsx
+#: src/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx
+msgid "Add To Library"
+msgstr "הוספה לספרייה"
+
+#: src/features/tracker/components/cards/TrackerUntrackedCard.tsx
+msgid "Add tracking"
+msgstr "הוספת מעקב"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "Added manga to library!"
+msgstr "המנגה נוספה לספרייה!"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Advanced"
+msgstr "מתקדם"
+
+#: src/features/settings/Settings.constants.ts
+#: src/features/settings/Settings.constants.ts
+#: src/features/settings/Settings.constants.ts
+#: src/features/settings/Settings.constants.ts
+msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
+msgstr ""
+"לאחר שינוי הגדרה זו, יש לעבור לדף 'אודות' ולבדוק האם קיים עדכון ל-webUI "
+"ולהתקינו"
+
+#: src/features/extension/info/components/Meta.tsx
+msgid "Age rating"
+msgstr "דירוג גיל"
+
+#: src/base/utils/Languages.ts
+#: src/features/backup/Backup.utils.ts
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/extension/Extensions.constants.ts
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "All"
+msgstr "הכל"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Allow deleting bookmarked chapters"
+msgstr "אפשור מחיקת סימניות"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Allowed Languages"
+msgstr "שפות מורשות"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Alpha"
+msgstr "אלפא"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Also remove from {0}"
+msgstr "הסרה גם מ- {0}"
+
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Appearance"
+msgstr "מראה"
+
+#: src/features/chapter/services/Chapters.ts
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/manga/services/Mangas.ts
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Are you sure?"
+msgstr "האם ברצונך להמשיך?"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Artist"
+msgstr "אמן"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Ascending"
+msgstr "סדר עולה"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Authentication"
+msgstr "אימות"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Authentication Mode"
+msgstr "מצב אימות"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Author"
+msgstr "יוצר"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Auto"
+msgstr "אוטומטי"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "Auto download while reading"
+msgstr "הורדה אוטומטית במהלך הקריאה"
+
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+#: src/features/reader/overlay/navigation/mobile/quick-settings/ReaderBottomBarMobileQuickSettings.tsx
+msgid "Auto scroll"
+msgstr "גלילה אוטומטית"
+
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+msgid "Auto scroll speed"
+msgstr "מהירות גלילה אוטומטית"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Auto webtoon mode"
+msgstr "מצב Webtoon אוטומטי"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Auto-download"
+msgstr "הורדה אוטומטית"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+msgid "Automatic progress bar vertical position"
+msgstr "מיקום פס גלילה אנכי אוטומטי"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "Automatic update interval"
+msgstr "תדירות עדכון אוטומטי"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "Automatic updates"
+msgstr "עדכונים אוטומטיים"
+
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+msgid "Automatically download the latest version"
+msgstr "הורדה אוטומטית של הגרסה העדכנית"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Automatically mark chapters as read when you download them."
+msgstr "סימון אוטומטי של פרקים שהורדו כ'נקרא'."
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Automatically refresh metadata"
+msgstr "רענון Metadata אוטומטי"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
+msgstr ""
+"שימוש אוטומטי במצב Webtoon עבור רשומות שזוהו כבעלי פורמט ארוך (Long strip)"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Back up library as a Tachiyomi backup"
+msgstr "גיבוי הספרייה כקובץ גיבוי של Tachiyomi"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Background color"
+msgstr "צבע רקע"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Backup"
+msgstr "גיבוי"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup cleanup"
+msgstr "ניקוי גיבויים"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup data"
+msgstr "נתוני הגיבוי"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup interval"
+msgstr "תדירות הגיבוי"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup location"
+msgstr "מיקום הגיבוי"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup restored."
+msgstr "הגיבוי שוחזר."
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup time"
+msgstr "מועד הגיבוי"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "Backup validation"
+msgstr "בדיקת תקינות הגיבוי"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Badges"
+msgstr "תגיות"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Basic Authentication"
+msgstr "אימות בסיסי"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Behaviour"
+msgstr "התנהגות"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Binary"
+msgstr "בינארי"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Binary file size"
+msgstr "גודל קובץ בינארי"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Black"
+msgstr "שחור"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Blue"
+msgstr "כחול"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Bookmark selected"
+msgstr "סימנייה נבחרה"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Bookmarked"
+msgstr "מופיע בסימניות"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Both"
+msgstr "שניהם"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+msgid "Bottom"
+msgstr "למטה"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Briefly show current mode when reader is opened or mode got changed"
+msgstr "הצגה קצרה של המצב הנוכחי עם פתיחת ממשק הקריאה או בעת שינוי המצב"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Briefly show tap zone layout preview when reader is opened or layout got changed"
+msgstr ""
+"הצגה קצרה של פריסת אזורי הלחיצה עם פתיחת ממשק הקריאה או בעת שינוי הפריסה"
+
+#: src/features/theme/Themes.ts
+msgid "Bright Pink"
+msgstr "ורוד עז"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "Browse"
+msgstr "עיון"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Browser"
+msgstr "דפדפן"
+
+#: src/features/settings/screens/About.tsx
+msgid "Build time"
+msgstr "מועד הבנייה"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Bundled"
+msgstr "כלולה"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By chapter number"
+msgstr "לפי מספר פרק"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By date fetched"
+msgstr "לפי מועד ההוספה"
+
+#: src/features/migration/Migration.constants.ts
+msgid "By manga count"
+msgstr "לפי כמות המנגות"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By source"
+msgstr "לפי המקור"
+
+#: src/features/migration/Migration.constants.ts
+msgid "By source name"
+msgstr "לפי שם המקור"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By upload date"
+msgstr "לפי תאריך ההעלאה"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Call timeout"
+msgstr "הבקשה נכשלה (Timeout)"
+
+#: src/base/collection/components/SelectableCollectionSelectMode.tsx
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/base/components/modals/ConfirmDialog.tsx
+#: src/base/components/modals/LoginDialog.tsx
+#: src/base/components/settings/CheckboxListSetting.tsx
+#: src/base/components/settings/DateSetting.tsx
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/base/components/settings/NumberSetting.tsx
+#: src/base/components/settings/SelectSetting.tsx
+#: src/base/components/settings/text/TextSettingDialog.tsx
+#: src/base/components/settings/TimeSetting.tsx
+#: src/features/backup/component/BackupFlagInclusionDialog.tsx
+#: src/features/backup/component/BackupValidationDialog.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+#: src/features/source/configuration/components/EditTextPreference.tsx
+#: src/features/source/configuration/components/ListPreference.tsx
+#: src/features/source/configuration/components/MultiSelectListPreference.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Cancel"
+msgstr "ביטול"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/Tracker.constants.ts
+msgid "Cancelled"
+msgstr "בוטלה"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/settings/screens/More.tsx
+msgid "Categories"
+msgstr "קטגוריות"
+
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/migration/components/MigrateDialog.tsx
+msgid "Category"
+msgstr "קטגורייה"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Category Name"
+msgstr "שם קטגורייה"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Category selection dialog"
+msgstr "חלון בחירת קטגוריה"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Change categories"
+msgstr "החלפת קטגוריות"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Change categories of selected"
+msgstr "החלפת קטגוריות של מסומנים"
+
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Changelog"
+msgstr "יומן שינויים"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Changes the theme colors on the manga page based on the thumbnail"
+msgstr "התאמת צבעי ערכת הנושא בדף המנגה לפי תמונת הכריכה"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Channel"
+msgstr "ערוץ"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Chapter"
+msgstr "פרק"
+
+#: src/features/reader/screens/Reader.tsx
+msgid "Chapter does not exist"
+msgstr "הפרק אינו קיים"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Chapter download limit"
+msgstr "מגבלת הורדת פרקים"
+
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+msgid "Chapter list"
+msgstr "רשימת פרקים"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+msgid "Chapter number"
+msgstr "מספר פרק"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Chapter sort order"
+msgstr "סדר מיון פרקים"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "Chapter transition warning"
+msgstr "אזהרת מעבר בין פרקים"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Chapters"
+msgstr "פרקים"
+
+#: src/features/library/screens/LibraryDuplicates.tsx
+msgid "Check description"
+msgstr "השוואת תיאור המנגה"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Check for new cover and details when updating library"
+msgstr "רענון תמונת הכריכה ופרטי המנגה בעת עדכון הספרייה"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "Checking for update"
+msgstr "בודק אם קיים עדכון"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Choose the order in which chapters are displayed."
+msgstr "בחירת הסדר שבו מוצגים הפרקים."
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Cleanup database"
+msgstr "ניקוי מסד הנתונים"
+
+#: src/base/collection/components/SelectableCollectionSelectAll.tsx
+msgid "Clear"
+msgstr "ביטול הבחירה"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Clear cache"
+msgstr "ניקוי המטמון"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Cleared the cache"
+msgstr "ניקוי המטמון הושלם"
+
+#: src/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx
+msgid "Click key to remove binding"
+msgstr "יש ללחוץ על המקש להסרת השיוך"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Check out"
+msgstr "כדאי לבדוק את"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Client"
+msgstr "קליינט (ממשק משתמש)"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Client data"
+msgstr "נתוני קליינט (ממשק משתמש)"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+msgid "Close"
+msgstr "סגירה"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cloudflare bypass"
+msgstr "מעקף Cloudflare"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Color filter blend mode"
+msgstr "מצב ערבוב של מסנן צבע"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Comfortable grid"
+msgstr "פריסה מרווחת"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Comic"
+msgstr "קומיקס"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Compact grid"
+msgstr "פריסה דחוסה"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Compatible"
+msgstr "תואם"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Completed"
+msgstr "הושלם"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Compression level"
+msgstr "רמת דחיסה"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Connect timeout"
+msgstr "התחברות נכשלה (Timeout)"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connect to KOReader Sync server"
+msgstr "התחברות לשרת הסנכרון של KOReader"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr "מחובר כ- {currentUsername} לשרת {currentServerAddress}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr "מחובר כ- {initialUsername} לשרת {initialServerAddress}"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Continue reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"המשך קריאה\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Continuous chapter display"
+msgstr "תצוגת פרקים רציפה"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Continuous horizontal"
+msgstr "אופקי רציף"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Continuous vertical"
+msgstr "אנכי רציף"
