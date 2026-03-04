@@ -161,6 +161,11 @@ const SourceSearchPreview = React.memo(
             });
         }, [isLoading, noMangasFound, searchString, error]);
 
+        useEffect(
+            () => () => currentAbortRequest.current?.(new Error(`SourceSearchPreview(${id}, ${name}): search closed`)),
+            [],
+        );
+
         let errorMessage: string | undefined;
         if (error) {
             errorMessage = t`Could not search source`;
