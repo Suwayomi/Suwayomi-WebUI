@@ -172,10 +172,21 @@ export class Mangas {
         return mangas.filter(Mangas.isPartiallyRead);
     }
 
-    static getThumbnailUrl(manga: Partial<MangaThumbnailInfo>): string {
+    private static toThumbnailRequestWidth(widthCssPx?: number): number | undefined {
+        if (!widthCssPx || widthCssPx <= 0) {
+            return undefined;
+        }
+
+        const dpr = typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1;
+        return Math.ceil(widthCssPx * dpr);
+    }
+
+    static getThumbnailUrl(manga: Partial<MangaThumbnailInfo>, widthCssPx?: number): string {
+        const thumbnailWidth = this.toThumbnailRequestWidth(widthCssPx);
         const url = UrlUtil.addParams(manga.thumbnailUrl ?? '', {
             fetchedAt: manga.thumbnailUrlLastFetched,
             sourceId: manga.sourceId,
+            w: thumbnailWidth ? String(thumbnailWidth) : undefined,
         });
 
         return requestManager.getValidImgUrlFor(url);

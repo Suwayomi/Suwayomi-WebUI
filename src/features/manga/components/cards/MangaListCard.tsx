@@ -37,6 +37,7 @@ export const MangaListCard = memo(
         mode,
     }: SpecificMangaCardProps) => {
         const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
+        const thumbnailWidth = 56;
 
         const optionButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -74,7 +75,7 @@ export const MangaListCard = memo(
                         }}
                     >
                         <ListCardAvatar
-                            iconUrl={Mangas.getThumbnailUrl(manga)}
+                            iconUrl={Mangas.getThumbnailUrl(manga, thumbnailWidth)}
                             alt={manga.title}
                             slots={{
                                 spinnerImageProps: {

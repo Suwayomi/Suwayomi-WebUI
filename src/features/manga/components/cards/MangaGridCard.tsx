@@ -23,6 +23,7 @@ import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.t
 import { MANGA_COVER_ASPECT_RATIO } from '@/features/manga/Manga.constants.ts';
 import { GridLayout } from '@/base/Base.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 
 const BottomGradient = styled('div')({
     position: 'absolute',
@@ -58,6 +59,9 @@ export const MangaGridCard = memo(
     }: SpecificMangaCardProps) => {
         const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
         const optionButtonRef = useRef<HTMLButtonElement>(null);
+        const {
+            settings: { mangaGridItemWidth },
+        } = useMetadataServerSettings();
 
         const { id, title } = manga;
 
@@ -112,7 +116,7 @@ export const MangaGridCard = memo(
                         >
                             <SpinnerImage
                                 alt={title}
-                                src={Mangas.getThumbnailUrl(manga)}
+                                src={Mangas.getThumbnailUrl(manga, mangaGridItemWidth)}
                                 imgStyle={
                                     inLibraryIndicator && isInLibrary
                                         ? {
