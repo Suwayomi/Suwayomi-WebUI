@@ -37,7 +37,13 @@ type MetadataUpdateOptions = {
     isMetadataKey?: boolean;
 };
 
-const requestMetadataUpdate = async (
+type ProcessedEntityMetadata = {
+    updateMetas: MetaInput[];
+    deleteKeys: string[];
+    migrateMetas: MetaInput[];
+};
+
+const processEntityMetadata = (
     metadataHolder: GqlMetaHolder,
     holderType: MetadataHolderType,
     {
@@ -47,7 +53,7 @@ const requestMetadataUpdate = async (
         keyPrefixes,
         isMetadataKey = false,
     }: MetadataUpdateOptions,
-): Promise<void> => {
+): ProcessedEntityMetadata => {
     if (keysToMigrate?.length > 1 || (keysToMigrate?.length === 1 && keysToMigrate[0][0] !== 'migration')) {
         throw new Error(
             `requestMetadataUpdate: "migrate" option must only contain a single key-value pair with the key "migration"`,
@@ -92,77 +98,200 @@ const requestMetadataUpdate = async (
         value: `${value}`,
     }));
 
+    return { updateMetas: allUpdateMetas, deleteKeys: uniqueDeleteKeys, migrateMetas };
+};
+
+type ProcessedEntry = ProcessedEntityMetadata & { metadataHolder: GqlMetaHolder };
+
+const groupByIdenticalMetas = <Id extends number | string>(
+    processed: Array<ProcessedEntry & { metadataHolder: { id: Id } }>,
+): {
+    updateGroups: Array<{ ids: Id[]; metas: MetaInput[] }>;
+    deleteGroups: Array<{ ids: Id[]; keys: string[] }>;
+    migrateGroups: Array<{ ids: Id[]; metas: MetaInput[] }>;
+} => {
+    const updateMap = new Map<string, { ids: Id[]; metas: MetaInput[] }>();
+    const deleteMap = new Map<string, { ids: Id[]; keys: string[] }>();
+    const migrateMap = new Map<string, { ids: Id[]; metas: MetaInput[] }>();
+
+    for (const entry of processed) {
+        const { id } = entry.metadataHolder;
+
+        if (entry.updateMetas.length > 0) {
+            const key = JSON.stringify(entry.updateMetas);
+            const existing = updateMap.get(key);
+            if (existing) {
+                existing.ids.push(id);
+            } else {
+                updateMap.set(key, { ids: [id], metas: entry.updateMetas });
+            }
+        }
+
+        if (entry.deleteKeys.length > 0) {
+            const key = JSON.stringify(entry.deleteKeys);
+            const existing = deleteMap.get(key);
+            if (existing) {
+                existing.ids.push(id);
+            } else {
+                deleteMap.set(key, { ids: [id], keys: entry.deleteKeys });
+            }
+        }
+
+        if (entry.migrateMetas.length > 0) {
+            const key = JSON.stringify(entry.migrateMetas);
+            const existing = migrateMap.get(key);
+            if (existing) {
+                existing.ids.push(id);
+            } else {
+                migrateMap.set(key, { ids: [id], metas: entry.migrateMetas });
+            }
+        }
+    }
+
+    return {
+        updateGroups: [...updateMap.values()],
+        deleteGroups: [...deleteMap.values()],
+        migrateGroups: [...migrateMap.values()],
+    };
+};
+
+const createEntityMetaInput = <Key extends string, Id extends number | string>(
+    processed: ProcessedEntry[],
+    idKey: Key,
+) => {
+    const { updateGroups, deleteGroups, migrateGroups } = groupByIdenticalMetas(
+        processed as Array<ProcessedEntry & { metadataHolder: { id: Id } }>,
+    );
+
+    return {
+        updateInput: {
+            items: updateGroups.map(
+                ({ ids, metas }) => ({ [idKey]: ids, metas }) as Record<Key, Id[]> & { metas: MetaInput[] },
+            ),
+        },
+        deleteInput: {
+            items: deleteGroups.map(
+                ({ ids, keys }) => ({ [idKey]: ids, keys }) as Record<Key, Id[]> & { keys: string[] },
+            ),
+        },
+        migrateInput: {
+            items: migrateGroups.map(
+                ({ ids, metas }) => ({ [idKey]: ids, metas }) as Record<Key, Id[]> & { metas: MetaInput[] },
+            ),
+        },
+    };
+};
+
+const requestBatchMetadataUpdate = async (
+    holderType: MetadataHolderType,
+    entries: Array<{ metadataHolders: GqlMetaHolder[]; options: MetadataUpdateOptions }>,
+): Promise<void> => {
+    if (entries.length === 0) return;
+
+    const processed = entries.flatMap(({ metadataHolders, options }) =>
+        metadataHolders.map((metadataHolder) => ({
+            metadataHolder,
+            ...processEntityMetadata(metadataHolder, holderType, options),
+        })),
+    );
+
     switch (holderType) {
-        case 'category': {
-            const categoryId = (metadataHolder as CategoryIdInfo).id;
-            await requestManager.updateCategoryMeta({
-                updateInput: { items: [{ categoryIds: [categoryId], metas: allUpdateMetas }] },
-                deleteInput: { items: [{ categoryIds: [categoryId], keys: uniqueDeleteKeys }] },
-                migrateInput: { items: [{ categoryIds: [categoryId], metas: migrateMetas }] },
-            }).response;
-            break;
-        }
-        case 'chapter': {
-            const chapterId = (metadataHolder as ChapterIdInfo).id;
-            await requestManager.updateChapterMeta({
-                updateInput: { items: [{ chapterIds: [chapterId], metas: allUpdateMetas }] },
-                deleteInput: { items: [{ chapterIds: [chapterId], keys: uniqueDeleteKeys }] },
-                migrateInput: { items: [{ chapterIds: [chapterId], metas: migrateMetas }] },
-            }).response;
-            break;
-        }
-        case 'global':
+        case 'global': {
+            const withUpdates = processed.filter(({ updateMetas }) => updateMetas.length > 0);
+            const withDeletes = processed.filter(({ deleteKeys }) => deleteKeys.length > 0);
+            const withMigrations = processed.filter(({ migrateMetas }) => migrateMetas.length > 0);
+
             await requestManager.updateGlobalMeta({
-                updateInput: { metas: allUpdateMetas },
-                deleteInput: { keys: uniqueDeleteKeys },
-                migrateInput: { metas: migrateMetas },
-            }).response;
-            break;
-        case 'manga': {
-            const mangaId = (metadataHolder as MangaIdInfo).id;
-            await requestManager.updateMangaMeta({
-                updateInput: { items: [{ mangaIds: [mangaId], metas: allUpdateMetas }] },
-                deleteInput: { items: [{ mangaIds: [mangaId], keys: uniqueDeleteKeys }] },
-                migrateInput: { items: [{ mangaIds: [mangaId], metas: migrateMetas }] },
+                updateInput: { metas: withUpdates.flatMap(({ updateMetas }) => updateMetas) },
+                deleteInput: { keys: withDeletes.flatMap(({ deleteKeys }) => deleteKeys) },
+                migrateInput: { metas: withMigrations.flatMap(({ migrateMetas }) => migrateMetas) },
             }).response;
             break;
         }
-        case 'source': {
-            const sourceId = (metadataHolder as SourceIdInfo).id;
-            await requestManager.updateSourceMeta({
-                updateInput: { items: [{ sourceIds: [sourceId], metas: allUpdateMetas }] },
-                deleteInput: { items: [{ sourceIds: [sourceId], keys: uniqueDeleteKeys }] },
-                migrateInput: { items: [{ sourceIds: [sourceId], metas: migrateMetas }] },
-            }).response;
+        case 'category':
+            await requestManager.updateCategoryMeta(
+                createEntityMetaInput<'categoryIds', number>(processed, 'categoryIds'),
+            ).response;
             break;
-        }
+        case 'chapter':
+            await requestManager.updateChapterMeta(createEntityMetaInput<'chapterIds', number>(processed, 'chapterIds'))
+                .response;
+            break;
+        case 'manga':
+            await requestManager.updateMangaMeta(createEntityMetaInput<'mangaIds', number>(processed, 'mangaIds'))
+                .response;
+            break;
+        case 'source':
+            await requestManager.updateSourceMeta(createEntityMetaInput<'sourceIds', string>(processed, 'sourceIds'))
+                .response;
+            break;
         default:
-            throw new Error(`requestMetadataUpdate: unknown holderType "${holderType}"`);
+            throw new Error(`requestBatchMetadataUpdate: unknown holderType "${holderType}"`);
     }
 };
 
+export const requestBatchServerMetadataUpdate = async (
+    entries: Array<{ options: MetadataUpdateOptions }>,
+): Promise<void> =>
+    requestBatchMetadataUpdate(
+        'global',
+        entries.map(({ options }) => ({ metadataHolders: [{}], options })),
+    );
+
+export const requestBatchMangaMetadataUpdate = async (
+    entries: Array<{ mangas: (MangaIdInfo & GqlMetaHolder)[]; options: MetadataUpdateOptions }>,
+): Promise<void> =>
+    requestBatchMetadataUpdate(
+        'manga',
+        entries.map(({ mangas, options }) => ({ metadataHolders: mangas, options })),
+    );
+
+export const requestBatchChapterMetadataUpdate = async (
+    entries: Array<{ chapters: (ChapterIdInfo & GqlMetaHolder)[]; options: MetadataUpdateOptions }>,
+): Promise<void> =>
+    requestBatchMetadataUpdate(
+        'chapter',
+        entries.map(({ chapters, options }) => ({ metadataHolders: chapters, options })),
+    );
+
+export const requestBatchCategoryMetadataUpdate = async (
+    entries: Array<{ categories: (CategoryIdInfo & GqlMetaHolder)[]; options: MetadataUpdateOptions }>,
+): Promise<void> =>
+    requestBatchMetadataUpdate(
+        'category',
+        entries.map(({ categories, options }) => ({ metadataHolders: categories, options })),
+    );
+
+export const requestBatchSourceMetadataUpdate = async (
+    entries: Array<{ sources: (SourceIdInfo & GqlMetaHolder)[]; options: MetadataUpdateOptions }>,
+): Promise<void> =>
+    requestBatchMetadataUpdate(
+        'source',
+        entries.map(({ sources, options }) => ({ metadataHolders: sources, options })),
+    );
+
 export const requestServerMetadataUpdate = async (options: MetadataUpdateOptions): Promise<void> =>
-    requestMetadataUpdate({}, 'global', options);
+    requestBatchServerMetadataUpdate([{ options }]);
 
 export const requestMangaMetadataUpdate = async (
     manga: MangaIdInfo & GqlMetaHolder,
     options: MetadataUpdateOptions,
-): Promise<void> => requestMetadataUpdate(manga, 'manga', options);
+): Promise<void> => requestBatchMangaMetadataUpdate([{ mangas: [manga], options }]);
 
 export const requestChapterMetadataUpdate = async (
     chapter: ChapterIdInfo & GqlMetaHolder,
     options: MetadataUpdateOptions,
-): Promise<void> => requestMetadataUpdate(chapter, 'chapter', options);
+): Promise<void> => requestBatchChapterMetadataUpdate([{ chapters: [chapter], options }]);
 
 export const requestCategoryMetadataUpdate = async (
     category: CategoryIdInfo & GqlMetaHolder,
     options: MetadataUpdateOptions,
-): Promise<void> => requestMetadataUpdate(category, 'category', options);
+): Promise<void> => requestBatchCategoryMetadataUpdate([{ categories: [category], options }]);
 
 export const requestSourceMetadataUpdate = async (
     source: SourceIdInfo & GqlMetaHolder,
     options: MetadataUpdateOptions,
-): Promise<void> => requestMetadataUpdate(source, 'source', options);
+): Promise<void> => requestBatchSourceMetadataUpdate([{ sources: [source], options }]);
 
 export const getMetadataUpdateFunction = (
     type: MetadataHolderType,

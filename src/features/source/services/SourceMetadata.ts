@@ -7,7 +7,10 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { requestSourceMetadataUpdate } from '@/features/metadata/services/MetadataUpdater.ts';
+import {
+    requestSourceMetadataUpdate,
+    requestBatchSourceMetadataUpdate,
+} from '@/features/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ISourceMetadata, SourceIdInfo, SourceMetadataKeys } from '@/features/source/Source.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
@@ -54,6 +57,27 @@ export const updateSourceMetadata = async <
     requestSourceMetadataUpdate(source, {
         update: [[metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]]],
     });
+
+export const batchUpdateSourceMetadata = async <
+    MetadataKeys extends SourceMetadataKeys = SourceMetadataKeys,
+    MetadataKey extends MetadataKeys = MetadataKeys,
+>(
+    updates: Array<{
+        sources: (SourceIdInfo & GqlMetaHolder)[];
+        entries: Array<{ metadataKey: MetadataKey; value: ISourceMetadata[MetadataKey] }>;
+    }>,
+): Promise<void> =>
+    requestBatchSourceMetadataUpdate(
+        updates.map(({ sources, entries }) => ({
+            sources,
+            options: {
+                update: entries.map(({ metadataKey, value }) => [
+                    metadataKey,
+                    convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey],
+                ]),
+            },
+        })),
+    );
 
 export const createUpdateSourceMetadata =
     <Settings extends SourceMetadataKeys>(
