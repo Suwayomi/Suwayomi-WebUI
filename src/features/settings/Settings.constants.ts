@@ -64,6 +64,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     migrateCategories: true,
     migrateTracking: true,
     deleteChapters: true,
+    migrateMetadata: true,
     migrateSortSettings: DEFAULT_SORT_SETTINGS,
 
     // browse

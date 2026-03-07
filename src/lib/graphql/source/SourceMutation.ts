@@ -39,19 +39,26 @@ export const UPDATE_SOURCE_METADATA = gql`
     ${SOURCE_META_FIELDS}
 
     mutation UPDATE_SOURCE_METADATA(
+        $preUpdateDeleteInput: DeleteSourceMetasInput!
+        $hasPreUpdateDeletions: Boolean!
         $updateInput: SetSourceMetasInput!
         $hasUpdates: Boolean!
-        $deleteInput: DeleteSourceMetasInput!
-        $hasDeletions: Boolean!
+        $postUpdateDeleteInput: DeleteSourceMetasInput!
+        $hasPostUpdateDeletions: Boolean!
         $migrateInput: SetSourceMetasInput!
         $isMigration: Boolean!
     ) {
+        preUpdateDeletedMeta: deleteSourceMetas(input: $preUpdateDeleteInput) @include(if: $hasPreUpdateDeletions) {
+            metas {
+                ...SOURCE_META_FIELDS
+            }
+        }
         updatedMeta: setSourceMetas(input: $updateInput) @include(if: $hasUpdates) {
             metas {
                 ...SOURCE_META_FIELDS
             }
         }
-        deletedMeta: deleteSourceMetas(input: $deleteInput) @include(if: $hasDeletions) {
+        postUpdateDeletedMeta: deleteSourceMetas(input: $postUpdateDeleteInput) @include(if: $hasPostUpdateDeletions) {
             metas {
                 ...SOURCE_META_FIELDS
             }

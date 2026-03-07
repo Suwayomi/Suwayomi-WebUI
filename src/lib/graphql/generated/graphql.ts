@@ -3539,16 +3539,18 @@ export type UpdateCategoryOrderMutationVariables = Exact<{
 export type UpdateCategoryOrderMutation = { __typename?: 'Mutation', updateCategoryOrder?: { __typename?: 'UpdateCategoryOrderPayload', categories: Array<{ __typename?: 'CategoryType', id: number, order: number }> } | null };
 
 export type UpdateCategoryMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteCategoryMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
   updateInput: SetCategoryMetasInput;
   hasUpdates: Scalars['Boolean']['input'];
-  deleteInput: DeleteCategoryMetasInput;
-  hasDeletions: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteCategoryMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
   migrateInput: SetCategoryMetasInput;
   isMigration: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateCategoryMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null };
+export type UpdateCategoryMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null };
 
 export type GetCategoriesBaseQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3656,16 +3658,18 @@ export type UpdateChaptersMutationVariables = Exact<{
 export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters?: { __typename?: 'UpdateChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: string, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, bookmarkCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null, firstUnreadChapter?: { __typename?: 'ChapterType', id: number } | null } }> } | null, deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } | null, trackProgress?: { __typename?: 'TrackProgressPayload', trackRecords: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, private: boolean }> } | null };
 
 export type UpdateChapterMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteChapterMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
   updateInput: SetChapterMetasInput;
   hasUpdates: Scalars['Boolean']['input'];
-  deleteInput: DeleteChapterMetasInput;
-  hasDeletions: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteChapterMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
   migrateInput: SetChapterMetasInput;
   isMigration: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateChapterMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null };
+export type UpdateChapterMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null };
 
 export type GetChaptersReaderQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3970,16 +3974,18 @@ export type UpdateMangasCategoriesMutationVariables = Exact<{
 export type UpdateMangasCategoriesMutation = { __typename?: 'Mutation', updateMangasCategories?: { __typename?: 'UpdateMangasCategoriesPayload', mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null };
 
 export type UpdateMangaMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteMangaMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
   updateInput: SetMangaMetasInput;
   hasUpdates: Scalars['Boolean']['input'];
-  deleteInput: DeleteMangaMetasInput;
-  hasDeletions: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteMangaMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
   migrateInput: SetMangaMetasInput;
   isMigration: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateMangaMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null };
+export type UpdateMangaMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null };
 
 export type GetMangaScreenQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -4014,10 +4020,11 @@ export type GetMangaToMigrateQueryVariables = Exact<{
   getChapterData: Scalars['Boolean']['input'];
   migrateCategories: Scalars['Boolean']['input'];
   migrateTracking: Scalars['Boolean']['input'];
+  migrateMetadata: Scalars['Boolean']['input'];
 }>;
 
 
-export type GetMangaToMigrateQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, title: string, chapters?: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> }, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, private: boolean }> } } };
+export type GetMangaToMigrateQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, title: string, chapters?: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number }, meta?: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> }> }, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, private: boolean }> }, meta?: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } };
 
 export type GetMangasBaseQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -4074,16 +4081,18 @@ export type GetLibraryMangaCountQueryVariables = Exact<{ [key: string]: never; }
 export type GetLibraryMangaCountQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', totalCount: number } };
 
 export type UpdateGlobalMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteGlobalMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
   updateInput: SetGlobalMetasInput;
   hasUpdates: Scalars['Boolean']['input'];
-  deleteInput: DeleteGlobalMetasInput;
-  hasDeletions: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteGlobalMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
   migrateInput: SetGlobalMetasInput;
   isMigration: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateGlobalMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null };
+export type UpdateGlobalMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null };
 
 export type GetGlobalMetadataQueryVariables = Exact<{
   key: Scalars['String']['input'];
@@ -4199,16 +4208,18 @@ export type UpdateSourcePreferencesMutationVariables = Exact<{
 export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference?: { __typename?: 'UpdateSourcePreferencePayload', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } } | null };
 
 export type UpdateSourceMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteSourceMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
   updateInput: SetSourceMetasInput;
   hasUpdates: Scalars['Boolean']['input'];
-  deleteInput: DeleteSourceMetasInput;
-  hasDeletions: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteSourceMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
   migrateInput: SetSourceMetasInput;
   isMigration: Scalars['Boolean']['input'];
 }>;
 
 
-export type UpdateSourceMetadataMutation = { __typename?: 'Mutation', updatedMeta?: { __typename?: 'SetSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, deletedMeta?: { __typename?: 'DeleteSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null };
+export type UpdateSourceMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null };
 
 export type GetSourceBrowseQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

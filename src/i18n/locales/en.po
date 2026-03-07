@@ -752,6 +752,7 @@ msgid "Client"
 msgstr "Client"
 
 #: src/features/backup/Backup.constants.ts
+#: src/features/migration/components/MigrateDialog.tsx
 msgid "Client data"
 msgstr "Client data"
 

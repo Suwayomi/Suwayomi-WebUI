@@ -120,6 +120,9 @@ export const APP_METADATA: Record<
     deleteChapters: {
         convert: convertToBoolean,
     },
+    migrateMetadata: {
+        convert: convertToBoolean,
+    },
     migrateSortSettings: {
         convert: convertToObject<SortSettings>,
     },
@@ -437,6 +440,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'migrateCategories',
     'migrateTracking',
     'deleteChapters',
+    'migrateMetadata',
     'migrateSortSettings',
 
     // browse
@@ -695,4 +699,14 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
         keys: [{ oldKey: 'sourceLanguages', newKey: 'browseLanguages' }],
         deleteKeys: ['sourceLanguages', 'extensionLanguages'],
     },
+];
+
+export const ALL_APP_METADATA_KEY_PREFIXES: string[] = [
+    ...METADATA_MIGRATIONS.reduce<Set<string>>((acc, migration) => {
+        if (migration.appKeyPrefix?.oldPrefix) {
+            acc.add(migration.appKeyPrefix.oldPrefix);
+        }
+        return acc;
+    }, new Set()),
+    APP_METADATA_KEY_PREFIX,
 ];

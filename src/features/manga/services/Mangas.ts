@@ -18,6 +18,7 @@ import {
     GetMangaToMigrateQuery,
     GetMangaToMigrateToFetchMutation,
     MangaBaseFieldsFragment,
+    SetChapterMetasItemInput,
     UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
@@ -52,6 +53,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
+import { ALL_APP_METADATA_KEY_PREFIXES } from '@/features/metadata/Metadata.constants.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
@@ -317,6 +319,7 @@ export class Mangas {
         mangaToMigrate: GetMangaToMigrateQuery['manga'],
         mangaToMigrateToInfo: GetMangaToMigrateToFetchMutation,
         deleteChapters: boolean,
+        migrateMetadata: boolean,
     ): MigrateAction {
         if (!mangaToMigrate.chapters || !mangaToMigrateToInfo.fetchChapters?.chapters) {
             throw new Error('Chapters are missing');
@@ -330,8 +333,11 @@ export class Mangas {
         const readChapters: number[] = [];
         const bookmarkedChapters: number[] = [];
 
+        const chapterPreDeleteIds: number[] = [];
+        const chapterUpdateItems: SetChapterMetasItemInput[] = [];
+
         migratableChapters.forEach(([chapterToMigrate, chapterToMigrateTo]) => {
-            const { isRead, isBookmarked } = chapterToMigrate;
+            const { isRead, isBookmarked, meta } = chapterToMigrate;
 
             if (isRead) {
                 readChapters.push(chapterToMigrateTo.id);
@@ -339,6 +345,14 @@ export class Mangas {
 
             if (isBookmarked) {
                 bookmarkedChapters.push(chapterToMigrateTo.id);
+            }
+
+            if (migrateMetadata && meta?.length) {
+                chapterPreDeleteIds.push(chapterToMigrateTo.id);
+                chapterUpdateItems.push({
+                    chapterIds: [chapterToMigrateTo.id],
+                    metas: meta.map(({ key, value }) => ({ key, value })),
+                });
             }
         });
 
@@ -348,6 +362,18 @@ export class Mangas {
                     readChapters.length && requestManager.updateChapters(readChapters, { isRead: true }).response,
                     bookmarkedChapters.length &&
                         requestManager.updateChapters(bookmarkedChapters, { isBookmarked: true }).response,
+                    chapterUpdateItems.length &&
+                        requestManager.updateChapterMeta({
+                            preUpdateDeleteInput: {
+                                items: [
+                                    {
+                                        chapterIds: chapterPreDeleteIds,
+                                        prefixes: ALL_APP_METADATA_KEY_PREFIXES,
+                                    },
+                                ],
+                            },
+                            updateInput: { items: chapterUpdateItems },
+                        }).response,
                 ].filter((promise) => !!promise),
             cleanup: () =>
                 mode === 'migrate'
@@ -407,22 +433,45 @@ export class Mangas {
         mangaToMigrateTo: MangaToMigrateTo,
         migrateCategories: boolean,
         removeMangaFromCategories: boolean,
+        migrateMetadata: boolean,
     ): MigrateAction {
         if (migrateCategories && !mangaToMigrateFrom?.categories) {
             throw new Error('Categories are missing');
         }
 
+        const mangaMeta = migrateMetadata ? mangaToMigrateFrom.meta : undefined;
+
         return {
-            copy: () => [
-                requestManager.updateManga(mangaToMigrateTo.id, {
-                    updateManga: { inLibrary: true },
-                    updateMangaCategories: migrateCategories
-                        ? {
-                              addToCategories: mangaToMigrateFrom.categories?.nodes.map((category) => category.id),
-                          }
-                        : undefined,
-                }).response,
-            ],
+            copy: () =>
+                [
+                    requestManager.updateManga(mangaToMigrateTo.id, {
+                        updateManga: { inLibrary: true },
+                        updateMangaCategories: migrateCategories
+                            ? {
+                                  addToCategories: mangaToMigrateFrom.categories?.nodes.map((category) => category.id),
+                              }
+                            : undefined,
+                    }).response,
+                    mangaMeta?.length &&
+                        requestManager.updateMangaMeta({
+                            preUpdateDeleteInput: {
+                                items: [
+                                    {
+                                        mangaIds: [mangaToMigrateTo.id],
+                                        prefixes: ALL_APP_METADATA_KEY_PREFIXES,
+                                    },
+                                ],
+                            },
+                            updateInput: {
+                                items: [
+                                    {
+                                        mangaIds: [mangaToMigrateTo.id],
+                                        metas: mangaMeta.map(({ key, value }) => ({ key, value })),
+                                    },
+                                ],
+                            },
+                        }).response,
+                ].filter((promise) => !!promise),
             cleanup: () =>
                 mode === 'migrate'
                     ? [
@@ -444,6 +493,7 @@ export class Mangas {
             migrateCategories,
             migrateTracking,
             deleteChapters,
+            migrateMetadata,
         }: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
         disableConfirmation?: boolean,
     ): Promise<void> {
@@ -458,6 +508,7 @@ export class Mangas {
                             migrateCategories,
                             migrateTracking,
                             deleteChapters,
+                            migrateMetadata,
                         }).response,
                         requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, {
                             migrateChapters,
@@ -511,6 +562,7 @@ export class Mangas {
                                 mangaToMigrateData.manga,
                                 mangaToMigrateToData,
                                 !!deleteChapters,
+                                !!migrateMetadata,
                             ),
                     ],
                     [
@@ -531,6 +583,7 @@ export class Mangas {
                                 mangaToMigrateToData.fetchManga!.manga,
                                 !!migrateCategories,
                                 removeMangaFromCategories,
+                                !!migrateMetadata,
                             ),
                     ],
                 );

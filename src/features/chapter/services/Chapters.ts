@@ -172,10 +172,10 @@ export class Chapters {
         return chapters.filter((chapter) => !Chapters.isRead(chapter));
     }
 
-    static getMatchingChapterNumberChapters<Chapter extends ChapterNumberInfo>(
-        chaptersA: Chapter[],
-        chaptersB: Chapter[],
-    ): [ChapterA: Chapter, ChapterB: Chapter][] {
+    static getMatchingChapterNumberChapters<ChapterA extends ChapterNumberInfo, ChapterB extends ChapterNumberInfo>(
+        chaptersA: ChapterA[],
+        chaptersB: ChapterB[],
+    ): [ChapterA: ChapterA, ChapterB: ChapterB][] {
         return chaptersA
             .map((chapterA) => {
                 const matchingChapter = chaptersB.find((chapterB) => chapterA.chapterNumber === chapterB.chapterNumber);
@@ -186,7 +186,7 @@ export class Chapters {
 
                 return [chapterA, matchingChapter];
             })
-            .filter((matchingChapters): matchingChapters is [Chapter, Chapter] => matchingChapters !== null);
+            .filter((matchingChapters): matchingChapters is [ChapterA, ChapterB] => matchingChapters !== null);
     }
 
     static async download(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {

@@ -175,19 +175,26 @@ export const UPDATE_MANGA_METADATA = gql`
     ${MANGA_META_FIELDS}
 
     mutation UPDATE_MANGA_METADATA(
+        $preUpdateDeleteInput: DeleteMangaMetasInput!
+        $hasPreUpdateDeletions: Boolean!
         $updateInput: SetMangaMetasInput!
         $hasUpdates: Boolean!
-        $deleteInput: DeleteMangaMetasInput!
-        $hasDeletions: Boolean!
+        $postUpdateDeleteInput: DeleteMangaMetasInput!
+        $hasPostUpdateDeletions: Boolean!
         $migrateInput: SetMangaMetasInput!
         $isMigration: Boolean!
     ) {
+        preUpdateDeletedMeta: deleteMangaMetas(input: $preUpdateDeleteInput) @include(if: $hasPreUpdateDeletions) {
+            metas {
+                ...MANGA_META_FIELDS
+            }
+        }
         updatedMeta: setMangaMetas(input: $updateInput) @include(if: $hasUpdates) {
             metas {
                 ...MANGA_META_FIELDS
             }
         }
-        deletedMeta: deleteMangaMetas(input: $deleteInput) @include(if: $hasDeletions) {
+        postUpdateDeletedMeta: deleteMangaMetas(input: $postUpdateDeleteInput) @include(if: $hasPostUpdateDeletions) {
             metas {
                 ...MANGA_META_FIELDS
             }

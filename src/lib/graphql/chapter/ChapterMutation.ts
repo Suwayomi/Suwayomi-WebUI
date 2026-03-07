@@ -162,19 +162,26 @@ export const UPDATE_CHAPTER_METADATA = gql`
     ${CHAPTER_META_FIELDS}
 
     mutation UPDATE_CHAPTER_METADATA(
+        $preUpdateDeleteInput: DeleteChapterMetasInput!
+        $hasPreUpdateDeletions: Boolean!
         $updateInput: SetChapterMetasInput!
         $hasUpdates: Boolean!
-        $deleteInput: DeleteChapterMetasInput!
-        $hasDeletions: Boolean!
+        $postUpdateDeleteInput: DeleteChapterMetasInput!
+        $hasPostUpdateDeletions: Boolean!
         $migrateInput: SetChapterMetasInput!
         $isMigration: Boolean!
     ) {
+        preUpdateDeletedMeta: deleteChapterMetas(input: $preUpdateDeleteInput) @include(if: $hasPreUpdateDeletions) {
+            metas {
+                ...CHAPTER_META_FIELDS
+            }
+        }
         updatedMeta: setChapterMetas(input: $updateInput) @include(if: $hasUpdates) {
             metas {
                 ...CHAPTER_META_FIELDS
             }
         }
-        deletedMeta: deleteChapterMetas(input: $deleteInput) @include(if: $hasDeletions) {
+        postUpdateDeletedMeta: deleteChapterMetas(input: $postUpdateDeleteInput) @include(if: $hasPostUpdateDeletions) {
             metas {
                 ...CHAPTER_META_FIELDS
             }

@@ -39,7 +39,7 @@ type MetadataUpdateOptions = {
 
 type ProcessedEntityMetadata = {
     updateMetas: MetaInput[];
-    deleteKeys: string[];
+    postUpdateDeleteKeys: string[];
     migrateMetas: MetaInput[];
 };
 
@@ -98,7 +98,7 @@ const processEntityMetadata = (
         value: `${value}`,
     }));
 
-    return { updateMetas: allUpdateMetas, deleteKeys: uniqueDeleteKeys, migrateMetas };
+    return { updateMetas: allUpdateMetas, postUpdateDeleteKeys: uniqueDeleteKeys, migrateMetas };
 };
 
 type ProcessedEntry = ProcessedEntityMetadata & { metadataHolder: GqlMetaHolder };
@@ -107,11 +107,11 @@ const groupByIdenticalMetas = <Id extends number | string>(
     processed: Array<ProcessedEntry & { metadataHolder: { id: Id } }>,
 ): {
     updateGroups: Array<{ ids: Id[]; metas: MetaInput[] }>;
-    deleteGroups: Array<{ ids: Id[]; keys: string[] }>;
+    postUpdateDeleteGroups: Array<{ ids: Id[]; keys: string[] }>;
     migrateGroups: Array<{ ids: Id[]; metas: MetaInput[] }>;
 } => {
     const updateMap = new Map<string, { ids: Id[]; metas: MetaInput[] }>();
-    const deleteMap = new Map<string, { ids: Id[]; keys: string[] }>();
+    const postUpdateDeleteMap = new Map<string, { ids: Id[]; keys: string[] }>();
     const migrateMap = new Map<string, { ids: Id[]; metas: MetaInput[] }>();
 
     for (const entry of processed) {
@@ -127,13 +127,13 @@ const groupByIdenticalMetas = <Id extends number | string>(
             }
         }
 
-        if (entry.deleteKeys.length > 0) {
-            const key = JSON.stringify(entry.deleteKeys);
-            const existing = deleteMap.get(key);
+        if (entry.postUpdateDeleteKeys.length > 0) {
+            const key = JSON.stringify(entry.postUpdateDeleteKeys);
+            const existing = postUpdateDeleteMap.get(key);
             if (existing) {
                 existing.ids.push(id);
             } else {
-                deleteMap.set(key, { ids: [id], keys: entry.deleteKeys });
+                postUpdateDeleteMap.set(key, { ids: [id], keys: entry.postUpdateDeleteKeys });
             }
         }
 
@@ -150,7 +150,7 @@ const groupByIdenticalMetas = <Id extends number | string>(
 
     return {
         updateGroups: [...updateMap.values()],
-        deleteGroups: [...deleteMap.values()],
+        postUpdateDeleteGroups: [...postUpdateDeleteMap.values()],
         migrateGroups: [...migrateMap.values()],
     };
 };
@@ -159,18 +159,21 @@ const createEntityMetaInput = <Key extends string, Id extends number | string>(
     processed: ProcessedEntry[],
     idKey: Key,
 ) => {
-    const { updateGroups, deleteGroups, migrateGroups } = groupByIdenticalMetas(
+    const { updateGroups, postUpdateDeleteGroups, migrateGroups } = groupByIdenticalMetas(
         processed as Array<ProcessedEntry & { metadataHolder: { id: Id } }>,
     );
 
     return {
+        preUpdateDeleteInput: {
+            items: [],
+        },
         updateInput: {
             items: updateGroups.map(
                 ({ ids, metas }) => ({ [idKey]: ids, metas }) as Record<Key, Id[]> & { metas: MetaInput[] },
             ),
         },
-        deleteInput: {
-            items: deleteGroups.map(
+        postUpdateDeleteInput: {
+            items: postUpdateDeleteGroups.map(
                 ({ ids, keys }) => ({ [idKey]: ids, keys }) as Record<Key, Id[]> & { keys: string[] },
             ),
         },
@@ -198,12 +201,15 @@ const requestBatchMetadataUpdate = async (
     switch (holderType) {
         case 'global': {
             const withUpdates = processed.filter(({ updateMetas }) => updateMetas.length > 0);
-            const withDeletes = processed.filter(({ deleteKeys }) => deleteKeys.length > 0);
+            const withDeletes = processed.filter(({ postUpdateDeleteKeys }) => postUpdateDeleteKeys.length > 0);
             const withMigrations = processed.filter(({ migrateMetas }) => migrateMetas.length > 0);
 
             await requestManager.updateGlobalMeta({
+                preUpdateDeleteInput: { keys: [] },
                 updateInput: { metas: withUpdates.flatMap(({ updateMetas }) => updateMetas) },
-                deleteInput: { keys: withDeletes.flatMap(({ deleteKeys }) => deleteKeys) },
+                postUpdateDeleteInput: {
+                    keys: withDeletes.flatMap(({ postUpdateDeleteKeys }) => postUpdateDeleteKeys),
+                },
                 migrateInput: { metas: withMigrations.flatMap(({ migrateMetas }) => migrateMetas) },
             }).response;
             break;

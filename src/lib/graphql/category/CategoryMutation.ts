@@ -85,19 +85,26 @@ export const UPDATE_CATEGORY_METADATA = gql`
     ${CATEGORY_META_FIELDS}
 
     mutation UPDATE_CATEGORY_METADATA(
+        $preUpdateDeleteInput: DeleteCategoryMetasInput!
+        $hasPreUpdateDeletions: Boolean!
         $updateInput: SetCategoryMetasInput!
         $hasUpdates: Boolean!
-        $deleteInput: DeleteCategoryMetasInput!
-        $hasDeletions: Boolean!
+        $postUpdateDeleteInput: DeleteCategoryMetasInput!
+        $hasPostUpdateDeletions: Boolean!
         $migrateInput: SetCategoryMetasInput!
         $isMigration: Boolean!
     ) {
+        preUpdateDeletedMeta: deleteCategoryMetas(input: $preUpdateDeleteInput) @include(if: $hasPreUpdateDeletions) {
+            metas {
+                ...CATEGORY_META_FIELDS
+            }
+        }
         updatedMeta: setCategoryMetas(input: $updateInput) @include(if: $hasUpdates) {
             metas {
                 ...CATEGORY_META_FIELDS
             }
         }
-        deletedMeta: deleteCategoryMetas(input: $deleteInput) @include(if: $hasDeletions) {
+        postUpdateDeletedMeta: deleteCategoryMetas(input: $postUpdateDeleteInput) @include(if: $hasPostUpdateDeletions) {
             metas {
                 ...CATEGORY_META_FIELDS
             }

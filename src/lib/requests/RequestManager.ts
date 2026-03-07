@@ -1287,12 +1287,14 @@ export class RequestManager {
 
     public updateGlobalMeta(
         {
+            preUpdateDeleteInput = { keys: [] },
             updateInput = { metas: [] },
-            deleteInput = { keys: [] },
+            postUpdateDeleteInput = { keys: [] },
             migrateInput = { metas: [] },
         }: {
+            preUpdateDeleteInput?: DeleteGlobalMetasInput;
             updateInput?: SetGlobalMetasInput;
-            deleteInput?: DeleteGlobalMetasInput;
+            postUpdateDeleteInput?: DeleteGlobalMetasInput;
             migrateInput?: SetGlobalMetasInput;
         },
         options?: MutationOptions<UpdateGlobalMetadataMutation, UpdateGlobalMetadataMutationVariables>,
@@ -1301,16 +1303,27 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_GLOBAL_METADATA,
             {
+                preUpdateDeleteInput,
+                hasPreUpdateDeletions: !!preUpdateDeleteInput.keys?.length || !!preUpdateDeleteInput.prefixes?.length,
                 updateInput,
                 hasUpdates: !!updateInput.metas.length,
-                deleteInput,
-                hasDeletions: !!deleteInput.keys?.length || !!deleteInput.prefixes?.length,
+                postUpdateDeleteInput,
+                hasPostUpdateDeletions:
+                    !!postUpdateDeleteInput.keys?.length || !!postUpdateDeleteInput.prefixes?.length,
                 migrateInput,
                 isMigration: !!updateInput.metas.length,
             },
             {
                 optimisticResponse: {
                     __typename: 'Mutation',
+                    preUpdateDeletedMeta: {
+                        __typename: 'DeleteGlobalMetasPayload',
+                        metas: (preUpdateDeleteInput?.keys ?? []).map((key) => ({
+                            __typename: 'GlobalMetaType' as const,
+                            key,
+                            value: '',
+                        })),
+                    },
                     updatedMeta: {
                         __typename: 'SetGlobalMetasPayload',
                         metas: (updateInput?.metas ?? []).map((meta) => ({
@@ -1319,9 +1332,9 @@ export class RequestManager {
                             value: meta.value,
                         })),
                     },
-                    deletedMeta: {
+                    postUpdateDeletedMeta: {
                         __typename: 'DeleteGlobalMetasPayload',
-                        metas: (deleteInput?.keys ?? []).map((key) => ({
+                        metas: (postUpdateDeleteInput?.keys ?? []).map((key) => ({
                             __typename: 'GlobalMetaType' as const,
                             key,
                             value: '',
@@ -1337,7 +1350,11 @@ export class RequestManager {
                     },
                 },
                 update(cache, { data }) {
-                    deleteInput?.keys?.forEach((key) => {
+                    preUpdateDeleteInput?.keys?.forEach((key) => {
+                        cache.evict({ id: cache.identify({ __typename: 'GlobalMetaType', key }) });
+                    });
+
+                    postUpdateDeleteInput?.keys?.forEach((key) => {
                         cache.evict({ id: cache.identify({ __typename: 'GlobalMetaType', key }) });
                     });
 
@@ -1712,12 +1729,14 @@ export class RequestManager {
 
     public updateSourceMeta(
         {
+            preUpdateDeleteInput = { items: [] },
             updateInput = { items: [] },
-            deleteInput = { items: [] },
+            postUpdateDeleteInput = { items: [] },
             migrateInput = { items: [] },
         }: {
+            preUpdateDeleteInput?: DeleteSourceMetasInput;
             updateInput?: SetSourceMetasInput;
-            deleteInput?: DeleteSourceMetasInput;
+            postUpdateDeleteInput?: DeleteSourceMetasInput;
             migrateInput?: SetSourceMetasInput;
         },
         options?: MutationOptions<UpdateSourceMetadataMutation, UpdateSourceMetadataMutationVariables>,
@@ -1726,16 +1745,35 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_SOURCE_METADATA,
             {
+                preUpdateDeleteInput,
+                hasPreUpdateDeletions: preUpdateDeleteInput.items.some(
+                    (item) => !!item.keys?.length || !!item.prefixes?.length,
+                ),
                 updateInput,
                 hasUpdates: updateInput.items.some((item) => !!item.metas?.length),
-                deleteInput,
-                hasDeletions: deleteInput.items.some((item) => !!item.keys?.length || !!item.prefixes?.length),
+                postUpdateDeleteInput,
+                hasPostUpdateDeletions: postUpdateDeleteInput.items.some(
+                    (item) => !!item.keys?.length || !!item.prefixes?.length,
+                ),
                 migrateInput,
                 isMigration: migrateInput.items.some((item) => !!item.metas?.length),
             },
             {
                 optimisticResponse: {
                     __typename: 'Mutation',
+                    preUpdateDeletedMeta: {
+                        __typename: 'DeleteSourceMetasPayload',
+                        metas: (preUpdateDeleteInput?.items ?? []).flatMap((item) =>
+                            item.sourceIds.flatMap((sourceId) =>
+                                (item.keys ?? []).map((key) => ({
+                                    __typename: 'SourceMetaType' as const,
+                                    sourceId,
+                                    key,
+                                    value: '',
+                                })),
+                            ),
+                        ),
+                    },
                     updatedMeta: {
                         __typename: 'SetSourceMetasPayload',
                         metas: (updateInput?.items ?? []).flatMap((item) =>
@@ -1749,9 +1787,9 @@ export class RequestManager {
                             ),
                         ),
                     },
-                    deletedMeta: {
+                    postUpdateDeletedMeta: {
                         __typename: 'DeleteSourceMetasPayload',
-                        metas: (deleteInput?.items ?? []).flatMap((item) =>
+                        metas: (postUpdateDeleteInput?.items ?? []).flatMap((item) =>
                             item.sourceIds.flatMap((sourceId) =>
                                 (item.keys ?? []).map((key) => ({
                                     __typename: 'SourceMetaType' as const,
@@ -1777,7 +1815,17 @@ export class RequestManager {
                     },
                 },
                 update(cache, { data }) {
-                    deleteInput?.items.forEach((item) =>
+                    preUpdateDeleteInput?.items.forEach((item) =>
+                        item.sourceIds.forEach((sourceId) =>
+                            item.keys?.forEach((key) => {
+                                cache.evict({
+                                    id: cache.identify({ __typename: 'SourceMetaType', sourceId, key }),
+                                });
+                            }),
+                        ),
+                    );
+
+                    postUpdateDeleteInput?.items.forEach((item) =>
                         item.sourceIds.forEach((sourceId) =>
                             item.keys?.forEach((key) => {
                                 cache.evict({
@@ -2103,6 +2151,7 @@ export class RequestManager {
             migrateCategories = false,
             migrateTracking = false,
             deleteChapters = false,
+            migrateMetadata = false,
             apolloOptions: options,
         }: Partial<MetadataMigrationSettings> & {
             apolloOptions?: QueryOptions<GetMangaToMigrateQueryVariables, GetMangaToMigrateQuery>;
@@ -2116,6 +2165,7 @@ export class RequestManager {
                 getChapterData: migrateChapters || deleteChapters,
                 migrateCategories,
                 migrateTracking,
+                migrateMetadata,
             },
             options,
         );
@@ -2275,12 +2325,14 @@ export class RequestManager {
 
     public updateMangaMeta(
         {
+            preUpdateDeleteInput = { items: [] },
             updateInput = { items: [] },
-            deleteInput = { items: [] },
+            postUpdateDeleteInput = { items: [] },
             migrateInput = { items: [] },
         }: {
+            preUpdateDeleteInput?: DeleteMangaMetasInput;
             updateInput?: SetMangaMetasInput;
-            deleteInput?: DeleteMangaMetasInput;
+            postUpdateDeleteInput?: DeleteMangaMetasInput;
             migrateInput?: SetMangaMetasInput;
         },
         options?: MutationOptions<UpdateMangaMetadataMutation, UpdateMangaMetadataMutationVariables>,
@@ -2289,16 +2341,35 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_MANGA_METADATA,
             {
+                preUpdateDeleteInput,
+                hasPreUpdateDeletions: preUpdateDeleteInput.items.some(
+                    (item) => !!item.keys?.length || !!item.prefixes?.length,
+                ),
                 updateInput,
                 hasUpdates: updateInput.items.some((item) => !!item.metas?.length),
-                deleteInput,
-                hasDeletions: deleteInput.items.some((item) => !!item.keys?.length || !!item.prefixes?.length),
+                postUpdateDeleteInput,
+                hasPostUpdateDeletions: postUpdateDeleteInput.items.some(
+                    (item) => !!item.keys?.length || !!item.prefixes?.length,
+                ),
                 migrateInput,
                 isMigration: migrateInput.items.some((item) => !!item.metas?.length),
             },
             {
                 optimisticResponse: {
                     __typename: 'Mutation',
+                    preUpdateDeletedMeta: {
+                        __typename: 'DeleteMangaMetasPayload',
+                        metas: (preUpdateDeleteInput?.items ?? []).flatMap((item) =>
+                            item.mangaIds.flatMap((mangaId) =>
+                                (item.keys ?? []).map((key) => ({
+                                    __typename: 'MangaMetaType' as const,
+                                    mangaId,
+                                    key,
+                                    value: '',
+                                })),
+                            ),
+                        ),
+                    },
                     updatedMeta: {
                         __typename: 'SetMangaMetasPayload',
                         metas: (updateInput?.items ?? []).flatMap((item) =>
@@ -2312,9 +2383,9 @@ export class RequestManager {
                             ),
                         ),
                     },
-                    deletedMeta: {
+                    postUpdateDeletedMeta: {
                         __typename: 'DeleteMangaMetasPayload',
-                        metas: (deleteInput?.items ?? []).flatMap((item) =>
+                        metas: (postUpdateDeleteInput?.items ?? []).flatMap((item) =>
                             item.mangaIds.flatMap((mangaId) =>
                                 (item.keys ?? []).map((key) => ({
                                     __typename: 'MangaMetaType' as const,
@@ -2340,7 +2411,17 @@ export class RequestManager {
                     },
                 },
                 update(cache, { data }) {
-                    deleteInput?.items.forEach((item) =>
+                    preUpdateDeleteInput?.items.forEach((item) =>
+                        item.mangaIds.forEach((mangaId) =>
+                            item.keys?.forEach((key) => {
+                                cache.evict({
+                                    id: cache.identify({ __typename: 'MangaMetaType', mangaId, key }),
+                                });
+                            }),
+                        ),
+                    );
+
+                    postUpdateDeleteInput?.items.forEach((item) =>
                         item.mangaIds.forEach((mangaId) =>
                             item.keys?.forEach((key) => {
                                 cache.evict({
@@ -2543,12 +2624,14 @@ export class RequestManager {
 
     public updateChapterMeta(
         {
+            preUpdateDeleteInput = { items: [] },
             updateInput = { items: [] },
-            deleteInput = { items: [] },
+            postUpdateDeleteInput = { items: [] },
             migrateInput = { items: [] },
         }: {
+            preUpdateDeleteInput?: DeleteChapterMetasInput;
             updateInput?: SetChapterMetasInput;
-            deleteInput?: DeleteChapterMetasInput;
+            postUpdateDeleteInput?: DeleteChapterMetasInput;
             migrateInput?: SetChapterMetasInput;
         },
         options?: MutationOptions<UpdateChapterMetadataMutation, UpdateChapterMetadataMutationVariables>,
@@ -2557,16 +2640,35 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_CHAPTER_METADATA,
             {
+                preUpdateDeleteInput,
+                hasPreUpdateDeletions: preUpdateDeleteInput.items.some(
+                    (item) => !!item.keys?.length || !!item.prefixes?.length,
+                ),
                 updateInput,
                 hasUpdates: updateInput.items.some((item) => !!item.metas?.length),
-                deleteInput,
-                hasDeletions: deleteInput.items.some((item) => !!item.keys?.length || !!item.prefixes?.length),
+                postUpdateDeleteInput,
+                hasPostUpdateDeletions: postUpdateDeleteInput.items.some(
+                    (item) => !!item.keys?.length || !!item.prefixes?.length,
+                ),
                 migrateInput,
                 isMigration: migrateInput.items.some((item) => !!item.metas?.length),
             },
             {
                 optimisticResponse: {
                     __typename: 'Mutation',
+                    preUpdateDeletedMeta: {
+                        __typename: 'DeleteChapterMetasPayload',
+                        metas: (preUpdateDeleteInput?.items ?? []).flatMap((item) =>
+                            item.chapterIds.flatMap((chapterId) =>
+                                (item.keys ?? []).map((key) => ({
+                                    __typename: 'ChapterMetaType' as const,
+                                    chapterId,
+                                    key,
+                                    value: '',
+                                })),
+                            ),
+                        ),
+                    },
                     updatedMeta: {
                         __typename: 'SetChapterMetasPayload',
                         metas: (updateInput?.items ?? []).flatMap((item) =>
@@ -2580,9 +2682,9 @@ export class RequestManager {
                             ),
                         ),
                     },
-                    deletedMeta: {
+                    postUpdateDeletedMeta: {
                         __typename: 'DeleteChapterMetasPayload',
-                        metas: (deleteInput?.items ?? []).flatMap((item) =>
+                        metas: (postUpdateDeleteInput?.items ?? []).flatMap((item) =>
                             item.chapterIds.flatMap((chapterId) =>
                                 (item.keys ?? []).map((key) => ({
                                     __typename: 'ChapterMetaType' as const,
@@ -2608,7 +2710,17 @@ export class RequestManager {
                     },
                 },
                 update(cache, { data }) {
-                    deleteInput?.items.forEach((item) =>
+                    preUpdateDeleteInput?.items.forEach((item) =>
+                        item.chapterIds.forEach((chapterId) =>
+                            item.keys?.forEach((key) => {
+                                cache.evict({
+                                    id: cache.identify({ __typename: 'ChapterMetaType', chapterId, key }),
+                                });
+                            }),
+                        ),
+                    );
+
+                    postUpdateDeleteInput?.items.forEach((item) =>
                         item.chapterIds.forEach((chapterId) =>
                             item.keys?.forEach((key) => {
                                 cache.evict({
@@ -2863,12 +2975,14 @@ export class RequestManager {
 
     public updateCategoryMeta(
         {
+            preUpdateDeleteInput = { items: [] },
             updateInput = { items: [] },
-            deleteInput = { items: [] },
+            postUpdateDeleteInput = { items: [] },
             migrateInput = { items: [] },
         }: {
+            preUpdateDeleteInput?: DeleteCategoryMetasInput;
             updateInput?: SetCategoryMetasInput;
-            deleteInput?: DeleteCategoryMetasInput;
+            postUpdateDeleteInput?: DeleteCategoryMetasInput;
             migrateInput?: SetCategoryMetasInput;
         },
         options?: MutationOptions<UpdateCategoryMetadataMutation, UpdateCategoryMetadataMutationVariables>,
@@ -2877,16 +2991,35 @@ export class RequestManager {
             GQLMethod.MUTATION,
             UPDATE_CATEGORY_METADATA,
             {
+                preUpdateDeleteInput,
+                hasPreUpdateDeletions: preUpdateDeleteInput.items.some(
+                    (item) => !!item.keys?.length || !!item.prefixes?.length,
+                ),
                 updateInput,
                 hasUpdates: updateInput.items.some((item) => !!item.metas?.length),
-                deleteInput,
-                hasDeletions: deleteInput.items.some((item) => !!item.keys?.length || !!item.prefixes?.length),
+                postUpdateDeleteInput,
+                hasPostUpdateDeletions: postUpdateDeleteInput.items.some(
+                    (item) => !!item.keys?.length || !!item.prefixes?.length,
+                ),
                 migrateInput,
                 isMigration: migrateInput.items.some((item) => !!item.metas?.length),
             },
             {
                 optimisticResponse: {
                     __typename: 'Mutation',
+                    preUpdateDeletedMeta: {
+                        __typename: 'DeleteCategoryMetasPayload',
+                        metas: (preUpdateDeleteInput?.items ?? []).flatMap((item) =>
+                            item.categoryIds.flatMap((categoryId) =>
+                                (item.keys ?? []).map((key) => ({
+                                    __typename: 'CategoryMetaType' as const,
+                                    categoryId,
+                                    key,
+                                    value: '',
+                                })),
+                            ),
+                        ),
+                    },
                     updatedMeta: {
                         __typename: 'SetCategoryMetasPayload',
                         metas: (updateInput?.items ?? []).flatMap((item) =>
@@ -2900,9 +3033,9 @@ export class RequestManager {
                             ),
                         ),
                     },
-                    deletedMeta: {
+                    postUpdateDeletedMeta: {
                         __typename: 'DeleteCategoryMetasPayload',
-                        metas: (deleteInput?.items ?? []).flatMap((item) =>
+                        metas: (postUpdateDeleteInput?.items ?? []).flatMap((item) =>
                             item.categoryIds.flatMap((categoryId) =>
                                 (item.keys ?? []).map((key) => ({
                                     __typename: 'CategoryMetaType' as const,
@@ -2928,7 +3061,17 @@ export class RequestManager {
                     },
                 },
                 update(cache, { data }) {
-                    deleteInput?.items.forEach((item) =>
+                    preUpdateDeleteInput?.items.forEach((item) =>
+                        item.categoryIds.forEach((categoryId) =>
+                            item.keys?.forEach((key) => {
+                                cache.evict({
+                                    id: cache.identify({ __typename: 'CategoryMetaType', categoryId, key }),
+                                });
+                            }),
+                        ),
+                    );
+
+                    postUpdateDeleteInput?.items.forEach((item) =>
                         item.categoryIds.forEach((categoryId) =>
                             item.keys?.forEach((key) => {
                                 cache.evict({

@@ -30,5 +30,6 @@ export type MetadataMigrationSettings = {
     migrateCategories: boolean;
     migrateTracking: boolean;
     deleteChapters: boolean;
+    migrateMetadata: boolean;
     migrateSortSettings: SortSettings;
 };
