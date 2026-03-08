@@ -195,8 +195,7 @@ export interface IReaderSettingsManga {
 export interface IReaderSettings extends IReaderSettingsGlobal, IReaderSettingsManga {}
 
 export interface IReaderSettingsWithDefaultFlag
-    extends IReaderSettingsGlobal,
-        TransformRecordToWithDefaultFlag<IReaderSettingsManga> {}
+    extends IReaderSettingsGlobal, TransformRecordToWithDefaultFlag<IReaderSettingsManga> {}
 
 export interface ReaderStateChapters {
     /**
@@ -323,7 +322,8 @@ export interface ReaderStatePages {
 }
 
 export interface ReaderPagerProps
-    extends Pick<
+    extends
+        Pick<
             ReaderStatePages,
             | 'currentPageIndex'
             | 'pages'

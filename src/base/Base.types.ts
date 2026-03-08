@@ -45,8 +45,10 @@ export interface MultiValueButtonBaseProps<Value extends string | number> {
     valueToDisplayData: ValueToDisplayData<Value>;
 }
 
-export interface MultiValueButtonDefaultableProps<Value extends string | number>
-    extends OptionalProperty<MultiValueButtonBaseProps<Value>, 'value'> {
+export interface MultiValueButtonDefaultableProps<Value extends string | number> extends OptionalProperty<
+    MultiValueButtonBaseProps<Value>,
+    'value'
+> {
     isDefaultable?: boolean;
     onDefault?: () => void;
 }

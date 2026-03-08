@@ -104,7 +104,8 @@ export const UPDATE_CATEGORY_METADATA = gql`
                 ...CATEGORY_META_FIELDS
             }
         }
-        postUpdateDeletedMeta: deleteCategoryMetas(input: $postUpdateDeleteInput) @include(if: $hasPostUpdateDeletions) {
+        postUpdateDeletedMeta: deleteCategoryMetas(input: $postUpdateDeleteInput)
+            @include(if: $hasPostUpdateDeletions) {
             metas {
                 ...CATEGORY_META_FIELDS
             }

@@ -39,7 +39,8 @@ import { ZustandUtil } from '@/lib/zustand/ZustandUtil.ts';
 const UNSERIALIZABLE_KEYS = ['scrollRef'];
 
 interface ReaderStore
-    extends ReaderOverlayStoreSlice,
+    extends
+        ReaderOverlayStoreSlice,
         ReaderAutoScrollStoreSlice,
         ReaderPagesStoreSlice,
         ReaderChaptersStoreSlice,
@@ -151,6 +152,7 @@ const readerStore = create<ReaderStore>()(
         {
             name: 'ReaderStore',
             anonymousActionType: 'reader/action',
+            // @ts-expect-error - @redux-devtools/extension config option
             serialize: {
                 replacer: (key: string, value: any) => {
                     if (UNSERIALIZABLE_KEYS.includes(key)) {

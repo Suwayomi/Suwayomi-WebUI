@@ -182,7 +182,8 @@ const VerticalGrid = ({
 );
 
 export interface IMangaGridProps
-    extends Omit<DefaultGridProps, 'GridItemContainer'>,
+    extends
+        Omit<DefaultGridProps, 'GridItemContainer'>,
         Partial<React.ComponentProps<typeof EmptyViewAbsoluteCentered>> {
     hasNextPage: boolean;
     loadMore: () => void;

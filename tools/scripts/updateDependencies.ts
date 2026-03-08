@@ -21,6 +21,8 @@ type OutdatedDependency = {
     isMajorUpdate: boolean;
 };
 
+const PACKAGE_TYPES: PackageType[] = ['dependencies', 'devDependencies'];
+
 const setCaretForDependency = <DependencyType extends PackageType>(
     caretMode: CaretMode,
     type: DependencyType,
@@ -88,6 +90,7 @@ const getOutdatedDependencies = (): OutdatedDependency[] => {
             packageType,
             isMajorUpdate: current.split('.')[0] !== latest.split('.')[0],
         }))
+        .filter(({ packageType }) => PACKAGE_TYPES.includes(packageType))
         .toSorted((a, b) => a.packageType.localeCompare(b.packageType));
 };
 
