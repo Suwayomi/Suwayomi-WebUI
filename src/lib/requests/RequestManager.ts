@@ -7,25 +7,15 @@
  */
 
 import {
-    ApolloError,
-    ApolloQueryResult,
+    ApolloClient,
     DocumentNode,
-    FetchResult,
-    MutationHookOptions as ApolloMutationHookOptions,
-    MutationOptions as ApolloMutationOptions,
-    MutationResult,
-    MutationTuple,
-    QueryHookOptions as ApolloQueryHookOptions,
-    QueryOptions as ApolloQueryOptions,
-    QueryResult,
-    SubscriptionHookOptions as ApolloSubscriptionHookOptions,
-    SubscriptionResult,
+    MaybeMasked,
+    OperationVariables,
     TypedDocumentNode,
-    useMutation,
-    useQuery,
-    useSubscription,
-} from '@apollo/client';
-import { MaybeMasked, OperationVariables, Reference } from '@apollo/client/core';
+    CombinedGraphQLErrors,
+} from '@apollo/client/core';
+import { useMutation, useQuery, useSubscription } from '@apollo/client/react';
+import { Reference } from '@apollo/client/utilities';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { d } from 'koration';
 import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
@@ -39,7 +29,6 @@ import {
     CheckForServerUpdatesQueryVariables,
     CheckForWebuiUpdateQuery,
     CheckForWebuiUpdateQueryVariables,
-    ClearCachedImagesInput,
     ClearDownloaderMutation,
     ClearDownloaderMutationVariables,
     ClearServerCacheMutation,
@@ -372,26 +361,26 @@ type CustomApolloOptions = {
     addAbortSignal?: boolean;
 };
 type QueryOptions<Variables extends OperationVariables = OperationVariables, Data = any> = Partial<
-    ApolloQueryOptions<Variables, Data>
+    ApolloClient.QueryOptions<Data, Variables>
 > &
     CustomApolloOptions;
 type QueryHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
-    ApolloQueryHookOptions<Data, Variables>
+    useQuery.Options<Data, Variables>
 > &
     CustomApolloOptions;
 type MutationHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
-    ApolloMutationHookOptions<Data, Variables>
+    useMutation.Options<Data, Variables>
 > &
     CustomApolloOptions;
 type MutationOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
-    ApolloMutationOptions<Data, Variables>
+    ApolloClient.MutateOptions<Data, Variables>
 > &
     CustomApolloOptions;
 type ApolloPaginatedMutationOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
     MutationHookOptions<Data, Variables>
 > & { skipRequest?: boolean };
 type SubscriptionHookOptions<Data = any, Variables extends OperationVariables = OperationVariables> = Partial<
-    ApolloSubscriptionHookOptions<Data, Variables>
+    useSubscription.Options<Data, Variables>
 > &
     Omit<CustomApolloOptions, 'addAbortSignal'> & { addAbortSignal?: never };
 
@@ -406,22 +395,22 @@ type ImageRequestOptions = {
 };
 
 export type AbortabaleApolloQueryResponse<Data = any> = {
-    response: Promise<ApolloQueryResult<MaybeMasked<Data>>>;
+    response: Promise<ApolloClient.QueryResult<MaybeMasked<Data>>>;
 } & AbortableRequest;
 export type AbortableApolloUseQueryResponse<
     Data = any,
     Variables extends OperationVariables = OperationVariables,
-> = QueryResult<MaybeMasked<Data>, Variables> & AbortableRequest;
+> = useQuery.Result<MaybeMasked<Data>, Variables, 'empty' | 'complete' | 'streaming'> & AbortableRequest;
 export type AbortableApolloUseMutationResponse<
     Data = any,
     Variables extends OperationVariables = OperationVariables,
-> = [MutationTuple<Data, Variables>[0], MutationTuple<Data, Variables>[1] & AbortableRequest];
+> = [useMutation.ResultTuple<Data, Variables>[0], useMutation.ResultTuple<Data, Variables>[1] & AbortableRequest];
 export type AbortableApolloUseMutationPaginatedResponse<
     Data = any,
     Variables extends OperationVariables = OperationVariables,
 > = [
-    (page: number) => Promise<FetchResult<MaybeMasked<Data>>>,
-    (Omit<MutationTuple<Data, Variables>[1], 'loading'> &
+    (page: number) => Promise<ApolloClient.MutateResult<MaybeMasked<Data>>>,
+    (Omit<useMutation.ResultTuple<Data, Variables>[1], 'loading'> &
         AbortableRequest & {
             size: number;
             /**
@@ -440,7 +429,7 @@ export type AbortableApolloUseMutationPaginatedResponse<
         })[],
 ];
 export type AbortableApolloMutationResponse<Data = any> = {
-    response: Promise<FetchResult<MaybeMasked<Data>>>;
+    response: Promise<ApolloClient.MutateResult<MaybeMasked<Data>>>;
 } & AbortableRequest;
 
 const EXTENSION_LIST_CACHE_KEY = 'useExtensionListFetch';
@@ -585,9 +574,9 @@ export class RequestManager {
         options: ApolloPaginatedMutationOptions<Data, Variables> | undefined,
         checkIfCachedPageIsInvalid: (
             cachedResult: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number] | undefined,
-            revalidatedResult: FetchResult<MaybeMasked<Data>>,
+            revalidatedResult: ApolloClient.MutateResult<MaybeMasked<Data>>,
         ) => boolean,
-        hasNextPage: (revalidatedResult: FetchResult<MaybeMasked<Data>>) => boolean,
+        hasNextPage: (revalidatedResult: ApolloClient.MutateResult<MaybeMasked<Data>>) => boolean,
         pageToRevalidate: number,
         maxPage: number,
         signal: AbortSignal,
@@ -605,14 +594,14 @@ export class RequestManager {
             return;
         }
 
-        const { response: revalidationRequest } = this.doRequest(
+        const { response: revalidationRequest } = this.doRequest<Data, Variables>(
             GQLMethod.MUTATION,
             GET_SOURCE_MANGAS_FETCH,
             getVariablesFor(pageToRevalidate),
             {
                 ...options,
                 context: { fetchOptions: { signal } },
-            },
+            } as MutationOptions<Data, Variables>,
         );
 
         const revalidationResponse = await revalidationRequest;
@@ -729,7 +718,7 @@ export class RequestManager {
         cacheResultsKey: string,
         cachedPages: Set<number>,
         newPage: number,
-    ): Promise<FetchResult<MaybeMasked<Data>>> {
+    ): Promise<ApolloClient.MutateResult<MaybeMasked<Data>>> {
         const basePaginatedResult: Partial<AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]> = {
             size: newPage,
             isLoading: false,
@@ -737,7 +726,7 @@ export class RequestManager {
             called: true,
         };
 
-        let response: FetchResult<MaybeMasked<Data>> = {};
+        let response: ApolloClient.MutateResult<MaybeMasked<Data>> = { data: undefined };
         try {
             const { signal, abortRequest } = this.createAbortController();
             setAbortRequest(abortRequest);
@@ -765,7 +754,7 @@ export class RequestManager {
                 GQLMethod.MUTATION,
                 documentNode,
                 getVariablesFor(newPage),
-                { ...options, context: { fetchOptions: { signal } } },
+                { ...options, context: { fetchOptions: { signal } } } as MutationOptions<Data, Variables>,
             );
 
             response = await request;
@@ -773,14 +762,9 @@ export class RequestManager {
             basePaginatedResult.data = response.data;
         } catch (error: any) {
             defaultPromiseErrorHandler('RequestManager::fetchPaginatedMutationPage')(error);
-            if (error instanceof ApolloError) {
-                basePaginatedResult.error = error;
-            } else {
-                basePaginatedResult.error = new ApolloError({
-                    errorMessage: error?.message ?? error.toString(),
-                    extraInfo: error,
-                });
-            }
+            basePaginatedResult.error = CombinedGraphQLErrors.is(error)
+                ? error
+                : new Error(error?.message ?? String(error));
         }
 
         const fetchPaginatedResult = {
@@ -805,8 +789,8 @@ export class RequestManager {
         cacheFetchingInitialPagesKey: string,
         getVariablesFor: (page: number) => Variables,
         initialPages: number,
-        fetchPage: (page: number) => Promise<FetchResult<Data>>,
-        hasNextPage: (result: FetchResult<Data>) => boolean,
+        fetchPage: (page: number) => Promise<ApolloClient.MutateResult<Data>>,
+        hasNextPage: (result: ApolloClient.MutateResult<Data>) => boolean,
     ): void {
         useEffect(() => {
             const shouldFetchInitialPages =
@@ -842,7 +826,7 @@ export class RequestManager {
         cachedResults: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number][],
         getVariablesFor: (page: number) => Variables,
         paginatedResult: AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number],
-        fetchPage: (page: number) => Promise<FetchResult<MaybeMasked<Data>>>,
+        fetchPage: (page: number) => Promise<ApolloClient.MutateResult<MaybeMasked<Data>>>,
         hasCachedResult: boolean,
         createPaginatedResult: (
             result: Partial<AbortableApolloUseMutationPaginatedResponse<Data, Variables>[1][number]>,
@@ -1173,7 +1157,7 @@ export class RequestManager {
         operation: DocumentNode | TypedDocumentNode<Data, Variables>,
         variables: Variables | undefined,
         options?: SubscriptionHookOptions<Data, Variables>,
-    ): SubscriptionResult<Data, Variables>;
+    ): useSubscription.Result<Data>;
 
     private doRequest<Data, Variables extends OperationVariables = OperationVariables>(
         method: GQLMethod,
@@ -1190,84 +1174,100 @@ export class RequestManager {
         | AbortableApolloUseQueryResponse<Data, Variables>
         | AbortableApolloUseMutationResponse<Data, Variables>
         | AbortableApolloMutationResponse<Data>
-        | SubscriptionResult<Data, Variables> {
+        | useSubscription.Result<Data> {
         const { signal, abortRequest } = this.createAbortController();
         switch (method) {
-            case GQLMethod.QUERY:
+            case GQLMethod.QUERY: {
+                const { addAbortSignal: addSignal, ...queryOptions } = (options ?? {}) as QueryOptions<Variables, Data>;
                 return {
-                    response: this.graphQLClient.client.query<Data, Variables>({
+                    response: this.graphQLClient.client.query({
                         query: operation,
                         variables,
-                        ...(options as QueryOptions<Variables, Data>),
+                        ...queryOptions,
                         context: {
-                            ...options?.context,
+                            ...queryOptions?.context,
                             fetchOptions: {
-                                signal: options?.addAbortSignal ? signal : undefined,
-                                ...options?.context?.fetchOptions,
+                                signal: addSignal ? signal : undefined,
+                                ...queryOptions?.context?.fetchOptions,
                             },
                         },
-                    }),
+                    } as ApolloClient.QueryOptions<Data, Variables>),
                     abortRequest,
                 };
-            case GQLMethod.USE_QUERY:
+            }
+            case GQLMethod.USE_QUERY: {
+                const { addAbortSignal: addSignal, ...queryHookOptions } = (options ?? {}) as QueryHookOptions<
+                    Data,
+                    Variables
+                >;
                 return {
                     ...useQuery<Data, Variables>(operation, {
                         variables,
                         client: this.graphQLClient.client,
-                        ...options,
+                        ...queryHookOptions,
                         context: {
-                            ...options?.context,
+                            ...queryHookOptions?.context,
                             fetchOptions: {
-                                signal: options?.addAbortSignal ? signal : undefined,
-                                ...options?.context?.fetchOptions,
+                                signal: addSignal ? signal : undefined,
+                                ...queryHookOptions?.context?.fetchOptions,
                             },
                         },
-                    }),
+                    } as useQuery.Options<Data, Variables>),
                     abortRequest,
-                };
-            case GQLMethod.USE_MUTATION:
-                // eslint-disable-next-line no-case-declarations
+                } as AbortableApolloUseQueryResponse<Data, Variables>;
+            }
+            case GQLMethod.USE_MUTATION: {
+                const { addAbortSignal: addSignal, ...mutationHookOptions } = (options ?? {}) as MutationHookOptions<
+                    Data,
+                    Variables
+                >;
                 const mutationResult = useMutation<Data, Variables>(operation, {
                     variables,
                     client: this.graphQLClient.client,
-                    ...(options as MutationHookOptions<Data, Variables>),
+                    ...mutationHookOptions,
                     context: {
-                        ...options?.context,
+                        ...mutationHookOptions?.context,
                         fetchOptions: {
-                            signal: options?.addAbortSignal ? signal : undefined,
-                            ...options?.context?.fetchOptions,
+                            signal: addSignal ? signal : undefined,
+                            ...mutationHookOptions?.context?.fetchOptions,
                         },
                     },
                 });
 
                 return [mutationResult[0], { ...mutationResult[1], abortRequest }];
-            case GQLMethod.MUTATION:
+            }
+            case GQLMethod.MUTATION: {
+                const { addAbortSignal: addSignal, ...mutationOptions } = (options ?? {}) as MutationOptions<
+                    Data,
+                    Variables
+                >;
                 return {
-                    response: this.graphQLClient.client.mutate<Data, Variables>({
+                    response: this.graphQLClient.client.mutate({
                         mutation: operation,
                         variables,
-                        ...(options as MutationOptions<Data, Variables>),
+                        ...mutationOptions,
                         context: {
-                            ...options?.context,
+                            ...mutationOptions?.context,
                             fetchOptions: {
-                                signal: options?.addAbortSignal ? signal : undefined,
-                                ...options?.context?.fetchOptions,
+                                signal: addSignal ? signal : undefined,
+                                ...mutationOptions?.context?.fetchOptions,
                             },
                         },
-                    }),
+                    } as ApolloClient.MutateOptions<Data, Variables>),
                     abortRequest,
                 };
-            case GQLMethod.USE_SUBSCRIPTION:
-                // eslint-disable-next-line no-case-declarations
+            }
+            case GQLMethod.USE_SUBSCRIPTION: {
                 const subscription = useSubscription<Data, Variables>(operation, {
                     client: this.graphQLClient.client,
                     variables,
                     ...(options as SubscriptionHookOptions<Data, Variables>),
-                });
+                } as useSubscription.Options<Data, Variables>);
 
                 this.graphQLClient.useRestartSubscription(subscription.restart);
 
                 return subscription;
+            }
             default:
                 throw new Error(`unexpected GQLRequest type "${method}"`);
         }
@@ -1502,7 +1502,10 @@ export class RequestManager {
             return mutate(mutateOptions);
         };
 
-        return [wrappedMutate, normalizedCachedResult];
+        return [wrappedMutate, normalizedCachedResult] as AbortableApolloUseMutationResponse<
+            GetExtensionsFetchMutation,
+            GetExtensionsFetchMutationVariables
+        >;
     }
 
     public installExternalExtension(
@@ -1522,7 +1525,7 @@ export class RequestManager {
             }
 
             this.graphQLClient.client.cache.evict({ fieldName: 'sources' });
-            const cachedExtensions = this.cache.getResponseFor<MutationResult<GetExtensionsFetchMutation>>(
+            const cachedExtensions = this.cache.getResponseFor<useMutation.Result<GetExtensionsFetchMutation>>(
                 EXTENSION_LIST_CACHE_KEY,
                 undefined,
             );
@@ -1544,7 +1547,7 @@ export class RequestManager {
                 (extension) => installedExtension?.pkgName === extension.pkgName,
             );
 
-            const updatedCachedExtensions: MutationResult<GetExtensionsFetchMutation> = {
+            const updatedCachedExtensions: useMutation.Result<GetExtensionsFetchMutation> = {
                 ...cachedExtensions,
                 data: {
                     ...cachedExtensions.data,
@@ -1592,12 +1595,12 @@ export class RequestManager {
         );
 
         result.response.then((response) => {
-            if (response.errors) {
+            if (response.error) {
                 return;
             }
 
             this.graphQLClient.client.cache.evict({ fieldName: 'sources' });
-            const cachedExtensions = this.cache.getResponseFor<MutationResult<GetExtensionsFetchMutation>>(
+            const cachedExtensions = this.cache.getResponseFor<useMutation.Result<GetExtensionsFetchMutation>>(
                 EXTENSION_LIST_CACHE_KEY,
                 undefined,
             );
@@ -1606,7 +1609,7 @@ export class RequestManager {
                 return;
             }
 
-            const updatedCachedExtensions: MutationResult<GetExtensionsFetchMutation> = {
+            const updatedCachedExtensions: useMutation.Result<GetExtensionsFetchMutation> = {
                 ...cachedExtensions,
                 data: {
                     ...cachedExtensions.data,
@@ -1656,12 +1659,12 @@ export class RequestManager {
         );
 
         result.response.then((response) => {
-            if (response.errors) {
+            if (response.error) {
                 return;
             }
 
             this.graphQLClient.client.cache.evict({ fieldName: 'sources' });
-            const cachedExtensions = this.cache.getResponseFor<MutationResult<GetExtensionsFetchMutation>>(
+            const cachedExtensions = this.cache.getResponseFor<useMutation.Result<GetExtensionsFetchMutation>>(
                 EXTENSION_LIST_CACHE_KEY,
                 undefined,
             );
@@ -1670,7 +1673,7 @@ export class RequestManager {
                 return;
             }
 
-            const updatedCachedExtensions: MutationResult<GetExtensionsFetchMutation> = {
+            const updatedCachedExtensions: useMutation.Result<GetExtensionsFetchMutation> = {
                 ...cachedExtensions,
                 data: {
                     ...cachedExtensions.data,
@@ -2506,11 +2509,11 @@ export class RequestManager {
         return this.doRequest(
             GQLMethod.QUERY,
             GET_MANGAS_CHAPTER_IDS_WITH_STATE,
-            { mangaIds, ...states },
+            { mangaIds, ...states } as GetMangasChapterIdsWithStateQueryVariables,
             {
                 fetchPolicy: 'no-cache',
                 ...options,
-            },
+            } as QueryOptions<GetMangasChapterIdsWithStateQueryVariables, GetMangasChapterIdsWithStateQuery>,
         );
     }
 
@@ -3394,8 +3397,8 @@ export class RequestManager {
 
     public useDownloadSubscription(
         options?: SubscriptionHookOptions<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>,
-    ): SubscriptionResult<DownloadStatusSubscription, DownloadStatusSubscriptionVariables> {
-        return this.doRequest(
+    ): useSubscription.Result<DownloadStatusSubscription> {
+        return this.doRequest<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>(
             GQLMethod.USE_SUBSCRIPTION,
             DOWNLOAD_STATUS_SUBSCRIPTION,
             { input: { maxUpdates: 30 } },
@@ -3484,14 +3487,14 @@ export class RequestManager {
                         });
                     });
                 },
-            },
-        );
+            } as SubscriptionHookOptions<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>,
+        ) as useSubscription.Result<DownloadStatusSubscription>;
     }
 
     public useUpdaterSubscription(
         options?: SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
-    ): SubscriptionResult<UpdaterSubscription, UpdaterSubscriptionVariables> {
-        return this.doRequest(
+    ): useSubscription.Result<UpdaterSubscription> {
+        return this.doRequest<UpdaterSubscription, UpdaterSubscriptionVariables>(
             GQLMethod.USE_SUBSCRIPTION,
             UPDATER_SUBSCRIPTION,
             { input: { maxUpdates: 30 } },
@@ -3510,8 +3513,8 @@ export class RequestManager {
                     cache.evict({ broadcast: true, id: 'LibraryUpdateStatus' });
                     cache.evict({ broadcast: true, fieldName: 'libraryUpdateStatus' });
                 },
-            },
-        );
+            } as SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
+        ) as useSubscription.Result<UpdaterSubscription>;
     }
 
     public useGetServerSettings(
@@ -3550,15 +3553,14 @@ export class RequestManager {
     }
 
     public useClearServerCache(
-        input: ClearCachedImagesInput = { cachedPages: true, cachedThumbnails: true },
         options?: MutationHookOptions<ClearServerCacheMutation, ClearServerCacheMutationVariables>,
     ): AbortableApolloUseMutationResponse<ClearServerCacheMutation, ClearServerCacheMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, CLEAR_SERVER_CACHE, { input }, options);
+        return this.doRequest(GQLMethod.USE_MUTATION, CLEAR_SERVER_CACHE, { input: {} }, options);
     }
 
     public useWebUIUpdateSubscription(
         options?: SubscriptionHookOptions<WebuiUpdateSubscription, WebuiUpdateSubscription>,
-    ): SubscriptionResult<WebuiUpdateSubscription, WebuiUpdateSubscription> {
+    ): useSubscription.Result<WebuiUpdateSubscription> {
         return this.doRequest(GQLMethod.USE_SUBSCRIPTION, WEBUI_UPDATE_SUBSCRIPTION, undefined, options);
     }
 
@@ -3654,7 +3656,10 @@ export class RequestManager {
             GQLMethod.MUTATION,
             TRACKER_UNBIND,
             { input: { recordId, deleteRemoteTrack } },
-            { refetchQueries: [GET_MANGA_TRACK_RECORDS], ...options },
+            { refetchQueries: [GET_MANGA_TRACK_RECORDS], ...options } as MutationOptions<
+                TrackerUnbindMutation,
+                TrackerUnbindMutationVariables
+            >,
         );
     }
 

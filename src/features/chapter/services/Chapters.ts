@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DocumentNode, MaybeMasked, Unmasked, useFragment } from '@apollo/client';
+import { DocumentNode, MaybeMasked, Unmasked } from '@apollo/client';
+import { useFragment } from '@apollo/client/react';
 import { t } from '@lingui/core/macro';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';

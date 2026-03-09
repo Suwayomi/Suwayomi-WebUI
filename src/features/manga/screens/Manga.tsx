@@ -13,7 +13,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import React, { useEffect, useRef } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
+import { isNetworkRequestInFlight } from '@apollo/client/utilities';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';

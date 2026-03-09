@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DocumentNode, Unmasked } from '@apollo/client/core';
+import { DocumentNode, Unmasked } from '@apollo/client';
 import { t } from '@lingui/core/macro';
 import { i18n } from '@/i18n';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -197,7 +197,7 @@ export class Mangas {
         state: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'>,
     ): Promise<GetMangasChapterIdsWithStateQuery['chapters']['nodes']> {
         const { data } = await requestManager.getMangasChapterIdsWithState(mangaIds, state).response;
-        return data.chapters.nodes;
+        return data?.chapters.nodes ?? [];
     }
 
     static async downloadChapters(
@@ -519,7 +519,7 @@ export class Mangas {
                         getMetadataServerSettings(),
                     ]);
 
-                if (!mangaToMigrateData.manga || !mangaToMigrateToData?.fetchManga?.manga) {
+                if (!mangaToMigrateData?.manga || !mangaToMigrateToData?.fetchManga?.manga) {
                     throw new Error('Mangas::migrate: missing manga data');
                 }
 

@@ -110,6 +110,11 @@ const handleDownload = async (
             order: [{ by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc }],
         },
     ).response;
+
+    if (!chapters.data) {
+        return;
+    }
+
     const filteredChapters = filterChapters(chapters.data.chapters.nodes, meta);
 
     const doNecessaryDownloadAheadDownloadsExist =

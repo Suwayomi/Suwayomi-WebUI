@@ -49,6 +49,10 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
             { fetchPolicy: 'no-cache' },
         ).response;
 
+        if (!nonLibraryMangas.data) {
+            return;
+        }
+
         const mangaIdsToRemove = Mangas.getIds(nonLibraryMangas.data.mangas.nodes);
 
         if (mangaIdsToRemove.length) {

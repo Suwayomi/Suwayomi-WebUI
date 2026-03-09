@@ -6,9 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReadFieldFunction } from '@apollo/client/cache/core/types/common';
+import { FieldFunctionOptions } from '@apollo/client/cache';
 import { Reference } from '@apollo/client/utilities';
 import { MetaType } from '@/lib/graphql/generated/graphql.ts';
+
+type ReadFieldFunction = FieldFunctionOptions['readField'];
 
 export const updateMetadataList = (
     meta: MetaType[],
