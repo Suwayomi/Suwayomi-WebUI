@@ -20,7 +20,8 @@ import { NAVIGATION_BAR_ITEMS } from '@/features/navigation-bar/NavigationBar.co
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { NavigationBarUtil } from '@/features/navigation-bar/NavigationBar.util.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { NavbarItem, NavBarItemMoreGroup } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
+import { NavBarItemMoreGroup } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 
 export const More = () => {

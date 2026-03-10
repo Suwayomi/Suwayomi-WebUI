@@ -21,7 +21,7 @@ import Dialog from '@mui/material/Dialog';
 import { AwaitableComponent } from 'awaitable-component';
 import { useLingui } from '@lingui/react/macro';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
+import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { MenuItem } from '@/base/components/menu/MenuItem.tsx';
 import {
     createGetMenuItemTitle,
@@ -32,8 +32,8 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { NestedMenuItem } from '@/base/components/menu/NestedMenuItem.tsx';
-import { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/features/manga/Manga.types.ts';
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';

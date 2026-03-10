@@ -6,8 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Dispatch, Reducer, SetStateAction, useCallback, useMemo, useReducer, useSyncExternalStore } from 'react';
-import { AppStorage, Storage } from '@/lib/storage/AppStorage.ts';
+import type { Dispatch, Reducer, SetStateAction } from 'react';
+import { useCallback, useMemo, useReducer, useSyncExternalStore } from 'react';
+import type { Storage } from '@/lib/storage/AppStorage.ts';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 
 const subscribeToStorageUpdates = (callback: () => void) => {

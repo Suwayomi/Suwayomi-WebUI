@@ -8,25 +8,20 @@
 
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Direction, useTheme } from '@mui/material/styles';
+import type { Direction } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { t } from '@lingui/core/macro';
-import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import {
-    IReaderSettings,
-    ReaderExitMode,
-    ReaderOpenChapterLocationState,
-    ReaderOverlayMode,
-    ReadingDirection,
-    ReadingMode,
-} from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, ReaderOpenChapterLocationState } from '@/features/reader/Reader.types.ts';
+import { ReaderExitMode, ReaderOverlayMode, ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import type { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import {
     getChapterIdsForDownloadAhead,
@@ -56,8 +51,13 @@ import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts
 import { MetadataValueCache } from '@/features/metadata/services/MetadataValueCache.ts';
 import { convertFromGqlMeta, convertToGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { GLOBAL_METADATA } from '@/lib/graphql/common/Fragments.ts';
-import { AppMetadataKeys, GqlMetaHolder, Metadata, MetadataHolderType } from '@/features/metadata/Metadata.types.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type {
+    AppMetadataKeys,
+    GqlMetaHolder,
+    Metadata,
+    MetadataHolderType,
+} from '@/features/metadata/Metadata.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',

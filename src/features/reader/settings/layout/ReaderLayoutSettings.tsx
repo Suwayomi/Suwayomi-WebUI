@@ -16,7 +16,7 @@ import { ReaderSettingTapZoneLayout } from '@/features/reader/settings/layout/co
 import { ReaderSettingTapZoneInvertMode } from '@/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx';
 import { ReaderSettingPageScaleMode } from '@/features/reader/settings/layout/components/ReaderSettingPageScaleMode.tsx';
 import { ReaderSettingStretchPage } from '@/features/reader/settings/layout/components/ReaderSettingStretchPage.tsx';
-import { ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
+import type { ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
 import { ReaderSettingPageGap } from '@/features/reader/settings/layout/components/ReaderSettingPageGap.tsx';
 import { ReaderSettingWidth } from '@/features/reader/settings/layout/components/ReaderSettingWidth.tsx';
 import { DefaultSettingFootnote } from '@/features/reader/settings/components/DefaultSettingFootnote.tsx';

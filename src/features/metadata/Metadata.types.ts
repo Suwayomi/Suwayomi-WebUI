@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MetadataServerSettingKeys, SearchMetadataKeys } from '@/features/settings/Settings.types.ts';
-import { MangaMetadataKeys } from '@/features/manga/Manga.types.ts';
-import { SourceMetadataKeys } from '@/features/source/Source.types.ts';
-import { CategoryMetadataKeys } from '@/features/category/Category.types.ts';
-import { MetaType } from '@/lib/graphql/generated/graphql.ts';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import type { MetadataServerSettingKeys, SearchMetadataKeys } from '@/features/settings/Settings.types.ts';
+import type { MangaMetadataKeys } from '@/features/manga/Manga.types.ts';
+import type { SourceMetadataKeys } from '@/features/source/Source.types.ts';
+import type { CategoryMetadataKeys } from '@/features/category/Category.types.ts';
+import type { MetaType } from '@/lib/graphql/generated/graphql.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 
 export interface IMetadataMigration {
     appKeyPrefix?: { oldPrefix: string; newPrefix: string };

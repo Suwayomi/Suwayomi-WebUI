@@ -6,20 +6,19 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import MenuItem from '@mui/material/MenuItem';
 import gql from 'graphql-tag';
 import { msg } from '@lingui/core/macro';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import {
-    ChapterOrderBy,
+import type {
     GetChaptersMangaQuery,
     GetChaptersMangaQueryVariables,
     MangaType,
-    SortOrder,
 } from '@/lib/graphql/generated/graphql.ts';
+import { ChapterOrderBy, SortOrder } from '@/lib/graphql/generated/graphql.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';

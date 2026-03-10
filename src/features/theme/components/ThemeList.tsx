@@ -20,7 +20,7 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { CreateThemeButton } from '@/features/theme/components/CreateThemeButton.tsx';
 import { ThemePreview } from '@/features/theme/components/ThemePreview.tsx';
-import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
+import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const ThemeList = () => {

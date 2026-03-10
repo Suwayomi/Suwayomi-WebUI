@@ -30,7 +30,8 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { MetadataThemeSettings, ThemeMode } from '@/features/theme/AppTheme.types.ts';
+import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
+import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';

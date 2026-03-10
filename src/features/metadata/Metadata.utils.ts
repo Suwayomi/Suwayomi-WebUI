@@ -7,7 +7,7 @@
  */
 
 import { APP_METADATA_KEY_PREFIX, GLOBAL_METADATA_KEYS } from '@/features/metadata/Metadata.constants.ts';
-import { AppMetadataKeys, Metadata } from '@/features/metadata/Metadata.types.ts';
+import type { AppMetadataKeys, Metadata } from '@/features/metadata/Metadata.types.ts';
 import { getActiveDevice } from '@/features/device/services/Device.ts';
 
 export const extractOriginalKey = (key: string) => key.split('_').slice(-1)[0];

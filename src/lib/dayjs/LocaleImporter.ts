@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DAYJS_LOCALES, DayJsLocale } from '@/lib/dayjs/Locales.ts';
+import type { DayJsLocale } from '@/lib/dayjs/Locales.ts';
+import { DAYJS_LOCALES } from '@/lib/dayjs/Locales.ts';
 import { DEFAULT_LANGUAGE } from '@/lib/ISOLanguageUtil.ts';
 
 export const getDayJsLocale = (locale: string): DayJsLocale => {

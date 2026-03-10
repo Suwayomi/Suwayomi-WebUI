@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
+import type { InstalledStates } from '@/features/extension/Extensions.types.ts';
 import {
     ExtensionAction,
     ExtensionGroupState,
     ExtensionState,
     InstalledState,
-    InstalledStates,
 } from '@/features/extension/Extensions.types.ts';
 import { DefaultLanguage } from '@/base/utils/Languages.ts';
 

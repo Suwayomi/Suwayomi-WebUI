@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CssVarsThemeOptions } from '@mui/material/styles';
+import type { CssVarsThemeOptions } from '@mui/material/styles';
 import { t } from '@lingui/core/macro';
 
 export type TBaseTheme = {

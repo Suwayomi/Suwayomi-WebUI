@@ -22,9 +22,9 @@ import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
-import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
+import type { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const BaseReaderNavBarDesktopChapterNavigation = ({
     currentChapterId,

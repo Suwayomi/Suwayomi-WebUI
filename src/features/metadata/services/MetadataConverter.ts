@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MetaType } from '@/lib/graphql/generated/graphql.ts';
-import { AllowedMetadataValueTypes, AppMetadataKeys, Metadata } from '@/features/metadata/Metadata.types.ts';
+import type { MetaType } from '@/lib/graphql/generated/graphql.ts';
+import type { AllowedMetadataValueTypes, AppMetadataKeys, Metadata } from '@/features/metadata/Metadata.types.ts';
 import { APP_METADATA } from '@/features/metadata/Metadata.constants.ts';
 
 export const convertValueFromMetadata = <T extends AllowedMetadataValueTypes = AllowedMetadataValueTypes>(

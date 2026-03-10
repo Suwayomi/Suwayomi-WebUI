@@ -92,7 +92,9 @@ export const DateSetting = ({
                         <DatePicker
                             value={dialogValue ? dayjs(Number(dialogValue)) : null}
                             onChange={(date) => {
-                                if (!date) return;
+                                if (!date) {
+                                    return;
+                                }
                                 setDialogValue(date.valueOf().toString());
                             }}
                         />

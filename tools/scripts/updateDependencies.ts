@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ExecSyncOptions, execSync } from 'node:child_process';
+import type { ExecSyncOptions } from 'node:child_process';
+import { execSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 import packageJson from '../../package.json';
 
@@ -94,9 +95,9 @@ const getOutdatedDependencies = (): OutdatedDependency[] => {
         .toSorted((a, b) => a.packageType.localeCompare(b.packageType));
 };
 
-const updateDependencies = () => {
-    const log = (...args: Parameters<typeof console.log>) => console.log('updateDependencies:', ...args);
+const log = (...args: Parameters<typeof console.log>) => console.log('updateDependencies:', ...args);
 
+const updateDependencies = () => {
     log('checking for outdated dependencies...');
 
     const outdatedDependencies = getOutdatedDependencies();

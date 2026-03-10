@@ -8,11 +8,12 @@
 
 import Stack from '@mui/material/Stack';
 import ListSubheader from '@mui/material/ListSubheader';
-import { ComponentProps, useMemo } from 'react';
+import type { ComponentProps } from 'react';
+import { useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 import { ReaderLayoutSettings } from '@/features/reader/settings/layout/ReaderLayoutSettings.tsx';
 import { useDefaultReaderSettingsWithDefaultFlag } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
-import { ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { ReadingMode } from '@/features/reader/Reader.types.ts';
 
 export const ReaderSettingProfileSettings = ({
     profile,

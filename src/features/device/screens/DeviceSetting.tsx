@@ -23,7 +23,7 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { DEFAULT_DEVICE } from '@/features/device/services/Device.ts';
-import { MetadataServerSettingKeys, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
+import type { MetadataServerSettingKeys, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 

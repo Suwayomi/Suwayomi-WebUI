@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Chip, { ChipProps } from '@mui/material/Chip';
+import type { ChipProps } from '@mui/material/Chip';
+import Chip from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled, useTheme } from '@mui/material/styles';
 import { useCallback, useMemo, useState } from 'react';
@@ -32,7 +33,7 @@ import { MangaActionMenuItems } from '@/features/manga/components/MangaActionMen
 import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
 import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import {
+import type {
     GetCategoriesLibraryQuery,
     GetCategoriesLibraryQueryVariables,
     GetLibraryMangaCountQuery,

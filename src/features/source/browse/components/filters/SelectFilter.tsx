@@ -11,13 +11,14 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import type { IPos } from '@/features/source/Source.types.ts';
 
 interface Props {
     values: any;
     name: string;
     state: number;
     position: number;
-    updateFilterValue: Function;
+    updateFilterValue: (value: IPos[]) => void;
     group: number | undefined;
     update: any;
 }
@@ -27,7 +28,7 @@ function noSelect(
     name: string,
     state: number,
     position: number,
-    updateFilterValue: Function,
+    updateFilterValue: (value: IPos[]) => void,
     update: any,
     group?: number,
 ) {

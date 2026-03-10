@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { MultiValueButtonProps } from '@/base/Base.types.ts';
+import type { MultiValueButtonProps } from '@/base/Base.types.ts';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
 
 export const ButtonSelect = <Value extends string | number>({

@@ -6,24 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    createTheme as createMuiTheme,
-    Direction,
-    PaletteBackgroundChannel,
-    responsiveFontSizes,
-    Theme,
-    TypeBackground,
-    useTheme,
-} from '@mui/material/styles';
+import type { Direction, PaletteBackgroundChannel, Theme, TypeBackground } from '@mui/material/styles';
+import { createTheme as createMuiTheme, responsiveFontSizes, useTheme } from '@mui/material/styles';
 import { useCallback } from 'react';
 // oxlint-disable-next-line no-restricted-imports
 import { deepmerge } from '@mui/utils';
 import { complement, hsl, parseToHsl } from 'polished';
-import { HslaColor, HslColor } from 'polished/lib/types/color';
-import { AppTheme } from '@/features/theme/services/AppThemes.ts';
+import type { HslaColor, HslColor } from 'polished/lib/types/color';
+import type { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
-import { TAppThemeContext, ThemeMode } from '@/features/theme/AppTheme.types.ts';
+import type { TAppThemeContext } from '@/features/theme/AppTheme.types.ts';
+import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { ThemeFontLoader } from '@/features/theme/services/ThemeFontLoader.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';

@@ -15,7 +15,7 @@ import Dialog from '@mui/material/Dialog';
 import FormGroup from '@mui/material/FormGroup';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { AwaitableComponentProps } from 'awaitable-component';
+import type { AwaitableComponentProps } from 'awaitable-component';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
@@ -26,7 +26,7 @@ import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { updateMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import {
+import type {
     GetCategoriesBaseQuery,
     GetCategoriesBaseQueryVariables,
     GetMangaCategoriesQuery,

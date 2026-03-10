@@ -7,14 +7,19 @@
  */
 
 import DisabledByDefaultRounded from '@mui/icons-material/DisabledByDefaultRounded';
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
+import type { CheckboxProps } from '@mui/material/Checkbox';
+import Checkbox from '@mui/material/Checkbox';
 import React, { useCallback } from 'react';
 
 type CheckState = boolean | undefined | null;
 
 function nextState(state: CheckState): CheckState {
-    if (state === true) return false;
-    if (state === false) return undefined;
+    if (state === true) {
+        return false;
+    }
+    if (state === false) {
+        return undefined;
+    }
     return true;
 }
 

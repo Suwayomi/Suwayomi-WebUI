@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { ReactNode, useContext, useMemo } from 'react';
+import type { ReactNode } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { DEFAULT_DEVICE, setActiveDevice } from '@/features/device/services/Device.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 

@@ -9,7 +9,7 @@
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { useLingui } from '@lingui/react/macro';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
 export const ReaderSettingStretchPage = ({

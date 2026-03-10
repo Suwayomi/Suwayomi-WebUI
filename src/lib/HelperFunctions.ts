@@ -7,7 +7,7 @@
  */
 
 import { CombinedGraphQLErrors } from '@apollo/client';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): T | null => {
     try {

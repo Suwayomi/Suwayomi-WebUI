@@ -6,11 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Box, { BoxProps } from '@mui/material/Box';
-import { memo, ReactNode, useMemo } from 'react';
+import type { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
+import type { ReactNode } from 'react';
+import { memo, useMemo } from 'react';
 import { styled } from '@mui/material/styles';
 import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
-import { ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import type { ReaderStatePages } from '@/features/reader/Reader.types.ts';
 
 type StyledWrapperProps = {
     isFirstPage: boolean;

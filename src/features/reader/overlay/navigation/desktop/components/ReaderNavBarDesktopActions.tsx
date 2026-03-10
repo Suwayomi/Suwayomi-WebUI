@@ -27,7 +27,7 @@ import {
     useReaderChaptersStore,
     useReaderPagesStore,
 } from '@/features/reader/stores/ReaderStore.ts';
-import { ChapterDownloadInfo, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterDownloadInfo, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const DownloadButton = ({ id = -1, isDownloaded }: ChapterIdInfo & ChapterDownloadInfo) => {
     const { t } = useLingui();

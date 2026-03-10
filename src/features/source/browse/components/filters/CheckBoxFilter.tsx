@@ -8,13 +8,14 @@
 
 import React from 'react';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
+import type { IPos } from '@/features/source/Source.types.ts';
 
 interface Props {
     state: boolean;
     name: string;
     position: number;
     group: number | undefined;
-    updateFilterValue: Function;
+    updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 

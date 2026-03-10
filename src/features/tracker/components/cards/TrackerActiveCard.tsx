@@ -38,11 +38,12 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { Menu } from '@/base/components/menu/Menu.tsx';
 import { CARD_STYLING, UNSET_DATE } from '@/features/tracker/Tracker.constants.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
-import { SelectSetting, SelectSettingValue } from '@/base/components/settings/SelectSetting.tsx';
+import type { SelectSettingValue } from '@/base/components/settings/SelectSetting.tsx';
+import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
+import type { TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { TTrackerBind, TTrackRecordBind } from '@/features/tracker/Tracker.types.ts';
+import type { TTrackerBind, TTrackRecordBind } from '@/features/tracker/Tracker.types.ts';
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 
 const TrackerActiveLink = ({ children, url }: { children: React.ReactNode; url: string }) => (

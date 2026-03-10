@@ -12,7 +12,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { AwaitableComponentProps } from 'awaitable-component';
+import type { AwaitableComponentProps } from 'awaitable-component';
 import { Link as RouterLink } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 

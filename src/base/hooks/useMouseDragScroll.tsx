@@ -12,7 +12,8 @@
  *  https://github.com/utsb-fmm/MobileLikeScroller/blob/main/mobilelikescroller.js
  */
 
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import type { MutableRefObject } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ScrollDirection } from '@/base/Base.types.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 

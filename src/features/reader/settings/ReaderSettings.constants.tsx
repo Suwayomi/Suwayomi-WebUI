@@ -6,19 +6,19 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 import ExpandIcon from '@mui/icons-material/Expand';
 import CropOriginalIcon from '@mui/icons-material/CropOriginal';
-import { TooltipProps } from '@mui/material/Tooltip';
-import { Direction } from '@mui/material/styles';
+import type { TooltipProps } from '@mui/material/Tooltip';
+import type { Direction } from '@mui/material/styles';
 import { msg } from '@lingui/core/macro';
-import { ScrollDirection, ValueToDisplayData } from '@/base/Base.types';
+import type { ValueToDisplayData } from '@/base/Base.types';
+import { ScrollDirection } from '@/base/Base.types';
+import type { IReaderSettings, IReaderSettingsGlobal } from '@/features/reader/Reader.types.ts';
 import {
-    IReaderSettings,
-    IReaderSettingsGlobal,
     ProgressBarPosition,
     ProgressBarType,
     ReaderBackgroundColor,

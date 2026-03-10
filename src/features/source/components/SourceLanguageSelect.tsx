@@ -25,7 +25,7 @@ import Box from '@mui/material/Box';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
 import { languageSortComparator, toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
-import {
+import type {
     SourceDisplayNameInfo,
     SourceIconInfo,
     SourceIdInfo,
@@ -78,7 +78,7 @@ export const SourceLanguageSelect = ({
     );
 
     const flattenedSourcesByLanguages = useMemo(
-        () => languagesSortedBySelectState.map((language) => sourcesByLanguage[language] ?? []).flat(),
+        () => languagesSortedBySelectState.flatMap((language) => sourcesByLanguage[language] ?? []),
         [languagesSortedBySelectState, sourcesByLanguage],
     );
 

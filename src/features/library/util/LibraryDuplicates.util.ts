@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { enhancedCleanup } from '@/base/utils/Strings.ts';
-import { TMangaDuplicate, TMangaDuplicateResult, TMangaDuplicates } from '@/features/library/Library.types.ts';
+import type { TMangaDuplicate, TMangaDuplicateResult, TMangaDuplicates } from '@/features/library/Library.types.ts';
 
 export const findDuplicatesByTitle = <Manga extends Pick<MangaType, 'title'>>(
     libraryMangas: Manga[],

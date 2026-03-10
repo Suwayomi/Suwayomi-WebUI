@@ -16,8 +16,8 @@ import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { getPersistedServerSetting, usePersistedValue } from '@/base/hooks/usePersistedValue.tsx';
 import { updateMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { MetadataDownloadSettings } from '@/features/downloads/Downloads.types.ts';
-import { MetadataServerSettings } from '@/features/settings/Settings.types.ts';
+import type { MetadataDownloadSettings } from '@/features/downloads/Downloads.types.ts';
+import type { MetadataServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_AHEAD } from '@/features/downloads/Downloads.constants.ts';
 

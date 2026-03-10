@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
@@ -22,16 +22,13 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import {
-    requestManager,
-    AbortableApolloUseMutationPaginatedResponse,
-    SPECIAL_ED_SOURCES,
-} from '@/lib/requests/RequestManager.ts';
+import type { AbortableApolloUseMutationPaginatedResponse } from '@/lib/requests/RequestManager.ts';
+import { requestManager, SPECIAL_ED_SOURCES } from '@/lib/requests/RequestManager.ts';
 import { SourceGridLayout } from '@/features/source/components/SourceGridLayout.tsx';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { SourceOptions } from '@/features/source/browse/components/SourceOptions.tsx';
 import { BaseMangaGrid } from '@/features/manga/components/BaseMangaGrid.tsx';
-import {
+import type {
     GetSourceBrowseQuery,
     GetSourceBrowseQueryVariables,
     GetSourceMangasFetchMutation,
@@ -46,11 +43,11 @@ import { MANGA_GRID_SNAPSHOT_KEY } from '@/features/manga/components/MangaGrid.t
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/source/SourceQuery.ts';
-import { IPos, SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { IPos, SourceIdInfo } from '@/features/source/Source.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { GridLayout, SearchParam } from '@/base/Base.types';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';

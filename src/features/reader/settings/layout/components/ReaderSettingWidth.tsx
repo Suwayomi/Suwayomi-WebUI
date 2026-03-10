@@ -8,13 +8,13 @@
 
 import Stack from '@mui/material/Stack';
 import { useLingui } from '@lingui/react/macro';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { ReaderService } from '@/features/reader/services/ReaderService.ts';
+import type { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { isReaderWidthEditable } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
 import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 
 export const ReaderSettingWidth = ({

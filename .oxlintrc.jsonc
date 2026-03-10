@@ -1,36 +1,34 @@
 {
   "plugins": [
     "react",
+    "unicorn",
     "typescript",
     "import",
     "jsx-a11y"
   ],
   "jsPlugins": [
     "eslint-plugin-lingui",
-    "eslint-plugin-no-relative-import-paths"
+    "eslint-plugin-no-relative-import-paths",
+    "eslint-plugin-unused-imports",
+    "eslint-plugin-no-only-tests"
   ],
   "categories": {
     "correctness": "off"
   },
   "rules": {
     // ── Core JS: correctness (from js.configs.recommended) ──
-    "constructor-super": "error",
+    // Rules redundant with TypeScript strict mode have been removed.
     "for-direction": "error",
-    "getter-return": "error",
     "no-async-promise-executor": "error",
     "no-case-declarations": "error",
-    "no-class-assign": "error",
     "no-compare-neg-zero": "error",
     "no-cond-assign": "error",
-    "no-const-assign": "error",
     "no-constant-binary-expression": "error",
     "no-constant-condition": "error",
     "no-control-regex": "error",
     "no-debugger": "error",
     "no-delete-var": "error",
-    "no-dupe-class-members": "error",
     "no-dupe-else-if": "error",
-    "no-dupe-keys": "error",
     "no-duplicate-case": "error",
     "no-empty": "error",
     "no-empty-character-class": "error",
@@ -38,29 +36,17 @@
     "no-empty-static-block": "error",
     "no-ex-assign": "error",
     "no-extra-boolean-cast": "error",
-    "no-fallthrough": "error",
-    "no-func-assign": "error",
-    "no-global-assign": "error",
-    "no-import-assign": "error",
     "no-invalid-regexp": "error",
     "no-irregular-whitespace": "error",
     "no-loss-of-precision": "error",
     "no-misleading-character-class": "error",
-    "no-new-native-nonconstructor": "error",
     "no-nonoctal-decimal-escape": "error",
-    "no-obj-calls": "error",
     "no-prototype-builtins": "error",
-    "no-redeclare": "error",
     "no-regex-spaces": "error",
     "no-self-assign": "error",
-    "no-setter-return": "error",
     "no-shadow-restricted-names": "error",
     "no-sparse-arrays": "error",
-    "no-this-before-super": "error",
-    "no-undef": "error",
-    "no-unreachable": "error",
     "no-unsafe-finally": "error",
-    "no-unsafe-negation": "error",
     "no-unsafe-optional-chaining": "error",
     "no-unused-labels": "error",
     "no-unused-private-class-members": "error",
@@ -81,13 +67,11 @@
     "no-with": "error",
     "require-yield": "error",
     "use-isnan": "error",
-    "valid-typeof": "error",
     "no-array-constructor": "error",
     "no-unused-expressions": "error",
 
-    // ── Core JS: Airbnb-style rules ──
-    "no-console": "warn",
-    "no-nested-ternary": "error",
+    // ── Core JS: style & best practices ──
+    "no-console": "error",
     "no-else-return": [
       "error",
       {
@@ -113,13 +97,8 @@
     "no-eval": "error",
     "no-script-url": "error",
     "no-self-compare": "error",
-    "no-proto": "error",
     "no-extend-native": "error",
-    "no-caller": "error",
-    "no-alert": "warn",
-    "no-void": "error",
-    "no-bitwise": "error",
-    "no-continue": "error",
+    "no-alert": "error",
     "no-restricted-globals": [
       "error",
       "isFinite",
@@ -140,7 +119,6 @@
         "null": "ignore"
       }
     ],
-    "guard-for-in": "error",
     "default-case": [
       "error",
       {
@@ -148,29 +126,8 @@
       }
     ],
     "default-case-last": "error",
-    "radix": "error",
     "yoda": "error",
-    "max-classes-per-file": [
-      "error",
-      1
-    ],
     "prefer-template": "error",
-    "prefer-destructuring": [
-      "error",
-      {
-        "VariableDeclarator": {
-          "array": false,
-          "object": true
-        },
-        "AssignmentExpression": {
-          "array": true,
-          "object": false
-        }
-      },
-      {
-        "enforceForRenamedProperties": false
-      }
-    ],
     "prefer-exponentiation-operator": "error",
     "prefer-object-spread": "error",
     "prefer-promise-reject-errors": [
@@ -186,12 +143,6 @@
         "ignorePropertyModificationsForRegex": [
           "^draft"
         ]
-      }
-    ],
-    "no-plusplus": [
-      "error",
-      {
-        "allowForLoopAfterthoughts": true
       }
     ],
     "no-restricted-imports": [
@@ -211,6 +162,19 @@
               "@mui/*/*/*"
             ]
           }
+        ]
+      }
+    ],
+
+    // ── New: modern JS essentials ──
+    "prefer-const": "error",
+    "no-var": "error",
+    "curly": "error",
+    "no-warning-comments": [
+      "error",
+      {
+        "terms": [
+          "@nocommit"
         ]
       }
     ],
@@ -243,6 +207,13 @@
     "typescript/prefer-namespace-keyword": "error",
     "typescript/triple-slash-reference": "error",
 
+    // ── New: TypeScript safety ──
+    "typescript/no-explicit-any": "off",
+    "typescript/no-empty-object-type": "error",
+    "typescript/no-unsafe-function-type": "error",
+    "typescript/consistent-type-imports": "error",
+    "typescript/switch-exhaustiveness-check": "error",
+
     // ── TypeScript rules (type-checked) ──
     "typescript/no-implied-eval": "error",
     "typescript/only-throw-error": "error",
@@ -256,7 +227,7 @@
     "import/namespace": "error",
     "import/default": "error",
     "import/export": "error",
-    "import/no-duplicates": "warn",
+    "import/no-duplicates": "error",
     "import/no-mutable-exports": "error",
     "import/first": "error",
     "import/no-amd": "error",
@@ -264,23 +235,11 @@
     "import/no-self-import": "error",
     "import/no-default-export": "error",
 
-    // ── Lingui (via jsPlugin) ──
-    "lingui/t-call-in-function": "error",
-    "lingui/no-single-tag-to-translate": "warn",
-    "lingui/no-single-variables-to-translate": "warn",
-    "lingui/no-trans-inside-trans": "warn",
-    "lingui/no-expression-in-message": "off",
-
-    // ── Header — handled by minimal ESLint fallback ──
-
-    // ── No relative import paths (via jsPlugin) ──
-    "no-relative-import-paths/no-relative-import-paths": [
-      "error",
-      {
-        "rootDir": "src",
-        "prefix": "@"
-      }
-    ],
+    // ── Unicorn: modern JS (auto-fixable) ──
+    "unicorn/prefer-array-flat-map": "error",
+    "unicorn/prefer-structured-clone": "error",
+    "unicorn/prefer-string-replace-all": "error",
+    "unicorn/consistent-function-scoping": "error",
 
     // ── React rules ──
     "react/jsx-key": "error",
@@ -290,14 +249,9 @@
     "react/jsx-no-undef": "error",
     "react/no-children-prop": "error",
     "react/no-danger-with-children": "error",
-    "react/no-direct-mutation-state": "error",
-    "react/no-find-dom-node": "error",
-    "react/no-is-mounted": "error",
     "react/no-render-return-value": "error",
-    "react/no-string-refs": "error",
     "react/no-unescaped-entities": "error",
     "react/no-unknown-property": "error",
-    "react/require-render-return": "error",
     "react/rules-of-hooks": "error",
     "react/no-array-index-key": "error",
     "react/jsx-no-useless-fragment": "error",
@@ -328,12 +282,7 @@
     "react/jsx-no-script-url": "error",
     "react/style-prop-object": "error",
     "react/void-dom-elements-no-children": "error",
-    "react/no-danger": "warn",
-    "react/no-this-in-sfc": "error",
-    "react/state-in-constructor": [
-      "error",
-      "always"
-    ],
+    "react/no-danger": "error",
 
     // ── jsx-a11y rules ──
     "jsx_a11y/alt-text": "error",

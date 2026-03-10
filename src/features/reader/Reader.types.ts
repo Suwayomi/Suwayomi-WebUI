@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MutableRefObject, Ref } from 'react';
-import { TapZoneInvertMode, TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
-import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { MutableRefObject, Ref } from 'react';
+import type { TapZoneInvertMode, TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import type { TChapterReader } from '@/features/chapter/Chapter.types.ts';
+import type { ReaderService } from '@/features/reader/services/ReaderService.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -192,7 +192,7 @@ export interface IReaderSettingsManga {
     };
 }
 
-export interface IReaderSettings extends IReaderSettingsGlobal, IReaderSettingsManga {}
+export type IReaderSettings = IReaderSettingsGlobal & IReaderSettingsManga;
 
 export interface IReaderSettingsWithDefaultFlag
     extends IReaderSettingsGlobal, TransformRecordToWithDefaultFlag<IReaderSettingsManga> {}
@@ -252,7 +252,7 @@ interface ReaderSettingsTypeDefaultableProps extends ReaderSettingsTypeBaseProps
     isDefaultable: true;
 }
 
-interface ReaderSettingsTypeNonDefaultableProps extends ReaderSettingsTypeBaseProps {}
+type ReaderSettingsTypeNonDefaultableProps = ReaderSettingsTypeBaseProps;
 
 export type ReaderSettingsTypeProps =
     | ReaderSettingsTypeDefaultableProps

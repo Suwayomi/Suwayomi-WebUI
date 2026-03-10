@@ -8,11 +8,8 @@
 
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import {
-    SelectSetting,
-    SelectSettingValue,
-    SelectSettingValueDisplayInfo,
-} from '@/base/components/settings/SelectSetting.tsx';
+import type { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
+import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
 
 const CHAPTERS_TO_DELETE = [0, 1, 2, 3, 4, 5] as const;
 const CHAPTERS_TO_DELETE_TO_TRANSLATION: {

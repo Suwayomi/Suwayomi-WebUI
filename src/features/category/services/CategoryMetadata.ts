@@ -12,11 +12,11 @@ import {
     requestBatchCategoryMetadataUpdate,
 } from '@/features/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { LibraryOptions } from '@/features/library/Library.types.ts';
-import { CategoryIdInfo, CategoryMetadataKeys, ICategoryMetadata } from '@/features/category/Category.types.ts';
+import type { LibraryOptions } from '@/features/library/Library.types.ts';
+import type { CategoryIdInfo, CategoryMetadataKeys, ICategoryMetadata } from '@/features/category/Category.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
-import {
+import type {
     AllowedMetadataValueTypes,
     GqlMetaHolder,
     Metadata,

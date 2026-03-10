@@ -8,8 +8,8 @@
 
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
-import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
+import type { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
+import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 
 export enum HttpMethod {
     GET = 'GET',

@@ -7,7 +7,7 @@
  */
 
 import { findDuplicatesByTitle } from '@/features/library/util/LibraryDuplicates.util.ts';
-import {
+import type {
     LibraryDuplicatesDescriptionWorkerInput,
     LibraryDuplicatesWorkerInput,
     TMangaDuplicate,

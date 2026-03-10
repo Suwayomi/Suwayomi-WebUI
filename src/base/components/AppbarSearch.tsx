@@ -74,7 +74,9 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         updateSearchOpenState(false);
     };
     const handleBlur = () => {
-        if (!searchString) updateSearchOpenState(false);
+        if (!searchString) {
+            updateSearchOpenState(false);
+        }
     };
 
     useHotkeys(

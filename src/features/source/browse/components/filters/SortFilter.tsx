@@ -15,7 +15,8 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import React from 'react';
 import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
-import { SortSelectionInput } from '@/lib/graphql/generated/graphql.ts';
+import type { SortSelectionInput } from '@/lib/graphql/generated/graphql.ts';
+import type { IPos } from '@/features/source/Source.types.ts';
 
 interface Props {
     values: any;
@@ -23,7 +24,7 @@ interface Props {
     state: SortSelectionInput;
     position: number;
     group: number | undefined;
-    updateFilterValue: Function;
+    updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 

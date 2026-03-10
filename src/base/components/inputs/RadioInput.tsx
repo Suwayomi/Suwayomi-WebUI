@@ -7,7 +7,8 @@
  */
 
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio, { RadioProps } from '@mui/material/Radio';
+import type { RadioProps } from '@mui/material/Radio';
+import Radio from '@mui/material/Radio';
 import React from 'react';
 
 export interface RadioInputProps extends RadioProps {

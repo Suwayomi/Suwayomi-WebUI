@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import pLimit, { LimitFunction } from 'p-limit';
+import type { LimitFunction } from 'p-limit';
+import pLimit from 'p-limit';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 
 export enum Priority {

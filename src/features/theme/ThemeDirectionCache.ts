@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Direction } from '@mui/material/styles';
-import { EmotionCache } from '@emotion/react';
+import type { Direction } from '@mui/material/styles';
+import type { EmotionCache } from '@emotion/react';
 import createCache from '@emotion/cache';
 import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';

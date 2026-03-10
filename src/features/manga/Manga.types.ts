@@ -6,12 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { LongPressPointerHandlers, LongPressResult } from 'use-long-press';
-import { PopupState } from 'material-ui-popup-state/hooks';
+import type { LongPressPointerHandlers, LongPressResult } from 'use-long-press';
+import type { PopupState } from 'material-ui-popup-state/hooks';
 import type { JSX } from 'react';
-import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
-import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
-import {
+import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
+import type { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
+import type {
     ChapterType,
     MangaReaderFieldsFragment,
     MangaType as MangaTypeGql,
@@ -19,9 +19,9 @@ import {
     SourceType,
     TrackRecordType,
 } from '@/lib/graphql/generated/graphql.ts';
-import { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
-import { GridLayout } from '@/base/Base.types.ts';
-import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
+import type { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
+import type { GridLayout } from '@/base/Base.types.ts';
+import type { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 

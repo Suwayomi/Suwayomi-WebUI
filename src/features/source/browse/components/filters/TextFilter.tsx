@@ -13,13 +13,14 @@ import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import React, { useEffect } from 'react';
 import { useDebounce } from '@/base/hooks/useDebounce.ts';
+import type { IPos } from '@/features/source/Source.types.ts';
 
 interface Props {
     state: string;
     name: string;
     position: number;
     group: number | undefined;
-    updateFilterValue: Function;
+    updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MetadataHolderType } from '@/features/metadata/Metadata.types.ts';
+import type { MetadataHolderType } from '@/features/metadata/Metadata.types.ts';
 
 export class MetadataValueCache {
     private static convertedValueByKey = new Map<string, unknown>();

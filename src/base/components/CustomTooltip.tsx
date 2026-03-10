@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
+import type { TooltipProps } from '@mui/material/Tooltip';
+import Tooltip from '@mui/material/Tooltip';
 
 export const CustomTooltip = ({
     children,

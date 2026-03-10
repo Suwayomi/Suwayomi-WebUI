@@ -89,7 +89,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         [filteredSources],
     );
     const visibleSources = useMemo(
-        () => sourcesByLanguage.map(([, sourcesOfLanguage]) => sourcesOfLanguage).flat(1),
+        () => sourcesByLanguage.flatMap(([, sourcesOfLanguage]) => sourcesOfLanguage),
         [sourcesByLanguage],
     );
 
@@ -125,7 +125,9 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         [t, shownLangs, sourceLanguages, sourcesForLanguageFilter],
     );
 
-    if (isLoading) return <LoadingPlaceholder />;
+    if (isLoading) {
+        return <LoadingPlaceholder />;
+    }
 
     if (error) {
         return (

@@ -18,9 +18,9 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { CustomButton } from '@/base/components/buttons/CustomButton.tsx';
-import { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
-import { MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 

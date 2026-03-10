@@ -10,7 +10,7 @@ import path from 'path';
 import fs from 'fs';
 import readline from 'readline';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
-import {
+import type {
     ActionByTranslationUrlByUserUrl,
     ContributionsByLanguage,
     LanguageNameByTranslationUrl,

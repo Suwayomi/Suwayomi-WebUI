@@ -19,7 +19,7 @@ import IconButton from '@mui/material/IconButton';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { SourceContentType } from '@/features/source/browse/screens/SourceMangas.tsx';
-import { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { Sources } from '@/features/source/services/Sources.ts';

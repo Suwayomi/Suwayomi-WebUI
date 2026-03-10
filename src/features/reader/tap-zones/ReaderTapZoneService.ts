@@ -6,14 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CSSProperties } from 'react';
-import {
+import type { CSSProperties } from 'react';
+import type {
     ReaderTapZoneRect,
     TapZoneInvertMode,
     TapZoneLayouts,
     TapZoneRegion,
-    TapZoneRegionType,
 } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { TapZoneRegionType } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import {
     READER_TAP_ZONE_LAYOUTS,
     TAP_ZONE_REGION_TYPE_DATA,
@@ -24,6 +24,10 @@ import { i18n } from '@/i18n';
 interface InvertMode extends TapZoneInvertMode {
     isRTL: boolean;
 }
+
+const calcActualValue = (value: number, size: number) => (value / 100) * size;
+
+const calcRectCenter = (pos1: number, pos2: number) => (pos1 + pos2) * 0.5 + pos1 * 0.5;
 
 export class ReaderTapZoneService {
     private static layout: TapZoneLayouts | null = null;
@@ -108,13 +112,10 @@ export class ReaderTapZoneService {
             const { text: translation, color } = TAP_ZONE_REGION_TYPE_DATA[type];
             const text = i18n._(translation);
 
-            const calcActualValue = (value: number, size: number) => (value / 100) * size;
             const x = calcActualValue(rectX, canvasWidth);
             const y = calcActualValue(rectY, canvasHeight);
             const width = calcActualValue(rectWidth, canvasWidth);
             const height = calcActualValue(rectHeight, canvasHeight);
-
-            const calcRectCenter = (pos1: number, pos2: number) => (pos1 + pos2) * 0.5 + pos1 * 0.5;
             const rectCenterX = calcRectCenter(x, width);
             const rectCenterY = calcRectCenter(y, height);
 

@@ -10,7 +10,8 @@ import { useHotkeys as useHotKeysHook, useHotkeysContext } from 'react-hotkeys-h
 import { useEffect } from 'react';
 import { HOTKEY_SCOPES } from '@/features/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import { IReaderSettings, ReaderHotkey } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { ReaderHotkey } from '@/features/reader/Reader.types.ts';
 import { getNextRotationValue } from '@/base/utils/ValueRotationButton.utils.ts';
 import {
     AUTO_SCROLL_SPEED,

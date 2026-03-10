@@ -14,7 +14,7 @@ import { useTheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { IMAGE_PROCESSING_INPUT_WIDTH } from '@/features/settings/Settings.constants.ts';
-import { TSettingsDownloadConversionKeyValueItem } from '@/features/settings/Settings.types';
+import type { TSettingsDownloadConversionKeyValueItem } from '@/features/settings/Settings.types';
 
 export const KeyValueItem = ({
     id,

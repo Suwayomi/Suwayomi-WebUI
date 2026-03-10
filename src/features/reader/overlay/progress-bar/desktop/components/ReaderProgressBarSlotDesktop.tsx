@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import { memo } from 'react';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { ReaderProgressBarSlot } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlot.tsx';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 
 export const ReaderProgressBarSlotDesktop = memo(
     ({

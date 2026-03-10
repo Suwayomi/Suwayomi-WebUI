@@ -14,7 +14,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { useReaderSettingsStore, useReaderTapZoneStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const CANVAS_ID = 'reader-tap-zone-layout-canvas';

@@ -6,15 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
+import type {
     LoggedInInfo,
-    PublishingStatus,
-    PublishingType,
     TrackerIdInfo,
     TrackRecordTrackerInfo,
     TrackSearchPublishingStatusInfo,
     TrackSearchPublishingTypeInfo,
 } from '@/features/tracker/Tracker.types.ts';
+import { PublishingStatus, PublishingType } from '@/features/tracker/Tracker.types.ts';
 import { UNSET_DATE } from '@/features/tracker/Tracker.constants.ts';
 
 export class Trackers {

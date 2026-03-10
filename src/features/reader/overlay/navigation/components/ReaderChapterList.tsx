@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Virtuoso, VirtuosoProps } from 'react-virtuoso';
+import type { VirtuosoProps } from 'react-virtuoso';
+import { Virtuoso } from 'react-virtuoso';
 import { useMemo } from 'react';
-import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
+import type { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { ChapterListCard } from '@/features/chapter/components/cards/ChapterListCard.tsx';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const onSelectNoop = () => {};
 

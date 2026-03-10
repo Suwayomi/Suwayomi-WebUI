@@ -72,7 +72,7 @@ const outputContent = readFileSync(outputFilePath, 'utf-8');
 
 const mangaTypes = Object.keys(MANGA_TYPE_TO_MSG_IDS);
 const entries = mangaTypes.map((type) => {
-    const tagList = translationsByMangaType[type].map((tag) => `'${tag.replace(/'/g, "\\'")}'`).join(',');
+    const tagList = translationsByMangaType[type].map((tag) => `'${tag.replaceAll("'", "\\'")}'`).join(',');
     return `    [MangaType.${type}]: [\n${tagList},\n    ]`;
 });
 

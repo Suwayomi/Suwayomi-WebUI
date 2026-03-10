@@ -14,7 +14,7 @@ import {
     getWeblateLanguageStatsFor,
     meetsTranslatedPercentThreshold as meetsTranslatedPercentThresholdBase,
 } from './Weblate.utils.ts';
-import { WeblateLanguageStatistic } from './Weblate.types.ts';
+import type { WeblateLanguageStatistic } from './Weblate.types.ts';
 import { TRANSLATED_PERCENT_THRESHOLD } from './Weblate.constants.ts';
 
 const I18N_INDEX_PATH = 'src/i18n/index.ts';
@@ -50,7 +50,7 @@ const formatLocalesArray = (locales: string[]): string => locales.map((locale) =
 const updateI18nIndex = (locales: string[]): void => {
     const content = fs.readFileSync(i18nIndexFilePath, 'utf-8');
     const localesArrayStr = formatLocalesArray(locales);
-    const updatedContent = content.replace(
+    const updatedContent = content.replaceAll(
         /(export const i18nResources = \[)[\s\S]*?(] as const)/g,
         `$1${localesArrayStr}$2`,
     );
@@ -60,7 +60,7 @@ const updateI18nIndex = (locales: string[]): void => {
 const updateLinguiConfig = (locales: string[]): void => {
     const content = fs.readFileSync(linguiConfigFilePath, 'utf-8');
     const localesArrayStr = formatLocalesArray(locales);
-    const updatedContent = content.replace(/(locales: \[)[\s\S]*?(],)/g, `$1${localesArrayStr}$2`);
+    const updatedContent = content.replaceAll(/(locales: \[)[\s\S]*?(],)/g, `$1${localesArrayStr}$2`);
     fs.writeFileSync(linguiConfigFilePath, updatedContent);
 };
 

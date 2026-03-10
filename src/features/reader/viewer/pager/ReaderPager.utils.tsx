@@ -6,14 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Direction, Theme } from '@mui/material/styles';
-import { ComponentProps, ReactNode } from 'react';
+import type { Direction, Theme } from '@mui/material/styles';
+import type { ComponentProps, ReactNode } from 'react';
+import type { IReaderSettings, ReaderPageSpreadState, ReaderStatePages } from '@/features/reader/Reader.types.ts';
 import {
-    IReaderSettings,
     PageInViewportType,
     ReaderPageScaleMode,
-    ReaderPageSpreadState,
-    ReaderStatePages,
     ReaderTransitionPageMode,
     ReadingDirection,
     ReadingMode,
@@ -32,7 +30,7 @@ import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBa
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 
 type CSSObject = ReturnType<Theme['applyStyles']>;
 

@@ -7,16 +7,16 @@
  */
 
 import { useMemo } from 'react';
-import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import {
+import type { ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import type {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
     ChapterListOptions,
     ChapterReadInfo,
     ChapterScanlatorInfo,
 } from '@/features/chapter/Chapter.types.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
 import { createUpdateMangaMetadata, useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 

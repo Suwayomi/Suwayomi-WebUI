@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DocumentNode, Unmasked } from '@apollo/client';
+import type { DocumentNode, Unmasked } from '@apollo/client';
 import { t } from '@lingui/core/macro';
 import { i18n } from '@/i18n';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import {
+import type {
     ChapterConditionInput,
     GetMangasBaseQuery,
     GetMangasBaseQueryVariables,
@@ -26,8 +26,8 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
 import { MANGA_BASE_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
-import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
-import {
+import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
+import type {
     MangaAction,
     MangaArtistInfo,
     MangaAuthorInfo,
@@ -39,10 +39,10 @@ import {
     MangaSourceNameInfo,
     MangaThumbnailInfo,
     MangaTitleInfo,
-    MangaType,
     MangaUnreadInfo,
     MigrateMode,
 } from '@/features/manga/Manga.types.ts';
+import { MangaType } from '@/features/manga/Manga.types.ts';
 import {
     MANGA_ACTION_TO_CONFIRMATION_REQUIRED,
     MANGA_ACTION_TO_TRANSLATION,
@@ -103,6 +103,9 @@ type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_
 
 type MigrateAction = { copy: () => Promise<unknown>[]; cleanup: () => Promise<unknown>[] };
 type MigrateActionCreator = () => MigrateAction;
+
+const performMigrationAction = async (migrateAction: keyof MigrateAction, ...actions: MigrateAction[]) =>
+    Promise.all(actions.flatMap((action) => action[migrateAction]()));
 
 const ARTIST_AUTHOR_SEPARATOR_REGEX = /\s*[,|、]\s*/;
 
@@ -236,25 +239,23 @@ export class Mangas {
             Object.fromEntries([...mangaIdToDefaultDownloadSize, ...mangaIdToDownloadSize]),
         ) satisfies MangaIdToDownloadSize[];
 
-        const chapterIdsToDownload = mangaIdToActualDownloadSize
-            .map(([mangaId, actualSize]) => {
-                const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
+        const chapterIdsToDownload = mangaIdToActualDownloadSize.flatMap(([mangaId, actualSize]) => {
+            const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
 
-                if (!mangaChapters.length) {
-                    return [];
-                }
+            if (!mangaChapters.length) {
+                return [];
+            }
 
-                const shouldDownloadAll = actualSize === undefined;
-                if (shouldDownloadAll) {
-                    return mangaChapters;
-                }
+            const shouldDownloadAll = actualSize === undefined;
+            if (shouldDownloadAll) {
+                return mangaChapters;
+            }
 
-                const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
-                const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
+            const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
+            const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
 
-                return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
-            })
-            .flat();
+            return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
+        });
 
         if (!chapterIdsToDownload.length) {
             return Promise.resolve();
@@ -530,11 +531,6 @@ export class Mangas {
                 if (!mangaToMigrateToData.fetchChapters?.chapters) {
                     mangaToMigrateToData.fetchChapters = { chapters: [] };
                 }
-
-                const performMigrationAction = async (
-                    migrateAction: keyof MigrateAction,
-                    ...actions: MigrateAction[]
-                ) => Promise.all(actions.map((action) => action[migrateAction]()).flat());
 
                 const performMigrationActions = async (
                     ...actionCreators: [boolean | undefined, MigrateActionCreator][]

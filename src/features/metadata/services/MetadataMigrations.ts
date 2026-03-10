@@ -6,13 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect } from 'react';
+import type { useEffect } from 'react';
 import {
     APP_METADATA_KEY_PREFIX,
     METADATA_MIGRATIONS,
     VALID_APP_METADATA_KEYS,
 } from '@/features/metadata/Metadata.constants.ts';
-import {
+import type {
     AppMetadataKeys,
     IMetadataMigration,
     Metadata,
@@ -21,13 +21,13 @@ import {
     MetadataKeyValuePair,
 } from '@/features/metadata/Metadata.types.ts';
 import { extractOriginalKey, getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import { CategoryIdInfo } from '@/features/category/Category.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getMetadataUpdateFunction } from '@/features/metadata/services/MetadataUpdater.ts';
 import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts';
-import { SourceIdInfo } from '@/features/source/Source.types.ts';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const getAppKeyPrefixForMigration = (migrationId: number): string => {
     const appKeyPrefix = METADATA_MIGRATIONS.slice(0, migrationId)

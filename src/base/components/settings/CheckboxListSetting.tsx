@@ -14,7 +14,7 @@ import Dialog from '@mui/material/Dialog';
 import FormGroup from '@mui/material/FormGroup';
 import Stack from '@mui/material/Stack';
 import { useCallback, useMemo } from 'react';
-import { CheckboxProps } from '@mui/material/Checkbox';
+import type { CheckboxProps } from '@mui/material/Checkbox';
 import { useLingui } from '@lingui/react/macro';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';

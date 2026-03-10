@@ -37,9 +37,16 @@ import {
     getAutoBackupFlagsInfo,
     getBackupCleanupDisplayValue,
 } from '@/features/backup/Backup.utils.ts';
-import { BackupSettingsType } from '@/features/backup/Backup.types.ts';
+import type { BackupSettingsType } from '@/features/backup/Backup.types.ts';
 
 let backupRestoreId: string | undefined;
+
+const resetBackupState = () => {
+    const input = document.getElementById('backup-file') as HTMLInputElement;
+    if (input) {
+        input.value = '';
+    }
+};
 
 export function Backup() {
     const { t } = useLingui();
@@ -112,13 +119,6 @@ export function Backup() {
             setTriggerReRender(Date.now());
         }
     }, [data?.restoreStatus?.state]);
-
-    const resetBackupState = () => {
-        const input = document.getElementById('backup-file') as HTMLInputElement;
-        if (input) {
-            input.value = '';
-        }
-    };
 
     const createBackup = async () => {
         const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {

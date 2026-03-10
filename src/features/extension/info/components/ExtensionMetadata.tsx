@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import Divider from '@mui/material/Divider';
 import { Metadata } from '@/base/components/texts/Metadata.tsx';
 

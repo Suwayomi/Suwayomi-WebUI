@@ -37,12 +37,12 @@ import { GroupFilter } from '@/features/source/browse/components/filters/GroupFi
 import { SeparatorFilter } from '@/features/source/browse/components/filters/SeparatorFilter.tsx';
 import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { ISourceMetadata, SourceFilters } from '@/features/source/Source.types.ts';
+import type { IPos, ISourceMetadata, SourceFilters } from '@/features/source/Source.types.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 
 interface IFilters {
     sourceFilter: SourceFilters[];
-    updateFilterValue: Function;
+    updateFilterValue: (value: IPos[]) => void;
     group: number | undefined;
     update: any;
 }
@@ -52,9 +52,9 @@ interface IFilters1 {
     selectSavedSearch: (savedSearch: string) => void;
     updateSavedSearches: (savedSearch: string, updateType: 'create' | 'delete') => void;
     sourceFilter: SourceFilters[];
-    updateFilterValue: Function;
-    resetFilterValue: Function;
-    setTriggerUpdate: Function;
+    updateFilterValue: (value: IPos[]) => void;
+    resetFilterValue: (value: number) => void;
+    setTriggerUpdate: (value: number) => void;
     update: any;
 }
 

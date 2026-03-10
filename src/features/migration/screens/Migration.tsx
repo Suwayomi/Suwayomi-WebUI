@@ -19,10 +19,12 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
-import { MigrationCard, TMigratableSource } from '@/features/migration/components/MigrationCard.tsx';
+import type { TMigratableSource } from '@/features/migration/components/MigrationCard.tsx';
+import { MigrationCard } from '@/features/migration/components/MigrationCard.tsx';
 import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { SortBy, SortOrder, SortSettings, TMigratableSourcesResult } from '@/features/migration/Migration.types.ts';
+import type { SortSettings, TMigratableSourcesResult } from '@/features/migration/Migration.types.ts';
+import { SortBy, SortOrder } from '@/features/migration/Migration.types.ts';
 import { sortByToTranslation, sortOrderToTranslation } from '@/features/migration/Migration.constants.ts';
 import {
     createUpdateMetadataServerSettings,

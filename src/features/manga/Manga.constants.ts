@@ -6,15 +6,16 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { MangaStatus } from '@/lib/graphql/generated/graphql.ts';
-import { MangaAction, MangaIdInfo, MangaType } from '@/features/manga/Manga.types.ts';
+import type { MangaAction, MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import { MangaType } from '@/features/manga/Manga.types.ts';
 import {
     CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED,
     CHAPTER_ACTION_TO_TRANSLATION,
 } from '@/features/chapter/Chapter.constants.ts';
-import { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
+import type { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
 
 export const FALLBACK_MANGA: MangaIdInfo & GqlMetaHolder = { id: -1 };
 

@@ -12,19 +12,20 @@ import { ApolloClient, ApolloLink, CombinedGraphQLErrors, InMemoryCache } from '
 import { from, filter, map, switchMap, firstValueFrom } from 'rxjs';
 import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { Client, createClient } from 'graphql-ws';
+import type { Client } from 'graphql-ws';
+import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { TypePolicies } from '@apollo/client/cache';
+import type { TypePolicies } from '@apollo/client/cache';
 import { RemoveTypenameFromVariablesLink } from '@apollo/client/link/remove-typename';
 import { d } from 'koration';
 import { useId } from '@mantine/hooks';
 import { useEffect } from 'react';
-import { GraphQLFormattedError } from 'graphql';
+import type { GraphQLFormattedError } from 'graphql';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
-import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
+import type { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
-import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
+import type { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
+import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 
 const typePolicies: StrictTypedTypePolicies = {
     MangaType: {
@@ -320,7 +321,7 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
 
         this.wsClient = createClient({
             lazy,
-            url: () => this.getBaseUrl().replace(/http(|s)/g, 'ws'),
+            url: () => this.getBaseUrl().replaceAll(/http(|s)/g, 'ws'),
             keepAlive: heartbeatInterval,
             retryAttempts: Number.MAX_SAFE_INTEGER,
             shouldRetry: () => true,

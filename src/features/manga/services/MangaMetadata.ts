@@ -9,8 +9,8 @@
 import { useEffect, useMemo } from 'react';
 import { DEFAULT_CHAPTER_OPTIONS } from '@/features/chapter/Chapter.constants.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
-import { MangaIdInfo, MangaMetadata, MangaMetadataKeys } from '@/features/manga/Manga.types.ts';
-import {
+import type { MangaIdInfo, MangaMetadata, MangaMetadataKeys } from '@/features/manga/Manga.types.ts';
+import type {
     AllowedMetadataValueTypes,
     GqlMetaHolder,
     Metadata,

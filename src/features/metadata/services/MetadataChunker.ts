@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { GqlMetaHolder, Metadata, MetadataHolderType } from '@/features/metadata/Metadata.types.ts';
+import type { GqlMetaHolder, Metadata, MetadataHolderType } from '@/features/metadata/Metadata.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/metadata/GlobalMetadataQuery.ts';
-import {
+import type {
     GetGlobalMetadatasQuery,
     GetGlobalMetadatasQueryVariables,
     MetaInput,
@@ -52,7 +52,9 @@ export class MetadataChunker {
     }
 
     static getStaleChunkKeyCount(metadata: Metadata | undefined, fullKey: string): number {
-        if (!metadata) return 0;
+        if (!metadata) {
+            return 0;
+        }
 
         const scanFrom = (index: number): number =>
             doesMetadataKeyExistIn(metadata, this.getChunkIndexKey(fullKey, index)) ? scanFrom(index + 1) : index;

@@ -8,8 +8,9 @@
 
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import { IReaderSettings, ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
-import { ValueToDisplayData } from '@/base/Base.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
 import { HiddenProgressBarIcon } from '@/assets/icons/svg/HiddenProgressBarIcon.tsx';
 import { StandardProgressBarIcon } from '@/assets/icons/svg/StandardProgressBarIcon.tsx';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';

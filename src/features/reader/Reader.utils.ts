@@ -6,15 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    ReaderPageSpreadState,
-    ReaderResumeMode,
-    ReaderStateChapters,
-    ReaderStatePages,
-    ReadingMode,
-} from '@/features/reader/Reader.types.ts';
-import { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
-import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
+import type { ReaderPageSpreadState, ReaderStateChapters, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { ReaderResumeMode, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import type { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { CHAPTER_READER_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import { isPageOfOutdatedPageLoadStates, isSpreadPage } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';

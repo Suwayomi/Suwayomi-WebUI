@@ -16,7 +16,7 @@ import {
     IMAGE_PROCESSING_TYPE_TO_TRANSLATION,
 } from '@/features/settings/Settings.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { ImageProcessingType, ServerSettings } from '@/features/settings/Settings.types.ts';
+import type { ImageProcessingType, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';

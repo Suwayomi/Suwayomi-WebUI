@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ComponentType, memo, Ref } from 'react';
+import type { ComponentType, Ref } from 'react';
+import { memo } from 'react';
 
 type PropsSourceCreator<T, Props extends Record<string, any>> = (props: Props) => T;
 

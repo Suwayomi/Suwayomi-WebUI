@@ -11,10 +11,10 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { requestServerMetadataUpdate } from '@/features/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { SERVER_SETTINGS_METADATA_DEFAULT } from '@/features/settings/Settings.constants.ts';
-import { MetadataServerSettingKeys, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
+import type { MetadataServerSettingKeys, MetadataServerSettings } from '@/features/settings/Settings.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
-import { AllowedMetadataValueTypes, Metadata } from '@/features/metadata/Metadata.types.ts';
+import type { AllowedMetadataValueTypes, Metadata } from '@/features/metadata/Metadata.types.ts';
 
 export const convertSettingsToMetadata = (
     settings: Partial<MetadataServerSettings>,

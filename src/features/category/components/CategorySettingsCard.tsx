@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { CategoryType } from '@/lib/graphql/generated/graphql.ts';
+import type { CategoryType } from '@/lib/graphql/generated/graphql.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 
 export const CategorySettingsCard = ({

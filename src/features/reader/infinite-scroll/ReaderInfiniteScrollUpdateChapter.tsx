@@ -8,7 +8,7 @@
 
 import { memo } from 'react';
 import { useReaderInfiniteScrollUpdateChapter } from '@/features/reader/infinite-scroll/useReaderInfiniteScrollUpdateChapter.ts';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const BaseReaderInfiniteScrollUpdateChapter = ({
     chapterId,

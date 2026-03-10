@@ -7,7 +7,7 @@
  */
 
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { Breakpoint, SxProps, Theme } from '@mui/material/styles';
+import type { Breakpoint, SxProps, Theme } from '@mui/material/styles';
 import { useCallback, useState } from 'react';
 import { getCurrentTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';

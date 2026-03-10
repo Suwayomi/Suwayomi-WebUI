@@ -23,11 +23,11 @@ import { MangaDetails } from '@/features/manga/components/details/MangaDetails.t
 import { MangaToolbarMenu } from '@/features/manga/components/MangaToolbarMenu.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
-import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_SCREEN } from '@/lib/graphql/manga/MangaQuery.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
-import { MangaLocationState } from '@/features/manga/Manga.types.ts';
+import type { MangaLocationState } from '@/features/manga/Manga.types.ts';
 
 export const Manga: React.FC = () => {
     const { t } = useLingui();
@@ -51,7 +51,9 @@ export const Manga: React.FC = () => {
     const error = mangaError ?? refreshError;
 
     useEffect(() => {
-        if (manga == null) return;
+        if (manga == null) {
+            return;
+        }
 
         const doFetch = !autofetchedRef.current && !manga.initialized;
         if (doFetch) {

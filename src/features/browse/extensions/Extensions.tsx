@@ -36,12 +36,8 @@ import {
     translateExtensionLanguage,
     filterExtensions,
 } from '@/features/extension/Extensions.utils.ts';
-import {
-    ExtensionAction,
-    ExtensionGroupState,
-    ExtensionState,
-    TExtension,
-} from '@/features/extension/Extensions.types.ts';
+import type { TExtension } from '@/features/extension/Extensions.types.ts';
+import { ExtensionAction, ExtensionGroupState, ExtensionState } from '@/features/extension/Extensions.types.ts';
 import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP } from '@/features/extension/Extensions.constants.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -49,7 +45,7 @@ import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
+import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { i18n } from '@/i18n';
@@ -159,7 +155,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         [groupedExtensions],
     );
     const visibleExtensions = useMemo(
-        () => groupedExtensions.map(([, extensions]) => extensions).flat(1),
+        () => groupedExtensions.flatMap(([, extensions]) => extensions),
         [groupedExtensions],
     );
 

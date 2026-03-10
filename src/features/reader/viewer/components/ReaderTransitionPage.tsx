@@ -10,10 +10,12 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-import { ComponentProps, memo, useMemo } from 'react';
+import type { ComponentProps } from 'react';
+import { memo, useMemo } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
-import { IReaderSettings, ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
@@ -23,12 +25,12 @@ import {
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { getValueFromObject, noOp } from '@/lib/HelperFunctions.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import {
     useReaderChaptersStore,
     useReaderPagesStore,

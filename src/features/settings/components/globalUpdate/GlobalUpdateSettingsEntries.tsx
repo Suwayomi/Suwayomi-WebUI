@@ -20,7 +20,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { CheckboxContainer } from '@/base/components/inputs/CheckboxContainer.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { GlobalUpdateSkipEntriesSettings, ServerSettings } from '@/features/settings/Settings.types.ts';
+import type { GlobalUpdateSkipEntriesSettings, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { GLOBAL_UPDATE_SKIP_ENTRIES_TO_TRANSLATION } from '@/features/settings/Settings.constants.ts';
 

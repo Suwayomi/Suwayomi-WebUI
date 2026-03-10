@@ -8,7 +8,8 @@
 
 import React, { useLayoutEffect } from 'react';
 import { useLingui } from '@lingui/react/macro';
-import { IMangaGridProps, MangaGrid } from '@/features/manga/components/MangaGrid.tsx';
+import type { IMangaGridProps } from '@/features/manga/components/MangaGrid.tsx';
+import { MangaGrid } from '@/features/manga/components/MangaGrid.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 

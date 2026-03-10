@@ -6,10 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { createRef, MutableRefObject } from 'react';
-import { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
+import type { MutableRefObject } from 'react';
+import { createRef } from 'react';
+import type { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
-import { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
+import type { useAutomaticScrolling } from '@/base/hooks/useAutomaticScrolling.ts';
 import { noOp } from '@/lib/HelperFunctions.ts';
 
 export interface ReaderAutoScrollStoreSlice {

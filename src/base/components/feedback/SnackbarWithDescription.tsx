@@ -6,9 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
-import { closeSnackbar, CustomContentProps, SnackbarContent, VariantType } from 'notistack';
-import { ForwardedRef, Fragment, memo } from 'react';
+import type { MessageDescriptor } from '@lingui/core';
+import type { CustomContentProps, VariantType } from 'notistack';
+import { closeSnackbar, SnackbarContent } from 'notistack';
+import type { ForwardedRef } from 'react';
+import { Fragment, memo } from 'react';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Button from '@mui/material/Button';

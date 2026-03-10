@@ -7,9 +7,9 @@
  */
 
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
-import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
+import type { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
+import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 

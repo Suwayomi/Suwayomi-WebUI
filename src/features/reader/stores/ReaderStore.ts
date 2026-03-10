@@ -10,30 +10,21 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import { useShallow } from 'zustand/react/shallow';
-import { TMangaReader } from '@/features/manga/Manga.types.ts';
-import {
-    createReaderOverlayStoreSlice,
-    ReaderOverlayStoreSlice,
-} from '@/features/reader/overlay/ReaderOverlayStore.ts';
-import {
-    createReaderAutoScrollStoreSlice,
-    ReaderAutoScrollStoreSlice,
-} from '@/features/reader/auto-scroll/ReaderAutoScrollStore.ts';
-import { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
+import type { TMangaReader } from '@/features/manga/Manga.types.ts';
+import type { ReaderOverlayStoreSlice } from '@/features/reader/overlay/ReaderOverlayStore.ts';
+import { createReaderOverlayStoreSlice } from '@/features/reader/overlay/ReaderOverlayStore.ts';
+import type { ReaderAutoScrollStoreSlice } from '@/features/reader/auto-scroll/ReaderAutoScrollStore.ts';
+import { createReaderAutoScrollStoreSlice } from '@/features/reader/auto-scroll/ReaderAutoScrollStore.ts';
+import type { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
-import {
-    createReaderProgressBarStoreSlice,
-    ReaderProgressBarStoreSlice,
-} from '@/features/reader/overlay/progress-bar/ReaderProgressBarStore.tsx';
-import {
-    createReaderTapZoneStoreSlice,
-    ReaderTapZoneStoreSlice,
-} from '@/features/reader/tap-zones/ReaderTapZoneStore.tsx';
-import { createReaderPagesStoreSlice, ReaderPagesStoreSlice } from '@/features/reader/stores/ReaderPagesStore.ts';
-import {
-    createReaderChaptersStoreSlice,
-    ReaderChaptersStoreSlice,
-} from '@/features/reader/stores/ReaderChaptersStore.ts';
+import type { ReaderProgressBarStoreSlice } from '@/features/reader/overlay/progress-bar/ReaderProgressBarStore.tsx';
+import { createReaderProgressBarStoreSlice } from '@/features/reader/overlay/progress-bar/ReaderProgressBarStore.tsx';
+import type { ReaderTapZoneStoreSlice } from '@/features/reader/tap-zones/ReaderTapZoneStore.tsx';
+import { createReaderTapZoneStoreSlice } from '@/features/reader/tap-zones/ReaderTapZoneStore.tsx';
+import type { ReaderPagesStoreSlice } from '@/features/reader/stores/ReaderPagesStore.ts';
+import { createReaderPagesStoreSlice } from '@/features/reader/stores/ReaderPagesStore.ts';
+import type { ReaderChaptersStoreSlice } from '@/features/reader/stores/ReaderChaptersStore.ts';
+import { createReaderChaptersStoreSlice } from '@/features/reader/stores/ReaderChaptersStore.ts';
 import { ZustandUtil } from '@/lib/zustand/ZustandUtil.ts';
 
 const UNSERIALIZABLE_KEYS = ['scrollRef'];

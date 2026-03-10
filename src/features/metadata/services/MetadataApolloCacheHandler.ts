@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { FieldFunctionOptions } from '@apollo/client/cache';
-import { Reference } from '@apollo/client/utilities';
-import { MetaType } from '@/lib/graphql/generated/graphql.ts';
+import type { FieldFunctionOptions } from '@apollo/client/cache';
+import type { Reference } from '@apollo/client/utilities';
+import type { MetaType } from '@/lib/graphql/generated/graphql.ts';
 
 type ReadFieldFunction = FieldFunctionOptions['readField'];
 

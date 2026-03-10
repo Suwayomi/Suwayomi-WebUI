@@ -6,21 +6,21 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MetadataDownloadSettings } from '@/features/downloads/Downloads.types.ts';
-import { MetadataLibrarySettings } from '@/features/library/Library.types.ts';
-import { MetadataClientSettings } from '@/features/device/Device.types.ts';
-import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
-import { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
-import { MetadataTrackingSettings } from '@/features/tracker/Tracker.types.ts';
-import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
-import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
-import {
+import type { MetadataDownloadSettings } from '@/features/downloads/Downloads.types.ts';
+import type { MetadataLibrarySettings } from '@/features/library/Library.types.ts';
+import type { MetadataClientSettings } from '@/features/device/Device.types.ts';
+import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
+import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
+import type { MetadataTrackingSettings } from '@/features/tracker/Tracker.types.ts';
+import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
+import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
+import type {
     GetServerSettingsQuery,
     Maybe,
     SettingsDownloadConversion,
     SettingsDownloadConversionHeader,
 } from '@/lib/graphql/generated/graphql.ts';
-import { MetadataHistorySettings } from '@/features/history/History.types.ts';
+import type { MetadataHistorySettings } from '@/features/history/History.types.ts';
 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
 

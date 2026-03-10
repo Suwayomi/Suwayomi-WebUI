@@ -9,13 +9,14 @@
 import React from 'react';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { TriState } from '@/lib/graphql/generated/graphql.ts';
+import type { IPos } from '@/features/source/Source.types.ts';
 
 interface Props {
     state: TriState;
     name: string;
     position: number;
     group: number | undefined;
-    updateFilterValue: Function;
+    updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 

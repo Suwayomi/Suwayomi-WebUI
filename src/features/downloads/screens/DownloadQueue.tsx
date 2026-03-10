@@ -12,7 +12,8 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import React, { useMemo, useState } from 'react';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
-import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
+import type { DragEndEvent } from '@dnd-kit/core';
+import { closestCenter, DndContext } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useWindowEvent } from '@mantine/hooks';
 import { useLingui } from '@lingui/react/macro';
@@ -30,7 +31,7 @@ import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
 import { DownloadQueueChapterCard } from '@/features/downloads/components/DownloadQueueChapterCard.tsx';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
-import { ChapterDownloadStatus } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterDownloadStatus } from '@/features/chapter/Chapter.types.ts';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
 
 export const DownloadQueue: React.FC = () => {

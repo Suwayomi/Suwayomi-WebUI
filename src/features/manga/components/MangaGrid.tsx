@@ -6,18 +6,29 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { ForwardedRef, Ref, useCallback, useLayoutEffect, useMemo, useRef, useState, type JSX } from 'react';
-import Grid, { GridTypeMap } from '@mui/material/Grid';
-import Box, { BoxProps } from '@mui/material/Box';
-import { GridItemProps } from 'react-virtuoso';
+import React, {
+    useCallback,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+    type ForwardedRef,
+    type Ref,
+    type JSX,
+} from 'react';
+import type { GridTypeMap } from '@mui/material/Grid';
+import Grid from '@mui/material/Grid';
+import type { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
+import type { GridItemProps } from 'react-virtuoso';
 import { useLingui } from '@lingui/react/macro';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/features/manga/components/cards/MangaCard.tsx';
-import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
+import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
-import { MangaCardProps } from '@/features/manga/Manga.types.ts';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaCardProps } from '@/features/manga/Manga.types.ts';
+import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GridLayout } from '@/base/Base.types.ts';

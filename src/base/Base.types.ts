@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
-import { ReactNode } from 'react';
+import type { MessageDescriptor } from '@lingui/core';
+import type { ReactNode } from 'react';
 
 export enum GridLayout {
     Compact = 0,

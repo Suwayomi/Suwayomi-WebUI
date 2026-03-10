@@ -6,12 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MutableRefObject, useLayoutEffect } from 'react';
-import { Direction } from '@mui/material/styles';
-import { ReaderStatePages, ReadingDirection } from '@/features/reader/Reader.types.ts';
+import type { MutableRefObject } from 'react';
+import { useLayoutEffect } from 'react';
+import type { Direction } from '@mui/material/styles';
+import type { ReaderStatePages, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { getIndexOfPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getScrollIntoViewInlineOption } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
+import type { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { getReaderPagesStore } from '@/features/reader/stores/ReaderStore.ts';
 
 export const useReaderHandlePageSelection = (

@@ -6,23 +6,23 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect } from 'react';
+import type { useEffect } from 'react';
 import { convertValueFromMetadata } from '@/features/metadata/services/MetadataConverter.ts';
-import {
+import type {
     AllowedMetadataValueTypes,
     AppMetadataKeys,
     Metadata,
     MetadataHolder,
     MetadataHolderType,
 } from '@/features/metadata/Metadata.types.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
-import { CategoryIdInfo } from '@/features/category/Category.types.ts';
+import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
 import { doesMetadataKeyExistIn, getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts';
 import { applyMetadataMigrations } from '@/features/metadata/services/MetadataMigrations.ts';
-import { SourceIdInfo } from '@/features/source/Source.types.ts';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import { APP_METADATA } from '@/features/metadata/Metadata.constants.ts';
 import { MetadataValueCache } from '@/features/metadata/services/MetadataValueCache.ts';
 

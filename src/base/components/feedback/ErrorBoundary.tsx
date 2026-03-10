@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Component, ErrorInfo, ReactNode, useEffect, useRef, useState } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
+import { Component, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { t } from '@lingui/core/macro';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';

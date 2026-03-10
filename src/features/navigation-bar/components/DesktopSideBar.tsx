@@ -27,7 +27,7 @@ import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 
 const DrawerHeader = styled('div')(({ theme }) => ({

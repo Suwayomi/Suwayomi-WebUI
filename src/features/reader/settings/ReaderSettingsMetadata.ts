@@ -13,11 +13,11 @@ import {
     requestMangaMetadataUpdate,
     requestServerMetadataUpdate,
 } from '@/features/metadata/services/MetadataUpdater.ts';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
-import {
+import type {
     AllowedMetadataValueTypes,
     GqlMetaHolder,
     Metadata,
@@ -25,7 +25,7 @@ import {
     MetadataHolderType,
 } from '@/features/metadata/Metadata.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import {
     DEFAULT_READER_SETTINGS,
     GLOBAL_READER_SETTING_KEYS,

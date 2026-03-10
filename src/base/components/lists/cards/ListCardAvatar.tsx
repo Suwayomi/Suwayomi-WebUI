@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 
 export const ListCardAvatar = (props: ComponentProps<typeof AvatarSpinner>) => {

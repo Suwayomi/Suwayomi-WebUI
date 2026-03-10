@@ -28,7 +28,7 @@ import {
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
+import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { AuthMode, CbzMediaType, DatabaseType, SortOrder } from '@/lib/graphql/generated/graphql';
@@ -39,7 +39,7 @@ import {
 } from '@/features/settings/Settings.constants.ts';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { ServerSettings as ServerSettingsType } from '@/features/settings/Settings.types.ts';
+import type { ServerSettings as ServerSettingsType } from '@/features/settings/Settings.types.ts';
 import { KoreaderSyncSettings } from '@/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx';
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {

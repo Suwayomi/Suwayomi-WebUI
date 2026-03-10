@@ -6,25 +6,24 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
+import type {
     ApolloClient,
     DocumentNode,
     MaybeMasked,
     OperationVariables,
     TypedDocumentNode,
-    CombinedGraphQLErrors,
 } from '@apollo/client/core';
+import { CombinedGraphQLErrors } from '@apollo/client/core';
 import { useMutation, useQuery, useSubscription } from '@apollo/client/react';
-import { Reference } from '@apollo/client/utilities';
+import type { Reference } from '@apollo/client/utilities';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { d } from 'koration';
-import { IRestClient, RestClient } from '@/lib/requests/client/RestClient.ts';
+import type { IRestClient } from '@/lib/requests/client/RestClient.ts';
+import { RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
-import {
-    CategoryOrderBy,
+import type {
     ChapterConditionInput,
-    ChapterOrderBy,
     CheckForServerUpdatesQuery,
     CheckForServerUpdatesQueryVariables,
     CheckForWebuiUpdateQuery,
@@ -48,13 +47,11 @@ import {
     DequeueChapterDownloadsMutationVariables,
     DownloadStatusSubscription,
     DownloadStatusSubscriptionVariables,
-    DownloadUpdateType,
     EnqueueChapterDownloadMutation,
     EnqueueChapterDownloadMutationVariables,
     EnqueueChapterDownloadsMutation,
     EnqueueChapterDownloadsMutationVariables,
     FetchSourceMangaInput,
-    FetchSourceMangaType,
     FilterChangeInput,
     GetAboutQuery,
     GetAboutQueryVariables,
@@ -119,7 +116,6 @@ import {
     SetGlobalMetasInput,
     DeleteGlobalMetasInput,
     SettingsType,
-    SortOrder,
     SourcePreferenceChangeInput,
     StartDownloaderMutation,
     StartDownloaderMutationVariables,
@@ -184,7 +180,6 @@ import {
     UpdateLibraryMutationVariables,
     GetExtensionQuery,
     GetExtensionQueryVariables,
-    DownloaderState,
     UserLoginMutation,
     UserLoginMutationVariables,
     UserRefreshMutation,
@@ -217,6 +212,14 @@ import {
     DeleteChapterMetasInput,
     SetCategoryMetasInput,
     DeleteCategoryMetasInput,
+} from '@/lib/graphql/generated/graphql.ts';
+import {
+    CategoryOrderBy,
+    ChapterOrderBy,
+    DownloadUpdateType,
+    FetchSourceMangaType,
+    SortOrder,
+    DownloaderState,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/metadata/GlobalMetadataQuery.ts';
 import { UPDATE_GLOBAL_METADATA } from '@/lib/graphql/metadata/GlobalMetadataMutation.ts';
@@ -306,7 +309,7 @@ import { RESET_WEBUI_UPDATE_STATUS, UPDATE_WEBUI } from '@/lib/graphql/server/Se
 import { WEBUI_UPDATE_SUBSCRIPTION } from '@/lib/graphql/server/ServerInfoSubscription.ts';
 import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/download/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { QueuePriority } from '@/lib/Queue.ts';
+import type { QueuePriority } from '@/lib/Queue.ts';
 import { SourceAwareQueue } from '@/lib/SourceAwareQueue.ts';
 import { TRACKER_SEARCH } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import {
@@ -326,8 +329,8 @@ import { GLOBAL_METADATA } from '@/lib/graphql/common/Fragments.ts';
 import { CATEGORY_META_FIELDS } from '@/lib/graphql/category/CategoryFragments.ts';
 import { SOURCE_META_FIELDS } from '@/lib/graphql/source/SourceFragments.ts';
 import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
-import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { updateMetadataList } from '@/features/metadata/services/MetadataApolloCacheHandler.ts';
 import { USER_LOGIN, USER_REFRESH } from '@/lib/graphql/user/UserMutation.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
+import type { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
 
 export interface ReaderOverlayStoreSlice {
     overlay: {

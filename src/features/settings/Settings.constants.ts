@@ -6,21 +6,20 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
 import { d } from 'koration';
 import { DEFAULT_DEVICE } from '@/features/device/services/Device.ts';
 import { DEFAULT_SORT_SETTINGS } from '@/features/migration/Migration.constants.ts';
-import {
+import type {
     GlobalUpdateSkipEntriesSettings,
-    ImageProcessingTargetMode,
-    ImageProcessingType,
     MetadataServerSettings,
     ServerSettings,
 } from '@/features/settings/Settings.types.ts';
+import { ImageProcessingTargetMode, ImageProcessingType } from '@/features/settings/Settings.types.ts';
 import { GridLayout } from '@/base/Base.types';
 import { getDefaultLanguages } from '@/base/utils/Languages.ts';
-import { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
+import type { SelectSettingValue, SelectSettingValueDisplayInfo } from '@/base/components/settings/SelectSetting.tsx';
 import {
     AuthMode,
     KoreaderSyncChecksumMethod,

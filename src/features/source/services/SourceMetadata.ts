@@ -12,10 +12,10 @@ import {
     requestBatchSourceMetadataUpdate,
 } from '@/features/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { ISourceMetadata, SourceIdInfo, SourceMetadataKeys } from '@/features/source/Source.types.ts';
+import type { ISourceMetadata, SourceIdInfo, SourceMetadataKeys } from '@/features/source/Source.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
-import { AllowedMetadataValueTypes, GqlMetaHolder, Metadata } from '@/features/metadata/Metadata.types.ts';
+import type { AllowedMetadataValueTypes, GqlMetaHolder, Metadata } from '@/features/metadata/Metadata.types.ts';
 
 const DEFAULT_SOURCE_METADATA: ISourceMetadata = {
     savedSearches: undefined,

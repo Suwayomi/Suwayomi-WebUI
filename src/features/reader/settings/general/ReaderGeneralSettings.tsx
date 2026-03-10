@@ -11,12 +11,8 @@ import { useLingui } from '@lingui/react/macro';
 import { ReaderSettingProgressBarType } from '@/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx';
 import { ReaderSettingProgressBarSize } from '@/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarSize.tsx';
 import { ReaderSettingProgressBarPosition } from '@/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx';
-import {
-    IReaderSettings,
-    ProgressBarType,
-    ReaderOverlayMode,
-    ReaderSettingsTypeProps,
-} from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
+import { ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
 import { ReaderSettingOverlayMode } from '@/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { ReaderSettingBackgroundColor } from '@/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx';

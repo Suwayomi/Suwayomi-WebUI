@@ -7,21 +7,21 @@
  */
 
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { CategoryIdInfo } from '@/features/category/Category.types.ts';
-import {
+import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
+import type {
     AppMetadataKeys,
     GqlMetaHolder,
     MetadataHolder,
     MetadataHolderType,
     MetadataKeyValuePair,
 } from '@/features/metadata/Metadata.types.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import { convertToGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts';
-import { SourceIdInfo } from '@/features/source/Source.types.ts';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import { MetaInput } from '@/lib/graphql/generated/graphql.ts';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { MetaInput } from '@/lib/graphql/generated/graphql.ts';
 
 type MetadataUpdateOptions = {
     update?: MetadataKeyValuePair[];
@@ -189,7 +189,9 @@ const requestBatchMetadataUpdate = async (
     holderType: MetadataHolderType,
     entries: Array<{ metadataHolders: GqlMetaHolder[]; options: MetadataUpdateOptions }>,
 ): Promise<void> => {
-    if (entries.length === 0) return;
+    if (entries.length === 0) {
+        return;
+    }
 
     const processed = entries.flatMap(({ metadataHolders, options }) =>
         metadataHolders.map((metadataHolder) => ({

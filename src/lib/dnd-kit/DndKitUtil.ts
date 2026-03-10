@@ -6,17 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    MouseSensor,
-    PointerSensorOptions,
-    Sensor,
-    SensorDescriptor,
-    TouchSensor,
-    useSensor,
-    SensorOptions,
-    useSensors,
-} from '@dnd-kit/core';
-import { AbstractPointerSensorOptions, PointerActivationConstraint } from '@dnd-kit/core/dist/sensors';
+import type { PointerSensorOptions, Sensor, SensorDescriptor, SensorOptions } from '@dnd-kit/core';
+import { MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import type { AbstractPointerSensorOptions, PointerActivationConstraint } from '@dnd-kit/core/dist/sensors';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 export class DndKitUtil {

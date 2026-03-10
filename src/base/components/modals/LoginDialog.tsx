@@ -7,7 +7,8 @@
  */
 
 import Dialog from '@mui/material/Dialog';
-import { AwaitableComponent, AwaitableComponentProps } from 'awaitable-component';
+import type { AwaitableComponentProps } from 'awaitable-component';
+import { AwaitableComponent } from 'awaitable-component';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';

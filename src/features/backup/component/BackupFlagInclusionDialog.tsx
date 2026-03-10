@@ -15,7 +15,7 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { AwaitableComponentProps } from 'awaitable-component';
+import type { AwaitableComponentProps } from 'awaitable-component';
 import { useLingui } from '@lingui/react/macro';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import {
@@ -24,7 +24,7 @@ import {
     BACKUP_FLAGS_BY_GROUP,
     BACKUP_FLAGS_TO_TRANSLATION,
 } from '@/features/backup/Backup.constants.ts';
-import { BackupFlagGroup, BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
+import type { BackupFlagGroup, BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 
 export const BackupFlagInclusionDialog = ({
     onDismiss,

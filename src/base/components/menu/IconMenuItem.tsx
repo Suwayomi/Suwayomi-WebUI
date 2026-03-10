@@ -11,12 +11,14 @@
  */
 
 import ListItemIcon from '@mui/material/ListItemIcon';
-import MenuItem, { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
-import { SxProps, Theme } from '@mui/material/styles';
-import React, { Ref } from 'react';
+import type { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
+import MenuItem from '@mui/material/MenuItem';
+import type { SxProps, Theme } from '@mui/material/styles';
+import type { Ref } from 'react';
+import React from 'react';
 
-import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { SvgIconTypeMap } from '@mui/material/SvgIcon';
+import type { OverridableComponent } from '@mui/material/OverridableComponent';
+import type { SvgIconTypeMap } from '@mui/material/SvgIcon';
 import ListItemText from '@mui/material/ListItemText';
 
 type IconMenuItemProps = {
