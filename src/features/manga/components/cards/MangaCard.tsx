@@ -96,7 +96,7 @@ export const MangaCard = memo((props: MangaCardProps) => {
     const longPressBind = useLongPress(
         useCallback(
             (e: any, { context }: any) => {
-                // eslint-disable-next-line no-param-reassign
+                // oxlint-disable-next-line no-param-reassign
                 e.shiftKey = true;
                 handleClick(e, context as () => {});
             },

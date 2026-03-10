@@ -76,10 +76,7 @@ const querySearchManga = (
     { title, genre: genres, description, artist, author, source, sourceId }: TMangaQueryFilter,
 ): boolean =>
     performSearch([query], [title]) ||
-    performSearch(
-        query?.split(','),
-        genres.map((genre) => enhancedCleanup(genre)),
-    ) ||
+    performSearch(query?.split(','), genres.map((genre) => enhancedCleanup(genre))) ||
     performSearch([query], [description]) ||
     performSearch([query], [artist]) ||
     performSearch([query], [author]) ||

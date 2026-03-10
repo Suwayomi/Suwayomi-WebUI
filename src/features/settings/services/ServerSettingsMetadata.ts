@@ -51,7 +51,6 @@ export const getMetadataServerSettings = async (): Promise<MetadataServerSetting
     const { data, error } = await requestManager.getGlobalMeta().response;
 
     if (error) {
-        // eslint-disable-next-line @typescript-eslint/only-throw-error
         throw error;
     }
 

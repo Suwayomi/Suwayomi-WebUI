@@ -103,7 +103,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
         return SubpathUtil.getApiBaseUrl(serverBaseURL);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // oxlint-disable-next-line no-unused-vars
     protected shouldQueueRequest(operationName?: string): boolean {
         return AuthManager.shouldQueueRequests();
     }

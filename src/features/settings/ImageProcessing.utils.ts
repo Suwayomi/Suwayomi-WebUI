@@ -123,7 +123,7 @@ export const addStableIdToKeyValueItems = (
     items: (SettingsDownloadConversionHeader | TSettingsDownloadConversionKeyValueItem)[],
 ): TSettingsDownloadConversionKeyValueItem[] =>
     items.map((item) => ({
-        // eslint-disable-next-line no-plusplus
+        // oxlint-disable-next-line no-plusplus
         id: (item as TSettingsDownloadConversionKeyValueItem).id ?? COUNTER++,
         ...item,
     }));
@@ -132,7 +132,7 @@ export const addStableIdToConversions = (
     conversions: (SettingsDownloadConversion | TSettingsDownloadConversion)[],
 ): TSettingsDownloadConversion[] =>
     conversions.map((conversion) => ({
-        // eslint-disable-next-line no-plusplus
+        // oxlint-disable-next-line no-plusplus
         id: (conversion as TSettingsDownloadConversion).id ?? COUNTER++,
         ...conversion,
         mode: getTargetMode(normalizeMimeType(conversion.target)),

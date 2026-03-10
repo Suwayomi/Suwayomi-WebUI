@@ -103,7 +103,7 @@ export const ChapterCard = memo((props: IProps) => {
             return;
         }
 
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         event.shiftKey = true;
         handleClick(event);
     });

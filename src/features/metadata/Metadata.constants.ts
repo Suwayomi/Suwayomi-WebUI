@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-// eslint-disable-next-line no-restricted-imports
 import deepmerge from '@mui/utils/deepmerge';
 import { AppMetadataKeys, IMetadataMigration } from '@/features/metadata/Metadata.types.ts';
 import {

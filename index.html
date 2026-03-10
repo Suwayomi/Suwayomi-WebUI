@@ -1,69 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-    <script>
-        (() => {
-            if (document.querySelector('base')) {
-                return
-            }
+    <head>
+        <script>
+            (() => {
+                if (document.querySelector('base')) {
+                    return;
+                }
 
-            const base = document.createElement('base');
-            base.href = '/';
-            document.head.prepend(base);
-        })()
-    </script>
-    <title>Suwayomi</title>
-    <meta name="apple-mobile-web-app-title" content="Suwayomi" />
-    <meta
-            name="description"
-            content="A manga reader that runs tachiyomi's extensions"
-    />
+                const base = document.createElement('base');
+                base.href = '/';
+                document.head.prepend(base);
+            })();
+        </script>
+        <title>Suwayomi</title>
+        <meta name="apple-mobile-web-app-title" content="Suwayomi" />
+        <meta name="description" content="A manga reader that runs tachiyomi's extensions" />
 
-    <meta charset="utf-8"/>
+        <meta charset="utf-8" />
 
-    <meta name='viewport' content='minimum-scale=1, initial-scale=1, viewport-fit=cover, width=device-width'>
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, viewport-fit=cover, width=device-width" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <!--
+        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="/site.webmanifest" crossorigin="use-credentials" />
-</head>
-<body>
-<noscript>You need to enable JavaScript to run this app.</noscript>
-<div id="root"></div>
-<script type="module" src="./src/index.tsx"></script>
-<script>
-    const backgroundColor = (() => {
-        const storageValue = window.localStorage.getItem("theme_background")
-        try {
-            return JSON.parse(storageValue)
-        } catch (e) {
-            return storageValue
-        }
-    })();
+        <link rel="manifest" href="/site.webmanifest" crossorigin="use-credentials" />
+    </head>
+    <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <div id="root"></div>
+        <script type="module" src="./src/index.tsx"></script>
+        <script>
+            const backgroundColor = (() => {
+                const storageValue = window.localStorage.getItem('theme_background');
+                try {
+                    return JSON.parse(storageValue);
+                } catch (e) {
+                    return storageValue;
+                }
+            })();
 
-    if (backgroundColor) {
-        document.documentElement.style.backgroundColor = backgroundColor;
-        // android chromium-based browser/pwa background color (e.g. top status bar and navigation bar) will change dynamically based on meta theme-color
-        let themeColorMeta = document.querySelector('meta[name="theme-color"]');
-        if (!themeColorMeta) {
-            themeColorMeta = document.createElement('meta');
-            themeColorMeta.setAttribute('name', 'theme-color');
-            document.head.appendChild(themeColorMeta);
-        }
-        if (themeColorMeta.getAttribute('content') !== backgroundColor) {
-            themeColorMeta.setAttribute('content', backgroundColor);
-        }
-    }
-</script>
-<!--
+            if (backgroundColor) {
+                document.documentElement.style.backgroundColor = backgroundColor;
+                // android chromium-based browser/pwa background color (e.g. top status bar and navigation bar) will change dynamically based on meta theme-color
+                let themeColorMeta = document.querySelector('meta[name="theme-color"]');
+                if (!themeColorMeta) {
+                    themeColorMeta = document.createElement('meta');
+                    themeColorMeta.setAttribute('name', 'theme-color');
+                    document.head.appendChild(themeColorMeta);
+                }
+                if (themeColorMeta.getAttribute('content') !== backgroundColor) {
+                    themeColorMeta.setAttribute('content', backgroundColor);
+                }
+            }
+        </script>
+        <!--
   This HTML file is a template.
   If you open it directly in the browser, you will see an empty page.
 
@@ -73,5 +70,5 @@
   To begin the development, run `npm start` or `yarn start`.
   To create a production bundle, use `npm run build` or `yarn build`.
 -->
-</body>
+    </body>
 </html>

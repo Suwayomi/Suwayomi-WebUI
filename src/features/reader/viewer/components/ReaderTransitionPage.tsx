@@ -86,7 +86,6 @@ const BaseReaderTransitionPage = ({
     handleBack,
 }: Pick<NavbarContextType, 'readerNavBarWidth'> & {
     // gets used in the "source props creators" of the "withPropsFrom" call
-    // eslint-disable-next-line react/no-unused-prop-types
     chapterId: ChapterIdInfo['id'];
     currentChapterName?: ChapterType['name'];
     currentChapterScanlator?: ChapterType['scanlator'];

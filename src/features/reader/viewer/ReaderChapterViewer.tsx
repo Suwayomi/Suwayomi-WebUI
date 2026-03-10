@@ -162,7 +162,7 @@ const BaseReaderChapterViewer = ({
 
     isCurrentChapterRef.current = isCurrentChapter;
     if (isCurrentChapter) {
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         globalImageRefs.current = imageRefs.current;
     }
 

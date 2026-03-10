@@ -169,7 +169,7 @@ const VerticalGrid = ({
             />
         </Box>
         {/* render div to prevent UI jumping around when showing/hiding loading placeholder */}
-        {/* eslint-disable no-nested-ternary */}
+        {/* oxlint-disable no-nested-ternary */}
         {isSelectModeActive && gridLayout === GridLayout.List ? (
             <Box sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }} />
         ) : isLoading ? (
@@ -177,7 +177,7 @@ const VerticalGrid = ({
         ) : hasNextPage ? (
             <div style={{ height: '75px' }} />
         ) : null}
-        {/* eslint-enable no-nested-ternary */}
+        {/* oxlint-enable no-nested-ternary */}
     </>
 );
 

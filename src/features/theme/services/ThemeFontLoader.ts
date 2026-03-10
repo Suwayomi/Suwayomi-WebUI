@@ -87,7 +87,7 @@ export class ThemeFontLoader {
                     result[font] = new Set([...(result[font] ?? []), ...weights].toSorted((a, b) => a - b));
                 });
 
-                // eslint-disable-next-line no-continue
+                // oxlint-disable-next-line no-continue
                 continue;
             }
 

@@ -22,7 +22,7 @@ interface State {
 }
 
 class RealErrorBoundary extends Component<Props, State> {
-    // eslint-disable-next-line react/state-in-constructor
+    // oxlint-disable-next-line react/state-in-constructor
     public state: State = { error: null };
 
     private prevPath: string = '';
@@ -45,10 +45,9 @@ class RealErrorBoundary extends Component<Props, State> {
     }
 
     public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error('Uncaught error:', error, errorInfo);
 
-        // eslint-disable-next-line react/destructuring-assignment
         this.props.setTrackPathChange(true);
     }
 
