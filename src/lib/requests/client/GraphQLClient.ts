@@ -26,7 +26,6 @@ import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
 import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 
-/* eslint-disable no-underscore-dangle */
 const typePolicies: StrictTypedTypePolicies = {
     MangaType: {
         fields: {
@@ -177,7 +176,6 @@ const typePolicies: StrictTypedTypePolicies = {
         },
     },
 };
-/* eslint-enable no-underscore-dangle */
 
 export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options, null> {
     readonly fetcher = null;

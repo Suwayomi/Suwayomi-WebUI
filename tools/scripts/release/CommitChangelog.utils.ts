@@ -180,7 +180,9 @@ const createChangelogCommitLine = (commit: Commit): string => {
 const getContributors = (commits: Commit[]): string[] => [
     ...new Set(
         commits
-            .map((commit) => commit.authors.map((author) => author.user?.login!).filter((author) => !!author))
+            .map((commit) =>
+                commit.authors.map((author) => author.user?.login).filter((author): author is string => !!author),
+            )
             .flat(),
     ),
 ];

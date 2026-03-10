@@ -548,6 +548,7 @@ export class Mangas {
                     for (const migrationAction of migrationActions) {
                         // the migration actions (copy, cleanup) are supposed to be run sequentially to ensure that the cleanup
                         // only happens in case the copy succeeded
+
                         // eslint-disable-next-line no-await-in-loop
                         await performMigrationAction(migrationAction, ...actions);
                     }

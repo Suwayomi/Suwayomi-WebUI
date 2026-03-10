@@ -16,7 +16,7 @@ import {
     useTheme,
 } from '@mui/material/styles';
 import { useCallback } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
+// eslint-disable-next-line no-restricted-imports
 import { deepmerge } from '@mui/utils';
 import { complement, hsl, parseToHsl } from 'polished';
 import { HslaColor, HslColor } from 'polished/lib/types/color';

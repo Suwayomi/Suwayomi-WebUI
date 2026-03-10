@@ -246,6 +246,7 @@ const TrackerActiveHeader = ({
                                         onClose={onClose}
                                     />,
                                     <TrackerUpdatePrivateStatus
+                                        key={`tracker-active-menu-item-private-${tracker.id}`}
                                         trackRecordId={trackRecord.id}
                                         isPrivate={trackRecord.private}
                                         closeMenu={onClose}

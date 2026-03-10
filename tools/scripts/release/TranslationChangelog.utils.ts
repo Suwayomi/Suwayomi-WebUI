@@ -46,7 +46,6 @@ const extractContributionInfoFromChanges = (
     const actions: Record<number, string> = {};
 
     changes.forEach((change) => {
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         const { translation: translationUrl, action, action_name, user: userUrl } = change;
         if (userUrl === null) {
             return;

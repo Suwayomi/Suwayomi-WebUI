@@ -32,7 +32,7 @@ import { SortFilter } from '@/features/source/browse/components/filters/SortFilt
 import { TextFilter } from '@/features/source/browse/components/filters/TextFilter.tsx';
 import { TriStateFilter } from '@/features/source/browse/components/filters/TriStateFilter.tsx';
 // this can only cycle once, so should be fine
-// eslint-disable-next-line import/no-cycle
+
 import { GroupFilter } from '@/features/source/browse/components/filters/GroupFilter.tsx';
 import { SeparatorFilter } from '@/features/source/browse/components/filters/SeparatorFilter.tsx';
 import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
@@ -249,6 +249,7 @@ export function SourceOptions({
                             <Stack sx={{ flexDirection: 'row' }}>
                                 {savedSearchNames.map((savedSearch) => (
                                     <Chip
+                                        key={savedSearch}
                                         label={savedSearch}
                                         onClick={() => {
                                             setFilterOptions(false);

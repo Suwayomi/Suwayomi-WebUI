@@ -10,7 +10,7 @@ declare module 'apollo-upload-client/UploadHttpLink.mjs' {
     import { ApolloLink } from '@apollo/client';
     import type { BaseHttpLink } from '@apollo/client/link/http';
 
-    // eslint-disable-next-line import/no-default-export
+    // eslint-disable-next-line import-x/no-default-export
     export default class UploadHttpLink extends ApolloLink {
         constructor(options?: BaseHttpLink.ConstructorOptions);
     }

@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useMemo } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
+
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
     requestMangaMetadataUpdate,
