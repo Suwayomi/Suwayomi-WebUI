@@ -9,6 +9,7 @@
 import {
     createTheme as createMuiTheme,
     Direction,
+    PaletteBackgroundChannel,
     responsiveFontSizes,
     Theme,
     TypeBackground,
@@ -17,7 +18,6 @@ import {
 import { useCallback } from 'react';
 // eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
 import { deepmerge } from '@mui/utils';
-import { PaletteBackgroundChannel } from 'node_modules/@mui/material/esm/styles/createThemeWithVars';
 import { complement, hsl, parseToHsl } from 'polished';
 import { HslaColor, HslColor } from 'polished/lib/types/color';
 import { AppTheme } from '@/features/theme/services/AppThemes.ts';

@@ -27,6 +27,8 @@
     "dayjs:gen-locales-import": "tsx tools/scripts/dayjs/generateDayJsLocalesImport.ts",
     "dayjs:gen-locales": "yarn dayjs:gen-locales-array && yarn dayjs:gen-locales-import",
     "manga:gen-type-tags": "tsx tools/scripts/manga/generateMangaTypeTags.ts",
+    "tsc": "tsgo",
+    "tsc:legacy": "tsc",
     "prepare": "husky"
   },
   "engines": {
@@ -132,6 +134,7 @@
     "syncyarnlock": "1.0.19",
     "terser": "5.46.0",
     "tsx": "4.21.0",
+    "@typescript/native-preview": "7.0.0-dev.20260309.1",
     "typescript": "5.9.3",
     "vite": "7.3.1",
     "vite-plugin-node-polyfills": "0.25.0",
