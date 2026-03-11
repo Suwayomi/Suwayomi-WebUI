@@ -338,7 +338,23 @@
     "jsx_a11y/role-has-required-aria-props": "error",
     "jsx_a11y/role-supports-aria-props": "error",
     "jsx_a11y/scope": "error",
-    "jsx_a11y/tabindex-no-positive": "error"
+    "jsx_a11y/tabindex-no-positive": "error",
+
+    // ── Lingui rules ──
+    "lingui/t-call-in-function": "error",
+    "lingui/no-single-tag-to-translate": "error",
+    "lingui/no-single-variables-to-translate": "error",
+    "lingui/no-trans-inside-trans": "error",
+    "lingui/no-expression-in-message": "off",
+
+    // ── No relative import paths ──
+    "no-relative-import-paths/no-relative-import-paths": "error",
+
+    // ── Unused imports ──
+    "unused-imports/no-unused-imports": "error",
+
+    // ── No .only in tests ──
+    "no-only-tests/no-only-tests": "error"
   },
   "settings": {
     "jsx-a11y": {
