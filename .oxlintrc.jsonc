@@ -10,7 +10,8 @@
     "eslint-plugin-lingui",
     "eslint-plugin-no-relative-import-paths",
     "eslint-plugin-unused-imports",
-    "eslint-plugin-no-only-tests"
+    "eslint-plugin-no-only-tests",
+    "./tools/eslint-plugin-header.cjs"
   ],
   "categories": {
     "correctness": "off"
@@ -354,7 +355,18 @@
     "unused-imports/no-unused-imports": "error",
 
     // ── No .only in tests ──
-    "no-only-tests/no-only-tests": "error"
+    "no-only-tests/no-only-tests": "error",
+
+    // ── License header ──
+    "header/header": ["error", "block", [
+      "",
+      " * Copyright (C) Contributors to the Suwayomi project",
+      " *",
+      " * This Source Code Form is subject to the terms of the Mozilla Public",
+      " * License, v. 2.0. If a copy of the MPL was not distributed with this",
+      " * file, You can obtain one at https://mozilla.org/MPL/2.0/.",
+      " "
+    ], 2]
   },
   "settings": {
     "jsx-a11y": {
@@ -443,6 +455,7 @@
     }
   ],
   "ignorePatterns": [
-    "src/lib/graphql/generated/**"
+    "src/lib/graphql/generated/**",
+    "tools/eslint-plugin-header.cjs"
   ]
 }

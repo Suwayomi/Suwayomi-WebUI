@@ -13,7 +13,7 @@
         "test": "node -e \"console.log('imagine')\"",
         "build-md5": "find build -type f | sort | xargs md5sum | awk '{ print $1 }' | tr -d '\n' | md5sum| awk '{ print $1 }' > buildZip/md5sum ",
         "build-zip": "cd build && rev=$(git rev-list HEAD --count) && echo r$rev > revision && zip -9 -r ../buildZip/Suwayomi-WebUI-r$rev *",
-        "lint": "oxlint src tools && eslint src tools --max-warnings=0",
+        "lint": "oxlint src tools",
         "format": "oxfmt --write .",
         "format:check": "oxfmt --check .",
         "createCommitChangelog": "tsx tools/scripts/release/createCommitChangelog.ts",
@@ -121,7 +121,6 @@
         "terser": "5.46.0",
         "tsx": "4.21.0",
         "typescript": "5.9.3",
-        "typescript-eslint": "8.57.0",
         "vite": "7.3.1",
         "vite-plugin-node-polyfills": "0.25.0",
         "vite-plugin-pwa": "1.2.0",
@@ -136,8 +135,7 @@
     "lint-staged": {
         "*.{ts,tsx,js,jsx}": [
             "oxfmt --write",
-            "oxlint --fix",
-            "eslint --fix"
+            "oxlint --fix"
         ],
         "*.{json,md,yml,yaml,css,scss,html,graphql}": "oxfmt --write"
     },
