@@ -425,7 +425,7 @@ export class ReaderService {
 
     static useOverlayMode(): { mode: ReaderOverlayMode; isDesktop: boolean; isMobile: boolean } {
         const isTouchDevice = MediaQuery.useIsTouchDevice();
-        const overlayMode = useReaderSettingsStore((state) => state.overlayMode);
+        const overlayMode = useReaderSettingsStore('overlayMode');
 
         const isAutoModeSelected = overlayMode === ReaderOverlayMode.AUTO;
         const isDesktopModeSelected = overlayMode === ReaderOverlayMode.DESKTOP;
@@ -442,7 +442,7 @@ export class ReaderService {
     }
 
     static useExit(): () => void {
-        const exitMode = useReaderSettingsStore((state) => state.exitMode);
+        const exitMode = useReaderSettingsStore('exitMode');
         const handleBack = useBackButton();
         const navigate = useNavigate();
 

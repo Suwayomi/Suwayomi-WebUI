@@ -66,9 +66,7 @@ export const ReaderHotkeys = ({
 }) => {
     const readerThemeDirection = ReaderService.useGetThemeDirection();
     const { enableScope, disableScope } = useHotkeysContext();
-    const { hotkeys } = useReaderSettingsStore((state) => ({
-        hotkeys: state.hotkeys,
-    }));
+    const hotkeys = useReaderSettingsStore('hotkeys');
     const exitReader = ReaderService.useExit();
 
     useHotkeys(hotkeys[ReaderHotkey.PREVIOUS_PAGE], () => ReaderControls.openPage('previous'));

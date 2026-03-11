@@ -31,10 +31,7 @@ const BaseReaderAutoScroll = ({
     themeDirection: Direction;
     combinedDirection: Direction;
 }) => {
-    const { scrollRef, direction } = useReaderAutoScrollStore((state) => ({
-        scrollRef: state.scrollRef,
-        direction: state.direction,
-    }));
+    const { scrollRef, direction } = useReaderAutoScrollStore('scrollRef', 'direction');
     const { readingMode, autoScroll } = useReaderSettingsStore((state) => ({
         readingMode: state.readingMode.value,
         autoScroll: state.autoScroll,

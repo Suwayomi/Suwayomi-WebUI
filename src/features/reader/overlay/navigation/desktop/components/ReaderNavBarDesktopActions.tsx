@@ -72,7 +72,7 @@ export const ReaderNavBarDesktopActions = memo(() => {
     }));
 
     const { t } = useLingui();
-    const pageLoadStates = useReaderPagesStore((state) => state.pageLoadStates);
+    const pageLoadStates = useReaderPagesStore('pageLoadStates');
 
     const pageRetryKeyPrefix = useRef<number>(0);
 

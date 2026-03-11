@@ -68,14 +68,14 @@ const BaseReaderProgressBar = ({
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
         fullSegmentClicks: boolean;
     }) => {
-    const { pages, pageLoadStates, totalPages, currentPageIndex } = useReaderPagesStore((state) => ({
-        pages: state.pages,
-        pageLoadStates: state.pageLoadStates,
-        totalPages: state.totalPages,
-        currentPageIndex: state.currentPageIndex,
-    }));
+    const { pages, pageLoadStates, totalPages, currentPageIndex } = useReaderPagesStore(
+        'pages',
+        'pageLoadStates',
+        'totalPages',
+        'currentPageIndex',
+    );
     const readingMode = useReaderSettingsStore((state) => state.readingMode.value);
-    const isDragging = useReaderProgressBarStore((state) => state.isDragging);
+    const isDragging = useReaderProgressBarStore('isDragging');
 
     const progressBarRef = useRef<HTMLDivElement | null>(null);
     const draggingDetectionTimeout = useRef<NodeJS.Timeout>(undefined);

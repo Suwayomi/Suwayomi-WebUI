@@ -59,7 +59,7 @@ const BaseReaderNavBarDesktop = ({
     setReaderNavBarWidth,
 }: ReaderNavBarDesktopProps & Pick<NavbarContextType, 'setReaderNavBarWidth'>) => {
     const { t } = useLingui();
-    const manga = useReaderStore((state) => state.manga);
+    const manga = useReaderStore('manga');
     const {
         chapters,
         currentChapterId,
@@ -77,7 +77,7 @@ const BaseReaderNavBarDesktop = ({
         previousChapter: state.previousChapter,
         nextChapter: state.nextChapter,
     }));
-    const isStaticNav = useReaderSettingsStore((state) => state.isStaticNav);
+    const isStaticNav = useReaderSettingsStore('isStaticNav');
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(

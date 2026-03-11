@@ -26,7 +26,7 @@ const BaseTapZoneLayout = ({ readerNavBarWidth }: Pick<NavbarContextType, 'reade
         tapZoneInvertMode: state.tapZoneInvertMode.value,
         readingDirection: state.readingDirection.value,
     }));
-    const showPreview = useReaderTapZoneStore((state) => state.showPreview);
+    const showPreview = useReaderTapZoneStore('showPreview');
 
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);

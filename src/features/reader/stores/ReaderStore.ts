@@ -9,7 +9,6 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
-import { useShallow } from 'zustand/react/shallow';
 import type { TMangaReader } from '@/features/manga/Manga.types.ts';
 import type { ReaderOverlayStoreSlice } from '@/features/reader/overlay/ReaderOverlayStore.ts';
 import { createReaderOverlayStoreSlice } from '@/features/reader/overlay/ReaderOverlayStore.ts';
@@ -156,37 +155,29 @@ const readerStore = create<ReaderStore>()(
         },
     ),
 );
-export const useReaderStore = <T>(selector: (state: ReaderStore) => T): T => readerStore(useShallow(selector));
+export const useReaderStore = ZustandUtil.createStoreHook(readerStore);
 export const getReaderStore = () => readerStore.getState();
 
-export const useReaderScrollbarStore = <T>(selector: (state: ReaderStore['scrollbar']) => T): T =>
-    readerStore(useShallow((state) => selector(state.scrollbar)));
+export const useReaderScrollbarStore = ZustandUtil.createStoreHook(readerStore, 'scrollbar');
 export const getReaderScrollbarStore = () => readerStore.getState().scrollbar;
 
-export const useReaderSettingsStore = <T>(selector: (state: ReaderStore['settings']) => T): T =>
-    readerStore(useShallow((state) => selector(state.settings)));
+export const useReaderSettingsStore = ZustandUtil.createStoreHook(readerStore, 'settings');
 export const getReaderSettingsStore = () => readerStore.getState().settings;
 
-export const useReaderOverlayStore = <T>(selector: (state: ReaderOverlayStoreSlice['overlay']) => T): T =>
-    readerStore(useShallow((state) => selector(state.overlay)));
+export const useReaderOverlayStore = ZustandUtil.createStoreHook(readerStore, 'overlay');
 export const getReaderOverlayStore = () => readerStore.getState().overlay;
 
-export const useReaderAutoScrollStore = <T>(selector: (state: ReaderAutoScrollStoreSlice['autoScroll']) => T): T =>
-    readerStore(useShallow((state) => selector(state.autoScroll)));
+export const useReaderAutoScrollStore = ZustandUtil.createStoreHook(readerStore, 'autoScroll');
 export const getReaderAutoScrollStore = () => readerStore.getState().autoScroll;
 
-export const useReaderPagesStore = <T>(selector: (state: ReaderPagesStoreSlice['pages']) => T): T =>
-    readerStore(useShallow((state) => selector(state.pages)));
+export const useReaderPagesStore = ZustandUtil.createStoreHook(readerStore, 'pages');
 export const getReaderPagesStore = () => readerStore.getState().pages;
 
-export const useReaderChaptersStore = <T>(selector: (state: ReaderChaptersStoreSlice['chapters']) => T): T =>
-    readerStore(useShallow((state) => selector(state.chapters)));
+export const useReaderChaptersStore = ZustandUtil.createStoreHook(readerStore, 'chapters');
 export const getReaderChaptersStore = () => readerStore.getState().chapters;
 
-export const useReaderProgressBarStore = <T>(selector: (state: ReaderProgressBarStoreSlice['progressBar']) => T): T =>
-    readerStore(useShallow((state) => selector(state.progressBar)));
+export const useReaderProgressBarStore = ZustandUtil.createStoreHook(readerStore, 'progressBar');
 export const getReaderProgressBarStore = () => readerStore.getState().progressBar;
 
-export const useReaderTapZoneStore = <T>(selector: (state: ReaderTapZoneStoreSlice['tapZone']) => T): T =>
-    readerStore(useShallow((state) => selector(state.tapZone)));
+export const useReaderTapZoneStore = ZustandUtil.createStoreHook(readerStore, 'tapZone');
 export const getReaderTapZoneStore = () => readerStore.getState().tapZone;

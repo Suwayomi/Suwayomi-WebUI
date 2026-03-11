@@ -59,20 +59,14 @@ const BaseMobileReaderProgressBar = ({
     bottomOffset?: number;
 }) => {
     const scrollbar = useReaderScrollbarStore((state) => state);
-    const isVisible = useReaderOverlayStore((state) => state.isVisible);
-    const { currentPageIndex, pages } = useReaderPagesStore((state) => ({
-        currentPageIndex: state.currentPageIndex,
-        pages: state.pages,
-    }));
-    const { previousChapter, nextChapter } = useReaderChaptersStore((state) => ({
-        previousChapter: state.previousChapter,
-        nextChapter: state.nextChapter,
-    }));
-    const { progressBarPosition, progressBarPositionAutoVertical } = useReaderSettingsStore((state) => ({
-        progressBarPosition: state.progressBarPosition,
-        progressBarPositionAutoVertical: state.progressBarPositionAutoVertical,
-    }));
-    const isDragging = useReaderProgressBarStore((state) => state.isDragging);
+    const isVisible = useReaderOverlayStore('isVisible');
+    const { currentPageIndex, pages } = useReaderPagesStore('currentPageIndex', 'pages');
+    const { previousChapter, nextChapter } = useReaderChaptersStore('previousChapter', 'nextChapter');
+    const { progressBarPosition, progressBarPositionAutoVertical } = useReaderSettingsStore(
+        'progressBarPosition',
+        'progressBarPositionAutoVertical',
+    );
+    const isDragging = useReaderProgressBarStore('isDragging');
 
     const [, setRefreshProgressBarPosition] = useState({});
     useResizeObserver(

@@ -23,14 +23,14 @@ import { useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts'
 const BaseReaderNavBarDesktopQuickSettings = ({ openSettings }: Pick<ReaderNavBarDesktopProps, 'openSettings'>) => {
     const { t } = useLingui();
     const { readingMode, shouldOffsetDoubleSpreads, pageScaleMode, shouldStretchPage, readingDirection, autoScroll } =
-        useReaderSettingsStore((state) => ({
-            readingMode: state.readingMode,
-            shouldOffsetDoubleSpreads: state.shouldOffsetDoubleSpreads,
-            pageScaleMode: state.pageScaleMode,
-            shouldStretchPage: state.shouldStretchPage,
-            readingDirection: state.readingDirection,
-            autoScroll: state.autoScroll,
-        }));
+        useReaderSettingsStore(
+            'readingMode',
+            'shouldOffsetDoubleSpreads',
+            'pageScaleMode',
+            'shouldStretchPage',
+            'readingDirection',
+            'autoScroll',
+        );
 
     return (
         <Stack sx={{ gap: 1 }}>

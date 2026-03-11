@@ -99,9 +99,9 @@ const BaseReaderTransitionPage = ({
     handleBack: () => void;
 }) => {
     const { t } = useLingui();
-    const manga = useReaderStore((state) => state.manga);
+    const manga = useReaderStore('manga');
     const scrollbar = useReaderScrollbarStore((state) => state);
-    const transitionPageMode = useReaderPagesStore((state) => state.transitionPageMode);
+    const transitionPageMode = useReaderPagesStore('transitionPageMode');
     const { readingMode, backgroundColor, shouldShowTransitionPage } = useReaderSettingsStore((state) => ({
         readingMode: state.readingMode.value,
         backgroundColor: state.backgroundColor,
@@ -226,7 +226,7 @@ export const ReaderTransitionPage = withPropsFrom(
     memo(BaseReaderTransitionPage) as typeof BaseReaderTransitionPage,
     [
         ({ chapterId }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId'>) => {
-            const chapters = useReaderChaptersStore((state) => state.chapters);
+            const chapters = useReaderChaptersStore('chapters');
 
             const currentChapterIndex = useMemo(
                 () => chapters.findIndex((chapter) => chapter.id === chapterId),
@@ -249,7 +249,7 @@ export const ReaderTransitionPage = withPropsFrom(
         useNavBarContext,
         ({ chapterId, type }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId' | 'type'>) => {
             const handleBack = useBackButton();
-            const chapters = useReaderChaptersStore((state) => state.chapters);
+            const chapters = useReaderChaptersStore('chapters');
 
             const currentChapterIndex = useMemo(
                 () => chapters.findIndex((chapter) => chapter.id === chapterId),

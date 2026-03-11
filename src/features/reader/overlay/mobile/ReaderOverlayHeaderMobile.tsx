@@ -42,9 +42,9 @@ const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & { ref?: Ref<HTMLDivElement> }) => {
     const { t } = useLingui();
     const popupState = usePopupState({ popupId: 'reader-overlay-more-menu', variant: 'popover' });
-    const currentChapter = useReaderChaptersStore((state) => state.currentChapter);
+    const currentChapter = useReaderChaptersStore('currentChapter');
 
-    const manga = useReaderStore((state) => state.manga);
+    const manga = useReaderStore('manga');
     const scrollbar = useReaderScrollbarStore((state) => state);
 
     const { id: mangaId, title } = manga ?? DEFAULT_MANGA;

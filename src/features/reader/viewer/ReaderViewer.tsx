@@ -68,24 +68,22 @@ const BaseReaderViewer = ({
     ref?: ForwardedRef<HTMLDivElement | null>;
 }) => {
     const { direction: themeDirection } = useTheme();
-    const isOverlayVisible = useReaderOverlayStore((state) => state.isVisible);
+    const isOverlayVisible = useReaderOverlayStore('isVisible');
     const { currentPageIndex, pageToScrollToIndex, pages, totalPages, transitionPageMode, retryFailedPagesKeyPrefix } =
-        useReaderPagesStore((state) => ({
-            currentPageIndex: state.currentPageIndex,
-            pageToScrollToIndex: state.pageToScrollToIndex,
-            pages: state.pages,
-            totalPages: state.totalPages,
-            transitionPageMode: state.transitionPageMode,
-            retryFailedPagesKeyPrefix: state.retryFailedPagesKeyPrefix,
-        }));
+        useReaderPagesStore(
+            'currentPageIndex',
+            'pageToScrollToIndex',
+            'pages',
+            'totalPages',
+            'transitionPageMode',
+            'retryFailedPagesKeyPrefix',
+        );
     const { initialChapter, currentChapter, chapters, visibleChapters, isCurrentChapterReady } = useReaderChaptersStore(
-        (state) => ({
-            initialChapter: state.initialChapter,
-            currentChapter: state.currentChapter,
-            chapters: state.chapters,
-            visibleChapters: state.visibleChapters,
-            isCurrentChapterReady: state.isCurrentChapterReady,
-        }),
+        'initialChapter',
+        'currentChapter',
+        'chapters',
+        'visibleChapters',
+        'isCurrentChapterReady',
     );
     const {
         readingMode,

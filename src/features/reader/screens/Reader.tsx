@@ -49,14 +49,12 @@ const BaseReader = ({
     readerNavBarWidth,
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'>) => {
     const { t } = useLingui();
-    const manga = useReaderStore((state) => state.manga);
+    const manga = useReaderStore('manga');
     const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderChaptersStore(
-        (state) => ({
-            mangaChapters: state.mangaChapters,
-            initialChapter: state.initialChapter,
-            chapterForDuplicatesHandling: state.chapterForDuplicatesHandling,
-            currentChapter: state.currentChapter,
-        }),
+        'mangaChapters',
+        'initialChapter',
+        'chapterForDuplicatesHandling',
+        'currentChapter',
     );
     const {
         shouldSkipDupChapters,
@@ -67,16 +65,16 @@ const BaseReader = ({
         tapZoneInvertMode,
         shouldShowReadingModePreview,
         shouldShowTapZoneLayoutPreview,
-    } = useReaderSettingsStore((state) => ({
-        shouldSkipDupChapters: state.shouldSkipDupChapters,
-        shouldSkipFilteredChapters: state.shouldSkipFilteredChapters,
-        backgroundColor: state.backgroundColor,
-        readingMode: state.readingMode,
-        tapZoneLayout: state.tapZoneLayout,
-        tapZoneInvertMode: state.tapZoneInvertMode,
-        shouldShowReadingModePreview: state.shouldShowReadingModePreview,
-        shouldShowTapZoneLayoutPreview: state.shouldShowTapZoneLayoutPreview,
-    }));
+    } = useReaderSettingsStore(
+        'shouldSkipDupChapters',
+        'shouldSkipFilteredChapters',
+        'backgroundColor',
+        'readingMode',
+        'tapZoneLayout',
+        'tapZoneInvertMode',
+        'shouldShowReadingModePreview',
+        'shouldShowTapZoneLayoutPreview',
+    );
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 

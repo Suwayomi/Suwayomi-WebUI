@@ -37,18 +37,15 @@ const BaseStandardReaderProgressBar = ({
     const theme = useTheme();
 
     const scrollbar = useReaderScrollbarStore((state) => state);
-    const totalPages = useReaderPagesStore((state) => state.totalPages);
+    const totalPages = useReaderPagesStore('totalPages');
     const { progressBarType, progressBarSize, progressBarPosition, progressBarPositionAutoVertical } =
-        useReaderSettingsStore((state) => ({
-            progressBarType: state.progressBarType,
-            progressBarSize: state.progressBarSize,
-            progressBarPosition: state.progressBarPosition,
-            progressBarPositionAutoVertical: state.progressBarPositionAutoVertical,
-        }));
-    const { isMaximized, isDragging } = useReaderProgressBarStore((state) => ({
-        isMaximized: state.isMaximized,
-        isDragging: state.isDragging,
-    }));
+        useReaderSettingsStore(
+            'progressBarType',
+            'progressBarSize',
+            'progressBarPosition',
+            'progressBarPositionAutoVertical',
+        );
+    const { isMaximized, isDragging } = useReaderProgressBarStore('isMaximized', 'isDragging');
 
     const [, setRefreshProgressBarPosition] = useState({});
     useResizeObserver(
