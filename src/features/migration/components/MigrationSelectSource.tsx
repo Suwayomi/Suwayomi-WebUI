@@ -6,6 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { useLingui } from '@lingui/react/macro';
 import { Migration } from '@/features/migration/screens/Migration.tsx';
+import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 
-export const MigrationSelectSource = () => <Migration tabsMenuHeight={0} />;
+export const MigrationSelectSource = () => {
+    const { t } = useLingui();
+
+    useAppTitleAndAction(t`Migrate`, undefined, []);
+
+    return <Migration tabsMenuHeight={0} />;
+};

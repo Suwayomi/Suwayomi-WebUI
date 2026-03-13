@@ -62,6 +62,11 @@ msgstr "{0, plural, one {# Tracker} other {# Tracker}}"
 msgid "{0, plural, one {Second} other {Seconds}}"
 msgstr "{0, plural, one {Second} other {Seconds}}"
 
+#. placeholder {0}: selectedItemIds.length
+#: src/features/migration/components/MigrationSelectMangas.tsx
+msgid "{0} selected"
+msgstr "{0} selected"
+
 #. placeholder {0}: updateStatus.progress
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "{0}% | Updating…"
@@ -810,6 +815,10 @@ msgstr "Connected as {currentUsername} to {currentServerAddress}"
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Connected as {initialUsername} to {initialServerAddress}"
 msgstr "Connected as {initialUsername} to {initialServerAddress}"
+
+#: src/features/migration/components/MigrationSelectMangas.tsx
+msgid "Continue"
+msgstr "Continue"
 
 #: src/features/manga/components/ContinueReadingTooltip.tsx
 msgid ""
@@ -2199,6 +2208,8 @@ msgstr "Menu"
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
 #: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSelectMangas.tsx
+#: src/features/migration/components/MigrationSelectSource.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "Migrate"
@@ -2881,6 +2892,7 @@ msgstr "Select a device to use its server stored UI settings"
 #: src/base/collection/components/SelectableCollectionSelectAll.tsx
 #: src/base/collection/components/SelectableCollectionSelectMode.tsx
 #: src/base/components/settings/CheckboxListSetting.tsx
+#: src/features/migration/components/MigrationSelectMangas.tsx
 msgid "Select all"
 msgstr "Select all"
 
@@ -3443,6 +3455,7 @@ msgstr "UI Login"
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/MigrationSelectMangas.tsx
 #: src/features/migration/screens/Migrate.tsx
 #: src/features/migration/screens/Migration.tsx
 #: src/features/reader/screens/Reader.tsx
