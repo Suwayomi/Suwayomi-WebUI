@@ -26,6 +26,8 @@ import {
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { MetadataMigrationSettings, MigrateMode } from '@/features/migration/Migration.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
+import { MigrationPhase } from '@/features/migration/Migration.types.ts';
 
 export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrateTo: number; onClose: () => void }) => {
     const { t } = useLingui();
@@ -63,6 +65,12 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                 deleteChapters,
                 migrateMetadata,
             });
+
+            // Complete single-manga migration flow if active
+            const migrationState = MigrationManager.getState();
+            if (migrationState.phase === MigrationPhase.SELECTING_SOURCES && MigrationManager.isSingleManga()) {
+                MigrationManager.completeSingleMigration();
+            }
 
             navigate(AppRoutes.manga.path(mangaIdToMigrateTo), { replace: true });
         } catch (e) {
