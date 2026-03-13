@@ -25,7 +25,6 @@ import { useLingui } from '@lingui/react/macro';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/features/manga/components/cards/MangaCard.tsx';
-import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import type { MangaCardProps } from '@/features/manga/Manga.types.ts';
 import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
@@ -68,6 +67,7 @@ const createMangaCard = (
     selectedMangaIds?: MangaType['id'][],
     handleSelection?: DefaultGridProps['handleSelection'],
     mode?: MangaCardProps['mode'],
+    onMigrateSelect?: DefaultGridProps['onMigrateSelect'],
 ) => (
     <MangaCard
         manga={manga}
@@ -76,10 +76,11 @@ const createMangaCard = (
         selected={isSelectModeActive ? selectedMangaIds?.includes(manga.id) : null}
         handleSelection={handleSelection}
         mode={mode}
+        onMigrateSelect={onMigrateSelect}
     />
 );
 
-type DefaultGridProps = Pick<MangaCardProps, 'mode'> & {
+type DefaultGridProps = Omit<MangaCardProps, 'manga' | 'selected'> & {
     isLoading: boolean;
     mangas: TManga[];
     inLibraryIndicator?: boolean;
@@ -87,7 +88,6 @@ type DefaultGridProps = Pick<MangaCardProps, 'mode'> & {
     gridLayout?: GridLayout;
     isSelectModeActive?: boolean;
     selectedMangaIds?: Required<MangaType['id']>[];
-    handleSelection?: SelectableCollectionReturnType<MangaType['id']>['handleSelection'];
     ref?: ForwardedRef<HTMLDivElement | null>;
 };
 
@@ -102,6 +102,7 @@ const HorizontalGrid = ({
     handleSelection,
     mode,
     ref,
+    onMigrateSelect,
 }: DefaultGridProps) => (
     <Grid
         ref={ref}
@@ -127,6 +128,7 @@ const HorizontalGrid = ({
                         selectedMangaIds,
                         handleSelection,
                         mode,
+                        onMigrateSelect,
                     )}
                 </GridItemContainer>
             ))
@@ -149,6 +151,7 @@ const VerticalGrid = ({
     handleSelection,
     mode,
     ref,
+    onMigrateSelect,
 }: DefaultGridProps & {
     hasNextPage: boolean;
     loadMore: () => void;
@@ -175,6 +178,7 @@ const VerticalGrid = ({
                         selectedMangaIds,
                         handleSelection,
                         mode,
+                        onMigrateSelect,
                     )
                 }
             />
@@ -220,6 +224,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     mode,
     retry,
     gridWrapperProps,
+    onMigrateSelect,
 }) => {
     const { t } = useLingui();
 
@@ -346,6 +351,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
                     selectedMangaIds={selectedMangaIds}
                     handleSelection={handleSelection}
                     mode={mode}
+                    onMigrateSelect={onMigrateSelect}
                 />
             ) : (
                 <VerticalGrid
@@ -361,6 +367,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
                     selectedMangaIds={selectedMangaIds}
                     handleSelection={handleSelection}
                     mode={mode}
+                    onMigrateSelect={onMigrateSelect}
                 />
             )}
         </Box>

@@ -360,7 +360,7 @@ msgstr "பதிவேற்றுவதன் மூலம்"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -525,7 +525,7 @@ msgid "Copied to clipboard"
 msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கப்பட்டது"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "நகலெடு"
 
@@ -794,7 +794,7 @@ msgstr "அத்தியாயத்தை கைமுறையாக வா�
 msgid "Delete chapters"
 msgstr "அத்தியாயங்களை நீக்கு"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "பதிவிறக்கம் செய்யப்பட்டதை நீக்கு"
 
@@ -1607,12 +1607,12 @@ msgstr "பட்டியல்"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "இடம்பெயர்வு"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "இடம்பெயரும் மங்கா…"
 
@@ -2228,7 +2228,7 @@ msgstr "அதன் சேவையக சேமிக்கப்பட்ட 
 msgid "Select all"
 msgstr "அனைத்தையும் தெரிவுசெய்"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Select data to include"
 msgstr "சேர்க்க தரவைத் தேர்ந்தெடுக்கவும்"
 
@@ -2285,7 +2285,7 @@ msgid "Show continue reading button"
 msgstr "தொடர்ந்து வாசிப்பு பொத்தானைக் காட்டு"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "நுழைவு காட்டு"
 

@@ -401,7 +401,7 @@ export const ServerSettings = () => {
                                     ),
                                     actions: {
                                         confirm: {
-                                            title: t`I understand`,
+                                            title: t`Understood`,
                                         },
                                     },
                                 });

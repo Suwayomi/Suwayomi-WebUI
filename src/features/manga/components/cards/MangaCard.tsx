@@ -7,12 +7,11 @@
  */
 
 import PopupState, { bindMenu } from 'material-ui-popup-state';
-import { memo, useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo } from 'react';
 import { useLongPress } from 'use-long-press';
 import type { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
 import { MangaActionMenuItems } from '@/features/manga/components/MangaActionMenuItems.tsx';
 import { Menu } from '@/base/components/menu/Menu.tsx';
-import { MigrateDialog } from '@/features/migration/components/MigrateDialog.tsx';
 import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
 import { MangaGridCard } from '@/features/manga/components/cards/MangaGridCard.tsx';
 import { MangaListCard } from '@/features/manga/components/cards/MangaListCard.tsx';
@@ -22,6 +21,14 @@ import { MangaBadges } from '@/features/manga/components/MangaBadges.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { Mangas } from '@/features/manga/services/Mangas.ts';
+import { t } from '@lingui/core/macro';
+import { useParams } from 'react-router-dom';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { MigrationOptionsDialog } from '@/features/migration/components/MigrationOptionsDialog.tsx';
+import { AwaitableComponent } from 'awaitable-component';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler';
 
 const getMangaLinkTo = (
     mode: MangaCardMode,
@@ -35,7 +42,7 @@ const getMangaLinkTo = (
         case 'duplicate':
             return AppRoutes.manga.path(mangaId);
         case 'migrate.search':
-            return AppRoutes.migrate.childRoutes.search.path(sourceId ?? '-1', mangaId, mangaTitle);
+            return AppRoutes.migrate.childRoutes.singleMangaSearch.path(sourceId ?? '-1', mangaId, mangaTitle);
         case 'migrate.select':
             return '';
         default:
@@ -44,8 +51,20 @@ const getMangaLinkTo = (
 };
 
 export const MangaCard = memo((props: MangaCardProps) => {
-    const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
+    const {
+        manga,
+        gridLayout,
+        inLibraryIndicator,
+        selected,
+        handleSelection,
+        mode = 'default',
+        onMigrateSelect,
+    } = props;
     const { id, firstUnreadChapter, downloadCount, unreadCount } = manga;
+
+    const { mangaId: mangaIdAsString } = useParams<{ mangaId: string }>();
+    const migrationSourceMangaId = Number(mangaIdAsString);
+
     const {
         settings: { showContinueReadingButton },
     } = useMetadataServerSettings();
@@ -53,8 +72,6 @@ export const MangaCard = memo((props: MangaCardProps) => {
     const { updateLibraryState, isInLibrary } = useManageMangaLibraryState(manga, mode === 'source');
 
     const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.sourceId, manga.title);
-
-    const [isMigrateDialogOpen, setIsMigrateDialogOpen] = useState(false);
 
     const handleClick = useCallback(
         (event: React.MouseEvent | React.TouchEvent, openMenu?: () => void) => {
@@ -88,10 +105,42 @@ export const MangaCard = memo((props: MangaCardProps) => {
             }
 
             if (isMigrateSelectMode) {
-                setIsMigrateDialogOpen(true);
+                const isBulkMigrationManualSearch = !!onMigrateSelect;
+                if (isBulkMigrationManualSearch) {
+                    onMigrateSelect(manga);
+                    return;
+                }
+
+                const migrate = () => {
+                    const optionsDialog = AwaitableComponent.showControlled(
+                        MigrationOptionsDialog,
+                        {
+                            mangaIdToMigrateTo: id,
+                            isMigrating: false,
+                            startMigration: async (options) => {
+                                makeToast(t`Migrating manga…`, 'info');
+
+                                optionsDialog.update({ isMigrating: true });
+
+                                try {
+                                    await Mangas.migrate(migrationSourceMangaId, id, options);
+
+                                    optionsDialog.submit(options);
+
+                                    ReactRouter.navigate(AppRoutes.manga.path(id), { replace: true });
+                                } catch (e) {
+                                    optionsDialog.update({ isMigrating: false, startMigration: () => migrate() });
+                                }
+                            },
+                        },
+                        { id: `manga-migration-single-manga-${migrationSourceMangaId}-${id}` },
+                    );
+                    optionsDialog.promise.catch(defaultPromiseErrorHandler('MangaCard::migrate'));
+                };
+                migrate();
             }
         },
-        [mode, selected, updateLibraryState, handleSelection],
+        [mode, selected, updateLibraryState, handleSelection, migrationSourceMangaId],
     );
 
     const longPressBind = useLongPress(
@@ -111,54 +160,49 @@ export const MangaCard = memo((props: MangaCardProps) => {
     );
 
     return (
-        <>
-            {isMigrateDialogOpen && (
-                <MigrateDialog mangaIdToMigrateTo={manga.id} onClose={() => setIsMigrateDialogOpen(false)} />
+        <PopupState variant="popover" popupId="manga-card-action-menu">
+            {(popupState) => (
+                <>
+                    <MangaCardComponent
+                        {...props}
+                        longPressBind={longPressBind}
+                        popupState={popupState}
+                        handleClick={handleClick}
+                        mangaLinkTo={mangaLinkTo}
+                        isInLibrary={isInLibrary}
+                        inLibraryIndicator={inLibraryIndicator}
+                        continueReadingButton={
+                            <ContinueReadingButton
+                                showContinueReadingButton={showContinueReadingButton && mode === 'default'}
+                                chapter={firstUnreadChapter}
+                                mangaLinkTo={mangaLinkTo}
+                            />
+                        }
+                        mangaBadges={
+                            <MangaBadges
+                                inLibraryIndicator={inLibraryIndicator}
+                                isInLibrary={isInLibrary}
+                                unread={unreadCount}
+                                downloadCount={downloadCount}
+                                updateLibraryState={updateLibraryState}
+                                mode={mode}
+                            />
+                        }
+                    />
+                    {!!handleSelection && popupState.isOpen && (
+                        <Menu {...bindMenu(popupState)}>
+                            {(onClose, setHideMenu) => (
+                                <MangaActionMenuItems
+                                    manga={manga as SingleModeProps['manga']}
+                                    handleSelection={handleSelection}
+                                    onClose={onClose}
+                                    setHideMenu={setHideMenu}
+                                />
+                            )}
+                        </Menu>
+                    )}
+                </>
             )}
-            <PopupState variant="popover" popupId="manga-card-action-menu">
-                {(popupState) => (
-                    <>
-                        <MangaCardComponent
-                            {...props}
-                            longPressBind={longPressBind}
-                            popupState={popupState}
-                            handleClick={handleClick}
-                            mangaLinkTo={mangaLinkTo}
-                            isInLibrary={isInLibrary}
-                            inLibraryIndicator={inLibraryIndicator}
-                            continueReadingButton={
-                                <ContinueReadingButton
-                                    showContinueReadingButton={showContinueReadingButton && mode === 'default'}
-                                    chapter={firstUnreadChapter}
-                                    mangaLinkTo={mangaLinkTo}
-                                />
-                            }
-                            mangaBadges={
-                                <MangaBadges
-                                    inLibraryIndicator={inLibraryIndicator}
-                                    isInLibrary={isInLibrary}
-                                    unread={unreadCount}
-                                    downloadCount={downloadCount}
-                                    updateLibraryState={updateLibraryState}
-                                    mode={mode}
-                                />
-                            }
-                        />
-                        {!!handleSelection && popupState.isOpen && (
-                            <Menu {...bindMenu(popupState)}>
-                                {(onClose, setHideMenu) => (
-                                    <MangaActionMenuItems
-                                        manga={manga as SingleModeProps['manga']}
-                                        handleSelection={handleSelection}
-                                        onClose={onClose}
-                                        setHideMenu={setHideMenu}
-                                    />
-                                )}
-                            </Menu>
-                        )}
-                    </>
-                )}
-            </PopupState>
-        </>
+        </PopupState>
     );
 });

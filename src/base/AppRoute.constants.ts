@@ -199,14 +199,18 @@ export const AppRoutes = {
             }),
     },
     migrate: {
-        match: 'migrate/source/:sourceId',
-        path: (sourceId: SourceType['id']) => `/migrate/source/${sourceId}`,
-
+        match: 'migrate/*',
+        path: '/migrate',
         childRoutes: {
-            search: {
-                match: 'manga/:mangaId/search',
+            singleMangaSearch: {
+                match: 'source/:sourceId/manga/:mangaId/search',
                 path: (sourceId: SourceType['id'], mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
                     UrlUtil.addQueryParam(`/migrate/source/${sourceId}/manga/${mangaId}/search`, query),
+            },
+            manualSearch: {
+                match: 'manual-search/:mangaId',
+                path: (mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
+                    UrlUtil.addQueryParam(`/migrate/manual-search/${mangaId}`, query),
             },
         },
     },

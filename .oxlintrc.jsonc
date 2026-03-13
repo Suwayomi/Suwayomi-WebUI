@@ -159,12 +159,20 @@
               "!@mui/material/",
               "!@mui/icons-material/",
               "!@mui/x-date-pickers/"
-            ]
+            ],
           },
           {
             "group": [
               "@mui/*/*/*"
             ]
+          },
+          {
+            "group": [
+              "lodash",
+              "lodash/*",
+              "!lodash/fp/*"
+            ],
+            "message": "Use lodash-fp instead."
           }
         ]
       }
@@ -411,6 +419,7 @@
         "src/features/authentication/AuthManager.ts",
         "src/features/chapter/services/Chapters.ts",
         "src/features/metadata/services/MetadataMigrations.ts",
+        "src/features/migration/MigrationManager.ts",
         "src/features/reader/services/ReaderControls.ts",
         "src/features/reader/services/ReaderService.ts",
         "src/features/source/services/Sources.ts",

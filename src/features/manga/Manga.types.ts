@@ -22,6 +22,7 @@ import type {
 import type { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
 import type { GridLayout } from '@/base/Base.types.ts';
 import type { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
+import type { MigrationMatch } from '@/features/migration/Migration.types.ts';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 
@@ -33,6 +34,7 @@ type MangaCardBaseProps = Pick<MangaTypeGql, 'id' | 'title' | 'sourceId'> &
 
 export type MangaIdInfo = Pick<MangaTypeGql, 'id'>;
 export type MangaChapterCountInfo = { chapters: Pick<MangaTypeGql['chapters'], 'totalCount'> };
+export type MangaHighestChapterNumberInfo = { highestNumberedChapter?: Pick<ChapterType, 'id' | 'chapterNumber'> };
 export type MangaInLibraryInfo = Pick<MangaTypeGql, 'inLibrary'>;
 export type MangaDownloadInfo = Pick<MangaTypeGql, 'downloadCount'> & MangaChapterCountInfo;
 export type MangaUnreadInfo = Pick<MangaTypeGql, 'unreadCount'> & MangaChapterCountInfo;
@@ -42,7 +44,7 @@ export type MangaTrackRecordInfo = MangaIdInfo & {
 };
 export type MangaGenreInfo = Pick<MangaTypeGql, 'genre'>;
 export type MangaSourceIdInfo = Pick<MangaTypeGql, 'sourceId'>;
-export type MangaSourceNameInfo = { source?: Maybe<Pick<SourceType, 'name'>> };
+export type MangaSourceNameInfo = { source?: Maybe<Pick<SourceType, 'name' | 'displayName'>> };
 export type MangaSourceLngInfo = { source?: Maybe<Pick<SourceType, 'lang'>> };
 export type MangaArtistInfo = Pick<MangaTypeGql, 'artist'>;
 export type MangaAuthorInfo = Pick<MangaTypeGql, 'author'>;
@@ -58,6 +60,7 @@ export interface MangaCardProps {
     inLibraryIndicator?: boolean;
     selected?: boolean | null;
     handleSelection?: SelectableCollectionReturnType<MangaTypeGql['id']>['handleSelection'];
+    onMigrateSelect?: (manga: Omit<MigrationMatch, 'sourceTitle' | 'isManualMatch' | 'latestChapterNumber'>) => void;
     mode?: MangaCardMode;
 }
 

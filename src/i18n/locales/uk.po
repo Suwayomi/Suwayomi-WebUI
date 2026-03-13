@@ -224,7 +224,7 @@ msgstr "За джерелом"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -317,7 +317,7 @@ msgid "Continuous vertical"
 msgstr "Вертикальний безперервний"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "Скопіювати"
 
@@ -910,7 +910,7 @@ msgstr "Позначити вибране як непрочитане"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrate"
 msgstr "Мігрувати"
 
@@ -920,7 +920,7 @@ msgstr "Мігрувати"
 msgid "Migrate"
 msgstr "Мігрувати"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "Міграція манґи…"
 
@@ -1198,7 +1198,7 @@ msgstr "Виберіть пристрій для використання йог
 msgid "Select all"
 msgstr "Вибрати все"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Select data to include"
 msgstr "Вибрати дані, які потрібно включити"
 
@@ -1246,7 +1246,7 @@ msgid "Show continue reading button"
 msgstr "Показувати кнопку продовження читання"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "Показати елемент"
 

@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**WebUI Update**) Add an option to (partially) disable showing information when the webUI got updated
 - (**Server Update**) Add an option to disable showing information when the server got updated
 - (**Manga**) Add an option to include client data during migration
+- (**Migrate**) Add bulk migration
 
 ### Changed
 
