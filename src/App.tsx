@@ -69,7 +69,10 @@ const { ImageProcessingSetting } = loadable(
 const { ServerSettings } = loadable(() => import('@/features/settings/screens/ServerSettings.tsx'), lazyLoadFallback);
 const { BrowseSettings } = loadable(() => import('@/features/browse/screens/BrowseSettings.tsx'), lazyLoadFallback);
 const { WebUISettings } = loadable(() => import('@/features/settings/screens/WebUISettings.tsx'), lazyLoadFallback);
-const { Migrate } = loadable(() => import('@/features/migration/screens/Migrate.tsx'), lazyLoadFallback);
+const { MigrationProcess } = loadable(
+    () => import('@/features/migration/screens/MigrationProcess.tsx'),
+    lazyLoadFallback,
+);
 const { DeviceSetting } = loadable(() => import('@/features/device/screens/DeviceSetting.tsx'), lazyLoadFallback);
 const { TrackingSettings } = loadable(
     () => import('@/features/tracker/screens/TrackingSettings.tsx'),
@@ -293,10 +296,7 @@ const MainApp = () => {
                         <Route path={AppRoutes.updates.match} element={<Updates />} />
                         {!hideHistory && <Route path={AppRoutes.history.match} element={<History />} />}
                         <Route path={AppRoutes.browse.match} element={<Browse />} />
-                        <Route path={AppRoutes.migrate.match}>
-                            <Route index element={<Migrate />} />
-                            <Route path={AppRoutes.migrate.childRoutes.search.match} element={<SearchAll />} />
-                        </Route>
+                        <Route path={AppRoutes.migrate.match} element={<MigrationProcess />} />
                         <Route path={AppRoutes.tracker.match} element={<TrackerOAuthLogin />} />
                     </Route>
                 </Routes>
