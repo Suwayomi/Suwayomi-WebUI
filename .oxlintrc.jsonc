@@ -11,7 +11,8 @@
     "eslint-plugin-no-relative-import-paths",
     "eslint-plugin-unused-imports",
     "eslint-plugin-no-only-tests",
-    "./tools/eslint-plugin-header.cjs"
+    "./tools/eslint-plugin-header.cjs",
+    { "name": "import-x-js", "specifier": "eslint-plugin-import-x" }
   ],
   "categories": {
     "correctness": "off"
@@ -228,7 +229,8 @@
     "import/namespace": "error",
     "import/default": "error",
     "import/export": "error",
-    "import/no-duplicates": "error",
+    "import/no-duplicates": "off",
+    "import-x-js/no-duplicates": "error",
     "import/no-mutable-exports": "error",
     "import/first": "error",
     "import/no-amd": "error",
