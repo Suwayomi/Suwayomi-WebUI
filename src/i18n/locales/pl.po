@@ -362,7 +362,7 @@ msgstr "Według daty przesłania"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -527,7 +527,7 @@ msgid "Copied to clipboard"
 msgstr "Skopiowano do schowka"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "Kopiuj"
 
@@ -796,7 +796,7 @@ msgstr "Usuń rozdział po ręcznym oznaczeniu go jako przeczytany"
 msgid "Delete chapters"
 msgstr "Usuń rozdziały"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "Usuń pobrane"
 
@@ -1617,12 +1617,12 @@ msgstr "Menu"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "Migruj"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "Migruję mangę…"
 
@@ -2238,7 +2238,7 @@ msgstr "Wybierz urządzenie, aby użyć jego ustawień interfejsu użytkownika z
 msgid "Select all"
 msgstr "Wybierz wszystko"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Select data to include"
 msgstr "Wybierz dane do uwzględnienia"
 
@@ -2295,7 +2295,7 @@ msgid "Show continue reading button"
 msgstr "Pokaż przycisk kontynuowania czytania"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "Pokaż pozycję"
 
@@ -3152,7 +3152,7 @@ msgstr ""
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/settings/screens/Settings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
@@ -3192,14 +3192,14 @@ msgstr "Kategorie"
 
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Category"
 msgstr "Kategoria"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
@@ -3217,7 +3217,7 @@ msgid "Clear"
 msgstr "Wyczyść"
 
 #: src/features/backup/Backup.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Client data"
 msgstr "Dane klienta"
 

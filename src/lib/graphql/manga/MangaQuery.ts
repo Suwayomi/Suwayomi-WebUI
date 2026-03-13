@@ -13,6 +13,7 @@ import {
     MANGA_LIBRARY_DUPLICATE_SCREEN_FIELDS,
     MANGA_LIBRARY_FIELDS,
     MANGA_META_FIELDS,
+    MANGA_MIGRATION_FIELDS,
     MANGA_READER_FIELDS,
     MANGA_SCREEN_FIELDS,
 } from '@/lib/graphql/manga/MangaFragments.ts';
@@ -236,18 +237,12 @@ export const GET_MANGAS_DUPLICATES = gql`
 `;
 
 export const GET_MIGRATABLE_SOURCE_MANGAS = gql`
+    ${MANGA_MIGRATION_FIELDS}
+
     query GET_MIGRATABLE_SOURCE_MANGAS($sourceId: LongString!) {
         mangas(condition: { sourceId: $sourceId, inLibrary: true }) {
             nodes {
-                id
-                title
-                thumbnailUrl
-                sourceId
-                categories {
-                    nodes {
-                        id
-                    }
-                }
+                ...MANGA_MIGRATION_FIELDS
             }
         }
     }

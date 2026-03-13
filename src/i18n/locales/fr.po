@@ -365,7 +365,7 @@ msgstr "Par date de mise en ligne"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -534,7 +534,7 @@ msgid "Copied to clipboard"
 msgstr "Copié dans le presse-papiers"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "Copier"
 
@@ -811,7 +811,7 @@ msgstr "Supprimer les chapitres après les avoir manuellement marqués comme lus
 msgid "Delete chapters"
 msgstr "Supprimer les chapitres"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "Supprimer les téléchargements"
 
@@ -1658,12 +1658,12 @@ msgstr "Menu"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "Migrer"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "Migration des mangas…"
 
@@ -2287,7 +2287,7 @@ msgstr "Sélectionnez un appareil pour utiliser ses paramètres d'interface util
 msgid "Select all"
 msgstr "Tout sélectionner"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Select data to include"
 msgstr "Sélectionner les données à inclure"
 
@@ -2344,7 +2344,7 @@ msgid "Show continue reading button"
 msgstr "Afficher le bouton de reprise de lecture"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "Afficher l'entrée"
 

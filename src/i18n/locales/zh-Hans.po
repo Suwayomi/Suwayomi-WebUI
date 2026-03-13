@@ -390,7 +390,7 @@ msgstr "调用超时"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -604,7 +604,7 @@ msgid "Copied to clipboard"
 msgstr "已复制到剪贴板"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "复制"
 
@@ -890,7 +890,7 @@ msgstr "手动标记为已读后删除章节"
 msgid "Delete chapters"
 msgstr "删除章节"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "删除已下载项"
 
@@ -1822,12 +1822,12 @@ msgstr "菜单"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "迁移"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "正在迁移漫画…"
 
@@ -2464,7 +2464,7 @@ msgstr "选择一个设备以使用其存储在服务器中的UI设置"
 msgid "Select all"
 msgstr "全选"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Select data to include"
 msgstr "选择要包含的数据"
 
@@ -2540,7 +2540,7 @@ msgid "Show continue reading button"
 msgstr "显示继续阅读按钮"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "显示条目"
 
@@ -2943,7 +2943,7 @@ msgstr "追踪列表"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/settings/screens/Settings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
@@ -3262,14 +3262,14 @@ msgstr "{0}% | 更新中……"
 
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Category"
 msgstr "分类"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx

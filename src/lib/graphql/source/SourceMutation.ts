@@ -8,7 +8,7 @@
 
 import gql from 'graphql-tag';
 import { SOURCE_META_FIELDS, SOURCE_SETTING_FIELDS } from '@/lib/graphql/source/SourceFragments.ts';
-import { MANGA_BASE_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
+import { MANGA_BASE_FIELDS, MANGA_MIGRATION_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 
 export const GET_SOURCE_MANGAS_FETCH = gql`
     ${MANGA_BASE_FIELDS}
@@ -18,6 +18,19 @@ export const GET_SOURCE_MANGAS_FETCH = gql`
             hasNextPage
             mangas {
                 ...MANGA_BASE_FIELDS
+            }
+        }
+    }
+`;
+
+export const GET_MIGRATION_SOURCE_MANGAS_FETCH = gql`
+    ${MANGA_MIGRATION_FIELDS}
+
+    mutation GET_MIGRATION_SOURCE_MANGAS_FETCH($input: FetchSourceMangaInput!) {
+        fetchSourceManga(input: $input) {
+            hasNextPage
+            mangas {
+                ...MANGA_MIGRATION_FIELDS
             }
         }
     }
