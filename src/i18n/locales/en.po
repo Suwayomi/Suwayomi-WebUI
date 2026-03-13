@@ -1075,6 +1075,10 @@ msgstr "Creating theme…"
 msgid "Crimson"
 msgstr "Crimson"
 
+#: src/features/migration/components/MigrationSourcePriorityList.tsx
+msgid "Current source"
+msgstr "Current source"
+
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Current:"
 msgstr "Current:"
@@ -1359,6 +1363,10 @@ msgstr "Downloading"
 #: src/features/settings/screens/Settings.tsx
 msgid "Downloads"
 msgstr "Downloads"
+
+#: src/features/migration/components/MigrationSelectingSources.tsx
+msgid "Drag to reorder source priority. Uncheck sources to exclude them."
+msgstr "Drag to reorder source priority. Uncheck sources to exclude them."
 
 #: src/features/theme/Themes.ts
 msgid "Dune"
@@ -2832,6 +2840,7 @@ msgid "Scroll forward"
 msgstr "Scroll forward"
 
 #: src/base/components/AppbarSearch.tsx
+#: src/features/migration/components/MigrationSelectingSources.tsx
 msgid "Search"
 msgstr "Search"
 
@@ -2899,6 +2908,10 @@ msgstr "Select all"
 #: src/features/migration/components/MigrateDialog.tsx
 msgid "Select data to include"
 msgstr "Select data to include"
+
+#: src/features/migration/components/MigrationSelectingSources.tsx
+msgid "Select destination sources"
+msgstr "Select destination sources"
 
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
@@ -3167,6 +3180,10 @@ msgstr ""
 "Start reading\n"
 "#{chapterNumber} — {name}\n"
 "{scanlator}"
+
+#: src/features/migration/components/MigrationSelectingSources.tsx
+msgid "Start Search"
+msgstr "Start Search"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -3476,6 +3493,10 @@ msgstr "UI Login"
 #: src/features/updates/screens/Updates.tsx
 msgid "Unable to load data"
 msgstr "Unable to load data"
+
+#: src/features/migration/components/MigrationSelectingSources.tsx
+msgid "Unable to load sources"
+msgstr "Unable to load sources"
 
 #: src/features/extension/Extensions.constants.ts
 msgid "Uninstall"
