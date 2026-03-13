@@ -68,6 +68,13 @@ msgstr "{0, plural, one {Second} other {Seconds}}"
 msgid "{0} / {1}"
 msgstr "{0} / {1}"
 
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/components/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
 #. placeholder {0}: selectedItemIds.length
 #: src/features/migration/components/MigrationSelectMangas.tsx
 msgid "{0} selected"
@@ -241,10 +248,26 @@ msgstr "{currentAutoUpdateIntervalHours}h"
 msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 
+#: src/features/migration/components/MigrationComplete.tsx
+msgid "{excluded} excluded"
+msgstr "{excluded} excluded"
+
+#: src/features/migration/components/MigrationComplete.tsx
+msgid "{failed} failed"
+msgstr "{failed} failed"
+
+#: src/features/migration/components/MigrationComplete.tsx
+msgid "{migrated} migrated"
+msgstr "{migrated} migrated"
+
 #: src/features/chapter/components/ChapterList.tsx
 #: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
 msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
 msgstr "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+
+#: src/features/migration/components/MigrationComplete.tsx
+msgid "{noMatch} no match"
+msgstr "{noMatch} no match"
 
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "{progress}% | Updating…"
@@ -274,6 +297,7 @@ msgstr "A preview focused web frontend built with svelte"
 msgid "A-Z"
 msgstr "A-Z"
 
+#: src/features/migration/components/MigrationExecute.tsx
 #: src/features/migration/components/MigrationSearch.tsx
 msgid "Abort"
 msgstr "Abort"
@@ -1320,6 +1344,10 @@ msgstr "Does not work when marking multiple manga as read at once"
 msgid "Don't show this dialog again"
 msgstr "Don't show this dialog again"
 
+#: src/features/migration/components/MigrationComplete.tsx
+msgid "Done"
+msgstr "Done"
+
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Double page"
 msgstr "Double page"
@@ -1512,6 +1540,10 @@ msgstr "Extension repositories"
 #: src/features/migration/components/MigrationStatusBadge.tsx
 msgid "Failed"
 msgstr "Failed"
+
+#: src/features/migration/components/MigrationComplete.tsx
+msgid "Failed entries"
+msgstr "Failed entries"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
@@ -2256,6 +2288,7 @@ msgstr "Migrate \"{0}\""
 msgid "Migrated"
 msgstr "Migrated"
 
+#: src/features/migration/components/MigrationExecute.tsx
 #: src/features/migration/components/MigrationStatusBadge.tsx
 msgid "Migrating"
 msgstr "Migrating"
@@ -2263,6 +2296,11 @@ msgstr "Migrating"
 #: src/features/migration/components/MigrateDialog.tsx
 msgid "Migrating manga…"
 msgstr "Migrating manga…"
+
+#: src/features/migration/components/MigrationComplete.tsx
+#: src/features/migration/components/MigrationComplete.tsx
+msgid "Migration complete"
+msgstr "Migration complete"
 
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Migration options"
