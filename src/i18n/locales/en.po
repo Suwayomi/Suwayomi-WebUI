@@ -2293,6 +2293,12 @@ msgstr "Migrated"
 msgid "Migrating"
 msgstr "Migrating"
 
+#. placeholder {0}: migrationProgress.completed
+#. placeholder {1}: migrationProgress.total
+#: src/features/migration/components/MigrationFloatingIndicator.tsx
+msgid "Migrating {0}/{1}"
+msgstr "Migrating {0}/{1}"
+
 #: src/features/migration/components/MigrateDialog.tsx
 msgid "Migrating manga…"
 msgstr "Migrating manga…"
@@ -2963,6 +2969,12 @@ msgstr "Search results will include manga that do not match the current filters"
 #: src/features/migration/components/MigrationStatusBadge.tsx
 msgid "Searching"
 msgstr "Searching"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/components/MigrationFloatingIndicator.tsx
+msgid "Searching {0}/{1}"
+msgstr "Searching {0}/{1}"
 
 #: src/features/settings/components/images/Processing.tsx
 #: src/features/settings/components/images/Processing.tsx

@@ -32,6 +32,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { ImageProcessingType } from '@/features/settings/Settings.types.ts';
+import { MigrationFloatingIndicator } from '@/features/migration/components/MigrationFloatingIndicator.tsx';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -339,6 +340,7 @@ export const App: React.FC = () => (
                     <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
                 </Routes>
             </Box>
+            <MigrationFloatingIndicator />
         </AuthGuard>
     </AppContext>
 );
