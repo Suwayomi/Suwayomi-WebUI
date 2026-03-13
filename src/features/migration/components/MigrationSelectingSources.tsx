@@ -35,7 +35,9 @@ export const MigrationSelectingSources = () => {
     });
 
     const initialSources = useMemo((): SourceItem[] => {
-        if (!data?.sources.nodes) {return [];}
+        if (!data?.sources.nodes) {
+            return [];
+        }
 
         return data.sources.nodes.map((source) => ({
             id: source.id,
@@ -77,7 +79,7 @@ export const MigrationSelectingSources = () => {
 
         if (isSingleManga) {
             // Single manga: navigate to SearchAll for the first entry
-            const entry = Object.values(entries)[0];
+            const [entry] = Object.values(entries);
             if (entry) {
                 navigate(
                     AppRoutes.migrate.childRoutes.legacySearch.path(entry.sourceId, entry.mangaId, entry.mangaTitle),

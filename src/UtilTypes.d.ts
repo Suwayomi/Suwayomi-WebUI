@@ -24,7 +24,11 @@ type NullAndUndefined<T> = T | null | undefined;
 
 type NonNullableProperties<T> = { [P in keyof T]-?: NonNullable<T[P]> };
 
+type NonNullableProperty<T, K> = Omit<T, K> & NonNullableProperties<Pick<T, K>>;
+
 type OptionalProperty<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+type RequiredProperty<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
 type PropertiesNever<T> = { [key in keyof T]?: never };
 

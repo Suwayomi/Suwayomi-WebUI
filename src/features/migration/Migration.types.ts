@@ -7,6 +7,8 @@
  */
 
 import type { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { MangaIdInfo, MangaThumbnailInfo } from '@/features/manga/Manga.types.ts';
 
 export enum SortBy {
     SOURCE_NAME,
@@ -65,29 +67,29 @@ export enum MigrationEntryStatus {
 }
 
 export interface MigrationSearchResult {
-    mangaId: number;
+    mangaId: MangaIdInfo['id'];
     title: string;
-    sourceId: string;
-    thumbnailUrl?: string;
+    sourceId: SourceIdInfo['id'];
+    thumbnailUrl?: MangaThumbnailInfo['thumbnailUrl'];
 }
 
 export interface MigrationEntry {
-    mangaId: number;
+    mangaId: MangaIdInfo['id'];
     mangaTitle: string;
-    mangaThumbnailUrl?: string;
-    sourceId: string;
+    mangaThumbnailUrl?: MangaThumbnailInfo['thumbnailUrl'];
+    sourceId: SourceIdInfo['id'];
     status: MigrationEntryStatus;
     searchResults: MigrationSearchResult[];
-    selectedMatchMangaId: number | null;
-    selectedMatchSourceId: string | null;
+    selectedMatchMangaId: MangaIdInfo['id'] | null;
+    selectedMatchSourceId: SourceIdInfo['id'] | null;
     error?: string;
 }
 
 export interface MigrationState {
     phase: MigrationPhase;
-    sourceId: string | null;
-    entries: Record<number, MigrationEntry>;
-    destinationSourceIds: string[];
+    sourceId: SourceIdInfo['id'] | null;
+    entries: Record<MangaIdInfo['id'], MigrationEntry>;
+    destinationSourceIds: SourceIdInfo['id'][];
     migrateOptions: Omit<MigrateOptions, 'mangaIdToMigrateTo'> | null;
     searchProgress: { completed: number; total: number };
     migrationProgress: { completed: number; total: number; failed: number };

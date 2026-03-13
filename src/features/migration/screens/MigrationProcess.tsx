@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { MigrationPhase } from '@/features/migration/Migration.types.ts';
 import { MigrationManager, useMigrationPhase } from '@/features/migration/MigrationManager.ts';
+
 import { MigrationSelectSource } from '@/features/migration/components/MigrationSelectSource.tsx';
 import { MigrationSelectMangas } from '@/features/migration/components/MigrationSelectMangas.tsx';
 import { MigrationSelectingSources } from '@/features/migration/components/MigrationSelectingSources.tsx';
@@ -24,10 +24,6 @@ const { SearchAll } = loadable(() => import('@/features/global-search/screens/Se
 
 const MigrationPhaseSwitch = () => {
     const phase = useMigrationPhase();
-
-    useEffect(() => {
-        MigrationManager.init();
-    }, []);
 
     switch (phase) {
         case MigrationPhase.IDLE:

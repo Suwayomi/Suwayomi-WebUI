@@ -28,7 +28,9 @@ export const DEFAULT_SORT_SETTINGS = {
 
 export const MIGRATION_LOCAL_STORAGE_KEY = 'migration_state';
 
-export const MAX_SOURCES_IN_PARALLEL = 3;
+export const MAX_MANGAS_IN_PARALLEL = 5;
+
+export const MAX_SOURCES_IN_PARALLEL = 6;
 
 export const DEFAULT_MIGRATION_STATE: MigrationState = {
     phase: MigrationPhase.IDLE,
