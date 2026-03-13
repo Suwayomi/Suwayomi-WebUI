@@ -25,6 +25,13 @@ export interface SortSettings {
 
 export type TMigratableSourcesResult = GetMigratableSourcesQuery['mangas']['nodes'];
 
+export type MigrateMode = 'copy' | 'migrate';
+
+export type MigrateOptions = {
+    mangaIdToMigrateTo: number;
+    mode: MigrateMode;
+} & Partial<MetadataMigrationSettings>;
+
 export type MetadataMigrationSettings = {
     migrateChapters: boolean;
     migrateCategories: boolean;

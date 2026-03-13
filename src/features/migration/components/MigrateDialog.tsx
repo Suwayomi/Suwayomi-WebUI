@@ -24,8 +24,7 @@ import {
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import type { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
-import type { MigrateMode } from '@/features/manga/Manga.types.ts';
+import type { MetadataMigrationSettings, MigrateMode } from '@/features/migration/Migration.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrateTo: number; onClose: () => void }) => {

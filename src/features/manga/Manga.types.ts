@@ -50,8 +50,6 @@ export type MangaTitleInfo = Pick<MangaTypeGql, 'title'>;
 export type MangaDescriptionInfo = Pick<MangaTypeGql, 'description'>;
 export type MangaStatusInfo = Pick<MangaTypeGql, 'status'>;
 
-export type MigrateMode = 'copy' | 'migrate';
-
 type MangaCardSpecificProps = MangaCardBaseProps & MangaThumbnailInfo;
 
 export interface MangaCardProps {
