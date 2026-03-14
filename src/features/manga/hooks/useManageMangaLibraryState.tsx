@@ -86,8 +86,7 @@ export const useManageMangaLibraryState = (
 
             let showAddToLibraryCategorySelectDialog: boolean;
             try {
-                showAddToLibraryCategorySelectDialog = (await getMetadataServerSettings())
-                    .showAddToLibraryCategorySelectDialog;
+                ({ showAddToLibraryCategorySelectDialog } = await getMetadataServerSettings());
             } catch (e) {
                 makeToast(t`Unable to load data`, 'error', getErrorMessage(e));
                 return;

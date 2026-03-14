@@ -132,6 +132,9 @@
     "prefer-template": "error",
     "prefer-exponentiation-operator": "error",
     "prefer-object-spread": "error",
+    "arrow-body-style": ["error", "as-needed"],
+    "prefer-destructuring": "error",
+    "no-nested-ternary": "error",
     "prefer-promise-reject-errors": [
       "error",
       {

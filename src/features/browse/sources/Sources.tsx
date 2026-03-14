@@ -162,7 +162,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 );
             }}
             itemContent={(index, groupIndex) => {
-                const language = sourcesByLanguage[groupIndex][0];
+                const [language] = sourcesByLanguage[groupIndex];
                 const source = visibleSources[index];
 
                 return (

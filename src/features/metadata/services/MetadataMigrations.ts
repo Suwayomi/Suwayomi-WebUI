@@ -175,7 +175,7 @@ const getOutdatedMetadataKeys = (metadata: Metadata | undefined, migrationId: nu
     );
 
     return Object.keys(metadata).filter((key) => {
-        const appKeyPrefixOfKey = key.split('_')[0];
+        const [appKeyPrefixOfKey] = key.split('_');
 
         const isMetadataKeyOfApp = [...oldAppKeyPrefixes, APP_METADATA_KEY_PREFIX].includes(appKeyPrefixOfKey);
         if (!isMetadataKeyOfApp) {
@@ -367,7 +367,7 @@ export const applyMetadataMigrations = (
 
     METADATA_MIGRATIONS.forEach((migration, index) => {
         const migrationId = index + 1;
-        const metadataToMigrate = migrationToMetadata[migrationId - 1][1];
+        const [, metadataToMigrate] = migrationToMetadata[migrationId - 1];
 
         const isMigrationRequired = appliedMigrationId < migrationId;
         if (!isMigrationRequired) {

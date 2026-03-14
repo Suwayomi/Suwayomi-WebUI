@@ -119,7 +119,7 @@ const doesLanguageOfChangeMeetTranslatePercentThreshold = (
     stats: WeblateLanguageStatistic[],
 ): boolean => {
     // format: 'https://hosted.weblate.org/api/translations/suwayomi/suwayomi-webui/ar/'
-    const code = change.translation.split('/').slice(-2)[0];
+    const [code] = change.translation.split('/').slice(-2);
     const langaugeStats = getWeblateLanguageStatsFor(code, stats);
 
     return meetsTranslatedPercentThreshold(langaugeStats.translated_percent);
@@ -209,10 +209,10 @@ const getKnownContributorsByLanguage = async (): Promise<Record<string, string[]
     const contributorByLanguage: Record<string, string[]> = {};
     changelogLanguageLines.forEach((languageLine) => {
         const languageChangeRegex = /^- (.*) \(by (.*)\)$/g;
-        const languageChangeRegexMatch = [...languageLine.matchAll(languageChangeRegex)][0];
+        const [languageChangeRegexMatch] = [...languageLine.matchAll(languageChangeRegex)];
 
-        const language = languageChangeRegexMatch[1];
-        const contributors = languageChangeRegexMatch[2].split(', ');
+        const [, language, contributorsRaw] = languageChangeRegexMatch;
+        const contributors = contributorsRaw.split(', ');
 
         const knownContributors = contributorByLanguage[language] ?? [];
         contributorByLanguage[language] = [...new Set([...knownContributors, ...contributors])];

@@ -79,9 +79,9 @@ export class Queue {
     }
 
     private getNextItemToProcess<T>(): { key: Key; fn: QueueItemFunction<T>; promise: ControlledPromise<T> } {
-        const [key] = [...this.pendingKeyToPriorityMap.entries()].toSorted(
+        const [[key]] = [...this.pendingKeyToPriorityMap.entries()].toSorted(
             ([, priorityA], [, priorityB]) => priorityB - priorityA,
-        )[0];
+        );
         const fn = this.pendingKeyToFnMap.get(key) as () => PromiseLike<T> | T;
         const promise = this.pendingKeyToPromiseMap.get(key) as ControlledPromise<T>;
 

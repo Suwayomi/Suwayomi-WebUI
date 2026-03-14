@@ -45,7 +45,7 @@ export class ZustandUtil {
                 const fn = args[0] as (state: unknown) => unknown;
                 selector = sliceKey !== undefined ? (state: State) => fn(state[sliceKey]) : fn;
             } else if (args.length === 1) {
-                const key = args[0];
+                const [key] = args;
                 selector =
                     sliceKey !== undefined
                         ? (state: State) => (state[sliceKey] as Record<PropertyKey, unknown>)[key as PropertyKey]
@@ -66,7 +66,7 @@ export class ZustandUtil {
 
     static createActionName(...names: string[]) {
         const storeAndSlices = names.slice(0, -1);
-        const action = names.slice(-1)[0];
+        const [action] = names.slice(-1);
 
         return `${storeAndSlices.join(':')}/${action}`;
     }

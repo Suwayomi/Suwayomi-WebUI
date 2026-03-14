@@ -86,7 +86,7 @@ const handleDownload = async (
         return;
     }
 
-    const mangaId = mangaIds[0];
+    const [mangaId] = mangaIds;
     const manga = Mangas.getFromCache(
         mangaId,
         gql`

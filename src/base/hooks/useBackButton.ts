@@ -32,7 +32,7 @@ export const useBackButton = () => {
                 return 0;
             }
 
-            const previousPage = historyToCheck.slice(-2)[0];
+            const [previousPage] = historyToCheck.slice(-2);
 
             const isPreviousPageCurrentPage = previousPage === location.pathname;
             const ignorePreviousPage = PAGES_TO_IGNORE.some((page) => !!previousPage.match(page));

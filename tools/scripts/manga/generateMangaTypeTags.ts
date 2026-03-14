@@ -33,7 +33,7 @@ const extractTranslations = (poContent: string): Map<string, string> =>
             return translations;
         }
 
-        const msgId = msgIdMatch[1];
+        const [, msgId] = msgIdMatch;
         if (!TARGET_MSG_IDS.has(msgId as MangaTypeMsgId)) {
             return translations;
         }
