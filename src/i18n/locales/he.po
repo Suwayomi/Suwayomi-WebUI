@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-03-09 00:38+0000\n"
+"PO-Revision-Date: 2026-03-14 23:09+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -82,11 +82,13 @@ msgstr ""
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
-msgstr "{count, plural, one {סימנייה הוסרה} other {# סימניות הוסרו}}"
+msgstr ""
+"{count, plural, one {הפרק הוסר מהסימניות} other {# פרקים הוסרו מהסימניות}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
-msgstr "{count, plural, one {סימנייה נשמרה} other {# סימניות נשמרו}}"
+msgstr ""
+"{count, plural, one {הפרק נוסף לסימניות} other {# פרקים נוספו לסימניות}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
@@ -466,7 +468,7 @@ msgstr "הורדה אוטומטית של הגרסה העדכנית"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Automatically mark chapters as read when you download them."
-msgstr "סימון אוטומטי של פרקים שהורדו כ'נקרא'."
+msgstr "פרקים יסומנו כ'נקרא' באופן אוטומטי מיד עם הורדתם."
 
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
 msgid "Automatically refresh metadata"
@@ -554,7 +556,7 @@ msgstr "הוספת הנבחרים לסימניות"
 #: src/features/chapter/components/ChapterOptions.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Bookmarked"
-msgstr "מופיע בסימניות"
+msgstr "בסימניות"
 
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Both"
@@ -1358,7 +1360,7 @@ msgstr "קביעת כמות מקסימלית עבור פרקים חדשים לה
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Mark chapters as read on download"
-msgstr "סימון פרקים כ'נקרא' לאחר הורדתם"
+msgstr "סימון פרקים כ'נקרא' בעת הורדתם"
 
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "No downloads"
@@ -1391,3 +1393,70 @@ msgstr "הנתיב בשרת שבו יישמרו הקבצים לאחר ההורד
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "WebUI version {0} ({1}) available for download"
 msgstr "גרסת WebUI חדשה: {0} ({1}) זמינה להורדה"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Remove bookmark"
+msgstr "הסרת סימנייה"
+
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Create"
+msgstr "יצירה"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/backup/screens/Backup.tsx
+msgid "Create backup"
+msgstr "יצירת גיבוי"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Creating backup…"
+msgstr "יוצר עדכון…"
+
+#: src/features/theme/Themes.ts
+msgid "Crimson"
+msgstr "ארגמן"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Current:"
+msgstr "הנוכחי:"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Currently publishing"
+msgstr "בפרסום פעיל"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Custom"
+msgstr "מותאם אישית"
+
+#: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
+#: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
+msgid "Custom brightness"
+msgstr "בהירות (Brightness)"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Custom color filters"
+msgstr "מסנני צבע (Color filters)"
+
+#: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
+#: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
+msgid "Custom contrast"
+msgstr "ניגודיות (Contrast)"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Custom filter"
+msgstr "מסנן תצוגה אישי"
+
+#: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
+#: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
+msgid "Custom hue"
+msgstr "גוון (Hue)"
+
+#: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
+#: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
+msgid "Custom saturate"
+msgstr "רוויה (Saturate)"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Custom scroll amount"
+msgstr "מרחק גלילה"
