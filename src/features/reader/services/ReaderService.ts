@@ -331,7 +331,7 @@ export class ReaderService {
         const metaValue = JSON.stringify(value);
         const chunkedMeta = MetadataChunker.chunkValue(key, metaValue);
 
-        const existingMeta = this.getMetadataWithUnmodifiedKey(manga, metaHolderType, key, isGlobalSetting);
+        const existingMeta = ReaderService.getMetadataWithUnmodifiedKey(manga, metaHolderType, key, isGlobalSetting);
 
         const keysToDelete = MetadataChunker.computeChunkDeletions(existingMeta, key, chunkedMeta.length - 1);
 
@@ -411,7 +411,7 @@ export class ReaderService {
 
         const key = getMetadataKey(setting, profile !== undefined ? [profile?.toString()] : undefined);
 
-        const existingMeta = this.getMetadataWithUnmodifiedKey(manga, metaHolderType, key, isGlobalSetting);
+        const existingMeta = ReaderService.getMetadataWithUnmodifiedKey(manga, metaHolderType, key, isGlobalSetting);
 
         const keysToDelete = MetadataChunker.computeChunkDeletions(existingMeta, key, 0);
 
