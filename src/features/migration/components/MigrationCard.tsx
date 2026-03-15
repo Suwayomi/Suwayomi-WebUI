@@ -11,12 +11,11 @@ import Box from '@mui/material/Box';
 import CardActionArea from '@mui/material/CardActionArea';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import type { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
-import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 
@@ -33,7 +32,7 @@ export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratab
 
     return (
         <Card>
-            <CardActionArea component={Link} to={AppRoutes.migrate.path(id)}>
+            <CardActionArea onClick={() => MigrationManager.selectSource(id)}>
                 <ListCardContent sx={{ justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <ListCardAvatar
