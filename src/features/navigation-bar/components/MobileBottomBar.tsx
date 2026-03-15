@@ -20,8 +20,32 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
 import type { StaticAppRoute } from '@/base/AppRoute.constants.ts';
 
-export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
+const BottomNavigationItem = ({
+    path,
+    title,
+    useBadge,
+    SelectedIconComponent,
+    IconComponent,
+    isActive,
+}: NavbarItem & { isActive: boolean }) => {
     const { t } = useLingui();
+    const count = useBadge?.()?.count;
+
+    return (
+        <BottomNavigationAction
+            key={path}
+            value={path}
+            label={t(title)}
+            icon={
+                <Badge key={path} badgeContent={count} color="primary">
+                    {isActive ? <SelectedIconComponent /> : <IconComponent />}
+                </Badge>
+            }
+        />
+    );
+};
+
+export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const theme = useTheme();
     const { setBottomBarHeight } = useNavBarContext();
     const location = useLocation();
@@ -66,16 +90,11 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
                     navigate(newValue);
                 }}
             >
-                {navBarItems.map(({ path, title, IconComponent, SelectedIconComponent, useBadge }) => (
-                    <BottomNavigationAction
-                        key={path}
-                        value={path}
-                        label={t(title)}
-                        icon={
-                            <Badge key={path} badgeContent={useBadge?.().count} color="primary">
-                                {selectedNavBarItem === path ? <SelectedIconComponent /> : <IconComponent />}
-                            </Badge>
-                        }
+                {navBarItems.map((navbarItem) => (
+                    <BottomNavigationItem
+                        key={navbarItem.path}
+                        {...navbarItem}
+                        isActive={selectedNavBarItem === navbarItem.path}
                     />
                 ))}
             </BottomNavigation>

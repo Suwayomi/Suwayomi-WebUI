@@ -27,6 +27,7 @@ import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick<MangaType, 'title'> }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const trackers = trackerList.data?.trackers.nodes ?? [];
@@ -55,7 +56,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
                 <>
                     <CustomButton
                         {...bindTrigger(popupState)}
-                        size={MediaQuery.useIsMobileWidth() ? 'small' : 'medium'}
+                        size={isMobileWidth ? 'small' : 'medium'}
                         disabled={trackerList.loading || !!trackerList.error}
                         onClick={() => handleClick(popupState.open)}
                         variant={trackersInUse.length ? 'contained' : 'outlined'}

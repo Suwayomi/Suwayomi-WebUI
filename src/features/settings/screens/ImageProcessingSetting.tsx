@@ -22,7 +22,6 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { assertIsDefined } from '@/base/Asserts.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import {
     addStableIdToConversions,
@@ -45,25 +44,9 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
     });
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
-    if (loading) {
-        return <LoadingPlaceholder />;
-    }
-
-    if (error) {
-        return (
-            <EmptyViewAbsoluteCentered
-                message={t`Unable to load data`}
-                messageExtra={getErrorMessage(error)}
-                retry={() => refetch().catch(defaultPromiseErrorHandler('ImageProcessingSetting::refetch'))}
-            />
-        );
-    }
-
     const settingKey = IMAGE_PROCESSING_TYPE_TO_SETTING[type];
 
-    assertIsDefined(data?.settings?.[settingKey]);
-
-    const conversions = data?.settings?.[settingKey];
+    const conversions = data?.settings?.[settingKey] ?? [];
 
     const [tmpConversions, setTmpConversions] = useState(
         normalizeConversions(maybeAddDefault(addStableIdToConversions(conversions))),
@@ -89,6 +72,20 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
             // ignore error
         }
     };
+
+    if (loading) {
+        return <LoadingPlaceholder />;
+    }
+
+    if (error) {
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t`Unable to load data`}
+                messageExtra={getErrorMessage(error)}
+                retry={() => refetch().catch(defaultPromiseErrorHandler('ImageProcessingSetting::refetch'))}
+            />
+        );
+    }
 
     return (
         <Stack sx={{ p: 2, gap: 5 }}>

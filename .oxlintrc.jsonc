@@ -407,28 +407,16 @@
   "overrides": [
     {
       "files": [
-        "src/base/components/settings/NumberSetting.tsx",
         "src/base/utils/MediaQuery.tsx",
         "src/features/authentication/AuthManager.ts",
-        "src/features/browse/extensions/components/ExtensionCard.tsx",
         "src/features/chapter/services/Chapters.ts",
-        "src/features/extension/info/components/ActionButton.tsx",
-        "src/features/manga/components/TrackMangaButton.tsx",
-        "src/features/manga/services/Mangas.ts",
         "src/features/metadata/services/MetadataMigrations.ts",
-        "src/features/migration/components/MigrateDialog.tsx",
-        "src/features/navigation-bar/components/MobileBottomBar.tsx",
         "src/features/reader/services/ReaderControls.ts",
         "src/features/reader/services/ReaderService.ts",
-        "src/features/settings/screens/ImageProcessingSetting.tsx",
-        "src/features/source/browse/components/SourceOptions.tsx",
-        "src/features/source/browse/components/filters/SelectFilter.tsx",
         "src/features/source/services/Sources.ts",
-        "src/lib/dayjs/LocaleImporter.ts",
         "src/lib/dnd-kit/DndKitUtil.ts",
         "src/lib/requests/RequestManager.ts",
         "src/lib/requests/client/GraphQLClient.ts",
-        "src/lib/service-worker/ImageCache.ts",
         "src/lib/virtuoso/Virtuoso.util.tsx"
       ],
       "rules": {

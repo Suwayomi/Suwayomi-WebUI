@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
@@ -23,7 +23,7 @@ interface Props {
     update: any;
 }
 
-function noSelect(
+function NoSelect(
     values: string[],
     name: string,
     state: number,
@@ -32,7 +32,7 @@ function noSelect(
     update: any,
     group?: number,
 ) {
-    const [val, setval] = React.useState(state);
+    const [val, setval] = useState(state);
 
     if (values) {
         const handleChange = (event: { target: { name: any; value: any } }) => {
@@ -62,4 +62,4 @@ function noSelect(
 }
 
 export const SelectFilter: React.FC<Props> = ({ values, name, state, position, updateFilterValue, update, group }) =>
-    noSelect(values, name, state, position, updateFilterValue, update, group);
+    NoSelect(values, name, state, position, updateFilterValue, update, group);
