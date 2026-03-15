@@ -399,16 +399,17 @@ export class ReaderService {
         isGlobal: boolean = false,
         profile?: ReadingMode,
     ): void {
+        const isGlobalSetting = isGlobal || GLOBAL_READER_SETTING_KEYS.includes(setting);
+        const metaHolderType = isGlobalSetting ? 'global' : 'manga';
+
         const { manga: currentManga } = getReaderStore();
-        const manga = isGlobal ? GLOBAL_READER_SETTINGS_MANGA : (currentManga ?? FALLBACK_MANGA);
+        const manga = isGlobalSetting ? GLOBAL_READER_SETTINGS_MANGA : (currentManga ?? FALLBACK_MANGA);
 
         if (!manga || manga.id === FALLBACK_MANGA.id) {
             return;
         }
 
         const key = getMetadataKey(setting, profile !== undefined ? [profile?.toString()] : undefined);
-        const isGlobalSetting = isGlobal || GLOBAL_READER_SETTING_KEYS.includes(setting);
-        const metaHolderType = isGlobalSetting ? 'global' : 'manga';
 
         const existingMeta = this.getMetadataWithUnmodifiedKey(manga, metaHolderType, key, isGlobalSetting);
 
