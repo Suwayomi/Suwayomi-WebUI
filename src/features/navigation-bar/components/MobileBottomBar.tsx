@@ -7,6 +7,7 @@
  */
 
 import BottomNavigation from '@mui/material/BottomNavigation';
+import type { BottomNavigationActionProps } from '@mui/material/BottomNavigationAction';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
 import type { CSSProperties } from 'react';
@@ -27,17 +28,20 @@ const BottomNavigationItem = ({
     SelectedIconComponent,
     IconComponent,
     isActive,
-}: NavbarItem & { isActive: boolean }) => {
+    ...bottomNavigationActionProps
+}: NavbarItem & {
+    isActive: boolean;
+} & Omit<BottomNavigationActionProps, 'value' | 'label' | 'icon' | 'title'>) => {
     const { t } = useLingui();
     const count = useBadge?.()?.count;
 
     return (
         <BottomNavigationAction
-            key={path}
+            {...bottomNavigationActionProps}
             value={path}
             label={t(title)}
             icon={
-                <Badge key={path} badgeContent={count} color="primary">
+                <Badge badgeContent={count} color="primary">
                     {isActive ? <SelectedIconComponent /> : <IconComponent />}
                 </Badge>
             }
