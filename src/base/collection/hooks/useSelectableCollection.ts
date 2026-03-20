@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 export type SelectableCollectionReturnType<Id extends number | string, Key extends string = string> = {
     selectedItemIds: Id[];
@@ -41,11 +41,17 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
 
     const lastSelectedItemInfoRef = useRef<{ id: Id; key: Key }>(undefined);
 
-    const selectedItemIds = [...new Set(Object.values(keyToSelectedItemIds).flat())];
+    const selectedItemIds = useMemo(
+        () => [...new Set(Object.values(keyToSelectedItemIds).flat())],
+        [keyToSelectedItemIds],
+    );
     const areAllItemsSelected = selectedItemIds.length === totalCount;
     const areNoItemsSelected = !selectedItemIds.length;
 
-    const keySelectedItemIds = keyToSelectedItemIds[currentKey] ?? [];
+    const keySelectedItemIds = useMemo(
+        () => keyToSelectedItemIds[currentKey] ?? [],
+        [keyToSelectedItemIds, currentKey],
+    );
     const areAllItemsForKeySelected = keySelectedItemIds.length === keyCount;
     const areNoItemsForKeySelected = keySelectedItemIds.length === 0;
 
