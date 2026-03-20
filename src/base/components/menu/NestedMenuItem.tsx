@@ -12,6 +12,7 @@
  * with a few changes to fix a bug on mobile devices where opening the sub menu immediately triggered the on click of the underlying menu item
  */
 
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import type { MenuProps as MuiMenuProps } from '@mui/material/Menu';
 import Menu from '@mui/material/Menu';
 import type { MenuItemProps as MuiMenuItemProps } from '@mui/material/MenuItem';
@@ -64,7 +65,7 @@ export const NestedMenuItem = ({ ref, ...props }: NestedMenuItemProps) => {
         children,
         className,
         tabIndex: tabIndexProp,
-        ContainerProps: ContainerPropsProp = {},
+        ContainerProps: ContainerPropsProp = STABLE_EMPTY_OBJECT,
         MenuProps,
         ...MenuItemProps
     } = props;

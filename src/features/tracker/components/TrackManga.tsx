@@ -24,6 +24,7 @@ import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracker?: number): TrackerMode => {
     if (id === searchModeForTracker) {
@@ -46,13 +47,13 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
     const trackerList = requestManager.useGetTrackerList<GetTrackersBindQuery>(GET_TRACKERS_BIND, {
         notifyOnNetworkStatusChange: true,
     });
-    const trackers = trackerList.data?.trackers.nodes ?? [];
+    const trackers = trackerList.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY;
 
     const mangaTrackRecordsList = requestManager.useGetManga<GetMangaTrackRecordsQuery>(
         GET_MANGA_TRACK_RECORDS,
         manga.id,
     );
-    const mangaTrackRecords = mangaTrackRecordsList.data?.manga.trackRecords.nodes ?? [];
+    const mangaTrackRecords = mangaTrackRecordsList.data?.manga.trackRecords.nodes ?? STABLE_EMPTY_ARRAY;
 
     const loggedInTrackers = Trackers.getLoggedIn(trackers);
     const trackersInUse = Trackers.getLoggedIn(Trackers.getTrackers(mangaTrackRecords, trackers));

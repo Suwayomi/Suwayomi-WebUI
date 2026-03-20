@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import CheckBoxOutlineBlank from '@mui/icons-material/CheckBoxOutlineBlank';
 import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
@@ -71,7 +72,7 @@ export const ChapterActionMenuItems = ({
     chapter,
     handleSelection,
     canBeDownloaded = false,
-    selectedChapters = [],
+    selectedChapters = STABLE_EMPTY_ARRAY,
     onClose,
     selectable = true,
 }: Props) => {

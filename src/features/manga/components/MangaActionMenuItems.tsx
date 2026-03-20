@@ -37,6 +37,7 @@ import type { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } fro
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 type BaseProps = { onClose: () => void; setHideMenu: (hide: boolean) => void };
 
@@ -65,7 +66,7 @@ export const MangaActionMenuItems = ({
     const [isTrackDialogOpen, setIsTrackDialogOpen] = useState(false);
 
     const isSingleMode = !!manga;
-    const selectedMangas = passedSelectedMangas ?? [];
+    const selectedMangas = passedSelectedMangas ?? STABLE_EMPTY_ARRAY;
 
     const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, MANGA_ACTION_TO_TRANSLATION);
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);

@@ -8,6 +8,7 @@
 
 import type { Ref } from 'react';
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -61,7 +62,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
         alt,
         onLoad,
         onError,
-        spinnerStyle: { small, ...spinnerStyle } = {},
+        spinnerStyle: { small, ...spinnerStyle } = STABLE_EMPTY_OBJECT,
         imgStyle,
         hideImgStyle,
         priority,

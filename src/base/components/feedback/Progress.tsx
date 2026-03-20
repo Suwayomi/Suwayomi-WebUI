@@ -10,11 +10,12 @@ import Box from '@mui/material/Box';
 import type { CircularProgressProps } from '@mui/material/CircularProgress';
 import CircularProgress from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 export const Progress = ({
     progress,
     showText = true,
-    progressProps = {},
+    progressProps = STABLE_EMPTY_OBJECT,
 }: {
     progress: number;
     showText?: boolean;

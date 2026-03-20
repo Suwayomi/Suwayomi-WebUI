@@ -28,6 +28,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import type { PreferenceProps } from '@/features/source/Source.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 function getPrefComponent(type: string) {
     switch (type) {
@@ -58,7 +59,7 @@ export function SourceConfigure() {
     >(GET_SOURCE_SETTINGS, sourceId, {
         notifyOnNetworkStatusChange: true,
     });
-    const sourcePreferences = data?.source.preferences ?? [];
+    const sourcePreferences = data?.source.preferences ?? STABLE_EMPTY_ARRAY;
 
     const updateValue =
         (position: number): PreferenceProps['updateValue'] =>

@@ -50,6 +50,7 @@ import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -82,7 +83,7 @@ export function Library() {
     const tabsData = categoriesResponse?.categories.nodes.filter(
         (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
     );
-    const tabs = tabsData ?? [];
+    const tabs = tabsData ?? STABLE_EMPTY_ARRAY;
 
     const librarySizeResponse = requestManager.useGetMangas<
         GetLibraryMangaCountQuery,
@@ -102,7 +103,7 @@ export function Library() {
         loading: mangaLoading,
         refetch: refetchCategoryMangas,
     } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, notifyOnNetworkStatusChange: true });
-    const categoryMangas = categoryMangaResponse?.mangas.nodes ?? [];
+    const categoryMangas = categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
     const {
         visibleMangas: mangas,
         showFilteredOutMessage,
@@ -127,6 +128,7 @@ export function Library() {
     } = useSelectableCollection<MangaType['id'], string>(mangas.length, {
         itemIds: mangaIds,
         currentKey: activeTab?.id.toString(),
+        initialState: undefined,
     });
 
     const handleSelect: typeof handleSelection = useCallback(

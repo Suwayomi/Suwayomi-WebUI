@@ -52,6 +52,7 @@ import { GridLayout, SearchParam } from '@/base/Base.types';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
+import { STABLE_EMPTY_ARRAY, STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
@@ -219,7 +220,7 @@ export function SourceMangas() {
         useLocation<{
             contentType: SourceContentType;
             clearCache: boolean;
-        }>().state ?? {};
+        }>().state ?? STABLE_EMPTY_OBJECT;
 
     const {
         settings: { hideLibraryEntries },
@@ -288,7 +289,7 @@ export function SourceMangas() {
         { data, error, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage },
     ] = useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
     currentAbortRequest.current = abortRequest;
-    const mangas = data?.fetchSourceManga?.mangas ?? [];
+    const mangas = data?.fetchSourceManga?.mangas ?? STABLE_EMPTY_ARRAY;
     const hasNextPage = !!data?.fetchSourceManga?.hasNextPage;
     const isLoading = loading || (filteredOutAllItemsOfFetchedPage && hasNextPage);
     const { data: sourceData } = requestManager.useGetSource<GetSourceBrowseQuery, GetSourceBrowseQueryVariables>(
@@ -297,7 +298,7 @@ export function SourceMangas() {
     );
     const source = sourceData?.source;
 
-    const filters = source?.filters ?? [];
+    const filters = source?.filters ?? STABLE_EMPTY_ARRAY;
     const { savedSearches = {} } = useGetSourceMetadata(source ?? DEFAULT_SOURCE);
     const updateSourceMetadata = createUpdateSourceMetadata<'savedSearches'>(source ?? { id: '-1' }, (e) =>
         makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),

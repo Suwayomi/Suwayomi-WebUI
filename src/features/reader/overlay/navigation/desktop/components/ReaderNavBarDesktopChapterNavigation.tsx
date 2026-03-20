@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -32,7 +33,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
     currentChapterNumber,
     previousChapter,
     nextChapter,
-    chapters = [],
+    chapters = STABLE_EMPTY_ARRAY,
     readerThemeDirection,
 }: {
     currentChapterId: ChapterIdInfo['id'] | undefined;

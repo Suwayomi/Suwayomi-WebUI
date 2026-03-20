@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
@@ -159,7 +160,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
 }
 
 export function SourceOptions({
-    savedSearches = {},
+    savedSearches = STABLE_EMPTY_OBJECT,
     selectSavedSearch,
     updateSavedSearches,
     sourceFilter,

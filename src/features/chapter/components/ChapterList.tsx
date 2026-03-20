@@ -46,6 +46,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { ChapterListCard } from '@/features/chapter/components/cards/ChapterListCard.tsx';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;
@@ -140,7 +141,7 @@ export const ChapterList = ({
         manga.id,
         { notifyOnNetworkStatusChange: true },
     );
-    const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
+    const chapters = chaptersData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
     const visibleChapterIds = useMemo(() => Chapters.getIds(visibleChapters), [visibleChapters]);
