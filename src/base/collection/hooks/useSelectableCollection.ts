@@ -7,6 +7,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { STABLE_EMPTY_ARRAY, STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 export type SelectableCollectionReturnType<Id extends number | string, Key extends string = string> = {
     selectedItemIds: Id[];
@@ -26,10 +27,10 @@ export type SelectableCollectionReturnType<Id extends number | string, Key exten
 export const useSelectableCollection = <Id extends number | string, Key extends string = 'default'>(
     totalCount: number,
     {
-        itemIds = [],
+        itemIds = STABLE_EMPTY_ARRAY,
         keyCount = totalCount,
         currentKey,
-        initialState = {} as Record<Key, Id[]>,
+        initialState = STABLE_EMPTY_OBJECT,
     }: {
         itemIds?: Id[];
         keyCount?: number;
