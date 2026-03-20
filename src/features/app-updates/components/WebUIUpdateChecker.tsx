@@ -27,6 +27,7 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { BrowserUtil } from '@/lib/BrowserUtil.ts';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -53,7 +54,7 @@ export const WebUIUpdateChecker = () => {
     const shouldCheckForUpdate = !isAutoUpdateEnabled && webUIInformAvailableUpdate;
 
     const { data: aboutData } = requestManager.useGetAbout();
-    const { aboutWebUI } = aboutData ?? {};
+    const { aboutWebUI } = aboutData ?? STABLE_EMPTY_OBJECT;
 
     const { data: webUIUpdateData, refetch: checkForUpdate } = requestManager.useCheckForWebUIUpdate({
         notifyOnNetworkStatusChange: true,

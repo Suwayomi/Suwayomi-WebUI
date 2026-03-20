@@ -234,7 +234,7 @@ export function SourceMangas() {
     );
     const [filtersToApply, setLocationFiltersToApply] = useSessionStorage<IPos[]>(
         `source-mangas-location-${locationKey}-${sourceId}-filters`,
-        currentFiltersToApply ?? [],
+        currentFiltersToApply ?? STABLE_EMPTY_ARRAY,
     );
     const [dialogFiltersToApply, setDialogFiltersToApply] = useState<IPos[]>(filtersToApply);
     const [currentContentType, setCurrentContentType] = useSessionStorage<SourceContentType | undefined>(

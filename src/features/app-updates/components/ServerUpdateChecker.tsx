@@ -20,6 +20,7 @@ import { VersionUpdateInfoDialog } from '@/features/app-updates/components/Versi
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -45,7 +46,7 @@ export const ServerUpdateChecker = () => {
     });
 
     const { data } = requestManager.useGetAbout();
-    const { aboutServer } = data ?? {};
+    const { aboutServer } = data ?? STABLE_EMPTY_OBJECT;
 
     const selectedServerChannelInfo = serverUpdateCheckData?.checkForServerUpdates?.find(
         (channel) => channel.channel === aboutServer?.buildType,

@@ -26,6 +26,7 @@ import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { updateMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type {
     GetCategoriesBaseQuery,
     GetCategoriesBaseQueryVariables,
@@ -112,9 +113,9 @@ export function CategorySelect(props: CategorySelectProps) {
     const { data } = requestManager.useGetCategories<GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables>(
         GET_CATEGORIES_BASE,
     );
-    const categoriesData = data?.categories.nodes;
+    const categoriesData = data?.categories.nodes ?? STABLE_EMPTY_ARRAY;
 
-    const allCategories = useMemo(() => Categories.getUserCreated(categoriesData ?? []), [categoriesData]);
+    const allCategories = useMemo(() => Categories.getUserCreated(categoriesData), [categoriesData]);
 
     const defaultCategoryIds = useMemo(
         () => (addToLibrary ? Categories.getIds(Categories.getDefaults(allCategories)) : []),

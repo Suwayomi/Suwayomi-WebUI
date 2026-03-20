@@ -21,6 +21,7 @@ import type { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
 import { getReaderChapterFromCache } from '@/features/reader/Reader.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 import { getReaderChaptersStore } from '@/features/reader/stores/ReaderStore.ts';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 import { READER_DEFAULT_CHAPTERS_STATE } from '@/features/reader/stores/ReaderChaptersStore.ts';
 
@@ -37,7 +38,7 @@ export const useReaderSetChaptersState = (
     const navigate = useNavigate();
     const locationState = useLocation<ReaderOpenChapterLocationState>().state;
 
-    const { updateInitialChapter } = locationState ?? {};
+    const { updateInitialChapter } = locationState ?? STABLE_EMPTY_OBJECT;
     const finalInitialChapter = updateInitialChapter ? undefined : initialChapter;
 
     useEffect(() => {

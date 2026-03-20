@@ -41,6 +41,7 @@ import { ExtensionAction, ExtensionGroupState, ExtensionState } from '@/features
 import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP } from '@/features/extension/Extensions.constants.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -142,11 +143,11 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const areReposDefined = !!serverSettingsData?.settings.extensionRepos.length;
     const areMultipleReposInUse = (serverSettingsData?.settings.extensionRepos.length ?? 0) > 1;
 
-    const allExtensions = data?.fetchExtensions?.extensions;
-    const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions ?? []), [allExtensions]);
+    const allExtensions = data?.fetchExtensions?.extensions ?? STABLE_EMPTY_ARRAY;
+    const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions), [allExtensions]);
 
     const filteredExtensions = useMemo(
-        () => filterExtensions(allExtensions ?? [], { selectedLanguages: shownLangs, showNsfw, query }),
+        () => filterExtensions(allExtensions, { selectedLanguages: shownLangs, showNsfw, query }),
         [allExtensions, shownLangs, showNsfw, query],
     );
     const groupedExtensions = useMemo(() => groupExtensionsByLanguage(filteredExtensions), [filteredExtensions]);
