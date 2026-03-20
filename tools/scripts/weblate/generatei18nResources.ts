@@ -77,7 +77,8 @@ const generateResources = async () => {
     updateLinguiConfig(resourceNames);
 
     execSync('yarn tsc', { stdio: 'inherit' });
-    execSync(`yarn eslint --fix ${I18N_INDEX_PATH} ${LINGUI_CONFIG_PATH}`, { stdio: 'inherit' });
+    execSync(`yarn oxlint --fix ${I18N_INDEX_PATH} ${LINGUI_CONFIG_PATH}`, { stdio: 'inherit' });
+    execSync(`yarn oxfmt --write ${I18N_INDEX_PATH} ${LINGUI_CONFIG_PATH}`, { stdio: 'inherit' });
 
     const hasI18nIndexChanged = execSync('git status --porcelain').toString().includes(I18N_INDEX_PATH);
     const hasLinguiConfigChanged = execSync('git status --porcelain').toString().includes(LINGUI_CONFIG_PATH);
