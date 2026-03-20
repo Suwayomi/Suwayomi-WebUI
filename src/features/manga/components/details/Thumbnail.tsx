@@ -45,6 +45,7 @@ export const Thumbnail = ({
             return () => {};
         }
 
+        let aborted = false;
         let imageRequest: ImageRequest = {
             response: Promise.resolve(''),
             cleanup: noOp,
@@ -55,11 +56,15 @@ export const Thumbnail = ({
             imageRequest = await requestManager.requestImage(url);
             const image = await imageRequest.response;
 
+            if (aborted) {return;}
+
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.src = image;
 
             img.onload = () => {
+                if (aborted) {return;}
+
                 const isLargeImage = img.width > 600 && img.height > 900;
 
                 Promise.all([
@@ -73,6 +78,8 @@ export const Thumbnail = ({
                         ],
                     }),
                 ]).then(([palette, averageColor]) => {
+                    if (aborted) {return;}
+
                     if (
                         !palette.Vibrant ||
                         !palette.DarkVibrant ||
@@ -95,6 +102,8 @@ export const Thumbnail = ({
         fetchImage().catch(() => {});
 
         return () => {
+            aborted = true;
+            imageRequest.abortRequest();
             imageRequest.cleanup();
             setDynamicColor(null);
         };
