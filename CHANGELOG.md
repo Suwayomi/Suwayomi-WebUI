@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Browse**) Fix incorrectly showing "local source" source in the source language filter (the local source can't be disabled)
 - (**Reader**) Fix page shift when toggling the "offset double spreads" setting (currently: enable: shift to the right; disable: shift to the left – now: inverted)
 - (**Reader**) Fix "auto webtoon mode" detection for manga source languages other than english and the current selected language
+- (**Reader**) Fix the reader transition page previous chapter scanlator name showing the chapter name instead of the scanlator name
 - (**Manga**) Fix dynamic manga page color theme not getting reset after leaving the manga page
 
 ## [20251230.01] (r2937) - 2025-12-30

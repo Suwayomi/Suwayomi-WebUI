@@ -241,7 +241,7 @@ export const ReaderTransitionPage = withPropsFrom(
                 currentChapterName: currentChapter?.name,
                 currentChapterScanlator: currentChapter?.scanlator,
                 previousChapterName: previousChapter?.name,
-                previousChapterScanlator: previousChapter?.name,
+                previousChapterScanlator: previousChapter?.scanlator,
                 nextChapterName: nextChapter?.name,
                 nextChapterScanlator: nextChapter?.scanlator,
             };
