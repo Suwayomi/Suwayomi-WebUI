@@ -11,18 +11,14 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { useLingui } from '@lingui/react/macro';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
-import {
-    MigrationManager,
-    useMigrationEntries,
-    useMigrationMigrationProgress,
-} from '@/features/migration/MigrationManager.ts';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { MigrationEntryRow } from '@/features/migration/components/MigrationEntryRow.tsx';
 import { MigrationProgressBar } from '@/features/migration/components/MigrationProgressBar.tsx';
 
 export const MigrationExecute = () => {
     const { t } = useLingui();
-    const entries = useMigrationEntries();
-    const progress = useMigrationMigrationProgress();
+    const entries = MigrationManager.useEntries();
+    const progress = MigrationManager.useMigrationProgress();
 
     useAppTitleAndAction(t`Migrating`, undefined, []);
 

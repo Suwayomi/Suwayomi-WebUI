@@ -12,20 +12,20 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useLingui } from '@lingui/react/macro';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
-import { MigrationManager, useMigrationEntries } from '@/features/migration/MigrationManager.ts';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 import { MigrationEntryRow } from '@/features/migration/components/MigrationEntryRow.tsx';
 
 export const MigrationComplete = () => {
     const { t } = useLingui();
-    const entries = useMigrationEntries();
+    const entries = MigrationManager.useEntries();
 
     useAppTitleAndAction(t`Migration complete`, undefined, []);
 
     const entryList = Object.values(entries);
     const migrated = entryList.filter((e) => e.status === MigrationEntryStatus.MIGRATED).length;
     const failed = entryList.filter((e) => e.status === MigrationEntryStatus.MIGRATION_FAILED).length;
-    const excluded = entryList.filter((e) => e.status === MigrationEntryStatus.EXCLUDED).length;
+    const excluded = entryList.filter((e) => e.isExcluded).length;
     const noMatch = entryList.filter((e) => e.status === MigrationEntryStatus.NO_MATCH).length;
 
     const failedEntries = entryList.filter((e) => e.status === MigrationEntryStatus.MIGRATION_FAILED);

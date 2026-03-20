@@ -35,7 +35,7 @@ const getMangaLinkTo = (
         case 'duplicate':
             return AppRoutes.manga.path(mangaId);
         case 'migrate.search':
-            return AppRoutes.migrate.childRoutes.legacySearch.path(sourceId ?? '-1', mangaId, mangaTitle);
+            return AppRoutes.migrate.childRoutes.singleMangaSearch.path(sourceId ?? '-1', mangaId, mangaTitle);
         case 'migrate.select':
             return '';
         default:
@@ -44,7 +44,15 @@ const getMangaLinkTo = (
 };
 
 export const MangaCard = memo((props: MangaCardProps) => {
-    const { manga, gridLayout, inLibraryIndicator, selected, handleSelection, mode = 'default' } = props;
+    const {
+        manga,
+        gridLayout,
+        inLibraryIndicator,
+        selected,
+        handleSelection,
+        mode = 'default',
+        onMigrateSelect,
+    } = props;
     const { id, firstUnreadChapter, downloadCount, unreadCount } = manga;
     const {
         settings: { showContinueReadingButton },
@@ -88,6 +96,12 @@ export const MangaCard = memo((props: MangaCardProps) => {
             }
 
             if (isMigrateSelectMode) {
+                const isBulkMigrationManualSearch = !!onMigrateSelect;
+                if (isBulkMigrationManualSearch) {
+                    onMigrateSelect(manga);
+                    return;
+                }
+
                 setIsMigrateDialogOpen(true);
             }
         },

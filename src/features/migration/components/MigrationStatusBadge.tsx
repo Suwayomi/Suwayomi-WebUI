@@ -10,6 +10,8 @@ import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useLingui } from '@lingui/react/macro';
 import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
+import { msg } from '@lingui/core/macro';
+import type { MessageDescriptor } from '@lingui/core';
 
 const STATUS_COLOR: Record<MigrationEntryStatus, 'default' | 'success' | 'error' | 'warning' | 'info' | 'primary'> = {
     [MigrationEntryStatus.PENDING]: 'default',
@@ -17,33 +19,31 @@ const STATUS_COLOR: Record<MigrationEntryStatus, 'default' | 'success' | 'error'
     [MigrationEntryStatus.SEARCH_COMPLETE]: 'success',
     [MigrationEntryStatus.SEARCH_FAILED]: 'error',
     [MigrationEntryStatus.NO_MATCH]: 'warning',
-    [MigrationEntryStatus.EXCLUDED]: 'default',
     [MigrationEntryStatus.MIGRATING]: 'info',
     [MigrationEntryStatus.MIGRATED]: 'success',
     [MigrationEntryStatus.MIGRATION_FAILED]: 'error',
 };
 
+const ENTRY_STATUS_TRANSLATION: Record<MigrationEntryStatus, MessageDescriptor> = {
+    [MigrationEntryStatus.PENDING]: msg`Pending`,
+    [MigrationEntryStatus.SEARCHING]: msg`Searching`,
+    [MigrationEntryStatus.SEARCH_COMPLETE]: msg`Found`,
+    [MigrationEntryStatus.SEARCH_FAILED]: msg`Search failed`,
+    [MigrationEntryStatus.NO_MATCH]: msg`No match`,
+    [MigrationEntryStatus.MIGRATING]: msg`Migrating`,
+    [MigrationEntryStatus.MIGRATED]: msg`Migrated`,
+    [MigrationEntryStatus.MIGRATION_FAILED]: msg`Failed`,
+};
+
 export const MigrationStatusBadge = ({ status }: { status: MigrationEntryStatus }) => {
     const { t } = useLingui();
-
-    const labels: Record<MigrationEntryStatus, string> = {
-        [MigrationEntryStatus.PENDING]: t`Pending`,
-        [MigrationEntryStatus.SEARCHING]: t`Searching`,
-        [MigrationEntryStatus.SEARCH_COMPLETE]: t`Found`,
-        [MigrationEntryStatus.SEARCH_FAILED]: t`Search failed`,
-        [MigrationEntryStatus.NO_MATCH]: t`No match`,
-        [MigrationEntryStatus.EXCLUDED]: t`Excluded`,
-        [MigrationEntryStatus.MIGRATING]: t`Migrating`,
-        [MigrationEntryStatus.MIGRATED]: t`Migrated`,
-        [MigrationEntryStatus.MIGRATION_FAILED]: t`Failed`,
-    };
 
     const isLoading = status === MigrationEntryStatus.SEARCHING || status === MigrationEntryStatus.MIGRATING;
 
     return (
         <Chip
             size="small"
-            label={labels[status]}
+            label={t(ENTRY_STATUS_TRANSLATION[status])}
             color={STATUS_COLOR[status]}
             icon={isLoading ? <CircularProgress size={14} color="inherit" /> : undefined}
         />

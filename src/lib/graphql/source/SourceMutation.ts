@@ -23,6 +23,30 @@ export const GET_SOURCE_MANGAS_FETCH = gql`
     }
 `;
 
+export const GET_MIGRATION_SOURCE_MANGAS_FETCH = gql`
+    ${MANGA_BASE_FIELDS}
+
+    mutation GET_MIGRATION_SOURCE_MANGAS_FETCH($input: FetchSourceMangaInput!) {
+        fetchSourceManga(input: $input) {
+            hasNextPage
+            mangas {
+                ...MANGA_BASE_FIELDS
+                artist
+                author
+                highestNumberedChapter {
+                    id
+                    chapterNumber
+                }
+                source {
+                    id
+                    name
+                    displayName
+                }
+            }
+        }
+    }
+`;
+
 export const UPDATE_SOURCE_PREFERENCES = gql`
     ${SOURCE_SETTING_FIELDS}
 

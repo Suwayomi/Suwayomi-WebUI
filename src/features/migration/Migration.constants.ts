@@ -8,7 +8,7 @@
 
 import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
-import { MigrationPhase, SortBy, SortOrder } from '@/features/migration/Migration.types.ts';
+import { MigrationEntryStatus, MigrationPhase, SortBy, SortOrder } from '@/features/migration/Migration.types.ts';
 import type { MigrationState } from '@/features/migration/Migration.types.ts';
 
 export const sortByToTranslation: Record<SortBy, MessageDescriptor> = {
@@ -28,7 +28,9 @@ export const DEFAULT_SORT_SETTINGS = {
 
 export const MIGRATION_LOCAL_STORAGE_KEY = 'migration_state';
 
-export const MAX_SOURCES_IN_PARALLEL = 3;
+export const MAX_MANGAS_IN_PARALLEL = 5;
+
+export const MAX_SOURCES_IN_PARALLEL = 6;
 
 export const DEFAULT_MIGRATION_STATE: MigrationState = {
     phase: MigrationPhase.IDLE,
@@ -40,4 +42,15 @@ export const DEFAULT_MIGRATION_STATE: MigrationState = {
     migrationProgress: { completed: 0, total: 0, failed: 0 },
     startedAt: null,
     lastUpdatedAt: null,
+};
+
+export const ENTRY_STATUS_TRANSLATION: Record<MigrationEntryStatus, MessageDescriptor> = {
+    [MigrationEntryStatus.PENDING]: msg`Pending…`,
+    [MigrationEntryStatus.SEARCHING]: msg`Searching…`,
+    [MigrationEntryStatus.SEARCH_COMPLETE]: msg`Found`,
+    [MigrationEntryStatus.SEARCH_FAILED]: msg`Search failed`,
+    [MigrationEntryStatus.NO_MATCH]: msg`No match`,
+    [MigrationEntryStatus.MIGRATING]: msg`Migrating`,
+    [MigrationEntryStatus.MIGRATED]: msg`Migrated`,
+    [MigrationEntryStatus.MIGRATION_FAILED]: msg`Failed`,
 };

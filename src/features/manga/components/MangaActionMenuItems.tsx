@@ -150,7 +150,7 @@ export const MangaActionMenuItems = ({
             )}
             {isSingleMode && (
                 <Link
-                    to={AppRoutes.migrate.childRoutes.legacySearch.path(
+                    to={AppRoutes.migrate.childRoutes.singleMangaSearch.path(
                         manga?.sourceId ?? -1,
                         manga?.id ?? -1,
                         manga?.title,

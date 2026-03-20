@@ -7,6 +7,23 @@
  */
 
 import type { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
+import type {
+    SourceDisplayNameInfo,
+    SourceIconInfo,
+    SourceIdInfo,
+    SourceLanguageInfo,
+    SourceMetaInfo,
+    SourceNameInfo,
+} from '@/features/source/Source.types.ts';
+import type {
+    MangaArtistInfo,
+    MangaAuthorInfo,
+    MangaIdInfo,
+    MangaSourceIdInfo,
+    MangaThumbnailInfo,
+    MangaTitleInfo,
+} from '@/features/manga/Manga.types.ts';
+import type { ChapterNumberInfo } from '@/features/chapter/Chapter.types.ts';
 
 export enum SortBy {
     SOURCE_NAME,
@@ -58,39 +75,45 @@ export enum MigrationEntryStatus {
     SEARCH_COMPLETE = 'search_complete',
     SEARCH_FAILED = 'search_failed',
     NO_MATCH = 'no_match',
-    EXCLUDED = 'excluded',
     MIGRATING = 'migrating',
     MIGRATED = 'migrated',
     MIGRATION_FAILED = 'migration_failed',
 }
 
-export interface MigrationSearchResult {
-    mangaId: number;
-    title: string;
-    sourceId: string;
-    thumbnailUrl?: string;
+export interface MigrationSearchResult
+    extends MangaIdInfo, MangaTitleInfo, MangaThumbnailInfo, MangaSourceIdInfo, MangaArtistInfo, MangaAuthorInfo {
+    sourceTitle: SourceDisplayNameInfo['displayName'] | undefined;
+    latestChapterNumber?: ChapterNumberInfo['chapterNumber'];
 }
 
 export interface MigrationEntry {
-    mangaId: number;
-    mangaTitle: string;
-    mangaThumbnailUrl?: string;
-    sourceId: string;
+    mangaId: MangaIdInfo['id'];
+    mangaTitle: MangaTitleInfo['title'];
+    mangaArtist: MangaArtistInfo['artist'];
+    mangaAuthor: MangaAuthorInfo['author'];
+    latestChapterNumber?: ChapterNumberInfo['chapterNumber'];
+    mangaThumbnailUrl?: MangaThumbnailInfo['thumbnailUrl'];
+    sourceId: SourceIdInfo['id'];
+    sourceTitle: SourceDisplayNameInfo['displayName'] | undefined;
     status: MigrationEntryStatus;
     searchResults: MigrationSearchResult[];
-    selectedMatchMangaId: number | null;
-    selectedMatchSourceId: string | null;
+    manualMatches: MigrationSearchResult[];
+    selectedMatchMangaId: MangaIdInfo['id'] | null;
+    selectedMatchSourceId: SourceIdInfo['id'] | null;
     error?: string;
+    isExcluded: boolean;
 }
 
 export interface MigrationState {
     phase: MigrationPhase;
-    sourceId: string | null;
-    entries: Record<number, MigrationEntry>;
-    destinationSourceIds: string[];
+    sourceId: SourceIdInfo['id'] | null;
+    entries: Record<MangaIdInfo['id'], MigrationEntry>;
+    destinationSourceIds: SourceIdInfo['id'][];
     migrateOptions: Omit<MigrateOptions, 'mangaIdToMigrateTo'> | null;
     searchProgress: { completed: number; total: number };
     migrationProgress: { completed: number; total: number; failed: number };
     startedAt: number | null;
     lastUpdatedAt: number | null;
 }
+
+export interface SourceItem extends SourceIdInfo, SourceNameInfo, SourceLanguageInfo, SourceIconInfo, SourceMetaInfo {}

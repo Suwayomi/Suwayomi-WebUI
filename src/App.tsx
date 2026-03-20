@@ -39,6 +39,10 @@ const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/Do
 const { Library } = loadable(() => import('@/features/library/screens/Library.tsx'), lazyLoadFallback);
 const { Manga } = loadable(() => import('@/features/manga/screens/Manga.tsx'), lazyLoadFallback);
 const { SearchAll } = loadable(() => import('@/features/global-search/screens/SearchAll.tsx'), lazyLoadFallback);
+const { MigrationManualSearch } = loadable(
+    () => import('@/features/migration/screens/MigrationManualSearch.tsx'),
+    lazyLoadFallback,
+);
 const { Settings } = loadable(() => import('@/features/settings/screens/Settings.tsx'), lazyLoadFallback);
 const { About } = loadable(() => import('@/features/settings/screens/About.tsx'), lazyLoadFallback);
 const { Backup } = loadable(() => import('@/features/backup/screens/Backup.tsx'), lazyLoadFallback);
@@ -70,10 +74,7 @@ const { ImageProcessingSetting } = loadable(
 const { ServerSettings } = loadable(() => import('@/features/settings/screens/ServerSettings.tsx'), lazyLoadFallback);
 const { BrowseSettings } = loadable(() => import('@/features/browse/screens/BrowseSettings.tsx'), lazyLoadFallback);
 const { WebUISettings } = loadable(() => import('@/features/settings/screens/WebUISettings.tsx'), lazyLoadFallback);
-const { MigrationProcess } = loadable(
-    () => import('@/features/migration/screens/MigrationProcess.tsx'),
-    lazyLoadFallback,
-);
+const { Migration } = loadable(() => import('@/features/migration/screens/Migration.tsx'), lazyLoadFallback);
 const { DeviceSetting } = loadable(() => import('@/features/device/screens/DeviceSetting.tsx'), lazyLoadFallback);
 const { TrackingSettings } = loadable(
     () => import('@/features/tracker/screens/TrackingSettings.tsx'),
@@ -297,7 +298,18 @@ const MainApp = () => {
                         <Route path={AppRoutes.updates.match} element={<Updates />} />
                         {!hideHistory && <Route path={AppRoutes.history.match} element={<History />} />}
                         <Route path={AppRoutes.browse.match} element={<Browse />} />
-                        <Route path={AppRoutes.migrate.match} element={<MigrationProcess />} />
+                        <Route path={AppRoutes.browse.match} element={<Browse />} />
+                        <Route path={AppRoutes.migrate.match}>
+                            <Route index element={<Migration />} />
+                            <Route
+                                path={AppRoutes.migrate.childRoutes.singleMangaSearch.match}
+                                element={<SearchAll />}
+                            />
+                            <Route
+                                path={AppRoutes.migrate.childRoutes.manualSearch.match}
+                                element={<MigrationManualSearch />}
+                            />
+                        </Route>
                         <Route path={AppRoutes.tracker.match} element={<TrackerOAuthLogin />} />
                     </Route>
                 </Routes>

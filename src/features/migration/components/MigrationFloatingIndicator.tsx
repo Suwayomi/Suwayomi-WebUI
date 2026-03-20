@@ -11,22 +11,17 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 import { MigrationPhase } from '@/features/migration/Migration.types.ts';
-import {
-    useMigrationIsActive,
-    useMigrationPhase,
-    useMigrationSearchProgress,
-    useMigrationMigrationProgress,
-} from '@/features/migration/MigrationManager.ts';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const MigrationFloatingIndicator = () => {
     const { t } = useLingui();
     const navigate = useNavigate();
     const location = useLocation();
-    const isActive = useMigrationIsActive();
-    const phase = useMigrationPhase();
-    const searchProgress = useMigrationSearchProgress();
-    const migrationProgress = useMigrationMigrationProgress();
+    const isActive = MigrationManager.useIsActive();
+    const phase = MigrationManager.usePhase();
+    const searchProgress = MigrationManager.useSearchProgress();
+    const migrationProgress = MigrationManager.useMigrationProgress();
 
     // Don't show if not active or already on migrate page
     if (!isActive || location.pathname.startsWith('/migrate')) {

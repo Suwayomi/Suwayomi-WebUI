@@ -23,8 +23,14 @@ import {
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { MetadataMigrationSettings, MigrateMode } from '@/features/migration/Migration.types.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
+import type { AwaitableComponentProps } from 'awaitable-component';
 
-export const MigrationOptionsDialog = ({ onClose }: { onClose: () => void }) => {
+export const MigrationOptionsDialog = ({
+    isVisible,
+    onDismiss,
+    onSubmit,
+    onExitComplete,
+}: AwaitableComponentProps<void>) => {
     const { t } = useLingui();
 
     const {
@@ -39,7 +45,7 @@ export const MigrationOptionsDialog = ({ onClose }: { onClose: () => void }) => 
 
     const handleStart = async (mode: MigrateMode) => {
         setIsStarting(true);
-        onClose();
+        onSubmit();
 
         await MigrationManager.startMigration({
             mode,
@@ -52,7 +58,7 @@ export const MigrationOptionsDialog = ({ onClose }: { onClose: () => void }) => 
     };
 
     return (
-        <Dialog open fullWidth onClose={onClose}>
+        <Dialog open={isVisible} fullWidth onClose={onDismiss} onTransitionExited={onExitComplete}>
             <DialogTitle>{t`Migration options`}</DialogTitle>
             <DialogContent dividers>
                 <FormGroup>
@@ -90,7 +96,7 @@ export const MigrationOptionsDialog = ({ onClose }: { onClose: () => void }) => 
             </DialogContent>
             <DialogActions>
                 <Stack direction="row" sx={{ justifyContent: 'flex-end', width: '100%', gap: 1 }}>
-                    <Button disabled={isStarting} onClick={onClose}>
+                    <Button disabled={isStarting} onClick={onDismiss}>
                         {t`Cancel`}
                     </Button>
                     <Button disabled={isStarting} onClick={() => handleStart('copy')}>

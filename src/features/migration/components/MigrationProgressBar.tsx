@@ -9,6 +9,7 @@
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 
 export const MigrationProgressBar = ({
     completed,
@@ -19,10 +20,24 @@ export const MigrationProgressBar = ({
     total: number;
     label: string;
 }) => {
+    const { appBarHeight } = useNavBarContext();
+
     const progress = total > 0 ? (completed / total) * 100 : 0;
 
     return (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, px: 2, py: 1 }}>
+        <Box
+            sx={{
+                position: 'sticky',
+                top: appBarHeight,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                px: 2,
+                py: 1,
+                backgroundColor: 'background.default',
+                zIndex: 1,
+            }}
+        >
             <Box sx={{ flexGrow: 1 }}>
                 <LinearProgress variant="determinate" value={progress} />
             </Box>
