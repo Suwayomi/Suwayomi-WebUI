@@ -50,7 +50,7 @@ export function CheckboxListSetting<Item>({
     const { selectedItemIds, handleSelection, handleSelectAll, reset } = useSelectableCollection(items.length, {
         currentKey: 'default',
         itemIds,
-        initialState: { default: currentSelectedItemIds },
+        initialState: useMemo(() => ({ default: currentSelectedItemIds }), [currentSelectedItemIds]),
     });
 
     const handleCancel = () => {

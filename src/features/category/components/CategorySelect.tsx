@@ -126,10 +126,13 @@ export function CategorySelect(props: CategorySelectProps) {
         'categoriesToAdd' | 'categoriesToRemove'
     >(allCategories.length, {
         currentKey: 'categoriesToAdd',
-        initialState: {
-            categoriesToAdd: [...mangaCategoryIds, ...defaultCategoryIds],
-            categoriesToRemove: [],
-        },
+        initialState: useMemo(
+            () => ({
+                categoriesToAdd: [...mangaCategoryIds, ...defaultCategoryIds],
+                categoriesToRemove: [],
+            }),
+            [mangaCategoryIds, defaultCategoryIds],
+        ),
     });
 
     useEffect(() => {

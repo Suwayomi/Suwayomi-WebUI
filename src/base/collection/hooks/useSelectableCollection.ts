@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 export type SelectableCollectionReturnType<Id extends number | string, Key extends string = string> = {
     selectedItemIds: Id[];
@@ -133,6 +133,10 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
         clearSelection();
         setKeyToSelectedItemIds(initialState);
     }, [clearSelection, initialState]);
+
+    useEffect(() => {
+        setKeyToSelectedItemIds(initialState);
+    }, [initialState]);
 
     return {
         selectedItemIds,
