@@ -1446,7 +1446,32 @@ export class RequestManager {
             GQLMethod.USE_MUTATION,
             GET_EXTENSIONS_FETCH,
             {},
-            { refetchQueries: [GET_EXTENSIONS], ...options },
+            {
+                ...options,
+                update(cache, { data: mutationData }) {
+                    if (!mutationData?.fetchExtensions?.extensions) {
+                        return;
+                    }
+
+                    cache.writeQuery({
+                        query: GET_EXTENSIONS,
+                        data: {
+                            extensions: {
+                                __typename: 'ExtensionNodeList',
+                                nodes: mutationData.fetchExtensions.extensions,
+                                pageInfo: {
+                                    __typename: 'PageInfo',
+                                    hasNextPage: false,
+                                    hasPreviousPage: false,
+                                    startCursor: null,
+                                    endCursor: null,
+                                },
+                                totalCount: mutationData.fetchExtensions.extensions.length,
+                            },
+                        },
+                    });
+                },
+            },
         );
         const [, setUpdatedCache] = useState({});
 
