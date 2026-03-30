@@ -11,7 +11,7 @@
     "eslint-plugin-no-relative-import-paths",
     "eslint-plugin-unused-imports",
     "eslint-plugin-no-only-tests",
-    "./tools/eslint-plugin-header.cjs"
+    "@tony.ganchev/eslint-plugin-header"
   ],
   "categories": {
     "correctness": "off"
@@ -361,7 +361,7 @@
     "no-only-tests/no-only-tests": "error",
 
     // ── License header ──
-    "header/header": ["error", "block", [
+    "@tony.ganchev/header/header": ["error", "block", [
       "",
       " * Copyright (C) Contributors to the Suwayomi project",
       " *",

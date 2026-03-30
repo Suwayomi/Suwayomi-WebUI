@@ -95,7 +95,7 @@
         "@lingui/format-po": "5.9.2",
         "@lingui/swc-plugin": "5.11.0",
         "@lingui/vite-plugin": "5.9.2",
-        "@tony.ganchev/eslint-plugin-header": "3.2.6",
+        "@tony.ganchev/eslint-plugin-header": "3.3.4",
         "@types/node": "24.10.1",
         "@types/react": "19.2.14",
         "@types/react-beautiful-dnd": "13.1.8",

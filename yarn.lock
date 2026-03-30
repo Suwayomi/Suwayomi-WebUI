@@ -3548,10 +3548,10 @@
   resolved "https://registry.yarnpkg.com/@tokenizer/token/-/token-0.3.0.tgz#fe98a93fe789247e998c75e74e9c7c63217aa276"
   integrity sha512-OvjF+z51L3ov0OyAU0duzsYuvO01PH7x4t6DJx+guahgTnBHkhJdG7soQeTSFLWN3efnHyibZ4Z8l2EuWwJN3A==
 
-"@tony.ganchev/eslint-plugin-header@3.2.6":
-  version "3.2.6"
-  resolved "https://registry.yarnpkg.com/@tony.ganchev/eslint-plugin-header/-/eslint-plugin-header-3.2.6.tgz#a1b8b7ad1332488dcf858fd8b21d39053398e32e"
-  integrity sha512-eplJG8O2L2sb6UWEy2G+34KckrSNX/LNaKQcE6ADUmFJ1ywqBqpSoJRYILSehntjgxMdqMhC7y6OZAt93q++xg==
+"@tony.ganchev/eslint-plugin-header@3.3.4":
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/@tony.ganchev/eslint-plugin-header/-/eslint-plugin-header-3.3.4.tgz#1c050803c28cb1416e69753bc73f6752487748e1"
+  integrity sha512-w6RqKLUO4Bvi8pdFJnNUl1o5bux3/i9ZaC+TIY593d+ad15InN8qe9rpqnzyL7Guk9i/vIc4ztlyw9todgKGPw==
 
 "@types/estree@0.0.39":
   version "0.0.39"
