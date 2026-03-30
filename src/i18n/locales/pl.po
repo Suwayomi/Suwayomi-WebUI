@@ -3,17 +3,17 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.885Z\n"
-"PO-Revision-Date: 2026-02-14 05:09+0000\n"
-"Last-Translator: UnknownSkyrimPasserby <f7022961@opayq.com>\n"
+"PO-Revision-Date: 2026-03-30 09:09+0000\n"
+"Last-Translator: AteX <atex@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -275,7 +275,7 @@ msgstr "Niebieski"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "Bookmark selected"
-msgstr "Wybrana zakładka"
+msgstr "Dodaj wybrane do zakładek"
 
 #: src/features/chapter/components/ChapterOptions.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -2966,3 +2966,675 @@ msgstr "{0, plural, one {# rozdział} other {# rozdziały}}"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "{0, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{0, plural, one {# Rozdział} other {# Rozdziały}}"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "Library"
+msgstr "Biblioteka"
+
+#: src/features/category/screens/CategorySettings.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Edit categories"
+msgstr "Edytuj kategorie"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/features/backup/Backup.constants.ts
+#: src/features/browse/extensions/components/ExtensionCard.tsx
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/info/components/SourceCard.tsx
+#: src/features/library/components/LibraryToolbarMenu.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/reader/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopQuickSettings.tsx
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Settings"
+msgstr "Ustawienia"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Keybinds"
+msgstr "Skróty klawiszowe"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Server settings"
+msgstr "Ustawienia serwera"
+
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/chapter/Chapter.constants.ts
+#: src/features/chapter/components/buttons/ChapterDownloadButton.tsx
+#: src/features/chapter/components/ChaptersToolbarMenu.tsx
+msgid "Download"
+msgstr "Pobierz"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/history/screens/History.tsx
+#: src/features/history/screens/HistorySettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "History"
+msgstr "Historia"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Source"
+msgstr "Źródło"
+
+#: src/features/browse/screens/Browse.tsx
+msgid "Extension"
+msgstr "Rozszerzenie"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Edit category"
+msgstr "Edytuj kategorię"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr "Informuj o zaktualizowaniu wersji"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr ""
+"Wyświetla okno dialogowe w przypadku zaktualizowania wersji. Okno to "
+"zostanie wyświetlone niezależnie od tego ustawienia, jeśli konieczne będzie "
+"odświeżenie aplikacji."
+
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {# dzień} other {# dni}}"
+
+#. placeholder {0}: serverSettings.flareSolverrSessionTtl
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# minute} other {# minutes}}"
+msgstr "{0, plural, one {# minuta} few {# minuty} other {# minut}}"
+
+#. placeholder {0}: autoScroll.value
+#. placeholder {0}: serverSettings.flareSolverrTimeout
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# second} other {# seconds}}"
+msgstr "{0, plural, one {# sekunda} few {# sekundy} other {# sekund}}"
+
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr "{0, plural, one {# Źródło} few {# Źródła} other {# Źródeł}}"
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr "{0, plural, one {Sekunda} few {Sekundy} other {Sekund}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr ""
+"{count, plural, one {Zmieniono kategorie mangi} other {Zmieniono kategorie "
+"dla # mang}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr ""
+"{count, plural, one {Zakładka rozdziału została usunięta} few {# zakładki "
+"rozdziałów zostały usunięte} other {# zakładek rozdziałów zostało "
+"usuniętych}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr ""
+"{count, plural, one {Rozdział dodany do zakładek} few {# rozdziały dodane do "
+"zakładek} other {# rozdziałów dodanych do zakładek}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr ""
+"{count, plural, one {Rozdział usunięty} few {# rozdziały usunięte} other {# "
+"rozdziałów usuniętych}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr ""
+"{count, plural, one {Rozdział oznaczony jako przeczytany} few {# rodziały "
+"oznaczone jako przeczytane} other {# rozdziałów oznaczonych jako "
+"przeczytanych}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr ""
+"{count, plural, one {Rozdział oznaczony jako nieprzeczytany} few {# "
+"rozdziały oznaczone jako nieprzeczytane} other {# rodziałów oznaczonych jako "
+"nieprzeczytanych}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download added} other {# downloads added}}"
+msgstr ""
+"{count, plural, one {Dodano pobieranie} few {Dodano # pobrania} other "
+"{Dodano # pobrań}}"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
+msgstr ""
+"{count, plural, one {Następny rozdział} fews {Następne # rozdziały} other "
+"{Następne # rozdziałów}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+msgstr ""
+"{count, plural, one {Usunięto mangę z biblioteki} few {Usunięto # mangi z "
+"biblioteki} other {Usunięto # mang z biblioteki}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
+msgstr ""
+"{count, plural, one {Za chwilę usuniesz jedno pobranie} few {Za chwilę "
+"usuniesz # pobrania} other {Za chwilę usuniesz # pobrań}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid ""
+"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+msgstr ""
+"{count, plural, one {Za chwilę pobierzesz jeden rozdział} other {Za chwilę "
+"pobierzesz # rodziałów.\n"
+"Suwayomi nie jest narzędziem do masowego pobierania plików, a zbyt duża "
+"liczba pobrań może skutkować zablokowaniem dostępu do źródeł i/lub "
+"spowodować problemy z wydajnością.}}"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/manga/components/TrackMangaButton.tsx
+#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Tracking"
+msgstr "Śledzenie"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Type"
+msgstr "Typ"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "This will delete the saved search \"{savedSearch}\""
+msgstr "To usunie zapisane wyszukiwanie \"{savedSearch}\""
+
+#. placeholder {0}: manga.title
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "You are about to remove \"{0}\" from your library"
+msgstr "Za chwilę usuniesz \"{0}\" z biblioteki"
+
+#: src/features/settings/Settings.constants.ts
+msgid "When you enable this, you may need to refresh this tab for the login page to appear."
+msgstr ""
+"Po włączeniu tej opcji może być konieczne odświeżenie strony, aby "
+"wyświetliła się strona logowania."
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr ""
+"{currentDownloadAheadLimit, plural, one {# Rozdział} few {# Rozdziały} other "
+"{# Rozdziałów}}"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/settings/screens/More.tsx
+msgid "Categories"
+msgstr "Kategorie"
+
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/migration/components/MigrateDialog.tsx
+msgid "Category"
+msgstr "Kategoria"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Chapter"
+msgstr "Rozdział"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Chapters"
+msgstr "Rozdziały"
+
+#: src/base/collection/components/SelectableCollectionSelectAll.tsx
+msgid "Clear"
+msgstr "Wyczyść"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/migration/components/MigrateDialog.tsx
+msgid "Client data"
+msgstr "Dane klienta"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Creating backup…"
+msgstr "Tworzenie kopii…"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Database"
+msgstr "Baza danych"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Database url"
+msgstr "Adres bazy danych"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleting theme \"{0}\"…"
+msgstr "Usuwanie motywu \"{0}\"…"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleted theme \"{0}\""
+msgstr "Usunięto motyw \"{0}\""
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup data"
+msgstr "Dane kopii zapasowej"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Library entries"
+msgstr "Wpisy w bibliotece"
+
+#: src/features/settings/Settings.constants.ts
+msgid "The login will be handled by the server."
+msgstr "Logowanie będzie obsłużone przez serwer."
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Set as active theme"
+msgstr "Ustaw jako aktywny motyw"
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr "{0, plural, one {# manga} few {# mangi} other {# mang}}"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr ""
+"{availableUpdates, plural, one {Dostępna # aktualizacja} few {#Dostępne # "
+"aktualizacje} other {Dostępnych # aktualizacji}}"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "{categoryCount, plural, one {# category} other {# categories}}"
+msgstr ""
+"{categoryCount, plural, one {# kategoria} few {# kategorie} other {# "
+"kategorii}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr ""
+"{count, plural, one {Nie można dodać pobierania} other {Nie można dodać "
+"pobrań}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr ""
+"{count, plural, one {Nie można dodać zakładki dla rozdziału} other {Nie "
+"można dodać zakładek dla rozdziałów}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr ""
+"{count, plural, one {Nie można zmienić kategorii mangi} other {Nie można "
+"zmienić kategorii mangi}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr ""
+"{count, plural, one {Nie można usunąć rozdziału} other {Nie można usunąć "
+"rozdziałów}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr ""
+"{count, plural, one {Nie można zainstalować rozszerzenia} other {Nie można "
+"zainstalować rozszerzeń}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
+msgstr ""
+"{count, plural, one {Nie można oznaczyć rozdziału jako przeczytany} other "
+"{Nie można oznaczyć rozdziałów jako przeczytane}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
+msgstr ""
+"{count, plural, one {Nie można oznaczyć rozdziału jako nieprzeczytany} other "
+"{Nie można oznaczyć rozdziałów jako nieprzeczytane}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
+msgstr ""
+"{count, plural, one {Nie można usunąć mangi z biblioteki} other {Nie można "
+"usunąć mangi z biblioteki}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
+msgstr ""
+"{count, plural, one {Nie można usunąć zakładki} other {Nie można usunąć "
+"zakładek}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
+msgstr ""
+"{count, plural, one {Nie można odinstalować rozszerzenia} other {Nie można "
+"odinstalować rozszerzeń}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
+msgstr ""
+"{count, plural, one {Nie można zaktualizować rozszerzenia} other {Nie można "
+"zaktualizować rozszerzeń}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}} other {There are # missing chapters.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}}}"
+msgstr ""
+"{count, plural, one {Brakuje # rozdziału.\n"
+"Obecny: {currentChapter}\n"
+"Następny: {nextChapter}} other {Brakuje # rozdziałów.\n"
+"Obecny: {currentChapter}\n"
+"Następny: {nextChapter}}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}} other {There are # missing chapters.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}}}"
+msgstr ""
+"{count, plural, one {Brakuje # rozdziału.\n"
+"Poprzedni: {nextChapter}\n"
+"Obecny: {currentChapter}} other {Brakuje # rozdziałów.\n"
+"Poprzedni: {nextChapter}\n"
+"Obecny: {currentChapter}}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
+msgstr ""
+"{count, plural, one {Za chwilę zmienisz kategorię jednego wpisu} other {Za "
+"chwilę zmienisz kategorię # wpisów}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+msgstr ""
+"{count, plural, one {Za chwilę oznaczysz jeden rozdział jako przeczytany} "
+"few {Za chwilę oznaczysz # rozdziały jako przeczytane} other {Za chwilę "
+"oznaczysz # rozdziałów jako przeczytane}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
+msgstr ""
+"{count, plural, one {Za chwilę oznaczysz jeden rozdział jako nieprzeczytany} "
+"few {Za chwilę oznaczysz # rozdziały jako nieprzeczytane} other {Za chwilę "
+"oznaczysz # rozdziałów jako nieprzeczytane}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
+msgstr ""
+"{count, plural, one {Za chwilę usuniesz jedną zakładkę} few {Za chwilę "
+"usuniesz # zakładki} other {Za chwilę usuniesz # zakładek}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+msgstr ""
+"{count, plural, one {Za chwilę usuniesz jeden wpis z twojej biblioteki} few "
+"{Za chwilę usuniesz # wpisy z twojej biblioteki} other {Za chwilę usuniesz # "
+"wpisów z twojej biblioteki}}"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "{currentAutoUpdateIntervalHours}h"
+msgstr "{currentAutoUpdateIntervalHours} godz."
+
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
+msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr ""
+"{missingChapterCount, plural, one {Brakuje # rozdziału} other {Brakuje # "
+"rozdziałów}}"
+
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Usuwaj kopie zapasowe, które są starsze niż # dzień} "
+"other {Usuwaj kopie zapasowe, które są starsze niż # dni}}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Usuwaj pliki dziennika, które są starsze niż # dzień} "
+"other {Usuwaj pliki dziennika, które są starsze niż # dni}}"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Also remove from {0}"
+msgstr "Usuń również z {0}"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Binary"
+msgstr "Binarnie"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connect to KOReader Sync server"
+msgstr "Połącz do serwera KOReader Sync"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr "Połączony jako {currentUsername} do {currentServerAddress}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr "Połączony jako {initialUsername} do {initialServerAddress}"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Continue reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Kontynuuj czytanie\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid ""
+"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
+msgstr ""
+"Umożliwia kontrolowanie typu MIME, które Suwayomi wysyła we wpisach OPDS dla "
+"archiwów CBZ. Wpływa również globalnie na pobieranie plików CBZ.\n"
+"Opcja Modern jest zgodna z najnowszym standardem IANA (2017), natomiast "
+"LEGACY (przestarzały typ MIME dla .cbz) i COMPATIBLE (przestarzały typ MIME "
+"dla wszystkich archiwów komiksów) mogą być bardziej kompatybilne ze "
+"starszymi klientami."
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid ""
+"Could not check for duplicated manga in your library.\n"
+"\n"
+"Error: {errorMessage}"
+msgstr ""
+"Nie można sprawdzić biblioteki pod kątem duplikatów.\n"
+"\n"
+"Błąd: {errorMessage}"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/backup/screens/Backup.tsx
+msgid "Could not create backup"
+msgstr "Nie można utworzyć kopii zapasowej"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Could not delete theme \"{0}\""
+msgstr "Nie można usunąć motywu \"{0}\""
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Could not install the extension"
+msgstr "Nie można zainstalować rozszerzenia"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log in to {0}"
+msgstr "Nie można zalogować się do {0}"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Could not log in to {trackerName}"
+msgstr "Nie można zalogować się do {trackerName}"
+
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Could not log in to Suwayomi"
+msgstr "Nie można zalogować się do Suwayomi"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log out from {0}"
+msgstr "Nie można wylogować się z {0}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Could not log out from KOReader Sync"
+msgstr "Nie można wylogować się z KOReader Sync"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr "Nie można zapisać zmian"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Day"
+msgstr "Dzień"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Disconnect from KOReader Sync server"
+msgstr "Rozłącz z serwera KOReader Sync"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Disconnected"
+msgstr "Rozłączony"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Extension installed"
+msgstr "Rozszerzenie zainstalowane"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Failed to connect to KOReader Sync server."
+msgstr "Nie udało się nawiązać połączenia z serwerem KOReader Sync."
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Failed to disconnect from KOReader Sync server."
+msgstr "Nie udało się rozłączyć z serwerem KOReader Sync."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Filename"
+msgstr "Nazwa pliku"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "H2"
+msgstr "H2"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr "Informuj o zaktualizowaniu wersji"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "KOReader Sync"
+msgstr "KOReader Sync"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log in to {0}"
+msgstr "Zaloguj się do {0}"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log out from {0}"
+msgstr "Wyloguj się z {0}"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Logging in to {trackerName}…"
+msgstr "Logowanie do {trackerName}…"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Minute"
+msgstr "Minuta"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr "Brak zainstalowanych źródeł"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "PostgreSQL"
+msgstr "PostgreSQL"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Save dynamic color theme"
+msgstr "Zapisz dynamiczne kolory motywu"
+
+#: src/features/settings/components/images/Processing.tsx
+#: src/features/settings/components/images/Processing.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Second"
+msgstr "Sekunda"
+
+#. placeholder {0}: selectedServerChannelInfo.tag
+#. placeholder {1}: selectedServerChannelInfo.channel
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server version {0} ({1}) available for download"
+msgstr "Wersja serwera {0} ({1}) jest dostępna do pobrania"
+
+#. placeholder {0}: aboutServer?.buildType
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server was updated to version {version} ({0})"
+msgstr "Serwer został zaktualizowany do wersji {version} ({0})"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr "Wyświetla okno dialogowe w przypadku zmiany wersji serwera"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Start reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Zacznij czytać\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#. placeholder {0}: aboutWebUI?.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI was updated to version {newVersion} ({0})"
+msgstr "WebUI zostało zaktualizowane do wersji {newVersion} ({0})"
+
+#. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
+#. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI version {0} ({1}) available for download"
+msgstr "Wersja WebUI {0} ({1}) jest dostępna do pobrania"
