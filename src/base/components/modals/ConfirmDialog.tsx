@@ -15,10 +15,11 @@ import Stack from '@mui/material/Stack';
 import type { AwaitableComponentProps } from 'awaitable-component';
 import { Link as RouterLink } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
+import type { ReactNode } from 'react';
 
 type Action = {
     show?: boolean;
-    title?: string;
+    title?: ReactNode;
     contain?: boolean;
 };
 
@@ -38,8 +39,8 @@ export const ConfirmDialog = ({
     isVisible,
     onExitComplete,
 }: AwaitableComponentProps & {
-    title: string;
-    message: string;
+    title: ReactNode;
+    message: ReactNode;
     actions?: Actions;
     onExtra?: () => void;
 }) => {
