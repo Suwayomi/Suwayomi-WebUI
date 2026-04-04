@@ -25,6 +25,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 
 const DEFAULT_MANGA_METADATA: MangaMetadata = {
     ...DEFAULT_CHAPTER_OPTIONS,
+    notes: '',
 };
 
 const convertAppMetadataToGqlMetadata = (
