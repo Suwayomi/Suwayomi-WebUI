@@ -212,6 +212,7 @@ import type {
     DeleteChapterMetasInput,
     SetCategoryMetasInput,
     DeleteCategoryMetasInput,
+    MangaStatus,
 } from '@/lib/graphql/generated/graphql.ts';
 import {
     CategoryOrderBy,
@@ -242,10 +243,13 @@ import {
     GET_MANGA_TO_MIGRATE_TO_FETCH,
     UPDATE_MANGA,
     UPDATE_MANGA_CATEGORIES,
+    UPDATE_MANGA_DETAILS,
     UPDATE_MANGA_METADATA,
     UPDATE_MANGAS,
     UPDATE_MANGAS_CATEGORIES,
+    UPLOAD_MANGA_COVER,
 } from '@/lib/graphql/manga/MangaMutation.ts';
+import { SEARCH_METADATA_PROVIDER, APPLY_METADATA_MATCH } from '@/lib/graphql/manga/MetadataMutation.ts';
 import {
     GET_MANGA_TO_MIGRATE,
     GET_MANGA_TRACK_RECORDS,
@@ -2327,6 +2331,46 @@ export class RequestManager {
         });
 
         return result;
+    }
+
+    public updateMangaDetails(
+        id: number,
+        patch: {
+            title?: string;
+            author?: string;
+            artist?: string;
+            description?: string;
+            genre?: string[];
+            status?: MangaStatus;
+        },
+    ): AbortableApolloMutationResponse<any> {
+        return this.doRequest(GQLMethod.MUTATION, UPDATE_MANGA_DETAILS, { input: { id, patch } });
+    }
+
+    public uploadMangaCover(id: number, cover: File): AbortableApolloMutationResponse<any> {
+        return this.doRequest(GQLMethod.MUTATION, UPLOAD_MANGA_COVER, { id, cover });
+    }
+
+    public searchMetadataProvider(
+        provider: string,
+        query: string,
+        author?: string,
+    ): AbortableApolloMutationResponse<any> {
+        return this.doRequest(GQLMethod.MUTATION, SEARCH_METADATA_PROVIDER, { provider, query, author });
+    }
+
+    public applyMetadataMatch(
+        mangaId: number,
+        provider: string,
+        externalId: string,
+        includeCover: boolean,
+    ): AbortableApolloMutationResponse<any> {
+        return this.doRequest(GQLMethod.MUTATION, APPLY_METADATA_MATCH, {
+            mangaId,
+            provider,
+            externalId,
+            includeCover,
+        });
     }
 
     public updateMangas(

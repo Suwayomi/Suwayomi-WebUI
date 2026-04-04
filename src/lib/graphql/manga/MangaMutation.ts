@@ -171,6 +171,30 @@ export const UPDATE_MANGAS_CATEGORIES = gql`
     }
 `;
 
+export const UPDATE_MANGA_DETAILS = gql`
+    ${MANGA_SCREEN_FIELDS}
+
+    mutation UPDATE_MANGA_DETAILS($input: UpdateMangaDetailsInput!) {
+        updateMangaDetails(input: $input) {
+            manga {
+                ...MANGA_SCREEN_FIELDS
+            }
+        }
+    }
+`;
+
+export const UPLOAD_MANGA_COVER = gql`
+    ${MANGA_SCREEN_FIELDS}
+
+    mutation UPLOAD_MANGA_COVER($id: Int!, $cover: Upload!) {
+        uploadMangaCover(input: { id: $id, cover: $cover }) {
+            manga {
+                ...MANGA_SCREEN_FIELDS
+            }
+        }
+    }
+`;
+
 export const UPDATE_MANGA_METADATA = gql`
     ${MANGA_META_FIELDS}
 
