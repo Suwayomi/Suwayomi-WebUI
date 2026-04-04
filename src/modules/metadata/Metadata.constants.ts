@@ -375,6 +375,9 @@ export const APP_METADATA: Record<
     excludedScanlators: {
         convert: convertToObject<string[]>,
     },
+    notes: {
+        convert: convertToString,
+    },
 } as const;
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA);
@@ -466,6 +469,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'unread',
     'showChapterNumber',
     'excludedScanlators',
+    'notes',
 ];
 
 /**
