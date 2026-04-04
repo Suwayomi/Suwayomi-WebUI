@@ -39,6 +39,7 @@ import type {
     MangaIdInfo,
     MangaInLibraryInfo,
     MangaLocationState,
+    MangaMetaInfo,
     MangaSourceIdInfo,
     MangaStatusInfo,
     MangaThumbnailInfo,
@@ -51,6 +52,7 @@ import { Sources } from '@/features/source/services/Sources.ts';
 import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { Thumbnail } from '@/features/manga/components/details/Thumbnail.tsx';
 import { DescriptionGenre } from '@/features/manga/components/details/DescriptionGenre.tsx';
+import { MangaNotes } from '@/features/manga/components/details/MangaNotes.tsx';
 import { SearchLink } from '@/features/manga/components/details/SearchLink.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
@@ -221,7 +223,8 @@ export const MangaDetails = ({
         MangaGenreInfo &
         MangaThumbnailInfo &
         MangaSourceIdInfo &
-        MangaTrackRecordInfo & {
+        MangaTrackRecordInfo &
+        MangaMetaInfo & {
             source?: Pick<SourceType, 'id' | 'displayName'> | null;
         };
     mode: MangaLocationState['mode'];
@@ -297,6 +300,7 @@ export const MangaDetails = ({
                 </MangaButtonsContainer>
             </TopContentWrapper>
             <DescriptionGenre manga={manga} mode={mode} />
+            <MangaNotes manga={manga} />
         </DetailsWrapper>
     );
 };
