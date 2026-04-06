@@ -411,6 +411,7 @@
         "src/features/authentication/AuthManager.ts",
         "src/features/chapter/services/Chapters.ts",
         "src/features/metadata/services/MetadataMigrations.ts",
+        "src/features/migration/MigrationManager.ts",
         "src/features/reader/services/ReaderControls.ts",
         "src/features/reader/services/ReaderService.ts",
         "src/features/source/services/Sources.ts",

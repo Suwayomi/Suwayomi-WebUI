@@ -30,9 +30,32 @@ import {
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import type { SourceBaseFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import type { DocumentNode, Unmasked } from '@apollo/client';
+import { SOURCE_BASE_FIELDS } from '@/lib/graphql/source/SourceFragments.ts';
 
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';
+
+    static getIds(sources: SourceIdInfo[]): SourceIdInfo['id'][] {
+        return sources.map((source) => source.id);
+    }
+
+    static getFromCache<T = SourceBaseFieldsFragment>(
+        id: SourceIdInfo['id'],
+        fragment: DocumentNode = SOURCE_BASE_FIELDS,
+        fragmentName: string = 'SOURCE_BASE_FIELDS',
+    ): Unmasked<T> | null {
+        return requestManager.graphQLClient.client.cache.readFragment<T>({
+            id: requestManager.graphQLClient.client.cache.identify({
+                __typename: 'SourceType',
+                id,
+            }),
+            fragment,
+            fragmentName,
+        });
+    }
 
     static isLocalSource(source: SourceIdInfo): boolean {
         return source.id === Sources.LOCAL_SOURCE_ID;

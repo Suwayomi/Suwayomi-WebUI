@@ -84,7 +84,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         <>
                             <CustomTooltip title={t`Migrate`}>
                                 <Link
-                                    to={AppRoutes.migrate.childRoutes.search.path(
+                                    to={AppRoutes.migrate.childRoutes.singleMangaSearch.path(
                                         manga.sourceId,
                                         manga.id,
                                         manga.title,
@@ -156,7 +156,11 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <MenuItem
                                 key="migrate"
                                 component={Link}
-                                to={AppRoutes.migrate.childRoutes.search.path(manga.sourceId, manga.id, manga.title)}
+                                to={AppRoutes.migrate.childRoutes.singleMangaSearch.path(
+                                    manga.sourceId,
+                                    manga.id,
+                                    manga.title,
+                                )}
                                 state={{ mangaTitle: manga.title }}
                                 style={{ textDecoration: 'none', color: 'inherit' }}
                             >

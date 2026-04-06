@@ -4073,7 +4073,7 @@ export type GetMigratableSourceMangasQueryVariables = Exact<{
 }>;
 
 
-export type GetMigratableSourceMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, sourceId: string, categories: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } }> } };
+export type GetMigratableSourceMangasQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', nodes: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, sourceId: string, highestNumberedChapter?: { __typename?: 'ChapterType', id: number, chapterNumber: number } | null, source?: { __typename?: 'SourceType', id: string, name: string, displayName: string } | null, categories: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> } }> } };
 
 export type GetLibraryMangaCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -4223,6 +4223,13 @@ export type GetSourceMangasFetchMutationVariables = Exact<{
 
 
 export type GetSourceMangasFetchMutation = { __typename?: 'Mutation', fetchSourceManga?: { __typename?: 'FetchSourceMangaPayload', hasNextPage: boolean, mangas: Array<{ __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string }> } | null };
+
+export type GetMigrationSourceMangasFetchMutationVariables = Exact<{
+  input: FetchSourceMangaInput;
+}>;
+
+
+export type GetMigrationSourceMangasFetchMutation = { __typename?: 'Mutation', fetchSourceManga?: { __typename?: 'FetchSourceMangaPayload', hasNextPage: boolean, mangas: Array<{ __typename?: 'MangaType', artist?: string | null, author?: string | null, id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, highestNumberedChapter?: { __typename?: 'ChapterType', id: number, chapterNumber: number } | null, source?: { __typename?: 'SourceType', id: string, name: string, displayName: string } | null }> } | null };
 
 export type UpdateSourcePreferencesMutationVariables = Exact<{
   input: UpdateSourcePreferenceInput;

@@ -242,7 +242,16 @@ export const GET_MIGRATABLE_SOURCE_MANGAS = gql`
                 id
                 title
                 thumbnailUrl
+                highestNumberedChapter {
+                    id
+                    chapterNumber
+                }
                 sourceId
+                source {
+                    id
+                    name
+                    displayName
+                }
                 categories {
                     nodes {
                         id
