@@ -1314,7 +1314,7 @@ export class RequestManager {
                 hasPostUpdateDeletions:
                     !!postUpdateDeleteInput.keys?.length || !!postUpdateDeleteInput.prefixes?.length,
                 migrateInput,
-                isMigration: !!updateInput.metas.length,
+                isMigration: !!migrateInput.metas.length,
             },
             {
                 optimisticResponse: {
