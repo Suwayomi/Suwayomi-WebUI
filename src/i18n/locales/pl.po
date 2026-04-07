@@ -3123,7 +3123,7 @@ msgstr ""
 #: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
 msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
 msgstr ""
-"{count, plural, one {Następny rozdział} fews {Następne # rozdziały} other "
+"{count, plural, one {Następny rozdział} few {Następne # rozdziały} other "
 "{Następne # rozdziałów}}"
 
 #: src/features/manga/Manga.constants.ts

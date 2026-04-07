@@ -37,7 +37,9 @@ export default defineConfig(({ command }) => ({
         react({
             plugins: [['@lingui/swc-plugin', {}]],
         }),
-        lingui(),
+        lingui({
+            failOnCompileError: true,
+        }),
         viteTsconfigPaths(),
         legacy({
             modernPolyfills: [
