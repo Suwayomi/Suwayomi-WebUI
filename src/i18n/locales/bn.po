@@ -12,6 +12,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language-Team: \n"
 "Plural-Forms: \n"
+"X-Message-Format: ICU\n"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"

@@ -13,6 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 "
 "|| n % 10 == 6 || n % 10 == 9);\n"
+"X-Message-Format: ICU\n"
 "X-Generator: Weblate 5.17-dev\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
