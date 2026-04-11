@@ -29,16 +29,20 @@ export const NavigationBarItem = ({
     SelectedIconComponent,
     useBadge,
     slots,
+    forceCollapsed,
 }: NavbarItem & {
     slots?: {
         listItemLink?: Partial<ComponentProps<typeof ListItemLink>>;
     };
+    forceCollapsed?: boolean;
 }) => {
     const { t } = useLingui();
     const location = useLocation();
-    const { isCollapsed } = useNavBarContext();
+    const { isCollapsed: isCollapsedContext } = useNavBarContext();
     const theme = useTheme();
     const badgeInfo = useBadge?.();
+
+    const isCollapsed = forceCollapsed ?? isCollapsedContext;
 
     const isActive = location.pathname.startsWith(path);
     const Icon = isActive ? SelectedIconComponent : IconComponent;

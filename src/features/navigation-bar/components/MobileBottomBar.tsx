@@ -60,6 +60,7 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
                                 },
                             },
                         }}
+                        forceCollapsed
                     />
                 ))}
             </Stack>
