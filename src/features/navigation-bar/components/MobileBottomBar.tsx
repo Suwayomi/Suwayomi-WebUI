@@ -6,54 +6,20 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import BottomNavigation from '@mui/material/BottomNavigation';
-import type { BottomNavigationActionProps } from '@mui/material/BottomNavigationAction';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import Paper from '@mui/material/Paper';
 import type { CSSProperties } from 'react';
-import { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useCallback, useLayoutEffect, useRef } from 'react';
+import {} from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import Badge from '@mui/material/Badge';
-import { useLingui } from '@lingui/react/macro';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
-import type { StaticAppRoute } from '@/base/AppRoute.constants.ts';
-
-const BottomNavigationItem = ({
-    path,
-    title,
-    useBadge,
-    SelectedIconComponent,
-    IconComponent,
-    isActive,
-    ...bottomNavigationActionProps
-}: NavbarItem & {
-    isActive: boolean;
-} & Omit<BottomNavigationActionProps, 'value' | 'label' | 'icon' | 'title'>) => {
-    const { t } = useLingui();
-    const count = useBadge?.()?.count;
-
-    return (
-        <BottomNavigationAction
-            {...bottomNavigationActionProps}
-            value={path}
-            label={t(title)}
-            icon={
-                <Badge badgeContent={count} color="primary">
-                    {isActive ? <SelectedIconComponent /> : <IconComponent />}
-                </Badge>
-            }
-        />
-    );
-};
+import { NavigationBarItem } from '@/features/navigation-bar/components/NavigationBarItem.tsx';
+import Stack from '@mui/material/Stack';
 
 export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) => {
     const theme = useTheme();
     const { setBottomBarHeight } = useNavBarContext();
-    const location = useLocation();
-    const navigate = useNavigate();
 
     const ref = useRef<HTMLDivElement | null>(null);
     useResizeObserver(
@@ -61,10 +27,6 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
         useCallback(() => setBottomBarHeight(ref.current?.clientHeight ?? 0), [ref.current]),
     );
     useLayoutEffect(() => () => setBottomBarHeight(0), []);
-
-    const [selectedNavBarItem, setSelectedNavBarItem] = useState(
-        navBarItems.find((navBarItem) => navBarItem.path === location.pathname)?.path,
-    );
 
     return (
         <Paper
@@ -86,22 +48,21 @@ export const MobileBottomBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) 
             }}
             elevation={3}
         >
-            <BottomNavigation
-                showLabels
-                value={selectedNavBarItem}
-                onChange={(_, newValue: StaticAppRoute) => {
-                    setSelectedNavBarItem(newValue);
-                    navigate(newValue);
-                }}
-            >
-                {navBarItems.map((navbarItem) => (
-                    <BottomNavigationItem
-                        key={navbarItem.path}
-                        {...navbarItem}
-                        isActive={selectedNavBarItem === navbarItem.path}
+            <Stack sx={{ flexDirection: 'row' }}>
+                {navBarItems.map((item) => (
+                    <NavigationBarItem
+                        key={item.path}
+                        {...item}
+                        slots={{
+                            listItemLink: {
+                                sx: {
+                                    py: 1,
+                                },
+                            },
+                        }}
                     />
                 ))}
-            </BottomNavigation>
+            </Stack>
         </Paper>
     );
 };

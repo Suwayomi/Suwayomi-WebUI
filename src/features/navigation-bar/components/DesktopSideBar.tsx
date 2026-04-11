@@ -8,27 +8,18 @@
 
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { useLocation } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Divider from '@mui/material/Divider';
-import { styled, useTheme } from '@mui/material/styles';
-import { useCallback, useMemo, useRef } from 'react';
+import { styled } from '@mui/material/styles';
+import { useCallback, useRef } from 'react';
 import Box from '@mui/material/Box';
-import ListItem from '@mui/material/ListItem';
-import Badge from '@mui/material/Badge';
-import Typography from '@mui/material/Typography';
-import { useLingui } from '@lingui/react/macro';
-import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
+import { NavigationBarItem } from '@/features/navigation-bar/components/NavigationBarItem.tsx';
 
 const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -38,80 +29,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
 }));
-
-const NavigationBarItem = ({ path, title, IconComponent, SelectedIconComponent, useBadge }: NavbarItem) => {
-    const { t } = useLingui();
-    const location = useLocation();
-    const { isCollapsed } = useNavBarContext();
-    const theme = useTheme();
-    const badgeInfo = useBadge?.();
-
-    const isActive = location.pathname.startsWith(path);
-    const Icon = isActive ? SelectedIconComponent : IconComponent;
-
-    const { listItemProps, listItemIconProps } = useMemo(
-        () => ({
-            listItemProps: isCollapsed ? { p: 0.5, display: 'flex', flexDirection: 'column' } : {},
-            listItemIconProps: isCollapsed ? { justifyContent: 'center' } : {},
-        }),
-        [isCollapsed],
-    );
-
-    return (
-        <ListItemLink selected={!isCollapsed && isActive} sx={{ p: 0, m: 0 }} to={path}>
-            <CustomTooltip
-                title={
-                    <>
-                        {t(title)}
-                        <br />
-                        {badgeInfo?.title}
-                    </>
-                }
-                placement="right"
-            >
-                <ListItem sx={listItemProps}>
-                    <ListItemIcon sx={listItemIconProps}>
-                        <Badge badgeContent={badgeInfo?.count} color="primary">
-                            <Icon
-                                sx={{
-                                    color: isActive ? 'primary.dark' : undefined,
-                                    ...theme.applyStyles('dark', {
-                                        color: isActive ? 'primary.light' : undefined,
-                                    }),
-                                }}
-                            />
-                        </Badge>
-                    </ListItemIcon>
-
-                    <ListItemText
-                        primary={
-                            <TypographyMaxLines
-                                lines={1}
-                                variant={isCollapsed ? 'caption' : undefined}
-                                sx={{
-                                    color: isActive ? 'primary.dark' : undefined,
-                                    ...theme.applyStyles('dark', {
-                                        color: isActive ? 'primary.light' : undefined,
-                                    }),
-                                }}
-                            >
-                                {t(title)}
-                            </TypographyMaxLines>
-                        }
-                        secondary={
-                            !isCollapsed && (
-                                <Typography variant="caption" color="textSecondary">
-                                    {badgeInfo?.title}
-                                </Typography>
-                            )
-                        }
-                        sx={{ maxWidth: '100%', m: 0, display: 'flex', flexDirection: 'column' }}
-                    />
-                </ListItem>
-            </CustomTooltip>
-        </ListItemLink>
-    );
-};
 
 const MIN_WIDTH_COLLAPSED = undefined;
 const MAX_WIDTH_COLLAPSED = 120;
