@@ -44,7 +44,7 @@ import {
 \tGetChaptersMangaQuery, GetDownloadStatusQueryVariables, GetGlobalMetadataQueryVariables,
 \tGetMangaScreenQueryVariables, GetSourceBrowseQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
 } from "@/lib/graphql/generated/graphql.ts";
-import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";`,
+import {FieldFunctionOptions} from "@apollo/client/cache";`,
 );
 
 const fixTypingOfQueryTypePolicies = format(

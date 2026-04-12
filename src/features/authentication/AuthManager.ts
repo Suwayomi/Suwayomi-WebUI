@@ -27,7 +27,7 @@ export class AuthManager {
     private static refreshingToken: boolean = false;
 
     private static subscribe(callback: () => void): () => void {
-        // eslint-disable-next-line no-plusplus
+        // oxlint-disable-next-line no-plusplus
         const key = AuthManager.subscribedCount++;
         this.subscribers.set(key, callback);
 

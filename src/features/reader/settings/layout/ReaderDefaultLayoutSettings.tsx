@@ -7,16 +7,16 @@
  */
 
 import Stack from '@mui/material/Stack';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 import { useLingui } from '@lingui/react/macro';
-import { ReaderLayoutSettings } from '@/features/reader/settings/layout/ReaderLayoutSettings.tsx';
+import type { ReaderLayoutSettings } from '@/features/reader/settings/layout/ReaderLayoutSettings.tsx';
 import { ReaderSettingProfileSettings } from '@/features/reader/settings/layout/components/ReaderSettingProfileSettings.tsx';
 import {
     READING_MODE_VALUE_TO_DISPLAY_DATA,
     READING_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ReaderSettingReadingMode } from '@/features/reader/settings/layout/components/ReaderSettingReadingMode.tsx';
-import { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
 
 export const ReaderDefaultLayoutSettings = ({
     profiles = READING_MODE_VALUES,

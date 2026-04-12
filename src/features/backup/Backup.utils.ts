@@ -7,7 +7,11 @@
  */
 
 import { plural, t } from '@lingui/core/macro';
-import { AutoBackupFlagInclusionState, BackupFlag, BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
+import type {
+    AutoBackupFlagInclusionState,
+    BackupFlag,
+    BackupFlagInclusionState,
+} from '@/features/backup/Backup.types.ts';
 import { BACKUP_FLAGS_TO_TRANSLATION } from '@/features/backup/Backup.constants.ts';
 
 export const convertToAutoBackupFlags = (flags: BackupFlagInclusionState): AutoBackupFlagInclusionState => ({

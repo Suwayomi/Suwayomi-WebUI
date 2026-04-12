@@ -12,15 +12,13 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import { useLingui } from '@lingui/react/macro';
-import {
-    CategoriesInclusionSetting,
-    CategoriesInclusionSettingProps,
-} from '@/features/category/components/CategoriesInclusionSetting.tsx';
+import type { CategoriesInclusionSettingProps } from '@/features/category/components/CategoriesInclusionSetting.tsx';
+import { CategoriesInclusionSetting } from '@/features/category/components/CategoriesInclusionSetting.tsx';
 import { GlobalUpdateSettingsEntries } from '@/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx';
 import { GlobalUpdateSettingsInterval } from '@/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { LibrarySettingsType, ServerSettings } from '@/features/settings/Settings.types.ts';
+import type { LibrarySettingsType, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const GlobalUpdateSettings = ({

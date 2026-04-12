@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { LibraryOptions } from '@/features/library/Library.types.ts';
-import { CategoryMetaType, CategoryType } from '@/lib/graphql/generated/graphql.ts';
+import type { LibraryOptions } from '@/features/library/Library.types.ts';
+import type { CategoryMetaType, CategoryType } from '@/lib/graphql/generated/graphql.ts';
 
-export interface ICategoryMetadata extends LibraryOptions {}
+export type ICategoryMetadata = LibraryOptions;
 
 export type CategoryMetadataKeys = keyof ICategoryMetadata;
 

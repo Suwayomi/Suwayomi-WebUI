@@ -8,8 +8,8 @@
 
 import Box from '@mui/material/Box';
 import { useSortable } from '@dnd-kit/sortable';
-import { ReactNode } from 'react';
-import { UniqueIdentifier } from '@dnd-kit/core';
+import type { ReactNode } from 'react';
+import type { UniqueIdentifier } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 

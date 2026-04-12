@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Component, ErrorInfo, ReactNode, useEffect, useRef, useState } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
+import { Component, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { t } from '@lingui/core/macro';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -22,7 +23,7 @@ interface State {
 }
 
 class RealErrorBoundary extends Component<Props, State> {
-    // eslint-disable-next-line react/state-in-constructor
+    // oxlint-disable-next-line react/state-in-constructor
     public state: State = { error: null };
 
     private prevPath: string = '';
@@ -45,9 +46,9 @@ class RealErrorBoundary extends Component<Props, State> {
     }
 
     public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        // eslint-disable-next-line
+        // oxlint-disable-next-line no-console
         console.error('Uncaught error:', error, errorInfo);
-        // eslint-disable-next-line react/destructuring-assignment
+
         this.props.setTrackPathChange(true);
     }
 

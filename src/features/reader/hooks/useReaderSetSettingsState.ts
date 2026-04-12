@@ -7,15 +7,12 @@
  */
 
 import { useEffect } from 'react';
-import {
-    getReaderSettings,
-    getReaderSettingsFor,
-    useDefaultReaderSettings,
-} from '@/features/reader/settings/ReaderSettingsMetadata.ts';
+import type { useDefaultReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
+import { getReaderSettings, getReaderSettingsFor } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
 import { isAutoWebtoonMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { ReadingMode } from '@/features/reader/Reader.types.ts';
-import { GetMangaReaderQuery } from '@/lib/graphql/generated/graphql.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
+import type { GetMangaReaderQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 
 export const useReaderSetSettingsState = (

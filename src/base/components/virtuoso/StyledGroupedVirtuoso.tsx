@@ -6,8 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ContextProp, TopItemListProps } from 'react-virtuoso';
-import { ComponentProps, useMemo } from 'react';
+import type { ContextProp, TopItemListProps } from 'react-virtuoso';
+import type { ComponentProps } from 'react';
+import { useMemo } from 'react';
 import Box from '@mui/material/Box';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GroupedVirtuosoPersisted } from '@/lib/virtuoso/Component/GroupedVirtuosoPersisted.tsx';

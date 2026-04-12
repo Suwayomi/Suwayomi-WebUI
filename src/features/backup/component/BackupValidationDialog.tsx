@@ -15,11 +15,11 @@ import Button from '@mui/material/Button';
 import ListItem from '@mui/material/ListItem';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { AwaitableComponentProps } from 'awaitable-component';
+import type { AwaitableComponentProps } from 'awaitable-component';
 import { useLingui } from '@lingui/react/macro';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { ValidateBackupResult } from '@/lib/graphql/generated/graphql.ts';
+import type { ValidateBackupResult } from '@/lib/graphql/generated/graphql.ts';
 
 export const BackupValidationDialog = ({
     validationResult,

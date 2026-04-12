@@ -8,7 +8,8 @@
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import React from 'react';
-import { ThreeStateCheckbox, ThreeStateCheckboxProps } from '@/base/components/inputs/ThreeStateCheckbox.tsx';
+import type { ThreeStateCheckboxProps } from '@/base/components/inputs/ThreeStateCheckbox.tsx';
+import { ThreeStateCheckbox } from '@/base/components/inputs/ThreeStateCheckbox.tsx';
 
 interface IProps extends ThreeStateCheckboxProps {
     label?: string;

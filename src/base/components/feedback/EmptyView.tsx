@@ -10,7 +10,7 @@
 
 import { type JSX, useMemo, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { SxProps, Theme } from '@mui/material/styles';
+import type { SxProps, Theme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Collapse from '@mui/material/Collapse';

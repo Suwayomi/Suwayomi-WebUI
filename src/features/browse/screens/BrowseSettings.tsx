@@ -24,8 +24,8 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
-import { ServerSettings as GqlServerSettings } from '@/features/settings/Settings.types.ts';
+import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
+import type { ServerSettings as GqlServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 

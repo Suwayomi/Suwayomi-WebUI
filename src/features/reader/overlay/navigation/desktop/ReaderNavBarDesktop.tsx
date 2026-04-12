@@ -15,7 +15,7 @@ import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { ReaderNavBarDesktopProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
+import type { ReaderNavBarDesktopProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { ReaderNavContainer } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavContainer.tsx';
 import { ReaderNavBarDesktopMetadata } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopMetadata.tsx';
 import { ReaderNavBarDesktopPageNavigation } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx';
@@ -26,7 +26,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderExitButton } from '@/features/reader/overlay/navigation/components/ReaderExitButton.tsx';
 import {
@@ -59,7 +59,7 @@ const BaseReaderNavBarDesktop = ({
     setReaderNavBarWidth,
 }: ReaderNavBarDesktopProps & Pick<NavbarContextType, 'setReaderNavBarWidth'>) => {
     const { t } = useLingui();
-    const manga = useReaderStore((state) => state.manga);
+    const manga = useReaderStore('manga');
     const {
         chapters,
         currentChapterId,
@@ -77,7 +77,7 @@ const BaseReaderNavBarDesktop = ({
         previousChapter: state.previousChapter,
         nextChapter: state.nextChapter,
     }));
-    const isStaticNav = useReaderSettingsStore((state) => state.isStaticNav);
+    const isStaticNav = useReaderSettingsStore('isStaticNav');
 
     const [navBarElement, setNavBarElement] = useState<HTMLDivElement | null>();
     useResizeObserver(

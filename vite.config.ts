@@ -6,8 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/* eslint-disable import/no-extraneous-dependencies */
-
 import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
@@ -18,7 +16,6 @@ import { lingui } from '@lingui/vite-plugin';
 import 'dotenv/config';
 import { d } from 'koration';
 
-// eslint-disable-next-line import/no-default-export
 export default defineConfig(({ command }) => ({
     base: command === 'serve' ? process.env.VITE_SUBPATH || './' : './',
     build: {
@@ -40,7 +37,9 @@ export default defineConfig(({ command }) => ({
         react({
             plugins: [['@lingui/swc-plugin', {}]],
         }),
-        lingui(),
+        lingui({
+            failOnCompileError: true,
+        }),
         viteTsconfigPaths(),
         legacy({
             modernPolyfills: [

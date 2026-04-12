@@ -23,10 +23,7 @@ import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 const BaseReaderNavBarDesktopPageNavigation = () => {
     const { t } = useLingui();
     const getOptionForDirection = useGetOptionForDirection();
-    const { currentPageIndex, pages } = useReaderPagesStore((state) => ({
-        currentPageIndex: state.currentPageIndex,
-        pages: state.pages,
-    }));
+    const { currentPageIndex, pages } = useReaderPagesStore('currentPageIndex', 'pages');
     const readingDirection = useReaderSettingsStore((state) => state.readingDirection.value);
 
     const currentPage = useMemo(() => getPage(currentPageIndex, pages), [currentPageIndex, pages]);

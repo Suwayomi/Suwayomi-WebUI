@@ -8,9 +8,10 @@
 
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import { ValueToDisplayData } from '@/base/Base.types.ts';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
-import { IReaderSettingsWithDefaultFlag, ReaderBackgroundColor } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
+import { ReaderBackgroundColor } from '@/features/reader/Reader.types.ts';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderBackgroundColor> = {
     [ReaderBackgroundColor.THEME]: {

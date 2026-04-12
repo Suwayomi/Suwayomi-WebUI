@@ -7,7 +7,7 @@
  */
 
 import { HotkeysProvider } from 'react-hotkeys-hook';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { HotkeyScope } from '@/features/hotkeys/Hotkeys.types.ts';
 
 export const AppHotkeysProvider = ({ children }: { children?: ReactNode }) => (

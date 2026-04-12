@@ -6,18 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ForwardedRef, memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import type { ForwardedRef } from 'react';
+import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import { useMergedRef } from '@mantine/hooks';
-import {
-    PageInViewportType,
-    ReaderOpenChapterLocationState,
-    ReaderResumeMode,
-    ReadingDirection,
-    ReadingMode,
-} from '@/features/reader/Reader.types.ts';
+import type { ReaderOpenChapterLocationState } from '@/features/reader/Reader.types.ts';
+import { PageInViewportType, ReaderResumeMode, ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import {
@@ -42,10 +38,10 @@ import {
 } from '@/features/reader/Reader.utils.ts';
 import { coerceIn, noOp } from '@/lib/HelperFunctions.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { useReaderPreserveScrollPosition } from '@/features/reader/viewer/hooks/useReaderPreserveScrollPosition.ts';
 
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import {
     getReaderAutoScrollStore,
     getReaderStore,
@@ -72,24 +68,22 @@ const BaseReaderViewer = ({
     ref?: ForwardedRef<HTMLDivElement | null>;
 }) => {
     const { direction: themeDirection } = useTheme();
-    const isOverlayVisible = useReaderOverlayStore((state) => state.isVisible);
+    const isOverlayVisible = useReaderOverlayStore('isVisible');
     const { currentPageIndex, pageToScrollToIndex, pages, totalPages, transitionPageMode, retryFailedPagesKeyPrefix } =
-        useReaderPagesStore((state) => ({
-            currentPageIndex: state.currentPageIndex,
-            pageToScrollToIndex: state.pageToScrollToIndex,
-            pages: state.pages,
-            totalPages: state.totalPages,
-            transitionPageMode: state.transitionPageMode,
-            retryFailedPagesKeyPrefix: state.retryFailedPagesKeyPrefix,
-        }));
+        useReaderPagesStore(
+            'currentPageIndex',
+            'pageToScrollToIndex',
+            'pages',
+            'totalPages',
+            'transitionPageMode',
+            'retryFailedPagesKeyPrefix',
+        );
     const { initialChapter, currentChapter, chapters, visibleChapters, isCurrentChapterReady } = useReaderChaptersStore(
-        (state) => ({
-            initialChapter: state.initialChapter,
-            currentChapter: state.currentChapter,
-            chapters: state.chapters,
-            visibleChapters: state.visibleChapters,
-            isCurrentChapterReady: state.isCurrentChapterReady,
-        }),
+        'initialChapter',
+        'currentChapter',
+        'chapters',
+        'visibleChapters',
+        'isCurrentChapterReady',
     );
     const {
         readingMode,

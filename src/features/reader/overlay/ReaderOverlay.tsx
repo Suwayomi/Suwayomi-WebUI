@@ -23,7 +23,7 @@ const BaseReaderOverlay = ({
     isDesktop,
     isMobile,
 }: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop' | 'isMobile'>) => {
-    const isVisible = useReaderOverlayStore((state) => state.isVisible);
+    const isVisible = useReaderOverlayStore('isVisible');
 
     const [areSettingsOpen, setAreSettingsOpen] = useState(false);
 

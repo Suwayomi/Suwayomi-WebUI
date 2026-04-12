@@ -9,7 +9,7 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
-import { ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
+import type { ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
 import { ReaderSettingHotkey } from '@/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx';
 import { READER_HOTKEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';

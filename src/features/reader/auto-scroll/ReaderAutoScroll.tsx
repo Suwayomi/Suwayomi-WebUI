@@ -7,7 +7,8 @@
  */
 
 import { memo, useCallback, useEffect } from 'react';
-import { Direction, useTheme } from '@mui/material/styles';
+import type { Direction } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { ReaderScrollAmount, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ScrollOffset } from '@/base/Base.types.ts';
@@ -30,10 +31,7 @@ const BaseReaderAutoScroll = ({
     themeDirection: Direction;
     combinedDirection: Direction;
 }) => {
-    const { scrollRef, direction } = useReaderAutoScrollStore((state) => ({
-        scrollRef: state.scrollRef,
-        direction: state.direction,
-    }));
+    const { scrollRef, direction } = useReaderAutoScrollStore('scrollRef', 'direction');
     const { readingMode, autoScroll } = useReaderSettingsStore((state) => ({
         readingMode: state.readingMode.value,
         autoScroll: state.autoScroll,

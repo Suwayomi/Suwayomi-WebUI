@@ -1,17 +1,19 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.820Z\n"
+"PO-Revision-Date: 2026-04-06 19:09+0000\n"
+"Last-Translator: Alexis Cabrera <alekpo2623@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/suwayomi/"
+"suwayomi-webui/es/>\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: es\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Message-Format: ICU\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -3204,3 +3206,164 @@ msgstr "Tu biblioteca está vacía"
 #: src/features/settings/Settings.constants.ts
 msgid "Your library will be accessible. Use this only on private networks or when otherwise securing access."
 msgstr "Tu biblioteca será accesible. Usa esto solo en redes privadas o cuando asegures el acceso de otra manera."
+
+#. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "{0, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{0, plural, one {# Capítulo} other {# Capítulos}}"
+
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {# día} other {# días}}"
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr "{0, plural, one {# manga} other {# mangas}}"
+
+#. placeholder {0}: serverSettings.flareSolverrSessionTtl
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# minute} other {# minutes}}"
+msgstr "{0, plural, one {# minuto} other {# minutos}}"
+
+#. placeholder {0}: autoScroll.value
+#. placeholder {0}: serverSettings.flareSolverrTimeout
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# second} other {# seconds}}"
+msgstr "{0, plural, one {# segundo} other {# segundos}}"
+
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr "{0, plural, one {# Fuente} other {# Fuentes}}"
+
+#. placeholder {0}: selectedChapters.length
+#. placeholder {0}: visibleChapters.length
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/ChapterList.tsx
+msgid "{0, plural, one {# chapter} other {# chapters}}"
+msgstr "{0, plural, one {# capítulo} other {# capítulos}}"
+
+#. placeholder {0}: trackersInUse.length
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "{0, plural, one {# Tracker} other {# Tracker}}"
+msgstr "{0, plural, one {# Rastreador} other {# Rastreadores}}"
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr "{0, plural, one {Segundo} other {Segundos}}"
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr "{0}% | Actualizando…"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr ""
+"{availableUpdates, plural, one {# actualización disponible} other {# "
+"actualizaciones disponibles}}"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "{categoryCount, plural, one {# category} other {# categories}}"
+msgstr "{categoryCount, plural, one {# categoría} other {# categorías}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr ""
+"{count, plural, one {Se cambió la categoría del manga} other {Se cambiaron "
+"las categorías de # mangas}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr ""
+"{count, plural, one {Marcador de capítulo eliminado} other {# marcadores de "
+"capítulo eliminados}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr ""
+"{count, plural, one {Capítulo añadido a marcadores} other {# capítulos "
+"añadidos a marcadores}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr ""
+"{count, plural, one {Capítulo eliminado} other {# capítulos eliminados}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr ""
+"{count, plural, one {Capítulo marcado como leído} other {# capítulos "
+"marcados como leídos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr ""
+"{count, plural, one {Capítulo marcado como no leído} other {# capítulos "
+"marcados como no leídos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr ""
+"{count, plural, one {No se pudo añadir la descarga} other {No se pudieron "
+"añadir las descargas}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr ""
+"{count, plural, one {No se pudo añadir el capítulo a marcadores} other {No "
+"se pudieron añadir los capítulos a marcadores}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr ""
+"{count, plural, one {No se pudieron cambiar las categorías del manga} other "
+"{No se pudieron cambiar las categorías de los mangas}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr ""
+"{count, plural, one {No se pudo eliminar el capítulo} other {No se pudieron "
+"eliminar los capítulos}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr ""
+"{count, plural, one {No se pudo instalar la extensión} other {No se pudieron "
+"instalar las extensiones}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
+msgstr ""
+"{count, plural, one {No se pudo marcar el capítulo como leído} other {No se "
+"pudieron marcar los capítulos como leídos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
+msgstr ""
+"{count, plural, one {No se pudo marcar el capítulo como no leído} other {No "
+"se pudieron marcar los capítulos como no leídos}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
+msgstr ""
+"{count, plural, one {No se pudo eliminar el manga de la biblioteca} other "
+"{No se pudieron eliminar los mangas de la biblioteca}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
+msgstr ""
+"{count, plural, one {No se pudo eliminar el marcador} other {No se pudieron "
+"eliminar los marcadores}}"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
+msgstr ""
+"{count, plural, one {Siguiente capítulo} other {Siguientes # capítulos}}"

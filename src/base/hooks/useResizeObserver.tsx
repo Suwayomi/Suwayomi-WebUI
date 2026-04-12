@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { RefObject, useLayoutEffect, useState } from 'react';
+import type { RefObject } from 'react';
+import { useLayoutEffect, useState } from 'react';
 
 export const useResizeObserver = (
     ref: RefObject<HTMLElement | null> | HTMLElement | undefined | null,

@@ -6,8 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Slider, { SliderProps } from '@mui/material/Slider';
-import Typography, { TypographyProps } from '@mui/material/Typography';
+import type { SliderProps } from '@mui/material/Slider';
+import Slider from '@mui/material/Slider';
+import type { TypographyProps } from '@mui/material/Typography';
+import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 

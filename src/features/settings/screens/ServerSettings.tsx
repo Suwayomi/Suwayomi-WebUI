@@ -28,7 +28,7 @@ import {
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
+import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { AuthMode, CbzMediaType, DatabaseType, SortOrder } from '@/lib/graphql/generated/graphql';
@@ -39,8 +39,9 @@ import {
 } from '@/features/settings/Settings.constants.ts';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { ServerSettings as ServerSettingsType } from '@/features/settings/Settings.types.ts';
+import type { ServerSettings as ServerSettingsType } from '@/features/settings/Settings.types.ts';
 import { KoreaderSyncSettings } from '@/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx';
+import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {
@@ -346,7 +347,70 @@ export const ServerSettings = () => {
                     <Switch
                         edge="end"
                         checked={serverSettings.flareSolverrEnabled}
-                        onChange={(e) => updateSetting('flareSolverrEnabled', e.target.checked)}
+                        onChange={async (e) => {
+                            const enabled = e.target.checked;
+
+                            if (!enabled) {
+                                updateSetting('flareSolverrEnabled', enabled);
+                                return;
+                            }
+
+                            try {
+                                await Confirmation.show({
+                                    title: t`Flaresolverr setup confirmation`,
+                                    message: (
+                                        <Trans>
+                                            Flaresolverr is a{' '}
+                                            <u>
+                                                <b>separate</b>
+                                            </u>
+                                            , Suwayomi{' '}
+                                            <u>
+                                                <b>unrelated</b>
+                                            </u>{' '}
+                                            program that needs to be manually{' '}
+                                            <u>
+                                                <b>installed</b>
+                                            </u>{' '}
+                                            and{' '}
+                                            <u>
+                                                <b>run</b>
+                                            </u>
+                                            .<br />
+                                            See{' '}
+                                            <Link
+                                                href="https://github.com/FlareSolverr/FlareSolverr?tab=readme-ov-file#installation"
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
+                                                FlareSolverr
+                                            </Link>{' '}
+                                            for information on how to set it up
+                                            <br />
+                                            <br />
+                                            If it is{' '}
+                                            <u>
+                                                <b>not</b>
+                                            </u>{' '}
+                                            properly set up and running, enabling this setting{' '}
+                                            <u>
+                                                <b>won&apos;t</b>
+                                            </u>{' '}
+                                            do anything
+                                        </Trans>
+                                    ),
+                                    actions: {
+                                        confirm: {
+                                            title: t`I understand`,
+                                        },
+                                    },
+                                });
+
+                                updateSetting('flareSolverrEnabled', enabled);
+                            } catch (_) {
+                                // Ignore
+                            }
+                        }}
                     />
                 </ListItem>
                 <TextSetting

@@ -10,8 +10,9 @@ import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import { IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
-import { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
+import type { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
+import { ReadingDirection } from '@/features/reader/Reader.types.ts';
+import type { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingDirection> = {

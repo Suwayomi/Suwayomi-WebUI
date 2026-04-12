@@ -6,9 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
-import { getOptionForDirection as getOptionForDirectionImpl } from '@/features/theme/services/ThemeCreator.ts';
-import { ProgressBarPosition, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import type { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import type { getOptionForDirection as getOptionForDirectionImpl } from '@/features/theme/services/ThemeCreator.ts';
+import type { ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { ProgressBarPosition } from '@/features/reader/Reader.types.ts';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 

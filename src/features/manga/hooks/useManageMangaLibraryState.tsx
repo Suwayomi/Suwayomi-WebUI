@@ -16,7 +16,11 @@ import { getMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { Categories } from '@/features/category/services/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables, MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type {
+    GetCategoriesBaseQuery,
+    GetCategoriesBaseQueryVariables,
+    MangaType,
+} from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/category/CategoryQuery.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -82,8 +86,7 @@ export const useManageMangaLibraryState = (
 
             let showAddToLibraryCategorySelectDialog: boolean;
             try {
-                showAddToLibraryCategorySelectDialog = (await getMetadataServerSettings())
-                    .showAddToLibraryCategorySelectDialog;
+                ({ showAddToLibraryCategorySelectDialog } = await getMetadataServerSettings());
             } catch (e) {
                 makeToast(t`Unable to load data`, 'error', getErrorMessage(e));
                 return;
@@ -103,6 +106,10 @@ export const useManageMangaLibraryState = (
                 makeToast(t`Could not load categories`, 'error', getErrorMessage(e));
                 return;
             }
+            if (!categories.data) {
+                return;
+            }
+
             const userCreatedCategories = Categories.getUserCreated(categories.data.categories.nodes);
 
             let duplicatedLibraryMangas:
@@ -135,8 +142,8 @@ export const useManageMangaLibraryState = (
                 );
             }
 
-            const doDuplicatesExist = duplicatedLibraryMangas?.data.mangas.totalCount;
-            if (doDuplicatesExist) {
+            const duplicateMangas = duplicatedLibraryMangas?.data?.mangas;
+            if (duplicateMangas?.totalCount) {
                 await Confirmation.show(
                     {
                         title: t`Are you sure?`,
@@ -146,7 +153,7 @@ export const useManageMangaLibraryState = (
                                 show: true,
                                 title: t`Show entry`,
                                 contain: true,
-                                link: AppRoutes.manga.path(duplicatedLibraryMangas!.data.mangas.nodes[0].id),
+                                link: AppRoutes.manga.path(duplicateMangas.nodes[0].id),
                             },
                             confirm: {
                                 title: t`Add`,

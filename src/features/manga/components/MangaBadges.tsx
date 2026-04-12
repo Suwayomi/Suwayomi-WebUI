@@ -10,7 +10,7 @@ import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
-import { MangaCardMode } from '@/features/manga/Manga.types.ts';
+import type { MangaCardMode } from '@/features/manga/Manga.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';

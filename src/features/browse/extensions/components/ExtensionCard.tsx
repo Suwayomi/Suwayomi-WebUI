@@ -16,13 +16,8 @@ import Stack from '@mui/material/Stack';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import {
-    ExtensionAction,
-    ExtensionState,
-    InstalledState,
-    InstalledStates,
-    TExtension,
-} from '@/features/extension/Extensions.types.ts';
+import type { InstalledStates, TExtension } from '@/features/extension/Extensions.types.ts';
+import { ExtensionAction, ExtensionState, InstalledState } from '@/features/extension/Extensions.types.ts';
 import {
     EXTENSION_ACTION_TO_NEXT_ACTION_MAP,
     EXTENSION_ACTION_TO_STATE_MAP,

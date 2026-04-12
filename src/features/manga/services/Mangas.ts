@@ -6,17 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DocumentNode, Unmasked } from '@apollo/client/core';
+import type { DocumentNode, Unmasked } from '@apollo/client';
 import { t } from '@lingui/core/macro';
 import { i18n } from '@/i18n';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import {
+import type {
     ChapterConditionInput,
     GetMangasBaseQuery,
     GetMangasBaseQueryVariables,
     GetMangasChapterIdsWithStateQuery,
-    GetMangaToMigrateQuery,
-    GetMangaToMigrateToFetchMutation,
     MangaBaseFieldsFragment,
     UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
@@ -25,8 +23,8 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
 import { MANGA_BASE_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
-import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
-import {
+import type { MigrateOptions } from '@/features/migration/Migration.types.ts';
+import type {
     MangaAction,
     MangaArtistInfo,
     MangaAuthorInfo,
@@ -38,10 +36,9 @@ import {
     MangaSourceNameInfo,
     MangaThumbnailInfo,
     MangaTitleInfo,
-    MangaType,
     MangaUnreadInfo,
-    MigrateMode,
 } from '@/features/manga/Manga.types.ts';
+import { MangaType } from '@/features/manga/Manga.types.ts';
 import {
     MANGA_ACTION_TO_CONFIRMATION_REQUIRED,
     MANGA_ACTION_TO_TRANSLATION,
@@ -52,9 +49,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
-
-type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
-type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
+import { MangaMigration } from '@/features/migration/MangaMigration.ts';
 
 type DownloadChaptersOptions = {
     size?: number;
@@ -63,10 +58,6 @@ type DownloadChaptersOptions = {
 };
 type MarkAsReadOptions = { wasManuallyMarkedAsRead: boolean };
 type ChangeCategoriesOptions = { changeCategoriesPatch: UpdateMangaCategoriesPatchInput };
-type MigrateOptions = {
-    mangaIdToMigrateTo: number;
-    mode: MigrateMode;
-} & Partial<MetadataMigrationSettings>;
 
 type MarkAsReadActionOption = MarkAsReadOptions &
     PropertiesNever<ChangeCategoriesOptions> &
@@ -98,9 +89,6 @@ type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_
         : Action extends 'download'
           ? DownloadActionOption
           : DefaultActionOption;
-
-type MigrateAction = { copy: () => Promise<unknown>[]; cleanup: () => Promise<unknown>[] };
-type MigrateActionCreator = () => MigrateAction;
 
 const ARTIST_AUTHOR_SEPARATOR_REGEX = /\s*[,|、]\s*/;
 
@@ -195,7 +183,7 @@ export class Mangas {
         state: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'>,
     ): Promise<GetMangasChapterIdsWithStateQuery['chapters']['nodes']> {
         const { data } = await requestManager.getMangasChapterIdsWithState(mangaIds, state).response;
-        return data.chapters.nodes;
+        return data?.chapters.nodes ?? [];
     }
 
     static async downloadChapters(
@@ -234,25 +222,23 @@ export class Mangas {
             Object.fromEntries([...mangaIdToDefaultDownloadSize, ...mangaIdToDownloadSize]),
         ) satisfies MangaIdToDownloadSize[];
 
-        const chapterIdsToDownload = mangaIdToActualDownloadSize
-            .map(([mangaId, actualSize]) => {
-                const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
+        const chapterIdsToDownload = mangaIdToActualDownloadSize.flatMap(([mangaId, actualSize]) => {
+            const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
 
-                if (!mangaChapters.length) {
-                    return [];
-                }
+            if (!mangaChapters.length) {
+                return [];
+            }
 
-                const shouldDownloadAll = actualSize === undefined;
-                if (shouldDownloadAll) {
-                    return mangaChapters;
-                }
+            const shouldDownloadAll = actualSize === undefined;
+            if (shouldDownloadAll) {
+                return mangaChapters;
+            }
 
-                const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
-                const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
+            const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
+            const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
 
-                return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
-            })
-            .flat();
+            return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
+        });
 
         if (!chapterIdsToDownload.length) {
             return Promise.resolve();
@@ -312,229 +298,16 @@ export class Mangas {
         );
     }
 
-    private static migrateChapters(
-        mode: MigrateMode,
-        mangaToMigrate: GetMangaToMigrateQuery['manga'],
-        mangaToMigrateToInfo: GetMangaToMigrateToFetchMutation,
-        deleteChapters: boolean,
-    ): MigrateAction {
-        if (!mangaToMigrate.chapters || !mangaToMigrateToInfo.fetchChapters?.chapters) {
-            throw new Error('Chapters are missing');
-        }
-
-        const chaptersToMigrate = mangaToMigrate.chapters.nodes;
-
-        const chaptersToMigrateTo = mangaToMigrateToInfo.fetchChapters?.chapters;
-        const migratableChapters = Chapters.getMatchingChapterNumberChapters(chaptersToMigrate, chaptersToMigrateTo);
-
-        const readChapters: number[] = [];
-        const bookmarkedChapters: number[] = [];
-
-        migratableChapters.forEach(([chapterToMigrate, chapterToMigrateTo]) => {
-            const { isRead, isBookmarked } = chapterToMigrate;
-
-            if (isRead) {
-                readChapters.push(chapterToMigrateTo.id);
-            }
-
-            if (isBookmarked) {
-                bookmarkedChapters.push(chapterToMigrateTo.id);
-            }
-        });
-
-        return {
-            copy: () =>
-                [
-                    readChapters.length && requestManager.updateChapters(readChapters, { isRead: true }).response,
-                    bookmarkedChapters.length &&
-                        requestManager.updateChapters(bookmarkedChapters, { isBookmarked: true }).response,
-                ].filter((promise) => !!promise),
-            cleanup: () =>
-                mode === 'migrate'
-                    ? [
-                          deleteChapters
-                              ? requestManager.deleteDownloadedChapters(
-                                    Chapters.getIds(Chapters.getDownloaded(mangaToMigrate.chapters?.nodes ?? [])),
-                                ).response
-                              : Promise.resolve(),
-                      ]
-                    : [],
-        };
-    }
-
-    private static migrateTracking(
-        mode: MigrateMode,
-        mangaToMigrate: MangaToMigrate,
-        mangaToMigrateTo: MangaToMigrateTo,
-    ): MigrateAction {
-        if (!mangaToMigrate.trackRecords) {
-            throw new Error('TrackRecords of manga to migrate are missing');
-        }
-
-        if (!mangaToMigrateTo.trackRecords) {
-            throw new Error('TrackRecords of manga to migrate to are missing');
-        }
-
-        const trackBindingsToAdd = mangaToMigrate.trackRecords.nodes.filter((trackRecordToMigrate) =>
-            mangaToMigrateTo.trackRecords?.nodes.every(
-                (trackRecord) => trackRecordToMigrate.remoteId !== trackRecord.remoteId,
-            ),
-        );
-
-        return {
-            copy: () =>
-                trackBindingsToAdd.map(
-                    (trackRecord) =>
-                        requestManager.bindTracker(
-                            mangaToMigrateTo.id,
-                            trackRecord.trackerId,
-                            trackRecord.remoteId,
-                            trackRecord.private,
-                        ).response,
-                ),
-            cleanup: () =>
-                mode === 'migrate'
-                    ? (mangaToMigrate.trackRecords?.nodes.map(
-                          (trackRecord) => requestManager.unbindTracker(trackRecord.id).response,
-                      ) ?? [])
-                    : [],
-        };
-    }
-
-    private static migrateManga(
-        mode: MigrateMode,
-        mangaToMigrateFrom: MangaToMigrate,
-        mangaToMigrateTo: MangaToMigrateTo,
-        migrateCategories: boolean,
-        removeMangaFromCategories: boolean,
-    ): MigrateAction {
-        if (migrateCategories && !mangaToMigrateFrom?.categories) {
-            throw new Error('Categories are missing');
-        }
-
-        return {
-            copy: () => [
-                requestManager.updateManga(mangaToMigrateTo.id, {
-                    updateManga: { inLibrary: true },
-                    updateMangaCategories: migrateCategories
-                        ? {
-                              addToCategories: mangaToMigrateFrom.categories?.nodes.map((category) => category.id),
-                          }
-                        : undefined,
-                }).response,
-            ],
-            cleanup: () =>
-                mode === 'migrate'
-                    ? [
-                          requestManager.updateManga(mangaToMigrateFrom.id, {
-                              updateManga: { inLibrary: false },
-                              updateMangaCategories: removeMangaFromCategories ? { clearCategories: true } : undefined,
-                          }).response,
-                      ]
-                    : [],
-        };
-    }
-
     static async migrate(
         mangaId: MangaIdInfo['id'],
         mangaIdToMigrateTo: number,
-        {
-            mode,
-            migrateChapters,
-            migrateCategories,
-            migrateTracking,
-            deleteChapters,
-        }: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
+        options: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
         disableConfirmation?: boolean,
     ): Promise<void> {
         return Mangas.executeAction(
             'migrate',
             1,
-            async () => {
-                const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }, { removeMangaFromCategories }] =
-                    await Promise.all([
-                        requestManager.getMangaToMigrate(mangaId, {
-                            migrateChapters,
-                            migrateCategories,
-                            migrateTracking,
-                            deleteChapters,
-                        }).response,
-                        requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, {
-                            migrateChapters,
-                            migrateCategories,
-                            migrateTracking,
-                            apolloOptions: { errorPolicy: 'all' },
-                        }).response,
-                        getMetadataServerSettings(),
-                    ]);
-
-                if (!mangaToMigrateData.manga || !mangaToMigrateToData?.fetchManga?.manga) {
-                    throw new Error('Mangas::migrate: missing manga data');
-                }
-
-                if (migrateChapters && !mangaToMigrateData.manga.chapters) {
-                    throw new Error('Mangas::migrate: missing chapters data');
-                }
-
-                if (!mangaToMigrateToData.fetchChapters?.chapters) {
-                    mangaToMigrateToData.fetchChapters = { chapters: [] };
-                }
-
-                const performMigrationAction = async (
-                    migrateAction: keyof MigrateAction,
-                    ...actions: MigrateAction[]
-                ) => Promise.all(actions.map((action) => action[migrateAction]()).flat());
-
-                const performMigrationActions = async (
-                    ...actionCreators: [boolean | undefined, MigrateActionCreator][]
-                ) => {
-                    const migrationActions: TupleUnion<keyof MigrateAction> = ['copy', 'cleanup'];
-
-                    const actions = actionCreators
-                        .filter(([performAction]) => performAction)
-                        .map(([, actionCreator]) => actionCreator());
-
-                    for (const migrationAction of migrationActions) {
-                        // the migration actions (copy, cleanup) are supposed to be run sequentially to ensure that the cleanup
-                        // only happens in case the copy succeeded
-                        // eslint-disable-next-line no-await-in-loop
-                        await performMigrationAction(migrationAction, ...actions);
-                    }
-                };
-
-                await performMigrationActions(
-                    [
-                        migrateChapters,
-                        () =>
-                            Mangas.migrateChapters(
-                                mode,
-                                mangaToMigrateData.manga,
-                                mangaToMigrateToData,
-                                !!deleteChapters,
-                            ),
-                    ],
-                    [
-                        migrateTracking,
-                        () =>
-                            Mangas.migrateTracking(
-                                mode,
-                                mangaToMigrateData.manga,
-                                mangaToMigrateToData.fetchManga!.manga,
-                            ),
-                    ],
-                    [
-                        true,
-                        () =>
-                            Mangas.migrateManga(
-                                mode,
-                                mangaToMigrateData.manga,
-                                mangaToMigrateToData.fetchManga!.manga,
-                                !!migrateCategories,
-                                removeMangaFromCategories,
-                            ),
-                    ],
-                );
-            },
+            () => MangaMigration.migrate(mangaId, mangaIdToMigrateTo, options),
             disableConfirmation,
         );
     }

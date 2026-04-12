@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MutableRefObject, useEffect } from 'react';
+import type { MutableRefObject } from 'react';
+import { useEffect } from 'react';
 import {
     getReaderOverlayStore,
     getReaderTapZoneStore,
@@ -17,9 +18,7 @@ export const useReaderHideOverlayOnUserScroll = (
     isOverlayVisible: boolean,
     scrollElementRef: MutableRefObject<HTMLDivElement | null>,
 ) => {
-    const { showPreview } = useReaderTapZoneStore((state) => ({
-        showPreview: state.showPreview,
-    }));
+    const showPreview = useReaderTapZoneStore('showPreview');
 
     useEffect(() => {
         const handleScroll = () => {

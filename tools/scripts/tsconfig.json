@@ -1,9 +1,7 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": [
-    "./**/*"
-  ],
-  "compilerOptions": {
-    "moduleResolution": "node"
-  }
+    "extends": "../../tsconfig.json",
+    "include": ["./**/*"],
+    "compilerOptions": {
+        "moduleResolution": "node"
+    }
 }

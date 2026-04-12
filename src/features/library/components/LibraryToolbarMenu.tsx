@@ -8,7 +8,8 @@
 
 import FilterList from '@mui/icons-material/FilterList';
 import IconButton from '@mui/material/IconButton';
-import { ComponentProps, useState } from 'react';
+import type { ComponentProps } from 'react';
+import { useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { LibraryOptionsPanel } from '@/features/library/components/LibraryOptionsPanel.tsx';

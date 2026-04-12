@@ -103,7 +103,9 @@ export function DefaultNavBar() {
     }, [isMobileWidth]);
 
     // Allow default navbar to be overrided
-    if (override.status) return override.value;
+    if (override.status) {
+        return override.value;
+    }
 
     return (
         <>

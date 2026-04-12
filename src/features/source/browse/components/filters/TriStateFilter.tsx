@@ -9,13 +9,14 @@
 import React from 'react';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { TriState } from '@/lib/graphql/generated/graphql.ts';
+import type { IPos } from '@/features/source/Source.types.ts';
 
 interface Props {
     state: TriState;
     name: string;
     position: number;
     group: number | undefined;
-    updateFilterValue: Function;
+    updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 
@@ -50,7 +51,7 @@ export const TriStateFilter: React.FC<Props> = (props) => {
     const [val, setval] = React.useState(convertTriStateToNumber(state));
 
     const handleChange = (checked: boolean | null | undefined) => {
-        // eslint-disable-next-line no-nested-ternary
+        // oxlint-disable-next-line no-nested-ternary
         const newState = checked === undefined ? 0 : checked ? 1 : 2;
         setval(newState);
         const upd = update.filter(

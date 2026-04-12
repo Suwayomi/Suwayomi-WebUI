@@ -7,7 +7,7 @@
  */
 
 import { styled } from '@mui/material/styles';
-import { TypographyProps } from '@mui/material/Typography';
+import type { TypographyProps } from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
 

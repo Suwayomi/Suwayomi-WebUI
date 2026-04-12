@@ -19,7 +19,7 @@ import Button from '@mui/material/Button';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useLingui } from '@lingui/react/macro';
 import { cloneObject } from '@/base/utils/cloneObject.tsx';
-import { MultiSelectListPreferenceProps } from '@/features/source/Source.types.ts';
+import type { MultiSelectListPreferenceProps } from '@/features/source/Source.types.ts';
 
 interface IListDialogProps {
     selectedValues: string[];

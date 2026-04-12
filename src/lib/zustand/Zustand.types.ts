@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { StateCreator as ZustandStateCreator } from 'zustand';
+import type { StateCreator as ZustandStateCreator } from 'zustand';
 
 export type StateCreator<T> = ZustandStateCreator<T, [['zustand/devtools', never], ['zustand/immer', never]], [], T>;
 

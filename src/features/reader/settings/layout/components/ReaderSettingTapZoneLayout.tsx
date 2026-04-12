@@ -9,8 +9,8 @@
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import { TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
-import { IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
+import type { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
+import type { IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<TapZoneLayouts> = {

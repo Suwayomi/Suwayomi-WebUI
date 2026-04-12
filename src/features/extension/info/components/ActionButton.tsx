@@ -13,7 +13,8 @@ import { INSTALLED_STATE_TO_TRANSLATION_MAP } from '@/features/extension/Extensi
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getInstalledState, updateExtension } from '@/features/extension/Extensions.utils.ts';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
-import { ExtensionAction, InstalledState, TExtension } from '@/features/extension/Extensions.types.ts';
+import type { TExtension } from '@/features/extension/Extensions.types.ts';
+import { ExtensionAction, InstalledState } from '@/features/extension/Extensions.types.ts';
 
 export const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TExtension) => {
     const handleBack = useBackButton();

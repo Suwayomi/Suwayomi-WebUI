@@ -7,13 +7,16 @@
  */
 
 import { useEffect, useMemo } from 'react';
-import { requestUpdateCategoryMetadata } from '@/features/metadata/services/MetadataUpdater.ts';
+import {
+    requestCategoryMetadataUpdate,
+    requestBatchCategoryMetadataUpdate,
+} from '@/features/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { LibraryOptions } from '@/features/library/Library.types.ts';
-import { CategoryIdInfo, CategoryMetadataKeys, ICategoryMetadata } from '@/features/category/Category.types.ts';
+import type { LibraryOptions } from '@/features/library/Library.types.ts';
+import type { CategoryIdInfo, CategoryMetadataKeys, ICategoryMetadata } from '@/features/category/Category.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
-import {
+import type {
     AllowedMetadataValueTypes,
     GqlMetaHolder,
     Metadata,
@@ -80,15 +83,36 @@ export const updateCategoryMetadata = async <
     category: CategoryIdInfo & GqlMetaHolder,
     metadataKey: MetadataKey,
     value: ICategoryMetadata[MetadataKey],
-): Promise<void[]> =>
-    requestUpdateCategoryMetadata(category, [
-        [metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]],
-    ]);
+): Promise<void> =>
+    requestCategoryMetadataUpdate(category, {
+        update: [[metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]]],
+    });
+
+export const batchUpdateCategoryMetadata = async <
+    MetadataKeys extends CategoryMetadataKeys = CategoryMetadataKeys,
+    MetadataKey extends MetadataKeys = MetadataKeys,
+>(
+    updates: Array<{
+        categories: (CategoryIdInfo & GqlMetaHolder)[];
+        entries: Array<{ metadataKey: MetadataKey; value: ICategoryMetadata[MetadataKey] }>;
+    }>,
+): Promise<void> =>
+    requestBatchCategoryMetadataUpdate(
+        updates.map(({ categories, entries }) => ({
+            categories,
+            options: {
+                update: entries.map(({ metadataKey, value }) => [
+                    metadataKey,
+                    convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey],
+                ]),
+            },
+        })),
+    );
 
 export const createUpdateCategoryMetadata =
     <Settings extends CategoryMetadataKeys>(
         category: CategoryIdInfo & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateCategoryMetadata'),
-    ): ((...args: OmitFirst<Parameters<typeof updateCategoryMetadata<Settings>>>) => Promise<void | void[]>) =>
+    ): ((...args: OmitFirst<Parameters<typeof updateCategoryMetadata<Settings>>>) => Promise<void>) =>
     (metadataKey, value) =>
         updateCategoryMetadata(category, metadataKey, value).catch(handleError);

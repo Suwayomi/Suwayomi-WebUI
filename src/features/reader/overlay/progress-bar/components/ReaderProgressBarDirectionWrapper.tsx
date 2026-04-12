@@ -9,7 +9,8 @@
 import { useMemo } from 'react';
 import { CacheProvider } from '@emotion/react';
 import { ThemeProvider } from '@mui/material/styles';
-import Box, { BoxProps } from '@mui/material/Box';
+import type { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { getTheme } from '@/features/theme/services/AppThemes.ts';
 import { createTheme } from '@/features/theme/services/ThemeCreator.ts';

@@ -15,7 +15,8 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { UpdateState, WebUiChannel, WebUiUpdateStatus } from '@/lib/graphql/generated/graphql.ts';
+import type { WebUiUpdateStatus } from '@/lib/graphql/generated/graphql.ts';
+import { UpdateState, WebUiChannel } from '@/lib/graphql/generated/graphql.ts';
 import { useLocalStorage, useSessionStorage } from '@/base/hooks/useStorage.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -26,6 +27,7 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { BrowserUtil } from '@/lib/BrowserUtil.ts';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -52,7 +54,7 @@ export const WebUIUpdateChecker = () => {
     const shouldCheckForUpdate = !isAutoUpdateEnabled && webUIInformAvailableUpdate;
 
     const { data: aboutData } = requestManager.useGetAbout();
-    const { aboutWebUI } = aboutData ?? {};
+    const { aboutWebUI } = aboutData ?? STABLE_EMPTY_OBJECT;
 
     const { data: webUIUpdateData, refetch: checkForUpdate } = requestManager.useCheckForWebUIUpdate({
         notifyOnNetworkStatusChange: true,

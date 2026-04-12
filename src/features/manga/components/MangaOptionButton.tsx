@@ -6,18 +6,24 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { BaseSyntheticEvent, ChangeEvent, useMemo, ForwardedRef } from 'react';
+import type { BaseSyntheticEvent, ChangeEvent, ForwardedRef } from 'react';
+import { useMemo } from 'react';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { PopupState } from 'material-ui-popup-state/hooks';
+import type { PopupState } from 'material-ui-popup-state/hooks';
 import { bindTrigger } from 'material-ui-popup-state';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
+import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+
+const preventDefaultAction = (e: BaseSyntheticEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+};
 
 export const MangaOptionButton = ({
     id,
@@ -37,11 +43,6 @@ export const MangaOptionButton = ({
     const { t } = useLingui();
 
     const bindTriggerProps = useMemo(() => bindTrigger(popupState), [popupState]);
-
-    const preventDefaultAction = (e: BaseSyntheticEvent) => {
-        e.stopPropagation();
-        e.preventDefault();
-    };
 
     const handleSelectionChange = (e: ChangeEvent, isSelected: boolean) => {
         preventDefaultAction(e);

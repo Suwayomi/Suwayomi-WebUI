@@ -44,7 +44,7 @@ type ExtractValueWithDefaultFlag<T extends ValueWithDefaultFlag<any>> = T extend
 
 type MergeObjectsArray<T extends object[]> = T extends [infer F, ...infer R]
     ? F & MergeObjectsArray<R extends object[] ? R : []>
-    : {};
+    : Record<string, never>;
 
 type OmitNotMatching<T, K extends keyof T> = {
     [P in K]: T[K];

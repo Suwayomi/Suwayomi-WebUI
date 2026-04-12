@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-// eslint-disable-next-line max-classes-per-file
+/* oxlint-disable max-classes-per-file */
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 
 export class Storage {

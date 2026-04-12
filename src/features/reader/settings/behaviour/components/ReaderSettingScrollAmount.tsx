@@ -8,8 +8,9 @@
 
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import { IReaderSettings, ReaderScrollAmount } from '@/features/reader/Reader.types.ts';
-import { ValueToDisplayData } from '@/base/Base.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { ReaderScrollAmount } from '@/features/reader/Reader.types.ts';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS, SCROLL_AMOUNT } from '@/features/reader/settings/ReaderSettings.constants.tsx';

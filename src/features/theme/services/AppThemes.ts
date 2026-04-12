@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { TBaseTheme, themes } from '@/features/theme/Themes.ts';
+import type { TBaseTheme } from '@/features/theme/Themes.ts';
+import { themes } from '@/features/theme/Themes.ts';
 
 export type AppThemes = keyof typeof themes | string;
 

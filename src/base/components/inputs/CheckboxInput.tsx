@@ -6,8 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox';
-import FormControlLabel, { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import type { CheckboxProps } from '@mui/material/Checkbox';
+import Checkbox from '@mui/material/Checkbox';
+import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import React from 'react';
 
 interface IProps extends CheckboxProps {

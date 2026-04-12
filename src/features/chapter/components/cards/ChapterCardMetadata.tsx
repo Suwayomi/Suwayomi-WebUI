@@ -7,7 +7,7 @@
  */
 
 import Box from '@mui/material/Box';
-import { ComponentProps, ReactNode } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
 import Stack from '@mui/material/Stack';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';

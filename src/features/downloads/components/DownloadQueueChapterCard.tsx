@@ -27,7 +27,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { DownloaderState } from '@/lib/graphql/generated/graphql.ts';
-import { ChapterDownloadStatus, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterDownloadStatus, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 export const DownloadQueueChapterCard = memo(

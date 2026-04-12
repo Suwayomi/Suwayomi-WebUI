@@ -15,7 +15,8 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
-import { WebUiChannel, WebUiFlavor, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
+import type { WebUiChannel, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
+import { WebUiFlavor } from '@/lib/graphql/generated/graphql.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -24,8 +25,8 @@ import {
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
-import { WebUISettingsType } from '@/features/settings/Settings.types.ts';
+import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
+import type { WebUISettingsType } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import {

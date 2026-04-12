@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactNode, useMemo } from 'react';
+import type { ReactNode } from 'react';
+import { useMemo } from 'react';
 import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { MultiValueButtonProps } from '@/base/Base.types.ts';
+import type { MultiValueButtonProps } from '@/base/Base.types.ts';
 import { getNextRotationValue } from '@/base/utils/ValueRotationButton.utils.ts';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
 

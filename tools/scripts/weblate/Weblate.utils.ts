@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
+import type {
     WeblateChangePayload,
     WeblateChangeResult,
     WeblateLanguagePayload,
@@ -52,7 +52,7 @@ export const getUsername = async (url: string): Promise<string> => {
 
 export const getLanguageName = async (url: string): Promise<string> => {
     const languagePayload = await fetchData<WeblateLanguagePayload>(url);
-    return languagePayload.language.name.replace(/\(([a-zA-Z]+) Han script\)/g, '($1)');
+    return languagePayload.language.name.replaceAll(/\(([a-zA-Z]+) Han script\)/g, '($1)');
 };
 
 export const fetchWeblateLanguageStats = async () =>
@@ -68,7 +68,7 @@ export const validateWeblateDates = (afterDate: string, beforeDate: string) => {
     }
 };
 
-export const normalizeCode = (code: string): string => code.replace(/[-_]/g, '');
+export const normalizeCode = (code: string): string => code.replaceAll(/[-_]/g, '');
 
 export const getWeblateLanguageStatsFor = (
     code: string,

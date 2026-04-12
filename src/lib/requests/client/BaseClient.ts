@@ -7,9 +7,9 @@
  */
 
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
-import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
+import type { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
+import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 
@@ -103,7 +103,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
         return SubpathUtil.getApiBaseUrl(serverBaseURL);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // oxlint-disable-next-line no-unused-vars
     protected shouldQueueRequest(operationName?: string): boolean {
         return AuthManager.shouldQueueRequests();
     }

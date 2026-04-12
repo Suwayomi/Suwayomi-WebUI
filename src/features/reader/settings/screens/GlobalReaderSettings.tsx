@@ -12,7 +12,7 @@ import { useDefaultReaderSettingsWithDefaultFlag } from '@/features/reader/setti
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { IReaderSettings, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderSettingsTabs } from '@/features/reader/settings/components/ReaderSettingsTabs.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';

@@ -9,18 +9,6 @@
 import gql from 'graphql-tag';
 import { MANGA_META_FIELDS, MANGA_SCREEN_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 
-export const DELETE_MANGA_METADATA = gql`
-    ${MANGA_META_FIELDS}
-
-    mutation DELETE_MANGA_METADATA($input: DeleteMangaMetaInput!) {
-        deleteMangaMeta(input: $input) {
-            meta {
-                ...MANGA_META_FIELDS
-            }
-        }
-    }
-`;
-
 // makes the server fetch and return the manga
 export const GET_MANGA_FETCH = gql`
     ${MANGA_SCREEN_FIELDS}
@@ -71,18 +59,6 @@ export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
                 isRead
                 isDownloaded
                 isBookmarked
-            }
-        }
-    }
-`;
-
-export const SET_MANGA_METADATA = gql`
-    ${MANGA_META_FIELDS}
-
-    mutation SET_MANGA_METADATA($input: SetMangaMetaInput!) {
-        setMangaMeta(input: $input) {
-            meta {
-                ...MANGA_META_FIELDS
             }
         }
     }
@@ -190,6 +166,42 @@ export const UPDATE_MANGAS_CATEGORIES = gql`
                     }
                     totalCount
                 }
+            }
+        }
+    }
+`;
+
+export const UPDATE_MANGA_METADATA = gql`
+    ${MANGA_META_FIELDS}
+
+    mutation UPDATE_MANGA_METADATA(
+        $preUpdateDeleteInput: DeleteMangaMetasInput!
+        $hasPreUpdateDeletions: Boolean!
+        $updateInput: SetMangaMetasInput!
+        $hasUpdates: Boolean!
+        $postUpdateDeleteInput: DeleteMangaMetasInput!
+        $hasPostUpdateDeletions: Boolean!
+        $migrateInput: SetMangaMetasInput!
+        $isMigration: Boolean!
+    ) {
+        preUpdateDeletedMeta: deleteMangaMetas(input: $preUpdateDeleteInput) @include(if: $hasPreUpdateDeletions) {
+            metas {
+                ...MANGA_META_FIELDS
+            }
+        }
+        updatedMeta: setMangaMetas(input: $updateInput) @include(if: $hasUpdates) {
+            metas {
+                ...MANGA_META_FIELDS
+            }
+        }
+        postUpdateDeletedMeta: deleteMangaMetas(input: $postUpdateDeleteInput) @include(if: $hasPostUpdateDeletions) {
+            metas {
+                ...MANGA_META_FIELDS
+            }
+        }
+        migrationMeta: setMangaMetas(input: $migrateInput) @include(if: $isMigration) {
+            metas {
+                ...MANGA_META_FIELDS
             }
         }
     }

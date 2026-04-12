@@ -9,15 +9,18 @@
 import { useEffect, useMemo } from 'react';
 import { DEFAULT_CHAPTER_OPTIONS } from '@/features/chapter/Chapter.constants.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
-import { MangaIdInfo, MangaMetadata, MangaMetadataKeys } from '@/features/manga/Manga.types.ts';
-import {
+import type { MangaIdInfo, MangaMetadata, MangaMetadataKeys } from '@/features/manga/Manga.types.ts';
+import type {
     AllowedMetadataValueTypes,
     GqlMetaHolder,
     Metadata,
     MetadataHolder,
 } from '@/features/metadata/Metadata.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
-import { requestUpdateMangaMetadata } from '@/features/metadata/services/MetadataUpdater.ts';
+import {
+    requestMangaMetadataUpdate,
+    requestBatchMangaMetadataUpdate,
+} from '@/features/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const DEFAULT_MANGA_METADATA: MangaMetadata = {
@@ -68,15 +71,36 @@ export const updateMangaMetadata = async <
     manga: MangaIdInfo & GqlMetaHolder,
     metadataKey: MetadataKey,
     value: MangaMetadata[MetadataKey],
-): Promise<void[]> =>
-    requestUpdateMangaMetadata(manga, [
-        [metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]],
-    ]);
+): Promise<void> =>
+    requestMangaMetadataUpdate(manga, {
+        update: [[metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]]],
+    });
+
+export const batchUpdateMangaMetadata = async <
+    MetadataKeys extends MangaMetadataKeys = MangaMetadataKeys,
+    MetadataKey extends MetadataKeys = MetadataKeys,
+>(
+    updates: Array<{
+        mangas: (MangaIdInfo & GqlMetaHolder)[];
+        entries: Array<{ metadataKey: MetadataKey; value: MangaMetadata[MetadataKey] }>;
+    }>,
+): Promise<void> =>
+    requestBatchMangaMetadataUpdate(
+        updates.map(({ mangas, entries }) => ({
+            mangas,
+            options: {
+                update: entries.map(({ metadataKey, value }) => [
+                    metadataKey,
+                    convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey],
+                ]),
+            },
+        })),
+    );
 
 export const createUpdateMangaMetadata =
     <Settings extends MangaMetadataKeys>(
         manga: MangaIdInfo & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateMangaMetadata'),
-    ): ((...args: OmitFirst<Parameters<typeof updateMangaMetadata<Settings>>>) => Promise<void | void[]>) =>
+    ): ((...args: OmitFirst<Parameters<typeof updateMangaMetadata<Settings>>>) => Promise<void>) =>
     (metadataKey, value) =>
         updateMangaMetadata(manga, metadataKey, value).catch(handleError);

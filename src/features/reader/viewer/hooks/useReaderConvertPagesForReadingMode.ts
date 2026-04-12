@@ -7,10 +7,11 @@
  */
 
 import { useLayoutEffect, useState } from 'react';
-import { ReaderPageSpreadState, ReaderStatePages, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { ReaderPageSpreadState, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { ReadingMode } from '@/features/reader/Reader.types.ts';
 import { getIndexOfPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { createPagesData } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
+import type { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 
 export const useReaderConvertPagesForReadingMode = (
     currentPageIndex: number,

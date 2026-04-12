@@ -12,7 +12,8 @@ import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import React, { useMemo, useState } from 'react';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
-import { closestCenter, DndContext, DragEndEvent } from '@dnd-kit/core';
+import type { DragEndEvent } from '@dnd-kit/core';
+import { closestCenter, DndContext } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { useWindowEvent } from '@mantine/hooks';
 import { useLingui } from '@lingui/react/macro';
@@ -30,8 +31,9 @@ import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
 import { DownloadQueueChapterCard } from '@/features/downloads/components/DownloadQueueChapterCard.tsx';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
-import { ChapterDownloadStatus } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterDownloadStatus } from '@/features/chapter/Chapter.types.ts';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useLingui();
@@ -48,7 +50,7 @@ export const DownloadQueue: React.FC = () => {
     } = requestManager.useGetDownloadStatus({ notifyOnNetworkStatusChange: true });
     const downloaderData = downloadStatusData?.downloadStatus;
 
-    const queue = downloaderData?.queue ?? [];
+    const queue = downloaderData?.queue ?? STABLE_EMPTY_ARRAY;
     const status = downloaderData?.state ?? DownloaderState.Started;
     const isQueueEmpty = !queue.length;
 

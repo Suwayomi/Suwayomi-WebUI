@@ -11,7 +11,7 @@ import PlayArrow from '@mui/icons-material/PlayArrow';
 import { useLingui } from '@lingui/react/macro';
 import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import {
+import type {
     ChapterMangaInfo,
     ChapterNameInfo,
     ChapterNumberInfo,

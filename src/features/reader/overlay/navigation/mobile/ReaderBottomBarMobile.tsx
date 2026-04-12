@@ -19,7 +19,7 @@ import Slide from '@mui/material/Slide';
 import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { ReaderBottomBarMobileProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
+import type { ReaderBottomBarMobileProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { MobileReaderProgressBar } from '@/features/reader/overlay/progress-bar/mobile/MobileReaderProgressBar.tsx';
 import { ReaderChapterList } from '@/features/reader/overlay/navigation/components/ReaderChapterList.tsx';
 import { ReaderBottomBarMobileQuickSettings } from '@/features/reader/overlay/navigation/mobile/quick-settings/ReaderBottomBarMobileQuickSettings.tsx';

@@ -6,23 +6,22 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { memo, MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { MutableRefObject } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { useLingui } from '@lingui/react/macro';
-import {
+import type {
     IReaderSettings,
     ReaderPagerProps,
     ReaderPageSpreadState,
     ReaderResumeMode,
     ReaderStatePages,
-    ReaderTransitionPageMode,
-    ReadingDirection,
-    ReadingMode,
 } from '@/features/reader/Reader.types.ts';
+import { ReaderTransitionPageMode, ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { getDoublePageModePages } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
+import type { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import {
     getPagerForReadingMode,
     isContinuousReadingMode,
@@ -41,7 +40,7 @@ import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { ReaderInfiniteScrollUpdateChapter } from '@/features/reader/infinite-scroll/ReaderInfiniteScrollUpdateChapter.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import { READER_DEFAULT_PAGES_STATE } from '@/features/reader/stores/ReaderPagesStore.ts';
 
 import { getReaderChaptersStore, getReaderPagesStore } from '@/features/reader/stores/ReaderStore.ts';
@@ -162,7 +161,7 @@ const BaseReaderChapterViewer = ({
 
     isCurrentChapterRef.current = isCurrentChapter;
     if (isCurrentChapter) {
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         globalImageRefs.current = imageRefs.current;
     }
 

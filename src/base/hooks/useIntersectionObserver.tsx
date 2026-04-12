@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { RefObject, useLayoutEffect, useState } from 'react';
+import type { RefObject } from 'react';
+import { useLayoutEffect, useState } from 'react';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 export const useIntersectionObserver = (
     ref: RefObject<HTMLElement | null> | HTMLElement | undefined | null,
@@ -16,7 +18,7 @@ export const useIntersectionObserver = (
         root,
         rootMargin,
         threshold,
-    }: IntersectionObserverInit & { ignoreInitialObserve?: boolean } = {},
+    }: IntersectionObserverInit & { ignoreInitialObserve?: boolean } = STABLE_EMPTY_OBJECT,
 ): (() => void) => {
     const [disconnect, setDisconnect] = useState<() => void>(() => {});
 

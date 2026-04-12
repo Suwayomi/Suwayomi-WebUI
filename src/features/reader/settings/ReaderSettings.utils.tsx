@@ -6,17 +6,15 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { NamedExoticComponent, RefAttributes } from 'react';
-import {
+import type { NamedExoticComponent, RefAttributes } from 'react';
+import type {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
-    ProgressBarPosition,
     ProgressBarPositionAutoVertical,
     ReaderPagerProps,
-    ReaderPageScaleMode,
-    ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import { MangaGenreInfo, MangaSourceNameInfo } from '@/features/manga/Manga.types.ts';
+import { ProgressBarPosition, ReaderPageScaleMode, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { MangaGenreInfo, MangaSourceNameInfo } from '@/features/manga/Manga.types.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { ReaderPagedPager } from '@/features/reader/viewer/pager/components/ReaderPagedPager.tsx';
 import { ReaderDoublePagedPager } from '@/features/reader/viewer/pager/components/ReaderDoublePagedPager.tsx';

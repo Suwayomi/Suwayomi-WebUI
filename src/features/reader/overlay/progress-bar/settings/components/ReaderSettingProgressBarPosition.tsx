@@ -11,12 +11,9 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import AutoModeIcon from '@mui/icons-material/AutoMode';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import {
-    IReaderSettings,
-    ProgressBarPosition,
-    ProgressBarPositionAutoVertical,
-} from '@/features/reader/Reader.types.ts';
-import { ValueToDisplayData } from '@/base/Base.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { ProgressBarPosition, ProgressBarPositionAutoVertical } from '@/features/reader/Reader.types.ts';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ProgressBarPosition> = {

@@ -6,9 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
-import { MutableRefObject, RefObject, useCallback, useEffect } from 'react';
-import { Direction } from '@mui/material/styles';
+import type { MessageDescriptor } from '@lingui/core';
+import type { MutableRefObject, RefObject } from 'react';
+import { useCallback, useEffect } from 'react';
+import type { Direction } from '@mui/material/styles';
 import { d } from 'koration';
 import { msg, t } from '@lingui/core/macro';
 import {
@@ -20,15 +21,13 @@ import {
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getCurrentTheme, getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import {
+import type {
     PageInViewportType,
     ProgressBarPosition,
-    ReaderScrollAmount,
     ReaderStatePages,
-    ReaderTransitionPageMode,
     ReadingDirection,
-    ReadingMode,
 } from '@/features/reader/Reader.types.ts';
+import { ReaderScrollAmount, ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { DirectionOffset, ScrollDirection, ScrollOffset } from '@/base/Base.types';
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import {
@@ -46,9 +45,9 @@ import {
 } from '@/features/reader/Reader.utils.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import type { TReaderProgressCurrentPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import {
     getReaderChaptersStore,
     getReaderOverlayStore,

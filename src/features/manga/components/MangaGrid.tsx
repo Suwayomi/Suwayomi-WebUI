@@ -6,18 +6,29 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { ForwardedRef, Ref, useCallback, useLayoutEffect, useMemo, useRef, useState, type JSX } from 'react';
-import Grid, { GridTypeMap } from '@mui/material/Grid';
-import Box, { BoxProps } from '@mui/material/Box';
-import { GridItemProps } from 'react-virtuoso';
+import React, {
+    useCallback,
+    useLayoutEffect,
+    useMemo,
+    useRef,
+    useState,
+    type ForwardedRef,
+    type Ref,
+    type JSX,
+} from 'react';
+import type { GridTypeMap } from '@mui/material/Grid';
+import Grid from '@mui/material/Grid';
+import type { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
+import type { GridItemProps } from 'react-virtuoso';
 import { useLingui } from '@lingui/react/macro';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/features/manga/components/cards/MangaCard.tsx';
-import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
+import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
-import { MangaCardProps } from '@/features/manga/Manga.types.ts';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaCardProps } from '@/features/manga/Manga.types.ts';
+import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
@@ -168,21 +179,22 @@ const VerticalGrid = ({
                 }
             />
         </Box>
-        {/* render div to prevent UI jumping around when showing/hiding loading placeholder */
-        /* eslint-disable-next-line no-nested-ternary */}
+        {/* render div to prevent UI jumping around when showing/hiding loading placeholder */}
+        {/* oxlint-disable no-nested-ternary */}
         {isSelectModeActive && gridLayout === GridLayout.List ? (
             <Box sx={{ paddingBottom: DEFAULT_FULL_FAB_HEIGHT }} />
-        ) : // eslint-disable-next-line no-nested-ternary
-        isLoading ? (
+        ) : isLoading ? (
             <LoadingPlaceholder />
         ) : hasNextPage ? (
             <div style={{ height: '75px' }} />
         ) : null}
+        {/* oxlint-enable no-nested-ternary */}
     </>
 );
 
 export interface IMangaGridProps
-    extends Omit<DefaultGridProps, 'GridItemContainer'>,
+    extends
+        Omit<DefaultGridProps, 'GridItemContainer'>,
         Partial<React.ComponentProps<typeof EmptyViewAbsoluteCentered>> {
     hasNextPage: boolean;
     loadMore: () => void;

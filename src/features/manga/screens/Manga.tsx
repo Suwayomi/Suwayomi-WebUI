@@ -13,7 +13,7 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import React, { useEffect, useRef } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { isNetworkRequestInFlight } from '@apollo/client/core/networkStatus';
+import { isNetworkRequestInFlight } from '@apollo/client/utilities';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -23,16 +23,17 @@ import { MangaDetails } from '@/features/manga/components/details/MangaDetails.t
 import { MangaToolbarMenu } from '@/features/manga/components/MangaToolbarMenu.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
-import { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { GetMangaScreenQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_SCREEN } from '@/lib/graphql/manga/MangaQuery.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
-import { MangaLocationState } from '@/features/manga/Manga.types.ts';
+import type { MangaLocationState } from '@/features/manga/Manga.types.ts';
 
 export const Manga: React.FC = () => {
     const { t } = useLingui();
     const { id } = useParams<{ id: string }>();
-    const { mode } = useLocation<MangaLocationState>().state ?? {};
+    const { mode } = useLocation<MangaLocationState>().state ?? STABLE_EMPTY_OBJECT;
 
     const autofetchedRef = useRef(false);
 
@@ -51,7 +52,9 @@ export const Manga: React.FC = () => {
     const error = mangaError ?? refreshError;
 
     useEffect(() => {
-        if (manga == null) return;
+        if (manga == null) {
+            return;
+        }
 
         const doFetch = !autofetchedRef.current && !manga.initialized;
         if (doFetch) {

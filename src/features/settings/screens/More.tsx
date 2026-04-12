@@ -20,8 +20,10 @@ import { NAVIGATION_BAR_ITEMS } from '@/features/navigation-bar/NavigationBar.co
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { NavigationBarUtil } from '@/features/navigation-bar/NavigationBar.util.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { NavbarItem, NavBarItemMoreGroup } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
+import { NavBarItemMoreGroup } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export const More = () => {
     const { t } = useLingui();
@@ -44,7 +46,7 @@ export const More = () => {
     const hiddenNavBarItemsByMoreGroup = Object.groupBy(hiddenNavBarItems, (item) => item.moreGroup);
 
     const hiddenItemsMoreGroup = [
-        ...(hiddenNavBarItemsByMoreGroup[NavBarItemMoreGroup.HIDDEN_ITEM] ?? []),
+        ...(hiddenNavBarItemsByMoreGroup[NavBarItemMoreGroup.HIDDEN_ITEM] ?? STABLE_EMPTY_ARRAY),
         {
             path: AppRoutes.settings.childRoutes.categories.path,
             title: msg`Categories`,

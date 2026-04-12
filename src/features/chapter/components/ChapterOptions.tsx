@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import RadioGroup from '@mui/material/RadioGroup';
 import React from 'react';
 import { useLingui } from '@lingui/react/macro';
@@ -16,8 +16,8 @@ import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
 import { CHAPTER_SORT_OPTIONS_TO_TRANSLATION } from '@/features/chapter/Chapter.constants.ts';
-import { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
-import { updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
+import type { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
+import type { updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { ChapterExcludeSanlatorsFilter } from '@/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx';
 
 interface IProps {

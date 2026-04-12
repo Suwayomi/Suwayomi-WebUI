@@ -3,7 +3,7 @@ import {
 	GetChaptersMangaQuery, GetDownloadStatusQueryVariables, GetGlobalMetadataQueryVariables,
 	GetMangaScreenQueryVariables, GetSourceBrowseQueryVariables, GetUpdateStatusQueryVariables, GetWebuiUpdateStatusQueryVariables,
 } from "@/lib/graphql/generated/graphql.ts";
-import {FieldFunctionOptions} from "@apollo/client/cache/inmemory/policies";
+import {FieldFunctionOptions} from "@apollo/client/cache";
 export type AboutServerPayloadKeySpecifier = ('buildTime' | 'buildType' | 'discord' | 'github' | 'name' | 'revision' | 'version' | AboutServerPayloadKeySpecifier)[];
 export type AboutServerPayloadFieldPolicy = {
 	buildTime?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -155,6 +155,12 @@ export type DeleteCategoryMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type DeleteCategoryMetasPayloadKeySpecifier = ('categories' | 'clientMutationId' | 'metas' | DeleteCategoryMetasPayloadKeySpecifier)[];
+export type DeleteCategoryMetasPayloadFieldPolicy = {
+	categories?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DeleteCategoryPayloadKeySpecifier = ('category' | 'clientMutationId' | 'mangas' | DeleteCategoryPayloadKeySpecifier)[];
 export type DeleteCategoryPayloadFieldPolicy = {
 	category?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -166,6 +172,12 @@ export type DeleteChapterMetaPayloadFieldPolicy = {
 	chapter?: FieldPolicy<any> | FieldReadFunction<any>,
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DeleteChapterMetasPayloadKeySpecifier = ('chapters' | 'clientMutationId' | 'metas' | DeleteChapterMetasPayloadKeySpecifier)[];
+export type DeleteChapterMetasPayloadFieldPolicy = {
+	chapters?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type DeleteDownloadedChapterPayloadKeySpecifier = ('chapters' | 'clientMutationId' | DeleteDownloadedChapterPayloadKeySpecifier)[];
 export type DeleteDownloadedChapterPayloadFieldPolicy = {
@@ -182,17 +194,34 @@ export type DeleteGlobalMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type DeleteGlobalMetasPayloadKeySpecifier = ('clientMutationId' | 'metas' | DeleteGlobalMetasPayloadKeySpecifier)[];
+export type DeleteGlobalMetasPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DeleteMangaMetaPayloadKeySpecifier = ('clientMutationId' | 'manga' | 'meta' | DeleteMangaMetaPayloadKeySpecifier)[];
 export type DeleteMangaMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	manga?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type DeleteMangaMetasPayloadKeySpecifier = ('clientMutationId' | 'mangas' | 'metas' | DeleteMangaMetasPayloadKeySpecifier)[];
+export type DeleteMangaMetasPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	mangas?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type DeleteSourceMetaPayloadKeySpecifier = ('clientMutationId' | 'meta' | 'source' | DeleteSourceMetaPayloadKeySpecifier)[];
 export type DeleteSourceMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>,
 	source?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type DeleteSourceMetasPayloadKeySpecifier = ('clientMutationId' | 'metas' | 'sources' | DeleteSourceMetasPayloadKeySpecifier)[];
+export type DeleteSourceMetasPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>,
+	sources?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type DequeueChapterDownloadPayloadKeySpecifier = ('clientMutationId' | 'downloadStatus' | DequeueChapterDownloadPayloadKeySpecifier)[];
 export type DequeueChapterDownloadPayloadFieldPolicy = {
@@ -506,7 +535,7 @@ export type MultiSelectListPreferenceFieldPolicy = {
 	title?: FieldPolicy<any> | FieldReadFunction<any>,
 	visible?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type MutationKeySpecifier = ('bindTrack' | 'clearCachedImages' | 'clearDownloader' | 'connectKoSyncAccount' | 'createBackup' | 'createCategory' | 'deleteCategory' | 'deleteCategoryMeta' | 'deleteChapterMeta' | 'deleteDownloadedChapter' | 'deleteDownloadedChapters' | 'deleteGlobalMeta' | 'deleteMangaMeta' | 'deleteSourceMeta' | 'dequeueChapterDownload' | 'dequeueChapterDownloads' | 'enqueueChapterDownload' | 'enqueueChapterDownloads' | 'fetchChapterPages' | 'fetchChapters' | 'fetchExtensions' | 'fetchManga' | 'fetchSourceManga' | 'fetchTrack' | 'installExternalExtension' | 'login' | 'loginTrackerCredentials' | 'loginTrackerOAuth' | 'logoutKoSyncAccount' | 'logoutTracker' | 'pullKoSyncProgress' | 'pushKoSyncProgress' | 'refreshToken' | 'reorderChapterDownload' | 'resetSettings' | 'resetWebUIUpdateStatus' | 'restoreBackup' | 'setCategoryMeta' | 'setChapterMeta' | 'setGlobalMeta' | 'setMangaMeta' | 'setSettings' | 'setSourceMeta' | 'startDownloader' | 'stopDownloader' | 'trackProgress' | 'unbindTrack' | 'updateCategories' | 'updateCategory' | 'updateCategoryManga' | 'updateCategoryOrder' | 'updateChapter' | 'updateChapters' | 'updateExtension' | 'updateExtensions' | 'updateLibrary' | 'updateLibraryManga' | 'updateManga' | 'updateMangaCategories' | 'updateMangas' | 'updateMangasCategories' | 'updateSourcePreference' | 'updateStop' | 'updateTrack' | 'updateWebUI' | MutationKeySpecifier)[];
+export type MutationKeySpecifier = ('bindTrack' | 'clearCachedImages' | 'clearDownloader' | 'connectKoSyncAccount' | 'createBackup' | 'createCategory' | 'deleteCategory' | 'deleteCategoryMeta' | 'deleteCategoryMetas' | 'deleteChapterMeta' | 'deleteChapterMetas' | 'deleteDownloadedChapter' | 'deleteDownloadedChapters' | 'deleteGlobalMeta' | 'deleteGlobalMetas' | 'deleteMangaMeta' | 'deleteMangaMetas' | 'deleteSourceMeta' | 'deleteSourceMetas' | 'dequeueChapterDownload' | 'dequeueChapterDownloads' | 'enqueueChapterDownload' | 'enqueueChapterDownloads' | 'fetchChapterPages' | 'fetchChapters' | 'fetchExtensions' | 'fetchManga' | 'fetchSourceManga' | 'fetchTrack' | 'installExternalExtension' | 'login' | 'loginTrackerCredentials' | 'loginTrackerOAuth' | 'logoutKoSyncAccount' | 'logoutTracker' | 'pullKoSyncProgress' | 'pushKoSyncProgress' | 'refreshToken' | 'reorderChapterDownload' | 'resetSettings' | 'resetWebUIUpdateStatus' | 'restoreBackup' | 'setCategoryMeta' | 'setCategoryMetas' | 'setChapterMeta' | 'setChapterMetas' | 'setGlobalMeta' | 'setGlobalMetas' | 'setMangaMeta' | 'setMangaMetas' | 'setSettings' | 'setSourceMeta' | 'setSourceMetas' | 'startDownloader' | 'stopDownloader' | 'trackProgress' | 'unbindTrack' | 'updateCategories' | 'updateCategory' | 'updateCategoryManga' | 'updateCategoryOrder' | 'updateChapter' | 'updateChapters' | 'updateExtension' | 'updateExtensions' | 'updateLibrary' | 'updateLibraryManga' | 'updateManga' | 'updateMangaCategories' | 'updateMangas' | 'updateMangasCategories' | 'updateSourcePreference' | 'updateStop' | 'updateTrack' | 'updateWebUI' | MutationKeySpecifier)[];
 export type MutationFieldPolicy = {
 	bindTrack?: FieldPolicy<any> | FieldReadFunction<any>,
 	clearCachedImages?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -516,12 +545,17 @@ export type MutationFieldPolicy = {
 	createCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteCategory?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteCategoryMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteCategoryMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteChapterMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteChapterMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteDownloadedChapter?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteDownloadedChapters?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteGlobalMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteGlobalMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteMangaMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteMangaMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	deleteSourceMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	deleteSourceMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	dequeueChapterDownload?: FieldPolicy<any> | FieldReadFunction<any>,
 	dequeueChapterDownloads?: FieldPolicy<any> | FieldReadFunction<any>,
 	enqueueChapterDownload?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -546,11 +580,16 @@ export type MutationFieldPolicy = {
 	resetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>,
 	restoreBackup?: FieldPolicy<any> | FieldReadFunction<any>,
 	setCategoryMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	setCategoryMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	setChapterMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	setChapterMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	setGlobalMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	setGlobalMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	setMangaMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	setMangaMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	setSettings?: FieldPolicy<any> | FieldReadFunction<any>,
 	setSourceMeta?: FieldPolicy<any> | FieldReadFunction<any>,
+	setSourceMetas?: FieldPolicy<any> | FieldReadFunction<any>,
 	startDownloader?: FieldPolicy<any> | FieldReadFunction<any>,
 	stopDownloader?: FieldPolicy<any> | FieldReadFunction<any>,
 	trackProgress?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -761,20 +800,43 @@ export type SetCategoryMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SetCategoryMetasPayloadKeySpecifier = ('categories' | 'clientMutationId' | 'metas' | SetCategoryMetasPayloadKeySpecifier)[];
+export type SetCategoryMetasPayloadFieldPolicy = {
+	categories?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SetChapterMetaPayloadKeySpecifier = ('clientMutationId' | 'meta' | SetChapterMetaPayloadKeySpecifier)[];
 export type SetChapterMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SetChapterMetasPayloadKeySpecifier = ('chapters' | 'clientMutationId' | 'metas' | SetChapterMetasPayloadKeySpecifier)[];
+export type SetChapterMetasPayloadFieldPolicy = {
+	chapters?: FieldPolicy<any> | FieldReadFunction<any>,
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SetGlobalMetaPayloadKeySpecifier = ('clientMutationId' | 'meta' | SetGlobalMetaPayloadKeySpecifier)[];
 export type SetGlobalMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
 };
+export type SetGlobalMetasPayloadKeySpecifier = ('clientMutationId' | 'metas' | SetGlobalMetasPayloadKeySpecifier)[];
+export type SetGlobalMetasPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>
+};
 export type SetMangaMetaPayloadKeySpecifier = ('clientMutationId' | 'meta' | SetMangaMetaPayloadKeySpecifier)[];
 export type SetMangaMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SetMangaMetasPayloadKeySpecifier = ('clientMutationId' | 'mangas' | 'metas' | SetMangaMetasPayloadKeySpecifier)[];
+export type SetMangaMetasPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	mangas?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SetSettingsPayloadKeySpecifier = ('clientMutationId' | 'settings' | SetSettingsPayloadKeySpecifier)[];
 export type SetSettingsPayloadFieldPolicy = {
@@ -785,6 +847,12 @@ export type SetSourceMetaPayloadKeySpecifier = ('clientMutationId' | 'meta' | Se
 export type SetSourceMetaPayloadFieldPolicy = {
 	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
 	meta?: FieldPolicy<any> | FieldReadFunction<any>
+};
+export type SetSourceMetasPayloadKeySpecifier = ('clientMutationId' | 'metas' | 'sources' | SetSourceMetasPayloadKeySpecifier)[];
+export type SetSourceMetasPayloadFieldPolicy = {
+	clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>,
+	metas?: FieldPolicy<any> | FieldReadFunction<any>,
+	sources?: FieldPolicy<any> | FieldReadFunction<any>
 };
 export type SettingsKeySpecifier = ('authMode' | 'authPassword' | 'authUsername' | 'autoBackupIncludeCategories' | 'autoBackupIncludeChapters' | 'autoBackupIncludeClientData' | 'autoBackupIncludeHistory' | 'autoBackupIncludeManga' | 'autoBackupIncludeServerSettings' | 'autoBackupIncludeTracking' | 'autoDownloadAheadLimit' | 'autoDownloadIgnoreReUploads' | 'autoDownloadNewChapters' | 'autoDownloadNewChaptersLimit' | 'backupInterval' | 'backupPath' | 'backupTTL' | 'backupTime' | 'basicAuthEnabled' | 'basicAuthPassword' | 'basicAuthUsername' | 'databasePassword' | 'databaseType' | 'databaseUrl' | 'databaseUsername' | 'debugLogsEnabled' | 'downloadAsCbz' | 'downloadConversions' | 'downloadsPath' | 'electronPath' | 'excludeCompleted' | 'excludeEntryWithUnreadChapters' | 'excludeNotStarted' | 'excludeUnreadChapters' | 'extensionRepos' | 'flareSolverrAsResponseFallback' | 'flareSolverrEnabled' | 'flareSolverrSessionName' | 'flareSolverrSessionTtl' | 'flareSolverrTimeout' | 'flareSolverrUrl' | 'globalUpdateInterval' | 'gqlDebugLogsEnabled' | 'initialOpenInBrowserEnabled' | 'ip' | 'jwtAudience' | 'jwtRefreshExpiry' | 'jwtTokenExpiry' | 'koreaderSyncChecksumMethod' | 'koreaderSyncDeviceId' | 'koreaderSyncPercentageTolerance' | 'koreaderSyncServerUrl' | 'koreaderSyncStrategy' | 'koreaderSyncStrategyBackward' | 'koreaderSyncStrategyForward' | 'koreaderSyncUserkey' | 'koreaderSyncUsername' | 'localSourcePath' | 'maxLogFileSize' | 'maxLogFiles' | 'maxLogFolderSize' | 'maxSourcesInParallel' | 'opdsCbzMimetype' | 'opdsChapterSortOrder' | 'opdsEnablePageReadProgress' | 'opdsItemsPerPage' | 'opdsMarkAsReadOnDownload' | 'opdsShowOnlyDownloadedChapters' | 'opdsShowOnlyUnreadChapters' | 'opdsUseBinaryFileSizes' | 'port' | 'serveConversions' | 'socksProxyEnabled' | 'socksProxyHost' | 'socksProxyPassword' | 'socksProxyPort' | 'socksProxyUsername' | 'socksProxyVersion' | 'systemTrayEnabled' | 'updateMangas' | 'useHikariConnectionPool' | 'webUIChannel' | 'webUIFlavor' | 'webUIInterface' | 'webUIUpdateCheckInterval' | SettingsKeySpecifier)[];
 export type SettingsFieldPolicy = {
@@ -1418,6 +1486,10 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | DeleteCategoryMetaPayloadKeySpecifier | (() => undefined | DeleteCategoryMetaPayloadKeySpecifier),
 		fields?: DeleteCategoryMetaPayloadFieldPolicy,
 	},
+	DeleteCategoryMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeleteCategoryMetasPayloadKeySpecifier | (() => undefined | DeleteCategoryMetasPayloadKeySpecifier),
+		fields?: DeleteCategoryMetasPayloadFieldPolicy,
+	},
 	DeleteCategoryPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DeleteCategoryPayloadKeySpecifier | (() => undefined | DeleteCategoryPayloadKeySpecifier),
 		fields?: DeleteCategoryPayloadFieldPolicy,
@@ -1425,6 +1497,10 @@ export type StrictTypedTypePolicies = {
 	DeleteChapterMetaPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DeleteChapterMetaPayloadKeySpecifier | (() => undefined | DeleteChapterMetaPayloadKeySpecifier),
 		fields?: DeleteChapterMetaPayloadFieldPolicy,
+	},
+	DeleteChapterMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeleteChapterMetasPayloadKeySpecifier | (() => undefined | DeleteChapterMetasPayloadKeySpecifier),
+		fields?: DeleteChapterMetasPayloadFieldPolicy,
 	},
 	DeleteDownloadedChapterPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DeleteDownloadedChapterPayloadKeySpecifier | (() => undefined | DeleteDownloadedChapterPayloadKeySpecifier),
@@ -1438,13 +1514,25 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | DeleteGlobalMetaPayloadKeySpecifier | (() => undefined | DeleteGlobalMetaPayloadKeySpecifier),
 		fields?: DeleteGlobalMetaPayloadFieldPolicy,
 	},
+	DeleteGlobalMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeleteGlobalMetasPayloadKeySpecifier | (() => undefined | DeleteGlobalMetasPayloadKeySpecifier),
+		fields?: DeleteGlobalMetasPayloadFieldPolicy,
+	},
 	DeleteMangaMetaPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DeleteMangaMetaPayloadKeySpecifier | (() => undefined | DeleteMangaMetaPayloadKeySpecifier),
 		fields?: DeleteMangaMetaPayloadFieldPolicy,
 	},
+	DeleteMangaMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeleteMangaMetasPayloadKeySpecifier | (() => undefined | DeleteMangaMetasPayloadKeySpecifier),
+		fields?: DeleteMangaMetasPayloadFieldPolicy,
+	},
 	DeleteSourceMetaPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DeleteSourceMetaPayloadKeySpecifier | (() => undefined | DeleteSourceMetaPayloadKeySpecifier),
 		fields?: DeleteSourceMetaPayloadFieldPolicy,
+	},
+	DeleteSourceMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | DeleteSourceMetasPayloadKeySpecifier | (() => undefined | DeleteSourceMetasPayloadKeySpecifier),
+		fields?: DeleteSourceMetasPayloadFieldPolicy,
 	},
 	DequeueChapterDownloadPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | DequeueChapterDownloadPayloadKeySpecifier | (() => undefined | DequeueChapterDownloadPayloadKeySpecifier),
@@ -1682,17 +1770,33 @@ export type StrictTypedTypePolicies = {
 		keyFields?: false | SetCategoryMetaPayloadKeySpecifier | (() => undefined | SetCategoryMetaPayloadKeySpecifier),
 		fields?: SetCategoryMetaPayloadFieldPolicy,
 	},
+	SetCategoryMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SetCategoryMetasPayloadKeySpecifier | (() => undefined | SetCategoryMetasPayloadKeySpecifier),
+		fields?: SetCategoryMetasPayloadFieldPolicy,
+	},
 	SetChapterMetaPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SetChapterMetaPayloadKeySpecifier | (() => undefined | SetChapterMetaPayloadKeySpecifier),
 		fields?: SetChapterMetaPayloadFieldPolicy,
+	},
+	SetChapterMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SetChapterMetasPayloadKeySpecifier | (() => undefined | SetChapterMetasPayloadKeySpecifier),
+		fields?: SetChapterMetasPayloadFieldPolicy,
 	},
 	SetGlobalMetaPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SetGlobalMetaPayloadKeySpecifier | (() => undefined | SetGlobalMetaPayloadKeySpecifier),
 		fields?: SetGlobalMetaPayloadFieldPolicy,
 	},
+	SetGlobalMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SetGlobalMetasPayloadKeySpecifier | (() => undefined | SetGlobalMetasPayloadKeySpecifier),
+		fields?: SetGlobalMetasPayloadFieldPolicy,
+	},
 	SetMangaMetaPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SetMangaMetaPayloadKeySpecifier | (() => undefined | SetMangaMetaPayloadKeySpecifier),
 		fields?: SetMangaMetaPayloadFieldPolicy,
+	},
+	SetMangaMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SetMangaMetasPayloadKeySpecifier | (() => undefined | SetMangaMetasPayloadKeySpecifier),
+		fields?: SetMangaMetasPayloadFieldPolicy,
 	},
 	SetSettingsPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SetSettingsPayloadKeySpecifier | (() => undefined | SetSettingsPayloadKeySpecifier),
@@ -1701,6 +1805,10 @@ export type StrictTypedTypePolicies = {
 	SetSourceMetaPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SetSourceMetaPayloadKeySpecifier | (() => undefined | SetSourceMetaPayloadKeySpecifier),
 		fields?: SetSourceMetaPayloadFieldPolicy,
+	},
+	SetSourceMetasPayload?: Omit<TypePolicy, "fields" | "keyFields"> & {
+		keyFields?: false | SetSourceMetasPayloadKeySpecifier | (() => undefined | SetSourceMetasPayloadKeySpecifier),
+		fields?: SetSourceMetasPayloadFieldPolicy,
 	},
 	Settings?: Omit<TypePolicy, "fields" | "keyFields"> & {
 		keyFields?: false | SettingsKeySpecifier | (() => undefined | SettingsKeySpecifier),

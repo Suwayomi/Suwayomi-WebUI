@@ -7,7 +7,8 @@
  */
 
 import { useLingui } from '@lingui/react/macro';
-import { IReaderSettings, ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS, PROGRESS_BAR_SIZE } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 

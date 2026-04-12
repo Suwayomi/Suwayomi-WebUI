@@ -8,7 +8,7 @@
 
 import { memo } from 'react';
 import { BasePager } from '@/features/reader/viewer/pager/components/BasePager.tsx';
-import { ReaderPagerProps } from '@/features/reader/Reader.types.ts';
+import type { ReaderPagerProps } from '@/features/reader/Reader.types.ts';
 import { createReaderPage } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 
 const BaseReaderPagedPager = ({

@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { I18nResourceCode } from '@/i18n';
+import type { I18nResourceCode } from '@/i18n';
 
 export type ISOLanguage = {
     name: string;

@@ -6,10 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactElement } from 'react';
+import type { ReactElement } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip';
-import {
+import type {
     ChapterNameInfo,
     ChapterNumberInfo,
     ChapterScanlatorInfo,

@@ -15,7 +15,7 @@ import Dialog from '@mui/material/Dialog';
 import FormGroup from '@mui/material/FormGroup';
 import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
-import { AwaitableComponentProps } from 'awaitable-component';
+import type { AwaitableComponentProps } from 'awaitable-component';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
@@ -26,7 +26,8 @@ import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { updateMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import {
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import type {
     GetCategoriesBaseQuery,
     GetCategoriesBaseQueryVariables,
     GetMangaCategoriesQuery,
@@ -112,9 +113,9 @@ export function CategorySelect(props: CategorySelectProps) {
     const { data } = requestManager.useGetCategories<GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables>(
         GET_CATEGORIES_BASE,
     );
-    const categoriesData = data?.categories.nodes;
+    const categoriesData = data?.categories.nodes ?? STABLE_EMPTY_ARRAY;
 
-    const allCategories = useMemo(() => Categories.getUserCreated(categoriesData ?? []), [categoriesData]);
+    const allCategories = useMemo(() => Categories.getUserCreated(categoriesData), [categoriesData]);
 
     const defaultCategoryIds = useMemo(
         () => (addToLibrary ? Categories.getIds(Categories.getDefaults(allCategories)) : []),
@@ -126,10 +127,13 @@ export function CategorySelect(props: CategorySelectProps) {
         'categoriesToAdd' | 'categoriesToRemove'
     >(allCategories.length, {
         currentKey: 'categoriesToAdd',
-        initialState: {
-            categoriesToAdd: [...mangaCategoryIds, ...defaultCategoryIds],
-            categoriesToRemove: [],
-        },
+        initialState: useMemo(
+            () => ({
+                categoriesToAdd: [...mangaCategoryIds, ...defaultCategoryIds],
+                categoriesToRemove: [],
+            }),
+            [mangaCategoryIds, defaultCategoryIds],
+        ),
     });
 
     useEffect(() => {

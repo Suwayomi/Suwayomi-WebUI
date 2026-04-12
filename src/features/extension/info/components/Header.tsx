@@ -10,7 +10,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
-import { TExtension } from '@/features/extension/Extensions.types.ts';
+import type { TExtension } from '@/features/extension/Extensions.types.ts';
 
 export const Header = ({ name, pkgName, iconUrl, repo }: TExtension) => (
     <Stack sx={{ alignItems: 'center' }}>

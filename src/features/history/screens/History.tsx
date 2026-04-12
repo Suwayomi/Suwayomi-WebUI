@@ -21,6 +21,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ChapterHistoryCard } from '@/features/history/components/ChapterHistoryCard.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export const History: React.FC = () => {
     const { t } = useLingui();
@@ -39,7 +40,8 @@ export const History: React.FC = () => {
     });
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterHistoryData?.chapters.pageInfo.endCursor;
-    const allReadEntries = chapterHistoryData?.chapters.nodes ?? [];
+
+    const allReadEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY ;
     const readEntries = useMemo(() => {
         const seenMangaIds = new Set<number>();
         return allReadEntries.filter((chapter) => {

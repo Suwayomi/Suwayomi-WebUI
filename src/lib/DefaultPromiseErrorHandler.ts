@@ -13,6 +13,6 @@ export const defaultPromiseErrorHandler =
             return;
         }
 
-        // eslint-disable-next-line no-console
+        // oxlint-disable-next-line no-console
         console.error(`${name} failed due to`, error);
     };

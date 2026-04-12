@@ -14,7 +14,7 @@ import { ProgressBarType } from '@/features/reader/Reader.types.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { ReaderProgressBarDirectionWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarDirectionWrapper.tsx';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { ReaderProgressBarSlotDesktop } from '@/features/reader/overlay/progress-bar/desktop/components/ReaderProgressBarSlotDesktop.tsx';
@@ -37,18 +37,15 @@ const BaseStandardReaderProgressBar = ({
     const theme = useTheme();
 
     const scrollbar = useReaderScrollbarStore((state) => state);
-    const totalPages = useReaderPagesStore((state) => state.totalPages);
+    const totalPages = useReaderPagesStore('totalPages');
     const { progressBarType, progressBarSize, progressBarPosition, progressBarPositionAutoVertical } =
-        useReaderSettingsStore((state) => ({
-            progressBarType: state.progressBarType,
-            progressBarSize: state.progressBarSize,
-            progressBarPosition: state.progressBarPosition,
-            progressBarPositionAutoVertical: state.progressBarPositionAutoVertical,
-        }));
-    const { isMaximized, isDragging } = useReaderProgressBarStore((state) => ({
-        isMaximized: state.isMaximized,
-        isDragging: state.isDragging,
-    }));
+        useReaderSettingsStore(
+            'progressBarType',
+            'progressBarSize',
+            'progressBarPosition',
+            'progressBarPositionAutoVertical',
+        );
+    const { isMaximized, isDragging } = useReaderProgressBarStore('isMaximized', 'isDragging');
 
     const [, setRefreshProgressBarPosition] = useState({});
     useResizeObserver(

@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { STABLE_EMPTY_ARRAY, STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import CheckBoxOutlineBlank from '@mui/icons-material/CheckBoxOutlineBlank';
 import Delete from '@mui/icons-material/Delete';
 import Download from '@mui/icons-material/Download';
@@ -14,9 +15,10 @@ import Done from '@mui/icons-material/Done';
 import BookmarkRemove from '@mui/icons-material/BookmarkRemove';
 import BookmarkAdd from '@mui/icons-material/BookmarkAdd';
 import DoneAll from '@mui/icons-material/DoneAll';
-import { ComponentProps, useMemo } from 'react';
+import type { ComponentProps } from 'react';
+import { useMemo } from 'react';
 import { useLingui } from '@lingui/react/macro';
-import { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
+import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { MenuItem } from '@/base/components/menu/MenuItem.tsx';
 import {
@@ -26,12 +28,12 @@ import {
 } from '@/base/components/menu/Menu.utils.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { ChapterCard } from '@/features/chapter/components/cards/ChapterCard.tsx';
+import type { ChapterCard } from '@/features/chapter/components/cards/ChapterCard.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { GetChaptersMangaQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { GetChaptersMangaQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import { CHAPTER_ACTION_TO_TRANSLATION } from '@/features/chapter/Chapter.constants.ts';
-import {
+import type {
     ChapterAction,
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
@@ -70,14 +72,14 @@ export const ChapterActionMenuItems = ({
     chapter,
     handleSelection,
     canBeDownloaded = false,
-    selectedChapters = [],
+    selectedChapters = STABLE_EMPTY_ARRAY,
     onClose,
     selectable = true,
 }: Props) => {
     const { t } = useLingui();
 
     const isSingleMode = !!chapter;
-    const { isDownloaded, isRead, isBookmarked } = chapter ?? {};
+    const { isDownloaded, isRead, isBookmarked } = chapter ?? STABLE_EMPTY_OBJECT;
 
     const mangaChaptersResponse = requestManager.useGetMangaChapters<GetChaptersMangaQuery>(
         GET_CHAPTERS_MANGA,
@@ -87,7 +89,7 @@ export const ChapterActionMenuItems = ({
             fetchPolicy: 'cache-only',
         },
     );
-    const allChapters = mangaChaptersResponse.data?.chapters.nodes ?? [];
+    const allChapters = mangaChaptersResponse.data?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
 
     const {
         settings: { deleteChaptersWithBookmark },

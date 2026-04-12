@@ -26,8 +26,9 @@ import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { useDebounce } from '@/base/hooks/useDebounce.ts';
-import { MangaCardProps } from '@/features/manga/Manga.types.ts';
+import type { MangaCardProps } from '@/features/manga/Manga.types.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { BaseMangaGrid } from '@/features/manga/components/BaseMangaGrid.tsx';
@@ -36,7 +37,7 @@ import { translateExtensionLanguage } from '@/features/extension/Extensions.util
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
-import {
+import type {
     SourceDisplayNameInfo,
     SourceIdInfo,
     SourceLanguageInfo,
@@ -52,7 +53,7 @@ import { getSourceMetadata } from '@/features/source/services/SourceMetadata.ts'
 import { makeToast } from '@/base/utils/Toast.ts';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-import { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
+import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import { SourceLanguageSelect } from '@/features/source/components/SourceLanguageSelect.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
 
@@ -149,7 +150,7 @@ const SourceSearchPreview = React.memo(
         const { data: searchResult, isLoading, error, abortRequest } = results[0]!;
         currentAbortRequest.current = abortRequest;
 
-        const mangas = searchResult?.fetchSourceManga?.mangas ?? [];
+        const mangas = searchResult?.fetchSourceManga?.mangas ?? STABLE_EMPTY_ARRAY;
         const noMangasFound = !error && !isLoading && !mangas.length;
 
         useEffect(() => {
@@ -160,6 +161,11 @@ const SourceSearchPreview = React.memo(
                 error,
             });
         }, [isLoading, noMangasFound, searchString, error]);
+
+        useEffect(
+            () => () => currentAbortRequest.current?.(new Error(`SourceSearchPreview(${id}, ${name}): search closed`)),
+            [],
+        );
 
         let errorMessage: string | undefined;
         if (error) {
@@ -249,7 +255,7 @@ export const SearchAll: React.FC = () => {
     } = useMetadataServerSettings();
 
     const { data, loading, error, refetch } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
-    const sources = useMemo(() => data?.sources.nodes ?? [], [data?.sources.nodes]);
+    const sources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
 
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
@@ -299,7 +305,7 @@ export const SearchAll: React.FC = () => {
                 selectedLanguages={shownLangs}
                 setSelectedLanguages={setShownLangs}
                 languages={sourceLanguages}
-                sources={sources ?? []}
+                sources={sources}
             />
         </>,
         [shownLangs, setShownLangs, sourceLanguages, sources],

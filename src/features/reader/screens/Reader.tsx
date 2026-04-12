@@ -14,7 +14,7 @@ import { useDefaultReaderSettings } from '@/features/reader/settings/ReaderSetti
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { ReaderOverlay } from '@/features/reader/overlay/ReaderOverlay.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { GetChaptersReaderQuery, GetMangaReaderQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { GetChaptersReaderQuery, GetMangaReaderQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_MANGA_READER } from '@/lib/graphql/manga/MangaQuery.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -26,7 +26,7 @@ import { ReaderViewer } from '@/features/reader/viewer/ReaderViewer.tsx';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ReaderHotkeys } from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderResetStates } from '@/features/reader/hooks/useReaderResetStates.ts';
 import { useReaderSetSettingsState } from '@/features/reader/hooks/useReaderSetSettingsState.ts';
@@ -49,14 +49,12 @@ const BaseReader = ({
     readerNavBarWidth,
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'>) => {
     const { t } = useLingui();
-    const manga = useReaderStore((state) => state.manga);
+    const manga = useReaderStore('manga');
     const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderChaptersStore(
-        (state) => ({
-            mangaChapters: state.mangaChapters,
-            initialChapter: state.initialChapter,
-            chapterForDuplicatesHandling: state.chapterForDuplicatesHandling,
-            currentChapter: state.currentChapter,
-        }),
+        'mangaChapters',
+        'initialChapter',
+        'chapterForDuplicatesHandling',
+        'currentChapter',
     );
     const {
         shouldSkipDupChapters,
@@ -67,16 +65,16 @@ const BaseReader = ({
         tapZoneInvertMode,
         shouldShowReadingModePreview,
         shouldShowTapZoneLayoutPreview,
-    } = useReaderSettingsStore((state) => ({
-        shouldSkipDupChapters: state.shouldSkipDupChapters,
-        shouldSkipFilteredChapters: state.shouldSkipFilteredChapters,
-        backgroundColor: state.backgroundColor,
-        readingMode: state.readingMode,
-        tapZoneLayout: state.tapZoneLayout,
-        tapZoneInvertMode: state.tapZoneInvertMode,
-        shouldShowReadingModePreview: state.shouldShowReadingModePreview,
-        shouldShowTapZoneLayoutPreview: state.shouldShowTapZoneLayoutPreview,
-    }));
+    } = useReaderSettingsStore(
+        'shouldSkipDupChapters',
+        'shouldSkipFilteredChapters',
+        'backgroundColor',
+        'readingMode',
+        'tapZoneLayout',
+        'tapZoneInvertMode',
+        'shouldShowReadingModePreview',
+        'shouldShowTapZoneLayoutPreview',
+    );
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 

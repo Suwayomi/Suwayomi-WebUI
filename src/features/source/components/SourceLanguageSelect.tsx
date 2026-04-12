@@ -25,7 +25,7 @@ import Box from '@mui/material/Box';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
 import { languageSortComparator, toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
-import {
+import type {
     SourceDisplayNameInfo,
     SourceIconInfo,
     SourceIdInfo,
@@ -34,7 +34,7 @@ import {
     SourceNameInfo,
 } from '@/features/source/Source.types.ts';
 import { Sources } from '@/features/source/services/Sources';
-import { getSourceMetadata, updateSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
+import { batchUpdateSourceMetadata, getSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -78,7 +78,7 @@ export const SourceLanguageSelect = ({
     );
 
     const flattenedSourcesByLanguages = useMemo(
-        () => languagesSortedBySelectState.map((language) => sourcesByLanguage[language] ?? []).flat(),
+        () => languagesSortedBySelectState.flatMap((language) => sourcesByLanguage[language] ?? []),
         [languagesSortedBySelectState, sourcesByLanguage],
     );
 
@@ -113,10 +113,21 @@ export const SourceLanguageSelect = ({
     const handleOk = () => {
         setOpen(false);
 
-        Promise.all(
-            Object.entries(tmpSourceIdToEnabledState).map(([sourceId, enabled]) =>
-                updateSourceMetadata(sources.find((source) => source.id === sourceId)!, 'isEnabled', enabled),
-            ),
+        batchUpdateSourceMetadata(
+            Object.entries(tmpSourceIdToEnabledState)
+                .map(([sourceId, enabled]) => {
+                    const source = sources.find((sourceToEnable) => sourceToEnable.id === sourceId);
+
+                    if (!source) {
+                        return null;
+                    }
+
+                    return {
+                        sources: [source],
+                        entries: [{ metadataKey: 'isEnabled' as const, value: enabled }],
+                    };
+                })
+                .filter((entry) => entry !== null),
         ).catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
         setTmpSourceIdToEnabledState({});
         setSelectedLanguages(toUniqueLanguageCodes(tmpSelectedLanguages));

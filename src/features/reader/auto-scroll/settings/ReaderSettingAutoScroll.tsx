@@ -9,7 +9,7 @@
 import { useLingui } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { AUTO_SCROLL_SPEED, DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 

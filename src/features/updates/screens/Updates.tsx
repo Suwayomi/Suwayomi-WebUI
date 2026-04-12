@@ -25,6 +25,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export const Updates: React.FC = () => {
     const { t } = useLingui();
@@ -42,7 +43,7 @@ export const Updates: React.FC = () => {
     });
     const hasNextPage = !!chapterUpdateData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterUpdateData?.chapters.pageInfo.endCursor;
-    const updateEntries = chapterUpdateData?.chapters.nodes ?? [];
+    const updateEntries = chapterUpdateData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
     const groupedUpdates = useMemo(
         () => Object.entries(Chapters.groupByDate(updateEntries, 'fetchedAt')),
         [updateEntries],

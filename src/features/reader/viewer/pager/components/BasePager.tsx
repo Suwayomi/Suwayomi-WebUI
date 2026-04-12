@@ -6,16 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { memo, ReactNode, useCallback, useEffect, useMemo, useRef } from 'react';
-import Box, { BoxProps } from '@mui/material/Box';
+import type { ReactNode } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef } from 'react';
+import type { BoxProps } from '@mui/material/Box';
+import Box from '@mui/material/Box';
 import { getPageIndexesToLoad, isATransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import {
-    IReaderSettings,
-    ReaderPagerProps,
-    ReaderResumeMode,
-    ReaderStatePages,
-    ReaderTransitionPageMode,
-} from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, ReaderPagerProps, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { ReaderResumeMode, ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 
@@ -87,7 +84,7 @@ const BaseBasePager = ({
 
     const setRef = useCallback(
         (pagesIndex: number, element: HTMLElement | null) => {
-            // eslint-disable-next-line no-param-reassign
+            // oxlint-disable-next-line no-param-reassign
             imageRefs.current[pagesIndex] = element;
         },
         [imageRefs],

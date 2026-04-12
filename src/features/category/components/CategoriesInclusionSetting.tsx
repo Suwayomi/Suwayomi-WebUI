@@ -22,7 +22,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { IncludeOrExclude } from '@/lib/graphql/generated/graphql.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CheckboxContainer } from '@/base/components/inputs/CheckboxContainer.ts';
-import {
+import type {
     CategoryDownloadInclusionInfo,
     CategoryIdInfo,
     CategoryNameInfo,

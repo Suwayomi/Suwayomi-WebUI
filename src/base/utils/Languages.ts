@@ -6,10 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { msg, t } from '@lingui/core/macro';
 
-import { getISOLanguage, getPreferredISOLanguageCodes, LanguageObject } from '@/lib/ISOLanguageUtil.ts';
+import type { LanguageObject } from '@/lib/ISOLanguageUtil.ts';
+import { getISOLanguage, getPreferredISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
 
 import { i18n } from '@/i18n';
 

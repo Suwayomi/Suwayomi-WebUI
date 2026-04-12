@@ -9,7 +9,8 @@
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled } from '@mui/material/styles';
-import { ComponentProps, ReactNode, useEffect } from 'react';
+import type { ComponentProps, ReactNode } from 'react';
+import { useEffect } from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -27,10 +28,10 @@ import { TrackMangaButton } from '@/features/manga/components/TrackMangaButton.t
 import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
 import { Metadata as BaseMetadata } from '@/base/components/texts/Metadata.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaType, SourceType } from '@/lib/graphql/generated/graphql.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
-import {
+import type {
     MangaArtistInfo,
     MangaAuthorInfo,
     MangaDescriptionInfo,
@@ -47,7 +48,7 @@ import {
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
 import { Sources } from '@/features/source/services/Sources.ts';
-import { SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { Thumbnail } from '@/features/manga/components/details/Thumbnail.tsx';
 import { DescriptionGenre } from '@/features/manga/components/details/DescriptionGenre.tsx';
 import { SearchLink } from '@/features/manga/components/details/SearchLink.tsx';

@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { STABLE_EMPTY_ARRAY, STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 export type SelectableCollectionReturnType<Id extends number | string, Key extends string = string> = {
     selectedItemIds: Id[];
@@ -26,10 +27,10 @@ export type SelectableCollectionReturnType<Id extends number | string, Key exten
 export const useSelectableCollection = <Id extends number | string, Key extends string = 'default'>(
     totalCount: number,
     {
-        itemIds = [],
+        itemIds = STABLE_EMPTY_ARRAY,
         keyCount = totalCount,
         currentKey,
-        initialState = {} as Record<Key, Id[]>,
+        initialState = STABLE_EMPTY_OBJECT,
     }: {
         itemIds?: Id[];
         keyCount?: number;
@@ -41,11 +42,17 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
 
     const lastSelectedItemInfoRef = useRef<{ id: Id; key: Key }>(undefined);
 
-    const selectedItemIds = [...new Set(Object.values(keyToSelectedItemIds).flat())];
+    const selectedItemIds = useMemo(
+        () => [...new Set(Object.values(keyToSelectedItemIds).flat())],
+        [keyToSelectedItemIds],
+    );
     const areAllItemsSelected = selectedItemIds.length === totalCount;
     const areNoItemsSelected = !selectedItemIds.length;
 
-    const keySelectedItemIds = keyToSelectedItemIds[currentKey] ?? [];
+    const keySelectedItemIds = useMemo(
+        () => keyToSelectedItemIds[currentKey] ?? [],
+        [keyToSelectedItemIds, currentKey],
+    );
     const areAllItemsForKeySelected = keySelectedItemIds.length === keyCount;
     const areNoItemsForKeySelected = keySelectedItemIds.length === 0;
 
@@ -127,6 +134,10 @@ export const useSelectableCollection = <Id extends number | string, Key extends 
         clearSelection();
         setKeyToSelectedItemIds(initialState);
     }, [clearSelection, initialState]);
+
+    useEffect(() => {
+        setKeyToSelectedItemIds(initialState);
+    }, [initialState]);
 
     return {
         selectedItemIds,

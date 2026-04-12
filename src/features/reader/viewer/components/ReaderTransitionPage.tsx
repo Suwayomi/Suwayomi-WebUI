@@ -10,10 +10,12 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
-import { ComponentProps, memo, useMemo } from 'react';
+import type { ComponentProps } from 'react';
+import { memo, useMemo } from 'react';
 import { alpha, useTheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
-import { IReaderSettings, ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
@@ -23,12 +25,12 @@ import {
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { getValueFromObject, noOp } from '@/lib/HelperFunctions.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import {
     useReaderChaptersStore,
     useReaderPagesStore,
@@ -86,7 +88,6 @@ const BaseReaderTransitionPage = ({
     handleBack,
 }: Pick<NavbarContextType, 'readerNavBarWidth'> & {
     // gets used in the "source props creators" of the "withPropsFrom" call
-    // eslint-disable-next-line react/no-unused-prop-types
     chapterId: ChapterIdInfo['id'];
     currentChapterName?: ChapterType['name'];
     currentChapterScanlator?: ChapterType['scanlator'];
@@ -98,9 +99,9 @@ const BaseReaderTransitionPage = ({
     handleBack: () => void;
 }) => {
     const { t } = useLingui();
-    const manga = useReaderStore((state) => state.manga);
+    const manga = useReaderStore('manga');
     const scrollbar = useReaderScrollbarStore((state) => state);
-    const transitionPageMode = useReaderPagesStore((state) => state.transitionPageMode);
+    const transitionPageMode = useReaderPagesStore('transitionPageMode');
     const { readingMode, backgroundColor, shouldShowTransitionPage } = useReaderSettingsStore((state) => ({
         readingMode: state.readingMode.value,
         backgroundColor: state.backgroundColor,
@@ -225,7 +226,7 @@ export const ReaderTransitionPage = withPropsFrom(
     memo(BaseReaderTransitionPage) as typeof BaseReaderTransitionPage,
     [
         ({ chapterId }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId'>) => {
-            const chapters = useReaderChaptersStore((state) => state.chapters);
+            const chapters = useReaderChaptersStore('chapters');
 
             const currentChapterIndex = useMemo(
                 () => chapters.findIndex((chapter) => chapter.id === chapterId),
@@ -240,7 +241,7 @@ export const ReaderTransitionPage = withPropsFrom(
                 currentChapterName: currentChapter?.name,
                 currentChapterScanlator: currentChapter?.scanlator,
                 previousChapterName: previousChapter?.name,
-                previousChapterScanlator: previousChapter?.name,
+                previousChapterScanlator: previousChapter?.scanlator,
                 nextChapterName: nextChapter?.name,
                 nextChapterScanlator: nextChapter?.scanlator,
             };
@@ -248,7 +249,7 @@ export const ReaderTransitionPage = withPropsFrom(
         useNavBarContext,
         ({ chapterId, type }: Pick<ComponentProps<typeof BaseReaderTransitionPage>, 'chapterId' | 'type'>) => {
             const handleBack = useBackButton();
-            const chapters = useReaderChaptersStore((state) => state.chapters);
+            const chapters = useReaderChaptersStore('chapters');
 
             const currentChapterIndex = useMemo(
                 () => chapters.findIndex((chapter) => chapter.id === chapterId),

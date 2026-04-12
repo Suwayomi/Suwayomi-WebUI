@@ -9,19 +9,19 @@
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useMemo } from 'react';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { ChapterType, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
+import type { ChapterType, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
 import { enhancedCleanup } from '@/base/utils/Strings.ts';
 import { useGetCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
-import { LibraryOptions, LibrarySortMode } from '@/features/library/Library.types.ts';
-import { CategoryIdInfo, CategoryMetadataInfo } from '@/features/category/Category.types.ts';
-import {
+import type { LibraryOptions, LibrarySortMode } from '@/features/library/Library.types.ts';
+import type { CategoryIdInfo, CategoryMetadataInfo } from '@/features/category/Category.types.ts';
+import type {
     MangaChapterCountInfo,
     MangaDownloadInfo,
     MangaIdInfo,
     MangaStatusInfo,
     MangaUnreadInfo,
 } from '@/features/manga/Manga.types.ts';
-import { SourceDisplayNameInfo } from '@/features/source/Source.types.ts';
+import type { SourceDisplayNameInfo } from '@/features/source/Source.types.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 
 const triStateFilter = (
@@ -60,7 +60,9 @@ const performSearch = (
     const actualQueries = queries?.filter((query) => query != null);
     const actualStrings = strings?.filter((str) => str != null);
 
-    if (!actualQueries?.length) return true;
+    if (!actualQueries?.length) {
+        return true;
+    }
 
     const cleanedUpQueries = actualQueries.map(enhancedCleanup);
     const cleanedUpStrings = actualStrings.map(enhancedCleanup).join(', ');
@@ -76,10 +78,7 @@ const querySearchManga = (
     { title, genre: genres, description, artist, author, source, sourceId }: TMangaQueryFilter,
 ): boolean =>
     performSearch([query], [title]) ||
-    performSearch(
-        query?.split(','),
-        genres.map((genre) => enhancedCleanup(genre)),
-    ) ||
+    performSearch(query?.split(','), genres.map((genre) => enhancedCleanup(genre))) ||
     performSearch([query], [description]) ||
     performSearch([query], [artist]) ||
     performSearch([query], [author]) ||

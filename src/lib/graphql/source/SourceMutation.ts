@@ -35,24 +35,36 @@ export const UPDATE_SOURCE_PREFERENCES = gql`
     }
 `;
 
-export const SET_SOURCE_METADATA = gql`
+export const UPDATE_SOURCE_METADATA = gql`
     ${SOURCE_META_FIELDS}
 
-    mutation SET_SOURCE_METADATA($input: SetSourceMetaInput!) {
-        setSourceMeta(input: $input) {
-            meta {
+    mutation UPDATE_SOURCE_METADATA(
+        $preUpdateDeleteInput: DeleteSourceMetasInput!
+        $hasPreUpdateDeletions: Boolean!
+        $updateInput: SetSourceMetasInput!
+        $hasUpdates: Boolean!
+        $postUpdateDeleteInput: DeleteSourceMetasInput!
+        $hasPostUpdateDeletions: Boolean!
+        $migrateInput: SetSourceMetasInput!
+        $isMigration: Boolean!
+    ) {
+        preUpdateDeletedMeta: deleteSourceMetas(input: $preUpdateDeleteInput) @include(if: $hasPreUpdateDeletions) {
+            metas {
                 ...SOURCE_META_FIELDS
             }
         }
-    }
-`;
-
-export const DELETE_SOURCE_METADATA = gql`
-    ${SOURCE_META_FIELDS}
-
-    mutation DELETE_SOURCE_METADATA($input: DeleteSourceMetaInput!) {
-        deleteSourceMeta(input: $input) {
-            meta {
+        updatedMeta: setSourceMetas(input: $updateInput) @include(if: $hasUpdates) {
+            metas {
+                ...SOURCE_META_FIELDS
+            }
+        }
+        postUpdateDeletedMeta: deleteSourceMetas(input: $postUpdateDeleteInput) @include(if: $hasPostUpdateDeletions) {
+            metas {
+                ...SOURCE_META_FIELDS
+            }
+        }
+        migrationMeta: setSourceMetas(input: $migrateInput) @include(if: $isMigration) {
+            metas {
                 ...SOURCE_META_FIELDS
             }
         }

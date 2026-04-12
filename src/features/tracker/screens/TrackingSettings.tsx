@@ -23,10 +23,11 @@ import {
 import { makeToast } from '@/base/utils/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
-import { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
-import { MetadataTrackingSettings } from '@/features/tracker/Tracker.types.ts';
+import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { MetadataTrackingSettings } from '@/features/tracker/Tracker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export const TrackingSettings = () => {
     const { t } = useLingui();
@@ -50,7 +51,7 @@ export const TrackingSettings = () => {
     } = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS, {
         notifyOnNetworkStatusChange: true,
     });
-    const trackers = data?.trackers.nodes ?? [];
+    const trackers = data?.trackers.nodes ?? STABLE_EMPTY_ARRAY;
 
     const loading = areMetadataServerSettingsLoading || areTrackersLoading;
     const error = metadataServerSettingsError ?? trackersError;

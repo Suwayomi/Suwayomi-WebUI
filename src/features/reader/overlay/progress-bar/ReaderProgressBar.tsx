@@ -6,12 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { BoxProps } from '@mui/material/Box';
-import { ComponentProps, memo, ReactNode, useCallback, useMemo, useRef, useState } from 'react';
+import type { BoxProps } from '@mui/material/Box';
+import type { ComponentProps, ReactNode } from 'react';
+import { memo, useCallback, useMemo, useRef, useState } from 'react';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
-import { TypographyProps } from '@mui/material/Typography';
-import { StackProps } from '@mui/material/Stack';
-import { ReaderProgressBarProps } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import type { TypographyProps } from '@mui/material/Typography';
+import type { StackProps } from '@mui/material/Stack';
+import type { ReaderProgressBarProps } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 import { ReaderProgressBarPageNumber } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarPageNumber.tsx';
 import { ReaderProgressBarContainer } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarContainer.tsx';
 import { ReaderProgressBarRoot } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarRoot.tsx';
@@ -26,7 +27,7 @@ import {
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection as getOptionForDirectionImpl } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderProgressBarSlotsActionArea } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotsActionArea.tsx';
-import { ReaderService } from '@/features/reader/services/ReaderService.ts';
+import type { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import { ReaderProgressBarSlotWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarSlotWrapper.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
@@ -67,14 +68,14 @@ const BaseReaderProgressBar = ({
         direction: ReturnType<typeof ReaderService.useGetThemeDirection>;
         fullSegmentClicks: boolean;
     }) => {
-    const { pages, pageLoadStates, totalPages, currentPageIndex } = useReaderPagesStore((state) => ({
-        pages: state.pages,
-        pageLoadStates: state.pageLoadStates,
-        totalPages: state.totalPages,
-        currentPageIndex: state.currentPageIndex,
-    }));
+    const { pages, pageLoadStates, totalPages, currentPageIndex } = useReaderPagesStore(
+        'pages',
+        'pageLoadStates',
+        'totalPages',
+        'currentPageIndex',
+    );
     const readingMode = useReaderSettingsStore((state) => state.readingMode.value);
-    const isDragging = useReaderProgressBarStore((state) => state.isDragging);
+    const isDragging = useReaderProgressBarStore('isDragging');
 
     const progressBarRef = useRef<HTMLDivElement | null>(null);
     const draggingDetectionTimeout = useRef<NodeJS.Timeout>(undefined);

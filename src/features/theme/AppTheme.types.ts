@@ -6,9 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Palette } from '@vibrant/color';
-import { FastAverageColorResult } from 'fast-average-color';
-import { AppTheme, AppThemes } from '@/features/theme/services/AppThemes.ts';
+import type { Palette } from '@vibrant/color';
+import type { FastAverageColorResult } from 'fast-average-color';
+import type { AppTheme, AppThemes } from '@/features/theme/services/AppThemes.ts';
 
 export enum ThemeMode {
     SYSTEM = 'system',

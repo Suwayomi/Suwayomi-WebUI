@@ -165,7 +165,7 @@ const createChangelogCommitLine = (commit: Commit): string => {
             return `${revision} ${commit.title} (${authorCredit})`;
         }
 
-        const title = commit.title.replace(/(.*) \(#[0-9]+\)$/g, '$1'); // remove the possible pr number from the title (e.g. "my commit title (#420)" => "my commit title")
+        const title = commit.title.replaceAll(/(.*) \(#[0-9]+\)$/g, '$1'); // remove the possible pr number from the title (e.g. "my commit title (#420)" => "my commit title")
         const prId = commit.pullRequest.number;
         const prUrl = commit.pullRequest.url;
         const prLink = `[#${prId}](${prUrl})`;
@@ -179,9 +179,9 @@ const createChangelogCommitLine = (commit: Commit): string => {
 
 const getContributors = (commits: Commit[]): string[] => [
     ...new Set(
-        commits
-            .map((commit) => commit.authors.map((author) => author.user?.login!).filter((author) => !!author))
-            .flat(),
+        commits.flatMap((commit) =>
+            commit.authors.map((author) => author.user?.login).filter((author): author is string => !!author),
+        ),
     ),
 ];
 

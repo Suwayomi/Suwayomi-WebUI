@@ -7,7 +7,7 @@
  */
 
 import { DragOverlay } from '@dnd-kit/core';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export const DndOverlayItem = ({ isActive, children }: { isActive: boolean; children?: ReactNode }) => {
     if (!isActive) {

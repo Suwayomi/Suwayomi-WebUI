@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { enqueueSnackbar, OptionsObject, SnackbarKey } from 'notistack';
+import type { OptionsObject, SnackbarKey } from 'notistack';
+import { enqueueSnackbar } from 'notistack';
 
 export function makeToast(message: string, severity?: OptionsObject['variant'], description?: string): SnackbarKey;
 export function makeToast(message: string, options?: OptionsObject, description?: string): SnackbarKey;

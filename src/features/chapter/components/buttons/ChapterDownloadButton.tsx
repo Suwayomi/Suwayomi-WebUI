@@ -15,7 +15,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 export const ChapterDownloadButton = ({
     chapterId,

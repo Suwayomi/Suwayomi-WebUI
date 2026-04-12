@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { BoxProps } from '@mui/material/Box';
-import { TooltipProps } from '@mui/material/Tooltip';
-import { IReaderSettings, PageData } from '@/features/reader/Reader.types.ts';
+import type { BoxProps } from '@mui/material/Box';
+import type { TooltipProps } from '@mui/material/Tooltip';
+import type { IReaderSettings, PageData } from '@/features/reader/Reader.types.ts';
 
-export interface ReaderProgressBarProps extends Pick<IReaderSettings, 'progressBarPosition'> {}
+export type ReaderProgressBarProps = Pick<IReaderSettings, 'progressBarPosition'>;
 
 export interface TReaderProgressCurrentPage extends PageData {
     pagesIndex: number;

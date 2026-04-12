@@ -31,7 +31,7 @@ import {
     PUBLISHING_STATUS_TO_TRANSLATION,
     PUBLISHING_TYPE_TO_TRANSLATION,
 } from '@/features/tracker/Tracker.constants.ts';
-import { TTrackerManga } from '@/features/tracker/Tracker.types.ts';
+import type { TTrackerManga } from '@/features/tracker/Tracker.types.ts';
 
 const TrackerMangaCardTitle = ({ title, selected }: { title: string; selected: boolean }) => (
     <Stack

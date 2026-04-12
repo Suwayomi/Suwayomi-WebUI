@@ -17,8 +17,9 @@ import { useMemo } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ChapterOptions } from '@/features/chapter/components/ChapterOptions.tsx';
-import { isFilterActive, updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
-import {
+import type { updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
+import { isFilterActive } from '@/features/chapter/utils/ChapterList.util.tsx';
+import type {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
     ChapterIdInfo,

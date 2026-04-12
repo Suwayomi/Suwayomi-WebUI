@@ -24,7 +24,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import InfoIcon from '@mui/icons-material/Info';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { TextSetting, TextSettingProps } from '@/base/components/settings/text/TextSetting.tsx';
+import type { TextSettingProps } from '@/base/components/settings/text/TextSetting.tsx';
+import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { TextSettingDialog } from '@/base/components/settings/text/TextSettingDialog.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 

@@ -9,13 +9,14 @@
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { memo, useCallback, useMemo, useState } from 'react';
 import { useLongPress } from 'use-long-press';
-import { MangaActionMenuItems, SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
+import type { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
+import { MangaActionMenuItems } from '@/features/manga/components/MangaActionMenuItems.tsx';
 import { Menu } from '@/base/components/menu/Menu.tsx';
 import { MigrateDialog } from '@/features/migration/components/MigrateDialog.tsx';
 import { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
 import { MangaGridCard } from '@/features/manga/components/cards/MangaGridCard.tsx';
 import { MangaListCard } from '@/features/manga/components/cards/MangaListCard.tsx';
-import { MangaCardMode, MangaCardProps } from '@/features/manga/Manga.types.ts';
+import type { MangaCardMode, MangaCardProps } from '@/features/manga/Manga.types.ts';
 import { ContinueReadingButton } from '@/features/manga/components/ContinueReadingButton.tsx';
 import { MangaBadges } from '@/features/manga/components/MangaBadges.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
@@ -96,9 +97,9 @@ export const MangaCard = memo((props: MangaCardProps) => {
     const longPressBind = useLongPress(
         useCallback(
             (e: any, { context }: any) => {
-                // eslint-disable-next-line no-param-reassign
+                // oxlint-disable-next-line no-param-reassign
                 e.shiftKey = true;
-                handleClick(e, context as () => {});
+                handleClick(e, context as () => void);
             },
             [handleClick],
         ),

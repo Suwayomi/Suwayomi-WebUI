@@ -6,9 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
-import { MetadataHistorySettings } from '@/features/history/History.types.ts';
-import { AppRoutes, StaticAppRoute } from '@/base/AppRoute.constants.ts';
+import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { MetadataHistorySettings } from '@/features/history/History.types.ts';
+import type { StaticAppRoute } from '@/base/AppRoute.constants.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 type NavBarItemDeviceFilterKey = `hide${Capitalize<NavbarItem['show']>}`;
 
