@@ -89,8 +89,8 @@ interface ScrollPreservationInfo {
     left: number;
     top: number;
     visibleElement: HTMLElement | undefined;
-    visibleElementLeft: number;
-    visibleElementTop: number;
+    visibleElementOffsetLeft: number;
+    visibleElementOffsetTop: number;
 }
 
 const useScrollPreservationData = (
@@ -100,8 +100,8 @@ const useScrollPreservationData = (
         left: 0,
         top: 0,
         visibleElement: undefined,
-        visibleElementLeft: 0,
-        visibleElementTop: 0,
+        visibleElementOffsetLeft: 0,
+        visibleElementOffsetTop: 0,
     });
 
     useEffect(() => {
@@ -117,8 +117,8 @@ const useScrollPreservationData = (
                 ...dataRef.current,
                 left: scrollElement.scrollLeft,
                 top: scrollElement.scrollTop,
-                visibleElementLeft: visibleElement?.offsetLeft ?? 0,
-                visibleElementTop: visibleElement?.offsetTop ?? 0,
+                visibleElementOffsetLeft: visibleElement?.offsetLeft ?? 0,
+                visibleElementOffsetTop: visibleElement?.offsetTop ?? 0,
             };
         };
 
@@ -151,8 +151,8 @@ const useScrollPreservationData = (
             dataRef.current = {
                 ...dataRef.current,
                 visibleElement: firstVisibleElement.target,
-                visibleElementLeft: firstVisibleElement.target.offsetLeft,
-                visibleElementTop: firstVisibleElement.target.offsetTop,
+                visibleElementOffsetLeft: firstVisibleElement.target.offsetLeft,
+                visibleElementOffsetTop: firstVisibleElement.target.offsetTop,
             };
         });
         const mutationObserver = new MutationObserver((entries) => {
@@ -175,7 +175,7 @@ const useScrollPreservationData = (
 };
 
 const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement | null>, readingMode: ReadingMode) => {
-    const preservationData = useScrollPreservationData(scrollElementRef);
+    const preservationDataRef = useScrollPreservationData(scrollElementRef);
 
     const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
     const isContinuousVerticalReadingModeActive = isContinuousVerticalReadingMode(readingMode);
@@ -188,7 +188,8 @@ const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement 
         }
 
         const preserveScrollPosition: ResizeObserverCallback = (entries) => {
-            const { left, top, visibleElement, visibleElementLeft, visibleElementTop } = preservationData.current;
+            const { left, top, visibleElement, visibleElementOffsetLeft, visibleElementOffsetTop } =
+                preservationDataRef.current;
 
             if (!visibleElement) {
                 return;
@@ -216,8 +217,8 @@ const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement 
                 return;
             }
 
-            const newLeft = left - visibleElementLeft + visibleElement.offsetLeft;
-            const newTop = top - visibleElementTop + visibleElement.offsetTop;
+            const newLeft = left - visibleElementOffsetLeft + visibleElement.offsetLeft;
+            const newTop = top - visibleElementOffsetTop + visibleElement.offsetTop;
 
             scrollElement.scrollTo(newLeft, newTop);
         };
@@ -263,7 +264,8 @@ const usePreserveOnInfiniteScrollPreviousChapterInitialRender = (
 
     const preserveScrollPosition = (): boolean => {
         const scrollElement = scrollElementRef.current;
-        const { left, top, visibleElementLeft, visibleElementTop, visibleElement } = preservationDataRef.current;
+        const { left, top, visibleElementOffsetLeft, visibleElementOffsetTop, visibleElement } =
+            preservationDataRef.current;
 
         if (
             !getReaderSettingsStore().shouldUseInfiniteScroll ||
@@ -288,8 +290,8 @@ const usePreserveOnInfiniteScrollPreviousChapterInitialRender = (
             return false;
         }
 
-        const newLeft = left - visibleElementLeft + visibleElement.offsetLeft;
-        const newTop = top - visibleElementTop + visibleElement.offsetTop;
+        const newLeft = left - visibleElementOffsetLeft + visibleElement.offsetLeft;
+        const newTop = top - visibleElementOffsetTop + visibleElement.offsetTop;
 
         scrollElement.scrollTo(newLeft, newTop);
         return true;
