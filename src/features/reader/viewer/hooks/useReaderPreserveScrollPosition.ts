@@ -24,7 +24,7 @@ import {
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { getPreviousNextChapterVisibility } from '@/features/reader/Reader.utils.ts';
 import type { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
-import { getReaderPagesStore } from '@/features/reader/stores/ReaderStore.ts';
+import { getReaderPagesStore, getReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const shouldPreserveOnResizeChange = (
     readingMode: ReadingMode,
@@ -265,7 +265,12 @@ const usePreserveOnInfiniteScrollPreviousChapterInitialRender = (
         const scrollElement = scrollElementRef.current;
         const { left, top, visibleElementLeft, visibleElementTop, visibleElement } = preservationDataRef.current;
 
-        if (!scrollElement || !isContinuousReadingModeActive || !visibleElement) {
+        if (
+            !getReaderSettingsStore().shouldUseInfiniteScroll ||
+            !scrollElement ||
+            !isContinuousReadingModeActive ||
+            !visibleElement
+        ) {
             return false;
         }
 
