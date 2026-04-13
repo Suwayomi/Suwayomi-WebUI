@@ -19,7 +19,7 @@ import {
     getPageForMousePos,
     getProgressBarPositionInfo,
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
-import { getCurrentTheme, getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
+import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import type {
     PageInViewportType,
@@ -66,19 +66,11 @@ const getScrollDirectionInvert = (
 ): 1 | -1 => {
     if (scrollDirection === ScrollDirection.X) {
         if (scrollOffset === ScrollOffset.BACKWARD) {
-            if (themeDirection === 'ltr') {
-                return -1;
-            }
-
-            return 1;
+            return getOptionForDirection(-1, 1, themeDirection);
         }
 
         if (scrollOffset === ScrollOffset.FORWARD) {
-            if (themeDirection === 'ltr') {
-                return 1;
-            }
-
-            return -1;
+            return getOptionForDirection(1, -1, themeDirection);
         }
     }
 
@@ -106,19 +98,16 @@ export class ReaderControls {
         }
 
         const themeDirectionOfReadingDirection = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection];
-        const areReadingDirectionsEqual = getCurrentTheme().direction === themeDirectionOfReadingDirection;
         const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
 
         const isAtStartY = Math.abs(element.scrollTop) <= 1;
         const isAtEndY =
             Math.floor(element.scrollTop) === element.scrollHeight - element.clientHeight ||
             Math.ceil(element.scrollTop) === element.scrollHeight - element.clientHeight;
-        const isAtStartX = Math.abs(element.scrollLeft) <= 1;
+        const isAtStartX = Math.floor(Math.abs(element.scrollLeft)) === 0;
         const isAtEndX =
-            element.scrollWidth - element.clientWidth - Math.floor(Math.abs(element.scrollLeft)) <= 1 ||
-            element.scrollWidth - element.clientWidth - Math.ceil(Math.abs(element.scrollLeft)) <= 1;
-        const isAtStartXForDirection = areReadingDirectionsEqual ? isAtStartX : isAtEndX;
-        const isAtEndXForDirection = areReadingDirectionsEqual ? isAtEndX : isAtStartX;
+            Math.floor(Math.abs(element.scrollLeft)) === element.scrollWidth - element.clientWidth ||
+            Math.ceil(Math.abs(element.scrollLeft)) === element.scrollWidth - element.clientWidth;
 
         const scrollAmount = scrollAmountPercentage / 100;
         const scrollDirection = getScrollDirectionInvert(direction, offset, themeDirectionOfReadingDirection);
@@ -152,7 +141,7 @@ export class ReaderControls {
 
         switch (direction) {
             case ScrollDirection.X:
-                doScroll(isAtStartXForDirection, isAtEndXForDirection, {
+                doScroll(isAtStartX, isAtEndX, {
                     left: getNewScrollPosition(element.scrollLeft, element.clientWidth),
                 });
                 break;
