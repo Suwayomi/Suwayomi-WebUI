@@ -208,7 +208,7 @@ const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement 
                     return entry.target.offsetTop < top;
                 }
 
-                return Math.abs(entry.target.offsetLeft) < Math.abs(left);
+                return entry.target.offsetLeft < left;
             });
 
             const includesElementsBeforeScrollPosition = !!entriesBeforeScrollPosition.length;
