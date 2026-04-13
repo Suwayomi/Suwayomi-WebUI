@@ -37,14 +37,14 @@ export const ReaderProgressBarCurrentPageSlot = ({
                 position: 'absolute',
                 cursor: isDragging ? 'grabbing' : 'grab',
                 ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isHorizontal, {
-                    left: `${(Math.max(0, currentPagesIndex - 1) / (pagesLength - 1)) * 100}%`,
-                    width: `calc(100% / ${pagesLength - 1})`,
+                    left: `${(Math.max(0, currentPagesIndex - 1) / pagesLength) * 100}%`,
+                    width: `calc(100% / ${pagesLength})`,
                     height: '100%',
                 }),
                 ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isVertical, {
-                    top: `${(Math.max(0, currentPagesIndex - 1) / (pagesLength - 1)) * 100}%`,
+                    top: `${(Math.max(0, currentPagesIndex - 1) / pagesLength) * 100}%`,
                     width: '100%',
-                    height: `calc(100% / ${pagesLength - 1})`,
+                    height: `calc(100% / ${pagesLength})`,
                 }),
                 ...boxProps?.sx,
             }}
