@@ -282,10 +282,12 @@ const usePreserveOnInfiniteScrollPreviousChapterInitialRender = (
             visibleChapters,
         );
 
+        const doesPreviousChapterExist = currentChapterIndex > 0;
         const isRenderOfPreviousChapter = currentPageIndex === 0;
 
         // only relevant when prepending content to the dom due to the resulting layout shift
-        const isFirstRenderOfPreviousChapter = !previousNextChapterVisibility.previous && isRenderOfPreviousChapter;
+        const isFirstRenderOfPreviousChapter =
+            doesPreviousChapterExist && !previousNextChapterVisibility.previous && isRenderOfPreviousChapter;
         if (!isFirstRenderOfPreviousChapter) {
             return false;
         }
