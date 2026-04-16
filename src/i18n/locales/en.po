@@ -290,6 +290,10 @@ msgstr "Add"
 msgid "Add bookmark"
 msgstr "Add bookmark"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Add genre"
+msgstr "Add genre"
+
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Add repositories from which extensions can be installed"
 msgstr "Add repositories from which extensions can be installed"
@@ -359,6 +363,14 @@ msgstr "Also remove from {0}"
 msgid "Appearance"
 msgstr "Appearance"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Apply"
+msgstr "Apply"
+
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Applying..."
+msgstr "Applying..."
+
 #: src/features/chapter/services/Chapters.ts
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
@@ -367,6 +379,7 @@ msgstr "Appearance"
 msgid "Are you sure?"
 msgstr "Are you sure?"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Artist"
 msgstr "Artist"
@@ -384,6 +397,7 @@ msgstr "Authentication"
 msgid "Authentication Mode"
 msgstr "Authentication Mode"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Author"
 msgstr "Author"
@@ -604,6 +618,8 @@ msgstr "Call timeout"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
 #: src/features/migration/components/MigrateDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
@@ -1224,6 +1240,10 @@ msgstr "Deleting theme \"{0}\"…"
 msgid "Descending"
 msgstr "Descending"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Description"
+msgstr "Description"
+
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
 msgid "Deselect"
@@ -1375,6 +1395,7 @@ msgstr "Edge"
 
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CategorySettingsCard.tsx
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
 #: src/features/theme/components/ThemePreview.tsx
 msgid "Edit"
 msgstr "Edit"
@@ -1392,6 +1413,10 @@ msgstr "Edit category"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Edit manga categories"
 msgstr "Edit manga categories"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Edit Metadata"
+msgstr "Edit Metadata"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Edit theme"
@@ -1469,6 +1494,10 @@ msgstr "Extension installed"
 msgid "Extension repositories"
 msgstr "Extension repositories"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Failed to apply metadata"
+msgstr "Failed to apply metadata"
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "Failed to connect to KOReader Sync server."
@@ -1515,6 +1544,10 @@ msgstr "Failed to disconnect from KOReader Sync server."
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Failed to save changes"
 msgstr "Failed to save changes"
+
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Failed to update metadata"
+msgstr "Failed to update metadata"
 
 #: src/features/settings/Settings.constants.ts
 msgid ""
@@ -1636,6 +1669,10 @@ msgstr "Fourth to last read chapter"
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "General"
 msgstr "General"
+
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Genres"
+msgstr "Genres"
 
 #: src/features/settings/screens/About.tsx
 msgid "GitHub Server"
@@ -1802,6 +1839,10 @@ msgstr ""
 #: src/features/manga/components/MangaBadges.tsx
 msgid "In Library"
 msgstr "In Library"
+
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Include cover image"
+msgstr "Include cover image"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -2178,6 +2219,10 @@ msgstr "Mark selected as read"
 msgid "Mark selected as unread"
 msgstr "Mark selected as unread"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Match"
+msgstr "Match"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Maximum log file size"
 msgstr "Maximum log file size"
@@ -2193,6 +2238,14 @@ msgstr "Medium"
 #: src/features/reader/tap-zones/ReaderTapZone.constants.ts
 msgid "Menu"
 msgstr "Menu"
+
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Metadata applied successfully"
+msgstr "Metadata applied successfully"
+
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Metadata updated successfully"
+msgstr "Metadata updated successfully"
 
 #: src/features/browse/screens/Browse.tsx
 #: src/features/manga/components/MangaToolbarMenu.tsx
@@ -2573,6 +2626,10 @@ msgstr "Progress bar style"
 msgid "Prompt"
 msgstr "Prompt"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Provider"
+msgstr "Provider"
+
 #: src/features/manga/Manga.constants.ts
 msgid "Publishing finished"
 msgstr "Publishing finished"
@@ -2759,6 +2816,7 @@ msgstr "Right to left"
 msgid "Rosegold"
 msgstr "Rosegold"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
@@ -2791,6 +2849,10 @@ msgstr "Saved theme changes"
 msgid "Saving theme changes…"
 msgstr "Saving theme changes…"
 
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Saving..."
+msgstr "Saving..."
+
 #: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx
 #: src/features/reader/settings/layout/components/ReaderSettingPageScaleMode.tsx
 msgid "Scale type"
@@ -2822,8 +2884,13 @@ msgid "Scroll forward"
 msgstr "Scroll forward"
 
 #: src/base/components/AppbarSearch.tsx
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
 msgid "Search"
 msgstr "Search"
+
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Search failed"
+msgstr "Search failed"
 
 #: src/features/library/screens/Library.tsx
 msgid "Search for \"{query}\" globally"
@@ -2836,6 +2903,10 @@ msgid ""
 msgstr ""
 "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
 "Limit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
+
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Search for manga to match metadata"
+msgstr "Search for manga to match metadata"
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "Search parameters"
@@ -3167,6 +3238,7 @@ msgid "Static navigation"
 msgstr "Static navigation"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -3345,6 +3417,10 @@ msgstr "This will remove the tracking locally."
 #: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
 msgid "Tiny"
 msgstr "Tiny"
+
+#: src/features/manga/components/details/EditMangaMetadataDialog.tsx
+msgid "Title"
+msgstr "Title"
 
 #: src/base/utils/DateHelper.ts
 msgid "Today"

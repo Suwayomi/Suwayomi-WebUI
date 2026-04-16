@@ -6,11 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { styled } from '@mui/material/styles';
 import type { ComponentProps, ReactNode } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from '@mui/material/Link';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -51,6 +52,7 @@ import { Sources } from '@/features/source/services/Sources.ts';
 import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { Thumbnail } from '@/features/manga/components/details/Thumbnail.tsx';
 import { DescriptionGenre } from '@/features/manga/components/details/DescriptionGenre.tsx';
+import { EditMangaMetadataDialog } from '@/features/manga/components/details/EditMangaMetadataDialog.tsx';
 import { SearchLink } from '@/features/manga/components/details/SearchLink.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
@@ -240,6 +242,8 @@ export const MangaDetails = ({
 
     const { updateLibraryState } = useManageMangaLibraryState(manga);
 
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+
     const copyTitle = async () => {
         try {
             await navigator.clipboard.writeText(manga.title);
@@ -294,9 +298,15 @@ export const MangaDetails = ({
                     </CustomButton>
                     <TrackMangaButton manga={manga} />
                     <OpenSourceButton url={manga.realUrl} />
+                    <CustomTooltip title={t`Edit Metadata`}>
+                        <CustomButtonIcon size="medium" variant="outlined" onClick={() => setIsEditDialogOpen(true)}>
+                            <EditIcon />
+                        </CustomButtonIcon>
+                    </CustomTooltip>
                 </MangaButtonsContainer>
             </TopContentWrapper>
             <DescriptionGenre manga={manga} mode={mode} />
+            {isEditDialogOpen && <EditMangaMetadataDialog manga={manga} onClose={() => setIsEditDialogOpen(false)} />}
         </DetailsWrapper>
     );
 };
