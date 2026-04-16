@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.799Z\n"
-"PO-Revision-Date: 2026-02-21 08:09+0000\n"
-"Last-Translator: mahranaka <robertlang123450@gmail.com>\n"
+"PO-Revision-Date: 2026-04-15 18:09+0000\n"
+"Last-Translator: Constantin Piber <cp.piber@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/de/>\n"
 "Language: de\n"
@@ -12,8 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 "X-Message-Format: ICU\n"
-"X-Generator: Weblate 5.16.1-dev\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -678,18 +678,19 @@ msgstr "Backup konnte nicht wiederhergestellt werden"
 
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 msgid "Could not retry failed download."
-msgstr "Der Download konnte nicht wiederholt werden."
+msgstr "Fehlerhafter Download konnte nicht wiederholt werden."
 
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not save the default search settings to the server"
-msgstr "Die Standardsucheinstellungen konnten nicht gespeichert werden"
+msgstr ""
+"Die Standardsucheinstellungen konnten nicht auf den Server gespeichert werden"
 
 #: src/features/reader/services/ReaderService.ts
 #: src/features/reader/services/ReaderService.ts
 msgid "Could not save the reader settings to the server"
-msgstr "Die Leseeinstellungen konnten nicht gespeichert werden"
+msgstr "Die Leseeinstellungen konnten nicht auf den Server gespeichert werden"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Could not save theme changes"
@@ -701,7 +702,7 @@ msgstr "Quelle konnte nicht durchsucht werden"
 
 #: src/features/updates/components/UpdateChecker.tsx
 msgid "Could not stop global update"
-msgstr "Globales Update konnten nicht abgehalten werden"
+msgstr "Globales Update konnte nicht gestoppt werden"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/components/TrackerSearch.tsx
@@ -715,7 +716,7 @@ msgstr "Verfolgung von Manga konnte nicht aufgehoben werden"
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Could not update WebUI"
-msgstr "Konnte WebUI nicht aktualisieren"
+msgstr "WebUI konnte nicht aktualisiert werden"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not validate backup"
@@ -3801,3 +3802,21 @@ msgstr ""
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Shows a dialog in case the version of the server has changed"
 msgstr "Zeigt einen Dialog an, wenn die Server-Version aktualisiert wurde"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "I understand"
+msgstr "Ich verstehe"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr "Flaresolverr Einstellungen Bestätigung"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr ""
+"Flaresolverr ist eine <0><1>separate</1></0>, von Suwayomi <2><3>"
+"unabhängige</3></2> Applikation, welche manuell <4><5>installiert</5></4> "
+"und <6><7>ausgeführt</7></6> werden muss.<8/>Siehe <9>FlareSolverr</9> für "
+"weitere Informationen zum Aufsetzen<10/><11/>Sollte sie <12><13>nicht</13></"
+"12> korrekt aufgesetzt und gestartet worden sein, wird diese Einstellung <14>"
+"<15>keine</15></14> Auswirkung haben"
