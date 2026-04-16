@@ -22,6 +22,7 @@ export default defineConfig({
         'fa',
         'fr',
         'hu',
+        'id',
         'it',
         'ja',
         'ko',
