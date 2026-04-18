@@ -32,7 +32,10 @@ export const MigrationSearch = () => {
 
     const entryList = useMemo(() => Object.values(entries), [entries]);
     const searchingEntries = useMemo(
-        () => entryList.filter((entry) => entry.status === MigrationEntryStatus.SEARCHING),
+        () =>
+            entryList.filter((entry) =>
+                [MigrationEntryStatus.PENDING, MigrationEntryStatus.SEARCHING].includes(entry.status),
+            ),
         [entryList],
     );
     const failedEntries = useMemo(
