@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
-import { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
+import type { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
+import type { TReaderProgressBarContext } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 
 export interface ReaderProgressBarStoreSlice {
     progressBar: TReaderProgressBarContext & {

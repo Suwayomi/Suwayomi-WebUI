@@ -23,12 +23,12 @@ import {
 
 const BaseReaderBottomBarMobileQuickSettings = () => {
     const { t } = useLingui();
-    const isActive = useReaderAutoScrollStore((state) => state.isActive);
-    const { readingMode, readingDirection, autoScroll } = useReaderSettingsStore((state) => ({
-        readingMode: state.readingMode,
-        readingDirection: state.readingDirection,
-        autoScroll: state.autoScroll,
-    }));
+    const isActive = useReaderAutoScrollStore('isActive');
+    const { readingMode, readingDirection, autoScroll } = useReaderSettingsStore(
+        'readingMode',
+        'readingDirection',
+        'autoScroll',
+    );
 
     return (
         <Stack sx={{ gap: 2 }}>

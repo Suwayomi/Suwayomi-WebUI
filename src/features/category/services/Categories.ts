@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { CategoryDefaultInfo, CategoryIdInfo } from '@/features/category/Category.types.ts';
+import type { CategoryDefaultInfo, CategoryIdInfo } from '@/features/category/Category.types.ts';
 
 export const DEFAULT_CATEGORY_ID = 0;
 

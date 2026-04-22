@@ -12,6 +12,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language-Team: \n"
 "Plural-Forms: \n"
+"X-Message-Format: ICU\n"
 
 #: src/features/app-updates/components/VersionInfo.tsx
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx

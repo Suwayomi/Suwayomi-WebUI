@@ -17,7 +17,7 @@ import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
-import {
+import type {
     KoreaderSyncChecksumMethod,
     KoreaderSyncConflictStrategy,
     KoSyncStatusPayload,
@@ -28,7 +28,7 @@ import {
     KOREADER_SYNC_PERCENTAGE_TOLERANCE,
 } from '@/features/settings/Settings.constants.ts';
 import { CredentialsLogin } from '@/base/components/modals/LoginDialog.tsx';
-import { ServerSettings as ServerSettingsType, ServerSettings } from '@/features/settings/Settings.types.ts';
+import type { ServerSettings as ServerSettingsType, ServerSettings } from '@/features/settings/Settings.types.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 
 export const KoreaderSyncSettings = ({

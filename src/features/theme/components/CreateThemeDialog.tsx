@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { useMemo, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
@@ -18,11 +18,12 @@ import DialogActions from '@mui/material/DialogActions';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
 import { jsonrepair } from 'jsonrepair';
-import { AwaitableComponentProps } from 'awaitable-component';
+import type { AwaitableComponentProps } from 'awaitable-component';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import { getErrorMessage, jsonSaveParse } from '@/lib/HelperFunctions.ts';
-import { AppTheme, getTheme, isThemeNameUnique } from '@/features/theme/services/AppThemes.ts';
+import type { AppTheme } from '@/features/theme/services/AppThemes.ts';
+import { getTheme, isThemeNameUnique } from '@/features/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -31,7 +32,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
+import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { createAppColorTheme } from '@/features/theme/services/ThemeCreator.ts';

@@ -8,7 +8,7 @@
 
 import Stack from '@mui/material/Stack';
 import { useLingui } from '@lingui/react/macro';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { CUSTOM_FILTER, DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';

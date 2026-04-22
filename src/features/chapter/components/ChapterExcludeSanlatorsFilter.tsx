@@ -11,7 +11,7 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import DisabledByDefaultRounded from '@mui/icons-material/DisabledByDefaultRounded';
 import { useLingui } from '@lingui/react/macro';
 import { CheckboxListSetting } from '@/base/components/settings/CheckboxListSetting.tsx';
-import { updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
+import type { updateChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 
 export const ChapterExcludeSanlatorsFilter = ({

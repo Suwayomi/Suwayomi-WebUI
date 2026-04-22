@@ -11,7 +11,7 @@ import FitScreenIcon from '@mui/icons-material/FitScreen';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ValueRotationButton } from '@/base/components/buttons/ValueRotationButton.tsx';
-import {
+import type {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
     ReaderPageScaleMode,
@@ -21,7 +21,7 @@ import {
     READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED,
     READER_PAGE_SCALE_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
 import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
 
 export const ReaderNavBarDesktopPageScale = ({

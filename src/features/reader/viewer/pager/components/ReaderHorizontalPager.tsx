@@ -10,7 +10,8 @@ import { useTheme } from '@mui/material/styles';
 import { memo } from 'react';
 import { BasePager } from '@/features/reader/viewer/pager/components/BasePager.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
-import { IReaderSettings, ReaderPagerProps, ReadingDirection } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, ReaderPagerProps } from '@/features/reader/Reader.types.ts';
+import { ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { createReaderPage } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 
 const BaseReaderHorizontalPager = ({

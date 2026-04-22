@@ -10,7 +10,8 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { ComponentProps, useCallback, useMemo, useState } from 'react';
+import type { ComponentProps } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -24,7 +25,7 @@ import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewA
 import { ChaptersToolbarMenu } from '@/features/chapter/components/ChaptersToolbarMenu.tsx';
 import { SelectionFAB } from '@/base/collection/components/SelectionFAB.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
-import {
+import type {
     ChapterListFieldsFragment,
     GetChaptersMangaQuery,
     GetChaptersMangaQueryVariables,
@@ -45,6 +46,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { ChapterListCard } from '@/features/chapter/components/cards/ChapterListCard.tsx';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;
@@ -139,7 +141,7 @@ export const ChapterList = ({
         manga.id,
         { notifyOnNetworkStatusChange: true },
     );
-    const chapters = useMemo(() => chaptersData?.chapters.nodes ?? [], [chaptersData?.chapters.nodes]);
+    const chapters = chaptersData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
     const visibleChapterIds = useMemo(() => Chapters.getIds(visibleChapters), [visibleChapters]);

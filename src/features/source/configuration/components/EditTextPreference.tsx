@@ -17,7 +17,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useLingui } from '@lingui/react/macro';
-import { EditTextPreferenceProps } from '@/features/source/Source.types.ts';
+import type { EditTextPreferenceProps } from '@/features/source/Source.types.ts';
 
 export function EditTextPreference(props: EditTextPreferenceProps) {
     const { t } = useLingui();

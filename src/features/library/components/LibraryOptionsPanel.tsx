@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useLingui } from '@lingui/react/macro';
@@ -18,8 +18,10 @@ import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateChec
 import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
-import { GetTrackersSettingsQuery, MangaStatus } from '@/lib/graphql/generated/graphql.ts';
+import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
+import { MangaStatus } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { createUpdateCategoryMetadata, useGetCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import {
@@ -27,8 +29,8 @@ import {
     updateMetadataServerSettings,
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { LibrarySortMode } from '@/features/library/Library.types.ts';
-import { CategoryMetadataInfo } from '@/features/category/Category.types.ts';
+import type { LibrarySortMode } from '@/features/library/Library.types.ts';
+import type { CategoryMetadataInfo } from '@/features/category/Category.types.ts';
 import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { GridLayout } from '@/base/Base.types';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -61,7 +63,7 @@ export const LibraryOptionsPanel = ({
     const { t } = useLingui();
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
-    const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? []);
+    const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY);
 
     const categoryLibraryOptions = useGetCategoryMetadata(category);
     const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, (e) =>

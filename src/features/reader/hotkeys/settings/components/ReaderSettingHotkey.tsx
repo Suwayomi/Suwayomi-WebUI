@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import Typography from '@mui/material/Typography';

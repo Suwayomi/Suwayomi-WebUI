@@ -6,21 +6,23 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { DocumentNode, MaybeMasked, Unmasked, useFragment } from '@apollo/client';
+import type { DocumentNode, MaybeMasked, Unmasked } from '@apollo/client';
+import { useFragment } from '@apollo/client/react';
 import { t } from '@lingui/core/macro';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import {
+import type {
     ChapterListFieldsFragment,
     ChapterType,
-    DownloadState,
     DownloadTypeFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
+import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
-import { ReaderOpenChapterLocationState, ReaderResumeMode } from '@/features/reader/Reader.types.ts';
+import type { ReaderOpenChapterLocationState } from '@/features/reader/Reader.types.ts';
+import { ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_TYPE_FIELDS } from '@/lib/graphql/download/DownloadFragments.ts';
@@ -29,7 +31,7 @@ import {
     CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED,
     CHAPTER_ACTION_TO_TRANSLATION,
 } from '@/features/chapter/Chapter.constants.ts';
-import {
+import type {
     ChapterAction,
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
@@ -172,10 +174,10 @@ export class Chapters {
         return chapters.filter((chapter) => !Chapters.isRead(chapter));
     }
 
-    static getMatchingChapterNumberChapters<Chapter extends ChapterNumberInfo>(
-        chaptersA: Chapter[],
-        chaptersB: Chapter[],
-    ): [ChapterA: Chapter, ChapterB: Chapter][] {
+    static getMatchingChapterNumberChapters<ChapterA extends ChapterNumberInfo, ChapterB extends ChapterNumberInfo>(
+        chaptersA: ChapterA[],
+        chaptersB: ChapterB[],
+    ): [ChapterA: ChapterA, ChapterB: ChapterB][] {
         return chaptersA
             .map((chapterA) => {
                 const matchingChapter = chaptersB.find((chapterB) => chapterA.chapterNumber === chapterB.chapterNumber);
@@ -186,7 +188,7 @@ export class Chapters {
 
                 return [chapterA, matchingChapter];
             })
-            .filter((matchingChapters): matchingChapters is [Chapter, Chapter] => matchingChapters !== null);
+            .filter((matchingChapters): matchingChapters is [ChapterA, ChapterB] => matchingChapters !== null);
     }
 
     static async download(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {
@@ -354,9 +356,9 @@ export class Chapters {
     ): T[] {
         const chapterNumberToChapters = Object.groupBy(allChapters, ({ chapterNumber }) => chapterNumber);
 
-        return uniqueChapters
-            .map((uniqueChapter) => chapterNumberToChapters[uniqueChapter.chapterNumber] ?? [uniqueChapter])
-            .flat();
+        return uniqueChapters.flatMap(
+            (uniqueChapter) => chapterNumberToChapters[uniqueChapter.chapterNumber] ?? [uniqueChapter],
+        );
     }
 
     static removeDuplicates<T extends ChapterIdInfo & ChapterScanlatorInfo & ChapterNumberInfo>(

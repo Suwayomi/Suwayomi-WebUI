@@ -8,8 +8,9 @@
 
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import { IReaderSettings, ReaderExitMode } from '@/features/reader/Reader.types.ts';
-import { ValueToDisplayData } from '@/base/Base.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import { ReaderExitMode } from '@/features/reader/Reader.types.ts';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReaderExitMode> = {

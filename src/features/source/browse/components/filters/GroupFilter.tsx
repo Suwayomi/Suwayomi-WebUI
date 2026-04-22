@@ -14,15 +14,15 @@ import ListItemText from '@mui/material/ListItemText';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import React from 'react';
-// eslint-disable-next-line import/no-cycle
+
 import { Options } from '@/features/source/browse/components/SourceOptions.tsx';
-import { SourceFilters } from '@/features/source/Source.types.ts';
+import type { IPos, SourceFilters } from '@/features/source/Source.types.ts';
 
 interface Props {
     state: ExtractByKeyValue<SourceFilters, '__typename', 'GroupFilter'>['filters'];
     name: string;
     position: number;
-    updateFilterValue: Function;
+    updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 

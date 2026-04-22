@@ -6,15 +6,12 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Direction, useTheme } from '@mui/material/styles';
+import type { Direction } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { Fragment, memo, useMemo } from 'react';
 import { BasePager } from '@/features/reader/viewer/pager/components/BasePager.tsx';
-import {
-    IReaderSettings,
-    ReaderPagerProps,
-    ReaderPageScaleMode,
-    ReadingDirection,
-} from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, ReaderPagerProps } from '@/features/reader/Reader.types.ts';
+import { ReaderPageScaleMode, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { createReaderPage } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { getIndexOfPage, getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';

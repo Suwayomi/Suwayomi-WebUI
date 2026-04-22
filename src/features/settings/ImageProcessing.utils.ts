@@ -7,11 +7,11 @@
  */
 
 import { d } from 'koration';
-import {
-    ImageProcessingTargetMode,
+import type {
     TSettingsDownloadConversion,
     TSettingsDownloadConversionKeyValueItem,
 } from '@/features/settings/Settings.types.ts';
+import { ImageProcessingTargetMode } from '@/features/settings/Settings.types.ts';
 import {
     DEFAULT_MIME_TYPE,
     IMAGE_PROCESSING_CALL_TIMEOUT,
@@ -20,7 +20,7 @@ import {
     MIME_TYPE_PREFIX,
     TARGET_DISABLED,
 } from '@/features/settings/Settings.constants.ts';
-import {
+import type {
     Maybe,
     SettingsDownloadConversion,
     SettingsDownloadConversionHeader,
@@ -123,7 +123,7 @@ export const addStableIdToKeyValueItems = (
     items: (SettingsDownloadConversionHeader | TSettingsDownloadConversionKeyValueItem)[],
 ): TSettingsDownloadConversionKeyValueItem[] =>
     items.map((item) => ({
-        // eslint-disable-next-line no-plusplus
+        // oxlint-disable-next-line no-plusplus
         id: (item as TSettingsDownloadConversionKeyValueItem).id ?? COUNTER++,
         ...item,
     }));
@@ -132,7 +132,7 @@ export const addStableIdToConversions = (
     conversions: (SettingsDownloadConversion | TSettingsDownloadConversion)[],
 ): TSettingsDownloadConversion[] =>
     conversions.map((conversion) => ({
-        // eslint-disable-next-line no-plusplus
+        // oxlint-disable-next-line no-plusplus
         id: (conversion as TSettingsDownloadConversion).id ?? COUNTER++,
         ...conversion,
         mode: getTargetMode(normalizeMimeType(conversion.target)),

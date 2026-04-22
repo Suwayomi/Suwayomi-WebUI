@@ -17,9 +17,9 @@ const PAGES_TO_IGNORE: readonly RegExp[] = [READER_REGEX];
 export const useBackButton = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const history = useAppPageHistoryContext();
+    const { history, onBack } = useAppPageHistoryContext();
 
-    return useCallback(() => {
+    return useCallback(async () => {
         const getDelta = (historyToCheck: string[] = history, delta: number = 0) => {
             const isHistoryEmpty = !historyToCheck.length;
             if (isHistoryEmpty) {
@@ -32,7 +32,7 @@ export const useBackButton = () => {
                 return 0;
             }
 
-            const previousPage = historyToCheck.slice(-2)[0];
+            const [previousPage] = historyToCheck.slice(-2);
 
             const isPreviousPageCurrentPage = previousPage === location.pathname;
             const ignorePreviousPage = PAGES_TO_IGNORE.some((page) => !!previousPage.match(page));
@@ -45,6 +45,11 @@ export const useBackButton = () => {
             return getDelta(historyToCheck.slice(0, -1), delta - 1);
         };
 
+        const isAllowedToGoBack = await onBack();
+        if (!isAllowedToGoBack) {
+            return;
+        }
+
         const backDelta = getDelta();
 
         const canNavigateBack = backDelta < 0;
@@ -54,5 +59,5 @@ export const useBackButton = () => {
         }
 
         navigate(backDelta);
-    }, [history, location.pathname]);
+    }, [history, onBack, location.pathname]);
 };

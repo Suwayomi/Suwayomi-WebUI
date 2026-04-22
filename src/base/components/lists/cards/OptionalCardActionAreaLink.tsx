@@ -8,7 +8,7 @@
 
 import { Link } from 'react-router-dom';
 import CardActionArea from '@mui/material/CardActionArea';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 export const OptionalCardActionAreaLink = ({
     disabled,

@@ -7,7 +7,7 @@
  */
 
 import { findDuplicatesByTitle } from '@/features/library/util/LibraryDuplicates.util.ts';
-import {
+import type {
     LibraryDuplicatesDescriptionWorkerInput,
     LibraryDuplicatesWorkerInput,
     TMangaDuplicate,
@@ -20,7 +20,6 @@ import { enhancedCleanup } from '@/base/utils/Strings.ts';
 const queue = new Queue((navigator.hardwareConcurrency ?? 5) - 1);
 const MANGAS_PER_CHUNK = 200;
 
-// eslint-disable-next-line no-restricted-globals
 self.onmessage = async (event: MessageEvent<LibraryDuplicatesWorkerInput>) => {
     const { mangas, checkAlternativeTitles } = event.data;
 

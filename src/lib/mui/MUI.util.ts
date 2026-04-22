@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { BaseSyntheticEvent } from 'react';
+import type { BaseSyntheticEvent } from 'react';
+import React from 'react';
 import { chainEventHandlers } from 'material-ui-popup-state/chainEventHandlers';
 
 export class MUIUtil {

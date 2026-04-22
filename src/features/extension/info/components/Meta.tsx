@@ -8,7 +8,7 @@
 
 import Stack from '@mui/material/Stack';
 import { useLingui } from '@lingui/react/macro';
-import { TExtension } from '@/features/extension/Extensions.types.ts';
+import type { TExtension } from '@/features/extension/Extensions.types.ts';
 import { ExtensionMetadata } from '@/features/extension/info/components/ExtensionMetadata.tsx';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 

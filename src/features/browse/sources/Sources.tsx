@@ -30,6 +30,7 @@ import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { StyledGroupHeader } from '@/base/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { SourceLanguageSelect } from '@/features/source/components/SourceLanguageSelect.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useLingui();
@@ -45,10 +46,10 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         error,
         refetch,
     } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
-    const sources = data?.sources.nodes;
+    const sources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
     const filteredSources = useMemo(
         () =>
-            SourceService.filter(sources ?? [], {
+            SourceService.filter(sources, {
                 isNsfw: showNsfw ? undefined : true,
                 languages: shownLangs,
                 keepLocalSource: true,
@@ -58,7 +59,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     );
     const sourcesForLanguageFilter = useMemo(
         () =>
-            SourceService.filter(sources ?? [], {
+            SourceService.filter(sources, {
                 isNsfw: showNsfw ? undefined : true,
                 removeLocalSource: true,
             }),
@@ -89,7 +90,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         [filteredSources],
     );
     const visibleSources = useMemo(
-        () => sourcesByLanguage.map(([, sourcesOfLanguage]) => sourcesOfLanguage).flat(1),
+        () => sourcesByLanguage.flatMap(([, sourcesOfLanguage]) => sourcesOfLanguage),
         [sourcesByLanguage],
     );
 
@@ -125,7 +126,9 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         [t, shownLangs, sourceLanguages, sourcesForLanguageFilter],
     );
 
-    if (isLoading) return <LoadingPlaceholder />;
+    if (isLoading) {
+        return <LoadingPlaceholder />;
+    }
 
     if (error) {
         return (
@@ -160,7 +163,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 );
             }}
             itemContent={(index, groupIndex) => {
-                const language = sourcesByLanguage[groupIndex][0];
+                const [language] = sourcesByLanguage[groupIndex];
                 const source = visibleSources[index];
 
                 return (

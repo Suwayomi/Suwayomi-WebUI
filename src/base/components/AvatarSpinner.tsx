@@ -6,8 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Avatar, { AvatarProps } from '@mui/material/Avatar';
-import { SpinnerImage, SpinnerImageProps } from '@/base/components/SpinnerImage.tsx';
+import type { AvatarProps } from '@mui/material/Avatar';
+import Avatar from '@mui/material/Avatar';
+import type { SpinnerImageProps } from '@/base/components/SpinnerImage.tsx';
+import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
 
 export const AvatarSpinner = ({
     iconUrl,

@@ -391,6 +391,24 @@ export type DeleteCategoryMetaPayload = {
   meta?: Maybe<CategoryMetaType>;
 };
 
+export type DeleteCategoryMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<DeleteCategoryMetasItemInput>;
+};
+
+export type DeleteCategoryMetasItemInput = {
+  categoryIds: Array<Scalars['Int']['input']>;
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type DeleteCategoryMetasPayload = {
+  __typename?: 'DeleteCategoryMetasPayload';
+  categories: Array<CategoryType>;
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<CategoryMetaType>;
+};
+
 export type DeleteCategoryPayload = {
   __typename?: 'DeleteCategoryPayload';
   category?: Maybe<CategoryType>;
@@ -409,6 +427,24 @@ export type DeleteChapterMetaPayload = {
   chapter: ChapterType;
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta?: Maybe<ChapterMetaType>;
+};
+
+export type DeleteChapterMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<DeleteChapterMetasItemInput>;
+};
+
+export type DeleteChapterMetasItemInput = {
+  chapterIds: Array<Scalars['Int']['input']>;
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type DeleteChapterMetasPayload = {
+  __typename?: 'DeleteChapterMetasPayload';
+  chapters: Array<ChapterType>;
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<ChapterMetaType>;
 };
 
 export type DeleteDownloadedChapterInput = {
@@ -444,6 +480,18 @@ export type DeleteGlobalMetaPayload = {
   meta?: Maybe<GlobalMetaType>;
 };
 
+export type DeleteGlobalMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type DeleteGlobalMetasPayload = {
+  __typename?: 'DeleteGlobalMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<GlobalMetaType>;
+};
+
 export type DeleteMangaMetaInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   key: Scalars['String']['input'];
@@ -457,6 +505,24 @@ export type DeleteMangaMetaPayload = {
   meta?: Maybe<MangaMetaType>;
 };
 
+export type DeleteMangaMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<DeleteMangaMetasItemInput>;
+};
+
+export type DeleteMangaMetasItemInput = {
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  mangaIds: Array<Scalars['Int']['input']>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type DeleteMangaMetasPayload = {
+  __typename?: 'DeleteMangaMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  mangas: Array<MangaType>;
+  metas: Array<MangaMetaType>;
+};
+
 export type DeleteSourceMetaInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   key: Scalars['String']['input'];
@@ -468,6 +534,24 @@ export type DeleteSourceMetaPayload = {
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta?: Maybe<SourceMetaType>;
   source?: Maybe<SourceType>;
+};
+
+export type DeleteSourceMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<DeleteSourceMetasItemInput>;
+};
+
+export type DeleteSourceMetasItemInput = {
+  keys?: InputMaybe<Array<Scalars['String']['input']>>;
+  prefixes?: InputMaybe<Array<Scalars['String']['input']>>;
+  sourceIds: Array<Scalars['LongString']['input']>;
+};
+
+export type DeleteSourceMetasPayload = {
+  __typename?: 'DeleteSourceMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<SourceMetaType>;
+  sources: Array<SourceType>;
 };
 
 export type DequeueChapterDownloadInput = {
@@ -1185,6 +1269,11 @@ export type MetaFilterInput = {
   value?: InputMaybe<StringFilterInput>;
 };
 
+export type MetaInput = {
+  key: Scalars['String']['input'];
+  value: Scalars['String']['input'];
+};
+
 export enum MetaOrderBy {
   Key = 'KEY',
   Value = 'VALUE'
@@ -1225,12 +1314,17 @@ export type Mutation = {
   createCategory?: Maybe<CreateCategoryPayload>;
   deleteCategory?: Maybe<DeleteCategoryPayload>;
   deleteCategoryMeta?: Maybe<DeleteCategoryMetaPayload>;
+  deleteCategoryMetas?: Maybe<DeleteCategoryMetasPayload>;
   deleteChapterMeta?: Maybe<DeleteChapterMetaPayload>;
+  deleteChapterMetas?: Maybe<DeleteChapterMetasPayload>;
   deleteDownloadedChapter?: Maybe<DeleteDownloadedChapterPayload>;
   deleteDownloadedChapters?: Maybe<DeleteDownloadedChaptersPayload>;
   deleteGlobalMeta?: Maybe<DeleteGlobalMetaPayload>;
+  deleteGlobalMetas?: Maybe<DeleteGlobalMetasPayload>;
   deleteMangaMeta?: Maybe<DeleteMangaMetaPayload>;
+  deleteMangaMetas?: Maybe<DeleteMangaMetasPayload>;
   deleteSourceMeta?: Maybe<DeleteSourceMetaPayload>;
+  deleteSourceMetas?: Maybe<DeleteSourceMetasPayload>;
   dequeueChapterDownload?: Maybe<DequeueChapterDownloadPayload>;
   dequeueChapterDownloads?: Maybe<DequeueChapterDownloadsPayload>;
   enqueueChapterDownload?: Maybe<EnqueueChapterDownloadPayload>;
@@ -1255,11 +1349,16 @@ export type Mutation = {
   resetWebUIUpdateStatus?: Maybe<WebUiUpdateStatus>;
   restoreBackup: RestoreBackupPayload;
   setCategoryMeta?: Maybe<SetCategoryMetaPayload>;
+  setCategoryMetas?: Maybe<SetCategoryMetasPayload>;
   setChapterMeta?: Maybe<SetChapterMetaPayload>;
+  setChapterMetas?: Maybe<SetChapterMetasPayload>;
   setGlobalMeta?: Maybe<SetGlobalMetaPayload>;
+  setGlobalMetas?: Maybe<SetGlobalMetasPayload>;
   setMangaMeta?: Maybe<SetMangaMetaPayload>;
+  setMangaMetas?: Maybe<SetMangaMetasPayload>;
   setSettings: SetSettingsPayload;
   setSourceMeta?: Maybe<SetSourceMetaPayload>;
+  setSourceMetas?: Maybe<SetSourceMetasPayload>;
   startDownloader?: Maybe<StartDownloaderPayload>;
   stopDownloader?: Maybe<StopDownloaderPayload>;
   trackProgress?: Maybe<TrackProgressPayload>;
@@ -1325,8 +1424,18 @@ export type MutationDeleteCategoryMetaArgs = {
 };
 
 
+export type MutationDeleteCategoryMetasArgs = {
+  input: DeleteCategoryMetasInput;
+};
+
+
 export type MutationDeleteChapterMetaArgs = {
   input: DeleteChapterMetaInput;
+};
+
+
+export type MutationDeleteChapterMetasArgs = {
+  input: DeleteChapterMetasInput;
 };
 
 
@@ -1345,13 +1454,28 @@ export type MutationDeleteGlobalMetaArgs = {
 };
 
 
+export type MutationDeleteGlobalMetasArgs = {
+  input: DeleteGlobalMetasInput;
+};
+
+
 export type MutationDeleteMangaMetaArgs = {
   input: DeleteMangaMetaInput;
 };
 
 
+export type MutationDeleteMangaMetasArgs = {
+  input: DeleteMangaMetasInput;
+};
+
+
 export type MutationDeleteSourceMetaArgs = {
   input: DeleteSourceMetaInput;
+};
+
+
+export type MutationDeleteSourceMetasArgs = {
+  input: DeleteSourceMetasInput;
 };
 
 
@@ -1470,8 +1594,18 @@ export type MutationSetCategoryMetaArgs = {
 };
 
 
+export type MutationSetCategoryMetasArgs = {
+  input: SetCategoryMetasInput;
+};
+
+
 export type MutationSetChapterMetaArgs = {
   input: SetChapterMetaInput;
+};
+
+
+export type MutationSetChapterMetasArgs = {
+  input: SetChapterMetasInput;
 };
 
 
@@ -1480,8 +1614,18 @@ export type MutationSetGlobalMetaArgs = {
 };
 
 
+export type MutationSetGlobalMetasArgs = {
+  input: SetGlobalMetasInput;
+};
+
+
 export type MutationSetMangaMetaArgs = {
   input: SetMangaMetaInput;
+};
+
+
+export type MutationSetMangaMetasArgs = {
+  input: SetMangaMetasInput;
 };
 
 
@@ -1492,6 +1636,11 @@ export type MutationSetSettingsArgs = {
 
 export type MutationSetSourceMetaArgs = {
   input: SetSourceMetaInput;
+};
+
+
+export type MutationSetSourceMetasArgs = {
+  input: SetSourceMetasInput;
 };
 
 
@@ -2122,6 +2271,23 @@ export type SetCategoryMetaPayload = {
   meta: CategoryMetaType;
 };
 
+export type SetCategoryMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<SetCategoryMetasItemInput>;
+};
+
+export type SetCategoryMetasItemInput = {
+  categoryIds: Array<Scalars['Int']['input']>;
+  metas: Array<MetaInput>;
+};
+
+export type SetCategoryMetasPayload = {
+  __typename?: 'SetCategoryMetasPayload';
+  categories: Array<CategoryType>;
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<CategoryMetaType>;
+};
+
 export type SetChapterMetaInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   meta: ChapterMetaTypeInput;
@@ -2131,6 +2297,23 @@ export type SetChapterMetaPayload = {
   __typename?: 'SetChapterMetaPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta: ChapterMetaType;
+};
+
+export type SetChapterMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<SetChapterMetasItemInput>;
+};
+
+export type SetChapterMetasItemInput = {
+  chapterIds: Array<Scalars['Int']['input']>;
+  metas: Array<MetaInput>;
+};
+
+export type SetChapterMetasPayload = {
+  __typename?: 'SetChapterMetasPayload';
+  chapters: Array<ChapterType>;
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<ChapterMetaType>;
 };
 
 export type SetGlobalMetaInput = {
@@ -2144,6 +2327,17 @@ export type SetGlobalMetaPayload = {
   meta: GlobalMetaType;
 };
 
+export type SetGlobalMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  metas: Array<MetaInput>;
+};
+
+export type SetGlobalMetasPayload = {
+  __typename?: 'SetGlobalMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<GlobalMetaType>;
+};
+
 export type SetMangaMetaInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   meta: MangaMetaTypeInput;
@@ -2153,6 +2347,23 @@ export type SetMangaMetaPayload = {
   __typename?: 'SetMangaMetaPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta: MangaMetaType;
+};
+
+export type SetMangaMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<SetMangaMetasItemInput>;
+};
+
+export type SetMangaMetasItemInput = {
+  mangaIds: Array<Scalars['Int']['input']>;
+  metas: Array<MetaInput>;
+};
+
+export type SetMangaMetasPayload = {
+  __typename?: 'SetMangaMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  mangas: Array<MangaType>;
+  metas: Array<MangaMetaType>;
 };
 
 export type SetSettingsInput = {
@@ -2175,6 +2386,23 @@ export type SetSourceMetaPayload = {
   __typename?: 'SetSourceMetaPayload';
   clientMutationId?: Maybe<Scalars['String']['output']>;
   meta: SourceMetaType;
+};
+
+export type SetSourceMetasInput = {
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  items: Array<SetSourceMetasItemInput>;
+};
+
+export type SetSourceMetasItemInput = {
+  metas: Array<MetaInput>;
+  sourceIds: Array<Scalars['LongString']['input']>;
+};
+
+export type SetSourceMetasPayload = {
+  __typename?: 'SetSourceMetasPayload';
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  metas: Array<SourceMetaType>;
+  sources: Array<SourceType>;
 };
 
 export type Settings = {
@@ -3281,20 +3509,6 @@ export type DeleteCategoryMutationVariables = Exact<{
 
 export type DeleteCategoryMutation = { __typename?: 'Mutation', deleteCategory?: { __typename?: 'DeleteCategoryPayload', category?: { __typename?: 'CategoryType', id: number } | null } | null };
 
-export type DeleteCategoryMetadataMutationVariables = Exact<{
-  input: DeleteCategoryMetaInput;
-}>;
-
-
-export type DeleteCategoryMetadataMutation = { __typename?: 'Mutation', deleteCategoryMeta?: { __typename?: 'DeleteCategoryMetaPayload', meta?: { __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string } | null } | null };
-
-export type SetCategoryMetadataMutationVariables = Exact<{
-  input: SetCategoryMetaInput;
-}>;
-
-
-export type SetCategoryMetadataMutation = { __typename?: 'Mutation', setCategoryMeta?: { __typename?: 'SetCategoryMetaPayload', meta: { __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string } } | null };
-
 export type UpdateCategoryMutationVariables = Exact<{
   input: UpdateCategoryInput;
   getDefault: Scalars['Boolean']['input'];
@@ -3323,6 +3537,20 @@ export type UpdateCategoryOrderMutationVariables = Exact<{
 
 
 export type UpdateCategoryOrderMutation = { __typename?: 'Mutation', updateCategoryOrder?: { __typename?: 'UpdateCategoryOrderPayload', categories: Array<{ __typename?: 'CategoryType', id: number, order: number }> } | null };
+
+export type UpdateCategoryMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteCategoryMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
+  updateInput: SetCategoryMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteCategoryMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetCategoryMetasInput;
+  isMigration: Scalars['Boolean']['input'];
+}>;
+
+
+export type UpdateCategoryMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetCategoryMetasPayload', metas: Array<{ __typename?: 'CategoryMetaType', categoryId: number, key: string, value: string }> } | null };
 
 export type GetCategoriesBaseQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3387,13 +3615,6 @@ export type ChapterUpdateListFieldsFragment = { __typename?: 'ChapterType', fetc
 
 export type ChapterHistoryListFieldsFragment = { __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string } };
 
-export type DeleteChapterMetadataMutationVariables = Exact<{
-  input: DeleteChapterMetaInput;
-}>;
-
-
-export type DeleteChapterMetadataMutation = { __typename?: 'Mutation', deleteChapterMeta?: { __typename?: 'DeleteChapterMetaPayload', meta?: { __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string } | null } | null };
-
 export type GetChapterPagesFetchMutationVariables = Exact<{
   input: FetchChapterPagesInput;
 }>;
@@ -3407,13 +3628,6 @@ export type GetMangaChaptersFetchMutationVariables = Exact<{
 
 
 export type GetMangaChaptersFetchMutation = { __typename?: 'Mutation', fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', fetchedAt: string, uploadDate: string, lastReadAt: string, id: number, name: string, mangaId: number, scanlator?: string | null, realUrl?: string | null, sourceOrder: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename?: 'ChapterNodeList', totalCount: number }, firstUnreadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, isRead: boolean, mangaId: number, chapterNumber: number, name: string, scanlator?: string | null } | null, lastReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number, sourceOrder: number, lastReadAt: string } | null, latestFetchedChapter?: { __typename?: 'ChapterType', id: number, fetchedAt: string } | null, latestUploadedChapter?: { __typename?: 'ChapterType', id: number, uploadDate: string } | null } }> } | null };
-
-export type SetChapterMetadataMutationVariables = Exact<{
-  input: SetChapterMetaInput;
-}>;
-
-
-export type SetChapterMetadataMutation = { __typename?: 'Mutation', setChapterMeta?: { __typename?: 'SetChapterMetaPayload', meta: { __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string } } | null };
 
 export type UpdateChapterMutationVariables = Exact<{
   input: UpdateChapterInput;
@@ -3442,6 +3656,20 @@ export type UpdateChaptersMutationVariables = Exact<{
 
 
 export type UpdateChaptersMutation = { __typename?: 'Mutation', updateChapters?: { __typename?: 'UpdateChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, isBookmarked?: boolean, isRead?: boolean, lastReadAt?: string, lastPageRead?: number, manga?: { __typename?: 'MangaType', id: number, unreadCount: number, bookmarkCount: number, lastReadChapter?: { __typename?: 'ChapterType', id: number } | null, latestReadChapter?: { __typename?: 'ChapterType', id: number } | null, firstUnreadChapter?: { __typename?: 'ChapterType', id: number } | null } }> } | null, deleteDownloadedChapters?: { __typename?: 'DeleteDownloadedChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, isDownloaded: boolean, manga: { __typename?: 'MangaType', id: number, downloadCount: number } }> } | null, trackProgress?: { __typename?: 'TrackProgressPayload', trackRecords: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, remoteUrl: string, title: string, status: number, lastChapterRead: number, totalChapters: number, score: number, displayScore: string, startDate: string, finishDate: string, private: boolean }> } | null };
+
+export type UpdateChapterMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteChapterMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
+  updateInput: SetChapterMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteChapterMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetChapterMetasInput;
+  isMigration: Scalars['Boolean']['input'];
+}>;
+
+
+export type UpdateChapterMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetChapterMetasPayload', metas: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> } | null };
 
 export type GetChaptersReaderQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3696,13 +3924,6 @@ export type MangaScreenFieldsFragment = { __typename?: 'MangaType', artist?: str
 
 export type MangaLibraryDuplicateScreenFieldsFragment = { __typename?: 'MangaType', description?: string | null, id: number, title: string, thumbnailUrl?: string | null, thumbnailUrlLastFetched?: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename?: 'ChapterNodeList', totalCount: number } };
 
-export type DeleteMangaMetadataMutationVariables = Exact<{
-  input: DeleteMangaMetaInput;
-}>;
-
-
-export type DeleteMangaMetadataMutation = { __typename?: 'Mutation', deleteMangaMeta?: { __typename?: 'DeleteMangaMetaPayload', meta?: { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string } | null } | null };
-
 export type GetMangaFetchMutationVariables = Exact<{
   input: FetchMangaInput;
 }>;
@@ -3719,13 +3940,6 @@ export type GetMangaToMigrateToFetchMutationVariables = Exact<{
 
 
 export type GetMangaToMigrateToFetchMutation = { __typename?: 'Mutation', fetchManga?: { __typename?: 'FetchMangaPayload', manga: { __typename?: 'MangaType', id: number, title: string, inLibrary: boolean, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number }> } } } | null, fetchChapters?: { __typename?: 'FetchChaptersPayload', chapters: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> } | null };
-
-export type SetMangaMetadataMutationVariables = Exact<{
-  input: SetMangaMetaInput;
-}>;
-
-
-export type SetMangaMetadataMutation = { __typename?: 'Mutation', setMangaMeta?: { __typename?: 'SetMangaMetaPayload', meta: { __typename?: 'MangaMetaType', mangaId: number, key: string, value: string } } | null };
 
 export type UpdateMangaMutationVariables = Exact<{
   input: UpdateMangaInput;
@@ -3758,6 +3972,20 @@ export type UpdateMangasCategoriesMutationVariables = Exact<{
 
 
 export type UpdateMangasCategoriesMutation = { __typename?: 'Mutation', updateMangasCategories?: { __typename?: 'UpdateMangasCategoriesPayload', mangas: Array<{ __typename?: 'MangaType', id: number, categories: { __typename?: 'CategoryNodeList', totalCount: number, nodes: Array<{ __typename?: 'CategoryType', id: number, mangas: { __typename?: 'MangaNodeList', totalCount: number } }> } }> } | null };
+
+export type UpdateMangaMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteMangaMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
+  updateInput: SetMangaMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteMangaMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetMangaMetasInput;
+  isMigration: Scalars['Boolean']['input'];
+}>;
+
+
+export type UpdateMangaMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetMangaMetasPayload', metas: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } | null };
 
 export type GetMangaScreenQueryVariables = Exact<{
   id: Scalars['Int']['input'];
@@ -3792,10 +4020,11 @@ export type GetMangaToMigrateQueryVariables = Exact<{
   getChapterData: Scalars['Boolean']['input'];
   migrateCategories: Scalars['Boolean']['input'];
   migrateTracking: Scalars['Boolean']['input'];
+  migrateMetadata: Scalars['Boolean']['input'];
 }>;
 
 
-export type GetMangaToMigrateQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, title: string, chapters?: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number } }> }, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, private: boolean }> } } };
+export type GetMangaToMigrateQuery = { __typename?: 'Query', manga: { __typename?: 'MangaType', id: number, inLibrary: boolean, title: string, chapters?: { __typename?: 'ChapterNodeList', totalCount: number, nodes: Array<{ __typename?: 'ChapterType', id: number, chapterNumber: number, isRead: boolean, isDownloaded: boolean, isBookmarked: boolean, manga: { __typename?: 'MangaType', id: number }, meta?: Array<{ __typename?: 'ChapterMetaType', chapterId: number, key: string, value: string }> }> }, categories?: { __typename?: 'CategoryNodeList', nodes: Array<{ __typename?: 'CategoryType', id: number }> }, trackRecords?: { __typename?: 'TrackRecordNodeList', nodes: Array<{ __typename?: 'TrackRecordType', id: number, remoteId: string, trackerId: number, private: boolean }> }, meta?: Array<{ __typename?: 'MangaMetaType', mangaId: number, key: string, value: string }> } };
 
 export type GetMangasBaseQueryVariables = Exact<{
   after?: InputMaybe<Scalars['Cursor']['input']>;
@@ -3851,19 +4080,19 @@ export type GetLibraryMangaCountQueryVariables = Exact<{ [key: string]: never; }
 
 export type GetLibraryMangaCountQuery = { __typename?: 'Query', mangas: { __typename?: 'MangaNodeList', totalCount: number } };
 
-export type DeleteGlobalMetadataMutationVariables = Exact<{
-  input: DeleteGlobalMetaInput;
+export type UpdateGlobalMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteGlobalMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
+  updateInput: SetGlobalMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteGlobalMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetGlobalMetasInput;
+  isMigration: Scalars['Boolean']['input'];
 }>;
 
 
-export type DeleteGlobalMetadataMutation = { __typename?: 'Mutation', deleteGlobalMeta?: { __typename?: 'DeleteGlobalMetaPayload', meta?: { __typename?: 'GlobalMetaType', key: string, value: string } | null } | null };
-
-export type SetGlobalMetadataMutationVariables = Exact<{
-  input: SetGlobalMetaInput;
-}>;
-
-
-export type SetGlobalMetadataMutation = { __typename?: 'Mutation', setGlobalMeta?: { __typename?: 'SetGlobalMetaPayload', meta: { __typename?: 'GlobalMetaType', key: string, value: string } } | null };
+export type UpdateGlobalMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetGlobalMetasPayload', metas: Array<{ __typename?: 'GlobalMetaType', key: string, value: string }> } | null };
 
 export type GetGlobalMetadataQueryVariables = Exact<{
   key: Scalars['String']['input'];
@@ -3960,9 +4189,33 @@ export type SourceMigratableFieldsFragment = { __typename?: 'SourceType', lang: 
 
 export type SourceListFieldsFragment = { __typename?: 'SourceType', lang: string, iconUrl: string, isNsfw: boolean, isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, meta: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }>, extension: { __typename?: 'ExtensionType', pkgName: string, repo?: string | null } };
 
-export type SourceBrowseFieldsFragment = { __typename?: 'SourceType', baseUrl?: string | null, isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, lang: string, meta: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> };
+export type SourceBrowseFieldsFragment = { __typename?: 'SourceType', baseUrl?: string | null, isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, lang: string, meta: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }>, filters: Array<
+    | { __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean }
+    | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<
+        | { __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean }
+        | { __typename?: 'GroupFilter' }
+        | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' }
+        | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number }
+        | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' }
+        | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null }
+        | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string }
+        | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }
+      > }
+    | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' }
+    | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number }
+    | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' }
+    | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null }
+    | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string }
+    | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }
+  > };
 
-export type SourceSettingFieldsFragment = { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> };
+export type SourceSettingFieldsFragment = { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<
+    | { __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null }
+    | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null }
+    | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null }
+    | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null }
+    | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }
+  > };
 
 export type GetSourceMangasFetchMutationVariables = Exact<{
   input: FetchSourceMangaInput;
@@ -3976,35 +4229,65 @@ export type UpdateSourcePreferencesMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference?: { __typename?: 'UpdateSourcePreferencePayload', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } } | null };
+export type UpdateSourcePreferencesMutation = { __typename?: 'Mutation', updateSourcePreference?: { __typename?: 'UpdateSourcePreferencePayload', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<
+        | { __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null }
+        | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null }
+        | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null }
+        | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null }
+        | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }
+      > } } | null };
 
-export type SetSourceMetadataMutationVariables = Exact<{
-  input: SetSourceMetaInput;
+export type UpdateSourceMetadataMutationVariables = Exact<{
+  preUpdateDeleteInput: DeleteSourceMetasInput;
+  hasPreUpdateDeletions: Scalars['Boolean']['input'];
+  updateInput: SetSourceMetasInput;
+  hasUpdates: Scalars['Boolean']['input'];
+  postUpdateDeleteInput: DeleteSourceMetasInput;
+  hasPostUpdateDeletions: Scalars['Boolean']['input'];
+  migrateInput: SetSourceMetasInput;
+  isMigration: Scalars['Boolean']['input'];
 }>;
 
 
-export type SetSourceMetadataMutation = { __typename?: 'Mutation', setSourceMeta?: { __typename?: 'SetSourceMetaPayload', meta: { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string } } | null };
-
-export type DeleteSourceMetadataMutationVariables = Exact<{
-  input: DeleteSourceMetaInput;
-}>;
-
-
-export type DeleteSourceMetadataMutation = { __typename?: 'Mutation', deleteSourceMeta?: { __typename?: 'DeleteSourceMetaPayload', meta?: { __typename?: 'SourceMetaType', sourceId: string, key: string, value: string } | null } | null };
+export type UpdateSourceMetadataMutation = { __typename?: 'Mutation', preUpdateDeletedMeta?: { __typename?: 'DeleteSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, updatedMeta?: { __typename?: 'SetSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, postUpdateDeletedMeta?: { __typename?: 'DeleteSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null, migrationMeta?: { __typename?: 'SetSourceMetasPayload', metas: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }> } | null };
 
 export type GetSourceBrowseQueryVariables = Exact<{
   id: Scalars['LongString']['input'];
 }>;
 
 
-export type GetSourceBrowseQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', baseUrl?: string | null, isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, lang: string, meta: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }>, filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<{ __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean } | { __typename?: 'GroupFilter' } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' } | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number } | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' } | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null } | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string } | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }> } };
+export type GetSourceBrowseQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', baseUrl?: string | null, isConfigurable: boolean, supportsLatest: boolean, id: string, name: string, displayName: string, lang: string, meta: Array<{ __typename?: 'SourceMetaType', sourceId: string, key: string, value: string }>, filters: Array<
+      | { __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean }
+      | { __typename?: 'GroupFilter', name: string, type: 'GroupFilter', filters: Array<
+          | { __typename?: 'CheckBoxFilter', name: string, type: 'CheckBoxFilter', CheckBoxFilterDefault: boolean }
+          | { __typename?: 'GroupFilter' }
+          | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' }
+          | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number }
+          | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' }
+          | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null }
+          | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string }
+          | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }
+        > }
+      | { __typename?: 'HeaderFilter', name: string, type: 'HeaderFilter' }
+      | { __typename?: 'SelectFilter', name: string, values: Array<string>, type: 'SelectFilter', SelectFilterDefault: number }
+      | { __typename?: 'SeparatorFilter', name: string, type: 'SeparatorFilter' }
+      | { __typename?: 'SortFilter', name: string, values: Array<string>, type: 'SortFilter', SortFilterDefault?: { __typename?: 'SortSelection', ascending: boolean, index: number } | null }
+      | { __typename?: 'TextFilter', name: string, type: 'TextFilter', TextFilterDefault: string }
+      | { __typename?: 'TriStateFilter', name: string, type: 'TriStateFilter', TriStateFilterDefault: TriState }
+    > } };
 
 export type GetSourceSettingsQueryVariables = Exact<{
   id: Scalars['LongString']['input'];
 }>;
 
 
-export type GetSourceSettingsQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<{ __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null } | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null } | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null } | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null } | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }> } };
+export type GetSourceSettingsQuery = { __typename?: 'Query', source: { __typename?: 'SourceType', id: string, name: string, displayName: string, lang: string, preferences: Array<
+      | { __typename?: 'CheckBoxPreference', summary?: string | null, key?: string | null, type: 'CheckBoxPreference', CheckBoxCheckBoxCurrentValue?: boolean | null, CheckBoxDefault: boolean, CheckBoxTitle?: string | null }
+      | { __typename?: 'EditTextPreference', text?: string | null, summary?: string | null, key?: string | null, dialogTitle?: string | null, dialogMessage?: string | null, type: 'EditTextPreference', EditTextPreferenceCurrentValue?: string | null, EditTextPreferenceDefault?: string | null, EditTextPreferenceTitle?: string | null }
+      | { __typename?: 'ListPreference', summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'ListPreference', ListPreferenceCurrentValue?: string | null, ListPreferenceDefault?: string | null, ListPreferenceTitle?: string | null }
+      | { __typename?: 'MultiSelectListPreference', dialogMessage?: string | null, dialogTitle?: string | null, summary?: string | null, key?: string | null, entryValues: Array<string>, entries: Array<string>, type: 'MultiSelectListPreference', MultiSelectListPreferenceTitle?: string | null, MultiSelectListPreferenceDefault?: Array<string> | null, MultiSelectListPreferenceCurrentValue?: Array<string> | null }
+      | { __typename?: 'SwitchPreference', summary?: string | null, key?: string | null, type: 'SwitchPreference', SwitchPreferenceCurrentValue?: boolean | null, SwitchPreferenceDefault: boolean, SwitchPreferenceTitle?: string | null }
+    > } };
 
 export type GetSourceMigratableQueryVariables = Exact<{
   id: Scalars['LongString']['input'];

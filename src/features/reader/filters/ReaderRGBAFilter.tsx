@@ -8,7 +8,7 @@
 
 import Box from '@mui/material/Box';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 

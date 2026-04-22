@@ -8,12 +8,12 @@
 
 import { useLingui } from '@lingui/react/macro';
 import { ValueRotationButton } from '@/base/components/buttons/ValueRotationButton.tsx';
-import { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
 import {
     READING_MODE_VALUE_TO_DISPLAY_DATA,
     READING_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
 
 export const ReaderNavBarDesktopReadingMode = ({
     readingMode,

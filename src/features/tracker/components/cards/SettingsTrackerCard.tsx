@@ -16,7 +16,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
-import { TTrackerSearch } from '@/features/tracker/Tracker.types.ts';
+import type { TTrackerSearch } from '@/features/tracker/Tracker.types.ts';
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 import { CredentialsLogin } from '@/base/components/modals/LoginDialog.tsx';
 

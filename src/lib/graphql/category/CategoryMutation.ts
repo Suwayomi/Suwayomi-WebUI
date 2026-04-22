@@ -30,30 +30,6 @@ export const DELETE_CATEGORY = gql`
     }
 `;
 
-export const DELETE_CATEGORY_METADATA = gql`
-    ${CATEGORY_META_FIELDS}
-
-    mutation DELETE_CATEGORY_METADATA($input: DeleteCategoryMetaInput!) {
-        deleteCategoryMeta(input: $input) {
-            meta {
-                ...CATEGORY_META_FIELDS
-            }
-        }
-    }
-`;
-
-export const SET_CATEGORY_METADATA = gql`
-    ${CATEGORY_META_FIELDS}
-
-    mutation SET_CATEGORY_METADATA($input: SetCategoryMetaInput!) {
-        setCategoryMeta(input: $input) {
-            meta {
-                ...CATEGORY_META_FIELDS
-            }
-        }
-    }
-`;
-
 export const UPDATE_CATEGORY = gql`
     mutation UPDATE_CATEGORY(
         $input: UpdateCategoryInput!
@@ -100,6 +76,43 @@ export const UPDATE_CATEGORY_ORDER = gql`
             categories {
                 id
                 order
+            }
+        }
+    }
+`;
+
+export const UPDATE_CATEGORY_METADATA = gql`
+    ${CATEGORY_META_FIELDS}
+
+    mutation UPDATE_CATEGORY_METADATA(
+        $preUpdateDeleteInput: DeleteCategoryMetasInput!
+        $hasPreUpdateDeletions: Boolean!
+        $updateInput: SetCategoryMetasInput!
+        $hasUpdates: Boolean!
+        $postUpdateDeleteInput: DeleteCategoryMetasInput!
+        $hasPostUpdateDeletions: Boolean!
+        $migrateInput: SetCategoryMetasInput!
+        $isMigration: Boolean!
+    ) {
+        preUpdateDeletedMeta: deleteCategoryMetas(input: $preUpdateDeleteInput) @include(if: $hasPreUpdateDeletions) {
+            metas {
+                ...CATEGORY_META_FIELDS
+            }
+        }
+        updatedMeta: setCategoryMetas(input: $updateInput) @include(if: $hasUpdates) {
+            metas {
+                ...CATEGORY_META_FIELDS
+            }
+        }
+        postUpdateDeletedMeta: deleteCategoryMetas(input: $postUpdateDeleteInput)
+            @include(if: $hasPostUpdateDeletions) {
+            metas {
+                ...CATEGORY_META_FIELDS
+            }
+        }
+        migrationMeta: setCategoryMetas(input: $migrateInput) @include(if: $isMigration) {
+            metas {
+                ...CATEGORY_META_FIELDS
             }
         }
     }

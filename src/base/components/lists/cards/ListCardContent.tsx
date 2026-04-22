@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import CardContent, { CardContentProps } from '@mui/material/CardContent';
+import type { CardContentProps } from '@mui/material/CardContent';
+import CardContent from '@mui/material/CardContent';
 
 export const ListCardContent = ({ children, ...props }: CardContentProps) => (
     <CardContent

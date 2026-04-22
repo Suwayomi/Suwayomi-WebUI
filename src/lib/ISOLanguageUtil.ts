@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ISOLanguage, IsoLanguages } from '@/base/IsoLanguages.ts';
+import type { ISOLanguage } from '@/base/IsoLanguages.ts';
+import { IsoLanguages } from '@/base/IsoLanguages.ts';
 import { i18nResources } from '@/i18n';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 

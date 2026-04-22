@@ -6,9 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { RefObject, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import type { RefObject } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { useWindowEvent } from '@mantine/hooks';
-import {
+import type {
     IReaderSettingsManga,
     ReaderPageScaleMode,
     ReaderStateChapters,
@@ -22,7 +23,7 @@ import {
     isWidthPageScaleMode,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 import { getPreviousNextChapterVisibility } from '@/features/reader/Reader.utils.ts';
-import { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { getReaderPagesStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const shouldPreserveOnResizeChange = (

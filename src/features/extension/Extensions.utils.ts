@@ -6,14 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import {
-    ExtensionAction,
-    ExtensionGroupState,
-    ExtensionState,
-    GroupedExtensionsResult,
-    InstalledState,
-    TExtension,
-} from '@/features/extension/Extensions.types.ts';
+import type { ExtensionState, GroupedExtensionsResult, TExtension } from '@/features/extension/Extensions.types.ts';
+import { ExtensionAction, ExtensionGroupState, InstalledState } from '@/features/extension/Extensions.types.ts';
 import {
     DefaultLanguage,
     languageCodeToName,

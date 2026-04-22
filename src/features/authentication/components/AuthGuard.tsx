@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { useEffect } from 'react';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -14,18 +15,19 @@ import { AuthManager } from '@/features/authentication/AuthManager.ts';
 export const AuthGuard = ({ children }: { children: ReactNode }) => {
     const { isAuthRequired } = AuthManager.useSession();
 
-    requestManager.useGetAbout({
+    const { data } = requestManager.useGetAbout({
         skip: isAuthRequired !== null,
-        onCompleted: () => {
-            if (AuthManager.isAuthInitialized()) {
-                return;
-            }
-
-            AuthManager.setAuthRequired(false);
-            AuthManager.setAuthInitialized(true);
-            requestManager.processQueues();
-        },
     });
+
+    useEffect(() => {
+        if (!data || AuthManager.isAuthInitialized()) {
+            return;
+        }
+
+        AuthManager.setAuthRequired(false);
+        AuthManager.setAuthInitialized(true);
+        requestManager.processQueues();
+    }, [data]);
 
     if (isAuthRequired === null) {
         return <SplashScreen />;

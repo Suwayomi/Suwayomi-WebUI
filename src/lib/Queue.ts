@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import pLimit, { LimitFunction } from 'p-limit';
+import type { LimitFunction } from 'p-limit';
+import pLimit from 'p-limit';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 
 export enum Priority {
@@ -78,9 +79,9 @@ export class Queue {
     }
 
     private getNextItemToProcess<T>(): { key: Key; fn: QueueItemFunction<T>; promise: ControlledPromise<T> } {
-        const [key] = [...this.pendingKeyToPriorityMap.entries()].toSorted(
+        const [[key]] = [...this.pendingKeyToPriorityMap.entries()].toSorted(
             ([, priorityA], [, priorityB]) => priorityB - priorityA,
-        )[0];
+        );
         const fn = this.pendingKeyToFnMap.get(key) as () => PromiseLike<T> | T;
         const promise = this.pendingKeyToPromiseMap.get(key) as ControlledPromise<T>;
 

@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactNode } from 'react';
+import { CombinedGraphQLErrors } from '@apollo/client';
+import type { ReactNode } from 'react';
 
 export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): T | null => {
     try {
@@ -17,7 +18,7 @@ export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): 
 };
 
 export const getErrorMessage = (error: unknown): string => {
-    if (error instanceof Error) {
+    if (error instanceof Error || CombinedGraphQLErrors.is(error)) {
         return error.message;
     }
 

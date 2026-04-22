@@ -7,11 +7,12 @@
  */
 
 import { useLingui } from '@lingui/react/macro';
-import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
+import { ReadingMode } from '@/features/reader/Reader.types.ts';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS, PAGE_GAP } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
 
 export const ReaderSettingPageGap = ({
     pageGap,

@@ -14,7 +14,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { memo, useRef } from 'react';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
-import { SpecificMangaCardProps } from '@/features/manga/Manga.types.ts';
+import type { SpecificMangaCardProps } from '@/features/manga/Manga.types.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { MangaOptionButton } from '@/features/manga/components/MangaOptionButton.tsx';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';

@@ -8,7 +8,7 @@
 
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { ComponentProps } from 'react';
+import type { ComponentProps } from 'react';
 
 import { ButtonSelect } from '@/base/components/buttons/ButtonSelect.tsx';
 

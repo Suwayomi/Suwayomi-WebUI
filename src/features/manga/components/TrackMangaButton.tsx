@@ -18,18 +18,20 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { CustomButton } from '@/base/components/buttons/CustomButton.tsx';
-import { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
-import { MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick<MangaType, 'title'> }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
-    const trackers = trackerList.data?.trackers.nodes ?? [];
+    const trackers = trackerList.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY;
     const mangaTrackers = manga.trackRecords.nodes;
 
     const loggedInTrackers = Trackers.getLoggedIn(trackers);
@@ -55,7 +57,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick
                 <>
                     <CustomButton
                         {...bindTrigger(popupState)}
-                        size={MediaQuery.useIsMobileWidth() ? 'small' : 'medium'}
+                        size={isMobileWidth ? 'small' : 'medium'}
                         disabled={trackerList.loading || !!trackerList.error}
                         onClick={() => handleClick(popupState.open)}
                         variant={trackersInUse.length ? 'contained' : 'outlined'}

@@ -6,8 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ComponentProps, useRef } from 'react';
-import { GroupedVirtuoso, GroupedVirtuosoHandle, StateSnapshot } from 'react-virtuoso';
+import type { ComponentProps } from 'react';
+import { useRef } from 'react';
+import type { GroupedVirtuosoHandle, StateSnapshot } from 'react-virtuoso';
+import { GroupedVirtuoso } from 'react-virtuoso';
 import { useMergedRef } from '@mantine/hooks';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 

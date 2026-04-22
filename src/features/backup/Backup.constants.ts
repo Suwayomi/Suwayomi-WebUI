@@ -6,9 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
-import { BackupFlag, BackupFlagGroup } from '@/features/backup/Backup.types.ts';
+import type { BackupFlag } from '@/features/backup/Backup.types.ts';
+import { BackupFlagGroup } from '@/features/backup/Backup.types.ts';
 
 export const BACKUP_FLAGS_TO_TRANSLATION: Record<BackupFlag, MessageDescriptor> = {
     includeManga: msg`Library entries`,

@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Tabs, { TabsProps } from '@mui/material/Tabs';
+import type { TabsProps } from '@mui/material/Tabs';
+import Tabs from '@mui/material/Tabs';
 import { styled } from '@mui/material/styles';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 

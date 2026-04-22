@@ -15,7 +15,7 @@ import { ProgressBarType, ReadingDirection } from '@/features/reader/Reader.type
 import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { reverseString } from '@/base/utils/Strings.ts';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import {
     useReaderPagesStore,
@@ -30,17 +30,13 @@ const BaseReaderPageNumber = ({
 }: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop'> &
     Pick<NavbarContextType, 'readerNavBarWidth'>) => {
     const scrollbar = useReaderScrollbarStore((state) => state);
-    const { currentPageIndex, pages, totalPages } = useReaderPagesStore((state) => ({
-        currentPageIndex: state.currentPageIndex,
-        pages: state.pages,
-        totalPages: state.totalPages,
-    }));
+    const { currentPageIndex, pages, totalPages } = useReaderPagesStore('currentPageIndex', 'pages', 'totalPages');
     const { readingDirection, shouldShowPageNumber, progressBarType } = useReaderSettingsStore((state) => ({
         readingDirection: state.readingDirection.value,
         shouldShowPageNumber: state.shouldShowPageNumber,
         progressBarType: state.progressBarType,
     }));
-    const isMaximized = useReaderProgressBarStore((state) => state.isMaximized);
+    const isMaximized = useReaderProgressBarStore('isMaximized');
 
     const pageName = useMemo(() => {
         const currentPageName = getPage(currentPageIndex, pages).name;

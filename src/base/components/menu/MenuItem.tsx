@@ -8,9 +8,10 @@
 
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MuiMenuItem, { MenuItemProps } from '@mui/material/MenuItem';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { SvgIconTypeMap } from '@mui/material/SvgIcon';
+import type { MenuItemProps } from '@mui/material/MenuItem';
+import MuiMenuItem from '@mui/material/MenuItem';
+import type { OverridableComponent } from '@mui/material/OverridableComponent';
+import type { SvgIconTypeMap } from '@mui/material/SvgIcon';
 
 interface IProps extends MenuItemProps {
     title: string;

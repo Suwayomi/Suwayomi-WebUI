@@ -20,7 +20,7 @@ const dayjsLocales = dayjsLocaleFileNames
 
 const outputFileContent = fs.readFileSync(outputFilePath, 'utf-8');
 
-const updatedFileContent = outputFileContent.replace(
+const updatedFileContent = outputFileContent.replaceAll(
     /(export const DAYJS_LOCALES = \[)[\s\S]*?(])/g,
     `$1'${dayjsLocales.join("', '")}'$2`,
 );

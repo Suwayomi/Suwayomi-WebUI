@@ -9,7 +9,7 @@
 import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { OffsetDoubleSpreadIcon } from '@/assets/icons/svg/OffsetDoubleSpreadIcon.tsx';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { isOffsetDoubleSpreadPagesEditable } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 
 export const ReaderNavBarDesktopOffsetDoubleSpread = ({

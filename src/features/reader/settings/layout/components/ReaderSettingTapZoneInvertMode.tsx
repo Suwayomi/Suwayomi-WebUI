@@ -8,9 +8,13 @@
 
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
-import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
-import { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import type { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
+import type {
+    IReaderSettings,
+    IReaderSettingsWithDefaultFlag,
+    ReadingDirection,
+} from '@/features/reader/Reader.types.ts';
+import type { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
 
 enum TapZonesInvertOption {

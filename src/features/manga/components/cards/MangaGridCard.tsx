@@ -18,7 +18,7 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
 import { MangaOptionButton } from '@/features/manga/components/MangaOptionButton.tsx';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { SpecificMangaCardProps } from '@/features/manga/Manga.types.ts';
+import type { SpecificMangaCardProps } from '@/features/manga/Manga.types.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { MANGA_COVER_ASPECT_RATIO } from '@/features/manga/Manga.constants.ts';
 import { GridLayout } from '@/base/Base.types.ts';

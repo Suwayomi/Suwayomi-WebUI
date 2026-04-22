@@ -18,7 +18,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useLingui } from '@lingui/react/macro';
-import { ListPreferenceProps } from '@/features/source/Source.types.ts';
+import type { ListPreferenceProps } from '@/features/source/Source.types.ts';
 
 interface IListDialogProps {
     value: string;

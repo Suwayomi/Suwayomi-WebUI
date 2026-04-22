@@ -13,7 +13,7 @@ import Stack from '@mui/material/Stack';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CARD_STYLING } from '@/features/tracker/Tracker.constants.ts';
-import { TTrackerBase } from '@/features/tracker/Tracker.types.ts';
+import type { TTrackerBase } from '@/features/tracker/Tracker.types.ts';
 
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
 

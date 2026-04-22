@@ -6,8 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReaderStatePages, ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
-import { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
+import type { ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
+import type { SliceCreator } from '@/lib/zustand/Zustand.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 
 export interface ReaderPagesStoreSlice {

@@ -7,8 +7,9 @@
  */
 
 import { memo, useCallback } from 'react';
-import { SpinnerImage, SpinnerImageProps } from '@/base/components/SpinnerImage.tsx';
-import { IReaderSettings, ReaderCustomFilter, ReaderPagerProps } from '@/features/reader/Reader.types.ts';
+import type { SpinnerImageProps } from '@/base/components/SpinnerImage.tsx';
+import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
+import type { IReaderSettings, ReaderCustomFilter, ReaderPagerProps } from '@/features/reader/Reader.types.ts';
 import {
     getImageMarginStyling,
     getImagePlaceholderStyling,
@@ -16,7 +17,7 @@ import {
 } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
-import { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { useReaderScrollbarStore } from '@/features/reader/stores/ReaderStore.ts';
 
 const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>

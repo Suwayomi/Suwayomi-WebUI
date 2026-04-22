@@ -6,8 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
-import { ReactNode } from 'react';
+import type { MessageDescriptor } from '@lingui/core';
+import type { ReactNode } from 'react';
 
 export enum GridLayout {
     Compact = 0,
@@ -45,8 +45,10 @@ export interface MultiValueButtonBaseProps<Value extends string | number> {
     valueToDisplayData: ValueToDisplayData<Value>;
 }
 
-export interface MultiValueButtonDefaultableProps<Value extends string | number>
-    extends OptionalProperty<MultiValueButtonBaseProps<Value>, 'value'> {
+export interface MultiValueButtonDefaultableProps<Value extends string | number> extends OptionalProperty<
+    MultiValueButtonBaseProps<Value>,
+    'value'
+> {
     isDefaultable?: boolean;
     onDefault?: () => void;
 }

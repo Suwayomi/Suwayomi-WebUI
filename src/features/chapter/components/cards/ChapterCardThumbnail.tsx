@@ -9,8 +9,8 @@
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { MangaIdInfo, MangaThumbnailInfo } from '@/features/manga/Manga.types.ts';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaIdInfo, MangaThumbnailInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 
 export const ChapterCardThumbnail = ({

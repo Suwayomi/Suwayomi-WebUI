@@ -6,11 +6,14 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { ReactNode, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Direction, ThemeProvider } from '@mui/material/styles';
+import type { ReactNode } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import type { Direction } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import { CacheProvider } from '@emotion/react';
 import { useLingui } from '@lingui/react/macro';
-import { AppTheme, getTheme } from '@/features/theme/services/AppThemes.ts';
+import type { AppTheme } from '@/features/theme/services/AppThemes.ts';
+import { getTheme } from '@/features/theme/services/AppThemes.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -23,7 +26,8 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { createAndSetTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { DIRECTION_TO_CACHE } from '@/features/theme/ThemeDirectionCache.ts';
-import { TAppThemeContext, ThemeMode } from '@/features/theme/AppTheme.types.ts';
+import type { TAppThemeContext } from '@/features/theme/AppTheme.types.ts';
+import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getLanguageReadingDirection } from '@/lib/ISOLanguageUtil.ts';
 import { loadCatalog } from '@/i18n';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';

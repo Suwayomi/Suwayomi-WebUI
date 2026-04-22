@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { Theme } from '@mui/material/styles';
+import type { Theme } from '@mui/material/styles';
 
 // use CSSObject instead of SxProps<Theme> because this completely fucks over typescript by causing an out of memory error during compilation
 type CSSObject = ReturnType<Theme['applyStyles']>;

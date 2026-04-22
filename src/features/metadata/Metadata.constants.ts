@@ -6,16 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-// eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
 import deepmerge from '@mui/utils/deepmerge';
-import { AppMetadataKeys, IMetadataMigration } from '@/features/metadata/Metadata.types.ts';
-import {
-    IReaderSettings,
-    ProgressBarPosition,
-    ReaderCustomFilter,
-    ReaderPageScaleMode,
-    ReadingMode,
-} from '@/features/reader/Reader.types.ts';
+import type { AppMetadataKeys, IMetadataMigration } from '@/features/metadata/Metadata.types.ts';
+import type { IReaderSettings, ReaderCustomFilter } from '@/features/reader/Reader.types.ts';
+import { ProgressBarPosition, ReaderPageScaleMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import {
     AUTO_SCROLL_SPEED,
     CUSTOM_FILTER,
@@ -28,20 +22,25 @@ import {
 import { coerceIn, jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { DOWNLOAD_AHEAD } from '@/features/downloads/Downloads.constants.ts';
 import { MANGA_GRID_WIDTH } from '@/features/settings/Settings.constants.ts';
-import { SortSettings } from '@/features/migration/Migration.types.ts';
-import { ISourceMetadata } from '@/features/source/Source.types.ts';
-import { LibraryOptions } from '@/features/library/Library.types.ts';
-import { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
-import { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import type { SortSettings } from '@/features/migration/Migration.types.ts';
+import type { ISourceMetadata } from '@/features/source/Source.types.ts';
+import type { LibraryOptions } from '@/features/library/Library.types.ts';
+import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
+import type { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { detectLocale, getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
-import { I18nResourceCode, i18nResources } from '@/i18n';
+import type { I18nResourceCode } from '@/i18n';
+import { i18nResources } from '@/i18n';
 import { toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
 
 export const APP_METADATA_KEY_PREFIX = 'webUI';
 
 const convertToTypeNullAndUndefined = <T>(value: string, convertToType: (value: string) => T): NullAndUndefined<T> => {
-    if (value === 'null') return null;
-    if (value === 'undefined') return undefined;
+    if (value === 'null') {
+        return null;
+    }
+    if (value === 'undefined') {
+        return undefined;
+    }
     return convertToType(value);
 };
 const convertToString = (value: string): string => value;
@@ -118,6 +117,9 @@ export const APP_METADATA: Record<
         convert: convertToBoolean,
     },
     deleteChapters: {
+        convert: convertToBoolean,
+    },
+    migrateMetadata: {
         convert: convertToBoolean,
     },
     migrateSortSettings: {
@@ -437,6 +439,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'migrateCategories',
     'migrateTracking',
     'deleteChapters',
+    'migrateMetadata',
     'migrateSortSettings',
 
     // browse
@@ -695,4 +698,14 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
         keys: [{ oldKey: 'sourceLanguages', newKey: 'browseLanguages' }],
         deleteKeys: ['sourceLanguages', 'extensionLanguages'],
     },
+];
+
+export const ALL_APP_METADATA_KEY_PREFIXES: string[] = [
+    ...METADATA_MIGRATIONS.reduce<Set<string>>((acc, migration) => {
+        if (migration.appKeyPrefix?.oldPrefix) {
+            acc.add(migration.appKeyPrefix.oldPrefix);
+        }
+        return acc;
+    }, new Set()),
+    APP_METADATA_KEY_PREFIX,
 ];

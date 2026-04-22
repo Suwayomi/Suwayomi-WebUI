@@ -7,13 +7,17 @@
  */
 
 import { useLingui } from '@lingui/react/macro';
-import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
+import type {
+    IReaderSettings,
+    IReaderSettingsWithDefaultFlag,
+    ReadingDirection,
+} from '@/features/reader/Reader.types.ts';
 import {
     PAGE_SCALE_VALUE_TO_DISPLAY_DATA,
     READER_PAGE_SCALE_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
-import { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
 
 export const ReaderSettingPageScaleMode = ({
     pageScaleMode,

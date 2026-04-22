@@ -15,7 +15,7 @@ import { ReaderSettingRGBA } from '@/features/reader/filters/settings/components
 import { ReaderSettingSepia } from '@/features/reader/filters/settings/components/ReaderSettingSepia.tsx';
 import { ReaderSettingGrayscale } from '@/features/reader/filters/settings/components/ReaderSettingGrayscale.tsx';
 import { ReaderSettingInvert } from '@/features/reader/filters/settings/components/ReaderSettingInvert.tsx';
-import { ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
+import type { ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
 import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 
 export const ReaderFilterSettings = ({

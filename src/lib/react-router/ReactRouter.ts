@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { NavigateFunction, NavigateOptions, To } from 'react-router-dom';
+import type { NavigateFunction, NavigateOptions, To } from 'react-router-dom';
 import { noOp } from '@/lib/HelperFunctions.ts';
 
 export class ReactRouter {

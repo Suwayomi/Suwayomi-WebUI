@@ -23,7 +23,7 @@ const ACTION_FALLBACK_MANGA = {
 };
 
 export const ReaderLibraryButton = memo(() => {
-    const manga = useReaderStore((state) => state.manga);
+    const manga = useReaderStore('manga');
 
     const { inLibrary } = manga ?? ACTION_FALLBACK_MANGA;
 

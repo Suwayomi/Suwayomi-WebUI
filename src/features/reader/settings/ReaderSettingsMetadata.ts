@@ -7,17 +7,17 @@
  */
 
 import { useEffect, useMemo } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies,no-restricted-imports
+
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import {
-    requestUpdateMangaMetadata,
-    requestUpdateServerMetadata,
+    requestMangaMetadataUpdate,
+    requestServerMetadataUpdate,
 } from '@/features/metadata/services/MetadataUpdater.ts';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
+import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
-import {
+import type {
     AllowedMetadataValueTypes,
     GqlMetaHolder,
     Metadata,
@@ -25,7 +25,7 @@ import {
     MetadataHolderType,
 } from '@/features/metadata/Metadata.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import {
     DEFAULT_READER_SETTINGS,
     GLOBAL_READER_SETTING_KEYS,
@@ -224,26 +224,25 @@ export const updateReaderSettings = async <Setting extends keyof IReaderSettings
     value: IReaderSettings[Setting],
     isGlobal: boolean = false,
     profile?: ReadingMode,
-): Promise<void[]> => {
+): Promise<void> => {
     const isGlobalSetting = isGlobal || GLOBAL_READER_SETTING_KEYS.includes(setting);
     if (isGlobalSetting) {
-        return requestUpdateServerMetadata(
-            [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
-            profile !== undefined ? [profile?.toString()] : undefined,
-        );
+        return requestServerMetadataUpdate({
+            update: [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
+            keyPrefixes: profile !== undefined ? [profile?.toString()] : undefined,
+        });
     }
 
-    return requestUpdateMangaMetadata(
-        manga,
-        [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
-        profile !== undefined ? [profile?.toString()] : undefined,
-    );
+    return requestMangaMetadataUpdate(manga, {
+        update: [[setting, convertSettingsToMetadata({ [setting]: value })[setting]]],
+        keyPrefixes: profile !== undefined ? [profile?.toString()] : undefined,
+    });
 };
 export const createUpdateReaderSettings =
     <Settings extends keyof IReaderSettings>(
         manga: Pick<MangaType, 'id'> & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateReaderSettings'),
         profile?: ReadingMode,
-    ): ((...args: OmitFirst<Parameters<typeof updateReaderSettings<Settings>>>) => Promise<void | void[]>) =>
+    ): ((...args: OmitFirst<Parameters<typeof updateReaderSettings<Settings>>>) => Promise<void>) =>
     (setting, value, isGlobal) =>
         updateReaderSettings(manga, setting, value, isGlobal, profile).catch(handleError);

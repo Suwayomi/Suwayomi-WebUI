@@ -6,9 +6,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
-import { TapZoneLayouts, TapZoneRegion, TapZoneRegionType } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import type { TapZoneRegion } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { TapZoneLayouts, TapZoneRegionType } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 
 export const READER_TAP_ZONE_LAYOUTS: Record<TapZoneLayouts, TapZoneRegion[]> = {
     /**

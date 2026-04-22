@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
-import { MangaLocationState } from '@/features/manga/Manga.types.ts';
-import { SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { MangaLocationState } from '@/features/manga/Manga.types.ts';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const SearchLink = ({

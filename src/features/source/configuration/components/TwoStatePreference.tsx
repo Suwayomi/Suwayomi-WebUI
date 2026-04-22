@@ -11,7 +11,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
 import Checkbox from '@mui/material/Checkbox';
-import {
+import type {
     CheckBoxPreferenceProps,
     SwitchPreferenceCompatProps,
     TwoStatePreferenceProps,

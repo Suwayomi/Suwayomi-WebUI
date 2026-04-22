@@ -11,10 +11,10 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 import { useLingui } from '@lingui/react/macro';
-import { Maybe } from '@/lib/graphql/generated/graphql.ts';
+import type { Maybe } from '@/lib/graphql/generated/graphql.ts';
 import { addStableIdToKeyValueItems, isDuplicateKeyValueItem } from '@/features/settings/ImageProcessing.utils.ts';
 import { KeyValueItem } from '@/features/settings/components/images/KeyValueItem.tsx';
-import { TSettingsDownloadConversionKeyValueItem } from '@/features/settings/Settings.types.ts';
+import type { TSettingsDownloadConversionKeyValueItem } from '@/features/settings/Settings.types.ts';
 
 export const KeyValueItems = ({
     title,

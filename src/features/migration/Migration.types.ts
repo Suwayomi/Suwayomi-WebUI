@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
+import type { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 
 export enum SortBy {
     SOURCE_NAME,
@@ -25,10 +25,18 @@ export interface SortSettings {
 
 export type TMigratableSourcesResult = GetMigratableSourcesQuery['mangas']['nodes'];
 
+export type MigrateMode = 'copy' | 'migrate';
+
+export type MigrateOptions = {
+    mangaIdToMigrateTo: number;
+    mode: MigrateMode;
+} & Partial<MetadataMigrationSettings>;
+
 export type MetadataMigrationSettings = {
     migrateChapters: boolean;
     migrateCategories: boolean;
     migrateTracking: boolean;
     deleteChapters: boolean;
+    migrateMetadata: boolean;
     migrateSortSettings: SortSettings;
 };

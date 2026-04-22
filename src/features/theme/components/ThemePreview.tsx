@@ -21,7 +21,7 @@ import Paper from '@mui/material/Paper';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
-import { AppTheme } from '@/features/theme/services/AppThemes.ts';
+import type { AppTheme } from '@/features/theme/services/AppThemes.ts';
 import { createTheme } from '@/features/theme/services/ThemeCreator.ts';
 import { ThemeCreationDialog } from '@/features/theme/components/CreateThemeDialog.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';

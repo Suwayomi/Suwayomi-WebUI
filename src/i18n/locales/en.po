@@ -12,6 +12,7 @@ msgstr ""
 "Last-Translator: \n"
 "Language-Team: \n"
 "Plural-Forms: \n"
+"X-Message-Format: ICU\n"
 
 #. placeholder {0}: selectedChapters.length
 #. placeholder {0}: visibleChapters.length
@@ -752,6 +753,7 @@ msgid "Client"
 msgstr "Client"
 
 #: src/features/backup/Backup.constants.ts
+#: src/features/migration/components/MigrateDialog.tsx
 msgid "Client data"
 msgstr "Client data"
 
@@ -1587,6 +1589,10 @@ msgid "FlareSolverr enabled"
 msgstr "FlareSolverr enabled"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr request timeout"
 msgstr "FlareSolverr request timeout"
 
@@ -1601,6 +1607,10 @@ msgstr "FlareSolverr session name"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr session TTL"
 msgstr "FlareSolverr session TTL"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr "Flaresolverr setup confirmation"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes"
@@ -1731,6 +1741,10 @@ msgstr "How many chapters should get downloaded while reading."
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "How much time FlareSolverr has to handle the request"
 msgstr "How much time FlareSolverr has to handle the request"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "I understand"
+msgstr "I understand"
 
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
 msgid "Ignore"

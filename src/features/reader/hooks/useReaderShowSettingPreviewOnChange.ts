@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { useEffect, useRef } from 'react';
 import { d } from 'koration';
 import { useLingui } from '@lingui/react/macro';
-import { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { READING_MODE_VALUE_TO_DISPLAY_DATA } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { getReaderTapZoneStore } from '@/features/reader/stores/ReaderStore.ts';

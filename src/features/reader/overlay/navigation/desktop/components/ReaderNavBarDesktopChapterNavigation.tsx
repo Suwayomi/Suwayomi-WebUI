@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
@@ -22,9 +23,9 @@ import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
-import { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
+import type { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const BaseReaderNavBarDesktopChapterNavigation = ({
     currentChapterId,
@@ -32,7 +33,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
     currentChapterNumber,
     previousChapter,
     nextChapter,
-    chapters = [],
+    chapters = STABLE_EMPTY_ARRAY,
     readerThemeDirection,
 }: {
     currentChapterId: ChapterIdInfo['id'] | undefined;

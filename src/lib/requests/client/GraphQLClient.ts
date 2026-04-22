@@ -6,36 +6,27 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { onError } from '@apollo/client/link/error';
-import { setContext } from '@apollo/client/link/context';
-import {
-    ApolloClient,
-    ApolloClientOptions,
-    ApolloLink,
-    from,
-    fromPromise,
-    InMemoryCache,
-    NormalizedCacheObject,
-    split,
-    toPromise,
-} from '@apollo/client';
-import createUploadLink from 'apollo-upload-client/createUploadLink.mjs';
+import { ErrorLink } from '@apollo/client/link/error';
+import { SetContextLink } from '@apollo/client/link/context';
+import { ApolloClient, ApolloLink, CombinedGraphQLErrors, InMemoryCache } from '@apollo/client';
+import { from, filter, map, switchMap, firstValueFrom } from 'rxjs';
+import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { Client, createClient } from 'graphql-ws';
+import type { Client } from 'graphql-ws';
+import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
-import { TypePolicies } from '@apollo/client/cache';
-import { removeTypenameFromVariables } from '@apollo/client/link/remove-typename';
+import type { TypePolicies } from '@apollo/client/cache';
+import { RemoveTypenameFromVariablesLink } from '@apollo/client/link/remove-typename';
 import { d } from 'koration';
 import { useId } from '@mantine/hooks';
 import { useEffect } from 'react';
-import { GraphQLFormattedError } from 'graphql';
+import type { GraphQLFormattedError } from 'graphql';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
-import { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
+import type { StrictTypedTypePolicies } from '@/lib/graphql/generated/apollo-helpers.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
-import { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
-import { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
+import type { UserRefreshMutation } from '@/lib/graphql/generated/graphql.ts';
+import type { AbortableApolloMutationResponse } from '@/lib/requests/RequestManager.ts';
 
-/* eslint-disable no-underscore-dangle */
 const typePolicies: StrictTypedTypePolicies = {
     MangaType: {
         fields: {
@@ -186,16 +177,11 @@ const typePolicies: StrictTypedTypePolicies = {
         },
     },
 };
-/* eslint-enable no-underscore-dangle */
 
-export class GraphQLClient extends BaseClient<
-    ApolloClient<NormalizedCacheObject>,
-    ApolloClientOptions<NormalizedCacheObject>,
-    null
-> {
+export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options, null> {
     readonly fetcher = null;
 
-    public client!: ApolloClient<NormalizedCacheObject>;
+    public client!: ApolloClient;
 
     private wsClient!: Client;
 
@@ -255,7 +241,7 @@ export class GraphQLClient extends BaseClient<
             const { operationName } = operation;
 
             if (this.shouldQueueRequest(operationName)) {
-                return fromPromise(this.enqueueRequest(() => toPromise(forward(operation)), operationName));
+                return from(this.enqueueRequest(() => firstValueFrom(forward(operation)), operationName));
             }
 
             return forward(operation);
@@ -269,27 +255,27 @@ export class GraphQLClient extends BaseClient<
     }
 
     private createErrorLink() {
-        return onError(({ graphQLErrors, operation, forward }) => {
-            if (!graphQLErrors) {
+        return new ErrorLink(({ error, operation, forward }) => {
+            if (!CombinedGraphQLErrors.is(error)) {
                 return undefined;
             }
-            if (!this.isAuthError(graphQLErrors)) {
+            if (!this.isAuthError(error.errors)) {
                 return undefined;
             }
 
-            return fromPromise(BaseClient.refreshAccessToken(this.handleRefreshToken))
-                .filter(Boolean)
-                .map((result) => {
+            return from(BaseClient.refreshAccessToken(this.handleRefreshToken)).pipe(
+                filter(Boolean),
+                map((result) => {
                     this.restartAllSubscriptions();
-
                     return result;
-                })
-                .flatMap(() => forward(operation));
+                }),
+                switchMap(() => forward(operation)),
+            );
         });
     }
 
     private createAuthLink() {
-        return setContext((_, { headers }) => {
+        return new SetContextLink(({ headers }) => {
             const isAuthRequired = AuthManager.isAuthRequired();
             const accessToken = AuthManager.getAccessToken();
 
@@ -304,7 +290,7 @@ export class GraphQLClient extends BaseClient<
     }
 
     private createUploadLink() {
-        return createUploadLink({ uri: () => this.getBaseUrl() });
+        return new UploadHttpLink({ uri: () => this.getBaseUrl() });
     }
 
     private createWSLink() {
@@ -312,21 +298,20 @@ export class GraphQLClient extends BaseClient<
     }
 
     private createLink() {
-        const removeTypenameLink = removeTypenameFromVariables();
+        const removeTypenameLink = new RemoveTypenameFromVariablesLink();
 
-        return split(
+        return ApolloLink.split(
             ({ query }) => {
                 const definition = getMainDefinition(query);
                 return definition.kind === 'OperationDefinition' && definition.operation === 'subscription';
             },
             this.createWSLink(),
-            from([
+            ApolloLink.from([
                 this.createAuthGuardLink(),
                 this.createErrorLink(),
                 this.createAuthLink(),
                 removeTypenameLink,
-                // apollo-upload-client dependency is outdated (see 134e47763faae9e62db4d4e3a8387a74e32e5568) and thus types are not matching, but they are still correct
-                this.createUploadLink() as unknown as ApolloLink,
+                this.createUploadLink(),
             ]),
         );
     }
@@ -336,7 +321,7 @@ export class GraphQLClient extends BaseClient<
 
         this.wsClient = createClient({
             lazy,
-            url: () => this.getBaseUrl().replace(/http(|s)/g, 'ws'),
+            url: () => this.getBaseUrl().replaceAll(/http(|s)/g, 'ws'),
             keepAlive: heartbeatInterval,
             retryAttempts: Number.MAX_SAFE_INTEGER,
             shouldRetry: () => true,
@@ -408,7 +393,7 @@ export class GraphQLClient extends BaseClient<
                 // the TypeError can just be ignored
                 typePolicies: typePolicies as TypePolicies,
             }),
-            connectToDevTools: true,
+            devtools: { enabled: true },
             link: this.createLink(),
         });
     }

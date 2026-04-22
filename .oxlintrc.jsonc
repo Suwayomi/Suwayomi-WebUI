@@ -1,0 +1,452 @@
+{
+  "plugins": [
+    "react",
+    "unicorn",
+    "typescript",
+    "import",
+    "jsx-a11y"
+  ],
+  "jsPlugins": [
+    "eslint-plugin-lingui",
+    "eslint-plugin-no-relative-import-paths",
+    "eslint-plugin-unused-imports",
+    "eslint-plugin-no-only-tests",
+    "@tony.ganchev/eslint-plugin-header"
+  ],
+  "categories": {
+    "correctness": "off"
+  },
+  "rules": {
+    // ── Core JS: correctness (from js.configs.recommended) ──
+    // Rules redundant with TypeScript strict mode have been removed.
+    "for-direction": "error",
+    "no-async-promise-executor": "error",
+    "no-case-declarations": "error",
+    "no-compare-neg-zero": "error",
+    "no-cond-assign": "error",
+    "no-constant-binary-expression": "error",
+    "no-constant-condition": "error",
+    "no-control-regex": "error",
+    "no-debugger": "error",
+    "no-delete-var": "error",
+    "no-dupe-else-if": "error",
+    "no-duplicate-case": "error",
+    "no-empty": "error",
+    "no-empty-character-class": "error",
+    "no-empty-pattern": "error",
+    "no-empty-static-block": "error",
+    "no-ex-assign": "error",
+    "no-extra-boolean-cast": "error",
+    "no-invalid-regexp": "error",
+    "no-irregular-whitespace": "error",
+    "no-loss-of-precision": "error",
+    "no-misleading-character-class": "error",
+    "no-nonoctal-decimal-escape": "error",
+    "no-prototype-builtins": "error",
+    "no-regex-spaces": "error",
+    "no-self-assign": "error",
+    "no-shadow-restricted-names": "error",
+    "no-sparse-arrays": "error",
+    "no-unsafe-finally": "error",
+    "no-unsafe-optional-chaining": "error",
+    "no-unused-labels": "error",
+    "no-unused-private-class-members": "error",
+    "no-unused-vars": [
+      "error",
+      {
+        "vars": "all",
+        "args": "after-used",
+        "ignoreRestSiblings": true,
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_|^e$|^error$"
+      }
+    ],
+    "no-useless-backreference": "error",
+    "no-useless-catch": "error",
+    "no-useless-escape": "error",
+    "no-with": "error",
+    "require-yield": "error",
+    "use-isnan": "error",
+    "no-array-constructor": "error",
+    "no-unused-expressions": "error",
+
+    // ── Core JS: style & best practices ──
+    "no-console": "error",
+    "no-else-return": [
+      "error",
+      {
+        "allowElseIf": false
+      }
+    ],
+    "no-lonely-if": "error",
+    "no-unneeded-ternary": [
+      "error",
+      {
+        "defaultAssignment": false
+      }
+    ],
+    "no-multi-assign": "error",
+    "no-return-assign": [
+      "error",
+      "always"
+    ],
+    "no-sequences": "error",
+    "no-new": "error",
+    "no-new-func": "error",
+    "no-new-wrappers": "error",
+    "no-eval": "error",
+    "no-script-url": "error",
+    "no-self-compare": "error",
+    "no-extend-native": "error",
+    "no-alert": "error",
+    "no-restricted-globals": [
+      "error",
+      "isFinite",
+      "isNaN"
+    ],
+    "no-await-in-loop": "error",
+    "no-promise-executor-return": "error",
+    "no-template-curly-in-string": "error",
+    "no-constructor-return": "error",
+    "no-useless-concat": "error",
+    "no-useless-return": "error",
+    "no-useless-computed-key": "error",
+    "no-useless-rename": "error",
+    "eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "ignore"
+      }
+    ],
+    "default-case": [
+      "error",
+      {
+        "commentPattern": "^no default$"
+      }
+    ],
+    "default-case-last": "error",
+    "yoda": "error",
+    "prefer-template": "error",
+    "prefer-exponentiation-operator": "error",
+    "prefer-object-spread": "error",
+    "arrow-body-style": ["error", "as-needed"],
+    "prefer-destructuring": "error",
+    "no-nested-ternary": "error",
+    "prefer-promise-reject-errors": [
+      "error",
+      {
+        "allowEmptyReject": true
+      }
+    ],
+    "no-param-reassign": [
+      "error",
+      {
+        "props": true,
+        "ignorePropertyModificationsForRegex": [
+          "^draft"
+        ]
+      }
+    ],
+    "no-restricted-imports": [
+      "error",
+      {
+        "patterns": [
+          {
+            "group": [
+              "@mui/*",
+              "!@mui/material/",
+              "!@mui/icons-material/",
+              "!@mui/x-date-pickers/"
+            ]
+          },
+          {
+            "group": [
+              "@mui/*/*/*"
+            ]
+          }
+        ]
+      }
+    ],
+
+    // ── New: modern JS essentials ──
+    "prefer-const": "error",
+    "no-var": "error",
+    "curly": "error",
+    "no-warning-comments": [
+      "error",
+      {
+        "terms": [
+          "@nocommit"
+        ]
+      }
+    ],
+
+    // ── TypeScript rules (non-type-checked) ──
+    "no-shadow": "error",
+    "no-loop-func": "error",
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true,
+        "variables": true
+      }
+    ],
+    "default-param-last": "error",
+
+    // ── TypeScript rules from recommended ──
+    "typescript/no-duplicate-enum-values": "error",
+    "typescript/no-extra-non-null-assertion": "error",
+    "typescript/no-misused-new": "error",
+    "typescript/no-namespace": "error",
+    "typescript/no-non-null-asserted-optional-chain": "error",
+    "typescript/no-require-imports": "error",
+    "typescript/no-this-alias": "error",
+    "typescript/no-unnecessary-type-constraint": "error",
+    "typescript/no-unsafe-declaration-merging": "error",
+    "typescript/no-wrapper-object-types": "error",
+    "typescript/prefer-as-const": "error",
+    "typescript/prefer-namespace-keyword": "error",
+    "typescript/triple-slash-reference": "error",
+
+    // ── New: TypeScript safety ──
+    "typescript/no-explicit-any": "off",
+    "typescript/no-empty-object-type": "error",
+    "typescript/no-unsafe-function-type": "error",
+    "typescript/consistent-type-imports": "error",
+    "typescript/switch-exhaustiveness-check": "error",
+
+    // ── TypeScript rules (type-checked) ──
+    "typescript/no-implied-eval": "error",
+    "typescript/only-throw-error": "error",
+    "typescript/dot-notation": "error",
+    "typescript/return-await": [
+      "error",
+      "in-try-catch"
+    ],
+
+    // ── Import rules ──
+    "import/namespace": "error",
+    "import/default": "error",
+    "import/export": "error",
+    "import/no-duplicates": "error",
+    "import/no-mutable-exports": "error",
+    "import/first": "error",
+    "import/no-amd": "error",
+    "import/no-absolute-path": "error",
+    "import/no-self-import": "error",
+    "import/no-default-export": "error",
+
+    // ── Unicorn: modern JS (auto-fixable) ──
+    "unicorn/prefer-array-flat-map": "error",
+    "unicorn/prefer-structured-clone": "error",
+    "unicorn/prefer-string-replace-all": "error",
+    "unicorn/consistent-function-scoping": "error",
+
+    // ── React rules ──
+    "react/jsx-key": "error",
+    "react/jsx-no-comment-textnodes": "error",
+    "react/jsx-no-duplicate-props": "error",
+    "react/jsx-no-target-blank": "error",
+    "react/jsx-no-undef": "error",
+    "react/no-children-prop": "error",
+    "react/no-danger-with-children": "error",
+    "react/no-render-return-value": "error",
+    "react/no-unescaped-entities": "error",
+    "react/no-unknown-property": "error",
+    "react/rules-of-hooks": "error",
+    "react/no-array-index-key": "error",
+    "react/jsx-no-useless-fragment": "error",
+    "react/jsx-no-constructed-context-values": "error",
+    "react/self-closing-comp": "error",
+    "react/jsx-boolean-value": [
+      "error",
+      "never"
+    ],
+    "react/jsx-pascal-case": [
+      "error",
+      {
+        "allowAllCaps": true
+      }
+    ],
+    "react/button-has-type": "error",
+    "react/jsx-curly-brace-presence": [
+      "error",
+      {
+        "props": "never",
+        "children": "never"
+      }
+    ],
+    "react/jsx-fragments": [
+      "error",
+      "syntax"
+    ],
+    "react/jsx-no-script-url": "error",
+    "react/style-prop-object": "error",
+    "react/void-dom-elements-no-children": "error",
+    "react/no-danger": "error",
+
+    // ── jsx-a11y rules ──
+    "jsx_a11y/alt-text": "error",
+    "jsx_a11y/anchor-has-content": "error",
+    "jsx_a11y/anchor-is-valid": "error",
+    "jsx_a11y/aria-activedescendant-has-tabindex": "error",
+    "jsx_a11y/aria-props": "error",
+    "jsx_a11y/aria-proptypes": "error",
+    "jsx_a11y/aria-role": "error",
+    "jsx_a11y/aria-unsupported-elements": "error",
+    "jsx_a11y/autocomplete-valid": "error",
+    "jsx_a11y/click-events-have-key-events": "error",
+    "jsx_a11y/heading-has-content": "error",
+    "jsx_a11y/html-has-lang": "error",
+    "jsx_a11y/iframe-has-title": "error",
+    "jsx_a11y/img-redundant-alt": "error",
+    "jsx_a11y/label-has-associated-control": "error",
+    "jsx_a11y/media-has-caption": "error",
+    "jsx_a11y/mouse-events-have-key-events": "error",
+    "jsx_a11y/no-access-key": "error",
+    "jsx_a11y/no-autofocus": [
+      "error",
+      {
+        "ignoreNonDOM": true
+      }
+    ],
+    "jsx_a11y/no-distracting-elements": "error",
+    "jsx_a11y/no-noninteractive-tabindex": [
+      "error",
+      {
+        "tags": [],
+        "roles": [
+          "tabpanel"
+        ],
+        "allowExpressionValues": true
+      }
+    ],
+    "jsx_a11y/no-redundant-roles": "error",
+    "jsx_a11y/no-static-element-interactions": [
+      "error",
+      {
+        "allowExpressionValues": true,
+        "handlers": [
+          "onClick",
+          "onMouseDown",
+          "onMouseUp",
+          "onKeyPress",
+          "onKeyDown",
+          "onKeyUp"
+        ]
+      }
+    ],
+    "jsx_a11y/role-has-required-aria-props": "error",
+    "jsx_a11y/role-supports-aria-props": "error",
+    "jsx_a11y/scope": "error",
+    "jsx_a11y/tabindex-no-positive": "error",
+
+    // ── Lingui rules ──
+    "lingui/t-call-in-function": "error",
+    "lingui/no-single-tag-to-translate": "error",
+    "lingui/no-single-variables-to-translate": "error",
+    "lingui/no-trans-inside-trans": "error",
+    "lingui/no-expression-in-message": "off",
+
+    // ── No relative import paths ──
+    "no-relative-import-paths/no-relative-import-paths": "error",
+
+    // ── Unused imports ──
+    "unused-imports/no-unused-imports": "error",
+
+    // ── No .only in tests ──
+    "no-only-tests/no-only-tests": "error",
+
+    // ── License header ──
+    "@tony.ganchev/header/header": ["error", "block", [
+      "",
+      " * Copyright (C) Contributors to the Suwayomi project",
+      " *",
+      " * This Source Code Form is subject to the terms of the Mozilla Public",
+      " * License, v. 2.0. If a copy of the MPL was not distributed with this",
+      " * file, You can obtain one at https://mozilla.org/MPL/2.0/.",
+      " "
+    ], 2]
+  },
+  "settings": {
+    "jsx-a11y": {
+      "components": {},
+      "attributes": {}
+    },
+    "next": {
+      "rootDir": []
+    },
+    "react": {
+      "formComponents": [],
+      "linkComponents": [],
+      "version": "19.2.0",
+      "componentWrapperFunctions": []
+    },
+    "jsdoc": {
+      "ignorePrivate": false,
+      "ignoreInternal": false,
+      "ignoreReplacesDocs": true,
+      "overrideReplacesDocs": true,
+      "augmentsExtendsReplacesDocs": false,
+      "implementsReplacesDocs": false,
+      "exemptDestructuredRootsFromChecks": false,
+      "tagNamePreference": {}
+    },
+    "vitest": {
+      "typecheck": false
+    }
+  },
+  "env": {
+    "browser": true,
+    "builtin": true
+  },
+  "globals": {},
+  "overrides": [
+    {
+      "files": [
+        "src/base/utils/MediaQuery.tsx",
+        "src/features/authentication/AuthManager.ts",
+        "src/features/chapter/services/Chapters.ts",
+        "src/features/metadata/services/MetadataMigrations.ts",
+        "src/features/reader/services/ReaderControls.ts",
+        "src/features/reader/services/ReaderService.ts",
+        "src/features/source/services/Sources.ts",
+        "src/lib/dnd-kit/DndKitUtil.ts",
+        "src/lib/requests/RequestManager.ts",
+        "src/lib/requests/client/GraphQLClient.ts",
+        "src/lib/virtuoso/Virtuoso.util.tsx"
+      ],
+      "rules": {
+        "react/rules-of-hooks": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.config.ts",
+        "**/*.config.js"
+      ],
+      "rules": {
+        "import/no-default-export": "off"
+      }
+    },
+    {
+      "files": [
+        "tools/scripts/**/*"
+      ],
+      "env": {
+        "node": true
+      },
+      "rules": {
+        "no-console": "off",
+        "no-relative-import-paths/no-relative-import-paths": "off"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "src/lib/graphql/generated/**",
+    "tools/eslint-plugin-header.cjs"
+  ]
+}

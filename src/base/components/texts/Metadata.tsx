@@ -6,9 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import Stack, { StackProps } from '@mui/material/Stack';
-import Typography, { TypographyProps } from '@mui/material/Typography';
-import { ReactNode } from 'react';
+import type { StackProps } from '@mui/material/Stack';
+import Stack from '@mui/material/Stack';
+import type { TypographyProps } from '@mui/material/Typography';
+import Typography from '@mui/material/Typography';
+import type { ReactNode } from 'react';
 
 export const Metadata = ({
     title,

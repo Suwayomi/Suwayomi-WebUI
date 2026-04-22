@@ -31,14 +31,16 @@ import { TrackerMangaCard } from '@/features/tracker/components/cards/TrackerMan
 import { DIALOG_PADDING } from '@/features/tracker/Tracker.constants.ts';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
-import { Tracker, TrackerIdInfo, TTrackerBind } from '@/features/tracker/Tracker.types.ts';
+import type { TrackerIdInfo, TTrackerBind } from '@/features/tracker/Tracker.types.ts';
+import { Tracker } from '@/features/tracker/Tracker.types.ts';
 import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 const TrackButton = ({
     mangaId,
@@ -132,7 +134,7 @@ export const TrackerSearch = ({
     const trackerSearch = requestManager.useTrackerSearch(tracker.id, searchString, {
         notifyOnNetworkStatusChange: true,
     });
-    const searchResults = trackerSearch.data?.searchTracker.trackSearches ?? [];
+    const searchResults = trackerSearch.data?.searchTracker.trackSearches ?? STABLE_EMPTY_ARRAY;
 
     const hasResults = !!searchResults.length;
     const hasNoResults = !trackerSearch.loading && !trackerSearch.error && !hasResults;

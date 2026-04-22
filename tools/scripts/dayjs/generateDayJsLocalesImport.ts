@@ -23,7 +23,7 @@ const dayjsLocaleToFileName = dayjsLocaleFileNames
 
 const outputFileContent = fs.readFileSync(outputFilePath, 'utf-8');
 
-const updatedFileContent = outputFileContent.replace(
+const updatedFileContent = outputFileContent.replaceAll(
     /(const localesToImport: Record<\(typeof DAYJS_LOCALES\)\[number], \(\) => Promise<unknown>> = \{)[\s\S]*?(})/g,
     `$1${dayjsLocaleToFileName.map(([locale, fileName]) => `'${locale}': () => import('dayjs/locale/${fileName}')`).join(',')}$2`,
 );

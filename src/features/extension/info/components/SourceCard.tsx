@@ -24,7 +24,7 @@ import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupIt
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
-import { SourceConfigurableInfo, SourceIdInfo, SourceLanguageInfo } from '@/features/source/Source.types.ts';
+import type { SourceConfigurableInfo, SourceIdInfo, SourceLanguageInfo } from '@/features/source/Source.types.ts';
 
 export const SourceCard = (source: SourceIdInfo & SourceLanguageInfo & SourceConfigurableInfo) => {
     const { id, isConfigurable } = source;

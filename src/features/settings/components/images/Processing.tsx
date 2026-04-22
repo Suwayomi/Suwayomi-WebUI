@@ -20,7 +20,7 @@ import FormControl from '@mui/material/FormControl';
 import { d } from 'koration';
 import { useElementSize } from '@mantine/hooks';
 import { useLingui } from '@lingui/react/macro';
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import { KeyValueItems } from '@/features/settings/components/images/KeyValueItems.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import {
@@ -34,7 +34,8 @@ import {
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { MimeTypeTextField } from '@/features/settings/components/images/MimeTypeTextField.tsx';
-import { ImageProcessingTargetMode, TSettingsDownloadConversion } from '@/features/settings/Settings.types.ts';
+import type { TSettingsDownloadConversion } from '@/features/settings/Settings.types.ts';
+import { ImageProcessingTargetMode } from '@/features/settings/Settings.types.ts';
 import {
     getUpdatedSearchParams,
     isDefaultMimeType,

@@ -16,7 +16,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import {
+import type {
     MangaDescriptionInfo,
     MangaGenreInfo,
     MangaLocationState,

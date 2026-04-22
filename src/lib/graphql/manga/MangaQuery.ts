@@ -12,9 +12,11 @@ import {
     MANGA_BASE_FIELDS,
     MANGA_LIBRARY_DUPLICATE_SCREEN_FIELDS,
     MANGA_LIBRARY_FIELDS,
+    MANGA_META_FIELDS,
     MANGA_READER_FIELDS,
     MANGA_SCREEN_FIELDS,
 } from '@/lib/graphql/manga/MangaFragments.ts';
+import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import { TRACK_RECORD_BIND_FIELDS } from '@/lib/graphql/tracker/TrackRecordFragments.ts';
 
 // returns the current manga from the database
@@ -75,11 +77,15 @@ export const GET_MANGA_CATEGORIES = gql`
 
 // returns the current manga from the database
 export const GET_MANGA_TO_MIGRATE = gql`
+    ${MANGA_META_FIELDS}
+    ${CHAPTER_META_FIELDS}
+
     query GET_MANGA_TO_MIGRATE(
         $id: Int!
         $getChapterData: Boolean!
         $migrateCategories: Boolean!
         $migrateTracking: Boolean!
+        $migrateMetadata: Boolean!
     ) {
         manga(id: $id) {
             id
@@ -95,6 +101,9 @@ export const GET_MANGA_TO_MIGRATE = gql`
                     isRead
                     isDownloaded
                     isBookmarked
+                    meta @include(if: $migrateMetadata) {
+                        ...CHAPTER_META_FIELDS
+                    }
                 }
                 totalCount
             }
@@ -110,6 +119,9 @@ export const GET_MANGA_TO_MIGRATE = gql`
                     trackerId
                     private
                 }
+            }
+            meta @include(if: $migrateMetadata) {
+                ...MANGA_META_FIELDS
             }
         }
     }

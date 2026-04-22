@@ -24,6 +24,7 @@ import { Header } from '@/features/extension/info/components/Header.tsx';
 import { Meta } from '@/features/extension/info/components/Meta.tsx';
 import { ActionButton } from '@/features/extension/info/components/ActionButton.tsx';
 import { SourceCard } from '@/features/extension/info/components/SourceCard.tsx';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 export const ExtensionInfo = () => {
     const { t } = useLingui();
@@ -34,7 +35,7 @@ export const ExtensionInfo = () => {
     const extensionResponse = requestManager.useGetExtension(pkgName);
     const sourcesResponse = requestManager.useGetSourceList();
 
-    const { extension } = extensionResponse.data ?? {};
+    const { extension } = extensionResponse.data ?? STABLE_EMPTY_OBJECT;
     const sources = useMemo(() => {
         if (!sourcesResponse.data?.sources) {
             return [];

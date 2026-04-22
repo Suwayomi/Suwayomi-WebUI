@@ -24,8 +24,7 @@ import {
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { MetadataMigrationSettings } from '@/features/migration/Migration.types.ts';
-import { MigrateMode } from '@/features/manga/Manga.types.ts';
+import type { MetadataMigrationSettings, MigrateMode } from '@/features/migration/Migration.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrateTo: number; onClose: () => void }) => {
@@ -37,7 +36,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
     const mangaId = Number(mangaIdAsString);
 
     const {
-        settings: { migrateChapters, migrateCategories, migrateTracking, deleteChapters },
+        settings: { migrateChapters, migrateCategories, migrateTracking, deleteChapters, migrateMetadata },
     } = useMetadataServerSettings();
 
     const [isMigrationInProcess, setIsMigrationInProcess] = useState(false);
@@ -62,6 +61,7 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                 migrateCategories,
                 migrateTracking,
                 deleteChapters,
+                migrateMetadata,
             });
 
             navigate(AppRoutes.manga.path(mangaIdToMigrateTo), { replace: true });
@@ -92,6 +92,12 @@ export const MigrateDialog = ({ mangaIdToMigrateTo, onClose }: { mangaIdToMigrat
                         label={t`Tracking`}
                         checked={migrateTracking}
                         onChange={(_, checked) => setMigrationFlag('migrateTracking', checked)}
+                    />
+                    <CheckboxInput
+                        disabled={isMigrationInProcess}
+                        label={t`Client data`}
+                        checked={migrateMetadata}
+                        onChange={(_, checked) => setMigrationFlag('migrateMetadata', checked)}
                     />
                     <CheckboxInput
                         disabled={isMigrationInProcess}

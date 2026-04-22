@@ -6,7 +6,9 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState, useEffect, useCallback, useRef, Ref } from 'react';
+import type { Ref } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -14,11 +16,12 @@ import Button from '@mui/material/Button';
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import ImageIcon from '@mui/icons-material/Image';
-import { SxProps, Theme } from '@mui/material/styles';
+import type { SxProps, Theme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 import { usePrevious } from '@mantine/hooks';
-import { ImageRequest, requestManager } from '@/lib/requests/RequestManager.ts';
-import { Priority } from '@/lib/Queue.ts';
+import type { ImageRequest } from '@/lib/requests/RequestManager.ts';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import type { Priority } from '@/lib/Queue.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useIntersectionObserver } from '@/base/hooks/useIntersectionObserver.tsx';
 import { noOp } from '@/lib/HelperFunctions.ts';
@@ -59,7 +62,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
         alt,
         onLoad,
         onError,
-        spinnerStyle: { small, ...spinnerStyle } = {},
+        spinnerStyle: { small, ...spinnerStyle } = STABLE_EMPTY_OBJECT,
         imgStyle,
         hideImgStyle,
         priority,

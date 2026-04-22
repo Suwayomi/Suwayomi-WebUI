@@ -6,13 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect } from 'react';
+import type { useEffect } from 'react';
 import {
     APP_METADATA_KEY_PREFIX,
     METADATA_MIGRATIONS,
     VALID_APP_METADATA_KEYS,
 } from '@/features/metadata/Metadata.constants.ts';
-import {
+import type {
     AppMetadataKeys,
     IMetadataMigration,
     Metadata,
@@ -21,12 +21,13 @@ import {
     MetadataKeyValuePair,
 } from '@/features/metadata/Metadata.types.ts';
 import { extractOriginalKey, getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
-import { CategoryIdInfo } from '@/features/category/Category.types.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { getMetadataDeleteFunction, getMetadataUpdateFunction } from '@/features/metadata/services/MetadataUpdater.ts';
-import { SourceIdInfo } from '@/features/source/Source.types.ts';
-import { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import { getMetadataUpdateFunction } from '@/features/metadata/services/MetadataUpdater.ts';
+import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 
 const getAppKeyPrefixForMigration = (migrationId: number): string => {
     const appKeyPrefix = METADATA_MIGRATIONS.slice(0, migrationId)
@@ -174,7 +175,7 @@ const getOutdatedMetadataKeys = (metadata: Metadata | undefined, migrationId: nu
     );
 
     return Object.keys(metadata).filter((key) => {
-        const appKeyPrefixOfKey = key.split('_')[0];
+        const [appKeyPrefixOfKey] = key.split('_');
 
         const isMetadataKeyOfApp = [...oldAppKeyPrefixes, APP_METADATA_KEY_PREFIX].includes(appKeyPrefixOfKey);
         if (!isMetadataKeyOfApp) {
@@ -278,7 +279,8 @@ const commitMigratedMetadata = (
     migratedMetadata: Metadata,
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),
 ): void => {
-    const metadata = metadataHolder?.meta;
+    const rawMetadata = metadataHolder?.meta;
+    const metadata = MetadataChunker.reassembleAllChunkedValues(rawMetadata);
 
     const migrationId = Number(metadata?.[getMetadataKey('migration')] ?? 1);
 
@@ -294,8 +296,17 @@ const commitMigratedMetadata = (
         migratedMetadata[key],
     ]) as MetadataKeyValuePair[];
 
+    // Expand app keys to chunk keys for deletion (e.g., some_key -> some_key_0, some_key_1, some_key_2, ..., some_key_n, some_key_length
+    const keysToDelete = metadataKeysToDelete.flatMap((fullKey) => {
+        if (rawMetadata && MetadataChunker.isChunkedInMetadata(rawMetadata, fullKey)) {
+            const count = MetadataChunker.getExistingChunkCount(rawMetadata, fullKey);
+            const chunkKeys = Array.from({ length: count }, (_, i) => MetadataChunker.getChunkIndexKey(fullKey, i));
+            return [MetadataChunker.getChunkLengthKey(fullKey), ...chunkKeys];
+        }
+        return [fullKey];
+    }) as AppMetadataKeys[];
+
     const updateMetadata = getMetadataUpdateFunction(type, metadataHolder ?? { id: -1, meta: {} });
-    const deleteMetadata = getMetadataDeleteFunction(type, metadataHolder ?? { id: -1, meta: {} });
 
     useEffectFn(() => {
         (async () => {
@@ -308,8 +319,7 @@ const commitMigratedMetadata = (
 
             const isMetadataAlreadyMigrated = !metadata || migrationId === METADATA_MIGRATIONS.length;
 
-            const isCommitRequired =
-                !isMetadataAlreadyMigrated && (!!metadataKeysToDelete.length || !!metadataToUpdate.length);
+            const isCommitRequired = !isMetadataAlreadyMigrated;
             if (!isCommitRequired) {
                 return;
             }
@@ -317,9 +327,12 @@ const commitMigratedMetadata = (
             commitedMigrations.add(itemMigrationKey);
 
             try {
-                await updateMetadata([...metadataToUpdate], undefined, true);
-                await deleteMetadata(metadataKeysToDelete, undefined, true);
-                await updateMetadata([['migration', METADATA_MIGRATIONS.length]]);
+                await updateMetadata({
+                    update: metadataToUpdate,
+                    delete: keysToDelete,
+                    migrate: [['migration', METADATA_MIGRATIONS.length]],
+                    isMetadataKey: true,
+                });
             } catch (e) {
                 commitedMigrations.delete(itemMigrationKey);
 
@@ -341,7 +354,8 @@ export const applyMetadataMigrations = (
         | (SourceIdInfo & MetadataHolder),
     useEffectFn: typeof useEffect = (fn: () => void) => fn(),
 ): Metadata | undefined => {
-    const meta = { ...(metadataHolder?.meta ?? {}) };
+    const rawMeta = metadataHolder?.meta ?? {};
+    const meta = MetadataChunker.reassembleAllChunkedValues(rawMeta) ?? {};
 
     const migrationIdKey = getMetadataKey('migration');
     const appliedMigrationId = Number.isNaN(Number(meta[migrationIdKey]))
@@ -352,7 +366,7 @@ export const applyMetadataMigrations = (
 
     METADATA_MIGRATIONS.forEach((migration, index) => {
         const migrationId = index + 1;
-        const metadataToMigrate = migrationToMetadata[migrationId - 1][1];
+        const [, metadataToMigrate] = migrationToMetadata[migrationId - 1];
 
         const isMigrationRequired = appliedMigrationId < migrationId;
         if (!isMigrationRequired) {

@@ -14,7 +14,8 @@ import Stack from '@mui/material/Stack';
 import Card from '@mui/material/Card';
 import IconButton from '@mui/material/IconButton';
 import { useTheme } from '@mui/material/styles';
-import React, { memo, MouseEvent, TouchEvent, useRef } from 'react';
+import type { MouseEvent, TouchEvent } from 'react';
+import React, { memo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLongPress } from 'use-long-press';
@@ -22,7 +23,7 @@ import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { getDateString } from '@/base/utils/DateHelper.ts';
 import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
-import { ChapterType } from '@/lib/graphql/generated/graphql.ts';
+import type { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterActionMenuItems } from '@/features/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { Menu } from '@/base/components/menu/Menu.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
@@ -30,7 +31,7 @@ import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { ChapterCardMetadata } from '@/features/chapter/components/cards/ChapterCardMetadata.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
-import {
+import type {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
     ChapterIdInfo,
@@ -60,6 +61,15 @@ interface IProps {
     isActiveChapter?: boolean; // reader
 }
 
+const handleClickOpenMenu = (
+    event: React.MouseEvent | React.TouchEvent,
+    openMenu?: (e: React.SyntheticEvent) => void,
+) => {
+    event.stopPropagation();
+    event.preventDefault();
+    openMenu?.(event);
+};
+
 export const ChapterCard = memo((props: IProps) => {
     const { t } = useLingui();
     const theme = useTheme();
@@ -81,20 +91,13 @@ export const ChapterCard = memo((props: IProps) => {
     const { isDownloaded } = chapter;
 
     const handleClick = (event: MouseEvent | TouchEvent) => {
-        if (!isSelecting) return;
+        if (!isSelecting) {
+            return;
+        }
 
         event.preventDefault();
         event.stopPropagation();
         onSelect(chapter.id, !selected, event.shiftKey);
-    };
-
-    const handleClickOpenMenu = (
-        event: React.MouseEvent | React.TouchEvent,
-        openMenu?: (e: React.SyntheticEvent) => void,
-    ) => {
-        event.stopPropagation();
-        event.preventDefault();
-        openMenu?.(event);
     };
 
     const longPressBind = useLongPress((event, { context: openMenu }) => {
@@ -103,7 +106,7 @@ export const ChapterCard = memo((props: IProps) => {
             return;
         }
 
-        // eslint-disable-next-line no-param-reassign
+        // oxlint-disable-next-line no-param-reassign
         event.shiftKey = true;
         handleClick(event);
     });

@@ -28,7 +28,10 @@ export const ImagesSettings = () => {
 
     const clearCache = async () => {
         try {
-            await Promise.all([triggerClearServerCache(), ImageCache.clearAll()]);
+            await Promise.all([
+                triggerClearServerCache({ variables: { input: { cachedPages: true, cachedThumbnails: true } } }),
+                ImageCache.clearAll(),
+            ]);
             makeToast(t`Cleared the cache`, 'success');
         } catch (e) {
             makeToast(t`Could not clear the cache`, 'error', getErrorMessage(e));

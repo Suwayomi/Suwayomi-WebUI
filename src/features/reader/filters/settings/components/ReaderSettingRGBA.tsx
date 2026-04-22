@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { MessageDescriptor } from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import Stack from '@mui/material/Stack';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import {

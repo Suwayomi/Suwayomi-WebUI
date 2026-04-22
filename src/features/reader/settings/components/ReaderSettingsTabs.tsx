@@ -12,7 +12,7 @@ import { useLingui } from '@lingui/react/macro';
 import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
-import { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { READER_SETTING_TABS, ReaderSettingTab } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';

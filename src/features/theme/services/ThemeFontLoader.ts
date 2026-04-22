@@ -7,7 +7,7 @@
  */
 
 import WebFont from 'webfontloader';
-import { CssVarsThemeOptions } from '@mui/material/styles';
+import type { CssVarsThemeOptions } from '@mui/material/styles';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
@@ -36,11 +36,15 @@ export class ThemeFontLoader {
     }
 
     private static parseWeight(value: any): number | null {
-        if (typeof value === 'number') return value;
+        if (typeof value === 'number') {
+            return value;
+        }
 
         if (typeof value === 'string') {
             const parsed = Number(value);
-            if (!Number.isNaN(parsed)) return parsed;
+            if (!Number.isNaN(parsed)) {
+                return parsed;
+            }
 
             // Handle CSS keywords
             switch (value.toLowerCase()) {
@@ -79,7 +83,7 @@ export class ThemeFontLoader {
             const isValidFontProperty = propertyName === 'fontFamily' && propertyType === 'string';
             if (isValidFontProperty) {
                 const detectedFonts = propertyValue.split(',') as string[];
-                const normalizedFonts = detectedFonts.map((detectedFont) => detectedFont.replace(/"/g, '').trim());
+                const normalizedFonts = detectedFonts.map((detectedFont) => detectedFont.replaceAll('"', '').trim());
 
                 const weights = this.extractWeights(obj);
 
@@ -87,7 +91,7 @@ export class ThemeFontLoader {
                     result[font] = new Set([...(result[font] ?? []), ...weights].toSorted((a, b) => a - b));
                 });
 
-                // eslint-disable-next-line no-continue
+                // oxlint-disable-next-line no-continue
                 continue;
             }
 

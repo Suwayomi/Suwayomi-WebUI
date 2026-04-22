@@ -8,7 +8,7 @@
 
 import { useCallback } from 'react';
 import { useLingui } from '@lingui/react/macro';
-import {
+import type {
     SourceDisplayNameInfo,
     SourceIdInfo,
     SourceLanguageInfo,

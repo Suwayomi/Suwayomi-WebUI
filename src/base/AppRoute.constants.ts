@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { SourceType } from '@/lib/graphql/generated/graphql.ts';
-import { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { SourceType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
-import { ChapterSourceOrderInfo } from '@/features/chapter/Chapter.types.ts';
-import { BrowseTab } from '@/features/browse/Browse.types.ts';
+import type { ChapterSourceOrderInfo } from '@/features/chapter/Chapter.types.ts';
+import type { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
 

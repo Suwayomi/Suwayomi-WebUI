@@ -7,7 +7,7 @@
  */
 
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -23,6 +23,7 @@ import { ChapterHistoryCard } from '@/features/history/components/ChapterHistory
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export const History: React.FC = () => {
     const { t } = useLingui();
@@ -41,7 +42,8 @@ export const History: React.FC = () => {
     });
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterHistoryData?.chapters.pageInfo.endCursor;
-    const allReadEntries = chapterHistoryData?.chapters.nodes ?? [];
+
+    const allReadEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
     const readEntries = useMemo(() => {
         const seenMangaIds = new Set<number>();
         return allReadEntries.filter((chapter) => {
@@ -52,7 +54,7 @@ export const History: React.FC = () => {
             return true;
         });
     }, [allReadEntries]);
-
+    const filteredOutAllItemsOfFetchedPage = allReadEntries.length > 0 && readEntries.length === 0;
     const groupedHistory = useMemo(
         () => Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')),
         [readEntries],
@@ -73,8 +75,14 @@ export const History: React.FC = () => {
             return;
         }
 
-        fetchMore({ variables: { offset: readEntries.length } });
+        fetchMore({ variables: { offset: allReadEntries.length } });
     }, [hasNextPage, endCursor]);
+
+    useEffect(() => {
+        if (filteredOutAllItemsOfFetchedPage && hasNextPage && !isLoading) {
+            loadMore();
+        }
+    }, [filteredOutAllItemsOfFetchedPage, isLoading, hasNextPage, loadMore]);
 
     const gridRef = useRef<HTMLDivElement>(null);
 

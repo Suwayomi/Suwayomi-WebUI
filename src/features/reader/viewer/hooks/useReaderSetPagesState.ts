@@ -9,15 +9,11 @@
 import { useLayoutEffect, useRef } from 'react';
 import { getInitialReaderPageIndex } from '@/features/reader/Reader.utils.ts';
 import { createPagesData } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import {
-    ReaderPageSpreadState,
-    ReaderResumeMode,
-    ReaderStatePages,
-    ReaderTransitionPageMode,
-} from '@/features/reader/Reader.types.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { TChapterReader } from '@/features/chapter/Chapter.types.ts';
-import { ReaderChaptersStoreSlice } from '@/features/reader/stores/ReaderChaptersStore.ts';
+import type { ReaderPageSpreadState, ReaderResumeMode, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import { ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
+import type { requestManager } from '@/lib/requests/RequestManager.ts';
+import type { TChapterReader } from '@/features/chapter/Chapter.types.ts';
+import type { ReaderChaptersStoreSlice } from '@/features/reader/stores/ReaderChaptersStore.ts';
 import { getReaderStore } from '@/features/reader/stores/ReaderStore.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
 

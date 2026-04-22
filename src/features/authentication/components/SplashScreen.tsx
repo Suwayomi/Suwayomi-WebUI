@@ -7,8 +7,9 @@
  */
 
 import { useTheme } from '@mui/material/styles';
-import Stack, { StackProps } from '@mui/material/Stack';
-import { ComponentProps } from 'react';
+import type { StackProps } from '@mui/material/Stack';
+import Stack from '@mui/material/Stack';
+import type { ComponentProps } from 'react';
 import { SuwayomiLogo } from '@/assets/SuwayomiLogo.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 
