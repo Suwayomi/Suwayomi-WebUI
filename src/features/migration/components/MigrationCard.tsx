@@ -13,26 +13,29 @@ import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import type { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
+import { Sources } from '@/features/source/services/Sources';
+import type { TMigratableSource } from '@/features/migration/Migration.types.ts';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
-export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas']['nodes'][number]['source']> & {
-    mangaCount: number;
-};
-
-// TODO - cleanup source/extension components
-export const MigrationCard = ({ id, name, lang, iconUrl, mangaCount }: TMigratableSource) => {
+export const MigrationCard = (source: TMigratableSource) => {
+    const { id, name, lang, iconUrl, mangaCount } = source;
     const { t } = useLingui();
 
-    const isLocalSource = Number(id) === 0;
-    const sourceName = isLocalSource ? t`Local source` : name;
+    const sourceName = Sources.isLocalSource(source) ? t`Local source` : name;
 
     return (
         <Card>
-            <CardActionArea onClick={() => MigrationManager.selectSource(id)}>
+            <CardActionArea
+                onClick={() => {
+                    MigrationManager.selectSources([id]);
+                    ReactRouter.navigate(AppRoutes.migrate.path);
+                }}
+            >
                 <ListCardContent sx={{ justifyContent: 'space-between' }}>
                     <Box sx={{ display: 'flex', gap: 1 }}>
                         <ListCardAvatar

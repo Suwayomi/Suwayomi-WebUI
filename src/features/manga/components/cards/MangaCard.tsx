@@ -22,13 +22,15 @@ import { GridLayout } from '@/base/Base.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { t } from '@lingui/core/macro';
 import { useParams } from 'react-router-dom';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { MigrationOptionsDialog } from '@/features/migration/components/MigrationOptionsDialog.tsx';
 import { AwaitableComponent } from 'awaitable-component';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler';
+import { MangaMigration } from '@/features/migration/MangaMigration.ts';
+import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 const getMangaLinkTo = (
     mode: MangaCardMode,
@@ -123,8 +125,15 @@ export const MangaCard = memo((props: MangaCardProps) => {
                                 optionsDialog.update({ isMigrating: true });
 
                                 try {
-                                    await Mangas.migrate(migrationSourceMangaId, id, options);
-
+                                    try {
+                                        await MangaMigration.migrate(migrationSourceMangaId, id, options);
+                                    } catch (e) {
+                                        makeToast(
+                                            t(MANGA_ACTION_TO_TRANSLATION['migrate'].error),
+                                            'error',
+                                            getErrorMessage(e),
+                                        );
+                                    }
                                     optionsDialog.submit(options);
 
                                     ReactRouter.navigate(AppRoutes.manga.path(id), { replace: true });

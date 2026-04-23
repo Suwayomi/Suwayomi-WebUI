@@ -26,8 +26,6 @@ import { SelectableCollectionSelectMode } from '@/base/collection/components/Sel
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { MigrationContinueButton } from '@/features/migration/components/MigrationContinueButton.tsx';
-import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 
 const getSourceError = (error: unknown): unknown => {
     const message = getErrorMessage(error);
@@ -45,8 +43,10 @@ const getSourceError = (error: unknown): unknown => {
 
 export const MigrationSelectMangas = () => {
     const { t } = useLingui();
-    const sourceId = MigrationManager.useSourceId();
+    const sourceIds = MigrationManager.useSourceIds();
     const selectedMangas = MigrationManager.useEntries();
+
+    const sourceId = sourceIds?.[0];
 
     const [gridLayout, setGridLayout] = useLocalStorage('migrateGridLayout', GridLayout.List);
 
@@ -58,7 +58,7 @@ export const MigrationSelectMangas = () => {
     } = requestManager.useGetSource<GetSourceMigratableQuery, GetSourceMigratableQueryVariables>(
         GET_SOURCE_MIGRATABLE,
         sourceId ?? '',
-        { skip: !sourceId, notifyOnNetworkStatusChange: true },
+        { skip: !sourceIds, notifyOnNetworkStatusChange: true },
     );
 
     const {
@@ -67,7 +67,7 @@ export const MigrationSelectMangas = () => {
         error: mangasError,
         refetch: refetchMangas,
     } = requestManager.useGetMigratableSourceMangas(sourceId!, {
-        skip: !sourceId,
+        skip: !sourceIds,
         notifyOnNetworkStatusChange: true,
     });
 
@@ -86,7 +86,7 @@ export const MigrationSelectMangas = () => {
             ),
         });
 
-    const sourceName = migratableSourceData?.source?.displayName ?? sourceId ?? t`Migrate`;
+    const sourceName = migratableSourceData?.source?.displayName ?? sourceIds ?? t`Migrate`;
     useAppTitleAndAction(
         sourceName,
         <>
@@ -107,22 +107,6 @@ export const MigrationSelectMangas = () => {
 
     const handleContinue = () => {
         const selected = mangas.filter((manga) => selectedItemIds.includes(manga.id));
-
-        const [entry] = selected;
-        const isSingleManga = selected.length === 1;
-
-        if (isSingleManga && entry) {
-            ReactRouter.navigate(
-                AppRoutes.migrate.childRoutes.singleMangaSearch.path(entry.sourceId, entry.id, entry.title),
-                {
-                    state: { mangaTitle: entry.title },
-                },
-            );
-
-            MigrationManager.reset();
-
-            return;
-        }
 
         MigrationManager.selectMangas(selected);
     };

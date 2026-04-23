@@ -34,7 +34,7 @@ export const MAX_SOURCES_IN_PARALLEL = 6;
 
 export const DEFAULT_MIGRATION_STATE: MigrationState = {
     phase: MigrationPhase.IDLE,
-    sourceId: null,
+    sourceIds: null,
     entries: {},
     destinationSourceIds: [],
     migrateOptions: null,

@@ -20,7 +20,7 @@ import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
 import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
-import type { SourceItem } from '@/features/migration/Migration.types.ts';
+import type { MigrationState, SourceItem } from '@/features/migration/Migration.types.ts';
 import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
@@ -91,13 +91,13 @@ export const MigrationSourceList = ({
     handleSelection,
     selectedSourceIds,
     handlePriorityChange,
-    currentSourceId,
+    currentSourceIds,
 }: {
     sources: SourceItem[];
     handleSelection: SelectableCollectionReturnType<SourceIdInfo['id'], 'default'>['handleSelection'];
     handlePriorityChange: (oldIndex: number, newIndex: number) => void;
     selectedSourceIds: SourceIdInfo['id'][];
-    currentSourceId: SourceIdInfo['id'] | null;
+    currentSourceIds: MigrationState['sourceIds'];
 }) => {
     const { t } = useLingui();
     const dndSensors = DndKitUtil.useSensorsForDevice();
@@ -207,7 +207,7 @@ export const MigrationSourceList = ({
                             <SourceCard
                                 source={source}
                                 onToggle={handleToggle}
-                                isCurrentSource={source.id === currentSourceId}
+                                isCurrentSource={!!currentSourceIds?.includes(source.id)}
                                 isSelected={isSelected}
                             />
                         );
@@ -232,7 +232,7 @@ export const MigrationSourceList = ({
                 <SourceCard
                     source={dndActiveSource!}
                     onToggle={noOp}
-                    isCurrentSource={dndActiveSource?.id === currentSourceId}
+                    isCurrentSource={!!dndActiveSource && !!currentSourceIds?.includes(dndActiveSource?.id)}
                     isSelected
                     isDragging
                 />

@@ -68,7 +68,7 @@ export const MigrationExecute = () => {
                     })}
                     entries={migratingEntries}
                     isMigrating
-                    color="error"
+                    color="info"
                 />
                 <MigrationEntryGroup
                     status={MigrationEntryStatus.MIGRATION_FAILED}

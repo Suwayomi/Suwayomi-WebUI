@@ -71,7 +71,7 @@ export const MigrationSearch = () => {
                         other: '# searching',
                     })}
                     entries={searchingEntries}
-                    color="error"
+                    color="info"
                 />
                 <MigrationEntryGroup
                     status={MigrationEntryStatus.SEARCH_FAILED}

@@ -22,8 +22,7 @@ import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
-import { MANGA_BASE_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
-import type { MigrateOptions } from '@/features/migration/Migration.types.ts';
+import { MANGA_BASE_FIELDS, MANGA_MIGRATION_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import type {
     MangaAction,
     MangaArtistInfo,
@@ -49,7 +48,10 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
-import { MangaMigration } from '@/features/migration/MangaMigration.ts';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
+import uniq from 'lodash/fp/uniq';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 type DownloadChaptersOptions = {
     size?: number;
@@ -61,23 +63,18 @@ type ChangeCategoriesOptions = { changeCategoriesPatch: UpdateMangaCategoriesPat
 
 type MarkAsReadActionOption = MarkAsReadOptions &
     PropertiesNever<ChangeCategoriesOptions> &
-    PropertiesNever<MigrateOptions> &
     PropertiesNever<DownloadChaptersOptions>;
 type ChangeCategoriesActionOption = PropertiesNever<MarkAsReadOptions> &
     ChangeCategoriesOptions &
-    PropertiesNever<MigrateOptions> &
     PropertiesNever<DownloadChaptersOptions>;
 type MigrateActionOption = PropertiesNever<MarkAsReadOptions> &
     PropertiesNever<ChangeCategoriesOptions> &
-    MigrateOptions &
     PropertiesNever<DownloadChaptersOptions>;
 type DownloadActionOption = PropertiesNever<MarkAsReadOptions> &
     PropertiesNever<ChangeCategoriesOptions> &
-    PropertiesNever<MigrateOptions> &
     DownloadChaptersOptions;
 type DefaultActionOption = Partial<MarkAsReadOptions> &
     Partial<ChangeCategoriesOptions> &
-    Partial<MigrateOptions> &
     Partial<DownloadChaptersOptions>;
 
 type PerformActionOptions<Action extends MangaAction> = Action extends 'mark_as_read'
@@ -298,18 +295,22 @@ export class Mangas {
         );
     }
 
-    static async migrate(
-        mangaId: MangaIdInfo['id'],
-        mangaIdToMigrateTo: number,
-        options: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
-        disableConfirmation?: boolean,
-    ): Promise<void> {
-        return Mangas.executeAction(
-            'migrate',
-            1,
-            () => MangaMigration.migrate(mangaId, mangaIdToMigrateTo, options),
-            disableConfirmation,
-        );
+    static async migrate(mangaIds: MangaIdInfo['id'][]): Promise<void> {
+        const mangas = mangaIds.map((mangaId) => {
+            const manga = Mangas.getFromCache(mangaId, MANGA_MIGRATION_FIELDS, 'MANGA_MIGRATION_FIELDS');
+            assertIsDefined(manga);
+
+            return manga;
+        });
+        const sourceIds = uniq(mangas.map((manga) => manga.sourceId));
+
+        MigrationManager.selectSources(sourceIds);
+        MigrationManager.selectMangas(mangas);
+
+        const isBulkMigration = mangas.length > 1;
+        if (isBulkMigration) {
+            ReactRouter.navigate(AppRoutes.migrate.path);
+        }
     }
 
     private static async executeAction(
@@ -367,11 +368,9 @@ export class Mangas {
         {
             wasManuallyMarkedAsRead,
             changeCategoriesPatch,
-            mangaIdToMigrateTo,
             downloadAhead,
             onlyUnread,
             size,
-            ...migrateOptions
         }: PerformActionOptions<Action>,
         disableConfirmation?: boolean,
     ): Promise<void> {
@@ -389,12 +388,7 @@ export class Mangas {
             case 'change_categories':
                 return Mangas.changeCategories(mangaIds, changeCategoriesPatch!, disableConfirmation);
             case 'migrate': {
-                return Mangas.migrate(
-                    mangaIds[0],
-                    mangaIdToMigrateTo!,
-                    migrateOptions as unknown as MigrateOptions,
-                    disableConfirmation,
-                );
+                return Mangas.migrate(mangaIds);
             }
             default:
                 throw new Error(`Mangas::performAction: unknown action "${action}"`);

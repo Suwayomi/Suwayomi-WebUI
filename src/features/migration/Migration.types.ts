@@ -111,7 +111,7 @@ export type MigrationProgress = { total: number; completed: number; success: num
 
 export interface MigrationState {
     phase: MigrationPhase;
-    sourceId: SourceIdInfo['id'] | null;
+    sourceIds: SourceIdInfo['id'][] | null;
     entries: Record<MangaIdInfo['id'], TMigrationEntry>;
     destinationSourceIds: SourceIdInfo['id'][];
     migrateOptions: Omit<MigrateOptions, 'mangaIdToMigrateTo'> | null;
@@ -123,3 +123,7 @@ export interface MigrationState {
 }
 
 export interface SourceItem extends SourceIdInfo, SourceNameInfo, SourceLanguageInfo, SourceIconInfo, SourceMetaInfo {}
+
+export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas']['nodes'][number]['source']> & {
+    mangaCount: number;
+};

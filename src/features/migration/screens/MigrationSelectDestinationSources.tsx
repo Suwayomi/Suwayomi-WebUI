@@ -31,7 +31,7 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 
 export const MigrationSelectDestinationSources = () => {
     const { t } = useLingui();
-    const currentSourceId = MigrationManager.useSourceId();
+    const currentSourceIds = MigrationManager.useSourceIds();
 
     const {
         settings: { browseLanguages, showNsfw },
@@ -156,7 +156,7 @@ export const MigrationSelectDestinationSources = () => {
                 selectedSourceIds={selectedItemIds}
                 handleSelection={handleSelection}
                 handlePriorityChange={handlePriorityChange}
-                currentSourceId={currentSourceId}
+                currentSourceIds={currentSourceIds}
             />
             <Fab
                 variant="extended"

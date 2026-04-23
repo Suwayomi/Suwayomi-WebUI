@@ -14,11 +14,11 @@ import { devtools, persist } from 'zustand/middleware';
 import {
     type MigratableEntry,
     type MigrateOptions,
-    type TMigrationEntry,
     MigrationEntryStatus,
-    MigrationPhase,
     type MigrationMatch,
+    MigrationPhase,
     type MigrationState,
+    type TMigrationEntry,
 } from '@/features/migration/Migration.types.ts';
 import {
     DEFAULT_MIGRATION_STATE,
@@ -153,6 +153,14 @@ export class MigrationManager {
         }
     }
 
+    private static ensureIsInValidPhase(phases: MigrationPhase[]): void {
+        const { phase } = MigrationManager.getState();
+
+        if (!phases.includes(phase)) {
+            throw new Error(`Illegal migration phase "${phase}". Expected: ${phases}`);
+        }
+    }
+
     static async goToPreviousPhase(): Promise<boolean> {
         switch (MigrationManager.getState().phase) {
             case MigrationPhase.IDLE:
@@ -265,16 +273,34 @@ export class MigrationManager {
         return updatedEntry;
     }
 
-    static selectSource(sourceId: SourceIdInfo['id']): void {
+    static selectSources(sourceIds: SourceIdInfo['id'][]): void {
+        MigrationManager.ensureIsInValidPhase([MigrationPhase.IDLE]);
+
         MigrationManager.updateState((draft) => {
             draft.phase = MigrationPhase.SELECT_MANGAS;
-            draft.sourceId = sourceId;
+            draft.sourceIds = sourceIds;
             draft.entries = {};
         });
-        ReactRouter.navigate(AppRoutes.migrate.path);
     }
 
     static selectMangas(mangas: MangaMigrationFieldsFragment[]): void {
+        MigrationManager.ensureIsInValidPhase([MigrationPhase.SELECT_MANGAS]);
+
+        const isSingleManga = mangas.length === 1;
+        if (isSingleManga) {
+            const [manga] = mangas;
+
+            ReactRouter.navigate(
+                AppRoutes.migrate.childRoutes.singleMangaSearch.path(manga.sourceId, manga.id, manga.title),
+                {
+                    state: { mangaTitle: manga.title },
+                },
+            );
+
+            MigrationManager.reset();
+            return;
+        }
+
         MigrationManager.updateState((draft) => {
             draft.phase = MigrationPhase.SELECTING_SOURCES;
             draft.entries = Object.fromEntries(
@@ -305,6 +331,8 @@ export class MigrationManager {
     }
 
     static async startSearch(destinationSourceIds: SourceIdInfo['id'][]): Promise<void> {
+        MigrationManager.ensureIsInValidPhase([MigrationPhase.SELECTING_SOURCES]);
+
         MigrationManager.updateState((draft) => {
             draft.destinationSourceIds = destinationSourceIds;
         });
@@ -369,6 +397,8 @@ export class MigrationManager {
     }
 
     static async startMigration(options: Omit<MigrateOptions, 'mangaIdToMigrateTo'>): Promise<void> {
+        MigrationManager.ensureIsInValidPhase([MigrationPhase.SEARCHING]);
+
         const migratableEntries = MigrationManager.getMigratableEntries();
 
         await Confirmation.show({
@@ -551,25 +581,49 @@ export class MigrationManager {
         return RESUMABLE_PHASES.includes(MigrationManager.getState().phase);
     }
 
-    private static getHigherPrioritySourceIds(sourceId: SourceIdInfo['id']): SourceIdInfo['id'][] {
-        const { destinationSourceIds } = MigrationManager.getState();
+    private static getDestinationSourceIds(mangaSourceId: SourceIdInfo['id']): MigrationState['destinationSourceIds'] {
+        const { sourceIds, destinationSourceIds } = MigrationManager.getState();
 
-        const sourceIdPriority = destinationSourceIds.indexOf(sourceId);
+        // Prevent (most likely) unintentionally matching a manga to itself.
+        const isMultiSourceMigration = (sourceIds?.length ?? -1) > 1;
+        if (isMultiSourceMigration) {
+            const mangaSourceIdIndex = destinationSourceIds.indexOf(mangaSourceId);
+
+            return [
+                ...destinationSourceIds.slice(0, mangaSourceIdIndex),
+                ...destinationSourceIds.slice(mangaSourceIdIndex + 1),
+                mangaSourceId,
+            ];
+        }
+
+        return destinationSourceIds;
+    }
+
+    private static getHigherPrioritySourceIds(
+        mangaSourceId: SourceIdInfo['id'],
+        destSourceId: SourceIdInfo['id'],
+    ): SourceIdInfo['id'][] {
+        const destinationSourceIds = MigrationManager.getDestinationSourceIds(mangaSourceId);
+
+        const sourceIdPriority = destinationSourceIds.indexOf(destSourceId);
         return destinationSourceIds.slice(0, Math.max(0, sourceIdPriority - 1));
     }
 
-    private static isHigherPrioritySourceUnsettled(mangaId: MangaIdInfo['id'], sourceId: SourceIdInfo['id']): boolean {
+    private static isHigherPrioritySourceUnsettled(
+        mangaId: MangaIdInfo['id'],
+        destSourceId: SourceIdInfo['id'],
+    ): boolean {
         const { entries } = MigrationManager.getState();
         const entry = entries[mangaId];
 
         assertIsDefined(entry);
 
-        return MigrationManager.getHigherPrioritySourceIds(sourceId).some(
+        return MigrationManager.getHigherPrioritySourceIds(entry.sourceId, destSourceId).some(
             (higherPrioritySourceId) => entry.destSourceIdToSearchState[higherPrioritySourceId] == null,
         );
     }
 
-    private static hasHigherSourcePriorityMatch(mangaId: MangaIdInfo['id'], sourceId: SourceIdInfo['id']): boolean {
+    private static hasHigherSourcePriorityMatch(mangaId: MangaIdInfo['id'], destSourceId: SourceIdInfo['id']): boolean {
         const { entries } = MigrationManager.getState();
         const entry = entries[mangaId];
 
@@ -577,7 +631,7 @@ export class MigrationManager {
             return false;
         }
 
-        return MigrationManager.getHigherPrioritySourceIds(sourceId).some(
+        return MigrationManager.getHigherPrioritySourceIds(entry.sourceId, destSourceId).some(
             (higherPrioritySourceId) => entry.destSourceIdToSearchState[higherPrioritySourceId],
         );
     }
@@ -658,7 +712,7 @@ export class MigrationManager {
         });
 
         try {
-            const searchPromises = state.destinationSourceIds.map((destSourceId) =>
+            const searchPromises = MigrationManager.getDestinationSourceIds(entry.sourceId).map((destSourceId) =>
                 MigrationManager.getParallelSourceQueue()(async () => {
                     if (signal.aborted) {
                         return null;
@@ -893,8 +947,8 @@ export class MigrationManager {
         return useMigrationStore((state) => state.phase);
     }
 
-    static useSourceId(): SourceIdInfo['id'] | null {
-        return useMigrationStore((state) => state.sourceId);
+    static useSourceIds(): MigrationState['sourceIds'] {
+        return useMigrationStore((state) => state.sourceIds);
     }
 
     static useEntries(): Record<number, TMigrationEntry> {
