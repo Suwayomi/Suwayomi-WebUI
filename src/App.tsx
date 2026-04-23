@@ -33,6 +33,7 @@ import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { ImageProcessingType } from '@/features/settings/Settings.types.ts';
 import { MigrationFABIndicator } from '@/features/migration/components/MigrationFABIndicator.tsx';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -151,6 +152,16 @@ const ReactRouterSetter = () => {
 
     useEffect(() => {
         ReactRouter.setNavigateFn(navigate);
+    }, []);
+
+    return null;
+};
+
+const ResumeMigration = () => {
+    useEffect(() => {
+        if (!MigrationManager.isActive()) {
+            MigrationManager.resume().catch(defaultPromiseErrorHandler('ResumeMigration'));
+        }
     }, []);
 
     return null;
@@ -342,6 +353,7 @@ export const App: React.FC = () => (
             <WebUIUpdateChecker />
             <InitialBackgroundRequests />
             <BackgroundSubscriptions />
+            <ResumeMigration />
 
             <Box sx={{ display: 'flex' }}>
                 <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>

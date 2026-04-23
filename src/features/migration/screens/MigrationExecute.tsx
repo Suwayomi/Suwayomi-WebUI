@@ -31,7 +31,7 @@ export const MigrationExecute = () => {
     const migratingEntries = useMemo(
         () =>
             entryList.filter((entry) =>
-                [MigrationEntryStatus.PENDING, MigrationEntryStatus.MIGRATING].includes(entry.status),
+                [MigrationEntryStatus.SEARCH_COMPLETE, MigrationEntryStatus.MIGRATING].includes(entry.status),
             ),
         [entryList],
     );

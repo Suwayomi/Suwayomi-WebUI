@@ -347,8 +347,24 @@ export class MigrationManager {
             draft.groupExpandState = MIGRATE_SEARCH_ENTRY_GROUP_EXPAND_DEFAULT_STATE;
         });
 
+        await MigrationManager.search(Object.values(state.entries));
+    }
+
+    private static async search(entries: TMigrationEntry[]): Promise<void> {
+        const { signal } = MigrationManager.abortAndCreateAbortController('search');
+
+        const searchPromises = entries.map((entry) =>
+            MigrationManager.mangaProcessQueue(async () => {
+                if (signal.aborted) {
+                    return;
+                }
+
+                await MigrationManager.searchForManga(entry.mangaId, entry.mangaTitle, signal);
+            }),
+        );
+
         try {
-            await MigrationManager.search(Object.values(state.entries));
+            await Promise.allSettled(searchPromises);
         } finally {
             const { searchProgress } = MigrationManager.getState();
 
@@ -368,28 +384,12 @@ export class MigrationManager {
         }
     }
 
-    private static async search(entries: TMigrationEntry[]): Promise<void> {
-        const { signal } = MigrationManager.abortAndCreateAbortController('search');
-
-        const searchPromises = entries.map((entry) =>
-            MigrationManager.mangaProcessQueue(async () => {
-                if (signal.aborted) {
-                    return;
-                }
-
-                await MigrationManager.searchForManga(entry.mangaId, entry.mangaTitle, signal);
-            }),
-        );
-
-        await Promise.allSettled(searchPromises);
-    }
-
     static getMigratableEntries(): MigratableEntry[] {
         const { entries } = MigrationManager.getState();
 
         return Object.values(entries).filter(
             (entry): entry is MigratableEntry =>
-                entry.status === MigrationEntryStatus.SEARCH_COMPLETE &&
+                [MigrationEntryStatus.SEARCH_COMPLETE, MigrationEntryStatus.MIGRATING].includes(entry.status) &&
                 !entry.isExcluded &&
                 entry.selectedMatchMangaId != null &&
                 entry.selectedMatchSourceId != null,
@@ -418,22 +418,7 @@ export class MigrationManager {
             draft.groupExpandState = MIGRATE_EXECUTE_ENTRY_GROUP_EXPAND_DEFAULT_STATE;
         });
 
-        try {
-            await MigrationManager.migrate(migratableEntries, options);
-        } finally {
-            const { migrationProgress } = MigrationManager.getState();
-
-            if (migrationProgress.completed === migrationProgress.total) {
-                MigrationManager.updateState((draft) => {
-                    draft.groupExpandState = {
-                        ...MIGRATE_SEARCH_ENTRY_GROUP_EXPAND_DEFAULT_STATE,
-                        [MigrationEntryStatus.MIGRATING]: false,
-                        [MigrationEntryStatus.MIGRATION_FAILED]: !!migrationProgress.failed,
-                        [MigrationEntryStatus.MIGRATION_COMPLETE]: !migrationProgress.failed,
-                    };
-                });
-            }
-        }
+        await MigrationManager.migrate(migratableEntries, options);
     }
 
     private static async migrate(
@@ -456,7 +441,23 @@ export class MigrationManager {
                 }
             }),
         );
-        await Promise.allSettled(migrationPromises);
+
+        try {
+            await Promise.allSettled(migrationPromises);
+        } finally {
+            const { migrationProgress } = MigrationManager.getState();
+
+            if (migrationProgress.completed === migrationProgress.total) {
+                MigrationManager.updateState((draft) => {
+                    draft.groupExpandState = {
+                        ...MIGRATE_SEARCH_ENTRY_GROUP_EXPAND_DEFAULT_STATE,
+                        [MigrationEntryStatus.MIGRATING]: false,
+                        [MigrationEntryStatus.MIGRATION_FAILED]: !!migrationProgress.failed,
+                        [MigrationEntryStatus.MIGRATION_COMPLETE]: !migrationProgress.failed,
+                    };
+                });
+            }
+        }
 
         if (!signal.aborted) {
             MigrationManager.updateState((draft) => {
@@ -493,14 +494,26 @@ export class MigrationManager {
 
             const migratableEntries = MigrationManager.getMigratableEntries();
 
+            MigrationManager.updateState((draft) => {
+                migratableEntries.forEach((entry) => {
+                    draft.entries[entry.mangaId].status = MigrationEntryStatus.SEARCH_COMPLETE;
+                });
+            });
+
             await MigrationManager.migrate(migratableEntries, state.migrateOptions);
 
             return;
         }
 
-        const pendingEntries = Object.values(state.entries).filter(
-            (entry) => entry.status === MigrationEntryStatus.PENDING,
+        const pendingEntries = Object.values(state.entries).filter((entry) =>
+            [MigrationEntryStatus.PENDING, MigrationEntryStatus.SEARCHING].includes(entry.status),
         );
+
+        MigrationManager.updateState((draft) => {
+            pendingEntries.forEach((entry) => {
+                draft.entries[entry.mangaId].status = MigrationEntryStatus.PENDING;
+            });
+        });
 
         await MigrationManager.search(pendingEntries);
     }
@@ -574,7 +587,11 @@ export class MigrationManager {
 
     static isActive(): boolean {
         const { phase } = migrationStore.getState();
-        return phase === MigrationPhase.SEARCHING || phase === MigrationPhase.MIGRATING;
+
+        return (
+            !!MigrationManager.abortController &&
+            (phase === MigrationPhase.SEARCHING || phase === MigrationPhase.MIGRATING)
+        );
     }
 
     static hasPausedMigration(): boolean {
