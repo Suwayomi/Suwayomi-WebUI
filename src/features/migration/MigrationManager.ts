@@ -829,7 +829,7 @@ export class MigrationManager {
                 draft.searchProgress.completed += 1;
             });
         } catch (error) {
-            if (signal.aborted) {
+            if (mainSignal.aborted) {
                 return;
             }
 
