@@ -1198,10 +1198,6 @@ msgstr "Виберіть пристрій для використання йог
 msgid "Select all"
 msgstr "Вибрати все"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "Вибрати дані, які потрібно включити"
-
 #: src/features/app-updates/components/ServerUpdateChecker.tsx
 #: src/features/settings/screens/About.tsx
 #: src/features/settings/screens/About.tsx

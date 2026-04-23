@@ -2474,10 +2474,6 @@ msgstr "Выберите устройство, чтобы использоват
 msgid "Select all"
 msgstr "Выбрать все"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "Выберите данные для включения"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Сепия"

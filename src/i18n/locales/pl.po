@@ -2238,10 +2238,6 @@ msgstr "Wybierz urządzenie, aby użyć jego ustawień interfejsu użytkownika z
 msgid "Select all"
 msgstr "Wybierz wszystko"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "Wybierz dane do uwzględnienia"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sepia"

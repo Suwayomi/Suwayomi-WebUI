@@ -1388,10 +1388,6 @@ msgstr "Pilih"
 msgid "Select all"
 msgstr "Pilih Semua"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "Pilih data untuk disertakan"
-
 #: src/features/category/components/CategorySelect.tsx
 msgid "Set categories"
 msgstr "Atur kategori"
@@ -2829,10 +2825,6 @@ msgstr "Kumpulan koneksi Hikari"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "How much time FlareSolverr has to handle the request"
 msgstr "Berapa lama waktu yang dimiliki FlareSolverr untuk menangani permintaan"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "I understand"
-msgstr "Saya mengerti"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Image"

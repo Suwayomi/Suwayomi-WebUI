@@ -2004,10 +2004,6 @@ msgstr "Sunucusunda depolanan kullanıcı arayüzü ayarlarını kullanmak için
 msgid "Select all"
 msgstr "Hepsini seç"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "Dahil edilecek verileri seçin"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sepya"

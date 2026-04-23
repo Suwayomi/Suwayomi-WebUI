@@ -2439,10 +2439,6 @@ msgstr "دستگاهی را برای استفاده از تنظیمات رابط
 msgid "Select all"
 msgstr "انتخاب همه"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "انتخاب داده‌ برای لحاظ شدن"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "سپیا"

@@ -2287,10 +2287,6 @@ msgstr "Sélectionnez un appareil pour utiliser ses paramètres d'interface util
 msgid "Select all"
 msgstr "Tout sélectionner"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "Sélectionner les données à inclure"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sépia"
