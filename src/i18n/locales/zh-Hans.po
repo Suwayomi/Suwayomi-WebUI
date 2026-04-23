@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-04-11 13:09+0000\n"
+"PO-Revision-Date: 2026-04-23 15:09+0000\n"
 "Last-Translator: 清水汐音 <chenzhongjie19940725@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -2464,10 +2464,6 @@ msgstr "选择一个设备以使用其存储在服务器中的UI设置"
 msgid "Select all"
 msgstr "全选"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "选择要包含的数据"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "棕褐色"
@@ -3073,7 +3069,7 @@ msgstr "待更新"
 
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Update progress after manually marking as read"
-msgstr "手动标记为已读后的更新进度"
+msgstr "在手动标记为已读后更新进度"
 
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Update progress after reading"
@@ -3752,6 +3748,234 @@ msgstr ""
 msgid "Flaresolverr setup confirmation"
 msgstr "Flaresolverr 设置确认"
 
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr "{0, plural, one {1 条无匹配的条目} other {# 条无匹配的条目}}"
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr "{0, plural, one {1 条已排除的条目} other {# 条已排除的条目}}"
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr "{0, plural, one {1 条失败的条目} other {# 条失败的条目}}"
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr "{0, plural, one {1 条匹配的条目} other {# 条匹配的条目}}"
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr "{0, plural, one {1 条已迁移的条目} other {# 条已迁移的条目}}"
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr "{0, plural, one {1 条正在迁移的条目} other {# 条正在迁移的条目}}"
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr "{0, plural, one {1 个正在搜索} other {# 个正在搜索}}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr "{otherResultsCount, plural, one {# 个更多匹配} other {# 个更多匹配}}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Abort"
+msgstr "中止"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr "中止迁移"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr "确定要中止迁移吗？"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Available"
+msgstr "可用"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "继续"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Current source"
+msgstr "当前图源"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination - {0}"
+msgstr "目标位置 - {0}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "已完成"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr "拖动以调整优先级"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
+msgstr "排除"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr "已排除"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr "包含"
+
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr "最新章节：{latestChapterNumber}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr "手动搜索"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr "找到匹配项"
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr "匹配项"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr "迁移"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr "正在迁移……"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr "迁移完成"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr "迁移失败"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr "“{title}” 的迁移失败，错误信息："
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr "迁移信息"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr "迁移选项"
+
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr "未找到匹配项"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr "待处理……"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr "搜索失败"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr "搜索 “{title}” 失败，错误信息："
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr "搜索结果"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr "正在搜索……"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr "选择目标图源"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr "选择已启用的图源"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr "选择已置顶的图源"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Selected"
+msgstr "已选择"
+
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry - {sourceTitle}"
+msgstr "图源条目 - {sourceTitle}"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr "开始迁移"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr "开始搜索"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr "已成功迁移"
+
+#: src/features/migration/MigrationManager.ts
+msgid ""
+"The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"迁移在当前设备的客户端本地执行，而不是在服务器上执行。\n"
+"只要客户端保持开启，迁移就会在后台运行。\n"
+"客户端可以关闭，迁移将在同一设备上重新打开时继续进行。"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr "无法加载图源"
+
+#: src/features/migration/MigrationManager.ts
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "I understand"
-msgstr "我已理解"
+msgid "Understood"
+msgstr "已知悉"

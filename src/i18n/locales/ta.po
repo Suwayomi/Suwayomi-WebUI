@@ -2228,10 +2228,6 @@ msgstr "அதன் சேவையக சேமிக்கப்பட்ட 
 msgid "Select all"
 msgstr "அனைத்தையும் தெரிவுசெய்"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "சேர்க்க தரவைத் தேர்ந்தெடுக்கவும்"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "செபியா"

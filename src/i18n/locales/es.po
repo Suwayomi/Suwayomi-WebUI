@@ -2418,10 +2418,6 @@ msgstr "Selecciona un dispositivo para usar su configuración de interfaz almace
 msgid "Select all"
 msgstr "Seleccionar todo"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "Seleccionar datos a incluir"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sepia"

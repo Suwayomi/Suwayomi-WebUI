@@ -1994,10 +1994,6 @@ msgstr "Selecione um dispositivo para usar suas configurações de interface do 
 msgid "Select all"
 msgstr "Selecionar todos"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "Selecionar dados para incluir"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sépia"

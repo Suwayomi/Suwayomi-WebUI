@@ -2319,10 +2319,6 @@ msgstr "選擇一個裝置以使用它儲存在伺服器中的 UI 設定"
 msgid "Select all"
 msgstr "全選"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "選擇要包含的資料"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "深褐色"

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.799Z\n"
-"PO-Revision-Date: 2026-04-15 18:09+0000\n"
+"PO-Revision-Date: 2026-04-21 17:09+0000\n"
 "Last-Translator: Constantin Piber <cp.piber@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/de/>\n"
@@ -2464,10 +2464,6 @@ msgstr "Wähle ein Gerät, um dessen am Server gespeicherten UI-Einstellungen zu
 msgid "Select all"
 msgstr "Alle auswählen"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Select data to include"
-msgstr "Wähle Daten zu inkludieren"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sepia"
@@ -3804,10 +3800,6 @@ msgid "Shows a dialog in case the version of the server has changed"
 msgstr "Zeigt einen Dialog an, wenn die Server-Version aktualisiert wurde"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "I understand"
-msgstr "Ich verstehe"
-
-#: src/features/settings/screens/ServerSettings.tsx
 msgid "Flaresolverr setup confirmation"
 msgstr "Flaresolverr Einstellungen Bestätigung"
 
@@ -3820,3 +3812,245 @@ msgstr ""
 "weitere Informationen zum Aufsetzen<10/><11/>Sollte sie <12><13>nicht</13></"
 "12> korrekt aufgesetzt und gestartet worden sein, wird diese Einstellung <14>"
 "<15>keine</15></14> Auswirkung haben"
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr ""
+"{0, plural, one {1 Eintrag ohne Treffer} other {# Einträge ohne Treffer}}"
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr ""
+"{0, plural, one {1 Eintrag ausgeschlossen} other {# Einträge ausgeschlossen}}"
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr ""
+"{0, plural, one {1 fehlgeschlagener Eintrag} other {# fehlgeschlagene "
+"Einträge}}"
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr "{0, plural, one {1 passender Eintrag} other {# passende Einträge}}"
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr "{0, plural, one {1 migrierter Eintrag} other {# migrierte Einträge}}"
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr ""
+"{0, plural, one {1 Eintrag wird übertragen} other {# Einträge werden "
+"übertragen}}"
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr "{0, plural, one {1 wird gesucht} other {# werden gesucht}}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr ""
+"{otherResultsCount, plural, one {# weiterer Treffer} other {# weitere "
+"Treffer}}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Abort"
+msgstr "Abbrechen"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr "Migration abbrechen"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr "Bist du sicher, das du die Migration abbrechen willst?"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Available"
+msgstr "Verfügbar"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "Weiter"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Current source"
+msgstr "Aktuelle Quelle"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination - {0}"
+msgstr "Ziel - {0}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "Abschließen"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr "Ziehen, um zu priorisieren"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
+msgstr "Exkludieren"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr "Exkludiert"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr "Inkludieren"
+
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr "Neuestes Kapitel: {latestChapterNumber}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr "Manuelle Suche"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr "Treffer gefunden"
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr "Treffer"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr "Migriere"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr "Migriere…"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr "Migration abgeschlossen"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr "Migration fehlgeschlagen"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr "Migration von \"{title}\" schlug fehl:"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr "Migrationsinformation"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr "Migrationseinstellungen"
+
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr "Keine Treffer gefunden"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr "Läuft…"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr "Suche fehlgeschlagen"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr "Suche für \"{title}\" schlug fehl:"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr "Suchresultate"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr "Suche…"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr "Wähle Ziel-Quellen"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr "Aktive Quellen wählen"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr "Angepinnte Quellen wählen"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Selected"
+msgstr "Ausgewählt"
+
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry - {sourceTitle}"
+msgstr "Quelleintrag - {sourceTitle}"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr "Migration starten"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr "Suche starten"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr "Migration erfolgreich abgeschlossen"
+
+#: src/features/migration/MigrationManager.ts
+msgid ""
+"The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"Die Migration läuft am aktuellen Gerät, NICHT am Server.\n"
+"Die Migration wird im Hintergrund durchgeführt, solange die Seite am "
+"Endgerät offen bleibt.\n"
+"Es kann die Seite geschlossen werden; die Migration wird automatisch "
+"fortgesetzt, sobald die Seite am selben Gerät wieder geöffnet wird."
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr "Quellen konnten nicht geladen werden"
+
+#: src/features/migration/MigrationManager.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr "Verstanden"
