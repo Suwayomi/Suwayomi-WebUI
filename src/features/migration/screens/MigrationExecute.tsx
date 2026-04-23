@@ -30,9 +30,21 @@ export const MigrationExecute = () => {
     const entryList = useMemo(() => Object.values(entries), [entries]);
     const migratingEntries = useMemo(
         () =>
-            entryList.filter((entry) =>
-                [MigrationEntryStatus.SEARCH_COMPLETE, MigrationEntryStatus.MIGRATING].includes(entry.status),
-            ),
+            entryList
+                .filter((entry) =>
+                    [MigrationEntryStatus.SEARCH_COMPLETE, MigrationEntryStatus.MIGRATING].includes(entry.status),
+                )
+                .toSorted((a, b) => {
+                    if (a.status === MigrationEntryStatus.MIGRATING && b.status !== MigrationEntryStatus.MIGRATING) {
+                        return -1;
+                    }
+
+                    if (a.status !== MigrationEntryStatus.MIGRATING && b.status === MigrationEntryStatus.MIGRATING) {
+                        return 1;
+                    }
+
+                    return entryList.indexOf(a) - entryList.indexOf(b);
+                }),
         [entryList],
     );
     const migratedEntries = useMemo(
