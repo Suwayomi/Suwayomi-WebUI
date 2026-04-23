@@ -212,6 +212,8 @@ import type {
     DeleteChapterMetasInput,
     SetCategoryMetasInput,
     DeleteCategoryMetasInput,
+    RefreshMangaMutation,
+    RefreshMangaMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import {
     CategoryOrderBy,
@@ -240,6 +242,7 @@ import { GET_MIGRATABLE_SOURCES, GET_SOURCES_LIST } from '@/lib/graphql/source/S
 import {
     GET_MANGA_FETCH,
     GET_MANGA_TO_MIGRATE_TO_FETCH,
+    REFRESH_MANGA,
     UPDATE_MANGA,
     UPDATE_MANGA_CATEGORIES,
     UPDATE_MANGA_METADATA,
@@ -2215,6 +2218,20 @@ export class RequestManager {
                 },
             },
             options,
+        );
+    }
+
+    public refreshManga(
+        mangaId: number | string,
+        options?: MutationOptions<RefreshMangaMutation, RefreshMangaMutationVariables>,
+    ): AbortableApolloMutationResponse<RefreshMangaMutation> {
+        return this.doRequest<RefreshMangaMutation, RefreshMangaMutationVariables>(
+            GQLMethod.MUTATION,
+            REFRESH_MANGA,
+            {
+                id: Number(mangaId),
+            },
+            { refetchQueries: [GET_CHAPTERS_MANGA], ...options },
         );
     }
 

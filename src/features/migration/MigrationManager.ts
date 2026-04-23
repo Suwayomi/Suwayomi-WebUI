@@ -698,9 +698,18 @@ export class MigrationManager {
                     throw new Error(signal.reason);
                 }
 
-                const updatedMatch = await requestManager.getMangaFetch(match.id).response;
+                return (async () => {
+                    try {
+                        const updatedMatch = await requestManager.refreshManga(match.id, { awaitRefetchQueries: true })
+                            .response;
 
-                return updatedMatch.data?.fetchManga?.manga ?? match;
+                        return updatedMatch.data?.fetchManga?.manga ?? match;
+                    } catch (e) {
+                        // ignore
+                    }
+
+                    return match;
+                })();
             });
 
             const updatedMatches = await Promise.all(matchUpdatePromises);
