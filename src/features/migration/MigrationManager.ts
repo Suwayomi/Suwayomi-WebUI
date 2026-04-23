@@ -915,7 +915,10 @@ export class MigrationManager {
                 draft.searchProgress.failed -= 1;
             });
 
-            await MigrationManager.searchForManga(id, entry.mangaTitle, signal);
+            await MigrationManager.mangaProcessQueue(() =>
+                MigrationManager.searchForManga(id, entry.mangaTitle, signal),
+            );
+
             return;
         }
 
@@ -928,7 +931,9 @@ export class MigrationManager {
             const migrationOptions = MigrationManager.getState().migrateOptions;
             assertIsDefined(migrationOptions);
 
-            await MigrationManager.migrateSingleEntry(id, migrationOptions, signal);
+            await MigrationManager.mangaProcessQueue(() =>
+                MigrationManager.migrateSingleEntry(id, migrationOptions, signal),
+            );
         }
     }
 
