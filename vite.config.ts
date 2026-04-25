@@ -9,7 +9,6 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-import viteTsconfigPaths from 'vite-tsconfig-paths';
 import legacy from '@vitejs/plugin-legacy';
 import { VitePWA } from 'vite-plugin-pwa';
 import { lingui } from '@lingui/vite-plugin';
@@ -23,9 +22,10 @@ export default defineConfig(({ command }) => ({
     },
     server: {
         port: Number(process.env.PORT),
-        allowedHosts: process.env.ALLOWED_HOSTS.split(',').map((s) => s.trim()),
+        allowedHosts: process.env.ALLOWED_HOSTS?.split(',').map((s) => s.trim()),
     },
     resolve: {
+        tsconfigPaths: true,
         alias: {
             '@': path.resolve(import.meta.dirname, './src'),
         },
@@ -40,7 +40,6 @@ export default defineConfig(({ command }) => ({
         lingui({
             failOnCompileError: true,
         }),
-        viteTsconfigPaths(),
         legacy({
             modernPolyfills: [
                 'es/array/to-spliced',
