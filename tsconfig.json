@@ -22,7 +22,18 @@
         "strictNullChecks": true,
         "noUnusedLocals": true,
         "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true
+        "noFallthroughCasesInSwitch": true,
+        "types": [
+            "@types/lodash",
+            "@types/node",
+            "@types/react",
+            "@types/react-beautiful-dnd",
+            "@types/react-dom",
+            "@types/sanitize-html",
+            "@types/stylis",
+            "@types/webfontloader",
+            "@types/yargs"
+        ]
     },
     "include": ["src"],
     "exclude": ["**/node_modules"],
