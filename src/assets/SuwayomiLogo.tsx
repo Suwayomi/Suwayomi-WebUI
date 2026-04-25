@@ -11,13 +11,14 @@ import SvgIcon from '@mui/material/SvgIcon';
 
 export const SuwayomiLogo = ({
     circleRingColor = '#35d4d5',
+    circleFillColor = '#1A1A1D',
     ...props
-}: SvgIconProps & { circleRingColor?: string }) => (
+}: SvgIconProps & { circleRingColor?: string; circleFillColor?: string }) => (
     <SvgIcon {...props}>
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="100" height="100">
             <svg version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="50" cy="50" r="50" fill={circleRingColor} />
-                <circle cx="50" cy="50" r="39" fill="#1A1A1D" />
+                <circle cx="50" cy="50" r="39" fill={circleFillColor} />
                 <path
                     d="m26.46 38.07 15.633-.27c3.348-.081 3.348-.081 4.482.783.783.972 1.161 1.701 1.404 2.916-.216 1.053-.567 1.593-1.242 2.403l-3.321 4.509c-.513.702-.513.702-.756 1.539.216.108.216.108.459.189 2.322 1.269 4.347 3.402 6.291 5.211l1.539 1.431c.459.621.594 1.053.621 1.809l-2.268 2.619c-.675.54-1.188.459-2.052.351-.702-.513-.702-.513-1.404-1.242l-3.861-3.996c-.81-.837-1.674-1.593-2.565-2.322-.972.459-1.62.999-2.376 1.728-7.29 6.723-7.29 6.723-10.206 6.615-1.161-.432-1.998-1.215-2.808-2.133-.27-.918-.27-.918-.27-1.62 1.08-.918 2.187-1.755 3.402-2.457 4.428-2.592 8.046-6.183 11.124-10.287 1.026-1.431 1.35-1.998 1.674-2.646l-12.15.054c-.54-.054-.54-.054-1.08-.594-.243-1.107-.27-2.16-.27-3.24l0-1.35z"
                     fill="#fdfdfd"

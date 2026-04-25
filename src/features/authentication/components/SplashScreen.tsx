@@ -13,8 +13,6 @@ import type { ComponentProps } from 'react';
 import { SuwayomiLogo } from '@/assets/SuwayomiLogo.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 
-import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
-
 export const SplashScreen = ({
     slots,
 }: {
@@ -35,17 +33,13 @@ export const SplashScreen = ({
                 minHeight: '100vh',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: 'primary.light',
-                ...theme.applyStyles('dark', {
-                    backgroundColor: 'primary.dark',
-                }),
+                backgroundColor: 'background.paper',
                 ...slots?.stackProps?.sx,
             }}
         >
             <SuwayomiLogo
-                circleRingColor={
-                    theme.palette.mode === ThemeMode.DARK ? theme.palette.primary.light : theme.palette.primary.dark
-                }
+                circleRingColor={theme.palette.primary.light}
+                circleFillColor={theme.palette.primary.dark}
                 {...slots?.logoProps}
                 sx={{
                     fontSize: 250,
