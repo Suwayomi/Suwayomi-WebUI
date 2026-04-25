@@ -134,13 +134,6 @@
     "resolutions": {
         "@swc/core": "1.15.11"
     },
-    "lint-staged": {
-        "*.{ts,tsx,js,jsx}": [
-            "oxfmt --write",
-            "oxlint --fix"
-        ],
-        "*.{json,md,yml,yaml,css,scss,html,graphql}": "oxfmt --write"
-    },
     "engines": {
         "node": ">=24"
     }
