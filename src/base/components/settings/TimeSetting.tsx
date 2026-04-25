@@ -79,7 +79,9 @@ export const TimeSetting = ({
                 <ListItemText
                     primary={settingName}
                     secondary={dayjs(value, 'HH:mm').format('LT')}
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    slotProps={{
+                        secondary: { sx: { display: 'flex', flexDirection: 'column' } },
+                    }}
                 />
             </ListItemButton>
             <Dialog open={isDialogOpen} onClose={closeDialog}>

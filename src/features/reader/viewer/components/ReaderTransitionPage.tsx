@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import type { ComponentProps } from 'react';
 import { memo, useMemo } from 'react';
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
@@ -55,7 +55,7 @@ const ChapterInfo = ({
     const contrastText = theme.palette.getContrastText(
         getValueFromObject(theme.palette, READER_BACKGROUND_TO_COLOR[backgroundColor]),
     );
-    const disabledText = alpha(contrastText, 0.5);
+    const disabledText = theme.alpha(contrastText, 0.5);
 
     if (!name) {
         return null;

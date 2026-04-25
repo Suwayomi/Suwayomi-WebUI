@@ -57,10 +57,9 @@ export const ChapterCardMetadata = ({
             <CustomTooltip title={secondaryText}>
                 <TypographyMaxLines
                     variant="caption"
-                    display="block"
                     lines={1}
                     {...slotProps?.secondaryText}
-                    sx={{ maxWidth: 'fit-content', ...slotProps?.secondaryText?.sx }}
+                    sx={{ maxWidth: 'fit-content', display: 'block', ...slotProps?.secondaryText?.sx }}
                 >
                     {secondaryText}
                 </TypographyMaxLines>
@@ -70,10 +69,9 @@ export const ChapterCardMetadata = ({
             <CustomTooltip title={ternaryText}>
                 <TypographyMaxLines
                     variant="caption"
-                    display="block"
                     lines={1}
                     {...slotProps?.ternaryText}
-                    sx={{ maxWidth: 'fit-content', ...slotProps?.ternaryText?.sx }}
+                    sx={{ maxWidth: 'fit-content', display: 'block', ...slotProps?.ternaryText?.sx }}
                 >
                     {ternaryText}
                 </TypographyMaxLines>

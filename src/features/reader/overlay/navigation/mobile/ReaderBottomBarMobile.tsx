@@ -11,7 +11,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import Stack from '@mui/material/Stack';
 import AppSettingsAltIcon from '@mui/icons-material/AppSettingsAlt';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import { alpha } from '@mui/material/styles';
 import { bindDialog, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
@@ -69,7 +68,7 @@ const BaseReaderBottomBarMobile = ({
                         ref={bottomBarRef}
                         sx={{
                             alignItems: 'center',
-                            backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.95),
+                            backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.95),
                             pb: `max(${scrollbar.xSize}px, env(safe-area-inset-bottom))`,
                             boxShadow: 2,
                             pointerEvents: 'all',

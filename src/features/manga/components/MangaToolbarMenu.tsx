@@ -128,8 +128,10 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         anchorEl={anchorEl}
                         open={open}
                         onClose={handleClose}
-                        MenuListProps={{
-                            'aria-labelledby': 'chaptersMenuButton',
+                        slotProps={{
+                            list: {
+                                'aria-labelledby': 'chaptersMenuButton',
+                            }
                         }}
                     >
                         <MenuItem

@@ -22,11 +22,12 @@ export const SearchTextField = ({
         {...textFieldProps}
         slotProps={{
             input: {
-                ...textFieldProps.InputProps,
+                ...textFieldProps.slotProps?.input,
                 sx: {
                     color: 'inherit',
                 },
-                endAdornment: textFieldProps.InputProps?.endAdornment ?? (
+                // @ts-expect-error - "endAdornment" does not exist mimimi - fuck off
+                endAdornment: textFieldProps.slotProps?.input?.endAdornment ?? (
                     <InputAdornment position="end">
                         <IconButton {...cancelButtonProps} onClick={() => onCancel()}>
                             <CancelIcon />

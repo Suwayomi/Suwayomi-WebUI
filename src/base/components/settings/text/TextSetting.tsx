@@ -29,12 +29,13 @@ export const TextSetting = (props: TextSettingProps) => {
                 <ListItemText
                     primary={settingName}
                     secondary={settingDescription ?? (isPassword ? value.replaceAll(/./g, '*') : value)}
-                    secondaryTypographyProps={{
-                        sx: { display: 'flex', flexDirection: 'column', wordWrap: 'break-word' },
+                    slotProps={{
+                        secondary: {
+                            sx: { display: 'flex', flexDirection: 'column', wordWrap: 'break-word' },
+                        }
                     }}
                 />
             </ListItemButton>
-
             <TextSettingDialog {...props} isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
         </>
     );

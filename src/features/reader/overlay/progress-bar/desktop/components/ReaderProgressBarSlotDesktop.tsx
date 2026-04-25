@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { alpha, darken, lighten, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { memo } from 'react';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
@@ -40,16 +40,16 @@ export const ReaderProgressBarSlotDesktop = memo(
                     box: {
                         sx: {
                             cursor: 'pointer',
-                            backgroundColor: darken(theme.palette.background.paper, 0.2),
+                            backgroundColor: theme.darken(theme.palette.background.paper, 0.2),
                             ...theme.applyStyles('dark', {
-                                backgroundColor: lighten(theme.palette.background.paper, 0.1),
+                                backgroundColor: theme.lighten(theme.palette.background.paper, 0.1),
                             }),
                             ...applyStyles(
                                 primaryPageLoadState && (secondaryPageLoadState == null || secondaryPageLoadState),
                                 {
-                                    backgroundColor: darken(theme.palette.background.paper, 0.35),
+                                    backgroundColor: theme.darken(theme.palette.background.paper, 0.35),
                                     ...theme.applyStyles('dark', {
-                                        backgroundColor: lighten(theme.palette.background.paper, 0.25),
+                                        backgroundColor: theme.lighten(theme.palette.background.paper, 0.25),
                                     }),
                                 },
                             ),
@@ -74,7 +74,7 @@ export const ReaderProgressBarSlotDesktop = memo(
                         width: '100%',
                         height: '100%',
                         ...applyStyles(isLeadingPage, {
-                            backgroundColor: alpha(theme.palette.primary.main, 0.5),
+                            backgroundColor: theme.alpha(theme.palette.primary.main, 0.5),
                         }),
                         ...applyStyles(isCurrentPage, {
                             cursor: showDraggingStyle ? 'grabbing' : 'grab',

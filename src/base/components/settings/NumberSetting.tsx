@@ -122,7 +122,9 @@ export const NumberSetting = ({
                     primary={settingTitle}
                     secondary={settingValue}
                     sx={sx}
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    slotProps={{
+                        secondary: { sx: { display: 'flex', flexDirection: 'column' } },
+                    }}
                 />
             </ListItemButton>
             <Dialog open={isDialogOpen} onClose={cancel}>

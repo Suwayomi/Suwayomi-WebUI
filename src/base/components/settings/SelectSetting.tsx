@@ -82,7 +82,9 @@ export const SelectSetting = <SettingValue extends string | number>({
                 <ListItemText
                     primary={settingName}
                     secondary={valueDisplayText ? t(valueDisplayText as MessageDescriptor) : t`Loading…`}
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    slotProps={{
+                        secondary: { sx: { display: 'flex', flexDirection: 'column' } },
+                    }}
                 />
             </ListItemButton>
             <Dialog open={isDialogOpen} onClose={() => closeDialog()} fullWidth>

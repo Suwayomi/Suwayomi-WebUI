@@ -82,7 +82,9 @@ export const DateSetting = ({
                 <ListItemText
                     primary={settingName}
                     secondary={value ? dayjs(Number(value)).format('L') : '-'}
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    slotProps={{
+                        secondary: { sx: { display: 'flex', flexDirection: 'column' } },
+                    }}
                 />
             </ListItemButton>
             <Dialog open={isDialogOpen} onClose={closeDialog}>

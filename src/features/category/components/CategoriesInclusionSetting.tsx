@@ -162,7 +162,9 @@ export const CategoriesInclusionSetting = ({
                             <span>{t`Exclude: ${excludedCategoriesText}`}</span>
                         </>
                     }
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    slotProps={{
+                        secondary: { sx: { display: 'flex', flexDirection: 'column' } },
+                    }}
                 />
             </ListItemButton>
             <Dialog open={isDialogOpen} onClose={closeDialog}>

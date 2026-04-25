@@ -215,7 +215,7 @@ const TrackerActiveHeader = ({
             </Badge>
             <ListItemButton sx={{ flexGrow: 1 }} onClick={openSearch}>
                 <CustomTooltip title={trackRecord.title}>
-                    <TypographyMaxLines flexGrow={1} lines={1}>
+                    <TypographyMaxLines sx={{ flexGrow: 1 }} lines={1}>
                         {trackRecord.title}
                     </TypographyMaxLines>
                 </CustomTooltip>

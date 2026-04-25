@@ -33,7 +33,6 @@ import Button from '@mui/material/Button';
 import { plural } from '@lingui/core/macro';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { alpha } from '@mui/material/styles';
 import ReplayIcon from '@mui/icons-material/Replay';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
@@ -266,7 +265,7 @@ export const MigrationDestinationEntry = ({
                         p: 0,
                         backgroundColor: 'primary.dark',
                         '&:hover': {
-                            backgroundColor: (theme) => alpha(theme.palette.primary.dark, 0.8),
+                            backgroundColor: (theme) => theme.alpha(theme.palette.primary.dark, 0.8),
                         },
                     }}
                 >

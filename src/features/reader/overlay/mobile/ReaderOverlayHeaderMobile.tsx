@@ -14,7 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
-import { alpha } from '@mui/material/styles';
 import Slide from '@mui/material/Slide';
 import type { Ref } from 'react';
 import { memo } from 'react';
@@ -62,7 +61,7 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                     right: `${scrollbar.ySize}px`,
                     p: 2,
                     pt: (theme) => `max(env(safe-area-inset-top), ${theme.spacing(2)})`,
-                    backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.95),
+                    backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.95),
                     pointerEvents: 'all',
                     boxShadow: 2,
                 }}

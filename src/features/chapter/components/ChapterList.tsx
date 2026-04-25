@@ -189,9 +189,11 @@ export const ChapterList = ({
             <Stack direction="column" sx={{ position: 'relative', flexBasis: '60%' }}>
                 <ChapterListHeader
                     ref={setChapterListHeaderRef}
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
+                    sx={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
                     scrollbarWidth={scrollbarWidth}
                 >
                     <Stack>
