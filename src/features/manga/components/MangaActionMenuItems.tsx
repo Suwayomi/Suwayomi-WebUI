@@ -164,7 +164,7 @@ export const MangaActionMenuItems = ({
                 onClick={() => {
                     AwaitableComponent.show(CategorySelect, {
                         mangaId: manga?.id,
-                        mangaIds: selectedMangas ? Mangas.getIds(selectedMangas) : undefined,
+                        mangaIds: !isSingleMode ? Mangas.getIds(selectedMangas) : undefined,
                         addToLibrary: false,
                     });
                     setHideMenu(true);
