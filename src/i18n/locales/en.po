@@ -14,106 +14,82 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Message-Format: ICU\n"
 
-#. placeholder {0}: selectedChapters.length
-#. placeholder {0}: visibleChapters.length
 #: src/features/chapter/components/ChapterList.tsx
 #: src/features/chapter/components/ChapterList.tsx
 msgid "{0, plural, one {# chapter} other {# chapters}}"
 msgstr "{0, plural, one {# chapter} other {# chapters}}"
 
-#. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "{0, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{0, plural, one {# Chapter} other {# Chapters}}"
 
-#. placeholder {0}: backupSettings.backupInterval
 #: src/features/backup/screens/Backup.tsx
 msgid "{0, plural, one {# day} other {# days}}"
 msgstr "{0, plural, one {# day} other {# days}}"
 
-#. placeholder {0}: selectedItemIds.length
 #: src/features/library/screens/Library.tsx
 msgid "{0, plural, one {# manga} other {# manga}}"
 msgstr "{0, plural, one {# manga} other {# manga}}"
 
-#. placeholder {0}: serverSettings.flareSolverrSessionTtl
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "{0, plural, one {# minute} other {# minutes}}"
 msgstr "{0, plural, one {# minute} other {# minutes}}"
 
-#. placeholder {0}: autoScroll.value
-#. placeholder {0}: serverSettings.flareSolverrTimeout
 #: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "{0, plural, one {# second} other {# seconds}}"
 msgstr "{0, plural, one {# second} other {# seconds}}"
 
-#. placeholder {0}: serverSettings.maxSourcesInParallel
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "{0, plural, one {# Source} other {# Sources}}"
 msgstr "{0, plural, one {# Source} other {# Sources}}"
 
-#. placeholder {0}: trackersInUse.length
 #: src/features/manga/components/TrackMangaButton.tsx
 msgid "{0, plural, one {# Tracker} other {# Tracker}}"
 msgstr "{0, plural, one {# Tracker} other {# Tracker}}"
 
-#. placeholder {0}: noMatchEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
 msgstr "{0, plural, one {1 entry with no match} other {# entries with no match}}"
 
-#. placeholder {0}: excludedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
 msgstr "{0, plural, one {1 excluded entry} other {# excluded entries}}"
 
-#. placeholder {0}: failedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
 msgstr "{0, plural, one {1 failed entry} other {# failed entries}}"
 
-#. placeholder {0}: matchedEntries.length
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
 msgstr "{0, plural, one {1 matched entry} other {# matched entries}}"
 
-#. placeholder {0}: migratedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
 msgstr "{0, plural, one {1 migrated entry} other {# migrated entries}}"
 
-#. placeholder {0}: migratingEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
 msgstr "{0, plural, one {1 migrating entry} other {# migrating entries}}"
 
-#. placeholder {0}: searchingEntries.length
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 searching} other {# searching}}"
 msgstr "{0, plural, one {1 searching} other {# searching}}"
 
-#. placeholder {0}: autoScroll.value
 #: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
 msgid "{0, plural, one {Second} other {Seconds}}"
 msgstr "{0, plural, one {Second} other {Seconds}}"
 
-#. placeholder {0}: searchProgress.completed
-#. placeholder {1}: searchProgress.total
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0} / {1}"
 msgstr "{0} / {1}"
 
-#. placeholder {0}: progress.completed
-#. placeholder {1}: progress.total
-#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "{0} / {1}{2}"
 msgstr "{0} / {1}{2}"
 
-#. placeholder {0}: updateStatus.progress
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "{0}% | Updating…"
 msgstr "{0}% | Updating…"
@@ -412,7 +388,6 @@ msgstr "Allowed Languages"
 msgid "Alpha"
 msgstr "Alpha"
 
-#. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Also remove from {0}"
 msgstr "Also remove from {0}"
@@ -973,7 +948,6 @@ msgstr "Could not create category"
 msgid "Could not create theme"
 msgstr "Could not create theme"
 
-#. placeholder {0}: theme.getName()
 #: src/features/theme/components/ThemeList.tsx
 msgid "Could not delete theme \"{0}\""
 msgstr "Could not delete theme \"{0}\""
@@ -1014,7 +988,6 @@ msgstr "Could not load theme fonts"
 msgid "Could not load track info"
 msgstr "Could not load track info"
 
-#. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Could not log in to {0}"
@@ -1028,7 +1001,6 @@ msgstr "Could not log in to {trackerName}"
 msgid "Could not log in to Suwayomi"
 msgstr "Could not log in to Suwayomi"
 
-#. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Could not log out from {0}"
@@ -1289,12 +1261,10 @@ msgstr "Delete search"
 msgid "Delete selected"
 msgstr "Delete selected"
 
-#. placeholder {0}: theme.getName()
 #: src/features/theme/components/ThemeList.tsx
 msgid "Deleted theme \"{0}\""
 msgstr "Deleted theme \"{0}\""
 
-#. placeholder {0}: theme.getName()
 #: src/features/theme/components/ThemeList.tsx
 msgid "Deleting theme \"{0}\"…"
 msgstr "Deleting theme \"{0}\"…"
@@ -1313,7 +1283,6 @@ msgstr "Deselect"
 msgid "Desktop"
 msgstr "Desktop"
 
-#. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Destination - {0}"
 msgstr "Destination - {0}"
@@ -1790,7 +1759,6 @@ msgstr "Has results"
 msgid "Headers"
 msgstr "Headers"
 
-#. placeholder {0}: headers?.length ?? 0
 #: src/features/settings/components/images/Processing.tsx
 msgid "Headers ({0})"
 msgstr "Headers ({0})"
@@ -2194,7 +2162,6 @@ msgstr "Log file cleanup"
 msgid "Log in"
 msgstr "Log in"
 
-#. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Log in to {0}"
 msgstr "Log in to {0}"
@@ -2203,7 +2170,6 @@ msgstr "Log in to {0}"
 msgid "Log out"
 msgstr "Log out"
 
-#. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Log out from {0}"
 msgstr "Log out from {0}"
@@ -2327,7 +2293,6 @@ msgstr "Menu"
 msgid "Migrate"
 msgstr "Migrate"
 
-#. placeholder {0}: state?.mangaTitle
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "Migrate \"{0}\""
 msgstr "Migrate \"{0}\""
@@ -2789,7 +2754,6 @@ msgstr "Recently read"
 msgid "Record keybind"
 msgstr "Record keybind"
 
-#. placeholder {0}: recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 msgid "Recorded hotkeys: {0}"
 msgstr "Recorded hotkeys: {0}"
@@ -2821,7 +2785,6 @@ msgstr "Remind later"
 msgid "Remove"
 msgstr "Remove"
 
-#. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Remove {0} tracking?"
 msgstr "Remove {0} tracking?"
@@ -3011,7 +2974,6 @@ msgstr ""
 msgid "Search parameters"
 msgstr "Search parameters"
 
-#. placeholder {0}: searchParams?.length ?? 0
 #: src/features/settings/components/images/Processing.tsx
 msgid "Search parameters ({0})"
 msgstr "Search parameters ({0})"
@@ -3112,13 +3074,10 @@ msgstr "Server settings"
 msgid "Server version"
 msgstr "Server version"
 
-#. placeholder {0}: selectedServerChannelInfo.tag
-#. placeholder {1}: selectedServerChannelInfo.channel
 #: src/features/app-updates/components/ServerUpdateChecker.tsx
 msgid "Server version {0} ({1}) available for download"
 msgstr "Server version {0} ({1}) available for download"
 
-#. placeholder {0}: aboutServer?.buildType
 #: src/features/app-updates/components/ServerUpdateChecker.tsx
 msgid "Server was updated to version {version} ({0})"
 msgstr "Server was updated to version {version} ({0})"
@@ -3878,13 +3837,10 @@ msgstr "WebUI channel"
 msgid "WebUI version"
 msgstr "WebUI version"
 
-#. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
-#. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "WebUI version {0} ({1}) available for download"
 msgstr "WebUI version {0} ({1}) available for download"
 
-#. placeholder {0}: aboutWebUI?.channel
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "WebUI was updated to version {newVersion} ({0})"
 msgstr "WebUI was updated to version {newVersion} ({0})"
@@ -3922,7 +3878,6 @@ msgstr "Yesterday at {timeString}"
 msgid "Ying & Yang"
 msgstr "Ying & Yang"
 
-#. placeholder {0}: manga.title
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "You are about to remove \"{0}\" from your library"
 msgstr "You are about to remove \"{0}\" from your library"

@@ -7,6 +7,6 @@
  */
 
 export default {
-    '*.{ts,tsx,js,jsx}': ['oxfmt --write', 'oxlint --fix'],
+    '*.{ts,tsx,js,jsx}': ['oxfmt --write', 'oxlint --fix', () => `yarn i18n:extract`, 'git add src/i18n/locales/*.po'],
     '*.{json,md,yml,yaml,css,scss,html,graphql}': 'oxfmt --write',
 };
