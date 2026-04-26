@@ -63,12 +63,12 @@ const ChapterInfo = ({
 
     return (
         <Stack>
-            <Typography color={contrastText}>{title}</Typography>
-            <Typography color={contrastText} variant="h6" component="h1">
+            <Typography sx={{ color: contrastText }}>{title}</Typography>
+            <Typography sx={{ color: contrastText }} variant="h6" component="h1">
                 {name}
             </Typography>
             {scanlator && (
-                <Typography variant="body2" color={disabledText}>
+                <Typography variant="body2" sx={{ color: disabledText }}>
                     {scanlator}
                 </Typography>
             )}
