@@ -22,6 +22,7 @@ import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
 import { languageSortComparator, toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
+import { usePrevious } from '@mantine/hooks';
 
 interface IProps {
     selectedLanguages: string[];
@@ -34,6 +35,12 @@ export function LanguageSelect({ selectedLanguages, setSelectedLanguages, langua
 
     const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
     const [open, setOpen] = useState<boolean>(false);
+
+    const previousSelectedLanguages = usePrevious(selectedLanguages);
+
+    if (previousSelectedLanguages && previousSelectedLanguages !== selectedLanguages) {
+        setTmpSelectedLanguages(toUniqueLanguageCodes(selectedLanguages));
+    }
 
     const languagesSortedBySelectState = useMemo(
         () =>

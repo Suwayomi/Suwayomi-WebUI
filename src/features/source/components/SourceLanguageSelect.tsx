@@ -40,6 +40,7 @@ import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
+import { usePrevious } from '@mantine/hooks';
 
 export const SourceLanguageSelect = ({
     selectedLanguages,
@@ -63,6 +64,11 @@ export const SourceLanguageSelect = ({
 
     const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
     const [open, setOpen] = useState<boolean>(false);
+
+    const previousSelectedLanguages = usePrevious(selectedLanguages);
+    if (previousSelectedLanguages && previousSelectedLanguages !== selectedLanguages) {
+        setTmpSelectedLanguages(toUniqueLanguageCodes(selectedLanguages));
+    }
 
     const sourcesByLanguage = useMemo(() => Sources.groupByLanguage(sources), [sources]);
 
