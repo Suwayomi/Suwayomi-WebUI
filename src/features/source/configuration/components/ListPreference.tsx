@@ -66,7 +66,7 @@ function ListDialog(props: IListDialogProps) {
             open={open}
             onClose={handleCancel}
             slotProps={{
-                transition: { onEntering: handleEntering }
+                transition: { onEntering: handleEntering },
             }}
         >
             <DialogTitle>{title}</DialogTitle>

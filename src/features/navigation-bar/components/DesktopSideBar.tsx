@@ -57,7 +57,7 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
             slotProps={{
                 paper: {
                     ref,
-                }
+                },
             }}
         >
             <Box

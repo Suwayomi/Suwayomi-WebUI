@@ -60,7 +60,7 @@ export function GridLayouts({
                 open={open}
                 onClose={handleClose}
                 slotProps={{
-                    list: { 'aria-labelledby': 'basic-button' }
+                    list: { 'aria-labelledby': 'basic-button' },
                 }}
             >
                 <MenuItem onClick={handleClose}>

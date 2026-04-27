@@ -131,7 +131,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         slotProps={{
                             list: {
                                 'aria-labelledby': 'chaptersMenuButton',
-                            }
+                            },
                         }}
                     >
                         <MenuItem

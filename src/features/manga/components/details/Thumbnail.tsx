@@ -56,14 +56,18 @@ export const Thumbnail = ({
             imageRequest = await requestManager.requestImage(url);
             const image = await imageRequest.response;
 
-            if (aborted) {return;}
+            if (aborted) {
+                return;
+            }
 
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.src = image;
 
             img.onload = () => {
-                if (aborted) {return;}
+                if (aborted) {
+                    return;
+                }
 
                 const isLargeImage = img.width > 600 && img.height > 900;
 
@@ -78,7 +82,9 @@ export const Thumbnail = ({
                         ],
                     }),
                 ]).then(([palette, averageColor]) => {
-                    if (aborted) {return;}
+                    if (aborted) {
+                        return;
+                    }
 
                     if (
                         !palette.Vibrant ||

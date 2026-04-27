@@ -32,7 +32,7 @@ export const TextSetting = (props: TextSettingProps) => {
                     slotProps={{
                         secondary: {
                             sx: { display: 'flex', flexDirection: 'column', wordWrap: 'break-word' },
-                        }
+                        },
                     }}
                 />
             </ListItemButton>
