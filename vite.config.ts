@@ -14,6 +14,31 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { lingui } from '@lingui/vite-plugin';
 import 'dotenv/config';
 import { d } from 'koration';
+import type { RuntimeCaching } from 'workbox-build';
+
+const createCacheFirstRuntimeCache = (cache: Omit<RuntimeCaching, 'handler'>): RuntimeCaching => ({
+    ...cache,
+    handler: 'CacheFirst',
+    options: {
+        ...cache.options,
+        expiration: {
+            purgeOnQuotaError: true,
+            ...cache.options.expiration,
+            matchOptions: {
+                ignoreVary: true,
+                ...cache.options.expiration.matchOptions,
+            },
+        },
+        cacheableResponse: {
+            statuses: [0, 200],
+            ...cache.options.cacheableResponse,
+        },
+        matchOptions: {
+            ignoreVary: true,
+            ...cache.options.matchOptions,
+        },
+    },
+});
 
 export default defineConfig(({ command }) => ({
     base: command === 'serve' ? process.env.VITE_SUBPATH || './' : './',
@@ -59,12 +84,11 @@ export default defineConfig(({ command }) => ({
             workbox: {
                 globPatterns: [],
                 runtimeCaching: [
-                    {
+                    createCacheFirstRuntimeCache({
                         urlPattern: ({ url }) => {
                             const { pathname } = url;
                             return pathname.match(/\/chapter\/[0-9]+\/page\/[0-9]+/g);
                         },
-                        handler: 'CacheFirst',
                         options: {
                             // !!! IMPORTANT !!! - Update along with ImageCache.ts
                             cacheName: 'image-cache-chapter-pages',
@@ -72,25 +96,14 @@ export default defineConfig(({ command }) => ({
                                 // Max age from server
                                 maxAgeSeconds: d(1).days.inWholeSeconds,
                                 maxEntries: 2500,
-                                purgeOnQuotaError: true,
-                                matchOptions: {
-                                    ignoreVary: true,
-                                },
-                            },
-                            cacheableResponse: {
-                                statuses: [0, 200],
-                            },
-                            matchOptions: {
-                                ignoreVary: true,
                             },
                         },
-                    },
-                    {
+                    }),
+                    createCacheFirstRuntimeCache({
                         urlPattern: ({ url }) => {
                             const { pathname } = url;
                             return pathname.match(/\/manga\/[0-9]+\/thumbnail/g);
                         },
-                        handler: 'CacheFirst',
                         options: {
                             // !!! IMPORTANT !!! - Update along with ImageCache.ts
                             cacheName: 'image-cache-manga-thumbnails',
@@ -98,25 +111,14 @@ export default defineConfig(({ command }) => ({
                                 // Max age from server
                                 maxAgeSeconds: d(1).days.inWholeSeconds,
                                 maxEntries: 5000,
-                                purgeOnQuotaError: true,
-                                matchOptions: {
-                                    ignoreVary: true,
-                                },
-                            },
-                            cacheableResponse: {
-                                statuses: [0, 200],
-                            },
-                            matchOptions: {
-                                ignoreVary: true,
                             },
                         },
-                    },
-                    {
+                    }),
+                    createCacheFirstRuntimeCache({
                         urlPattern: ({ url }) => {
                             const { pathname } = url;
                             return pathname.includes('/extension/icon/');
                         },
-                        handler: 'CacheFirst',
                         options: {
                             // !!! IMPORTANT !!! - Update along with ImageCache.ts
                             cacheName: 'image-cache-extension-icons',
@@ -124,41 +126,20 @@ export default defineConfig(({ command }) => ({
                                 // Max age from server
                                 maxAgeSeconds: d(365).days.inWholeSeconds,
                                 maxEntries: 300,
-                                purgeOnQuotaError: true,
-                                matchOptions: {
-                                    ignoreVary: true,
-                                },
-                            },
-                            cacheableResponse: {
-                                statuses: [0, 200],
-                            },
-                            matchOptions: {
-                                ignoreVary: true,
                             },
                         },
-                    },
-                    {
+                    }),
+                    createCacheFirstRuntimeCache({
                         urlPattern: ({ request }) => request.destination === 'image',
-                        handler: 'CacheFirst',
                         options: {
                             // !!! IMPORTANT !!! - Update along with ImageCache.ts
                             cacheName: 'image-cache-other',
                             expiration: {
                                 maxAgeSeconds: d(4).days.inWholeSeconds,
                                 maxEntries: 500,
-                                purgeOnQuotaError: true,
-                                matchOptions: {
-                                    ignoreVary: true,
-                                },
-                            },
-                            cacheableResponse: {
-                                statuses: [0, 200],
-                            },
-                            matchOptions: {
-                                ignoreVary: true,
                             },
                         },
-                    },
+                    }),
                 ],
             },
         }),
