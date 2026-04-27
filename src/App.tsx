@@ -7,7 +7,8 @@
  */
 
 import CssBaseline from '@mui/material/CssBaseline';
-import React, { useEffect, useLayoutEffect } from 'react';
+import type { PropsWithChildren } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Navigate, Outlet, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { loadErrorMessages, loadDevMessages } from '@apollo/client/dev';
 import { loadable } from 'react-lazily/loadable';
@@ -34,6 +35,8 @@ import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { ImageProcessingType } from '@/features/settings/Settings.types.ts';
 import { MigrationFABIndicator } from '@/features/migration/components/MigrationFABIndicator.tsx';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
+import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
+import { d } from 'koration';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -112,6 +115,55 @@ const ScrollToTop = () => {
     }, [pathname]);
 
     return null;
+};
+
+const InitializeGuard = ({ children }: PropsWithChildren) => {
+    const [isInitialized, setIsInitialized] = useState(false);
+
+    useEffect(() => {
+        type RequestConfig = [string, () => Promise<unknown>][];
+        type InFlightRequest = [string, Promise<unknown>];
+
+        const initialRequests: RequestConfig = [
+            ['globalMeta', () => requestManager.getGlobalMeta().response],
+            ['serverSettings', () => requestManager.getServerSettings().response],
+        ];
+
+        const executeRequests = async (requests: RequestConfig, timeout: number = d(5).seconds.inWholeMilliseconds) => {
+            const runningRequests = requests.map(([key, fn]) => [key, fn()] satisfies InFlightRequest);
+
+            const failedRequests = runningRequests.filter(async ([_, request]) => {
+                try {
+                    await request;
+
+                    return false;
+                } catch (e) {
+                    return true;
+                }
+            });
+
+            if (failedRequests.length) {
+                await new Promise((resolve) => {
+                    setTimeout(resolve, timeout);
+                });
+
+                return executeRequests(
+                    requests.filter(([key]) => !failedRequests.some(([k]) => k === key)),
+                    (timeout * 1.5) % d(2).minutes.inWholeMilliseconds,
+                );
+            }
+        };
+
+        executeRequests(initialRequests).catch(defaultPromiseErrorHandler('InitializeGuard'));
+
+        setIsInitialized(true);
+    }, []);
+
+    if (isInitialized) {
+        return children;
+    }
+
+    return <SplashScreen />;
 };
 
 const InitialBackgroundRequests = () => {
@@ -349,22 +401,24 @@ export const App: React.FC = () => (
         <CssBaseline enableColorScheme />
 
         <AuthGuard>
-            <ServerUpdateChecker />
-            <WebUIUpdateChecker />
-            <InitialBackgroundRequests />
-            <BackgroundSubscriptions />
-            <ResumeMigration />
+            <InitializeGuard>
+                <ServerUpdateChecker />
+                <WebUIUpdateChecker />
+                <InitialBackgroundRequests />
+                <BackgroundSubscriptions />
+                <ResumeMigration />
 
-            <Box sx={{ display: 'flex' }}>
-                <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
-                    <DefaultNavBar />
+                <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ flexShrink: 0, position: 'relative', height: '100vh' }}>
+                        <DefaultNavBar />
+                    </Box>
+                    <Routes>
+                        <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
+                        <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
+                    </Routes>
                 </Box>
-                <Routes>
-                    <Route path={AppRoutes.matchAll.match} element={<MainApp />} />
-                    <Route path={AppRoutes.reader.match} element={<ReaderApp />} />
-                </Routes>
-            </Box>
-            <MigrationFABIndicator />
+                <MigrationFABIndicator />
+            </InitializeGuard>
         </AuthGuard>
     </AppContext>
 );
