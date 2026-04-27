@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 
 - (**General**) Fix saving large client data on the server (e.g., custom source filters)
+- (**General**) Fix clearing service worker image caches
 - (**Library**) Fix total library size chip color in light mode
 - (**Browse**) Fix missing pinned sources in the source language filter
 - (**Browse**) Fix incorrectly showing "local source" source in the source language filter (the local source can't be disabled)

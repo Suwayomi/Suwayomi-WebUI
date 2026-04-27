@@ -73,9 +73,15 @@ export default defineConfig(({ command }) => ({
                                 maxAgeSeconds: d(1).days.inWholeSeconds,
                                 maxEntries: 2500,
                                 purgeOnQuotaError: true,
+                                matchOptions: {
+                                    ignoreVary: true,
+                                },
                             },
                             cacheableResponse: {
                                 statuses: [0, 200],
+                            },
+                            matchOptions: {
+                                ignoreVary: true,
                             },
                         },
                     },
@@ -93,9 +99,15 @@ export default defineConfig(({ command }) => ({
                                 maxAgeSeconds: d(1).days.inWholeSeconds,
                                 maxEntries: 5000,
                                 purgeOnQuotaError: true,
+                                matchOptions: {
+                                    ignoreVary: true,
+                                },
                             },
                             cacheableResponse: {
                                 statuses: [0, 200],
+                            },
+                            matchOptions: {
+                                ignoreVary: true,
                             },
                         },
                     },
@@ -113,9 +125,15 @@ export default defineConfig(({ command }) => ({
                                 maxAgeSeconds: d(365).days.inWholeSeconds,
                                 maxEntries: 300,
                                 purgeOnQuotaError: true,
+                                matchOptions: {
+                                    ignoreVary: true,
+                                },
                             },
                             cacheableResponse: {
                                 statuses: [0, 200],
+                            },
+                            matchOptions: {
+                                ignoreVary: true,
                             },
                         },
                     },
@@ -129,9 +147,15 @@ export default defineConfig(({ command }) => ({
                                 maxAgeSeconds: d(4).days.inWholeSeconds,
                                 maxEntries: 500,
                                 purgeOnQuotaError: true,
+                                matchOptions: {
+                                    ignoreVary: true,
+                                },
                             },
                             cacheableResponse: {
                                 statuses: [0, 200],
+                            },
+                            matchOptions: {
+                                ignoreVary: true,
                             },
                         },
                     },
