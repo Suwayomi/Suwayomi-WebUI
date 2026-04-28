@@ -7,8 +7,9 @@
  */
 
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useLingui } from '@lingui/react/macro';
+import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -21,6 +22,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ChapterHistoryCard } from '@/features/history/components/ChapterHistoryCard.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export const History: React.FC = () => {
@@ -40,7 +42,19 @@ export const History: React.FC = () => {
     });
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterHistoryData?.chapters.pageInfo.endCursor;
-    const readEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
+
+    const allReadEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
+    const readEntries = useMemo(() => {
+        const seenMangaIds = new Set<number>();
+        return allReadEntries.filter((chapter) => {
+            if (seenMangaIds.has(chapter.manga.id)) {
+                return false;
+            }
+            seenMangaIds.add(chapter.manga.id);
+            return true;
+        });
+    }, [allReadEntries]);
+    const filteredOutAllItemsOfFetchedPage = allReadEntries.length > 0 && readEntries.length === 0;
     const groupedHistory = useMemo(
         () => Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')),
         [readEntries],
@@ -61,8 +75,43 @@ export const History: React.FC = () => {
             return;
         }
 
-        fetchMore({ variables: { offset: readEntries.length } });
+        fetchMore({ variables: { offset: allReadEntries.length } });
     }, [hasNextPage, endCursor]);
+
+    useEffect(() => {
+        if (filteredOutAllItemsOfFetchedPage && hasNextPage && !isLoading) {
+            loadMore();
+        }
+    }, [filteredOutAllItemsOfFetchedPage, isLoading, hasNextPage, loadMore]);
+
+    const gridRef = useRef<HTMLDivElement>(null);
+
+    useResizeObserver(
+        gridRef,
+        useCallback(
+            (entries, resizeObserver) => {
+                const gridHeight = entries[0].target.clientHeight;
+                const isScrollbarVisible = gridHeight > document.documentElement.clientHeight;
+
+                if (isLoading) {
+                    return;
+                }
+
+                if (!gridHeight) {
+                    return;
+                }
+
+                if (isScrollbarVisible) {
+                    resizeObserver.disconnect();
+                    return;
+                }
+
+                loadMore();
+                resizeObserver.disconnect();
+            },
+            [gridRef, loadMore, isLoading],
+        ),
+    );
 
     if (error) {
         return (
@@ -79,27 +128,29 @@ export const History: React.FC = () => {
     }
 
     return (
-        <StyledGroupedVirtuoso
-            persistKey="history"
-            components={{
-                Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
-            }}
-            overscan={window.innerHeight * 0.5}
-            endReached={loadMore}
-            groupCounts={groupCounts}
-            groupContent={(index) => (
-                <StyledGroupHeader isFirstItem={index === 0}>
-                    <Typography variant="h5" component="h2">
-                        {groupedHistory[index][VirtuosoUtil.GROUP]}
-                    </Typography>
-                </StyledGroupHeader>
-            )}
-            computeItemKey={computeItemKey}
-            itemContent={(index) => (
-                <StyledGroupItemWrapper>
-                    <ChapterHistoryCard chapter={readEntries[index]} />
-                </StyledGroupItemWrapper>
-            )}
-        />
+        <Box ref={gridRef} sx={{ height: '100%' }}>
+            <StyledGroupedVirtuoso
+                persistKey="history"
+                components={{
+                    Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
+                }}
+                overscan={window.innerHeight * 0.5}
+                endReached={loadMore}
+                groupCounts={groupCounts}
+                groupContent={(index) => (
+                    <StyledGroupHeader isFirstItem={index === 0}>
+                        <Typography variant="h5" component="h2">
+                            {groupedHistory[index][VirtuosoUtil.GROUP]}
+                        </Typography>
+                    </StyledGroupHeader>
+                )}
+                computeItemKey={computeItemKey}
+                itemContent={(index) => (
+                    <StyledGroupItemWrapper>
+                        <ChapterHistoryCard chapter={readEntries[index]} />
+                    </StyledGroupItemWrapper>
+                )}
+            />
+        </Box>
     );
 };
