@@ -59,6 +59,8 @@ export const MigrationSelectDestinationSources = () => {
     const pinnedSourceIds = useMemo(() => Sources.getIds(Sources.filter(sources, { pinned: true })), [sources]);
     const enabledSourceIds = useMemo(() => Sources.getIds(Sources.filter(sources, { enabled: true })), [sources]);
 
+    const hasPinnedSources = !!pinnedSourceIds.length;
+
     const {
         selectedItemIds,
         areAllItemsSelected,
@@ -79,11 +81,13 @@ export const MigrationSelectDestinationSources = () => {
     useAppTitleAndAction(
         t`Select destination sources`,
         <>
-            <CustomTooltip title={t`Select pinned sources`}>
-                <IconButton color="inherit" onClick={() => setSelectionForKey('default', pinnedSourceIds)}>
-                    <PushPinIcon />
-                </IconButton>
-            </CustomTooltip>
+            {hasPinnedSources && (
+                <CustomTooltip title={t`Select pinned sources`}>
+                    <IconButton color="inherit" onClick={() => setSelectionForKey('default', pinnedSourceIds)}>
+                        <PushPinIcon />
+                    </IconButton>
+                </CustomTooltip>
+            )}
             <CustomTooltip title={t`Select enabled sources`}>
                 <IconButton color="inherit" onClick={() => setSelectionForKey('default', enabledSourceIds)}>
                     <ToggleOnIcon />
