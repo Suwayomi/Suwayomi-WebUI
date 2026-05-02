@@ -1,17 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <script>
-            (() => {
-                if (document.querySelector('base')) {
-                    return;
-                }
-
-                const base = document.createElement('base');
-                base.href = '/';
-                document.head.prepend(base);
-            })();
-        </script>
+        <base href="/" />
         <title>Suwayomi</title>
         <meta name="apple-mobile-web-app-title" content="Suwayomi" />
         <meta name="description" content="A manga reader that runs tachiyomi's extensions" />
