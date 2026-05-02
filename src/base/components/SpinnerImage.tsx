@@ -119,11 +119,17 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
             return () => {};
         }
 
+        let isAborted = false;
         let imageRequest: ImageRequest = {
             response: Promise.resolve(''),
             cleanup: noOp,
             abortRequest: noOp,
             fromCache: false,
+        };
+        const abortRequest = () => {
+            isAborted = true;
+            imageRequest.cleanup();
+            imageRequest.abortRequest(new Error('Component was unmounted'));
         };
         const fetchImage = async () => {
             try {
@@ -134,6 +140,12 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
                     disableCors,
                     ignoreQueue,
                 });
+
+                // In case the request got aborted before it was queued, the abort was called against the "default noop" function and did nothing.
+                // Thus, abort again to ensure that the actual queued request gets aborted.
+                if (isAborted) {
+                    abortRequest();
+                }
 
                 if (!imageRequest.fromCache) {
                     updateImageState(true);
@@ -153,8 +165,7 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
         fetchImage().catch(() => {});
 
         return () => {
-            imageRequest.cleanup();
-            imageRequest.abortRequest(new Error('Component was unmounted'));
+            abortRequest();
         };
     }, [src, imgLoadRetryKey, retryKeyPrefix, showMissingImageIcon, shouldLoad]);
 
