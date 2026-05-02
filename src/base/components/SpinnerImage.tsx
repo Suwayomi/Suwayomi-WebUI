@@ -75,13 +75,15 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
 
     const showMissingImageIcon = !src.length;
 
-    const previousSrc = usePrevious(src);
-
     const [imageSourceUrl, setImageSourceUrl] = useState<string>();
     const [imgLoadRetryKey, setImgLoadRetryKey] = useState(0);
     const [isLoading, setIsLoading] = useState<boolean>();
     const [hasError, setHasError] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
+
+    const previousSrc = usePrevious(src);
+    const previousImgLoadRetryKey = usePrevious(imgLoadRetryKey);
+    const previousRetryKeyPrefix = usePrevious(retryKeyPrefix);
 
     const updateImageState = (loading: boolean, error: boolean = false, aborted: boolean = false) => {
         setIsLoading(loading);
@@ -105,7 +107,15 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
         const didSrcChange = previousSrc !== src;
         const isLoadedAndSrcUnchanged = !!imageSourceUrl && !didSrcChange;
 
-        if (showMissingImageIcon || !shouldLoad || isLoadedAndSrcUnchanged) {
+        const isLocalRetry =
+            hasError && previousImgLoadRetryKey !== undefined && previousImgLoadRetryKey !== imgLoadRetryKey;
+        const isGlobalRetry =
+            hasError && previousRetryKeyPrefix !== undefined && previousRetryKeyPrefix !== retryKeyPrefix;
+        const isRetry = isLocalRetry || isGlobalRetry;
+
+        const finalShouldLoad = shouldLoad || isRetry;
+
+        if (showMissingImageIcon || !finalShouldLoad || isLoadedAndSrcUnchanged) {
             return () => {};
         }
 

@@ -38,9 +38,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Fix "auto webtoon mode" detection for manga source languages other than english and the current selected language
 - (**Reader**) Fix the reader transition page previous chapter scanlator name showing the chapter name instead of the scanlator name
 - (**Reader**) Fix opening the previous/next chapter in the continuous horizontal mode with inverted reading direction
-- (**Reader**) Fix scroll preservation in continuous horizontal mode with righ to left reading direction
+- (**Reader**) Fix scroll preservation in continuous horizontal mode with right to left reading direction
 - (**Reader**) Fix mobile progress bar previous/next button not being clickable in single page chapters
 - (**Reader**) Fix scroll position jumping on chapter resume in the continuous horizontal mode
+- (**Reader**) Fix page load retry button in continuous reading modes
 - (**Manga**) Fix dynamic manga page color theme not getting reset after leaving the manga page
 
 ## [20251230.01] (r2937) - 2025-12-30
