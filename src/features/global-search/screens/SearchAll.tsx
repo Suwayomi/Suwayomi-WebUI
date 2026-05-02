@@ -362,7 +362,6 @@ export const SearchAll = ({
             >
                 {hasPinnedSources && (
                     <>
-                        (
                         <Button
                             startIcon={<PushPinIcon />}
                             variant={shouldShowOnlyPinnedSources ? 'contained' : 'outlined'}
@@ -399,7 +398,6 @@ export const SearchAll = ({
                         >
                             {t`All`}
                         </Button>
-                        )
                     </>
                 )}
                 <Button
