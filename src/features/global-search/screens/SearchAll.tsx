@@ -253,7 +253,6 @@ export const SearchAll = ({
     const { pathname, state } = useLocation<{ mangaTitle?: string; shouldShowOnlyPinnedSources?: boolean }>();
     const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
 
-    const shouldShowOnlyPinnedSources = state?.shouldShowOnlyPinnedSources ?? true;
     const isMigrateMode = pathname.startsWith('/migrate/source') || pathname.startsWith('/migrate/manual-search');
 
     const { mangaId } = useParams<{ mangaId?: string }>() ?? STABLE_EMPTY_OBJECT;
@@ -279,6 +278,9 @@ export const SearchAll = ({
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 
     const sourceLanguages = useMemo(() => Sources.getLanguages(sources), [sources]);
+
+    const hasPinnedSources = useMemo(() => !!Sources.filter(sources, { pinned: true }).length, [sources]);
+    const shouldShowOnlyPinnedSources = state?.shouldShowOnlyPinnedSources ?? hasPinnedSources;
 
     const filteredSources = useMemo(
         () =>
@@ -358,44 +360,48 @@ export const SearchAll = ({
                     background: (theme) => theme.palette.background.default,
                 }}
             >
-                <Stack sx={{ flexDirection: 'row', gap: 1 }}>
-                    <Button
-                        startIcon={<PushPinIcon />}
-                        variant={shouldShowOnlyPinnedSources ? 'contained' : 'outlined'}
-                        onClick={() =>
-                            navigate(
-                                {
-                                    pathname: '',
-                                    search: query ? `query=${query}` : '',
-                                },
-                                {
-                                    replace: true,
-                                    state: { ...state, shouldShowOnlyPinnedSources: true },
-                                },
-                            )
-                        }
-                    >
-                        {t`Pinned`}
-                    </Button>
-                    <Button
-                        startIcon={<DoneAllIcon />}
-                        variant={!shouldShowOnlyPinnedSources ? 'contained' : 'outlined'}
-                        onClick={() =>
-                            navigate(
-                                {
-                                    pathname: '',
-                                    search: query ? `query=${query}` : '',
-                                },
-                                {
-                                    replace: true,
-                                    state: { ...state, shouldShowOnlyPinnedSources: false },
-                                },
-                            )
-                        }
-                    >
-                        {t`All`}
-                    </Button>
-                </Stack>
+                {hasPinnedSources && (
+                    <>
+                        (
+                        <Button
+                            startIcon={<PushPinIcon />}
+                            variant={shouldShowOnlyPinnedSources ? 'contained' : 'outlined'}
+                            onClick={() =>
+                                navigate(
+                                    {
+                                        pathname: '',
+                                        search: query ? `query=${query}` : '',
+                                    },
+                                    {
+                                        replace: true,
+                                        state: { ...state, shouldShowOnlyPinnedSources: true },
+                                    },
+                                )
+                            }
+                        >
+                            {t`Pinned`}
+                        </Button>
+                        <Button
+                            startIcon={<DoneAllIcon />}
+                            variant={!shouldShowOnlyPinnedSources ? 'contained' : 'outlined'}
+                            onClick={() =>
+                                navigate(
+                                    {
+                                        pathname: '',
+                                        search: query ? `query=${query}` : '',
+                                    },
+                                    {
+                                        replace: true,
+                                        state: { ...state, shouldShowOnlyPinnedSources: false },
+                                    },
+                                )
+                            }
+                        >
+                            {t`All`}
+                        </Button>
+                        )
+                    </>
+                )}
                 <Button
                     startIcon={<FilterListIcon />}
                     variant={shouldShowOnlySourcesWithResults ? 'contained' : 'outlined'}

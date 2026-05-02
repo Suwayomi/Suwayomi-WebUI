@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Theme**) Change "pure black mode" paper background color to true black
 - (**Library**) Improve library manga sorting
 - (**Browse**) Merge languages filter of the sources and extensions into one
+- (**Search**) Hide "pinned" sources button in global search in case no sources are pinned
 
 ### Fixed
 
