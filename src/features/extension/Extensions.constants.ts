@@ -33,7 +33,7 @@ export const INSTALLED_STATE_TO_TRANSLATION_MAP: { [installedState in InstalledS
     [InstalledState.UNINSTALL]: msg`Uninstall`,
     [InstalledState.INSTALL]: msg`Install`,
     [InstalledState.UPDATE]: msg`Update`,
-    [InstalledState.OBSOLETE]: msg`Obsolete`,
+    [InstalledState.OBSOLETE]: msg`Uninstall`,
     [InstalledState.UPDATING]: msg`Updating`,
     [InstalledState.UNINSTALLING]: msg`Uninstalling`,
     [InstalledState.INSTALLING]: msg`Installing`,

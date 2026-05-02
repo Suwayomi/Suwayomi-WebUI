@@ -17,7 +17,7 @@ import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { InstalledStates, TExtension } from '@/features/extension/Extensions.types.ts';
-import { ExtensionAction, ExtensionState, InstalledState } from '@/features/extension/Extensions.types.ts';
+import { ExtensionAction, ExtensionState } from '@/features/extension/Extensions.types.ts';
 import {
     EXTENSION_ACTION_TO_NEXT_ACTION_MAP,
     EXTENSION_ACTION_TO_STATE_MAP,
@@ -118,12 +118,34 @@ export function ExtensionCard(props: IProps) {
                             {name}
                         </Typography>
                         <Typography variant="caption">
-                            {isInstalled ? `${languageCodeToName(lang)} ` : ''}
-                            {versionName}
-                            {isNsfw && (
-                                <Typography variant="caption" color="error">
-                                    {' 18+'}
+                            {isInstalled ? `${languageCodeToName(lang)}` : ''}
+                            {isInstalled ? (
+                                <Typography variant="caption" sx={{ px: 1 }}>
+                                    •
                                 </Typography>
+                            ) : (
+                                ''
+                            )}
+                            {versionName}
+                            {isObsolete && (
+                                <>
+                                    <Typography variant="caption" sx={{ px: 1 }}>
+                                        •
+                                    </Typography>
+                                    <Typography variant="caption" color="warning" sx={{ textTransform: 'uppercase' }}>
+                                        {t`Obsolete`}
+                                    </Typography>
+                                </>
+                            )}
+                            {isNsfw && (
+                                <>
+                                    <Typography variant="caption" sx={{ px: 1 }}>
+                                        •
+                                    </Typography>
+                                    <Typography variant="caption" color="error">
+                                        18+
+                                    </Typography>
+                                </>
                             )}
                         </Typography>
                         {showSourceRepo && <Typography variant="caption">{repo}</Typography>}
@@ -137,10 +159,7 @@ export function ExtensionCard(props: IProps) {
                     )}
                     <Button
                         variant="outlined"
-                        sx={{
-                            color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit',
-                            flexShrink: 0,
-                        }}
+                        sx={{ flexShrink: 0 }}
                         onClick={(e) => {
                             e.preventDefault();
                             handleButtonClick();

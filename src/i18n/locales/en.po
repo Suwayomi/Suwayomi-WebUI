@@ -2452,6 +2452,7 @@ msgstr ""
 msgid "Number of unread chapters to download"
 msgstr "Number of unread chapters to download"
 
+#: src/features/browse/extensions/components/ExtensionCard.tsx
 #: src/features/extension/Extensions.constants.ts
 msgid "Obsolete"
 msgstr "Obsolete"

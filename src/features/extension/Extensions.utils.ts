@@ -72,10 +72,6 @@ export function groupExtensionsByLanguage(extensions: TExtension[]): GroupedExte
             return ExtensionGroupState.UPDATE_PENDING;
         }
 
-        if (extension.isObsolete) {
-            return ExtensionGroupState.OBSOLETE;
-        }
-
         return ExtensionGroupState.INSTALLED;
     });
 

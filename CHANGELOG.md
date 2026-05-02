@@ -26,6 +26,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Library**) Improve library manga sorting
 - (**Browse**) Merge languages filter of the sources and extensions into one
 - (**Search**) Hide "pinned" sources button in global search in case no sources are pinned
+- (**Extensions**) Show "obsolete" information more discretely with the "uninstall" action instead of grouping obsolete extensions at the top of the page
 
 ### Fixed
 
@@ -90,8 +91,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Fix potential page loss (continuous horizontal mode window resize, reader width change, page scale change)
 - (**Reader**) Fix current page detection in continuous horizontal mode with right-to-left reading mode
 - (**Reader**) Fix occasionally jumping to random pages in continuous reading modes
-- (**Extension**) Fix handling obsolete extensions as updatable in case they are marked as having an available update
-- (**Extension**) Fix being unable to uninstall an extension that can be updated
+- (**Extensions**) Fix handling obsolete extensions as updatable in case they are marked as having an available update
+- (**Extensions**) Fix being unable to uninstall an extension that can be updated
 - (**Theme**) Fix loading of fonts defined in themes
 - (**Reader**) Fix broken scrolling in continuous horizontal reading mode
 
@@ -155,7 +156,7 @@ Thanks to everyone that contributed to this release
 
 - (**General**) Fix drag and drop on touch devices
 - (**Reader**) Fix auto scrolling with static overlay
-- (**Extension**) Fix clicking on action button (install, uninstall, update, ...) opening the extension info page
+- (**Extensions**) Fix clicking on action button (install, uninstall, update, ...) opening the extension info page
 - (**Manga**) Fix incorrect removal of some text wrapped in "<>" in the description and tracker search result summaries
 - (**Settings**) Fix hidden "pure black mode" appearance setting
 - (**Chapter**) Fix updating read status of already read chapters when using the mark previous as read option
@@ -214,8 +215,8 @@ Thanks to everyone that contributed to this release
 - (**Chapter**) Save chapter list options on the server
 - (**Chapter**) Hide chapter list actions while chapters are selected
 - (**Chapter**) Clear selection after performing an action
-- (**Extension**) Make "All" language a selectable language (was forcibly enabled up until now)
-- (**Extension**) Remove language information from uninstalled extension items in list
+- (**Extensions**) Make "All" language a selectable language (was forcibly enabled up until now)
+- (**Extensions**) Remove language information from uninstalled extension items in list
 - (**Source**) Remove language information from not pinned and last used source items in list
 - (**Source**) Save "selected languages" on the server
 - (**Browse**) Select users preferred languages (from the browser) and the "All" language by default
@@ -245,7 +246,7 @@ Thanks to everyone that contributed to this release
 - (**Reader**) Fix scrolling horizontally with trackpads
 - (**WebUI Update**) Fix stable changelog url
 - (**Global search**) Fix failed source searches getting sorted the same way as if they were successfull
-- (**Extension**) Fix link to repository setting in case no extensions are installed
+- (**Extensions**) Fix link to repository setting in case no extensions are installed
 - (**Manga**) Fix data not getting updated properly on a library update (e.g. unread chapter count didn't get updated in case new chapters were found)
 - (**Manga**) Add option to click on artist/author to trigger library search
 - (**Browse**) Fix browse not loading more pages in some cases after filtering/searching
