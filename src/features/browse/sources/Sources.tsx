@@ -40,12 +40,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         settings: { showNsfw, lastUsedSourceId },
     } = useMetadataServerSettings();
 
-    const {
-        data,
-        loading: isLoading,
-        error,
-        refetch,
-    } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
+    const { data, loading: isLoading, error, refetch } = requestManager.useGetSourceList();
     const sources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
     const filteredSources = useMemo(
         () =>

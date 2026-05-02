@@ -48,9 +48,7 @@ export const TrackingSettings = () => {
         loading: areTrackersLoading,
         error: trackersError,
         refetch: refetchTrackersList,
-    } = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS, {
-        notifyOnNetworkStatusChange: true,
-    });
+    } = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const trackers = data?.trackers.nodes ?? STABLE_EMPTY_ARRAY;
 
     const loading = areMetadataServerSettingsLoading || areTrackersLoading;

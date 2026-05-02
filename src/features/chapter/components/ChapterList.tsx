@@ -139,7 +139,6 @@ export const ChapterList = ({
     } = requestManager.useGetMangaChapters<GetChaptersMangaQuery, GetChaptersMangaQueryVariables>(
         GET_CHAPTERS_MANGA,
         manga.id,
-        { notifyOnNetworkStatusChange: true },
     );
     const chapters = chaptersData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
 

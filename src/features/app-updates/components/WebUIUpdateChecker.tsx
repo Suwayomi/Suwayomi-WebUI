@@ -57,7 +57,6 @@ export const WebUIUpdateChecker = () => {
     const { aboutWebUI } = aboutData ?? STABLE_EMPTY_OBJECT;
 
     const { data: webUIUpdateData, refetch: checkForUpdate } = requestManager.useCheckForWebUIUpdate({
-        notifyOnNetworkStatusChange: true,
         fetchPolicy: 'cache-only',
     });
 

@@ -54,9 +54,7 @@ export const WebUISettings = () => {
         loading: areServerSettingsLoading,
         error: serverSettingsError,
         refetch: refetchServerSettings,
-    } = requestManager.useGetServerSettings({
-        notifyOnNetworkStatusChange: true,
-    });
+    } = requestManager.useGetServerSettings();
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const updateSetting = <Setting extends keyof WebUISettingsType>(

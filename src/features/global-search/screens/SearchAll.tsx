@@ -265,7 +265,7 @@ export const SearchAll = ({
         settings: { showNsfw, shouldShowOnlySourcesWithResults },
     } = useMetadataServerSettings();
 
-    const { data, loading, error, refetch } = requestManager.useGetSourceList({ notifyOnNetworkStatusChange: true });
+    const { data, loading, error, refetch } = requestManager.useGetSourceList();
     const tmpSources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
     const sources = useMemo(
         () =>

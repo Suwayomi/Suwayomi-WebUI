@@ -36,9 +36,7 @@ export const BrowseSettings = () => {
 
     useAppTitle(t`Browse`);
 
-    const { data, loading, error, refetch } = requestManager.useGetServerSettings({
-        notifyOnNetworkStatusChange: true,
-    });
+    const { data, loading, error, refetch } = requestManager.useGetServerSettings();
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const updateSetting = <Setting extends keyof ExtensionsSettings>(

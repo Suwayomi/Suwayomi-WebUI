@@ -41,7 +41,6 @@ export const ServerUpdateChecker = () => {
         error: serverUpdateCheckError,
         refetch: checkForUpdate,
     } = requestManager.useCheckForServerUpdate({
-        notifyOnNetworkStatusChange: true,
         fetchPolicy: 'cache-only',
     });
 

@@ -174,7 +174,7 @@ export const useDefaultReaderSettings = (
     loading: boolean;
     request: ReturnType<typeof requestManager.useGetGlobalMeta>;
 } => {
-    const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
+    const request = requestManager.useGetGlobalMeta();
     const { data, loading } = request;
     const metadata = useMemo(() => convertFromGqlMeta(data?.metas.nodes), [data?.metas.nodes]);
     const metaHolder: MetadataHolder = useMemo(() => ({ meta: metadata }), [metadata]);
@@ -200,7 +200,7 @@ export const useDefaultReaderSettingsWithDefaultFlag = (
     loading: boolean;
     request: ReturnType<typeof requestManager.useGetGlobalMeta>;
 } => {
-    const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
+    const request = requestManager.useGetGlobalMeta();
     const { data, loading } = request;
     const metadata = useMemo(() => convertFromGqlMeta(data?.metas.nodes), [data?.metas.nodes]);
     const metaHolder: MetadataHolder = useMemo(() => ({ meta: metadata }), [metadata]);

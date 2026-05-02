@@ -121,7 +121,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         loading: areServerSettingsLoading,
         error: serverSettingsError,
         refetch: refetchServerSettings,
-    } = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });
+    } = requestManager.useGetServerSettings();
     const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
         requestManager.useExtensionListFetch();
 

@@ -58,7 +58,7 @@ export const MigrationSelectMangas = () => {
     } = requestManager.useGetSource<GetSourceMigratableQuery, GetSourceMigratableQueryVariables>(
         GET_SOURCE_MIGRATABLE,
         sourceId ?? '',
-        { skip: !sourceIds, notifyOnNetworkStatusChange: true },
+        { skip: !sourceIds },
     );
 
     const {
@@ -68,7 +68,6 @@ export const MigrationSelectMangas = () => {
         refetch: refetchMangas,
     } = requestManager.useGetMigratableSourceMangas(sourceId!, {
         skip: !sourceIds,
-        notifyOnNetworkStatusChange: true,
     });
 
     const mangas = migratableSourceMangasData?.mangas.nodes ?? STABLE_EMPTY_ARRAY;

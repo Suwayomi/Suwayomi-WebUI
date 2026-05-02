@@ -39,7 +39,6 @@ export const Updates: React.FC = () => {
         refetch,
     } = requestManager.useGetRecentlyUpdatedChapters(undefined, {
         fetchPolicy: 'cache-and-network',
-        notifyOnNetworkStatusChange: true,
     });
     const hasNextPage = !!chapterUpdateData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterUpdateData?.chapters.pageInfo.endCursor;

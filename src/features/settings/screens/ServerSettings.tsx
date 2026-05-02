@@ -73,9 +73,7 @@ export const ServerSettings = () => {
         loading: areServerSettingsLoading,
         error: serverSettingsError,
         refetch: refetchServerSettings,
-    } = requestManager.useGetServerSettings({
-        notifyOnNetworkStatusChange: true,
-    });
+    } = requestManager.useGetServerSettings();
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const koSyncStatus = requestManager.useKoSyncStatus();

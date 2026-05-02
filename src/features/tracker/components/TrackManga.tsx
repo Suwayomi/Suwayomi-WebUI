@@ -44,9 +44,7 @@ export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'ti
 
     const [searchModeForTracker, setSearchModeForTracker] = useState<number>();
 
-    const trackerList = requestManager.useGetTrackerList<GetTrackersBindQuery>(GET_TRACKERS_BIND, {
-        notifyOnNetworkStatusChange: true,
-    });
+    const trackerList = requestManager.useGetTrackerList<GetTrackersBindQuery>(GET_TRACKERS_BIND);
     const trackers = trackerList.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY;
 
     const mangaTrackRecordsList = requestManager.useGetManga<GetMangaTrackRecordsQuery>(

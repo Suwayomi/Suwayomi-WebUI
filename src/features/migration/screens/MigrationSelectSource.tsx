@@ -91,9 +91,7 @@ export const MigrationSelectSource = ({ tabsMenuHeight }: { tabsMenuHeight: numb
     );
     const { sortBy, sortOrder } = migrateSortSettings;
 
-    const { data, loading, error, refetch } = requestManager.useGetMigratableSources({
-        notifyOnNetworkStatusChange: true,
-    });
+    const { data, loading, error, refetch } = requestManager.useGetMigratableSources();
     const migratableSources = useMemo(
         () => getMigratableSources(data?.mangas.nodes, migrateSortSettings),
         [data?.mangas.nodes, migrateSortSettings],

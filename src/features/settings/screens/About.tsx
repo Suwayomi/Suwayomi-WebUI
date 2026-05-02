@@ -28,20 +28,20 @@ export function About() {
 
     useAppTitle(t`About`);
 
-    const { data, loading, error, refetch } = requestManager.useGetAbout({ notifyOnNetworkStatusChange: true });
+    const { data, loading, error, refetch } = requestManager.useGetAbout();
 
     const {
         data: serverUpdateCheckData,
         loading: isCheckingForServerUpdate,
         refetch: checkForServerUpdate,
         error: serverUpdateCheckError,
-    } = requestManager.useCheckForServerUpdate({ notifyOnNetworkStatusChange: true });
+    } = requestManager.useCheckForServerUpdate();
     const {
         data: webUIUpdateData,
         loading: isCheckingForWebUIUpdate,
         refetch: checkForWebUIUpdate,
         error: orgWebUIUpdateCheckError,
-    } = requestManager.useCheckForWebUIUpdate({ notifyOnNetworkStatusChange: true });
+    } = requestManager.useCheckForWebUIUpdate();
     const webUIUpdateCheckError = orgWebUIUpdateCheckError || webUIUpdateData?.checkForWebUIUpdate.tag === '';
 
     const { data: webUIUpdateStatusData } = requestManager.useGetWebUIUpdateStatus();

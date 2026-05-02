@@ -44,9 +44,7 @@ export const MigrationSelectDestinationSources = () => {
         loading: areSourcesLoading,
         error: sourceError,
         refetch: refetchSources,
-    } = requestManager.useGetSourceList({
-        notifyOnNetworkStatusChange: true,
-    });
+    } = requestManager.useGetSourceList();
 
     const allSources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
     const sources = useMemo(
