@@ -700,8 +700,9 @@ export class MigrationManager {
 
                 return (async () => {
                     try {
-                        const updatedMatch = await requestManager.refreshManga(match.id, { awaitRefetchQueries: true })
-                            .response;
+                        const updatedMatch = await requestManager.refreshManga(match.id, {
+                            awaitRefetchQueries: true,
+                        }).response;
 
                         return updatedMatch.data?.fetchManga?.manga ?? match;
                     } catch (e) {

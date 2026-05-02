@@ -19,14 +19,22 @@ export const useRefreshManga = (mangaId: string) => {
         setFetchingOnline(true);
         setError(null);
 
-        try {
-            await requestManager.refreshManga(mangaId, { awaitRefetchQueries: true }).response;
-        } catch (e) {
+        const handleError = (e: unknown) => {
             if (CombinedGraphQLErrors.is(e) && baseCleanup(e.message) === 'no chapters found') {
                 return;
             }
 
             setError(e);
+        };
+
+        try {
+            const { error: tmpError } = await requestManager.refreshManga(mangaId, {
+                awaitRefetchQueries: true,
+            }).response;
+
+            handleError(tmpError);
+        } catch (e) {
+            handleError(e);
         } finally {
             setFetchingOnline(false);
         }
