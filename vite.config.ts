@@ -143,5 +143,14 @@ export default defineConfig(({ command }) => ({
                 ],
             },
         }),
+        {
+            name: 'inject-base-tag',
+            enforce: 'post',
+            transformIndexHtml() {
+                // Ensure the base tag is placed at the top of the header before any vite injected script
+                // For example, the plugin-legacy injects the modern polyfill script at the top of the header above the base tag, resulting in an invalid url
+                return { tags: [{ tag: 'base', attrs: { href: '/' } }] };
+            },
+        },
     ],
 }));
