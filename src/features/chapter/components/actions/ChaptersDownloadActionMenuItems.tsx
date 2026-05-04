@@ -8,27 +8,12 @@
 
 import type { MessageDescriptor } from '@lingui/core';
 import MenuItem from '@mui/material/MenuItem';
-import gql from 'graphql-tag';
 import { msg } from '@lingui/core/macro';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import type {
-    GetChaptersMangaQuery,
-    GetChaptersMangaQueryVariables,
-    MangaType,
-} from '@/lib/graphql/generated/graphql.ts';
-import { ChapterOrderBy, SortOrder } from '@/lib/graphql/generated/graphql.ts';
-import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
-import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { GET_CHAPTERS_MANGA } from '@/lib/graphql/chapter/ChapterQuery.ts';
-import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
-import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { CHAPTER_ACTION_TO_TRANSLATION } from '@/features/chapter/Chapter.constants.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { i18n } from '@/i18n';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const DOWNLOAD_OPTIONS: {
     title: MessageDescriptor;
@@ -70,85 +55,6 @@ const DOWNLOAD_OPTIONS: {
     },
 ];
 
-const handleDownload = async (
-    mangaIds: MangaType['id'][],
-    onlyUnread: boolean,
-    size: number | undefined,
-    downloadAhead: boolean,
-): Promise<void> => {
-    const isMultiMangaManga = mangaIds.length > 1;
-    if (isMultiMangaManga) {
-        Mangas.performAction('download', mangaIds, {
-            downloadAhead,
-            onlyUnread,
-            size,
-        }).catch(defaultPromiseErrorHandler('ChaptersDownloadActionMenuItems::handleSelect:multiMangaMode'));
-        return;
-    }
-
-    const [mangaId] = mangaIds;
-    const manga = Mangas.getFromCache(
-        mangaId,
-        gql`
-            ${MANGA_META_FIELDS}
-            fragment MangaInLibraryState on MangaType {
-                id
-                meta {
-                    ...MANGA_META_FIELDS
-                }
-            }
-        `,
-        'MangaInLibraryState',
-    )!;
-    const meta = getMangaMetadata(manga);
-    const chapters = await requestManager.getChapters<GetChaptersMangaQuery, GetChaptersMangaQueryVariables>(
-        GET_CHAPTERS_MANGA,
-        {
-            // Align conditions/filters with the query from ChapterList to potentially be able to reuse the cache
-            condition: { mangaId: Number(mangaId) },
-            order: [{ by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc }],
-        },
-    ).response;
-
-    if (!chapters.data) {
-        return;
-    }
-
-    const filteredChapters = filterChapters(chapters.data.chapters.nodes, meta);
-
-    const doNecessaryDownloadAheadDownloadsExist =
-        downloadAhead &&
-        Chapters.removeDuplicates(filteredChapters.slice(-1)[0], filteredChapters)
-            .slice(-(size ?? 0))
-            .every((chapter) => !Chapters.isRead(chapter) && Chapters.isDownloaded(chapter));
-    if (doNecessaryDownloadAheadDownloadsExist) {
-        return;
-    }
-
-    const unreadUndownloadedChapters = filteredChapters.filter((chapter) => {
-        if (onlyUnread && chapter.isRead) {
-            return false;
-        }
-
-        return !chapter.isDownloaded;
-    });
-
-    const uniqueChapters = Chapters.removeDuplicates(
-        unreadUndownloadedChapters.slice(-1)[0],
-        unreadUndownloadedChapters,
-    );
-    const chaptersToDownload = uniqueChapters.slice(-(size ?? 0));
-    const chaptersToDownloadWithDuplicates = Chapters.addDuplicates(chaptersToDownload, unreadUndownloadedChapters);
-
-    if (!chaptersToDownloadWithDuplicates.length) {
-        return;
-    }
-
-    Chapters.performAction('download', Chapters.getIds(chaptersToDownloadWithDuplicates), {}).catch(
-        defaultPromiseErrorHandler('ChaptersDownloadActionMenuItems::handleSelect::singleMangaMode'),
-    );
-};
-
 export const ChaptersDownloadActionMenuItems = ({
     mangaIds,
     closeMenu,
@@ -161,17 +67,11 @@ export const ChaptersDownloadActionMenuItems = ({
     } = useMetadataServerSettings();
 
     const handleSelect = (size?: number, onlyUnread: boolean = true, downloadAhead: boolean = false) => {
-        handleDownload(mangaIds, onlyUnread, size, downloadAhead).catch((e) =>
-            makeToast(
-                /* lingui-extract-ignore */
-                i18n.t({
-                    ...CHAPTER_ACTION_TO_TRANSLATION.download.error,
-                    values: { count: size },
-                }),
-                'error',
-                getErrorMessage(e),
-            ),
-        );
+        Mangas.performAction('download', mangaIds, {
+            downloadAhead,
+            onlyUnread,
+            size,
+        }).catch(defaultPromiseErrorHandler('ChaptersDownloadActionMenuItems::handleSelect'));
 
         closeMenu?.();
     };

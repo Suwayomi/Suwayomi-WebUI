@@ -45,6 +45,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Fix scroll position jumping on chapter resume in the continuous horizontal mode
 - (**Reader**) Fix page load retry button in continuous reading modes
 - (**Manga**) Fix dynamic manga page color theme not getting reset after leaving the manga page
+- (**Download**) Fix "download ahead" option in the library for a single manga or in the manga page chapter list triggering downloads while there are already enough unread downloaded chapters
 
 ## [20251230.01] (r2937) - 2025-12-30
 
