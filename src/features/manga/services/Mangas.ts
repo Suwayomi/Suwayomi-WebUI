@@ -219,29 +219,31 @@ export class Mangas {
             Object.fromEntries([...mangaIdToDefaultDownloadSize, ...mangaIdToDownloadSize]),
         ) satisfies MangaIdToDownloadSize[];
 
-        const chapterIdsToDownload = mangaIdToActualDownloadSize.flatMap(([mangaId, actualSize]) => {
-            const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
+        const chaptersToDownload = mangaIdToActualDownloadSize
+            .flatMap(([mangaId, actualSize]) => {
+                const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
 
-            if (!mangaChapters.length) {
-                return [];
-            }
+                if (!mangaChapters.length) {
+                    return [];
+                }
 
-            const shouldDownloadAll = actualSize === undefined;
-            if (shouldDownloadAll) {
-                return mangaChapters;
-            }
+                const shouldDownloadAll = actualSize === undefined;
+                if (shouldDownloadAll) {
+                    return mangaChapters;
+                }
 
-            const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
-            const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
+                const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
+                const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
 
-            return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
-        });
+                return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
+            })
+            .filter(Chapters.isDownloadable);
 
-        if (!chapterIdsToDownload.length) {
+        if (!chaptersToDownload.length) {
             return Promise.resolve();
         }
 
-        return Chapters.download(Chapters.getIds(chapterIdsToDownload), disableConfirmation);
+        return Chapters.download(Chapters.getIds(chaptersToDownload), disableConfirmation);
     }
 
     static async deleteChapters(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
