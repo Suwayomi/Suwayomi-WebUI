@@ -228,6 +228,10 @@ const BaseReader = ({
                 maxWidth: `calc(100vw - ${readerNavBarWidth}px)`,
                 width: `calc(100vw - ${readerNavBarWidth}px)`,
                 height: `100vh`,
+                pt: 'env(safe-area-inset-top)',
+                pb: 'env(safe-area-inset-bottom)',
+                pr: 'env(safe-area-inset-right)',
+                pl: 'env(safe-area-inset-left)',
                 marginLeft: `${readerNavBarWidth}px`,
                 transition: (theme) =>
                     `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s`,
