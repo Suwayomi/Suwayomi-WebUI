@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.957Z\n"
-"PO-Revision-Date: 2026-02-14 05:09+0000\n"
-"Last-Translator: Nguyễn Trung Đức <vaicato16@gmail.com>\n"
+"PO-Revision-Date: 2026-05-05 12:11+0000\n"
+"Last-Translator: schroda <50052685+schroda@users.noreply.github.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/vi/>\n"
 "Language: vi\n"
@@ -12,8 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.17.1\n"
 "X-Message-Format: ICU\n"
-"X-Generator: Weblate 5.16-dev\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -572,9 +572,12 @@ msgid ""
 "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"Kiểm soát MimeType mà Suwayomi gửi trong các mục OPDS cho kho lưu trữ CBZ. Cũng ảnh hưởng đến việc tải xuống CBZ toàn cầu.\n"
-"Hiện đại tuân theo tiêu chuẩn IANA gần đây (2017), trong khi DI SẢN/LEGACY (kiểu mimetype không được dùng nữa cho .cbz) và TƯƠNG THÍCH/COMPATIBLE (kiểu mimetype không được dùng cho tất cả các kho lưu trữ truyện tranh) có thể tương thích hơn với các ứng dụng khách cũ hơn.\n"
-""
+"Kiểm soát MimeType mà Suwayomi gửi trong các mục OPDS cho kho lưu trữ CBZ. "
+"Cũng ảnh hưởng đến việc tải xuống CBZ toàn cầu.\n"
+"Hiện đại tuân theo tiêu chuẩn IANA gần đây (2017), trong khi DI SẢN/LEGACY "
+"(kiểu mimetype không được dùng nữa cho .cbz) và TƯƠNG THÍCH/COMPATIBLE (kiểu "
+"mimetype không được dùng cho tất cả các kho lưu trữ truyện tranh) có thể "
+"tương thích hơn với các ứng dụng khách cũ hơn."
 
 #: src/features/settings/Settings.constants.ts
 #: src/features/settings/Settings.constants.ts
@@ -824,7 +827,7 @@ msgstr "Cơ sở dữ liệu"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Database url"
-msgstr "URL cơ sở dữ liệu"
+msgstr "Url cơ sở dữ liệu"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Decrease auto scroll speed"
@@ -1176,11 +1179,12 @@ msgid ""
 "\n"
 "After changing this setting go to the \"About\" page and check for a webUI update and install it"
 msgstr ""
-"Các tính năng và cải tiến trong phiên bản này có thể chưa được hoàn thiện và có khả năng gây ra lỗi.\n"
+"Các tính năng và cải tiến trong phiên bản này có thể chưa được hoàn thiện và "
+"có khả năng gây ra lỗi.\n"
 "Đảm bảo rằng bạn đã bật sao lưu tự động để tránh mất thư viện\n"
 "\n"
-"Sau khi thay đổi cài đặt này, hãy truy cập trang \"Giới thiệu\" và kiểm tra bản cập nhật webUI rồi cài đặt nó\n"
-""
+"Sau khi thay đổi cài đặt này, hãy truy cập trang \"Giới thiệu\" và kiểm tra "
+"bản cập nhật webUI rồi cài đặt nó"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Feel free to translate the project on"
@@ -1432,9 +1436,9 @@ msgid ""
 "In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
 "Set the target mode to disabled to prevent processing for a MIME-Type"
 msgstr ""
-"Trong trường hợp không có MIME-Type nào được xác định, loại \"mặc định\" sẽ được sử dụng để xử lý.\n"
-"Đặt chế độ đích thành tắt để ngăn việc xử lý MIME-Type\n"
-""
+"Trong trường hợp không có MIME-Type nào được xác định, loại \"mặc định\" sẽ "
+"được sử dụng để xử lý.\n"
+"Đặt chế độ đích thành tắt để ngăn việc xử lý MIME-Type"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1512,7 +1516,7 @@ msgstr "Ô nhập không hợp lệ"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
-msgstr "JSON không hợp lệ"
+msgstr "Json không hợp lệ"
 
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Invalid repository url"
@@ -1730,9 +1734,9 @@ msgid ""
 "This makes it possible to have e.g. different settings on a desktop and a smartphone"
 msgstr ""
 "Quản lý các thiết bị hiện có của bạn.\n"
-"Các cài đặt cụ thể về giao diện người dùng được lưu trữ trên máy chủ dành cho mỗi thiết bị.\n"
-"Ví dụ: Cài đặt khác nhau trên máy tính và điện thoại thông minh\n"
-""
+"Các cài đặt cụ thể về giao diện người dùng được lưu trữ trên máy chủ dành "
+"cho mỗi thiết bị.\n"
+"Ví dụ: Cài đặt khác nhau trên máy tính và điện thoại thông minh"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/screens/Manga.tsx
@@ -2412,9 +2416,9 @@ msgid ""
 "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
 "Limit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
 msgstr ""
-"Tìm kiếm ID qua \"id:<ID>\" (ví dụ: \"id:13\") \n"
-"Giới hạn tìm kiếm trong danh sách của bạn thông qua \"my:<Title>\" (ví dụ: \"my:One Piece\")\n"
-""
+"Tìm kiếm ID qua \"id:<ID>\" (ví dụ: \"id:13\")\n"
+"Giới hạn tìm kiếm trong danh sách của bạn thông qua \"my:<Title>\" (ví dụ: "
+"\"my:One Piece\")"
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "Search parameters"
@@ -2435,13 +2439,12 @@ msgstr "Xem <0>FlareSolverr</0> để biết thông tin về cách thiết lập
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
 msgstr ""
-"Xem <0>tài liệu MUI</0> chính thức để biết cách tùy chỉnh chủ đề.\n"
-"API bảng màu không được hỗ trợ, bạn phải sử dụng <1>API bảng phối màu</1> mới.\n"
-"\n"
-"Bạn có thể sử dụng các trình tạo chủ đề như <2>MUI Theme Creator</2>, tuy nhiên, bạn phải điều chỉnh đối tượng đã tạo theo API phối màu mới.\n"
-"\n"
-"Trong trường hợp không xác định được nền thì nền sẽ được tính dựa trên màu chính\n"
-""
+"Xem chính thức <0>MUI tài liệu</0> để biết cách tùy chỉnh chủ đề.<1/> "
+"palette API không được hỗ trợ, bạn phải sử dụng API mới <2>color schemes "
+"API</2>.<3/><4/>Bạn có thể sử dụng người tạo chủ đề như <5>MUI Theme "
+"Creator</5>, tuy nhiên bạn phải điều chỉnh đối tượng đã tạo theo ý mới theo "
+"color schemes API.<6/><7/>Trong trường hợp không xác định được nền thì nền "
+"sẽ được tính dựa trên màu chính."
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/chapter/components/cards/ChapterCard.tsx
@@ -2659,9 +2662,8 @@ msgid ""
 "Something went wrong\n"
 "An error occurred that we cannot recover from"
 msgstr ""
-"Có gì đó không ổn \n"
-"Đã xảy ra lỗi mà chúng tôi không thể khôi phục\n"
-""
+"Có gì đó không ổn\n"
+"Đã xảy ra lỗi mà chúng tôi không thể khôi phục"
 
 #: src/features/chapter/components/ChapterOptions.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -2725,7 +2727,7 @@ msgstr "Kéo dãn các ảnh nhỏ"
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
 msgid "Submit"
-msgstr "OK"
+msgstr "Ok"
 
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Success"
@@ -2808,8 +2810,7 @@ msgid ""
 msgstr ""
 "Chương tiếp theo có nhóm dịch khác với chương hiện tại.\n"
 "Chương hiện tại: {currentScanlator}\n"
-"Chương tiếp theo: {nextScanlator}\n"
-""
+"Chương tiếp theo: {nextScanlator}"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
@@ -2835,8 +2836,7 @@ msgid ""
 msgstr ""
 "Chương trước có nhóm dịch khác với chương hiện tại.\n"
 "Chương trước: {nextScanlator}\n"
-"Chương hiện tại: {currentScanlator}\n"
-""
+"Chương hiện tại: {currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
@@ -3102,8 +3102,8 @@ msgid ""
 "To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
 msgstr ""
 "Sử dụng tùy chỉnh Giao diện Web.\n"
-"Để sử dụng tùy chỉnh Giao diện Web thay thế nội dung của thư mục \"webUI\" trong thư mục gốc trên máy chủ bằng các tệp tùy chỉnh Giao diện Web\n"
-""
+"Để sử dụng tùy chỉnh Giao diện Web thay thế nội dung của thư mục \"webUI\" "
+"trong thư mục gốc trên máy chủ bằng các tệp tùy chỉnh Giao diện Web"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Use SOCKS proxy"
@@ -3265,3 +3265,766 @@ msgstr "{0, plural, one {# Chương} other {# Chương}}"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "{0, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{0, plural, one {# Chương} other {# Chương}}"
+
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {# ngày} other {# ngày}}"
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr "{0, plural, one {# truyện tranh} other {# truyện tranh}}"
+
+#. placeholder {0}: serverSettings.flareSolverrSessionTtl
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# minute} other {# minutes}}"
+msgstr "{0, plural, one {# phút} other {# phút}}"
+
+#. placeholder {0}: autoScroll.value
+#. placeholder {0}: serverSettings.flareSolverrTimeout
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# second} other {# seconds}}"
+msgstr "{0, plural, one {# giây} other {# giây}}"
+
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr "{0, plural, one {# Nguồn} other {# Nguồn}}"
+
+#. placeholder {0}: trackersInUse.length
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "{0, plural, one {# Tracker} other {# Tracker}}"
+msgstr "{0, plural, one {# Theo dõi} other {# Theo dõi}}"
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr ""
+"{0, plural, one {1 mục không có kết quả phù hợp} other {# các mục không "
+"khớp}}"
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr "{0, plural, one {1 mục bị loại trừ} other {# mục bị loại trừ}}"
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr "{0, plural, one {1 mục nhập thất bại} other {# mục nhập thất bại}}"
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr "{0, plural, one {1 mục phù hợp} other {# mục phù hợp}}"
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr ""
+"{0, plural, one {1 mục nhập đã di chuyển} other {# mục nhập đã di chuyển}}"
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr "{0, plural, one {1 mục di chuyển} other {# mục di chuyển}}"
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr "{0, plural, one {1 tìm kiếm} other {# tìm kiếm}}"
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr "{0, plural, one {Giây} other {Giây}}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr "{0}% | Đang cập nhật…"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr ""
+"{availableUpdates, plural, one {# cập nhật có sẵn} other {# cập nhật có sẵn}}"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "{categoryCount, plural, one {# category} other {# categories}}"
+msgstr "{categoryCount, plural, one {# danh mục} other {# danh mục}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr ""
+"{count, plural, one {Danh mục truyện tranh đã thay đổi} other {Danh mục đã "
+"thay đổi của # truyện tranh}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr ""
+"{count, plural, one {Không thể thay đổi danh mục truyện tranh} other {Không "
+"thể thay đổi danh mục của truyện tranh}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr ""
+"{count, plural, one {Đánh dấu chương đã bị xóa} other {# Đánh dấu chương đã "
+"bị xóa}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr "{count, plural, one {Đã đánh dấu chương} other {# Đã đánh dấu chương}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr "{count, plural, one {Đã xóa chương} other {# Đã xóa chương}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr ""
+"{count, plural, one {Chương được đánh dấu là đã đọc} other {# Chương được "
+"đánh dấu là đã đọc}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr ""
+"{count, plural, one {Chương được đánh dấu là chưa đọc} other {# Chương được "
+"đánh dấu là chưa đọc}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr ""
+"{count, plural, one {Không thể thêm nội dung tải xuống} other {Không thể "
+"thêm nội dung tải xuống}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr ""
+"{count, plural, one {Không thể đánh dấu chương} other {Không thể đánh dấu "
+"chương}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr ""
+"{count, plural, one {Không thể xóa chương} other {Không thể xóa chương}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr ""
+"{count, plural, one {Không thể cài đặt tiện ích mở rộng} other {Không thể "
+"cài đặt tiện ích mở rộng}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
+msgstr ""
+"{count, plural, one {Không thể đánh dấu chương là đã đọc} other {Không thể "
+"đánh dấu chương là đã đọc}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
+msgstr ""
+"{count, plural, one {Không thể đánh dấu chương này là chưa đọc} other {Không "
+"thể đánh dấu chương này là chưa đọc}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
+msgstr ""
+"{count, plural, one {Không thể xóa truyện khỏi thư viện} other {Không thể "
+"xóa truyện khỏi thư viện}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
+msgstr ""
+"{count, plural, one {Không thể xóa dấu trang} other {Không thể xóa dấu "
+"trang}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
+msgstr ""
+"{count, plural, one {Không thể gỡ cài đặt phần mở rộng} other {Không thể gỡ "
+"cài đặt phần mở rộng}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
+msgstr ""
+"{count, plural, one {Không thể cập nhật phần mở rộng} other {Không thể cập "
+"nhật phần mở rộng}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download added} other {# downloads added}}"
+msgstr ""
+"{count, plural, one {Đã thêm tải xuống} other {# đã thêm lượt tải xuống}}"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
+msgstr "{count, plural, one {Chương tiếp theo} other {Đến # chương}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+msgstr ""
+"{count, plural, one {Đã xóa truyện tranh khỏi thư viện} other {Đã xóa # "
+"truyện khỏi thư viện}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}} other {There are # missing chapters.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}}}"
+msgstr ""
+"{count, plural, one {Còn thiếu # chương.\n"
+"Hiện tại: {currentChapter}\n"
+"Kế tiếp: {nextChapter}} other {Còn thiếu # chương.\n"
+"Hiện tại: {currentChapter}\n"
+"Kế tiếp: {nextChapter}}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}} other {There are # missing chapters.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}}}"
+msgstr ""
+"{count, plural, one {Còn thiếu # chương.\n"
+"Trước: {nextChapter}\n"
+"Hiện tại: {currentChapter}} other {Còn thiếu # chương.\n"
+"Trước: {nextChapter}\n"
+"Hiện tại: {currentChapter}}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
+msgstr ""
+"{count, plural, one {Bạn sắp thay đổi danh mục của một mục} other {Bạn sắp "
+"thay đổi danh mục của # mục}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
+msgstr ""
+"{count, plural, one {Bạn sắp xóa một lượt tải xuống} other {Bạn sắp xóa # "
+"lượt tải xuống}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid ""
+"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+msgstr ""
+"{count, plural, one {Bạn sắp tải xuống một chương} other {Bạn sắp tải xuống "
+"# chương.\n"
+"Suwayomi không phải là trình tải xuống hàng loạt và quá nhiều lượt tải xuống "
+"có thể khiến bạn bị cấm truy cập các nguồn và/hoặc gây ra các vấn đề về hiệu "
+"suất.}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+msgstr ""
+"{count, plural, one {Bạn sắp đánh dấu một chương là đã đọc} other {Bạn sắp "
+"đánh dấu # chương là đã đọc}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
+msgstr ""
+"{count, plural, one {Bạn sắp đánh dấu một chương là chưa đọc} other {Bạn sắp "
+"đánh dấu # chương là chưa đọc}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
+msgstr ""
+"{count, plural, one {Bạn sắp xóa một dấu trang} other {Bạn sắp xóa # dấu "
+"trang}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+msgstr ""
+"{count, plural, one {Bạn sắp xóa một mục khỏi thư viện của mình} other {Bạn "
+"sắp xóa # mục khỏi thư viện của mình}}"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "{currentAutoUpdateIntervalHours}h"
+msgstr "{currentAutoUpdateIntervalHours}Giờ"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{currentDownloadAheadLimit, plural, one {# Chương} other {# Chương}}"
+
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
+msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr ""
+"{missingChapterCount, plural, one {Thiếu # chương} other {Thiếu # chương}}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr ""
+"{otherResultsCount, plural, one {# có thêm kết quả} other {# nhiều kết quả "
+"hơn}}"
+
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Xóa các bản sao lưu cũ hơn # ngày} other {Xóa các bản sao "
+"lưu cũ hơn # ngày}}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Xóa các tệp nhật ký cũ hơn # ngày} other {Xóa các tệp "
+"nhật ký cũ hơn # ngày}}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Abort"
+msgstr "Hủy bỏ"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr "Hủy bỏ di chuyển"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Also remove from {0}"
+msgstr "Cũng loại bỏ khỏi {0}"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr "Bạn có chắc chắn muốn hủy bỏ di chuyển không?"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Available"
+msgstr "Có sẵn"
+
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Category"
+msgstr "Danh mục"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Chapter"
+msgstr "Chương"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr "Đã kết nối bằng {currentUsername} đến {currentServerAddress}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr "Đã kết nối bằng {initialUsername} đến {initialServerAddress}"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "Tiếp tục"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Continue reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Tiếp tục đọc\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid ""
+"Could not check for duplicated manga in your library.\n"
+"\n"
+"Error: {errorMessage}"
+msgstr ""
+"Không thể kiểm tra truyện tranh trùng lặp trong thư viện của bạn.\n"
+"\n"
+"Lỗi: {errorMessage}"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Could not delete theme \"{0}\""
+msgstr "Không thể xóa chủ đề \"{0}\""
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Could not install the extension"
+msgstr "Không thể cài đặt phần mở rộng"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log in to {0}"
+msgstr "Không thể đăng nhập vào {0}"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Could not log in to {trackerName}"
+msgstr "Không thể đăng nhập vào {trackerName}"
+
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Could not log in to Suwayomi"
+msgstr "Không thể đăng nhập vào Suwayomi"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log out from {0}"
+msgstr "Không thể đăng xuất khỏi {0}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Could not log out from KOReader Sync"
+msgstr "Không thể đăng xuất khỏi KOReader Sync"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr "Không thể lưu thay đổi"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Current source"
+msgstr "Nguồn hiện tại"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Day"
+msgstr "Ngày"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleted theme \"{0}\""
+msgstr "Đã xóa chủ đề \"{0}\""
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleting theme \"{0}\"…"
+msgstr "Đang xóa chủ đề \"{0}\"…"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination - {0}"
+msgstr "Điểm đến - {0}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "Xong"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr "Kéo để ưu tiên"
+
+#: src/features/category/screens/CategorySettings.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Edit categories"
+msgstr "Chỉnh sửa danh mục"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Edit category"
+msgstr "Chỉnh sửa danh mục"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
+msgstr "Loại trừ"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr "Đã loại trừ"
+
+#: src/features/browse/screens/Browse.tsx
+msgid "Extension"
+msgstr "Phần mở rộng"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Extension installed"
+msgstr "Đã cài đặt phần mở rộng"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr ""
+"Flaresolverr là một phần mềm <0><1>riêng biệt</1></0>, Suwayomi <2><3>không "
+"liên quan</3></2> chương trình cần phải được thực hiện thủ công <4><5>cài "
+"đặt</5></4> và <6><7>chạy</7></6>.<8/>Xem <9>FlareSolverr</9> để biết thông "
+"tin về cách thiết lập nó<10/><11/>Nếu nó là<12><13>không</13></12> thiết lập "
+"và chạy đúng cách, bật cài đặt này <14><15>sẽ không</15></14> làm bất cứ "
+"điều gì"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr "Xác nhận thiết lập Flaresolverr"
+
+#. placeholder {0}: headers?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Headers ({0})"
+msgstr "Tiêu đề ({0})"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr "Bao gồm"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr "Thông báo về phiên bản cập nhật"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr "Thông báo về việc cập nhật phiên bản"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "item"
+msgstr "mục"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Keybinds"
+msgstr "Tổ hợp phím"
+
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+#, fuzzy
+msgid "Latest: {latestChapterNumber}"
+msgstr "Mới nhất: {latestChapterNumber"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log in to {0}"
+msgstr "Đăng nhập vào {0}"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log out from {0}"
+msgstr "Đăng xuất khỏi {0}"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Logging in to {trackerName}…"
+msgstr "Đăng nhập vào {trackerName}…"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr "Tìm kiếm thủ công"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr "Đã tìm thấy kết quả phù hợp"
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr "Kết quả"
+
+#. placeholder {0}: state?.mangaTitle
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Migrate \"{0}\""
+msgstr "Di chuyển \"{0}\""
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr "Di chuyển"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr "Đang di chuyển…"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr "Di chuyển hoàn tất"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr "Di chuyển không thành công"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr "Di chuyển cho \"{title}\" không thành công do lỗi:"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr "Thông tin di chuyển"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr "Tùy chọn di chuyển"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Minute"
+msgstr "Phút"
+
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr "Không tìm thấy kết quả phù hợp"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr "Không có nguồn nào được cài đặt"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid ""
+"Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
+"Higher values may affect client performance."
+msgstr ""
+"Số mục trên mỗi trang trong nguồn cấp dữ liệu OPDS (ví dụ: Lịch sử Thư viện, "
+"Chương Truyện).\n"
+"Giá trị cao hơn có thể ảnh hưởng đến hiệu suất của máy khách."
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr "Đang chờ…"
+
+#: src/features/reader/screens/Reader.tsx
+msgid "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
+msgstr "Trình đọc — Truyện {mangaId} Chương {chapterSourceOrder}"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Remove {0} tracking?"
+msgstr "Xóa {0} khỏi theo dõi?"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr "Tìm kiếm không thành công"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr "Tìm kiếm \"{title}\" không thành công do lỗi:"
+
+#. placeholder {0}: searchParams?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Search parameters ({0})"
+msgstr "Tham số tìm kiếm ({0})"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr "Kết quả tìm kiếm"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr "Đang tìm kiếm…"
+
+#: src/features/settings/components/images/Processing.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Second"
+msgstr "Giây"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr "Chọn nguồn đích"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr "Chọn nguồn đã bật"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr "Chọn các nguồn được ghim"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Selected"
+msgstr "Đã chọn"
+
+#. placeholder {0}: selectedServerChannelInfo.tag
+#. placeholder {1}: selectedServerChannelInfo.channel
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server version {0} ({1}) available for download"
+msgstr "Phiên bản máy chủ {0} ({1}) có sẵn để tải xuống"
+
+#. placeholder {0}: aboutServer?.buildType
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server was updated to version {version} ({0})"
+msgstr "Máy chủ đã được cập nhật lên phiên bản {version} ({0})"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr ""
+"Hiển thị hộp thoại trong trường hợp phiên bản đã được cập nhật. Hộp thoại "
+"này sẽ hiển thị trong trường hợp cần làm mới ứng dụng, bất kể cài đặt này là "
+"gì."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr "Hiển thị hộp thoại trong trường hợp phiên bản của máy chủ đã thay đổi"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Source"
+msgstr "Nguồn"
+
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry - {sourceTitle}"
+msgstr "Mục nguồn - {sourceTitle}"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr "Bắt đầu di chuyển"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Start reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Bắt đầu đọc\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr "Bắt đầu tìm kiếm"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr "Đã di chuyển thành công"
+
+#: src/features/migration/MigrationManager.ts
+msgid ""
+"The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"Quá trình di chuyển chạy trên máy khách trên thiết bị hiện tại, KHÔNG phải "
+"máy chủ.\n"
+"Miễn là máy khách được mở, quá trình di chuyển sẽ chạy ở chế độ nền.\n"
+"Khách hàng có thể bị đóng cửa. Quá trình di chuyển sẽ được tiếp tục sau khi "
+"nó được mở lại trên cùng một thiết bị mà nó đã bắt đầu."
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "This will delete the saved search \"{savedSearch}\""
+msgstr "Thao tác này sẽ xóa tìm kiếm đã lưu \"{savedSearch}\""
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr "Không thể tải nguồn"
+
+#: src/features/migration/MigrationManager.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr "Đã hiểu"
+
+#. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
+#. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI version {0} ({1}) available for download"
+msgstr "Phiên bản giao diện WebUI {0} ({1}) có sẵn để tải xuống"
+
+#. placeholder {0}: aboutWebUI?.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI was updated to version {newVersion} ({0})"
+msgstr "Giao diện Web đã được cập nhật lên phiên bản {newVersion} ({0})"
+
+#. placeholder {0}: manga.title
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "You are about to remove \"{0}\" from your library"
+msgstr "Bạn sắp xóa \"{0}\" từ thư viện của bạn"
