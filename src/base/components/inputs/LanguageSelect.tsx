@@ -23,18 +23,22 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateExtensionLanguage } from '@/features/extension/Extensions.utils.ts';
 import { languageSortComparator, toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
 import { usePrevious } from '@mantine/hooks';
+import { AwaitableComponent, type AwaitableComponentProps } from 'awaitable-component';
 
-interface IProps {
+const LanguageSelectDialog = ({
+    isVisible,
+    onDismiss,
+    onSubmit,
+    onExitComplete,
+    selectedLanguages,
+    languages,
+}: AwaitableComponentProps<string[]> & {
     selectedLanguages: string[];
-    setSelectedLanguages: (languages: string[]) => void;
     languages: string[];
-}
-
-export function LanguageSelect({ selectedLanguages, setSelectedLanguages, languages }: IProps) {
+}) => {
     const { t } = useLingui();
 
     const [tmpSelectedLanguages, setTmpSelectedLanguages] = useState(toUniqueLanguageCodes(selectedLanguages));
-    const [open, setOpen] = useState<boolean>(false);
 
     const previousSelectedLanguages = usePrevious(selectedLanguages);
 
@@ -53,14 +57,8 @@ export function LanguageSelect({ selectedLanguages, setSelectedLanguages, langua
         [languages, tmpSelectedLanguages],
     );
 
-    const handleCancel = () => {
-        setOpen(false);
-        setTmpSelectedLanguages(toUniqueLanguageCodes(selectedLanguages));
-    };
-
     const handleOk = () => {
-        setOpen(false);
-        setSelectedLanguages(toUniqueLanguageCodes(tmpSelectedLanguages));
+        onSubmit(toUniqueLanguageCodes(tmpSelectedLanguages));
     };
 
     const handleChange = (language: string, selected: boolean) => {
@@ -72,45 +70,70 @@ export function LanguageSelect({ selectedLanguages, setSelectedLanguages, langua
     };
 
     return (
-        <>
-            <CustomTooltip title={t`Settings`}>
-                <IconButton onClick={() => setOpen(true)} aria-label="display more actions" edge="end" color="inherit">
-                    <FilterListIcon />
-                </IconButton>
-            </CustomTooltip>
-            <Dialog fullWidth maxWidth="xs" open={open} onClose={handleCancel}>
-                <DialogTitle>{t`Allowed Languages`}</DialogTitle>
-                <DialogContent dividers sx={{ padding: 0 }}>
-                    <Virtuoso
-                        style={{
-                            height: languagesSortedBySelectState.length * 54,
-                            minHeight: '25vh',
-                            maxHeight: '50vh',
-                        }}
-                        data={languagesSortedBySelectState}
-                        increaseViewportBy={400}
-                        computeItemKey={(index) => languagesSortedBySelectState[index]}
-                        itemContent={(_index, language) => (
-                            <ListItem>
-                                <ListItemText primary={translateExtensionLanguage(language)} />
+        <Dialog fullWidth maxWidth="xs" open={isVisible} onClose={onDismiss} onTransitionExited={onExitComplete}>
+            <DialogTitle>{t`Allowed Languages`}</DialogTitle>
+            <DialogContent dividers sx={{ padding: 0 }}>
+                <Virtuoso
+                    style={{
+                        height: languagesSortedBySelectState.length * 54,
+                        minHeight: '25vh',
+                        maxHeight: '50vh',
+                    }}
+                    data={languagesSortedBySelectState}
+                    increaseViewportBy={400}
+                    computeItemKey={(index) => languagesSortedBySelectState[index]}
+                    itemContent={(_index, language) => (
+                        <ListItem>
+                            <ListItemText primary={translateExtensionLanguage(language)} />
 
-                                <Switch
-                                    checked={tmpSelectedLanguages.includes(language)}
-                                    onChange={(e) => handleChange(language, e.target.checked)}
-                                />
-                            </ListItem>
-                        )}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleCancel} color="primary">
-                        {t`Cancel`}
-                    </Button>
-                    <Button onClick={handleOk} color="primary">
-                        {t`Ok`}
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+                            <Switch
+                                checked={tmpSelectedLanguages.includes(language)}
+                                onChange={(e) => handleChange(language, e.target.checked)}
+                            />
+                        </ListItem>
+                    )}
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button autoFocus onClick={onDismiss} color="primary">
+                    {t`Cancel`}
+                </Button>
+                <Button onClick={handleOk} color="primary">
+                    {t`Ok`}
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};
+
+export function LanguageSelect({
+    setSelectedLanguages,
+    ...props
+}: {
+    selectedLanguages: string[];
+    setSelectedLanguages: (languages: string[]) => void;
+    languages: string[];
+}) {
+    const { t } = useLingui();
+
+    return (
+        <CustomTooltip title={t`Settings`}>
+            <IconButton
+                onClick={async () => {
+                    try {
+                        const updatedSelectedLanguages = await AwaitableComponent.show(LanguageSelectDialog, props);
+
+                        setSelectedLanguages(updatedSelectedLanguages);
+                    } catch (e) {
+                        // ignore
+                    }
+                }}
+                aria-label="display more actions"
+                edge="end"
+                color="inherit"
+            >
+                <FilterListIcon />
+            </IconButton>
+        </CustomTooltip>
     );
 }

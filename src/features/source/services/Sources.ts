@@ -176,7 +176,7 @@ export class Sources {
 
     static useLanguages(): {
         languages: string[];
-        setLanguages: (languages: string[]) => void;
+        setLanguages: (languages: string[]) => Promise<void>;
     } {
         const { t } = useLingui();
         const {
