@@ -28,7 +28,7 @@ export const TextSetting = (props: TextSettingProps) => {
             <ListItemButton disabled={disabled} onClick={() => setIsDialogOpen(true)}>
                 <ListItemText
                     primary={settingName}
-                    secondary={settingDescription ?? (isPassword ? value.replaceAll(/./g, '*') : value)}
+                    secondary={settingDescription ?? (isPassword ? '********' : value)}
                     slotProps={{
                         secondary: {
                             sx: { display: 'flex', flexDirection: 'column', wordWrap: 'break-word' },
