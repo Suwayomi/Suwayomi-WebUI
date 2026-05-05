@@ -117,16 +117,18 @@ export const TrackerSearch = ({
     tracker,
     closeSearchMode,
     trackedId,
+    trackedTitle,
 }: {
     manga: MangaIdInfo & Pick<MangaType, 'title'>;
     tracker: TTrackerBind;
     closeSearchMode: () => void;
     trackedId?: string;
+    trackedTitle?: string;
 }) => {
     const { t } = useLingui();
     const getOptionForDirection = useGetOptionForDirection();
 
-    const [searchString, setSearchString] = useState<string>(manga.title);
+    const [searchString, setSearchString] = useState<string>(trackedTitle ?? manga.title);
     const [tmpSearchString, setTmpSearchString] = useState(searchString);
 
     const [selectedTrackerRemoteId, setSelectedTrackerRemoteId] = useState<string | undefined>(trackedId);
