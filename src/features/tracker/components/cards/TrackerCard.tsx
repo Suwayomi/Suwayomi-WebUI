@@ -43,6 +43,7 @@ export const TrackerCard = ({
                 manga={manga}
                 tracker={tracker}
                 trackedId={trackRecord?.remoteId}
+                trackedTitle={trackRecord?.title}
                 closeSearchMode={() => setSearchMode(undefined)}
             />
         );
