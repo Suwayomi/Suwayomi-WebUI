@@ -68,7 +68,7 @@ const BaseReaderPageNumber = ({
                 position: 'fixed',
                 left: readerNavBarWidth,
                 right: 0,
-                bottom: (theme) => `max(calc(${theme.spacing(1)} + ${scrollbar.xSize}px), env(safe-area-inset-bottom))`,
+                bottom: (theme) => `calc(${theme.spacing(1)} + max(${scrollbar.xSize}px, env(safe-area-inset-bottom)))`,
                 alignItems: 'center',
                 transition: (theme) => `left 0.${theme.transitions.duration.shortest}s`,
             }}
