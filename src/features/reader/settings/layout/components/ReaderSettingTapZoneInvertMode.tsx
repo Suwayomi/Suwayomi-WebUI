@@ -93,7 +93,7 @@ export const ReaderSettingTapZoneInvertMode = ({
     const tapZonesInvertOption = convertTapZoneInvertModeToOption(tapZoneInvertMode.value);
 
     return (
-        <ButtonSelectInput
+        <ButtonSelectInput<TapZonesInvertOption>
             {...buttonSelectInputProps}
             label={t`Invert tap zones`}
             value={tapZoneInvertMode.isDefault ? undefined : tapZonesInvertOption}

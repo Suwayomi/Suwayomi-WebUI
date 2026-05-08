@@ -53,7 +53,7 @@ export const ValueRotationButton = <Value extends string | number>({
                         <Superscript
                             superscript={`(${t`Default`})`}
                             text={
-                                valueToDisplayData[defaultValue].isTitleString
+                                typeof valueToDisplayData[defaultValue].title === 'string'
                                     ? valueToDisplayData[defaultValue].title
                                     : t(valueToDisplayData[defaultValue].title)
                             }
@@ -77,7 +77,7 @@ export const ValueRotationButton = <Value extends string | number>({
                     startIcon={valueToDisplayData[value].icon}
                     size="large"
                 >
-                    {valueToDisplayData[value].isTitleString
+                    {typeof valueToDisplayData[value].title === 'string'
                         ? valueToDisplayData[value].title
                         : t(valueToDisplayData[value].title)}
                 </Button>

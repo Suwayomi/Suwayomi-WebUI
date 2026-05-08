@@ -8,7 +8,7 @@
 
 import deepmerge from '@mui/utils/deepmerge';
 import type { AppMetadataKeys, IMetadataMigration } from '@/features/metadata/Metadata.types.ts';
-import type { IReaderSettings, ReaderCustomFilter } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, ReaderCustomFilter, SafeAreaInset } from '@/features/reader/Reader.types.ts';
 import { ProgressBarPosition, ReaderPageScaleMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import {
     AUTO_SCROLL_SPEED,
@@ -396,6 +396,9 @@ export const APP_METADATA: Record<
 
             return locale;
         },
+    },
+    safeAreaInset: {
+        convert: convertToObject<SafeAreaInset>,
     },
 } as const;
 

@@ -36,6 +36,7 @@ const BaseReaderPageNumber = ({
         shouldShowPageNumber: state.shouldShowPageNumber,
         progressBarType: state.progressBarType,
     }));
+    const safeAreaInset = useReaderSettingsStore((state) => state.safeAreaInset);
     const isMaximized = useReaderProgressBarStore('isMaximized');
 
     const pageName = useMemo(() => {
@@ -68,7 +69,8 @@ const BaseReaderPageNumber = ({
                 position: 'fixed',
                 left: readerNavBarWidth,
                 right: 0,
-                bottom: (theme) => `calc(${theme.spacing(1)} + max(${scrollbar.xSize}px, env(safe-area-inset-bottom)))`,
+                bottom: (theme) =>
+                    `calc(${theme.spacing(1)} + max(${scrollbar.xSize}px, ${safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : '0px'}))`,
                 alignItems: 'center',
                 transition: (theme) => `left 0.${theme.transitions.duration.shortest}s`,
             }}

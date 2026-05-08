@@ -13,7 +13,7 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import type { MultiValueButtonProps } from '@/base/Base.types.ts';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
 
-export const ButtonSelect = <Value extends string | number>({
+export const ButtonSelect = <Value extends string | number, MultiValue extends Value | Value[] = Value>({
     value,
     values,
     defaultValue,
@@ -21,7 +21,7 @@ export const ButtonSelect = <Value extends string | number>({
     valueToDisplayData,
     isDefaultable,
     onDefault,
-}: MultiValueButtonProps<Value>) => {
+}: MultiValueButtonProps<Value, MultiValue>) => {
     const { t } = useLingui();
 
     return (
@@ -33,16 +33,31 @@ export const ButtonSelect = <Value extends string | number>({
             )}
             {values.map((displayValue) => {
                 const isDefault = value === undefined && displayValue === defaultValue;
+                const isMultiSelect = Array.isArray(value);
+                const isSelected = isMultiSelect ? value.includes(displayValue) : displayValue === value;
 
-                const text = valueToDisplayData[displayValue].isTitleString
-                    ? valueToDisplayData[displayValue].title
-                    : t(valueToDisplayData[displayValue].title);
+                const newValue = (() => {
+                    if (value === undefined) {
+                        return [displayValue];
+                    }
+
+                    if (isMultiSelect) {
+                        return isSelected ? value.filter((v) => v !== displayValue) : [...value, displayValue];
+                    }
+
+                    return displayValue;
+                })() as MultiValue;
+
+                const text =
+                    typeof valueToDisplayData[displayValue].title === 'string'
+                        ? valueToDisplayData[displayValue].title
+                        : t(valueToDisplayData[displayValue].title);
 
                 return (
                     <CustomTooltip key={displayValue} title={isDefault ? t`Active setting` : ''}>
                         <Button
-                            onClick={() => setValue(displayValue)}
-                            variant={displayValue === value ? 'contained' : 'outlined'}
+                            onClick={() => setValue(newValue)}
+                            variant={isSelected ? 'contained' : 'outlined'}
                             startIcon={valueToDisplayData[displayValue].icon}
                         >
                             {isDefault ? <Superscript superscript="*" text={text} /> : text}

@@ -136,6 +136,13 @@ export enum ReaderScrollAmount {
     LARGE = 95,
 }
 
+export interface SafeAreaInset {
+    top: boolean;
+    right: boolean;
+    bottom: boolean;
+    left: boolean;
+}
+
 export interface IReaderSettingsGlobal {
     overlayMode: ReaderOverlayMode;
     exitMode: ReaderExitMode;
@@ -169,6 +176,7 @@ export interface IReaderSettingsGlobal {
     scrollAmount: ReaderScrollAmount;
     shouldUseInfiniteScroll: boolean;
     shouldShowTransitionPage: boolean;
+    safeAreaInset: SafeAreaInset;
 }
 
 export interface IReaderSettingsManga {
