@@ -414,6 +414,10 @@ msgstr "Also remove from {0}"
 msgid "Appearance"
 msgstr "Appearance"
 
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "Apply safe area padding"
+
 #: src/features/migration/MigrationManager.ts
 msgid "Are you sure you want to abort the migration?"
 msgstr "Are you sure you want to abort the migration?"
@@ -587,6 +591,7 @@ msgid "Both"
 msgstr "Both"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Bottom"
 msgstr "Bottom"
 
@@ -2055,6 +2060,7 @@ msgid "Layout"
 msgstr "Layout"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Left"
 msgstr "Left"
 
@@ -2618,6 +2624,10 @@ msgstr "Preload images"
 msgid "Press keys"
 msgstr "Press keys"
 
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr "Prevents content from overlapping device cutouts and screen edges"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Preview"
 msgstr "Preview"
@@ -2830,6 +2840,7 @@ msgid "Retry errored pages"
 msgstr "Retry errored pages"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Right"
 msgstr "Right"
 
@@ -3507,6 +3518,10 @@ msgstr "Toggle offset double spreads"
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Toggle stretch image"
 msgstr "Toggle stretch image"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Top"
+msgstr "Top"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/manga/components/MangaBadges.tsx

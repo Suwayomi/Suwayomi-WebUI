@@ -875,20 +875,18 @@ export class MigrationManager {
                 return;
             }
 
-            await MigrationManager.getParallelSourceQueue()(() =>
-                MigrationManager.getOrCreateSourceQueue(entry.sourceId)(() => {
-                    assertIsDefined(entry.selectedMatchSourceId);
+            await MigrationManager.getParallelSourceQueue()(() => {
+                assertIsDefined(entry.selectedMatchSourceId);
 
-                    return MigrationManager.getOrCreateSourceQueue(entry.selectedMatchSourceId)(async () => {
-                        if (signal.aborted) {
-                            return;
-                        }
+                return MigrationManager.getOrCreateSourceQueue(entry.selectedMatchSourceId)(async () => {
+                    if (signal.aborted) {
+                        return;
+                    }
 
-                        assertIsDefined(entry.selectedMatchMangaId);
-                        await MangaMigration.migrate(mangaId, entry.selectedMatchMangaId, options);
-                    });
-                }),
-            );
+                    assertIsDefined(entry.selectedMatchMangaId);
+                    await MangaMigration.migrate(mangaId, entry.selectedMatchMangaId, options);
+                });
+            });
 
             MigrationManager.updateState((draft) => {
                 draft.entries[mangaId].status = MigrationEntryStatus.MIGRATION_COMPLETE;

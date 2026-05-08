@@ -12,11 +12,11 @@ import type { ComponentProps } from 'react';
 
 import { ButtonSelect } from '@/base/components/buttons/ButtonSelect.tsx';
 
-export const ButtonSelectInput = <Value extends string | number>({
+export const ButtonSelectInput = <Value extends string | number, MultiValue extends Value | Value[] = Value>({
     label,
     description,
     ...buttonSelectProps
-}: ComponentProps<typeof ButtonSelect<Value>> & { label: string; description?: string }) => (
+}: ComponentProps<typeof ButtonSelect<Value, MultiValue>> & { label: string; description?: string }) => (
     <Stack>
         <Typography>{label}</Typography>
         {description && (

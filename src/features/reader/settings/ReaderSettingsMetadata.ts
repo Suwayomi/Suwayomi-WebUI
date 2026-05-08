@@ -84,6 +84,7 @@ const convertSettingsToMetadata = (
     readerWidth: JSON.stringify(settings.readerWidth),
     hotkeys: JSON.stringify(settings.hotkeys),
     autoScroll: JSON.stringify(settings.autoScroll),
+    safeAreaInset: JSON.stringify(settings.autoScroll),
 });
 
 export const DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG = convertToSettingsWithDefaultFlag(
