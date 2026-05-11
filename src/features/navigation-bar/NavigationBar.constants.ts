@@ -66,7 +66,9 @@ const NAVIGATION_BAR_BASE_ITEMS = [
             const { data } = requestManager.useGetExtensionList({ fetchPolicy: 'cache-only' });
 
             const extensions = data?.extensions.nodes ?? STABLE_EMPTY_ARRAY;
-            const availableUpdates = extensions.filter((extension) => extension.hasUpdate).length;
+            const availableUpdates = extensions.filter(
+                (extension) => extension.hasUpdate && !extension.isObsolete,
+            ).length;
 
             if (!availableUpdates) {
                 return {

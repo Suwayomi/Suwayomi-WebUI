@@ -126,7 +126,7 @@ export const MangaCard = memo((props: MangaCardProps) => {
 
                                 try {
                                     try {
-                                        await MangaMigration.migrate(migrationSourceMangaId, id, options);
+                                        await MangaMigration.migrateByIdWithFetch(migrationSourceMangaId, id, options);
                                     } catch (e) {
                                         makeToast(
                                             t(MANGA_ACTION_TO_TRANSLATION['migrate'].error),

@@ -21,7 +21,7 @@ import List from '@mui/material/List';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import DialogContentText from '@mui/material/DialogContentText';
-import InfoIcon from '@mui/icons-material/Info';
+import WarningIcon from '@mui/icons-material/Warning';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import type { TextSettingProps } from '@/base/components/settings/text/TextSetting.tsx';
@@ -181,7 +181,7 @@ export const MutableListSetting = ({
                                         alignItems: 'center',
                                     }}
                                 >
-                                    <InfoIcon color="warning" />
+                                    <WarningIcon color="warning" />
                                     <Typography
                                         variant="body1"
                                         sx={{

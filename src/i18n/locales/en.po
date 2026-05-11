@@ -63,6 +63,12 @@ msgstr "{0, plural, one {# Tracker} other {# Tracker}}"
 msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
 msgstr "{0, plural, one {1 entry with no match} other {# entries with no match}}"
 
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+
 #. placeholder {0}: excludedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
@@ -307,6 +313,10 @@ msgstr "*: Active setting"
 msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
 msgstr "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
 
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr "A migration is already in progress"
+
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "A preview focused web frontend built with svelte"
@@ -373,6 +383,10 @@ msgstr "Added manga to library!"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Advanced"
 msgstr "Advanced"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "Advanced search mode"
 
 #: src/features/settings/Settings.constants.ts
 msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
@@ -595,6 +609,10 @@ msgstr "Both"
 msgid "Bottom"
 msgstr "Bottom"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr "Breaks down the title into keywords for a wider search"
+
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Briefly show current mode when reader is opened or mode got changed"
 msgstr "Briefly show current mode when reader is opened or mode got changed"
@@ -670,6 +688,7 @@ msgstr "Call timeout"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
@@ -1332,6 +1351,10 @@ msgstr "Display file sizes in binary (KiB, MiB, GiB) instead of decimal (KB, MB,
 msgid "Display mode"
 msgstr "Display mode"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
+msgstr "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Document matching method"
 msgstr "Document matching method"
@@ -1805,6 +1828,14 @@ msgstr "How many chapters should get downloaded while reading."
 msgid "How much time FlareSolverr has to handle the request"
 msgstr "How much time FlareSolverr has to handle the request"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid ""
+"If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+"If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
 msgid "Ignore"
 msgstr "Ignore"
@@ -1816,6 +1847,10 @@ msgstr "Ignore automatic chapter downloads for entries with unread chapters"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Ignore filters when searching"
 msgstr "Ignore filters when searching"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr "Ignore matches without newer chapters"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Ignore re-uploaded chapters"
@@ -2245,6 +2280,10 @@ msgstr "Mark selected as read"
 msgid "Mark selected as unread"
 msgstr "Mark selected as unread"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr "Match based on chapter number"
+
 #: src/features/migration/Migration.constants.ts
 msgid "Match found"
 msgstr "Match found"
@@ -2509,6 +2548,10 @@ msgstr "Oneshot"
 #: src/features/manga/Manga.constants.ts
 msgid "Ongoing"
 msgstr "Ongoing"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Only outdated matches found"
+msgstr "Only outdated matches found"
 
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Only works if the current chapter plus the next chapter are already downloaded."
@@ -2918,6 +2961,7 @@ msgid "Scroll forward"
 msgstr "Scroll forward"
 
 #: src/base/components/AppbarSearch.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Search"
 msgstr "Search"
 
@@ -2941,6 +2985,10 @@ msgid ""
 msgstr ""
 "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
 "Limit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search options"
+msgstr "Search options"
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "Search parameters"
@@ -3470,6 +3518,10 @@ msgstr "There is no next chapter"
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "There is no previous chapter"
 msgstr "There is no previous chapter"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "These options are slow and dangerous and may lead to restrictions from sources"
+msgstr "These options are slow and dangerous and may lead to restrictions from sources"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Third to last read chapter"

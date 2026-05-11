@@ -38,7 +38,7 @@ export const ButtonSelect = <Value extends string | number, MultiValue extends V
 
                 const newValue = (() => {
                     if (value === undefined) {
-                        return [displayValue];
+                        return isMultiSelect ? [displayValue] : displayValue;
                     }
 
                     if (isMultiSelect) {
