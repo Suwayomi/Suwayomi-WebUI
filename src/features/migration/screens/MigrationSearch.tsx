@@ -58,6 +58,10 @@ export const MigrationSearch = () => {
         () => entryList.filter((entry) => entry.status === MigrationEntryStatus.NO_MATCH),
         [entryList],
     );
+    const outdatedEntries = useMemo(
+        () => entryList.filter((entry) => entry.status === MigrationEntryStatus.OUTDATED),
+        [entryList],
+    );
     const matchedEntries = useMemo(
         () => entryList.filter((entry) => entry.status === MigrationEntryStatus.SEARCH_COMPLETE),
         [entryList],
@@ -101,6 +105,15 @@ export const MigrationSearch = () => {
                         other: '# entries with no match',
                     })}
                     entries={noMatchEntries}
+                    color="warning"
+                />
+                <MigrationEntryGroup
+                    status={MigrationEntryStatus.OUTDATED}
+                    title={plural(outdatedEntries.length, {
+                        one: '1 entry with only outdated matches',
+                        other: '# entries with only outdated matches',
+                    })}
+                    entries={outdatedEntries}
                     color="warning"
                 />
                 <MigrationEntryGroup

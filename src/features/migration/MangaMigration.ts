@@ -14,12 +14,27 @@ import type {
 } from '@/lib/graphql/generated/graphql.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { ALL_APP_METADATA_KEY_PREFIXES } from '@/features/metadata/Metadata.constants.ts';
 import type { MigrateMode, MigrateOptions } from '@/features/migration/Migration.types.ts';
+import type {
+    ChapterBookmarkInfo,
+    ChapterDownloadInfo,
+    ChapterIdInfo,
+    ChapterNumberInfo,
+    ChapterReadInfo,
+} from '@/features/chapter/Chapter.types.ts';
+import type { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
+import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 
 type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
+
+export type MigrationChapter = ChapterIdInfo &
+    ChapterReadInfo &
+    ChapterBookmarkInfo &
+    ChapterNumberInfo &
+    ChapterDownloadInfo &
+    GqlMetaHolder;
 
 type MigrateAction = { copy: () => Promise<unknown>[]; cleanup: () => Promise<unknown>[] };
 type MigrateActionCreator = () => MigrateAction;
@@ -29,8 +44,9 @@ const performMigrationAction = async (migrateAction: keyof MigrateAction, ...act
 
 export class MangaMigration {
     static async migrate(
-        mangaId: MangaIdInfo['id'],
-        mangaIdToMigrateTo: number,
+        mangaToMigrate: MangaToMigrate | null | undefined,
+        mangaToMigrateTo: MangaToMigrateTo | null | undefined,
+        chaptersToMigrateTo: MigrationChapter[] | null | undefined,
         {
             mode,
             migrateChapters,
@@ -39,35 +55,14 @@ export class MangaMigration {
             deleteChapters,
             migrateMetadata,
         }: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
+        removeMangaFromCategories: boolean,
     ): Promise<void> {
-        const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }, { removeMangaFromCategories }] =
-            await Promise.all([
-                requestManager.getMangaToMigrate(mangaId, {
-                    migrateChapters,
-                    migrateCategories,
-                    migrateTracking,
-                    deleteChapters,
-                    migrateMetadata,
-                }).response,
-                requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, {
-                    migrateChapters,
-                    migrateCategories,
-                    migrateTracking,
-                    apolloOptions: { errorPolicy: 'all' },
-                }).response,
-                getMetadataServerSettings(),
-            ]);
-
-        if (!mangaToMigrateData?.manga || !mangaToMigrateToData?.fetchManga?.manga) {
+        if (!mangaToMigrate || !mangaToMigrateTo) {
             throw new Error('MangaMigration::migrate: missing manga data');
         }
 
-        if (migrateChapters && !mangaToMigrateData.manga.chapters) {
+        if (migrateChapters && !mangaToMigrate.chapters) {
             throw new Error('MangaMigration::migrate: missing chapters data');
-        }
-
-        if (!mangaToMigrateToData.fetchChapters?.chapters) {
-            mangaToMigrateToData.fetchChapters = { chapters: [] };
         }
 
         const performMigrationActions = async (...actionCreators: [boolean | undefined, MigrateActionCreator][]) => {
@@ -92,28 +87,20 @@ export class MangaMigration {
                 () =>
                     MangaMigration.migrateChapters(
                         mode,
-                        mangaToMigrateData.manga,
-                        mangaToMigrateToData,
+                        mangaToMigrate.chapters?.nodes,
+                        chaptersToMigrateTo,
                         !!deleteChapters,
                         !!migrateMetadata,
                     ),
             ],
-            [
-                migrateTracking,
-                () =>
-                    MangaMigration.migrateTracking(
-                        mode,
-                        mangaToMigrateData.manga,
-                        mangaToMigrateToData.fetchManga!.manga,
-                    ),
-            ],
+            [migrateTracking, () => MangaMigration.migrateTracking(mode, mangaToMigrate, mangaToMigrateTo)],
             [
                 true,
                 () =>
                     MangaMigration.migrateManga(
                         mode,
-                        mangaToMigrateData.manga,
-                        mangaToMigrateToData.fetchManga!.manga,
+                        mangaToMigrate,
+                        mangaToMigrateTo,
                         !!migrateCategories,
                         removeMangaFromCategories,
                         !!migrateMetadata,
@@ -122,34 +109,109 @@ export class MangaMigration {
         );
     }
 
+    static async migrateByIdWithQuery(
+        mangaId: MangaIdInfo['id'],
+        mangaIdToMigrateTo: number,
+        options: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
+    ): Promise<void> {
+        const { migrateChapters, migrateCategories, migrateTracking, deleteChapters, migrateMetadata } = options;
+
+        const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }, { removeMangaFromCategories }] =
+            await Promise.all([
+                requestManager.getMangaToMigrate(mangaId, {
+                    migrateChapters,
+                    migrateCategories,
+                    migrateTracking,
+                    deleteChapters,
+                    migrateMetadata,
+                }).response,
+                requestManager.getMangaToMigrate(mangaIdToMigrateTo, {
+                    migrateChapters,
+                    migrateCategories,
+                    migrateTracking,
+                    deleteChapters,
+                    migrateMetadata,
+                }).response,
+                getMetadataServerSettings(),
+            ]);
+
+        await MangaMigration.migrate(
+            mangaToMigrateData?.manga,
+            mangaToMigrateToData?.manga,
+            mangaToMigrateToData?.manga?.chapters?.nodes,
+            options,
+            removeMangaFromCategories,
+        );
+    }
+
+    static async migrateByIdWithFetch(
+        mangaId: MangaIdInfo['id'],
+        mangaIdToMigrateTo: number,
+        options: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
+    ): Promise<void> {
+        const { migrateChapters, migrateCategories, migrateTracking, deleteChapters, migrateMetadata } = options;
+
+        const [{ data: mangaToMigrateData }, { data: mangaToMigrateToData }, { removeMangaFromCategories }] =
+            await Promise.all([
+                requestManager.getMangaToMigrate(mangaId, {
+                    migrateChapters,
+                    migrateCategories,
+                    migrateTracking,
+                    deleteChapters,
+                    migrateMetadata,
+                }).response,
+                requestManager.getMangaToMigrateToFetch(mangaIdToMigrateTo, {
+                    migrateChapters,
+                    migrateCategories,
+                    migrateTracking,
+                    apolloOptions: { errorPolicy: 'all' },
+                }).response,
+                getMetadataServerSettings(),
+            ]);
+
+        await MangaMigration.migrate(
+            mangaToMigrateData?.manga,
+            mangaToMigrateToData?.fetchManga?.manga,
+            mangaToMigrateToData?.fetchChapters?.chapters,
+            options,
+            removeMangaFromCategories,
+        );
+    }
+
     private static migrateChapters(
         mode: MigrateMode,
-        mangaToMigrate: GetMangaToMigrateQuery['manga'],
-        mangaToMigrateToInfo: GetMangaToMigrateToFetchMutation,
+        chaptersToMigrate: MigrationChapter[] | null | undefined,
+        chaptersToMigrateTo: MigrationChapter[] | null | undefined,
         deleteChapters: boolean,
         migrateMetadata: boolean,
     ): MigrateAction {
-        if (!mangaToMigrate.chapters || !mangaToMigrateToInfo.fetchChapters?.chapters) {
+        if (!chaptersToMigrate || !chaptersToMigrateTo) {
             throw new Error('Chapters are missing');
         }
 
-        const chaptersToMigrate = mangaToMigrate.chapters.nodes;
-
-        const chaptersToMigrateTo = mangaToMigrateToInfo.fetchChapters?.chapters;
         const migratableChapters = Chapters.getMatchingChapterNumberChapters(chaptersToMigrate, chaptersToMigrateTo);
 
-        const readChapters: number[] = [];
+        const highestReadChapterNumber = chaptersToMigrate.reduce((chapterNumber, chapterToMigrate) => {
+            if (chapterToMigrate.isRead && chapterNumber < chapterToMigrate.chapterNumber) {
+                return chapterToMigrate.chapterNumber;
+            }
+
+            return chapterNumber;
+        }, Number.MIN_SAFE_INTEGER);
+
         const bookmarkedChapters: number[] = [];
 
         const chapterPreDeleteIds: number[] = [];
         const chapterUpdateItems: SetChapterMetasItemInput[] = [];
 
-        migratableChapters.forEach(([chapterToMigrate, chapterToMigrateTo]) => {
-            const { isRead, isBookmarked, meta } = chapterToMigrate;
+        const readChapters = Chapters.getIds(
+            chaptersToMigrateTo.filter(
+                (chapterToMigrateTo) => chapterToMigrateTo.chapterNumber <= highestReadChapterNumber,
+            ),
+        );
 
-            if (isRead) {
-                readChapters.push(chapterToMigrateTo.id);
-            }
+        migratableChapters.forEach(([chapterToMigrate, chapterToMigrateTo]) => {
+            const { isBookmarked, meta } = chapterToMigrate;
 
             if (isBookmarked) {
                 bookmarkedChapters.push(chapterToMigrateTo.id);
@@ -188,7 +250,7 @@ export class MangaMigration {
                     ? [
                           deleteChapters
                               ? requestManager.deleteDownloadedChapters(
-                                    Chapters.getIds(Chapters.getDownloaded(mangaToMigrate.chapters?.nodes ?? [])),
+                                    Chapters.getIds(Chapters.getDownloaded(chaptersToMigrate)),
                                 ).response
                               : Promise.resolve(),
                       ]

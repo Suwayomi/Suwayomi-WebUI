@@ -28,6 +28,8 @@ import { Sources } from '@/features/source/services/Sources.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { MigrationBulkSearchOptionsDialog } from '@/features/migration/components/MigrationBulkSearchOptionsDialog.tsx';
+import { AwaitableComponent } from 'awaitable-component';
 
 export const MigrationSelectDestinationSources = () => {
     const { t } = useLingui();
@@ -168,7 +170,15 @@ export const MigrationSelectDestinationSources = () => {
                     bottom: (theme) => theme.spacing(2),
                     right: (theme) => theme.spacing(2),
                 }}
-                onClick={() => MigrationManager.startSearch(selectedItemIds)}
+                onClick={async () => {
+                    try {
+                        const searchOptions = await AwaitableComponent.show(MigrationBulkSearchOptionsDialog);
+
+                        await MigrationManager.startSearch(selectedItemIds, searchOptions);
+                    } catch (e) {
+                        // Ignore
+                    }
+                }}
             >
                 {t`Start Search`}
             </Fab>

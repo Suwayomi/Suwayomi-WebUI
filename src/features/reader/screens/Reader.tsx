@@ -74,7 +74,6 @@ const BaseReader = ({
         'tapZoneInvertMode',
         'shouldShowReadingModePreview',
         'shouldShowTapZoneLayoutPreview',
-        'safeAreaInset',
     );
     const safeAreaInset = useReaderSettingsStore((state) => state.safeAreaInset);
 

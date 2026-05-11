@@ -299,6 +299,11 @@ export class Mangas {
     }
 
     static async migrate(mangaIds: MangaIdInfo['id'][]): Promise<void> {
+        if (MigrationManager.isActive()) {
+            makeToast(t`A migration is already in progress`, 'error');
+            return;
+        }
+
         const mangas = mangaIds.map((mangaId) => {
             const manga = Mangas.getFromCache(mangaId, MANGA_MIGRATION_FIELDS, 'MANGA_MIGRATION_FIELDS');
             assertIsDefined(manga);

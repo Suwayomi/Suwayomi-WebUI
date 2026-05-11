@@ -240,8 +240,11 @@ const getMetadataKeysWithUpdatedValues = (
     const keysWithUpdatedValues = METADATA_MIGRATIONS.slice(migrationId).reduce((acc, migration) => {
         const keysWithUpdatedValuesOfMigration = Object.keys(metadata).filter((metadataKey) =>
             migration.values?.some(({ key: migrationKey, oldValue }) => {
+                const currentValue = metadata[metadataKey];
+
                 const isMigrationForAllKeys = !migrationKey;
-                const doesValueMatch = metadata[metadataKey] === oldValue;
+                const doesValueMatch =
+                    oldValue instanceof RegExp ? currentValue.match(oldValue) : currentValue === oldValue;
 
                 if (isMigrationForAllKeys) {
                     return doesValueMatch;
@@ -317,7 +320,7 @@ const commitMigratedMetadata = (
                 return;
             }
 
-            const isMetadataAlreadyMigrated = !metadata || migrationId === METADATA_MIGRATIONS.length;
+            const isMetadataAlreadyMigrated = !metadata || migrationId >= METADATA_MIGRATIONS.length;
 
             const isCommitRequired = !isMetadataAlreadyMigrated;
             if (!isCommitRequired) {
@@ -362,40 +365,32 @@ export const applyMetadataMigrations = (
         ? 0
         : Math.max(0, Number(meta[migrationIdKey]));
 
-    const migrationToMetadata: [number, Metadata][] = [[0, meta]];
+    const migratedMetadata = METADATA_MIGRATIONS.slice(appliedMigrationId).reduce(
+        (metadataToMigrate, migration, index) => {
+            const migrationId = index + 1;
 
-    METADATA_MIGRATIONS.forEach((migration, index) => {
-        const migrationId = index + 1;
-        const [, metadataToMigrate] = migrationToMetadata[migrationId - 1];
+            const appKeyPrefixForMigration = getAppKeyPrefixForMigration(migrationId);
+            const appKeyPrefixMigrated = applyAppKeyPrefixMigration(metadataToMigrate, migration);
+            const metadataValuesMigrated = applyMetadataValueMigration(
+                appKeyPrefixMigrated,
+                migration,
+                appKeyPrefixForMigration,
+            );
+            const metadataKeysMigrated = applyMetadataKeyMigration(
+                metadataValuesMigrated,
+                migration,
+                appKeyPrefixForMigration,
+            );
+            const metadataKeysDeletedMigrated = applyMetadataDeleteKeysMigration(
+                metadataKeysMigrated,
+                migration,
+                appKeyPrefixForMigration,
+            );
 
-        const isMigrationRequired = appliedMigrationId < migrationId;
-        if (!isMigrationRequired) {
-            migrationToMetadata.push([migrationId, metadataToMigrate]);
-            return;
-        }
-
-        const appKeyPrefixForMigration = getAppKeyPrefixForMigration(migrationId);
-        const appKeyPrefixMigrated = applyAppKeyPrefixMigration(metadataToMigrate, migration);
-        const metadataValuesMigrated = applyMetadataValueMigration(
-            appKeyPrefixMigrated,
-            migration,
-            appKeyPrefixForMigration,
-        );
-        const metadataKeysMigrated = applyMetadataKeyMigration(
-            metadataValuesMigrated,
-            migration,
-            appKeyPrefixForMigration,
-        );
-        const metadataKeysDeletedMigrated = applyMetadataDeleteKeysMigration(
-            metadataKeysMigrated,
-            migration,
-            appKeyPrefixForMigration,
-        );
-
-        migrationToMetadata.push([migrationId, metadataKeysDeletedMigrated]);
-    });
-
-    const migratedMetadata = migrationToMetadata.pop()?.[1] ?? meta;
+            return metadataKeysDeletedMigrated;
+        },
+        meta,
+    );
 
     commitMigratedMetadata(type, metadataHolder, migratedMetadata, useEffectFn);
 
