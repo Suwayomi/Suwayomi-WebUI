@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased] (Preview)
 
+### Changed
+
+- (**Migration**) Show "abort" button during active bulk migration search
+
 ### Fixed
 
 - (**Migration**) Fix aborting bulk migration search/execution while webUI is served on a subpath
