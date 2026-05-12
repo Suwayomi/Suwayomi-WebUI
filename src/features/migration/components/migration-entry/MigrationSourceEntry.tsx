@@ -20,8 +20,9 @@ import { useLingui } from '@lingui/react/macro';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
+import { memo } from 'react';
 
-export const MigrationSourceEntry = (entry: TMigrationEntry) => {
+export const MigrationSourceEntry = memo((entry: TMigrationEntry) => {
     const {
         mangaId,
         mangaThumbnailUrl,
@@ -94,4 +95,4 @@ export const MigrationSourceEntry = (entry: TMigrationEntry) => {
             </Stack>
         </Box>
     );
-};
+});

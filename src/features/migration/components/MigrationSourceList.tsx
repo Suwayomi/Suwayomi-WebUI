@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
@@ -36,55 +36,57 @@ import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import Stack from '@mui/material/Stack';
 
-const SourceCard = ({
-    source,
-    onToggle,
-    isCurrentSource,
-    isSelected,
-    isDragging,
-}: {
-    source: SourceItem;
-    onToggle: (id: SourceIdInfo['id']) => void;
-    isCurrentSource: boolean;
-    isSelected: boolean;
-    isDragging?: boolean;
-}) => {
-    const { t } = useLingui();
+const SourceCard = memo(
+    ({
+        source,
+        onToggle,
+        isCurrentSource,
+        isSelected,
+        isDragging,
+    }: {
+        source: SourceItem;
+        onToggle: (id: SourceIdInfo['id']) => void;
+        isCurrentSource: boolean;
+        isSelected: boolean;
+        isDragging?: boolean;
+    }) => {
+        const { t } = useLingui();
 
-    return (
-        <StyledGroupItemWrapper>
-            <Card>
-                <CardActionArea onClick={() => onToggle(source.id)}>
-                    <ListCardContent sx={{ justifyContent: 'space-between' }}>
-                        <Stack sx={{ flexFlow: 'row', gap: 1, alignItems: 'center' }}>
-                            <ListCardAvatar
-                                iconUrl={requestManager.getValidImgUrlFor(source.iconUrl)}
-                                alt={source.name}
-                                slots={{ spinnerImageProps: { ignoreQueue: true } }}
-                            />
-                            <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                                <Typography variant="h6" component="h3">
-                                    {source.name}
-                                </Typography>
-                                <Typography variant="caption">{languageCodeToName(source.lang)}</Typography>
-                            </Box>
-                        </Stack>
-                        <Stack sx={{ flexDirection: 'row', gap: 4 }}>
-                            {isCurrentSource && (
-                                <Chip size="small" label={t`Current source`} color="primary" variant="outlined" />
-                            )}
-                            {isSelected && (
-                                <Box>
-                                    <DragHandle sx={{ mr: 2, cursor: isDragging ? 'grabbing' : 'grab' }} />
+        return (
+            <StyledGroupItemWrapper>
+                <Card>
+                    <CardActionArea onClick={() => onToggle(source.id)}>
+                        <ListCardContent sx={{ justifyContent: 'space-between' }}>
+                            <Stack sx={{ flexFlow: 'row', gap: 1, alignItems: 'center' }}>
+                                <ListCardAvatar
+                                    iconUrl={requestManager.getValidImgUrlFor(source.iconUrl)}
+                                    alt={source.name}
+                                    slots={{ spinnerImageProps: { ignoreQueue: true } }}
+                                />
+                                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                                    <Typography variant="h6" component="h3">
+                                        {source.name}
+                                    </Typography>
+                                    <Typography variant="caption">{languageCodeToName(source.lang)}</Typography>
                                 </Box>
-                            )}
-                        </Stack>
-                    </ListCardContent>
-                </CardActionArea>
-            </Card>
-        </StyledGroupItemWrapper>
-    );
-};
+                            </Stack>
+                            <Stack sx={{ flexDirection: 'row', gap: 4 }}>
+                                {isCurrentSource && (
+                                    <Chip size="small" label={t`Current source`} color="primary" variant="outlined" />
+                                )}
+                                {isSelected && (
+                                    <Box>
+                                        <DragHandle sx={{ mr: 2, cursor: isDragging ? 'grabbing' : 'grab' }} />
+                                    </Box>
+                                )}
+                            </Stack>
+                        </ListCardContent>
+                    </CardActionArea>
+                </Card>
+            </StyledGroupItemWrapper>
+        );
+    },
+);
 
 export const MigrationSourceList = ({
     sources,
