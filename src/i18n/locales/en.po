@@ -333,6 +333,10 @@ msgstr "Abort"
 msgid "Abort migration"
 msgstr "Abort migration"
 
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "Aborted"
+
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
 msgid "About"

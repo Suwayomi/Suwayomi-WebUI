@@ -128,6 +128,7 @@ export interface MigrationState {
     startedAt: number | null;
     lastUpdatedAt: number | null;
     groupExpandState: Partial<Record<MigrationEntryStatus, boolean>>;
+    isAborted: boolean;
 }
 
 export interface SourceItem extends SourceIdInfo, SourceNameInfo, SourceLanguageInfo, SourceIconInfo, SourceMetaInfo {}

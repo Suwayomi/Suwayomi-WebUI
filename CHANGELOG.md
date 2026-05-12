@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - (**Migration**) Show "abort" button during active bulk migration search
+- (**Migration**) Keep the migration page open when aborting during the actual migration execution
 
 ### Fixed
 
