@@ -44,4 +44,10 @@ export class SubpathUtil {
 
         return `${baseUrl}${subpath}`;
     }
+
+    public static getPathname(): string {
+        const subpath = this.getSubpath();
+
+        return window.location.pathname.replace(subpath, '');
+    }
 }
