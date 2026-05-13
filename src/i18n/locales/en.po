@@ -2322,6 +2322,10 @@ msgstr "Migrate"
 msgid "Migrate \"{0}\""
 msgstr "Migrate \"{0}\""
 
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "Migrate selected"
+
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Migrating"
 msgstr "Migrating"
