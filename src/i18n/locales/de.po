@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.799Z\n"
-"PO-Revision-Date: 2026-04-21 17:09+0000\n"
+"PO-Revision-Date: 2026-05-13 20:11+0000\n"
 "Last-Translator: Constantin Piber <cp.piber@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/de/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.5.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -4054,3 +4054,73 @@ msgstr "Quellen konnten nicht geladen werden"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Understood"
 msgstr "Verstanden"
+
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr ""
+"{0, plural, one {1 Eintrag mit nur veralteten Treffern} other {# Einträge "
+"mit nur veralteten Treffern}}"
+
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr "Eine Migration läuft bereits"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "Erweiterter Suchmodus"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "Abgesicherten Bereich anlegen"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr "Zerlegt den Titel in Schlüsselwörter für eine erweiterte Suche"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
+msgstr ""
+"Wähle Treffer nicht, wenn sie nicht am aktuellen Stand der verwendeten "
+"Quelle sind. Die Treffer werden trotzdem in der Liste angezeigt"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid ""
+"If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+"Wenn aktiv, wähle den Treffer, welcher am aktuellsten ist. \n"
+"Ansonsten wähle den Treffer nach Quellen-Priorität."
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr "Ignoriere Treffer ohne neuere Kapitel"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr "Vergleiche basierend auf Kapitelnummer"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Only outdated matches found"
+msgstr "Nur veraltete Treffer gefunden"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr ""
+"Reserviert einen Bereich, um Überlappen der Geräte-Ausschnitte und Kanten zu "
+"vermeiden"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search options"
+msgstr "Such-Optionen"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "These options are slow and dangerous and may lead to restrictions from sources"
+msgstr ""
+"Diese Optionen sind langsam und gefährlich, und können zu Restriktionen "
+"durch Quellen führen"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Top"
+msgstr "Oben"
