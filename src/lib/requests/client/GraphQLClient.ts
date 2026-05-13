@@ -8,7 +8,8 @@
 
 import { ErrorLink } from '@apollo/client/link/error';
 import { SetContextLink } from '@apollo/client/link/context';
-import { ApolloClient, ApolloLink, CombinedGraphQLErrors, InMemoryCache } from '@apollo/client';
+import type { ErrorLike } from '@apollo/client';
+import { ApolloClient, ApolloLink, CombinedGraphQLErrors, InMemoryCache, ServerError } from '@apollo/client';
 import { from, filter, map, switchMap, firstValueFrom } from 'rxjs';
 import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
@@ -248,6 +249,31 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
         });
     }
 
+    protected override getOriginFromUrl(operation: string): string {
+        return operation;
+    }
+
+    private getRateLimitOrigin(operation: ApolloLink.Operation): string {
+        return `${operation.operationName}::${JSON.stringify(operation.variables)}`;
+    }
+
+    private isRateLimitError(error: ErrorLike): boolean {
+        if (CombinedGraphQLErrors.is(error)) {
+            return error.errors.some(
+                (gqlError) =>
+                    gqlError.message.toLowerCase().includes('http 429') ||
+                    gqlError.message.toLowerCase().includes('http error 429') ||
+                    gqlError.message.toLowerCase().includes('too many requests'),
+            );
+        }
+
+        if (ServerError.is(error)) {
+            return error.statusCode === 429;
+        }
+
+        return false;
+    }
+
     private isAuthError(errors: readonly GraphQLFormattedError[]): boolean {
         return errors.some((graphQLError) =>
             graphQLError.message.includes('suwayomi.tachidesk.server.user.UnauthorizedException'),
@@ -256,9 +282,21 @@ export class GraphQLClient extends BaseClient<ApolloClient, ApolloClient.Options
 
     private createErrorLink() {
         return new ErrorLink(({ error, operation, forward }) => {
+            if (this.isRateLimitError(error)) {
+                this.addRateLimit(
+                    this.getRateLimitOrigin(operation),
+                    operation.getContext()?.headers?.get?.('Retry-After'),
+                );
+
+                return from(this.awaitRateLimit(this.getRateLimitOrigin(operation))).pipe(
+                    switchMap(() => forward(operation)),
+                );
+            }
+
             if (!CombinedGraphQLErrors.is(error)) {
                 return undefined;
             }
+
             if (!this.isAuthError(error.errors)) {
                 return undefined;
             }
