@@ -79,10 +79,11 @@ const EntryError = ({
     isMigrating,
     sourceMangaId,
     error,
+    status,
 }: {
     sourceMangaId: MangaIdInfo['id'];
     isMigrating: boolean;
-} & Pick<TMigrationEntry, 'error'> &
+} & Pick<TMigrationEntry, 'error' | 'status'> &
     Pick<MigrationMatch, 'id' | 'title'>) => {
     const { t } = useLingui();
 
@@ -252,6 +253,7 @@ export const MigrationDestinationEntry = ({
                                 error={error}
                                 sourceMangaId={sourceMangaId}
                                 isMigrating={isMigrating}
+                                status={status}
                             />
                         );
                     }
