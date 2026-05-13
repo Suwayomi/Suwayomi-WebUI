@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Stack from '@mui/material/Stack';
 import { useRecordHotkeys } from 'react-hotkeys-hook';
 import Dialog from '@mui/material/Dialog';
@@ -17,7 +17,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { Hotkey } from '@/features/reader/hotkeys/settings/components/Hotkey.tsx';
-import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 
 export const RecordHotkey = ({
     onClose,
@@ -30,10 +29,7 @@ export const RecordHotkey = ({
 }) => {
     const { t } = useLingui();
 
-    const [recordPhysicalKeys, setRecordPhysicalKeys] = useState(true);
-
-    const [recordedKeys, { start, stop, resetKeys }] = useRecordHotkeys(!recordPhysicalKeys);
-
+    const [recordedKeys, { start, stop, resetKeys }] = useRecordHotkeys();
     const keys = [[...recordedKeys].join('+')];
     const isExistingKey = keys.some((key) =>
         existingKeys.map((existingKey) => existingKey.toLowerCase()).includes(key.toLowerCase()),
@@ -45,7 +41,7 @@ export const RecordHotkey = ({
         return () => {
             stop();
         };
-    }, [start, stop]);
+    }, []);
 
     return (
         <Dialog open onClose={onClose} fullWidth>
@@ -58,32 +54,6 @@ export const RecordHotkey = ({
                     </Trans>
                 </Stack>
                 {isExistingKey && <Typography color="error">{t`Hotkey already exists`}</Typography>}
-                <CheckboxInput
-                    label={
-                        <Stack
-                            sx={{
-                                // Padding comes from the MUI Checkbox component
-                                pt: '9px',
-                            }}
-                        >
-                            <Typography>{t`Record physical keys`}</Typography>
-                            <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', gap: 1 }}>
-                                <Trans>
-                                    enabled: records <Hotkey keys={['shift+1']} /> when the user presses Shift+1
-                                </Trans>
-                            </Typography>
-                            <Typography variant="body2" color="textSecondary" sx={{ display: 'flex', gap: 1 }}>
-                                <Trans>
-                                    disabled: records <Hotkey keys={['!']} /> when the user presses Shift+1 on a US
-                                    layout
-                                </Trans>
-                            </Typography>
-                        </Stack>
-                    }
-                    checked={recordPhysicalKeys}
-                    onChange={(_, checked) => setRecordPhysicalKeys(checked)}
-                    sx={{ mt: 2, alignItems: 'start' }}
-                />
             </DialogContent>
             <DialogActions>
                 <Stack

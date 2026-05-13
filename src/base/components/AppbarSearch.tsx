@@ -12,11 +12,11 @@ import IconButton from '@mui/material/IconButton';
 import { useQueryParam, StringParam } from 'use-query-params';
 import { useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { SearchTextField } from '@/base/components/inputs/SearchTextField.tsx';
 import { SearchParam } from '@/base/Base.types.ts';
-import { useHotkeys } from '@/lib/react-hotkeys-hook/useHotkeys.ts';
 
 interface IProps {
     isClosable?: boolean;
@@ -79,9 +79,13 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         }
     };
 
-    useHotkeys('ctrl+f, F3', () => {
-        updateSearchOpenState(true);
-    });
+    useHotkeys(
+        'ctrl+f, F3',
+        () => {
+            updateSearchOpenState(true);
+        },
+        { preventDefault: true },
+    );
 
     if (isOpen) {
         return (

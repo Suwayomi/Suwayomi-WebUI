@@ -1329,10 +1329,6 @@ msgstr "Disable authentication"
 msgid "Disabled"
 msgstr "Disabled"
 
-#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
-msgid "disabled: records <0/> when the user presses Shift+1 on a US layout"
-msgstr "disabled: records <0/> when the user presses Shift+1 on a US layout"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Disconnect from KOReader Sync server"
 msgstr "Disconnect from KOReader Sync server"
@@ -1503,10 +1499,6 @@ msgstr "Enable debug logs"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Enable page read progress"
 msgstr "Enable page read progress"
-
-#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
-msgid "enabled: records <0/> when the user presses Shift+1"
-msgstr "enabled: records <0/> when the user presses Shift+1"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
@@ -2786,10 +2778,6 @@ msgstr "Recently read"
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 msgid "Record keybind"
 msgstr "Record keybind"
-
-#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
-msgid "Record physical keys"
-msgstr "Record physical keys"
 
 #. placeholder {0}: recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
