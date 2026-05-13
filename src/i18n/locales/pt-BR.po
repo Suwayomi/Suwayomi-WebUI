@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.892Z\n"
+"PO-Revision-Date: 2026-05-10 19:11+0000\n"
+"Last-Translator: Leonardo de Macedo Sartorello <leo.sartorello98@gmail.com>\n"
+"Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
+"suwayomi/suwayomi-webui/pt_BR/>\n"
+"Language: pt-BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: pt-BR\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 2026.5-dev\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -1041,7 +1042,7 @@ msgstr "GitHub Server"
 
 #: src/features/settings/screens/About.tsx
 msgid "GitHub WebUI"
-msgstr "GitHub WebUI"
+msgstr "GitHub Interface Web"
 
 #: src/features/browse/sources/Sources.tsx
 #: src/features/global-search/screens/SearchAll.tsx
@@ -1142,9 +1143,9 @@ msgid ""
 "In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
 "Set the target mode to disabled to prevent processing for a MIME-Type"
 msgstr ""
-"No caso do MIME-Type não estiver definido, o \"padrão\" um vai ser usado para conversão.\n"
-"Defina \"{value}\" como o tipo do alvo para desativar conversão para MIME-Type\n"
-""
+"No caso do MIME-Type não estiver definido, o \"padrão\" um vai ser usado "
+"para conversão.\n"
+"Selecione o tipo do alvo para desativar conversão para MIME-Type"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1377,9 +1378,10 @@ msgid ""
 "This makes it possible to have e.g. different settings on a desktop and a smartphone"
 msgstr ""
 "Gerencie seus dispositivos.\n"
-"Configurações especificas da UI armazenadas no servidor são por dispositivos.\n"
-"Isso faz com que seja possível ter, por exemplo, configurações diferentes em um desktop e um smartphone\n"
-""
+"Configurações especificas das interfaces são armazenadas no servidor por "
+"dispositivos.\n"
+"Isso faz com que seja possível ter, por exemplo, configurações diferentes em "
+"um desktop e um smartphone"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/screens/Manga.tsx
@@ -1969,13 +1971,12 @@ msgstr "Acesse <0>FlareSolverr</0> para mais informações"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
 msgstr ""
-"Veja a <0>documentação oficial do MUI</0> para saber como personalizar o tema.\n"
-"A API de paletas não é suportada, você deve usar a nova <1>API de esquemas de cores</1>.\n"
-"\n"
-"Você pode usar criadores de temas como o <2>Criador de temas MUI</2>, entretanto, você terá que ajustar o objeto criado conforme a nova API de esquemas de cores.\n"
-"\n"
-"Caso nenhum plano de fundo seja definido, um fundo será calculado com base na cor primária\n"
-""
+"Veja a <0>documentação oficial do MUI</0> para saber como personalizar o "
+"tema.<1/>A API de paletas não é suportada, você deve usar a nova <2>API de "
+"esquemas de cores</2>.<3/><4/>Você pode usar criadores de temas como o <5>"
+"Criador de temas MUI</5>, entretanto, você terá que ajustar o objeto criado "
+"conforme a nova API de esquemas de cores.<6/><7/>Caso nenhum plano de fundo "
+"seja definido, um fundo será calculado com base na cor primária."
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/chapter/components/cards/ChapterCard.tsx
@@ -2124,8 +2125,7 @@ msgid ""
 "An error occurred that we cannot recover from"
 msgstr ""
 "Algo deu errado\n"
-"Ocorreu um erro que não foi possível se recuperar\n"
-""
+"Ocorreu um erro que não foi possível se recuperar"
 
 #: src/features/chapter/components/ChapterOptions.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -2235,8 +2235,7 @@ msgid ""
 msgstr ""
 "O próximo capítulo possui um scanlator diferente do atual.\n"
 "Atual: {currentScanlator}\n"
-"Próximo: {nextScanlator}\n"
-""
+"Próximo: {nextScanlator}"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "The path to the directory on the server where automated backups should get saved in"
@@ -2254,8 +2253,7 @@ msgid ""
 msgstr ""
 "O capítulo anterior possui um scanlator diferente do atual.\n"
 "Anterior: {nextScanlator}\n"
-"Atual: {currentScanlator}\n"
-""
+"Atual: {currentScanlator}"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
@@ -2556,3 +2554,486 @@ msgstr "Sua biblioteca está vazia"
 #: src/features/settings/Settings.constants.ts
 msgid "Your library will be accessible. Use this only on private networks or when otherwise securing access."
 msgstr "Sua biblioteca será acessível. Use isto somente em networks privadas ou ao garantir o acesso de outra forma."
+
+#. placeholder {0}: selectedChapters.length
+#. placeholder {0}: visibleChapters.length
+#: src/features/chapter/components/ChapterList.tsx
+msgid "{0, plural, one {# chapter} other {# chapters}}"
+msgstr "{0, plural, one {# capítulo} other {# capítulos}}"
+
+#. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "{0, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{0, plural, one {# Capítulo} other {# Capítulos}}"
+
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {# dia} other {# dias}}"
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr "{0, plural, one {# manga} other {# mangas}}"
+
+#. placeholder {0}: serverSettings.flareSolverrSessionTtl
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# minute} other {# minutes}}"
+msgstr "{0, plural, one {# minuto} other {# minutos}}"
+
+#. placeholder {0}: autoScroll.value
+#. placeholder {0}: serverSettings.flareSolverrTimeout
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# second} other {# seconds}}"
+msgstr "{0, plural, one {# segundo} other {# segundos}}"
+
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr "{0, plural, one {# Fonte} other {# Fontes}}"
+
+#. placeholder {0}: trackersInUse.length
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "{0, plural, one {# Tracker} other {# Tracker}}"
+msgstr "{0, plural, one {# Rastreador} other {# Rastreadores}}"
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr ""
+"{0, plural, one {1 entrada sem correspondência} other {# entradas sem "
+"correspondência}}"
+
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr ""
+"{0, plural, one {1 entrada com correspondência antiga} other {# entradas com "
+"correspondências antigas}}"
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr "{0, plural, one {1 entrada excluída} other {# entradas excluídas}}"
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+#, fuzzy
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr ""
+"{0, plural, one {1 entrada com problema} other {# entradas com problema}}"
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr "{0, plural, one {1 entrada encontrada} other {# entradas encontradas}}"
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr "{0, plural, one {1 entrada migrada} other {# entradas migradas}}"
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr "{0, plural, one {migrando 1 entrada } other {migrando # entradas}}"
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+#, fuzzy
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr "{0, plural, one {1 buscando} other {# buscando}}"
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr "{0, plural, one {Segundo} other {Segundos}}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr "{0}% | Atualizando…"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr ""
+"{availableUpdates, plural, one {# atualização disponível} other {# "
+"atualizações disponíveis}}"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "{categoryCount, plural, one {# category} other {# categories}}"
+msgstr "{categoryCount, plural, one {# categoria} other {# categorias}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr ""
+"{count, plural, one {Categorias do manga alteradas} other {Categorias dos # "
+"mangas alteradas}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr ""
+"{count, plural, one {Capítulo removido dos favoritos} other {# capítulos "
+"removidos dos favoritos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr ""
+"{count, plural, one {Capítulo favoritado} other {# capítulos favoritados}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr "{count, plural, one {Capítulo apagado} other {# capítulos apagados}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr ""
+"{count, plural, one {Capítulo marcado como lido} other {# capítulos marcados "
+"como lido}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr ""
+"{count, plural, one {Capítulo marcado como não lido} other {# capítulos "
+"marcados como não lidos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr ""
+"{count, plural, one {Não foi possível adicionar aos downloads} other {Não "
+"foi possível adicionar aos downloads}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr ""
+"{count, plural, one {Não foi possível adicionar o capítulo aos favoritos} "
+"other {Não foi possível adicionar os # capítulos aos favoritos}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr ""
+"{count, plural, one {Não foi possível alterar as categorias do manga} other "
+"{Não foi possível alterar as categorias dos mangas}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr ""
+"{count, plural, one {Não foi possível apagar o capítulo} other {Não foi "
+"possível apagar os capítulos}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr ""
+"{count, plural, one {Não foi possível instalar a extensão} other {Não foi "
+"possível instalar as extensões}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
+msgstr ""
+"{count, plural, one {Não foi possível marcar o capítulo como lido} other "
+"{Não foi possível marcar os capítulos como lido}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
+msgstr ""
+"{count, plural, one {Não foi possível marcar o capítulo como não lido} other "
+"{Não foi possível marcar os capítulos como não lido}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
+msgstr ""
+"{count, plural, one {Não foi possível remover o manga da biblioteca} other "
+"{Não foi possível remover os mangas da biblioteca}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
+msgstr ""
+"{count, plural, one {Não foi possível remover dos favoritos} other {Não foi "
+"possível remover dos favoritos}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
+msgstr ""
+"{count, plural, one {Não foi possível desinstalar a extensão} other {Não foi "
+"possível desinstalar as extensões}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
+msgstr ""
+"{count, plural, one {Não foi possível atualizar a extensão} other {Não foi "
+"possível atualizar as extensões}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download added} other {# downloads added}}"
+msgstr ""
+"{count, plural, one {Adicionado aos downloads} other {# adicionados aos "
+"downloads}}"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
+msgstr "{count, plural, one {Próximo capítulo} other {Próximos # capítulos}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+msgstr ""
+"{count, plural, one {Manga removido da biblioteca} other {# mangas removidos "
+"da biblioteca}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}} other {There are # missing chapters.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}}}"
+msgstr ""
+"{count, plural, one {Há # capítulo faltando.\n"
+"Atual: {currentChapter}\n"
+"Próximo: {nextChapter}} other {Há # capítulos faltando.\n"
+"Atual: {currentChapter}\n"
+"Próximo: {nextChapter}}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}} other {There are # missing chapters.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}}}"
+msgstr ""
+"{count, plural, one {Há # capítulo faltando.\n"
+"Anterior: {nextChapter}\n"
+"Atual: {currentChapter}} other {Há # capítulos faltando.\n"
+"Anterior: {nextChapter}\n"
+"Atual: {currentChapter}}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
+msgstr ""
+"{count, plural, one {Você está prestes a mudar a categoria de uma entrada} "
+"other {Você está prestes a mudar a categoria de # entradas}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
+msgstr ""
+"{count, plural, one {Você está prestes a deletar um download} other {Você "
+"está prestes a deletar # downloads}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid ""
+"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+msgstr ""
+"{count, plural, one {Você está prestes a baixar um capítulo} other {Você "
+"está prestes a baixar # capítulos.\n"
+"O Suwayomi não é um download em massa e downloads demais podem te banir das "
+"fontes e/ou causar problemas de desempenho.}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+msgstr ""
+"{count, plural, one {Você está prestes a marcar um capítulo como lido} other "
+"{Você está prestes a marcar # capítulos como lido}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
+msgstr ""
+"{count, plural, one {Você está prestes a marcar um capítulo como não lido} "
+"other {Você está prestes a marcar # capítulos como não lido}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
+msgstr ""
+"{count, plural, one {Você está prestes a remover um favorito} other {Você "
+"está prestes a remover # favoritos}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+msgstr ""
+"{count, plural, one {Você está prestes a remover uma entrada da sua "
+"biblioteca} other {Você está prestes a remover # entradas da sua biblioteca}}"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "{currentAutoUpdateIntervalHours}h"
+msgstr "{currentAutoUpdateIntervalHours}h"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr ""
+"{currentDownloadAheadLimit, plural, one {# Capítulo} other {# Capítulos}}"
+
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
+msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr ""
+"{missingChapterCount, plural, one {Capítulo # faltando} other {Capítulos # "
+"faltando}}"
+
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Exclua os backups que sejam mais antigos que # dia} other "
+"{Exclua os backups que sejam mais antigos que # dias}}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Exclua os logs que sejam mais antigos que # dia} other "
+"{Exclua os logs que sejam mais antigos que # dias}}"
+
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr "Uma migração já está em andamento"
+
+#: src/features/settings/Settings.constants.ts
+msgid "A preview focused web frontend built with svelte"
+msgstr "Uma interface web focada em pré-visualização, construída com o Svelte"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Abort"
+msgstr "Abortar"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr "Abortar migração"
+
+#: src/features/tracker/components/cards/TrackerUntrackedCard.tsx
+msgid "Add tracking"
+msgstr "Adicionar rastreamento"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "Modo de busca avançada"
+
+#: src/features/settings/Settings.constants.ts
+msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
+msgstr ""
+"Depois de mudar essa configuração, vá até a página \"Sobre\" e verifique se "
+"há uma atualização da interface web e instale-a"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Also remove from {0}"
+msgstr "Também remova de {0}"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr "Você tem certeza de que quer abortar a migração?"
+
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+msgid "Automatically download the latest version"
+msgstr "Baixe automaticamente a versão mais recente"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Automatically mark chapters as read when you download them."
+msgstr "Marque automaticamente os capítulos como lidos ao baixá-los."
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Available"
+msgstr "Disponível"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup data"
+msgstr "Fazer backup dos dados"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Binary"
+msgstr "Binário"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Binary file size"
+msgstr "Tamanho binário do arquivo"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr "Divide o título em palavras-chave para uma busca mais ampla"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Browser"
+msgstr "Navegador"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Bundled"
+msgstr "Agrupado"
+
+#: src/features/settings/components/images/Processing.tsx
+#, fuzzy
+msgid "Call timeout"
+msgstr "Chamar o tempo de espera"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/settings/screens/More.tsx
+msgid "Categories"
+msgstr "Categorias"
+
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Category"
+msgstr "Categoria"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "CBZ MIME-Type"
+msgstr "CBZ MIME-Type"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Channel"
+msgstr "Canal"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Chapter"
+msgstr "Capítulo"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Chapter sort order"
+msgstr "Ordem de ordenação dos capítulos"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Chapters"
+msgstr "Capítulos"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+#, fuzzy
+msgid "Check out"
+msgstr "Confira"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Choose the order in which chapters are displayed."
+msgstr "Escolha a ordem em que os capítulos são exibidos."
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Client data"
+msgstr "Dados do cliente"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#, fuzzy
+msgid "Cloudflare bypass"
+msgstr "Cloudflare bypass"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Compatible"
+msgstr "Compatível"
