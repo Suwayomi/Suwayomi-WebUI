@@ -17,6 +17,7 @@ const BaseReaderRGBAFilter = ({ readerNavBarWidth }: Pick<NavbarContextType, 're
         value: { red, green, blue, alpha, blendMode },
         enabled,
     } = useReaderSettingsStore((state) => state.customFilter.rgba);
+    const safeAreaInset = useReaderSettingsStore('safeAreaInset');
 
     if (!enabled) {
         return null;
@@ -26,10 +27,10 @@ const BaseReaderRGBAFilter = ({ readerNavBarWidth }: Pick<NavbarContextType, 're
         <Box
             sx={{
                 position: 'fixed',
-                top: 0,
-                left: readerNavBarWidth,
-                right: 0,
-                bottom: 0,
+                top: safeAreaInset.top ? 'env(safe-area-inset-top)' : 0,
+                left: `calc(${readerNavBarWidth}px - ${safeAreaInset.left ? 'env(safe-area-inset-left)' : '0px'})`,
+                right: safeAreaInset.right ? 'env(safe-area-inset-right)' : 0,
+                bottom: safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : 0,
                 pointerEvents: 'none',
                 background: `rgba(${red} ${green} ${blue} / ${alpha}%)`,
                 mixBlendMode: `${blendMode}`,

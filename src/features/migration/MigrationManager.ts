@@ -209,8 +209,9 @@ export class MigrationManager {
                 );
             case MigrationPhase.MIGRATING:
                 return (
+                    MigrationManager.getState().isAborted ||
                     MigrationManager.getState().migrationProgress.completed ===
-                    MigrationManager.getState().migrationProgress.total
+                        MigrationManager.getState().migrationProgress.total
                 );
             default:
                 return false;
@@ -470,8 +471,22 @@ export class MigrationManager {
         }
     }
 
-    static async abort(reason: unknown = 'abort'): Promise<boolean> {
+    static async stop(reason: unknown = 'stopped'): Promise<boolean> {
         if (!(await MigrationManager.confirmAbort())) {
+            return false;
+        }
+
+        MigrationManager.abortAndResetAbortController(reason);
+
+        MigrationManager.updateState((draft) => {
+            draft.isAborted = true;
+        });
+
+        return true;
+    }
+
+    static async abort(reason: unknown = 'abort'): Promise<boolean> {
+        if (!MigrationManager.getState().isAborted && !(await MigrationManager.confirmAbort())) {
             return false;
         }
 

@@ -19,13 +19,14 @@ import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { useAppPageHistoryContext } from '@/base/contexts/AppPageHistoryContext.tsx';
 import { useEffect } from 'react';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
 export const Migration = ({ tabsMenuHeight = 0 }: { tabsMenuHeight?: number }) => {
     const phase = MigrationManager.usePhase();
     const { setOnBack } = useAppPageHistoryContext();
 
     useEffect(() => {
-        if (window.location.pathname !== AppRoutes.migrate.path) {
+        if (SubpathUtil.getPathname() !== AppRoutes.migrate.path) {
             if (!MigrationManager.isActive()) {
                 MigrationManager.reset();
             } else {

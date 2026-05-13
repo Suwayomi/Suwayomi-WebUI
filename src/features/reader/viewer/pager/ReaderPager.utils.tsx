@@ -56,25 +56,28 @@ const getPageWidthPercentage = (
     return 1;
 };
 
+const joinOffsetsForCssCalc = (offsets: (number | string)[], operator: '-' | '+' = '-'): string =>
+    offsets.map((offset) => (typeof offset === 'number' ? `${offset}px` : offset)).join(` ${operator} `);
+
 export const getImagePlaceholderStyling = (
     readingMode: IReaderSettings['readingMode'],
     shouldStretchPage: IReaderSettings['shouldStretchPage'],
     pageScaleMode: IReaderSettings['pageScaleMode'],
     readerWidth: IReaderSettings['readerWidth'],
-    widthOffset: number,
-    heightOffset: number,
+    widthOffset: (number | string)[],
+    heightOffset: (number | string)[],
     isDoublePage?: boolean,
     isTabletWidth?: boolean,
 ): CSSObject => {
     const OVER_9000 = 9000;
 
-    const getMaxWidth = (width: string) => `calc(${width} - ${widthOffset}px)`;
+    const getMaxWidth = (width: string) => `calc(${width} - ${joinOffsetsForCssCalc(widthOffset)})`;
     const getDesktopWidth = (width: number, readerWidthValue?: number) =>
         getMaxWidth(`${coerceIn(readerWidthValue ?? width, Math.min(width, readerWidthValue ?? OVER_9000), width)}vw`);
 
     const setReaderWidth = getSetReaderWidth(readerWidth, pageScaleMode);
     const fullWidth = getMaxWidth(`${Math.min(100, setReaderWidth ?? OVER_9000)}vw`);
-    const fullHeight = `calc(100vh - ${heightOffset}px)`;
+    const fullHeight = `calc(100vh - ${joinOffsetsForCssCalc(heightOffset)})`;
 
     const DEFAULT_SINGLE_PAGE_WIDTH = isTabletWidth ? fullWidth : getDesktopWidth(40, setReaderWidth);
     const DEFAULT_SINGLE_PAGE_HEIGHT = isTabletWidth ? fullHeight : '85vh';
@@ -151,11 +154,11 @@ const getReaderDimensionStyling = (
     readingMode: IReaderSettings['readingMode'],
     shouldStretchPage: IReaderSettings['shouldStretchPage'],
     pageScaleMode: IReaderSettings['pageScaleMode'],
-    widthOffset: number,
-    heightOffset: number,
+    widthOffset: (number | string)[],
+    heightOffset: (number | string)[],
 ): CSSObject => {
-    const fullWidth = `calc((100vw - ${widthOffset}px) * ${widthPercentage})`;
-    const fullHeight = `calc(100vh - ${heightOffset}px)`;
+    const fullWidth = `calc((100vw - ${joinOffsetsForCssCalc(widthOffset)}) * ${widthPercentage})`;
+    const fullHeight = `calc(100vh - ${joinOffsetsForCssCalc(heightOffset)})`;
 
     switch (pageScaleMode) {
         case ReaderPageScaleMode.WIDTH:
@@ -216,8 +219,8 @@ export const getReaderImageStyling = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
     isDoublePage: boolean,
     readerWidth: IReaderSettings['readerWidth'],
-    widthOffset: number,
-    heightOffset: number,
+    widthOffset: (number | string)[],
+    heightOffset: (number | string)[],
 ): CSSObject => {
     const widthPercentage = getPageWidthPercentage(pageScaleMode, isDoublePage, readerWidth, true);
     return getReaderDimensionStyling(
@@ -292,6 +295,7 @@ export const createReaderPage = (
     pageScaleMode: IReaderSettings['pageScaleMode'],
     shouldStretchPage: IReaderSettings['shouldStretchPage'],
     readerWidth: IReaderSettings['readerWidth'],
+    safeAreaInset: IReaderSettings['safeAreaInset'],
     readerNavBarWidth: NavbarContextType['readerNavBarWidth'],
     retryKeyPrefix?: string,
     position?: 'left' | 'right',
@@ -322,6 +326,7 @@ export const createReaderPage = (
         pageScaleMode={pageScaleMode}
         shouldStretchPage={shouldStretchPage}
         readerWidth={readerWidth}
+        safeAreaInset={safeAreaInset}
         readerNavBarWidth={readerNavBarWidth}
     />
 );
