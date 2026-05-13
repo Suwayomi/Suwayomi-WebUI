@@ -300,13 +300,20 @@ export class MangaMigration {
                     (trackRecord) =>
                         MangaMigration.getOrCreateQueue(trackRecord.trackerId).enqueue(
                             String(mangaToMigrate.id),
-                            () =>
-                                requestManager.bindTracker(
-                                    mangaToMigrateTo.id,
-                                    trackRecord.trackerId,
-                                    trackRecord.remoteId,
-                                    trackRecord.private,
-                                ).response,
+                            async () => {
+                                try {
+                                    await requestManager.bindTracker(
+                                        mangaToMigrateTo.id,
+                                        trackRecord.trackerId,
+                                        trackRecord.remoteId,
+                                        trackRecord.private,
+                                    ).response;
+                                } finally {
+                                    await new Promise((resolve) => {
+                                        setTimeout(resolve, 500);
+                                    });
+                                }
+                            },
                         ).promise,
                 ),
             cleanup: () =>

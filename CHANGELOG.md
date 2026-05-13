@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Show "abort" button during active bulk migration search
 - (**Migration**) Keep the migration page open when aborting during the actual migration execution
 - (**Migration**) Prevent concurrent requests to the same tracker
+- (**Migration**) Allow only 2 tracker requests per second
 
 ### Fixed
 
