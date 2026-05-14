@@ -21,6 +21,7 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -92,7 +93,7 @@ export const ServerUpdateChecker = () => {
             return null;
         }
 
-        const isAboutPage = window.location.pathname === AppRoutes.about.path;
+        const isAboutPage = SubpathUtil.getPathname() === AppRoutes.about.path;
         if (isAboutPage) {
             return null;
         }

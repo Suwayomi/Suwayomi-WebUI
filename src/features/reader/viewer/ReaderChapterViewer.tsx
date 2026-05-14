@@ -52,6 +52,7 @@ const BaseReaderChapterViewer = ({
     retryFailedPagesKeyPrefix,
     readingMode,
     readerWidth,
+    safeAreaInset,
     pageScaleMode,
     shouldOffsetDoubleSpreads,
     readingDirection,
@@ -427,6 +428,7 @@ const BaseReaderChapterViewer = ({
                 customFilter={customFilter}
                 shouldStretchPage={shouldStretchPage}
                 readerWidth={readerWidth}
+                safeAreaInset={safeAreaInset}
                 readerNavBarWidth={readerNavBarWidth}
                 isPreloadMode={isPreloadMode}
                 resumeMode={resumeMode}

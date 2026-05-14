@@ -333,6 +333,10 @@ msgstr "Abort"
 msgid "Abort migration"
 msgstr "Abort migration"
 
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "Aborted"
+
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
 msgid "About"
@@ -2320,6 +2324,10 @@ msgstr "Migrate"
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "Migrate \"{0}\""
 msgstr "Migrate \"{0}\""
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "Migrate selected"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Migrating"

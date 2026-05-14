@@ -77,7 +77,7 @@ export const MANGA_ACTION_TO_TRANSLATION: {
     migrate: {
         action: {
             single: msg`Migrate`,
-            selected: msg`Migrate`, // not supported
+            selected: msg`Migrate selected`,
         },
         success: msg`Successfully migrated manga`,
         error: msg`Could not migrate manga`,

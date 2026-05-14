@@ -25,6 +25,7 @@ import type { AwaitableComponentProps } from 'awaitable-component';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { Link } from 'react-router-dom';
+import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 
 export const MigrationOptionsDialog = ({
     isVisible,
@@ -98,8 +99,11 @@ export const MigrationOptionsDialog = ({
                 <Stack
                     direction="row"
                     sx={{
-                        justifyContent: 'space-between',
                         width: '100%',
+                        justifyContent: 'space-between',
+                        ...applyStyles(mangaIdToMigrateTo === undefined, {
+                            justifyContent: 'end',
+                        }),
                     }}
                 >
                     {mangaIdToMigrateTo !== undefined && (

@@ -21,8 +21,9 @@ import { Sources } from '@/features/source/services/Sources';
 import type { TMigratableSource } from '@/features/migration/Migration.types.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { memo } from 'react';
 
-export const MigrationCard = (source: TMigratableSource) => {
+export const MigrationCard = memo((source: TMigratableSource) => {
     const { id, name, lang, iconUrl, mangaCount } = source;
     const { t } = useLingui();
 
@@ -66,4 +67,4 @@ export const MigrationCard = (source: TMigratableSource) => {
             </CardActionArea>
         </Card>
     );
-};
+});

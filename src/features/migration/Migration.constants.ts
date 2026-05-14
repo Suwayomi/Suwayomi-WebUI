@@ -44,6 +44,7 @@ export const DEFAULT_MIGRATION_STATE: MigrationState = {
     startedAt: null,
     lastUpdatedAt: null,
     groupExpandState: {},
+    isAborted: false,
 };
 
 export const ENTRY_STATUS_TRANSLATION: Record<MigrationEntryStatus, MessageDescriptor> = {
