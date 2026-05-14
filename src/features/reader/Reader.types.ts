@@ -350,6 +350,7 @@ export interface ReaderPagerProps
             | 'customFilter'
             | 'shouldStretchPage'
             | 'readerWidth'
+            | 'safeAreaInset'
         >,
         Pick<NavbarContextType, 'readerNavBarWidth'> {
     onLoad?: (pagesIndex: number, url: string, isPrimary?: boolean) => void;

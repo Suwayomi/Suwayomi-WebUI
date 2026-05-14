@@ -12,6 +12,7 @@ import type {
     IReaderSettingsWithDefaultFlag,
     ProgressBarPositionAutoVertical,
     ReaderPagerProps,
+    SafeAreaInset,
 } from '@/features/reader/Reader.types.ts';
 import { ProgressBarPosition, ReaderPageScaleMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import type { MangaGenreInfo, MangaSourceNameInfo } from '@/features/manga/Manga.types.ts';
@@ -20,6 +21,7 @@ import { ReaderPagedPager } from '@/features/reader/viewer/pager/components/Read
 import { ReaderDoublePagedPager } from '@/features/reader/viewer/pager/components/ReaderDoublePagedPager.tsx';
 import { ReaderVerticalPager } from '@/features/reader/viewer/pager/components/ReaderVerticalPager.tsx';
 import { ReaderHorizontalPager } from '@/features/reader/viewer/pager/components/ReaderHorizontalPager.tsx';
+import { ScrollDirection } from '@/base/Base.types.ts';
 
 export const isOffsetDoubleSpreadPagesEditable = (readingMode: IReaderSettings['readingMode']): boolean =>
     readingMode === ReadingMode.DOUBLE_PAGE;
@@ -96,3 +98,13 @@ export const getProgressBarPosition = (
 
     return ProgressBarPosition.BOTTOM;
 };
+
+export const getSafeAreaInsets = (
+    safeAreaInset: SafeAreaInset,
+    direction: Exclude<ScrollDirection, ScrollDirection.XY>,
+): string[] => [
+    ...(direction === ScrollDirection.Y && safeAreaInset.top ? ['env(safe-area-inset-top)'] : []),
+    ...(direction === ScrollDirection.X && safeAreaInset.right ? ['env(safe-area-inset-right)'] : []),
+    ...(direction === ScrollDirection.Y && safeAreaInset.bottom ? ['env(safe-area-inset-bottom)'] : []),
+    ...(direction === ScrollDirection.X && safeAreaInset.left ? ['env(safe-area-inset-left)'] : []),
+];

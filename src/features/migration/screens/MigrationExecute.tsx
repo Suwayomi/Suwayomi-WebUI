@@ -23,9 +23,21 @@ export const MigrationExecute = () => {
     const entries = MigrationManager.useEntries();
     const progress = MigrationManager.useMigrationProgress();
 
-    useAppTitleAndAction(MigrationManager.isPhaseComplete() ? t`Migration complete` : t`Migrating`, undefined, [
-        MigrationManager.isPhaseComplete(),
-    ]);
+    useAppTitleAndAction(
+        (() => {
+            if (MigrationManager.getState().isAborted) {
+                return t`Aborted`;
+            }
+
+            if (MigrationManager.isPhaseComplete()) {
+                return t`Migration complete`;
+            }
+
+            return t`Migrating`;
+        })(),
+        undefined,
+        [MigrationManager.isPhaseComplete()],
+    );
 
     const entryList = useMemo(() => Object.values(entries), [entries]);
     const migratingEntries = useMemo(
@@ -140,7 +152,7 @@ export const MigrationExecute = () => {
             <MigrationContinueButton
                 title={MigrationManager.isPhaseComplete() ? t`Done` : t`Abort`}
                 onClick={() =>
-                    MigrationManager.isPhaseComplete() ? MigrationManager.reset() : MigrationManager.abort()
+                    MigrationManager.isPhaseComplete() ? MigrationManager.reset() : MigrationManager.stop()
                 }
             />
         </>

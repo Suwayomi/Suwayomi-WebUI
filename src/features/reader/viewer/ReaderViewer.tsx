@@ -108,6 +108,7 @@ const BaseReaderViewer = ({
         shouldStretchPage: state.shouldStretchPage.value,
         isStaticNav: state.isStaticNav,
     }));
+    const safeAreaInset = useReaderSettingsStore('safeAreaInset');
     const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
         resumeMode: ReaderResumeMode.START,
     };
@@ -337,6 +338,7 @@ const BaseReaderViewer = ({
                         retryFailedPagesKeyPrefix={retryFailedPagesKeyPrefix}
                         readingMode={readingMode}
                         readerWidth={readerWidth}
+                        safeAreaInset={safeAreaInset}
                         pageScaleMode={pageScaleMode}
                         shouldOffsetDoubleSpreads={shouldOffsetDoubleSpreads}
                         readingDirection={readingDirection}

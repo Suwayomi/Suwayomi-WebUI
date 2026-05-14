@@ -24,69 +24,67 @@ import Button from '@mui/material/Button';
 import CardActionArea from '@mui/material/CardActionArea';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
+import { memo } from 'react';
 
-export const MigrationMatchedEntry = ({
-    sourceMangaId,
-    entry,
-}: {
-    sourceMangaId: MangaIdInfo['id'];
-    entry: MigrationMatch;
-}) => {
-    const { t } = useLingui();
+export const MigrationMatchedEntry = memo(
+    ({ sourceMangaId, entry }: { sourceMangaId: MangaIdInfo['id']; entry: MigrationMatch }) => {
+        const { t } = useLingui();
 
-    return (
-        <MigrationEntryCard sx={{ mb: 1 }}>
-            <CardActionArea onClick={() => MigrationManager.selectMatch(sourceMangaId, entry.id, entry.sourceId)}>
-                <MigrationEntryCardContent>
-                    {(() => (
-                        <>
-                            <Link
-                                component={RouterLink}
-                                to={AppRoutes.manga.path(entry.id)}
-                                onClick={(e) => e.stopPropagation()}
-                            >
-                                <ListCardAvatar
-                                    iconUrl={Mangas.getThumbnailUrl(entry)}
-                                    alt={entry.title}
-                                    slots={{
-                                        avatarProps: {
-                                            sx: {
-                                                width: 'unset',
-                                                height: 80,
-                                                aspectRatio: '3 / 4',
-                                            },
-                                        },
-                                    }}
-                                />
-                            </Link>
-                            <Stack sx={{ minWidth: 0, flex: 1 }}>
-                                <Typography variant="overline" color="textSecondary">
-                                    {entry.sourceTitle}
-                                </Typography>
+        return (
+            <MigrationEntryCard sx={{ mb: 1 }}>
+                <CardActionArea onClick={() => MigrationManager.selectMatch(sourceMangaId, entry.id, entry.sourceId)}>
+                    <MigrationEntryCardContent>
+                        {(() => (
+                            <>
                                 <Link
                                     component={RouterLink}
                                     to={AppRoutes.manga.path(entry.id)}
-                                    sx={{ textDecoration: 'none', color: 'inherit', width: 'max-content' }}
                                     onClick={(e) => e.stopPropagation()}
                                 >
-                                    <TypographyMaxLines variant="h6" component="h3" title={entry.title}>
-                                        {entry.title}
-                                    </TypographyMaxLines>
+                                    <ListCardAvatar
+                                        iconUrl={Mangas.getThumbnailUrl(entry)}
+                                        alt={entry.title}
+                                        slots={{
+                                            avatarProps: {
+                                                sx: {
+                                                    width: 'unset',
+                                                    height: 80,
+                                                    aspectRatio: '3 / 4',
+                                                },
+                                            },
+                                        }}
+                                    />
                                 </Link>
-                                <MigrationEntryMetadataText {...entry} />
-                            </Stack>
-                        </>
-                    ))()}
-                    {(() => (
-                        <Button
-                            variant="outlined"
-                            {...MUIUtil.preventRippleProp({
-                                onClick: () => MigrationManager.selectMatch(sourceMangaId, entry.id, entry.sourceId),
-                            })}
-                        >{t`Select`}</Button>
-                    ))()}
-                </MigrationEntryCardContent>
-            </CardActionArea>
-        </MigrationEntryCard>
-    );
-};
+                                <Stack sx={{ minWidth: 0, flex: 1 }}>
+                                    <Typography variant="overline" color="textSecondary">
+                                        {entry.sourceTitle}
+                                    </Typography>
+                                    <Link
+                                        component={RouterLink}
+                                        to={AppRoutes.manga.path(entry.id)}
+                                        sx={{ textDecoration: 'none', color: 'inherit', width: 'max-content' }}
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <TypographyMaxLines variant="h6" component="h3" title={entry.title}>
+                                            {entry.title}
+                                        </TypographyMaxLines>
+                                    </Link>
+                                    <MigrationEntryMetadataText {...entry} />
+                                </Stack>
+                            </>
+                        ))()}
+                        {(() => (
+                            <Button
+                                variant="outlined"
+                                {...MUIUtil.preventRippleProp({
+                                    onClick: () =>
+                                        MigrationManager.selectMatch(sourceMangaId, entry.id, entry.sourceId),
+                                })}
+                            >{t`Select`}</Button>
+                        ))()}
+                    </MigrationEntryCardContent>
+                </CardActionArea>
+            </MigrationEntryCard>
+        );
+    },
+);
