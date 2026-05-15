@@ -49,14 +49,14 @@ export const MigrationSelectDestinationSources = () => {
     } = requestManager.useGetSourceList();
 
     const allSources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
-    const sources = useMemo(
-        () =>
-            Sources.filter(allSources, {
-                languages: browseLanguages,
-                isNsfw: showNsfw ? undefined : false,
-            }),
-        [allSources, browseLanguages, showNsfw],
-    );
+    const sources = useMemo(() => {
+        const filteredSources = Sources.filter(allSources, {
+            languages: browseLanguages,
+            isNsfw: showNsfw ? undefined : false,
+        });
+
+        return Object.values(Sources.groupByLanguage(filteredSources)).flat();
+    }, [allSources, browseLanguages, showNsfw]);
     const sourceIds = useMemo(() => Sources.getIds(sources), [sources]);
     const pinnedSourceIds = useMemo(() => Sources.getIds(Sources.filter(sources, { pinned: true })), [sources]);
     const enabledSourceIds = useMemo(() => Sources.getIds(Sources.filter(sources, { enabled: true })), [sources]);
