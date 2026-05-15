@@ -624,7 +624,14 @@ export type GetMangasDuplicatesQueryVariables = Exact<{
 export type GetMangasDuplicatesQuery = { __typename: 'Query', mangas: { __typename: 'MangaNodeList', totalCount: number, nodes: Array<{ __typename: 'MangaType', description: string | null, id: number, title: string, thumbnailUrl: string | null, thumbnailUrlLastFetched: string | null, inLibrary: boolean, initialized: boolean, sourceId: string, unreadCount: number, downloadCount: number, bookmarkCount: number, hasDuplicateChapters: boolean, chapters: { __typename: 'ChapterNodeList', totalCount: number } }>, pageInfo: { __typename: 'PageInfo', endCursor: string | null, hasNextPage: boolean, hasPreviousPage: boolean, startCursor: string | null } } };
 
 export type GetMigratableSourceMangasQueryVariables = Exact<{
-  sourceId: string;
+  after?: string | null | undefined;
+  before?: string | null | undefined;
+  condition?: Types.MangaConditionInput | null | undefined;
+  filter?: Types.MangaFilterInput | null | undefined;
+  first?: number | null | undefined;
+  last?: number | null | undefined;
+  offset?: number | null | undefined;
+  order?: Array<Types.MangaOrderInput> | Types.MangaOrderInput | null | undefined;
 }>;
 
 
