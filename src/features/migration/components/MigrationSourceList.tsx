@@ -177,7 +177,11 @@ export const MigrationSourceList = ({
                     groupCounts={groupCounts}
                     computeItemKey={computeItemKey}
                     groupContent={(index) => {
-                        const [group] = groupedSourcesBySelectionState[index];
+                        const [group, sourcesOfGroup] = groupedSourcesBySelectionState[index];
+
+                        if (!sourcesOfGroup.length) {
+                            return null;
+                        }
 
                         return (
                             <StyledGroupHeader
@@ -193,7 +197,7 @@ export const MigrationSourceList = ({
                                     {group ? t`Selected` : t`Available`}
                                 </Typography>
 
-                                {group && !!selectedSources.length && (
+                                {group && (
                                     <Typography variant="body2" color="text.secondary">
                                         {t`Drag to prioritize`}
                                     </Typography>
