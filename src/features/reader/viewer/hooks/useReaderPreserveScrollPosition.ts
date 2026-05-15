@@ -8,7 +8,6 @@
 
 import type { RefObject } from 'react';
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
-import { useWindowEvent } from '@mantine/hooks';
 import type {
     IReaderSettingsManga,
     ReaderPageScaleMode,
@@ -73,7 +72,7 @@ const usePreserveOnWindowResize = (readingMode: ReadingMode, pageScaleMode: Read
             return;
         }
 
-        getReaderPagesStore().setPageToScrollToIndex(pageIndexOnResizeStartRef.current);
+        getReaderPagesStore().setPageToScrollToIndex(pageIndex);
 
         clearTimeout(activeResizeTimeoutRef.current);
         activeResizeTimeoutRef.current = setTimeout(() => {
@@ -82,7 +81,11 @@ const usePreserveOnWindowResize = (readingMode: ReadingMode, pageScaleMode: Read
         }, 50);
     }, [readingMode, pageScaleMode, pageIndex]);
 
-    useWindowEvent('resize', handleResize);
+    // TODO - revert back to mantines useWindowEvent hook once the issue of it using a stale callback can be fixed
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [handleResize]);
 };
 
 interface ScrollPreservationInfo {
