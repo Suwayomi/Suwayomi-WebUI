@@ -19,6 +19,8 @@ jobs:
           version: 11.1.2
           cache: true
 
+      - run: pnpm setup
+
       - name: Install modules
         run: pnpm ci
 
