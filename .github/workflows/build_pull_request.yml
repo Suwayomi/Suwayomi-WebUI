@@ -13,6 +13,11 @@ jobs:
         with:
           node-version-file: 'package.json'
 
+      - uses: pnpm/action-setup@v6
+        name: Install pnpm
+        with:
+          cache: true
+
       - name: Install modules
         run: pnpm ci
 
