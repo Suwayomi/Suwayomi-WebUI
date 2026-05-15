@@ -50,7 +50,7 @@ const execYarnOutdated = ({ asJson = false, stdio }: { asJson?: boolean; stdio?:
     | string
     | null => {
     try {
-        execSync(`yarn outdated ${asJson ? '--json' : ''}`, { stdio: !asJson ? stdio : undefined }).toString();
+        execSync(`pnpm outdated ${asJson ? '--json' : ''}`, { stdio: !asJson ? stdio : undefined }).toString();
         return null;
     } catch (e: any) {
         if (e?.stdout === null) {
@@ -119,15 +119,15 @@ const updateDependencies = () => {
 
     setCaretForDependencies('add', autoUpdatableDependencies);
 
-    execSync('yarn', { stdio: 'inherit' });
+    execSync('pnpm', { stdio: 'inherit' });
 
     log('syncing package.json with yarn.lock...');
 
-    execSync('yarn syncyarnlock -s', { stdio: 'inherit' });
+    execSync('pnpm up --latest --lockfile-only', { stdio: 'inherit' });
 
     log('updating yarn.lock after syncing package.json...');
 
-    execSync('yarn', { stdio: 'inherit' });
+    execSync('pnpm', { stdio: 'inherit' });
 
     log('commiting changes...');
 

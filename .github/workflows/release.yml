@@ -39,7 +39,7 @@ jobs:
         with:
           path: |
             **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Generate Tag Name
         id: GenTagName
@@ -49,10 +49,10 @@ jobs:
 
       - name: Build webUI
         run: |
-          yarn ci
-          yarn build
-          yarn build-zip
-          yarn build-md5
+          pnpm ci
+          pnpm build
+          pnpm build-zip
+          pnpm build-md5
 
       - name: Rename artifact
         run: |

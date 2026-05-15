@@ -14,13 +14,13 @@ jobs:
           node-version-file: 'package.json'
 
       - name: Install modules
-        run: yarn ci
+        run: pnpm ci
 
       - name: Run ESLint
-        run: yarn lint
+        run: pnpm lint
 
       - name: Run TSC
-        run: yarn tsc
+        run: pnpm tsc
 
       - name: Build app
-        run: yarn build
+        run: pnpm build
