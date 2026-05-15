@@ -29,13 +29,10 @@ jobs:
         with:
           node-version-file: './master/package.json'
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@v4.2.0
         name: Install pnpm
         with:
           version: 11.1.2
-          cache: true
-
-      - run: pnpm setup
 
       - name: Cache node_modules
         uses: actions/cache@v4
