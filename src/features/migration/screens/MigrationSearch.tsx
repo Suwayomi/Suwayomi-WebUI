@@ -17,9 +17,13 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import { useMemo } from 'react';
 import Stack from '@mui/material/Stack';
+import type { TMigrationEntry } from '@/features/migration/Migration.types.ts';
 import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 import { MigrationEntryGroup } from '@/features/migration/components/MIgrationEntryGroup.tsx';
 import { plural } from '@lingui/core/macro';
+
+const getEntries = (status: MigrationEntryStatus, entries: TMigrationEntry[]): TMigrationEntry[] =>
+    entries.filter((entry) => entry.status === status).toSorted((a, b) => a.mangaTitle.localeCompare(b.mangaTitle));
 
 export const MigrationSearch = () => {
     const { t } = useLingui();
@@ -46,26 +50,14 @@ export const MigrationSearch = () => {
                         return 1;
                     }
 
-                    return entryList.indexOf(a) - entryList.indexOf(b);
+                    return a.mangaTitle.localeCompare(b.mangaTitle);
                 }),
         [entryList],
     );
-    const failedEntries = useMemo(
-        () => entryList.filter((entry) => entry.status === MigrationEntryStatus.SEARCH_FAILED),
-        [entryList],
-    );
-    const noMatchEntries = useMemo(
-        () => entryList.filter((entry) => entry.status === MigrationEntryStatus.NO_MATCH),
-        [entryList],
-    );
-    const outdatedEntries = useMemo(
-        () => entryList.filter((entry) => entry.status === MigrationEntryStatus.OUTDATED),
-        [entryList],
-    );
-    const matchedEntries = useMemo(
-        () => entryList.filter((entry) => entry.status === MigrationEntryStatus.SEARCH_COMPLETE),
-        [entryList],
-    );
+    const failedEntries = useMemo(() => getEntries(MigrationEntryStatus.SEARCH_FAILED, entryList), [entryList]);
+    const noMatchEntries = useMemo(() => getEntries(MigrationEntryStatus.NO_MATCH, entryList), [entryList]);
+    const outdatedEntries = useMemo(() => getEntries(MigrationEntryStatus.OUTDATED, entryList), [entryList]);
+    const matchedEntries = useMemo(() => getEntries(MigrationEntryStatus.SEARCH_COMPLETE, entryList), [entryList]);
 
     const hasMigratableEntries = useMemo(() => !!MigrationManager.getMigratableEntries().length, [entryList]);
 
