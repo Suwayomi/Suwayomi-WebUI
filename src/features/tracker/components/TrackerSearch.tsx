@@ -31,8 +31,7 @@ import { TrackerMangaCard } from '@/features/tracker/components/cards/TrackerMan
 import { DIALOG_PADDING } from '@/features/tracker/Tracker.constants.ts';
 import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
-import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaIdInfo, MangaTitleInfo } from '@/features/manga/Manga.types.ts';
 
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
@@ -119,7 +118,7 @@ export const TrackerSearch = ({
     trackedId,
     trackedTitle,
 }: {
-    manga: MangaIdInfo & Pick<MangaType, 'title'>;
+    manga: MangaIdInfo & MangaTitleInfo;
     tracker: TTrackerBind;
     closeSearchMode: () => void;
     trackedId?: string;

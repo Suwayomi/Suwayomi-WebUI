@@ -19,7 +19,7 @@ import { useLingui } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { BackupRestoreState } from '@/lib/graphql/generated/graphql.ts';
+import { BackupRestoreState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { Progress } from '@/base/components/feedback/Progress.tsx';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { NumberSetting } from '@/base/components/settings/NumberSetting.tsx';

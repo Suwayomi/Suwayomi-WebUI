@@ -11,9 +11,9 @@ import MenuItem from '@mui/material/MenuItem';
 import { msg } from '@lingui/core/macro';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { i18n } from '@/i18n';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 const DOWNLOAD_OPTIONS: {
     title: MessageDescriptor;
@@ -59,7 +59,7 @@ export const ChaptersDownloadActionMenuItems = ({
     mangaIds,
     closeMenu,
 }: {
-    mangaIds: MangaType['id'][];
+    mangaIds: MangaIdInfo['id'][];
     closeMenu: () => void;
 }) => {
     const {

@@ -18,14 +18,14 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { CustomButton } from '@/base/components/buttons/CustomButton.tsx';
-import type { GetTrackersSettingsQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
-import type { MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaTitleInfo, MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
-export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Pick<MangaType, 'title'> }) => {
+export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & MangaTitleInfo }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
     const isMobileWidth = MediaQuery.useIsMobileWidth();

@@ -10,12 +10,9 @@ import type { GqlMetaHolder, Metadata, MetadataHolderType } from '@/features/met
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/metadata/GlobalMetadataQuery.ts';
-import type {
-    GetGlobalMetadatasQuery,
-    GetGlobalMetadatasQueryVariables,
-    MetaInput,
-} from '@/lib/graphql/generated/graphql.ts';
+import type { GetGlobalMetadatasQuery, GetGlobalMetadatasQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { doesMetadataKeyExistIn } from '@/features/metadata/Metadata.utils.ts';
+import type { MetaInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export class MetadataChunker {
     static readonly MAX_METADATA_VALUE_LENGTH = 4000;

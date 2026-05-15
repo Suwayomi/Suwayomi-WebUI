@@ -6,13 +6,13 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 import type { ChapterSourceOrderInfo } from '@/features/chapter/Chapter.types.ts';
 import type { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 
 type AppRouteInfo = {
     match: string;
@@ -131,12 +131,12 @@ export const AppRoutes = {
         childRoutes: {
             browse: {
                 match: ':sourceId',
-                path: (sourceId: SourceType['id'], query?: string | null | undefined) =>
+                path: (sourceId: SourceIdInfo['id'], query?: string | null | undefined) =>
                     UrlUtil.addQueryParam(`/sources/${sourceId}`, query),
             },
             configure: {
                 match: ':sourceId/configure',
-                path: (sourceId: SourceType['id']) => `/sources/${sourceId}/configure`,
+                path: (sourceId: SourceIdInfo['id']) => `/sources/${sourceId}/configure`,
             },
             searchAll: {
                 match: 'all/search',
@@ -204,7 +204,7 @@ export const AppRoutes = {
         childRoutes: {
             singleMangaSearch: {
                 match: 'source/:sourceId/manga/:mangaId/search',
-                path: (sourceId: SourceType['id'], mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
+                path: (sourceId: SourceIdInfo['id'], mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
                     UrlUtil.addQueryParam(`/migrate/source/${sourceId}/manga/${mangaId}/search`, query),
             },
             manualSearch: {

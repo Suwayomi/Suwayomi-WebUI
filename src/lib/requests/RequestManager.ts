@@ -23,7 +23,6 @@ import { RestClient } from '@/lib/requests/client/RestClient.ts';
 import { GraphQLClient } from '@/lib/requests/client/GraphQLClient.ts';
 import { BaseClient } from '@/lib/requests/client/BaseClient.ts';
 import type {
-    ChapterConditionInput,
     CheckForServerUpdatesQuery,
     CheckForServerUpdatesQueryVariables,
     CheckForWebuiUpdateQuery,
@@ -32,7 +31,6 @@ import type {
     ClearDownloaderMutationVariables,
     ClearServerCacheMutation,
     ClearServerCacheMutationVariables,
-    CreateCategoryInput,
     CreateCategoryMutation,
     CreateCategoryMutationVariables,
     DeleteCategoryMutation,
@@ -51,8 +49,6 @@ import type {
     EnqueueChapterDownloadMutationVariables,
     EnqueueChapterDownloadsMutation,
     EnqueueChapterDownloadsMutationVariables,
-    FetchSourceMangaInput,
-    FilterChangeInput,
     GetAboutQuery,
     GetAboutQueryVariables,
     GetCategoriesSettingsQuery,
@@ -113,10 +109,6 @@ import type {
     ResetWebuiUpdateStatusMutationVariables,
     RestoreBackupMutation,
     RestoreBackupMutationVariables,
-    SetGlobalMetasInput,
-    DeleteGlobalMetasInput,
-    SettingsType,
-    SourcePreferenceChangeInput,
     StartDownloaderMutation,
     StartDownloaderMutationVariables,
     StopDownloaderMutation,
@@ -143,23 +135,18 @@ import type {
     UpdateCategoryMutationVariables,
     UpdateCategoryOrderMutation,
     UpdateCategoryOrderMutationVariables,
-    UpdateCategoryPatchInput,
     UpdateChapterMutation,
     UpdateChapterMutationVariables,
-    UpdateChapterPatchInput,
     UpdateChaptersMutation,
     UpdateChaptersMutationVariables,
     UpdateExtensionMutation,
     UpdateExtensionMutationVariables,
-    UpdateExtensionPatchInput,
     UpdateExtensionsMutation,
     UpdateExtensionsMutationVariables,
     UpdateMangaCategoriesMutation,
     UpdateMangaCategoriesMutationVariables,
-    UpdateMangaCategoriesPatchInput,
     UpdateMangaMutation,
     UpdateMangaMutationVariables,
-    UpdateMangaPatchInput,
     UpdateMangasCategoriesMutation,
     UpdateMangasCategoriesMutationVariables,
     UpdateMangasMutation,
@@ -170,7 +157,6 @@ import type {
     UpdateServerSettingsMutationVariables,
     UpdateSourcePreferencesMutation,
     UpdateSourcePreferencesMutationVariables,
-    UpdateTrackInput,
     UpdateWebuiMutation,
     UpdateWebuiMutationVariables,
     ValidateBackupQuery,
@@ -184,10 +170,8 @@ import type {
     UserLoginMutationVariables,
     UserRefreshMutation,
     UserRefreshMutationVariables,
-    CreateBackupInput,
     CreateBackupMutation,
     CreateBackupMutationVariables,
-    RestoreBackupInput,
     KoSyncLoginMutation,
     KoSyncLoginMutationVariables,
     KoSyncLogoutMutation,
@@ -204,17 +188,34 @@ import type {
     UpdateCategoryMetadataMutationVariables,
     UpdateSourceMetadataMutation,
     UpdateSourceMetadataMutationVariables,
-    SetSourceMetasInput,
-    DeleteSourceMetasInput,
-    SetMangaMetasInput,
-    DeleteMangaMetasInput,
-    SetChapterMetasInput,
-    DeleteChapterMetasInput,
-    SetCategoryMetasInput,
-    DeleteCategoryMetasInput,
     RefreshMangaMutation,
     RefreshMangaMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
+import type {
+    DeleteGlobalMetasInput,
+    SetGlobalMetasInput,
+    UpdateExtensionPatchInput,
+    DeleteSourceMetasInput,
+    SetSourceMetasInput,
+    FetchSourceMangaInput,
+    SourcePreferenceChangeInput,
+    FilterChangeInput,
+    UpdateMangaCategoriesPatchInput,
+    UpdateMangaPatchInput,
+    DeleteMangaMetasInput,
+    SetMangaMetasInput,
+    ChapterConditionInput,
+    UpdateChapterPatchInput,
+    DeleteChapterMetasInput,
+    SetChapterMetasInput,
+    CreateCategoryInput,
+    UpdateCategoryPatchInput,
+    DeleteCategoryMetasInput,
+    SetCategoryMetasInput,
+    CreateBackupInput,
+    RestoreBackupInput,
+    UpdateTrackInput,
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 import {
     CategoryOrderBy,
     ChapterOrderBy,
@@ -222,7 +223,7 @@ import {
     FetchSourceMangaType,
     SortOrder,
     DownloaderState,
-} from '@/lib/graphql/generated/graphql.ts';
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_GLOBAL_METADATAS } from '@/lib/graphql/metadata/GlobalMetadataQuery.ts';
 import { UPDATE_GLOBAL_METADATA } from '@/lib/graphql/metadata/GlobalMetadataMutation.ts';
 import {
@@ -1583,6 +1584,7 @@ export class RequestManager {
                 data: {
                     ...cachedExtensions.data,
                     fetchExtensions: {
+                        __typename: 'FetchExtensionsPayload',
                         ...cachedExtensions.data.fetchExtensions,
                         extensions: isExtensionCached
                             ? cachedExtensions.data.fetchExtensions!.extensions.map((extension) => {
@@ -1645,6 +1647,7 @@ export class RequestManager {
                 data: {
                     ...cachedExtensions.data,
                     fetchExtensions: {
+                        __typename: 'FetchExtensionsPayload',
                         ...cachedExtensions.data.fetchExtensions,
                         extensions:
                             cachedExtensions.data.fetchExtensions?.extensions
@@ -1709,6 +1712,7 @@ export class RequestManager {
                 data: {
                     ...cachedExtensions.data,
                     fetchExtensions: {
+                        __typename: 'FetchExtensionsPayload',
                         ...cachedExtensions.data.fetchExtensions,
                         extensions:
                             cachedExtensions.data.fetchExtensions?.extensions
@@ -3495,6 +3499,7 @@ export class RequestManager {
                         cache.writeQuery<GetDownloadStatusQuery>({
                             query: GET_DOWNLOAD_STATUS,
                             data: {
+                                __typename: 'Query',
                                 ...downloadStatusQueryCache,
                                 downloadStatus: {
                                     __typename: 'DownloadStatus',
@@ -3588,7 +3593,7 @@ export class RequestManager {
                         settings: {
                             __typename: 'SettingsType',
                             ...(mutateOptions?.variables?.input.settings ?? {}),
-                        } as SettingsType,
+                        } as UpdateServerSettingsMutation['setSettings']['settings'],
                     },
                 },
                 ...mutateOptions,

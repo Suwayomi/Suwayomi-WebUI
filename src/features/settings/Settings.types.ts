@@ -15,12 +15,12 @@ import type { MetadataTrackingSettings } from '@/features/tracker/Tracker.types.
 import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
 import type {
-    GetServerSettingsQuery,
     Maybe,
     SettingsDownloadConversion,
     SettingsDownloadConversionHeader,
-} from '@/lib/graphql/generated/graphql.ts';
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 import type { MetadataHistorySettings } from '@/features/history/History.types.ts';
+import type { GetServerSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 
 export type MetadataServerSettingKeys = keyof MetadataServerSettings;
 

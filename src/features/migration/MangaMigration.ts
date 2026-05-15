@@ -7,7 +7,7 @@
  */
 
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import type { SetChapterMetasItemInput } from '@/lib/graphql/generated/graphql.ts';
+import type { SetChapterMetasItemInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { ALL_APP_METADATA_KEY_PREFIXES } from '@/features/metadata/Metadata.constants.ts';

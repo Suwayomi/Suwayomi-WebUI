@@ -26,8 +26,7 @@ import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewA
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { MangaCard } from '@/features/manga/components/cards/MangaCard.tsx';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
-import type { MangaCardProps } from '@/features/manga/Manga.types.ts';
-import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaCardProps, MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
@@ -64,7 +63,7 @@ const createMangaCard = (
     gridLayout?: GridLayout,
     inLibraryIndicator?: boolean,
     isSelectModeActive: boolean = false,
-    selectedMangaIds?: MangaType['id'][],
+    selectedMangaIds?: MangaIdInfo['id'][],
     handleSelection?: DefaultGridProps['handleSelection'],
     mode?: MangaCardProps['mode'],
     onMigrateSelect?: DefaultGridProps['onMigrateSelect'],
@@ -87,7 +86,7 @@ type DefaultGridProps = Omit<MangaCardProps, 'manga' | 'selected'> & {
     GridItemContainer: (props: GridTypeMap['props'] & Partial<GridItemProps>) => JSX.Element;
     gridLayout?: GridLayout;
     isSelectModeActive?: boolean;
-    selectedMangaIds?: Required<MangaType['id']>[];
+    selectedMangaIds?: MangaIdInfo['id'][];
     ref?: ForwardedRef<HTMLDivElement | null>;
 };
 

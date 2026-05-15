@@ -17,10 +17,10 @@ import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import { TrackerCard, TrackerMode } from '@/features/tracker/components/cards/TrackerCard.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import type { GetMangaTrackRecordsQuery, GetTrackersBindQuery, MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { GetMangaTrackRecordsQuery, GetTrackersBindQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_BIND } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import { GET_MANGA_TRACK_RECORDS } from '@/lib/graphql/manga/MangaQuery.ts';
-import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaIdInfo, MangaTitleInfo } from '@/features/manga/Manga.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
@@ -38,7 +38,7 @@ const getTrackerMode = (id: number, trackersInUse: number[], searchModeForTracke
     return TrackerMode.UNTRACKED;
 };
 
-export const TrackManga = ({ manga }: { manga: MangaIdInfo & Pick<MangaType, 'title'> }) => {
+export const TrackManga = ({ manga }: { manga: MangaIdInfo & MangaTitleInfo }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
 

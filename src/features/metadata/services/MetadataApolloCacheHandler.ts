@@ -8,7 +8,7 @@
 
 import type { FieldFunctionOptions } from '@apollo/client/cache';
 import type { Reference } from '@apollo/client/utilities';
-import type { MetaType } from '@/lib/graphql/generated/graphql.ts';
+import type { MetaType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 type ReadFieldFunction = FieldFunctionOptions['readField'];
 

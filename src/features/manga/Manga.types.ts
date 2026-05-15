@@ -11,31 +11,39 @@ import type { PopupState } from 'material-ui-popup-state/hooks';
 import type { JSX } from 'react';
 import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import type { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
+import type { MangaReaderFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
+import type { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
+import type { GridLayout } from '@/base/Base.types.ts';
 import type {
-    ChapterType,
-    MangaReaderFieldsFragment,
+    ChapterIdInfo,
+    ChapterListOptions,
+    ChapterNameInfo,
+    ChapterNumberInfo,
+    ChapterReadInfo,
+    ChapterSourceOrderInfo,
+} from '@/features/chapter/Chapter.types.ts';
+import type { MigrationMatch } from '@/features/migration/Migration.types.ts';
+import type {
     MangaType as MangaTypeGql,
     Maybe,
     SourceType,
     TrackRecordType,
-} from '@/lib/graphql/generated/graphql.ts';
-import type { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
-import type { GridLayout } from '@/base/Base.types.ts';
-import type { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
-import type { MigrationMatch } from '@/features/migration/Migration.types.ts';
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
 
 type MangaCardBaseProps = Pick<MangaTypeGql, 'id' | 'title' | 'sourceId'> &
     Omit<SingleModeProps['manga'], 'downloadCount' | 'unreadCount' | 'chapters'> &
     Partial<Pick<MangaTypeGql, 'inLibrary' | 'downloadCount' | 'unreadCount'>> & {
-        firstUnreadChapter?: Pick<ChapterType, 'id' | 'sourceOrder' | 'isRead' | 'chapterNumber' | 'name'> | null;
+        firstUnreadChapter?:
+            | (ChapterIdInfo & ChapterSourceOrderInfo & ChapterReadInfo & ChapterNumberInfo & ChapterNameInfo)
+            | null;
     };
 
 export type MangaIdInfo = Pick<MangaTypeGql, 'id'>;
 export type MangaChapterCountInfo = { chapters: Pick<MangaTypeGql['chapters'], 'totalCount'> };
-export type MangaHighestChapterNumberInfo = { highestNumberedChapter?: Pick<ChapterType, 'id' | 'chapterNumber'> };
-export type MangaInLibraryInfo = Pick<MangaTypeGql, 'inLibrary'>;
+export type MangaHighestChapterNumberInfo = { highestNumberedChapter?: (ChapterIdInfo & ChapterNumberInfo) | null };
+export type MangaInLibraryInfo = Pick<MangaTypeGql, 'inLibrary' | 'inLibraryAt'>;
 export type MangaDownloadInfo = Pick<MangaTypeGql, 'downloadCount'> & MangaChapterCountInfo;
 export type MangaUnreadInfo = Pick<MangaTypeGql, 'unreadCount'> & MangaChapterCountInfo;
 export type MangaThumbnailInfo = Pick<MangaTypeGql, 'thumbnailUrl' | 'thumbnailUrlLastFetched' | 'sourceId'>;

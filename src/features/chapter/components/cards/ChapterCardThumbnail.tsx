@@ -9,8 +9,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import type { MangaIdInfo, MangaThumbnailInfo } from '@/features/manga/Manga.types.ts';
-import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
+import type { MangaIdInfo, MangaThumbnailInfo, MangaTitleInfo } from '@/features/manga/Manga.types.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 
 export const ChapterCardThumbnail = ({
@@ -20,7 +19,7 @@ export const ChapterCardThumbnail = ({
     thumbnailUrlLastFetched,
 }: MangaThumbnailInfo & {
     mangaId: MangaIdInfo['id'];
-    mangaTitle: MangaType['title'];
+    mangaTitle: MangaTitleInfo['title'];
 }) => (
     <Link to={AppRoutes.manga.path(mangaId)} style={{ textDecoration: 'none' }}>
         <ListCardAvatar

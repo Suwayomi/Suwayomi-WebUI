@@ -23,7 +23,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { DownloaderState } from '@/lib/graphql/generated/graphql.ts';
+import { DownloaderState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
 import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';

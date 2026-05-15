@@ -6,11 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type {
-    ChapterReaderFieldsFragment,
-    ChapterType,
-    DownloadStatusFieldsFragment,
-} from '@/lib/graphql/generated/graphql.ts';
+import type { ChapterType } from '@/lib/graphql/generated/graphql-base.types';
+import type { ChapterReaderFieldsFragment, DownloadStatusFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
 
 export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
 

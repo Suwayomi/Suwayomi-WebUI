@@ -38,10 +38,19 @@ import type {
     GetServerSettingsQueryVariables,
     MangaMigrationFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
-import { FetchSourceMangaType } from '@/lib/graphql/generated/graphql.ts';
+import { FetchSourceMangaType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_SERVER_SETTINGS } from '@/lib/graphql/settings/SettingsQuery.ts';
 import { MangaMigration } from '@/features/migration/MangaMigration.ts';
-import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type {
+    MangaArtistInfo,
+    MangaAuthorInfo,
+    MangaHighestChapterNumberInfo,
+    MangaIdInfo,
+    MangaSourceIdInfo,
+    MangaSourceNameInfo,
+    MangaThumbnailInfo,
+    MangaTitleInfo,
+} from '@/features/manga/Manga.types.ts';
 import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
@@ -286,7 +295,16 @@ export class MigrationManager {
         });
     }
 
-    static selectMangas(mangas: MangaMigrationFieldsFragment[]): void {
+    static selectMangas(
+        mangas: (MangaIdInfo &
+            MangaTitleInfo &
+            MangaArtistInfo &
+            MangaAuthorInfo &
+            MangaHighestChapterNumberInfo &
+            MangaThumbnailInfo &
+            MangaSourceIdInfo &
+            MangaSourceNameInfo)[],
+    ): void {
         MigrationManager.ensureIsInValidPhase([MigrationPhase.SELECT_MANGAS]);
 
         const isSingleManga = mangas.length === 1;

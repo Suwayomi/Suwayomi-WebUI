@@ -87,10 +87,10 @@
         "zustand": "5.0.13"
     },
     "devDependencies": {
-        "@graphql-codegen/cli": "6.3.1",
-        "@graphql-codegen/client-preset": "5.3.0",
+        "@graphql-codegen/cli": "7.0.0",
+        "@graphql-codegen/client-preset": "6.0.0",
         "@graphql-codegen/typescript-apollo-client-helpers": "4.0.1",
-        "@graphql-codegen/typescript-operations": "5.1.0",
+        "@graphql-codegen/typescript-operations": "6.0.2",
         "@lingui/cli": "6.0.1",
         "@lingui/format-po": "6.0.1",
         "@lingui/swc-plugin": "6.0.0",

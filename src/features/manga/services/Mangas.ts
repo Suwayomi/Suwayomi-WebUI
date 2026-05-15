@@ -11,12 +11,10 @@ import { t } from '@lingui/core/macro';
 import { i18n } from '@/i18n';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import type {
-    ChapterConditionInput,
     GetMangasBaseQuery,
     GetMangasBaseQueryVariables,
     GetMangasChapterIdsWithStateQuery,
     MangaBaseFieldsFragment,
-    UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -52,6 +50,10 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import uniq from 'lodash/fp/uniq';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import type {
+    ChapterConditionInput,
+    UpdateMangaCategoriesPatchInput,
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 
 type DownloadChaptersOptions = {
     size?: number;
