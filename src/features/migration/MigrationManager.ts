@@ -852,7 +852,10 @@ export class MigrationManager {
                                 ? draft.entries[draftEntry.selectedMatchMangaId]
                                 : null;
 
-                            const matches = foundMatches.map((manga) => ({
+                            const newMatches = foundMatches.filter((newMatch) =>
+                                draftEntry.searchMatches.every((existingMatch) => newMatch.id !== existingMatch.id),
+                            );
+                            const matches = newMatches.map((manga) => ({
                                 id: manga.id,
                                 title: manga.title,
                                 artist: manga.artist,
