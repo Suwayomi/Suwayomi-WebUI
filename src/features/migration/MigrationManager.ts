@@ -577,13 +577,23 @@ export class MigrationManager {
         mangaId: MangaIdInfo['id'],
         targetMangaId: MangaIdInfo['id'],
         targetSourceId: SourceIdInfo['id'],
+        updateProgress: boolean = false,
     ): void {
         MigrationManager.updateState((draft) => {
             const entry = draft.entries[mangaId];
             if (entry) {
+                const isSearching = ![
+                    MigrationEntryStatus.SEARCH_FAILED,
+                    MigrationEntryStatus.SEARCH_COMPLETE,
+                ].includes(entry.status);
+                if (updateProgress && isSearching) {
+                    draft.searchProgress.completed += 1;
+                    draft.searchProgress.success += 1;
+                    entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
+                }
+
                 entry.selectedMatchMangaId = targetMangaId;
                 entry.selectedMatchSourceId = targetSourceId;
-                entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
             }
         });
     }
@@ -604,9 +614,7 @@ export class MigrationManager {
                     draft.entries[mangaId].manualMatches = [...draft.entries[mangaId].manualMatches, match];
                 }
 
-                entry.selectedMatchMangaId = match.id;
-                entry.selectedMatchSourceId = match.sourceId;
-                entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
+                MigrationManager.selectMatch(mangaId, match.id, match.sourceId, true);
             }
         });
     }
