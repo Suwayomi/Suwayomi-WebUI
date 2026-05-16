@@ -121,6 +121,7 @@ export interface TMigrationEntry {
     error: string | undefined;
     isExcluded: boolean;
     areMatchesExpanded: boolean;
+    isManualSelection: boolean;
 }
 
 export type MigratableEntry = NonNullableProperty<TMigrationEntry, 'selectedMatchMangaId' | 'selectedMatchSourceId'>;

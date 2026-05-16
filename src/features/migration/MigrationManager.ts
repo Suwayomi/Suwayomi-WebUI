@@ -273,6 +273,7 @@ export class MigrationManager {
             error: entry.error,
             isExcluded: entry.isExcluded,
             areMatchesExpanded: entry.areMatchesExpanded,
+            isManualSelection: entry.isManualSelection,
         } satisfies TMigrationEntry;
 
         if (isEqual(entry, updatedEntry)) {
@@ -346,6 +347,7 @@ export class MigrationManager {
                         isExcluded: false,
                         areMatchesExpanded: false,
                         error: undefined,
+                        isManualSelection: false,
                     },
                 ]),
             );
@@ -592,6 +594,7 @@ export class MigrationManager {
                     entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                 }
 
+                entry.isManualSelection = true;
                 entry.selectedMatchMangaId = targetMangaId;
                 entry.selectedMatchSourceId = targetSourceId;
             }
@@ -915,6 +918,7 @@ export class MigrationManager {
                                     !draftMatchEntry);
 
                             const isPreferredMatch =
+                                !draftEntry.isManualSelection &&
                                 !ignoreOutdatedMatch &&
                                 (isPreferredSourcePriorityMatch || isPreferredChapterNumberMatch);
                             if (isPreferredMatch) {
