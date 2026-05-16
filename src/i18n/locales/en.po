@@ -1356,10 +1356,6 @@ msgstr "Display file sizes in binary (KiB, MiB, GiB) instead of decimal (KB, MB,
 msgid "Display mode"
 msgstr "Display mode"
 
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
-msgstr "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Document matching method"
 msgstr "Document matching method"
@@ -2557,6 +2553,10 @@ msgstr "Oneshot"
 #: src/features/manga/Manga.constants.ts
 msgid "Ongoing"
 msgstr "Ongoing"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Only automatically select matches if they have additional chapters. They will still be shown in the found matches"
+msgstr "Only automatically select matches if they have additional chapters. They will still be shown in the found matches"
 
 #: src/features/migration/Migration.constants.ts
 msgid "Only outdated matches found"

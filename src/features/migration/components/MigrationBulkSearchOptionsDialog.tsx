@@ -48,7 +48,7 @@ export const MigrationBulkSearchOptionsDialog = ({
                             <Typography
                                 variant="body2"
                                 color="textSecondary"
-                            >{t`Do not automatically select matches if they are behind the current source. They will still be shown in the found matches`}</Typography>
+                            >{t`Only automatically select matches if they have additional chapters. They will still be shown in the found matches`}</Typography>
                         </Stack>
                     }
                     sx={{
