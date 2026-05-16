@@ -13,7 +13,6 @@ import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewA
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
-import { MigrationSourceList } from '@/features/migration/components/MigrationSourceList.tsx';
 import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
 import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { useCallback, useMemo } from 'react';
@@ -30,6 +29,7 @@ import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { MigrationBulkSearchOptionsDialog } from '@/features/migration/components/MigrationBulkSearchOptionsDialog.tsx';
 import { AwaitableComponent } from 'awaitable-component';
+import { MigrationDestinationSourceList } from '@/features/migration/components/MigrationDestinationSourceList.tsx';
 
 export const MigrationSelectDestinationSources = () => {
     const { t } = useLingui();
@@ -155,7 +155,7 @@ export const MigrationSelectDestinationSources = () => {
 
     return (
         <>
-            <MigrationSourceList
+            <MigrationDestinationSourceList
                 sources={sources}
                 selectedSourceIds={selectedItemIds}
                 handleSelection={handleSelection}

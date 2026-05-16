@@ -35,6 +35,7 @@ import DragHandle from '@mui/icons-material/DragHandle';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import Stack from '@mui/material/Stack';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 
 const SourceCard = memo(
     ({
@@ -88,7 +89,7 @@ const SourceCard = memo(
     },
 );
 
-export const MigrationSourceList = ({
+export const MigrationDestinationSourceList = ({
     sources,
     handleSelection,
     selectedSourceIds,
@@ -160,6 +161,10 @@ export const MigrationSourceList = ({
         const newIndex = selectedSourceIds.indexOf(String(over.id));
         handlePriorityChange(oldIndex, newIndex);
     };
+
+    if (!allSources.length) {
+        return <EmptyViewAbsoluteCentered message={t`No sources available to migrate to`} />;
+    }
 
     return (
         <DndContext

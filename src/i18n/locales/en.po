@@ -522,7 +522,7 @@ msgstr "Automatically refresh metadata"
 msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
 msgstr "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
 
-#: src/features/migration/components/MigrationSourceList.tsx
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Available"
 msgstr "Available"
 
@@ -1144,7 +1144,7 @@ msgstr "Creating theme…"
 msgid "Crimson"
 msgstr "Crimson"
 
-#: src/features/migration/components/MigrationSourceList.tsx
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Current source"
 msgstr "Current source"
 
@@ -1436,7 +1436,7 @@ msgstr "Downloading"
 msgid "Downloads"
 msgstr "Downloads"
 
-#: src/features/migration/components/MigrationSourceList.tsx
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Drag to prioritize"
 msgstr "Drag to prioritize"
 
@@ -2464,6 +2464,10 @@ msgstr "No match found"
 msgid "No pages found"
 msgstr "No pages found"
 
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "No sources available to migrate to"
+
 #: src/features/browse/sources/Sources.tsx
 msgid "No sources found. Install Some extensions first."
 msgstr "No sources found. Install Some extensions first."
@@ -3066,7 +3070,7 @@ msgstr "Select enabled sources"
 msgid "Select pinned sources"
 msgstr "Select pinned sources"
 
-#: src/features/migration/components/MigrationSourceList.tsx
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Selected"
 msgstr "Selected"
 
