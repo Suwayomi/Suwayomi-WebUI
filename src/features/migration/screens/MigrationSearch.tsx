@@ -17,13 +17,10 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import { useMemo } from 'react';
 import Stack from '@mui/material/Stack';
-import type { TMigrationEntry } from '@/features/migration/Migration.types.ts';
 import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 import { MigrationEntryGroup } from '@/features/migration/components/MIgrationEntryGroup.tsx';
 import { plural } from '@lingui/core/macro';
-
-const getEntries = (status: MigrationEntryStatus, entries: TMigrationEntry[]): TMigrationEntry[] =>
-    entries.filter((entry) => entry.status === status).toSorted((a, b) => a.mangaTitle.localeCompare(b.mangaTitle));
+import { MigrationEntries } from '@/features/migration/MigrationEntries.ts';
 
 export const MigrationSearch = () => {
     const { t } = useLingui();
@@ -37,27 +34,30 @@ export const MigrationSearch = () => {
     const entryList = useMemo(() => Object.values(entries), [entries]);
     const searchingEntries = useMemo(
         () =>
-            entryList
-                .filter((entry) =>
-                    [MigrationEntryStatus.PENDING, MigrationEntryStatus.SEARCHING].includes(entry.status),
-                )
-                .toSorted((a, b) => {
-                    if (a.status === MigrationEntryStatus.SEARCHING && b.status !== MigrationEntryStatus.SEARCHING) {
-                        return -1;
-                    }
-
-                    if (a.status !== MigrationEntryStatus.SEARCHING && b.status === MigrationEntryStatus.SEARCHING) {
-                        return 1;
-                    }
-
-                    return a.mangaTitle.localeCompare(b.mangaTitle);
-                }),
+            MigrationEntries.getActiveEntriesSorted(
+                entryList,
+                MigrationEntryStatus.SEARCHING,
+                MigrationEntryStatus.PENDING,
+                MigrationEntryStatus.SEARCHING,
+            ),
         [entryList],
     );
-    const failedEntries = useMemo(() => getEntries(MigrationEntryStatus.SEARCH_FAILED, entryList), [entryList]);
-    const noMatchEntries = useMemo(() => getEntries(MigrationEntryStatus.NO_MATCH, entryList), [entryList]);
-    const outdatedEntries = useMemo(() => getEntries(MigrationEntryStatus.OUTDATED, entryList), [entryList]);
-    const matchedEntries = useMemo(() => getEntries(MigrationEntryStatus.SEARCH_COMPLETE, entryList), [entryList]);
+    const failedEntries = useMemo(
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.SEARCH_FAILED),
+        [entryList],
+    );
+    const noMatchEntries = useMemo(
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.NO_MATCH),
+        [entryList],
+    );
+    const outdatedEntries = useMemo(
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.OUTDATED),
+        [entryList],
+    );
+    const matchedEntries = useMemo(
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.SEARCH_COMPLETE),
+        [entryList],
+    );
 
     const hasMigratableEntries = useMemo(() => !!MigrationManager.getMigratableEntries().length, [entryList]);
 

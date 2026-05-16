@@ -14,7 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Allow only 2 tracker requests per second
 - (**Migration**) Sort manga to migrate selection by title and by recently added to the library
 - (**Migration**) Sort destination source selection by same order as browse source page
-- (**Migration**) Sort entries in search page by title
+- (**Migration**) Sort entries in search/execution page by title
 
 ### Fixed
 
