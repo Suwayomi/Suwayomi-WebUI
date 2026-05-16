@@ -956,8 +956,6 @@ export class MigrationManager {
                 const draftEntry = draft.entries[mangaId];
 
                 if (draftEntry.searchMatches.length) {
-                    draft.searchProgress.success += 1;
-
                     if (draftEntry.selectedMatchMangaId != null) {
                         draftEntry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                     } else {
@@ -967,6 +965,7 @@ export class MigrationManager {
                     draftEntry.status = MigrationEntryStatus.NO_MATCH;
                 }
 
+                draft.searchProgress.success += 1;
                 draft.searchProgress.completed += 1;
             });
         } catch (error) {
