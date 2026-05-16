@@ -1846,6 +1846,10 @@ msgid "Ignore filters when searching"
 msgstr "Ignore filters when searching"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "Ignore matches that are behind in chapters"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Ignore matches without newer chapters"
 msgstr "Ignore matches without newer chapters"
 
@@ -2557,6 +2561,10 @@ msgstr "Ongoing"
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Only automatically select matches if they have additional chapters. They will still be shown in the found matches"
 msgstr "Only automatically select matches if they have additional chapters. They will still be shown in the found matches"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Only automatically select matches if they have at least the same latest chapter. They will still be shown in the found matches"
+msgstr "Only automatically select matches if they have at least the same latest chapter. They will still be shown in the found matches"
 
 #: src/features/migration/Migration.constants.ts
 msgid "Only outdated matches found"

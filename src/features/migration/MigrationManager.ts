@@ -801,7 +801,7 @@ export class MigrationManager {
         mainSignal: AbortSignal,
         options: MigrationBulkSearchSettings,
     ): Promise<void> {
-        const { selectHighestChapterNumberSource, ignoreOutdatedMatches } = options;
+        const { selectHighestChapterNumberSource, ignoreOutdatedMatches, requireAdditionalChapters } = options;
 
         const state = MigrationManager.getState();
         const entry = state.entries[mangaId];
@@ -909,6 +909,8 @@ export class MigrationManager {
                                 latestChapterNumber > selectedMatchLatestChapterNumber;
                             const hasNewerChapter = hasNewerChapterVsEntry && hasNewerChapterVsSelectedMatch;
 
+                            const isOutdated = latestChapterNumber <= entryLatestChapterNumber;
+
                             const hasSameLatestChapterAsSelectedMatch =
                                 !!draftMatchEntry && selectedMatchLatestChapterNumber === latestChapterNumber;
 
@@ -917,7 +919,8 @@ export class MigrationManager {
                                 destSourceId,
                             );
 
-                            const ignoreOutdatedMatch = ignoreOutdatedMatches && !hasNewerChapter;
+                            const ignoreOutdatedMatch = ignoreOutdatedMatches && isOutdated;
+                            const satisfiesRequireAdditionalChapters = !requireAdditionalChapters || hasNewerChapter;
                             const isPreferredSourcePriorityMatch =
                                 hasHigherSourcePriority && !selectHighestChapterNumberSource;
                             const isPreferredChapterNumberMatch =
@@ -929,6 +932,7 @@ export class MigrationManager {
                             const isPreferredMatch =
                                 !draftEntry.isManualSelection &&
                                 !ignoreOutdatedMatch &&
+                                satisfiesRequireAdditionalChapters &&
                                 (isPreferredSourcePriorityMatch || isPreferredChapterNumberMatch);
                             if (isPreferredMatch) {
                                 draftEntry.selectedMatchMangaId = bestMatch.id;

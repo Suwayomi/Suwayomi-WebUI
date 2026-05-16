@@ -72,6 +72,7 @@ export type MetadataMigrationSettings = {
 export interface MigrationBulkSearchSettings {
     selectHighestChapterNumberSource: boolean;
     ignoreOutdatedMatches: boolean;
+    requireAdditionalChapters: boolean;
     performAdvancedSearch: boolean;
 }
 
