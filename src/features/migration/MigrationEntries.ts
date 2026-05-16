@@ -6,7 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { MigrationEntryStatus, TMigrationEntry } from '@/features/migration/Migration.types.ts';
+import type { MigratableEntry, TMigrationEntry } from '@/features/migration/Migration.types.ts';
+import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 
 export class MigrationEntries {
     public static getExcluded(entries: TMigrationEntry[]): TMigrationEntry[] {
@@ -42,5 +43,15 @@ export class MigrationEntries {
 
             return a.mangaTitle.localeCompare(b.mangaTitle);
         });
+    }
+
+    public static getMigratable(entries: TMigrationEntry[]): MigratableEntry[] {
+        return Object.values(entries).filter(
+            (entry): entry is MigratableEntry =>
+                [MigrationEntryStatus.SEARCH_COMPLETE, MigrationEntryStatus.MIGRATING].includes(entry.status) &&
+                !entry.isExcluded &&
+                entry.selectedMatchMangaId != null &&
+                entry.selectedMatchSourceId != null,
+        );
     }
 }

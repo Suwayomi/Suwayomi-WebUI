@@ -66,6 +66,7 @@ import { ZustandUtil } from '@/lib/zustand/ZustandUtil.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import isEqual from 'lodash/fp/isEqual';
 import uniqBy from 'lodash/fp/uniqBy';
+import { MigrationEntries } from '@/features/migration/MigrationEntries.ts';
 
 const RESUMABLE_PHASES: readonly MigrationPhase[] = [MigrationPhase.SEARCHING, MigrationPhase.MIGRATING];
 
@@ -407,22 +408,10 @@ export class MigrationManager {
         }
     }
 
-    static getMigratableEntries(): MigratableEntry[] {
-        const { entries } = MigrationManager.getState();
-
-        return Object.values(entries).filter(
-            (entry): entry is MigratableEntry =>
-                [MigrationEntryStatus.SEARCH_COMPLETE, MigrationEntryStatus.MIGRATING].includes(entry.status) &&
-                !entry.isExcluded &&
-                entry.selectedMatchMangaId != null &&
-                entry.selectedMatchSourceId != null,
-        );
-    }
-
     static async startMigration(options: Omit<MigrateOptions, 'mangaIdToMigrateTo'>): Promise<void> {
         MigrationManager.ensureIsInValidPhase([MigrationPhase.SEARCHING]);
 
-        const migratableEntries = MigrationManager.getMigratableEntries();
+        const migratableEntries = MigrationEntries.getMigratable(Object.values(MigrationManager.getState().entries));
 
         await Confirmation.show({
             title: t`Migration information`,
@@ -529,7 +518,7 @@ export class MigrationManager {
         if (resumeMigrationPhase) {
             assertIsDefined(migrateOptions);
 
-            const migratableEntries = MigrationManager.getMigratableEntries();
+            const migratableEntries = MigrationEntries.getMigratable(Object.values(entries));
 
             MigrationManager.updateState((draft) => {
                 migratableEntries.forEach((entry) => {
@@ -544,8 +533,10 @@ export class MigrationManager {
 
         assertIsDefined(searchOptions);
 
-        const pendingEntries = Object.values(entries).filter((entry) =>
-            [MigrationEntryStatus.PENDING, MigrationEntryStatus.SEARCHING].includes(entry.status),
+        const pendingEntries = MigrationEntries.getHaveStatus(
+            Object.values(entries),
+            MigrationEntryStatus.PENDING,
+            MigrationEntryStatus.SEARCHING,
         );
 
         MigrationManager.updateState((draft) => {

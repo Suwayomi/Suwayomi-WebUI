@@ -59,7 +59,7 @@ export const MigrationSearch = () => {
         [entryList],
     );
 
-    const hasMigratableEntries = useMemo(() => !!MigrationManager.getMigratableEntries().length, [entryList]);
+    const hasMigratableEntries = useMemo(() => !!MigrationEntries.getMigratable(entryList).length, [entryList]);
 
     return (
         <>
