@@ -97,7 +97,8 @@ export class MigrationManager {
 
     private static mangaProcessQueue = pLimit(MAX_MANGAS_IN_PARALLEL);
     private static parallelSourcesQueue: LimitFunction | undefined;
-    private static queueBySource = new Map<string, LimitFunction>();
+    private static queueBySource = new Map<SourceIdInfo['id'], LimitFunction>();
+    private static searchAbortControllerByManga = new Map<MangaIdInfo['id'], AbortController>();
 
     private static abortAndResetAbortController(reason: unknown): void {
         MigrationManager.abortController?.abort(reason);
@@ -617,7 +618,16 @@ export class MigrationManager {
                     draft.entries[mangaId].manualMatches = [...draft.entries[mangaId].manualMatches, match];
                 }
 
+                const isSearching = ![
+                    MigrationEntryStatus.SEARCH_FAILED,
+                    MigrationEntryStatus.SEARCH_COMPLETE,
+                ].includes(entry.status);
+
                 MigrationManager.selectMatch(mangaId, match.id, match.sourceId, true);
+
+                if (isSearching) {
+                    MigrationManager.searchAbortControllerByManga.get(mangaId)?.abort('Manual match selected');
+                }
             }
         });
     }
@@ -701,10 +711,6 @@ export class MigrationManager {
         signal: AbortSignal,
         { selectHighestChapterNumberSource, performAdvancedSearch }: MigrationBulkSearchSettings,
     ): Promise<MangaMigrationFieldsFragment[]> {
-        if (signal.aborted) {
-            throw new Error(signal.reason);
-        }
-
         if (signal.aborted) {
             throw new Error(signal.reason);
         }
@@ -802,6 +808,9 @@ export class MigrationManager {
 
         const searchController = new AbortController();
         const signal = AbortSignal.any([mainSignal, searchController.signal]);
+
+        MigrationManager.searchAbortControllerByManga.get(mangaId)?.abort('search');
+        MigrationManager.searchAbortControllerByManga.set(mangaId, searchController);
 
         if (!entry) {
             return;
@@ -973,6 +982,8 @@ export class MigrationManager {
                 draft.searchProgress.completed += 1;
                 draft.searchProgress.failed += 1;
             });
+        } finally {
+            MigrationManager.searchAbortControllerByManga.delete(mangaId);
         }
     }
 
