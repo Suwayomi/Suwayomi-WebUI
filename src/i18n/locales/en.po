@@ -2493,6 +2493,10 @@ msgstr "Not yet released"
 msgid "Novel"
 msgstr "Novel"
 
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "NSFW (18+) sources"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
 "Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
@@ -3172,6 +3176,10 @@ msgstr "Show entry"
 msgid "Show icon in system tray"
 msgstr "Show icon in system tray"
 
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "Show in sources and extensions lists"
+
 #: src/base/components/feedback/EmptyView.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show less"
@@ -3184,14 +3192,6 @@ msgstr "Show less"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Show more"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW (18+)"
-msgstr "Show NSFW (18+)"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW (18+) sources in sources and extensions lists"
-msgstr "Show NSFW (18+) sources in sources and extensions lists"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -3325,6 +3325,10 @@ msgstr "Source entry - {sourceTitle}"
 #: src/features/chapter/components/ChapterOptions.tsx
 msgid "Source title"
 msgstr "Source title"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "Sources"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Stable"
@@ -3546,6 +3550,10 @@ msgstr "These options are slow and dangerous and may lead to restrictions from s
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Third to last read chapter"
 msgstr "Third to last read chapter"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "This icon will be shown on the system that is running the server"
