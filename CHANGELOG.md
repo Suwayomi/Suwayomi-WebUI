@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - (**Migration**) Add a search option to ignore outdated matches
+- (**Migration**) Add a search option to ignore matches with missing chapters
 
 ### Changed
 

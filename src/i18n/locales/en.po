@@ -518,6 +518,18 @@ msgstr "Automatically mark chapters as read when you download them."
 msgid "Automatically refresh metadata"
 msgstr "Automatically refresh metadata"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr "Automatically select matches if they have additional chapters"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr "Automatically select matches if they have at least the same latest chapter"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr "Automatically select matches if they have no missing chapters"
+
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
 msgstr "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
@@ -1846,6 +1858,10 @@ msgid "Ignore matches that are behind in chapters"
 msgstr "Ignore matches that are behind in chapters"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "Ignore matches with missing chapters"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Ignore matches without newer chapters"
 msgstr "Ignore matches without newer chapters"
 
@@ -2375,6 +2391,11 @@ msgstr "Minute"
 msgid "Misc"
 msgstr "Misc"
 
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "Missing: {0}"
+
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
 msgid "Mobile"
 msgstr "Mobile"
@@ -2557,14 +2578,6 @@ msgstr "Oneshot"
 #: src/features/manga/Manga.constants.ts
 msgid "Ongoing"
 msgstr "Ongoing"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Only automatically select matches if they have additional chapters. They will still be shown in the found matches"
-msgstr "Only automatically select matches if they have additional chapters. They will still be shown in the found matches"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Only automatically select matches if they have at least the same latest chapter. They will still be shown in the found matches"
-msgstr "Only automatically select matches if they have at least the same latest chapter. They will still be shown in the found matches"
 
 #: src/features/migration/Migration.constants.ts
 msgid "Only outdated matches found"

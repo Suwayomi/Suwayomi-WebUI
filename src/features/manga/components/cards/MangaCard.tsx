@@ -109,7 +109,7 @@ export const MangaCard = memo((props: MangaCardProps) => {
             if (isMigrateSelectMode) {
                 const isBulkMigrationManualSearch = !!onMigrateSelect;
                 if (isBulkMigrationManualSearch) {
-                    onMigrateSelect(manga);
+                    onMigrateSelect({ ...manga, missingChapters: undefined });
                     return;
                 }
 

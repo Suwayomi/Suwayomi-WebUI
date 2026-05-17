@@ -32,6 +32,7 @@ import {
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { GET_MIGRATION_SOURCE_MANGAS_FETCH } from '@/lib/graphql/source/SourceMutation.ts';
 import type {
+    ChapterListFieldsFragment,
     GetMigrationSourceMangasFetchMutation,
     GetMigrationSourceMangasFetchMutationVariables,
     GetServerSettingsQuery,
@@ -67,6 +68,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import isEqual from 'lodash/fp/isEqual';
 import uniqBy from 'lodash/fp/uniqBy';
 import { MigrationEntries } from '@/features/migration/MigrationEntries.ts';
+import { Chapters } from '@/features/chapter/services/Chapters.ts';
 
 const RESUMABLE_PHASES: readonly MigrationPhase[] = [MigrationPhase.SEARCHING, MigrationPhase.MIGRATING];
 
@@ -246,6 +248,7 @@ export class MigrationManager {
             author: cachedEntry?.author ?? searchMatch.author,
             sourceTitle: cachedEntry?.source?.displayName ?? searchMatch.sourceTitle,
             latestChapterNumber: cachedEntry?.highestNumberedChapter?.chapterNumber ?? searchMatch.latestChapterNumber,
+            missingChapters: searchMatch.missingChapters,
         };
     }
 
@@ -262,6 +265,7 @@ export class MigrationManager {
             mangaArtist: cachedEntry?.artist ?? entry.mangaArtist,
             mangaAuthor: cachedEntry?.author ?? entry.mangaAuthor,
             latestChapterNumber: cachedEntry?.highestNumberedChapter?.chapterNumber ?? entry.latestChapterNumber,
+            missingChapters: entry.missingChapters,
             mangaThumbnailUrl: cachedEntry?.thumbnailUrl ?? entry.mangaThumbnailUrl,
             sourceId: cachedEntry?.sourceId ?? entry.sourceId,
             sourceTitle: cachedEntry?.source?.displayName ?? entry.sourceTitle,
@@ -336,6 +340,7 @@ export class MigrationManager {
                         mangaArtist: manga.artist,
                         mangaAuthor: manga.author,
                         latestChapterNumber: manga.highestNumberedChapter?.chapterNumber,
+                        missingChapters: undefined,
                         mangaThumbnailUrl: manga.thumbnailUrl,
                         sourceId: manga.sourceId,
                         sourceTitle: manga.source?.displayName,
@@ -710,7 +715,7 @@ export class MigrationManager {
         sourceId: SourceIdInfo['id'],
         signal: AbortSignal,
         { selectHighestChapterNumberSource, performAdvancedSearch }: MigrationBulkSearchSettings,
-    ): Promise<MangaMigrationFieldsFragment[]> {
+    ): Promise<{ manga: MangaMigrationFieldsFragment; chapters: ChapterListFieldsFragment[] | null }[]> {
         if (signal.aborted) {
             throw new Error(signal.reason);
         }
@@ -781,12 +786,20 @@ export class MigrationManager {
                             }).response,
                     );
 
-                    return updatedMatch.data?.fetchManga?.manga ?? match;
+                    if (updatedMatch.data?.fetchManga?.manga) {
+                        return {
+                            manga: updatedMatch.data.fetchManga.manga,
+                            chapters: updatedMatch.data.fetchChapters?.chapters ?? null,
+                        };
+                    }
                 } catch (e) {
                     // ignore
                 }
 
-                return match;
+                return {
+                    manga: match,
+                    chapters: null,
+                };
             })();
         });
 
@@ -801,7 +814,12 @@ export class MigrationManager {
         mainSignal: AbortSignal,
         options: MigrationBulkSearchSettings,
     ): Promise<void> {
-        const { selectHighestChapterNumberSource, ignoreOutdatedMatches, requireAdditionalChapters } = options;
+        const {
+            selectHighestChapterNumberSource,
+            ignoreOutdatedMatches,
+            requireAdditionalChapters,
+            ignoreWithMissingChapters,
+        } = options;
 
         const state = MigrationManager.getState();
         const entry = state.entries[mangaId];
@@ -873,9 +891,11 @@ export class MigrationManager {
                                 : null;
 
                             const newMatches = foundMatches.filter((newMatch) =>
-                                draftEntry.searchMatches.every((existingMatch) => newMatch.id !== existingMatch.id),
+                                draftEntry.searchMatches.every(
+                                    (existingMatch) => newMatch.manga.id !== existingMatch.id,
+                                ),
                             );
-                            const matches = newMatches.map((manga) => ({
+                            const matches = newMatches.map(({ manga, chapters }) => ({
                                 id: manga.id,
                                 title: manga.title,
                                 artist: manga.artist,
@@ -884,6 +904,7 @@ export class MigrationManager {
                                 thumbnailUrl: manga.thumbnailUrl,
                                 sourceId: manga.sourceId,
                                 sourceTitle: manga.source?.displayName,
+                                missingChapters: chapters ? Chapters.getMissingCount(chapters) : undefined,
                             }));
 
                             draftEntry.destSourceIdToSearchState[destSourceId] = true;
@@ -921,6 +942,8 @@ export class MigrationManager {
 
                             const ignoreOutdatedMatch = ignoreOutdatedMatches && isOutdated;
                             const satisfiesRequireAdditionalChapters = !requireAdditionalChapters || hasNewerChapter;
+                            const ignoreBecauseMissingChapters =
+                                ignoreWithMissingChapters && !!bestMatch.missingChapters;
                             const isPreferredSourcePriorityMatch =
                                 hasHigherSourcePriority && !selectHighestChapterNumberSource;
                             const isPreferredChapterNumberMatch =
@@ -933,6 +956,7 @@ export class MigrationManager {
                                 !draftEntry.isManualSelection &&
                                 !ignoreOutdatedMatch &&
                                 satisfiesRequireAdditionalChapters &&
+                                !ignoreBecauseMissingChapters &&
                                 (isPreferredSourcePriorityMatch || isPreferredChapterNumberMatch);
                             if (isPreferredMatch) {
                                 draftEntry.selectedMatchMangaId = bestMatch.id;

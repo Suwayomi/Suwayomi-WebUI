@@ -31,6 +31,7 @@ export const MigrationSourceEntry = memo((entry: TMigrationEntry) => {
         mangaArtist,
         mangaAuthor,
         latestChapterNumber,
+        missingChapters,
         searchMatches,
         status,
     } = entry;
@@ -50,6 +51,7 @@ export const MigrationSourceEntry = memo((entry: TMigrationEntry) => {
                         artist={mangaArtist}
                         author={mangaAuthor}
                         latestChapterNumber={latestChapterNumber}
+                        missingChapters={missingChapters}
                     />
                 </Stack>
                 <Box sx={{ display: 'flex', gap: 4, alignItems: 'center' }}>
@@ -91,6 +93,7 @@ export const MigrationSourceEntry = memo((entry: TMigrationEntry) => {
                     artist={mangaArtist}
                     author={mangaAuthor}
                     latestChapterNumber={latestChapterNumber}
+                    missingChapters={missingChapters}
                 />
             </Stack>
         </Box>

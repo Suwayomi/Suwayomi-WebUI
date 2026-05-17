@@ -30,6 +30,7 @@ export const MigrationBulkSearchOptionsDialog = ({
 
     const [selectHighestChapterNumberSource, setSelectHighestChapterNumberSource] = useState(false);
     const [ignoreOutdatedMatches, setIgnoreOutdatedMatches] = useState(false);
+    const [ignoreWithMissingChapters, setIgnoreWithMissingChapters] = useState(false);
     const [requireAdditionalChapters, setRequireAdditionalChapters] = useState(false);
     const [performAdvancedSearch, setPerformAdvancedSearch] = useState(false);
 
@@ -49,7 +50,7 @@ export const MigrationBulkSearchOptionsDialog = ({
                             <Typography
                                 variant="body2"
                                 color="textSecondary"
-                            >{t`Only automatically select matches if they have at least the same latest chapter. They will still be shown in the found matches`}</Typography>
+                            >{t`Automatically select matches if they have at least the same latest chapter`}</Typography>
                         </Stack>
                     }
                     sx={{
@@ -70,7 +71,7 @@ export const MigrationBulkSearchOptionsDialog = ({
                             <Typography
                                 variant="body2"
                                 color="textSecondary"
-                            >{t`Only automatically select matches if they have additional chapters. They will still be shown in the found matches`}</Typography>
+                            >{t`Automatically select matches if they have additional chapters`}</Typography>
                         </Stack>
                     }
                     sx={{
@@ -78,6 +79,27 @@ export const MigrationBulkSearchOptionsDialog = ({
                     }}
                     checked={requireAdditionalChapters}
                     onChange={(_, checked) => setRequireAdditionalChapters(checked)}
+                />
+                <CheckboxInput
+                    label={
+                        <Stack
+                            sx={{
+                                // Padding comes from the MUI Checkbox component
+                                pt: '9px',
+                            }}
+                        >
+                            <Typography>{t`Ignore matches with missing chapters`}</Typography>
+                            <Typography
+                                variant="body2"
+                                color="textSecondary"
+                            >{t`Automatically select matches if they have no missing chapters`}</Typography>
+                        </Stack>
+                    }
+                    sx={{
+                        alignItems: 'start',
+                    }}
+                    checked={ignoreWithMissingChapters}
+                    onChange={(_, checked) => setIgnoreWithMissingChapters(checked)}
                 />
             </DialogContent>
             <DialogContent dividers>
@@ -152,6 +174,7 @@ export const MigrationBulkSearchOptionsDialog = ({
                             selectHighestChapterNumberSource,
                             ignoreOutdatedMatches,
                             requireAdditionalChapters,
+                            ignoreWithMissingChapters,
                             performAdvancedSearch,
                         })
                     }
