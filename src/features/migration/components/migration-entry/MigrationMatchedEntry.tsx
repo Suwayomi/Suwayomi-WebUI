@@ -62,7 +62,7 @@ export const MigrationMatchedEntry = memo(
                                     <Link
                                         component={RouterLink}
                                         to={AppRoutes.manga.path(entry.id)}
-                                        sx={{ textDecoration: 'none', color: 'inherit', width: 'max-content' }}
+                                        sx={{ textDecoration: 'none', color: 'inherit', width: 'fit-content' }}
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         <TypographyMaxLines variant="h6" component="h3" title={entry.title}>
