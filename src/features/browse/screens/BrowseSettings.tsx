@@ -82,7 +82,10 @@ export const BrowseSettings = () => {
                 />
             </ListItem>
             <ListItem>
-                <ListItemText primary={t`Show NSFW`} secondary={t`Hide NSFW extensions and sources`} />
+                <ListItemText
+                    primary={t`Show NSFW (18+)`}
+                    secondary={t`Show NSFW (18+) sources in sources and extensions lists`}
+                />
                 <Switch
                     edge="end"
                     checked={showNsfw}

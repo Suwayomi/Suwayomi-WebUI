@@ -1793,10 +1793,6 @@ msgstr "Hide entries already in library"
 msgid "Hide history"
 msgstr "Hide history"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Hide NSFW extensions and sources"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Hikari connection pool"
 msgstr "Hikari connection pool"
@@ -3190,8 +3186,12 @@ msgid "Show more"
 msgstr "Show more"
 
 #: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Show NSFW"
+msgid "Show NSFW (18+)"
+msgstr "Show NSFW (18+)"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show NSFW (18+) sources in sources and extensions lists"
+msgstr "Show NSFW (18+) sources in sources and extensions lists"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
