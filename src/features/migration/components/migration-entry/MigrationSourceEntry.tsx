@@ -62,7 +62,13 @@ export const MigrationSourceEntry = memo((entry: TMigrationEntry) => {
     }
 
     return (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '400px' }}>
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+            }}
+        >
             <Link component={RouterLink} to={AppRoutes.manga.path(mangaId)}>
                 <ListCardAvatar
                     iconUrl={Mangas.getThumbnailUrl({ ...entry, thumbnailUrl: mangaThumbnailUrl })}
