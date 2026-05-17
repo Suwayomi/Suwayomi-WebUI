@@ -672,6 +672,12 @@ export class MigrationManager {
         return destinationSourceIds;
     }
 
+    public static getSourcePriority(mangaSourceId: SourceIdInfo['id'], sourceId: SourceIdInfo['id']): number {
+        const destinationSourceIds = MigrationManager.getDestinationSourceIds(mangaSourceId);
+
+        return destinationSourceIds.indexOf(sourceId);
+    }
+
     private static getHigherPrioritySourceIds(
         mangaSourceId: SourceIdInfo['id'],
         destSourceId: SourceIdInfo['id'],

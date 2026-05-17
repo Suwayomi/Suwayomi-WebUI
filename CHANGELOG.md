@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Sort entries in search/execution page by title
 - (**Migration**) Prevent a manual selected match from getting automatically overwritten by a new-found match
 - (**Migration**) Abort active search when selecting a match through the manual search
+- (**Migration**) Sort unselected matched entries by 1. their latest chapter, 2. their source priority, 3. their title
 
 ### Fixed
 
