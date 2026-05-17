@@ -19,11 +19,11 @@ export const MigrationEntryMetadataText = (
     const isSameArtistAuthor = entry.artist === entry.author;
 
     const nodes = [
-        entry.author && (
+        entry.author ? (
             <Typography sx={{ display: 'inline-flex' }} key="author" variant="inherit">
                 {entry.author}
             </Typography>
-        ),
+        ) : null,
         !isSameArtistAuthor && entry.artist ? (
             <Typography sx={{ display: 'inline-flex' }} key="artist" variant="inherit">
                 {entry.artist}
