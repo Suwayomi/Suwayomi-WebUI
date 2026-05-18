@@ -53,6 +53,7 @@ export const MigrationSelectDestinationSources = () => {
         const filteredSources = Sources.filter(allSources, {
             languages: browseLanguages,
             isNsfw: showNsfw ? undefined : false,
+            keepLocalSource: true,
         });
 
         return Object.values(Sources.groupByLanguage(filteredSources)).flat();
