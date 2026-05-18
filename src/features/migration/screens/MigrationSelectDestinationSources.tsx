@@ -166,6 +166,7 @@ export const MigrationSelectDestinationSources = () => {
             <Fab
                 variant="extended"
                 color="primary"
+                disabled={!selectedItemIds.length}
                 sx={{
                     position: 'fixed',
                     bottom: (theme) => theme.spacing(2),
