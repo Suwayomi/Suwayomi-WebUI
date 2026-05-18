@@ -29,6 +29,6 @@ Edit .env.template and remove .template
 
 npx -p @graphql-codegen/cli graphql-codegen --config gql_codegen.ts
 
-### `yarn tsc`
+### `pnpm tsc`
 
 Compile typescript
