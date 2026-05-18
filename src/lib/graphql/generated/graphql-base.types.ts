@@ -17,7 +17,6 @@ export type AboutServerPayload = {
     __typename?: 'AboutServerPayload';
     buildTime: Scalars['LongString']['output'];
     buildType: Scalars['String']['output'];
-    discord: Scalars['String']['output'];
     github: Scalars['String']['output'];
     name: Scalars['String']['output'];
     /** @deprecated The version includes the revision as the patch number */
@@ -571,6 +570,14 @@ export type DequeueChapterDownloadsPayload = {
     downloadStatus: DownloadStatus;
 };
 
+export type DirectoryStats = {
+  __typename?: 'DirectoryStats';
+  availableSpace: Scalars['LongString']['output'];
+  availableSpacePretty: Scalars['String']['output'];
+  folderSize: Scalars['LongString']['output'];
+  folderSizePretty: Scalars['String']['output'];
+};
+
 export type DoubleFilterInput = {
     distinctFrom?: InputMaybe<Scalars['Float']['input']>;
     distinctFromAll?: InputMaybe<Array<Scalars['Float']['input']>>;
@@ -617,6 +624,7 @@ export enum DownloadState {
 
 export type DownloadStatus = {
     __typename?: 'DownloadStatus';
+    directoryStats: DirectoryStats;
     queue: Array<DownloadType>;
     state: DownloaderState;
 };
@@ -1220,6 +1228,7 @@ export type MangaType = {
     chaptersLastFetchedAt?: Maybe<Scalars['LongString']['output']>;
     description?: Maybe<Scalars['String']['output']>;
     downloadCount: Scalars['Int']['output'];
+    downloadSize: Scalars['String']['output'];
     firstUnreadChapter?: Maybe<ChapterType>;
     genre: Array<Scalars['String']['output']>;
     hasDuplicateChapters: Scalars['Boolean']['output'];
@@ -1245,6 +1254,10 @@ export type MangaType = {
     unreadCount: Scalars['Int']['output'];
     updateStrategy: UpdateStrategy;
     url: Scalars['String']['output'];
+};
+
+export type MangaTypeDownloadSizeArgs = {
+  mangaId: Scalars['Int']['input'];
 };
 
 export type MangaUpdateType = {

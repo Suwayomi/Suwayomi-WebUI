@@ -983,6 +983,7 @@ export type DownloadStatusFieldsFragment = {
         tries: number;
         chapter: { __typename: 'ChapterType'; id: number; name: string; sourceOrder: number; isDownloaded: boolean };
         manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+        directoryStats: { __typename?: 'DirectoryStats', availableSpacePretty: string, folderSizePretty: string };
     }>;
 };
 
@@ -1035,6 +1036,7 @@ export type ClearDownloaderMutation = {
                     isDownloaded: boolean;
                 };
                 manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                directoryStats: { __typename?: 'DirectoryStats', availableSpacePretty: string, folderSizePretty: string };
             }>;
         };
     } | null;
@@ -1098,6 +1100,7 @@ export type DequeueChapterDownloadMutation = {
                     isDownloaded: boolean;
                 };
                 manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                directoryStats: { __typename?: 'DirectoryStats', availableSpacePretty: string, folderSizePretty: string };
             }>;
         };
     } | null;
@@ -1127,6 +1130,7 @@ export type DequeueChapterDownloadsMutation = {
                     isDownloaded: boolean;
                 };
                 manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                directoryStats: { __typename?: 'DirectoryStats', availableSpacePretty: string, folderSizePretty: string };
             }>;
         };
     } | null;
@@ -1156,6 +1160,7 @@ export type EnqueueChapterDownloadMutation = {
                     isDownloaded: boolean;
                 };
                 manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                directoryStats: { __typename?: 'DirectoryStats', availableSpacePretty: string, folderSizePretty: string };
             }>;
         };
     } | null;
@@ -1185,6 +1190,7 @@ export type EnqueueChapterDownloadsMutation = {
                     isDownloaded: boolean;
                 };
                 manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                directoryStats: { __typename?: 'DirectoryStats', availableSpacePretty: string, folderSizePretty: string };
             }>;
         };
     } | null;
@@ -1214,6 +1220,7 @@ export type ReorderChapterDownloadMutation = {
                     isDownloaded: boolean;
                 };
                 manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                directoryStats: { __typename?: 'DirectoryStats', availableSpacePretty: string, folderSizePretty: string };
             }>;
         };
     } | null;
@@ -1263,6 +1270,7 @@ export type GetDownloadStatusQuery = {
                 isDownloaded: boolean;
             };
             manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+            directoryStats: { __typename?: 'DirectoryStats', availableSpacePretty: string, folderSizePretty: string };
         }>;
     };
 };
@@ -2632,7 +2640,6 @@ export type GetAboutQuery = {
         __typename: 'AboutServerPayload';
         buildTime: string;
         buildType: string;
-        discord: string;
         github: string;
         name: string;
         version: string;
