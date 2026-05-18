@@ -35,6 +35,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Fix search progress not getting updated after a manual search
 - (**Migration**) Fix going back to the migration page after a manual search with a changed search string
 - (**Migration**) Fix being able to start search without selected destination sources
+- (**Migration**) Fix search hotkey (ctrl+f) in the single manga migration search page not focusing the search textfield
 - (**Reader**) Fix scrollbar appearing with "fit to widt/height/screen" page scale mode and applied safe area insets
 - (**Reader**) Fix wrongly positioned mobile progress bar current page indicator
 - (**Reader**) Fix mobile progress bar previous/next chapter button visibility on hover and while disabled
