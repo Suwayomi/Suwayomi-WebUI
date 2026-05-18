@@ -277,7 +277,7 @@ export const SearchAll = ({
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 
-    const sourceLanguages = useMemo(() => Sources.getLanguages(sources), [sources]);
+    const sourceLanguages = useMemo(() => Sources.getLanguages(sources, { excludeLocalSource: true }), [sources]);
 
     const hasPinnedSources = useMemo(() => !!Sources.filter(sources, { pinned: true }).length, [sources]);
     const shouldShowOnlyPinnedSources = state?.shouldShowOnlyPinnedSources ?? hasPinnedSources;
