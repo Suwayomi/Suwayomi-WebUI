@@ -19,7 +19,7 @@ import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
 import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
-import { MangaStatus } from '@/lib/graphql/generated/graphql.ts';
+import { MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { createUpdateCategoryMetadata, useGetCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';

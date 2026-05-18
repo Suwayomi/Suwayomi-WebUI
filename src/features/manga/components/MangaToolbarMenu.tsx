@@ -23,14 +23,19 @@ import { AwaitableComponent } from 'awaitable-component';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { ThemeCreationDialog } from '@/features/theme/components/CreateThemeDialog.tsx';
+import type {
+    MangaIdInfo,
+    MangaInLibraryInfo,
+    MangaSourceIdInfo,
+    MangaTitleInfo,
+} from '@/features/manga/Manga.types.ts';
 
 interface IProps {
-    manga: Pick<MangaType, 'id' | 'inLibrary' | 'sourceId' | 'title'>;
+    manga: MangaIdInfo & MangaInLibraryInfo & MangaSourceIdInfo & MangaTitleInfo;
     onRefresh: () => any;
     refreshing: boolean;
 }

@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
+import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 

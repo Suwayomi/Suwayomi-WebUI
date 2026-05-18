@@ -6,20 +6,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased] (Preview)
 
+### Added
+
+- (**Migration**) Add a search option to ignore outdated matches
+- (**Migration**) Add a search option to ignore matches with missing chapters
+
 ### Changed
 
 - (**Migration**) Show "abort" button during active bulk migration search
 - (**Migration**) Keep the migration page open when aborting during the actual migration execution
 - (**Migration**) Prevent concurrent requests to the same tracker
 - (**Migration**) Allow only 2 tracker requests per second
+- (**Migration**) Sort manga to migrate selection by title and by recently added to the library
+- (**Migration**) Sort destination source selection by same order as browse source page
+- (**Migration**) Sort entries in search/execution page by title
+- (**Migration**) Prevent a manual selected match from getting automatically overwritten by a new-found match
+- (**Migration**) Abort active search when selecting a match through the manual search
+- (**Migration**) Sort unselected matched entries by 1. their latest chapter, 2. their source priority, 3. their title
 
 ### Fixed
 
 - (**Migration**) Fix aborting bulk migration search/execution while webUI is served on a subpath
 - (**Migration**) Fix retry button never being shown for failed search/migration entries
+- (**Migration**) Fix showing an empty "Available" source group header when all sources are selected
+- (**Migration**) Fix showing no info message when no sources are available to select as destinations
+- (**Migration**) Fix duplicated search matches after resuming the migration search
+- (**Migration**) Fix search progress not getting updated after a manual search
 - (**Reader**) Fix scrollbar appearing with "fit to widt/height/screen" page scale mode and applied safe area insets
 - (**Reader**) Fix wrongly positioned mobile progress bar current page indicator
 - (**Reader**) Fix mobile progress bar previous/next chapter button visibility on hover and while disabled
+- (**Reader**) Fix jumping back to the first page on window resize
+- (**Browse**) Fix showing only nsfw sources in the browse source page when the "show nsfw" setting is disabled
 
 ## [20260509.01] (r3147) - 2026-05-09
 

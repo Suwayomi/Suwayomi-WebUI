@@ -31,8 +31,15 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { NestedMenuItem } from '@/base/components/menu/NestedMenuItem.tsx';
-import type { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
-import type { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaChapterStatFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
+import type {
+    MangaAction,
+    MangaDownloadInfo,
+    MangaIdInfo,
+    MangaSourceIdInfo,
+    MangaTitleInfo,
+    MangaUnreadInfo,
+} from '@/features/manga/Manga.types.ts';
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
@@ -40,8 +47,8 @@ import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 type BaseProps = { onClose: () => void; setHideMenu: (hide: boolean) => void };
 
 export type SingleModeProps = {
-    manga: Pick<MangaType, 'id' | 'title' | 'sourceId'> & MangaDownloadInfo & MangaUnreadInfo;
-    handleSelection?: SelectableCollectionReturnType<MangaType['id']>['handleSelection'];
+    manga: MangaIdInfo & MangaTitleInfo & MangaSourceIdInfo & MangaDownloadInfo & MangaUnreadInfo;
+    handleSelection?: SelectableCollectionReturnType<MangaIdInfo['id']>['handleSelection'];
 };
 
 type SelectModeProps = {

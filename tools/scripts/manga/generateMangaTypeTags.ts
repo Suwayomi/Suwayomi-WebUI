@@ -85,9 +85,9 @@ const updatedContent = outputContent.replace(
 
 writeFileSync(outputFilePath, updatedContent);
 
-execSync('yarn tsc', { stdio: 'inherit' });
-execSync(`yarn oxlint --fix ${OUTPUT_FILE_PATH}`, { stdio: 'inherit' });
-execSync(`yarn oxfmt --write ${OUTPUT_FILE_PATH}`, { stdio: 'inherit' });
+execSync('pnpm tsc', { stdio: 'inherit' });
+execSync(`pnpm oxlint --fix ${OUTPUT_FILE_PATH}`, { stdio: 'inherit' });
+execSync(`pnpm oxfmt --write ${OUTPUT_FILE_PATH}`, { stdio: 'inherit' });
 
 console.log('Generated MANGA_TAGS_BY_MANGA_TYPE:');
 Object.entries(translationsByMangaType).forEach(([mangaType, tags]) => {

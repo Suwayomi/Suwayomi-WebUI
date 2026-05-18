@@ -45,7 +45,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const filteredSources = useMemo(
         () =>
             SourceService.filter(sources, {
-                isNsfw: showNsfw ? undefined : true,
+                isNsfw: showNsfw ? undefined : false,
                 languages: shownLangs,
                 keepLocalSource: true,
                 enabled: true,
@@ -55,7 +55,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const sourcesForLanguageFilter = useMemo(
         () =>
             SourceService.filter(sources, {
-                isNsfw: showNsfw ? undefined : true,
+                isNsfw: showNsfw ? undefined : false,
                 removeLocalSource: true,
             }),
         [sources],

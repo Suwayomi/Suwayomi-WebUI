@@ -42,7 +42,7 @@ import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.t
 import type { SelectSettingValue } from '@/base/components/settings/SelectSetting.tsx';
 import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import type { TrackRecordType } from '@/lib/graphql/generated/graphql.ts';
+import type { TrackRecordType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import type { TTrackerBind, TTrackRecordBind } from '@/features/tracker/Tracker.types.ts';
 import { AvatarSpinner } from '@/base/components/AvatarSpinner.tsx';
@@ -333,6 +333,7 @@ export const TrackerActiveCard = ({
                                     type="ListPreference"
                                     entryValues={tracker.statuses.map((status) => `${status.value}`)}
                                     ListPreferenceCurrentValue={`${trackRecord.status}`}
+                                    ListPreferenceDefault={null}
                                     updateValue={(_, status) => updateTrackerBind({ status: Number(status) })}
                                     summary="%s"
                                 />

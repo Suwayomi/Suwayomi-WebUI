@@ -10,12 +10,43 @@ import type { CheckboxProps } from '@mui/material/Checkbox';
 import Checkbox from '@mui/material/Checkbox';
 import type { FormControlLabelProps } from '@mui/material/FormControlLabel';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import React from 'react';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 
-interface IProps extends CheckboxProps {
-    label?: FormControlLabelProps['label'];
-}
+type BaseProps = CheckboxProps;
+type LabelProps = { label?: FormControlLabelProps['label'] };
+type PrimaryTextProps = {
+    primaryText?: FormControlLabelProps['label'];
+    secondaryText?: FormControlLabelProps['label'];
+};
 
-export const CheckboxInput: React.FC<IProps> = ({ label, sx, ...rest }) => (
-    <FormControlLabel control={<Checkbox {...rest} />} label={label} sx={sx} />
+type Props = BaseProps &
+    ((LabelProps & PropertiesNever<PrimaryTextProps>) | (PropertiesNever<LabelProps> & PrimaryTextProps));
+
+export const CheckboxInput = ({ primaryText, secondaryText, sx, ...rest }: Props) => (
+    <FormControlLabel
+        control={<Checkbox {...rest} />}
+        label={
+            primaryText && !secondaryText ? (
+                primaryText
+            ) : (
+                <Stack
+                    sx={{
+                        // Padding comes from the MUI Checkbox component
+                        pt: '9px',
+                    }}
+                >
+                    {typeof primaryText === 'string' ? <Typography>{primaryText}</Typography> : primaryText}
+                    {typeof secondaryText === 'string' ? (
+                        <Typography variant="body2" color="textSecondary">
+                            {secondaryText}
+                        </Typography>
+                    ) : (
+                        secondaryText
+                    )}
+                </Stack>
+            )
+        }
+        sx={sx}
+    />
 );

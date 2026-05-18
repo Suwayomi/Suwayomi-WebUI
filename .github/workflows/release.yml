@@ -33,12 +33,17 @@ jobs:
         with:
           node-version-file: './master/package.json'
 
+      - uses: pnpm/action-setup@v4.2.0
+        name: Install pnpm
+        with:
+          version: 11.1.2
+
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           path: |
             **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Generate Tag Name
         id: GenTagName
@@ -48,10 +53,10 @@ jobs:
 
       - name: Build webUI
         run: |
-          yarn ci
-          yarn build
-          yarn build-zip
-          yarn build-md5
+          pnpm ci
+          pnpm build
+          pnpm build-zip
+          pnpm build-md5
 
       - name: Create Tag
         run: |

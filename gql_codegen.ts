@@ -15,19 +15,29 @@ const config: CodegenConfig = {
     schema: process.env.CODEGEN_SERVER_URL_GQL,
     documents: ['src/lib/graphql/**', '!src/lib/graphql/generated/**'],
     ignoreNoDocuments: true,
+    config: {
+        namingConvention: {
+            typeNames: 'change-case-all#pascalCase',
+            transformUnderscore: true,
+        },
+        scalars: {
+            LongString: 'string',
+            Cursor: 'string',
+            Duration: 'string',
+        },
+    },
     generates: {
-        'src/lib/graphql/generated/graphql.ts': {
-            plugins: ['typescript', 'typescript-operations'],
+        'src/lib/graphql/generated/graphql-base.types.ts': {
+            plugins: ['typescript'],
             config: {
-                namingConvention: {
-                    typeNames: 'change-case-all#pascalCase',
-                    transformUnderscore: true,
-                },
-                scalars: {
-                    LongString: 'string',
-                    Cursor: 'string',
-                    Duration: 'string',
-                },
+                generateOperationTypes: false,
+            },
+        },
+        'src/lib/graphql/generated/graphql.ts': {
+            plugins: ['typescript-operations'],
+            config: {
+                importSchemaTypesFrom: 'src/lib/graphql/generated/graphql-base.types.ts',
+                nonOptionalTypename: true,
             },
         },
         'src/lib/graphql/generated/apollo-helpers.ts': {

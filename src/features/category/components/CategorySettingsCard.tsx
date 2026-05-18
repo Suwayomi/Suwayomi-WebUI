@@ -17,14 +17,14 @@ import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import type { CategoryType } from '@/lib/graphql/generated/graphql.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
+import type { CategoryIdInfo, CategoryNameInfo } from '@/features/category/Category.types.ts';
 
 export const CategorySettingsCard = ({
     category,
     onEdit,
 }: {
-    category: Pick<CategoryType, 'id' | 'name'>;
+    category: CategoryIdInfo & CategoryNameInfo;
     onEdit: () => void;
 }) => {
     const { t } = useLingui();

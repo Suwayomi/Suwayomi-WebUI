@@ -9,9 +9,8 @@
 import { TrackerUntrackedCard } from '@/features/tracker/components/cards/TrackerUntrackedCard.tsx';
 import { TrackerSearch } from '@/features/tracker/components/TrackerSearch.tsx';
 import { TrackerActiveCard } from '@/features/tracker/components/cards/TrackerActiveCard.tsx';
-import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 
-import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaIdInfo, MangaTitleInfo } from '@/features/manga/Manga.types.ts';
 import type { TTrackerBind, TTrackRecordBind } from '@/features/tracker/Tracker.types.ts';
 
 export enum TrackerMode {
@@ -28,7 +27,7 @@ export const TrackerCard = ({
     setSearchMode,
 }: {
     tracker: TTrackerBind;
-    manga: MangaIdInfo & Pick<MangaType, 'title'>;
+    manga: MangaIdInfo & MangaTitleInfo;
     trackRecord?: TTrackRecordBind;
     mode: TrackerMode;
     setSearchMode: (id?: number) => void;

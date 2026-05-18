@@ -21,7 +21,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import type { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import type { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import {
     getChapterIdsForDownloadAhead,

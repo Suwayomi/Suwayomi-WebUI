@@ -7,13 +7,15 @@
  */
 
 import type {
-    ExtensionType,
     GetSourceBrowseQuery,
     GetSourceSettingsQuery,
     SourceMetaFieldsFragment,
+} from '@/lib/graphql/generated/graphql.ts';
+import type {
+    ExtensionType,
     SourcePreferenceChangeInput,
     SourceType,
-} from '@/lib/graphql/generated/graphql.ts';
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export interface IPos {
     type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
@@ -44,10 +46,10 @@ export interface PreferenceProps {
 }
 
 export type CheckBoxPreferenceProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'CheckBoxPreference'>;
+    ExtractByKeyValue<SourcePreferences, 'type', 'CheckBoxPreference'>;
 
 export type SwitchPreferenceCompatProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'SwitchPreference'>;
+    ExtractByKeyValue<SourcePreferences, 'type', 'SwitchPreference'>;
 
 export type TwoStatePreferenceProps = (CheckBoxPreferenceProps | SwitchPreferenceCompatProps) & {
     // intetnal props
@@ -55,13 +57,13 @@ export type TwoStatePreferenceProps = (CheckBoxPreferenceProps | SwitchPreferenc
 };
 
 export type ListPreferenceProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'ListPreference'>;
+    Omit<ExtractByKeyValue<SourcePreferences, 'type', 'ListPreference'>, '__typename'>;
 
 export type MultiSelectListPreferenceProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'MultiSelectListPreference'>;
+    Omit<ExtractByKeyValue<SourcePreferences, 'type', 'MultiSelectListPreference'>, '__typename'>;
 
 export type EditTextPreferenceProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'EditTextPreference'>;
+    Omit<ExtractByKeyValue<SourcePreferences, 'type', 'EditTextPreference'>, '__typename'>;
 
 export type SourceIdInfo = Pick<SourceType, 'id'>;
 export type SourceLanguageInfo = Pick<SourceType, 'lang'>;

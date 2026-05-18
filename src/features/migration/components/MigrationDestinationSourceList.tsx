@@ -35,6 +35,7 @@ import DragHandle from '@mui/icons-material/DragHandle';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import Stack from '@mui/material/Stack';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 
 const SourceCard = memo(
     ({
@@ -88,7 +89,7 @@ const SourceCard = memo(
     },
 );
 
-export const MigrationSourceList = ({
+export const MigrationDestinationSourceList = ({
     sources,
     handleSelection,
     selectedSourceIds,
@@ -161,6 +162,10 @@ export const MigrationSourceList = ({
         handlePriorityChange(oldIndex, newIndex);
     };
 
+    if (!allSources.length) {
+        return <EmptyViewAbsoluteCentered message={t`No sources available to migrate to`} />;
+    }
+
     return (
         <DndContext
             sensors={dndSensors}
@@ -177,7 +182,11 @@ export const MigrationSourceList = ({
                     groupCounts={groupCounts}
                     computeItemKey={computeItemKey}
                     groupContent={(index) => {
-                        const [group] = groupedSourcesBySelectionState[index];
+                        const [group, sourcesOfGroup] = groupedSourcesBySelectionState[index];
+
+                        if (!sourcesOfGroup.length) {
+                            return null;
+                        }
 
                         return (
                             <StyledGroupHeader
@@ -193,7 +202,7 @@ export const MigrationSourceList = ({
                                     {group ? t`Selected` : t`Available`}
                                 </Typography>
 
-                                {group && !!selectedSources.length && (
+                                {group && (
                                     <Typography variant="body2" color="text.secondary">
                                         {t`Drag to prioritize`}
                                     </Typography>

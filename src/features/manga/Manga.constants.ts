@@ -8,7 +8,7 @@
 
 import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
-import { MangaStatus } from '@/lib/graphql/generated/graphql.ts';
+import { MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
 import type { MangaAction, MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { MangaType } from '@/features/manga/Manga.types.ts';
 import {

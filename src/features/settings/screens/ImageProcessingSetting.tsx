@@ -16,7 +16,7 @@ import {
     IMAGE_PROCESSING_TYPE_TO_TRANSLATION,
 } from '@/features/settings/Settings.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import type { ImageProcessingType, ServerSettings } from '@/features/settings/Settings.types.ts';
+import type { ImageProcessingType } from '@/features/settings/Settings.types.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -34,6 +34,7 @@ import {
 } from '@/features/settings/ImageProcessing.utils.ts';
 import { Processing } from '@/features/settings/components/images/Processing.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import type { PartialSettingsType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) => {
     const { t } = useLingui();
@@ -57,7 +58,7 @@ export const ImageProcessingSetting = ({ type }: { type: ImageProcessingType }) 
         tmpConversions,
     );
 
-    const updateSetting = (value: ServerSettings[typeof settingKey]): Promise<any> => {
+    const updateSetting = (value: PartialSettingsType[typeof settingKey]): Promise<any> => {
         const mutation = mutateSettings({ variables: { input: { settings: { [settingKey]: value } } } });
         mutation.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
