@@ -59,6 +59,7 @@ import { SearchParam } from '@/base/Base.types.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -249,10 +250,10 @@ export const SearchAll = ({
 }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
-    const { pathname, state } = useLocation<{ mangaTitle?: string; shouldShowOnlyPinnedSources?: boolean }>();
+    const { state } = useLocation<{ title?: string; shouldShowOnlyPinnedSources?: boolean }>();
     const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
 
-    const isMigrateMode = pathname.startsWith('/migrate/source') || pathname.startsWith('/migrate/manual-search');
+    const isMigrateMode = SubpathUtil.getPathname().startsWith(AppRoutes.migrate.path);
 
     const { mangaId } = useParams<{ mangaId?: string }>() ?? STABLE_EMPTY_OBJECT;
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
@@ -317,7 +318,7 @@ export const SearchAll = ({
     );
 
     useAppTitleAndAction(
-        isMigrateMode ? t`Migrate "${state?.mangaTitle}"` : t`Global Search`,
+        isMigrateMode ? state?.title : t`Global Search`,
         <>
             <AppbarSearch isClosable={false} />
             <SourceLanguageSelect

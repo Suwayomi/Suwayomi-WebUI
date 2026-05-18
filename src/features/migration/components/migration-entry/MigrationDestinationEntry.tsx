@@ -13,7 +13,6 @@ import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { MigrationEntryCard } from '@/features/migration/components/migration-entry/MigrationEntryCard.tsx';
 import { MigrationEntryCardContent } from '@/features/migration/components/migration-entry/MigrationEntryCardContent.tsx';
 import { ENTRY_STATUS_TRANSLATION } from '@/features/migration/Migration.constants.ts';
-import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { extractGraphqlExceptionInfo } from '@/lib/HelperFunctions.ts';
@@ -61,12 +60,7 @@ const EntryStatus = ({
                     startIcon={<SearchIcon />}
                     variant="contained"
                     onClick={() => {
-                        ReactRouter.navigate(
-                            AppRoutes.migrate.childRoutes.manualSearch.path(sourceMangaId, sourceMangaTitle),
-                            {
-                                state: { mangaTitle: sourceMangaTitle },
-                            },
-                        );
+                        MigrationManager.openManualSearch(sourceMangaId, sourceMangaTitle);
                     }}
                 >{t`Manual search`}</Button>
             )}

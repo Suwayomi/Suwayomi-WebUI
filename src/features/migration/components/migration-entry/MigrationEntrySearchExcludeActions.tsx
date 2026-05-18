@@ -10,8 +10,6 @@ import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
-import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
-import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import IconButton from '@mui/material/IconButton';
 import { useLingui } from '@lingui/react/macro';
@@ -71,12 +69,7 @@ export const MigrationEntrySearchExcludeActions = ({
                                 flexGrow: Number(!otherResultsCount),
                             }}
                             onClick={() => {
-                                ReactRouter.navigate(
-                                    AppRoutes.migrate.childRoutes.manualSearch.path(mangaId, mangaTitle),
-                                    {
-                                        state: { mangaTitle: mangaTitle },
-                                    },
-                                );
+                                MigrationManager.openManualSearch(mangaId, mangaTitle);
                             }}
                         >
                             <SearchIcon />
@@ -113,7 +106,7 @@ export const MigrationEntrySearchExcludeActions = ({
             <CustomTooltip title={t`Manual search`} placement="auto">
                 <IconButton
                     onClick={() => {
-                        ReactRouter.navigate(AppRoutes.migrate.childRoutes.manualSearch.path(mangaId, mangaTitle));
+                        MigrationManager.openManualSearch(mangaId, mangaTitle);
                     }}
                 >
                     <SearchIcon />

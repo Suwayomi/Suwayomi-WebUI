@@ -2259,6 +2259,10 @@ msgstr "Manhua"
 msgid "Manhwa"
 msgstr "Manhwa"
 
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "Manual migration search for \"{title}\""
+
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 #: src/features/migration/components/migration-entry/MigrationEntry.tsx
 #: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
@@ -2329,8 +2333,9 @@ msgstr "Menu"
 msgid "Migrate"
 msgstr "Migrate"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
+#. placeholder {0}: manga.title
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/migration/MigrationManager.ts
 msgid "Migrate \"{0}\""
 msgstr "Migrate \"{0}\""
 
