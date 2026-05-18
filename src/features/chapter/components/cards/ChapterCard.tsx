@@ -23,7 +23,6 @@ import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { getDateString } from '@/base/utils/DateHelper.ts';
 import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
-import type { ChapterType } from '@/lib/graphql/generated/graphql.ts';
 import { ChapterActionMenuItems } from '@/features/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { Menu } from '@/base/components/menu/Menu.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
@@ -36,11 +35,14 @@ import type {
     ChapterDownloadInfo,
     ChapterIdInfo,
     ChapterMangaInfo,
+    ChapterNameInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
     ChapterScanlatorInfo,
+    ChapterSourceOrderInfo,
 } from '@/features/chapter/Chapter.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import type { ChapterType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -49,7 +51,9 @@ type TChapter = ChapterIdInfo &
     ChapterBookmarkInfo &
     ChapterNumberInfo &
     ChapterScanlatorInfo &
-    Pick<ChapterType, 'name' | 'sourceOrder' | 'uploadDate'>;
+    ChapterNameInfo &
+    ChapterSourceOrderInfo &
+    Pick<ChapterType, 'uploadDate'>;
 
 interface IProps {
     mode?: 'manga.page' | 'reader';

@@ -13,14 +13,19 @@ jobs:
         with:
           node-version-file: 'package.json'
 
-      - name: Install modules
-        run: yarn ci
+      - uses: pnpm/action-setup@v4.2.0
+        name: Install pnpm
+        with:
+          version: 11.1.2
 
-      - name: Run Lint
-        run: yarn lint
+      - name: Install modules
+        run: pnpm ci
+
+      - name: Run ESLint
+        run: pnpm lint
 
       - name: Run TSC
-        run: yarn tsc
+        run: pnpm tsc
 
       - name: Build app
-        run: yarn build
+        run: pnpm build

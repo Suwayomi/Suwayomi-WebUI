@@ -27,7 +27,7 @@ import {
     WebUiChannel,
     WebUiFlavor,
     WebUiInterface,
-} from '@/lib/graphql/generated/graphql.ts';
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getPreferredISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
 

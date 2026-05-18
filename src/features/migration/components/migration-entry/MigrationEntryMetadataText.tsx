@@ -11,22 +11,44 @@ import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
 
 export const MigrationEntryMetadataText = (
-    entry: Pick<MigrationMatch, 'artist' | 'author' | 'latestChapterNumber'>,
+    entry: Pick<MigrationMatch, 'artist' | 'author' | 'latestChapterNumber' | 'missingChapters'>,
 ) => {
     const { t } = useLingui();
 
     const latestChapterNumber = (entry.latestChapterNumber ?? 0) > 1 ? entry.latestChapterNumber : t`Unknown`;
-    const latestChapter = t`Latest: ${latestChapterNumber}`;
+    const isSameArtistAuthor = entry.artist === entry.author;
 
-    const artist = entry.artist ? `${entry.artist} - ` : '';
-    const author = entry.author ? `${entry.author} - ` : '';
-    const isSameArtistAuthor = artist === author;
-    const artistAuthor = isSameArtistAuthor ? artist : `${artist}${author}`;
+    const nodes = [
+        entry.author ? (
+            <Typography sx={{ display: 'inline-flex' }} key="author" variant="inherit">
+                {entry.author}
+            </Typography>
+        ) : null,
+        !isSameArtistAuthor && entry.artist ? (
+            <Typography sx={{ display: 'inline-flex' }} key="artist" variant="inherit">
+                {entry.artist}
+            </Typography>
+        ) : null,
+        <Typography sx={{ display: 'inline-flex' }} key="latest-chapter-number" variant="inherit">
+            {t`Latest: ${latestChapterNumber}`}
+        </Typography>,
+        entry.missingChapters ? (
+            <Typography sx={{ display: 'inline-flex' }} key="missing-chapters" variant="inherit" color="warning">
+                {t`Missing: ${entry.missingChapters}`}
+            </Typography>
+        ) : null,
+    ]
+        .filter((node) => node !== null)
+        .map((node, index, array) => (
+            <>
+                {node}
+                {index < array.length - 1 && '  -  '}
+            </>
+        ));
 
     return (
         <Typography variant="body2" color="textSecondary">
-            {artistAuthor}
-            {latestChapter}
+            {nodes}
         </Typography>
     );
 };

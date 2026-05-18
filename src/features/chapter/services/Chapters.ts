@@ -12,12 +12,9 @@ import { t } from '@lingui/core/macro';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import type {
-    ChapterListFieldsFragment,
-    ChapterType,
-    DownloadTypeFieldsFragment,
-} from '@/lib/graphql/generated/graphql.ts';
-import { DownloadState } from '@/lib/graphql/generated/graphql.ts';
+import type { ChapterListFieldsFragment, DownloadTypeFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
+import type { ChapterType } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 

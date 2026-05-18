@@ -28,6 +28,10 @@ import type { MetadataBrowseSettings } from '@/features/browse/Browse.types.ts';
 import type { ServerSettings as GqlServerSettings } from '@/features/settings/Settings.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
+import ListSubheader from '@mui/material/ListSubheader';
 
 type ExtensionsSettings = Pick<GqlServerSettings, 'maxSourcesInParallel' | 'localSourcePath' | 'extensionRepos'>;
 
@@ -73,70 +77,95 @@ export const BrowseSettings = () => {
 
     return (
         <List sx={{ pt: 0 }}>
-            <ListItem>
-                <ListItemText primary={t`Hide entries already in library`} />
-                <Switch
-                    edge="end"
-                    checked={hideLibraryEntries}
-                    onChange={() => updateMetadataServerSettings('hideLibraryEntries', !hideLibraryEntries)}
-                />
-            </ListItem>
-            <ListItem>
-                <ListItemText primary={t`Show NSFW`} secondary={t`Hide NSFW extensions and sources`} />
-                <Switch
-                    edge="end"
-                    checked={showNsfw}
-                    onChange={() => updateMetadataServerSettings('showNsfw', !showNsfw)}
-                />
-            </ListItem>
-            <NumberSetting
-                settingTitle={t`Parallel source requests`}
-                settingValue={plural(serverSettings.maxSourcesInParallel, {
-                    one: '# Source',
-                    other: '# Sources',
-                })}
-                valueUnit={t`Source`}
-                value={serverSettings.maxSourcesInParallel}
-                defaultValue={6}
-                minValue={1}
-                maxValue={20}
-                showSlider
-                stepSize={1}
-                handleUpdate={(parallelSources) => updateSetting('maxSourcesInParallel', parallelSources)}
-            />
-            <MutableListSetting
-                settingName={t`Extension repositories`}
-                description={t`Add repositories from which extensions can be installed`}
-                dialogDisclaimer={
-                    <Trans>
-                        <strong>Suwayomi does not provide any support for 3rd party repositories or extensions!</strong>
-                        <br />
-                        Use with caution as there could be malicious actors making those repositories.
-                        <br />
-                        You as the user need to verify the security and that you trust any repository or extension.
-                    </Trans>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="browse-settings-source">
+                        {t`Sources`}
+                    </ListSubheader>
                 }
-                handleChange={(repos) => {
-                    updateSetting('extensionRepos', repos);
-                    requestManager.clearExtensionCache();
-                }}
-                valueInfos={serverSettings.extensionRepos.map((extensionRepo) => [extensionRepo])}
-                addItemButtonTitle={t`Add repository`}
-                placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
-                validateItem={(repo) =>
-                    !!repo.match(
-                        /https:\/\/(www\.|raw\.)?(github|githubusercontent)\.com\/([^/]+)\/([^/]+)((\/tree|\/blob)?\/([^/\n]*))?(\/([^/\n]*\.json)?)?/g,
-                    )
+                sx={{ pb: 0 }}
+            >
+                <ListItem>
+                    <ListItemText primary={t`Hide entries already in library`} />
+                    <Switch
+                        edge="end"
+                        checked={hideLibraryEntries}
+                        onChange={() => updateMetadataServerSettings('hideLibraryEntries', !hideLibraryEntries)}
+                    />
+                </ListItem>
+                <NumberSetting
+                    settingTitle={t`Parallel source requests`}
+                    settingValue={plural(serverSettings.maxSourcesInParallel, {
+                        one: '# Source',
+                        other: '# Sources',
+                    })}
+                    valueUnit={t`Source`}
+                    value={serverSettings.maxSourcesInParallel}
+                    defaultValue={6}
+                    minValue={1}
+                    maxValue={20}
+                    showSlider
+                    stepSize={1}
+                    handleUpdate={(parallelSources) => updateSetting('maxSourcesInParallel', parallelSources)}
+                />
+                <MutableListSetting
+                    settingName={t`Extension repositories`}
+                    description={t`Add repositories from which extensions can be installed`}
+                    dialogDisclaimer={
+                        <Trans>
+                            <strong>
+                                Suwayomi does not provide any support for 3rd party repositories or extensions!
+                            </strong>
+                            <br />
+                            Use with caution as there could be malicious actors making those repositories.
+                            <br />
+                            You as the user need to verify the security and that you trust any repository or extension.
+                        </Trans>
+                    }
+                    handleChange={(repos) => {
+                        updateSetting('extensionRepos', repos);
+                        requestManager.clearExtensionCache();
+                    }}
+                    valueInfos={serverSettings.extensionRepos.map((extensionRepo) => [extensionRepo])}
+                    addItemButtonTitle={t`Add repository`}
+                    placeholder="https://github.com/MY_ACCOUNT/MY_REPO/tree/repo"
+                    validateItem={(repo) =>
+                        !!repo.match(
+                            /https:\/\/(www\.|raw\.)?(github|githubusercontent)\.com\/([^/]+)\/([^/]+)((\/tree|\/blob)?\/([^/\n]*))?(\/([^/\n]*\.json)?)?/g,
+                        )
+                    }
+                    invalidItemError={t`Invalid repository url`}
+                />
+                <TextSetting
+                    settingName={t`Local source location`}
+                    dialogDescription={t`The path to the directory on the server where local source files are saved in`}
+                    value={serverSettings.localSourcePath}
+                    settingDescription={
+                        serverSettings.localSourcePath.length ? serverSettings.localSourcePath : t`Default`
+                    }
+                    handleChange={(path) => updateSetting('localSourcePath', path)}
+                />
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="browse-settings-source">
+                        {t`NSFW (18+) sources`}
+                    </ListSubheader>
                 }
-                invalidItemError={t`Invalid repository url`}
-            />
-            <TextSetting
-                settingName={t`Local source location`}
-                dialogDescription={t`The path to the directory on the server where local source files are saved in`}
-                value={serverSettings.localSourcePath}
-                settingDescription={serverSettings.localSourcePath.length ? serverSettings.localSourcePath : t`Default`}
-                handleChange={(path) => updateSetting('localSourcePath', path)}
-            />
+            >
+                <ListItem>
+                    <ListItemText primary={t`Show in sources and extensions lists`} />
+                    <Switch
+                        edge="end"
+                        checked={showNsfw}
+                        onChange={() => updateMetadataServerSettings('showNsfw', !showNsfw)}
+                    />
+                </ListItem>
+                <Stack sx={{ px: 2, gap: 1 }}>
+                    <ErrorOutlineOutlinedIcon />
+                    <Typography color="textSecondary">{t`This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app.`}</Typography>
+                </Stack>
+            </List>
         </List>
     );
 };

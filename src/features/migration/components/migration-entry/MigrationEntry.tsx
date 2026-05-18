@@ -212,7 +212,22 @@ export const MigrationEntry = memo(
             () =>
                 entry.searchMatches
                     .filter((searchMatch) => searchMatch.id !== entry.selectedMatchMangaId)
-                    .sort((a, b) => (b.latestChapterNumber ?? 0) - (a.latestChapterNumber ?? 0)),
+                    .sort((a, b) => {
+                        const sortByLatestChapter = (b.latestChapterNumber ?? 0) - (a.latestChapterNumber ?? 0);
+                        if (sortByLatestChapter) {
+                            return sortByLatestChapter;
+                        }
+
+                        const aSourcePriority = MigrationManager.getSourcePriority(entry.sourceId, a.sourceId);
+                        const bSourcePriority = MigrationManager.getSourcePriority(entry.sourceId, b.sourceId);
+
+                        const sortBySourcePriority = bSourcePriority - aSourcePriority;
+                        if (sortBySourcePriority) {
+                            return sortBySourcePriority;
+                        }
+
+                        return a.title.localeCompare(b.title);
+                    }),
             [entry.searchMatches, entry.selectedMatchMangaId],
         );
 

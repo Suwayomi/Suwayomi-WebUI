@@ -6,12 +6,8 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type {
-    TrackerType,
-    TrackRecordSearchFieldsFragment,
-    TrackRecordType,
-    TrackSearchType,
-} from '@/lib/graphql/generated/graphql.ts';
+import type { TrackerType, TrackRecordType, TrackSearchType } from '@/lib/graphql/generated/graphql-base.types.ts';
+import type { TrackRecordSearchFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
 
 export type MetadataTrackingSettings = {
     updateProgressAfterReading: boolean;

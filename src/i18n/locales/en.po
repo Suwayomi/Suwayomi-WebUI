@@ -518,11 +518,23 @@ msgstr "Automatically mark chapters as read when you download them."
 msgid "Automatically refresh metadata"
 msgstr "Automatically refresh metadata"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr "Automatically select matches if they have additional chapters"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr "Automatically select matches if they have at least the same latest chapter"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr "Automatically select matches if they have no missing chapters"
+
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
 msgstr "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
 
-#: src/features/migration/components/MigrationSourceList.tsx
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Available"
 msgstr "Available"
 
@@ -1147,7 +1159,7 @@ msgstr "Creating theme…"
 msgid "Crimson"
 msgstr "Crimson"
 
-#: src/features/migration/components/MigrationSourceList.tsx
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Current source"
 msgstr "Current source"
 
@@ -1355,10 +1367,6 @@ msgstr "Display file sizes in binary (KiB, MiB, GiB) instead of decimal (KB, MB,
 msgid "Display mode"
 msgstr "Display mode"
 
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
-msgstr "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Document matching method"
 msgstr "Document matching method"
@@ -1439,7 +1447,7 @@ msgstr "Downloading"
 msgid "Downloads"
 msgstr "Downloads"
 
-#: src/features/migration/components/MigrationSourceList.tsx
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Drag to prioritize"
 msgstr "Drag to prioritize"
 
@@ -1800,10 +1808,6 @@ msgstr "Hide entries already in library"
 msgid "Hide history"
 msgstr "Hide history"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Hide NSFW extensions and sources"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Hikari connection pool"
 msgstr "Hikari connection pool"
@@ -1851,6 +1855,14 @@ msgstr "Ignore automatic chapter downloads for entries with unread chapters"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Ignore filters when searching"
 msgstr "Ignore filters when searching"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "Ignore matches that are behind in chapters"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "Ignore matches with missing chapters"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Ignore matches without newer chapters"
@@ -2382,6 +2394,11 @@ msgstr "Minute"
 msgid "Misc"
 msgstr "Misc"
 
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "Missing: {0}"
+
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
 msgid "Mobile"
 msgstr "Mobile"
@@ -2467,6 +2484,10 @@ msgstr "No match found"
 msgid "No pages found"
 msgstr "No pages found"
 
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "No sources available to migrate to"
+
 #: src/features/browse/sources/Sources.tsx
 msgid "No sources found. Install Some extensions first."
 msgstr "No sources found. Install Some extensions first."
@@ -2495,6 +2516,10 @@ msgstr "Not yet released"
 #: src/features/tracker/Tracker.constants.ts
 msgid "Novel"
 msgstr "Novel"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "NSFW (18+) sources"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
@@ -3066,7 +3091,7 @@ msgstr "Select enabled sources"
 msgid "Select pinned sources"
 msgstr "Select pinned sources"
 
-#: src/features/migration/components/MigrationSourceList.tsx
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Selected"
 msgstr "Selected"
 
@@ -3160,6 +3185,10 @@ msgstr "Show entry"
 msgid "Show icon in system tray"
 msgstr "Show icon in system tray"
 
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "Show in sources and extensions lists"
+
 #: src/base/components/feedback/EmptyView.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show less"
@@ -3172,10 +3201,6 @@ msgstr "Show less"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Show more"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Show NSFW"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -3309,6 +3334,10 @@ msgstr "Source entry - {sourceTitle}"
 #: src/features/chapter/components/ChapterOptions.tsx
 msgid "Source title"
 msgstr "Source title"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "Sources"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Stable"
@@ -3534,6 +3563,10 @@ msgstr "These options are slow and dangerous and may lead to restrictions from s
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Third to last read chapter"
 msgstr "Third to last read chapter"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "This icon will be shown on the system that is running the server"

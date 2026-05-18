@@ -29,8 +29,7 @@ import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { getValueFromObject, noOp } from '@/lib/HelperFunctions.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import type { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo, ChapterNameInfo, ChapterScanlatorInfo } from '@/features/chapter/Chapter.types.ts';
 import {
     useReaderChaptersStore,
     useReaderPagesStore,
@@ -46,8 +45,8 @@ const ChapterInfo = ({
     backgroundColor,
 }: {
     title: string;
-    name?: ChapterType['name'];
-    scanlator?: ChapterType['scanlator'];
+    name?: ChapterNameInfo['name'];
+    scanlator?: ChapterScanlatorInfo['scanlator'];
     backgroundColor: IReaderSettings['backgroundColor'];
 }) => {
     const theme = useTheme();
@@ -89,12 +88,12 @@ const BaseReaderTransitionPage = ({
 }: Pick<NavbarContextType, 'readerNavBarWidth'> & {
     // gets used in the "source props creators" of the "withPropsFrom" call
     chapterId: ChapterIdInfo['id'];
-    currentChapterName?: ChapterType['name'];
-    currentChapterScanlator?: ChapterType['scanlator'];
-    previousChapterName?: ChapterType['name'];
-    previousChapterScanlator?: ChapterType['scanlator'];
-    nextChapterName?: ChapterType['name'];
-    nextChapterScanlator?: ChapterType['scanlator'];
+    currentChapterName?: ChapterNameInfo['name'];
+    currentChapterScanlator?: ChapterScanlatorInfo['scanlator'];
+    previousChapterName?: ChapterNameInfo['name'];
+    previousChapterScanlator?: ChapterScanlatorInfo['scanlator'];
+    nextChapterName?: ChapterNameInfo['name'];
+    nextChapterScanlator?: ChapterScanlatorInfo['scanlator'];
     type: Exclude<ReaderTransitionPageMode, ReaderTransitionPageMode.NONE | ReaderTransitionPageMode.BOTH>;
     handleBack: () => void;
 }) => {

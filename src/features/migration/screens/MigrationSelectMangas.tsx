@@ -20,12 +20,19 @@ import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { useSelectableCollection } from '@/base/collection/hooks/useSelectableCollection.ts';
-import type { GetSourceMigratableQuery, GetSourceMigratableQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import type {
+    GetMigratableSourceMangasQuery,
+    GetMigratableSourceMangasQueryVariables,
+    GetSourceMigratableQuery,
+    GetSourceMigratableQueryVariables,
+} from '@/lib/graphql/generated/graphql.ts';
 import { GET_SOURCE_MIGRATABLE } from '@/lib/graphql/source/SourceQuery.ts';
 import { SelectableCollectionSelectMode } from '@/base/collection/components/SelectableCollectionSelectMode.tsx';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { MigrationContinueButton } from '@/features/migration/components/MigrationContinueButton.tsx';
+import { GET_MIGRATABLE_SOURCE_MANGAS } from '@/lib/graphql/manga/MangaQuery.ts';
+import { MangaOrderBy, SortOrder } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 const getSourceError = (error: unknown): unknown => {
     const message = getErrorMessage(error);
@@ -66,9 +73,28 @@ export const MigrationSelectMangas = () => {
         loading: areMangasLoading,
         error: mangasError,
         refetch: refetchMangas,
-    } = requestManager.useGetMigratableSourceMangas(sourceId!, {
-        skip: !sourceIds,
-    });
+    } = requestManager.useGetMangas<GetMigratableSourceMangasQuery, GetMigratableSourceMangasQueryVariables>(
+        GET_MIGRATABLE_SOURCE_MANGAS,
+        {
+            condition: {
+                sourceId,
+                inLibrary: true,
+            },
+            order: [
+                {
+                    by: MangaOrderBy.Title,
+                    byType: SortOrder.Asc,
+                },
+                {
+                    by: MangaOrderBy.InLibraryAt,
+                    byType: SortOrder.Desc,
+                },
+            ],
+        },
+        {
+            skip: !sourceIds,
+        },
+    );
 
     const mangas = migratableSourceMangasData?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
     const mangaIds = useMemo(() => Mangas.getIds(mangas), [mangas]);

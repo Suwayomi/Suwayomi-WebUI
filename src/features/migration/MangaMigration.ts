@@ -7,43 +7,23 @@
  */
 
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import type {
-    GetMangaToMigrateQuery,
-    GetMangaToMigrateToFetchMutation,
-    SetChapterMetasItemInput,
-} from '@/lib/graphql/generated/graphql.ts';
+import type { SetChapterMetasItemInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { ALL_APP_METADATA_KEY_PREFIXES } from '@/features/metadata/Metadata.constants.ts';
-import type { MigrateMode, MigrateOptions } from '@/features/migration/Migration.types.ts';
 import type {
-    ChapterBookmarkInfo,
-    ChapterDownloadInfo,
-    ChapterIdInfo,
-    ChapterNumberInfo,
-    ChapterReadInfo,
-} from '@/features/chapter/Chapter.types.ts';
-import type { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
+    MangaToMigrate,
+    MangaToMigrateTo,
+    MigrateAction,
+    MigrateActionCreator,
+    MigrateMode,
+    MigrateOptions,
+    MigrationChapter,
+} from '@/features/migration/Migration.types.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { Queue } from '@/lib/Queue.ts';
 import type { TrackerIdInfo } from '@/features/tracker/Tracker.types.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
-
-type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
-type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
-
-export type MigrationChapter = ChapterIdInfo &
-    ChapterReadInfo &
-    ChapterBookmarkInfo &
-    ChapterNumberInfo &
-    ChapterDownloadInfo &
-    GqlMetaHolder;
-
-type MigrateAction = { copy: () => Promise<unknown>[]; cleanup: () => Promise<unknown>[] };
-type MigrateActionCreator = () => MigrateAction;
-
-const performMigrationAction = async (migrateAction: keyof MigrateAction, ...actions: MigrateAction[]) =>
-    Promise.all(actions.flatMap((action) => action[migrateAction]()));
 
 export class MangaMigration {
     private static trackerQueue = new Map<TrackerIdInfo['id'], Queue>();
@@ -94,7 +74,7 @@ export class MangaMigration {
                 // only happens in case the copy succeeded
 
                 // oxlint-disable-next-line no-await-in-loop
-                await performMigrationAction(migrationAction, ...actions);
+                await Promise.all(actions.flatMap((action) => action[migrationAction]()));
             }
         };
 

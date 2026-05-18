@@ -6,7 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { GetMigratableSourcesQuery } from '@/lib/graphql/generated/graphql.ts';
+import type {
+    GetMangaToMigrateQuery,
+    GetMangaToMigrateToFetchMutation,
+    GetMigratableSourcesQuery,
+} from '@/lib/graphql/generated/graphql.ts';
 import type {
     SourceDisplayNameInfo,
     SourceIconInfo,
@@ -23,7 +27,14 @@ import type {
     MangaThumbnailInfo,
     MangaTitleInfo,
 } from '@/features/manga/Manga.types.ts';
-import type { ChapterNumberInfo } from '@/features/chapter/Chapter.types.ts';
+import type {
+    ChapterBookmarkInfo,
+    ChapterDownloadInfo,
+    ChapterIdInfo,
+    ChapterNumberInfo,
+    ChapterReadInfo,
+} from '@/features/chapter/Chapter.types.ts';
+import type { GqlMetaHolder } from '@/features/metadata/Metadata.types.ts';
 
 export enum SortBy {
     SOURCE_NAME,
@@ -61,6 +72,8 @@ export type MetadataMigrationSettings = {
 export interface MigrationBulkSearchSettings {
     selectHighestChapterNumberSource: boolean;
     ignoreOutdatedMatches: boolean;
+    requireAdditionalChapters: boolean;
+    ignoreWithMissingChapters: boolean;
     performAdvancedSearch: boolean;
 }
 
@@ -90,6 +103,7 @@ export interface MigrationMatch
     extends MangaIdInfo, MangaTitleInfo, MangaThumbnailInfo, MangaSourceIdInfo, MangaArtistInfo, MangaAuthorInfo {
     sourceTitle: SourceDisplayNameInfo['displayName'] | undefined;
     latestChapterNumber: ChapterNumberInfo['chapterNumber'] | undefined;
+    missingChapters: number | undefined;
 }
 
 export interface TMigrationEntry {
@@ -98,6 +112,7 @@ export interface TMigrationEntry {
     mangaArtist: MangaArtistInfo['artist'];
     mangaAuthor: MangaAuthorInfo['author'];
     latestChapterNumber: ChapterNumberInfo['chapterNumber'] | undefined;
+    missingChapters: number | undefined;
     mangaThumbnailUrl: MangaThumbnailInfo['thumbnailUrl'] | undefined;
     sourceId: SourceIdInfo['id'];
     sourceTitle: SourceDisplayNameInfo['displayName'] | undefined;
@@ -110,6 +125,7 @@ export interface TMigrationEntry {
     error: string | undefined;
     isExcluded: boolean;
     areMatchesExpanded: boolean;
+    isManualSelection: boolean;
 }
 
 export type MigratableEntry = NonNullableProperty<TMigrationEntry, 'selectedMatchMangaId' | 'selectedMatchSourceId'>;
@@ -136,3 +152,18 @@ export interface SourceItem extends SourceIdInfo, SourceNameInfo, SourceLanguage
 export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas']['nodes'][number]['source']> & {
     mangaCount: number;
 };
+
+export type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
+
+export type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
+
+export type MigrationChapter = ChapterIdInfo &
+    ChapterReadInfo &
+    ChapterBookmarkInfo &
+    ChapterNumberInfo &
+    ChapterDownloadInfo &
+    GqlMetaHolder;
+
+export type MigrateAction = { copy: () => Promise<unknown>[]; cleanup: () => Promise<unknown>[] };
+
+export type MigrateActionCreator = () => MigrateAction;

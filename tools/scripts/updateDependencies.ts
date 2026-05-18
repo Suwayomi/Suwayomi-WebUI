@@ -12,31 +12,35 @@ import { writeFileSync } from 'node:fs';
 import packageJson from '../../package.json';
 
 type TPackageJson = typeof packageJson;
-type PackageType = keyof Pick<TPackageJson, 'dependencies' | 'devDependencies'>;
+type DependencyType = keyof Pick<TPackageJson, 'dependencies' | 'devDependencies'>;
 
-type CaretMode = 'add' | 'remove';
+type OutdatedPayload = {
+    current: string;
+    latest: string;
+    wanted: string;
+    isDeprecated: boolean;
+    dependencyType: DependencyType;
+};
 
-type OutdatedDependency = {
+type OutdatedDependency = OutdatedPayload & {
     name: string;
-    packageType: PackageType;
     isMajorUpdate: boolean;
 };
 
-const PACKAGE_TYPES: PackageType[] = ['dependencies', 'devDependencies'];
+const PACKAGE_TYPES: DependencyType[] = ['dependencies', 'devDependencies'];
 
-const setCaretForDependency = <DependencyType extends PackageType>(
-    caretMode: CaretMode,
-    type: DependencyType,
-    dependency: keyof TPackageJson[DependencyType],
+const updateVersionInPackageJson = <TDependencyType extends DependencyType>(
+    type: TDependencyType,
+    dependency: keyof TPackageJson[TDependencyType],
+    version: string,
 ) => {
-    const versionRange = caretMode === 'add' ? '^' : '';
-    // maybe something is typed wrong, but typescript is not able to infer that the value of a dependency is of type string
-    packageJson[type][dependency] = `${versionRange}${packageJson[type][dependency]}` as any;
+    // @ts-ignore - TS2322: Type string is not assignable to type (packageJson[type][dependency])
+    packageJson[type][dependency] = version;
 };
 
-const setCaretForDependencies = (caretMode: CaretMode, dependencies: OutdatedDependency[]) => {
-    dependencies.forEach(({ name, packageType }) =>
-        setCaretForDependency(caretMode, packageType, name as keyof TPackageJson[typeof packageType]),
+const updateVersionsInPackageJson = (dependencies: OutdatedDependency[]) => {
+    dependencies.forEach(({ name, dependencyType, latest }) =>
+        updateVersionInPackageJson(dependencyType, name as keyof TPackageJson[typeof dependencyType], latest),
     );
 
     writeFileSync('package.json', `${JSON.stringify(packageJson, null, 2)}\n`);
@@ -46,11 +50,11 @@ const setCaretForDependencies = (caretMode: CaretMode, dependencies: OutdatedDep
  * @param asJson
  * @param stdio - only considered in case asJson is falsy
  */
-const execYarnOutdated = ({ asJson = false, stdio }: { asJson?: boolean; stdio?: ExecSyncOptions['stdio'] } = {}):
+const execOutdatedCmd = ({ asJson = false, stdio }: { asJson?: boolean; stdio?: ExecSyncOptions['stdio'] } = {}):
     | string
     | null => {
     try {
-        execSync(`yarn outdated ${asJson ? '--json' : ''}`, { stdio: !asJson ? stdio : undefined }).toString();
+        execSync(`pnpm outdated ${asJson ? '--json' : ''}`, { stdio: !asJson ? stdio : undefined })?.toString();
         return null;
     } catch (e: any) {
         if (e?.stdout === null) {
@@ -66,33 +70,26 @@ const execYarnOutdated = ({ asJson = false, stdio }: { asJson?: boolean; stdio?:
 };
 
 const getOutdatedDependencies = (): OutdatedDependency[] => {
-    const output = execYarnOutdated({ asJson: true });
+    const output = execOutdatedCmd({ asJson: true });
 
     if (output === null) {
         return [];
     }
 
-    const lines = output.split('\n');
-    const outdatedPackages = lines
-        .map((line) => {
-            try {
-                return JSON.parse(line);
-            } catch (error) {
-                return null;
-            }
-        })
-        .filter(Boolean)
-        .filter((item) => item.type === 'table')
-        .flatMap((item) => item.data.body);
+    const outdatedPayload = JSON.parse(output) as Record<string, OutdatedPayload>;
+
+    const outdatedPackages = Object.entries(outdatedPayload).map(([name, info]) => ({
+        name,
+        ...info,
+    }));
 
     return outdatedPackages
-        .map(([name, current, , latest, packageType]) => ({
-            name,
-            packageType,
-            isMajorUpdate: current.split('.')[0] !== latest.split('.')[0],
+        .map((dependency) => ({
+            ...dependency,
+            isMajorUpdate: dependency.current.split('.')[0] !== dependency.latest.split('.')[0],
         }))
-        .filter(({ packageType }) => PACKAGE_TYPES.includes(packageType))
-        .toSorted((a, b) => a.packageType.localeCompare(b.packageType));
+        .filter(({ dependencyType }) => PACKAGE_TYPES.includes(dependencyType))
+        .toSorted((a, b) => a.dependencyType.localeCompare(b.dependencyType));
 };
 
 const log = (...args: Parameters<typeof console.log>) => console.log('updateDependencies:', ...args);
@@ -108,7 +105,7 @@ const updateDependencies = () => {
         return;
     }
 
-    execYarnOutdated({ stdio: 'inherit' });
+    execOutdatedCmd({ stdio: 'inherit' });
 
     if (!autoUpdatableDependencies.length) {
         log('no automatically updatable dependencies found');
@@ -117,25 +114,17 @@ const updateDependencies = () => {
 
     log('updating dependencies with non breaking changes...');
 
-    setCaretForDependencies('add', autoUpdatableDependencies);
+    updateVersionsInPackageJson(autoUpdatableDependencies);
 
-    execSync('yarn', { stdio: 'inherit' });
-
-    log('syncing package.json with yarn.lock...');
-
-    execSync('yarn syncyarnlock -s', { stdio: 'inherit' });
-
-    log('updating yarn.lock after syncing package.json...');
-
-    execSync('yarn', { stdio: 'inherit' });
+    execSync('pnpm i', { stdio: 'inherit' });
 
     log('commiting changes...');
 
-    execSync('git add package.json yarn.lock && git commit -m "Update dependencies"', { stdio: 'inherit' });
+    execSync('git add package.json pnpm-lock.yaml && git commit -m "Update dependencies"', { stdio: 'inherit' });
 
     log('updated dependencies with non breaking changes. Check dependencies with breaking changes listed below:');
 
-    execYarnOutdated({ stdio: 'inherit' });
+    execOutdatedCmd({ stdio: 'inherit' });
 };
 
 updateDependencies();

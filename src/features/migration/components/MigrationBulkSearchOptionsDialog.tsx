@@ -29,7 +29,9 @@ export const MigrationBulkSearchOptionsDialog = ({
     const { t } = useLingui();
 
     const [selectHighestChapterNumberSource, setSelectHighestChapterNumberSource] = useState(false);
-    const [ignoreOutdatedMatches, setIgnoreOutdatesMatches] = useState(false);
+    const [ignoreOutdatedMatches, setIgnoreOutdatedMatches] = useState(false);
+    const [ignoreWithMissingChapters, setIgnoreWithMissingChapters] = useState(false);
+    const [requireAdditionalChapters, setRequireAdditionalChapters] = useState(false);
     const [performAdvancedSearch, setPerformAdvancedSearch] = useState(false);
 
     return (
@@ -37,25 +39,31 @@ export const MigrationBulkSearchOptionsDialog = ({
             <DialogTitle>{t`Search options`}</DialogTitle>
             <DialogContent dividers>
                 <CheckboxInput
-                    label={
-                        <Stack
-                            sx={{
-                                // Padding comes from the MUI Checkbox component
-                                pt: '9px',
-                            }}
-                        >
-                            <Typography>{t`Ignore matches without newer chapters`}</Typography>
-                            <Typography
-                                variant="body2"
-                                color="textSecondary"
-                            >{t`Do not automatically select matches if they are behind the current source. They will still be shown in the found matches`}</Typography>
-                        </Stack>
-                    }
+                    primaryText={t`Ignore matches that are behind in chapters`}
+                    secondaryText={t`Automatically select matches if they have at least the same latest chapter`}
                     sx={{
                         alignItems: 'start',
                     }}
                     checked={ignoreOutdatedMatches}
-                    onChange={(_, checked) => setIgnoreOutdatesMatches(checked)}
+                    onChange={(_, checked) => setIgnoreOutdatedMatches(checked)}
+                />
+                <CheckboxInput
+                    primaryText={t`Ignore matches without newer chapters`}
+                    secondaryText={t`Automatically select matches if they have additional chapters`}
+                    sx={{
+                        alignItems: 'start',
+                    }}
+                    checked={requireAdditionalChapters}
+                    onChange={(_, checked) => setRequireAdditionalChapters(checked)}
+                />
+                <CheckboxInput
+                    primaryText={t`Ignore matches with missing chapters`}
+                    secondaryText={t`Automatically select matches if they have no missing chapters`}
+                    sx={{
+                        alignItems: 'start',
+                    }}
+                    checked={ignoreWithMissingChapters}
+                    onChange={(_, checked) => setIgnoreWithMissingChapters(checked)}
                 />
             </DialogContent>
             <DialogContent dividers>
@@ -79,20 +87,8 @@ export const MigrationBulkSearchOptionsDialog = ({
                     </Typography>
                 </Stack>
                 <CheckboxInput
-                    label={
-                        <Stack
-                            sx={{
-                                // Padding comes from the MUI Checkbox component
-                                pt: '9px',
-                            }}
-                        >
-                            <Typography>{t`Advanced search mode`}</Typography>
-                            <Typography
-                                variant="body2"
-                                color="textSecondary"
-                            >{t`Breaks down the title into keywords for a wider search`}</Typography>
-                        </Stack>
-                    }
+                    primaryText={t`Advanced search mode`}
+                    secondaryText={t`Breaks down the title into keywords for a wider search`}
                     sx={{
                         alignItems: 'start',
                     }}
@@ -100,20 +96,8 @@ export const MigrationBulkSearchOptionsDialog = ({
                     onChange={(_, checked) => setPerformAdvancedSearch(checked)}
                 />
                 <CheckboxInput
-                    label={
-                        <Stack
-                            sx={{
-                                // Padding comes from the MUI Checkbox component
-                                pt: '9px',
-                            }}
-                        >
-                            <Typography>{t`Match based on chapter number`}</Typography>
-                            <Typography
-                                variant="body2"
-                                color="textSecondary"
-                            >{t`If enabled, chooses the match furthest ahead.\nOtherwise, picks the first match by source priority.`}</Typography>
-                        </Stack>
-                    }
+                    primaryText={t`Match based on chapter number`}
+                    secondaryText={t`If enabled, chooses the match furthest ahead.\nOtherwise, picks the first match by source priority.`}
                     sx={{
                         alignItems: 'start',
                     }}
@@ -129,6 +113,8 @@ export const MigrationBulkSearchOptionsDialog = ({
                         onSubmit({
                             selectHighestChapterNumberSource,
                             ignoreOutdatedMatches,
+                            requireAdditionalChapters,
+                            ignoreWithMissingChapters,
                             performAdvancedSearch,
                         })
                     }

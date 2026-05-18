@@ -26,7 +26,7 @@ import { NavBarItemMoreGroup } from '@/features/navigation-bar/NavigationBar.typ
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
-import { DownloaderState } from '@/lib/graphql/generated/graphql.ts';
+import { DownloaderState } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 type RestrictedNavBarItem<Show extends NavbarItem['show']> = Omit<NavbarItem, 'show'> & { show: Show };
 

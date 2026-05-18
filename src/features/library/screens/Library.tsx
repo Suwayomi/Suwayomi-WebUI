@@ -39,7 +39,6 @@ import type {
     GetLibraryMangaCountQuery,
     GetLibraryMangaCountQueryVariables,
     MangaChapterStatFieldsFragment,
-    MangaType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/category/CategoryQuery.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
@@ -51,6 +50,7 @@ import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -122,7 +122,7 @@ export function Library() {
         handleSelectAll,
         handleSelection,
         clearSelection,
-    } = useSelectableCollection<MangaType['id'], string>(mangas.length, {
+    } = useSelectableCollection<MangaIdInfo['id'], string>(mangas.length, {
         itemIds: mangaIds,
         currentKey: activeTab?.id.toString(),
         initialState: undefined,
