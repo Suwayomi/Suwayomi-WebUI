@@ -628,7 +628,15 @@ export class MigrationManager {
                     MigrationEntryStatus.SEARCH_COMPLETE,
                 ].includes(entry.status);
 
-                MigrationManager.selectMatch(mangaId, match.id, match.sourceId, true);
+                if (isSearching) {
+                    draft.searchProgress.completed += 1;
+                    draft.searchProgress.success += 1;
+                    entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
+                }
+
+                entry.isManualSelection = true;
+                entry.selectedMatchMangaId = match.id;
+                entry.selectedMatchSourceId = match.sourceId;
 
                 if (isSearching) {
                     MigrationManager.searchAbortControllerByManga.get(mangaId)?.abort('Manual match selected');
