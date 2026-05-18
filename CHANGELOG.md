@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Fix showing no info message when no sources are available to select as destinations
 - (**Migration**) Fix duplicated search matches after resuming the migration search
 - (**Migration**) Fix search progress not getting updated after a manual search
+- (**Migration**) Fix going back to the migration page after a manual search with a changed search string
 - (**Reader**) Fix scrollbar appearing with "fit to widt/height/screen" page scale mode and applied safe area insets
 - (**Reader**) Fix wrongly positioned mobile progress bar current page indicator
 - (**Reader**) Fix mobile progress bar previous/next chapter button visibility on hover and while disabled

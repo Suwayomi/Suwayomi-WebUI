@@ -58,7 +58,7 @@ import { SourceLanguageSelect } from '@/features/source/components/SourceLanguag
 import { SearchParam } from '@/base/Base.types.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
-import { useBackButton } from '@/base/hooks/useBackButton.ts';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -249,7 +249,6 @@ export const SearchAll = ({
 }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
-    const handleBack = useBackButton();
     const { pathname, state } = useLocation<{ mangaTitle?: string; shouldShowOnlyPinnedSources?: boolean }>();
     const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
 
@@ -429,7 +428,7 @@ export const SearchAll = ({
                                           sourceTitle: Sources.getFromCache(match.sourceId)?.displayName,
                                           latestChapterNumber: undefined,
                                       });
-                                      handleBack();
+                                      ReactRouter.navigate(AppRoutes.migrate.path);
                                   }
                                 : undefined
                         }
