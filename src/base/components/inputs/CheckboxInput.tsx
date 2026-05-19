@@ -23,13 +23,19 @@ type PrimaryTextProps = {
 type Props = BaseProps &
     ((LabelProps & PropertiesNever<PrimaryTextProps>) | (PropertiesNever<LabelProps> & PrimaryTextProps));
 
-export const CheckboxInput = ({ primaryText, secondaryText, sx, ...rest }: Props) => (
+export const CheckboxInput = ({ label, primaryText, secondaryText, sx, ...rest }: Props) => (
     <FormControlLabel
         control={<Checkbox {...rest} />}
-        label={
-            primaryText && !secondaryText ? (
-                primaryText
-            ) : (
+        label={(() => {
+            if (label) {
+                return label;
+            }
+
+            if (primaryText && !secondaryText) {
+                return primaryText;
+            }
+
+            return (
                 <Stack
                     sx={{
                         // Padding comes from the MUI Checkbox component
@@ -45,8 +51,8 @@ export const CheckboxInput = ({ primaryText, secondaryText, sx, ...rest }: Props
                         secondaryText
                     )}
                 </Stack>
-            )
-        }
+            );
+        })()}
         sx={sx}
     />
 );

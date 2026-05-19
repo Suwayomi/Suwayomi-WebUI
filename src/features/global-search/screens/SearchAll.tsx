@@ -58,7 +58,8 @@ import { SourceLanguageSelect } from '@/features/source/components/SourceLanguag
 import { SearchParam } from '@/base/Base.types.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
-import { useBackButton } from '@/base/hooks/useBackButton.ts';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -249,11 +250,10 @@ export const SearchAll = ({
 }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
-    const handleBack = useBackButton();
-    const { pathname, state } = useLocation<{ mangaTitle?: string; shouldShowOnlyPinnedSources?: boolean }>();
+    const { state } = useLocation<{ title?: string; shouldShowOnlyPinnedSources?: boolean }>();
     const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
 
-    const isMigrateMode = pathname.startsWith('/migrate/source') || pathname.startsWith('/migrate/manual-search');
+    const isMigrateMode = SubpathUtil.getPathname().startsWith(AppRoutes.migrate.path);
 
     const { mangaId } = useParams<{ mangaId?: string }>() ?? STABLE_EMPTY_OBJECT;
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
@@ -277,7 +277,7 @@ export const SearchAll = ({
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());
     const debouncedSourceToLoadingStateMap = useDebounce(sourceToLoadingStateMap, 500);
 
-    const sourceLanguages = useMemo(() => Sources.getLanguages(sources), [sources]);
+    const sourceLanguages = useMemo(() => Sources.getLanguages(sources, { excludeLocalSource: true }), [sources]);
 
     const hasPinnedSources = useMemo(() => !!Sources.filter(sources, { pinned: true }).length, [sources]);
     const shouldShowOnlyPinnedSources = state?.shouldShowOnlyPinnedSources ?? hasPinnedSources;
@@ -318,7 +318,7 @@ export const SearchAll = ({
     );
 
     useAppTitleAndAction(
-        isMigrateMode ? t`Migrate "${state?.mangaTitle}"` : t`Global Search`,
+        isMigrateMode ? state?.title : t`Global Search`,
         <>
             <AppbarSearch isClosable={false} />
             <SourceLanguageSelect
@@ -429,7 +429,7 @@ export const SearchAll = ({
                                           sourceTitle: Sources.getFromCache(match.sourceId)?.displayName,
                                           latestChapterNumber: undefined,
                                       });
-                                      handleBack();
+                                      ReactRouter.navigate(AppRoutes.migrate.path);
                                   }
                                 : undefined
                         }
