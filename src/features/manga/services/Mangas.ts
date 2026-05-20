@@ -55,6 +55,8 @@ import type {
     UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
 
+const I18N_PLURAL = 9999;
+
 type DownloadChaptersOptions = {
     size?: number;
     onlyUnread?: boolean;
@@ -190,67 +192,96 @@ export class Mangas {
         { size, onlyUnread, downloadAhead = false }: DownloadChaptersOptions = {},
         disableConfirmation?: boolean,
     ): Promise<void> {
-        const [chaptersToConsider, unReadDownloadedChapters] = await Promise.all([
-            Mangas.getChapterIdsWithState(mangaIds, {
-                isRead: onlyUnread ? false : undefined,
-                isDownloaded: false,
-            }),
-            downloadAhead ? Mangas.getChapterIdsWithState(mangaIds, { isRead: false, isDownloaded: true }) : [],
-        ]);
+        return Mangas.executeAction(
+            'download',
+            I18N_PLURAL,
+            async () => {
+                const [chaptersToConsider, unReadDownloadedChapters] = await Promise.all([
+                    Mangas.getChapterIdsWithState(mangaIds, {
+                        isRead: onlyUnread ? false : undefined,
+                        isDownloaded: false,
+                    }),
+                    downloadAhead ? Mangas.getChapterIdsWithState(mangaIds, { isRead: false, isDownloaded: true }) : [],
+                ]);
 
-        type MangaIdToDownloadSize = [MangaId: string, DownloadSize: number | undefined];
+                type MangaIdToDownloadSize = [MangaId: string, DownloadSize: number | undefined];
 
-        const mangaIdToDefaultDownloadSize = mangaIds.map((mangaId) => [
-            String(mangaId),
-            size,
-        ]) satisfies MangaIdToDownloadSize[];
+                const mangaIdToDefaultDownloadSize = mangaIds.map((mangaId) => [
+                    String(mangaId),
+                    size,
+                ]) satisfies MangaIdToDownloadSize[];
 
-        const mangaIdToChaptersToConsider = Object.groupBy(chaptersToConsider, ({ mangaId }) => mangaId);
-        const mangaIdToUnReadDownloadedChapters = Object.groupBy(unReadDownloadedChapters, ({ mangaId }) => mangaId);
+                const mangaIdToChaptersToConsider = Object.groupBy(chaptersToConsider, ({ mangaId }) => mangaId);
+                const mangaIdToUnReadDownloadedChapters = Object.groupBy(
+                    unReadDownloadedChapters,
+                    ({ mangaId }) => mangaId,
+                );
 
-        const mangaIdToDownloadSize = Object.entries(mangaIdToUnReadDownloadedChapters).map(
-            ([mangaId, downloadedChapters = []]) => {
-                const downloadAheadSize = Math.max(0, (size ?? downloadedChapters.length) - downloadedChapters.length);
-                const actualSize = downloadAhead ? downloadAheadSize : size;
+                const mangaIdToDownloadSize = Object.entries(mangaIdToUnReadDownloadedChapters).map(
+                    ([mangaId, downloadedChapters = []]) => {
+                        const downloadAheadSize = Math.max(
+                            0,
+                            (size ?? downloadedChapters.length) - downloadedChapters.length,
+                        );
+                        const actualSize = downloadAhead ? downloadAheadSize : size;
 
-                return [mangaId, actualSize];
+                        return [mangaId, actualSize];
+                    },
+                ) satisfies MangaIdToDownloadSize[];
+
+                const mangaIdToActualDownloadSize = Object.entries(
+                    Object.fromEntries([...mangaIdToDefaultDownloadSize, ...mangaIdToDownloadSize]),
+                ) satisfies MangaIdToDownloadSize[];
+
+                const chaptersToDownload = mangaIdToActualDownloadSize
+                    .flatMap(([mangaId, actualSize]) => {
+                        const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
+
+                        if (!mangaChapters.length) {
+                            return [];
+                        }
+
+                        const shouldDownloadAll = actualSize === undefined;
+                        if (shouldDownloadAll) {
+                            return mangaChapters;
+                        }
+
+                        const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
+                        const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
+
+                        return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
+                    })
+                    .filter(Chapters.isDownloadable);
+
+                if (!chaptersToDownload.length) {
+                    return Promise.resolve();
+                }
+
+                try {
+                    await Chapters.download(Chapters.getIds(chaptersToDownload), disableConfirmation);
+                } catch (e) {
+                    // Ignore - Error gets handled in Chapters
+                }
             },
-        ) satisfies MangaIdToDownloadSize[];
-
-        const mangaIdToActualDownloadSize = Object.entries(
-            Object.fromEntries([...mangaIdToDefaultDownloadSize, ...mangaIdToDownloadSize]),
-        ) satisfies MangaIdToDownloadSize[];
-
-        const chaptersToDownload = mangaIdToActualDownloadSize
-            .flatMap(([mangaId, actualSize]) => {
-                const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
-
-                if (!mangaChapters.length) {
-                    return [];
-                }
-
-                const shouldDownloadAll = actualSize === undefined;
-                if (shouldDownloadAll) {
-                    return mangaChapters;
-                }
-
-                const uniqueMangaChapters = Chapters.removeDuplicates(mangaChapters[0], mangaChapters);
-                const uniqueMangaChaptersToDownload = uniqueMangaChapters.slice(0, actualSize);
-
-                return Chapters.addDuplicates(uniqueMangaChaptersToDownload, mangaChapters);
-            })
-            .filter(Chapters.isDownloadable);
-
-        if (!chaptersToDownload.length) {
-            return Promise.resolve();
-        }
-
-        return Chapters.download(Chapters.getIds(chaptersToDownload), disableConfirmation);
+            true,
+        );
     }
 
     static async deleteChapters(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
-        const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isDownloaded: true });
-        return Chapters.delete(Chapters.getIds(chapters), disableConfirmation);
+        return Mangas.executeAction(
+            'delete',
+            I18N_PLURAL,
+            async () => {
+                const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isDownloaded: true });
+
+                try {
+                    await Chapters.delete(Chapters.getIds(chapters), disableConfirmation);
+                } catch (e) {
+                    // Ignore - Error gets handled in Chapters
+                }
+            },
+            true,
+        );
     }
 
     static async markAsRead(
@@ -258,18 +289,42 @@ export class Mangas {
         wasManuallyMarkedAsRead: boolean = false,
         disableConfirmation?: boolean,
     ): Promise<void> {
-        const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: false });
-        return Chapters.markAsRead(
-            chapters,
-            wasManuallyMarkedAsRead,
-            mangaIds.length === 1 ? mangaIds[0] : undefined,
-            disableConfirmation,
+        return Mangas.executeAction(
+            'mark_as_read',
+            I18N_PLURAL,
+            async () => {
+                const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: false });
+
+                try {
+                    await Chapters.markAsRead(
+                        chapters,
+                        wasManuallyMarkedAsRead,
+                        mangaIds.length === 1 ? mangaIds[0] : undefined,
+                        disableConfirmation,
+                    );
+                } catch (e) {
+                    // Ignore - Error gets handled in Chapters
+                }
+            },
+            true,
         );
     }
 
     static async markAsUnread(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
-        const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: true });
-        return Chapters.markAsUnread(Chapters.getIds(chapters), disableConfirmation);
+        return Mangas.executeAction(
+            'mark_as_unread',
+            I18N_PLURAL,
+            async () => {
+                const chapters = await Mangas.getChapterIdsWithState(mangaIds, { isRead: true });
+
+                try {
+                    await Chapters.markAsUnread(Chapters.getIds(chapters), disableConfirmation);
+                } catch (e) {
+                    // Ignore - Error gets handled in Chapters
+                }
+            },
+            true,
+        );
     }
 
     static async removeFromLibrary(mangaIds: number[], disableConfirmation?: boolean): Promise<void> {
