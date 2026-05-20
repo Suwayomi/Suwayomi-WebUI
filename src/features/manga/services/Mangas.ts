@@ -11,15 +11,17 @@ import { t } from '@lingui/core/macro';
 import { i18n } from '@/i18n';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import type {
+    GetMangaMetaQuery,
     GetMangasBaseQuery,
     GetMangasBaseQueryVariables,
     GetMangasChapterIdsWithStateQuery,
+    GetMangasChapterIdsWithStateQueryVariables,
     MangaBaseFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
+import { GET_MANGA_META, GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
 import { MANGA_BASE_FIELDS, MANGA_MIGRATION_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import type {
     MangaAction,
@@ -56,6 +58,8 @@ import {
     type UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_MANGAS_CHAPTER_IDS_WITH_STATE } from '@/lib/graphql/chapter/ChapterQuery.ts';
+import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
+import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
 
 const I18N_PLURAL = 9999;
 
@@ -183,13 +187,18 @@ export class Mangas {
 
     static async getChapterIdsWithState(
         mangaIds: number[],
-        state: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'>,
+        {
+            excludedScanlators,
+            ...state
+        }: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'> & {
+            excludedScanlators?: string[];
+        },
     ): Promise<GetMangasChapterIdsWithStateQuery['chapters']['nodes']> {
         const { data } = await requestManager.getChapters<
             GetMangasChapterIdsWithStateQuery,
             GetMangasChapterIdsWithStateQueryVariables
         >(GET_MANGAS_CHAPTER_IDS_WITH_STATE, {
-            filter: { mangaId: { in: mangaIds } },
+            filter: { mangaId: { in: mangaIds }, scanlator: { notIncludesInsensitiveAny: excludedScanlators } },
             condition: { ...state },
             order: [{ by: ChapterOrderBy.SourceOrder }],
         }).response;
@@ -206,13 +215,33 @@ export class Mangas {
             'download',
             I18N_PLURAL,
             async () => {
+                const isSingleManga = mangaIds.length === 1;
+
+                // This should be cached by the time this function gets called, so it shouldn't trigger an actual request
+                const mangaResponse = await (isSingleManga
+                    ? requestManager.getManga<GetMangaMetaQuery>(GET_MANGA_META, mangaIds[0]).response
+                    : Promise.resolve(null));
+
+                const meta = mangaResponse?.data?.manga ? getMangaMetadata(mangaResponse.data.manga) : null;
+
                 const [chaptersToConsider, unReadDownloadedChapters] = await Promise.all([
                     Mangas.getChapterIdsWithState(mangaIds, {
                         isRead: onlyUnread ? false : undefined,
                         isDownloaded: false,
                     }),
-                    downloadAhead ? Mangas.getChapterIdsWithState(mangaIds, { isRead: false, isDownloaded: true }) : [],
+                    downloadAhead
+                        ? Mangas.getChapterIdsWithState(mangaIds, {
+                              isRead: false,
+                              isDownloaded: true,
+                          })
+                        : [],
                 ]);
+
+                // TODO - Filter for scanlators directly in getChapterIdsWithState once fixed on the server
+                const filteredChaptersToConsider = meta ? filterChapters(chaptersToConsider, meta) : chaptersToConsider;
+                const filteredUnReadDownloadedChapters = meta
+                    ? filterChapters(unReadDownloadedChapters, meta)
+                    : unReadDownloadedChapters;
 
                 type MangaIdToDownloadSize = [MangaId: string, DownloadSize: number | undefined];
 
@@ -221,9 +250,12 @@ export class Mangas {
                     size,
                 ]) satisfies MangaIdToDownloadSize[];
 
-                const mangaIdToChaptersToConsider = Object.groupBy(chaptersToConsider, ({ mangaId }) => mangaId);
+                const mangaIdToChaptersToConsider = Object.groupBy(
+                    filteredChaptersToConsider,
+                    ({ mangaId }) => mangaId,
+                );
                 const mangaIdToUnReadDownloadedChapters = Object.groupBy(
-                    unReadDownloadedChapters,
+                    filteredUnReadDownloadedChapters,
                     ({ mangaId }) => mangaId,
                 );
 

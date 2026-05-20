@@ -2117,6 +2117,19 @@ export type UpdateMangaMetadataMutation = {
     } | null;
 };
 
+export type GetMangaMetaQueryVariables = Exact<{
+    id: number;
+}>;
+
+export type GetMangaMetaQuery = {
+    __typename: 'Query';
+    manga: {
+        __typename: 'MangaType';
+        id: number;
+        meta: Array<{ __typename: 'MangaMetaType'; mangaId: number; key: string; value: string }>;
+    };
+};
+
 export type GetMangaScreenQueryVariables = Exact<{
     id: number;
 }>;
