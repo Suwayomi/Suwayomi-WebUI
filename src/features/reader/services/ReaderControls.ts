@@ -498,7 +498,6 @@ export class ReaderControls {
             (image) =>
                 image &&
                 isPageInViewport(image, type, {
-                    truncateValues: true,
                     thresholds: {
                         bottom: 1,
                         left: getOptionForDirection(
