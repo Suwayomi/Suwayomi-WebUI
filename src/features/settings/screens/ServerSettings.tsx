@@ -655,6 +655,22 @@ export const ServerSettings = () => {
             </List>
             <List
                 subheader={
+                    <ListSubheader component="div" id="server-settings-webview">
+                        {t`WebView`}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText primary={t`WebView`} secondary={t`Enable the WebView via CEF (Chromium)`} />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.kcefEnabled}
+                        onChange={(e) => updateSetting('kcefEnabled', e.target.checked)}
+                    />
+                </ListItem>
+            </List>
+            <List
+                subheader={
                     <ListSubheader component="div" id="server-settings-misc">
                         {t`Misc`}
                     </ListSubheader>
