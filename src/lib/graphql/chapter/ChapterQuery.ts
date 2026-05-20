@@ -165,17 +165,27 @@ export const GET_CHAPTERS_HISTORY = gql`
 
 export const GET_MANGAS_CHAPTER_IDS_WITH_STATE = gql`
     ${CHAPTER_STATE_FIELDS}
+    ${PAGE_INFO}
 
     query GET_MANGAS_CHAPTER_IDS_WITH_STATE(
-        $mangaIds: [Int!]!
-        $isDownloaded: Boolean = null
-        $isRead: Boolean = null
-        $isBookmarked: Boolean = null
+        $after: Cursor
+        $before: Cursor
+        $condition: ChapterConditionInput
+        $filter: ChapterFilterInput
+        $first: Int
+        $last: Int
+        $offset: Int
+        $order: [ChapterOrderInput!]
     ) {
         chapters(
-            filter: { mangaId: { in: $mangaIds } }
-            condition: { isDownloaded: $isDownloaded, isRead: $isRead, isBookmarked: $isBookmarked }
-            order: [{ by: SOURCE_ORDER }]
+            after: $after
+            before: $before
+            condition: $condition
+            filter: $filter
+            first: $first
+            last: $last
+            offset: $offset
+            order: $order
         ) {
             nodes {
                 ...CHAPTER_STATE_FIELDS
@@ -183,6 +193,10 @@ export const GET_MANGAS_CHAPTER_IDS_WITH_STATE = gql`
                 scanlator
                 chapterNumber
             }
+            pageInfo {
+                ...PAGE_INFO
+            }
+            totalCount
         }
     }
 `;

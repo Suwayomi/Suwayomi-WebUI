@@ -931,16 +931,21 @@ export type GetChaptersHistoryQuery = {
 };
 
 export type GetMangasChapterIdsWithStateQueryVariables = Exact<{
-    mangaIds: Array<number> | number;
-    isDownloaded?: boolean | null | undefined;
-    isRead?: boolean | null | undefined;
-    isBookmarked?: boolean | null | undefined;
+    after?: string | null | undefined;
+    before?: string | null | undefined;
+    condition?: Types.ChapterConditionInput | null | undefined;
+    filter?: Types.ChapterFilterInput | null | undefined;
+    first?: number | null | undefined;
+    last?: number | null | undefined;
+    offset?: number | null | undefined;
+    order?: Array<Types.ChapterOrderInput> | Types.ChapterOrderInput | null | undefined;
 }>;
 
 export type GetMangasChapterIdsWithStateQuery = {
     __typename: 'Query';
     chapters: {
         __typename: 'ChapterNodeList';
+        totalCount: number;
         nodes: Array<{
             __typename: 'ChapterType';
             mangaId: number;
@@ -951,6 +956,13 @@ export type GetMangasChapterIdsWithStateQuery = {
             isDownloaded: boolean;
             isBookmarked: boolean;
         }>;
+        pageInfo: {
+            __typename: 'PageInfo';
+            endCursor: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor: string | null;
+        };
     };
 };
 

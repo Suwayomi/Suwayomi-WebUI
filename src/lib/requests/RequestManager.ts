@@ -83,8 +83,6 @@ import type {
     GetMangaChaptersFetchMutationVariables,
     GetMangaFetchMutation,
     GetMangaFetchMutationVariables,
-    GetMangasChapterIdsWithStateQuery,
-    GetMangasChapterIdsWithStateQueryVariables,
     GetMangasLibraryQuery,
     GetMangasLibraryQueryVariables,
     GetMangaToMigrateQuery,
@@ -190,7 +188,6 @@ import type {
     WebuiUpdateSubscription,
 } from '@/lib/graphql/generated/graphql.ts';
 import type {
-    ChapterConditionInput,
     CreateBackupInput,
     CreateCategoryInput,
     DeleteCategoryMetasInput,
@@ -272,12 +269,7 @@ import {
     START_DOWNLOADER,
     STOP_DOWNLOADER,
 } from '@/lib/graphql/download/DownloaderMutation.ts';
-import {
-    GET_CHAPTERS_HISTORY,
-    GET_CHAPTERS_MANGA,
-    GET_CHAPTERS_UPDATES,
-    GET_MANGAS_CHAPTER_IDS_WITH_STATE,
-} from '@/lib/graphql/chapter/ChapterQuery.ts';
+import { GET_CHAPTERS_HISTORY, GET_CHAPTERS_MANGA, GET_CHAPTERS_UPDATES } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import {
     GET_CHAPTER_PAGES_FETCH,
     GET_MANGA_CHAPTERS_FETCH,
@@ -2533,22 +2525,6 @@ export class RequestManager {
                 order: [{ by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc }],
             } satisfies GetChaptersMangaQueryVariables as unknown as Variables,
             options,
-        );
-    }
-
-    public getMangasChapterIdsWithState(
-        mangaIds: number[],
-        states: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'>,
-        options?: QueryOptions<GetMangasChapterIdsWithStateQueryVariables, GetMangasChapterIdsWithStateQuery>,
-    ): AbortabaleApolloQueryResponse<GetMangasChapterIdsWithStateQuery> {
-        return this.doRequest(
-            GQLMethod.QUERY,
-            GET_MANGAS_CHAPTER_IDS_WITH_STATE,
-            { mangaIds, ...states } as GetMangasChapterIdsWithStateQueryVariables,
-            {
-                fetchPolicy: 'no-cache',
-                ...options,
-            } as QueryOptions<GetMangasChapterIdsWithStateQueryVariables, GetMangasChapterIdsWithStateQuery>,
         );
     }
 

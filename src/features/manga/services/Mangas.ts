@@ -50,10 +50,12 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import uniq from 'lodash/fp/uniq';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import type {
-    ChapterConditionInput,
-    UpdateMangaCategoriesPatchInput,
+import {
+    ChapterOrderBy,
+    type ChapterConditionInput,
+    type UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { GET_MANGAS_CHAPTER_IDS_WITH_STATE } from '@/lib/graphql/chapter/ChapterQuery.ts';
 
 const I18N_PLURAL = 9999;
 
@@ -183,7 +185,15 @@ export class Mangas {
         mangaIds: number[],
         state: Pick<ChapterConditionInput, 'isRead' | 'isDownloaded' | 'isBookmarked'>,
     ): Promise<GetMangasChapterIdsWithStateQuery['chapters']['nodes']> {
-        const { data } = await requestManager.getMangasChapterIdsWithState(mangaIds, state).response;
+        const { data } = await requestManager.getChapters<
+            GetMangasChapterIdsWithStateQuery,
+            GetMangasChapterIdsWithStateQueryVariables
+        >(GET_MANGAS_CHAPTER_IDS_WITH_STATE, {
+            filter: { mangaId: { in: mangaIds } },
+            condition: { ...state },
+            order: [{ by: ChapterOrderBy.SourceOrder }],
+        }).response;
+
         return data?.chapters.nodes ?? [];
     }
 
