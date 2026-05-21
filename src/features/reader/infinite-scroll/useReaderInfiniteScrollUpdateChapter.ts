@@ -272,10 +272,12 @@ export const useReaderInfiniteScrollUpdateChapter = (
 
         const onScroll = () => {
             const isAtStartX = scrollElement.scrollLeft === 0;
-            const isAtEndX = scrollElement.scrollLeft === scrollElement.scrollWidth - scrollElement.clientWidth;
+            const isAtEndX =
+                Math.ceil(scrollElement.scrollLeft) === scrollElement.scrollWidth - scrollElement.clientWidth;
 
             const isAtStartY = scrollElement.scrollTop === 0;
-            const isAtEndY = scrollElement.scrollTop === scrollElement.scrollHeight - scrollElement.clientHeight;
+            const isAtEndY =
+                Math.ceil(scrollElement.scrollTop) === scrollElement.scrollHeight - scrollElement.clientHeight;
 
             const isAtStart = isContinuousVerticalReadingModeActive ? isAtStartY : isAtStartX;
             const isAtEnd = isContinuousVerticalReadingModeActive ? isAtEndY : isAtEndX;
@@ -306,7 +308,6 @@ export const useReaderInfiniteScrollUpdateChapter = (
         useCallback(
             (entries) => {
                 if (
-                    // !shouldShowTransitionPage ||
                     !shouldUseInfiniteScroll ||
                     !isContinuousReadingMode(readingMode) ||
                     chapterToOpenId === undefined

@@ -1,4 +1,5 @@
 saveExact: true
+minimumReleaseAge: 10080 # 7 days
 allowBuilds:
     '@swc/core': true
     core-js: true

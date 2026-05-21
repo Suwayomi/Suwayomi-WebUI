@@ -351,7 +351,7 @@ type InViewportOptions = {
 };
 const getIsPageInViewportInfo = (
     element: HTMLElement,
-    { truncateValues, thresholds: argThresholds }: InViewportOptions = { truncateValues: false, thresholds: {} },
+    { truncateValues, thresholds: argThresholds }: InViewportOptions = { truncateValues: true, thresholds: {} },
 ): {
     isLeftInViewport: boolean;
     isRightInViewport: boolean;
@@ -425,8 +425,9 @@ export const isEndOfPageInViewport = (
     element: HTMLElement,
     type: PageInViewportType,
     direction: ReadingDirection,
+    options?: InViewportOptions,
 ): boolean => {
-    const { isLeftInViewport, isRightInViewport, isBottomInViewport } = getIsPageInViewportInfo(element);
+    const { isLeftInViewport, isRightInViewport, isBottomInViewport } = getIsPageInViewportInfo(element, options);
 
     switch (type) {
         case PageInViewportType.X:

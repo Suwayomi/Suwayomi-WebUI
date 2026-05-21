@@ -17,7 +17,7 @@ import type {
     ReaderStateChapters,
 } from '@/features/reader/Reader.types.ts';
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
-import type { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterListFilterOptions } from '@/features/chapter/Chapter.types.ts';
 import { getReaderChapterFromCache } from '@/features/reader/Reader.utils.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
 import { getReaderChaptersStore } from '@/features/reader/stores/ReaderStore.ts';
@@ -33,7 +33,7 @@ export const useReaderSetChaptersState = (
     chapterForDuplicatesHandling: ReaderStateChapters['chapterForDuplicatesHandling'],
     shouldSkipDupChapters: IReaderSettings['shouldSkipDupChapters'],
     shouldSkipFilteredChapters: IReaderSettings['shouldSkipFilteredChapters'],
-    chapterListOptions: ChapterListOptions,
+    chapterListOptions: ChapterListFilterOptions,
 ) => {
     const navigate = useNavigate();
     const locationState = useLocation<ReaderOpenChapterLocationState>().state;

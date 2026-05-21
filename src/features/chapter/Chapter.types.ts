@@ -11,14 +11,22 @@ import type { ChapterReaderFieldsFragment, DownloadStatusFieldsFragment } from '
 
 export type ChapterSortMode = 'fetchedAt' | 'source' | 'chapterNumber' | 'uploadedAt';
 
-export interface ChapterListOptions {
+export interface ChapterListFilterOptions {
     unread: NullAndUndefined<boolean>;
     downloaded: NullAndUndefined<boolean>;
     bookmarked: NullAndUndefined<boolean>;
+    excludedScanlators: string[];
+}
+
+export interface ChapterListSortOptions {
     reverse: boolean;
     sortBy: ChapterSortMode;
+}
+
+export interface ChapterListFilterSortOptions extends ChapterListFilterOptions, ChapterListSortOptions {}
+
+export interface ChapterListOptions extends ChapterListFilterSortOptions {
     showChapterNumber: boolean;
-    excludedScanlators: string[];
 }
 
 export type TChapterReader = ChapterReaderFieldsFragment;
