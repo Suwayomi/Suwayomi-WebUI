@@ -950,7 +950,7 @@ export class MigrationManager {
                                 latestChapterNumber > selectedMatchLatestChapterNumber;
                             const hasNewerChapter = hasNewerChapterVsEntry && hasNewerChapterVsSelectedMatch;
 
-                            const isOutdated = latestChapterNumber <= entryLatestChapterNumber;
+                            const isOutdated = latestChapterNumber < entryLatestChapterNumber;
 
                             const hasSameLatestChapterAsSelectedMatch =
                                 !!draftMatchEntry && selectedMatchLatestChapterNumber === latestChapterNumber;
