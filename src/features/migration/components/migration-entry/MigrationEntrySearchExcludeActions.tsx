@@ -22,6 +22,8 @@ import { plural } from '@lingui/core/macro';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 export const MigrationEntrySearchExcludeActions = ({
     hasResults,
@@ -85,7 +87,7 @@ export const MigrationEntrySearchExcludeActions = ({
                             isExcluded ? MigrationManager.includeManga(mangaId) : MigrationManager.excludeManga(mangaId)
                         }
                     >
-                        {isExcluded ? <AddIcon /> : <CloseIcon />}
+                        {isExcluded ? <AddCircleOutlineOutlinedIcon /> : <RemoveCircleOutlineOutlinedIcon />}
                     </CustomButtonIcon>
                 </CustomTooltip>
             </ButtonGroup>
