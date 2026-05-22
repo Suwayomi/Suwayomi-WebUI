@@ -8,8 +8,8 @@
 
 import type { MessageDescriptor } from '@lingui/core';
 import { msg } from '@lingui/core/macro';
-import { MigrationEntryStatus, MigrationPhase, SortBy, SortOrder } from '@/features/migration/Migration.types.ts';
 import type { MigrationState } from '@/features/migration/Migration.types.ts';
+import { MigrationEntryStatus, MigrationPhase, SortBy, SortOrder } from '@/features/migration/Migration.types.ts';
 
 export const sortByToTranslation: Record<SortBy, MessageDescriptor> = {
     [SortBy.SOURCE_NAME]: msg`By source name`,
@@ -48,21 +48,24 @@ export const DEFAULT_MIGRATION_STATE: MigrationState = {
 };
 
 export const ENTRY_STATUS_TRANSLATION: Record<MigrationEntryStatus, MessageDescriptor> = {
-    [MigrationEntryStatus.PENDING]: msg`Pending…`,
+    [MigrationEntryStatus.SEARCH_PENDING]: msg`Pending…`,
     [MigrationEntryStatus.SEARCHING]: msg`Searching…`,
     [MigrationEntryStatus.SEARCH_COMPLETE]: msg`Match found`,
     [MigrationEntryStatus.SEARCH_FAILED]: msg`Search failed`,
     [MigrationEntryStatus.NO_MATCH]: msg`No match found`,
     [MigrationEntryStatus.OUTDATED]: msg`Only outdated matches found`,
+    [MigrationEntryStatus.MIGRATION_PENDING]: msg`Pending…`,
     [MigrationEntryStatus.MIGRATING]: msg`Migrating…`,
     [MigrationEntryStatus.MIGRATION_COMPLETE]: msg`Successfully migrated`,
     [MigrationEntryStatus.MIGRATION_FAILED]: msg`Migration failed`,
     [MigrationEntryStatus.EXCLUDED]: msg`Excluded`,
+    [MigrationEntryStatus.ABORTED]: msg`Aborted`,
 };
 
 export const MIGRATE_SEARCH_ENTRY_GROUPS = [
     MigrationEntryStatus.SEARCHING,
     MigrationEntryStatus.SEARCH_FAILED,
+    MigrationEntryStatus.ABORTED,
     MigrationEntryStatus.NO_MATCH,
     MigrationEntryStatus.OUTDATED,
     MigrationEntryStatus.SEARCH_COMPLETE,
@@ -74,6 +77,7 @@ export const MIGRATE_SEARCH_ENTRY_GROUP_EXPAND_DEFAULT_STATE: Record<
 > = {
     [MigrationEntryStatus.SEARCHING]: true,
     [MigrationEntryStatus.SEARCH_FAILED]: false,
+    [MigrationEntryStatus.ABORTED]: false,
     [MigrationEntryStatus.NO_MATCH]: false,
     [MigrationEntryStatus.OUTDATED]: false,
     [MigrationEntryStatus.SEARCH_COMPLETE]: false,
@@ -82,6 +86,7 @@ export const MIGRATE_SEARCH_ENTRY_GROUP_EXPAND_DEFAULT_STATE: Record<
 export const MIGRATE_EXECUTE_ENTRY_GROUPS = [
     MigrationEntryStatus.MIGRATING,
     MigrationEntryStatus.MIGRATION_FAILED,
+    MigrationEntryStatus.ABORTED,
     MigrationEntryStatus.NO_MATCH,
     MigrationEntryStatus.OUTDATED,
     MigrationEntryStatus.EXCLUDED,
@@ -94,6 +99,7 @@ export const MIGRATE_EXECUTE_ENTRY_GROUP_EXPAND_DEFAULT_STATE: Record<
 > = {
     [MigrationEntryStatus.MIGRATING]: true,
     [MigrationEntryStatus.MIGRATION_FAILED]: false,
+    [MigrationEntryStatus.ABORTED]: false,
     [MigrationEntryStatus.NO_MATCH]: false,
     [MigrationEntryStatus.OUTDATED]: false,
     [MigrationEntryStatus.EXCLUDED]: false,

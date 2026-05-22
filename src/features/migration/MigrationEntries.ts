@@ -10,16 +10,35 @@ import type { MigratableEntry, TMigrationEntry } from '@/features/migration/Migr
 import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 
 export class MigrationEntries {
+    public static isAbortable(entry: TMigrationEntry): boolean {
+        return (
+            MigrationEntries.isSearching(entry) ||
+            MigrationEntries.hasStatus(entry, MigrationEntryStatus.MIGRATION_PENDING)
+        );
+    }
+
     public static isSearching(entry: TMigrationEntry): boolean {
-        return [MigrationEntryStatus.PENDING, MigrationEntryStatus.SEARCHING].includes(entry.status);
+        return MigrationEntries.hasStatus(entry, MigrationEntryStatus.SEARCH_PENDING, MigrationEntryStatus.SEARCHING);
+    }
+
+    public static isMigrating(entry: TMigrationEntry): boolean {
+        return MigrationEntries.hasStatus(
+            entry,
+            MigrationEntryStatus.MIGRATION_PENDING,
+            MigrationEntryStatus.MIGRATING,
+        );
     }
 
     public static getExcluded(entries: TMigrationEntry[]): TMigrationEntry[] {
         return entries.filter((entry) => entry.isExcluded);
     }
 
+    public static hasStatus(entry: TMigrationEntry, ...statuses: MigrationEntryStatus[]): boolean {
+        return statuses.includes(entry.status);
+    }
+
     public static getHaveStatus(entries: TMigrationEntry[], ...statuses: MigrationEntryStatus[]): TMigrationEntry[] {
-        return entries.filter((entry) => statuses.includes(entry.status));
+        return entries.filter((entry) => MigrationEntries.hasStatus(entry, ...statuses));
     }
 
     public static getHaveStatusSorted(
@@ -55,6 +74,7 @@ export class MigrationEntries {
                 MigrationEntries.hasStatus(
                     entry,
                     MigrationEntryStatus.SEARCH_COMPLETE,
+                    MigrationEntryStatus.MIGRATION_PENDING,
                     MigrationEntryStatus.MIGRATING,
                 ) &&
                 !entry.isExcluded &&

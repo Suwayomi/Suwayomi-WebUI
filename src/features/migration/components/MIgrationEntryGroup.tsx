@@ -24,12 +24,14 @@ export const MigrationEntryGroup = memo(
         entries,
         color,
         isMigrating = false,
+        isAborted = false,
     }: {
         status: MigrationEntryStatus;
         title: string;
         entries: TMigrationEntry[];
         color: ButtonProps['color'];
         isMigrating?: boolean;
+        isAborted?: boolean;
     }) => {
         const isExpanded = MigrationManager.useGroupExpandState(status);
 
@@ -60,7 +62,12 @@ export const MigrationEntryGroup = memo(
                 <Collapse in={isExpanded} unmountOnExit>
                     <Stack sx={{ gap: 1 }}>
                         {entries.map((entry) => (
-                            <MigrationEntry key={entry.mangaId} entry={entry} isMigrating={isMigrating} />
+                            <MigrationEntry
+                                key={entry.mangaId}
+                                entry={entry}
+                                isMigrating={isMigrating}
+                                isAborted={isAborted}
+                            />
                         ))}
                     </Stack>
                 </Collapse>

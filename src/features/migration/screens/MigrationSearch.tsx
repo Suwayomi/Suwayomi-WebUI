@@ -37,7 +37,7 @@ export const MigrationSearch = () => {
             MigrationEntries.getActiveEntriesSorted(
                 entryList,
                 MigrationEntryStatus.SEARCHING,
-                MigrationEntryStatus.PENDING,
+                MigrationEntryStatus.SEARCH_PENDING,
                 MigrationEntryStatus.SEARCHING,
             ),
         [entryList],
@@ -52,6 +52,10 @@ export const MigrationSearch = () => {
     );
     const outdatedEntries = useMemo(
         () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.OUTDATED),
+        [entryList],
+    );
+    const abortedEntries = useMemo(
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.ABORTED),
         [entryList],
     );
     const matchedEntries = useMemo(
@@ -106,6 +110,15 @@ export const MigrationSearch = () => {
                         other: '# entries with only outdated matches',
                     })}
                     entries={outdatedEntries}
+                    color="warning"
+                />
+                <MigrationEntryGroup
+                    status={MigrationEntryStatus.ABORTED}
+                    title={plural(abortedEntries.length, {
+                        one: '1 aborted entry',
+                        other: '# aborted entries',
+                    })}
+                    entries={abortedEntries}
                     color="warning"
                 />
                 <MigrationEntryGroup

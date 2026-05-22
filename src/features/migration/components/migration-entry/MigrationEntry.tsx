@@ -25,6 +25,7 @@ import Collapse from '@mui/material/Collapse';
 import Divider from '@mui/material/Divider';
 import { MigrationEntryStatusIndicator } from '@/features/migration/components/migration-entry/MigrationEntryStatusIndicator.tsx';
 import Box from '@mui/material/Box';
+import { MigrationEntries } from '@/features/migration/MigrationEntries.ts';
 
 const MigrationEntryMobile = memo(
     ({
@@ -35,6 +36,7 @@ const MigrationEntryMobile = memo(
         isExpanded,
         setIsExpanded,
         isMigrating,
+        isAborted,
     }: {
         entry: TMigrationEntry;
         destinationEntry: MigrationMatch | undefined;
@@ -42,6 +44,7 @@ const MigrationEntryMobile = memo(
         isExpanded: boolean;
         setIsExpanded: (expanded: boolean) => void;
         isMigrating: boolean;
+        isAborted: boolean;
     }) => {
         const { t } = useLingui();
 
@@ -89,17 +92,17 @@ const MigrationEntryMobile = memo(
                     </Stack>
                 </Collapse>
 
-                {!isMigrating && (
-                    <MigrationEntrySearchExcludeActions
-                        hasSelectedMatch={!!destinationEntry}
-                        otherResultsCount={otherSearchMatches.length}
-                        isExpanded={isExpanded}
-                        setIsExpanded={setIsExpanded}
-                        isExcluded={isExcluded}
-                        mangaId={mangaId}
-                        mangaTitle={mangaTitle}
-                    />
-                )}
+                <MigrationEntrySearchExcludeActions
+                    hasSelectedMatch={!!destinationEntry}
+                    otherResultsCount={otherSearchMatches.length}
+                    isExpanded={isExpanded}
+                    setIsExpanded={setIsExpanded}
+                    isExcluded={isExcluded}
+                    mangaId={mangaId}
+                    mangaTitle={mangaTitle}
+                    isAbortable={!isAborted && MigrationEntries.isAbortable(entry)}
+                    isMigrating={isMigrating}
+                />
             </>
         );
     },
@@ -114,6 +117,7 @@ export const MigrationEntryDesktop = memo(
         isExpanded,
         setIsExpanded,
         isMigrating,
+        isAborted,
     }: {
         entry: TMigrationEntry;
         destinationEntry: MigrationMatch | undefined;
@@ -121,6 +125,7 @@ export const MigrationEntryDesktop = memo(
         isExpanded: boolean;
         setIsExpanded: (expanded: boolean) => void;
         isMigrating: boolean;
+        isAborted: boolean;
     }) => {
         const { t } = useLingui();
 
@@ -151,17 +156,17 @@ export const MigrationEntryDesktop = memo(
                             />
                         </Box>
 
-                        {!isMigrating && (
-                            <MigrationEntrySearchExcludeActions
-                                hasSelectedMatch={!!destinationEntry}
-                                otherResultsCount={otherSearchMatches.length}
-                                isExpanded={isExpanded}
-                                setIsExpanded={setIsExpanded}
-                                isExcluded={entry.isExcluded}
-                                mangaId={entry.mangaId}
-                                mangaTitle={entry.mangaTitle}
-                            />
-                        )}
+                        <MigrationEntrySearchExcludeActions
+                            hasSelectedMatch={!!destinationEntry}
+                            otherResultsCount={otherSearchMatches.length}
+                            isExpanded={isExpanded}
+                            setIsExpanded={setIsExpanded}
+                            isExcluded={entry.isExcluded}
+                            mangaId={entry.mangaId}
+                            mangaTitle={entry.mangaTitle}
+                            isAbortable={!isAborted && MigrationEntries.isAbortable(entry)}
+                            isMigrating={isMigrating}
+                        />
                     </Box>
                 </Box>
 
@@ -190,7 +195,15 @@ export const MigrationEntryDesktop = memo(
 );
 
 export const MigrationEntry = memo(
-    ({ entry: propEntry, isMigrating }: { entry: TMigrationEntry; isMigrating: boolean }) => {
+    ({
+        entry: propEntry,
+        isMigrating,
+        isAborted,
+    }: {
+        entry: TMigrationEntry;
+        isMigrating: boolean;
+        isAborted: boolean;
+    }) => {
         const isTabletWidth = MediaQuery.useIsTabletWidth();
 
         const entry = useMemo(() => MigrationManager.getUpToDateMigrationEntry(propEntry), [propEntry]);
@@ -255,6 +268,7 @@ export const MigrationEntry = memo(
                     }
                     otherSearchMatches={otherMatches}
                     isMigrating={isMigrating}
+                    isAborted={isAborted}
                 />
             </Paper>
         );

@@ -57,6 +57,12 @@ msgstr "{0, plural, one {# Source} other {# Sources}}"
 msgid "{0, plural, one {# Tracker} other {# Tracker}}"
 msgstr "{0, plural, one {# Tracker} other {# Tracker}}"
 
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+
 #. placeholder {0}: noMatchEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 #: src/features/migration/screens/MigrationSearch.tsx
@@ -325,6 +331,7 @@ msgstr "A preview focused web frontend built with svelte"
 msgid "A-Z"
 msgstr "A-Z"
 
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Abort"
 msgstr "Abort"
@@ -333,6 +340,7 @@ msgstr "Abort"
 msgid "Abort migration"
 msgstr "Abort migration"
 
+#: src/features/migration/Migration.constants.ts
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Aborted"
 msgstr "Aborted"
