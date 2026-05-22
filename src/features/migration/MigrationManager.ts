@@ -585,7 +585,6 @@ export class MigrationManager {
         mangaId: MangaIdInfo['id'],
         targetMangaId: MangaIdInfo['id'],
         targetSourceId: SourceIdInfo['id'],
-        updateProgress: boolean = false,
     ): void {
         MigrationManager.updateState((draft) => {
             const entry = draft.entries[mangaId];
@@ -594,13 +593,14 @@ export class MigrationManager {
                     MigrationEntryStatus.SEARCH_FAILED,
                     MigrationEntryStatus.SEARCH_COMPLETE,
                 ].includes(entry.status);
-                if (updateProgress && isSearching) {
+                if (isSearching) {
                     draft.searchProgress.completed += 1;
                     draft.searchProgress.success += 1;
-                    entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                 }
 
+                entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                 entry.isManualSelection = true;
+
                 entry.selectedMatchMangaId = targetMangaId;
                 entry.selectedMatchSourceId = targetSourceId;
             }
@@ -631,9 +631,9 @@ export class MigrationManager {
                 if (isSearching) {
                     draft.searchProgress.completed += 1;
                     draft.searchProgress.success += 1;
-                    entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                 }
 
+                entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                 entry.isManualSelection = true;
                 entry.selectedMatchMangaId = match.id;
                 entry.selectedMatchSourceId = match.sourceId;
