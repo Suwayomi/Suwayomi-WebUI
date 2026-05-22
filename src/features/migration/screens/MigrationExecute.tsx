@@ -11,7 +11,7 @@ import { MigrationProgressBar } from '@/features/migration/components/MigrationP
 import { useLingui } from '@lingui/react/macro';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
-import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
+import { MigrationEntryStatus, MigrationPhase } from '@/features/migration/Migration.types.ts';
 import { useMemo } from 'react';
 import { DEFAULT_FULL_FAB_HEIGHT } from '@/base/components/buttons/StyledFab.tsx';
 import { MigrationContinueButton } from '@/features/migration/components/MigrationContinueButton.tsx';
@@ -21,6 +21,8 @@ import { MigrationEntries } from '@/features/migration/MigrationEntries.ts';
 
 export const MigrationExecute = () => {
     const { t } = useLingui();
+
+    const phase = MigrationManager.usePhase();
     const entries = MigrationManager.useEntries();
     const progress = MigrationManager.useMigrationProgress();
 
@@ -40,13 +42,15 @@ export const MigrationExecute = () => {
         [MigrationManager.isPhaseComplete()],
     );
 
+    const isMigrating = phase === MigrationPhase.MIGRATING;
+
     const entryList = useMemo(() => Object.values(entries), [entries]);
     const migratingEntries = useMemo(
         () =>
             MigrationEntries.getActiveEntriesSorted(
                 entryList,
                 MigrationEntryStatus.MIGRATING,
-                MigrationEntryStatus.SEARCH_COMPLETE,
+                MigrationEntryStatus.MIGRATION_PENDING,
                 MigrationEntryStatus.MIGRATING,
             ),
         [entryList],
@@ -57,6 +61,10 @@ export const MigrationExecute = () => {
     );
     const failedEntries = useMemo(
         () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.MIGRATION_FAILED),
+        [entryList],
+    );
+    const abortedEntries = useMemo(
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.ABORTED),
         [entryList],
     );
     const excludedEntries = useMemo(() => MigrationEntries.getExcluded(entryList), [entryList]);
@@ -87,7 +95,8 @@ export const MigrationExecute = () => {
                         other: '# migrating entries',
                     })}
                     entries={migratingEntries}
-                    isMigrating
+                    isMigrating={isMigrating}
+                    isAborted={MigrationManager.getState().isAborted}
                     color="info"
                 />
                 <MigrationEntryGroup
@@ -97,8 +106,20 @@ export const MigrationExecute = () => {
                         other: '# failed entries',
                     })}
                     entries={failedEntries}
-                    isMigrating
+                    isMigrating={isMigrating}
+                    isAborted={MigrationManager.getState().isAborted}
                     color="error"
+                />
+                <MigrationEntryGroup
+                    status={MigrationEntryStatus.ABORTED}
+                    title={plural(abortedEntries.length, {
+                        one: '1 aborted entry',
+                        other: '# aborted entries',
+                    })}
+                    entries={abortedEntries}
+                    color="warning"
+                    isMigrating={isMigrating}
+                    isAborted={MigrationManager.getState().isAborted}
                 />
                 <MigrationEntryGroup
                     status={MigrationEntryStatus.NO_MATCH}
@@ -108,7 +129,8 @@ export const MigrationExecute = () => {
                     })}
                     entries={noMatchEntries}
                     color="warning"
-                    isMigrating
+                    isMigrating={isMigrating}
+                    isAborted={MigrationManager.getState().isAborted}
                 />
                 <MigrationEntryGroup
                     status={MigrationEntryStatus.OUTDATED}
@@ -117,6 +139,7 @@ export const MigrationExecute = () => {
                         other: '# entries with only outdated matches',
                     })}
                     entries={outdatedEntries}
+                    isAborted={MigrationManager.getState().isAborted}
                     color="warning"
                 />
                 <MigrationEntryGroup
@@ -127,7 +150,8 @@ export const MigrationExecute = () => {
                     })}
                     entries={excludedEntries}
                     color="info"
-                    isMigrating
+                    isMigrating={isMigrating}
+                    isAborted={MigrationManager.getState().isAborted}
                 />
                 <MigrationEntryGroup
                     status={MigrationEntryStatus.MIGRATION_COMPLETE}
@@ -137,7 +161,8 @@ export const MigrationExecute = () => {
                     })}
                     entries={migratedEntries}
                     color="success"
-                    isMigrating
+                    isMigrating={isMigrating}
+                    isAborted={MigrationManager.getState().isAborted}
                 />
             </Stack>
 

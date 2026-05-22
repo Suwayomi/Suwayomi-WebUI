@@ -72,11 +72,9 @@ const EntryError = ({
     id,
     title,
     isMigrating,
-    sourceMangaId,
     error,
     status,
 }: {
-    sourceMangaId: MangaIdInfo['id'];
     isMigrating: boolean;
 } & Pick<TMigrationEntry, 'error' | 'status'> &
     Pick<MigrationMatch, 'id' | 'title'>) => {
@@ -138,9 +136,7 @@ const EntryError = ({
                     color="error"
                     startIcon={<ReplayIcon />}
                     onClick={() =>
-                        MigrationManager.retryEntry(sourceMangaId).catch(
-                            defaultPromiseErrorHandler('MigrationEntryRow::retry'),
-                        )
+                        MigrationManager.retryEntry(id).catch(defaultPromiseErrorHandler('MigrationEntryRow::retry'))
                     }
                 >
                     {t`Retry`}
@@ -239,6 +235,17 @@ export const MigrationDestinationEntry = ({
         >
             <MigrationEntryCardContent>
                 {(() => {
+                    if (error) {
+                        return (
+                            <EntryError
+                                id={sourceMangaId}
+                                title={sourceMangaTitle}
+                                error={error}
+                                isMigrating={isMigrating}
+                                status={status}
+                            />
+                        );
+                    }
                     if (!entry) {
                         return (
                             <EntryStatus
@@ -246,19 +253,6 @@ export const MigrationDestinationEntry = ({
                                 sourceMangaTitle={sourceMangaTitle}
                                 status={status}
                                 isMigrating={isMigrating}
-                            />
-                        );
-                    }
-
-                    if (error) {
-                        return (
-                            <EntryError
-                                id={entry.id}
-                                title={entry.title}
-                                error={error}
-                                sourceMangaId={sourceMangaId}
-                                isMigrating={isMigrating}
-                                status={status}
                             />
                         );
                     }

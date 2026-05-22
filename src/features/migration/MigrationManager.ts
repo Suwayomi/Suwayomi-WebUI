@@ -100,7 +100,7 @@ export class MigrationManager {
     private static mangaProcessQueue = pLimit(MAX_MANGAS_IN_PARALLEL);
     private static parallelSourcesQueue: LimitFunction | undefined;
     private static queueBySource = new Map<SourceIdInfo['id'], LimitFunction>();
-    private static searchAbortControllerByManga = new Map<MangaIdInfo['id'], AbortController>();
+    private static abortControllerByManga = new Map<MangaIdInfo['id'], AbortController>();
 
     private static abortAndResetAbortController(reason: unknown): void {
         MigrationManager.abortController?.abort(reason);
@@ -344,7 +344,7 @@ export class MigrationManager {
                         mangaThumbnailUrl: manga.thumbnailUrl,
                         sourceId: manga.sourceId,
                         sourceTitle: manga.source?.displayName,
-                        status: MigrationEntryStatus.PENDING,
+                        status: MigrationEntryStatus.SEARCH_PENDING,
                         searchMatches: [],
                         manualMatches: [],
                         selectedMatchMangaId: null,
@@ -384,10 +384,16 @@ export class MigrationManager {
     private static async search(entries: TMigrationEntry[], options: MigrationBulkSearchSettings): Promise<void> {
         const { signal } = MigrationManager.abortAndCreateAbortController('search');
 
+        MigrationManager.updateState((draft) =>
+            entries.forEach((entry) => {
+                draft.entries[entry.mangaId].status = MigrationEntryStatus.SEARCH_PENDING;
+            }),
+        );
+
         const searchPromises = entries.map((entry) =>
             MigrationManager.mangaProcessQueue(async () => {
                 if (signal.aborted) {
-                    return;
+                    throw new Error(signal.reason);
                 }
 
                 await MigrationManager.searchForManga(entry.mangaId, entry.mangaTitle, signal, options);
@@ -447,13 +453,19 @@ export class MigrationManager {
     ): Promise<void> {
         const { signal } = MigrationManager.abortAndCreateAbortController('migrate');
 
+        MigrationManager.updateState((draft) => {
+            entries.forEach((entry) => {
+                draft.entries[entry.mangaId].status = MigrationEntryStatus.MIGRATION_PENDING;
+            });
+        });
+
         const entriesBySource = Object.groupBy(entries, (entry) => entry.selectedMatchSourceId);
 
         const migrationPromises = Object.values(entriesBySource).map((sourceEntries = []) =>
             MigrationManager.mangaProcessQueue(async () => {
                 for (const entry of sourceEntries) {
                     if (signal.aborted) {
-                        return;
+                        throw new Error(signal.reason);
                     }
 
                     // oxlint-disable-next-line no-await-in-loop
@@ -530,7 +542,7 @@ export class MigrationManager {
 
             MigrationManager.updateState((draft) => {
                 migratableEntries.forEach((entry) => {
-                    draft.entries[entry.mangaId].status = MigrationEntryStatus.SEARCH_COMPLETE;
+                    draft.entries[entry.mangaId].status = MigrationEntryStatus.MIGRATION_PENDING;
                 });
             });
 
@@ -543,13 +555,13 @@ export class MigrationManager {
 
         const pendingEntries = MigrationEntries.getHaveStatus(
             Object.values(entries),
-            MigrationEntryStatus.PENDING,
+            MigrationEntryStatus.SEARCH_PENDING,
             MigrationEntryStatus.SEARCHING,
         );
 
         MigrationManager.updateState((draft) => {
             pendingEntries.forEach((entry) => {
-                draft.entries[entry.mangaId].status = MigrationEntryStatus.PENDING;
+                draft.entries[entry.mangaId].status = MigrationEntryStatus.SEARCH_PENDING;
             });
         });
 
@@ -577,6 +589,28 @@ export class MigrationManager {
 
             if (entry) {
                 entry.isExcluded = false;
+            }
+        });
+    }
+
+    static abortEntry(mangaId: MangaIdInfo['id']): void {
+        const { entries, phase } = MigrationManager.getState();
+        const entry = entries[mangaId];
+
+        assertIsDefined(entry);
+
+        MigrationManager.abortControllerByManga.get(mangaId)?.abort('User aborted');
+        MigrationManager.updateState((draft) => {
+            const draftEntry = draft.entries[mangaId];
+
+            assertIsDefined(draftEntry);
+
+            draftEntry.status = MigrationEntryStatus.ABORTED;
+
+            if (phase === MigrationPhase.SEARCHING) {
+                draft.searchProgress.completed += 1;
+            } else {
+                draft.migrationProgress.completed += 1;
             }
         });
     }
@@ -628,7 +662,7 @@ export class MigrationManager {
                 if (isSearching) {
                     draft.searchProgress.completed += 1;
                     draft.searchProgress.success += 1;
-                    MigrationManager.searchAbortControllerByManga.get(mangaId)?.abort('Manual match selected');
+                    MigrationManager.abortControllerByManga.get(mangaId)?.abort('Manual match selected');
                 }
             }
         });
@@ -792,6 +826,7 @@ export class MigrationManager {
                         () =>
                             requestManager.refreshManga(match.id, {
                                 awaitRefetchQueries: true,
+                                context: { fetchOptions: { signal } },
                             }).response,
                     );
 
@@ -836,12 +871,12 @@ export class MigrationManager {
         const searchController = new AbortController();
         const signal = AbortSignal.any([mainSignal, searchController.signal]);
 
-        MigrationManager.searchAbortControllerByManga.get(mangaId)?.abort('search');
-        MigrationManager.searchAbortControllerByManga.set(mangaId, searchController);
-
-        if (!entry) {
+        if (!entry || MigrationEntries.hasStatus(entry, MigrationEntryStatus.ABORTED)) {
             return;
         }
+
+        MigrationManager.abortControllerByManga.get(mangaId)?.abort('search');
+        MigrationManager.abortControllerByManga.set(mangaId, searchController);
 
         MigrationManager.updateState((draft) => {
             draft.entries[mangaId].status = MigrationEntryStatus.SEARCHING;
@@ -853,7 +888,7 @@ export class MigrationManager {
                 .map((destSourceId) =>
                     MigrationManager.getParallelSourceQueue()(async () => {
                         if (signal.aborted) {
-                            return null;
+                            throw new Error(signal.reason);
                         }
 
                         if (
@@ -1005,6 +1040,9 @@ export class MigrationManager {
                 } else {
                     draftEntry.status = MigrationEntryStatus.NO_MATCH;
                 }
+
+                draft.searchProgress.success += 1;
+                draft.searchProgress.completed += 1;
             });
         } catch (error) {
             if (mainSignal.aborted) {
@@ -1014,27 +1052,40 @@ export class MigrationManager {
             MigrationManager.updateState((draft) => {
                 const draftEntry = draft.entries[mangaId];
 
-                draftEntry.status = MigrationEntryStatus.SEARCH_FAILED;
-                draftEntry.error = getErrorMessage(error);
-                draft.searchProgress.completed += 1;
-                draft.searchProgress.failed += 1;
+                if (!MigrationEntries.hasStatus(draftEntry, MigrationEntryStatus.ABORTED)) {
+                    draftEntry.status = MigrationEntryStatus.SEARCH_FAILED;
+                    draftEntry.error = getErrorMessage(error);
+                    draft.searchProgress.completed += 1;
+                    draft.searchProgress.failed += 1;
+                }
             });
         } finally {
-            MigrationManager.searchAbortControllerByManga.delete(mangaId);
+            MigrationManager.abortControllerByManga.delete(mangaId);
         }
     }
 
     private static async migrateSingleEntry(
         mangaId: MangaIdInfo['id'],
         options: Omit<MigrateOptions, 'mangaIdToMigrateTo'>,
-        signal: AbortSignal,
+        mainSignal: AbortSignal,
     ): Promise<void> {
         const state = MigrationManager.getState();
         const entry = state.entries[mangaId];
 
-        if (!entry || !entry.selectedMatchSourceId || entry.selectedMatchMangaId == null) {
+        const migrateController = new AbortController();
+        const signal = AbortSignal.any([mainSignal, migrateController.signal]);
+
+        if (
+            !entry ||
+            !entry.selectedMatchSourceId ||
+            entry.selectedMatchMangaId == null ||
+            MigrationEntries.hasStatus(entry, MigrationEntryStatus.ABORTED)
+        ) {
             return;
         }
+
+        MigrationManager.abortControllerByManga.get(mangaId)?.abort('migrate');
+        MigrationManager.abortControllerByManga.set(mangaId, migrateController);
 
         MigrationManager.updateState((draft) => {
             draft.entries[mangaId].status = MigrationEntryStatus.MIGRATING;
@@ -1042,7 +1093,7 @@ export class MigrationManager {
 
         try {
             if (signal.aborted) {
-                return;
+                throw new Error(signal.reason);
             }
 
             await MigrationManager.getParallelSourceQueue()(() => {
@@ -1050,7 +1101,7 @@ export class MigrationManager {
 
                 return MigrationManager.getOrCreateSourceQueue(entry.selectedMatchSourceId)(async () => {
                     if (signal.aborted) {
-                        return;
+                        throw new Error(signal.reason);
                     }
 
                     assertIsDefined(entry.selectedMatchMangaId);
@@ -1060,21 +1111,33 @@ export class MigrationManager {
             });
 
             MigrationManager.updateState((draft) => {
+                if (!MigrationEntries.isMigrating(entry)) {
+                    return;
+                }
+
                 draft.entries[mangaId].status = MigrationEntryStatus.MIGRATION_COMPLETE;
                 draft.migrationProgress.success += 1;
                 draft.migrationProgress.completed += 1;
             });
         } catch (error) {
-            if (signal.aborted) {
+            if (mainSignal.aborted) {
                 return;
             }
 
             MigrationManager.updateState((draft) => {
-                draft.entries[mangaId].status = MigrationEntryStatus.MIGRATION_FAILED;
-                draft.entries[mangaId].error = error instanceof Error ? error.message : String(error);
-                draft.migrationProgress.failed += 1;
-                draft.migrationProgress.completed += 1;
+                const draftEntry = draft.entries[mangaId];
+
+                assertIsDefined(draftEntry);
+
+                if (!MigrationEntries.hasStatus(draftEntry, MigrationEntryStatus.ABORTED)) {
+                    draftEntry.status = MigrationEntryStatus.MIGRATION_FAILED;
+                    draftEntry.error = getErrorMessage(error);
+                    draft.migrationProgress.failed += 1;
+                    draft.migrationProgress.completed += 1;
+                }
             });
+        } finally {
+            MigrationManager.abortControllerByManga.delete(mangaId);
         }
     }
 
@@ -1087,10 +1150,12 @@ export class MigrationManager {
         }
 
         const { signal } = MigrationManager.getOrCreateAbortController();
-        const { status } = entry;
 
-        if (status === MigrationEntryStatus.SEARCH_FAILED) {
+        if (MigrationEntries.hasStatus(entry, MigrationEntryStatus.SEARCH_FAILED)) {
             MigrationManager.updateState((draft) => {
+                const draftEntry = draft.entries[id];
+                draftEntry.status = MigrationEntryStatus.SEARCH_PENDING;
+                draftEntry.error = undefined;
                 draft.searchProgress.completed -= 1;
                 draft.searchProgress.failed -= 1;
             });
@@ -1104,8 +1169,11 @@ export class MigrationManager {
             return;
         }
 
-        if (status === MigrationEntryStatus.MIGRATION_FAILED) {
+        if (MigrationEntries.hasStatus(entry, MigrationEntryStatus.MIGRATION_FAILED)) {
             MigrationManager.updateState((draft) => {
+                const draftEntry = draft.entries[id];
+                draftEntry.status = MigrationEntryStatus.MIGRATION_PENDING;
+                draftEntry.error = undefined;
                 draft.migrationProgress.completed -= 1;
                 draft.migrationProgress.failed -= 1;
             });

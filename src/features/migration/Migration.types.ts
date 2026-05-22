@@ -87,16 +87,18 @@ export enum MigrationPhase {
 }
 
 export enum MigrationEntryStatus {
-    PENDING = 'pending',
+    SEARCH_PENDING = 'search_pending',
     SEARCHING = 'searching',
     SEARCH_COMPLETE = 'search_complete',
     SEARCH_FAILED = 'search_failed',
     OUTDATED = 'outdated',
     NO_MATCH = 'no_match',
+    MIGRATION_PENDING = 'migration_pending',
     MIGRATING = 'migrating',
     MIGRATION_COMPLETE = 'migration_complete',
     MIGRATION_FAILED = 'migration_failed',
     EXCLUDED = 'excluded',
+    ABORTED = 'aborted',
 }
 
 export interface MigrationMatch
