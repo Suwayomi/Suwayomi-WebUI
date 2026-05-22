@@ -46,10 +46,6 @@ export const MigrationEntrySearchExcludeActions = ({
     const isTabletWidth = MediaQuery.useIsTabletWidth();
 
     if (isTabletWidth) {
-        if (!hasResults) {
-            return;
-        }
-
         return (
             <ButtonGroup variant="contained">
                 {!!otherResultsCount && (
