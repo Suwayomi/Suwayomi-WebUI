@@ -1153,6 +1153,9 @@ export class MigrationManager {
 
         if (MigrationEntries.hasStatus(entry, MigrationEntryStatus.SEARCH_FAILED)) {
             MigrationManager.updateState((draft) => {
+                const draftEntry = draft.entries[id];
+                draftEntry.status = MigrationEntryStatus.SEARCH_PENDING;
+                draftEntry.error = undefined;
                 draft.searchProgress.completed -= 1;
                 draft.searchProgress.failed -= 1;
             });
@@ -1168,6 +1171,9 @@ export class MigrationManager {
 
         if (MigrationEntries.hasStatus(entry, MigrationEntryStatus.MIGRATION_FAILED)) {
             MigrationManager.updateState((draft) => {
+                const draftEntry = draft.entries[id];
+                draftEntry.status = MigrationEntryStatus.MIGRATION_PENDING;
+                draftEntry.error = undefined;
                 draft.migrationProgress.completed -= 1;
                 draft.migrationProgress.failed -= 1;
             });
