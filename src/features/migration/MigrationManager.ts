@@ -1005,6 +1005,9 @@ export class MigrationManager {
                 } else {
                     draftEntry.status = MigrationEntryStatus.NO_MATCH;
                 }
+
+                draft.searchProgress.success += 1;
+                draft.searchProgress.completed += 1;
             });
         } catch (error) {
             if (mainSignal.aborted) {
