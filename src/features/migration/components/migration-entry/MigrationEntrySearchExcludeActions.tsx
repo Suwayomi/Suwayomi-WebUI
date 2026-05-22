@@ -22,9 +22,11 @@ import { plural } from '@lingui/core/macro';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 export const MigrationEntrySearchExcludeActions = ({
-    hasResults,
+    hasSelectedMatch,
     otherResultsCount,
     isExpanded,
     setIsExpanded,
@@ -32,7 +34,7 @@ export const MigrationEntrySearchExcludeActions = ({
     mangaId,
     mangaTitle,
 }: {
-    hasResults: boolean;
+    hasSelectedMatch: boolean;
     otherResultsCount: number;
     isExpanded: boolean;
     setIsExpanded: (expanded: boolean) => void;
@@ -44,10 +46,6 @@ export const MigrationEntrySearchExcludeActions = ({
     const isTabletWidth = MediaQuery.useIsTabletWidth();
 
     if (isTabletWidth) {
-        if (!hasResults) {
-            return;
-        }
-
         return (
             <ButtonGroup variant="contained">
                 {!!otherResultsCount && (
@@ -76,33 +74,39 @@ export const MigrationEntrySearchExcludeActions = ({
                         </CustomButtonIcon>
                     </CustomTooltip>
                 )}
-                <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`}>
-                    <CustomButtonIcon
-                        sx={{
-                            flexGrow: Number(!otherResultsCount),
-                        }}
-                        onClick={() =>
-                            isExcluded ? MigrationManager.includeManga(mangaId) : MigrationManager.excludeManga(mangaId)
-                        }
-                    >
-                        {isExcluded ? <AddIcon /> : <CloseIcon />}
-                    </CustomButtonIcon>
-                </CustomTooltip>
+                {hasSelectedMatch && (
+                    <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`}>
+                        <CustomButtonIcon
+                            sx={{
+                                flexGrow: Number(!otherResultsCount),
+                            }}
+                            onClick={() =>
+                                isExcluded
+                                    ? MigrationManager.includeManga(mangaId)
+                                    : MigrationManager.excludeManga(mangaId)
+                            }
+                        >
+                            {isExcluded ? <AddCircleOutlineOutlinedIcon /> : <RemoveCircleOutlineOutlinedIcon />}
+                        </CustomButtonIcon>
+                    </CustomTooltip>
+                )}
             </ButtonGroup>
         );
     }
 
     return (
         <Stack sx={{ gap: 1, justifyContent: 'center' }}>
-            <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`} placement="auto">
-                <IconButton
-                    onClick={() =>
-                        isExcluded ? MigrationManager.includeManga(mangaId) : MigrationManager.excludeManga(mangaId)
-                    }
-                >
-                    {isExcluded ? <AddIcon /> : <CloseIcon />}
-                </IconButton>
-            </CustomTooltip>
+            {hasSelectedMatch && (
+                <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`} placement="auto">
+                    <IconButton
+                        onClick={() =>
+                            isExcluded ? MigrationManager.includeManga(mangaId) : MigrationManager.excludeManga(mangaId)
+                        }
+                    >
+                        {isExcluded ? <AddIcon /> : <CloseIcon />}
+                    </IconButton>
+                </CustomTooltip>
+            )}
             <CustomTooltip title={t`Manual search`} placement="auto">
                 <IconButton
                     onClick={() => {

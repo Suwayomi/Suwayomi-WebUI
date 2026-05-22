@@ -585,21 +585,16 @@ export class MigrationManager {
         mangaId: MangaIdInfo['id'],
         targetMangaId: MangaIdInfo['id'],
         targetSourceId: SourceIdInfo['id'],
-        updateProgress: boolean = false,
     ): void {
         MigrationManager.updateState((draft) => {
             const entry = draft.entries[mangaId];
             if (entry) {
-                const isSearching = ![
-                    MigrationEntryStatus.SEARCH_FAILED,
-                    MigrationEntryStatus.SEARCH_COMPLETE,
-                ].includes(entry.status);
-                if (updateProgress && isSearching) {
+                if (MigrationEntries.isSearching(entry)) {
                     draft.searchProgress.completed += 1;
                     draft.searchProgress.success += 1;
-                    entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                 }
 
+                entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                 entry.isManualSelection = true;
                 entry.selectedMatchMangaId = targetMangaId;
                 entry.selectedMatchSourceId = targetSourceId;
@@ -623,22 +618,16 @@ export class MigrationManager {
                     draft.entries[mangaId].manualMatches = [...draft.entries[mangaId].manualMatches, match];
                 }
 
-                const isSearching = ![
-                    MigrationEntryStatus.SEARCH_FAILED,
-                    MigrationEntryStatus.SEARCH_COMPLETE,
-                ].includes(entry.status);
+                const isSearching = MigrationEntries.isSearching(entry);
 
-                if (isSearching) {
-                    draft.searchProgress.completed += 1;
-                    draft.searchProgress.success += 1;
-                    entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
-                }
-
+                entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                 entry.isManualSelection = true;
                 entry.selectedMatchMangaId = match.id;
                 entry.selectedMatchSourceId = match.sourceId;
 
                 if (isSearching) {
+                    draft.searchProgress.completed += 1;
+                    draft.searchProgress.success += 1;
                     MigrationManager.searchAbortControllerByManga.get(mangaId)?.abort('Manual match selected');
                 }
             }
@@ -950,7 +939,7 @@ export class MigrationManager {
                                 latestChapterNumber > selectedMatchLatestChapterNumber;
                             const hasNewerChapter = hasNewerChapterVsEntry && hasNewerChapterVsSelectedMatch;
 
-                            const isOutdated = latestChapterNumber <= entryLatestChapterNumber;
+                            const isOutdated = latestChapterNumber < entryLatestChapterNumber;
 
                             const hasSameLatestChapterAsSelectedMatch =
                                 !!draftMatchEntry && selectedMatchLatestChapterNumber === latestChapterNumber;
@@ -1003,6 +992,10 @@ export class MigrationManager {
             MigrationManager.updateState((draft) => {
                 const draftEntry = draft.entries[mangaId];
 
+                if (!MigrationEntries.isSearching(draftEntry)) {
+                    return;
+                }
+
                 if (draftEntry.searchMatches.length) {
                     if (draftEntry.selectedMatchMangaId != null) {
                         draftEntry.status = MigrationEntryStatus.SEARCH_COMPLETE;
@@ -1012,9 +1005,6 @@ export class MigrationManager {
                 } else {
                     draftEntry.status = MigrationEntryStatus.NO_MATCH;
                 }
-
-                draft.searchProgress.success += 1;
-                draft.searchProgress.completed += 1;
             });
         } catch (error) {
             if (mainSignal.aborted) {

@@ -307,6 +307,7 @@ export class Mangas {
                 }
             },
             true,
+            true,
         );
     }
 
@@ -323,6 +324,7 @@ export class Mangas {
                     // Ignore - Error gets handled in Chapters
                 }
             },
+            true,
             true,
         );
     }
@@ -350,6 +352,7 @@ export class Mangas {
                 }
             },
             true,
+            true,
         );
     }
 
@@ -366,6 +369,7 @@ export class Mangas {
                     // Ignore - Error gets handled in Chapters
                 }
             },
+            true,
             true,
         );
     }
@@ -425,6 +429,7 @@ export class Mangas {
         itemCount: number,
         fnToExecute: () => Promise<unknown>,
         disableConfirmation?: boolean,
+        errorOnlyToast?: boolean,
     ): Promise<void> {
         const { always, bulkAction, bulkActionCountForce } = MANGA_ACTION_TO_CONFIRMATION_REQUIRED[action];
         const requiresConfirmation =
@@ -453,6 +458,11 @@ export class Mangas {
             }
 
             await fnToExecute();
+
+            if (errorOnlyToast) {
+                return;
+            }
+
             makeToast(
                 /* lingui-extract-ignore */
                 i18n.t({ ...MANGA_ACTION_TO_TRANSLATION[action].success, values: { count: itemCount } }),

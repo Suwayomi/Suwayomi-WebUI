@@ -91,7 +91,7 @@ const MigrationEntryMobile = memo(
 
                 {!isMigrating && (
                     <MigrationEntrySearchExcludeActions
-                        hasResults={!!destinationEntry}
+                        hasSelectedMatch={!!destinationEntry}
                         otherResultsCount={otherSearchMatches.length}
                         isExpanded={isExpanded}
                         setIsExpanded={setIsExpanded}
@@ -153,7 +153,7 @@ export const MigrationEntryDesktop = memo(
 
                         {!isMigrating && (
                             <MigrationEntrySearchExcludeActions
-                                hasResults={!!destinationEntry}
+                                hasSelectedMatch={!!destinationEntry}
                                 otherResultsCount={otherSearchMatches.length}
                                 isExpanded={isExpanded}
                                 setIsExpanded={setIsExpanded}

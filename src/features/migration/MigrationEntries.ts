@@ -10,6 +10,10 @@ import type { MigratableEntry, TMigrationEntry } from '@/features/migration/Migr
 import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 
 export class MigrationEntries {
+    public static isSearching(entry: TMigrationEntry): boolean {
+        return [MigrationEntryStatus.PENDING, MigrationEntryStatus.SEARCHING].includes(entry.status);
+    }
+
     public static getExcluded(entries: TMigrationEntry[]): TMigrationEntry[] {
         return entries.filter((entry) => entry.isExcluded);
     }
