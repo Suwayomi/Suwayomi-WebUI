@@ -52,7 +52,11 @@ export class MigrationEntries {
     public static getMigratable(entries: TMigrationEntry[]): MigratableEntry[] {
         return Object.values(entries).filter(
             (entry): entry is MigratableEntry =>
-                [MigrationEntryStatus.SEARCH_COMPLETE, MigrationEntryStatus.MIGRATING].includes(entry.status) &&
+                MigrationEntries.hasStatus(
+                    entry,
+                    MigrationEntryStatus.SEARCH_COMPLETE,
+                    MigrationEntryStatus.MIGRATING,
+                ) &&
                 !entry.isExcluded &&
                 entry.selectedMatchMangaId != null &&
                 entry.selectedMatchSourceId != null,

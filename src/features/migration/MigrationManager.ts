@@ -1090,9 +1090,8 @@ export class MigrationManager {
         }
 
         const { signal } = MigrationManager.getOrCreateAbortController();
-        const { status } = entry;
 
-        if (status === MigrationEntryStatus.SEARCH_FAILED) {
+        if (MigrationEntries.hasStatus(entry, MigrationEntryStatus.SEARCH_FAILED)) {
             MigrationManager.updateState((draft) => {
                 draft.searchProgress.completed -= 1;
                 draft.searchProgress.failed -= 1;
@@ -1107,7 +1106,7 @@ export class MigrationManager {
             return;
         }
 
-        if (status === MigrationEntryStatus.MIGRATION_FAILED) {
+        if (MigrationEntries.hasStatus(entry, MigrationEntryStatus.MIGRATION_FAILED)) {
             MigrationManager.updateState((draft) => {
                 draft.migrationProgress.completed -= 1;
                 draft.migrationProgress.failed -= 1;
