@@ -26,7 +26,7 @@ import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOut
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
 export const MigrationEntrySearchExcludeActions = ({
-    hasResults,
+    hasSelectedMatch,
     otherResultsCount,
     isExpanded,
     setIsExpanded,
@@ -34,7 +34,7 @@ export const MigrationEntrySearchExcludeActions = ({
     mangaId,
     mangaTitle,
 }: {
-    hasResults: boolean;
+    hasSelectedMatch: boolean;
     otherResultsCount: number;
     isExpanded: boolean;
     setIsExpanded: (expanded: boolean) => void;
@@ -74,33 +74,39 @@ export const MigrationEntrySearchExcludeActions = ({
                         </CustomButtonIcon>
                     </CustomTooltip>
                 )}
-                <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`}>
-                    <CustomButtonIcon
-                        sx={{
-                            flexGrow: Number(!otherResultsCount),
-                        }}
-                        onClick={() =>
-                            isExcluded ? MigrationManager.includeManga(mangaId) : MigrationManager.excludeManga(mangaId)
-                        }
-                    >
-                        {isExcluded ? <AddCircleOutlineOutlinedIcon /> : <RemoveCircleOutlineOutlinedIcon />}
-                    </CustomButtonIcon>
-                </CustomTooltip>
+                {hasSelectedMatch && (
+                    <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`}>
+                        <CustomButtonIcon
+                            sx={{
+                                flexGrow: Number(!otherResultsCount),
+                            }}
+                            onClick={() =>
+                                isExcluded
+                                    ? MigrationManager.includeManga(mangaId)
+                                    : MigrationManager.excludeManga(mangaId)
+                            }
+                        >
+                            {isExcluded ? <AddCircleOutlineOutlinedIcon /> : <RemoveCircleOutlineOutlinedIcon />}
+                        </CustomButtonIcon>
+                    </CustomTooltip>
+                )}
             </ButtonGroup>
         );
     }
 
     return (
         <Stack sx={{ gap: 1, justifyContent: 'center' }}>
-            <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`} placement="auto">
-                <IconButton
-                    onClick={() =>
-                        isExcluded ? MigrationManager.includeManga(mangaId) : MigrationManager.excludeManga(mangaId)
-                    }
-                >
-                    {isExcluded ? <AddIcon /> : <CloseIcon />}
-                </IconButton>
-            </CustomTooltip>
+            {hasSelectedMatch && (
+                <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`} placement="auto">
+                    <IconButton
+                        onClick={() =>
+                            isExcluded ? MigrationManager.includeManga(mangaId) : MigrationManager.excludeManga(mangaId)
+                        }
+                    >
+                        {isExcluded ? <AddIcon /> : <CloseIcon />}
+                    </IconButton>
+                </CustomTooltip>
+            )}
             <CustomTooltip title={t`Manual search`} placement="auto">
                 <IconButton
                     onClick={() => {
