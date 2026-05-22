@@ -15,8 +15,6 @@ import IconButton from '@mui/material/IconButton';
 import { useLingui } from '@lingui/react/macro';
 import Stack from '@mui/material/Stack';
 import SearchIcon from '@mui/icons-material/Search';
-import CloseIcon from '@mui/icons-material/Close';
-import AddIcon from '@mui/icons-material/Add';
 import Button from '@mui/material/Button';
 import { plural } from '@lingui/core/macro';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -103,7 +101,7 @@ export const MigrationEntrySearchExcludeActions = ({
                             isExcluded ? MigrationManager.includeManga(mangaId) : MigrationManager.excludeManga(mangaId)
                         }
                     >
-                        {isExcluded ? <AddIcon /> : <CloseIcon />}
+                        {isExcluded ? <AddCircleOutlineOutlinedIcon /> : <RemoveCircleOutlineOutlinedIcon />}
                     </IconButton>
                 </CustomTooltip>
             )}
