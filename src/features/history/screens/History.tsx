@@ -54,7 +54,13 @@ export const History: React.FC = () => {
             return true;
         });
     }, [allReadEntries]);
-    const filteredOutAllItemsOfFetchedPage = allReadEntries.length > 0 && readEntries.length === 0;
+
+    const prevReadEntriesLengthRef = useRef(0);
+    const filteredOutAllItemsOfFetchedPage =
+        allReadEntries.length > 0 && readEntries.length === prevReadEntriesLengthRef.current;
+
+    prevReadEntriesLengthRef.current = readEntries.length;
+
     const groupedHistory = useMemo(
         () => Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')),
         [readEntries],
@@ -76,7 +82,7 @@ export const History: React.FC = () => {
         }
 
         fetchMore({ variables: { offset: allReadEntries.length } });
-    }, [hasNextPage, endCursor]);
+    }, [hasNextPage, endCursor, allReadEntries.length]);
 
     useEffect(() => {
         if (filteredOutAllItemsOfFetchedPage && hasNextPage && !isLoading) {
