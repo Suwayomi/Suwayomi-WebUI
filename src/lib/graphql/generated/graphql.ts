@@ -2788,7 +2788,6 @@ export type ServerSettingsFragment = {
     databaseUsername: string;
     databasePassword: string;
     useHikariConnectionPool: boolean;
-    kcefEnabled: boolean;
     downloadConversions: Array<{
         __typename: 'SettingsDownloadConversionType';
         mimeType: string;
@@ -2892,7 +2891,6 @@ export type ResetServerSettingsMutation = {
             databaseUsername: string;
             databasePassword: string;
             useHikariConnectionPool: boolean;
-            kcefEnabled: boolean;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -3006,7 +3004,6 @@ export type UpdateServerSettingsMutation = {
             databaseUsername: string;
             databasePassword: string;
             useHikariConnectionPool: boolean;
-            kcefEnabled: boolean;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -3116,7 +3113,6 @@ export type GetServerSettingsQuery = {
         databaseUsername: string;
         databasePassword: string;
         useHikariConnectionPool: boolean;
-        kcefEnabled: boolean;
         downloadConversions: Array<{
             __typename: 'SettingsDownloadConversionType';
             mimeType: string;

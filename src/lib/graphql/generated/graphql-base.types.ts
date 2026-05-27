@@ -1788,7 +1788,6 @@ export type PartialSettingsType = Settings & {
     jwtAudience?: Maybe<Scalars['String']['output']>;
     jwtRefreshExpiry?: Maybe<Scalars['Duration']['output']>;
     jwtTokenExpiry?: Maybe<Scalars['Duration']['output']>;
-    kcefEnabled?: Maybe<Scalars['Boolean']['output']>;
     koreaderSyncChecksumMethod?: Maybe<KoreaderSyncChecksumMethod>;
     /** @deprecated Moved to preference store. Is supposed to be random and gets auto generated, replace with MOVE TO PREFERENCES */
     koreaderSyncDeviceId?: Maybe<Scalars['String']['output']>;
@@ -1877,7 +1876,6 @@ export type PartialSettingsTypeInput = {
     jwtAudience?: InputMaybe<Scalars['String']['input']>;
     jwtRefreshExpiry?: InputMaybe<Scalars['Duration']['input']>;
     jwtTokenExpiry?: InputMaybe<Scalars['Duration']['input']>;
-    kcefEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     koreaderSyncChecksumMethod?: InputMaybe<KoreaderSyncChecksumMethod>;
     koreaderSyncPercentageTolerance?: InputMaybe<Scalars['Float']['input']>;
     koreaderSyncStrategyBackward?: InputMaybe<KoreaderSyncConflictStrategy>;
@@ -2376,7 +2374,6 @@ export type Settings = {
     jwtAudience?: Maybe<Scalars['String']['output']>;
     jwtRefreshExpiry?: Maybe<Scalars['Duration']['output']>;
     jwtTokenExpiry?: Maybe<Scalars['Duration']['output']>;
-    kcefEnabled?: Maybe<Scalars['Boolean']['output']>;
     koreaderSyncChecksumMethod?: Maybe<KoreaderSyncChecksumMethod>;
     /** @deprecated Moved to preference store. Is supposed to be random and gets auto generated, replace with MOVE TO PREFERENCES */
     koreaderSyncDeviceId?: Maybe<Scalars['String']['output']>;
@@ -2520,7 +2517,6 @@ export type SettingsType = Settings & {
     jwtAudience: Scalars['String']['output'];
     jwtRefreshExpiry: Scalars['Duration']['output'];
     jwtTokenExpiry: Scalars['Duration']['output'];
-    kcefEnabled: Scalars['Boolean']['output'];
     koreaderSyncChecksumMethod: KoreaderSyncChecksumMethod;
     /** @deprecated Moved to preference store. Is supposed to be random and gets auto generated, replace with MOVE TO PREFERENCES */
     koreaderSyncDeviceId: Scalars['String']['output'];

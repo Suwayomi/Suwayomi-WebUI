@@ -135,8 +135,5 @@ export const SERVER_SETTINGS = gql`
         databaseUsername
         databasePassword
         useHikariConnectionPool
-
-        # WebView
-        kcefEnabled
     }
 `;
