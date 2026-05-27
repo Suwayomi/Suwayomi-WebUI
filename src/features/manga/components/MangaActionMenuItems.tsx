@@ -36,6 +36,7 @@ import type {
     MangaAction,
     MangaDownloadInfo,
     MangaIdInfo,
+    MangaInLibraryInfo,
     MangaSourceIdInfo,
     MangaTitleInfo,
     MangaUnreadInfo,
@@ -47,7 +48,12 @@ import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 type BaseProps = { onClose: () => void; setHideMenu: (hide: boolean) => void };
 
 export type SingleModeProps = {
-    manga: MangaIdInfo & MangaTitleInfo & MangaSourceIdInfo & MangaDownloadInfo & MangaUnreadInfo;
+    manga: MangaIdInfo &
+        MangaTitleInfo &
+        MangaSourceIdInfo &
+        MangaDownloadInfo &
+        MangaUnreadInfo &
+        Pick<MangaInLibraryInfo, 'inLibrary'>;
     handleSelection?: SelectableCollectionReturnType<MangaIdInfo['id']>['handleSelection'];
 };
 

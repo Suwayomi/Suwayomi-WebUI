@@ -12,8 +12,6 @@ import { MigrationEntryCard } from '@/features/migration/components/migration-en
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { MigrationEntryCardContent } from '@/features/migration/components/migration-entry/MigrationEntryCardContent.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
-import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { MigrationEntryMetadataText } from '@/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
@@ -25,6 +23,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { memo } from 'react';
+import { MigrationEntryThumbnail } from '@/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx';
 
 export const MigrationMatchedEntry = memo(
     ({ sourceMangaId, entry }: { sourceMangaId: MangaIdInfo['id']; entry: MigrationMatch }) => {
@@ -36,25 +35,7 @@ export const MigrationMatchedEntry = memo(
                     <MigrationEntryCardContent>
                         {(() => (
                             <>
-                                <Link
-                                    component={RouterLink}
-                                    to={AppRoutes.manga.path(entry.id)}
-                                    onClick={(e) => e.stopPropagation()}
-                                >
-                                    <ListCardAvatar
-                                        iconUrl={Mangas.getThumbnailUrl(entry)}
-                                        alt={entry.title}
-                                        slots={{
-                                            avatarProps: {
-                                                sx: {
-                                                    width: 'unset',
-                                                    height: 80,
-                                                    aspectRatio: '3 / 4',
-                                                },
-                                            },
-                                        }}
-                                    />
-                                </Link>
+                                <MigrationEntryThumbnail entry={entry} height={80} />
                                 <Stack sx={{ minWidth: 0, flex: 1 }}>
                                     <Typography variant="overline" color="textSecondary">
                                         {entry.sourceTitle}

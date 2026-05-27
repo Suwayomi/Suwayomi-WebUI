@@ -18,8 +18,6 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { extractGraphqlExceptionInfo } from '@/lib/HelperFunctions.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
-import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { MigrationEntryMetadataText } from '@/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx';
 import Typography from '@mui/material/Typography';
@@ -36,6 +34,7 @@ import Link from '@mui/material/Link';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
+import { MigrationEntryThumbnail } from '@/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx';
 
 const EntryStatus = ({
     sourceMangaId,
@@ -153,21 +152,7 @@ const EntryData = (entry: MigrationMatch) => {
 
     return (
         <>
-            <Link component={RouterLink} to={AppRoutes.manga.path(id)}>
-                <ListCardAvatar
-                    iconUrl={Mangas.getThumbnailUrl(entry)}
-                    alt={title}
-                    slots={{
-                        avatarProps: {
-                            sx: {
-                                width: 'unset',
-                                height: 112,
-                                aspectRatio: '3 / 4',
-                            },
-                        },
-                    }}
-                />
-            </Link>
+            <MigrationEntryThumbnail entry={entry} height={112} />
             <Stack sx={{ minWidth: 0, flex: 1 }}>
                 <Typography
                     variant="overline"

@@ -249,6 +249,7 @@ export class MigrationManager {
             sourceTitle: cachedEntry?.source?.displayName ?? searchMatch.sourceTitle,
             latestChapterNumber: cachedEntry?.highestNumberedChapter?.chapterNumber ?? searchMatch.latestChapterNumber,
             missingChapters: searchMatch.missingChapters,
+            inLibrary: cachedEntry?.inLibrary ?? searchMatch.inLibrary,
         };
     }
 
@@ -955,6 +956,7 @@ export class MigrationManager {
                                 sourceId: manga.sourceId,
                                 sourceTitle: manga.source?.displayName,
                                 missingChapters: chapters ? Chapters.getMissingCount(chapters) : undefined,
+                                inLibrary: manga.inLibrary,
                             }));
 
                             draftEntry.destSourceIdToSearchState[destSourceId] = true;

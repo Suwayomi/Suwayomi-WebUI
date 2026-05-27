@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Add a search option to ignore matches with missing chapters
 - (**Migration**) Add "local source" as a possible destination source
 - (**Migration**) Add option to abort entries that are searching or are waiting to get migrated
+- (**Migration**) Add "in library" indicator
 
 ### Changed
 
