@@ -60,6 +60,7 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
+import type { RouteStateSourcesSearchAll } from '@/features/global-search/SearchAll.types.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -250,7 +251,7 @@ export const SearchAll = ({
 }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
-    const { state } = useLocation<{ title?: string; shouldShowOnlyPinnedSources?: boolean }>();
+    const { state } = useLocation<RouteStateSourcesSearchAll>();
     const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
 
     const isMigrateMode = SubpathUtil.getPathname().startsWith(AppRoutes.migrate.path);
@@ -373,7 +374,12 @@ export const SearchAll = ({
                                     },
                                     {
                                         replace: true,
-                                        state: { ...state, shouldShowOnlyPinnedSources: true },
+                                        state: {
+                                            ...state,
+                                            ...AppRoutes.sources.childRoutes.searchAll.state({
+                                                shouldShowOnlyPinnedSources: true,
+                                            }),
+                                        },
                                     },
                                 )
                             }
@@ -391,7 +397,12 @@ export const SearchAll = ({
                                     },
                                     {
                                         replace: true,
-                                        state: { ...state, shouldShowOnlyPinnedSources: false },
+                                        state: {
+                                            ...state,
+                                            ...AppRoutes.sources.childRoutes.searchAll.state({
+                                                shouldShowOnlyPinnedSources: false,
+                                            }),
+                                        },
                                     },
                                 )
                             }

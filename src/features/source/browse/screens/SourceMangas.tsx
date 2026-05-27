@@ -8,10 +8,10 @@
 
 import type { MessageDescriptor } from '@lingui/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { useQueryParam, StringParam } from 'use-query-params';
+import { StringParam, useQueryParam } from 'use-query-params';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -43,7 +43,8 @@ import { MANGA_GRID_SNAPSHOT_KEY } from '@/features/manga/components/MangaGrid.t
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/source/SourceQuery.ts';
-import type { IPos, SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { IPos, RouteStateSourceBrowse, SourceIdInfo } from '@/features/source/Source.types.ts';
+import { SourceContentType } from '@/features/source/Source.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -76,12 +77,6 @@ const StyledGridWrapper = styled(Box)(() => ({
     minHeight: '100%',
     position: 'relative',
 }));
-
-export enum SourceContentType {
-    POPULAR,
-    LATEST,
-    SEARCH,
-}
 
 const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]: MessageDescriptor } = {
     [SourceContentType.POPULAR]: msg`No manga found`,
@@ -218,11 +213,10 @@ export function SourceMangas() {
     const navigate = useNavigate();
     const location = useLocation();
     const { key: locationKey, state: locationState } = location;
-    const { contentType: initialContentType = SourceContentType.POPULAR, clearCache = false } =
-        useLocation<{
-            contentType: SourceContentType;
-            clearCache: boolean;
-        }>().state ?? STABLE_EMPTY_OBJECT;
+    const {
+        contentType: initialContentType = SourceContentType.POPULAR,
+        clearCache = false,
+    } = useLocation<RouteStateSourceBrowse>().state ?? STABLE_EMPTY_OBJECT;
 
     const {
         settings: { hideLibraryEntries },
@@ -363,7 +357,10 @@ export function SourceMangas() {
                         pathname: '',
                     },
                     {
-                        state: { ...locationState, contentType: newContentType },
+                        state: {
+                            ...locationState,
+                            ...AppRoutes.sources.childRoutes.browse.state({ contentType: newContentType }),
+                        },
                     },
                 );
             }

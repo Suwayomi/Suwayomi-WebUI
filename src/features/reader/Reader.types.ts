@@ -383,7 +383,7 @@ export enum ReaderResumeMode {
     LAST_READ,
 }
 
-export interface ReaderOpenChapterLocationState {
+export interface RouteStateReader {
     resumeMode?: ReaderResumeMode;
     updateInitialChapter?: boolean;
 }

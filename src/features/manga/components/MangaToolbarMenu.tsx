@@ -94,7 +94,9 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                         manga.id,
                                         manga.title,
                                     )}
-                                    state={{ title: t`Migrate "${manga.title}"` }}
+                                    state={AppRoutes.migrate.childRoutes.singleMangaSearch.state({
+                                        title: t`Migrate "${manga.title}"`,
+                                    })}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
                                     <IconButton color="inherit">
@@ -168,7 +170,9 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                     manga.id,
                                     manga.title,
                                 )}
-                                state={{ title: t`Migrate "${manga.title}"` }}
+                                state={AppRoutes.migrate.childRoutes.singleMangaSearch.state({
+                                    title: t`Migrate "${manga.title}"`,
+                                })}
                                 style={{ textDecoration: 'none', color: 'inherit' }}
                             >
                                 <ListItemIcon>

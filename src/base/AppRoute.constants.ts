@@ -12,11 +12,14 @@ import type { ChapterSourceOrderInfo } from '@/features/chapter/Chapter.types.ts
 import type { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
-import type { SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { RouteStateSourceBrowse, SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { RouteStateReader } from '@/features/reader/Reader.types.ts';
+import type { RouteStateSourcesSearchAll } from '@/features/global-search/SearchAll.types.ts';
 
 type AppRouteInfo = {
     match: string;
     path?: string | ((...args: any[]) => string);
+    state?: (...args: any[]) => Record<string, unknown>;
 };
 
 type TAppRoutes = Record<string, AppRouteInfo & { childRoutes?: TAppRoutes }>;
@@ -133,6 +136,9 @@ export const AppRoutes = {
                 match: ':sourceId',
                 path: (sourceId: SourceIdInfo['id'], query?: string | null | undefined) =>
                     UrlUtil.addQueryParam(`/sources/${sourceId}`, query),
+                state: (state: RouteStateSourceBrowse) => ({
+                    ...state,
+                }),
             },
             configure: {
                 match: ':sourceId/configure',
@@ -141,6 +147,7 @@ export const AppRoutes = {
             searchAll: {
                 match: 'all/search',
                 path: (query?: string | null | undefined) => UrlUtil.addQueryParam('/sources/all/search', query),
+                state: (state: RouteStateSourcesSearchAll) => ({ ...state }),
             },
         },
     },
@@ -206,11 +213,15 @@ export const AppRoutes = {
                 match: 'source/:sourceId/manga/:mangaId/search',
                 path: (sourceId: SourceIdInfo['id'], mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
                     UrlUtil.addQueryParam(`/migrate/source/${sourceId}/manga/${mangaId}/search`, query),
+                state: (state: RouteStateSourcesSearchAll) => ({
+                    ...state,
+                }),
             },
             manualSearch: {
                 match: 'manual-search/:mangaId',
                 path: (mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
                     UrlUtil.addQueryParam(`/migrate/manual-search/${mangaId}`, query),
+                state: (state: RouteStateSourcesSearchAll) => ({ ...state }),
             },
         },
     },
@@ -222,6 +233,7 @@ export const AppRoutes = {
         match: '/manga/:mangaId/chapter/:chapterSourceOrder/*',
         path: (mangaId: MangaIdInfo['id'], chapterSourceOrder: ChapterSourceOrderInfo['sourceOrder']) =>
             `/manga/${mangaId}/chapter/${chapterSourceOrder}`,
+        state: (state: RouteStateReader) => ({ ...state }),
     },
     more: {
         match: '/more',
