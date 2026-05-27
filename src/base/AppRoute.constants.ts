@@ -22,7 +22,7 @@ type AppRouteInfo = {
     state?: (...args: any[]) => Record<string, unknown>;
 };
 
-type TAppRoutes = Record<string, AppRouteInfo & { childRoutes?: TAppRoutes }>;
+type TAppRoutes = Record<string, AppRouteInfo & { children?: TAppRoutes }>;
 
 export const AppRoutes = {
     root: {
@@ -35,7 +35,7 @@ export const AppRoutes = {
     authentication: {
         match: 'auth',
         path: '/auth',
-        childRoutes: {
+        children: {
             login: {
                 match: 'login',
                 path: '/auth/login',
@@ -49,7 +49,7 @@ export const AppRoutes = {
     settings: {
         match: 'settings',
         path: '/settings',
-        childRoutes: {
+        children: {
             categories: {
                 match: 'categories',
                 path: '/settings/categories',
@@ -62,7 +62,7 @@ export const AppRoutes = {
                 match: 'library',
                 path: '/settings/library',
 
-                childRoutes: {
+                children: {
                     duplicates: {
                         match: 'duplicates',
                         path: '/settings/library/duplicates',
@@ -72,7 +72,7 @@ export const AppRoutes = {
             download: {
                 match: 'download',
                 path: '/settings/download',
-                childRoutes: {
+                children: {
                     // TODO: deprecated - got moved to "settings/images/processing/downloads"
                     conversions: {
                         match: 'conversions',
@@ -83,7 +83,7 @@ export const AppRoutes = {
             images: {
                 match: 'images',
                 path: '/settings/images',
-                childRoutes: {
+                children: {
                     processingDownloads: {
                         match: 'processing/downloads',
                         path: '/settings/images/processing/downloads',
@@ -131,7 +131,7 @@ export const AppRoutes = {
     sources: {
         match: 'sources',
         path: '/sources',
-        childRoutes: {
+        children: {
             browse: {
                 match: ':sourceId',
                 path: (sourceId: SourceIdInfo['id'], query?: string | null | undefined) =>
@@ -151,11 +151,10 @@ export const AppRoutes = {
             },
         },
     },
-
     extension: {
         match: 'extension',
         path: '/extension',
-        childRoutes: {
+        children: {
             info: {
                 match: ':pkgName',
                 path: (pkgName: string) => `/extension/${pkgName}`,
@@ -169,8 +168,7 @@ export const AppRoutes = {
     manga: {
         match: 'manga/:id',
         path: (mangaId: MangaIdInfo['id']) => `/manga/${mangaId}`,
-
-        childRoutes: {
+        children: {
             reader: {
                 match: 'chapter/:chapterNum',
                 path: (mangaId: MangaIdInfo['id'], chapterNum: ChapterSourceOrderInfo['sourceOrder']) =>
@@ -208,7 +206,7 @@ export const AppRoutes = {
     migrate: {
         match: 'migrate/*',
         path: '/migrate',
-        childRoutes: {
+        children: {
             singleMangaSearch: {
                 match: 'source/:sourceId/manga/:mangaId/search',
                 path: (sourceId: SourceIdInfo['id'], mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
@@ -241,7 +239,7 @@ export const AppRoutes = {
     },
 } as const satisfies TAppRoutes;
 
-type ExtractChildRouteStringPaths<T> = T extends { childRoutes: infer U } ? ExtractStringPaths<U[keyof U]> : never;
+type ExtractChildRouteStringPaths<T> = T extends { children: infer U } ? ExtractStringPaths<U[keyof U]> : never;
 
 type ExtractStringPaths<T> = T extends { path: infer P }
     ? P extends string

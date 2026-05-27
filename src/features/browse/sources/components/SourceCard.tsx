@@ -63,8 +63,8 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
         <Card>
             <CardActionArea
                 component={Link}
-                to={AppRoutes.sources.childRoutes.browse.path(id)}
-                state={AppRoutes.sources.childRoutes.browse.state({
+                to={AppRoutes.sources.children.browse.path(id)}
+                state={AppRoutes.sources.children.browse.state({
                     contentType: SourceContentType.POPULAR,
                     clearCache: true,
                 })}
@@ -105,8 +105,8 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                             {...MUIUtil.preventRippleProp()}
                             variant="outlined"
                             component={Link}
-                            to={AppRoutes.sources.childRoutes.browse.path(id)}
-                            state={AppRoutes.sources.childRoutes.browse.state({
+                            to={AppRoutes.sources.children.browse.path(id)}
+                            state={AppRoutes.sources.children.browse.state({
                                 contentType: SourceContentType.LATEST,
                                 clearCache: true,
                             })}

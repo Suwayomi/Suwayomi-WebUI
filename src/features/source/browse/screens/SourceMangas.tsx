@@ -359,7 +359,7 @@ export function SourceMangas() {
                     {
                         state: {
                             ...locationState,
-                            ...AppRoutes.sources.childRoutes.browse.state({ contentType: newContentType }),
+                            ...AppRoutes.sources.children.browse.state({ contentType: newContentType }),
                         },
                     },
                 );
@@ -430,7 +430,7 @@ export function SourceMangas() {
             {source?.isConfigurable && (
                 <CustomTooltip title={t`Settings`}>
                     <IconButton
-                        onClick={() => navigate(AppRoutes.sources.childRoutes.configure.path(sourceId))}
+                        onClick={() => navigate(AppRoutes.sources.children.configure.path(sourceId))}
                         aria-label="display more actions"
                         edge="end"
                         color="inherit"

@@ -319,9 +319,9 @@ export class MigrationManager {
             const [manga] = mangas;
 
             ReactRouter.navigate(
-                AppRoutes.migrate.childRoutes.singleMangaSearch.path(manga.sourceId, manga.id, manga.title),
+                AppRoutes.migrate.children.singleMangaSearch.path(manga.sourceId, manga.id, manga.title),
                 {
-                    state: AppRoutes.migrate.childRoutes.singleMangaSearch.state({
+                    state: AppRoutes.migrate.children.singleMangaSearch.state({
                         title: t`Migrate "${manga.title}"`,
                     }),
                 },
@@ -671,7 +671,7 @@ export class MigrationManager {
     }
 
     static openManualSearch(mangaId: MangaIdInfo['id'], title: string): void {
-        ReactRouter.navigate(AppRoutes.migrate.childRoutes.manualSearch.path(mangaId, title), {
+        ReactRouter.navigate(AppRoutes.migrate.children.manualSearch.path(mangaId, title), {
             state: AppRoutes.migrate.children.manualSearch.state({
                 title: t`Manual migration search for "${title}"`,
                 mode: 'migrate.select.bulk',

@@ -44,7 +44,7 @@ const getMangaLinkTo = (
         case 'duplicate':
             return AppRoutes.manga.path(mangaId);
         case 'migrate.search':
-            return AppRoutes.migrate.childRoutes.singleMangaSearch.path(sourceId ?? '-1', mangaId, mangaTitle);
+            return AppRoutes.migrate.children.singleMangaSearch.path(sourceId ?? '-1', mangaId, mangaTitle);
         case 'migrate.select':
             return '';
         default:

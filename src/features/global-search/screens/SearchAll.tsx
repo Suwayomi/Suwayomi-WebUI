@@ -193,7 +193,7 @@ const SourceSearchPreview = React.memo(
                 <Card sx={{ mb: 1 }}>
                     <CardActionArea
                         component={Link}
-                        to={AppRoutes.sources.childRoutes.browse.path(id, searchString)}
+                        to={AppRoutes.sources.children.browse.path(id, searchString)}
                         sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                     >
                         <Box>
@@ -376,7 +376,7 @@ export const SearchAll = ({
                                         replace: true,
                                         state: {
                                             ...state,
-                                            ...AppRoutes.sources.childRoutes.searchAll.state({
+                                            ...AppRoutes.sources.children.searchAll.state({
                                                 shouldShowOnlyPinnedSources: true,
                                             }),
                                         },
@@ -399,7 +399,7 @@ export const SearchAll = ({
                                         replace: true,
                                         state: {
                                             ...state,
-                                            ...AppRoutes.sources.childRoutes.searchAll.state({
+                                            ...AppRoutes.sources.children.searchAll.state({
                                                 shouldShowOnlyPinnedSources: false,
                                             }),
                                         },
