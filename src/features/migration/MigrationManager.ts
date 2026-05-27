@@ -323,6 +323,7 @@ export class MigrationManager {
                 {
                     state: AppRoutes.migrate.children.singleMangaSearch.state({
                         title: t`Migrate "${manga.title}"`,
+                        mode: 'migrate.select.single',
                     }),
                 },
             );

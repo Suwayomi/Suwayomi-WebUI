@@ -16,7 +16,7 @@ import type {
     SourcePreferenceChangeInput,
     SourceType,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
-import type { MangaCardMode } from '@/features/manga/Manga.types.ts';
+import type { MangaCardMode, MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 export interface IPos {
     type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
@@ -86,4 +86,5 @@ export interface RouteStateSourceBrowse {
     contentType?: SourceContentType;
     clearCache?: boolean;
     mode?: MangaCardMode;
+    mangaId?: MangaIdInfo['id'];
 }

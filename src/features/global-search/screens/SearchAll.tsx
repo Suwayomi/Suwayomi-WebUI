@@ -26,7 +26,7 @@ import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { AppbarSearch } from '@/base/components/AppbarSearch.tsx';
 import { useDebounce } from '@/base/hooks/useDebounce.ts';
-import type { MangaCardProps } from '@/features/manga/Manga.types.ts';
+import type { MangaCardProps, MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { STABLE_EMPTY_ARRAY, STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -59,7 +59,6 @@ import { SearchParam } from '@/base/Base.types.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
-import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 import type { RouteStateSourcesSearchAll } from '@/features/global-search/SearchAll.types.ts';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
@@ -128,11 +127,13 @@ const SourceSearchPreview = React.memo(
         mode,
         shouldShowOnlySourcesWithResults,
         onMigrateSelect,
+        mangaId,
     }: {
         source: SourceIdInfo & SourceDisplayNameInfo & SourceNameInfo & SourceLanguageInfo;
         onSearchRequestFinished: (source: SourceIdInfo, state: SourceLoadingState) => void;
         searchString: string | null | undefined;
         emptyQuery: boolean;
+        mangaId?: MangaIdInfo['id'];
     } & Pick<MangaCardProps, 'mode' | 'onMigrateSelect'> &
         Pick<MetadataBrowseSettings, 'shouldShowOnlySourcesWithResults'>) => {
         const { t } = useLingui();
@@ -194,6 +195,10 @@ const SourceSearchPreview = React.memo(
                     <CardActionArea
                         component={Link}
                         to={AppRoutes.sources.children.browse.path(id, searchString)}
+                        state={AppRoutes.sources.children.browse.state({
+                            mode,
+                            mangaId,
+                        })}
                         sx={{ p: 1, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                     >
                         <Box>
@@ -254,8 +259,6 @@ export const SearchAll = ({
     const { state } = useLocation<RouteStateSourcesSearchAll>();
     const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
 
-    const isMigrateMode = SubpathUtil.getPathname().startsWith(AppRoutes.migrate.path);
-
     const { mangaId } = useParams<{ mangaId?: string }>() ?? STABLE_EMPTY_OBJECT;
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
@@ -281,7 +284,13 @@ export const SearchAll = ({
     const sourceLanguages = useMemo(() => Sources.getLanguages(sources, { excludeLocalSource: true }), [sources]);
 
     const hasPinnedSources = useMemo(() => !!Sources.filter(sources, { pinned: true }).length, [sources]);
-    const shouldShowOnlyPinnedSources = state?.shouldShowOnlyPinnedSources ?? hasPinnedSources;
+
+    const {
+        title = t`Global Search`,
+        shouldShowOnlyPinnedSources = hasPinnedSources,
+        mode = 'source',
+    } = state ?? STABLE_EMPTY_OBJECT;
+    const isMigrateMode = ['migrate.select.single', 'migrate.select.bulk'].includes(mode);
 
     const filteredSources = useMemo(
         () =>
@@ -319,7 +328,7 @@ export const SearchAll = ({
     );
 
     useAppTitleAndAction(
-        isMigrateMode ? state?.title : t`Global Search`,
+        title,
         <>
             <AppbarSearch isClosable={false} />
             <SourceLanguageSelect
@@ -429,10 +438,10 @@ export const SearchAll = ({
                         onSearchRequestFinished={updateSourceLoadingState}
                         searchString={searchString}
                         emptyQuery={!query}
-                        mode={isMigrateMode ? 'migrate.select' : 'source'}
+                        mode={mode}
                         shouldShowOnlySourcesWithResults={shouldShowOnlySourcesWithResults}
                         onMigrateSelect={
-                            migrationDestinationSourceIds
+                            isMigrateMode
                                 ? (match) => {
                                       assertIsDefined(mangaId);
                                       MigrationManager.selectManualMatch(Number(mangaId), {
@@ -444,6 +453,7 @@ export const SearchAll = ({
                                   }
                                 : undefined
                         }
+                        mangaId={mangaId ? Number(mangaId) : undefined}
                     />
                 ))}
             </Box>

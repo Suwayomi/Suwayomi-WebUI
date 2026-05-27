@@ -58,6 +58,8 @@ import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitl
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
@@ -216,6 +218,8 @@ export function SourceMangas() {
     const {
         contentType: initialContentType = SourceContentType.POPULAR,
         clearCache = false,
+        mode = 'source',
+        mangaId,
     } = useLocation<RouteStateSourceBrowse>().state ?? STABLE_EMPTY_OBJECT;
 
     const {
@@ -485,8 +489,20 @@ export function SourceMangas() {
                     messageExtra={messageExtra}
                     isLoading={isLoading}
                     gridLayout={sourceGridLayout}
-                    mode="source"
+                    mode={mode}
                     inLibraryIndicator
+                    onMigrateSelect={
+                        mangaId
+                            ? (match) => {
+                                  MigrationManager.selectManualMatch(mangaId, {
+                                      ...match,
+                                      sourceTitle: Sources.getFromCache(match.sourceId)?.displayName,
+                                      latestChapterNumber: undefined,
+                                  });
+                                  ReactRouter.navigate(AppRoutes.migrate.path);
+                              }
+                            : undefined
+                    }
                 />
             )}
             {error && (

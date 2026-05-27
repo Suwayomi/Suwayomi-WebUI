@@ -30,7 +30,7 @@ import type {
     TrackRecordType,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
 
-export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
+export type MangaCardMode = 'default' | 'source' | 'migrate.select.bulk' | 'migrate.select.single' | 'duplicate';
 
 type MangaCardBaseProps = Pick<MangaTypeGql, 'id' | 'title' | 'sourceId'> &
     Omit<SingleModeProps['manga'], 'downloadCount' | 'unreadCount' | 'chapters'> &

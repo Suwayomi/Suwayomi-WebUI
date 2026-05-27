@@ -31,21 +31,16 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler';
 import { MangaMigration } from '@/features/migration/MangaMigration.ts';
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { assertIsDefined } from '@/base/Asserts.ts';
 
-const getMangaLinkTo = (
-    mode: MangaCardMode,
-    mangaId: number,
-    sourceId: string | undefined,
-    mangaTitle: string,
-): string => {
+const getMangaLinkTo = (mode: MangaCardMode, mangaId: number): string => {
     switch (mode) {
         case 'default':
         case 'source':
         case 'duplicate':
             return AppRoutes.manga.path(mangaId);
-        case 'migrate.search':
-            return AppRoutes.migrate.children.singleMangaSearch.path(sourceId ?? '-1', mangaId, mangaTitle);
-        case 'migrate.select':
+        case 'migrate.select.single':
+        case 'migrate.select.bulk':
             return '';
         default:
             throw new Error(`getMangaLinkTo: unexpected MangaCardMode "${mode}"`);
@@ -73,13 +68,15 @@ export const MangaCard = memo((props: MangaCardProps) => {
 
     const { updateLibraryState, isInLibrary } = useManageMangaLibraryState(manga, mode === 'source');
 
-    const mangaLinkTo = getMangaLinkTo(mode, manga.id, manga.sourceId, manga.title);
+    const mangaLinkTo = getMangaLinkTo(mode, manga.id);
 
     const handleClick = useCallback(
         (event: React.MouseEvent | React.TouchEvent, openMenu?: () => void) => {
             const isDefaultMode = mode === 'default';
             const isSourceMode = mode === 'source';
-            const isMigrateSelectMode = mode === 'migrate.select';
+            const isMigrationSelectSingleMode = mode === 'migrate.select.single';
+            const isMigrationSelectBulkMode = mode === 'migrate.select.bulk';
+            const isMigrateSelectMode = isMigrationSelectSingleMode || isMigrationSelectBulkMode;
             const isSelectionMode = selected !== null;
             const isLongPress = !!openMenu;
 
@@ -107,8 +104,8 @@ export const MangaCard = memo((props: MangaCardProps) => {
             }
 
             if (isMigrateSelectMode) {
-                const isBulkMigrationManualSearch = !!onMigrateSelect;
-                if (isBulkMigrationManualSearch) {
+                if (isMigrationSelectBulkMode) {
+                    assertIsDefined(onMigrateSelect);
                     onMigrateSelect({ ...manga, missingChapters: undefined });
                     return;
                 }
