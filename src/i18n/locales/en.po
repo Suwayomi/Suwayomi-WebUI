@@ -25,6 +25,11 @@ msgstr "{0, plural, one {# chapter} other {# chapters}}"
 msgid "{0, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{0, plural, one {# Chapter} other {# Chapters}}"
 
+#. placeholder {0}: downloadSettings.maxDownloadsInParallel
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "{0, plural, one {# Download} other {# Downloads}}"
+msgstr "{0, plural, one {# Download} other {# Downloads}}"
+
 #. placeholder {0}: backupSettings.backupInterval
 #: src/features/backup/screens/Backup.tsx
 msgid "{0, plural, one {# day} other {# days}}"
@@ -795,6 +800,10 @@ msgstr "Chapter does not exist"
 msgid "Chapter download limit"
 msgstr "Chapter download limit"
 
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Download limit"
+msgstr "Download limit"
+
 #: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
 msgid "Chapter list"
 msgstr "Chapter list"
@@ -1403,6 +1412,7 @@ msgstr "Doujinshi"
 #: src/features/chapter/Chapter.constants.ts
 #: src/features/chapter/components/buttons/ChapterDownloadButton.tsx
 #: src/features/chapter/components/ChaptersToolbarMenu.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Download"
 msgstr "Download"
 
@@ -2168,6 +2178,10 @@ msgstr "Limit reader width"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Limit the amount of new chapters that are going to get downloaded."
 msgstr "Limit the amount of new chapters that are going to get downloaded."
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Limit the number of parallel downloads."
+msgstr "Limit the number of parallel downloads."
 
 #: src/features/settings/screens/About.tsx
 msgid "Links"

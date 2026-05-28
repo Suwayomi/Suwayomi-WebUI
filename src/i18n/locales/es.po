@@ -432,6 +432,10 @@ msgstr "El capítulo no existe"
 msgid "Chapter download limit"
 msgstr "Límite de descarga de capítulos"
 
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Download limit"
+msgstr "Límite de descargas"
+
 #: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
 msgid "Chapter list"
 msgstr "Lista de capítulos"
@@ -1630,6 +1634,10 @@ msgstr "Límite de anchura del lector"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Limit the amount of new chapters that are going to get downloaded."
 msgstr "Limite la cantidad de capítulos nuevos que se van a descargar."
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Limit the number of parallel downloads."
+msgstr "Limite la cantidad de descargas en paralelo."
 
 #: src/features/settings/screens/About.tsx
 msgid "Links"

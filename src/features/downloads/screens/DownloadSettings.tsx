@@ -48,6 +48,7 @@ type DownloadSettingsType = Pick<
     | 'excludeEntryWithUnreadChapters'
     | 'autoDownloadIgnoreReUploads'
     | 'downloadConversions'
+    | 'maxDownloadsInParallel'
 >;
 
 export const DownloadSettings = () => {
@@ -124,6 +125,27 @@ export const DownloadSettings = () => {
                     downloadSettings?.downloadsPath.length ? downloadSettings.downloadsPath : t`Default`
                 }
                 handleChange={(path) => updateSetting('downloadsPath', path)}
+            />
+            <NumberSetting
+                settingTitle={t`Download limit`}
+                dialogDescription={t`Limit the number of parallel downloads.`}
+                value={downloadSettings?.maxDownloadsInParallel ?? 0}
+                settingValue={
+                    !downloadSettings.maxDownloadsInParallel
+                        ? t`None`
+                        : plural(downloadSettings.maxDownloadsInParallel, {
+                              one: '# Download',
+                              other: '# Downloads',
+                          })
+                }
+                defaultValue={3}
+                minValue={1}
+                maxValue={6}
+                showSlider
+                valueUnit={t`Download`}
+                handleUpdate={(maxDownloadsInParallel) =>
+                    updateSetting('maxDownloadsInParallel', maxDownloadsInParallel)
+                }
             />
             <ListItem>
                 <ListItemText primary={t`Save as CBZ archive`} />
