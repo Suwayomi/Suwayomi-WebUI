@@ -33,73 +33,73 @@ export function Settings() {
 
     return (
         <List sx={{ padding: 0 }}>
-            <ListItemLink to={AppRoutes.settings.childRoutes.appearance.path}>
+            <ListItemLink to={AppRoutes.settings.children.appearance.path}>
                 <ListItemIcon>
                     <PaletteIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`Appearance`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.reader.path}>
+            <ListItemLink to={AppRoutes.settings.children.reader.path}>
                 <ListItemIcon>
                     <AutoStoriesIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`Reader`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.library.path}>
+            <ListItemLink to={AppRoutes.settings.children.library.path}>
                 <ListItemIcon>
                     <CollectionsOutlinedBookmarkIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`Library`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.download.path}>
+            <ListItemLink to={AppRoutes.settings.children.download.path}>
                 <ListItemIcon>
                     <GetAppOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`Downloads`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.images.path}>
+            <ListItemLink to={AppRoutes.settings.children.images.path}>
                 <ListItemIcon>
                     <ImageIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`Images`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.tracking.path}>
+            <ListItemLink to={AppRoutes.settings.children.tracking.path}>
                 <ListItemIcon>
                     <SyncIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`Tracking`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.backup.path}>
+            <ListItemLink to={AppRoutes.settings.children.backup.path}>
                 <ListItemIcon>
                     <BackupIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`Backup`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.browse.path}>
+            <ListItemLink to={AppRoutes.settings.children.browse.path}>
                 <ListItemIcon>
                     <ExploreOutlinedIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`Browse`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.history.path}>
+            <ListItemLink to={AppRoutes.settings.children.history.path}>
                 <ListItemIcon>
                     <HistoryIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`History`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.device.path}>
+            <ListItemLink to={AppRoutes.settings.children.device.path}>
                 <ListItemIcon>
                     <DevicesIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`Device`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.webui.path}>
+            <ListItemLink to={AppRoutes.settings.children.webui.path}>
                 <ListItemIcon>
                     <WebIcon />
                 </ListItemIcon>
                 <ListItemText primary={t`WebUI`} />
             </ListItemLink>
-            <ListItemLink to={AppRoutes.settings.childRoutes.server.path}>
+            <ListItemLink to={AppRoutes.settings.children.server.path}>
                 <ListItemIcon>
                     <DnsIcon />
                 </ListItemIcon>

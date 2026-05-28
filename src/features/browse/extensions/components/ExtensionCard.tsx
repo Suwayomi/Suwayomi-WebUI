@@ -95,7 +95,7 @@ export function ExtensionCard(props: IProps) {
 
     return (
         <Card>
-            <OptionalCardActionAreaLink disabled={!isInstalled} to={AppRoutes.extension.childRoutes.info.path(pkgName)}>
+            <OptionalCardActionAreaLink disabled={!isInstalled} to={AppRoutes.extension.children.info.path(pkgName)}>
                 <ListCardContent>
                     <ListCardAvatar
                         iconUrl={requestManager.getValidImgUrlFor(iconUrl)}

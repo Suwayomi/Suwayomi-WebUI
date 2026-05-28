@@ -13,7 +13,7 @@ import { useTheme } from '@mui/material/styles';
 import { t } from '@lingui/core/macro';
 import type { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import type { IReaderSettings, ReaderOpenChapterLocationState } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, RouteStateReader } from '@/features/reader/Reader.types.ts';
 import { ReaderExitMode, ReaderOverlayMode, ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
@@ -82,7 +82,7 @@ export class ReaderService {
         return ReaderService.chapterUpdateQueues.get(id)!;
     }
 
-    static navigateToChapter(chapter: TChapterReader, state?: ReaderOpenChapterLocationState): void {
+    static navigateToChapter(chapter: TChapterReader, state?: RouteStateReader): void {
         ReactRouter.navigate(Chapters.getReaderUrl(chapter), {
             replace: true,
             state,

@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Add a search option to ignore matches with missing chapters
 - (**Migration**) Add "local source" as a possible destination source
 - (**Migration**) Add option to abort entries that are searching or are waiting to get migrated
+- (**Migration**) Add "in library" indicator
 
 ### Changed
 
@@ -41,6 +42,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Fix search hotkey (ctrl+f) in the single manga migration search page not focusing the search textfield
 - (**Migration**) Fix missing manual search option for in progress entry search without a selected match on mobile
 - (**Migration**) Fix being unable to retry failed search for a match without a selected match
+- (**Migration**) Fix selecting a destination from a source browse search page
 - (**Reader**) Fix scrollbar appearing with "fit to widt/height/screen" page scale mode and applied safe area insets
 - (**Reader**) Fix wrongly positioned mobile progress bar current page indicator
 - (**Reader**) Fix mobile progress bar previous/next chapter button visibility on hover and while disabled

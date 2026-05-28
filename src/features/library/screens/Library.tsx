@@ -179,7 +179,7 @@ export function Library() {
                     <Button
                         size="large"
                         component={Link}
-                        to={AppRoutes.sources.childRoutes.searchAll.path(query)}
+                        to={AppRoutes.sources.children.searchAll.path(query)}
                         sx={{ textTransform: 'none', width: '100%' }}
                     >
                         {t`Search for "${query}" globally`}

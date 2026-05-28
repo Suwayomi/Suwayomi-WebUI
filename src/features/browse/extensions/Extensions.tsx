@@ -268,7 +268,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 }}
             >
                 <Typography>{t`You have to add a extension repository to be able to install extensions`}</Typography>
-                <Button component={Link} variant="contained" to={AppRoutes.settings.childRoutes.browse.path}>
+                <Button component={Link} variant="contained" to={AppRoutes.settings.children.browse.path}>
                     {t`Settings`}
                 </Button>
             </Stack>

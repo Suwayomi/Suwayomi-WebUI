@@ -89,12 +89,14 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                         <>
                             <CustomTooltip title={t`Migrate`}>
                                 <Link
-                                    to={AppRoutes.migrate.childRoutes.singleMangaSearch.path(
+                                    to={AppRoutes.migrate.children.singleMangaSearch.path(
                                         manga.sourceId,
                                         manga.id,
                                         manga.title,
                                     )}
-                                    state={{ title: t`Migrate "${manga.title}"` }}
+                                    state={AppRoutes.migrate.children.singleMangaSearch.state({
+                                        title: t`Migrate "${manga.title}"`,
+                                    })}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
                                     <IconButton color="inherit">
@@ -163,12 +165,14 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             <MenuItem
                                 key="migrate"
                                 component={Link}
-                                to={AppRoutes.migrate.childRoutes.singleMangaSearch.path(
+                                to={AppRoutes.migrate.children.singleMangaSearch.path(
                                     manga.sourceId,
                                     manga.id,
                                     manga.title,
                                 )}
-                                state={{ title: t`Migrate "${manga.title}"` }}
+                                state={AppRoutes.migrate.children.singleMangaSearch.state({
+                                    title: t`Migrate "${manga.title}"`,
+                                })}
                                 style={{ textDecoration: 'none', color: 'inherit' }}
                             >
                                 <ListItemIcon>

@@ -16,6 +16,7 @@ import type {
     SourcePreferenceChangeInput,
     SourceType,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
+import type { MangaCardMode, MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 export interface IPos {
     type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
@@ -74,3 +75,16 @@ export type SourceRepoInfo = { extension: Pick<ExtensionType, 'repo'> };
 export type SourceMetaInfo = { meta: SourceMetaFieldsFragment[] };
 export type SourceConfigurableInfo = Pick<SourceType, 'isConfigurable'>;
 export type SourceIconInfo = Pick<SourceType, 'iconUrl'>;
+
+export enum SourceContentType {
+    POPULAR,
+    LATEST,
+    SEARCH,
+}
+
+export interface RouteStateSourceBrowse {
+    contentType?: SourceContentType;
+    clearCache?: boolean;
+    mode?: MangaCardMode;
+    mangaId?: MangaIdInfo['id'];
+}
