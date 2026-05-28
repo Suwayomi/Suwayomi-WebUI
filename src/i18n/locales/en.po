@@ -25,15 +25,15 @@ msgstr "{0, plural, one {# chapter} other {# chapters}}"
 msgid "{0, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{0, plural, one {# Chapter} other {# Chapters}}"
 
-#. placeholder {0}: downloadSettings.maxDownloadsInParallel
-#: src/features/downloads/screens/DownloadSettings.tsx
-msgid "{0, plural, one {# Download} other {# Downloads}}"
-msgstr "{0, plural, one {# Download} other {# Downloads}}"
-
 #. placeholder {0}: backupSettings.backupInterval
 #: src/features/backup/screens/Backup.tsx
 msgid "{0, plural, one {# day} other {# days}}"
 msgstr "{0, plural, one {# day} other {# days}}"
+
+#. placeholder {0}: downloadSettings.maxDownloadsInParallel
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "{0, plural, one {# Download} other {# Downloads}}"
+msgstr "{0, plural, one {# Download} other {# Downloads}}"
 
 #. placeholder {0}: selectedItemIds.length
 #: src/features/library/screens/Library.tsx
@@ -800,10 +800,6 @@ msgstr "Chapter does not exist"
 msgid "Chapter download limit"
 msgstr "Chapter download limit"
 
-#: src/features/downloads/screens/DownloadSettings.tsx
-msgid "Download limit"
-msgstr "Download limit"
-
 #: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
 msgid "Chapter list"
 msgstr "Chapter list"
@@ -1427,6 +1423,10 @@ msgstr "Download ahead ({count})"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Download chapters"
 msgstr "Download chapters"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Download limit"
+msgstr "Download limit"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Download location"
