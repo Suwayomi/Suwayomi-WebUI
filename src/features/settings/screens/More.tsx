@@ -48,7 +48,7 @@ export const More = () => {
     const hiddenItemsMoreGroup = [
         ...(hiddenNavBarItemsByMoreGroup[NavBarItemMoreGroup.HIDDEN_ITEM] ?? STABLE_EMPTY_ARRAY),
         {
-            path: AppRoutes.settings.childRoutes.categories.path,
+            path: AppRoutes.settings.children.categories.path,
             title: msg`Categories`,
             SelectedIconComponent: ListAltIcon,
             IconComponent: ListAltIcon,

@@ -18,7 +18,7 @@ import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
-import type { ReaderOpenChapterLocationState } from '@/features/reader/Reader.types.ts';
+import type { RouteStateReader } from '@/features/reader/Reader.types.ts';
 import { ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -431,11 +431,11 @@ export class Chapters {
     static getReaderOpenChapterLocationState(
         chapter: ChapterReadInfo,
         updateInitialChapter?: boolean,
-    ): ReaderOpenChapterLocationState {
-        return {
+    ): RouteStateReader {
+        return AppRoutes.reader.state({
             resumeMode: Chapters.getReaderResumeMode(chapter),
             updateInitialChapter,
-        };
+        });
     }
 
     /**

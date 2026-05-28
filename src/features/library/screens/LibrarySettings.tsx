@@ -129,7 +129,7 @@ export function LibrarySettings() {
                     </ListSubheader>
                 }
             >
-                <ListItemLink to={AppRoutes.settings.childRoutes.categories.path}>
+                <ListItemLink to={AppRoutes.settings.children.categories.path}>
                     <ListItemText
                         primary={t`Edit categories`}
                         secondary={plural(categoryCount, {
@@ -197,7 +197,7 @@ export function LibrarySettings() {
                         secondary={t`Remove non library manga from categories`}
                     />
                 </ListItemButton>
-                <ListItemLink to={AppRoutes.settings.childRoutes.library.childRoutes.duplicates.path}>
+                <ListItemLink to={AppRoutes.settings.children.library.children.duplicates.path}>
                     <ListItemText
                         primary={t`Duplicated entries`}
                         secondary={t`Show all duplicated entries in your library`}

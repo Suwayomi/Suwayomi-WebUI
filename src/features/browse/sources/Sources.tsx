@@ -107,7 +107,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     useAppAction(
         <>
             <CustomTooltip title={t`Global Search`}>
-                <IconButton onClick={() => navigate(AppRoutes.sources.childRoutes.searchAll.path())} color="inherit">
+                <IconButton onClick={() => navigate(AppRoutes.sources.children.searchAll.path())} color="inherit">
                     <TravelExploreIcon />
                 </IconButton>
             </CustomTooltip>

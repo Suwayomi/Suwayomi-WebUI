@@ -249,6 +249,7 @@ export class MigrationManager {
             sourceTitle: cachedEntry?.source?.displayName ?? searchMatch.sourceTitle,
             latestChapterNumber: cachedEntry?.highestNumberedChapter?.chapterNumber ?? searchMatch.latestChapterNumber,
             missingChapters: searchMatch.missingChapters,
+            inLibrary: cachedEntry?.inLibrary ?? searchMatch.inLibrary,
         };
     }
 
@@ -319,9 +320,12 @@ export class MigrationManager {
             const [manga] = mangas;
 
             ReactRouter.navigate(
-                AppRoutes.migrate.childRoutes.singleMangaSearch.path(manga.sourceId, manga.id, manga.title),
+                AppRoutes.migrate.children.singleMangaSearch.path(manga.sourceId, manga.id, manga.title),
                 {
-                    state: { title: t`Migrate "${manga.title}"` },
+                    state: AppRoutes.migrate.children.singleMangaSearch.state({
+                        title: t`Migrate "${manga.title}"`,
+                        mode: 'migrate.select.single',
+                    }),
                 },
             );
 
@@ -669,8 +673,11 @@ export class MigrationManager {
     }
 
     static openManualSearch(mangaId: MangaIdInfo['id'], title: string): void {
-        ReactRouter.navigate(AppRoutes.migrate.childRoutes.manualSearch.path(mangaId, title), {
-            state: { title: t`Manual migration search for "${title}"` },
+        ReactRouter.navigate(AppRoutes.migrate.children.manualSearch.path(mangaId, title), {
+            state: AppRoutes.migrate.children.manualSearch.state({
+                title: t`Manual migration search for "${title}"`,
+                mode: 'migrate.select.bulk',
+            }),
         });
     }
 
@@ -949,6 +956,7 @@ export class MigrationManager {
                                 sourceId: manga.sourceId,
                                 sourceTitle: manga.source?.displayName,
                                 missingChapters: chapters ? Chapters.getMissingCount(chapters) : undefined,
+                                inLibrary: manga.inLibrary,
                             }));
 
                             draftEntry.destSourceIdToSearchState[destSourceId] = true;

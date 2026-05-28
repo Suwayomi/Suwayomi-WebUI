@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/material/styles';
 import { useLocation } from 'react-router-dom';
 import { useMergedRef } from '@mantine/hooks';
-import type { ReaderOpenChapterLocationState } from '@/features/reader/Reader.types.ts';
+import type { RouteStateReader } from '@/features/reader/Reader.types.ts';
 import { PageInViewportType, ReaderResumeMode, ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
@@ -50,6 +50,7 @@ import {
     useReaderPagesStore,
     useReaderSettingsStore,
 } from '@/features/reader/stores/ReaderStore.ts';
+import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -109,9 +110,7 @@ const BaseReaderViewer = ({
         isStaticNav: state.isStaticNav,
     }));
     const safeAreaInset = useReaderSettingsStore('safeAreaInset');
-    const { resumeMode = ReaderResumeMode.START } = useLocation<ReaderOpenChapterLocationState>().state ?? {
-        resumeMode: ReaderResumeMode.START,
-    };
+    const { resumeMode = ReaderResumeMode.START } = useLocation<RouteStateReader>().state ?? STABLE_EMPTY_OBJECT;
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
     const mergedRef = useMergedRef(ref, scrollElementRef);

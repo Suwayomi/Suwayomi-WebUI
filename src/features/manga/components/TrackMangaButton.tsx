@@ -44,7 +44,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Mang
         }
 
         if (!loggedInTrackers.length) {
-            navigate(AppRoutes.settings.childRoutes.tracking.path);
+            navigate(AppRoutes.settings.children.tracking.path);
             return;
         }
 

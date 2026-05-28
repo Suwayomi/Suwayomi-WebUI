@@ -164,7 +164,7 @@ export const MigrationSelectMangas = () => {
     return (
         <>
             <BaseMangaGrid
-                mode="migrate.select"
+                mode="migrate.select.bulk"
                 hasNextPage={false}
                 loadMore={noOp}
                 isLoading={areMangasLoading}

@@ -23,6 +23,7 @@ import type {
     MangaArtistInfo,
     MangaAuthorInfo,
     MangaIdInfo,
+    MangaInLibraryInfo,
     MangaSourceIdInfo,
     MangaThumbnailInfo,
     MangaTitleInfo,
@@ -102,7 +103,14 @@ export enum MigrationEntryStatus {
 }
 
 export interface MigrationMatch
-    extends MangaIdInfo, MangaTitleInfo, MangaThumbnailInfo, MangaSourceIdInfo, MangaArtistInfo, MangaAuthorInfo {
+    extends
+        MangaIdInfo,
+        MangaTitleInfo,
+        MangaThumbnailInfo,
+        MangaSourceIdInfo,
+        MangaArtistInfo,
+        MangaAuthorInfo,
+        Pick<MangaInLibraryInfo, 'inLibrary'> {
     sourceTitle: SourceDisplayNameInfo['displayName'] | undefined;
     latestChapterNumber: ChapterNumberInfo['chapterNumber'] | undefined;
     missingChapters: number | undefined;
