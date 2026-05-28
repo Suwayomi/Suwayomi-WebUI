@@ -111,6 +111,10 @@ msgstr "Clasificación de edad"
 msgid "All"
 msgstr "Todos los capítulos"
 
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr "{ttl, plural, one {Eliminar backups mas viejos que # dia} other {Eliminar backups mas viejos que # dias}}"
+
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Allow deleting bookmarked chapters"
 msgstr "Permitir la eliminación de los capítulos marcados"
@@ -1386,6 +1390,11 @@ msgid "Image processing"
 msgstr "Procesando imágen"
 
 #: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Image serve processing"
+msgstr "Procesado lectura de imagen"
+
+#: src/features/settings/screens/ImagesSettings.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Images"
 msgstr "Imágenes"
@@ -1921,6 +1930,10 @@ msgstr "Novela"
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Number of unread chapters to download"
 msgstr "Número de capítulos no leídos a descargar"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{currentDownloadAheadLimit, plural, one {# Capítulo} other {# Capítulos}}"
 
 #: src/features/extension/Extensions.constants.ts
 #: src/features/extension/Extensions.constants.ts
@@ -3207,7 +3220,7 @@ msgstr "Tu biblioteca será accesible. Usa esto solo en redes privadas o cuando 
 #. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "{0, plural, one {# Chapter} other {# Chapters}}"
-msgstr "{0, plural, one {# Capítulo} other {# Capítulos}}"
+msgstr "{0, plural, one {# Capitulo} other {# Capitulos}}"
 
 #. placeholder {0}: backupSettings.backupInterval
 #: src/features/backup/screens/Backup.tsx
@@ -3485,3 +3498,27 @@ msgstr "Capítulo"
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Storage"
 msgstr "Almacenamiento"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "Mostrar en las listas de fuentes y extensiones"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr "Esto no impide que las extensiones no oficiales o potencialmente mal etiquetadas muestren contenido NSFW (para mayores de 18 años) dentro de la aplicación."
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr "Muestra un cuadro de diálogo si la versión se ha actualizado. Este cuadro de diálogo se mostrará si es necesario actualizar la aplicación, independientemente de esta configuración."
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr "Informar sobre la actualización de la versión"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr "Muestra un cuadro de diálogo si la versión del servidor ha cambiado"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr "Informar sobre la actualización de la versión"

@@ -32,3 +32,7 @@ npx -p @graphql-codegen/cli graphql-codegen --config gql_codegen.ts
 ### `pnpm tsc`
 
 Compile typescript
+
+### `pnpm oxlint`
+
+Lint
