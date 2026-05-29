@@ -96,6 +96,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                     )}
                                     state={AppRoutes.migrate.children.singleMangaSearch.state({
                                         title: t`Migrate "${manga.title}"`,
+                                        mode: 'migrate.select.single',
                                     })}
                                     style={{ textDecoration: 'none', color: 'inherit' }}
                                 >
