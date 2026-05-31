@@ -1361,10 +1361,6 @@ msgstr "Скрывать имеющиеся в библиотеки записи
 msgid "Hide history"
 msgstr "Скрыть историю"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Скрыть NSFW-расширения (18+) и источники"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Hikari connection pool"
 msgstr "Пул соединения Hikari"
@@ -2569,10 +2565,6 @@ msgstr "Показывать меньше"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Показать больше"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Источник NSFW (18+)"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"

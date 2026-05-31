@@ -1230,10 +1230,6 @@ msgstr "すでにライブラリにあるエントリを非表示にする"
 msgid "Hide history"
 msgstr "履歴を非表示にする"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "NSFW拡張機能とソースを隠す"
-
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
 msgstr "水平"
@@ -2301,10 +2297,6 @@ msgstr "表示を減らす"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "もっと表示"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFWを表示する"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"

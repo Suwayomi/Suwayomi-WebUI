@@ -1235,10 +1235,6 @@ msgstr "Ukryj pozycje już znajdujące się w bibliotece"
 msgid "Hide history"
 msgstr "Ukryj historię"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Ukryj rozszerzenia i źródła NSFW"
-
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
 msgstr "Poziomo"
@@ -2310,10 +2306,6 @@ msgstr "Pokaż mniej"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Pokaż więcej"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Pokaż NSFW"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"

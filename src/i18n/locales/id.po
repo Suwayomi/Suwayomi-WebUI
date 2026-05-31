@@ -2814,10 +2814,6 @@ msgstr "Header ({0})"
 msgid "Hide entries already in library"
 msgstr "Sembunyikan entri yang sudah ada di perpustakaan"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Sembunyikan ekstensi dan sumber NSFW"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Hikari connection pool"
 msgstr "Kumpulan koneksi Hikari"
@@ -3445,10 +3441,6 @@ msgstr "Pengaturan"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show icon in system tray"
 msgstr "Tampilkan ikon di baki sistem"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Tampilkan NSFW"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show only downloaded chapters"

@@ -1667,10 +1667,6 @@ msgstr "Már könytárban lévő címek elrejtése"
 msgid "Hide history"
 msgstr "Elrejtési előzmények"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "NSFW bővítmények és források elrejtése"
-
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
@@ -2767,10 +2763,6 @@ msgstr "Kevesebb megjelenítése"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Több megjelenítése"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW tartalmak megjelenítése"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"

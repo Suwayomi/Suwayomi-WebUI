@@ -1118,10 +1118,6 @@ msgstr "Kütüphanede bulunan girdileri gizle"
 msgid "Hide history"
 msgstr "Geçimişi gizle"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "NSFW uzantılarını ve kaynaklarını gizle"
-
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
 msgstr "Yatay"
@@ -2064,10 +2060,6 @@ msgstr "Daha az göster"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Daha fazla göster"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW'yi göster"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"

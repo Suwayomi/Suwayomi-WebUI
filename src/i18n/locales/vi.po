@@ -1355,10 +1355,6 @@ msgstr "Ẩn mục đã có sẵn trong thư viện"
 msgid "Hide history"
 msgstr "Ẩn lịch sử"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Ẩn các tiện ích mở rộng và nguồn NSFW (18+)"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Hikari connection pool"
 msgstr "Nhóm kết nối Hikari"
@@ -2558,10 +2554,6 @@ msgstr "Ẩn đi"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Hiển thị thêm"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Nội dung NSFW (18+)"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"

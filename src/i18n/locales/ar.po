@@ -897,10 +897,6 @@ msgstr "توقف مؤقت"
 msgid "Hidden"
 msgstr "مخفي"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "إخفاء إضافات المحتوى الحساس (NSFW)"
-
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
 msgstr "أفقي"
@@ -1574,10 +1570,6 @@ msgstr "عرض أقل"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "عرض المزيد"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "إظهار محتوى البالغين (NSFW)"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
