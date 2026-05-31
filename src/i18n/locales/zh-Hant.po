@@ -1300,10 +1300,6 @@ msgstr "隱藏已在書櫃中的條目"
 msgid "Hide history"
 msgstr "隱藏歷史記錄"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "顯示 NSFW 擴充套件與來源"
-
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
@@ -2410,10 +2406,6 @@ msgstr "顯示較少項目"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "顯示更多項目"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW (18+) 內容"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"

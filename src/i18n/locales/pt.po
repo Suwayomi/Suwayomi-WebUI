@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.902Z\n"
-"PO-Revision-Date: 2026-05-10 19:11+0000\n"
-"Last-Translator: Silvery <alexis.silvery@gmail.com>\n"
+"PO-Revision-Date: 2026-05-26 10:11+0000\n"
+"Last-Translator: Rodrigo Marques <rodrigomjs10@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/pt/>\n"
 "Language: pt\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.5-dev\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -1184,10 +1184,6 @@ msgstr "Ocultar entradas já na biblioteca"
 msgid "Hide history"
 msgstr "Ocultar histórico"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Ocultar extensões e fontes NSFW"
-
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
 msgstr "Horizontal"
@@ -2201,10 +2197,6 @@ msgstr "Mostrar menos"
 msgid "Show more"
 msgstr "Mostrar mais"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Mostrar NSFW"
-
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
 msgstr "Mostrar número de itens"
@@ -2714,7 +2706,7 @@ msgstr "Vertical"
 
 #: src/features/settings/Settings.constants.ts
 msgid "VUI"
-msgstr "VUI"
+msgstr "Interface de Usuário por Voz"
 
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
@@ -2738,11 +2730,11 @@ msgstr "Interface Web"
 
 #: src/features/settings/screens/About.tsx
 msgid "WebUI channel"
-msgstr "Interface Web canal"
+msgstr "Canal de interface de Usuário da Web"
 
 #: src/features/settings/screens/About.tsx
 msgid "WebUI version"
-msgstr "Interface Web versão"
+msgstr "Versão da Interface de Usuário da Web"
 
 #: src/features/settings/Settings.constants.ts
 #: src/features/settings/Settings.constants.ts
@@ -2767,7 +2759,7 @@ msgstr "Ontem"
 
 #: src/base/utils/DateHelper.ts
 msgid "Yesterday at {timeString}"
-msgstr "Ontem {timeString}"
+msgstr "Ontem às {timeString}"
 
 #: src/features/theme/Themes.ts
 msgid "Ying & Yang"
@@ -3429,3 +3421,45 @@ msgstr "Valor"
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "You are about to remove \"{0}\" from your library"
 msgstr "Estás prestes a remover \"{0}\" da tua biblioteca"
+
+#: src/features/settings/Settings.constants.ts
+msgid "When you enable this, you may need to refresh this tab for the login page to appear."
+msgstr ""
+"Ao habilitar essa opção, pode precisar atualizar essa guia para que a página "
+"de login seja exibida."
+
+#. placeholder {0}: aboutWebUI?.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI was updated to version {newVersion} ({0})"
+msgstr "Interface Web foi atualizada para a versão {newVersion} ({0})"
+
+#. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
+#. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI version {0} ({1}) available for download"
+msgstr ""
+"Versão {0} ({1}) da Interface de Usuário da Web disponível para download"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Your browser will prompt you to enter credentials with a dialog."
+msgstr ""
+"Seu navegador solicitará que você insira suas credenciais por meio de uma "
+"caixa de diálogo."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Your library will be accessible. Use this only on private networks or when otherwise securing access."
+msgstr ""
+"Sua biblioteca ficará acessível. Utilize-a apenas em redes privadas ou "
+"quando o acesso estiver protegido por outros meios."
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr ""
+"{count, plural, one {Changed categories of manga} other {Changed categories "
+"of # manga}}"

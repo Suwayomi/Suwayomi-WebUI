@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.799Z\n"
-"PO-Revision-Date: 2026-05-13 20:11+0000\n"
+"PO-Revision-Date: 2026-05-26 10:11+0000\n"
 "Last-Translator: Constantin Piber <cp.piber@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/de/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -1356,10 +1356,6 @@ msgstr "Verstecke Einträge, welche bereits in deiner Bibliothek sind"
 msgid "Hide history"
 msgstr "Verlauf verstecken"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "NSFW Erweiterungen und Quellen verstecken"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Hikari connection pool"
 msgstr "Hikari Connection Pool"
@@ -2559,10 +2555,6 @@ msgstr "Weniger anzeigen"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Mehr anzeigen"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW-Inhalte anzeigen"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -4080,12 +4072,6 @@ msgid "Breaks down the title into keywords for a wider search"
 msgstr "Zerlegt den Titel in Schlüsselwörter für eine erweiterte Suche"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
-msgstr ""
-"Wähle Treffer nicht, wenn sie nicht am aktuellen Stand der verwendeten "
-"Quelle sind. Die Treffer werden trotzdem in der Liste angezeigt"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid ""
 "If enabled, chooses the match furthest ahead.\n"
 "Otherwise, picks the first match by source priority."
@@ -4124,3 +4110,70 @@ msgstr ""
 #: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Top"
 msgstr "Oben"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "Abgebrochen"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr "Wähle Einträge automatisch, welche zusätzliche Kapitel verfügbar haben"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr ""
+"Wähle Einträge automatisch, welche zumindest dasselbe Kapitel als Neustes "
+"verfügbar haben"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr "Wähle automatisch Einträge, wenn keine Kapitel fehlen"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "Ignoriere Einträge, welche weniger Kapitel verfügbar haben"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "Ignoriere Einträge, bei denen Kapitel fehlen"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "Migriere ausgewählte"
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "Fehlend: {0}"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "Keine Quellen zum migrieren verfügbar"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "NSFW (18+) Quellen"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "In Quellen & Erweiterungen Listen anzeigen"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "Quellen"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr ""
+"Dies verhindert nicht, dass inoffizielle oder potenziell falsch markierte "
+"Erweiterungen NSFW (18+) Inhalt in der Applikation anzeigen können."
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr "{0, plural, one {1 Eintrag abgebrochen} other {# Einträge abgebrochen}}"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "Manuelle Migrationssuche für \"{title}\""

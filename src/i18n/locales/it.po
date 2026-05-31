@@ -1308,10 +1308,6 @@ msgstr "Nascondere le voci già presenti nella libreria"
 msgid "Hide history"
 msgstr "Nascondi cronologia"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Nascondere le estensioni e le fonti NSFW"
-
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
@@ -2460,10 +2456,6 @@ msgstr "Mostra di meno"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Mostra di più"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Mostra NSFW"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"

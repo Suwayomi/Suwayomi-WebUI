@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-05-12 02:34+0000\n"
+"PO-Revision-Date: 2026-05-24 00:14+0000\n"
 "Last-Translator: 清水汐音 <chenzhongjie19940725@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.5-dev\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -1367,10 +1367,6 @@ msgstr "隐藏已在书架中的条目"
 msgid "Hide history"
 msgstr "隐藏历史"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "显示NSFW (18+) 插件和图源"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Hikari connection pool"
 msgstr "Hikari连接池"
@@ -2555,10 +2551,6 @@ msgstr "显示更少项目"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "显示更多项目"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "显示NSFW (18+) 内容"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -4005,10 +3997,6 @@ msgid "Breaks down the title into keywords for a wider search"
 msgstr "将标题拆分为关键词，以扩大搜索范围"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
-msgstr "如果匹配项落后于当前源，则不要自动选择它们。它们仍会显示在已找到的匹配项中"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid ""
 "If enabled, chooses the match furthest ahead.\n"
 "Otherwise, picks the first match by source priority."
@@ -4043,3 +4031,66 @@ msgstr "这些选项速度较慢且存在风险，可能会导致被源站限制
 #: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Top"
 msgstr "顶部"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "已中止"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "迁移所选项"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr "如果匹配项包含更多章节，则自动选择它们"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr "如果匹配项的最新章节至少与当前源相同，则自动选择它们"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr "如果匹配项没有缺失章节，则自动选择它们"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "忽略章节进度落后的匹配项"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "忽略存在缺失章节的匹配项"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "手动迁移搜索\"{title}\""
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "缺失： {0}"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "没有可用于迁移的源"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "NSFW (18+) 源"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "在源和扩展列表中显示"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "源"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr "这不会阻止非官方或可能被错误标记的扩展在应用内显示 NSFW（18+）内容。"
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr "{0, plural, one {1 条已中止的条目} other {# 条已中止的条目}}"

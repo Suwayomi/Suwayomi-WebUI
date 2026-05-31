@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-05-13 22:03+0000\n"
-"Last-Translator: schroda <50052685+schroda@users.noreply.github.com>\n"
+"PO-Revision-Date: 2026-05-30 08:01+0000\n"
+"Last-Translator: mrintrepide <quentin@intrepide.io>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
 "Language: fr\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -213,7 +213,7 @@ msgstr "Rafraîchissement automatique des métadonnées"
 msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
 msgstr ""
 "Utilise automatiquement le mode webtoon pour les entrées susceptibles "
-"d'utiliser le format en longeur"
+"d'utiliser le format en longueur"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Back up library as a Tachiyomi backup"
@@ -903,7 +903,7 @@ msgstr "Ne plus afficher cette boite de dialogue"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Double page"
-msgstr "Double page"
+msgstr "Double-page"
 
 #: src/features/tracker/Tracker.constants.ts
 msgid "Doujinshi"
@@ -1282,10 +1282,6 @@ msgstr "Masquer les éléments déjà dans la bibliothèque"
 #: src/features/history/screens/HistorySettings.tsx
 msgid "Hide history"
 msgstr "Cacher l'historique"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Masquer les extensions et les sources comportant du contenu explicite"
 
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
@@ -1814,7 +1810,7 @@ msgstr "OEL"
 #: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopOffsetDoubleSpread.tsx
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Offset double spreads"
-msgstr "Décalage double page"
+msgstr "Décalage double-page"
 
 #: src/base/components/inputs/LanguageSelect.tsx
 #: src/base/components/modals/ConfirmDialog.tsx
@@ -2178,7 +2174,7 @@ msgstr "À droite"
 
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
 msgid "Right and left"
-msgstr "Droit et gauche"
+msgstr "À droite et à gauche"
 
 #: src/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx
 #: src/features/reader/settings/ReaderSettings.constants.tsx
@@ -2374,10 +2370,6 @@ msgstr "Montrer moins"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Montrer plus"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Afficher les contenus explicites"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -2700,7 +2692,7 @@ msgstr "Afficher/Masquer le menu"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Toggle offset double spreads"
-msgstr "Activer/désactiver le décalage double page"
+msgstr "Activer/désactiver le décalage double-page"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Toggle stretch image"
@@ -3614,13 +3606,6 @@ msgstr "Se déconnecter de KOReader Sync server"
 msgid "Disconnected"
 msgstr "Déconnecté"
 
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Do not automatically select matches if they are behind the current source. They will still be shown in the found matches"
-msgstr ""
-"Ne pas choisir automatiquement les correspondances si elles sont derrière la "
-"source actuelle. Elles seront toujours affichées dans les correspondances "
-"trouvées"
-
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Done"
 msgstr "Effectué"
@@ -4133,3 +4118,75 @@ msgstr "WebUI a été mis à jour vers la version {newVersion} ({0})"
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "You are about to remove \"{0}\" from your library"
 msgstr "Vous allez supprimer \"{0}\" de votre bibliothèque"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "Interrompu"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "Migrer la sélection"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr ""
+"Sélectionner automatiquement les correspondances si elles ont des chapitres "
+"en plus"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr ""
+"Sélectionner automatiquement les correspondances si elles ont au moins le "
+"dernier numéro de chapitre en commun"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr ""
+"Sélectionner automatiquement les correspondances si elles n'ont aucun "
+"chapitre manquant"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr ""
+"Ignorer les correspondances qui n'ont pas les chapitres les plus récents"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "Ignorer les correspondances qui ont des chapitres manquants"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "Recherche pour la migration manuelle de \"{title}\""
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "Manquant(s) : {0}"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "Aucune source disponible vers laquelle migrer"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "Sources avec contenu pour adultes (18+)"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "Montrer dans les listes des sources et des extensions"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "Sources"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr ""
+"Cela n'empêchera pas des extensions non officielles ou mal caractérisées "
+"d'afficher du contenu pour adultes (18+) dans l'application."
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr "{0, plural, one {1 entrée interrompue} other {# entrées interrompues}}"

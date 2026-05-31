@@ -717,10 +717,6 @@ msgstr "Глобальне оновлення (останнє оновлення
 msgid "h"
 msgstr "г"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Приховати NSFW розширення та джерела"
-
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "How many chapters should get downloaded while reading."
 msgstr "Скільки глав має бути завантажено під час читання."
@@ -1249,10 +1245,6 @@ msgstr "Показати елемент"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show icon in system tray"
 msgstr "Показати іконку в системному треї"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Показати NSFW"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"

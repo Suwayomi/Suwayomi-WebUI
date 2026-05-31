@@ -1096,10 +1096,6 @@ msgstr "Esconder itens que já estão na biblioteca"
 msgid "Hide history"
 msgstr "Esconder histórico"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Esconder extensões e fontes NSFW"
-
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
 msgstr "Horizontal"
@@ -2056,10 +2052,6 @@ msgstr "Mostrar menos"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Mostrar mais"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Mostrar NSFW"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
