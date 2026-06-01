@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.820Z\n"
-"PO-Revision-Date: 2026-05-13 22:03+0000\n"
-"Last-Translator: schroda <50052685+schroda@users.noreply.github.com>\n"
+"PO-Revision-Date: 2026-05-24 00:14+0000\n"
+"Last-Translator: Harold Marin Salazar <lartemozerion@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/es/>\n"
 "Language: es\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -1331,10 +1331,6 @@ msgstr "Ocultar entradas en biblioteca"
 msgid "Hide history"
 msgstr "Ocultar historial"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Esconder extensiones y fuentes NSFW"
-
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
@@ -2529,10 +2525,6 @@ msgstr "Mostrar menos"
 msgid "Show more"
 msgstr "Mostrar más"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Mostrar NSFW"
-
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
 msgstr "Mostrar número de elementos"
@@ -3522,3 +3514,9 @@ msgstr "Muestra un cuadro de diálogo si la versión del servidor ha cambiado"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Inform about version update"
 msgstr "Informar sobre la actualización de la versión"
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr "{0, plural, one {1 entrada cancelada} other {# entradas canceladas}}"
