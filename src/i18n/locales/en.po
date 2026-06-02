@@ -358,6 +358,10 @@ msgstr "Active device"
 msgid "Active setting"
 msgstr "Active setting"
 
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "Active setting ({title})"
+
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx

@@ -10,7 +10,6 @@ import Stack from '@mui/material/Stack';
 import FitScreenIcon from '@mui/icons-material/FitScreen';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { ValueRotationButton } from '@/base/components/buttons/ValueRotationButton.tsx';
 import type {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
@@ -23,6 +22,7 @@ import {
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { CustomIconButton } from '@/base/components/buttons/CustomIconButton.tsx';
 import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
+import { SelectButton } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderNavBarDesktopPageScale = ({
     pageScaleMode,
@@ -40,7 +40,7 @@ export const ReaderNavBarDesktopPageScale = ({
 
     return (
         <Stack sx={{ flexDirection: 'row', gap: 1 }}>
-            <ValueRotationButton
+            <SelectButton<ReaderPageScaleMode>
                 {...buttonSelectInputProps}
                 tooltip={t`Scale type`}
                 value={pageScaleMode.isDefault ? undefined : pageScaleMode.value}
@@ -49,6 +49,7 @@ export const ReaderNavBarDesktopPageScale = ({
                 setValue={(value) => updateSetting('pageScaleMode', value)}
                 valueToDisplayData={PAGE_SCALE_VALUE_TO_DISPLAY_DATA}
                 defaultIcon={PAGE_SCALE_VALUE_TO_DISPLAY_DATA[pageScaleMode.value].icon}
+                isCollapsible
             />
             {READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED[pageScaleMode.value] && (
                 <CustomTooltip title={t`Stretch small pages`}>

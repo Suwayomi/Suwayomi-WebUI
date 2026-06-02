@@ -6,12 +6,20 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import type { StackProps } from '@mui/material/Stack';
 import Stack from '@mui/material/Stack';
+import type { ButtonProps } from '@mui/material/Button';
 import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
 import type { ValueToDisplayData } from '@/base/Base.types.ts';
+import type { ReactNode, RefObject } from 'react';
+import { useCallback, useState } from 'react';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import { assertIsDefined } from '@/base/Asserts.ts';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { useElementSize } from '@mantine/hooks';
 
 export interface SelectButtonBaseProps<Value extends string | number, MultiValue extends Value | Value[] = Value> {
     value: MultiValue;
@@ -19,6 +27,9 @@ export interface SelectButtonBaseProps<Value extends string | number, MultiValue
     values: Value[];
     setValue: (value: MultiValue) => void;
     valueToDisplayData: ValueToDisplayData<Value>;
+    isCollapsible?: MultiValue extends Value[] ? never : boolean;
+    tooltip?: MultiValue extends Value[] ? never : ReactNode;
+    defaultIcon?: MultiValue extends Value[] ? never : ReactNode;
 }
 
 export interface SelectButtonDefaultableProps<
@@ -33,7 +44,8 @@ export type SelectButtonProps<Value extends string | number, MultiValue extends 
     | (SelectButtonBaseProps<Value, MultiValue> & PropertiesNever<SelectButtonDefaultableProps<Value, MultiValue>>)
     | SelectButtonDefaultableProps<Value, MultiValue>;
 
-export const SelectButton = <Value extends string | number, MultiValue extends Value | Value[] = Value>({
+const SelectButtonBase = <Value extends string | number, MultiValue extends Value | Value[] = Value>({
+    ref,
     value,
     values,
     defaultValue,
@@ -41,15 +53,37 @@ export const SelectButton = <Value extends string | number, MultiValue extends V
     valueToDisplayData,
     isDefaultable,
     onDefault,
-}: SelectButtonProps<Value, MultiValue>) => {
+    slotProps,
+}: SelectButtonProps<Value, MultiValue> & {
+    ref?: RefObject<HTMLDivElement>;
+    slotProps?: {
+        stack?: StackProps;
+        defaultButton?: ButtonProps & { hideText?: boolean };
+        button?: ButtonProps & { hideText?: boolean; tooltip?: (isDefault: boolean, title: string) => ReactNode };
+    };
+}) => {
     const { t } = useLingui();
 
     return (
-        <Stack sx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 1 }}>
+        <Stack
+            {...slotProps?.stack}
+            ref={ref}
+            sx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 1, ...slotProps?.stack?.sx }}
+        >
             {isDefaultable && (
-                <Button key="default" onClick={onDefault} variant={value === undefined ? 'contained' : 'outlined'}>
-                    {t`Default`}
-                </Button>
+                <CustomTooltip title={slotProps?.defaultButton?.hideText ? t`Default` : null}>
+                    <Button
+                        onClick={onDefault}
+                        variant={value === undefined ? 'contained' : 'outlined'}
+                        {...slotProps?.defaultButton}
+                        startIcon={!slotProps?.defaultButton?.hideText && slotProps?.defaultButton?.startIcon}
+                        endIcon={!slotProps?.defaultButton?.hideText && slotProps?.defaultButton?.endIcon}
+                    >
+                        {!slotProps?.defaultButton?.hideText
+                            ? t`Default`
+                            : (slotProps?.defaultButton?.startIcon ?? slotProps?.defaultButton?.endIcon)}
+                    </Button>
+                </CustomTooltip>
             )}
             {values.map((displayValue) => {
                 const isDefault = value === undefined && displayValue === defaultValue;
@@ -74,17 +108,136 @@ export const SelectButton = <Value extends string | number, MultiValue extends V
                         : t(valueToDisplayData[displayValue].title);
 
                 return (
-                    <CustomTooltip key={displayValue} title={isDefault ? t`Active setting` : ''}>
+                    <CustomTooltip
+                        key={displayValue}
+                        title={slotProps?.button?.tooltip?.(isDefault, text) ?? (isDefault ? t`Active setting` : '')}
+                    >
                         <Button
-                            onClick={() => setValue(newValue)}
                             variant={isSelected ? 'contained' : 'outlined'}
-                            startIcon={valueToDisplayData[displayValue].icon}
+                            startIcon={!slotProps?.button?.hideText && valueToDisplayData[displayValue].icon}
+                            {...slotProps?.button}
+                            onClick={() => setValue(newValue)}
                         >
-                            {isDefault ? <Superscript superscript="*" text={text} /> : text}
+                            {(() => {
+                                if (slotProps?.button?.hideText) {
+                                    return isDefault ? (
+                                        <Superscript superscript="*" text={valueToDisplayData[displayValue].icon} />
+                                    ) : (
+                                        valueToDisplayData[displayValue].icon
+                                    );
+                                }
+
+                                return isDefault ? <Superscript superscript="*" text={text} /> : text;
+                            })()}
                         </Button>
                     </CustomTooltip>
                 );
             })}
         </Stack>
     );
+};
+
+const SelectButtonCollapsible = <Value extends string | number, MultiValue extends Value | Value[] = Value>(
+    props: SelectButtonProps<Value, MultiValue>,
+) => {
+    const { tooltip, value, valueToDisplayData, defaultValue, onDefault, setValue, defaultIcon } = props;
+
+    const { t } = useLingui();
+    const { ref, height } = useElementSize();
+
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const finalOnDefault = useCallback(() => {
+        setIsExpanded(false);
+        onDefault?.();
+    }, [onDefault]);
+
+    const finalSetValue = useCallback(
+        (...args: Parameters<typeof setValue>) => {
+            setIsExpanded(false);
+            setValue(...args);
+        },
+        [setValue],
+    );
+
+    if (!isExpanded) {
+        return (
+            <CustomTooltip title={tooltip}>
+                <Button
+                    ref={ref}
+                    onClick={() => setIsExpanded(true)}
+                    variant="contained"
+                    size="large"
+                    startIcon={defaultIcon}
+                    sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
+                >
+                    {(() => {
+                        const currentValue = (value as Value) ?? defaultValue;
+
+                        assertIsDefined(currentValue);
+
+                        const { title } = valueToDisplayData[currentValue];
+
+                        return (
+                            <Superscript
+                                superscript={`(${t`Default`})`}
+                                text={typeof title === 'string' ? title : t(title)}
+                            />
+                        );
+                    })()}
+                </Button>
+            </CustomTooltip>
+        );
+    }
+
+    return (
+        <ClickAwayListener onClickAway={() => setIsExpanded(false)}>
+            <SelectButtonBase
+                {...props}
+                onDefault={finalOnDefault}
+                setValue={finalSetValue}
+                slotProps={{
+                    stack: {
+                        sx: {
+                            flexGrow: 1,
+                        },
+                    },
+                    defaultButton: {
+                        hideText: true,
+                        startIcon: <RestartAltIcon />,
+                        size: 'large',
+                        sx: {
+                            flexGrow: 1,
+                            height,
+                            minWidth: 'unset',
+                            px: '10px',
+                        },
+                    },
+                    button: {
+                        hideText: true,
+                        tooltip: (isDefault, title) => (isDefault ? t`Active setting (${title})` : title),
+                        size: 'large',
+                        sx: {
+                            flexGrow: 1,
+                            height,
+                            minWidth: 'unset',
+                            px: '10px',
+                        },
+                    },
+                }}
+            />
+        </ClickAwayListener>
+    );
+};
+
+export const SelectButton = <Value extends string | number, MultiValue extends Value | Value[] = Value>(
+    props: SelectButtonProps<Value, MultiValue>,
+) => {
+    const { isCollapsible } = props;
+
+    if (isCollapsible) {
+        return <SelectButtonCollapsible {...props} />;
+    }
+
+    return <SelectButtonBase {...props} />;
 };
