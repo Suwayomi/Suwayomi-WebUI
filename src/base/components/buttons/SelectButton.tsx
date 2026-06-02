@@ -13,7 +13,7 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import type { MultiValueButtonProps } from '@/base/Base.types.ts';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
 
-export const ButtonSelect = <Value extends string | number, MultiValue extends Value | Value[] = Value>({
+export const SelectButton = <Value extends string | number, MultiValue extends Value | Value[] = Value>({
     value,
     values,
     defaultValue,
