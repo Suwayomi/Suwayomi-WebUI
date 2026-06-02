@@ -14,14 +14,14 @@ import {
     READING_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
-import type { MultiValueButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderNavBarDesktopReadingMode = ({
     readingMode,
     setReadingMode,
     ...buttonSelectInputProps
 }: Pick<IReaderSettingsWithDefaultFlag, 'readingMode'> &
-    Pick<MultiValueButtonDefaultableProps<ReadingMode>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<ReadingMode>, 'isDefaultable' | 'onDefault'> & {
         setReadingMode: (mode: ReadingMode) => void;
     }) => {
     const { t } = useLingui();

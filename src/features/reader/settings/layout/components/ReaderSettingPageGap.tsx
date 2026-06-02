@@ -13,7 +13,7 @@ import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS, PAGE_GAP } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 
-import type { MultiValueButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderSettingPageGap = ({
     pageGap,
@@ -22,7 +22,7 @@ export const ReaderSettingPageGap = ({
     onDefault,
     updateSetting,
 }: Pick<IReaderSettingsWithDefaultFlag, 'pageGap' | 'readingMode'> &
-    Pick<MultiValueButtonDefaultableProps<IReaderSettings['pageGap']>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<IReaderSettings['pageGap']>, 'isDefaultable' | 'onDefault'> & {
         updateSetting: (gap: number, commit: boolean) => void;
     }) => {
     const { t } = useLingui();

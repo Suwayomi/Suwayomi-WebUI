@@ -14,14 +14,14 @@ import {
     READING_DIRECTION_VALUE_TO_DISPLAY_DATA,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
-import type { MultiValueButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderNavBarDesktopReadingDirection = ({
     readingDirection,
     setReadingDirection,
     ...buttonSelectInputProps
 }: Pick<IReaderSettingsWithDefaultFlag, 'readingDirection'> &
-    Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
         setReadingDirection: (readingDirection: ReadingDirection) => void;
     }) => {
     const { t } = useLingui();

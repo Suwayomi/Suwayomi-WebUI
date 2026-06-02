@@ -22,7 +22,7 @@ import {
     READER_PAGE_SCALE_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { CustomIconButton } from '@/base/components/buttons/CustomIconButton.tsx';
-import type { MultiValueButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderNavBarDesktopPageScale = ({
     pageScaleMode,
@@ -30,7 +30,7 @@ export const ReaderNavBarDesktopPageScale = ({
     updateSetting,
     ...buttonSelectInputProps
 }: Pick<IReaderSettingsWithDefaultFlag, 'pageScaleMode' | 'shouldStretchPage'> &
-    Pick<MultiValueButtonDefaultableProps<ReaderPageScaleMode>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<ReaderPageScaleMode>, 'isDefaultable' | 'onDefault'> & {
         updateSetting: <Setting extends keyof Pick<IReaderSettings, 'pageScaleMode' | 'shouldStretchPage'>>(
             setting: Setting,
             value: IReaderSettings[Setting],

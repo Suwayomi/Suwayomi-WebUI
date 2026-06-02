@@ -13,7 +13,7 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
 import type { ValueToDisplayData } from '@/base/Base.types.ts';
 
-export interface MultiValueButtonBaseProps<Value extends string | number, MultiValue extends Value | Value[] = Value> {
+export interface SelectButtonBaseProps<Value extends string | number, MultiValue extends Value | Value[] = Value> {
     value: MultiValue;
     defaultValue?: Value;
     values: Value[];
@@ -21,18 +21,17 @@ export interface MultiValueButtonBaseProps<Value extends string | number, MultiV
     valueToDisplayData: ValueToDisplayData<Value>;
 }
 
-export interface MultiValueButtonDefaultableProps<
+export interface SelectButtonDefaultableProps<
     Value extends string | number,
     MultiValue extends Value | Value[] = Value,
-> extends OptionalProperty<MultiValueButtonBaseProps<Value, MultiValue>, 'value'> {
+> extends OptionalProperty<SelectButtonBaseProps<Value, MultiValue>, 'value'> {
     isDefaultable?: boolean;
     onDefault?: () => void;
 }
 
-export type MultiValueButtonProps<Value extends string | number, MultiValue extends Value | Value[] = Value> =
-    | (MultiValueButtonBaseProps<Value, MultiValue> &
-          PropertiesNever<MultiValueButtonDefaultableProps<Value, MultiValue>>)
-    | MultiValueButtonDefaultableProps<Value, MultiValue>;
+export type SelectButtonProps<Value extends string | number, MultiValue extends Value | Value[] = Value> =
+    | (SelectButtonBaseProps<Value, MultiValue> & PropertiesNever<SelectButtonDefaultableProps<Value, MultiValue>>)
+    | SelectButtonDefaultableProps<Value, MultiValue>;
 
 export const SelectButton = <Value extends string | number, MultiValue extends Value | Value[] = Value>({
     value,
@@ -42,7 +41,7 @@ export const SelectButton = <Value extends string | number, MultiValue extends V
     valueToDisplayData,
     isDefaultable,
     onDefault,
-}: MultiValueButtonProps<Value, MultiValue>) => {
+}: SelectButtonProps<Value, MultiValue>) => {
     const { t } = useLingui();
 
     return (
