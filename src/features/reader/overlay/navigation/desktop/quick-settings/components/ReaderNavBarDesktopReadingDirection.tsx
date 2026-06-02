@@ -13,7 +13,8 @@ import {
     READING_DIRECTION_VALUES,
     READING_DIRECTION_VALUE_TO_DISPLAY_DATA,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+
+import type { MultiValueButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderNavBarDesktopReadingDirection = ({
     readingDirection,

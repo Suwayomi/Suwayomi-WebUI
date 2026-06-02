@@ -10,8 +10,29 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import type { MultiValueButtonProps } from '@/base/Base.types.ts';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
+
+export interface MultiValueButtonBaseProps<Value extends string | number, MultiValue extends Value | Value[] = Value> {
+    value: MultiValue;
+    defaultValue?: Value;
+    values: Value[];
+    setValue: (value: MultiValue) => void;
+    valueToDisplayData: ValueToDisplayData<Value>;
+}
+
+export interface MultiValueButtonDefaultableProps<
+    Value extends string | number,
+    MultiValue extends Value | Value[] = Value,
+> extends OptionalProperty<MultiValueButtonBaseProps<Value, MultiValue>, 'value'> {
+    isDefaultable?: boolean;
+    onDefault?: () => void;
+}
+
+export type MultiValueButtonProps<Value extends string | number, MultiValue extends Value | Value[] = Value> =
+    | (MultiValueButtonBaseProps<Value, MultiValue> &
+          PropertiesNever<MultiValueButtonDefaultableProps<Value, MultiValue>>)
+    | MultiValueButtonDefaultableProps<Value, MultiValue>;
 
 export const SelectButton = <Value extends string | number, MultiValue extends Value | Value[] = Value>({
     value,

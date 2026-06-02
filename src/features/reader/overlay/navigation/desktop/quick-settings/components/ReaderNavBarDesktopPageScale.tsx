@@ -21,8 +21,8 @@ import {
     READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED,
     READER_PAGE_SCALE_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
 import { CustomIconButton } from '@/base/components/buttons/CustomIconButton.tsx';
+import type { MultiValueButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderNavBarDesktopPageScale = ({
     pageScaleMode,

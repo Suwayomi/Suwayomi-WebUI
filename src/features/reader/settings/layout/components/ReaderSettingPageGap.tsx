@@ -12,7 +12,8 @@ import { ReadingMode } from '@/features/reader/Reader.types.ts';
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS, PAGE_GAP } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+
+import type { MultiValueButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderSettingPageGap = ({
     pageGap,
