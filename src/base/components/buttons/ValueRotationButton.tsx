@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import type { MultiValueButtonProps } from '@/base/Base.types.ts';
+import type { ValueRotationButtonProps } from '@/base/Base.types.ts';
 import { getNextRotationValue } from '@/base/utils/ValueRotationButton.utils.ts';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
 
@@ -25,7 +25,7 @@ export const ValueRotationButton = <Value extends string | number>({
     isDefaultable,
     onDefault,
     defaultIcon,
-}: MultiValueButtonProps<Value> & { defaultIcon?: ReactNode }) => {
+}: ValueRotationButtonProps<Value> & { defaultIcon?: ReactNode }) => {
     const { t } = useLingui();
 
     const isDefault = value === undefined;
