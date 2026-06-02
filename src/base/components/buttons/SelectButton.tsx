@@ -172,11 +172,16 @@ const SelectButtonCollapsible = <Value extends string | number, MultiValue exten
                     sx={{ justifyContent: 'start', textTransform: 'unset', flexGrow: 1 }}
                 >
                     {(() => {
-                        const currentValue = (value as Value) ?? defaultValue;
+                        const isDefault = value === undefined && defaultValue !== undefined;
+                        if (!isDefault) {
+                            assertIsDefined(value);
 
-                        assertIsDefined(currentValue);
+                            const { title } = valueToDisplayData[value as Value];
 
-                        const { title } = valueToDisplayData[currentValue];
+                            return typeof title === 'string' ? title : t(title);
+                        }
+
+                        const { title } = valueToDisplayData[defaultValue];
 
                         return (
                             <Superscript
