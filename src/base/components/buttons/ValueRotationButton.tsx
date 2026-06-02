@@ -11,9 +11,9 @@ import { useMemo } from 'react';
 import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { getNextRotationValue } from '@/base/utils/ValueRotationButton.utils.ts';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
 import type { ValueToDisplayData } from '@/base/Base.types.ts';
+import { getNextRotationValue } from '@/lib/HelperFunctions.ts';
 
 export interface ValueRotationButtonBaseProps<Value extends string | number> {
     tooltip?: string;
