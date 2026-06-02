@@ -27,27 +27,6 @@ interface DisplayData {
 
 export type ValueToDisplayData<Value extends string | number> = Record<Value, DisplayData>;
 
-export interface ValueRotationButtonBaseProps<Value extends string | number> {
-    tooltip?: string;
-    value: Value;
-    defaultValue?: Value;
-    values: Value[];
-    setValue: (value: Value) => void;
-    valueToDisplayData: ValueToDisplayData<Value>;
-}
-
-export interface ValueRotationButtonDefaultableProps<Value extends string | number> extends OptionalProperty<
-    ValueRotationButtonBaseProps<Value>,
-    'value'
-> {
-    isDefaultable?: boolean;
-    onDefault?: () => void;
-}
-
-export type ValueRotationButtonProps<Value extends string | number> =
-    | (ValueRotationButtonBaseProps<Value> & PropertiesNever<ValueRotationButtonDefaultableProps<Value>>)
-    | ValueRotationButtonDefaultableProps<Value>;
-
 export enum ScrollOffset {
     BACKWARD,
     FORWARD,
