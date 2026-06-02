@@ -22,7 +22,7 @@ import {
     READER_PAGE_SCALE_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
-import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
+import { CustomIconButton } from '@/base/components/buttons/CustomIconButton.tsx';
 
 export const ReaderNavBarDesktopPageScale = ({
     pageScaleMode,
@@ -52,14 +52,14 @@ export const ReaderNavBarDesktopPageScale = ({
             />
             {READER_PAGE_SCALE_MODE_TO_SCALING_ALLOWED[pageScaleMode.value] && (
                 <CustomTooltip title={t`Stretch small pages`}>
-                    <CustomButtonIcon
+                    <CustomIconButton
                         onClick={() => updateSetting('shouldStretchPage', !shouldStretchPage.value)}
                         sx={{ px: undefined }}
                         variant="contained"
                         color={shouldStretchPage.value ? 'secondary' : 'primary'}
                     >
                         <FitScreenIcon />
-                    </CustomButtonIcon>
+                    </CustomIconButton>
                 </CustomTooltip>
             )}
         </Stack>

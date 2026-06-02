@@ -46,7 +46,7 @@ import type {
     MangaTrackRecordInfo,
 } from '@/features/manga/Manga.types.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
-import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
+import { CustomIconButton } from '@/base/components/buttons/CustomIconButton.tsx';
 import { Sources } from '@/features/source/services/Sources.ts';
 import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { Thumbnail } from '@/features/manga/components/details/Thumbnail.tsx';
@@ -152,7 +152,7 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
     return (
         <ButtonGroup>
             <CustomTooltip title={t`Open in browser`} disabled={!url}>
-                <CustomButtonIcon
+                <CustomIconButton
                     size="medium"
                     disabled={!url}
                     component={Link}
@@ -162,10 +162,10 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
                     variant="outlined"
                 >
                     <IconBrowser />
-                </CustomButtonIcon>
+                </CustomIconButton>
             </CustomTooltip>
             <CustomTooltip title={t`Open in WebView`} disabled={!url}>
-                <CustomButtonIcon
+                <CustomIconButton
                     size="medium"
                     disabled={!url}
                     component={Link}
@@ -175,7 +175,7 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
                     variant="outlined"
                 >
                     <IconWebView />
-                </CustomButtonIcon>
+                </CustomIconButton>
             </CustomTooltip>
         </ButtonGroup>
     );

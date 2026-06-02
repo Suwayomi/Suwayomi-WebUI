@@ -9,7 +9,7 @@
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
+import { CustomIconButton } from '@/base/components/buttons/CustomIconButton.tsx';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import IconButton from '@mui/material/IconButton';
 import { useLingui } from '@lingui/react/macro';
@@ -65,7 +65,7 @@ export const MigrationEntrySearchExcludeActions = ({
                 )}
                 {!isMigrating && !isExpanded && (
                     <CustomTooltip title={t`Manual search`}>
-                        <CustomButtonIcon
+                        <CustomIconButton
                             sx={{
                                 flexGrow: Number(!otherResultsCount),
                             }}
@@ -74,12 +74,12 @@ export const MigrationEntrySearchExcludeActions = ({
                             }}
                         >
                             <SearchIcon />
-                        </CustomButtonIcon>
+                        </CustomIconButton>
                     </CustomTooltip>
                 )}
                 {!isMigrating && hasSelectedMatch && (
                     <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`}>
-                        <CustomButtonIcon
+                        <CustomIconButton
                             sx={{
                                 flexGrow: Number(!otherResultsCount),
                             }}
@@ -90,19 +90,19 @@ export const MigrationEntrySearchExcludeActions = ({
                             }
                         >
                             {isExcluded ? <AddCircleOutlineOutlinedIcon /> : <RemoveCircleOutlineOutlinedIcon />}
-                        </CustomButtonIcon>
+                        </CustomIconButton>
                     </CustomTooltip>
                 )}
                 {isAbortable && (
                     <CustomTooltip title={t`Abort`}>
-                        <CustomButtonIcon
+                        <CustomIconButton
                             sx={{
                                 flexGrow: Number(!otherResultsCount),
                             }}
                             onClick={() => MigrationManager.abortEntry(mangaId)}
                         >
                             <CancelOutlinedIcon />
-                        </CustomButtonIcon>
+                        </CustomIconButton>
                     </CustomTooltip>
                 )}
             </ButtonGroup>

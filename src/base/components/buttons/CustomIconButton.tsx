@@ -9,7 +9,7 @@
 import type { ButtonProps } from '@mui/material/Button';
 import Button from '@mui/material/Button';
 
-export const CustomButtonIcon = <C extends React.ElementType>({
+export const CustomIconButton = <C extends React.ElementType>({
     children,
     ...props
 }: ButtonProps<C, { component?: C }>) => (
