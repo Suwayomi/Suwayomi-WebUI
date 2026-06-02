@@ -10,7 +10,7 @@ import type { ButtonProps } from '@mui/material/Button';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 
-export const CustomButton = <C extends React.ElementType>({
+export const FlexWrapButton = <C extends React.ElementType>({
     children,
     ...props
 }: ButtonProps<C, { component?: C }>) => (
