@@ -271,13 +271,19 @@ export const useReaderInfiniteScrollUpdateChapter = (
         }
 
         const onScroll = () => {
+            const THRESHOLD = 2;
+
             const isAtStartX = scrollElement.scrollLeft === 0;
-            const isAtEndX =
-                Math.ceil(scrollElement.scrollLeft) === scrollElement.scrollWidth - scrollElement.clientWidth;
+            const distanceEndX = Math.abs(
+                Math.abs(scrollElement.scrollLeft) - (scrollElement.scrollWidth - scrollElement.clientWidth),
+            );
+            const isAtEndX = distanceEndX >= 0 && distanceEndX <= THRESHOLD;
 
             const isAtStartY = scrollElement.scrollTop === 0;
-            const isAtEndY =
-                Math.ceil(scrollElement.scrollTop) === scrollElement.scrollHeight - scrollElement.clientHeight;
+            const distanceStartY = Math.abs(
+                Math.abs(scrollElement.scrollTop) - (scrollElement.scrollHeight - scrollElement.clientHeight),
+            );
+            const isAtEndY = distanceStartY >= 0 && distanceStartY <= THRESHOLD;
 
             const isAtStart = isContinuousVerticalReadingModeActive ? isAtStartY : isAtStartX;
             const isAtEnd = isContinuousVerticalReadingModeActive ? isAtEndY : isAtEndX;
