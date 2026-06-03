@@ -18,10 +18,13 @@ import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupIt
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { ChapterHistoryCard } from '@/features/history/components/ChapterHistoryCard.tsx';
+import { GroupedChapterHistoryCard } from '@/features/history/components/GroupedChapterHistoryCard.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import type { GetChaptersHistoryQuery } from '@/lib/graphql/generated/graphql.ts';
+
+type HistoryNode = NonNullable<GetChaptersHistoryQuery['chapters']['nodes']>[number];
 
 export const History: React.FC = () => {
     const { t } = useLingui();
@@ -40,28 +43,40 @@ export const History: React.FC = () => {
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterHistoryData?.chapters.pageInfo.endCursor;
     const readEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
-    const groupedHistory = useMemo(
-        () => Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')),
-        [readEntries],
-    );
+
+    const groupedByDate = useMemo(() => {
+        const dateGroups = Chapters.groupByDate(readEntries as HistoryNode[], 'lastReadAt');
+
+        return Object.entries(dateGroups).map(([date, chapters]) => {
+            const mangaGroups = Chapters.groupByManga(chapters);
+            return {
+                date,
+                mangaEntries: Object.values(mangaGroups),
+            };
+        });
+    }, [readEntries]);
+
     const groupCounts: number[] = useMemo(
-        () => groupedHistory.map((group) => group[VirtuosoUtil.ITEMS].length),
-        [groupedHistory],
+        () => groupedByDate.map((group) => group.mangaEntries.length),
+        [groupedByDate],
     );
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
-        useCallback((index) => groupedHistory[index][VirtuosoUtil.GROUP], [groupedHistory]),
-        useCallback((index) => readEntries[index].id, [readEntries]),
+        useCallback((index) => groupedByDate[index].date, [groupedByDate]),
+        useCallback(
+            (index, groupIndex) => {
+                const mangaId = groupedByDate[groupIndex].mangaEntries[index].manga.id;
+                return `${groupedByDate[groupIndex].date}-${mangaId}`;
+            },
+            [groupedByDate],
+        ),
     );
 
     const loadMore = useCallback(() => {
-        if (!hasNextPage) {
-            return;
-        }
-
-        fetchMore({ variables: { offset: readEntries.length } });
-    }, [hasNextPage, endCursor]);
+        if (!hasNextPage || isLoading || !endCursor) {return;}
+        fetchMore({ variables: { after: endCursor } });
+    }, [hasNextPage, endCursor, fetchMore, isLoading]);
 
     if (error) {
         return (
@@ -89,16 +104,19 @@ export const History: React.FC = () => {
             groupContent={(index) => (
                 <StyledGroupHeader isFirstItem={index === 0}>
                     <Typography variant="h5" component="h2">
-                        {groupedHistory[index][VirtuosoUtil.GROUP]}
+                        {groupedByDate[index].date}
                     </Typography>
                 </StyledGroupHeader>
             )}
             computeItemKey={computeItemKey}
-            itemContent={(index) => (
-                <StyledGroupItemWrapper>
-                    <ChapterHistoryCard chapter={readEntries[index]} />
-                </StyledGroupItemWrapper>
-            )}
+            itemContent={(index, groupIndex) => {
+                const entry = groupedByDate[groupIndex].mangaEntries[index];
+                return (
+                    <StyledGroupItemWrapper>
+                        <GroupedChapterHistoryCard chapters={entry.chapters} />
+                    </StyledGroupItemWrapper>
+                );
+            }}
         />
     );
 };
