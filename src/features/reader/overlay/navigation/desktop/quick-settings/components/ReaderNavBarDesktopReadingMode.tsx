@@ -7,26 +7,27 @@
  */
 
 import { useLingui } from '@lingui/react/macro';
-import { ValueRotationButton } from '@/base/components/buttons/ValueRotationButton.tsx';
 import type { IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
 import {
     READING_MODE_VALUE_TO_DISPLAY_DATA,
     READING_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
+import { SelectButton } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderNavBarDesktopReadingMode = ({
     readingMode,
     setReadingMode,
     ...buttonSelectInputProps
 }: Pick<IReaderSettingsWithDefaultFlag, 'readingMode'> &
-    Pick<MultiValueButtonDefaultableProps<ReadingMode>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<ReadingMode>, 'isDefaultable' | 'onDefault'> & {
         setReadingMode: (mode: ReadingMode) => void;
     }) => {
     const { t } = useLingui();
 
     return (
-        <ValueRotationButton
+        <SelectButton
             {...buttonSelectInputProps}
             tooltip={t`Reading mode`}
             value={readingMode.isDefault ? undefined : readingMode.value}
@@ -35,6 +36,7 @@ export const ReaderNavBarDesktopReadingMode = ({
             setValue={setReadingMode}
             valueToDisplayData={READING_MODE_VALUE_TO_DISPLAY_DATA}
             defaultIcon={READING_MODE_VALUE_TO_DISPLAY_DATA[readingMode.value].icon}
+            isCollapsible
         />
     );
 };

@@ -53,7 +53,7 @@ export const extensionLanguageToTranslation: {
     [ExtensionGroupState.INSTALLED]: msg`Installed`,
     [ExtensionGroupState.UPDATE_PENDING]: msg`Update pending`,
     [ExtensionGroupState.OBSOLETE]: msg`Obsolete`,
-    [DefaultLanguage.ALL]: msg`All`,
+    [DefaultLanguage.ALL]: msg`Multi`,
     [DefaultLanguage.OTHER]: msg`Other`,
     [DefaultLanguage.LOCAL_SOURCE]: msg`Other`,
     [DefaultLanguage.PINNED]: msg`Pinned`,

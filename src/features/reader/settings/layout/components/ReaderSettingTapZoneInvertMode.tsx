@@ -8,7 +8,7 @@
 
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
-import type { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
 import type {
     IReaderSettings,
     IReaderSettingsWithDefaultFlag,
@@ -16,6 +16,7 @@ import type {
 } from '@/features/reader/Reader.types.ts';
 import type { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 enum TapZonesInvertOption {
     NONE,
@@ -85,7 +86,7 @@ export const ReaderSettingTapZoneInvertMode = ({
     setTapZoneInvertMode,
     ...buttonSelectInputProps
 }: Pick<IReaderSettingsWithDefaultFlag, 'tapZoneInvertMode'> &
-    Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
         setTapZoneInvertMode: (invert: IReaderSettings['tapZoneInvertMode']) => void;
     }) => {
     const { t } = useLingui();

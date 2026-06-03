@@ -14,8 +14,8 @@ import type { ReaderService } from '@/features/reader/services/ReaderService.ts'
 import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
 import { DEFAULT_READER_SETTINGS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { isReaderWidthEditable } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
 import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderSettingWidth = ({
     readerWidth,
@@ -25,7 +25,7 @@ export const ReaderSettingWidth = ({
     updateSetting,
     setTransparent,
 }: Pick<IReaderSettings, 'readerWidth' | 'pageScaleMode'> &
-    Pick<MultiValueButtonDefaultableProps<IReaderSettings['readerWidth']['value']>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<IReaderSettings['readerWidth']['value']>, 'isDefaultable' | 'onDefault'> & {
         updateSetting: (...args: Parameters<typeof ReaderService.updateSetting>) => void;
         setTransparent?: (transparent: boolean) => void;
     }) => {

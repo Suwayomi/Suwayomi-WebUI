@@ -66,3 +66,19 @@ export const extractGraphqlExceptionInfo = (
         graphqlStackTrace: stackTrace,
     };
 };
+
+export const getNextRotationValue = <Value>(
+    indexOfValue: number,
+    values: Value[],
+    isDefaultable?: boolean,
+): Value | undefined => {
+    const nextValueIndex = (indexOfValue + 1) % values.length;
+    const wasLastValue = nextValueIndex === 0;
+
+    const isDefaultNextValue = !!isDefaultable && wasLastValue;
+    if (isDefaultNextValue) {
+        return undefined;
+    }
+
+    return values[(indexOfValue + 1) % values.length];
+};

@@ -82,10 +82,44 @@ const getScrollDirectionInvert = (
     return 1;
 };
 
-export class ReaderControls {
-    private static updateCurrentPageTimeout: NodeJS.Timeout;
+class ReaderControlsClass {
+    private updateCurrentPageTimeout: NodeJS.Timeout | undefined;
 
-    static scroll(
+    private windowFocus: boolean = true;
+
+    private windowFocusUpdateImminent = false;
+
+    constructor() {
+        let focusTimeout: NodeJS.Timeout | undefined;
+
+        window.addEventListener('blur', () => {
+            clearTimeout(focusTimeout);
+            this.windowFocus = false;
+            this.windowFocusUpdateImminent = false;
+        });
+        window.addEventListener('focus', () => {
+            this.windowFocusUpdateImminent = true;
+
+            clearTimeout(focusTimeout);
+            focusTimeout = setTimeout(() => {
+                this.windowFocus = true;
+                this.windowFocusUpdateImminent = false;
+            }, d(250).milliseconds.inWholeMilliseconds);
+        });
+    }
+
+    private checkAndUpdateWindowsFocus(): boolean {
+        const hasFocus = this.windowFocus;
+
+        if (this.windowFocusUpdateImminent) {
+            this.windowFocus = true;
+            this.windowFocusUpdateImminent = false;
+        }
+
+        return hasFocus;
+    }
+
+    scroll(
         offset: ScrollOffset,
         direction: ScrollDirection,
         readingMode: ReadingMode,
@@ -124,12 +158,12 @@ export class ReaderControls {
             scrollToOptions: ScrollToOptions,
         ) => {
             if (isAtStartForDirection && offset === ScrollOffset.BACKWARD && isContinuousReadingModeActive) {
-                ReaderControls.openChapter('previous');
+                this.openChapter('previous');
                 return;
             }
 
             if (isAtEndForDirection && offset === ScrollOffset.FORWARD && isContinuousReadingModeActive) {
-                ReaderControls.openChapter('next');
+                this.openChapter('next');
                 return;
             }
 
@@ -153,7 +187,7 @@ export class ReaderControls {
         }
     }
 
-    static openChapter(
+    openChapter(
         offset: 'previous' | 'next' | ChapterIdInfo['id'],
         doTransitionCheck: boolean = true,
         scrollIntoView: boolean = true,
@@ -205,7 +239,7 @@ export class ReaderControls {
 
             try {
                 if (doTransitionCheck) {
-                    await ReaderControls.checkNextChapterConsistency(
+                    await this.checkNextChapterConsistency(
                         isPreviousChapter ? 'previous' : 'next',
                         currentChapter,
                         chapterToOpen,
@@ -247,7 +281,7 @@ export class ReaderControls {
         doOpenChapter().catch(defaultPromiseErrorHandler('ReaderControls#useOpenChapter'));
     }
 
-    private static async checkNextChapterConsistency(
+    private async checkNextChapterConsistency(
         offset: 'previous' | 'next',
         currentChapter: TChapterReader | null | undefined,
         chapterToOpen: TChapterReader | null | undefined,
@@ -314,7 +348,7 @@ export class ReaderControls {
         });
     }
 
-    static openPage(page: number | 'previous' | 'next', forceDirection?: Direction, hideOverlay: boolean = true): void {
+    openPage(page: number | 'previous' | 'next', forceDirection?: Direction, hideOverlay: boolean = true): void {
         const { currentPageIndex, setPageToScrollToIndex, pages, transitionPageMode, setTransitionPageMode } =
             getReaderPagesStore();
         const { readingDirection, readingMode, shouldShowTransitionPage } = getReaderSettingsStore();
@@ -365,7 +399,7 @@ export class ReaderControls {
             convertedPage === 'previous' &&
             !!getReaderChaptersStore().previousChapter;
         if (shouldOpenPreviousChapter) {
-            ReaderControls.openChapter('previous');
+            this.openChapter('previous');
             return;
         }
 
@@ -375,7 +409,7 @@ export class ReaderControls {
             convertedPage === 'next' &&
             !!getReaderChaptersStore().nextChapter;
         if (shouldOpenNextChapter) {
-            ReaderControls.openChapter('next');
+            this.openChapter('next');
             return;
         }
 
@@ -406,11 +440,7 @@ export class ReaderControls {
         setPageToScrollToIndex(isPreviousMode ? previousPageIndex : nextPageIndex);
     }
 
-    static useUpdateCurrentPageIndex(): (
-        pageIndex: number,
-        debounceChapterUpdate?: boolean,
-        endReached?: boolean,
-    ) => void {
+    useUpdateCurrentPageIndex(): (pageIndex: number, debounceChapterUpdate?: boolean, endReached?: boolean) => void {
         const updateChapter = ReaderService.useUpdateChapter();
         const {
             settings: { downloadAheadLimit },
@@ -463,9 +493,9 @@ export class ReaderControls {
                     });
                 };
 
-                clearTimeout(ReaderControls.updateCurrentPageTimeout);
+                clearTimeout(this.updateCurrentPageTimeout);
                 if (debounceChapterUpdate) {
-                    ReaderControls.updateCurrentPageTimeout = setTimeout(
+                    this.updateCurrentPageTimeout = setTimeout(
                         handleCurrentPageIndexChange,
                         d(1).seconds.inWholeMilliseconds,
                     );
@@ -478,10 +508,10 @@ export class ReaderControls {
         );
     }
 
-    static updateCurrentPageOnScroll(
+    updateCurrentPageOnScroll(
         imageRefs: MutableRefObject<(HTMLElement | null)[]>,
         lastPageIndex: number,
-        updateCurrentPageIndex: ReturnType<typeof ReaderControls.useUpdateCurrentPageIndex>,
+        updateCurrentPageIndex: ReturnType<typeof this.useUpdateCurrentPageIndex>,
         type: PageInViewportType,
         readingDirection: ReadingDirection,
     ) {
@@ -529,8 +559,8 @@ export class ReaderControls {
         updateCurrentPageIndex(firstVisibleImageIndex, firstVisibleImageIndex !== lastPageIndex);
     }
 
-    static handleClick(scrollElement: HTMLElement | null, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
-        if (!scrollElement) {
+    handleClick(scrollElement: HTMLElement | null, e: React.MouseEvent<HTMLDivElement, MouseEvent>): void {
+        if (!scrollElement || !this.checkAndUpdateWindowsFocus()) {
             return;
         }
 
@@ -554,7 +584,7 @@ export class ReaderControls {
             case TapZoneRegionType.PREVIOUS:
             case TapZoneRegionType.NEXT:
                 if (isContinuousReadingModeActive) {
-                    ReaderControls.scroll(
+                    this.scroll(
                         action === TapZoneRegionType.PREVIOUS ? ScrollOffset.BACKWARD : ScrollOffset.FORWARD,
                         scrollDirection,
                         readingMode.value,
@@ -563,7 +593,7 @@ export class ReaderControls {
                         scrollAmount,
                     );
                 } else {
-                    ReaderControls.openPage(action === TapZoneRegionType.PREVIOUS ? 'previous' : 'next', 'ltr');
+                    this.openPage(action === TapZoneRegionType.PREVIOUS ? 'previous' : 'next', 'ltr');
                 }
                 break;
             default:
@@ -571,7 +601,7 @@ export class ReaderControls {
         }
     }
 
-    static useHandleProgressDragging(
+    useHandleProgressDragging(
         progressBarRef: RefObject<HTMLDivElement | null>,
         isDragging: boolean,
         currentPage: TReaderProgressCurrentPage,
@@ -608,7 +638,7 @@ export class ReaderControls {
                     return;
                 }
 
-                ReaderControls.openPage(newPageIndex, undefined, false);
+                this.openPage(newPageIndex, undefined, false);
             };
 
             const handleMouseMove = (e: MouseEvent) => {
@@ -631,3 +661,5 @@ export class ReaderControls {
         }, [isDragging, currentPage, pages, progressBarPosition]);
     }
 }
+
+export const ReaderControls = new ReaderControlsClass();

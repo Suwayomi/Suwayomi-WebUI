@@ -28,6 +28,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Sort unselected matched entries by 1. their latest chapter, 2. their source priority, 3. their title
 - (**Migration**) Change migration match exclude/include icons
 - (**Migration**) Show the exclude/include button only for an entry with a selected match
+- (**Source/Extension**) Rename language "All" to "Multi"
+- (**Reader**) Simplify changing settings in desktop sidebar
+- (**Reader**) Ignore tap zone clicks while window does not have focus
 
 ### Fixed
 

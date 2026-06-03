@@ -17,7 +17,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
-import { CustomButton } from '@/base/components/buttons/CustomButton.tsx';
+import { FlexWrapButton } from '@/base/components/buttons/FlexWrapButton.tsx';
 import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import type { MangaTitleInfo, MangaTrackRecordInfo } from '@/features/manga/Manga.types.ts';
@@ -55,7 +55,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Mang
         <PopupState variant="dialog" popupId="manga-track-modal">
             {(popupState) => (
                 <>
-                    <CustomButton
+                    <FlexWrapButton
                         {...bindTrigger(popupState)}
                         size={isMobileWidth ? 'small' : 'medium'}
                         disabled={trackerList.loading || !!trackerList.error}
@@ -69,7 +69,7 @@ export const TrackMangaButton = ({ manga }: { manga: MangaTrackRecordInfo & Mang
                                   other: '# Tracker',
                               })
                             : t`Tracking`}
-                    </CustomButton>
+                    </FlexWrapButton>
                     {popupState.isOpen && (
                         <Dialog {...bindDialog(popupState)} maxWidth="md" fullWidth scroll="paper">
                             <TrackManga manga={manga} />
