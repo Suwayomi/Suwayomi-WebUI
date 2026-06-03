@@ -9,9 +9,10 @@
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import { TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import type { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
 import type { IReaderSettingsWithDefaultFlag, ReadingDirection } from '@/features/reader/Reader.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<TapZoneLayouts> = {
     [TapZoneLayouts.EDGE]: {
@@ -43,7 +44,7 @@ export const ReaderSettingTapZoneLayout = ({
     setTapZoneLayout,
     ...buttonSelectInputProps
 }: Pick<IReaderSettingsWithDefaultFlag, 'tapZoneLayout'> &
-    Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
         setTapZoneLayout: (layout: TapZoneLayouts) => void;
     }) => {
     const { t } = useLingui();

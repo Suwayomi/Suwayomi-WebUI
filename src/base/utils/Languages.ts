@@ -23,7 +23,7 @@ export enum DefaultLanguage {
 }
 
 const DEFAULT_LANGUAGE_TO_TRANSLATION: Record<DefaultLanguage, MessageDescriptor> = {
-    [DefaultLanguage.ALL]: msg`All`,
+    [DefaultLanguage.ALL]: msg`Multi`,
     [DefaultLanguage.OTHER]: msg`Other`,
     [DefaultLanguage.LOCAL_SOURCE]: msg`Other`,
     [DefaultLanguage.PINNED]: msg`Pinned`,

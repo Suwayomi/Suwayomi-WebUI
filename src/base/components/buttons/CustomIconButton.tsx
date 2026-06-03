@@ -8,23 +8,19 @@
 
 import type { ButtonProps } from '@mui/material/Button';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 
-export const CustomButton = <C extends React.ElementType>({
+export const CustomIconButton = <C extends React.ElementType>({
     children,
     ...props
 }: ButtonProps<C, { component?: C }>) => (
-    <Button {...props}>
-        <Stack
-            direction="row"
-            sx={{
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 1,
-                flexWrap: 'wrap',
-            }}
-        >
-            {children}
-        </Stack>
+    <Button
+        {...props}
+        sx={{
+            minWidth: 'unset',
+            px: '10px',
+            ...props.sx,
+        }}
+    >
+        {children}
     </Button>
 );

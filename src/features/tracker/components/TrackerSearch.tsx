@@ -39,7 +39,7 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import type { TrackerIdInfo, TTrackerBind } from '@/features/tracker/Tracker.types.ts';
 import { Tracker } from '@/features/tracker/Tracker.types.ts';
-import { CustomButtonIcon } from '@/base/components/buttons/CustomButtonIcon.tsx';
+import { CustomIconButton } from '@/base/components/buttons/CustomIconButton.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { translateOffline } from '@/lib/utils/TranslationService.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
@@ -100,14 +100,14 @@ const TrackButton = ({
             </Button>
             {supportsPrivateTracking && (
                 <CustomTooltip title={t`Track privately`} disabled={bindTrackerMutation.loading}>
-                    <CustomButtonIcon
+                    <CustomIconButton
                         disabled={bindTrackerMutation.loading}
                         sx={{ flexBasis: '10%', maxWidth: '100px' }}
                         variant="contained"
                         onClick={() => trackManga(true)}
                     >
                         <VisibilityOffIcon />
-                    </CustomButtonIcon>
+                    </CustomIconButton>
                 </CustomTooltip>
             )}
         </Stack>

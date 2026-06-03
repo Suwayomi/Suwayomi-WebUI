@@ -12,8 +12,9 @@ import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import type { IReaderSettingsWithDefaultFlag } from '@/features/reader/Reader.types.ts';
 import { ReadingDirection } from '@/features/reader/Reader.types.ts';
-import type { MultiValueButtonDefaultableProps, ValueToDisplayData } from '@/base/Base.types.ts';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 const VALUE_TO_DISPLAY_DATA: ValueToDisplayData<ReadingDirection> = {
     [ReadingDirection.LTR]: {
@@ -33,7 +34,7 @@ export const ReaderSettingReadingDirection = ({
     setReadingDirection,
     ...buttonSelectInputProps
 }: Pick<IReaderSettingsWithDefaultFlag, 'readingDirection'> &
-    Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
         setReadingDirection: (readingDirection: ReadingDirection) => void;
     }) => {
     const { t } = useLingui();
