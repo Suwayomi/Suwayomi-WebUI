@@ -453,6 +453,22 @@ export class Chapters {
         >;
     }
 
+    /**
+     * Returns the chapters grouped by manga.
+     */
+    static groupByManga<T extends { manga: { id: number | string; title: string } }>(entries: T[]) {
+        const groups: Record<string, { manga: T['manga']; chapters: T[] }> = {};
+
+        for (const entry of entries) {
+            const mangaId = entry.manga.id.toString();
+            if (!groups[mangaId]) {
+                groups[mangaId] = { manga: entry.manga, chapters: [] };
+            }
+            groups[mangaId].chapters.push(entry);
+        }
+        return groups;
+    }
+
     static getMissingCount<Chapter extends ChapterNumberInfo>(chapters: Chapter[]): number {
         const sortedChapters = chapters.toSorted((a, b) => a.chapterNumber - b.chapterNumber);
 
