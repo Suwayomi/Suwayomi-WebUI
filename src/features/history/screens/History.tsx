@@ -22,8 +22,6 @@ import { ChapterHistoryCard } from '@/features/history/components/ChapterHistory
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
-import type { GetChaptersHistoryQuery } from '@/lib/graphql/generated/graphql.ts';
-type HistoryNode = NonNullable<GetChaptersHistoryQuery['chapters']['nodes']>[number];
 
 export const History: React.FC = () => {
     const { t } = useLingui();
@@ -42,45 +40,28 @@ export const History: React.FC = () => {
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
     const endCursor = chapterHistoryData?.chapters.pageInfo.endCursor;
     const readEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
-
-    const groupedHistory = useMemo(() => {
-        const groups = Object.entries(Chapters.groupByManga(readEntries as HistoryNode[]));
-
-        return groups.map(([key, value]) => {
-            const sortedChapters = [...value.chapters].sort((a, b) => (a.chapterNumber ?? 0) - (b.chapterNumber ?? 0));
-
-            const firstChapterName = sortedChapters[0]?.name;
-            const lastChapterName = sortedChapters[sortedChapters.length - 1]?.name;
-
-            let chapterRange = '';
-            if (firstChapterName && lastChapterName) {
-                chapterRange =
-                    firstChapterName === lastChapterName
-                        ? ` (${firstChapterName})`
-                        : ` (${firstChapterName} - ${lastChapterName})`;
-            }
-
-            return {
-                key,
-                manga: value.manga,
-                chapters: value.chapters,
-                chapterRange,
-            };
-        });
-    }, [readEntries]);
-
-    const groupCounts = useMemo(() => groupedHistory.map((g) => g.chapters.length), [groupedHistory]);
+    const groupedHistory = useMemo(
+        () => Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')),
+        [readEntries],
+    );
+    const groupCounts: number[] = useMemo(
+        () => groupedHistory.map((group) => group[VirtuosoUtil.ITEMS].length),
+        [groupedHistory],
+    );
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
-        useCallback((index) => groupedHistory[index].manga.id.toString(), [groupedHistory]),
-        useCallback((index) => readEntries[index].id.toString(), [readEntries]),
+        useCallback((index) => groupedHistory[index][VirtuosoUtil.GROUP], [groupedHistory]),
+        useCallback((index) => readEntries[index].id, [readEntries]),
     );
 
     const loadMore = useCallback(() => {
-        if (!hasNextPage || isLoading) {return;}
-        fetchMore({ variables: { after: endCursor } });
-    }, [hasNextPage, endCursor, fetchMore, isLoading]);
+        if (!hasNextPage) {
+            return;
+        }
+
+        fetchMore({ variables: { offset: readEntries.length } });
+    }, [hasNextPage, endCursor]);
 
     if (error) {
         return (
@@ -108,8 +89,7 @@ export const History: React.FC = () => {
             groupContent={(index) => (
                 <StyledGroupHeader isFirstItem={index === 0}>
                     <Typography variant="h5" component="h2">
-                        {groupedHistory[index].manga.title}
-                        {groupedHistory[index].chapterRange}
+                        {groupedHistory[index][VirtuosoUtil.GROUP]}
                     </Typography>
                 </StyledGroupHeader>
             )}
