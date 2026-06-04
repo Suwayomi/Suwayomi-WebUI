@@ -40,6 +40,7 @@ const BaseBasePager = ({
     resumeMode,
     handleAsInitialRender,
     ref,
+    currentChapterRemainingPages,
 }: Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix' | 'isPreloadMode'> &
     Pick<IReaderSettings, 'readingMode' | 'imagePreLoadAmount'> & {
         createPage: (
@@ -67,6 +68,7 @@ const BaseBasePager = ({
     const pagesIndexesToRender = useMemo(
         () =>
             getPageIndexesToLoad(
+                currentChapterRemainingPages,
                 currentPageIndex,
                 pages,
                 previousCurrentPageIndex.current,
@@ -76,7 +78,16 @@ const BaseBasePager = ({
                 isPreviousChapter,
                 isNextChapter,
             ),
-        [currentPageIndex, pages, imagePreLoadAmount, readingMode, isCurrentChapter, isPreviousChapter, isNextChapter],
+        [
+            currentChapterRemainingPages,
+            currentPageIndex,
+            pages,
+            imagePreLoadAmount,
+            readingMode,
+            isCurrentChapter,
+            isPreviousChapter,
+            isNextChapter,
+        ],
     );
     useEffect(() => {
         if (isCurrentChapter) {

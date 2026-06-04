@@ -363,6 +363,7 @@ export interface ReaderPagerProps
     resumeMode: ReaderResumeMode;
     handleAsInitialRender: boolean;
     ref?: Ref<HTMLDivElement>;
+    currentChapterRemainingPages: number;
 }
 
 export enum PageInViewportType {

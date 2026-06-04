@@ -51,6 +51,7 @@ import {
     useReaderSettingsStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
+import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 
 const READING_MODE_TO_IN_VIEWPORT_TYPE: Record<ReadingMode, PageInViewportType> = {
     [ReadingMode.SINGLE_PAGE]: PageInViewportType.X,
@@ -290,10 +291,13 @@ const BaseReaderViewer = ({
                 const isCurrentChapter = chapter.id === currentChapter.id;
                 const isPreviousChapter = chapter.id === chaptersToRender[currentChapterIndex + 1]?.id;
                 const isNextChapter = chapter.id === chaptersToRender[currentChapterIndex - 1]?.id;
+                const isAdjacentChapterToCurrentChapter = isPreviousChapter || isNextChapter;
+
                 const isLeadingChapter = initialChapter.sourceOrder > chapter.sourceOrder;
                 const isTrailingChapter = initialChapter.sourceOrder < chapter.sourceOrder;
                 const isLastLeadingChapter = visibleChapters.lastLeadingChapterSourceOrder === chapter.sourceOrder;
                 const isLastTrailingChapter = visibleChapters.lastTrailingChapterSourceOrder === chapter.sourceOrder;
+
                 const isPreloadMode =
                     (isLastLeadingChapter && visibleChapters.isLeadingChapterPreloadMode) ||
                     (isLastTrailingChapter && visibleChapters.isTrailingChapterPreloadMode);
@@ -306,6 +310,29 @@ const BaseReaderViewer = ({
 
                 const isChapterSizeSourceChapter = chapter.id === minChapterSizeSourceChapterId;
 
+                const currentChapterCurrentPageIndex = isAdjacentChapterToCurrentChapter
+                    ? getReaderChapterViewerCurrentPageIndex(
+                          currentPageIndex,
+                          currentChapter,
+                          currentChapter,
+                          true,
+                          isCurrentChapterReady,
+                          initialChapter.sourceOrder > currentChapter.sourceOrder,
+                          initialChapter.sourceOrder < currentChapter.sourceOrder,
+                          visibleChapters,
+                      )
+                    : -1;
+                const currentChapterCurrentPagesIndex = isAdjacentChapterToCurrentChapter
+                    ? getPage(currentChapterCurrentPageIndex, pages).pagesIndex
+                    : -1;
+
+                const currentChapterRemainingLeadingPages = currentChapterCurrentPagesIndex;
+                const currentChapterRemainingTrailingPages = pages.length - 1 - currentChapterCurrentPagesIndex;
+
+                const currentChapterRemainingPages = isNextChapter
+                    ? currentChapterRemainingTrailingPages
+                    : currentChapterRemainingLeadingPages;
+
                 return (
                     <ReaderChapterViewer
                         key={chapter.id}
@@ -315,6 +342,7 @@ const BaseReaderViewer = ({
                         isPreviousChapterVisible={previousNextChapterVisibility.previous}
                         isNextChapterVisible={previousNextChapterVisibility.next}
                         lastPageRead={coerceIn(chapter.lastPageRead, 0, chapter.pageCount - 1)}
+                        currentChapterRemainingPages={currentChapterRemainingPages}
                         currentPageIndex={getReaderChapterViewerCurrentPageIndex(
                             currentPageIndex,
                             chapter,

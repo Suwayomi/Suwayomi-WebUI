@@ -81,6 +81,7 @@ const BaseReaderChapterViewer = ({
     minWidth,
     minHeight,
     scrollElement,
+    currentChapterRemainingPages,
 }: Pick<ReaderStatePages, 'currentPageIndex' | 'transitionPageMode' | 'retryFailedPagesKeyPrefix'> &
     Omit<ReaderPagerProps, 'pages' | 'totalPages' | 'pageLoadStates' | 'handleAsInitialRender' | 'resumeMode'> &
     Pick<
@@ -433,6 +434,7 @@ const BaseReaderChapterViewer = ({
                 isPreloadMode={isPreloadMode}
                 resumeMode={resumeMode}
                 handleAsInitialRender={scrollIntoView}
+                currentChapterRemainingPages={currentChapterRemainingPages}
             />
             {showNextTransitionPage && (
                 <ReaderTransitionPage chapterId={chapterId} type={ReaderTransitionPageMode.NEXT} />

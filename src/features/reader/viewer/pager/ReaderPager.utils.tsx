@@ -533,12 +533,12 @@ export const isSpreadPage = (image: HTMLImageElement): boolean => {
 };
 
 const MIN_PREVIOUS_NEXT_CHAPTER_IMAGE_LOAD_AMOUNT = 0;
-const MAX_PREVIOUS_NEXT_CHAPTER_IMAGE_LOAD_AMOUNT = 1;
 const getImagePreLoadAmount = (
     isCurrentChapter: boolean,
     isPreviousChapter: boolean,
     isNextChapter: boolean,
     imagePreLoadAmount: number,
+    currentChapterRemainingPages: number,
 ): number => {
     if (isCurrentChapter) {
         return imagePreLoadAmount;
@@ -546,7 +546,7 @@ const getImagePreLoadAmount = (
 
     if (isPreviousChapter || isNextChapter) {
         return coerceIn(
-            MAX_PREVIOUS_NEXT_CHAPTER_IMAGE_LOAD_AMOUNT,
+            imagePreLoadAmount - currentChapterRemainingPages,
             MIN_PREVIOUS_NEXT_CHAPTER_IMAGE_LOAD_AMOUNT,
             imagePreLoadAmount,
         );
@@ -557,6 +557,7 @@ const getImagePreLoadAmount = (
 
 const PREVIOUS_IMAGE_LOAD_AMOUNT = 2;
 export const getPageIndexesToLoad = (
+    currentChapterRemainingPages: number,
     currentPageIndex: number,
     pages: ReaderStatePages['pages'],
     previousCurrentPageIndex: number,
@@ -576,6 +577,7 @@ export const getPageIndexesToLoad = (
         isPreviousChapter,
         isNextChapter,
         imagePreLoadAmount,
+        currentChapterRemainingPages,
     );
 
     const directionInvert = previousCurrentPageIndex <= currentPageIndex && !isPreviousChapter ? 1 : -1;
