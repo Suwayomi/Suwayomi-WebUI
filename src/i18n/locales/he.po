@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-05-31 10:01+0000\n"
+"PO-Revision-Date: 2026-06-03 07:02+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.6\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: updateStatus.progress
@@ -639,7 +639,7 @@ msgstr "לפי תאריך ההעלאה"
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "Call timeout"
-msgstr "הבקשה נכשלה (Timeout)"
+msgstr "זמן מוקצב לבקשה"
 
 #: src/base/collection/components/SelectableCollectionSelectMode.tsx
 #: src/base/components/inputs/LanguageSelect.tsx
@@ -846,7 +846,7 @@ msgstr "רמת דחיסה"
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "Connect timeout"
-msgstr "התחברות נכשלה (Timeout)"
+msgstr "זמן מוקצב לחיבור"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Connect to KOReader Sync server"
@@ -884,18 +884,18 @@ msgstr "אנכי רציף"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "CBZ MIME-Type"
-msgstr "מזהה סוג תוכן (MIME-Type) של קבצי CBZ"
+msgstr "הגדרת סוג תוכן (MIME-Type) של קבצי CBZ"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid ""
 "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"קובע את מזהה סוג התוכן (MIME-Type) ש- Suwayomi שולחת ברשומות OPDS עבור קבצי "
-"CBZ (ארכיון קומיקס).\n"
-"האפשרות 'מודרני' תואמת לתקן IANA העדכני (2017), בעוד ש- 'מיושן' (מזהה מיושן "
-"עבור קבצי CBZ) ו-'תואם' (מזהה מיושן עבור כל ארכיוני הקומיקס) עשויים להציע "
-"תאימות טובה יותר עם קליינטים (תוכנות קריאה) ישנים."
+"קובע את סוג התוכן (MIME-Type) ש- Suwayomi שולחת ברשומות OPDS עבור קבצי CBZ "
+"(ארכיון קומיקס).\n"
+"האפשרות 'מודרני' תואמת לתקן IANA העדכני (2017), בעוד ש- 'מיושן' (סוג תוכן "
+"מיושן עבור קבצי CBZ ספציפית) ו-'תואם' (סוג תוכן מיושן עבור כל ארכיוני "
+"הקומיקס) עשויים להציע תאימות טובה יותר עם קליינטים (תוכנות קריאה) ישנים."
 
 #: src/features/settings/Settings.constants.ts
 #: src/features/settings/Settings.constants.ts
@@ -1713,7 +1713,7 @@ msgstr "האימות מושבת"
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
 #: src/features/settings/Settings.constants.ts
 msgid "Disabled"
-msgstr "ללא"
+msgstr "כבוי"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Disconnected"
@@ -1852,7 +1852,7 @@ msgstr "החרגת קבוצות תרגום"
 #: src/features/backup/screens/Backup.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 msgid "Exclude: {excludedCategoriesText}"
-msgstr "פריטים מוחרגים: {excludedCategoriesText}"
+msgstr "להחריג: {excludedCategoriesText}"
 
 #: src/features/migration/Migration.constants.ts
 msgid "Excluded"
@@ -2132,3 +2132,211 @@ msgid "FlareSolverr will automatically rotate expired sessions based on the TTL 
 msgstr ""
 "FlareSolverr יחליף באופן אוטומטי סשנים (Sessions) שתוקפם פג לאחר מספר הדקות "
 "שהוגדר"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Flavor"
+msgstr "סוג ממשק"
+
+#: src/features/theme/Themes.ts
+msgid "Forest Dew"
+msgstr "טל יער"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Forget manga categories"
+msgstr "הסרת שיוך לקטגוריות"
+
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "General"
+msgstr "כללי"
+
+#: src/features/settings/screens/About.tsx
+msgid "GitHub Server"
+msgstr "מאגר GitHub של Suwayomi-Server"
+
+#: src/features/settings/screens/About.tsx
+msgid "GitHub WebUI"
+msgstr "מאגר GitHub של Suwayomi-WebUI"
+
+#: src/features/browse/sources/Sources.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Global Search"
+msgstr "חיפוש גלובלי"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Global update"
+msgstr "עדכון כללי"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Global update (last update: {date})"
+msgstr "עדכון כללי (עדכון אחרון: {date})"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Gray"
+msgstr "אפור"
+
+#: src/features/reader/filters/settings/components/ReaderSettingGrayscale.tsx
+msgid "Grayscale"
+msgstr "גווני אפור"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Green"
+msgstr "ירוק"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+msgid "h"
+msgstr "שעות"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "H2"
+msgstr "H2"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Has results"
+msgstr "עם תוצאות בלבד"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
+msgid "Hidden"
+msgstr "מוסתר"
+
+#: src/features/history/screens/HistorySettings.tsx
+msgid "Hide history"
+msgstr "הסתרת הגישה להיסטוריית הצפייה"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Hikari connection pool"
+msgstr "מאגר החיבורים Hikari"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/history/screens/History.tsx
+#: src/features/history/screens/HistorySettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "History"
+msgstr "היסטוריה"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Horizontal"
+msgstr "אופקי"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Invert tap zones"
+msgstr "היפוך אזורי לחיצה"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Show tap zones overlay"
+msgstr "הצגת מפת אזורי הלחיצה"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "Tap zones"
+msgstr "אזורי הלחיצה"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Vertical"
+msgstr "אנכי"
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Hotkey already exists"
+msgstr "מקש קיצור זה כבר נמצא בשימוש"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "How much time FlareSolverr has to handle the request"
+msgstr "כמה זמן עומד לרשות FlareSolverr לטיפול בבקשה"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid ""
+"If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+"אם אפשרות זו מופעלת, תיבחר ההתאמה המתקדמת ביותר.\n"
+"אחרת תיבחר ההתאמה הראשונה לפי עדיפות המקור."
+
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+msgid "Ignore"
+msgstr "התעלמות"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Ignore filters when searching"
+msgstr "התעלמות ממסננים בעת חיפוש"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "התעלמות מהתאמות עם פחות פרקים"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "התעלמות מהתאמות עם פרקים חסרים"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr "התעלמות מהתאמות שאין להן פרקים חדשים יותר"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Ignore re-uploaded chapters"
+msgstr "התעלמות מפרקים שהועלו מחדש"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Image"
+msgstr "תמונה"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Image processing"
+msgstr "עיבוד תמונות"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Image serve processing"
+msgstr "עיבוד הגשת תמונות"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Images"
+msgstr "תמונות"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Improves performance, but may cause issues for some installations where data cannot be read from the database"
+msgstr ""
+"משפר את הביצועים, אך עלול לגרום לבעיות בחלק מההתקנות שבהן לא ניתן לקרוא "
+"נתונים ממסד הנתונים"
+
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+msgid ""
+"In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
+"Set the target mode to disabled to prevent processing for a MIME-Type"
+msgstr ""
+"אם לא הוגדר סוג תוכן (MIME-Type), יעשה שימוש בערך ברירת המחדל לצורך העיבוד.\n"
+"יש להעביר את מצב היעד למצב כבוי (Disabled) כדי למנוע עיבוד עבור סוג תוכן "
+"מסוים"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "MIME-Type"
+msgstr "סוג תוכן (MIME-Type)"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "MIME-Type target"
+msgstr "יעד סוג התוכן (MIME-Type)"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/manga/components/MangaBadges.tsx
+#: src/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx
+msgid "In Library"
+msgstr "נמצא בספרייה"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr "הכללה"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+msgid "Include: {includedCategoriesText}"
+msgstr "לכלול: {includedCategoriesText}"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Increase auto scroll speed"
+msgstr "הגברת מהירות הגלילה האוטומטית"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about available update"
+msgstr "הצגת הודעה כשיש עדכון זמין"
