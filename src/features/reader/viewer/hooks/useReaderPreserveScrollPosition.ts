@@ -12,9 +12,9 @@ import type {
     IReaderSettingsManga,
     ReaderPageScaleMode,
     ReaderStateChapters,
-    ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
+import { ReadingDirection } from '@/features/reader/Reader.types.ts';
 import {
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
@@ -24,6 +24,7 @@ import {
 import { getPreviousNextChapterVisibility } from '@/features/reader/Reader.utils.ts';
 import type { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { getReaderPagesStore, getReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
+import type { Direction } from '@mui/material/styles';
 
 const shouldPreserveOnResizeChange = (
     readingMode: ReadingMode,
@@ -177,7 +178,12 @@ const useScrollPreservationData = (
     return dataRef;
 };
 
-const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement | null>, readingMode: ReadingMode) => {
+const usePreserveOnLeadingPageRender = (
+    scrollElementRef: RefObject<HTMLElement | null>,
+    readingMode: ReadingMode,
+    readingDirection: ReadingDirection,
+    themeDirection: Direction,
+) => {
     const preservationDataRef = useScrollPreservationData(scrollElementRef);
 
     const isContinuousReadingModeActive = isContinuousReadingMode(readingMode);
@@ -212,7 +218,13 @@ const usePreserveOnLeadingPageRender = (scrollElementRef: RefObject<HTMLElement 
                     return entry.target.offsetTop < top;
                 }
 
-                return entry.target.offsetLeft < left;
+                if (themeDirection === 'rtl') {
+                    return entry.target.offsetLeft < left;
+                }
+
+                return readingDirection === ReadingDirection.LTR
+                    ? entry.target.offsetLeft < left
+                    : entry.target.offsetLeft > left;
             });
 
             const includesElementsBeforeScrollPosition = !!entriesBeforeScrollPosition.length;
@@ -364,6 +376,7 @@ export const useReaderPreserveScrollPosition = (
     pageScaleMode: ReaderPageScaleMode,
     shouldStretchPage: boolean,
     readerWidth: IReaderSettingsManga['readerWidth'],
+    themeDirection: Direction,
 ) => {
     usePreserveOnInfiniteScrollPreviousChapterInitialRender(
         scrollElementRef,
@@ -374,7 +387,7 @@ export const useReaderPreserveScrollPosition = (
         visibleChapters,
         isContinuousReadingMode(readingMode),
     );
-    usePreserveOnLeadingPageRender(scrollElementRef, readingMode);
+    usePreserveOnLeadingPageRender(scrollElementRef, readingMode, readingDirection, themeDirection);
     usePreserveOnWindowResize(readingMode, pageScaleMode, currentPageIndex);
     usePreserveOnValueChange(readingDirection, currentPageIndex);
     usePreserveOnValueChange(readingMode, currentPageIndex);
