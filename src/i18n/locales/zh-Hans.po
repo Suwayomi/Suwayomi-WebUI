@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-05-24 00:14+0000\n"
-"Last-Translator: 清水汐音 <chenzhongjie19940725@gmail.com>\n"
+"PO-Revision-Date: 2026-06-04 09:48+0000\n"
+"Last-Translator: ZerOriSama <godarms2010@live.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.6\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -4094,3 +4094,12 @@ msgstr "这不会阻止非官方或可能被错误标记的扩展在应用内显
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
 msgstr "{0, plural, one {1 条已中止的条目} other {# 条已中止的条目}}"
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "当前生效的设置（{title}）"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Multi"
+msgstr "多个"
