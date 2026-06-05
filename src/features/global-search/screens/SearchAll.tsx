@@ -157,7 +157,8 @@ const SourceSearchPreview = React.memo(
         const { data: searchResult, isLoading, error, abortRequest } = results[0]!;
         currentAbortRequest.current = abortRequest;
 
-        const mangas = searchResult?.fetchSourceManga?.mangas ?? STABLE_EMPTY_ARRAY;
+        const tmpMangas = searchResult?.fetchSourceManga?.mangas ?? STABLE_EMPTY_ARRAY;
+        const mangas = tmpMangas.filter((manga) => manga.id !== mangaId);
         const noMangasFound = !error && !isLoading && !mangas.length;
 
         useEffect(() => {

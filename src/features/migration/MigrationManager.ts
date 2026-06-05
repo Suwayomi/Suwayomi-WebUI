@@ -819,7 +819,8 @@ export class MigrationManager {
         );
         const uniqueSearchResults = uniqBy('id', searchResults);
         const matches = uniqueSearchResults.filter(
-            (searchMatch) => enhancedCleanup(searchMatch.title) === enhancedCleanup(mangaTitle),
+            (searchMatch) =>
+                searchMatch.id !== mangaId && enhancedCleanup(searchMatch.title) === enhancedCleanup(mangaTitle),
         );
 
         const matchUpdatePromises = matches.map(async (match) => {

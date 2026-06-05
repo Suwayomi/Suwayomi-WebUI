@@ -24,6 +24,8 @@ import { getMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { Queue } from '@/lib/Queue.ts';
 import type { TrackerIdInfo } from '@/features/tracker/Tracker.types.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import { t } from '@lingui/core/macro';
+import { makeToast } from '@/base/utils/Toast.ts';
 
 export class MangaMigration {
     private static trackerQueue = new Map<TrackerIdInfo['id'], Queue>();
@@ -56,6 +58,11 @@ export class MangaMigration {
     ): Promise<void> {
         if (!mangaToMigrate || !mangaToMigrateTo) {
             throw new Error('MangaMigration::migrate: missing manga data');
+        }
+
+        if (mangaToMigrate.id === mangaToMigrateTo.id) {
+            makeToast(t`Can't migrate an entry to itself`, 'error');
+            return;
         }
 
         if (migrateChapters && !mangaToMigrate.chapters) {

@@ -108,6 +108,7 @@ const useSourceManga = (
     filters: IPos[],
     initialPages: number,
     hideLibraryEntries: boolean,
+    mangaId?: MangaIdInfo['id'],
 ): [
     AbortableApolloUseMutationPaginatedResponse<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>[0],
     AbortableApolloUseMutationPaginatedResponse<
@@ -168,7 +169,9 @@ const useSourceManga = (
 
         pages.forEach((page, index) => {
             const pageItems = page.data?.fetchSourceManga?.mangas ?? [];
-            const nonLibraryPageItems = pageItems.filter((item) => !hideLibraryEntries || !item.inLibrary);
+            const nonLibraryPageItems = pageItems.filter(
+                (item) => item.id !== mangaId && (!hideLibraryEntries || !item.inLibrary),
+            );
             const uniqueItems = getUniqueMangas([...allItems, ...nonLibraryPageItems]);
 
             const isLastPage = !isPageLoading && pages.length === index + 1;
@@ -287,7 +290,7 @@ export function SourceMangas() {
     const [
         loadPage,
         { data, error, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage },
-    ] = useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
+    ] = useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries, mangaId);
     currentAbortRequest.current = abortRequest;
     const mangas = data?.fetchSourceManga?.mangas ?? STABLE_EMPTY_ARRAY;
     const hasNextPage = !!data?.fetchSourceManga?.hasNextPage;
