@@ -197,11 +197,17 @@ export class Mangas {
         const { data } = await requestManager.getChapters<
             GetMangasChapterIdsWithStateQuery,
             GetMangasChapterIdsWithStateQueryVariables
-        >(GET_MANGAS_CHAPTER_IDS_WITH_STATE, {
-            filter: { mangaId: { in: mangaIds }, scanlator: { notIncludesInsensitiveAny: excludedScanlators } },
-            condition: { ...state },
-            order: [{ by: ChapterOrderBy.SourceOrder }],
-        }).response;
+        >(
+            GET_MANGAS_CHAPTER_IDS_WITH_STATE,
+            {
+                filter: { mangaId: { in: mangaIds }, scanlator: { notIncludesInsensitiveAny: excludedScanlators } },
+                condition: { ...state },
+                order: [{ by: ChapterOrderBy.SourceOrder }],
+            },
+            {
+                fetchPolicy: 'network-only',
+            },
+        ).response;
 
         return data?.chapters.nodes ?? [];
     }
