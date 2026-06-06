@@ -212,7 +212,14 @@ const ReactRouterSetter = () => {
 const ResumeMigration = () => {
     useEffect(() => {
         if (!MigrationManager.isActive()) {
-            MigrationManager.resume().catch(defaultPromiseErrorHandler('ResumeMigration'));
+            navigator.locks
+                .request('migration-executor', async () => {
+                    const resumed = await MigrationManager.resume();
+                    if (resumed) {
+                        await MigrationManager.awaitCompletion();
+                    }
+                })
+                .catch(defaultPromiseErrorHandler('ResumeMigration'));
         }
     }, []);
 

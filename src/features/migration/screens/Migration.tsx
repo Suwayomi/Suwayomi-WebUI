@@ -25,9 +25,11 @@ export const Migration = ({ tabsMenuHeight = 0 }: { tabsMenuHeight?: number }) =
     const phase = MigrationManager.usePhase();
     const { setOnBack } = useAppPageHistoryContext();
 
+    const isMigrationPage = SubpathUtil.getPathname() === AppRoutes.migrate.path;
+
     useEffect(() => {
-        if (SubpathUtil.getPathname() !== AppRoutes.migrate.path) {
-            if (!MigrationManager.isActive()) {
+        if (!isMigrationPage) {
+            if (!MigrationManager.isResumablePhase()) {
                 MigrationManager.reset();
             } else {
                 ReactRouter.navigate(AppRoutes.migrate.path);
@@ -42,6 +44,17 @@ export const Migration = ({ tabsMenuHeight = 0 }: { tabsMenuHeight?: number }) =
             setOnBack(null);
         };
     }, []);
+
+    useEffect(() => {
+        if (!isMigrationPage && phase !== MigrationPhase.IDLE && phase !== MigrationPhase.SELECTING_SOURCES) {
+            ReactRouter.navigate(AppRoutes.migrate.path);
+            return;
+        }
+
+        if (isMigrationPage && phase === MigrationPhase.IDLE) {
+            ReactRouter.navigate(AppRoutes.browse.path(BrowseTab.MIGRATE));
+        }
+    }, [phase]);
 
     switch (phase) {
         case MigrationPhase.IDLE:

@@ -69,8 +69,14 @@ import isEqual from 'lodash/fp/isEqual';
 import uniqBy from 'lodash/fp/uniqBy';
 import { MigrationEntries } from '@/features/migration/MigrationEntries.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
+import { AppSession } from '@/base/AppSession.ts';
+import { ControlledPromise } from '@/lib/ControlledPromise.ts';
+import { d } from 'koration';
+import merge from 'lodash/fp/merge';
 
 const RESUMABLE_PHASES: readonly MigrationPhase[] = [MigrationPhase.SEARCHING, MigrationPhase.MIGRATING];
+
+let initialResume = true;
 
 const migrationStore = create<MigrationState>()(
     devtools(
@@ -81,11 +87,12 @@ const migrationStore = create<MigrationState>()(
                 merge: (persistedState, currentState) => {
                     const persisted = persistedState as MigrationState | undefined;
 
-                    if (!persisted || !RESUMABLE_PHASES.includes(persisted.phase)) {
+                    if (initialResume && (!persisted || !RESUMABLE_PHASES.includes(persisted.phase))) {
+                        initialResume = false;
                         return currentState;
                     }
 
-                    return { ...currentState, ...persisted };
+                    return merge(currentState, persisted);
                 },
             },
         ),
@@ -93,6 +100,13 @@ const migrationStore = create<MigrationState>()(
 );
 
 const useMigrationStore = ZustandUtil.createStoreHook(migrationStore);
+
+window.addEventListener('storage', (e) => {
+    const isMigrationStateUpdate = e.key === MIGRATION_LOCAL_STORAGE_KEY;
+    if (isMigrationStateUpdate) {
+        migrationStore.persist.rehydrate();
+    }
+});
 
 export class MigrationManager {
     private static abortController: AbortController | null = null;
@@ -364,11 +378,27 @@ export class MigrationManager {
         });
     }
 
+    private static async awaitUserConfirmation(): Promise<void> {
+        await Confirmation.show({
+            title: t`Migration information`,
+            message: AppSession.isSecureContext()
+                ? t`The migration runs on the client on the current device, NOT the server.\nAs long as the client is open, the migration will run in the background.\nThe client can be closed. The migration will be resumed once it gets opened again on the same device it got started on.`
+                : t`WebUI must be kept open. Migration can't be resumed`,
+            actions: {
+                confirm: {
+                    title: t`Understood`,
+                },
+            },
+        });
+    }
+
     static async startSearch(
         destinationSourceIds: SourceIdInfo['id'][],
         options: MigrationBulkSearchSettings,
     ): Promise<void> {
         MigrationManager.ensureIsInValidPhase([MigrationPhase.SELECTING_SOURCES]);
+
+        await MigrationManager.awaitUserConfirmation();
 
         const state = MigrationManager.getState();
         const entryIds = Object.keys(state.entries).map(Number);
@@ -431,15 +461,7 @@ export class MigrationManager {
 
         const migratableEntries = MigrationEntries.getMigratable(Object.values(MigrationManager.getState().entries));
 
-        await Confirmation.show({
-            title: t`Migration information`,
-            message: t`The migration runs on the client on the current device, NOT the server.\nAs long as the client is open, the migration will run in the background.\nThe client can be closed. The migration will be resumed once it gets opened again on the same device it got started on.`,
-            actions: {
-                confirm: {
-                    title: t`Understood`,
-                },
-            },
-        });
+        await MigrationManager.awaitUserConfirmation();
 
         MigrationManager.updateState((draft) => {
             draft.phase = MigrationPhase.MIGRATING;
@@ -530,12 +552,34 @@ export class MigrationManager {
         return true;
     }
 
-    static async resume(): Promise<void> {
+    static async awaitCompletion(): Promise<void> {
+        const completionPromise = new ControlledPromise();
+
+        const checkComplete = () => {
+            setTimeout(() => {
+                if (MigrationManager.getState().phase !== MigrationPhase.IDLE) {
+                    checkComplete();
+                    return;
+                }
+
+                completionPromise.resolve();
+            }, d(10).seconds.inWholeMilliseconds);
+        };
+
+        checkComplete();
+
+        return completionPromise.promise;
+    }
+
+    static async resume(): Promise<boolean> {
         const { phase, migrateOptions, searchOptions, entries } = MigrationManager.getState();
 
-        const isResumeablePhase = RESUMABLE_PHASES.includes(phase);
-        if (!isResumeablePhase) {
-            return;
+        if (!AppSession.isSecureContext()) {
+            return false;
+        }
+
+        if (!MigrationManager.isResumablePhase()) {
+            return false;
         }
 
         const resumeMigrationPhase = phase === MigrationPhase.MIGRATING && migrateOptions;
@@ -552,7 +596,7 @@ export class MigrationManager {
 
             await MigrationManager.migrate(migratableEntries, migrateOptions);
 
-            return;
+            return true;
         }
 
         assertIsDefined(searchOptions);
@@ -570,6 +614,8 @@ export class MigrationManager {
         });
 
         await MigrationManager.search(pendingEntries, searchOptions);
+
+        return true;
     }
 
     static reset(): void {
@@ -685,17 +731,12 @@ export class MigrationManager {
         return migrationStore.getState();
     }
 
-    static isActive(): boolean {
-        const { phase } = migrationStore.getState();
-
-        return (
-            !!MigrationManager.abortController &&
-            (phase === MigrationPhase.SEARCHING || phase === MigrationPhase.MIGRATING)
-        );
+    static isResumablePhase(): boolean {
+        return RESUMABLE_PHASES.includes(MigrationManager.getState().phase);
     }
 
-    static hasPausedMigration(): boolean {
-        return RESUMABLE_PHASES.includes(MigrationManager.getState().phase);
+    static isActive(): boolean {
+        return !!MigrationManager.abortController && MigrationManager.isResumablePhase();
     }
 
     private static getDestinationSourceIds(mangaSourceId: SourceIdInfo['id']): MigrationState['destinationSourceIds'] {
@@ -1196,6 +1237,12 @@ export class MigrationManager {
     }
 
     private static updateState(updater: (draft: MigrationState) => void): void {
+        // Only update the state if the tab is the active executor. Otherwise, updating the state will break the
+        // migration due to the executor tab rehydrating its state with a potentially outdated version
+        if (MigrationManager.isResumablePhase() && !MigrationManager.isActive()) {
+            return;
+        }
+
         migrationStore.setState(updater);
     }
 

@@ -9,7 +9,7 @@
 import type { MigrationMatch, TMigrationEntry } from '@/features/migration/Migration.types.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import Paper from '@mui/material/Paper';
-import { memo, useMemo } from 'react';
+import { memo, useLayoutEffect, useMemo, useState } from 'react';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MigrationSourceEntry } from '@/features/migration/components/migration-entry/MigrationSourceEntry.tsx';
@@ -206,7 +206,11 @@ export const MigrationEntry = memo(
     }) => {
         const isTabletWidth = MediaQuery.useIsTabletWidth();
 
-        const entry = useMemo(() => MigrationManager.getUpToDateMigrationEntry(propEntry), [propEntry]);
+        const [entry, setEntry] = useState(propEntry);
+
+        useLayoutEffect(() => {
+            setEntry(MigrationManager.getUpToDateMigrationEntry(propEntry));
+        }, [propEntry]);
 
         const destinationEntry = useMemo(() => {
             const match = entry.searchMatches.find((matchEntry) => matchEntry.id === entry.selectedMatchMangaId);

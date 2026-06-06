@@ -21,6 +21,10 @@ class AppSessionClass {
     get STARTUP_TIMESTAMP(): number {
         return AppStorage.session.getItemParsed(STARTUP_TIMESTAMP_KEY, Date.now());
     }
+
+    isSecureContext(): boolean {
+        return window.isSecureContext;
+    }
 }
 
 export const AppSession = new AppSessionClass();

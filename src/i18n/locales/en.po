@@ -3923,6 +3923,10 @@ msgstr "WebUI"
 msgid "WebUI channel"
 msgstr "WebUI channel"
 
+#: src/features/migration/MigrationManager.ts
+msgid "WebUI must be kept open. Migration can't be resumed"
+msgstr "WebUI must be kept open. Migration can't be resumed"
+
 #: src/features/settings/screens/About.tsx
 msgid "WebUI version"
 msgstr "WebUI version"
