@@ -36,6 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- (**General**) Fix long press actions on desktop
 - (**Migration**) Fix aborting bulk migration search/execution while webUI is served on a subpath
 - (**Migration**) Fix retry button never being shown for failed search/migration entries
 - (**Migration**) Fix showing an empty "Available" source group header when all sources are selected

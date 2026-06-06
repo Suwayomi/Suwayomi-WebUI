@@ -18,7 +18,6 @@ import type { MouseEvent, TouchEvent } from 'react';
 import React, { memo, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
-import { useLongPress } from 'use-long-press';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { getDateString } from '@/base/utils/DateHelper.ts';
@@ -43,6 +42,7 @@ import type {
 } from '@/features/chapter/Chapter.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { ChapterType } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { usePress } from '@/base/hooks/usePress.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -104,15 +104,18 @@ export const ChapterCard = memo((props: IProps) => {
         onSelect(chapter.id, !selected, event.shiftKey);
     };
 
-    const longPressBind = useLongPress((event, { context: openMenu }) => {
-        if (!isSelecting && !!menuButtonRef.current) {
-            handleClickOpenMenu(event, () => (openMenu as (event: Element) => void)?.(menuButtonRef.current!));
-            return;
-        }
+    const longPressBind = usePress({
+        onLongPress: (event, { context: openMenu }) => {
+            if (!isSelecting && !!menuButtonRef.current) {
+                handleClickOpenMenu(event, () => (openMenu as (event: Element) => void)?.(menuButtonRef.current!));
+                return;
+            }
 
-        // oxlint-disable-next-line no-param-reassign
-        event.shiftKey = true;
-        handleClick(event);
+            // oxlint-disable-next-line no-param-reassign
+            event.shiftKey = true;
+            handleClick(event);
+        },
+        onPress: handleClick,
     });
 
     return (
@@ -136,7 +139,6 @@ export const ChapterCard = memo((props: IProps) => {
                             }}
                             state={Chapters.getReaderOpenChapterLocationState(chapter, true)}
                             replace={mode === 'reader'}
-                            onClick={(e) => handleClick(e)}
                             {...longPressBind(popupState.open)}
                         >
                             <ListCardContent>

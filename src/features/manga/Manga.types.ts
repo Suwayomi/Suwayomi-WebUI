@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { LongPressPointerHandlers, LongPressResult } from 'use-long-press';
 import type { PopupState } from 'material-ui-popup-state/hooks';
 import type { JSX } from 'react';
 import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
@@ -29,6 +28,7 @@ import type {
     SourceType,
     TrackRecordType,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
+import type { UsePressResult } from '@/base/hooks/usePress.ts';
 
 export type MangaCardMode = 'default' | 'source' | 'migrate.select.bulk' | 'migrate.select.single' | 'duplicate';
 
@@ -75,9 +75,8 @@ export interface MangaCardProps {
 export type SpecificMangaCardProps = Omit<MangaCardProps, 'manga'> &
     Pick<ReturnType<typeof useManageMangaLibraryState>, 'isInLibrary'> & {
         manga: MangaCardSpecificProps;
-        longPressBind: LongPressResult<LongPressPointerHandlers>;
+        longPressBind: UsePressResult;
         popupState: PopupState;
-        handleClick: (event: React.MouseEvent | React.TouchEvent) => void;
         mangaLinkTo: string;
         continueReadingButton: JSX.Element;
         mangaBadges: JSX.Element;

@@ -8,7 +8,6 @@
 
 import PopupState, { bindMenu } from 'material-ui-popup-state';
 import { memo, useCallback, useMemo } from 'react';
-import { useLongPress } from 'use-long-press';
 import type { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
 import { MangaActionMenuItems } from '@/features/manga/components/MangaActionMenuItems.tsx';
 import { Menu } from '@/base/components/menu/Menu.tsx';
@@ -32,6 +31,7 @@ import { MangaMigration } from '@/features/migration/MangaMigration.ts';
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import { usePress } from '@/base/hooks/usePress.ts';
 
 const getMangaLinkTo = (mode: MangaCardMode, mangaId: number): string => {
     switch (mode) {
@@ -149,8 +149,8 @@ export const MangaCard = memo((props: MangaCardProps) => {
         [mode, selected, updateLibraryState, handleSelection, migrationSourceMangaId],
     );
 
-    const longPressBind = useLongPress(
-        useCallback(
+    const longPressBind = usePress({
+        onLongPress: useCallback(
             (e: any, { context }: any) => {
                 // oxlint-disable-next-line no-param-reassign
                 e.shiftKey = true;
@@ -158,7 +158,8 @@ export const MangaCard = memo((props: MangaCardProps) => {
             },
             [handleClick],
         ),
-    );
+        onPress: handleClick,
+    });
 
     const MangaCardComponent = useMemo(
         () => (gridLayout === GridLayout.List ? MangaListCard : MangaGridCard),
@@ -173,7 +174,6 @@ export const MangaCard = memo((props: MangaCardProps) => {
                         {...props}
                         longPressBind={longPressBind}
                         popupState={popupState}
-                        handleClick={handleClick}
                         mangaLinkTo={mangaLinkTo}
                         isInLibrary={isInLibrary}
                         inLibraryIndicator={inLibraryIndicator}
