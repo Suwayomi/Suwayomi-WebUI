@@ -698,6 +698,10 @@ msgstr "By upload date"
 msgid "Call timeout"
 msgstr "Call timeout"
 
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr "Can't migrate an entry to itself"
+
 #: src/base/collection/components/SelectableCollectionSelectMode.tsx
 #: src/base/components/inputs/LanguageSelect.tsx
 #: src/base/components/modals/ConfirmDialog.tsx

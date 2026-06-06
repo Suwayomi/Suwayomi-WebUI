@@ -17,7 +17,7 @@ import { useLingui } from '@lingui/react/macro';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { WebUiUpdateStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { UpdateState, WebUiChannel } from '@/lib/graphql/generated/graphql-base.types.ts';
-import { useLocalStorage, useSessionStorage } from '@/base/hooks/useStorage.tsx';
+import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { ABOUT_WEBUI, WEBUI_UPDATE_CHECK } from '@/lib/graphql/server/InfoFragments.ts';
@@ -25,23 +25,15 @@ import { VersionUpdateInfoDialog } from '@/features/app-updates/components/Versi
 import { useUpdateChecker } from '@/features/app-updates/hooks/useUpdateChecker.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
-import { AppStorage } from '@/lib/storage/AppStorage.ts';
-import { BrowserUtil } from '@/lib/BrowserUtil.ts';
 import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
+import { AppSession } from '@/base/AppSession.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
-
-const INITIAL_LOAD_TIMESTAMP_KEY = 'webUIInitialLoadTimestamp';
-
-if (BrowserUtil.isActualPageLoad()) {
-    AppStorage.session.setItem(INITIAL_LOAD_TIMESTAMP_KEY, Date.now());
-}
 
 export const WebUIUpdateChecker = () => {
     const { t } = useLingui();
 
     const [webUIVersion, setWebUIVersion] = useLocalStorage<string>('webUIVersion');
-    const [initialLoadTimestamp] = useSessionStorage<number>(INITIAL_LOAD_TIMESTAMP_KEY, Date.now());
     const [open, setOpen] = useState(false);
 
     const {
@@ -81,7 +73,7 @@ export const WebUIUpdateChecker = () => {
     const newVersion = aboutWebUI?.tag;
     const isSameAsCurrent = !newVersion || !webUIVersion || webUIVersion === newVersion;
 
-    const shouldForceRefresh = initialLoadTimestamp < Number(aboutWebUI?.updateTimestamp);
+    const shouldForceRefresh = AppSession.STARTUP_TIMESTAMP < Number(aboutWebUI?.updateTimestamp);
 
     const saveInitialVersion = !webUIVersion && !!newVersion;
     if (saveInitialVersion) {
