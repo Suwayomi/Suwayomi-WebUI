@@ -213,7 +213,7 @@ const ResumeMigration = () => {
     useEffect(() => {
         if (!MigrationManager.isActive()) {
             navigator.locks
-                .request('migration-executor', async () => {
+                ?.request('migration-executor', async () => {
                     const resumed = await MigrationManager.resume();
                     if (resumed) {
                         await MigrationManager.awaitCompletion();
