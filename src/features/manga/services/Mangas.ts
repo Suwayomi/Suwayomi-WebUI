@@ -119,8 +119,8 @@ export class Mangas {
         });
     }
 
-    static isNotDownloaded({ downloadCount }: MangaDownloadInfo): boolean {
-        return downloadCount === 0;
+    static isNotDownloaded({ downloadCount, chapters: { totalCount } }: MangaDownloadInfo): boolean {
+        return totalCount > 0 && downloadCount === 0;
     }
 
     static getNotDownloaded<Mangas extends MangaDownloadInfo>(mangas: Mangas[]): Mangas[] {
@@ -128,7 +128,7 @@ export class Mangas {
     }
 
     static isFullyDownloaded({ downloadCount, chapters: { totalCount } }: MangaDownloadInfo): boolean {
-        return downloadCount === totalCount;
+        return totalCount > 0 && downloadCount === totalCount;
     }
 
     static getFullyDownloaded<Mangas extends MangaDownloadInfo>(mangas: Mangas[]): Mangas[] {
@@ -136,7 +136,11 @@ export class Mangas {
     }
 
     static isPartiallyDownloaded(manga: MangaDownloadInfo): boolean {
-        return !Mangas.isNotDownloaded(manga) && !Mangas.isFullyDownloaded(manga);
+        const {
+            chapters: { totalCount },
+        } = manga;
+
+        return totalCount > 0 && !Mangas.isNotDownloaded(manga) && !Mangas.isFullyDownloaded(manga);
     }
 
     static getPartiallyDownloaded<Mangas extends MangaDownloadInfo>(mangas: Mangas[]): Mangas[] {
