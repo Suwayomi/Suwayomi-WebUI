@@ -21,6 +21,7 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
 export const i18nResources = [
     'ar',
     'de',
+    'el',
     'en',
     'es',
     'fa',
