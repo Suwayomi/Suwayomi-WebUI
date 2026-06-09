@@ -2713,6 +2713,17 @@ export type WebuiUpdateSubscription = {
     };
 };
 
+export type SyncStatusSubscription = {
+    __typename: 'Subscription';
+    syncStatusChanged: {
+        __typename: 'SyncStatus';
+        state: Types.SyncState;
+        startDate: string;
+        endDate?: string | null;
+        errorMessage?: string | null;
+    };
+};
+
 export type ServerSettingsFragment = {
     __typename: 'SettingsType';
     ip: string;
@@ -3108,6 +3119,19 @@ export type GetServerSettingsQuery = {
         koreaderSyncStrategyBackward: Types.KoreaderSyncConflictStrategy;
         koreaderSyncStrategyForward: Types.KoreaderSyncConflictStrategy;
         koreaderSyncPercentageTolerance: number;
+        syncYomiEnabled: boolean;
+        syncYomiHost: string;
+        syncYomiApiKey: string;
+        syncDataManga: boolean;
+        syncDataChapters: boolean;
+        syncDataTracking: boolean;
+        syncDataHistory: boolean;
+        syncDataCategories: boolean;
+        syncInterval: string;
+        syncOnChapterRead: boolean;
+        syncOnChapterOpen: boolean;
+        syncOnWebUIStart: boolean;
+        syncOnWebUIResume: boolean;
         databaseType: Types.DatabaseType;
         databaseUrl: string;
         databaseUsername: string;
@@ -4426,4 +4450,11 @@ export type UserRefreshMutationVariables = Exact<{
 export type UserRefreshMutation = {
     __typename: 'Mutation';
     refreshToken: { __typename: 'RefreshTokenPayload'; accessToken: string };
+};
+
+export type StartSyncMutationVariables = Exact<{ [key: string]: never }>;
+
+export type StartSyncMutation = {
+    __typename: 'Mutation';
+    startSync: { __typename: 'StartSyncPayload'; result: Types.StartSyncResult };
 };

@@ -183,6 +183,9 @@ import type {
     UserLoginMutationVariables,
     UserRefreshMutation,
     UserRefreshMutationVariables,
+    StartSyncMutation,
+    StartSyncMutationVariables,
+    SyncStatusSubscription,
     ValidateBackupQuery,
     ValidateBackupQueryVariables,
     WebuiUpdateSubscription,
@@ -326,6 +329,8 @@ import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { KO_SYNC_LOGIN, KO_SYNC_LOGOUT } from '@/lib/graphql/koreader/KoreaderSyncMutation.ts';
 import { GET_KO_SYNC_STATUS } from '@/lib/graphql/koreader/KoreaderSyncQuery.ts';
+import { START_SYNC } from '@/lib/graphql/sync/SyncMutation.ts';
+import { SYNC_STATUS_SUBSCRIPTION } from '@/lib/graphql/sync/SyncSubscription.ts';
 import { ImageCache } from '@/lib/service-worker/ImageCache.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
 
@@ -3735,6 +3740,18 @@ export class RequestManager {
         options?: MutationOptions<KoSyncLogoutMutation, KoSyncLogoutMutationVariables>,
     ): AbortableApolloMutationResponse<KoSyncLogoutMutation> {
         return this.doRequest(GQLMethod.MUTATION, KO_SYNC_LOGOUT, undefined, options);
+    }
+
+    public startSync(
+        options?: MutationOptions<StartSyncMutation, StartSyncMutationVariables>,
+    ): AbortableApolloMutationResponse<StartSyncMutation> {
+        return this.doRequest(GQLMethod.MUTATION, START_SYNC, undefined, options);
+    }
+
+    public useSyncStatusSubscription(
+        options?: SubscriptionHookOptions<SyncStatusSubscription>,
+    ): useSubscription.Result<SyncStatusSubscription> {
+        return this.doRequest(GQLMethod.USE_SUBSCRIPTION, SYNC_STATUS_SUBSCRIPTION, undefined, options);
     }
 
     public refreshUser(

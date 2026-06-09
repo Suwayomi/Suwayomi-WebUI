@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- (**SyncYomi**) Add SyncYomi integration: settings page with server address, API key, auto-sync interval, data sync toggles, and trigger configuration (chapter read, chapter open, client start, client resume)
+- (**SyncYomi**) Add `SyncTriggerHandler` component that fires sync automatically based on configured triggers
+- (**SyncYomi**) Show "Syncing library..." progress toast and completion/error toasts via the `syncStatusChanged` subscription
 - (**Migration**) Add a search option to ignore outdated matches
 - (**Migration**) Add a search option to ignore matches with missing chapters
 - (**Migration**) Add "local source" as a possible destination source
