@@ -9,8 +9,8 @@
 import { memo } from 'react';
 import { BasePager } from '@/features/reader/viewer/pager/components/BasePager.tsx';
 import type { ReaderPagerProps } from '@/features/reader/Reader.types.ts';
-import { ReadingMode } from '@/features/reader/Reader.types.ts';
 import { createReaderPage } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
+import { getPageGap } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 
 const BaseReaderVerticalPager = ({
     onLoad,
@@ -21,9 +21,6 @@ const BaseReaderVerticalPager = ({
     ...props
 }: ReaderPagerProps) => {
     const { currentPageIndex, totalPages, readingMode, pageGap } = props;
-
-    const isWebtoonMode = readingMode === ReadingMode.WEBTOON;
-    const actualPageGap = isWebtoonMode ? 0 : pageGap;
 
     return (
         <BasePager
@@ -45,7 +42,7 @@ const BaseReaderVerticalPager = ({
                     pageLoadStates[page.primary.index].error ? retryFailedPagesKeyPrefix : undefined,
                     undefined,
                     undefined,
-                    page.primary.index !== 0 ? actualPageGap : 0,
+                    page.primary.index !== 0 ? getPageGap(pageGap, readingMode) : 0,
                     setRef,
                 )
             }

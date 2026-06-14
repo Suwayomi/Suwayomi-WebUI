@@ -50,6 +50,15 @@ export const getSetReaderWidth = (
     return readerWidth?.value;
 };
 
+export const getPageGap = (
+    pageGap: IReaderSettings['pageGap'],
+    readingMode: IReaderSettings['readingMode'],
+): IReaderSettings['pageGap'] => {
+    const isWebtoonMode = readingMode === ReadingMode.WEBTOON;
+
+    return isWebtoonMode ? 0 : pageGap;
+};
+
 export const isContinuousReadingMode = (readingMode: IReaderSettings['readingMode']): boolean =>
     [ReadingMode.CONTINUOUS_VERTICAL, ReadingMode.CONTINUOUS_HORIZONTAL, ReadingMode.WEBTOON].includes(readingMode);
 

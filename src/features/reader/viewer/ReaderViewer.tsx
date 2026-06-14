@@ -17,6 +17,7 @@ import { PageInViewportType, ReaderResumeMode, ReadingDirection, ReadingMode } f
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import {
+    getPageGap,
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
     shouldApplyReaderWidth,
@@ -98,6 +99,7 @@ const BaseReaderViewer = ({
         customFilter,
         shouldStretchPage,
         isStaticNav,
+        shouldShowTransitionPage,
     } = useReaderSettingsStore((state) => ({
         readingMode: state.readingMode.value,
         readingDirection: state.readingDirection.value,
@@ -109,6 +111,7 @@ const BaseReaderViewer = ({
         customFilter: state.customFilter,
         shouldStretchPage: state.shouldStretchPage.value,
         isStaticNav: state.isStaticNav,
+        shouldShowTransitionPage: state.shouldShowTransitionPage,
     }));
     const safeAreaInset = useReaderSettingsStore('safeAreaInset');
     const { resumeMode = ReaderResumeMode.START } = useLocation<RouteStateReader>().state ?? STABLE_EMPTY_OBJECT;
@@ -254,6 +257,9 @@ const BaseReaderViewer = ({
                 height: '100%',
                 overflow: 'auto',
                 flexWrap: 'nowrap',
+                ...applyStyles(isContinuousReadingModeActive && !shouldShowTransitionPage, {
+                    gap: `${getPageGap(pageGap, readingMode)}px`,
+                }),
                 ...applyStyles(
                     isContinuousVerticalReadingModeActive && shouldApplyReaderWidth(readerWidth, pageScaleMode),
                     { alignItems: 'center' },

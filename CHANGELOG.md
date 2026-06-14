@@ -58,6 +58,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Fix chapter not getting marked as read in continuous reading mode in case the last page is not big enough to get marked as the current page
 - (**Reader**) Fix infinite scrolling sometimes not opening previous/next chapter
 - (**Reader**) Fix preserving scroll position with RTL reading direction and a language that is read RTL
+- (**Reader**) Fix missing gap between chapters in continuous vertical and horizontal reading modes with disabled transition page
 - (**Browse**) Fix showing only nsfw sources in the browse source page when the "show nsfw" setting is disabled
 - (**Manga/Library**) Fix mark as read/unread option not being disabled for manga without any chapters
 - (**Manga/Library**) Fix delete/download option not being disabled for manga without any chapters
