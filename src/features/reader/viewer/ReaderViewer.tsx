@@ -233,7 +233,6 @@ const BaseReaderViewer = ({
         pageScaleMode,
         shouldStretchPage,
         readerWidth,
-        themeDirection,
     );
 
     useLayoutEffect(() => {
