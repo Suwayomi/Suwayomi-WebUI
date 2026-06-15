@@ -18,6 +18,11 @@ export const GET_CHAPTER_PAGES_FETCH = gql`
             chapter {
                 id
                 pageCount
+                isDownloaded
+                manga {
+                    id
+                    downloadCount
+                }
             }
             pages
         }

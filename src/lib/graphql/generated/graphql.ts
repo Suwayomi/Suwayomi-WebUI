@@ -519,7 +519,13 @@ export type GetChapterPagesFetchMutation = {
     fetchChapterPages: {
         __typename: 'FetchChapterPagesPayload';
         pages: Array<string>;
-        chapter: { __typename: 'ChapterType'; id: number; pageCount: number };
+        chapter: {
+            __typename: 'ChapterType';
+            id: number;
+            pageCount: number;
+            isDownloaded: boolean;
+            manga: { __typename: 'MangaType'; id: number; downloadCount: number };
+        };
     } | null;
 };
 
