@@ -164,10 +164,14 @@ const useScrollPreservationData = (
                 updateObservation(entry.removedNodes, (element) => intersectionObserver.unobserve(element));
             }
         });
+
         mutationObserver.observe(scrollElement, {
             childList: true,
             subtree: true,
         });
+
+        updateObservation(scrollElement.childNodes, (element) => intersectionObserver.observe(element));
+
         return () => {
             mutationObserver.disconnect();
             intersectionObserver.disconnect();
@@ -252,6 +256,8 @@ const usePreserveOnLeadingPageRender = (
             childList: true,
             subtree: true,
         });
+
+        updateObservation(scrollElement.childNodes, (element) => resizeObserver.observe(element));
 
         return () => {
             mutationObserver.disconnect();
@@ -346,6 +352,8 @@ const usePreserveOnInfiniteScrollPreviousChapterInitialRender = (
             childList: true,
             subtree: true,
         });
+
+        updateObservation(scrollElement.childNodes, (element) => resizeObserver.observe(element));
 
         return () => {
             mutationObserver.disconnect();
