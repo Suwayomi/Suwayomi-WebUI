@@ -33,6 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Simplify changing settings in desktop sidebar
 - (**Reader**) Ignore tap zone clicks while window does not have focus
 - (**Reader**) Improve preloading pages from the previous/next chapter
+- (**Category**) Require confirmation before deleting a category
 
 ### Fixed
 

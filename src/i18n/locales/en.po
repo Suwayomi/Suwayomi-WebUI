@@ -450,6 +450,7 @@ msgstr "Apply safe area padding"
 msgid "Are you sure you want to abort the migration?"
 msgstr "Are you sure you want to abort the migration?"
 
+#: src/features/category/components/CategorySettingsCard.tsx
 #: src/features/chapter/services/Chapters.ts
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/services/Mangas.ts
@@ -1010,6 +1011,10 @@ msgstr "Could not create category"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Could not create theme"
 msgstr "Could not create theme"
+
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "Could not delete category"
+msgstr "Could not delete category"
 
 #. placeholder {0}: theme.getName()
 #: src/features/theme/components/ThemeList.tsx
@@ -3973,6 +3978,11 @@ msgstr "Yesterday at {timeString}"
 #: src/features/theme/Themes.ts
 msgid "Ying & Yang"
 msgstr "Ying & Yang"
+
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\""
+msgstr "You are about to delete category \"{0}\""
 
 #. placeholder {0}: manga.title
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx

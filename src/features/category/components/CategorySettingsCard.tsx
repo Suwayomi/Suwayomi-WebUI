@@ -19,6 +19,9 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 import type { CategoryIdInfo, CategoryNameInfo } from '@/features/category/Category.types.ts';
+import { Confirmation } from '@/base/AppAwaitableComponent.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
 export const CategorySettingsCard = ({
     category,
@@ -29,8 +32,17 @@ export const CategorySettingsCard = ({
 }) => {
     const { t } = useLingui();
 
-    const deleteCategory = () => {
-        requestManager.deleteCategory(category.id);
+    const deleteCategory = async () => {
+        await Confirmation.show({
+            title: t`Are you sure?`,
+            message: t`You are about to delete category "${category.name}"`,
+        });
+
+        try {
+            await requestManager.deleteCategory(category.id).response;
+        } catch (e) {
+            makeToast(t`Could not delete category`, 'error', getErrorMessage(e));
+        }
     };
 
     return (
