@@ -82,3 +82,16 @@ export const getNextRotationValue = <Value>(
 
     return values[(indexOfValue + 1) % values.length];
 };
+
+export const maybeExecuteWithDelay = (
+    action: () => void,
+    delay: number,
+    condition: boolean,
+): NodeJS.Timeout | undefined => {
+    if (condition) {
+        return setTimeout(() => action(), delay);
+    }
+
+    action();
+    return undefined;
+};
