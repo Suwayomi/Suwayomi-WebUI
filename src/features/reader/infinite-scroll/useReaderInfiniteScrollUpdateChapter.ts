@@ -271,15 +271,15 @@ export const useReaderInfiniteScrollUpdateChapter = (
         }
 
         const onScroll = () => {
-            const THRESHOLD = 2;
+            const THRESHOLD = 1;
 
-            const isAtStartX = scrollElement.scrollLeft === 0;
+            const isAtStartX = Math.abs(scrollElement.scrollLeft) <= THRESHOLD;
             const distanceEndX = Math.abs(
                 Math.abs(scrollElement.scrollLeft) - (scrollElement.scrollWidth - scrollElement.clientWidth),
             );
             const isAtEndX = distanceEndX >= 0 && distanceEndX <= THRESHOLD;
 
-            const isAtStartY = scrollElement.scrollTop === 0;
+            const isAtStartY = scrollElement.scrollTop <= THRESHOLD;
             const distanceStartY = Math.abs(
                 Math.abs(scrollElement.scrollTop) - (scrollElement.scrollHeight - scrollElement.clientHeight),
             );
