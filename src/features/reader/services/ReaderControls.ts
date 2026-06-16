@@ -528,18 +528,24 @@ class ReaderControlsClass {
             (image) =>
                 image &&
                 isPageInViewport(image, type, {
-                    thresholds: {
-                        bottom: 1,
-                        left: getOptionForDirection(
-                            0,
-                            pageHorizontalEndInViewportThreshold,
-                            themeDirectionOfReadingDirection,
-                        ),
-                        right: getOptionForDirection(
-                            pageHorizontalEndInViewportThreshold,
-                            0,
-                            themeDirectionOfReadingDirection,
-                        ),
+                    bounds: {
+                        bottom: {
+                            min: 1,
+                        },
+                        left: {
+                            min: getOptionForDirection(
+                                0,
+                                pageHorizontalEndInViewportThreshold,
+                                themeDirectionOfReadingDirection,
+                            ),
+                        },
+                        right: {
+                            min: getOptionForDirection(
+                                pageHorizontalEndInViewportThreshold,
+                                0,
+                                themeDirectionOfReadingDirection,
+                            ),
+                        },
                     },
                 }),
         );

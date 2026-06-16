@@ -31,6 +31,7 @@ import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
 import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import merge from 'lodash/fp/merge';
 
 type CSSObject = ReturnType<Theme['applyStyles']>;
 
@@ -331,11 +332,17 @@ export const createReaderPage = (
     />
 );
 
-type InViewportThresholds = {
-    top?: number;
-    bottom?: number;
-    left?: number;
-    right?: number;
+type InViewportBound = {
+    min?: number;
+    max?: number;
+    threshold?: number;
+};
+
+type InViewportBounds = {
+    top?: InViewportBound;
+    bottom?: InViewportBound;
+    left?: InViewportBound;
+    right?: InViewportBound;
 };
 type InViewportOptions = {
     /**
@@ -344,14 +351,14 @@ type InViewportOptions = {
      */
     truncateValues?: boolean;
     /**
-     * Thresholds are not considered for the detection of an image filling the whole viewport.
+     * Bounds are not considered for the detection of an image filling the whole viewport.
      * They are only used for detecting if a specific side of an image is inside the viewport
      */
-    thresholds?: InViewportThresholds;
+    bounds?: InViewportBounds;
 };
 const getIsPageInViewportInfo = (
     element: HTMLElement,
-    { truncateValues, thresholds: argThresholds }: InViewportOptions = { truncateValues: true, thresholds: {} },
+    { truncateValues, bounds: argBounds }: InViewportOptions = { truncateValues: true, bounds: {} },
 ): {
     isLeftInViewport: boolean;
     isRightInViewport: boolean;
@@ -368,20 +375,27 @@ const getIsPageInViewportInfo = (
     const left = maybeTruncateValue(leftRaw);
     const right = maybeTruncateValue(rightRaw);
 
-    const thresholds = {
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        ...argThresholds,
-    };
+    const THRESHOLD = 1;
+    const bounds = merge(
+        {
+            top: { min: 0, max: window.innerHeight + THRESHOLD, threshold: THRESHOLD },
+            bottom: { min: 0, max: window.innerHeight + THRESHOLD, threshold: THRESHOLD },
+            left: { min: 0, max: window.innerWidth + THRESHOLD, threshold: THRESHOLD },
+            right: { min: 0, max: window.innerWidth + THRESHOLD, threshold: THRESHOLD },
+        } satisfies InViewportBounds,
+        argBounds,
+    );
 
-    const isLeftInViewport = left >= thresholds.left && left <= window.innerWidth;
-    const isRightInViewport = right >= thresholds.right && right <= window.innerWidth;
+    // oxlint-disable-next-line unicorn/consistent-function-scoping
+    const meetsBounds = (value: number, viewportValue: number, { min, max, threshold }: Required<InViewportBound>) =>
+        value >= min && value <= max && value <= viewportValue + threshold;
+
+    const isLeftInViewport = meetsBounds(left, window.innerWidth, bounds.left);
+    const isRightInViewport = meetsBounds(right, window.innerWidth, bounds.right);
     const isFillingWidthViewportCompletely = left <= 0 && right >= window.innerWidth;
 
-    const isTopInViewport = top >= thresholds.top && top <= window.innerHeight;
-    const isBottomInViewport = bottom >= thresholds.bottom && bottom <= window.innerHeight;
+    const isTopInViewport = meetsBounds(top, window.innerHeight, bounds.top);
+    const isBottomInViewport = meetsBounds(bottom, window.innerHeight, bounds.bottom);
     const isFillingHeightViewportCompletely = top <= 0 && bottom >= window.innerHeight;
 
     return {
