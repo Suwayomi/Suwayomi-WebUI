@@ -32,7 +32,6 @@ import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { MigrationContinueButton } from '@/features/migration/components/MigrationContinueButton.tsx';
 import { GET_MIGRATABLE_SOURCE_MANGAS } from '@/lib/graphql/manga/MangaQuery.ts';
-import { MangaOrderBy, SortOrder } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 const getSourceError = (error: unknown): unknown => {
     const message = getErrorMessage(error);
@@ -80,23 +79,25 @@ export const MigrationSelectMangas = () => {
                 sourceId,
                 inLibrary: true,
             },
-            order: [
-                {
-                    by: MangaOrderBy.Title,
-                    byType: SortOrder.Asc,
-                },
-                {
-                    by: MangaOrderBy.InLibraryAt,
-                    byType: SortOrder.Desc,
-                },
-            ],
+            // TODO(release) - enable again once minimum server version gets updated
+            // order: [
+            //     {
+            //         by: MangaOrderBy.Title,
+            //         byType: SortOrder.Asc,
+            //     },
+            //     {
+            //         by: MangaOrderBy.InLibraryAt,
+            //         byType: SortOrder.Desc,
+            //     },
+            // ],
         },
         {
             skip: !sourceIds,
         },
     );
 
-    const mangas = migratableSourceMangasData?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
+    const tmpMangas = migratableSourceMangasData?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
+    const mangas = useMemo(() => tmpMangas.toSorted((a, b) => a.title.localeCompare(b.title)), [tmpMangas]);
     const mangaIds = useMemo(() => Mangas.getIds(mangas), [mangas]);
 
     const { selectedItemIds, handleSelection, handleSelectAll, areAllItemsSelected, areNoItemsSelected } =
