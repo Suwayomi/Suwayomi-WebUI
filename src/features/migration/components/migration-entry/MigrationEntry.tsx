@@ -7,6 +7,7 @@
  */
 
 import type { MigrationMatch, TMigrationEntry } from '@/features/migration/Migration.types.ts';
+import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import Paper from '@mui/material/Paper';
 import { memo, useLayoutEffect, useMemo, useState } from 'react';
@@ -100,6 +101,7 @@ const MigrationEntryMobile = memo(
                     isExcluded={isExcluded}
                     mangaId={mangaId}
                     mangaTitle={mangaTitle}
+                    isAborted={entry.status === MigrationEntryStatus.SEARCH_ABORTED}
                     isAbortable={!isAborted && MigrationEntries.isAbortable(entry)}
                     isMigrating={isMigrating}
                 />
@@ -164,6 +166,7 @@ export const MigrationEntryDesktop = memo(
                             isExcluded={entry.isExcluded}
                             mangaId={entry.mangaId}
                             mangaTitle={entry.mangaTitle}
+                            isAborted={entry.status === MigrationEntryStatus.SEARCH_ABORTED}
                             isAbortable={!isAborted && MigrationEntries.isAbortable(entry)}
                             isMigrating={isMigrating}
                         />

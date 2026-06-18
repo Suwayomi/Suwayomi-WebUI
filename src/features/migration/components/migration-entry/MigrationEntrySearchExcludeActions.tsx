@@ -32,6 +32,7 @@ export const MigrationEntrySearchExcludeActions = ({
     isExcluded,
     mangaId,
     mangaTitle,
+    isAborted,
     isAbortable,
     isMigrating,
 }: {
@@ -42,6 +43,7 @@ export const MigrationEntrySearchExcludeActions = ({
     isExcluded: boolean;
     mangaId: MangaIdInfo['id'];
     mangaTitle: string;
+    isAborted: boolean;
     isAbortable: boolean;
     isMigrating: boolean;
 }) => {
@@ -63,7 +65,7 @@ export const MigrationEntrySearchExcludeActions = ({
                         })}
                     </Button>
                 )}
-                {!isMigrating && !isExpanded && (
+                {!isMigrating && !isExpanded && !isAborted && (
                     <CustomTooltip title={t`Manual search`}>
                         <CustomIconButton
                             sx={{
@@ -77,7 +79,7 @@ export const MigrationEntrySearchExcludeActions = ({
                         </CustomIconButton>
                     </CustomTooltip>
                 )}
-                {!isMigrating && hasSelectedMatch && (
+                {!isMigrating && hasSelectedMatch && !isAborted && (
                     <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`}>
                         <CustomIconButton
                             sx={{
@@ -118,7 +120,7 @@ export const MigrationEntrySearchExcludeActions = ({
                     </IconButton>
                 </CustomTooltip>
             )}
-            {!isMigrating && hasSelectedMatch && (
+            {!isMigrating && hasSelectedMatch && !isAborted && (
                 <CustomTooltip title={isExcluded ? t`Include` : t`Exclude`} placement="auto">
                     <IconButton
                         onClick={() =>
@@ -129,7 +131,7 @@ export const MigrationEntrySearchExcludeActions = ({
                     </IconButton>
                 </CustomTooltip>
             )}
-            {!isMigrating && (
+            {!isMigrating && !isAborted && (
                 <CustomTooltip title={t`Manual search`} placement="auto">
                     <IconButton
                         onClick={() => {
