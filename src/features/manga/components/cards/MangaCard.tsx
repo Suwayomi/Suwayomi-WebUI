@@ -32,6 +32,7 @@ import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { usePress } from '@/base/hooks/usePress.ts';
+import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 
 const getMangaLinkTo = (mode: MangaCardMode, mangaId: number): string => {
     switch (mode) {
@@ -105,8 +106,23 @@ export const MangaCard = memo((props: MangaCardProps) => {
 
             if (isMigrateSelectMode) {
                 if (isMigrationSelectBulkMode) {
-                    assertIsDefined(onMigrateSelect);
-                    onMigrateSelect({ ...manga, missingChapters: undefined });
+                    Confirmation.show({
+                        title: t`Bulk migration manual search`,
+                        message: `Select "${manga.title}" as the migration destination?`,
+                        actions: {
+                            confirm: {
+                                title: t`Select`,
+                            },
+                            extra: {
+                                show: true,
+                                title: t`Show entry`,
+                                link: AppRoutes.manga.path(id),
+                            },
+                        },
+                    }).then(() => {
+                        assertIsDefined(onMigrateSelect);
+                        onMigrateSelect({ ...manga, missingChapters: undefined });
+                    });
                     return;
                 }
 

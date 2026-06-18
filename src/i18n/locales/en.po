@@ -667,6 +667,10 @@ msgstr "Browser"
 msgid "Build time"
 msgstr "Build time"
 
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "Bulk migration manual search"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Bundled"
 msgstr "Bundled"
@@ -3093,6 +3097,7 @@ msgstr "See the official <0>MUI documentation</0> for how to customize the theme
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/manga/components/cards/MangaCard.tsx
 #: src/features/manga/components/MangaActionMenuItems.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
 #: src/features/migration/components/migration-entry/MigrationMatchedEntry.tsx
@@ -3210,6 +3215,7 @@ msgstr "Show all duplicated entries in your library"
 msgid "Show continue reading button"
 msgstr "Show continue reading button"
 
+#: src/features/manga/components/cards/MangaCard.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Show entry"
