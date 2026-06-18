@@ -69,6 +69,7 @@ export class MangaMigration {
             throw new Error('MangaMigration::migrate: missing chapters data');
         }
 
+        // oxlint-disable-next-line unicorn/consistent-function-scoping
         const performMigrationActions = async (...actionCreators: [boolean | undefined, MigrateActionCreator][]) => {
             const migrationActions: TupleUnion<keyof MigrateAction> = ['copy', 'cleanup'];
 

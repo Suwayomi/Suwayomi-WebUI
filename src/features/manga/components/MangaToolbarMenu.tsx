@@ -57,6 +57,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
         AwaitableComponent.show(CategorySelect, { mangaId: manga.id });
     };
 
+    // oxlint-disable-next-line unicorn/consistent-function-scoping
     const saveDynamicColorTheme = () => {
         AwaitableComponent.show(ThemeCreationDialog, {
             mode: 'save_dynamic',
