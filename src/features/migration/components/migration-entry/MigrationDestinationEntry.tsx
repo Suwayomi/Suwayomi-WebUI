@@ -51,10 +51,10 @@ const EntryStatus = ({
 
     return (
         <Stack sx={{ alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-            <Typography color={status === MigrationEntryStatus.NO_MATCH ? 'warning' : undefined}>
+            <Typography color={status === MigrationEntryStatus.SEARCH_NO_MATCH ? 'warning' : undefined}>
                 {t(ENTRY_STATUS_TRANSLATION[status])}
             </Typography>
-            {!isMigrating && status === MigrationEntryStatus.NO_MATCH && (
+            {!isMigrating && status === MigrationEntryStatus.SEARCH_NO_MATCH && (
                 <Button
                     startIcon={<SearchIcon />}
                     variant="contained"

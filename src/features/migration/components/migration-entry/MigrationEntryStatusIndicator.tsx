@@ -67,7 +67,7 @@ export const MigrationEntryStatusIndicator = ({
         );
     }
 
-    if (status === MigrationEntryStatus.NO_MATCH) {
+    if (status === MigrationEntryStatus.SEARCH_NO_MATCH) {
         return (
             <StatusIndicatorWrapper
                 backgroundColor={(theme) => theme.palette.warning.main}

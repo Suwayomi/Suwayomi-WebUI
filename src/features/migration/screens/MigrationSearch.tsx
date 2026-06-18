@@ -47,15 +47,15 @@ export const MigrationSearch = () => {
         [entryList],
     );
     const noMatchEntries = useMemo(
-        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.NO_MATCH),
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.SEARCH_NO_MATCH),
         [entryList],
     );
     const outdatedEntries = useMemo(
-        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.OUTDATED),
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.SEARCH_OUTDATED),
         [entryList],
     );
     const abortedEntries = useMemo(
-        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.ABORTED),
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.SEARCH_ABORTED),
         [entryList],
     );
     const matchedEntries = useMemo(
@@ -95,7 +95,7 @@ export const MigrationSearch = () => {
                     color="error"
                 />
                 <MigrationEntryGroup
-                    status={MigrationEntryStatus.NO_MATCH}
+                    status={MigrationEntryStatus.SEARCH_NO_MATCH}
                     title={plural(noMatchEntries.length, {
                         one: '1 entry with no match',
                         other: '# entries with no match',
@@ -104,7 +104,7 @@ export const MigrationSearch = () => {
                     color="warning"
                 />
                 <MigrationEntryGroup
-                    status={MigrationEntryStatus.OUTDATED}
+                    status={MigrationEntryStatus.SEARCH_OUTDATED}
                     title={plural(outdatedEntries.length, {
                         one: '1 entry with only outdated matches',
                         other: '# entries with only outdated matches',
@@ -113,7 +113,7 @@ export const MigrationSearch = () => {
                     color="warning"
                 />
                 <MigrationEntryGroup
-                    status={MigrationEntryStatus.ABORTED}
+                    status={MigrationEntryStatus.SEARCH_ABORTED}
                     title={plural(abortedEntries.length, {
                         one: '1 aborted entry',
                         other: '# aborted entries',

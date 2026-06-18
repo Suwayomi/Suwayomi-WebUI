@@ -64,16 +64,16 @@ export const MigrationExecute = () => {
         [entryList],
     );
     const abortedEntries = useMemo(
-        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.ABORTED),
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.MIGRATION_ABORTED),
         [entryList],
     );
     const excludedEntries = useMemo(() => MigrationEntries.getExcluded(entryList), [entryList]);
     const noMatchEntries = useMemo(
-        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.NO_MATCH),
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.SEARCH_NO_MATCH),
         [entryList],
     );
     const outdatedEntries = useMemo(
-        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.OUTDATED),
+        () => MigrationEntries.getHaveStatusSorted(entryList, MigrationEntryStatus.SEARCH_OUTDATED),
         [entryList],
     );
 
@@ -111,7 +111,7 @@ export const MigrationExecute = () => {
                     color="error"
                 />
                 <MigrationEntryGroup
-                    status={MigrationEntryStatus.ABORTED}
+                    status={MigrationEntryStatus.MIGRATION_ABORTED}
                     title={plural(abortedEntries.length, {
                         one: '1 aborted entry',
                         other: '# aborted entries',
@@ -122,7 +122,7 @@ export const MigrationExecute = () => {
                     isAborted={MigrationManager.getState().isAborted}
                 />
                 <MigrationEntryGroup
-                    status={MigrationEntryStatus.NO_MATCH}
+                    status={MigrationEntryStatus.SEARCH_NO_MATCH}
                     title={plural(noMatchEntries.length, {
                         one: '1 entry with no match',
                         other: '# entries with no match',
@@ -133,7 +133,7 @@ export const MigrationExecute = () => {
                     isAborted={MigrationManager.getState().isAborted}
                 />
                 <MigrationEntryGroup
-                    status={MigrationEntryStatus.OUTDATED}
+                    status={MigrationEntryStatus.SEARCH_OUTDATED}
                     title={plural(outdatedEntries.length, {
                         one: '1 entry with only outdated matches',
                         other: '# entries with only outdated matches',

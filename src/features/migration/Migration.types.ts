@@ -92,14 +92,15 @@ export enum MigrationEntryStatus {
     SEARCHING = 'searching',
     SEARCH_COMPLETE = 'search_complete',
     SEARCH_FAILED = 'search_failed',
-    OUTDATED = 'outdated',
-    NO_MATCH = 'no_match',
+    SEARCH_ABORTED = 'search_aborted',
+    SEARCH_OUTDATED = 'search_outdated',
+    SEARCH_NO_MATCH = 'search_no_match',
     MIGRATION_PENDING = 'migration_pending',
     MIGRATING = 'migrating',
     MIGRATION_COMPLETE = 'migration_complete',
     MIGRATION_FAILED = 'migration_failed',
+    MIGRATION_ABORTED = 'migration_aborted',
     EXCLUDED = 'excluded',
-    ABORTED = 'aborted',
 }
 
 export interface MigrationMatch
@@ -149,8 +150,6 @@ export interface MigrationState {
     destinationSourceIds: SourceIdInfo['id'][];
     searchOptions: MigrationBulkSearchSettings | null;
     migrateOptions: Omit<MigrateOptions, 'mangaIdToMigrateTo'> | null;
-    searchProgress: MigrationProgress;
-    migrationProgress: MigrationProgress;
     startedAt: number | null;
     lastUpdatedAt: number | null;
     groupExpandState: Partial<Record<MigrationEntryStatus, boolean>>;
