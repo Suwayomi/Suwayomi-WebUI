@@ -1232,12 +1232,13 @@ export class MigrationManager {
 
         const success = MigrationEntries.getHaveStatus(entries, MigrationEntryStatus.SEARCH_COMPLETE).length;
         const failed = MigrationEntries.getHaveStatus(entries, MigrationEntryStatus.SEARCH_FAILED).length;
+        const outdated = MigrationEntries.getHaveStatus(entries, MigrationEntryStatus.SEARCH_OUTDATED).length;
         const noMatch = MigrationEntries.getHaveStatus(entries, MigrationEntryStatus.SEARCH_NO_MATCH).length;
         const aborted = MigrationEntries.getHaveStatus(entries, MigrationEntryStatus.SEARCH_ABORTED).length;
 
         return {
             total: entries.length,
-            completed: success + failed + noMatch + aborted,
+            completed: success + failed + outdated + noMatch + aborted,
             success,
             failed,
         };
@@ -1248,8 +1249,9 @@ export class MigrationManager {
 
         const total = MigrationEntries.getHaveStatus(
             entries,
-            MigrationEntryStatus.MIGRATION_ABORTED,
             MigrationEntryStatus.MIGRATION_PENDING,
+            MigrationEntryStatus.MIGRATING,
+            MigrationEntryStatus.MIGRATION_ABORTED,
             MigrationEntryStatus.MIGRATION_FAILED,
             MigrationEntryStatus.MIGRATION_COMPLETE,
         ).length;
