@@ -66,6 +66,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Manga/Library**) Fix mark as read/unread option not being disabled for manga without any chapters
 - (**Manga/Library**) Fix delete/download option not being disabled for manga without any chapters
 - (**Source**) Fix changing configuration settings with multi option selection where a selected option does not exist anymore. (E.g. Komgas "Default libraries" setting, still having a library selected that has been deleted)
+- (**Download**) Fix not respecting chapter list filters for downloads
 
 ## [20260509.01] (r3147) - 2026-05-09
 
