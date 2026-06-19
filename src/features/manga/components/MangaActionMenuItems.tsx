@@ -82,7 +82,7 @@ export const MangaActionMenuItems = ({
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);
     const isMenuItemDisabled = createIsMenuItemDisabled(isSingleMode);
 
-    const isPartiallyDownloaded = !!manga && Mangas.isPartiallyDownloaded(manga);
+    const isDownloadable = !!manga && !!manga.chapters.totalCount && !Mangas.isFullyDownloaded(manga);
     const hasDownloadedChapters = manga && Mangas.isPartiallyDownloaded(manga);
     const hasUnreadChapters = manga && Mangas.isPartiallyRead(manga);
     const hasReadChapters = !!manga && Mangas.isPartiallyRead(manga);
@@ -121,7 +121,7 @@ export const MangaActionMenuItems = ({
             {!!handleSelection && isSingleMode && (
                 <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t`Select`} />
             )}
-            {shouldShowMenuItem(isPartiallyDownloaded) && (
+            {shouldShowMenuItem(isDownloadable) && (
                 <NestedMenuItem
                     disabled={isMenuItemDisabled(!downloadableMangas.length)}
                     LeftIcon={Download}
