@@ -58,8 +58,9 @@ import {
     type UpdateMangaCategoriesPatchInput,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_MANGAS_CHAPTER_IDS_WITH_STATE } from '@/lib/graphql/chapter/ChapterQuery.ts';
-import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { filterChapters } from '@/features/chapter/utils/ChapterList.util.tsx';
+import mapValues from 'lodash/fp/mapValues';
+import { getMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 
 const I18N_PLURAL = 9999;
 
@@ -229,14 +230,14 @@ export class Mangas {
             'download',
             I18N_PLURAL,
             async () => {
-                const isSingleManga = mangaIds.length === 1;
-
                 // This should be cached by the time this function gets called, so it shouldn't trigger an actual request
-                const mangaResponse = await (isSingleManga
-                    ? requestManager.getManga<GetMangaMetaQuery>(GET_MANGA_META, mangaIds[0]).response
-                    : Promise.resolve(null));
-
-                const meta = mangaResponse?.data?.manga ? getMangaMetadata(mangaResponse.data.manga) : null;
+                const mangaResponses = await Promise.all(
+                    mangaIds.map((id) => requestManager.getManga<GetMangaMetaQuery>(GET_MANGA_META, id).response),
+                );
+                const mangaByMangaId = Object.groupBy(
+                    mangaResponses.map((response) => response.data?.manga).filter((manga) => manga !== undefined),
+                    (manga) => manga.id,
+                );
 
                 const [chaptersToConsider, unReadDownloadedChapters] = await Promise.all([
                     Mangas.getChapterIdsWithState(mangaIds, {
@@ -251,11 +252,25 @@ export class Mangas {
                         : [],
                 ]);
 
+                const chaptersToConsiderByMangaId = Object.groupBy(chaptersToConsider, (chapter) => chapter.mangaId);
+                const unReadDownloadedChaptersByMangaId = Object.groupBy(
+                    unReadDownloadedChapters,
+                    (chapter) => chapter.mangaId,
+                );
+
                 // TODO - Filter for scanlators directly in getChapterIdsWithState once fixed on the server
-                const filteredChaptersToConsider = meta ? filterChapters(chaptersToConsider, meta) : chaptersToConsider;
-                const filteredUnReadDownloadedChapters = meta
-                    ? filterChapters(unReadDownloadedChapters, meta)
-                    : unReadDownloadedChapters;
+                const filteredChaptersToConsiderByMangaId = mapValues((chapters) => {
+                    const { mangaId } = chapters![0]!;
+                    const manga = mangaByMangaId[mangaId]![0]!;
+
+                    return filterChapters(chapters!, getMangaMetadata(manga));
+                }, chaptersToConsiderByMangaId);
+                const filteredUnReadDownloadedChaptersByMangaId = mapValues((chapters) => {
+                    const { mangaId } = chapters![0]!;
+                    const manga = mangaByMangaId[mangaId]![0]!;
+
+                    return filterChapters(chapters!, getMangaMetadata(manga));
+                }, unReadDownloadedChaptersByMangaId);
 
                 type MangaIdToDownloadSize = [MangaId: string, DownloadSize: number | undefined];
 
@@ -264,16 +279,7 @@ export class Mangas {
                     size,
                 ]) satisfies MangaIdToDownloadSize[];
 
-                const mangaIdToChaptersToConsider = Object.groupBy(
-                    filteredChaptersToConsider,
-                    ({ mangaId }) => mangaId,
-                );
-                const mangaIdToUnReadDownloadedChapters = Object.groupBy(
-                    filteredUnReadDownloadedChapters,
-                    ({ mangaId }) => mangaId,
-                );
-
-                const mangaIdToDownloadSize = Object.entries(mangaIdToUnReadDownloadedChapters).map(
+                const mangaIdToDownloadSize = Object.entries(filteredUnReadDownloadedChaptersByMangaId).map(
                     ([mangaId, downloadedChapters = []]) => {
                         const downloadAheadSize = Math.max(
                             0,
@@ -291,7 +297,7 @@ export class Mangas {
 
                 const chaptersToDownload = mangaIdToActualDownloadSize
                     .flatMap(([mangaId, actualSize]) => {
-                        const mangaChapters = mangaIdToChaptersToConsider[Number(mangaId)] ?? [];
+                        const mangaChapters = filteredChaptersToConsiderByMangaId[Number(mangaId)] ?? [];
 
                         if (!mangaChapters.length) {
                             return [];
