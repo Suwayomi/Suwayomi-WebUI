@@ -5,8 +5,7 @@ msgstr ""
 "POT-Creation-Date: 2026-01-12T20:43:50.871Z\n"
 "PO-Revision-Date: 2026-05-18 11:57+0000\n"
 "Last-Translator: asqwas <zerory3@gmail.com>\n"
-"Language-Team: Korean <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
-"webui/ko/>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -15,13 +14,290 @@ msgstr ""
 "X-Generator: Weblate 2026.6.dev0\n"
 "X-Message-Format: ICU\n"
 
+#. placeholder {0}: selectedChapters.length
+#. placeholder {0}: visibleChapters.length
+#: src/features/chapter/components/ChapterList.tsx
+msgid "{0, plural, one {# chapter} other {# chapters}}"
+msgstr ""
+
+#. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "{0, plural, one {# Chapter} other {# Chapters}}"
+msgstr ""
+
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr ""
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr ""
+
+#. placeholder {0}: serverSettings.flareSolverrSessionTtl
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# minute} other {# minutes}}"
+msgstr ""
+
+#. placeholder {0}: autoScroll.value
+#. placeholder {0}: serverSettings.flareSolverrTimeout
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# second} other {# seconds}}"
+msgstr ""
+
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr ""
+
+#. placeholder {0}: trackersInUse.length
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "{0, plural, one {# Tracker} other {# Tracker}}"
+msgstr ""
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr ""
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr ""
+
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr ""
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr ""
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr ""
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr ""
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr ""
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr ""
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr ""
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr ""
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr ""
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr ""
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr ""
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr ""
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "{categoryCount, plural, one {# category} other {# categories}}"
+msgstr ""
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr ""
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr ""
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
+msgstr ""
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
+msgstr ""
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
+msgstr ""
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download added} other {# downloads added}}"
+msgstr ""
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
+msgstr ""
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+msgstr ""
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}} other {There are # missing chapters.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}}}"
+msgstr ""
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}} other {There are # missing chapters.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}}}"
+msgstr ""
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid ""
+"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
+msgstr ""
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
+msgstr ""
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+msgstr ""
+
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
 msgstr "{count}개 남음"
 
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "{currentAutoUpdateIntervalHours}h"
+msgstr ""
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr ""
+
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
+msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr ""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr ""
+
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "{progress}% | Updating…"
 msgstr "{progress}% | 업데이트중…"
+
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
+msgstr ""
 
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
@@ -31,6 +307,10 @@ msgstr "*: 활성 설정"
 msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
 msgstr "<0>Suwayomi는 서드파티 저장소나 확장 기능에 대해 어떠한 지원도 제공하지 않습니다!</0><1/>해당 저장소는 악의적인 제작자가 만들었을 수도 있으므로 주의해서 사용하세요.<2/>사용자인 여러분이 해당 저장소나 확장 기능의 보안과 신뢰성을 직접 확인해야 합니다."
 
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr ""
+
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "스벨트로 구축된 미리보기 중심 웹 프론트엔드"
@@ -38,6 +318,20 @@ msgstr "스벨트로 구축된 미리보기 중심 웹 프론트엔드"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "A-Z"
 msgstr "A-Z"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Abort"
+msgstr ""
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr ""
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr ""
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -48,12 +342,15 @@ msgstr "정보"
 msgid "Active device"
 msgstr "활성 기기"
 
-#: src/base/components/buttons/ButtonSelect.tsx
+#: src/base/components/buttons/SelectButton.tsx
 msgid "Active setting"
 msgstr "활성 설정"
 
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr ""
+
 #: src/base/components/settings/MutableListSetting.tsx
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/settings/components/images/KeyValueItems.tsx
@@ -91,9 +388,10 @@ msgstr "만화가 라이브러리에 추가되었습니다!"
 msgid "Advanced"
 msgstr "고급"
 
-#: src/features/settings/Settings.constants.ts
-#: src/features/settings/Settings.constants.ts
-#: src/features/settings/Settings.constants.ts
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "고급 검색 모드"
+
 #: src/features/settings/Settings.constants.ts
 msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
 msgstr "이 설정을 변경한 후 \"정보\" 페이지로 이동하여 webUI 업데이트를 확인하고 설치하세요"
@@ -102,11 +400,9 @@ msgstr "이 설정을 변경한 후 \"정보\" 페이지로 이동하여 webUI �
 msgid "Age rating"
 msgstr "연령 등급"
 
-#: src/base/utils/Languages.ts
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-#: src/features/extension/Extensions.constants.ts
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "All"
 msgstr "모두 다운로드"
@@ -124,13 +420,49 @@ msgstr "허용된 언어"
 msgid "Alpha"
 msgstr "알파"
 
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Also remove from {0}"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao abrir o WebUI"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao abrir um capítulo"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao marcar capítulo como lido"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao retornar ao WebUI"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "API key"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "API key generated on the SyncYomi server"
+msgstr ""
+
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Appearance"
 msgstr "모양"
 
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "안전 영역 패딩 적용"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr ""
+
 #: src/features/chapter/services/Chapters.ts
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/services/Mangas.ts
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -145,6 +477,10 @@ msgstr "작가"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Ascending"
 msgstr "오름차순"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ativar SyncYomi"
+msgstr ""
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Authentication"
@@ -184,6 +520,10 @@ msgstr "자동 웹툰 모드"
 msgid "Auto-download"
 msgstr "자동 다운로드"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Auto-sync interval"
+msgstr ""
+
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 msgid "Automatic progress bar vertical position"
 msgstr "자동 진행률 표시줄 세로 위치"
@@ -208,9 +548,25 @@ msgstr "챕터를 다운로드할 때 자동으로 읽음 표시합니다."
 msgid "Automatically refresh metadata"
 msgstr "메타데이터 자동 새로 고침"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr ""
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr ""
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr ""
+
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
 msgstr "긴 스트립 형식으로 감지된 항목에 대해 웹툰 모드를 자동으로 사용"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Available"
+msgstr ""
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Back up library as a Tachiyomi backup"
@@ -229,7 +585,6 @@ msgstr "백업"
 msgid "Backup cleanup"
 msgstr "백업 정리"
 
-#: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Backup data"
 msgstr "백업 데이터"
@@ -296,8 +651,13 @@ msgid "Both"
 msgstr "둘 다"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Bottom"
 msgstr "하단"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr ""
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Briefly show current mode when reader is opened or mode got changed"
@@ -358,6 +718,10 @@ msgstr "업로드 날짜순"
 msgid "Call timeout"
 msgstr "호출 시간 초과"
 
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr ""
+
 #: src/base/collection/components/SelectableCollectionSelectMode.tsx
 #: src/base/components/inputs/LanguageSelect.tsx
 #: src/base/components/modals/ConfirmDialog.tsx
@@ -374,7 +738,8 @@ msgstr "호출 시간 초과"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -392,11 +757,25 @@ msgstr "취소"
 msgid "Cancelled"
 msgstr "취소됨"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Capítulos"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Categorias"
+msgstr ""
+
 #: src/features/backup/Backup.constants.ts
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/settings/screens/More.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "Categories"
 msgstr "카테고리"
+
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Category"
+msgstr ""
 
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 msgid "Category Name"
@@ -432,6 +811,16 @@ msgstr "만화 페이지의 테마 색상을 미리보기 이미지에 따라 �
 msgid "Channel"
 msgstr "채널"
 
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Chapter"
+msgstr ""
+
 #: src/features/reader/screens/Reader.tsx
 msgid "Chapter does not exist"
 msgstr "챕터가 존재하지 않습니다"
@@ -457,8 +846,17 @@ msgid "Chapter transition warning"
 msgstr "챕터 전환 경고"
 
 #: src/features/backup/Backup.constants.ts
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "Chapters"
 msgstr "챕터"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Chave de API"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Chave de API gerada no servidor SyncYomi"
+msgstr ""
 
 #: src/features/library/screens/LibraryDuplicates.tsx
 msgid "Check description"
@@ -505,11 +903,13 @@ msgid "Client"
 msgstr "클라이언트"
 
 #: src/features/backup/Backup.constants.ts
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Client data"
 msgstr "클라이언트 데이터"
 
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Close"
 msgstr "닫기"
 
@@ -547,6 +947,10 @@ msgstr "완료됨"
 msgid "Compression level"
 msgstr "압축 수준"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#~ msgid "Conexão"
+#~ msgstr ""
+
 #: src/features/settings/components/images/Processing.tsx
 msgid "Connect timeout"
 msgstr "연결 시간 초과"
@@ -554,6 +958,29 @@ msgstr "연결 시간 초과"
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Connect to KOReader Sync server"
 msgstr "KOReader 동기화 서버에 연결"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr ""
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Connection"
+msgstr ""
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr ""
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Continue reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Continuous chapter display"
@@ -577,7 +1004,6 @@ msgstr ""
 ""
 
 #: src/features/settings/Settings.constants.ts
-#: src/features/settings/Settings.constants.ts
 msgid "Convert images to different formats"
 msgstr "이미지를 다른 형식으로 변환합니다"
 
@@ -587,13 +1013,20 @@ msgid "Copied to clipboard"
 msgstr "클립보드에 복사됨"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Copy"
 msgstr "복사"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "Could not add manga to library!"
 msgstr "만화를 라이브러리에 추가할 수 없습니다!"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid ""
+"Could not check for duplicated manga in your library.\n"
+"\n"
+"Error: {errorMessage}"
+msgstr ""
 
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "Could not check for update"
@@ -608,7 +1041,6 @@ msgid "Could not clear the cache"
 msgstr "캐시를 지울 수 없습니다"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Could not create backup"
 msgstr "백업을 생성할 수 없습니다"
 
@@ -617,13 +1049,21 @@ msgid "Could not create category"
 msgstr "카테고리를 생성할 수 없습니다"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
-#: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Could not create theme"
 msgstr "테마를 만들 수 없습니다"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Could not delete theme \"{0}\""
+msgstr ""
 
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Could not find source. Check your installed extensions."
 msgstr "소스를 찾을 수 없습니다. 설치된 확장 프로그램을 확인하세요."
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Could not install the extension"
+msgstr ""
 
 #: src/features/category/screens/CategorySettings.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
@@ -639,8 +1079,6 @@ msgid "Could not load latest track info from tracker"
 msgstr "트래커에서 최신 추적정보를 불러올 수 없습니다"
 
 #: src/features/library/screens/Library.tsx
-#: src/features/library/screens/Library.tsx
-#: src/features/manga/screens/Manga.tsx
 #: src/features/manga/screens/Manga.tsx
 msgid "Could not load manga"
 msgstr "만화를 불러올 수 없습니다"
@@ -652,6 +1090,28 @@ msgstr "테마 글꼴을 불러올 수 없습니다"
 #: src/features/manga/components/TrackMangaButton.tsx
 msgid "Could not load track info"
 msgstr "추적 정보를 불러올 수 없습니다"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log in to {0}"
+msgstr ""
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Could not log in to {trackerName}"
+msgstr ""
+
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Could not log in to Suwayomi"
+msgstr ""
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log out from {0}"
+msgstr ""
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Could not log out from KOReader Sync"
+msgstr ""
 
 #: src/features/manga/Manga.constants.ts
 msgid "Could not migrate manga"
@@ -670,7 +1130,6 @@ msgid "Could not remove the download from the queue."
 msgstr "대기열에서 다운로드를 제거할 수 없습니다."
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
 msgstr "백업을 복원할 수 없습니다"
 
@@ -678,13 +1137,16 @@ msgstr "백업을 복원할 수 없습니다"
 msgid "Could not retry failed download."
 msgstr "다운로드 재시도에 실패했습니다."
 
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr ""
+
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not save the default search settings to the server"
 msgstr "기본 검색 설정을 서버에 저장할 수 없습니다"
 
-#: src/features/reader/services/ReaderService.ts
 #: src/features/reader/services/ReaderService.ts
 msgid "Could not save the reader settings to the server"
 msgstr "리더 설정을 서버에 저장할 수 없습니다"
@@ -711,7 +1173,6 @@ msgid "Could not untrack manga"
 msgstr "만화 추적을 해제할 수 없습니다"
 
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
-#: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Could not update WebUI"
 msgstr "웹 UI를 업데이트할 수 없습니다"
 
@@ -726,17 +1187,14 @@ msgid "Create"
 msgstr "생성"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Create backup"
 msgstr "백업 만들기"
 
-#: src/features/theme/components/CreateThemeButton.tsx
 #: src/features/theme/components/CreateThemeButton.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Create theme"
 msgstr "테마 만들기"
 
-#: src/features/theme/components/CreateThemeDialog.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Created theme"
 msgstr "테마가 만들어졌습니다"
@@ -746,13 +1204,16 @@ msgid "Creating backup…"
 msgstr "백업 생성중…"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
-#: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Creating theme…"
 msgstr "테마 생성 중…"
 
 #: src/features/theme/Themes.ts
 msgid "Crimson"
 msgstr "크림슨"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Current source"
+msgstr ""
 
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Current:"
@@ -767,7 +1228,6 @@ msgid "Custom"
 msgstr "커스텀"
 
 #: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
-#: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
 msgid "Custom brightness"
 msgstr "사용자 정의 밝기"
 
@@ -775,7 +1235,6 @@ msgstr "사용자 정의 밝기"
 msgid "Custom color filters"
 msgstr "사용자 정의 색상 필터"
 
-#: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
 #: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
 msgid "Custom contrast"
 msgstr "사용자 정의 대비"
@@ -785,11 +1244,9 @@ msgid "Custom filter"
 msgstr "사용자 정의 필터"
 
 #: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
-#: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
 msgid "Custom hue"
 msgstr "사용자 정의 색조"
 
-#: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
 #: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
 msgid "Custom saturate"
 msgstr "사용자 정의 채도"
@@ -810,6 +1267,10 @@ msgstr "읽기 방향 순환"
 msgid "Cycle reading mode"
 msgstr "읽기 모드 순환"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dados sincronizados"
+msgstr ""
+
 #: src/features/settings/screens/Appearance.tsx
 msgid "Dark"
 msgstr "다크"
@@ -826,17 +1287,19 @@ msgstr "데이터베이스"
 msgid "Database url"
 msgstr "데이터베이스 주소"
 
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Day"
+msgstr ""
+
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Decrease auto scroll speed"
 msgstr "자동 스크롤 속도 감소"
 
-#: src/base/components/buttons/ButtonSelect.tsx
-#: src/base/components/buttons/ValueRotationButton.tsx
+#: src/base/components/buttons/SelectButton.tsx
 #: src/base/components/buttons/ValueRotationButton.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/screens/BrowseSettings.tsx
-#: src/features/device/screens/DeviceSetting.tsx
-#: src/features/device/screens/DeviceSetting.tsx
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
 #: src/features/reader/settings/ReaderSettings.constants.tsx
@@ -848,6 +1311,14 @@ msgstr "기본값"
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 msgid "Default category when adding new manga to the library"
 msgstr "새 만화를 추가할 때 기본 카테고리 설정"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#~ msgid "Defina quando a sincronização é disparada automaticamente"
+#~ msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Define when synchronization is triggered automatically"
+msgstr ""
 
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/category/components/CategorySettingsCard.tsx
@@ -873,7 +1344,7 @@ msgstr "읽음으로 표시하면 챕터 삭제"
 msgid "Delete chapters"
 msgstr "챕터 삭제"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Delete downloaded"
 msgstr "다운로드된 항목 삭제"
 
@@ -889,6 +1360,16 @@ msgstr "검색 삭제"
 msgid "Delete selected"
 msgstr "선택 다운로드 삭제"
 
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleted theme \"{0}\""
+msgstr ""
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleting theme \"{0}\"…"
+msgstr ""
+
 #: src/features/migration/Migration.constants.ts
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Descending"
@@ -902,6 +1383,11 @@ msgstr "선택 해제"
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
 msgid "Desktop"
 msgstr "데스크톱"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination - {0}"
+msgstr ""
 
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -919,7 +1405,6 @@ msgstr "인증 비활성화"
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
 #: src/features/settings/Settings.constants.ts
-#: src/features/settings/Settings.constants.ts
 msgid "Disabled"
 msgstr "비활성화됨"
 
@@ -934,6 +1419,22 @@ msgstr "연결 해제됨"
 #: src/features/settings/screens/About.tsx
 msgid "Discord"
 msgstr "디스코드"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização ao carregar o WebUI no navegador"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização quando a aba do navegador recupera o foco"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização quando o progresso de leitura é atualizado"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização quando um capítulo é marcado como lido"
+msgstr ""
 
 #: src/base/components/GridLayouts.tsx
 #: src/features/chapter/components/ChapterOptions.tsx
@@ -961,6 +1462,10 @@ msgstr "여러 만화를 한꺼번에 읽음 처리할 때는 작동하지 않�
 #: src/features/category/components/CategorySelect.tsx
 msgid "Don't show this dialog again"
 msgstr "이 대화상자를 다시 표시하지 않음"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr ""
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Double page"
@@ -1022,6 +1527,10 @@ msgstr "다운로드 중"
 msgid "Downloads"
 msgstr "다운로드"
 
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr ""
+
 #: src/features/theme/Themes.ts
 msgid "Dune"
 msgstr "모래언덕"
@@ -1049,7 +1558,15 @@ msgstr "가장자리"
 msgid "Edit"
 msgstr "수정"
 
-#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/category/screens/CategorySettings.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Edit categories"
+msgstr ""
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Edit category"
+msgstr ""
+
 #: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Edit manga categories"
 msgstr "만화 카테고리 편집"
@@ -1074,6 +1591,14 @@ msgstr "디버그 로그 활성화"
 msgid "Enable page read progress"
 msgstr "페이지 읽기 진행 상황 활성화"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Enable SyncYomi"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Endereço do servidor"
+msgstr ""
+
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
 msgstr "제외된 카테고리에 속한 항목은 포함된 카테고리에 함께 있더라도 다운로드되지 않습니다"
@@ -1088,9 +1613,12 @@ msgid "Error"
 msgstr "오류"
 
 #: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 msgid "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
 msgstr "가능한 값의 예: 1(바이트), 1KB(킬로바이트), 1MB(메가바이트), 1GB(기가바이트)"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
+msgstr ""
 
 #: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
 msgid "Exclude scanlators"
@@ -1100,6 +1628,10 @@ msgstr "스캔 그룹 제외"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 msgid "Exclude: {excludedCategoriesText}"
 msgstr "제외: {excludedCategoriesText}"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr ""
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
@@ -1114,9 +1646,17 @@ msgstr "만화 페이지로 나가기"
 msgid "Exit to previous page"
 msgstr "이전 페이지로 나가기"
 
+#: src/features/browse/screens/Browse.tsx
+msgid "Extension"
+msgstr ""
+
 #: src/features/extension/info/screens/ExtensionInfo.tsx
 msgid "Extension info"
 msgstr "확장 정보"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Extension installed"
+msgstr ""
 
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Extension repositories"
@@ -1131,9 +1671,7 @@ msgid "Failed to disconnect from KOReader Sync server."
 msgstr "KOReader 동기화 서버 연결 해제에 실패했습니다."
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
-#: src/features/browse/screens/BrowseSettings.tsx
 #: src/features/browse/screens/BrowseSettings.tsx
 #: src/features/browse/sources/components/SourceCard.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -1143,20 +1681,19 @@ msgstr "KOReader 동기화 서버 연결 해제에 실패했습니다."
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/downloads/screens/DownloadSettings.tsx
 #: src/features/extension/info/components/SourceCard.tsx
 #: src/features/global-search/screens/SearchAll.tsx
 #: src/features/history/screens/HistorySettings.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
-#: src/features/migration/screens/Migration.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
 #: src/features/settings/screens/WebUISettings.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/source/components/SourceLanguageSelect.tsx
@@ -1164,10 +1701,22 @@ msgstr "KOReader 동기화 서버 연결 해제에 실패했습니다."
 #: src/features/source/services/Sources.ts
 #: src/features/theme/AppThemeContext.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
-#: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Failed to save changes"
 msgstr "변경사항을 저장하지 못했습니다"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Failed to start sync"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Falha ao iniciar sincronização"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+#~ msgid "Falha ao salvar alterações"
+#~ msgstr ""
 
 #: src/features/settings/Settings.constants.ts
 msgid ""
@@ -1243,6 +1792,10 @@ msgid "FlareSolverr enabled"
 msgstr "FlareSolverr 활성화"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr request timeout"
 msgstr "FlareSolverr 요청 시간 초과"
 
@@ -1257,6 +1810,10 @@ msgstr "FlareSolverr 세션 이름"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr session TTL"
 msgstr "FlareSolverr 세션 TTL"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr ""
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes"
@@ -1277,6 +1834,10 @@ msgstr "만화 카테고리 잊기"
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fourth to last read chapter"
 msgstr "마지막으로 읽은 챕터에서 네 번째 전"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Gatilhos de sincronização"
+msgstr ""
 
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/reader/settings/ReaderSettings.constants.tsx
@@ -1318,7 +1879,6 @@ msgstr "초록"
 
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
 #: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
-#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
 msgid "h"
 msgstr "시간"
 
@@ -1333,6 +1893,11 @@ msgstr "결과 있음"
 #: src/features/settings/components/images/Processing.tsx
 msgid "Headers"
 msgstr "Headers"
+
+#. placeholder {0}: headers?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Headers ({0})"
+msgstr ""
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
@@ -1355,11 +1920,16 @@ msgstr "기록 숨기기"
 msgid "Hikari connection pool"
 msgstr "Hikari 연결 풀"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Histórico"
+msgstr ""
+
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "History"
 msgstr "기록"
 
@@ -1379,6 +1949,12 @@ msgstr "읽는 중 다운로드할 챕터 수."
 msgid "How much time FlareSolverr has to handle the request"
 msgstr "FlareSolverr가 요청을 처리하는 데 걸리는 시간"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid ""
+"If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
 msgid "Ignore"
 msgstr "무시"
@@ -1390,6 +1966,18 @@ msgstr "읽지 않은 챕터가 있는 항목은 자동으로 다운로드하지
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Ignore filters when searching"
 msgstr "검색 시 필터 무시"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr ""
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr ""
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr ""
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Ignore re-uploaded chapters"
@@ -1434,8 +2022,13 @@ msgstr ""
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
+#: src/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx
 msgid "In Library"
 msgstr "라이브러리에 있음"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr ""
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -1459,10 +2052,21 @@ msgstr "챕터 전환 시 스캔 번역자 변경에 대해 알림"
 msgid "Inform about missing chapters on chapter transition"
 msgstr "챕터 전환 시 누락된 챕터에 대해 알림"
 
-#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr ""
+
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Information"
 msgstr "정보"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Inicia uma sincronização manual com o servidor"
+msgstr ""
 
 #: src/features/backup/component/BackupValidationDialog.tsx
 #: src/features/extension/Extensions.constants.ts
@@ -1489,6 +2093,10 @@ msgstr "확장 기능 설치 중…"
 msgid "Interface"
 msgstr "인터페이스"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Intervalo de sincronização automática"
+msgstr ""
+
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
 msgid "Invalid filetype"
@@ -1500,8 +2108,6 @@ msgstr "유효한 파일 형식이 아닙니다"
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 #: src/features/settings/components/images/KeyValueItem.tsx
 #: src/features/settings/components/images/MimeTypeTextField.tsx
-#: src/features/settings/components/images/Processing.tsx
-#: src/features/settings/components/images/Processing.tsx
 #: src/features/settings/components/images/Processing.tsx
 msgid "Invalid input"
 msgstr "잘못된 입력"
@@ -1525,6 +2131,10 @@ msgstr "탭 영역 반전"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "IP"
 msgstr "IP"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "item"
+msgstr ""
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Items per page"
@@ -1554,6 +2164,10 @@ msgstr "연속 읽기 모드에서 읽는 동안 이전 및 다음 챕터를 계
 msgid "Keep remote"
 msgstr "리모트 유지"
 
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Keybinds"
+msgstr "키설정"
+
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
 msgid "Kindle"
 msgstr "킨들"
@@ -1571,7 +2185,6 @@ msgstr "L자형"
 msgid "Language"
 msgstr "언어"
 
-#: src/base/utils/Languages.ts
 #: src/base/utils/Languages.ts
 msgid "Language with code: {code}"
 msgstr "언어 코드: {code}"
@@ -1606,6 +2219,10 @@ msgstr "최신 가져온 챕터"
 msgid "Latest uploaded chapter"
 msgstr "최신 업로드된 챕터"
 
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr ""
+
 #: src/features/theme/Themes.ts
 msgid "Lavender"
 msgstr "라벤더"
@@ -1615,6 +2232,7 @@ msgid "Layout"
 msgstr "레이아웃"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Left"
 msgstr "왼쪽"
 
@@ -1632,7 +2250,6 @@ msgid "legacy backups are not supported!"
 msgstr "레거시 백업은 지원되지 않습니다!"
 
 #: src/features/backup/Backup.constants.ts
-#: src/features/library/screens/Library.tsx
 #: src/features/library/screens/Library.tsx
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -1705,16 +2322,28 @@ msgstr "로그 파일 정리"
 msgid "Log in"
 msgstr "로그인"
 
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log in to {0}"
+msgstr ""
+
 #: src/base/components/modals/LoginDialog.tsx
 msgid "Log out"
 msgstr "로그아웃"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log out from {0}"
+msgstr ""
 
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Logged in"
 msgstr "로그인됨"
 
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Logging in to {trackerName}…"
+msgstr ""
+
 #: src/features/manga/Manga.constants.ts
 msgid "Long strip"
 msgstr "긴 스트립"
@@ -1733,6 +2362,7 @@ msgstr ""
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/screens/Manga.tsx
 #: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manga"
 msgstr "Manga"
@@ -1745,6 +2375,10 @@ msgstr "만화 항목 너비"
 msgid "Manga thumbnail as background"
 msgstr "만화 미리보기 이미지를 배경으로"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Mangás"
+msgstr ""
+
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhua"
@@ -1754,6 +2388,16 @@ msgstr "만화"
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhwa"
 msgstr "만화"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr ""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr ""
 
 #: src/features/chapter/components/ChaptersToolbarMenu.tsx
 msgid "Mark all as read"
@@ -1783,6 +2427,18 @@ msgstr "선택항목 읽음으로 표시"
 msgid "Mark selected as unread"
 msgstr "선택 항목을 읽지 않음으로 표시"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr ""
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr ""
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr ""
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Maximum log file size"
 msgstr "최대 로그 파일 크기"
@@ -1801,17 +2457,54 @@ msgstr "메뉴"
 
 #: src/features/browse/screens/Browse.tsx
 #: src/features/manga/components/MangaToolbarMenu.tsx
-#: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-#: src/features/migration/screens/Migrate.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
 msgid "Migrate"
 msgstr "마이그레이션"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#. placeholder {0}: manga.title
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/migration/MigrationManager.ts
+msgid "Migrate \"{0}\""
+msgstr ""
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr ""
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr ""
+
+#: src/features/manga/components/cards/MangaCard.tsx
 msgid "Migrating manga…"
 msgstr "만화 마이그레이션 중…"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr ""
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr ""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr ""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr ""
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr ""
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr ""
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "MIME-Type"
@@ -1826,8 +2519,17 @@ msgid "Minty Miracles"
 msgstr "민티 미라클스"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "Minute"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "Misc"
 msgstr "기타"
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr ""
 
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
 msgid "Mobile"
@@ -1846,6 +2548,11 @@ msgstr "더보기"
 msgid "Mountain Sunset"
 msgstr "산의 노을"
 
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Multi"
+msgstr ""
+
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Multiply"
 msgstr "곱하기"
@@ -1854,6 +2561,11 @@ msgstr "곱하기"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Name"
 msgstr "이름"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+#~ msgid "Não foi possível carregar os dados"
+#~ msgstr ""
 
 #: src/features/backup/Backup.utils.ts
 #: src/features/settings/screens/ServerSettings.tsx
@@ -1870,12 +2582,10 @@ msgstr "다음"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 msgid "Next chapter"
 msgstr "다음 챕터"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Next page"
 msgstr "다음 페이지"
@@ -1899,7 +2609,6 @@ msgstr "다운로드 없음"
 #: src/features/global-search/screens/SearchAll.tsx
 #: src/features/manga/components/MangaGrid.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
-#: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid "No manga found"
 msgstr "만화를 찾을 수 없습니다"
@@ -1909,13 +2618,25 @@ msgstr "만화를 찾을 수 없습니다"
 msgid "No manga matches this filter"
 msgstr "이 필터와 일치하는 만화가 없습니다"
 
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr ""
+
 #: src/features/reader/viewer/ReaderChapterViewer.tsx
 msgid "No pages found"
 msgstr "페이지를 찾을 수 없습니다"
 
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr ""
+
 #: src/features/browse/sources/Sources.tsx
 msgid "No sources found. Install Some extensions first."
 msgstr "소스를 찾을 수 없습니다. 확장 프로그램을 설치하세요."
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr ""
 
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -1938,11 +2659,21 @@ msgstr "출시 전"
 msgid "Novel"
 msgstr "소설"
 
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid ""
+"Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
+"Higher values may affect client performance."
+msgstr ""
+
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Number of unread chapters to download"
 msgstr "다운로드할 안 읽은 챕터 수"
 
-#: src/features/extension/Extensions.constants.ts
+#: src/features/browse/extensions/components/ExtensionCard.tsx
 #: src/features/extension/Extensions.constants.ts
 msgid "Obsolete"
 msgstr "더 이상 사용되지 않음"
@@ -1983,6 +2714,22 @@ msgstr "이중 펼침 오프셋"
 msgid "Ok"
 msgstr "확인"
 
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On chapter open"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On chapter read"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On WebUI resume"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On WebUI start"
+msgstr ""
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Oneshot"
 msgstr "단편"
@@ -1990,6 +2737,10 @@ msgstr "단편"
 #: src/features/manga/Manga.constants.ts
 msgid "Ongoing"
 msgstr "연재 중"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Only outdated matches found"
+msgstr ""
 
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Only works if the current chapter plus the next chapter are already downloaded."
@@ -2029,7 +2780,6 @@ msgstr "서버를 시작할 때 웹 UI를 엽니다"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
-#: src/features/manga/components/MangaOptionButton.tsx
 msgid "Options"
 msgstr "옵션"
 
@@ -2042,8 +2792,6 @@ msgid "Original size"
 msgstr "원본 크기"
 
 #: src/base/utils/Languages.ts
-#: src/base/utils/Languages.ts
-#: src/features/extension/Extensions.constants.ts
 #: src/features/extension/Extensions.constants.ts
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Other"
@@ -2058,7 +2806,6 @@ msgid "Overlay mode"
 msgstr "오버레이 모드"
 
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Page"
 msgstr "페이지"
 
@@ -2072,13 +2819,16 @@ msgstr "병렬 소스 요청"
 
 #: src/base/components/inputs/PasswordTextField.tsx
 #: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 msgid "Password"
 msgstr "비밀번호"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "Paused — {count} remaining"
 msgstr "일시 중지됨 — {count}개 남음"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr ""
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Percentage Tolerance"
@@ -2099,7 +2849,6 @@ msgid "Popular"
 msgstr "인기 있는"
 
 #: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 msgid "Port"
 msgstr "포트"
 
@@ -2115,6 +2864,10 @@ msgstr "이미지 미리 불러오기"
 msgid "Press keys"
 msgstr "키를 누르세요"
 
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr "콘텐츠가 기기의 컷아웃 및 화면 가장자리와 겹치는 것을 방지합니다"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Preview"
 msgstr "미리보기"
@@ -2126,12 +2879,10 @@ msgstr "이전"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 msgid "Previous chapter"
 msgstr "이전 챕터"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Previous page"
 msgstr "이전 페이지"
@@ -2151,6 +2902,10 @@ msgstr "진행률 표시줄 크기"
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
 msgid "Progress bar style"
 msgstr "진행률 표시줄 스타일"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Progresso de leitura e marcações"
+msgstr ""
 
 #: src/features/settings/Settings.constants.ts
 msgid "Prompt"
@@ -2177,10 +2932,18 @@ msgstr "대기 중"
 msgid "Quick settings"
 msgstr "빠른 설정"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Rastreamento"
+msgstr ""
+
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Reader"
 msgstr "리더"
+
+#: src/features/reader/screens/Reader.tsx
+msgid "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
+msgstr ""
 
 #: src/features/reader/settings/layout/components/ReaderSettingWidth.tsx
 msgid "Reader width"
@@ -2195,6 +2958,10 @@ msgstr "읽기 방향"
 #: src/features/reader/settings/layout/components/ReaderSettingReadingMode.tsx
 msgid "Reading mode"
 msgstr "읽기 모드"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Reading progress and bookmarks"
+msgstr ""
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Recently added"
@@ -2226,7 +2993,6 @@ msgid "Releasing"
 msgstr "연재중"
 
 #: src/features/manga/components/MangaToolbarMenu.tsx
-#: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Reload data from source"
 msgstr "출처에서 데이터 다시 불러오기"
 
@@ -2239,6 +3005,11 @@ msgstr "나중에 다시 알림"
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Remove"
 msgstr "제거"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Remove {0} tracking?"
+msgstr ""
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "Remove bookmark"
@@ -2271,7 +3042,6 @@ msgid "Removed non library manga from categories"
 msgstr "라이브러리에 없는 만화가 카테고리에서 제거되었습니다"
 
 #: src/base/components/buttons/ResetButton.tsx
-#: src/base/components/buttons/ResetButton.tsx
 #: src/base/components/settings/CheckboxListSetting.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -2293,7 +3063,6 @@ msgid "Restore"
 msgstr "복원"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Restore Backup"
 msgstr "백업 복원"
 
@@ -2309,6 +3078,7 @@ msgstr "재개"
 #: src/base/components/SpinnerImage.tsx
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Retry"
 msgstr "재시도"
 
@@ -2317,6 +3087,7 @@ msgid "Retry errored pages"
 msgstr "오류가 발생한 페이지 다시 시도"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Right"
 msgstr "오른쪽"
 
@@ -2335,7 +3106,6 @@ msgstr "로즈골드"
 
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
-#: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Save"
 msgstr "저장"
 
@@ -2346,6 +3116,11 @@ msgstr "CBZ 압축 파일로 저장"
 #: src/features/source/browse/components/SourceOptions.tsx
 msgid "Save current search"
 msgstr "현제 검색 저장"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Save dynamic color theme"
+msgstr ""
 
 #: src/features/source/browse/components/SourceOptions.tsx
 msgid "Save search"
@@ -2390,12 +3165,22 @@ msgid "Scroll forward"
 msgstr "앞으로 스크롤"
 
 #: src/base/components/AppbarSearch.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Search"
 msgstr "검색"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr ""
 
 #: src/features/library/screens/Library.tsx
 msgid "Search for \"{query}\" globally"
 msgstr "전역에서 \"{query}\" 검색"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr ""
 
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid ""
@@ -2406,9 +3191,35 @@ msgstr ""
 "\"my:<Title>\"로 검색 범위를 제한하세요(예: \"my:One Piece\")\n"
 ""
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search options"
+msgstr ""
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Search parameters"
+msgstr ""
+
+#. placeholder {0}: searchParams?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Search parameters ({0})"
+msgstr ""
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr ""
+
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Search results will include manga that do not match the current filters"
 msgstr "검색 결과에 현재 필터와 일치하지 않는 만화도 포함됩니다"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr ""
+
+#: src/features/settings/components/images/Processing.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Second"
+msgstr ""
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Second to last read chapter"
@@ -2433,6 +3244,7 @@ msgstr ""
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/manga/components/MangaActionMenuItems.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
+#: src/features/migration/components/migration-entry/MigrationMatchedEntry.tsx
 msgid "Select"
 msgstr "선택"
 
@@ -2446,6 +3258,22 @@ msgstr "서버에 저장된 UI 설정을 사용할 기기를 선택하세요"
 msgid "Select all"
 msgstr "모두 선택"
 
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr ""
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr ""
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr ""
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Selected"
+msgstr ""
+
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "세피아"
@@ -2455,7 +3283,6 @@ msgid "Series settings"
 msgstr "시리즈 설정"
 
 #: src/features/settings/screens/About.tsx
-#: src/features/settings/screens/About.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Server"
@@ -2463,6 +3290,7 @@ msgstr "서버"
 
 #: src/base/components/modals/LoginDialog.tsx
 #: src/features/settings/components/ServerAddressSetting.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "Server address"
 msgstr "서버 주소"
 
@@ -2477,6 +3305,21 @@ msgstr "서버 설정"
 #: src/features/settings/screens/About.tsx
 msgid "Server version"
 msgstr "서버 버전"
+
+#. placeholder {0}: selectedServerChannelInfo.tag
+#. placeholder {1}: selectedServerChannelInfo.channel
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server version {0} ({1}) available for download"
+msgstr ""
+
+#. placeholder {0}: aboutServer?.buildType
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server was updated to version {version} ({0})"
+msgstr ""
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Set as active theme"
+msgstr ""
 
 #: src/features/category/components/CategorySelect.tsx
 msgid "Set categories"
@@ -2518,13 +3361,17 @@ msgid "Show continue reading button"
 msgstr "계속 읽기 버튼 표시"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Show entry"
 msgstr "항목 표시"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show icon in system tray"
 msgstr "시스템 트레이에 아이콘 표시"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr ""
 
 #: src/base/components/feedback/EmptyView.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -2534,6 +3381,7 @@ msgstr "간략히 보기"
 #: src/base/components/feedback/EmptyView.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/features/global-search/screens/SearchAll.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "자세히 보기"
@@ -2575,9 +3423,33 @@ msgstr "전환 페이지 표시"
 msgid "Shows a dialog in case a new version is available"
 msgstr "새 버전이 있을 경우 대화 상자를 표시합니다"
 
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr ""
+
 #: src/features/settings/Settings.constants.ts
 msgid "Simple Login"
 msgstr "심플 로그인"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronização iniciada com sucesso"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronização já está em andamento"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronizar agora"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronize sua biblioteca com outros dispositivos via SyncYomi"
+msgstr ""
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Single page"
@@ -2591,7 +3463,6 @@ msgstr "중복 챕터 건너뛰기"
 msgid "Skip filtered chapters"
 msgstr "필터링된 챕터 건너뛰기"
 
-#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 msgid "Skip updating entries"
 msgstr "항목 업데이트 건너뛰기"
@@ -2646,13 +3517,28 @@ msgstr ""
 msgid "Sort"
 msgstr "분류"
 
+#: src/features/browse/screens/Browse.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Source"
+msgstr ""
+
 #: src/features/source/configuration/screens/SourceConfigure.tsx
 msgid "Source Configuration"
 msgstr "소스 구성"
 
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry - {sourceTitle}"
+msgstr ""
+
 #: src/features/chapter/components/ChapterOptions.tsx
 msgid "Source title"
 msgstr "원 제목"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr ""
 
 #: src/features/settings/Settings.constants.ts
 msgid "Stable"
@@ -2667,9 +3553,28 @@ msgstr "표준"
 msgid "Start"
 msgstr "시작"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Start a manual sync with the server"
+msgstr ""
+
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Start date"
 msgstr "시작일"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr ""
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Start reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr ""
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -2709,9 +3614,25 @@ msgstr "제출"
 msgid "Success"
 msgstr "성공"
 
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr ""
+
 #: src/features/manga/Manga.constants.ts
 msgid "Successfully migrated manga"
 msgstr "만화가 성공적으로 마이그레이션되었습니다"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync is already in progress"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync now"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync started successfully"
+msgstr ""
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Sync status"
@@ -2725,9 +3646,40 @@ msgstr "최신 상태로 동기화"
 msgid "Sync to an older state"
 msgstr "이전 상태로 동기화"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Sync triggers"
+msgstr ""
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Sync will not be triggered if the progress difference is within this tolerance."
 msgstr "진행률 차이가 이 허용 오차 범위 내에 있으면 동기화가 트리거되지 않습니다."
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync your library with other devices via SyncYomi"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Synced data"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "SyncYomi"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "SyncYomi está desativado"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "SyncYomi is disabled"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "SyncYomi server URL (e.g., https://sync.example.com)"
+msgstr ""
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "System"
@@ -2741,7 +3693,6 @@ msgstr "탭"
 msgid "Tap zones"
 msgstr "탭 영역"
 
-#: src/features/settings/components/images/Processing.tsx
 #: src/features/settings/components/images/Processing.tsx
 msgid "Target mode"
 msgstr "대상 모드"
@@ -2777,6 +3728,13 @@ msgstr "로그인은 클라이언트 측에서 처리합니다."
 #: src/features/settings/Settings.constants.ts
 msgid "The login will be handled by the server."
 msgstr "로그인은 서버에서 처리됩니다."
+
+#: src/features/migration/MigrationManager.ts
+msgid ""
+"The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
 
 #: src/features/reader/services/ReaderControls.ts
 msgid ""
@@ -2838,9 +3796,17 @@ msgstr "다음 챕터가 없습니다"
 msgid "There is no previous chapter"
 msgstr "이전 챕터가 없습니다"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "These options are slow and dangerous and may lead to restrictions from sources"
+msgstr ""
+
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Third to last read chapter"
 msgstr "마지막으로 읽은 챕터에서 세 번째 전"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr ""
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "This icon will be shown on the system that is running the server"
@@ -2849,6 +3815,10 @@ msgstr "서버를 실행 중인 시스템에 이 아이콘이 표시됩니다"
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "This is the latest version"
 msgstr "최신 버전입니다"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "This will delete the saved search \"{savedSearch}\""
+msgstr ""
 
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "This will remove the tracking locally."
@@ -2882,11 +3852,14 @@ msgstr "오프셋 펼친 페이지 전환"
 msgid "Toggle stretch image"
 msgstr "이미지 늘리기 전환"
 
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Top"
+msgstr ""
+
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Total chapters"
 msgstr "총 챕터"
 
-#: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid "Track"
@@ -2920,8 +3893,9 @@ msgstr "추적"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
 msgstr "추적중"
@@ -2929,6 +3903,22 @@ msgstr "추적중"
 #: src/features/theme/Themes.ts
 msgid "Tree Frog Green"
 msgstr "청개구리 초록"
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when a chapter is marked as read"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when reading progress is updated"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when the browser tab regains focus"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when the WebUI is loaded in the browser"
+msgstr ""
 
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -2955,9 +3945,8 @@ msgstr "UI 로그인"
 #: src/features/library/screens/LibraryDuplicates.tsx
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/screens/Migrate.tsx
-#: src/features/migration/screens/Migration.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
 #: src/features/reader/screens/Reader.tsx
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/reader/viewer/ReaderChapterViewer.tsx
@@ -2965,6 +3954,8 @@ msgstr "UI 로그인"
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
 #: src/features/settings/screens/WebUISettings.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/source/configuration/screens/SourceConfigure.tsx
@@ -2977,6 +3968,15 @@ msgstr "UI 로그인"
 msgid "Unable to load data"
 msgstr "데이터를 가져올 수 없습니다"
 
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr ""
+
+#: src/features/migration/MigrationManager.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr ""
+
 #: src/features/extension/Extensions.constants.ts
 msgid "Uninstall"
 msgstr "삭제"
@@ -2987,6 +3987,7 @@ msgstr "삭제 중"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/Manga.constants.ts
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Unknown"
@@ -3074,6 +4075,10 @@ msgstr "업데이트 중"
 msgid "URL"
 msgstr "URL"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "URL do servidor SyncYomi (ex.: https://sync.example.com)"
+msgstr ""
+
 #: src/features/settings/Settings.constants.ts
 msgid ""
 "Use a custom WebUI.\n"
@@ -3109,7 +4114,6 @@ msgstr "서버 릴리스와 함께 제공된 버전 사용"
 
 #: src/base/components/modals/LoginDialog.tsx
 #: src/features/authentication/screens/LoginPage.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Username"
 msgstr "사용자 이름"
@@ -3158,15 +4162,29 @@ msgstr "웹 UI"
 msgid "WebUI channel"
 msgstr "웹 UI 채널"
 
+#: src/features/migration/MigrationManager.ts
+msgid "WebUI must be kept open. Migration can't be resumed"
+msgstr ""
+
 #: src/features/settings/screens/About.tsx
 msgid "WebUI version"
 msgstr "웹 UI 버전"
+
+#. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
+#. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI version {0} ({1}) available for download"
+msgstr ""
+
+#. placeholder {0}: aboutWebUI?.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI was updated to version {newVersion} ({0})"
+msgstr ""
 
 #: src/features/settings/Settings.constants.ts
 msgid "When you enable this, you may need to refresh this tab for the login page to appear."
 msgstr "이 기능을 활성화하면 로그인 페이지가 나타나도록 이 탭을 새로 고침해야 할 수 있습니다."
 
-#: src/features/settings/Settings.constants.ts
 #: src/features/settings/Settings.constants.ts
 msgid "Where to start the WebUI when starting the server"
 msgstr "서버를 시작할 때 웹 UI를 시작할 위치"
@@ -3194,6 +4212,11 @@ msgstr "어제 {timeString}"
 #: src/features/theme/Themes.ts
 msgid "Ying & Yang"
 msgstr "음양"
+
+#. placeholder {0}: manga.title
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "You are about to remove \"{0}\" from your library"
+msgstr ""
 
 #: src/features/backup/screens/Backup.tsx
 msgid "You can also drag and drop the backup file here to restore it"
@@ -3224,26 +4247,9 @@ msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "브라우저에 자격 증명 입력 대화 상자가 나타납니다."
 
 #: src/features/library/screens/Library.tsx
-#: src/features/library/screens/Library.tsx
 msgid "Your library is empty"
 msgstr "라이브러리가 비어 있습니다"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your library will be accessible. Use this only on private networks or when otherwise securing access."
 msgstr "라이브러리에 접근할 수 있습니다. 개인 네트워크에서만 사용하거나 다른 방법으로 접근을 보호할 때 사용하세요."
-
-#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
-msgid "Apply safe area padding"
-msgstr "안전 영역 패딩 적용"
-
-#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid "Advanced search mode"
-msgstr "고급 검색 모드"
-
-#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
-msgid "Prevents content from overlapping device cutouts and screen edges"
-msgstr "콘텐츠가 기기의 컷아웃 및 화면 가장자리와 겹치는 것을 방지합니다"
-
-#: src/features/reader/settings/ReaderSettings.constants.tsx
-msgid "Keybinds"
-msgstr "키설정"

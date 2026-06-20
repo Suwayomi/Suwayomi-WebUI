@@ -19,6 +19,7 @@ import { DefaultNavBar } from '@/features/navigation-bar/components/DefaultNavBa
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateChecker } from '@/features/app-updates/components/WebUIUpdateChecker.tsx';
 import { ServerUpdateChecker } from '@/features/app-updates/components/ServerUpdateChecker.tsx';
+import { SyncTriggerHandler } from '@/features/settings/components/syncYomi/SyncTriggerHandler.tsx';
 import { lazyLoadFallback } from '@/base/utils/LazyLoad.tsx';
 import { ErrorBoundary } from '@/base/components/feedback/ErrorBoundary.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
@@ -100,6 +101,10 @@ const { GlobalReaderSettings } = loadable(
 const { More } = loadable(() => import('@/features/settings/screens/More.tsx'), lazyLoadFallback);
 const { Reader } = loadable(() => import('@/features/reader/screens/Reader.tsx'), lazyLoadFallback);
 const { HistorySettings } = loadable(() => import('@/features/history/screens/HistorySettings.tsx'), lazyLoadFallback);
+const { SyncYomiTriggerSettings } = loadable(
+    () => import('@/features/settings/screens/SyncYomiTriggerSettings.tsx'),
+    lazyLoadFallback,
+);
 
 if (import.meta.env.DEV) {
     // Adds messages only in a dev environment
@@ -322,6 +327,12 @@ const MainApp = () => {
                             </Route>
                             <Route path={AppRoutes.settings.children.backup.match} element={<Backup />} />
                             <Route path={AppRoutes.settings.children.server.match} element={<ServerSettings />} />
+                            <Route path={AppRoutes.settings.children.syncyomi.match}>
+                                <Route
+                                    path={AppRoutes.settings.children.syncyomi.children.triggers.match}
+                                    element={<SyncYomiTriggerSettings />}
+                                />
+                            </Route>
                             <Route path={AppRoutes.settings.children.webui.match} element={<WebUISettings />} />
                             <Route path={AppRoutes.settings.children.browse.match} element={<BrowseSettings />} />
                             <Route path={AppRoutes.settings.children.history.match} element={<HistorySettings />} />
@@ -396,6 +407,7 @@ export const App: React.FC = () => (
             <InitializeGuard>
                 <ServerUpdateChecker />
                 <WebUIUpdateChecker />
+                <SyncTriggerHandler />
                 <InitialBackgroundRequests />
                 <BackgroundSubscriptions />
                 <ResumeMigration />

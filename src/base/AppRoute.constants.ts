@@ -102,6 +102,16 @@ export const AppRoutes = {
                 match: 'server',
                 path: '/settings/server',
             },
+            syncyomi: {
+                match: 'syncyomi',
+                path: '/settings/syncyomi',
+                children: {
+                    triggers: {
+                        match: 'triggers',
+                        path: '/settings/syncyomi/triggers',
+                    },
+                },
+            },
             webui: {
                 match: 'webui',
                 path: '/settings/webui',

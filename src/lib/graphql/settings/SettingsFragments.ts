@@ -129,6 +129,21 @@ export const SERVER_SETTINGS = gql`
         koreaderSyncStrategyForward
         koreaderSyncPercentageTolerance
 
+        # SyncYomi
+        syncYomiEnabled
+        syncYomiHost
+        syncYomiApiKey
+        syncDataManga
+        syncDataChapters
+        syncDataTracking
+        syncDataHistory
+        syncDataCategories
+        syncInterval
+        syncOnChapterRead
+        syncOnChapterOpen
+        syncOnWebUIStart
+        syncOnWebUIResume
+
         # Database
         databaseType
         databaseUrl

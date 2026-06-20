@@ -41,6 +41,7 @@ import { ServerAddressSetting } from '@/features/settings/components/ServerAddre
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import type { ServerSettings as ServerSettingsType } from '@/features/settings/Settings.types.ts';
 import { KoreaderSyncSettings } from '@/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx';
+import { SyncYomiServerSettings } from '@/features/settings/components/syncYomi/SyncYomiServerSettings.tsx';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
@@ -595,6 +596,7 @@ export const ServerSettings = () => {
                 isLoggedIn={koreaderSyncStatus.isLoggedIn}
                 updateSetting={updateSetting}
             />
+            <SyncYomiServerSettings settings={serverSettings} updateSetting={updateSetting} />
             <List
                 subheader={
                     <ListSubheader component="div" id="server-settings-database">

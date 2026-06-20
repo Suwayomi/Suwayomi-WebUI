@@ -437,6 +437,31 @@ msgstr "Alpha"
 msgid "Also remove from {0}"
 msgstr "Also remove from {0}"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao abrir o WebUI"
+msgstr "Ao abrir o WebUI"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao abrir um capítulo"
+msgstr "Ao abrir um capítulo"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao marcar capítulo como lido"
+msgstr "Ao marcar capítulo como lido"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao retornar ao WebUI"
+msgstr "Ao retornar ao WebUI"
+
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "API key"
+msgstr "API key"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "API key generated on the SyncYomi server"
+msgstr "API key generated on the SyncYomi server"
+
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Appearance"
@@ -466,6 +491,10 @@ msgstr "Artist"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Ascending"
 msgstr "Ascending"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ativar SyncYomi"
+msgstr "Ativar SyncYomi"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Authentication"
@@ -504,6 +533,11 @@ msgstr "Auto webtoon mode"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Auto-download"
 msgstr "Auto-download"
+
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Auto-sync interval"
+msgstr "Auto-sync interval"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 msgid "Automatic progress bar vertical position"
@@ -742,9 +776,19 @@ msgstr "Cancel"
 msgid "Cancelled"
 msgstr "Cancelled"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Capítulos"
+msgstr "Capítulos"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Categorias"
+msgstr "Categorias"
+
 #: src/features/backup/Backup.constants.ts
 #: src/features/library/screens/LibrarySettings.tsx
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
 #: src/features/settings/screens/More.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "Categories"
 msgstr "Categories"
 
@@ -822,8 +866,18 @@ msgid "Chapter transition warning"
 msgstr "Chapter transition warning"
 
 #: src/features/backup/Backup.constants.ts
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "Chapters"
 msgstr "Chapters"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Chave de API"
+msgstr "Chave de API"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Chave de API gerada no servidor SyncYomi"
+msgstr "Chave de API gerada no servidor SyncYomi"
 
 #: src/features/library/screens/LibraryDuplicates.tsx
 msgid "Check description"
@@ -929,6 +983,10 @@ msgstr "Connected as {currentUsername} to {currentServerAddress}"
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Connected as {initialUsername} to {initialServerAddress}"
 msgstr "Connected as {initialUsername} to {initialServerAddress}"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Connection"
+msgstr "Connection"
 
 #: src/features/migration/components/MigrationContinueButton.tsx
 msgid "Continue"
@@ -1235,6 +1293,10 @@ msgstr "Cycle reading direction"
 msgid "Cycle reading mode"
 msgstr "Cycle reading mode"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dados sincronizados"
+msgstr "Dados sincronizados"
+
 #: src/features/settings/screens/Appearance.tsx
 msgid "Dark"
 msgstr "Dark"
@@ -1275,6 +1337,11 @@ msgstr "Default"
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 msgid "Default category when adding new manga to the library"
 msgstr "Default category when adding new manga to the library"
+
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Define when synchronization is triggered automatically"
+msgstr "Define when synchronization is triggered automatically"
 
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/category/components/CategorySettingsCard.tsx
@@ -1375,6 +1442,22 @@ msgstr "Disconnected"
 #: src/features/settings/screens/About.tsx
 msgid "Discord"
 msgstr "Discord"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização ao carregar o WebUI no navegador"
+msgstr "Dispara sincronização ao carregar o WebUI no navegador"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização quando a aba do navegador recupera o foco"
+msgstr "Dispara sincronização quando a aba do navegador recupera o foco"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização quando o progresso de leitura é atualizado"
+msgstr "Dispara sincronização quando o progresso de leitura é atualizado"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização quando um capítulo é marcado como lido"
+msgstr "Dispara sincronização quando um capítulo é marcado como lido"
 
 #: src/base/components/GridLayouts.tsx
 #: src/features/chapter/components/ChapterOptions.tsx
@@ -1531,6 +1614,15 @@ msgstr "Enable debug logs"
 msgid "Enable page read progress"
 msgstr "Enable page read progress"
 
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Enable SyncYomi"
+msgstr "Enable SyncYomi"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Endereço do servidor"
+msgstr "Endereço do servidor"
+
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
 msgstr "Entries in excluded categories will not be downloaded even if they are also in included categories"
@@ -1624,6 +1716,8 @@ msgstr "Failed to disconnect from KOReader Sync server."
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
 #: src/features/settings/screens/WebUISettings.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/source/components/SourceLanguageSelect.tsx
@@ -1634,6 +1728,15 @@ msgstr "Failed to disconnect from KOReader Sync server."
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Failed to save changes"
 msgstr "Failed to save changes"
+
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Failed to start sync"
+msgstr "Failed to start sync"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Falha ao iniciar sincronização"
+msgstr "Falha ao iniciar sincronização"
 
 #: src/features/settings/Settings.constants.ts
 msgid ""
@@ -1751,6 +1854,10 @@ msgstr "Forget manga categories"
 msgid "Fourth to last read chapter"
 msgstr "Fourth to last read chapter"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Gatilhos de sincronização"
+msgstr "Gatilhos de sincronização"
+
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "General"
@@ -1832,11 +1939,17 @@ msgstr "Hide history"
 msgid "Hikari connection pool"
 msgstr "Hikari connection pool"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Histórico"
+msgstr "Histórico"
+
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
 #: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
 #: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "History"
 msgstr "History"
 
@@ -1972,6 +2085,10 @@ msgstr "Inform about version update"
 msgid "Information"
 msgstr "Information"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Inicia uma sincronização manual com o servidor"
+msgstr "Inicia uma sincronização manual com o servidor"
+
 #: src/features/backup/component/BackupValidationDialog.tsx
 #: src/features/extension/Extensions.constants.ts
 msgid "Install"
@@ -1996,6 +2113,10 @@ msgstr "Installing extension file…"
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Interface"
 msgstr "Interface"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Intervalo de sincronização automática"
+msgstr "Intervalo de sincronização automática"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -2261,6 +2382,8 @@ msgstr ""
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/screens/Manga.tsx
 #: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manga"
 msgstr "Manga"
@@ -2272,6 +2395,10 @@ msgstr "Manga item width"
 #: src/features/settings/screens/Appearance.tsx
 msgid "Manga thumbnail as background"
 msgstr "Manga thumbnail as background"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Mangás"
+msgstr "Mangás"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
@@ -2605,6 +2732,22 @@ msgstr "Offset double spreads"
 msgid "Ok"
 msgstr "Ok"
 
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On chapter open"
+msgstr "On chapter open"
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On chapter read"
+msgstr "On chapter read"
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On client resume"
+msgstr "On client resume"
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On client start"
+msgstr "On client start"
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Oneshot"
 msgstr "Oneshot"
@@ -2778,6 +2921,10 @@ msgstr "Progress bar size"
 msgid "Progress bar style"
 msgstr "Progress bar style"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Progresso de leitura e marcações"
+msgstr "Progresso de leitura e marcações"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Prompt"
 msgstr "Prompt"
@@ -2803,6 +2950,10 @@ msgstr "Queued"
 msgid "Quick settings"
 msgstr "Quick settings"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Rastreamento"
+msgstr "Rastreamento"
+
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Reader"
@@ -2825,6 +2976,11 @@ msgstr "Reading direction"
 #: src/features/reader/settings/layout/components/ReaderSettingReadingMode.tsx
 msgid "Reading mode"
 msgstr "Reading mode"
+
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Reading progress and bookmarks"
+msgstr "Reading progress and bookmarks"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Recently added"
@@ -3146,6 +3302,8 @@ msgstr "Server"
 
 #: src/base/components/modals/LoginDialog.tsx
 #: src/features/settings/components/ServerAddressSetting.tsx
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "Server address"
 msgstr "Server address"
 
@@ -3291,6 +3449,22 @@ msgstr "Shows a dialog in case the version of the server has changed"
 msgid "Simple Login"
 msgstr "Simple Login"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronização iniciada com sucesso"
+msgstr "Sincronização iniciada com sucesso"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronização já está em andamento"
+msgstr "Sincronização já está em andamento"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronizar agora"
+msgstr "Sincronizar agora"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronize sua biblioteca com outros dispositivos via SyncYomi"
+msgstr "Sincronize sua biblioteca com outros dispositivos via SyncYomi"
+
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Single page"
 msgstr "Single page"
@@ -3392,6 +3566,10 @@ msgstr "Standard"
 msgid "Start"
 msgstr "Start"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Start a manual sync with the server"
+msgstr "Start a manual sync with the server"
+
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Start date"
 msgstr "Start date"
@@ -3460,6 +3638,28 @@ msgstr "Successfully migrated"
 msgid "Successfully migrated manga"
 msgstr "Successfully migrated manga"
 
+#: src/features/settings/components/syncYomi/SyncTriggerHandler.tsx
+msgid "Sync completed successfully"
+msgstr "Sync completed successfully"
+
+#: src/features/settings/components/syncYomi/SyncTriggerHandler.tsx
+msgid "Sync failed"
+msgstr "Sync failed"
+
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync is already in progress"
+msgstr "Sync is already in progress"
+
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync now"
+msgstr "Sync now"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync started successfully"
+msgstr "Sync started successfully"
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Sync status"
 msgstr "Sync status"
@@ -3472,9 +3672,47 @@ msgstr "Sync to a newer state"
 msgid "Sync to an older state"
 msgstr "Sync to an older state"
 
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Sync triggers"
+msgstr "Sync triggers"
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Sync will not be triggered if the progress difference is within this tolerance."
 msgstr "Sync will not be triggered if the progress difference is within this tolerance."
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync your library with other devices via SyncYomi"
+msgstr "Sync your library with other devices via SyncYomi"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Synced data"
+msgstr "Synced data"
+
+#: src/features/settings/components/syncYomi/SyncTriggerHandler.tsx
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+msgid "Syncing library..."
+msgstr "Syncing library..."
+
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "SyncYomi"
+msgstr "SyncYomi"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "SyncYomi está desativado"
+msgstr "SyncYomi está desativado"
+
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "SyncYomi is disabled"
+msgstr "SyncYomi is disabled"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "SyncYomi server URL (e.g., https://sync.example.com)"
+msgstr "SyncYomi server URL (e.g., https://sync.example.com)"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "System"
@@ -3690,7 +3928,9 @@ msgstr "Trackers"
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/settings/components/syncYomi/SyncYomiServerSettings.tsx
 #: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
 msgstr "Tracking"
@@ -3698,6 +3938,22 @@ msgstr "Tracking"
 #: src/features/theme/Themes.ts
 msgid "Tree Frog Green"
 msgstr "Tree Frog Green"
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when a chapter is marked as read"
+msgstr "Triggers sync when a chapter is marked as read"
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when a chapter is opened for reading"
+msgstr "Triggers sync when a chapter is opened for reading"
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when the client interface is loaded"
+msgstr "Triggers sync when the client interface is loaded"
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when the client interface regains focus"
+msgstr "Triggers sync when the client interface regains focus"
 
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -3733,6 +3989,8 @@ msgstr "UI Login"
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
 #: src/features/settings/screens/WebUISettings.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/source/configuration/screens/SourceConfigure.tsx
@@ -3851,6 +4109,10 @@ msgstr "Updating"
 #: src/features/settings/Settings.constants.ts
 msgid "URL"
 msgstr "URL"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "URL do servidor SyncYomi (ex.: https://sync.example.com)"
+msgstr "URL do servidor SyncYomi (ex.: https://sync.example.com)"
 
 #: src/features/settings/Settings.constants.ts
 msgid ""

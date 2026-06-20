@@ -2,8 +2,7 @@ msgid ""
 msgstr ""
 "PO-Revision-Date: 2026-01-21 14:01+0000\n"
 "Last-Translator: Roland Vezsenyi <miscogd5yf2paqvxvc@farvoid.com>\n"
-"Language-Team: Hungarian <https://hosted.weblate.org/projects/suwayomi/"
-"suwayomi-webui/hu/>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -11,89 +10,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Message-Format: ICU\n"
 "X-Generator: Weblate 5.16-dev\n"
-
-#: src/features/extension/Extensions.constants.ts
-msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a bővítményt telepíteni} other {Nem "
-"sikerült a bővítményeket telepíteni}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a fejezetet törölni} other {Nem sikerült a "
-"fejezetet törölni}}"
-
-#: src/features/manga/Manga.constants.ts
-msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a manga kategóriáját megváltoztatni} other "
-"{Nem sikerült a manga kategóriájit megváltoztatni}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a fejezetet hozzáadni a könyvjelzőkhöz} "
-"other {Nem sikerült a fejezeteket hozzáadni a könyvjelzőkhöz}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a letöltést hozzáadni} other {Nem sikerült "
-"a letöltéseket hozzáadni}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
-msgstr ""
-"{count, plural, one {Fejezet megjelölve olvasatlannak} other {# Fejezet "
-"megjelölve olvasatlannak}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
-msgstr ""
-"{count, plural, one {Fejezet megjelölve olvasottnak} other {# fejezet "
-"megjelölve olvasottnak}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
-msgstr "{count, plural, one {Fejezet törölve} other {# fejezet törölve}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
-msgstr ""
-"{count, plural, one {Fejezet hozzáadva a könyvjelzőkhöz} other {# fejezet "
-"hozzáadva a könyvjelzőkhöz}}"
-
-#: src/features/chapter/Chapter.constants.ts
-msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
-msgstr ""
-"{count, plural, one {Fejezet eltávolítva a könyvjelzőkből} other {# fejezet "
-"eltávolítva a könyvjelzőkből}}"
-
-#: src/features/manga/Manga.constants.ts
-msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
-msgstr ""
-"{count, plural, one {Manga kategóriája megváltoztatva} other {# manga "
-"kategóriája megváltoztatva}}"
-
-#: src/features/library/screens/LibrarySettings.tsx
-msgid "{categoryCount, plural, one {# category} other {# categories}}"
-msgstr "{categoryCount, plural, one {# kategória} other {# kategória}}"
-
-#: src/features/navigation-bar/NavigationBar.constants.ts
-msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
-msgstr ""
-"{availableUpdates, plural, one {# elérhető frissítés} other {# elérhető "
-"frissítés}}"
-
-#. placeholder {0}: updateStatus.progress
-#: src/features/app-updates/components/WebUIUpdateChecker.tsx
-msgid "{0}% | Updating…"
-msgstr "{0}% | Frissítés…"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
 
 #. placeholder {0}: selectedChapters.length
 #. placeholder {0}: visibleChapters.length
-#: src/features/chapter/components/ChapterList.tsx
 #: src/features/chapter/components/ChapterList.tsx
 msgid "{0, plural, one {# chapter} other {# chapters}}"
 msgstr "{0, plural, one {# fejezet} other {# fejezet}}"
@@ -103,20 +25,20 @@ msgstr "{0, plural, one {# fejezet} other {# fejezet}}"
 msgid "{0, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{0, plural, one {# Fejezet} other {# Fejezet}}"
 
-#. placeholder {0}: serverSettings.maxSourcesInParallel
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "{0, plural, one {# Source} other {# Sources}}"
-msgstr "{0, plural, one {# Forrás} other {# Forrás}}"
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {# nap} other {# nap}}"
 
-#. placeholder {0}: autoScroll.value
-#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
-msgid "{0, plural, one {Second} other {Seconds}}"
-msgstr "{0, plural, one {Másodperc} other {Másodperc}}"
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr "{0, plural, one {# manga} other {# manga}}"
 
-#. placeholder {0}: trackersInUse.length
-#: src/features/manga/components/TrackMangaButton.tsx
-msgid "{0, plural, one {# Tracker} other {# Tracker}}"
-msgstr "{0, plural, one {# Figyelő} other {# Figyelő}}"
+#. placeholder {0}: serverSettings.flareSolverrSessionTtl
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# minute} other {# minutes}}"
+msgstr "{0, plural, one {# perc} other {# perc}}"
 
 #. placeholder {0}: autoScroll.value
 #. placeholder {0}: serverSettings.flareSolverrTimeout
@@ -125,73 +47,175 @@ msgstr "{0, plural, one {# Figyelő} other {# Figyelő}}"
 msgid "{0, plural, one {# second} other {# seconds}}"
 msgstr "{0, plural, one {# másodperc} other {# másodperc}}"
 
-#. placeholder {0}: serverSettings.flareSolverrSessionTtl
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "{0, plural, one {# minute} other {# minutes}}"
-msgstr "{0, plural, one {# perc} other {# perc}}"
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr "{0, plural, one {# Forrás} other {# Forrás}}"
 
-#. placeholder {0}: selectedItemIds.length
-#: src/features/library/screens/Library.tsx
-msgid "{0, plural, one {# manga} other {# manga}}"
-msgstr "{0, plural, one {# manga} other {# manga}}"
+#. placeholder {0}: trackersInUse.length
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "{0, plural, one {# Tracker} other {# Tracker}}"
+msgstr "{0, plural, one {# Figyelő} other {# Figyelő}}"
 
-#. placeholder {0}: backupSettings.backupInterval
-#: src/features/backup/screens/Backup.tsx
-msgid "{0, plural, one {# day} other {# days}}"
-msgstr "{0, plural, one {# nap} other {# nap}}"
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr ""
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr ""
+
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr ""
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr ""
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr ""
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr ""
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr ""
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr ""
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr ""
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr "{0, plural, one {Másodperc} other {Másodperc}}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr ""
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr ""
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr "{0}% | Frissítés…"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr "{availableUpdates, plural, one {# elérhető frissítés} other {# elérhető frissítés}}"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "{categoryCount, plural, one {# category} other {# categories}}"
+msgstr "{categoryCount, plural, one {# kategória} other {# kategória}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr "{count, plural, one {Manga kategóriája megváltoztatva} other {# manga kategóriája megváltoztatva}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr "{count, plural, one {Fejezet eltávolítva a könyvjelzőkből} other {# fejezet eltávolítva a könyvjelzőkből}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr "{count, plural, one {Fejezet hozzáadva a könyvjelzőkhöz} other {# fejezet hozzáadva a könyvjelzőkhöz}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr "{count, plural, one {Fejezet törölve} other {# fejezet törölve}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr "{count, plural, one {Fejezet megjelölve olvasottnak} other {# fejezet megjelölve olvasottnak}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr "{count, plural, one {Fejezet megjelölve olvasatlannak} other {# Fejezet megjelölve olvasatlannak}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr "{count, plural, one {Nem sikerült a letöltést hozzáadni} other {Nem sikerült a letöltéseket hozzáadni}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr "{count, plural, one {Nem sikerült a fejezetet hozzáadni a könyvjelzőkhöz} other {Nem sikerült a fejezeteket hozzáadni a könyvjelzőkhöz}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr "{count, plural, one {Nem sikerült a manga kategóriáját megváltoztatni} other {Nem sikerült a manga kategóriájit megváltoztatni}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr "{count, plural, one {Nem sikerült a fejezetet törölni} other {Nem sikerült a fejezetet törölni}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr "{count, plural, one {Nem sikerült a bővítményt telepíteni} other {Nem sikerült a bővítményeket telepíteni}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a fejezetet megjelölni olvasottnak} other "
-"{Nem sikerült a fejezeteket megjelölni olvasottnak}}"
+msgstr "{count, plural, one {Nem sikerült a fejezetet megjelölni olvasottnak} other {Nem sikerült a fejezeteket megjelölni olvasottnak}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a fejezetet megjelölni olvasotlannak} "
-"other {Nem sikerült a fejezeteket megjelölni olvasotlannak}}"
+msgstr "{count, plural, one {Nem sikerült a fejezetet megjelölni olvasotlannak} other {Nem sikerült a fejezeteket megjelölni olvasotlannak}}"
 
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a mangát eltávolítani a könyvtárból} other "
-"{Nem sikerült a mangákat eltávolítani a könyvtárból}}"
+msgstr "{count, plural, one {Nem sikerült a mangát eltávolítani a könyvtárból} other {Nem sikerült a mangákat eltávolítani a könyvtárból}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a könyvjelzőt eltávolítani} other {Nem "
-"sikerült a könyvjelzőket eltávolítani}}"
+msgstr "{count, plural, one {Nem sikerült a könyvjelzőt eltávolítani} other {Nem sikerült a könyvjelzőket eltávolítani}}"
 
 #: src/features/extension/Extensions.constants.ts
 msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a bővítményt eltávolítani} other {Nem "
-"sikerült a bővítményeket eltávolítani}}"
+msgstr "{count, plural, one {Nem sikerült a bővítményt eltávolítani} other {Nem sikerült a bővítményeket eltávolítani}}"
 
 #: src/features/extension/Extensions.constants.ts
 msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
-msgstr ""
-"{count, plural, one {Nem sikerült a bővítményt frissíteni} other {Nem "
-"sikerült a bővítményeket frissíteni}}"
+msgstr "{count, plural, one {Nem sikerült a bővítményt frissíteni} other {Nem sikerült a bővítményeket frissíteni}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {Download added} other {# downloads added}}"
 msgstr "{count, plural, one {Letöltés hozzáadva} other {# letöltés hozzáadva}}"
 
 #: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
 msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
 msgstr "{count, plural, one {Következő fejezet} other {Következő # fejezet}}"
 
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
-msgstr ""
-"{count, plural, one {Manga eltávolítva a könyvtárból} other {# manga "
-"eltávolítva a könyvtárból}}"
+msgstr "{count, plural, one {Manga eltávolítva a könyvtárból} other {# manga eltávolítva a könyvtárból}}"
 
 #: src/features/reader/services/ReaderControls.ts
 msgid ""
@@ -223,49 +247,35 @@ msgstr ""
 
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
-msgstr ""
-"{count, plural, one {Egy tétel kategóriáját készülsz megváltoztatni} other "
-"{# tétel kategóriáját készülsz megváltoztatni}}"
+msgstr "{count, plural, one {Egy tétel kategóriáját készülsz megváltoztatni} other {# tétel kategóriáját készülsz megváltoztatni}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
-msgstr ""
-"{count, plural, one {Egy letöltést készülsz törölni} other {# letöltést "
-"készülsz törölni}}"
+msgstr "{count, plural, one {Egy letöltést készülsz törölni} other {# letöltést készülsz törölni}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
 "Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
-"{count, plural, one {Egy fejezetet készülsz letölteni} other {# fejezetet "
-"készülsz letölteni.\n"
-"Suwayomi nem tömeges letöltésre lett tervezve, túl sok letöltés forrásokból "
-"való kitiltásokkal és/vagy teljesítménybeli problémákkal járhat.}}"
+"{count, plural, one {Egy fejezetet készülsz letölteni} other {# fejezetet készülsz letölteni.\n"
+"Suwayomi nem tömeges letöltésre lett tervezve, túl sok letöltés forrásokból való kitiltásokkal és/vagy teljesítménybeli problémákkal járhat.}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
-msgstr ""
-"{count, plural, one {Egy fejezetet készülsz megjelölni olvasottnak} other {# "
-"fejezetet készülsz megjelölni olvasottnak}}"
+msgstr "{count, plural, one {Egy fejezetet készülsz megjelölni olvasottnak} other {# fejezetet készülsz megjelölni olvasottnak}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
-msgstr ""
-"{count, plural, one {Egy fejezetet készülsz megjelölni olvasatlannak} other "
-"{# fejezetet készülsz megjelölni olvasatlannak}}"
+msgstr "{count, plural, one {Egy fejezetet készülsz megjelölni olvasatlannak} other {# fejezetet készülsz megjelölni olvasatlannak}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
-msgstr ""
-"{count, plural, one {Egy könyvjelzőt készülsz eltávolítani} other {# "
-"könyvjelzőt készülsz eltávolítani}}"
+msgstr "{count, plural, one {Egy könyvjelzőt készülsz eltávolítani} other {# könyvjelzőt készülsz eltávolítani}}"
 
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
-msgstr ""
-"{count, plural, one {Egy tételt készülsz eltávolítani a könyvtáradból} other "
-"{# tételt készülsz eltávolítani a könyvtáradból}}"
+msgstr "{count, plural, one {Egy tételt készülsz eltávolítani a könyvtáradból} other {# tételt készülsz eltávolítani a könyvtáradból}}"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -282,9 +292,12 @@ msgstr "{currentDownloadAheadLimit, plural, one {# Fejezet} other {# Fejezet}}"
 #: src/features/chapter/components/ChapterList.tsx
 #: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
 msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr "{missingChapterCount, plural, one {# hiányzó fejezet} other {# hiányzó fejezet}}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
 msgstr ""
-"{missingChapterCount, plural, one {# hiányzó fejezet} other {# hiányzó "
-"fejezet}}"
 
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "{progress}% | Updating…"
@@ -292,19 +305,23 @@ msgstr "{progress}% | Frissítés…"
 
 #: src/features/backup/Backup.utils.ts
 msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
-msgstr ""
-"{ttl, plural, one {# napnál régebbi biztonsági mentések törlése} other {# "
-"napnál régebbi biztonsági mentések törlése}}"
+msgstr "{ttl, plural, one {# napnál régebbi biztonsági mentések törlése} other {# napnál régebbi biztonsági mentések törlése}}"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
-msgstr ""
-"{ttl, plural, one {# napnál régebbi naplófájlok törlése} other {# napnál "
-"régebbi naplófájlok törlése}}"
+msgstr "{ttl, plural, one {# napnál régebbi naplófájlok törlése} other {# napnál régebbi naplófájlok törlése}}"
 
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
 msgstr "*: Jelenlegi beállítás"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
+msgstr "<0>Suwayomi nem nyújt semmilyen támogatást külső tárolóknak vagy bővítményeknek!</0><1/>Használd elővigyázatossággal, mivel akár ártalmas személyek is készíthetik őket.<2/>Neked, mint felhasználónak kell megbizonyosodnod a tárolók vagy a bővítmények megbízhatóságáról."
+
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr ""
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -313,6 +330,20 @@ msgstr "Előnézet-orientált web frontend Svelte-ben írva"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "A-Z"
 msgstr "A-Z"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Abort"
+msgstr ""
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr ""
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr ""
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -323,12 +354,15 @@ msgstr "Névjegy"
 msgid "Active device"
 msgstr "Jelenlegi eszköz"
 
-#: src/base/components/buttons/ButtonSelect.tsx
+#: src/base/components/buttons/SelectButton.tsx
 msgid "Active setting"
 msgstr "Jelenlegi beállítás"
 
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr ""
+
 #: src/base/components/settings/MutableListSetting.tsx
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/settings/components/images/KeyValueItems.tsx
@@ -366,24 +400,21 @@ msgstr "Manga hozzáadásra került a könyvtárhoz!"
 msgid "Advanced"
 msgstr "Haladó"
 
-#: src/features/settings/Settings.constants.ts
-#: src/features/settings/Settings.constants.ts
-#: src/features/settings/Settings.constants.ts
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr ""
+
 #: src/features/settings/Settings.constants.ts
 msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
-msgstr ""
-"A beállítás módosítása után a \"Névjegy\" oldalon ellenőrizd, hogy elérhető-"
-"e webUI frissítés, majd telepítsd"
+msgstr "A beállítás módosítása után a \"Névjegy\" oldalon ellenőrizd, hogy elérhető-e webUI frissítés, majd telepítsd"
 
 #: src/features/extension/info/components/Meta.tsx
 msgid "Age rating"
 msgstr "Korhatár"
 
-#: src/base/utils/Languages.ts
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
-#: src/features/extension/Extensions.constants.ts
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "All"
 msgstr "Összes"
@@ -406,13 +437,44 @@ msgstr "Alfa"
 msgid "Also remove from {0}"
 msgstr "Eltávolítás ebből is: {0}"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao abrir o WebUI"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao abrir um capítulo"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao marcar capítulo como lido"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ao retornar ao WebUI"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "API key"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "API key generated on the SyncYomi server"
+msgstr ""
+
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Appearance"
 msgstr "Megjelenés"
 
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr ""
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr ""
+
 #: src/features/chapter/services/Chapters.ts
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/services/Mangas.ts
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -427,6 +489,10 @@ msgstr "Rajzoló"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Ascending"
 msgstr "Növekvő"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Ativar SyncYomi"
+msgstr ""
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Authentication"
@@ -466,6 +532,10 @@ msgstr "Automatikus webtoon mód"
 msgid "Auto-download"
 msgstr "Automatikus letöltés"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Auto-sync interval"
+msgstr ""
+
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 msgid "Automatic progress bar vertical position"
 msgstr "Automatikus haladási sáv függőleges pozíciója"
@@ -490,11 +560,25 @@ msgstr "Fejezetek automatikus megjelölése olvasottnak letöltéskor."
 msgid "Automatically refresh metadata"
 msgstr "Metadata automatikus frissítése"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr ""
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr ""
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr ""
+
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
+msgstr "Webtoon mód automatikus használata a vélhetően függőleges elrendezésű címeknél"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Available"
 msgstr ""
-"Webtoon mód automatikus használata a vélhetően függőleges elrendezésű "
-"címeknél"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Back up library as a Tachiyomi backup"
@@ -513,7 +597,6 @@ msgstr "Biztonsági Mentés"
 msgid "Backup cleanup"
 msgstr "Biztonsági mentések tisztítása"
 
-#: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Backup data"
 msgstr "Biztonsági mentett adatok"
@@ -580,19 +663,21 @@ msgid "Both"
 msgstr "Mindkettő"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Bottom"
 msgstr "Alul"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr ""
+
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Briefly show current mode when reader is opened or mode got changed"
-msgstr ""
-"Jelenlegi mód rövid megjelenítése az olvasó megnyitásakor vagy módváltáskor"
+msgstr "Jelenlegi mód rövid megjelenítése az olvasó megnyitásakor vagy módváltáskor"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Briefly show tap zone layout preview when reader is opened or layout got changed"
-msgstr ""
-"Koppintási terület elrendezésének rövid megjelenítése az olvasó "
-"megnyitásakor vagy az elrendezés változásakor"
+msgstr "Koppintási terület elrendezésének rövid megjelenítése az olvasó megnyitásakor vagy az elrendezés változásakor"
 
 #: src/features/theme/Themes.ts
 msgid "Bright Pink"
@@ -641,6 +726,14 @@ msgstr "Forrásnév szerint"
 msgid "By upload date"
 msgstr "Feltöltés ideje szerint"
 
+#: src/features/settings/components/images/Processing.tsx
+msgid "Call timeout"
+msgstr "Kérés időtúllépése"
+
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr ""
+
 #: src/base/collection/components/SelectableCollectionSelectMode.tsx
 #: src/base/components/inputs/LanguageSelect.tsx
 #: src/base/components/modals/ConfirmDialog.tsx
@@ -657,7 +750,8 @@ msgstr "Feltöltés ideje szerint"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -675,15 +769,23 @@ msgstr "Megszakítás"
 msgid "Cancelled"
 msgstr "Megszakított"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Capítulos"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Categorias"
+msgstr ""
+
 #: src/features/backup/Backup.constants.ts
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/settings/screens/More.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "Categories"
 msgstr "Kategóriák"
 
 #: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Category"
 msgstr "Kategória"
 
@@ -713,6 +815,10 @@ msgstr "Kijelöltek kategóriáinak megváltoztatása"
 msgid "Changelog"
 msgstr "Változásnapló"
 
+#: src/features/settings/screens/Appearance.tsx
+msgid "Changes the theme colors on the manga page based on the thumbnail"
+msgstr "A borító szerint megváltoztatja a téma színeit a manga oldalán"
+
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Channel"
 msgstr "Csatorna"
@@ -720,10 +826,8 @@ msgstr "Csatorna"
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Chapter"
@@ -754,8 +858,17 @@ msgid "Chapter transition warning"
 msgstr "Fejezet átvezető figyelmeztetés"
 
 #: src/features/backup/Backup.constants.ts
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "Chapters"
 msgstr "Fejezetek"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Chave de API"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Chave de API gerada no servidor SyncYomi"
+msgstr ""
 
 #: src/features/library/screens/LibraryDuplicates.tsx
 msgid "Check description"
@@ -764,6 +877,10 @@ msgstr "Leírás megtekintése"
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
 msgid "Check for new cover and details when updating library"
 msgstr "Új borító és részletek keresése a könyvtár frissítésekor"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Check out"
+msgstr "Megtekintés"
 
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "Checking for update"
@@ -789,26 +906,50 @@ msgstr "Cache ürítése"
 msgid "Cleared the cache"
 msgstr "Cache kiürítve"
 
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "Képregény"
+#: src/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx
+msgid "Click key to remove binding"
+msgstr "Kattints a hozzárendelés feloldásához"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Client"
 msgstr "Kliens"
 
 #: src/features/backup/Backup.constants.ts
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Client data"
 msgstr "Kliensadat"
 
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Close"
 msgstr "Bezárás"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Cloudflare bypass"
 msgstr "Cloudflare bypass"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Color filter blend mode"
+msgstr "Színszűrő keverési módja"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Comfortable grid"
+msgstr "Tágas elrendezés"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Comic"
+msgstr "Képregény"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Compact grid"
+msgstr "Kompakt elrendezés"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Compatible"
+msgstr "Kompatibilis"
 
 #: src/features/manga/Manga.constants.ts
 msgid "Completed"
@@ -818,15 +959,9 @@ msgstr "Befejezett"
 msgid "Compression level"
 msgstr "Tömörítés szintje"
 
-#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
-msgid "Connected as {currentUsername} to {currentServerAddress}"
-msgstr ""
-"Csatlakozva mint {currentUsername} a(z) {currentServerAddress} szerverhez"
-
-#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
-msgid "Connected as {initialUsername} to {initialServerAddress}"
-msgstr ""
-"Csatlakozva mint {initialUsername} a(z) {initialServerAddress} szerverhez"
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#~ msgid "Conexão"
+#~ msgstr ""
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "Connect timeout"
@@ -836,13 +971,21 @@ msgstr "Csatlakozási időtúllépés"
 msgid "Connect to KOReader Sync server"
 msgstr "Kapcsolódás a KOReader Sync szerveréhez"
 
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Compatible"
-msgstr "Kompatibilis"
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr "Csatlakozva mint {currentUsername} a(z) {currentServerAddress} szerverhez"
 
-#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
-msgid "Color filter blend mode"
-msgstr "Színszűrő keverési módja"
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr "Csatlakozva mint {initialUsername} a(z) {initialServerAddress} szerverhez"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Connection"
+msgstr ""
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr ""
 
 #: src/features/manga/components/ContinueReadingTooltip.tsx
 msgid ""
@@ -866,7 +1009,14 @@ msgstr "Vízszintesen folyamatos"
 msgid "Continuous vertical"
 msgstr "Függőlegesen folyamatos"
 
-#: src/features/settings/Settings.constants.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid ""
+"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
+msgstr ""
+"A MimeTípust vezérli, amit Suwayomi küld OPDS bejegyzésekként CBZ archívumoknak. Egyben a globális CBZ letöltést is befolyásolja.\n"
+"A modern verzió az újabb IANA standardot (2017) követi, míg a LEGACY (elavult mimetípus .cbz-hez) és a COMPATIBLE (elavult mimetípusok az összes képregény archívumhoz) jobban működhet régebbi kliensekkel."
+
 #: src/features/settings/Settings.constants.ts
 msgid "Convert images to different formats"
 msgstr "Képek más formátumúvá alakítása"
@@ -877,7 +1027,7 @@ msgid "Copied to clipboard"
 msgstr "Másolva a vágólapra"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Copy"
 msgstr "Másolás"
 
@@ -908,7 +1058,6 @@ msgid "Could not clear the cache"
 msgstr "Nem sikerült a gyorsítótár ürítése"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Could not create backup"
 msgstr "Nem sikerült a biztonsági mentés létrehozása"
 
@@ -916,7 +1065,6 @@ msgstr "Nem sikerült a biztonsági mentés létrehozása"
 msgid "Could not create category"
 msgstr "Nem sikerült a kategória létrehozása"
 
-#: src/features/theme/components/CreateThemeDialog.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Could not create theme"
 msgstr "Nem sikerült a téma létrehozása"
@@ -948,8 +1096,6 @@ msgid "Could not load latest track info from tracker"
 msgstr "Nem sikerült a legújabb adatok betöltése a figyelőtől"
 
 #: src/features/library/screens/Library.tsx
-#: src/features/library/screens/Library.tsx
-#: src/features/manga/screens/Manga.tsx
 #: src/features/manga/screens/Manga.tsx
 msgid "Could not load manga"
 msgstr "Nem sikerült a manga betöltése"
@@ -964,7 +1110,6 @@ msgstr "Nem sikerült a figyelő adatok betöltése"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
-#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Could not log in to {0}"
 msgstr "Nem sikerült a bejelentkezés a(z) {0} figyelőbe"
 
@@ -977,7 +1122,6 @@ msgid "Could not log in to Suwayomi"
 msgstr "Nem sikerült a bejelentkezés Suwayomiba"
 
 #. placeholder {0}: tracker.name
-#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Could not log out from {0}"
 msgstr "Nem sikerült a kijelentkezés a(z) {0} figyelőből"
@@ -1003,7 +1147,6 @@ msgid "Could not remove the download from the queue."
 msgstr "Nem sikerült a letöltés eltávolítása a várólistáról."
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
 msgstr "Nem sikerült a biztonsági mentés helyreállítása"
 
@@ -1011,14 +1154,16 @@ msgstr "Nem sikerült a biztonsági mentés helyreállítása"
 msgid "Could not retry failed download."
 msgstr "Nem sikerült a sikertelen letöltés újrapróbálása."
 
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr ""
+
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not save the default search settings to the server"
-msgstr ""
-"Nem sikerült az alapértelmezett keresési beállítások mentése a szerverre"
+msgstr "Nem sikerült az alapértelmezett keresési beállítások mentése a szerverre"
 
-#: src/features/reader/services/ReaderService.ts
 #: src/features/reader/services/ReaderService.ts
 msgid "Could not save the reader settings to the server"
 msgstr "Nem sikerült az olvasói beállítások mentése a szerverre"
@@ -1045,7 +1190,6 @@ msgid "Could not untrack manga"
 msgstr "Nem sikerült a manga figyelésének leállítása"
 
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
-#: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Could not update WebUI"
 msgstr "Nem sikerült a WebUI frissítése"
 
@@ -1060,17 +1204,14 @@ msgid "Create"
 msgstr "Létrehozás"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 msgid "Create backup"
 msgstr "Biztonsági mentés létrehozása"
 
-#: src/features/theme/components/CreateThemeButton.tsx
 #: src/features/theme/components/CreateThemeButton.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Create theme"
 msgstr "Téma létrehozása"
 
-#: src/features/theme/components/CreateThemeDialog.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Created theme"
 msgstr "Téma létrehozva"
@@ -1080,13 +1221,16 @@ msgid "Creating backup…"
 msgstr "Biztonsági mentés létrehozása…"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
-#: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Creating theme…"
 msgstr "Téma létrehozása…"
 
 #: src/features/theme/Themes.ts
 msgid "Crimson"
 msgstr "Karmazsinvörös"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Current source"
+msgstr ""
 
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Current:"
@@ -1101,7 +1245,6 @@ msgid "Custom"
 msgstr "Egyéni"
 
 #: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
-#: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
 msgid "Custom brightness"
 msgstr "Egyéni fényerősség"
 
@@ -1109,7 +1252,6 @@ msgstr "Egyéni fényerősség"
 msgid "Custom color filters"
 msgstr "Egyéni színszűrők"
 
-#: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
 #: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
 msgid "Custom contrast"
 msgstr "Egyéni kontraszt"
@@ -1119,11 +1261,9 @@ msgid "Custom filter"
 msgstr "Egyéni szűrő"
 
 #: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
-#: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
 msgid "Custom hue"
 msgstr "Egyéni árnyalat"
 
-#: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
 #: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
 msgid "Custom saturate"
 msgstr "Egyéni telítettség"
@@ -1131,6 +1271,22 @@ msgstr "Egyéni telítettség"
 #: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
 msgid "Custom scroll amount"
 msgstr "Egyéni görgetési mennyiség"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Cycle image scale type"
+msgstr "Képméretezés típusának ciklizálása"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Cycle reading direction"
+msgstr "Olvasás irányának ciklizálása"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Cycle reading mode"
+msgstr "Olvasás módjának ciklizálása"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dados sincronizados"
+msgstr ""
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Dark"
@@ -1149,8 +1305,6 @@ msgid "Database url"
 msgstr "Adatbázis url"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Day"
 msgstr "Nap"
@@ -1159,13 +1313,10 @@ msgstr "Nap"
 msgid "Decrease auto scroll speed"
 msgstr "Automatikus görgetési sebesség csökkentése"
 
-#: src/base/components/buttons/ButtonSelect.tsx
-#: src/base/components/buttons/ValueRotationButton.tsx
+#: src/base/components/buttons/SelectButton.tsx
 #: src/base/components/buttons/ValueRotationButton.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/screens/BrowseSettings.tsx
-#: src/features/device/screens/DeviceSetting.tsx
-#: src/features/device/screens/DeviceSetting.tsx
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
 #: src/features/reader/settings/ReaderSettings.constants.tsx
@@ -1177,6 +1328,14 @@ msgstr "Alapértelmezett"
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 msgid "Default category when adding new manga to the library"
 msgstr "Alapértelmezett kategória új manga könyvtárhoz adásakor"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#~ msgid "Defina quando a sincronização é disparada automaticamente"
+#~ msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Define when synchronization is triggered automatically"
+msgstr ""
 
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/category/components/CategorySettingsCard.tsx
@@ -1202,7 +1361,7 @@ msgstr "Fejezet törlése olvasottnak jelölés után"
 msgid "Delete chapters"
 msgstr "Fejezetek törlése"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Delete downloaded"
 msgstr "Letöltöttek törlése"
 
@@ -1242,6 +1401,11 @@ msgstr "Kijelölés megszüntetése"
 msgid "Desktop"
 msgstr "Asztali"
 
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination - {0}"
+msgstr ""
+
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Device"
@@ -1258,9 +1422,12 @@ msgstr "Hitelesítés letiltása"
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
 #: src/features/settings/Settings.constants.ts
-#: src/features/settings/Settings.constants.ts
 msgid "Disabled"
 msgstr "Letiltva"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Disconnect from KOReader Sync server"
+msgstr "Lecsatlakozás a KOReader Sync szerverről"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Disconnected"
@@ -1269,6 +1436,22 @@ msgstr "Lecsatlakozva"
 #: src/features/settings/screens/About.tsx
 msgid "Discord"
 msgstr "Discord"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização ao carregar o WebUI no navegador"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização quando a aba do navegador recupera o foco"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização quando o progresso de leitura é atualizado"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Dispara sincronização quando um capítulo é marcado como lido"
+msgstr ""
 
 #: src/base/components/GridLayouts.tsx
 #: src/features/chapter/components/ChapterOptions.tsx
@@ -1279,13 +1462,15 @@ msgstr "Kijelző"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Display file sizes in binary (KiB, MiB, GiB) instead of decimal (KB, MB, GB)"
-msgstr ""
-"Fájlméretek megjelenítése binárisan (KiB, MiB, GiB) decimális helyett (KB, "
-"MB, GB)"
+msgstr "Fájlméretek megjelenítése binárisan (KiB, MiB, GiB) decimális helyett (KB, MB, GB)"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Display mode"
 msgstr "Megjelenítési módszer"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Document matching method"
+msgstr "Dokumentumegyeztetési módszer"
 
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Does not work when marking multiple manga as read at once"
@@ -1294,6 +1479,10 @@ msgstr "Nem működik egyszerre több manga olvasottnak jelölése esetén"
 #: src/features/category/components/CategorySelect.tsx
 msgid "Don't show this dialog again"
 msgstr "Ne jelenjen meg többé ez a párbeszédpanel"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr ""
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Double page"
@@ -1355,6 +1544,10 @@ msgstr "Letöltés alatt"
 msgid "Downloads"
 msgstr "Letöltések"
 
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr ""
+
 #: src/features/theme/Themes.ts
 msgid "Dune"
 msgstr "Dűne"
@@ -1392,7 +1585,6 @@ msgid "Edit category"
 msgstr "Kategória szerkesztése"
 
 #: src/features/manga/components/MangaToolbarMenu.tsx
-#: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Edit manga categories"
 msgstr "Manga kategóriák szerkesztése"
 
@@ -1416,22 +1608,47 @@ msgstr "Hibakeresési napló engedélyezése"
 msgid "Enable page read progress"
 msgstr "Olvasási előrehaladás engedélyezése"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Enable SyncYomi"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Endereço do servidor"
+msgstr ""
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
+msgstr "Kizárt kategóriákban lévő címek akkor sem töltődnek le, ha engedélyezett kategóriák között is szerepelnek"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Entries in excluded categories will not be updated even if they are also in included categories"
+msgstr "Kizárt kategóriákban lévő címek akkor sem frissülnek, ha engedélyezett kategóriák között is szerepelnek"
+
 #: src/base/components/downloads/DownloadStateIndicator.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Error"
 msgstr "Hiba"
 
 #: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 msgid "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
+msgstr "Példa lehetséges értékekre: 1 (byte), 1KB (kilobyte), 1MB (megabyte), 1GB (gigabyte)"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
 msgstr ""
-"Példa lehetséges értékekre: 1 (byte), 1KB (kilobyte), 1MB (megabyte), 1GB "
-"(gigabyte)"
+
+#: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
+msgid "Exclude scanlators"
+msgstr "Fordító csoportok kizárása"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 msgid "Exclude: {excludedCategoriesText}"
 msgstr "Kizárva: {excludedCategoriesText}"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr ""
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
@@ -1471,9 +1688,7 @@ msgid "Failed to disconnect from KOReader Sync server."
 msgstr "Nem sikerült a KOReader Sync szerverről való lecsatlakozás."
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
-#: src/features/browse/screens/BrowseSettings.tsx
 #: src/features/browse/screens/BrowseSettings.tsx
 #: src/features/browse/sources/components/SourceCard.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -1483,20 +1698,19 @@ msgstr "Nem sikerült a KOReader Sync szerverről való lecsatlakozás."
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/downloads/screens/DownloadSettings.tsx
 #: src/features/extension/info/components/SourceCard.tsx
 #: src/features/global-search/screens/SearchAll.tsx
 #: src/features/history/screens/HistorySettings.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
-#: src/features/migration/screens/Migration.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
 #: src/features/settings/screens/WebUISettings.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/source/components/SourceLanguageSelect.tsx
@@ -1504,10 +1718,34 @@ msgstr "Nem sikerült a KOReader Sync szerverről való lecsatlakozás."
 #: src/features/source/services/Sources.ts
 #: src/features/theme/AppThemeContext.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
-#: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Failed to save changes"
 msgstr "Nem sikerült a változtatások mentése"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Failed to start sync"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Falha ao iniciar sincronização"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+#~ msgid "Falha ao salvar alterações"
+#~ msgstr ""
+
+#: src/features/settings/Settings.constants.ts
+msgid ""
+"Features and changes in this version might not be completely ready yet and can cause bugs.\n"
+"Make sure that you have automatic backups enabled to prevent loss of your library!\n"
+"\n"
+"After changing this setting go to the \"About\" page and check for a webUI update and install it"
+msgstr ""
+"Ezen a verzión a funkciók és változtatások még lehet nincsenek teljesen készen, és kisebb hibákat okozhatnak.\n"
+"Menj biztosra, hogy az automatikus biztonsági mentések engedélyezve vannak a könyvtárad védelme érdekében.\n"
+"\n"
+"A beállítás módosítása után a \"Névjegy\" oldalon ellenőrizd, hogy elérhető-e webUI frissítés, majd telepítsd"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Feel free to translate the project on"
@@ -1531,6 +1769,14 @@ msgstr "Szűrő"
 #: src/features/chapter/components/ChaptersToolbarMenu.tsx
 msgid "Filter and sort"
 msgstr "Szűrés és rendezés"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Filter manga feed to display only chapters you have downloaded."
+msgstr "Manga hírfolyam szűrése, hogy csak a letöltött fejezetek jelenjenek meg."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Filter manga feed to display only chapters you haven’t read yet."
+msgstr "Manga hírfolyam szűrése, hogy csak az olvasatlan fejezetek jelenjenek meg."
 
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Finish date"
@@ -1562,6 +1808,10 @@ msgid "FlareSolverr enabled"
 msgstr "FlareSolverr engedélyezve"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "FlareSolverr request timeout"
 msgstr "FlareSolverr kérési időtúllépése"
 
@@ -1577,6 +1827,18 @@ msgstr "FlareSolverr munkamenetneve"
 msgid "FlareSolverr session TTL"
 msgstr "FlareSolverr munkamenet TTL-e"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes"
+msgstr "FlareSolverr automatikusan forgatja a lejárt munkameneteket a TTL-en megadott percek szerint"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Flavor"
+msgstr "Flavor"
+
 #: src/features/theme/Themes.ts
 msgid "Forest Dew"
 msgstr "Erdei Harmat"
@@ -1588,6 +1850,10 @@ msgstr "Manga kategóriák elfelejtése"
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fourth to last read chapter"
 msgstr "Negyedik legutóbb olvasott fejezet"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Gatilhos de sincronização"
+msgstr ""
 
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/reader/settings/ReaderSettings.constants.tsx
@@ -1629,7 +1895,6 @@ msgstr "Zöld"
 
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
 #: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
-#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
 msgid "h"
 msgstr "ó"
 
@@ -1667,11 +1932,20 @@ msgstr "Már könytárban lévő címek elrejtése"
 msgid "Hide history"
 msgstr "Elrejtési előzmények"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Hikari connection pool"
+msgstr "Hikari connection pool"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Histórico"
+msgstr ""
+
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "History"
 msgstr "Előzmények"
 
@@ -1691,6 +1965,40 @@ msgstr "Olvasás közben letöltésre kerülő fejezetek mennyisége."
 msgid "How much time FlareSolverr has to handle the request"
 msgstr "FlareSolverr rendelkezésre álló ideje a kérés kezelésére"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid ""
+"If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+msgid "Ignore"
+msgstr "Mellőzés"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Ignore automatic chapter downloads for entries with unread chapters"
+msgstr "Olvasatlan fejezetekkel rendelkező címek automatikus fejezetletöltésének mellőzése"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Ignore filters when searching"
+msgstr "Szűrők mellőzése keresésnél"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr ""
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr ""
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr ""
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Ignore re-uploaded chapters"
+msgstr "Újból feltöltött fejezetek mellőzése"
+
 #: src/features/settings/Settings.constants.ts
 msgid "Image"
 msgstr "Kép"
@@ -1706,14 +2014,41 @@ msgid "Image processing"
 msgstr "Képfeldolgozás"
 
 #: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Image serve processing"
+msgstr "Képkiszolgálás feldolgozása"
+
+#: src/features/settings/screens/ImagesSettings.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Images"
 msgstr "Képek"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Improves performance, but may cause issues for some installations where data cannot be read from the database"
+msgstr "Növeli a teljesítményt, de gondokat okozhat olyan telepítéseknél, ahol az adat nem olvasható az adatbázisból"
+
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+msgid ""
+"In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
+"Set the target mode to disabled to prevent processing for a MIME-Type"
+msgstr ""
+"Amennyiben nincs MIME-Típus megadva, az \"alapértelmezett\" lesz használva a feldolgozáshoz.\n"
+"Tiltsd le a célmódot a MIME-Típus feldolgozásának elkerülése érdekében"
+
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
+#: src/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx
 msgid "In Library"
 msgstr "Könyvtárban"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr ""
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+msgid "Include: {includedCategoriesText}"
+msgstr "Tartalmaz: {includedCategoriesText}"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Increase auto scroll speed"
@@ -1724,10 +2059,29 @@ msgstr "Automatikus görgetési sebesség növelése"
 msgid "Inform about available update"
 msgstr "Tájékoztasson elérhető frissítésekről"
 
-#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Inform about changing scanlator on chapter transition"
+msgstr "Tájékoztasson változó fordító csoportról fejezetátfedésnél"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Inform about missing chapters on chapter transition"
+msgstr "Tájékoztasson hiányzó fejezetekről fejezetátfedésnél"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr ""
+
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Information"
 msgstr "Adatok"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Inicia uma sincronização manual com o servidor"
+msgstr ""
 
 #: src/features/backup/component/BackupValidationDialog.tsx
 #: src/features/extension/Extensions.constants.ts
@@ -1754,6 +2108,10 @@ msgstr "Bővítményfájl telepítése…"
 msgid "Interface"
 msgstr "Kezelőfelület"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Intervalo de sincronização automática"
+msgstr ""
+
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
 msgid "Invalid filetype"
@@ -1766,8 +2124,6 @@ msgstr "Érvénytelen fájltípus"
 #: src/features/settings/components/images/KeyValueItem.tsx
 #: src/features/settings/components/images/MimeTypeTextField.tsx
 #: src/features/settings/components/images/Processing.tsx
-#: src/features/settings/components/images/Processing.tsx
-#: src/features/settings/components/images/Processing.tsx
 msgid "Invalid input"
 msgstr "Érvénytelen bemenet"
 
@@ -1779,13 +2135,13 @@ msgstr "Érvénytelen json"
 msgid "Invalid repository url"
 msgstr "Érvénytelen tároló-url"
 
-#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
-msgid "Invert tap zones"
-msgstr "Koppintási területek tükrözése"
-
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
 msgstr "Tükrözés"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Invert tap zones"
+msgstr "Koppintási területek tükrözése"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "IP"
@@ -1804,12 +2160,20 @@ msgid "JWT access token expiry"
 msgstr "JWT hozzáférési token lejárata"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT audience claim"
+msgstr "JWT címzett-azonosító"
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "JWT refresh token expiry"
 msgstr "JWT frissítési token lejárata"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Keep local"
 msgstr "Maradjon helyi"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep previous and upcoming chapters visible while reading in continuous reading modes, allowing seamless scrolling between chapters."
+msgstr ""
 
 #: src/features/settings/Settings.constants.ts
 msgid "Keep remote"
@@ -1836,7 +2200,6 @@ msgstr "L-Alak"
 msgid "Language"
 msgstr "Nyelv"
 
-#: src/base/utils/Languages.ts
 #: src/base/utils/Languages.ts
 msgid "Language with code: {code}"
 msgstr "Nyelv kóddal: {code}"
@@ -1871,6 +2234,10 @@ msgstr "Legutóbb lekért fejezet"
 msgid "Latest uploaded chapter"
 msgstr "Legutóbb feltöltött fejezet"
 
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr ""
+
 #: src/features/theme/Themes.ts
 msgid "Lavender"
 msgstr "Levendula"
@@ -1880,6 +2247,7 @@ msgid "Layout"
 msgstr "Elosztás"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Left"
 msgstr "Bal"
 
@@ -1898,7 +2266,6 @@ msgstr "Korábbi biztonsági mentések nem támogatottak!"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/library/screens/Library.tsx
-#: src/features/library/screens/Library.tsx
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/Settings.tsx
@@ -1908,6 +2275,10 @@ msgstr "Könyvtár"
 #: src/features/backup/Backup.constants.ts
 msgid "Library entries"
 msgstr "Könyvtár elemei"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Licensed"
+msgstr "Hivatalos"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Light"
@@ -1989,8 +2360,23 @@ msgid "Logging in to {trackerName}…"
 msgstr "Bejelentkezés a(z) {trackerName} követőbe…"
 
 #: src/features/manga/Manga.constants.ts
+msgid "Long strip"
+msgstr "Függőleges folyamatos"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid ""
+"Manage your existing devices.\n"
+"UI specific settings that are stored on the server are per device.\n"
+"This makes it possible to have e.g. different settings on a desktop and a smartphone"
+msgstr ""
+"Kezeld meglévő eszközeid.\n"
+"A szerveren tárolt UI specifikus beállítások eszközönként mentődnek.\n"
+"Ez teszi lehetőve, hogy pl. különböző beállításaid legyenek asztali gépen és telefonon"
+
+#: src/features/manga/Manga.constants.ts
 #: src/features/manga/screens/Manga.tsx
 #: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manga"
 msgstr "Manga"
@@ -2003,6 +2389,10 @@ msgstr "Manga szélessége"
 msgid "Manga thumbnail as background"
 msgstr "Manga borítója háttérként"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Mangás"
+msgstr ""
+
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhua"
@@ -2012,6 +2402,16 @@ msgstr "Manhua"
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhwa"
 msgstr "Manhwa"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr ""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr ""
 
 #: src/features/chapter/components/ChaptersToolbarMenu.tsx
 msgid "Mark all as read"
@@ -2041,6 +2441,26 @@ msgstr "Kijelöltek olvasottnak jelölése"
 msgid "Mark selected as unread"
 msgstr "Kijelöltek olvasatlannak jelölése"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr ""
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr ""
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Maximum log file size"
+msgstr "Naplófájl maximális mérete"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Maximum size of all log files"
+msgstr "Összes naplófájl maximális mérete"
+
 #: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
 msgid "Medium"
 msgstr "Közepes"
@@ -2051,32 +2471,67 @@ msgstr "Menü"
 
 #: src/features/browse/screens/Browse.tsx
 #: src/features/manga/components/MangaToolbarMenu.tsx
-#: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-#: src/features/migration/screens/Migrate.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
 msgid "Migrate"
 msgstr "Átmozgatás"
 
-#. placeholder {0}: state?.mangaTitle
-#: src/features/global-search/screens/SearchAll.tsx
+#. placeholder {0}: manga.title
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/migration/MigrationManager.ts
 msgid "Migrate \"{0}\""
 msgstr "\"{0}\" átmozgatása"
 
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr ""
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr ""
+
+#: src/features/manga/components/cards/MangaCard.tsx
 msgid "Migrating manga…"
 msgstr "Manga átmozgatás alatt…"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr ""
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr ""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr ""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr ""
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr ""
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr ""
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "MIME-Type"
 msgstr "MIME-Típus"
 
+#: src/features/settings/components/images/Processing.tsx
+msgid "MIME-Type target"
+msgstr "MIME-Típus célpontja"
+
 #: src/features/theme/Themes.ts
 msgid "Minty Miracles"
 msgstr "Mentolos Mágia"
 
-#: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Minute"
 msgstr "Perc"
@@ -2084,6 +2539,11 @@ msgstr "Perc"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Misc"
 msgstr "Vegyes"
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr ""
 
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
 msgid "Mobile"
@@ -2102,6 +2562,11 @@ msgstr "Több"
 msgid "Mountain Sunset"
 msgstr "Hegyi Naplemente"
 
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Multi"
+msgstr ""
+
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Multiply"
 msgstr "Szorzás"
@@ -2110,6 +2575,11 @@ msgstr "Szorzás"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Name"
 msgstr "Név"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+#~ msgid "Não foi possível carregar os dados"
+#~ msgstr ""
 
 #: src/features/backup/Backup.utils.ts
 #: src/features/settings/screens/ServerSettings.tsx
@@ -2126,12 +2596,10 @@ msgstr "Következő"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 msgid "Next chapter"
 msgstr "Következő fejezet"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Next page"
 msgstr "Következő oldal"
@@ -2155,7 +2623,6 @@ msgstr "Nincsenek letöltések"
 #: src/features/global-search/screens/SearchAll.tsx
 #: src/features/manga/components/MangaGrid.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
-#: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid "No manga found"
 msgstr "Mangák nem találhatók"
@@ -2165,13 +2632,25 @@ msgstr "Mangák nem találhatók"
 msgid "No manga matches this filter"
 msgstr "Nincs szűrésnek megfelelő manga"
 
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr ""
+
 #: src/features/reader/viewer/ReaderChapterViewer.tsx
 msgid "No pages found"
 msgstr "Oldalak nem találhatók"
 
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr ""
+
 #: src/features/browse/sources/Sources.tsx
 msgid "No sources found. Install Some extensions first."
 msgstr "Nem találhatók források. Először telepíts bővítményeket."
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr ""
 
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -2194,11 +2673,23 @@ msgstr "Még nem jelent meg"
 msgid "Novel"
 msgstr "Regény"
 
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid ""
+"Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
+"Higher values may affect client performance."
+msgstr ""
+"Elemek száma odalanként az OPDS hírfolyamokon (pl. Könyvtár Előzmények, Manga Fejezetek).\n"
+"Magasabb értékek befolyásolhatják a kliens teljesítményét."
+
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Number of unread chapters to download"
 msgstr "Letöltendő olvasatlan fejezetek száma"
 
-#: src/features/extension/Extensions.constants.ts
+#: src/features/browse/extensions/components/ExtensionCard.tsx
 #: src/features/extension/Extensions.constants.ts
 msgid "Obsolete"
 msgstr "Elavult"
@@ -2206,6 +2697,11 @@ msgstr "Elavult"
 #: src/features/tracker/Tracker.constants.ts
 msgid "OEL"
 msgstr "OEL"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopOffsetDoubleSpread.tsx
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Offset double spreads"
+msgstr ""
 
 #: src/base/components/inputs/LanguageSelect.tsx
 #: src/base/components/modals/ConfirmDialog.tsx
@@ -2234,9 +2730,45 @@ msgstr "OEL"
 msgid "Ok"
 msgstr "Rendben"
 
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On chapter open"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On chapter read"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On WebUI resume"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "On WebUI start"
+msgstr ""
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Oneshot"
 msgstr "Oneshot"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Ongoing"
+msgstr "Folyamatban lévő"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Only outdated matches found"
+msgstr ""
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "Only works if the current chapter plus the next chapter are already downloaded."
+msgstr "Csak akkor működik, ha a jelenlegi és a következő fejezet is le van már töltve."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "OPDS"
+msgstr "OPDS"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "Open"
+msgstr "Megnyitás"
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
@@ -2264,7 +2796,6 @@ msgstr "WebUI megnyitása a szerver elindításakor"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
-#: src/features/manga/components/MangaOptionButton.tsx
 msgid "Options"
 msgstr "Opciók"
 
@@ -2277,14 +2808,19 @@ msgid "Original size"
 msgstr "Eredeti méret"
 
 #: src/base/utils/Languages.ts
-#: src/base/utils/Languages.ts
-#: src/features/extension/Extensions.constants.ts
 #: src/features/extension/Extensions.constants.ts
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Other"
 msgstr "Más"
 
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Overlay"
+msgstr "Átfedés"
+
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Overlay mode"
+msgstr "Átfedési módszer"
+
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Page"
 msgstr "Oldal"
@@ -2293,8 +2829,11 @@ msgstr "Oldal"
 msgid "Page gap"
 msgstr "Oldalköz"
 
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Parallel source requests"
+msgstr ""
+
 #: src/base/components/inputs/PasswordTextField.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Password"
 msgstr "Jelszó"
@@ -2302,6 +2841,10 @@ msgstr "Jelszó"
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "Paused — {count} remaining"
 msgstr "Szüneteltetve — {count} hátralévő"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr ""
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Percentage Tolerance"
@@ -2322,12 +2865,24 @@ msgid "Popular"
 msgstr "Népszerű"
 
 #: src/features/settings/screens/ServerSettings.tsx
+msgid "Port"
+msgstr "Port"
+
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "PostgreSQL"
 msgstr "PostgreSQL"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Preload images"
 msgstr "Képek elő-betöltése"
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Press keys"
+msgstr "Nyomj billentyűket"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr ""
 
 #: src/features/settings/Settings.constants.ts
 msgid "Preview"
@@ -2340,12 +2895,10 @@ msgstr "Előző"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 msgid "Previous chapter"
 msgstr "Előző fejezet"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Previous page"
 msgstr "Előző oldal"
@@ -2365,6 +2918,14 @@ msgstr "Előrehaladási sáv mérete"
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
 msgid "Progress bar style"
 msgstr "Előrehaladási sáv kinézete"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Progresso de leitura e marcações"
+msgstr ""
+
+#: src/features/settings/Settings.constants.ts
+msgid "Prompt"
+msgstr "Párbeszédpanel"
 
 #: src/features/manga/Manga.constants.ts
 msgid "Publishing finished"
@@ -2386,6 +2947,10 @@ msgstr "Várólistázott"
 #: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
 msgid "Quick settings"
 msgstr "Gyorsbeállítások"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Rastreamento"
+msgstr ""
 
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -2409,6 +2974,10 @@ msgstr "Olvasási irány"
 #: src/features/reader/settings/layout/components/ReaderSettingReadingMode.tsx
 msgid "Reading mode"
 msgstr "Olvasási mód"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Reading progress and bookmarks"
+msgstr ""
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Recently added"
@@ -2439,7 +3008,6 @@ msgstr "Újratöltés"
 msgid "Releasing"
 msgstr "Megjelenik"
 
-#: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Reload data from source"
 msgstr "Adat újratöltése forrásból"
@@ -2490,7 +3058,6 @@ msgid "Removed non library manga from categories"
 msgstr "Nem könyvtári mangák eltávolításra kerültek a kategóriákból"
 
 #: src/base/components/buttons/ResetButton.tsx
-#: src/base/components/buttons/ResetButton.tsx
 #: src/base/components/settings/CheckboxListSetting.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -2503,11 +3070,14 @@ msgstr "Visszaállítás"
 msgid "Reset to Default"
 msgstr "Visszaállítás Alapértelmezettre"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Response fallback"
+msgstr "Válasz fallback"
+
 #: src/features/backup/component/BackupValidationDialog.tsx
 msgid "Restore"
 msgstr "Helyreállítás"
 
-#: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Restore Backup"
 msgstr "Biztonsági Mentés Helyreállítása"
@@ -2524,6 +3094,7 @@ msgstr "Folytatás"
 #: src/base/components/SpinnerImage.tsx
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Retry"
 msgstr "Újrapróbálás"
 
@@ -2532,6 +3103,7 @@ msgid "Retry errored pages"
 msgstr "Hibás oldalak újrapróbálása"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Right"
 msgstr "Jobb"
 
@@ -2550,7 +3122,6 @@ msgstr "Rozéarany"
 
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
-#: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Save"
 msgstr "Mentés"
 
@@ -2562,7 +3133,6 @@ msgstr "Mentés CBZ archívumként"
 msgid "Save current search"
 msgstr "Jelenlegi keresés mentése"
 
-#: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Save dynamic color theme"
@@ -2611,12 +3181,22 @@ msgid "Scroll forward"
 msgstr "Görgetés előre"
 
 #: src/base/components/AppbarSearch.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Search"
 msgstr "Keresés"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr ""
 
 #: src/features/library/screens/Library.tsx
 msgid "Search for \"{query}\" globally"
 msgstr "Keress erre globálisan: \"{query}\""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr ""
 
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid ""
@@ -2625,6 +3205,10 @@ msgid ""
 msgstr ""
 "Keress ID alapján \"id:<ID>\" (pl. \"id:13\")\n"
 "Keress a listáidban \"my:<Title>\" (pl. \"my:One Piece\")"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search options"
+msgstr ""
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "Search parameters"
@@ -2635,11 +3219,18 @@ msgstr "Keresési paraméterek"
 msgid "Search parameters ({0})"
 msgstr "Keresési paraméterek ({0})"
 
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr ""
+
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Search results will include manga that do not match the current filters"
 msgstr "A találatok tartalmazni fognak a szűrőknek nem megfelelő mangákat is"
 
-#: src/features/settings/components/images/Processing.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr ""
+
 #: src/features/settings/components/images/Processing.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Second"
@@ -2653,10 +3244,15 @@ msgstr "Másodiktól az utoljára olvasott fejezetig"
 msgid "See <0>FlareSolverr</0> for information on how to set it up"
 msgstr "Beállításhoz lásd: <0>FlareSolverr</0>"
 
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
+msgstr ""
+
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/manga/components/MangaActionMenuItems.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
+#: src/features/migration/components/migration-entry/MigrationMatchedEntry.tsx
 msgid "Select"
 msgstr "Kiválasztás"
 
@@ -2670,11 +3266,30 @@ msgstr "Válassz egy eszközt, hogy a szervertárolt UI beállításait használ
 msgid "Select all"
 msgstr "Összes kiválasztása"
 
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr ""
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr ""
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr ""
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Selected"
+msgstr ""
+
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Szépia"
 
-#: src/features/settings/screens/About.tsx
+#: src/features/reader/settings/layout/ReaderLayoutSettings.tsx
+msgid "Series settings"
+msgstr "Sorozatok beállításai"
+
 #: src/features/settings/screens/About.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -2683,8 +3298,13 @@ msgstr "Szerver"
 
 #: src/base/components/modals/LoginDialog.tsx
 #: src/features/settings/components/ServerAddressSetting.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 msgid "Server address"
 msgstr "Szerver címe"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Server bindings"
+msgstr ""
 
 #: src/features/backup/Backup.constants.ts
 msgid "Server settings"
@@ -2748,9 +3368,18 @@ msgstr "Összes könyvtári duplikátum megjelenítése"
 msgid "Show continue reading button"
 msgstr "Olvasás folytatása gomb megjelenítése"
 
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Show entry"
+msgstr "Elem megjelenítése"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show icon in system tray"
 msgstr "Ikon megjelenítése a tálcán"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr ""
 
 #: src/base/components/feedback/EmptyView.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -2760,6 +3389,7 @@ msgstr "Kevesebb megjelenítése"
 #: src/base/components/feedback/EmptyView.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/features/global-search/screens/SearchAll.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Több megjelenítése"
@@ -2771,11 +3401,6 @@ msgstr "Elemek számának megjelenítése"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show only downloaded chapters"
 msgstr "Csak a letöltött fejezetek megjelenítése"
-
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
-msgid "Show entry"
-msgstr "Elem megjelenítése"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show only unread chapters"
@@ -2806,9 +3431,37 @@ msgstr "Átvezető oldal megjelenítése"
 msgid "Shows a dialog in case a new version is available"
 msgstr "Megjelenít egy panelt, amennyiben egy új verzió elérhető"
 
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr ""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr ""
+
 #: src/features/settings/Settings.constants.ts
 msgid "Simple Login"
 msgstr "Egyszerű Bejelentkezés"
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronização iniciada com sucesso"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronização já está em andamento"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronizar agora"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "Sincronize sua biblioteca com outros dispositivos via SyncYomi"
+msgstr ""
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Single page"
+msgstr "Egyoldalas"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Skip duplicate chapters"
@@ -2818,7 +3471,6 @@ msgstr "Duplikált fejezetek kihagyása"
 msgid "Skip filtered chapters"
 msgstr "Szűrt fejezetek kihagyása"
 
-#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 msgid "Skip updating entries"
 msgstr "Frissülő elemek kihagyása"
@@ -2883,9 +3535,17 @@ msgstr "Forrás"
 msgid "Source Configuration"
 msgstr "Forrás Konfigurációja"
 
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry - {sourceTitle}"
+msgstr ""
+
 #: src/features/chapter/components/ChapterOptions.tsx
 msgid "Source title"
 msgstr "Forrás címe"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr ""
 
 #: src/features/settings/Settings.constants.ts
 msgid "Stable"
@@ -2900,9 +3560,17 @@ msgstr "Standard"
 msgid "Start"
 msgstr "Indítás"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Start a manual sync with the server"
+msgstr ""
+
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Start date"
 msgstr "Kezdés ideje"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr ""
 
 #: src/features/manga/components/ContinueReadingTooltip.tsx
 msgid ""
@@ -2913,6 +3581,10 @@ msgstr ""
 "Olvasás elkezdése\n"
 "#{chapterNumber} — {name}\n"
 "{scanlator}"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr ""
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -2952,9 +3624,25 @@ msgstr "Beküldés"
 msgid "Success"
 msgstr "Siker"
 
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr ""
+
 #: src/features/manga/Manga.constants.ts
 msgid "Successfully migrated manga"
 msgstr "Sikeresen átmozgatásra került a manga"
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync is already in progress"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync now"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync started successfully"
+msgstr ""
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Sync status"
@@ -2968,11 +3656,40 @@ msgstr "Egy új állapothoz szinkronizálás"
 msgid "Sync to an older state"
 msgstr "Egy régebbi állapothoz szinkronizálás"
 
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Sync triggers"
+msgstr ""
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Sync will not be triggered if the progress difference is within this tolerance."
+msgstr "A szinkronizáció nem fog végrehajtódni, ha az előrehaladásbeli különbség a tűréshatáron belül van."
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Sync your library with other devices via SyncYomi"
 msgstr ""
-"A szinkronizáció nem fog végrehajtódni, ha az előrehaladásbeli különbség a "
-"tűréshatáron belül van."
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "Synced data"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "SyncYomi"
+msgstr ""
+
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "SyncYomi está desativado"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "SyncYomi is disabled"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiSettings.tsx
+msgid "SyncYomi server URL (e.g., https://sync.example.com)"
+msgstr ""
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "System"
@@ -2986,6 +3703,10 @@ msgstr "Fülek"
 msgid "Tap zones"
 msgstr "Koppintási zónák"
 
+#: src/features/settings/components/images/Processing.tsx
+msgid "Target mode"
+msgstr "Célmód"
+
 #: src/features/settings/Settings.constants.ts
 msgid "That haven't been started"
 msgstr "Az még nem lett elindítva"
@@ -2996,9 +3717,7 @@ msgstr "A FlareSolverr szerver címe"
 
 #: src/features/settings/screens/ImagesSettings.tsx
 msgid "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used"
-msgstr ""
-"A kliens cache (browser, electron) törlésre kéne kerüljön vele együtt, "
-"máskülönben a kliens cache lesz használatban"
+msgstr "A kliens cache (browser, electron) törlésre kéne kerüljön vele együtt, máskülönben a kliens cache lesz használatban"
 
 #: src/features/library/screens/Library.tsx
 msgid "The category is empty"
@@ -3020,6 +3739,13 @@ msgstr "A bejelentkezés a kliens által lesz kezelve."
 msgid "The login will be handled by the server."
 msgstr "A bejelentkezés a szerver által lesz kezelve."
 
+#: src/features/migration/MigrationManager.ts
+msgid ""
+"The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+
 #: src/features/reader/services/ReaderControls.ts
 msgid ""
 "The next chapter has a different scanlator then the current one.\n"
@@ -3029,6 +3755,22 @@ msgstr ""
 "A következő fejezetet másik fordítócsoport fordította.\n"
 "Jelenlegi: {currentScanlator}\n"
 "Következő: {nextScanlator}"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "The path to the directory on the server where automated backups should get saved in"
+msgstr "Arra a szerveren lévő könyvtárra mutató útvonal, ahol az automatikus biztonsági mentések tárolódnak"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "The path to the directory on the server where downloaded files should get saved in"
+msgstr "Arra a szerveren lévő könyvtárra mutató útvonal, ahol a letöltött fájlok tárolódnak"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "The path to the directory on the server where local source files are saved in"
+msgstr "Arra a szerveren lévő könyvtárra mutató útvonal, ahol a helyi forrásfájlok tárolódnak"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "The path to the electron installation on the server"
+msgstr "A szerveren lévő electron telepítésre mutató útvonal"
 
 #: src/features/reader/services/ReaderControls.ts
 msgid ""
@@ -3042,8 +3784,7 @@ msgstr ""
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
-msgstr ""
-"A téma nevének egyedinek és legfeljebb 16 karakter hosszúnak kell lennie"
+msgstr "A téma nevének egyedinek és legfeljebb 16 karakter hosszúnak kell lennie"
 
 #: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 #: src/features/settings/screens/Appearance.tsx
@@ -3063,14 +3804,21 @@ msgstr "Nincs következő fejezet"
 msgid "There is no previous chapter"
 msgstr "Nincs előző fejezet"
 
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "These options are slow and dangerous and may lead to restrictions from sources"
+msgstr ""
+
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Third to last read chapter"
 msgstr "Harmadiktól az utoljára olvasott fejezetig"
 
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr ""
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "This icon will be shown on the system that is running the server"
-msgstr ""
-"Ez az ikon azon a rendszeren fog megjelenni, amelyik futtatja a szervert"
+msgstr "Ez az ikon azon a rendszeren fog megjelenni, amelyik futtatja a szervert"
 
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "This is the latest version"
@@ -3105,18 +3853,29 @@ msgid "Toggle menu"
 msgstr "Menü be/kikapcsolása"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Toggle offset double spreads"
+msgstr "Oldalpárok eltolásának ki/bekapcsolása"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Toggle stretch image"
 msgstr "Kép nyújtásának be/kikapcsolása"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Top"
+msgstr ""
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Total chapters"
 msgstr "Összes fejezet"
 
 #: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid "Track"
 msgstr "Figyelés"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Track and update your reading progress by page for each chapter during page streaming"
+msgstr ""
 
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/components/TrackerSearch.tsx
@@ -3142,8 +3901,9 @@ msgstr "Követők"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrationSingleMangaDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
 msgstr "Figyelések"
@@ -3151,6 +3911,22 @@ msgstr "Figyelések"
 #: src/features/theme/Themes.ts
 msgid "Tree Frog Green"
 msgstr "Levelibéka Zöld"
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when a chapter is marked as read"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when reading progress is updated"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when the browser tab regains focus"
+msgstr ""
+
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
+msgid "Triggers sync when the WebUI is loaded in the browser"
+msgstr ""
 
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
@@ -3177,9 +3953,8 @@ msgstr "UI Bejelentkezés"
 #: src/features/library/screens/LibraryDuplicates.tsx
 #: src/features/library/screens/LibrarySettings.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/screens/Migrate.tsx
-#: src/features/migration/screens/Migration.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
 #: src/features/reader/screens/Reader.tsx
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/reader/viewer/ReaderChapterViewer.tsx
@@ -3187,6 +3962,8 @@ msgstr "UI Bejelentkezés"
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/SyncYomiSettings.tsx
+#: src/features/settings/screens/SyncYomiTriggerSettings.tsx
 #: src/features/settings/screens/WebUISettings.tsx
 #: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/source/configuration/screens/SourceConfigure.tsx
@@ -3199,6 +3976,15 @@ msgstr "UI Bejelentkezés"
 msgid "Unable to load data"
 msgstr "Adatok betöltése nem lehetséges"
 
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr ""
+
+#: src/features/migration/MigrationManager.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr ""
+
 #: src/features/extension/Extensions.constants.ts
 msgid "Uninstall"
 msgstr "Eltávolítás"
@@ -3209,6 +3995,7 @@ msgstr "Eltávolítás alatt"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/Manga.constants.ts
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Unknown"
@@ -3296,14 +4083,17 @@ msgstr "Frissítés alatt"
 msgid "URL"
 msgstr "URL"
 
+#: src/features/settings/components/syncYomi/SyncYomiSettings.tsx
+msgid "URL do servidor SyncYomi (ex.: https://sync.example.com)"
+msgstr ""
+
 #: src/features/settings/Settings.constants.ts
 msgid ""
 "Use a custom WebUI.\n"
 "To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
 msgstr ""
 "Használj saját WebUI-t.\n"
-"Ahhoz, hogy saját WebUI-t használj, cseréld ki a szerver gyökérkönyvtárban "
-"található \"webUI\" könyvtár tartalmát a saját WebUI fájlokra"
+"Ahhoz, hogy saját WebUI-t használj, cseréld ki a szerver gyökérkönyvtárban található \"webUI\" könyvtár tartalmát a saját WebUI fájlokra"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Use SOCKS proxy"
@@ -3313,19 +4103,24 @@ msgstr "SOCKS proxy használata"
 msgid "Use the default WebUI"
 msgstr "Alapértelmezett WebUI használata"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Use the FlareSolverr response in case the server runs into a Cloudflare challenge while FlareSolverr does not and is therefore unable to solve the challenge (does not work for images)"
+msgstr ""
+
 #: src/features/settings/Settings.constants.ts
 msgid "Use the latest features and help us get them ready for a stable release."
-msgstr ""
-"Használd a legfrissebb funkciókat, és segíts előkészíteni őket a stabil "
-"verzióra."
+msgstr "Használd a legfrissebb funkciókat, és segíts előkészíteni őket a stabil verzióra."
 
 #: src/features/settings/Settings.constants.ts
 msgid "Use the latest released version."
 msgstr "Legfrissebb verzió használata."
 
+#: src/features/settings/Settings.constants.ts
+msgid "Use the version that was delivered with the server release"
+msgstr ""
+
 #: src/base/components/modals/LoginDialog.tsx
 #: src/features/authentication/screens/LoginPage.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Username"
 msgstr "Felhasználónév"
@@ -3374,6 +4169,10 @@ msgstr "WebUI"
 msgid "WebUI channel"
 msgstr "WebUI csatorna"
 
+#: src/features/migration/MigrationManager.ts
+msgid "WebUI must be kept open. Migration can't be resumed"
+msgstr ""
+
 #: src/features/settings/screens/About.tsx
 msgid "WebUI version"
 msgstr "WebUI verzió"
@@ -3391,9 +4190,11 @@ msgstr "WebUI frissítve lett a(z) {newVersion} ({0}) verzióra"
 
 #: src/features/settings/Settings.constants.ts
 msgid "When you enable this, you may need to refresh this tab for the login page to appear."
+msgstr "Amikor engedélyezed ezt, lehet, hogy frissítened kell az oldalt a bejelentkezési oldal megjelenéséhez."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Where to start the WebUI when starting the server"
 msgstr ""
-"Amikor engedélyezed ezt, lehet, hogy frissítened kell az oldalt a "
-"bejelentkezési oldal megjelenéséhez."
 
 #: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 msgid "White"
@@ -3446,319 +4247,16 @@ msgstr "Még nem olvastál egyetlen sorozatot sem."
 
 #: src/features/browse/extensions/Extensions.tsx
 msgid "You have to add a extension repository to be able to install extensions"
-msgstr ""
-"Hozzá kell adnod egy bővítménytárolót, hogy tudj bővítményeket telepíteni"
+msgstr "Hozzá kell adnod egy bővítménytárolót, hogy tudj bővítményeket telepíteni"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "A böngésző kérni fogja a bejelentkezési adataid egy panelben."
 
 #: src/features/library/screens/Library.tsx
-#: src/features/library/screens/Library.tsx
 msgid "Your library is empty"
 msgstr "Üres a könyvtárad"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your library will be accessible. Use this only on private networks or when otherwise securing access."
-msgstr ""
-"A könyvtárad elérhető lesz. Ezt csak privát hálózatokon használd, vagy "
-"védett hozzáférés mellett."
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr ""
-"<0>Suwayomi nem nyújt semmilyen támogatást külső tárolóknak vagy "
-"bővítményeknek!</0><1/>Használd elővigyázatossággal, mivel akár ártalmas "
-"személyek is készíthetik őket.<2/>Neked, mint felhasználónak kell "
-"megbizonyosodnod a tárolók vagy a bővítmények megbízhatóságáról."
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Changes the theme colors on the manga page based on the thumbnail"
-msgstr "A borító szerint megváltoztatja a téma színeit a manga oldalán"
-
-#: src/features/source/browse/screens/SourceMangas.tsx
-msgid "Check out"
-msgstr "Megtekintés"
-
-#: src/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx
-msgid "Click key to remove binding"
-msgstr "Kattints a hozzárendelés feloldásához"
-
-#: src/base/components/GridLayouts.tsx
-#: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "Comfortable grid"
-msgstr "Tágas elrendezés"
-
-#: src/base/components/GridLayouts.tsx
-#: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "Compact grid"
-msgstr "Kompakt elrendezés"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
-"Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
-msgstr ""
-"A MimeTípust vezérli, amit Suwayomi küld OPDS bejegyzésekként CBZ "
-"archívumoknak. Egyben a globális CBZ letöltést is befolyásolja.\n"
-"A modern verzió az újabb IANA standardot (2017) követi, míg a LEGACY "
-"(elavult mimetípus .cbz-hez) és a COMPATIBLE (elavult mimetípusok az összes "
-"képregény archívumhoz) jobban működhet régebbi kliensekkel."
-
-#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Cycle image scale type"
-msgstr "Képméretezés típusának ciklizálása"
-
-#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Cycle reading direction"
-msgstr "Olvasás irányának ciklizálása"
-
-#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Cycle reading mode"
-msgstr "Olvasás módjának ciklizálása"
-
-#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
-msgid "Disconnect from KOReader Sync server"
-msgstr "Lecsatlakozás a KOReader Sync szerverről"
-
-#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
-msgid "Document matching method"
-msgstr "Dokumentumegyeztetési módszer"
-
-#: src/features/downloads/screens/DownloadSettings.tsx
-msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
-msgstr ""
-"Kizárt kategóriákban lévő címek akkor sem töltődnek le, ha engedélyezett "
-"kategóriák között is szerepelnek"
-
-#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
-msgid "Entries in excluded categories will not be updated even if they are also in included categories"
-msgstr ""
-"Kizárt kategóriákban lévő címek akkor sem frissülnek, ha engedélyezett "
-"kategóriák között is szerepelnek"
-
-#: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
-msgid "Exclude scanlators"
-msgstr "Fordító csoportok kizárása"
-
-#: src/features/settings/Settings.constants.ts
-msgid ""
-"Features and changes in this version might not be completely ready yet and can cause bugs.\n"
-"Make sure that you have automatic backups enabled to prevent loss of your library!\n"
-"\n"
-"After changing this setting go to the \"About\" page and check for a webUI update and install it"
-msgstr ""
-"Ezen a verzión a funkciók és változtatások még lehet nincsenek teljesen "
-"készen, és kisebb hibákat okozhatnak.\n"
-"Menj biztosra, hogy az automatikus biztonsági mentések engedélyezve vannak a "
-"könyvtárad védelme érdekében.\n"
-"\n"
-"A beállítás módosítása után a \"Névjegy\" oldalon ellenőrizd, hogy elérhető-"
-"e webUI frissítés, majd telepítsd"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Filter manga feed to display only chapters you have downloaded."
-msgstr ""
-"Manga hírfolyam szűrése, hogy csak a letöltött fejezetek jelenjenek meg."
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Filter manga feed to display only chapters you haven’t read yet."
-msgstr ""
-"Manga hírfolyam szűrése, hogy csak az olvasatlan fejezetek jelenjenek meg."
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes"
-msgstr ""
-"FlareSolverr automatikusan forgatja a lejárt munkameneteket a TTL-en "
-"megadott percek szerint"
-
-#: src/features/settings/screens/WebUISettings.tsx
-msgid "Flavor"
-msgstr "Flavor"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Hikari connection pool"
-msgstr "Hikari connection pool"
-
-#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
-msgid "Ignore"
-msgstr "Mellőzés"
-
-#: src/features/downloads/screens/DownloadSettings.tsx
-msgid "Ignore automatic chapter downloads for entries with unread chapters"
-msgstr ""
-"Olvasatlan fejezetekkel rendelkező címek automatikus fejezetletöltésének "
-"mellőzése"
-
-#: src/features/library/screens/LibrarySettings.tsx
-msgid "Ignore filters when searching"
-msgstr "Szűrők mellőzése keresésnél"
-
-#: src/features/downloads/screens/DownloadSettings.tsx
-msgid "Ignore re-uploaded chapters"
-msgstr "Újból feltöltött fejezetek mellőzése"
-
-#: src/features/settings/screens/ImagesSettings.tsx
-#: src/features/settings/Settings.constants.ts
-msgid "Image serve processing"
-msgstr "Képkiszolgálás feldolgozása"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Improves performance, but may cause issues for some installations where data cannot be read from the database"
-msgstr ""
-"Növeli a teljesítményt, de gondokat okozhat olyan telepítéseknél, ahol az "
-"adat nem olvasható az adatbázisból"
-
-#: src/features/settings/screens/ImageProcessingSetting.tsx
-msgid ""
-"In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
-"Set the target mode to disabled to prevent processing for a MIME-Type"
-msgstr ""
-"Amennyiben nincs MIME-Típus megadva, az \"alapértelmezett\" lesz használva a "
-"feldolgozáshoz.\n"
-"Tiltsd le a célmódot a MIME-Típus feldolgozásának elkerülése érdekében"
-
-#: src/features/backup/screens/Backup.tsx
-#: src/features/category/components/CategoriesInclusionSetting.tsx
-msgid "Include: {includedCategoriesText}"
-msgstr "Tartalmaz: {includedCategoriesText}"
-
-#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
-msgid "Inform about changing scanlator on chapter transition"
-msgstr "Tájékoztasson változó fordító csoportról fejezetátfedésnél"
-
-#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
-msgid "Inform about missing chapters on chapter transition"
-msgstr "Tájékoztasson hiányzó fejezetekről fejezetátfedésnél"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "JWT audience claim"
-msgstr "JWT címzett-azonosító"
-
-#: src/features/settings/components/images/Processing.tsx
-msgid "Call timeout"
-msgstr "Kérés időtúllépése"
-
-#: src/features/manga/Manga.constants.ts
-msgid "Licensed"
-msgstr "Hivatalos"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "Függőleges folyamatos"
-
-#: src/features/device/screens/DeviceSetting.tsx
-msgid ""
-"Manage your existing devices.\n"
-"UI specific settings that are stored on the server are per device.\n"
-"This makes it possible to have e.g. different settings on a desktop and a smartphone"
-msgstr ""
-"Kezeld meglévő eszközeid.\n"
-"A szerveren tárolt UI specifikus beállítások eszközönként mentődnek.\n"
-"Ez teszi lehetőve, hogy pl. különböző beállításaid legyenek asztali gépen és "
-"telefonon"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Maximum log file size"
-msgstr "Naplófájl maximális mérete"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Maximum size of all log files"
-msgstr "Összes naplófájl maximális mérete"
-
-#: src/features/settings/components/images/Processing.tsx
-msgid "MIME-Type target"
-msgstr "MIME-Típus célpontja"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid ""
-"Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
-"Higher values may affect client performance."
-msgstr ""
-"Elemek száma odalanként az OPDS hírfolyamokon (pl. Könyvtár Előzmények, "
-"Manga Fejezetek).\n"
-"Magasabb értékek befolyásolhatják a kliens teljesítményét."
-
-#: src/features/manga/Manga.constants.ts
-msgid "Ongoing"
-msgstr "Folyamatban lévő"
-
-#: src/features/downloads/components/DownloadAheadSetting.tsx
-msgid "Only works if the current chapter plus the next chapter are already downloaded."
-msgstr ""
-"Csak akkor működik, ha a jelenlegi és a következő fejezet is le van már "
-"töltve."
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "OPDS"
-msgstr "OPDS"
-
-#: src/features/reader/services/ReaderControls.ts
-msgid "Open"
-msgstr "Megnyitás"
-
-#: src/features/reader/settings/ReaderSettings.constants.tsx
-msgid "Overlay"
-msgstr "Átfedés"
-
-#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
-msgid "Overlay mode"
-msgstr "Átfedési módszer"
-
-#: src/features/settings/screens/ServerSettings.tsx
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Port"
-msgstr "Port"
-
-#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
-msgid "Press keys"
-msgstr "Nyomj billentyűket"
-
-#: src/features/settings/Settings.constants.ts
-msgid "Prompt"
-msgstr "Párbeszédpanel"
-
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Response fallback"
-msgstr "Válasz fallback"
-
-#: src/features/reader/settings/layout/ReaderLayoutSettings.tsx
-msgid "Series settings"
-msgstr "Sorozatok beállításai"
-
-#: src/features/reader/settings/ReaderSettings.constants.tsx
-msgid "Single page"
-msgstr "Egyoldalas"
-
-#: src/features/settings/components/images/Processing.tsx
-#: src/features/settings/components/images/Processing.tsx
-msgid "Target mode"
-msgstr "Célmód"
-
-#: src/features/backup/screens/Backup.tsx
-msgid "The path to the directory on the server where automated backups should get saved in"
-msgstr ""
-"Arra a szerveren lévő könyvtárra mutató útvonal, ahol az automatikus "
-"biztonsági mentések tárolódnak"
-
-#: src/features/downloads/screens/DownloadSettings.tsx
-msgid "The path to the directory on the server where downloaded files should get saved in"
-msgstr ""
-"Arra a szerveren lévő könyvtárra mutató útvonal, ahol a letöltött fájlok "
-"tárolódnak"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "The path to the directory on the server where local source files are saved in"
-msgstr ""
-"Arra a szerveren lévő könyvtárra mutató útvonal, ahol a helyi forrásfájlok "
-"tárolódnak"
-
-#: src/features/settings/screens/WebUISettings.tsx
-msgid "The path to the electron installation on the server"
-msgstr "A szerveren lévő electron telepítésre mutató útvonal"
-
-#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
-msgid "Toggle offset double spreads"
-msgstr "Oldalpárok eltolásának ki/bekapcsolása"
+msgstr "A könyvtárad elérhető lesz. Ezt csak privát hálózatokon használd, vagy védett hozzáférés mellett."
