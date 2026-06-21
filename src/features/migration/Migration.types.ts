@@ -7,9 +7,11 @@
  */
 
 import type {
+    ChapterListFieldsFragment,
     GetMangaToMigrateQuery,
     GetMangaToMigrateToFetchMutation,
     GetMigratableSourcesQuery,
+    MangaMigrationFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import type {
     SourceDisplayNameInfo,
@@ -176,3 +178,8 @@ export type MigrationChapter = ChapterIdInfo &
 export type MigrateAction = { copy: () => Promise<unknown>[]; cleanup: () => Promise<unknown>[] };
 
 export type MigrateActionCreator = () => MigrateAction;
+
+export type EntrySourceSearchResult = {
+    manga: MangaMigrationFieldsFragment;
+    chapters: ChapterListFieldsFragment[] | null;
+};
