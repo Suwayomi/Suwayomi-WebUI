@@ -696,6 +696,7 @@ export class MigrationManager {
                 const isSearching = MigrationEntries.isSearching(entry);
 
                 entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
+                entry.error = undefined;
                 entry.isManualSelection = true;
                 entry.selectedMatchMangaId = match.id;
                 entry.selectedMatchSourceId = match.sourceId;
