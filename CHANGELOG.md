@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Show the exclude/include button only for an entry with a selected match
 - (**Migration**) Allow resuming a migration only in a secure context (localhost or https)
 - (**Migration**) Show dialog on manual search selection to optionally open the search result entry instead of selecting it
+- (**Migration**) Show "manual search matches" under "other matches"
 - (**Source/Extension**) Rename language "All" to "Multi"
 - (**Reader**) Simplify changing settings in desktop sidebar
 - (**Reader**) Ignore tap zone clicks while window does not have focus

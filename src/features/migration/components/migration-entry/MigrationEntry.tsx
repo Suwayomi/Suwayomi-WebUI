@@ -223,7 +223,7 @@ export const MigrationEntry = memo(
         }, [entry.searchMatches, entry.selectedMatchMangaId]);
         const otherMatches = useMemo(
             () =>
-                entry.searchMatches
+                [...entry.searchMatches, ...entry.manualMatches]
                     .filter((searchMatch) => searchMatch.id !== entry.selectedMatchMangaId)
                     .sort((a, b) => {
                         const sortByLatestChapter = (b.latestChapterNumber ?? 0) - (a.latestChapterNumber ?? 0);
