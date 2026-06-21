@@ -421,9 +421,7 @@ export class MigrationManager {
 
         const searchPromises = entries.map((entry) =>
             MigrationManager.mangaProcessQueue(async () => {
-                if (signal.aborted) {
-                    throw new Error(signal.reason);
-                }
+                signal.throwIfAborted();
 
                 await MigrationManager.searchForManga(entry.mangaId, entry.mangaTitle, signal, options);
             }),
@@ -484,9 +482,7 @@ export class MigrationManager {
         const migrationPromises = Object.values(entriesBySource).map((sourceEntries = []) =>
             MigrationManager.mangaProcessQueue(async () => {
                 for (const entry of sourceEntries) {
-                    if (signal.aborted) {
-                        throw new Error(signal.reason);
-                    }
+                    signal.throwIfAborted();
 
                     // oxlint-disable-next-line no-await-in-loop
                     await MigrationManager.migrateSingleEntry(entry.mangaId, options, signal);
@@ -797,9 +793,7 @@ export class MigrationManager {
         signal: AbortSignal,
         { selectHighestChapterNumberSource, performAdvancedSearch }: MigrationBulkSearchSettings,
     ): Promise<EntrySourceSearchResult[]> {
-        if (signal.aborted) {
-            throw new Error(signal.reason);
-        }
+        signal.throwIfAborted();
 
         if (!selectHighestChapterNumberSource && MigrationManager.hasHigherSourcePriorityMatch(mangaId, sourceId)) {
             throw new Error('Entry already has a selected match from a higher priority source');
@@ -855,9 +849,7 @@ export class MigrationManager {
         );
 
         const matchUpdatePromises = matches.map(async (match) => {
-            if (signal.aborted) {
-                throw new Error(signal.reason);
-            }
+            signal.throwIfAborted();
 
             return (async () => {
                 try {
@@ -1147,17 +1139,13 @@ export class MigrationManager {
         });
 
         try {
-            if (signal.aborted) {
-                throw new Error(signal.reason);
-            }
+            signal.throwIfAborted();
 
             await MigrationManager.getParallelSourceQueue()(() => {
                 assertIsDefined(entry.selectedMatchSourceId);
 
                 return MigrationManager.getOrCreateSourceQueue(entry.selectedMatchSourceId)(async () => {
-                    if (signal.aborted) {
-                        throw new Error(signal.reason);
-                    }
+                    signal.throwIfAborted();
 
                     assertIsDefined(entry.selectedMatchMangaId);
 
