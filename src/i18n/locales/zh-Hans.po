@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-06-04 09:48+0000\n"
-"Last-Translator: ZerOriSama <godarms2010@live.com>\n"
+"PO-Revision-Date: 2026-06-21 16:43+0000\n"
+"Last-Translator: 清水汐音 <chenzhongjie19940725@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
 "Language: zh-Hans\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -45,7 +45,10 @@ msgstr "*: 应用设置"
 
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi不提供任何对第三方存储库或扩展的支持！</0><1/>请谨慎使用，因为这些存储库中可能有恶意行为。<2/>作为用户，您需要验证安全性以及是否信任任何存储库或扩展。"
+msgstr ""
+"<0>Suwayomi不提供任何对第三方存储库或扩展的支持！</0><1/>请谨慎使用，因为这些"
+"存储库中可能有恶意行为。<2/>作为用户，你需要验证安全性以及是否信任任何存储库"
+"或扩展。"
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -640,7 +643,7 @@ msgstr "无法创建主题"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Could not find source. Check your installed extensions."
-msgstr "找不到图源，请检查您已安装的插件。"
+msgstr "找不到图源，请检查你已安装的插件。"
 
 #: src/features/category/screens/CategorySettings.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
@@ -1194,7 +1197,7 @@ msgid ""
 "After changing this setting go to the \"About\" page and check for a webUI update and install it"
 msgstr ""
 "这个版本中的功能和变更可能尚未完全准备好，可能会导致错误。\n"
-"确保已启用自动备份，以防止您的书架丢失！\n"
+"确保已启用自动备份，以防止你的书架丢失！\n"
 "\n"
 "在更改设置后，前往“关于”页面，查找并安装webUI的更新"
 
@@ -2438,9 +2441,9 @@ msgstr "请见 <0>FlareSolverr</0> 以了解如何设定的信息"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
 msgstr ""
-"查看官方 <0>MUI 文档</0>，了解如何自定义主题。调色板 API 不再受到支持，您需要"
-"使用新的 <1>色彩方案 API</1>。您可以使用主题创建器，例如 <2>MUI 主题创建器</"
-"2>，但是，您需要根据新的色彩方案 API 调整创建的对象。如果没有定义背景颜色，系"
+"查看官方 <0>MUI 文档</0>，了解如何自定义主题。调色板 API 不再受到支持，你需要"
+"使用新的 <1>色彩方案 API</1>。你可以使用主题创建器，例如 <2>MUI 主题创建器</"
+"2>，但是，你需要根据新的色彩方案 API 调整创建的对象。如果没有定义背景颜色，系"
 "统将根据主色自动计算背景颜色。"
 
 #: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
@@ -2534,7 +2537,7 @@ msgstr "显示继续阅读按钮"
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
-msgstr "显示条目"
+msgstr "显示作品"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show icon in system tray"
@@ -3175,7 +3178,7 @@ msgstr "Web面板 版本"
 
 #: src/features/settings/Settings.constants.ts
 msgid "When you enable this, you may need to refresh this tab for the login page to appear."
-msgstr "启用此功能后，您可能需要刷新此标签页才能显示登录页面。"
+msgstr "启用此功能后，你可能需要刷新此标签页才能显示登录页面。"
 
 #: src/features/settings/Settings.constants.ts
 #: src/features/settings/Settings.constants.ts
@@ -3208,11 +3211,11 @@ msgstr "阴阳"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "You can also drag and drop the backup file here to restore it"
-msgstr "您可以将备份文件拖放到此处进行还原"
+msgstr "你可以将备份文件拖放到此处进行还原"
 
 #: src/features/category/components/CategorySelect.tsx
 msgid "You don't have any categories yet."
-msgstr "您目前没有任何分类。"
+msgstr "你目前没有任何分类。"
 
 #: src/features/updates/screens/Updates.tsx
 msgid "You don't have any updates yet."
@@ -3220,7 +3223,7 @@ msgstr "最近没有更新。"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "You have an entry in your library with the same name."
-msgstr "您的书架中存在一个名称相同的项目。"
+msgstr "你的书架中存在一个名称相同的作品。"
 
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
@@ -3228,7 +3231,7 @@ msgstr "最近没有阅读。"
 
 #: src/features/browse/extensions/Extensions.tsx
 msgid "You have to add a extension repository to be able to install extensions"
-msgstr "您必须添加扩展库才能安装扩展程序"
+msgstr "你必须添加扩展库才能安装扩展程序"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
@@ -3493,42 +3496,42 @@ msgstr ""
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
 msgstr ""
-"{count, plural, one {您即将更改 1 部漫画的分类} other {您即将更改 # 部漫画的"
+"{count, plural, one {你即将更改 1 部作品的分类} other {你即将更改 # 部作品的"
 "分类}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
-msgstr "{count, plural, one {您即将删除 1 个下载} other {您即将删除 # 个下载}}"
+msgstr "{count, plural, one {你即将删除 1 个下载} other {你即将删除 # 个下载}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid ""
 "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
 "Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 msgstr ""
-"{count, plural, one {您即将下载 1 章} other {您即将下载 # 章。\n"
+"{count, plural, one {你即将下载 1 章} other {你即将下载 # 章。\n"
 "Suwayomi 不是批量下载工具，过多下载可能导致源站封禁或影响性能。}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
 msgstr ""
-"{count, plural, one {您即将把 1 章标记为已读} other {您即将把 # 章标记为已"
+"{count, plural, one {你即将把 1 章标记为已读} other {你即将把 # 章标记为已"
 "读}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
 msgstr ""
-"{count, plural, one {您即将将 1 章标记为未读} other {您即将将 # 章标记为未"
+"{count, plural, one {你即将将 1 章标记为未读} other {你即将将 # 章标记为未"
 "读}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
-msgstr "{count, plural, one {您即将移除 1 个书签} other {您即将移除 # 个书签}}"
+msgstr "{count, plural, one {你即将移除 1 个书签} other {你即将移除 # 个书签}}"
 
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
 msgstr ""
-"{count, plural, one {您即将从书架中移除 1 部漫画} other {您即将从书架中移除 "
-"# 部漫画}}"
+"{count, plural, one {你即将从书架中移除 1 部作品} other {你即将从书架中移除 "
+"# 部作品}}"
 
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
 msgid "{currentAutoUpdateIntervalHours}h"
@@ -3700,7 +3703,7 @@ msgstr "WebUI已升级至版本 {newVersion} ({0})"
 #. placeholder {0}: manga.title
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "You are about to remove \"{0}\" from your library"
-msgstr "您将要从书架移除“{0}”"
+msgstr "你将从书架移除“{0}”"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Could not save changes"
@@ -3744,33 +3747,33 @@ msgstr "Flaresolverr 设置确认"
 #: src/features/migration/screens/MigrationExecute.tsx
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
-msgstr "{0, plural, one {1 条无匹配的条目} other {# 条无匹配的条目}}"
+msgstr "{0, plural, one {1 部作品无匹配项} other {# 部作品无匹配项}}"
 
 #. placeholder {0}: excludedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
-msgstr "{0, plural, one {1 条已排除的条目} other {# 条已排除的条目}}"
+msgstr "{0, plural, one {1 部已排除的作品} other {# 部已排除的作品}}"
 
 #. placeholder {0}: failedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
-msgstr "{0, plural, one {1 条失败的条目} other {# 条失败的条目}}"
+msgstr "{0, plural, one {1 部失败的作品} other {# 部失败的作品}}"
 
 #. placeholder {0}: matchedEntries.length
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
-msgstr "{0, plural, one {1 条匹配的条目} other {# 条匹配的条目}}"
+msgstr "{0, plural, one {1 部匹配的作品} other {# 部匹配的作品}}"
 
 #. placeholder {0}: migratedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
-msgstr "{0, plural, one {1 条已迁移的条目} other {# 条已迁移的条目}}"
+msgstr "{0, plural, one {1 部已迁移的作品} other {# 部已迁移的作品}}"
 
 #. placeholder {0}: migratingEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
-msgstr "{0, plural, one {1 条正在迁移的条目} other {# 条正在迁移的条目}}"
+msgstr "{0, plural, one {1 部正在迁移的作品} other {# 部正在迁移的作品}}"
 
 #. placeholder {0}: searchingEntries.length
 #: src/features/migration/screens/MigrationSearch.tsx
@@ -3939,7 +3942,7 @@ msgstr "已选择"
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
 msgid "Source entry - {sourceTitle}"
-msgstr "图源条目 - {sourceTitle}"
+msgstr "图源作品 - {sourceTitle}"
 
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "Start migration"
@@ -3977,8 +3980,8 @@ msgstr "已知悉"
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
 msgstr ""
-"{0, plural, one {1 条仅包含过期匹配项的条目} other {# 条仅包含过期匹配项的条"
-"目}}"
+"{0, plural, one {1 部作品仅包含过期匹配项} other {# 1 部作品仅包含过期匹配"
+"项}}"
 
 #: src/features/manga/services/Mangas.ts
 msgid "A migration is already in progress"
@@ -4093,7 +4096,7 @@ msgstr "这不会阻止非官方或可能被错误标记的扩展在应用内显
 #: src/features/migration/screens/MigrationExecute.tsx
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
-msgstr "{0, plural, one {1 条已中止的条目} other {# 条已中止的条目}}"
+msgstr "{0, plural, one {1 部已中止的作品} other {# 部已中止的作品}}"
 
 #: src/base/components/buttons/SelectButton.tsx
 msgid "Active setting ({title})"
@@ -4102,4 +4105,25 @@ msgstr "当前生效的设置（{title}）"
 #: src/base/utils/Languages.ts
 #: src/features/extension/Extensions.constants.ts
 msgid "Multi"
-msgstr "多个"
+msgstr "多语言"
+
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr "无法迁移作品到自身"
+
+#: src/features/migration/MigrationManager.ts
+msgid "WebUI must be kept open. Migration can't be resumed"
+msgstr "WebUI 必须保持开启状态。迁移无法恢复"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "批量迁移手动搜索"
+
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "Could not delete category"
+msgstr "无法删除分类"
+
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\""
+msgstr "你即将删除分类“{0}”"

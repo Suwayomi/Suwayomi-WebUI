@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-06-03 07:02+0000\n"
+"PO-Revision-Date: 2026-06-21 16:43+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: updateStatus.progress
@@ -55,7 +55,7 @@ msgstr "{0, plural, one {שנייה #} other {# שניות}}"
 #. placeholder {0}: serverSettings.maxSourcesInParallel
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "{0, plural, one {# Source} other {# Sources}}"
-msgstr "{0, plural, one {מקור #} other {# מקורות}}"
+msgstr "{0, plural, one {שרת מקור #} other {# שרתי מקור}}"
 
 #. placeholder {0}: autoScroll.value
 #: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
@@ -235,7 +235,7 @@ msgstr ""
 "{count, plural, one {פעולה זו תחל בהורדת פרק אחד} other {פעולה זו תחל בהורדת "
 "# פרקים.\n"
 "Suwayomi אינה מיועדת לביצוע הורדה המונית. מספר רב מדי של הורדות עלול להוביל "
-"לחסימה מהמקורות ו/או לגרום לבעיות בביצועים.}}"
+"לחסימה משרתי המקור ו/או לגרום לבעיות בביצועים.}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
@@ -592,7 +592,7 @@ msgstr ""
 
 #: src/features/theme/Themes.ts
 msgid "Bright Pink"
-msgstr "ורוד עז"
+msgstr "ליצ'י"
 
 #: src/features/browse/screens/Browse.tsx
 #: src/features/browse/screens/BrowseSettings.tsx
@@ -607,7 +607,7 @@ msgstr "דפדפן"
 
 #: src/features/settings/screens/About.tsx
 msgid "Build time"
-msgstr "מועד הבנייה"
+msgstr "תאריך גרסה"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Bundled"
@@ -627,11 +627,11 @@ msgstr "לפי כמות המנגות"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "By source"
-msgstr "לפי המקור"
+msgstr "לפי שרת המקור"
 
 #: src/features/migration/Migration.constants.ts
 msgid "By source name"
-msgstr "לפי שם המקור"
+msgstr "לפי שם שרת המקור"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "By upload date"
@@ -959,7 +959,7 @@ msgstr "לא ניתן היה למחוק את ערכת הנושא \"{0}\""
 
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Could not find source. Check your installed extensions."
-msgstr "לא ניתן היה למצוא את המקור. יש לבדוק את התוספים המותקנים."
+msgstr "לא ניתן היה למצוא את שרת המקור. יש לבדוק את התוספים המותקנים."
 
 #: src/features/browse/extensions/Extensions.tsx
 msgid "Could not install the extension"
@@ -991,7 +991,7 @@ msgstr "לא ניתן היה לטעון את גופני ערכת הנושא"
 
 #: src/features/manga/components/TrackMangaButton.tsx
 msgid "Could not load track info"
-msgstr "\"לא ניתן היה לטעון את נתוני המעקב"
+msgstr "לא ניתן היה לטעון את נתוני המעקב"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -1041,7 +1041,7 @@ msgstr "ערכת נושא"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Theme mode"
-msgstr "מצב ערכת הנושא"
+msgstr "סגנון ערכת הנושא"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Could not save theme changes"
@@ -1164,7 +1164,7 @@ msgstr "לא ניתן היה לשמור את הגדרות ממשק הקריאה 
 
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "Could not search source"
-msgstr "לא ניתן היה לחפש את המקור"
+msgstr "לא ניתן היה להריץ חיפוש בשרת המקור"
 
 #: src/features/updates/components/UpdateChecker.tsx
 msgid "Could not stop global update"
@@ -1401,7 +1401,7 @@ msgstr "הצגת פרקים שבהורדות בלבד"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "The path to the directory on the server where downloaded files should get saved in"
-msgstr "הנתיב בשרת שבו יישמרו הקבצים לאחר ההורדה"
+msgstr "נתיב התיקייה בשרת לשמירת קבצים שהורדו"
 
 #. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
 #. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
@@ -1430,7 +1430,7 @@ msgstr "יוצר עדכון…"
 
 #: src/features/theme/Themes.ts
 msgid "Crimson"
-msgstr "ארגמן"
+msgstr "דובדבן"
 
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Current:"
@@ -1595,7 +1595,7 @@ msgstr "המשך"
 
 #: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Current source"
-msgstr "מקור נוכחי"
+msgstr "שרת מקור נוכחי"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Cycle image scale type"
@@ -1737,7 +1737,7 @@ msgstr ""
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Display mode"
-msgstr "מצב תצוגה"
+msgstr "סגנון תצוגה"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Document matching method"
@@ -1776,7 +1776,7 @@ msgstr "ניתן לגרור לשינוי העדיפות"
 
 #: src/features/theme/Themes.ts
 msgid "Dune"
-msgstr "דיונה"
+msgstr "מדבר"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Duplicate chapters"
@@ -2139,7 +2139,7 @@ msgstr "סוג ממשק"
 
 #: src/features/theme/Themes.ts
 msgid "Forest Dew"
-msgstr "טל יער"
+msgstr "חורש"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Forget manga categories"
@@ -2152,11 +2152,11 @@ msgstr "כללי"
 
 #: src/features/settings/screens/About.tsx
 msgid "GitHub Server"
-msgstr "מאגר GitHub של Suwayomi-Server"
+msgstr "מאגר קוד המקור של השרת (Suwayomi-Server)"
 
 #: src/features/settings/screens/About.tsx
 msgid "GitHub WebUI"
-msgstr "מאגר GitHub של Suwayomi-WebUI"
+msgstr "מאגר קוד המקור של ממשק המשתמש (Suwayomi-WebUI)"
 
 #: src/features/browse/sources/Sources.tsx
 #: src/features/global-search/screens/SearchAll.tsx
@@ -2250,7 +2250,7 @@ msgid ""
 "Otherwise, picks the first match by source priority."
 msgstr ""
 "אם אפשרות זו מופעלת, תיבחר ההתאמה המתקדמת ביותר.\n"
-"אחרת תיבחר ההתאמה הראשונה לפי עדיפות המקור."
+"אחרת תיבחר ההתאמה הראשונה לפי עדיפות שרת המקור."
 
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
 msgid "Ignore"
@@ -2339,4 +2339,153 @@ msgstr "הגברת מהירות הגלילה האוטומטית"
 #: src/features/settings/screens/ServerSettings.tsx
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Inform about available update"
-msgstr "הצגת הודעה כשיש עדכון זמין"
+msgstr "התרעה על עדכון זמין"
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "הגדרה פעילה ({title})"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/migration/components/MigrationCard.tsx
+msgid "Local source"
+msgstr "שרת מקור מקומי"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Local source guide"
+msgstr "מדריך שרת מקור מקומי"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Local source location"
+msgstr "מיקום שרת מקור מקומי"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "אין שרתי מקור זמינים לביצוע ההעברה"
+
+#: src/features/library/screens/Library.tsx
+msgid "Your library is empty"
+msgstr "הספרייה שלך ריקה"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "Library"
+msgstr "ספרייה"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/updates/screens/Updates.tsx
+msgid "Updates"
+msgstr "עדכונים"
+
+#: src/features/settings/screens/About.tsx
+msgid "Links"
+msgstr "קישורים שימושיים"
+
+#: src/features/extension/info/components/Meta.tsx
+#: src/features/settings/screens/Appearance.tsx
+msgid "Language"
+msgstr "שפה"
+
+#: src/features/theme/Themes.ts
+msgid "Lavender"
+msgstr "לבנדר"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/features/backup/Backup.constants.ts
+#: src/features/browse/extensions/components/ExtensionCard.tsx
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/info/components/SourceCard.tsx
+#: src/features/library/components/LibraryToolbarMenu.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/reader/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopQuickSettings.tsx
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Settings"
+msgstr "‮הגדרות"
+
+#: src/features/reader/settings/screens/GlobalReaderSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Reader"
+msgstr "ממשק הקריאה"
+
+#: src/features/theme/Themes.ts
+msgid "Minty Miracles"
+msgstr "מנטה"
+
+#: src/features/theme/Themes.ts
+msgid "Rosegold"
+msgstr "זהב ורוד"
+
+#: src/features/theme/Themes.ts
+msgid "Mountain Sunset"
+msgstr "פלמינגו"
+
+#: src/features/theme/Themes.ts
+msgid "Orange Juice"
+msgstr "ענבר"
+
+#: src/features/theme/Themes.ts
+msgid "Veronica"
+msgstr "⁧אמטיסט"
+
+#: src/features/theme/Themes.ts
+msgid "Tree Frog Green"
+msgstr "זרחן"
+
+#: src/features/theme/Themes.ts
+msgid "Ying & Yang"
+msgstr "שחור ולבן"
+
+#: src/features/settings/screens/About.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Server"
+msgstr "שרת"
+
+#: src/base/components/modals/LoginDialog.tsx
+#: src/features/settings/components/ServerAddressSetting.tsx
+msgid "Server address"
+msgstr "כתובת השרת"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Server bindings"
+msgstr "הגדרות חיבור"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Server settings"
+msgstr "הגדרות שרת"
+
+#: src/features/settings/screens/About.tsx
+msgid "Server version"
+msgstr "גרסת השרת"
+
+#. placeholder {0}: aboutServer?.buildType
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server was updated to version {version} ({0})"
+msgstr "השרת עודכן לגרסה {version} ({0})"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr "הצגת הודעה כאשר גרסת השרת השתנתה"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr "התרעה על שינוי גרסה"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case a new version is available"
+msgstr "הצגת הודעה כאשר גרסה חדשה זמינה"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "The path to the directory on the server where automated backups should get saved in"
+msgstr "נתיב התיקייה בשרת לשמירת גיבויים אוטומטיים"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "The path to the directory on the server where local source files are saved in"
+msgstr "נתיב התיקייה בשרת לשמירת קבצי מקור התוכן המקומי"
