@@ -25,7 +25,6 @@ export default defineConfig({
         'hu',
         'id',
         'it',
-        'ja',
         'ko',
         'pl',
         'pt',
