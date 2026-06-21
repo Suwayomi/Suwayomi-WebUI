@@ -1189,7 +1189,7 @@ export class MigrationManager {
         const entry = entries[id];
 
         if (!entry) {
-            return;
+            throw Error(t`Entry "${id}" not found`);
         }
 
         const { signal } = MigrationManager.getOrCreateAbortController();
@@ -1219,6 +1219,11 @@ export class MigrationManager {
                 MigrationManager.migrateSingleEntry(id, migrateOptions, signal),
             );
         }
+
+        const sourceTitle = entry.sourceTitle ?? t`Unknown source`;
+        throw Error(
+            t`Entry "${entry.mangaTitle} (${entry.mangaId}; ${sourceTitle} (${entry.sourceId}))" in invalid state "${entry.status}"`,
+        );
     }
 
     private static updateState(updater: (draft: MigrationState) => void): void {

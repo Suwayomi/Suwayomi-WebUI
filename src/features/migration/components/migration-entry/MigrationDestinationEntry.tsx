@@ -15,7 +15,7 @@ import { MigrationEntryCardContent } from '@/features/migration/components/migra
 import { ENTRY_STATUS_TRANSLATION } from '@/features/migration/Migration.constants.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
-import { extractGraphqlExceptionInfo } from '@/lib/HelperFunctions.ts';
+import { extractGraphqlExceptionInfo, getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
@@ -35,6 +35,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MigrationEntryThumbnail } from '@/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx';
+import { makeToast } from '@/base/utils/Toast.ts';
 
 const EntryStatus = ({
     sourceMangaId,
@@ -135,7 +136,9 @@ const EntryError = ({
                     color="error"
                     startIcon={<ReplayIcon />}
                     onClick={() =>
-                        MigrationManager.retryEntry(id).catch(defaultPromiseErrorHandler('MigrationEntryRow::retry'))
+                        MigrationManager.retryEntry(id).catch((e) =>
+                            makeToast(t`Could not retry "${title}"`, 'error', getErrorMessage(e)),
+                        )
                     }
                 >
                     {t`Retry`}
