@@ -2283,8 +2283,12 @@ export class RequestManager {
         const wrappedMutate = (mutateOptions: Parameters<typeof mutate>[0]) =>
             mutate({
                 onCompleted: () => {
-                    this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'categories' });
-                    this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'mangas' });
+                    this.graphQLClient.client.refetchQueries({
+                        updateCache(cache) {
+                            cache.evict({ fieldName: 'categories' });
+                            cache.evict({ fieldName: 'mangas' });
+                        },
+                    });
                 },
                 ...mutateOptions,
             });
@@ -2305,8 +2309,12 @@ export class RequestManager {
         );
 
         response.response.then(() => {
-            this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'categories' });
-            this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'mangas' });
+            this.graphQLClient.client.refetchQueries({
+                updateCache(cache) {
+                    cache.evict({ fieldName: 'categories' });
+                    cache.evict({ fieldName: 'mangas' });
+                },
+            });
         });
 
         return response;
@@ -2329,8 +2337,13 @@ export class RequestManager {
         );
 
         result.response.then(() => {
-            this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'categories' });
-            this.graphQLClient.client.cache.evict({ broadcast: true, fieldName: 'mangas' });
+            this.graphQLClient.client.refetchQueries({
+                updateCache(cache) {
+                    cache.evict({ fieldName: 'categories' });
+                    cache.evict({ fieldName: 'category' });
+                    cache.evict({ fieldName: 'mangas' });
+                },
+            });
         });
 
         return result;
@@ -2353,9 +2366,13 @@ export class RequestManager {
         );
 
         result.response.then(() => {
-            this.graphQLClient.client.cache.evict({ fieldName: 'categories' });
-            this.graphQLClient.client.cache.evict({ fieldName: 'category' });
-            this.graphQLClient.client.cache.evict({ fieldName: 'mangas' });
+            this.graphQLClient.client.refetchQueries({
+                updateCache(cache) {
+                    cache.evict({ fieldName: 'categories' });
+                    cache.evict({ fieldName: 'category' });
+                    cache.evict({ fieldName: 'mangas' });
+                },
+            });
         });
 
         return result;
@@ -2963,14 +2980,15 @@ export class RequestManager {
             GQLMethod.MUTATION,
             DELETE_CATEGORY,
             { input: { categoryId } },
-            {
-                refetchQueries: [GET_CATEGORIES_BASE, GET_CATEGORIES_LIBRARY, GET_CATEGORIES_SETTINGS],
-                ...options,
-            },
+            options,
         );
 
         result.response.then(() => {
-            this.graphQLClient.client.cache.evict({ fieldName: 'category', id: categoryId.toString() });
+            this.graphQLClient.client.refetchQueries({
+                updateCache(cache) {
+                    cache.evict({ id: cache.identify({ __typename: 'CategoryType', id: categoryId.toString() }) });
+                },
+            });
         });
 
         return result;
@@ -3441,9 +3459,12 @@ export class RequestManager {
                     const { cache } = this.graphQLClient.client;
 
                     if (downloadChanged?.omittedUpdates) {
-                        cache.gc();
-                        cache.evict({ broadcast: true, id: 'DownloadStatus:{}' });
-                        cache.evict({ broadcast: true, fieldName: 'downloadStatus' });
+                        this.graphQLClient.client.refetchQueries({
+                            updateCache() {
+                                cache.evict({ id: 'DownloadStatus:{}' });
+                                cache.evict({ fieldName: 'downloadStatus' });
+                            },
+                        });
                         return;
                     }
 
@@ -3551,9 +3572,12 @@ export class RequestManager {
                         return;
                     }
 
-                    cache.gc();
-                    cache.evict({ broadcast: true, id: 'LibraryUpdateStatus' });
-                    cache.evict({ broadcast: true, fieldName: 'libraryUpdateStatus' });
+                    this.graphQLClient.client.refetchQueries({
+                        updateCache() {
+                            cache.evict({ fieldName: 'chapters' });
+                            cache.evict({ fieldName: 'libraryUpdateStatus' });
+                        },
+                    });
                 },
             } as SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
         ) as useSubscription.Result<UpdaterSubscription>;
