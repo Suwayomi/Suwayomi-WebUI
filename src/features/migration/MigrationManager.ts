@@ -74,6 +74,7 @@ import { AppSession } from '@/base/AppSession.ts';
 import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { d } from 'koration';
 import merge from 'lodash/fp/merge';
+import mapValues from 'lodash/fp/mapValues';
 
 const RESUMABLE_PHASES: readonly MigrationPhase[] = [MigrationPhase.SEARCHING, MigrationPhase.MIGRATING];
 
@@ -912,7 +913,17 @@ export class MigrationManager {
         MigrationManager.abortControllerByManga.set(mangaId, searchController);
 
         MigrationManager.updateState((draft) => {
-            draft.entries[mangaId].status = MigrationEntryStatus.SEARCHING;
+            const draftEntry = draft.entries[mangaId];
+
+            draftEntry.status = MigrationEntryStatus.SEARCHING;
+            draftEntry.error = undefined;
+            draftEntry.searchMatches = [];
+            draftEntry.manualMatches = [];
+            draftEntry.isManualSelection = false;
+            draftEntry.selectedMatchMangaId = null;
+            draftEntry.selectedMatchSourceId = null;
+            draftEntry.areMatchesExpanded = false;
+            draftEntry.destSourceIdToSearchState = mapValues(() => false, draftEntry.destSourceIdToSearchState);
         });
 
         try {
@@ -1117,7 +1128,10 @@ export class MigrationManager {
         MigrationManager.abortControllerByManga.set(mangaId, migrateController);
 
         MigrationManager.updateState((draft) => {
-            draft.entries[mangaId].status = MigrationEntryStatus.MIGRATING;
+            const draftEntry = draft.entries[mangaId];
+
+            draftEntry.status = MigrationEntryStatus.MIGRATING;
+            draftEntry.error = undefined;
         });
 
         try {
@@ -1178,9 +1192,7 @@ export class MigrationManager {
 
         if (MigrationEntries.hasStatus(entry, MigrationEntryStatus.SEARCH_FAILED)) {
             MigrationManager.updateState((draft) => {
-                const draftEntry = draft.entries[id];
-                draftEntry.status = MigrationEntryStatus.SEARCH_PENDING;
-                draftEntry.error = undefined;
+                draft.entries[id].status = MigrationEntryStatus.SEARCH_PENDING;
             });
 
             assertIsDefined(searchOptions);
@@ -1194,9 +1206,7 @@ export class MigrationManager {
 
         if (MigrationEntries.hasStatus(entry, MigrationEntryStatus.MIGRATION_FAILED)) {
             MigrationManager.updateState((draft) => {
-                const draftEntry = draft.entries[id];
-                draftEntry.status = MigrationEntryStatus.MIGRATION_PENDING;
-                draftEntry.error = undefined;
+                draft.entries[id].status = MigrationEntryStatus.MIGRATION_PENDING;
             });
 
             assertIsDefined(migrateOptions);
