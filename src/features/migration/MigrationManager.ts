@@ -665,6 +665,10 @@ export class MigrationManager {
         MigrationManager.updateState((draft) => {
             const entry = draft.entries[mangaId];
             if (entry) {
+                if (entry.selectedMatchMangaId === null && (entry.searchMatches.length || entry.manualMatches.length)) {
+                    entry.areMatchesExpanded = false;
+                }
+
                 entry.status = MigrationEntryStatus.SEARCH_COMPLETE;
                 entry.isManualSelection = true;
                 entry.selectedMatchMangaId = targetMangaId;

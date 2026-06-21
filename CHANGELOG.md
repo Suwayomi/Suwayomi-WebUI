@@ -56,6 +56,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Fix being able to migrate an entry to itself
 - (**Migration**) Fix resuming migration when app is opened in multiple tabs
 - (**Migration**) Fix showing "All source searches failed" error while the entry has a selected destination source or matches were found
+- (**Migration**) Fix showing empty expanded "other matches" when selecting the only match
 - (**Reader**) Fix scrollbar appearing with "fit to widt/height/screen" page scale mode and applied safe area insets
 - (**Reader**) Fix wrongly positioned mobile progress bar current page indicator
 - (**Reader**) Fix mobile progress bar previous/next chapter button visibility on hover and while disabled
