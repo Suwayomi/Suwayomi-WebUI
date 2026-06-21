@@ -388,6 +388,9 @@ export const APP_METADATA: Record<
     shouldShowOnlySourcesWithResults: {
         convert: convertToBoolean,
     },
+    showRelatedForEachManga: {
+        convert: convertToBoolean,
+    },
     excludedScanlators: {
         convert: convertToObject<string[]>,
     },
@@ -460,6 +463,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'showNsfw',
     'lastUsedSourceId',
     'shouldShowOnlySourcesWithResults',
+    'showRelatedForEachManga',
 
     // history
     'hideHistory',

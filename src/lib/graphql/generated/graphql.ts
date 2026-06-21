@@ -4052,6 +4052,58 @@ export type TrackerSearchQuery = {
     };
 };
 
+export type RelatedMangaFieldsFragment = {
+    __typename: 'TrackRelatedMangaType';
+    remoteId: string;
+    title: string;
+    coverUrl: string;
+    trackingUrl: string;
+    relationType: string | null;
+};
+
+export type GetMangaRelatedQueryVariables = Exact<{
+    mangaId: number;
+}>;
+
+export type GetMangaRelatedQuery = {
+    __typename: 'Query';
+    mangaRelated: {
+        __typename: 'MangaRelatedPayload';
+        anilistRelations: Array<{
+            __typename: 'TrackRelatedMangaType';
+            remoteId: string;
+            title: string;
+            coverUrl: string;
+            trackingUrl: string;
+            relationType: string | null;
+        }>;
+        anilistRecommendations: Array<{
+            __typename: 'TrackRelatedMangaType';
+            remoteId: string;
+            title: string;
+            coverUrl: string;
+            trackingUrl: string;
+            relationType: string | null;
+        }>;
+        myanimelistRelations: Array<{
+            __typename: 'TrackRelatedMangaType';
+            remoteId: string;
+            title: string;
+            coverUrl: string;
+            trackingUrl: string;
+            relationType: string | null;
+        }>;
+        myanimelistRecommendations: Array<{
+            __typename: 'TrackRelatedMangaType';
+            remoteId: string;
+            title: string;
+            coverUrl: string;
+            trackingUrl: string;
+            relationType: string | null;
+        }>;
+    };
+};
+
 export type UpdaterMangaFieldsFragment = {
     __typename: 'MangaUpdateType';
     status: Types.MangaJobStatus;

@@ -437,6 +437,14 @@ msgstr "Alpha"
 msgid "Also remove from {0}"
 msgstr "Also remove from {0}"
 
+#: src/features/tracker/components/MangaRelated.tsx
+msgid "AniList - Recommendations"
+msgstr "AniList - Recommendations"
+
+#: src/features/tracker/components/MangaRelated.tsx
+msgid "AniList - Relations"
+msgstr "AniList - Relations"
+
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Appearance"
@@ -1194,6 +1202,10 @@ msgstr "Current:"
 #: src/features/tracker/Tracker.constants.ts
 msgid "Currently publishing"
 msgstr "Currently publishing"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Currently supported for: AniList, MyAnimeList"
+msgstr "Currently supported for: AniList, MyAnimeList"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Custom"
@@ -2274,6 +2286,7 @@ msgstr ""
 "UI specific settings that are stored on the server are per device.\n"
 "This makes it possible to have e.g. different settings on a desktop and a smartphone"
 
+#: src/features/browse/screens/BrowseSettings.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/screens/Manga.tsx
 #: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
@@ -2467,6 +2480,14 @@ msgstr "Multi"
 msgid "Multiply"
 msgstr "Multiply"
 
+#: src/features/tracker/components/MangaRelated.tsx
+msgid "MyAnimeList - Recommendations"
+msgstr "MyAnimeList - Recommendations"
+
+#: src/features/tracker/components/MangaRelated.tsx
+msgid "MyAnimeList - Related Entries"
+msgstr "MyAnimeList - Related Entries"
+
 #: src/features/settings/components/images/KeyValueItem.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Name"
@@ -2559,6 +2580,10 @@ msgstr "Not yet published"
 #: src/features/tracker/Tracker.constants.ts
 msgid "Not yet released"
 msgstr "Not yet released"
+
+#: src/features/tracker/components/MangaRelated.tsx
+msgid "Nothing found"
+msgstr "Nothing found"
 
 #: src/features/tracker/Tracker.constants.ts
 msgid "Novel"
@@ -2866,6 +2891,11 @@ msgstr "Red"
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Refresh"
 msgstr "Refresh"
+
+#: src/features/manga/components/RelatedMangaButton.tsx
+#: src/features/tracker/components/MangaRelated.tsx
+msgid "Related"
+msgstr "Related"
 
 #: src/features/tracker/Tracker.constants.ts
 msgid "Releasing"
@@ -3277,6 +3307,10 @@ msgstr "Show page number"
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Show reading mode"
 msgstr "Show reading mode"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show related for each manga"
+msgstr "Show related for each manga"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Show tap zones overlay"
@@ -3754,6 +3788,7 @@ msgstr "UI Login"
 #: src/features/source/configuration/screens/SourceConfigure.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 #: src/features/theme/components/ThemeList.tsx
+#: src/features/tracker/components/MangaRelated.tsx
 #: src/features/tracker/components/TrackerSearch.tsx
 #: src/features/tracker/components/TrackManga.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx

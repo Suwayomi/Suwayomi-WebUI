@@ -84,6 +84,8 @@ import type {
     GetMangaChaptersFetchMutationVariables,
     GetMangaFetchMutation,
     GetMangaFetchMutationVariables,
+    GetMangaRelatedQuery,
+    GetMangaRelatedQueryVariables,
     GetMangasLibraryQuery,
     GetMangasLibraryQueryVariables,
     GetMangaToMigrateQuery,
@@ -307,7 +309,7 @@ import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/download/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { QueuePriority } from '@/lib/Queue.ts';
 import { SourceAwareQueue } from '@/lib/SourceAwareQueue.ts';
-import { TRACKER_SEARCH } from '@/lib/graphql/tracker/TrackerQuery.ts';
+import { GET_MANGA_RELATED, TRACKER_SEARCH } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import {
     TRACKER_BIND,
     TRACKER_FETCH_BIND,
@@ -3696,6 +3698,13 @@ export class RequestManager {
         options?: QueryHookOptions<TrackerSearchQuery, TrackerSearchQueryVariables>,
     ): AbortableApolloUseQueryResponse<TrackerSearchQuery, TrackerSearchQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, TRACKER_SEARCH, { trackerId, query }, options);
+    }
+
+    public useGetMangaRelated(
+        mangaId: number,
+        options?: QueryHookOptions<GetMangaRelatedQuery, GetMangaRelatedQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMangaRelatedQuery, GetMangaRelatedQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MANGA_RELATED, { mangaId }, options);
     }
 
     public useBindTracker(
