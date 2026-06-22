@@ -84,6 +84,8 @@ import type {
     GetMangaChaptersFetchMutationVariables,
     GetMangaFetchMutation,
     GetMangaFetchMutationVariables,
+    GetMangaRelatedQuery,
+    GetMangaRelatedQueryVariables,
     GetMangasLibraryQuery,
     GetMangasLibraryQueryVariables,
     GetMangaToMigrateQuery,
@@ -307,7 +309,7 @@ import { GET_DOWNLOAD_STATUS } from '@/lib/graphql/download/DownloaderQuery.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { QueuePriority } from '@/lib/Queue.ts';
 import { SourceAwareQueue } from '@/lib/SourceAwareQueue.ts';
-import { TRACKER_SEARCH } from '@/lib/graphql/tracker/TrackerQuery.ts';
+import { GET_MANGA_RELATED, TRACKER_SEARCH } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import {
     TRACKER_BIND,
     TRACKER_FETCH_BIND,
@@ -3698,10 +3700,30 @@ export class RequestManager {
         return this.doRequest(GQLMethod.USE_QUERY, TRACKER_SEARCH, { trackerId, query }, options);
     }
 
+    public useGetMangaRelated(
+        mangaId: number,
+        options?: QueryHookOptions<GetMangaRelatedQuery, GetMangaRelatedQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetMangaRelatedQuery, GetMangaRelatedQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_MANGA_RELATED, { mangaId }, options);
+    }
+
+    /**
+     * Evicts the cached "mangaRelated" results so they are refetched the next time the Related
+     * modal is opened. The related/recommendation data depends on the manga's tracker bindings
+     * (which remote id is used), so it has to be invalidated whenever a binding changes.
+     */
+    private evictMangaRelated(): void {
+        this.graphQLClient.client.cache.evict({ fieldName: 'mangaRelated' });
+        this.graphQLClient.client.cache.gc();
+    }
+
     public useBindTracker(
         options?: MutationHookOptions<TrackerBindMutation, TrackerBindMutationVariables>,
     ): AbortableApolloUseMutationResponse<TrackerBindMutation, TrackerBindMutationVariables> {
-        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_BIND, undefined, options);
+        return this.doRequest(GQLMethod.USE_MUTATION, TRACKER_BIND, undefined, {
+            update: () => this.evictMangaRelated(),
+            ...options,
+        });
     }
 
     public bindTracker(
@@ -3711,11 +3733,14 @@ export class RequestManager {
         asPrivate: boolean,
         options?: MutationOptions<TrackerBindMutation, TrackerBindMutationVariables>,
     ): AbortableApolloMutationResponse<TrackerBindMutation> {
-        return this.doRequest(
+        return this.doRequest<TrackerBindMutation, TrackerBindMutationVariables>(
             GQLMethod.MUTATION,
             TRACKER_BIND,
             { input: { mangaId, remoteId, trackerId, private: asPrivate } },
-            options,
+            {
+                update: () => this.evictMangaRelated(),
+                ...options,
+            } as MutationOptions<TrackerBindMutation, TrackerBindMutationVariables>,
         );
     }
 
@@ -3728,10 +3753,11 @@ export class RequestManager {
             GQLMethod.MUTATION,
             TRACKER_UNBIND,
             { input: { recordId, deleteRemoteTrack } },
-            { refetchQueries: [GET_MANGA_TRACK_RECORDS], ...options } as MutationOptions<
-                TrackerUnbindMutation,
-                TrackerUnbindMutationVariables
-            >,
+            {
+                refetchQueries: [GET_MANGA_TRACK_RECORDS],
+                update: () => this.evictMangaRelated(),
+                ...options,
+            } as MutationOptions<TrackerUnbindMutation, TrackerUnbindMutationVariables>,
         );
     }
 

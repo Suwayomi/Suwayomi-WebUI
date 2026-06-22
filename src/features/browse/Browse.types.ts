@@ -14,6 +14,7 @@ export type MetadataBrowseSettings = {
     showNsfw: boolean;
     lastUsedSourceId: SourceIdInfo['id'] | null;
     shouldShowOnlySourcesWithResults: boolean;
+    showRelatedForEachManga: boolean;
 };
 
 export enum BrowseTab {

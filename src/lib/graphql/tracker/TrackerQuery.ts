@@ -56,3 +56,34 @@ export const TRACKER_SEARCH = gql`
         }
     }
 `;
+
+export const RELATED_MANGA_FIELDS = gql`
+    fragment RELATED_MANGA_FIELDS on TrackRelatedMangaType {
+        remoteId
+        title
+        coverUrl
+        trackingUrl
+        relationType
+    }
+`;
+
+export const GET_MANGA_RELATED = gql`
+    ${RELATED_MANGA_FIELDS}
+
+    query GET_MANGA_RELATED($mangaId: Int!) {
+        mangaRelated(input: { mangaId: $mangaId }) {
+            anilistRelations {
+                ...RELATED_MANGA_FIELDS
+            }
+            anilistRecommendations {
+                ...RELATED_MANGA_FIELDS
+            }
+            myanimelistRelations {
+                ...RELATED_MANGA_FIELDS
+            }
+            myanimelistRecommendations {
+                ...RELATED_MANGA_FIELDS
+            }
+        }
+    }
+`;

@@ -72,6 +72,7 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     showNsfw: true,
     lastUsedSourceId: null,
     shouldShowOnlySourcesWithResults: true,
+    showRelatedForEachManga: true,
 
     // history
     hideHistory: false,
