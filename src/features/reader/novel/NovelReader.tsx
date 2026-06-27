@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useTheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
@@ -19,10 +20,16 @@ import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewA
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import type { TChapterReader } from '@/features/chapter/Chapter.types.ts';
 
-const buildSrcDoc = (body: string, fontSize: number): string =>
+const buildSrcDoc = (body: string, fontSize: number, background: string, text: string): string =>
     `<!doctype html><html><head><meta charset="utf-8">` +
-    `<style>body{margin:0;padding:28px 20px;font-family:Georgia,serif;font-size:${fontSize}px;` +
-    `line-height:1.75;color:#d7dce0;background:transparent;}p{margin:0 0 1.1em;}img{max-width:100%;}</style>` +
+    `<style>` +
+    `body{margin:0 !important;padding:28px 20px !important;font-family:Georgia,serif;` +
+    `font-size:${fontSize}px !important;line-height:1.75 !important;` +
+    `color:${text} !important;background:${background} !important;}` +
+    `body *{color:${text} !important;background-color:transparent !important;}` +
+    `a{color:${text} !important;text-decoration:underline !important;}` +
+    `p{margin:0 0 1.1em;}img{max-width:100% !important;height:auto !important;}` +
+    `</style>` +
     `</head><body>${body}</body></html>`;
 
 const BaseNovelReader = ({
@@ -38,6 +45,10 @@ const BaseNovelReader = ({
 }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
+    const appTheme = useTheme();
+
+    const background = appTheme.palette.background.default;
+    const textColor = appTheme.palette.getContrastText(background);
 
     const [html, setHtml] = useState<string | null>(null);
     const [error, setError] = useState<unknown>(null);
@@ -45,9 +56,8 @@ const BaseNovelReader = ({
 
     const chapterIndex = currentChapter.sourceOrder;
 
-    // Chapters ordered by sourceOrder descending; reading forward = lower sourceOrder.
     const { prevChapter, nextChapter } = useMemo(() => {
-        const sorted = [...mangaChapters].sort((a, b) => b.sourceOrder - a.sourceOrder);
+        const sorted = [...mangaChapters].sort((a, b) => a.sourceOrder - b.sourceOrder);
         const idx = sorted.findIndex((c) => c.sourceOrder === chapterIndex);
         return {
             prevChapter: idx > 0 ? sorted[idx - 1] : undefined,
@@ -65,15 +75,15 @@ const BaseNovelReader = ({
             '/api/v1/',
         );
 
-        fetch(url, { credentials: 'include' })
-            .then((res) => {
-                if (!res.ok) {
-                    throw new Error(`HTTP ${res.status}`);
-                }
-                return res.text();
-            })
+        requestManager
+            .getClient()
+            .fetcher(url, { checkResponseIsJson: false })
+            .then((res) => res.text())
             .then((text) => {
                 if (!cancelled) {
+                    if (!text.trim()) {
+                        throw new Error('Empty chapter');
+                    }
                     setHtml(text);
                 }
             })
@@ -142,7 +152,7 @@ const BaseNovelReader = ({
                         component="iframe"
                         title={currentChapter.name}
                         sandbox=""
-                        srcDoc={buildSrcDoc(html, fontSize)}
+                        srcDoc={buildSrcDoc(html, fontSize, background, textColor)}
                         sx={{ flex: 1, width: '100%', maxWidth: 800, mx: 'auto', border: 0 }}
                     />
                 )}
