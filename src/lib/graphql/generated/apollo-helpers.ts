@@ -1088,7 +1088,7 @@ export type SourceNodeListFieldPolicy = {
 	pageInfo?: FieldPolicy<any> | FieldReadFunction<any>,
 	totalCount?: FieldPolicy<any> | FieldReadFunction<any>
 };
-export type SourceTypeKeySpecifier = ('baseUrl' | 'displayName' | 'extension' | 'filters' | 'iconUrl' | 'id' | 'isConfigurable' | 'isNsfw' | 'lang' | 'manga' | 'meta' | 'name' | 'preferences' | 'supportsLatest' | SourceTypeKeySpecifier)[];
+export type SourceTypeKeySpecifier = ('baseUrl' | 'displayName' | 'extension' | 'filters' | 'iconUrl' | 'id' | 'isConfigurable' | 'isNovel' | 'isNsfw' | 'lang' | 'manga' | 'meta' | 'name' | 'preferences' | 'supportsLatest' | SourceTypeKeySpecifier)[];
 export type SourceTypeFieldPolicy = {
 	baseUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	displayName?: FieldPolicy<any> | FieldReadFunction<any>,
@@ -1097,6 +1097,7 @@ export type SourceTypeFieldPolicy = {
 	iconUrl?: FieldPolicy<any> | FieldReadFunction<any>,
 	id?: FieldPolicy<any> | FieldReadFunction<any>,
 	isConfigurable?: FieldPolicy<any> | FieldReadFunction<any>,
+	isNovel?: FieldPolicy<any> | FieldReadFunction<any>,
 	isNsfw?: FieldPolicy<any> | FieldReadFunction<any>,
 	lang?: FieldPolicy<any> | FieldReadFunction<any>,
 	manga?: FieldPolicy<any> | FieldReadFunction<any>,

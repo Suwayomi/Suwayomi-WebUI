@@ -2662,6 +2662,7 @@ export type SourceType = {
     iconUrl: Scalars['String']['output'];
     id: Scalars['LongString']['output'];
     isConfigurable: Scalars['Boolean']['output'];
+    isNovel: Scalars['Boolean']['output'];
     isNsfw: Scalars['Boolean']['output'];
     lang: Scalars['String']['output'];
     manga: MangaNodeList;

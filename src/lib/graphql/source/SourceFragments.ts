@@ -23,6 +23,7 @@ export const SOURCE_BASE_FIELDS = gql`
         displayName
         lang
         iconUrl
+        isNovel
     }
 `;
 
