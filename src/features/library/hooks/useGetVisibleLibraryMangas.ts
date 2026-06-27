@@ -23,6 +23,7 @@ import type {
     MangaGenreInfo,
     MangaIdInfo,
     MangaInLibraryInfo,
+    MangaIsNovelInfo,
     MangaSourceIdInfo,
     MangaSourceNameInfo,
     MangaStatusInfo,
@@ -124,6 +125,7 @@ type TMangaFilterOptions = Pick<
     | 'hasDownloadedChapters'
     | 'hasBookmarkedChapters'
     | 'hasDuplicateChapters'
+    | 'isNovel'
     | 'hasTrackerBinding'
     | 'hasStatus'
 >;
@@ -132,6 +134,7 @@ type TMangaFilter = Pick<MangaType, 'bookmarkCount' | 'hasDuplicateChapters'> &
     MangaStatusInfo &
     MangaChapterCountInfo &
     MangaDownloadInfo &
+    MangaIsNovelInfo &
     MangaUnreadInfo;
 const filterManga = (
     manga: TMangaFilter,
@@ -141,6 +144,7 @@ const filterManga = (
         hasReadChapters,
         hasBookmarkedChapters,
         hasDuplicateChapters,
+        isNovel,
         hasTrackerBinding,
         hasStatus,
     }: TMangaFilterOptions,
@@ -150,6 +154,7 @@ const filterManga = (
     triStateFilterNumber(hasReadChapters, manga.chapters.totalCount - manga.unreadCount) &&
     triStateFilterNumber(hasBookmarkedChapters, manga.bookmarkCount) &&
     triStateFilterBoolean(hasDuplicateChapters, manga.hasDuplicateChapters) &&
+    triStateFilterBoolean(isNovel, !!manga.source?.isNovel) &&
     trackerFilter(hasTrackerBinding, manga) &&
     statusFilter(hasStatus, manga);
 
@@ -242,6 +247,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         hasBookmarkedChapters,
         hasTrackerBinding,
         hasDuplicateChapters,
+        isNovel,
         hasStatus,
     } = options;
     const { settings } = useMetadataServerSettings();
@@ -261,6 +267,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasBookmarkedChapters,
             hasTrackerBinding,
             hasDuplicateChapters,
+            isNovel,
             hasStatus,
             settings.ignoreFilters,
         ],
@@ -278,6 +285,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasReadChapters != null ||
             hasDownloadedChapters != null ||
             hasBookmarkedChapters != null ||
+            isNovel != null ||
             !!query ||
             isATrackFilterActive) &&
         filteredMangas.length === 0 &&

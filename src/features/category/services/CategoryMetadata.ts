@@ -34,6 +34,7 @@ export const DEFAULT_CATEGORY_METADATA: ICategoryMetadata = {
     hasUnreadChapters: undefined,
     hasReadChapters: undefined,
     hasDuplicateChapters: undefined,
+    isNovel: undefined,
     hasTrackerBinding: {},
     hasStatus: {} as LibraryOptions['hasStatus'],
 };

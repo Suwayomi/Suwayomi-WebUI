@@ -194,6 +194,9 @@ export const APP_METADATA: Record<
     hasDuplicateChapters: {
         convert: convertToBooleanNullAndUndefined,
     },
+    isNovel: {
+        convert: convertToBooleanNullAndUndefined,
+    },
     hasTrackerBinding: {
         convert: convertToObject<LibraryOptions['hasTrackerBinding']>,
     },
@@ -432,6 +435,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'hasUnreadChapters',
     'hasReadChapters',
     'hasDuplicateChapters',
+    'isNovel',
     'hasTrackerBinding',
     'hasStatus',
     // sort
