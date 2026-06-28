@@ -258,7 +258,6 @@ export class Mangas {
                     (chapter) => chapter.mangaId,
                 );
 
-                // TODO - Filter for scanlators directly in getChapterIdsWithState once fixed on the server
                 const filteredChaptersToConsiderByMangaId = mapValues((chapters) => {
                     const { mangaId } = chapters![0]!;
                     const manga = mangaByMangaId[mangaId]![0]!;
