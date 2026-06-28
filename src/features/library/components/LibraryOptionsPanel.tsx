@@ -112,6 +112,11 @@ export const LibraryOptionsPanel = ({
                                 checked={categoryLibraryOptions.hasDuplicateChapters}
                                 onChange={(c) => updateCategoryLibraryOptions('hasDuplicateChapters', c)}
                             />
+                            <ThreeStateCheckboxInput
+                                label={t`Novel`}
+                                checked={categoryLibraryOptions.isNovel}
+                                onChange={(c) => updateCategoryLibraryOptions('isNovel', c)}
+                            />
                             <FormLabel sx={{ mt: 2 }}>{t`Status`}</FormLabel>
                             {Object.values(MangaStatus).map((status) => (
                                 <ThreeStateCheckboxInput

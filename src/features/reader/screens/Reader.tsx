@@ -23,6 +23,7 @@ import { GET_CHAPTERS_READER } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import { TapZoneLayout } from '@/features/reader/tap-zones/TapZoneLayout.tsx';
 import { ReaderRGBAFilter } from '@/features/reader/filters/ReaderRGBAFilter.tsx';
 import { ReaderViewer } from '@/features/reader/viewer/ReaderViewer.tsx';
+import { NovelReader } from '@/features/reader/novel/NovelReader.tsx';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ReaderHotkeys } from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -145,7 +146,15 @@ const BaseReader = ({
         chapterListOptions,
     );
 
+    const isNovelReader = !!manga?.source?.isNovel;
+
     useLayoutEffect(() => {
+        // novel reader has its own chrome, skip the manga overlay click-catcher
+        if (isNovelReader) {
+            setOverride({ status: false, value: null });
+            return () => setOverride({ status: false, value: null });
+        }
+
         setOverride({
             status: true,
             value: (
@@ -170,7 +179,7 @@ const BaseReader = ({
         });
 
         return () => setOverride({ status: false, value: null });
-    }, [scrollElementRef.current]);
+    }, [scrollElementRef.current, isNovelReader]);
 
     if (error) {
         return (
@@ -217,6 +226,17 @@ const BaseReader = ({
 
     if (!manga || !currentChapter) {
         return null;
+    }
+
+    if (isNovelReader) {
+        return (
+            <NovelReader
+                mangaId={manga.id}
+                mangaTitle={manga.title}
+                currentChapter={currentChapter}
+                mangaChapters={mangaChapters ?? []}
+            />
+        );
     }
 
     return (

@@ -30,6 +30,7 @@ export const LibraryToolbarMenu = ({
         options.hasReadChapters != null ||
         options.hasBookmarkedChapters != null ||
         options.hasDuplicateChapters != null ||
+        options.isNovel != null ||
         Object.values(options.hasStatus).some((hasStatus) => hasStatus != null) ||
         Object.values(options.hasTrackerBinding).some((trackerFilterStatus) => trackerFilterStatus != null);
 

@@ -24,6 +24,15 @@ export interface IRestClient {
     post(url: string, data?: any): Promise<Response>;
     put(url: string, data?: any): Promise<Response>;
     patch(url: string, data?: any): Promise<Response>;
+    fetcher(
+        url: string,
+        options?: {
+            data?: any;
+            httpMethod?: HttpMethod;
+            config?: RequestInit;
+            checkResponseIsJson?: boolean;
+        },
+    ): Promise<Response>;
 }
 
 export class RestClient

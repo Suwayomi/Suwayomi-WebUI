@@ -352,6 +352,7 @@ export type GetCategoryMangasQuery = {
                     displayName: string;
                     lang: string;
                     iconUrl: string;
+                    isNovel: boolean;
                 } | null;
                 trackRecords: {
                     __typename: 'TrackRecordNodeList';
@@ -1621,6 +1622,7 @@ export type MangaReaderFieldsFragment = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        isNovel: boolean;
     } | null;
     meta: Array<{ __typename: 'MangaMetaType'; mangaId: number; key: string; value: string }>;
     chapters: { __typename: 'ChapterNodeList'; totalCount: number };
@@ -1655,6 +1657,7 @@ export type MangaLibraryFieldsFragment = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        isNovel: boolean;
     } | null;
     trackRecords: {
         __typename: 'TrackRecordNodeList';
@@ -1737,6 +1740,7 @@ export type MangaScreenFieldsFragment = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        isNovel: boolean;
     } | null;
     trackRecords: {
         __typename: 'TrackRecordNodeList';
@@ -1815,6 +1819,7 @@ export type GetMangaFetchMutation = {
                 displayName: string;
                 lang: string;
                 iconUrl: string;
+                isNovel: boolean;
             } | null;
             trackRecords: {
                 __typename: 'TrackRecordNodeList';
@@ -1902,6 +1907,7 @@ export type RefreshMangaMutation = {
                 displayName: string;
                 lang: string;
                 iconUrl: string;
+                isNovel: boolean;
             } | null;
             trackRecords: {
                 __typename: 'TrackRecordNodeList';
@@ -2171,6 +2177,7 @@ export type GetMangaScreenQuery = {
             displayName: string;
             lang: string;
             iconUrl: string;
+            isNovel: boolean;
         } | null;
         trackRecords: {
             __typename: 'TrackRecordNodeList';
@@ -2219,6 +2226,7 @@ export type GetMangaReaderQuery = {
             displayName: string;
             lang: string;
             iconUrl: string;
+            isNovel: boolean;
         } | null;
         meta: Array<{ __typename: 'MangaMetaType'; mangaId: number; key: string; value: string }>;
         chapters: { __typename: 'ChapterNodeList'; totalCount: number };
@@ -2399,6 +2407,7 @@ export type GetMangasLibraryQuery = {
                 displayName: string;
                 lang: string;
                 iconUrl: string;
+                isNovel: boolean;
             } | null;
             trackRecords: {
                 __typename: 'TrackRecordNodeList';
@@ -3149,6 +3158,7 @@ export type SourceBaseFieldsFragment = {
     displayName: string;
     lang: string;
     iconUrl: string;
+    isNovel: boolean;
 };
 
 export type SourceListFieldsFragment = {
@@ -3161,6 +3171,7 @@ export type SourceListFieldsFragment = {
     id: string;
     name: string;
     displayName: string;
+    isNovel: boolean;
     meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
     extension: { __typename: 'ExtensionType'; pkgName: string; repo: string | null };
 };
@@ -3175,6 +3186,7 @@ export type SourceBrowseFieldsFragment = {
     displayName: string;
     lang: string;
     iconUrl: string;
+    isNovel: boolean;
     meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
     filters: Array<
         | { __typename: 'CheckBoxFilter'; name: string; type: 'CheckBoxFilter'; CheckBoxFilterDefault: boolean }
@@ -3243,6 +3255,7 @@ export type SourceSettingFieldsFragment = {
     displayName: string;
     lang: string;
     iconUrl: string;
+    isNovel: boolean;
     preferences: Array<
         | {
               __typename: 'CheckBoxPreference';
@@ -3383,6 +3396,7 @@ export type UpdateSourcePreferencesMutation = {
             displayName: string;
             lang: string;
             iconUrl: string;
+            isNovel: boolean;
             preferences: Array<
                 | {
                       __typename: 'CheckBoxPreference';
@@ -3490,6 +3504,7 @@ export type GetSourceBrowseQuery = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        isNovel: boolean;
         meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
         filters: Array<
             | { __typename: 'CheckBoxFilter'; name: string; type: 'CheckBoxFilter'; CheckBoxFilterDefault: boolean }
@@ -3574,6 +3589,7 @@ export type GetSourceSettingsQuery = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        isNovel: boolean;
         preferences: Array<
             | {
                   __typename: 'CheckBoxPreference';
@@ -3639,7 +3655,7 @@ export type GetSourceMigratableQueryVariables = Exact<{
 
 export type GetSourceMigratableQuery = {
     __typename: 'Query';
-    source: { __typename: 'SourceType'; id: string; name: string; displayName: string; lang: string; iconUrl: string };
+    source: { __typename: 'SourceType'; id: string; name: string; displayName: string; lang: string; iconUrl: string; isNovel: boolean };
 };
 
 export type GetSourcesListQueryVariables = Exact<{ [key: string]: never }>;
@@ -3658,6 +3674,7 @@ export type GetSourcesListQuery = {
             id: string;
             name: string;
             displayName: string;
+            isNovel: boolean;
             meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
             extension: { __typename: 'ExtensionType'; pkgName: string; repo: string | null };
         }>;
@@ -3680,6 +3697,7 @@ export type GetMigratableSourcesQuery = {
                 displayName: string;
                 lang: string;
                 iconUrl: string;
+                isNovel: boolean;
             } | null;
         }>;
     };
