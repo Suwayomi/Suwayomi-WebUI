@@ -1091,6 +1091,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'jwtAudience'
     | 'jwtRefreshExpiry'
     | 'jwtTokenExpiry'
+    | 'kcefEnabled'
     | 'koreaderSyncChecksumMethod'
     | 'koreaderSyncDeviceId'
     | 'koreaderSyncPercentageTolerance'
@@ -1179,6 +1180,7 @@ export type PartialSettingsTypeFieldPolicy = {
     jwtAudience?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtRefreshExpiry?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtTokenExpiry?: FieldPolicy<any> | FieldReadFunction<any>;
+    kcefEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncChecksumMethod?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncDeviceId?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncPercentageTolerance?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1476,6 +1478,7 @@ export type SettingsKeySpecifier = (
     | 'jwtAudience'
     | 'jwtRefreshExpiry'
     | 'jwtTokenExpiry'
+    | 'kcefEnabled'
     | 'koreaderSyncChecksumMethod'
     | 'koreaderSyncDeviceId'
     | 'koreaderSyncPercentageTolerance'
@@ -1564,6 +1567,7 @@ export type SettingsFieldPolicy = {
     jwtAudience?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtRefreshExpiry?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtTokenExpiry?: FieldPolicy<any> | FieldReadFunction<any>;
+    kcefEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncChecksumMethod?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncDeviceId?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncPercentageTolerance?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1703,6 +1707,7 @@ export type SettingsTypeKeySpecifier = (
     | 'jwtAudience'
     | 'jwtRefreshExpiry'
     | 'jwtTokenExpiry'
+    | 'kcefEnabled'
     | 'koreaderSyncChecksumMethod'
     | 'koreaderSyncDeviceId'
     | 'koreaderSyncPercentageTolerance'
@@ -1791,6 +1796,7 @@ export type SettingsTypeFieldPolicy = {
     jwtAudience?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtRefreshExpiry?: FieldPolicy<any> | FieldReadFunction<any>;
     jwtTokenExpiry?: FieldPolicy<any> | FieldReadFunction<any>;
+    kcefEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncChecksumMethod?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncDeviceId?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncPercentageTolerance?: FieldPolicy<any> | FieldReadFunction<any>;
