@@ -108,7 +108,7 @@ const BaseReader = ({
         currentChapter === undefined ||
         !areSettingsSet ||
         mangaResponse.loading ||
-        chaptersResponse.loading ||
+        (chaptersResponse.loading && chaptersResponse.dataState !== 'complete') ||
         defaultSettingsResponse.loading;
     const error = mangaResponse.error ?? chaptersResponse.error ?? defaultSettingsResponse.error;
 
