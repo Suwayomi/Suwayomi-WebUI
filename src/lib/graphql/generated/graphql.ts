@@ -2652,6 +2652,7 @@ export type ServerSettingsFragment = {
     opdsShowOnlyDownloadedChapters: boolean;
     opdsChapterSortOrder: Types.SortOrder;
     opdsCbzMimetype: Types.CbzMediaType;
+    opdsSkipChapterMetadataFeed: boolean;
     koreaderSyncChecksumMethod: Types.KoreaderSyncChecksumMethod;
     koreaderSyncStrategyBackward: Types.KoreaderSyncConflictStrategy;
     koreaderSyncStrategyForward: Types.KoreaderSyncConflictStrategy;
@@ -2765,6 +2766,7 @@ export type ResetServerSettingsMutation = {
             opdsShowOnlyDownloadedChapters: boolean;
             opdsChapterSortOrder: Types.SortOrder;
             opdsCbzMimetype: Types.CbzMediaType;
+            opdsSkipChapterMetadataFeed: boolean;
             koreaderSyncChecksumMethod: Types.KoreaderSyncChecksumMethod;
             koreaderSyncStrategyBackward: Types.KoreaderSyncConflictStrategy;
             koreaderSyncStrategyForward: Types.KoreaderSyncConflictStrategy;
@@ -2888,6 +2890,7 @@ export type UpdateServerSettingsMutation = {
             opdsShowOnlyDownloadedChapters: boolean;
             opdsChapterSortOrder: Types.SortOrder;
             opdsCbzMimetype: Types.CbzMediaType;
+            opdsSkipChapterMetadataFeed: boolean;
             koreaderSyncChecksumMethod: Types.KoreaderSyncChecksumMethod;
             koreaderSyncStrategyBackward: Types.KoreaderSyncConflictStrategy;
             koreaderSyncStrategyForward: Types.KoreaderSyncConflictStrategy;
@@ -3007,6 +3010,7 @@ export type GetServerSettingsQuery = {
         opdsShowOnlyDownloadedChapters: boolean;
         opdsChapterSortOrder: Types.SortOrder;
         opdsCbzMimetype: Types.CbzMediaType;
+        opdsSkipChapterMetadataFeed: boolean;
         koreaderSyncChecksumMethod: Types.KoreaderSyncChecksumMethod;
         koreaderSyncStrategyBackward: Types.KoreaderSyncConflictStrategy;
         koreaderSyncStrategyForward: Types.KoreaderSyncConflictStrategy;

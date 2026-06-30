@@ -1858,6 +1858,7 @@ export type PartialSettingsType = Settings & {
     opdsMarkAsReadOnDownload?: Maybe<Scalars['Boolean']['output']>;
     opdsShowOnlyDownloadedChapters?: Maybe<Scalars['Boolean']['output']>;
     opdsShowOnlyUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+    opdsSkipChapterMetadataFeed?: Maybe<Scalars['Boolean']['output']>;
     opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
     port?: Maybe<Scalars['Int']['output']>;
     serveConversions?: Maybe<Array<SettingsDownloadConversionType>>;
@@ -1946,6 +1947,7 @@ export type PartialSettingsTypeInput = {
     opdsMarkAsReadOnDownload?: InputMaybe<Scalars['Boolean']['input']>;
     opdsShowOnlyDownloadedChapters?: InputMaybe<Scalars['Boolean']['input']>;
     opdsShowOnlyUnreadChapters?: InputMaybe<Scalars['Boolean']['input']>;
+    opdsSkipChapterMetadataFeed?: InputMaybe<Scalars['Boolean']['input']>;
     opdsUseBinaryFileSizes?: InputMaybe<Scalars['Boolean']['input']>;
     port?: InputMaybe<Scalars['Int']['input']>;
     serveConversions?: InputMaybe<Array<SettingsDownloadConversionTypeInput>>;
@@ -2465,6 +2467,7 @@ export type Settings = {
     opdsMarkAsReadOnDownload?: Maybe<Scalars['Boolean']['output']>;
     opdsShowOnlyDownloadedChapters?: Maybe<Scalars['Boolean']['output']>;
     opdsShowOnlyUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
+    opdsSkipChapterMetadataFeed?: Maybe<Scalars['Boolean']['output']>;
     opdsUseBinaryFileSizes?: Maybe<Scalars['Boolean']['output']>;
     port?: Maybe<Scalars['Int']['output']>;
     serveConversions?: Maybe<Array<SettingsDownloadConversion>>;
@@ -2618,6 +2621,7 @@ export type SettingsType = Settings & {
     opdsMarkAsReadOnDownload: Scalars['Boolean']['output'];
     opdsShowOnlyDownloadedChapters: Scalars['Boolean']['output'];
     opdsShowOnlyUnreadChapters: Scalars['Boolean']['output'];
+    opdsSkipChapterMetadataFeed: Scalars['Boolean']['output'];
     opdsUseBinaryFileSizes: Scalars['Boolean']['output'];
     port: Scalars['Int']['output'];
     serveConversions: Array<SettingsDownloadConversionType>;

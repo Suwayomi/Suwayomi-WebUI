@@ -586,6 +586,17 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('opdsShowOnlyDownloadedChapters', e.target.checked)}
                     />
                 </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Skip chapter metadata feed`}
+                        secondary={t`When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.opdsSkipChapterMetadataFeed}
+                        onChange={(e) => updateSetting('opdsSkipChapterMetadataFeed', e.target.checked)}
+                    />
+                </ListItem>
                 <SelectSetting<SortOrder>
                     settingName={t`Chapter sort order`}
                     dialogDescription={t`Choose the order in which chapters are displayed.`}

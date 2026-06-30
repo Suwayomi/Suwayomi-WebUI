@@ -1139,6 +1139,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'opdsMarkAsReadOnDownload'
     | 'opdsShowOnlyDownloadedChapters'
     | 'opdsShowOnlyUnreadChapters'
+    | 'opdsSkipChapterMetadataFeed'
     | 'opdsUseBinaryFileSizes'
     | 'port'
     | 'serveConversions'
@@ -1237,6 +1238,7 @@ export type PartialSettingsTypeFieldPolicy = {
     opdsMarkAsReadOnDownload?: FieldPolicy<any> | FieldReadFunction<any>;
     opdsShowOnlyDownloadedChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     opdsShowOnlyUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>;
+    opdsSkipChapterMetadataFeed?: FieldPolicy<any> | FieldReadFunction<any>;
     opdsUseBinaryFileSizes?: FieldPolicy<any> | FieldReadFunction<any>;
     port?: FieldPolicy<any> | FieldReadFunction<any>;
     serveConversions?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1546,6 +1548,7 @@ export type SettingsKeySpecifier = (
     | 'opdsMarkAsReadOnDownload'
     | 'opdsShowOnlyDownloadedChapters'
     | 'opdsShowOnlyUnreadChapters'
+    | 'opdsSkipChapterMetadataFeed'
     | 'opdsUseBinaryFileSizes'
     | 'port'
     | 'serveConversions'
@@ -1644,6 +1647,7 @@ export type SettingsFieldPolicy = {
     opdsMarkAsReadOnDownload?: FieldPolicy<any> | FieldReadFunction<any>;
     opdsShowOnlyDownloadedChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     opdsShowOnlyUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>;
+    opdsSkipChapterMetadataFeed?: FieldPolicy<any> | FieldReadFunction<any>;
     opdsUseBinaryFileSizes?: FieldPolicy<any> | FieldReadFunction<any>;
     port?: FieldPolicy<any> | FieldReadFunction<any>;
     serveConversions?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1793,6 +1797,7 @@ export type SettingsTypeKeySpecifier = (
     | 'opdsMarkAsReadOnDownload'
     | 'opdsShowOnlyDownloadedChapters'
     | 'opdsShowOnlyUnreadChapters'
+    | 'opdsSkipChapterMetadataFeed'
     | 'opdsUseBinaryFileSizes'
     | 'port'
     | 'serveConversions'
@@ -1891,6 +1896,7 @@ export type SettingsTypeFieldPolicy = {
     opdsMarkAsReadOnDownload?: FieldPolicy<any> | FieldReadFunction<any>;
     opdsShowOnlyDownloadedChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     opdsShowOnlyUnreadChapters?: FieldPolicy<any> | FieldReadFunction<any>;
+    opdsSkipChapterMetadataFeed?: FieldPolicy<any> | FieldReadFunction<any>;
     opdsUseBinaryFileSizes?: FieldPolicy<any> | FieldReadFunction<any>;
     port?: FieldPolicy<any> | FieldReadFunction<any>;
     serveConversions?: FieldPolicy<any> | FieldReadFunction<any>;

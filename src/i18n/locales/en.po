@@ -3348,6 +3348,10 @@ msgstr "Simple Login"
 msgid "Single page"
 msgstr "Single page"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Skip chapter metadata feed"
+msgstr "Skip chapter metadata feed"
+
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Skip duplicate chapters"
 msgstr "Skip duplicate chapters"
@@ -4045,6 +4049,10 @@ msgstr "WebView"
 #: src/features/settings/Settings.constants.ts
 msgid "Weekly"
 msgstr "Weekly"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"
+msgstr "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"
 
 #: src/features/settings/Settings.constants.ts
 msgid "When you enable this, you may need to refresh this tab for the login page to appear."
