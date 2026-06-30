@@ -3951,6 +3951,42 @@ export type TrackerBindMutation = {
     };
 };
 
+export type TrackerBindTrackRecordMutationVariables = Exact<{
+    input: Types.BindTrackRecordInput;
+}>;
+
+export type TrackerBindTrackRecordMutation = {
+    __typename: 'Mutation';
+    bindTrackRecord: {
+        __typename: 'BindTrackRecordPayload';
+        trackRecord: {
+            __typename: 'TrackRecordType';
+            id: number;
+            remoteId: string;
+            trackerId: number;
+            remoteUrl: string;
+            title: string;
+            status: number;
+            lastChapterRead: number;
+            totalChapters: number;
+            score: number;
+            displayScore: string;
+            startDate: string;
+            finishDate: string;
+            private: boolean;
+            manga: {
+                __typename: 'MangaType';
+                id: number;
+                trackRecords: {
+                    __typename: 'TrackRecordNodeList';
+                    totalCount: number;
+                    nodes: Array<{ __typename: 'TrackRecordType'; id: number; trackerId: number }>;
+                };
+            };
+        };
+    } | null;
+};
+
 export type TrackerUnbindMutationVariables = Exact<{
     input: Types.UnbindTrackInput;
 }>;

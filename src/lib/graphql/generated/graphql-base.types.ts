@@ -71,6 +71,18 @@ export type BindTrackPayload = {
     trackRecord: TrackRecordType;
 };
 
+export type BindTrackRecordInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    mangaId: Scalars['Int']['input'];
+    trackRecordId: Scalars['Int']['input'];
+};
+
+export type BindTrackRecordPayload = {
+    __typename?: 'BindTrackRecordPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    trackRecord: TrackRecordType;
+};
+
 export type BooleanFilterInput = {
     distinctFrom?: InputMaybe<Scalars['Boolean']['input']>;
     distinctFromAll?: InputMaybe<Array<Scalars['Boolean']['input']>>;
@@ -1310,6 +1322,7 @@ export type MultiSelectListPreference = {
 export type Mutation = {
     __typename?: 'Mutation';
     bindTrack: BindTrackPayload;
+    bindTrackRecord?: Maybe<BindTrackRecordPayload>;
     clearCachedImages: ClearCachedImagesPayload;
     clearDownloader?: Maybe<ClearDownloaderPayload>;
     connectKoSyncAccount: KoSyncConnectPayload;
@@ -1389,6 +1402,10 @@ export type Mutation = {
 
 export type MutationBindTrackArgs = {
     input: BindTrackInput;
+};
+
+export type MutationBindTrackRecordArgs = {
+    input: BindTrackRecordInput;
 };
 
 export type MutationClearCachedImagesArgs = {

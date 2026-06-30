@@ -40,6 +40,15 @@ export type BindTrackPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
     trackRecord?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type BindTrackRecordPayloadKeySpecifier = (
+    | 'clientMutationId'
+    | 'trackRecord'
+    | BindTrackRecordPayloadKeySpecifier
+)[];
+export type BindTrackRecordPayloadFieldPolicy = {
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    trackRecord?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type CategoryEdgeKeySpecifier = ('cursor' | 'node' | CategoryEdgeKeySpecifier)[];
 export type CategoryEdgeFieldPolicy = {
     cursor?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -869,6 +878,7 @@ export type MultiSelectListPreferenceFieldPolicy = {
 };
 export type MutationKeySpecifier = (
     | 'bindTrack'
+    | 'bindTrackRecord'
     | 'clearCachedImages'
     | 'clearDownloader'
     | 'connectKoSyncAccount'
@@ -948,6 +958,7 @@ export type MutationKeySpecifier = (
 )[];
 export type MutationFieldPolicy = {
     bindTrack?: FieldPolicy<any> | FieldReadFunction<any>;
+    bindTrackRecord?: FieldPolicy<any> | FieldReadFunction<any>;
     clearCachedImages?: FieldPolicy<any> | FieldReadFunction<any>;
     clearDownloader?: FieldPolicy<any> | FieldReadFunction<any>;
     connectKoSyncAccount?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -2454,6 +2465,10 @@ export type StrictTypedTypePolicies = {
     BindTrackPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | BindTrackPayloadKeySpecifier | (() => undefined | BindTrackPayloadKeySpecifier);
         fields?: BindTrackPayloadFieldPolicy;
+    };
+    BindTrackRecordPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | BindTrackRecordPayloadKeySpecifier | (() => undefined | BindTrackRecordPayloadKeySpecifier);
+        fields?: BindTrackRecordPayloadFieldPolicy;
     };
     CategoryEdge?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | CategoryEdgeKeySpecifier | (() => undefined | CategoryEdgeKeySpecifier);

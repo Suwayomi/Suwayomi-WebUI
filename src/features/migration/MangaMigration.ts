@@ -21,27 +21,10 @@ import type {
     MigrationChapter,
 } from '@/features/migration/Migration.types.ts';
 import { getMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { Queue } from '@/lib/Queue.ts';
-import type { TrackerIdInfo } from '@/features/tracker/Tracker.types.ts';
-import { assertIsDefined } from '@/base/Asserts.ts';
 import { t } from '@lingui/core/macro';
 import { makeToast } from '@/base/utils/Toast.ts';
 
 export class MangaMigration {
-    private static trackerQueue = new Map<TrackerIdInfo['id'], Queue>();
-
-    private static getOrCreateQueue(trackerId: TrackerIdInfo['id']): Queue {
-        if (!MangaMigration.trackerQueue.has(trackerId)) {
-            MangaMigration.trackerQueue.set(trackerId, new Queue(1));
-        }
-
-        const queue = MangaMigration.trackerQueue.get(trackerId);
-
-        assertIsDefined(queue);
-
-        return queue;
-    }
-
     static async migrate(
         mangaToMigrate: MangaToMigrate | null | undefined,
         mangaToMigrateTo: MangaToMigrateTo | null | undefined,
@@ -285,24 +268,7 @@ export class MangaMigration {
         return {
             copy: () =>
                 trackBindingsToAdd.map(
-                    (trackRecord) =>
-                        MangaMigration.getOrCreateQueue(trackRecord.trackerId).enqueue(
-                            String(mangaToMigrate.id),
-                            async () => {
-                                try {
-                                    await requestManager.bindTracker(
-                                        mangaToMigrateTo.id,
-                                        trackRecord.trackerId,
-                                        trackRecord.remoteId,
-                                        trackRecord.private,
-                                    ).response;
-                                } finally {
-                                    await new Promise((resolve) => {
-                                        setTimeout(resolve, 500);
-                                    });
-                                }
-                            },
-                        ).promise,
+                    (trackRecord) => requestManager.bindTrackRecord(mangaToMigrateTo.id, trackRecord.id).response,
                 ),
             cleanup: () =>
                 mode === 'migrate'
