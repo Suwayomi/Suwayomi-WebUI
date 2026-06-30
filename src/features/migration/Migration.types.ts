@@ -166,7 +166,7 @@ export type TMigratableSource = NonNullable<GetMigratableSourcesQuery['mangas'][
 
 export type MangaToMigrate = NonNullable<GetMangaToMigrateQuery['manga']>;
 
-export type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchManga']>['manga'];
+export type MangaToMigrateTo = NonNullable<GetMangaToMigrateToFetchMutation['fetchMangaAndChapters']>['manga'];
 
 export type MigrationChapter = ChapterIdInfo &
     ChapterReadInfo &

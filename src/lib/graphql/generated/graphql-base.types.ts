@@ -828,6 +828,20 @@ export type FetchExtensionsPayload = {
     extensions: Array<ExtensionType>;
 };
 
+export type FetchMangaAndChaptersInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    fetchChapters: Scalars['Boolean']['input'];
+    fetchManga: Scalars['Boolean']['input'];
+    id: Scalars['Int']['input'];
+};
+
+export type FetchMangaAndChaptersPayload = {
+    __typename?: 'FetchMangaAndChaptersPayload';
+    chapters: Array<ChapterType>;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    manga: MangaType;
+};
+
 export type FetchMangaInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
     id: Scalars['Int']['input'];
@@ -1346,9 +1360,12 @@ export type Mutation = {
     enqueueChapterDownload?: Maybe<EnqueueChapterDownloadPayload>;
     enqueueChapterDownloads?: Maybe<EnqueueChapterDownloadsPayload>;
     fetchChapterPages?: Maybe<FetchChapterPagesPayload>;
+    /** @deprecated Deprecated in Tachiyomix 1.6, replace with fetchMangaAndChapters */
     fetchChapters?: Maybe<FetchChaptersPayload>;
     fetchExtensions?: Maybe<FetchExtensionsPayload>;
+    /** @deprecated Deprecated in Tachiyomix 1.6, replace with fetchMangaAndChapters */
     fetchManga?: Maybe<FetchMangaPayload>;
+    fetchMangaAndChapters?: Maybe<FetchMangaAndChaptersPayload>;
     fetchSourceManga?: Maybe<FetchSourceMangaPayload>;
     fetchTrack: FetchTrackPayload;
     installExternalExtension?: Maybe<InstallExternalExtensionPayload>;
@@ -1510,6 +1527,10 @@ export type MutationFetchExtensionsArgs = {
 
 export type MutationFetchMangaArgs = {
     input: FetchMangaInput;
+};
+
+export type MutationFetchMangaAndChaptersArgs = {
+    input: FetchMangaAndChaptersInput;
 };
 
 export type MutationFetchSourceMangaArgs = {

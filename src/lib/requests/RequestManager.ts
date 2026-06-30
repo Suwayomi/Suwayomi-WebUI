@@ -80,10 +80,6 @@ import type {
     GetKoSyncStatusQueryVariables,
     GetLastUpdateTimestampQuery,
     GetLastUpdateTimestampQueryVariables,
-    GetMangaChaptersFetchMutation,
-    GetMangaChaptersFetchMutationVariables,
-    GetMangaFetchMutation,
-    GetMangaFetchMutationVariables,
     GetMangasLibraryQuery,
     GetMangasLibraryQueryVariables,
     GetMangaToMigrateQuery,
@@ -240,7 +236,6 @@ import {
 } from '@/lib/graphql/extension/ExtensionMutation.ts';
 import { GET_MIGRATABLE_SOURCES, GET_SOURCES_LIST } from '@/lib/graphql/source/SourceQuery.ts';
 import {
-    GET_MANGA_FETCH,
     GET_MANGA_TO_MIGRATE_TO_FETCH,
     REFRESH_MANGA,
     UPDATE_MANGA,
@@ -281,7 +276,6 @@ import {
 } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import {
     GET_CHAPTER_PAGES_FETCH,
-    GET_MANGA_CHAPTERS_FETCH,
     UPDATE_CHAPTER,
     UPDATE_CHAPTER_METADATA,
     UPDATE_CHAPTERS,
@@ -2205,33 +2199,26 @@ export class RequestManager {
         );
     }
 
-    public getMangaFetch(
-        mangaId: number | string,
-        options?: MutationOptions<GetMangaFetchMutation, GetMangaFetchMutationVariables>,
-    ): AbortableApolloMutationResponse<GetMangaFetchMutation> {
-        return this.doRequest<GetMangaFetchMutation, GetMangaFetchMutationVariables>(
-            GQLMethod.MUTATION,
-            GET_MANGA_FETCH,
-            {
-                input: {
-                    id: Number(mangaId),
-                },
-            },
-            options,
-        );
-    }
-
     public refreshManga(
         mangaId: number | string,
-        options?: MutationOptions<RefreshMangaMutation, RefreshMangaMutationVariables>,
+        {
+            fetchManga = true,
+            fetchChapters = true,
+            ...options
+        }: MutationOptions<RefreshMangaMutation, RefreshMangaMutationVariables> & {
+            fetchManga?: boolean;
+            fetchChapters?: boolean;
+        } = {},
     ): AbortableApolloMutationResponse<RefreshMangaMutation> {
         return this.doRequest<RefreshMangaMutation, RefreshMangaMutationVariables>(
             GQLMethod.MUTATION,
             REFRESH_MANGA,
             {
                 id: Number(mangaId),
+                fetchManga,
+                fetchChapters,
             },
-            { refetchQueries: [GET_CHAPTERS_MANGA, GET_CHAPTERS_READER], errorPolicy: 'all', ...options },
+            { refetchQueries: [GET_CHAPTERS_MANGA, GET_CHAPTERS_READER], ...options },
         );
     }
 
@@ -2553,18 +2540,6 @@ export class RequestManager {
                 order: [{ by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc }],
             } satisfies GetChaptersMangaQueryVariables as unknown as Variables,
             options,
-        );
-    }
-
-    public getMangaChaptersFetch(
-        mangaId: number | string,
-        options?: MutationOptions<GetMangaChaptersFetchMutation, GetMangaChaptersFetchMutationVariables>,
-    ): AbortableApolloMutationResponse<GetMangaChaptersFetchMutation> {
-        return this.doRequest<GetMangaChaptersFetchMutation, GetMangaChaptersFetchMutationVariables>(
-            GQLMethod.MUTATION,
-            GET_MANGA_CHAPTERS_FETCH,
-            { input: { mangaId: Number(mangaId) } },
-            { refetchQueries: [GET_CHAPTERS_MANGA], ...options },
         );
     }
 

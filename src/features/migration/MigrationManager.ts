@@ -861,10 +861,10 @@ export class MigrationManager {
                             }).response,
                     );
 
-                    if (updatedMatch.data?.fetchManga?.manga) {
+                    if (updatedMatch.data?.fetchMangaAndChapters?.manga) {
                         return {
-                            manga: updatedMatch.data.fetchManga.manga,
-                            chapters: updatedMatch.data.fetchChapters?.chapters ?? null,
+                            manga: updatedMatch.data.fetchMangaAndChapters.manga,
+                            chapters: updatedMatch.data.fetchMangaAndChapters?.chapters ?? null,
                         };
                     }
                 } catch (e) {

@@ -159,8 +159,8 @@ export class MangaMigration {
 
         await MangaMigration.migrate(
             mangaToMigrateData?.manga,
-            mangaToMigrateToData?.fetchManga?.manga,
-            mangaToMigrateToData?.fetchChapters?.chapters,
+            mangaToMigrateToData?.fetchMangaAndChapters?.manga,
+            mangaToMigrateToData?.fetchMangaAndChapters?.chapters,
             options,
             removeMangaFromCategories,
         );

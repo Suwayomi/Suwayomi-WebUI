@@ -11,32 +11,17 @@ import { MANGA_META_FIELDS, MANGA_SCREEN_FIELDS } from '@/lib/graphql/manga/Mang
 import { CHAPTER_LIST_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 
 // makes the server fetch and return the manga
-export const GET_MANGA_FETCH = gql`
-    ${MANGA_SCREEN_FIELDS}
-
-    mutation GET_MANGA_FETCH($input: FetchMangaInput!) {
-        fetchManga(input: $input) {
-            manga {
-                ...MANGA_SCREEN_FIELDS
-            }
-        }
-    }
-`;
-
-// makes the server fetch and return the manga
 export const REFRESH_MANGA = gql`
     ${MANGA_SCREEN_FIELDS}
     ${CHAPTER_LIST_FIELDS}
 
-    mutation REFRESH_MANGA($id: Int!) {
-        fetchChapters(input: { mangaId: $id }) {
-            chapters {
-                ...CHAPTER_LIST_FIELDS
-            }
-        }
-        fetchManga(input: { id: $id }) {
-            manga {
+    mutation REFRESH_MANGA($id: Int!, $fetchManga: Boolean!, $fetchChapters: Boolean!) {
+        fetchMangaAndChapters(input: { id: $id, fetchManga: $fetchManga, fetchChapters: $fetchChapters }) {
+            manga @include(if: $fetchManga) {
                 ...MANGA_SCREEN_FIELDS
+            }
+            chapters @include(if: $fetchChapters) {
+                ...CHAPTER_LIST_FIELDS
             }
         }
     }
@@ -50,7 +35,7 @@ export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
         $migrateCategories: Boolean!
         $migrateTracking: Boolean!
     ) {
-        fetchManga(input: { id: $id }) {
+        fetchMangaAndChapters(input: { id: $id, fetchManga: true, fetchChapters: $migrateChapters }) {
             manga {
                 id
                 title
@@ -68,9 +53,7 @@ export const GET_MANGA_TO_MIGRATE_TO_FETCH = gql`
                     }
                 }
             }
-        }
-        fetchChapters(input: { mangaId: $id }) @include(if: $migrateChapters) {
-            chapters {
+            chapters @include(if: $migrateChapters) {
                 id
                 manga {
                     id

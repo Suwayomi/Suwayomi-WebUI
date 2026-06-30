@@ -529,67 +529,6 @@ export type GetChapterPagesFetchMutation = {
     } | null;
 };
 
-export type GetMangaChaptersFetchMutationVariables = Exact<{
-    input: Types.FetchChaptersInput;
-}>;
-
-export type GetMangaChaptersFetchMutation = {
-    __typename: 'Mutation';
-    fetchChapters: {
-        __typename: 'FetchChaptersPayload';
-        chapters: Array<{
-            __typename: 'ChapterType';
-            fetchedAt: string;
-            uploadDate: string;
-            lastReadAt: string;
-            id: number;
-            name: string;
-            mangaId: number;
-            scanlator: string | null;
-            realUrl: string | null;
-            sourceOrder: number;
-            chapterNumber: number;
-            isRead: boolean;
-            isDownloaded: boolean;
-            isBookmarked: boolean;
-            manga: {
-                __typename: 'MangaType';
-                id: number;
-                unreadCount: number;
-                downloadCount: number;
-                bookmarkCount: number;
-                hasDuplicateChapters: boolean;
-                chapters: { __typename: 'ChapterNodeList'; totalCount: number };
-                firstUnreadChapter: {
-                    __typename: 'ChapterType';
-                    id: number;
-                    sourceOrder: number;
-                    isRead: boolean;
-                    mangaId: number;
-                    chapterNumber: number;
-                    name: string;
-                    scanlator: string | null;
-                } | null;
-                lastReadChapter: {
-                    __typename: 'ChapterType';
-                    id: number;
-                    sourceOrder: number;
-                    lastReadAt: string;
-                } | null;
-                latestReadChapter: {
-                    __typename: 'ChapterType';
-                    id: number;
-                    sourceOrder: number;
-                    lastReadAt: string;
-                } | null;
-                latestFetchedChapter: { __typename: 'ChapterType'; id: number; fetchedAt: string } | null;
-                latestUploadedChapter: { __typename: 'ChapterType'; id: number; uploadDate: string } | null;
-                highestNumberedChapter: { __typename: 'ChapterType'; id: number; chapterNumber: number } | null;
-            };
-        }>;
-    } | null;
-};
-
 export type UpdateChapterMutationVariables = Exact<{
     input: Types.UpdateChapterInput;
     getBookmarked: boolean;
@@ -1778,15 +1717,17 @@ export type MangaLibraryDuplicateScreenFieldsFragment = {
     chapters: { __typename: 'ChapterNodeList'; totalCount: number };
 };
 
-export type GetMangaFetchMutationVariables = Exact<{
-    input: Types.FetchMangaInput;
+export type RefreshMangaMutationVariables = Exact<{
+    id: number;
+    fetchManga: boolean;
+    fetchChapters: boolean;
 }>;
 
-export type GetMangaFetchMutation = {
+export type RefreshMangaMutation = {
     __typename: 'Mutation';
-    fetchManga: {
-        __typename: 'FetchMangaPayload';
-        manga: {
+    fetchMangaAndChapters: {
+        __typename: 'FetchMangaAndChaptersPayload';
+        manga?: {
             __typename: 'MangaType';
             artist: string | null;
             author: string | null;
@@ -1843,18 +1784,7 @@ export type GetMangaFetchMutation = {
             highestNumberedChapter: { __typename: 'ChapterType'; id: number; chapterNumber: number } | null;
             chapters: { __typename: 'ChapterNodeList'; totalCount: number };
         };
-    } | null;
-};
-
-export type RefreshMangaMutationVariables = Exact<{
-    id: number;
-}>;
-
-export type RefreshMangaMutation = {
-    __typename: 'Mutation';
-    fetchChapters: {
-        __typename: 'FetchChaptersPayload';
-        chapters: Array<{
+        chapters?: Array<{
             __typename: 'ChapterType';
             fetchedAt: string;
             uploadDate: string;
@@ -1871,66 +1801,6 @@ export type RefreshMangaMutation = {
             isBookmarked: boolean;
         }>;
     } | null;
-    fetchManga: {
-        __typename: 'FetchMangaPayload';
-        manga: {
-            __typename: 'MangaType';
-            artist: string | null;
-            author: string | null;
-            description: string | null;
-            status: Types.MangaStatus;
-            realUrl: string | null;
-            sourceId: string;
-            genre: Array<string>;
-            lastFetchedAt: string | null;
-            inLibraryAt: string;
-            id: number;
-            title: string;
-            thumbnailUrl: string | null;
-            thumbnailUrlLastFetched: string | null;
-            inLibrary: boolean;
-            initialized: boolean;
-            unreadCount: number;
-            downloadCount: number;
-            bookmarkCount: number;
-            hasDuplicateChapters: boolean;
-            meta: Array<{ __typename: 'MangaMetaType'; mangaId: number; key: string; value: string }>;
-            source: {
-                __typename: 'SourceType';
-                id: string;
-                name: string;
-                displayName: string;
-                lang: string;
-                iconUrl: string;
-            } | null;
-            trackRecords: {
-                __typename: 'TrackRecordNodeList';
-                totalCount: number;
-                nodes: Array<{ __typename: 'TrackRecordType'; id: number; trackerId: number }>;
-            };
-            firstUnreadChapter: {
-                __typename: 'ChapterType';
-                id: number;
-                sourceOrder: number;
-                isRead: boolean;
-                mangaId: number;
-                chapterNumber: number;
-                name: string;
-                scanlator: string | null;
-            } | null;
-            lastReadChapter: { __typename: 'ChapterType'; id: number; sourceOrder: number; lastReadAt: string } | null;
-            latestReadChapter: {
-                __typename: 'ChapterType';
-                id: number;
-                sourceOrder: number;
-                lastReadAt: string;
-            } | null;
-            latestFetchedChapter: { __typename: 'ChapterType'; id: number; fetchedAt: string } | null;
-            latestUploadedChapter: { __typename: 'ChapterType'; id: number; uploadDate: string } | null;
-            highestNumberedChapter: { __typename: 'ChapterType'; id: number; chapterNumber: number } | null;
-            chapters: { __typename: 'ChapterNodeList'; totalCount: number };
-        };
-    } | null;
 };
 
 export type GetMangaToMigrateToFetchMutationVariables = Exact<{
@@ -1942,8 +1812,8 @@ export type GetMangaToMigrateToFetchMutationVariables = Exact<{
 
 export type GetMangaToMigrateToFetchMutation = {
     __typename: 'Mutation';
-    fetchManga: {
-        __typename: 'FetchMangaPayload';
+    fetchMangaAndChapters: {
+        __typename: 'FetchMangaAndChaptersPayload';
         manga: {
             __typename: 'MangaType';
             id: number;
@@ -1955,10 +1825,7 @@ export type GetMangaToMigrateToFetchMutation = {
                 nodes: Array<{ __typename: 'TrackRecordType'; id: number; remoteId: string; trackerId: number }>;
             };
         };
-    } | null;
-    fetchChapters?: {
-        __typename: 'FetchChaptersPayload';
-        chapters: Array<{
+        chapters?: Array<{
             __typename: 'ChapterType';
             id: number;
             chapterNumber: number;

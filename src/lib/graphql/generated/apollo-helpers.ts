@@ -570,6 +570,17 @@ export type FetchExtensionsPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
     extensions?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type FetchMangaAndChaptersPayloadKeySpecifier = (
+    | 'chapters'
+    | 'clientMutationId'
+    | 'manga'
+    | FetchMangaAndChaptersPayloadKeySpecifier
+)[];
+export type FetchMangaAndChaptersPayloadFieldPolicy = {
+    chapters?: FieldPolicy<any> | FieldReadFunction<any>;
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    manga?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type FetchMangaPayloadKeySpecifier = ('clientMutationId' | 'manga' | FetchMangaPayloadKeySpecifier)[];
 export type FetchMangaPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -905,6 +916,7 @@ export type MutationKeySpecifier = (
     | 'fetchChapters'
     | 'fetchExtensions'
     | 'fetchManga'
+    | 'fetchMangaAndChapters'
     | 'fetchSourceManga'
     | 'fetchTrack'
     | 'installExternalExtension'
@@ -985,6 +997,7 @@ export type MutationFieldPolicy = {
     fetchChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     fetchExtensions?: FieldPolicy<any> | FieldReadFunction<any>;
     fetchManga?: FieldPolicy<any> | FieldReadFunction<any>;
+    fetchMangaAndChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     fetchSourceManga?: FieldPolicy<any> | FieldReadFunction<any>;
     fetchTrack?: FieldPolicy<any> | FieldReadFunction<any>;
     installExternalExtension?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -2711,6 +2724,13 @@ export type StrictTypedTypePolicies = {
     FetchExtensionsPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | FetchExtensionsPayloadKeySpecifier | (() => undefined | FetchExtensionsPayloadKeySpecifier);
         fields?: FetchExtensionsPayloadFieldPolicy;
+    };
+    FetchMangaAndChaptersPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?:
+            | false
+            | FetchMangaAndChaptersPayloadKeySpecifier
+            | (() => undefined | FetchMangaAndChaptersPayloadKeySpecifier);
+        fields?: FetchMangaAndChaptersPayloadFieldPolicy;
     };
     FetchMangaPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | FetchMangaPayloadKeySpecifier | (() => undefined | FetchMangaPayloadKeySpecifier);
