@@ -138,5 +138,16 @@ export const SERVER_SETTINGS = gql`
 
         # WebView
         kcefEnabled
+
+        # Sync
+        syncDataCategories
+        syncDataChapters
+        syncDataHistory
+        syncDataManga
+        syncDataTracking
+        syncInterval
+        syncYomiApiKey
+        syncYomiEnabled
+        syncYomiHost
     }
 `;

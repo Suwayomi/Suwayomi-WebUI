@@ -24,7 +24,7 @@ import {
     BACKUP_FLAGS_BY_GROUP,
     BACKUP_FLAGS_TO_TRANSLATION,
 } from '@/features/backup/Backup.constants.ts';
-import type { BackupFlagGroup, BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
+import type { BackupFlag, BackupFlagGroup, BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 
 export const BackupFlagInclusionDialog = ({
     onDismiss,
@@ -33,11 +33,18 @@ export const BackupFlagInclusionDialog = ({
     onExitComplete,
     title,
     flags,
-}: AwaitableComponentProps<BackupFlagInclusionState> & { title: string; flags?: BackupFlagInclusionState }) => {
+    hiddenFlags,
+}: AwaitableComponentProps<BackupFlagInclusionState> & {
+    title: string;
+    flags?: BackupFlagInclusionState;
+    hiddenFlags?: BackupFlag[];
+}) => {
     const { t } = useLingui();
 
     const [includeStateByFlag, setIncludeStateByFlag] = useState(
-        Object.fromEntries(BACKUP_FLAGS.map((flag) => [flag, flags?.[flag] ?? true])) as BackupFlagInclusionState,
+        Object.fromEntries(
+            BACKUP_FLAGS.map((flag) => [flag, flags?.[flag] ?? !hiddenFlags?.includes(flag)]),
+        ) as BackupFlagInclusionState,
     );
 
     return (
@@ -45,24 +52,28 @@ export const BackupFlagInclusionDialog = ({
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <FormGroup sx={{ gap: 2 }}>
-                    {Object.entries(BACKUP_FLAGS_BY_GROUP).map(([group, groupFlags]) => (
-                        <Stack key={group}>
-                            <Typography>{t(BACKUP_FLAG_GROUP_TO_TRANSLATION[group as BackupFlagGroup])}</Typography>
-                            {groupFlags.map((flag) => (
-                                <CheckboxInput
-                                    key={flag}
-                                    label={t(BACKUP_FLAGS_TO_TRANSLATION[flag])}
-                                    checked={includeStateByFlag[flag]}
-                                    onChange={(_, checked) => {
-                                        setIncludeStateByFlag({
-                                            ...includeStateByFlag,
-                                            [flag]: checked,
-                                        });
-                                    }}
-                                />
-                            ))}
-                        </Stack>
-                    ))}
+                    {Object.entries(BACKUP_FLAGS_BY_GROUP)
+                        .filter(([_group, groupFlags]) => groupFlags.some((flag) => !hiddenFlags?.includes(flag)))
+                        .map(([group, groupFlags]) => (
+                            <Stack key={group}>
+                                <Typography>{t(BACKUP_FLAG_GROUP_TO_TRANSLATION[group as BackupFlagGroup])}</Typography>
+                                {groupFlags
+                                    .filter((flag) => !hiddenFlags?.includes(flag))
+                                    .map((flag) => (
+                                        <CheckboxInput
+                                            key={flag}
+                                            label={t(BACKUP_FLAGS_TO_TRANSLATION[flag])}
+                                            checked={includeStateByFlag[flag]}
+                                            onChange={(_, checked) => {
+                                                setIncludeStateByFlag({
+                                                    ...includeStateByFlag,
+                                                    [flag]: checked,
+                                                });
+                                            }}
+                                        />
+                                    ))}
+                            </Stack>
+                        ))}
                 </FormGroup>
             </DialogContent>
             <DialogActions>

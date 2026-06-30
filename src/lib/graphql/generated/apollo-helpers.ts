@@ -922,6 +922,7 @@ export type MutationKeySpecifier = (
     | 'setSourceMeta'
     | 'setSourceMetas'
     | 'startDownloader'
+    | 'startSync'
     | 'stopDownloader'
     | 'trackProgress'
     | 'unbindTrack'
@@ -1000,6 +1001,7 @@ export type MutationFieldPolicy = {
     setSourceMeta?: FieldPolicy<any> | FieldReadFunction<any>;
     setSourceMetas?: FieldPolicy<any> | FieldReadFunction<any>;
     startDownloader?: FieldPolicy<any> | FieldReadFunction<any>;
+    startSync?: FieldPolicy<any> | FieldReadFunction<any>;
     stopDownloader?: FieldPolicy<any> | FieldReadFunction<any>;
     trackProgress?: FieldPolicy<any> | FieldReadFunction<any>;
     unbindTrack?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1122,6 +1124,15 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'socksProxyPort'
     | 'socksProxyUsername'
     | 'socksProxyVersion'
+    | 'syncDataCategories'
+    | 'syncDataChapters'
+    | 'syncDataHistory'
+    | 'syncDataManga'
+    | 'syncDataTracking'
+    | 'syncInterval'
+    | 'syncYomiApiKey'
+    | 'syncYomiEnabled'
+    | 'syncYomiHost'
     | 'systemTrayEnabled'
     | 'updateMangas'
     | 'useHikariConnectionPool'
@@ -1211,6 +1222,15 @@ export type PartialSettingsTypeFieldPolicy = {
     socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>;
     socksProxyUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     socksProxyVersion?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataCategories?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataChapters?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataHistory?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataManga?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataTracking?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncInterval?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncYomiApiKey?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncYomiEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncYomiHost?: FieldPolicy<any> | FieldReadFunction<any>;
     systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     updateMangas?: FieldPolicy<any> | FieldReadFunction<any>;
     useHikariConnectionPool?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1255,6 +1275,7 @@ export type QueryKeySpecifier = (
     | 'extensions'
     | 'getWebUIUpdateStatus'
     | 'koSyncStatus'
+    | 'lastSyncStatus'
     | 'lastUpdateTimestamp'
     | 'libraryUpdateStatus'
     | 'manga'
@@ -1288,6 +1309,7 @@ export type QueryFieldPolicy = {
     extensions?: FieldPolicy<any> | FieldReadFunction<any>;
     getWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     koSyncStatus?: FieldPolicy<any> | FieldReadFunction<any>;
+    lastSyncStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     lastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>;
     libraryUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     manga?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1509,6 +1531,15 @@ export type SettingsKeySpecifier = (
     | 'socksProxyPort'
     | 'socksProxyUsername'
     | 'socksProxyVersion'
+    | 'syncDataCategories'
+    | 'syncDataChapters'
+    | 'syncDataHistory'
+    | 'syncDataManga'
+    | 'syncDataTracking'
+    | 'syncInterval'
+    | 'syncYomiApiKey'
+    | 'syncYomiEnabled'
+    | 'syncYomiHost'
     | 'systemTrayEnabled'
     | 'updateMangas'
     | 'useHikariConnectionPool'
@@ -1598,6 +1629,15 @@ export type SettingsFieldPolicy = {
     socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>;
     socksProxyUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     socksProxyVersion?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataCategories?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataChapters?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataHistory?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataManga?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataTracking?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncInterval?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncYomiApiKey?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncYomiEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncYomiHost?: FieldPolicy<any> | FieldReadFunction<any>;
     systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     updateMangas?: FieldPolicy<any> | FieldReadFunction<any>;
     useHikariConnectionPool?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1738,6 +1778,15 @@ export type SettingsTypeKeySpecifier = (
     | 'socksProxyPort'
     | 'socksProxyUsername'
     | 'socksProxyVersion'
+    | 'syncDataCategories'
+    | 'syncDataChapters'
+    | 'syncDataHistory'
+    | 'syncDataManga'
+    | 'syncDataTracking'
+    | 'syncInterval'
+    | 'syncYomiApiKey'
+    | 'syncYomiEnabled'
+    | 'syncYomiHost'
     | 'systemTrayEnabled'
     | 'updateMangas'
     | 'useHikariConnectionPool'
@@ -1827,6 +1876,15 @@ export type SettingsTypeFieldPolicy = {
     socksProxyPort?: FieldPolicy<any> | FieldReadFunction<any>;
     socksProxyUsername?: FieldPolicy<any> | FieldReadFunction<any>;
     socksProxyVersion?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataCategories?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataChapters?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataHistory?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataManga?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncDataTracking?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncInterval?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncYomiApiKey?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncYomiEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncYomiHost?: FieldPolicy<any> | FieldReadFunction<any>;
     systemTrayEnabled?: FieldPolicy<any> | FieldReadFunction<any>;
     updateMangas?: FieldPolicy<any> | FieldReadFunction<any>;
     useHikariConnectionPool?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1907,6 +1965,11 @@ export type StartDownloaderPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
     downloadStatus?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type StartSyncPayloadKeySpecifier = ('clientMutationId' | 'result' | StartSyncPayloadKeySpecifier)[];
+export type StartSyncPayloadFieldPolicy = {
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    result?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type StopDownloaderPayloadKeySpecifier = (
     | 'clientMutationId'
     | 'downloadStatus'
@@ -1920,6 +1983,7 @@ export type SubscriptionKeySpecifier = (
     | 'downloadChanged'
     | 'downloadStatusChanged'
     | 'libraryUpdateStatusChanged'
+    | 'syncStatusChanged'
     | 'updateStatusChanged'
     | 'webUIUpdateStatusChange'
     | SubscriptionKeySpecifier
@@ -1928,6 +1992,7 @@ export type SubscriptionFieldPolicy = {
     downloadChanged?: FieldPolicy<any> | FieldReadFunction<any>;
     downloadStatusChanged?: FieldPolicy<any> | FieldReadFunction<any>;
     libraryUpdateStatusChanged?: FieldPolicy<any> | FieldReadFunction<any>;
+    syncStatusChanged?: FieldPolicy<any> | FieldReadFunction<any>;
     updateStatusChanged?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIUpdateStatusChange?: FieldPolicy<any> | FieldReadFunction<any>;
 };
@@ -1954,6 +2019,21 @@ export type SyncConflictInfoTypeKeySpecifier = ('deviceName' | 'remotePage' | Sy
 export type SyncConflictInfoTypeFieldPolicy = {
     deviceName?: FieldPolicy<any> | FieldReadFunction<any>;
     remotePage?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type SyncStatusKeySpecifier = (
+    | 'backupRestoreId'
+    | 'endDate'
+    | 'errorMessage'
+    | 'startDate'
+    | 'state'
+    | SyncStatusKeySpecifier
+)[];
+export type SyncStatusFieldPolicy = {
+    backupRestoreId?: FieldPolicy<any> | FieldReadFunction<any>;
+    endDate?: FieldPolicy<any> | FieldReadFunction<any>;
+    errorMessage?: FieldPolicy<any> | FieldReadFunction<any>;
+    startDate?: FieldPolicy<any> | FieldReadFunction<any>;
+    state?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type TextFilterKeySpecifier = ('default' | 'name' | TextFilterKeySpecifier)[];
 export type TextFilterFieldPolicy = {
@@ -2918,6 +2998,10 @@ export type StrictTypedTypePolicies = {
         keyFields?: false | StartDownloaderPayloadKeySpecifier | (() => undefined | StartDownloaderPayloadKeySpecifier);
         fields?: StartDownloaderPayloadFieldPolicy;
     };
+    StartSyncPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | StartSyncPayloadKeySpecifier | (() => undefined | StartSyncPayloadKeySpecifier);
+        fields?: StartSyncPayloadFieldPolicy;
+    };
     StopDownloaderPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | StopDownloaderPayloadKeySpecifier | (() => undefined | StopDownloaderPayloadKeySpecifier);
         fields?: StopDownloaderPayloadFieldPolicy;
@@ -2933,6 +3017,10 @@ export type StrictTypedTypePolicies = {
     SyncConflictInfoType?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | SyncConflictInfoTypeKeySpecifier | (() => undefined | SyncConflictInfoTypeKeySpecifier);
         fields?: SyncConflictInfoTypeFieldPolicy;
+    };
+    SyncStatus?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | SyncStatusKeySpecifier | (() => undefined | SyncStatusKeySpecifier);
+        fields?: SyncStatusFieldPolicy;
     };
     TextFilter?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | TextFilterKeySpecifier | (() => undefined | TextFilterKeySpecifier);

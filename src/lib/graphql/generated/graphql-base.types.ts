@@ -1363,6 +1363,7 @@ export type Mutation = {
     setSourceMeta?: Maybe<SetSourceMetaPayload>;
     setSourceMetas?: Maybe<SetSourceMetasPayload>;
     startDownloader?: Maybe<StartDownloaderPayload>;
+    startSync: StartSyncPayload;
     stopDownloader?: Maybe<StopDownloaderPayload>;
     trackProgress?: Maybe<TrackProgressPayload>;
     unbindTrack: UnbindTrackPayload;
@@ -1598,6 +1599,10 @@ export type MutationStartDownloaderArgs = {
     input: StartDownloaderInput;
 };
 
+export type MutationStartSyncArgs = {
+    input: StartSyncInput;
+};
+
 export type MutationStopDownloaderArgs = {
     input: StopDownloaderInput;
 };
@@ -1824,6 +1829,15 @@ export type PartialSettingsType = Settings & {
     socksProxyPort?: Maybe<Scalars['String']['output']>;
     socksProxyUsername?: Maybe<Scalars['String']['output']>;
     socksProxyVersion?: Maybe<Scalars['Int']['output']>;
+    syncDataCategories?: Maybe<Scalars['Boolean']['output']>;
+    syncDataChapters?: Maybe<Scalars['Boolean']['output']>;
+    syncDataHistory?: Maybe<Scalars['Boolean']['output']>;
+    syncDataManga?: Maybe<Scalars['Boolean']['output']>;
+    syncDataTracking?: Maybe<Scalars['Boolean']['output']>;
+    syncInterval?: Maybe<Scalars['Duration']['output']>;
+    syncYomiApiKey?: Maybe<Scalars['String']['output']>;
+    syncYomiEnabled?: Maybe<Scalars['Boolean']['output']>;
+    syncYomiHost?: Maybe<Scalars['String']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
@@ -1903,6 +1917,15 @@ export type PartialSettingsTypeInput = {
     socksProxyPort?: InputMaybe<Scalars['String']['input']>;
     socksProxyUsername?: InputMaybe<Scalars['String']['input']>;
     socksProxyVersion?: InputMaybe<Scalars['Int']['input']>;
+    syncDataCategories?: InputMaybe<Scalars['Boolean']['input']>;
+    syncDataChapters?: InputMaybe<Scalars['Boolean']['input']>;
+    syncDataHistory?: InputMaybe<Scalars['Boolean']['input']>;
+    syncDataManga?: InputMaybe<Scalars['Boolean']['input']>;
+    syncDataTracking?: InputMaybe<Scalars['Boolean']['input']>;
+    syncInterval?: InputMaybe<Scalars['Duration']['input']>;
+    syncYomiApiKey?: InputMaybe<Scalars['String']['input']>;
+    syncYomiEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+    syncYomiHost?: InputMaybe<Scalars['String']['input']>;
     systemTrayEnabled?: InputMaybe<Scalars['Boolean']['input']>;
     updateMangas?: InputMaybe<Scalars['Boolean']['input']>;
     useHikariConnectionPool?: InputMaybe<Scalars['Boolean']['input']>;
@@ -1958,6 +1981,7 @@ export type Query = {
     extensions: ExtensionNodeList;
     getWebUIUpdateStatus: WebUiUpdateStatus;
     koSyncStatus: KoSyncStatusPayload;
+    lastSyncStatus?: Maybe<SyncStatus>;
     lastUpdateTimestamp: LastUpdateTimestampPayload;
     libraryUpdateStatus: LibraryUpdateStatus;
     manga: MangaType;
@@ -2412,6 +2436,15 @@ export type Settings = {
     socksProxyPort?: Maybe<Scalars['String']['output']>;
     socksProxyUsername?: Maybe<Scalars['String']['output']>;
     socksProxyVersion?: Maybe<Scalars['Int']['output']>;
+    syncDataCategories?: Maybe<Scalars['Boolean']['output']>;
+    syncDataChapters?: Maybe<Scalars['Boolean']['output']>;
+    syncDataHistory?: Maybe<Scalars['Boolean']['output']>;
+    syncDataManga?: Maybe<Scalars['Boolean']['output']>;
+    syncDataTracking?: Maybe<Scalars['Boolean']['output']>;
+    syncInterval?: Maybe<Scalars['Duration']['output']>;
+    syncYomiApiKey?: Maybe<Scalars['String']['output']>;
+    syncYomiEnabled?: Maybe<Scalars['Boolean']['output']>;
+    syncYomiHost?: Maybe<Scalars['String']['output']>;
     systemTrayEnabled?: Maybe<Scalars['Boolean']['output']>;
     updateMangas?: Maybe<Scalars['Boolean']['output']>;
     useHikariConnectionPool?: Maybe<Scalars['Boolean']['output']>;
@@ -2556,6 +2589,15 @@ export type SettingsType = Settings & {
     socksProxyPort: Scalars['String']['output'];
     socksProxyUsername: Scalars['String']['output'];
     socksProxyVersion: Scalars['Int']['output'];
+    syncDataCategories: Scalars['Boolean']['output'];
+    syncDataChapters: Scalars['Boolean']['output'];
+    syncDataHistory: Scalars['Boolean']['output'];
+    syncDataManga: Scalars['Boolean']['output'];
+    syncDataTracking: Scalars['Boolean']['output'];
+    syncInterval: Scalars['Duration']['output'];
+    syncYomiApiKey: Scalars['String']['output'];
+    syncYomiEnabled: Scalars['Boolean']['output'];
+    syncYomiHost: Scalars['String']['output'];
     systemTrayEnabled: Scalars['Boolean']['output'];
     updateMangas: Scalars['Boolean']['output'];
     useHikariConnectionPool: Scalars['Boolean']['output'];
@@ -2685,6 +2727,22 @@ export type StartDownloaderPayload = {
     downloadStatus: DownloadStatus;
 };
 
+export type StartSyncInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type StartSyncPayload = {
+    __typename?: 'StartSyncPayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+    result: StartSyncResult;
+};
+
+export enum StartSyncResult {
+    Success = 'SUCCESS',
+    SyncDisabled = 'SYNC_DISABLED',
+    SyncInProgress = 'SYNC_IN_PROGRESS',
+}
+
 export type StopDownloaderInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
@@ -2777,6 +2835,7 @@ export type Subscription = {
     downloadChanged: DownloadStatus;
     downloadStatusChanged: DownloadUpdates;
     libraryUpdateStatusChanged: UpdaterUpdates;
+    syncStatusChanged: SyncStatus;
     /** @deprecated Replaced with updates, replace with updates(input) */
     updateStatusChanged: UpdateStatus;
     webUIUpdateStatusChange: WebUiUpdateStatus;
@@ -2805,6 +2864,26 @@ export type SyncConflictInfoType = {
     __typename?: 'SyncConflictInfoType';
     deviceName: Scalars['String']['output'];
     remotePage: Scalars['Int']['output'];
+};
+
+export enum SyncState {
+    CreatingBackup = 'CREATING_BACKUP',
+    Downloading = 'DOWNLOADING',
+    Error = 'ERROR',
+    Merging = 'MERGING',
+    Restoring = 'RESTORING',
+    Started = 'STARTED',
+    Success = 'SUCCESS',
+    Uploading = 'UPLOADING',
+}
+
+export type SyncStatus = {
+    __typename?: 'SyncStatus';
+    backupRestoreId?: Maybe<Scalars['String']['output']>;
+    endDate?: Maybe<Scalars['LongString']['output']>;
+    errorMessage?: Maybe<Scalars['String']['output']>;
+    startDate: Scalars['LongString']['output'];
+    state: SyncState;
 };
 
 export type TextFilter = {

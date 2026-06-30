@@ -2795,6 +2795,15 @@ export type ServerSettingsFragment = {
     databasePassword: string;
     useHikariConnectionPool: boolean;
     kcefEnabled: boolean;
+    syncDataCategories: boolean;
+    syncDataChapters: boolean;
+    syncDataHistory: boolean;
+    syncDataManga: boolean;
+    syncDataTracking: boolean;
+    syncInterval: string;
+    syncYomiApiKey: string;
+    syncYomiEnabled: boolean;
+    syncYomiHost: string;
     downloadConversions: Array<{
         __typename: 'SettingsDownloadConversionType';
         mimeType: string;
@@ -2899,6 +2908,15 @@ export type ResetServerSettingsMutation = {
             databasePassword: string;
             useHikariConnectionPool: boolean;
             kcefEnabled: boolean;
+            syncDataCategories: boolean;
+            syncDataChapters: boolean;
+            syncDataHistory: boolean;
+            syncDataManga: boolean;
+            syncDataTracking: boolean;
+            syncInterval: string;
+            syncYomiApiKey: string;
+            syncYomiEnabled: boolean;
+            syncYomiHost: string;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -3013,6 +3031,15 @@ export type UpdateServerSettingsMutation = {
             databasePassword: string;
             useHikariConnectionPool: boolean;
             kcefEnabled: boolean;
+            syncDataCategories: boolean;
+            syncDataChapters: boolean;
+            syncDataHistory: boolean;
+            syncDataManga: boolean;
+            syncDataTracking: boolean;
+            syncInterval: string;
+            syncYomiApiKey: string;
+            syncYomiEnabled: boolean;
+            syncYomiHost: string;
             downloadConversions: Array<{
                 __typename: 'SettingsDownloadConversionType';
                 mimeType: string;
@@ -3123,6 +3150,15 @@ export type GetServerSettingsQuery = {
         databasePassword: string;
         useHikariConnectionPool: boolean;
         kcefEnabled: boolean;
+        syncDataCategories: boolean;
+        syncDataChapters: boolean;
+        syncDataHistory: boolean;
+        syncDataManga: boolean;
+        syncDataTracking: boolean;
+        syncInterval: string;
+        syncYomiApiKey: string;
+        syncYomiEnabled: boolean;
+        syncYomiHost: string;
         downloadConversions: Array<{
             __typename: 'SettingsDownloadConversionType';
             mimeType: string;
@@ -3686,6 +3722,52 @@ export type GetMigratableSourcesQuery = {
                 iconUrl: string;
             } | null;
         }>;
+    };
+};
+
+export type SyncStatusFieldsFragment = {
+    __typename: 'SyncStatus';
+    backupRestoreId: string | null;
+    endDate: string | null;
+    errorMessage: string | null;
+    startDate: string;
+    state: Types.SyncState;
+};
+
+export type StartSyncMutationVariables = Exact<{
+    input?: Types.StartSyncInput | null | undefined;
+}>;
+
+export type StartSyncMutation = {
+    __typename: 'Mutation';
+    startSync: { __typename: 'StartSyncPayload'; result: Types.StartSyncResult };
+};
+
+export type GetSyncStatusQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetSyncStatusQuery = {
+    __typename: 'Query';
+    lastSyncStatus: {
+        __typename: 'SyncStatus';
+        backupRestoreId: string | null;
+        endDate: string | null;
+        errorMessage: string | null;
+        startDate: string;
+        state: Types.SyncState;
+    } | null;
+};
+
+export type SyncSubscriptionVariables = Exact<{ [key: string]: never }>;
+
+export type SyncSubscription = {
+    __typename: 'Subscription';
+    syncStatusChanged: {
+        __typename: 'SyncStatus';
+        backupRestoreId: string | null;
+        endDate: string | null;
+        errorMessage: string | null;
+        startDate: string;
+        state: Types.SyncState;
     };
 };
 

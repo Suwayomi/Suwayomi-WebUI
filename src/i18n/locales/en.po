@@ -567,6 +567,7 @@ msgid "Backup cleanup"
 msgstr "Backup cleanup"
 
 #: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "Backup data"
 msgstr "Backup data"
 
@@ -1239,6 +1240,10 @@ msgstr "Cycle reading direction"
 msgid "Cycle reading mode"
 msgstr "Cycle reading mode"
 
+#: src/features/settings/Settings.constants.ts
+msgid "Daily"
+msgstr "Daily"
+
 #: src/features/settings/screens/Appearance.tsx
 msgid "Dark"
 msgstr "Dark"
@@ -1535,6 +1540,10 @@ msgstr "Enable debug logs"
 msgid "Enable page read progress"
 msgstr "Enable page read progress"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable the WebView via CEF (Chromium)"
+msgstr "Enable the WebView via CEF (Chromium)"
+
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
 msgstr "Entries in excluded categories will not be downloaded even if they are also in included categories"
@@ -1560,6 +1569,26 @@ msgstr "Entry \"{id}\" not found"
 msgid "Error"
 msgstr "Error"
 
+#: src/features/settings/Settings.constants.ts
+msgid "Every 12 hours"
+msgstr "Every 12 hours"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 3 hours"
+msgstr "Every 3 hours"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 30 minutes"
+msgstr "Every 30 minutes"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 6 hours"
+msgstr "Every 6 hours"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every hour"
+msgstr "Every hour"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
 msgstr "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
@@ -1576,6 +1605,10 @@ msgstr "Exclude scanlators"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 msgid "Exclude: {excludedCategoriesText}"
 msgstr "Exclude: {excludedCategoriesText}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Exclude: {excludedSyncDataText}"
+msgstr "Exclude: {excludedSyncDataText}"
 
 #: src/features/migration/Migration.constants.ts
 msgid "Excluded"
@@ -1958,6 +1991,10 @@ msgstr "Include"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 msgid "Include: {includedCategoriesText}"
 msgstr "Include: {includedCategoriesText}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Include: {includedSyncDataText}"
+msgstr "Include: {includedSyncDataText}"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Increase auto scroll speed"
@@ -3476,6 +3513,18 @@ msgstr "Successfully migrated"
 msgid "Successfully migrated manga"
 msgstr "Successfully migrated manga"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync"
+msgstr "Sync"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync data"
+msgstr "Sync data"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync interval"
+msgstr "Sync interval"
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Sync status"
 msgstr "Sync status"
@@ -3491,6 +3540,22 @@ msgstr "Sync to an older state"
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Sync will not be triggered if the progress difference is within this tolerance."
 msgstr "Sync will not be triggered if the progress difference is within this tolerance."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi"
+msgstr "SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi API key"
+msgstr "SyncYomi API key"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi enabled"
+msgstr "SyncYomi enabled"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi host"
+msgstr "SyncYomi host"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "System"
@@ -3972,6 +4037,14 @@ msgstr "WebUI version {0} ({1}) available for download"
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "WebUI was updated to version {newVersion} ({0})"
 msgstr "WebUI was updated to version {newVersion} ({0})"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "WebView"
+msgstr "WebView"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Weekly"
+msgstr "Weekly"
 
 #: src/features/settings/Settings.constants.ts
 msgid "When you enable this, you may need to refresh this tab for the login page to appear."
