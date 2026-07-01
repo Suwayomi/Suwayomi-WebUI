@@ -24,6 +24,15 @@ export type AboutWebUIFieldPolicy = {
     tag?: FieldPolicy<any> | FieldReadFunction<any>;
     updateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type AddExtensionStorePayloadKeySpecifier = (
+    | 'clientMutationId'
+    | 'extensionStore'
+    | AddExtensionStorePayloadKeySpecifier
+)[];
+export type AddExtensionStorePayloadFieldPolicy = {
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    extensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type BackupRestoreStatusKeySpecifier = (
     | 'mangaProgress'
     | 'state'
@@ -512,8 +521,53 @@ export type ExtensionNodeListFieldPolicy = {
     pageInfo?: FieldPolicy<any> | FieldReadFunction<any>;
     totalCount?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type ExtensionStoreEdgeKeySpecifier = ('cursor' | 'node' | ExtensionStoreEdgeKeySpecifier)[];
+export type ExtensionStoreEdgeFieldPolicy = {
+    cursor?: FieldPolicy<any> | FieldReadFunction<any>;
+    node?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type ExtensionStoreNodeListKeySpecifier = (
+    | 'edges'
+    | 'nodes'
+    | 'pageInfo'
+    | 'totalCount'
+    | ExtensionStoreNodeListKeySpecifier
+)[];
+export type ExtensionStoreNodeListFieldPolicy = {
+    edges?: FieldPolicy<any> | FieldReadFunction<any>;
+    nodes?: FieldPolicy<any> | FieldReadFunction<any>;
+    pageInfo?: FieldPolicy<any> | FieldReadFunction<any>;
+    totalCount?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type ExtensionStoreTypeKeySpecifier = (
+    | 'badgeLabel'
+    | 'contactDiscord'
+    | 'contactWebsite'
+    | 'extensionListUrl'
+    | 'extensions'
+    | 'indexUrl'
+    | 'isLegacy'
+    | 'name'
+    | 'signingKey'
+    | ExtensionStoreTypeKeySpecifier
+)[];
+export type ExtensionStoreTypeFieldPolicy = {
+    badgeLabel?: FieldPolicy<any> | FieldReadFunction<any>;
+    contactDiscord?: FieldPolicy<any> | FieldReadFunction<any>;
+    contactWebsite?: FieldPolicy<any> | FieldReadFunction<any>;
+    extensionListUrl?: FieldPolicy<any> | FieldReadFunction<any>;
+    extensions?: FieldPolicy<any> | FieldReadFunction<any>;
+    indexUrl?: FieldPolicy<any> | FieldReadFunction<any>;
+    isLegacy?: FieldPolicy<any> | FieldReadFunction<any>;
+    name?: FieldPolicy<any> | FieldReadFunction<any>;
+    signingKey?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type ExtensionTypeKeySpecifier = (
     | 'apkName'
+    | 'apkUrl'
+    | 'contentWarning'
+    | 'extensionLib'
+    | 'extensionStore'
     | 'hasUpdate'
     | 'iconUrl'
     | 'isInstalled'
@@ -524,12 +578,18 @@ export type ExtensionTypeKeySpecifier = (
     | 'pkgName'
     | 'repo'
     | 'source'
+    | 'storeIndexUrl'
     | 'versionCode'
+    | 'versionCodeLong'
     | 'versionName'
     | ExtensionTypeKeySpecifier
 )[];
 export type ExtensionTypeFieldPolicy = {
     apkName?: FieldPolicy<any> | FieldReadFunction<any>;
+    apkUrl?: FieldPolicy<any> | FieldReadFunction<any>;
+    contentWarning?: FieldPolicy<any> | FieldReadFunction<any>;
+    extensionLib?: FieldPolicy<any> | FieldReadFunction<any>;
+    extensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
     hasUpdate?: FieldPolicy<any> | FieldReadFunction<any>;
     iconUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     isInstalled?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -540,7 +600,9 @@ export type ExtensionTypeFieldPolicy = {
     pkgName?: FieldPolicy<any> | FieldReadFunction<any>;
     repo?: FieldPolicy<any> | FieldReadFunction<any>;
     source?: FieldPolicy<any> | FieldReadFunction<any>;
+    storeIndexUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     versionCode?: FieldPolicy<any> | FieldReadFunction<any>;
+    versionCodeLong?: FieldPolicy<any> | FieldReadFunction<any>;
     versionName?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type FetchChapterPagesPayloadKeySpecifier = (
@@ -563,11 +625,13 @@ export type FetchChaptersPayloadFieldPolicy = {
 };
 export type FetchExtensionsPayloadKeySpecifier = (
     | 'clientMutationId'
+    | 'extensionStores'
     | 'extensions'
     | FetchExtensionsPayloadKeySpecifier
 )[];
 export type FetchExtensionsPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    extensionStores?: FieldPolicy<any> | FieldReadFunction<any>;
     extensions?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type FetchMangaAndChaptersPayloadKeySpecifier = (
@@ -888,6 +952,7 @@ export type MultiSelectListPreferenceFieldPolicy = {
     visible?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type MutationKeySpecifier = (
+    | 'addExtensionStore'
     | 'bindTrack'
     | 'bindTrackRecord'
     | 'clearCachedImages'
@@ -928,6 +993,7 @@ export type MutationKeySpecifier = (
     | 'pullKoSyncProgress'
     | 'pushKoSyncProgress'
     | 'refreshToken'
+    | 'removeExtensionStore'
     | 'reorderChapterDownload'
     | 'resetSettings'
     | 'resetWebUIUpdateStatus'
@@ -969,6 +1035,7 @@ export type MutationKeySpecifier = (
     | MutationKeySpecifier
 )[];
 export type MutationFieldPolicy = {
+    addExtensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
     bindTrack?: FieldPolicy<any> | FieldReadFunction<any>;
     bindTrackRecord?: FieldPolicy<any> | FieldReadFunction<any>;
     clearCachedImages?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1009,6 +1076,7 @@ export type MutationFieldPolicy = {
     pullKoSyncProgress?: FieldPolicy<any> | FieldReadFunction<any>;
     pushKoSyncProgress?: FieldPolicy<any> | FieldReadFunction<any>;
     refreshToken?: FieldPolicy<any> | FieldReadFunction<any>;
+    removeExtensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
     reorderChapterDownload?: FieldPolicy<any> | FieldReadFunction<any>;
     resetSettings?: FieldPolicy<any> | FieldReadFunction<any>;
     resetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1298,6 +1366,8 @@ export type QueryKeySpecifier = (
     | 'checkForWebUIUpdate'
     | 'downloadStatus'
     | 'extension'
+    | 'extensionStore'
+    | 'extensionStores'
     | 'extensions'
     | 'getWebUIUpdateStatus'
     | 'koSyncStatus'
@@ -1332,6 +1402,8 @@ export type QueryFieldPolicy = {
     checkForWebUIUpdate?: FieldPolicy<any> | FieldReadFunction<any>;
     downloadStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     extension?: FieldPolicy<any> | FieldReadFunction<any>;
+    extensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
+    extensionStores?: FieldPolicy<any> | FieldReadFunction<any>;
     extensions?: FieldPolicy<any> | FieldReadFunction<any>;
     getWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     koSyncStatus?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1358,6 +1430,15 @@ export type RefreshTokenPayloadKeySpecifier = ('accessToken' | 'clientMutationId
 export type RefreshTokenPayloadFieldPolicy = {
     accessToken?: FieldPolicy<any> | FieldReadFunction<any>;
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type RemoveExtensionStorePayloadKeySpecifier = (
+    | 'clientMutationId'
+    | 'extensionStore'
+    | RemoveExtensionStorePayloadKeySpecifier
+)[];
+export type RemoveExtensionStorePayloadFieldPolicy = {
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+    extensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type ReorderChapterDownloadPayloadKeySpecifier = (
     | 'clientMutationId'
@@ -1955,9 +2036,11 @@ export type SourceNodeListFieldPolicy = {
 };
 export type SourceTypeKeySpecifier = (
     | 'baseUrl'
+    | 'contentWarning'
     | 'displayName'
     | 'extension'
     | 'filters'
+    | 'homeUrl'
     | 'iconUrl'
     | 'id'
     | 'isConfigurable'
@@ -1972,9 +2055,11 @@ export type SourceTypeKeySpecifier = (
 )[];
 export type SourceTypeFieldPolicy = {
     baseUrl?: FieldPolicy<any> | FieldReadFunction<any>;
+    contentWarning?: FieldPolicy<any> | FieldReadFunction<any>;
     displayName?: FieldPolicy<any> | FieldReadFunction<any>;
     extension?: FieldPolicy<any> | FieldReadFunction<any>;
     filters?: FieldPolicy<any> | FieldReadFunction<any>;
+    homeUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     iconUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     id?: FieldPolicy<any> | FieldReadFunction<any>;
     isConfigurable?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -2477,6 +2562,13 @@ export type StrictTypedTypePolicies = {
         keyFields?: false | AboutWebUIKeySpecifier | (() => undefined | AboutWebUIKeySpecifier);
         fields?: AboutWebUIFieldPolicy;
     };
+    AddExtensionStorePayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?:
+            | false
+            | AddExtensionStorePayloadKeySpecifier
+            | (() => undefined | AddExtensionStorePayloadKeySpecifier);
+        fields?: AddExtensionStorePayloadFieldPolicy;
+    };
     BackupRestoreStatus?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | BackupRestoreStatusKeySpecifier | (() => undefined | BackupRestoreStatusKeySpecifier);
         fields?: BackupRestoreStatusFieldPolicy;
@@ -2712,6 +2804,18 @@ export type StrictTypedTypePolicies = {
         keyFields?: false | ExtensionNodeListKeySpecifier | (() => undefined | ExtensionNodeListKeySpecifier);
         fields?: ExtensionNodeListFieldPolicy;
     };
+    ExtensionStoreEdge?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | ExtensionStoreEdgeKeySpecifier | (() => undefined | ExtensionStoreEdgeKeySpecifier);
+        fields?: ExtensionStoreEdgeFieldPolicy;
+    };
+    ExtensionStoreNodeList?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | ExtensionStoreNodeListKeySpecifier | (() => undefined | ExtensionStoreNodeListKeySpecifier);
+        fields?: ExtensionStoreNodeListFieldPolicy;
+    };
+    ExtensionStoreType?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | ExtensionStoreTypeKeySpecifier | (() => undefined | ExtensionStoreTypeKeySpecifier);
+        fields?: ExtensionStoreTypeFieldPolicy;
+    };
     ExtensionType?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | ExtensionTypeKeySpecifier | (() => undefined | ExtensionTypeKeySpecifier);
         fields?: ExtensionTypeFieldPolicy;
@@ -2900,6 +3004,13 @@ export type StrictTypedTypePolicies = {
     RefreshTokenPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | RefreshTokenPayloadKeySpecifier | (() => undefined | RefreshTokenPayloadKeySpecifier);
         fields?: RefreshTokenPayloadFieldPolicy;
+    };
+    RemoveExtensionStorePayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?:
+            | false
+            | RemoveExtensionStorePayloadKeySpecifier
+            | (() => undefined | RemoveExtensionStorePayloadKeySpecifier);
+        fields?: RemoveExtensionStorePayloadFieldPolicy;
     };
     ReorderChapterDownloadPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?:

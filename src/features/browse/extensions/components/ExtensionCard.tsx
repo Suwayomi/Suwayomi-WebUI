@@ -23,7 +23,7 @@ import {
     EXTENSION_ACTION_TO_STATE_MAP,
     INSTALLED_STATE_TO_TRANSLATION_MAP,
 } from '@/features/extension/Extensions.constants.ts';
-import { getInstalledState, updateExtension } from '@/features/extension/Extensions.utils.ts';
+import { getInstalledState, isNsfw, updateExtension } from '@/features/extension/Extensions.utils.ts';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
@@ -35,7 +35,7 @@ import { languageCodeToName } from '@/base/utils/Languages.ts';
 interface IProps {
     extension: TExtension;
     handleUpdate: () => void;
-    showSourceRepo: boolean;
+    showSourceStore: boolean;
     forcedState?: ExtensionState;
 }
 
@@ -43,9 +43,20 @@ export function ExtensionCard(props: IProps) {
     const { t } = useLingui();
 
     const {
-        extension: { name, lang, versionName, isInstalled, hasUpdate, isObsolete, pkgName, iconUrl, isNsfw, repo },
+        extension: {
+            name,
+            lang,
+            versionName,
+            isInstalled,
+            hasUpdate,
+            isObsolete,
+            pkgName,
+            iconUrl,
+            contentWarning,
+            extensionStore,
+        },
         handleUpdate,
-        showSourceRepo,
+        showSourceStore,
         forcedState,
     } = props;
     const [localInstalledState, setInstalledState] = useState<InstalledStates>(
@@ -117,11 +128,14 @@ export function ExtensionCard(props: IProps) {
                         <Typography variant="h6" component="h3">
                             {name}
                         </Typography>
+                        {showSourceStore && !!extensionStore && (
+                            <Typography variant="caption">{extensionStore.name}</Typography>
+                        )}
                         <Typography variant="caption">
                             {isInstalled ? `${languageCodeToName(lang)}` : ''}
                             {isInstalled ? (
                                 <Typography variant="caption" sx={{ px: 1 }}>
-                                    •
+                                    -
                                 </Typography>
                             ) : (
                                 ''
@@ -130,17 +144,17 @@ export function ExtensionCard(props: IProps) {
                             {isObsolete && (
                                 <>
                                     <Typography variant="caption" sx={{ px: 1 }}>
-                                        •
+                                        -
                                     </Typography>
                                     <Typography variant="caption" color="warning" sx={{ textTransform: 'uppercase' }}>
                                         {t`Obsolete`}
                                     </Typography>
                                 </>
                             )}
-                            {isNsfw && (
+                            {isNsfw(contentWarning) && (
                                 <>
                                     <Typography variant="caption" sx={{ px: 1 }}>
-                                        •
+                                        -
                                     </Typography>
                                     <Typography variant="caption" color="error">
                                         18+
@@ -148,7 +162,6 @@ export function ExtensionCard(props: IProps) {
                                 </>
                             )}
                         </Typography>
-                        {showSourceRepo && <Typography variant="caption">{repo}</Typography>}
                     </Stack>
                     {isInstalled && (
                         <CustomTooltip title={t`Settings`}>

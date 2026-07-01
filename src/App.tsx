@@ -100,6 +100,10 @@ const { GlobalReaderSettings } = loadable(
 const { More } = loadable(() => import('@/features/settings/screens/More.tsx'), lazyLoadFallback);
 const { Reader } = loadable(() => import('@/features/reader/screens/Reader.tsx'), lazyLoadFallback);
 const { HistorySettings } = loadable(() => import('@/features/history/screens/HistorySettings.tsx'), lazyLoadFallback);
+const { ExtensionStores } = loadable(
+    () => import('@/features/extension/store/screens/ExtensionStores.tsx'),
+    lazyLoadFallback,
+);
 
 if (import.meta.env.DEV) {
     // Adds messages only in a dev environment
@@ -323,7 +327,13 @@ const MainApp = () => {
                             <Route path={AppRoutes.settings.children.backup.match} element={<Backup />} />
                             <Route path={AppRoutes.settings.children.server.match} element={<ServerSettings />} />
                             <Route path={AppRoutes.settings.children.webui.match} element={<WebUISettings />} />
-                            <Route path={AppRoutes.settings.children.browse.match} element={<BrowseSettings />} />
+                            <Route path={AppRoutes.settings.children.browse.match}>
+                                <Route index element={<BrowseSettings />} />
+                                <Route
+                                    path={AppRoutes.settings.children.browse.children.extensionStores.match}
+                                    element={<ExtensionStores />}
+                                />
+                            </Route>
                             <Route path={AppRoutes.settings.children.history.match} element={<HistorySettings />} />
                             <Route path={AppRoutes.settings.children.device.match} element={<DeviceSetting />} />
                             <Route path={AppRoutes.settings.children.tracking.match} element={<TrackingSettings />} />

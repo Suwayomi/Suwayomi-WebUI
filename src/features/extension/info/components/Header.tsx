@@ -12,19 +12,19 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { SpinnerImage } from '@/base/components/SpinnerImage.tsx';
 import type { TExtension } from '@/features/extension/Extensions.types.ts';
 
-export const Header = ({ name, pkgName, iconUrl, repo }: TExtension) => (
+export const Header = ({ name, pkgName, iconUrl, extensionStore }: TExtension) => (
     <Stack sx={{ alignItems: 'center' }}>
         <SpinnerImage alt={name} src={requestManager.getValidImgUrlFor(iconUrl)} ignoreQueue />
         <Typography variant="h5" component="h2">
             {name}
         </Typography>
+        {extensionStore && (
+            <Typography variant="body1" color="textSecondary">
+                {extensionStore.name}
+            </Typography>
+        )}
         <Typography variant="body2" color="textSecondary">
             {pkgName.replace('eu.kanade.tachiyomi.extension.', '')}
         </Typography>
-        {repo && (
-            <Typography variant="body2" color="textSecondary">
-                {repo}
-            </Typography>
-        )}
     </Stack>
 );

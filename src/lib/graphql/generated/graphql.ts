@@ -1261,14 +1261,16 @@ export type ExtensionListFieldsFragment = {
     pkgName: string;
     name: string;
     lang: string;
-    versionCode: number;
+    versionCodeLong: string;
     versionName: string;
     iconUrl: string;
-    repo: string | null;
-    isNsfw: boolean;
+    storeIndexUrl: string | null;
+    contentWarning: Types.ContentWarning;
     isInstalled: boolean;
     isObsolete: boolean;
     hasUpdate: boolean;
+    extensionLib: string | null;
+    extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
 };
 
 export type GetExtensionsFetchMutationVariables = Exact<{
@@ -1284,14 +1286,28 @@ export type GetExtensionsFetchMutation = {
             pkgName: string;
             name: string;
             lang: string;
-            versionCode: number;
+            versionCodeLong: string;
             versionName: string;
             iconUrl: string;
-            repo: string | null;
-            isNsfw: boolean;
+            storeIndexUrl: string | null;
+            contentWarning: Types.ContentWarning;
             isInstalled: boolean;
             isObsolete: boolean;
             hasUpdate: boolean;
+            extensionLib: string | null;
+            extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
+        }>;
+        extensionStores: Array<{
+            __typename: 'ExtensionStoreType';
+            badgeLabel: string;
+            contactDiscord: string | null;
+            contactWebsite: string;
+            extensionListUrl: string | null;
+            indexUrl: string;
+            isLegacy: boolean;
+            name: string;
+            signingKey: string;
+            extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
         }>;
     } | null;
 };
@@ -1309,14 +1325,16 @@ export type UpdateExtensionMutation = {
             pkgName: string;
             name: string;
             lang: string;
-            versionCode: number;
+            versionCodeLong: string;
             versionName: string;
             iconUrl: string;
-            repo: string | null;
-            isNsfw: boolean;
+            storeIndexUrl: string | null;
+            contentWarning: Types.ContentWarning;
             isInstalled: boolean;
             isObsolete: boolean;
             hasUpdate: boolean;
+            extensionLib: string | null;
+            extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
         } | null;
     } | null;
 };
@@ -1334,14 +1352,16 @@ export type UpdateExtensionsMutation = {
             pkgName: string;
             name: string;
             lang: string;
-            versionCode: number;
+            versionCodeLong: string;
             versionName: string;
             iconUrl: string;
-            repo: string | null;
-            isNsfw: boolean;
+            storeIndexUrl: string | null;
+            contentWarning: Types.ContentWarning;
             isInstalled: boolean;
             isObsolete: boolean;
             hasUpdate: boolean;
+            extensionLib: string | null;
+            extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
         }>;
     } | null;
 };
@@ -1359,14 +1379,16 @@ export type InstallExternalExtensionMutation = {
             pkgName: string;
             name: string;
             lang: string;
-            versionCode: number;
+            versionCodeLong: string;
             versionName: string;
             iconUrl: string;
-            repo: string | null;
-            isNsfw: boolean;
+            storeIndexUrl: string | null;
+            contentWarning: Types.ContentWarning;
             isInstalled: boolean;
             isObsolete: boolean;
             hasUpdate: boolean;
+            extensionLib: string | null;
+            extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
         };
     } | null;
 };
@@ -1382,14 +1404,16 @@ export type GetExtensionQuery = {
         pkgName: string;
         name: string;
         lang: string;
-        versionCode: number;
+        versionCodeLong: string;
         versionName: string;
         iconUrl: string;
-        repo: string | null;
-        isNsfw: boolean;
+        storeIndexUrl: string | null;
+        contentWarning: Types.ContentWarning;
         isInstalled: boolean;
         isObsolete: boolean;
         hasUpdate: boolean;
+        extensionLib: string | null;
+        extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
     };
 };
 
@@ -1414,14 +1438,124 @@ export type GetExtensionsQuery = {
             pkgName: string;
             name: string;
             lang: string;
-            versionCode: number;
+            versionCodeLong: string;
             versionName: string;
             iconUrl: string;
-            repo: string | null;
-            isNsfw: boolean;
+            storeIndexUrl: string | null;
+            contentWarning: Types.ContentWarning;
             isInstalled: boolean;
             isObsolete: boolean;
             hasUpdate: boolean;
+            extensionLib: string | null;
+            extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
+        }>;
+        pageInfo: {
+            __typename: 'PageInfo';
+            endCursor: string | null;
+            hasNextPage: boolean;
+            hasPreviousPage: boolean;
+            startCursor: string | null;
+        };
+    };
+};
+
+export type ExtensionStoreFieldsFragment = {
+    __typename: 'ExtensionStoreType';
+    badgeLabel: string;
+    contactDiscord: string | null;
+    contactWebsite: string;
+    extensionListUrl: string | null;
+    indexUrl: string;
+    isLegacy: boolean;
+    name: string;
+    signingKey: string;
+    extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
+};
+
+export type AddExtensionStoreMutationVariables = Exact<{
+    input: Types.AddExtensionStoreInput;
+}>;
+
+export type AddExtensionStoreMutation = {
+    __typename: 'Mutation';
+    addExtensionStore: {
+        __typename: 'AddExtensionStorePayload';
+        extensionStore: {
+            __typename: 'ExtensionStoreType';
+            badgeLabel: string;
+            contactDiscord: string | null;
+            contactWebsite: string;
+            extensionListUrl: string | null;
+            indexUrl: string;
+            isLegacy: boolean;
+            name: string;
+            signingKey: string;
+            extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
+        };
+    } | null;
+};
+
+export type RemoveExtensionStoreMutationVariables = Exact<{
+    input: Types.RemoveExtensionStoreInput;
+}>;
+
+export type RemoveExtensionStoreMutation = {
+    __typename: 'Mutation';
+    removeExtensionStore: {
+        __typename: 'RemoveExtensionStorePayload';
+        extensionStore: {
+            __typename: 'ExtensionStoreType';
+            badgeLabel: string;
+            contactDiscord: string | null;
+            contactWebsite: string;
+            extensionListUrl: string | null;
+            indexUrl: string;
+            isLegacy: boolean;
+            name: string;
+            signingKey: string;
+            extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
+        } | null;
+    } | null;
+};
+
+export type GetExtensionStoreQueryVariables = Exact<{
+    indexUrl: string;
+}>;
+
+export type GetExtensionStoreQuery = {
+    __typename: 'Query';
+    extensionStore: {
+        __typename: 'ExtensionStoreType';
+        badgeLabel: string;
+        contactDiscord: string | null;
+        contactWebsite: string;
+        extensionListUrl: string | null;
+        indexUrl: string;
+        isLegacy: boolean;
+        name: string;
+        signingKey: string;
+        extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
+    };
+};
+
+export type GetExtensionStoresQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetExtensionStoresQuery = {
+    __typename: 'Query';
+    extensionStores: {
+        __typename: 'ExtensionStoreNodeList';
+        totalCount: number;
+        nodes: Array<{
+            __typename: 'ExtensionStoreType';
+            badgeLabel: string;
+            contactDiscord: string | null;
+            contactWebsite: string;
+            extensionListUrl: string | null;
+            indexUrl: string;
+            isLegacy: boolean;
+            name: string;
+            signingKey: string;
+            extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
         }>;
         pageInfo: {
             __typename: 'PageInfo';
@@ -2608,7 +2742,6 @@ export type ServerSettingsFragment = {
     excludeEntryWithUnreadChapters: boolean;
     autoDownloadNewChaptersLimit: number;
     autoDownloadIgnoreReUploads: boolean;
-    extensionRepos: Array<string>;
     maxSourcesInParallel: number;
     excludeUnreadChapters: boolean;
     excludeNotStarted: boolean;
@@ -2722,7 +2855,6 @@ export type ResetServerSettingsMutation = {
             excludeEntryWithUnreadChapters: boolean;
             autoDownloadNewChaptersLimit: number;
             autoDownloadIgnoreReUploads: boolean;
-            extensionRepos: Array<string>;
             maxSourcesInParallel: number;
             excludeUnreadChapters: boolean;
             excludeNotStarted: boolean;
@@ -2846,7 +2978,6 @@ export type UpdateServerSettingsMutation = {
             excludeEntryWithUnreadChapters: boolean;
             autoDownloadNewChaptersLimit: number;
             autoDownloadIgnoreReUploads: boolean;
-            extensionRepos: Array<string>;
             maxSourcesInParallel: number;
             excludeUnreadChapters: boolean;
             excludeNotStarted: boolean;
@@ -2966,7 +3097,6 @@ export type GetServerSettingsQuery = {
         excludeEntryWithUnreadChapters: boolean;
         autoDownloadNewChaptersLimit: number;
         autoDownloadIgnoreReUploads: boolean;
-        extensionRepos: Array<string>;
         maxSourcesInParallel: number;
         excludeUnreadChapters: boolean;
         excludeNotStarted: boolean;
@@ -3066,19 +3196,24 @@ export type SourceListFieldsFragment = {
     __typename: 'SourceType';
     lang: string;
     iconUrl: string;
-    isNsfw: boolean;
+    contentWarning: Types.ContentWarning;
     isConfigurable: boolean;
     supportsLatest: boolean;
     id: string;
     name: string;
     displayName: string;
     meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
-    extension: { __typename: 'ExtensionType'; pkgName: string; repo: string | null };
+    extension: {
+        __typename: 'ExtensionType';
+        pkgName: string;
+        storeIndexUrl: string | null;
+        extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
+    };
 };
 
 export type SourceBrowseFieldsFragment = {
     __typename: 'SourceType';
-    baseUrl: string | null;
+    homeUrl: string | null;
     isConfigurable: boolean;
     supportsLatest: boolean;
     id: string;
@@ -3393,7 +3528,7 @@ export type GetSourceBrowseQuery = {
     __typename: 'Query';
     source: {
         __typename: 'SourceType';
-        baseUrl: string | null;
+        homeUrl: string | null;
         isConfigurable: boolean;
         supportsLatest: boolean;
         id: string;
@@ -3563,14 +3698,19 @@ export type GetSourcesListQuery = {
             __typename: 'SourceType';
             lang: string;
             iconUrl: string;
-            isNsfw: boolean;
+            contentWarning: Types.ContentWarning;
             isConfigurable: boolean;
             supportsLatest: boolean;
             id: string;
             name: string;
             displayName: string;
             meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
-            extension: { __typename: 'ExtensionType'; pkgName: string; repo: string | null };
+            extension: {
+                __typename: 'ExtensionType';
+                pkgName: string;
+                storeIndexUrl: string | null;
+                extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
+            };
         }>;
     };
 };

@@ -116,14 +116,9 @@ const GroupHeader = ({
 export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const { t } = useLingui();
 
-    const {
-        data: serverSettingsData,
-        loading: areServerSettingsLoading,
-        error: serverSettingsError,
-        refetch: refetchServerSettings,
-    } = requestManager.useGetServerSettings();
     const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
         requestManager.useExtensionListFetch();
+    const extensionStoresRequest = requestManager.useGetExtensionStores();
 
     const {
         settings: { browseLanguages: shownLangs, showNsfw },
@@ -137,11 +132,8 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const [updatingExtensionIds, setUpdatingExtensionIds] = useState<string[]>([]);
     const [refetchExtensions, setRefetchExtensions] = useState({});
 
-    const isLoading = areServerSettingsLoading || areExtensionsLoading;
-    const error = serverSettingsError ?? extensionsError;
-
-    const areReposDefined = !!serverSettingsData?.settings.extensionRepos.length;
-    const areMultipleReposInUse = (serverSettingsData?.settings.extensionRepos.length ?? 0) > 1;
+    const isLoading = extensionStoresRequest.loading || areExtensionsLoading;
+    const error = extensionStoresRequest.error ?? extensionsError;
 
     const allExtensions = data?.fetchExtensions?.extensions ?? STABLE_EMPTY_ARRAY;
     const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions), [allExtensions]);
@@ -159,6 +151,17 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         () => groupedExtensions.flatMap(([, extensions]) => extensions),
         [groupedExtensions],
     );
+
+    const areReposDefined = !!extensionStoresRequest.data?.extensionStores.totalCount;
+    const areMultipleReposInUse = useMemo(() => {
+        if (!allExtensions.length) {
+            return false;
+        }
+
+        const store = allExtensions[0].extensionStore?.indexUrl;
+
+        return allExtensions.slice(1).some((extension) => extension.extensionStore?.indexUrl !== store);
+    }, [allExtensions]);
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
@@ -244,8 +247,10 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 message={t`Unable to load data`}
                 messageExtra={getErrorMessage(error)}
                 retry={() => {
-                    if (serverSettingsError) {
-                        refetchServerSettings().catch(defaultPromiseErrorHandler('Extensions::refetchServerSettings'));
+                    if (extensionStoresRequest.error) {
+                        extensionStoresRequest
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('Extensions::refetchExtensionsStores'));
                     }
 
                     if (extensionsError) {
@@ -267,9 +272,13 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                     paddingTop: '20px',
                 }}
             >
-                <Typography>{t`You have to add a extension repository to be able to install extensions`}</Typography>
-                <Button component={Link} variant="contained" to={AppRoutes.settings.children.browse.path}>
-                    {t`Settings`}
+                <Typography>{t`You have to add a extension store to be able to install extensions`}</Typography>
+                <Button
+                    component={Link}
+                    variant="contained"
+                    to={AppRoutes.settings.children.browse.children.extensionStores.path}
+                >
+                    {t`Add extension store`}
                 </Button>
             </Stack>
         );
@@ -306,7 +315,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                         <ExtensionCard
                             extension={item}
                             handleUpdate={handleExtensionUpdate}
-                            showSourceRepo={areMultipleReposInUse}
+                            showSourceStore={areMultipleReposInUse}
                             forcedState={
                                 updatingExtensionIds.includes(item.pkgName) ? ExtensionState.UPDATING : undefined
                             }

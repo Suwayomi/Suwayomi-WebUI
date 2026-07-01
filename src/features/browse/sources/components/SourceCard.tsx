@@ -30,6 +30,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { SourceContentType } from '@/features/source/Source.types.ts';
+import { isNsfw } from '@/features/extension/Extensions.utils.ts';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];
@@ -47,8 +48,8 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
         lang,
         iconUrl,
         supportsLatest,
-        isNsfw,
-        extension: { repo },
+        contentWarning,
+        extension: { extensionStore },
     } = source;
 
     const { isPinned } = useGetSourceMetadata(source);
@@ -92,13 +93,15 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                         </Typography>
                         <Typography variant="caption">
                             {showLanguage && languageCodeToName(lang)}
-                            {isNsfw && (
+                            {isNsfw(contentWarning) && (
                                 <Typography variant="caption" color="error">
                                     {' 18+'}
                                 </Typography>
                             )}
                         </Typography>
-                        {showSourceRepo && <Typography variant="caption">{repo}</Typography>}
+                        {showSourceRepo && extensionStore && (
+                            <Typography variant="caption">{extensionStore.name}</Typography>
+                        )}
                     </Stack>
                     {supportsLatest && (
                         <Button

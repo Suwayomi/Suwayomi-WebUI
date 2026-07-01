@@ -51,6 +51,7 @@ const typePolicies: TypedTypePolicies = {
     CategoryMetaType: { keyFields: ['categoryId', 'key'] },
     SourceMetaType: { keyFields: ['sourceId', 'key'] },
     ExtensionType: { keyFields: ['pkgName'] },
+    ExtensionStoreType: { keyFields: ['indexUrl'] },
     AboutServerPayload: { keyFields: [] },
     AboutWebUI: { keyFields: [] },
     WebUIUpdateInfo: { keyFields: [] },
@@ -97,6 +98,12 @@ const typePolicies: TypedTypePolicies = {
                 return toReference({
                     __typename: 'ExtensionType',
                     pkgName: args?.pkgName,
+                });
+            },
+            extensionStore(_, { args, toReference }) {
+                return toReference({
+                    __typename: 'ExtensionStoreType',
+                    indexUrl: args?.indexUrl,
                 });
             },
             meta(_, { args, toReference }) {

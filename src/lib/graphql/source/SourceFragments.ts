@@ -35,7 +35,7 @@ export const SOURCE_LIST_FIELDS = gql`
 
         lang
         iconUrl
-        isNsfw
+        contentWarning
         isConfigurable
         supportsLatest
 
@@ -45,7 +45,11 @@ export const SOURCE_LIST_FIELDS = gql`
 
         extension {
             pkgName
-            repo
+            storeIndexUrl
+            extensionStore {
+                indexUrl
+                name
+            }
         }
     }
 `;
@@ -57,7 +61,7 @@ export const SOURCE_BROWSE_FIELDS = gql`
     fragment SOURCE_BROWSE_FIELDS on SourceType {
         ...SOURCE_BASE_FIELDS
 
-        baseUrl
+        homeUrl
 
         isConfigurable
         supportsLatest

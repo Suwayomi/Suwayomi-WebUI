@@ -81,7 +81,7 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         [sources],
     );
     const areSourcesFromDifferentRepos = useMemo(
-        () => SourceService.areFromMultipleRepos(filteredSources),
+        () => SourceService.areFromMultipleStores(filteredSources),
         [filteredSources],
     );
     const visibleSources = useMemo(

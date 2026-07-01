@@ -13,13 +13,18 @@ export const EXTENSION_LIST_FIELDS = gql`
         pkgName
         name
         lang
-        versionCode
+        versionCodeLong
         versionName
         iconUrl
-        repo
-        isNsfw
+        storeIndexUrl
+        contentWarning
         isInstalled
         isObsolete
         hasUpdate
+        extensionLib
+        extensionStore {
+            indexUrl
+            name
+        }
     }
 `;

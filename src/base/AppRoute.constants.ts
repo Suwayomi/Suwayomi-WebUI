@@ -109,6 +109,12 @@ export const AppRoutes = {
             browse: {
                 match: 'browse',
                 path: '/settings/browse',
+                children: {
+                    extensionStores: {
+                        match: 'extension-stores',
+                        path: '/settings/browse/extension-stores',
+                    },
+                },
             },
             device: {
                 match: 'device',

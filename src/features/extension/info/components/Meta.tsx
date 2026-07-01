@@ -11,15 +11,18 @@ import { useLingui } from '@lingui/react/macro';
 import type { TExtension } from '@/features/extension/Extensions.types.ts';
 import { ExtensionMetadata } from '@/features/extension/info/components/ExtensionMetadata.tsx';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
+import { isNsfw } from '@/features/extension/Extensions.utils.ts';
 
-export const Meta = ({ versionName, lang, isNsfw }: TExtension) => {
+export const Meta = ({ versionName, lang, contentWarning }: TExtension) => {
     const { t } = useLingui();
 
     return (
         <Stack sx={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
             <ExtensionMetadata title={t`Version`} value={versionName} />
             <ExtensionMetadata title={t`Language`} value={languageCodeToName(lang)} />
-            {isNsfw && <ExtensionMetadata title={t`Age rating`} value="18+" valueProps={{ color: 'error' }} />}
+            {isNsfw(contentWarning) && (
+                <ExtensionMetadata title={t`Age rating`} value="18+" valueProps={{ color: 'error' }} />
+            )}
         </Stack>
     );
 };

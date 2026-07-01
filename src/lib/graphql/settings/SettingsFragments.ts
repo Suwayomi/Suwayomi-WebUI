@@ -60,10 +60,7 @@ export const SERVER_SETTINGS = gql`
             connectTimeout
         }
 
-        # extensions
-        extensionRepos
-
-        # requests
+        # extension/source
         maxSourcesInParallel
 
         # updater
