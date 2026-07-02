@@ -84,7 +84,7 @@ export const MangaActionMenuItems = ({
 
     const isDownloadable = !!manga && !!manga.chapters.totalCount && !Mangas.isFullyDownloaded(manga);
     const hasDownloadedChapters = manga && Mangas.isPartiallyDownloaded(manga);
-    const hasUnreadChapters = manga && Mangas.isPartiallyRead(manga);
+    const hasUnreadChapters = manga && !!manga.chapters.totalCount && !Mangas.isFullyRead(manga);
     const hasReadChapters = !!manga && Mangas.isPartiallyRead(manga);
 
     const handleSelect = () => {
