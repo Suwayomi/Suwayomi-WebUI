@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-06-21 16:43+0000\n"
+"PO-Revision-Date: 2026-06-22 20:51+0000\n"
 "Last-Translator: 清水汐音 <chenzhongjie19940725@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
@@ -4127,3 +4127,23 @@ msgstr "无法删除分类"
 #: src/features/category/components/CategorySettingsCard.tsx
 msgid "You are about to delete category \"{0}\""
 msgstr "你即将删除分类“{0}”"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "无法重试“{title}”"
+
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr "条目“{0}（{1}；{sourceTitle}（{2}））”处于无效状态“{3}”"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{id}\" not found"
+msgstr "未找到条目“{id}”"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "未知源"
