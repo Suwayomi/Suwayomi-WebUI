@@ -14,6 +14,11 @@ msgstr ""
 "Plural-Forms: \n"
 "X-Message-Format: ICU\n"
 
+#. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "- State: {0}"
+msgstr "- State: {0}"
+
 #. placeholder {0}: selectedChapters.length
 #. placeholder {0}: visibleChapters.length
 #: src/features/chapter/components/ChapterList.tsx
@@ -574,7 +579,6 @@ msgid "Backup cleanup"
 msgstr "Backup cleanup"
 
 #: src/features/backup/screens/Backup.tsx
-#: src/features/settings/screens/ServerSettings.tsx
 msgid "Backup data"
 msgstr "Backup data"
 
@@ -1152,6 +1156,10 @@ msgstr "Could not save theme changes"
 msgid "Could not search source"
 msgstr "Could not search source"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not start sync"
+msgstr "Could not start sync"
+
 #: src/features/updates/components/UpdateChecker.tsx
 msgid "Could not stop global update"
 msgstr "Could not stop global update"
@@ -1191,6 +1199,10 @@ msgstr "Create theme"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Created theme"
 msgstr "Created theme"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Creating backup"
+msgstr "Creating backup"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Creating backup…"
@@ -1488,6 +1500,7 @@ msgid "Downloaded"
 msgstr "Downloaded"
 
 #: src/base/components/downloads/DownloadStateIndicator.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Downloading"
 msgstr "Downloading"
 
@@ -1587,6 +1600,7 @@ msgstr "Entry \"{id}\" not found"
 
 #: src/base/components/downloads/DownloadStateIndicator.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Error"
 msgstr "Error"
 
@@ -2168,6 +2182,11 @@ msgstr "Large"
 msgid "Last read chapter"
 msgstr "Last read chapter"
 
+#. placeholder {0}: getDateString(epochToDate(Number(syncDate)), true, true)
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Last sync: {0}"
+msgstr "Last sync: {0}"
+
 #: src/features/updates/screens/Updates.tsx
 msgid "Last update: {date}"
 msgstr "Last update: {date}"
@@ -2419,6 +2438,10 @@ msgstr "Medium"
 #: src/features/reader/tap-zones/ReaderTapZone.constants.ts
 msgid "Menu"
 msgstr "Menu"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Merging"
+msgstr "Merging"
 
 #: src/features/browse/screens/Browse.tsx
 #: src/features/manga/components/MangaToolbarMenu.tsx
@@ -3008,6 +3031,10 @@ msgstr "Restore"
 msgid "Restore Backup"
 msgstr "Restore Backup"
 
+#: src/features/settings/Settings.constants.ts
+msgid "Restoring"
+msgstr "Restoring"
+
 #: src/features/backup/screens/Backup.tsx
 msgid "Restoring backup…"
 msgstr "Restoring backup…"
@@ -3496,7 +3523,12 @@ msgstr ""
 msgid "Start Search"
 msgstr "Start Search"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Start sync"
+msgstr "Start sync"
+
 #: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/settings/Settings.constants.ts
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Started"
 msgstr "Started"
@@ -3531,6 +3563,7 @@ msgid "Submit"
 msgstr "Submit"
 
 #: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/settings/Settings.constants.ts
 msgid "Success"
 msgstr "Success"
 
@@ -3550,11 +3583,24 @@ msgstr "Sync"
 msgid "Sync data"
 msgstr "Sync data"
 
+#: src/features/settings/Settings.constants.ts
+msgid "Sync disabled"
+msgstr "Sync disabled"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync in progress"
+msgstr "Sync in progress"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Sync interval"
 msgstr "Sync interval"
 
+#: src/features/settings/Settings.constants.ts
+msgid "Sync started"
+msgstr "Sync started"
+
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+#: src/features/settings/screens/ServerSettings.tsx
 msgid "Sync status"
 msgstr "Sync status"
 
@@ -3965,6 +4011,10 @@ msgstr "Updates"
 #: src/features/extension/Extensions.constants.ts
 msgid "Updating"
 msgstr "Updating"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Uploading"
+msgstr "Uploading"
 
 #: src/features/settings/Settings.constants.ts
 msgid "URL"

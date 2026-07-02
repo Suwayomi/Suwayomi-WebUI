@@ -24,6 +24,8 @@ import {
     AuthMode,
     KoreaderSyncChecksumMethod,
     KoreaderSyncConflictStrategy,
+    StartSyncResult,
+    SyncState,
     WebUiChannel,
     WebUiFlavor,
     WebUiInterface,
@@ -360,3 +362,20 @@ export const SYNC_SETTINGS_HIDDEN_BACKUP_FLAGS = [
     'includeServerSettings',
     'includeClientData',
 ] as const satisfies BackupFlag[];
+
+export const SYNC_START_RESULT_TRANSLATION: Record<StartSyncResult, MessageDescriptor> = {
+    [StartSyncResult.Success]: msg`Sync started`,
+    [StartSyncResult.SyncDisabled]: msg`Sync disabled`,
+    [StartSyncResult.SyncInProgress]: msg`Sync in progress`,
+};
+
+export const SYNC_STATE_TRANSLATION: Record<SyncState, MessageDescriptor> = {
+    [SyncState.CreatingBackup]: msg`Creating backup`,
+    [SyncState.Downloading]: msg`Downloading`,
+    [SyncState.Error]: msg`Error`,
+    [SyncState.Merging]: msg`Merging`,
+    [SyncState.Restoring]: msg`Restoring`,
+    [SyncState.Started]: msg`Started`,
+    [SyncState.Success]: msg`Success`,
+    [SyncState.Uploading]: msg`Uploading`,
+};

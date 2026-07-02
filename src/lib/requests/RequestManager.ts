@@ -102,6 +102,8 @@ import type {
     GetSourceMangasFetchMutationVariables,
     GetSourcesListQuery,
     GetSourcesListQueryVariables,
+    GetSyncStatusQuery,
+    GetSyncStatusQueryVariables,
     GetUpdateStatusQuery,
     GetUpdateStatusQueryVariables,
     GetWebuiUpdateStatusQuery,
@@ -124,10 +126,14 @@ import type {
     RestoreBackupMutationVariables,
     StartDownloaderMutation,
     StartDownloaderMutationVariables,
+    StartSyncMutation,
+    StartSyncMutationVariables,
     StopDownloaderMutation,
     StopDownloaderMutationVariables,
     StopUpdaterMutation,
     StopUpdaterMutationVariables,
+    SyncSubscription,
+    SyncSubscriptionVariables,
     TrackerBindMutation,
     TrackerBindMutationVariables,
     TrackerBindTrackRecordMutation,
@@ -193,6 +199,7 @@ import type {
     ValidateBackupQuery,
     ValidateBackupQueryVariables,
     WebuiUpdateSubscription,
+    WebuiUpdateSubscriptionVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import type {
     CreateBackupInput,
@@ -345,6 +352,9 @@ import { EXTENSION_STORE_FIELDS } from '@/lib/graphql/extension/store/ExtensionS
 import { ADD_EXTENSION_STORE, REMOVE_EXTENSION_STORE } from '@/lib/graphql/extension/store/ExtensionStoreMutation.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { GET_EXTENSION_STORE, GET_EXTENSION_STORES } from '@/lib/graphql/extension/store/ExtensionStoreQuery.ts';
+import { SYNC_SUBSCRIPTION } from '@/lib/graphql/sync/SyncSubscription.ts';
+import { START_SYNC } from '@/lib/graphql/sync/SyncMutation.ts';
+import { GET_SYNC_STATUS } from '@/lib/graphql/sync/SyncQuery.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -3717,7 +3727,7 @@ export class RequestManager {
     }
 
     public useWebUIUpdateSubscription(
-        options?: SubscriptionHookOptions<WebuiUpdateSubscription, WebuiUpdateSubscription>,
+        options?: SubscriptionHookOptions<WebuiUpdateSubscription, WebuiUpdateSubscriptionVariables>,
     ): useSubscription.Result<WebuiUpdateSubscription> {
         return this.doRequest(GQLMethod.USE_SUBSCRIPTION, WEBUI_UPDATE_SUBSCRIPTION, undefined, options);
     }
@@ -3858,6 +3868,29 @@ export class RequestManager {
         options?: MutationHookOptions<UserLoginMutation, UserLoginMutationVariables>,
     ): AbortableApolloUseMutationResponse<UserLoginMutation, UserLoginMutationVariables> {
         return this.doRequest(GQLMethod.USE_MUTATION, USER_LOGIN, undefined, options);
+    }
+
+    public startSync(
+        options?: MutationOptions<StartSyncMutation, StartSyncMutationVariables>,
+    ): AbortableApolloMutationResponse<StartSyncMutation> {
+        return this.doRequest<StartSyncMutation, StartSyncMutationVariables>(
+            GQLMethod.MUTATION,
+            START_SYNC,
+            {},
+            options,
+        );
+    }
+
+    public useGetSyncStatus(
+        options?: QueryHookOptions<GetSyncStatusQuery, GetSyncStatusQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetSyncStatusQuery, GetSyncStatusQueryVariables> {
+        return this.doRequest(GQLMethod.USE_QUERY, GET_SYNC_STATUS, {}, options);
+    }
+
+    public useSyncSubscription(
+        options?: SubscriptionHookOptions<SyncSubscription, SyncSubscriptionVariables>,
+    ): useSubscription.Result<SyncSubscription> {
+        return this.doRequest(GQLMethod.USE_SUBSCRIPTION, SYNC_SUBSCRIPTION, undefined, options);
     }
 
     public useKoSyncStatus(

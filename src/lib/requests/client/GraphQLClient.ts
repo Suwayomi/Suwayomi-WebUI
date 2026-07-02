@@ -74,6 +74,7 @@ const typePolicies: TypedTypePolicies = {
     WebUIUpdateStatus: { keyFields: [] },
     UpdateStatus: { keyFields: [] },
     KoSyncStatusPayload: { keyFields: [] },
+    SyncStatus: { keyFields: [] },
     Query: {
         fields: {
             manga(_, { args, toReference }) {
@@ -131,6 +132,9 @@ const typePolicies: TypedTypePolicies = {
             },
             updateStatus(_, { toReference }) {
                 return toReference({ __typename: 'UpdateStatus', key: {} });
+            },
+            lastSyncStatus(_, { toReference }) {
+                return toReference({ __typename: 'SyncStatus', key: {} });
             },
             chapters: {
                 keyArgs: ['condition', 'filter', 'orderBy', 'orderByType', 'order'],

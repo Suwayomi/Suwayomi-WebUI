@@ -32,7 +32,14 @@ import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChe
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import type { PartialSettingsTypeInput } from '@/lib/graphql/generated/graphql-base.types.ts';
-import { AuthMode, CbzMediaType, DatabaseType, SortOrder } from '@/lib/graphql/generated/graphql-base.types.ts';
+import {
+    AuthMode,
+    CbzMediaType,
+    DatabaseType,
+    SortOrder,
+    StartSyncResult,
+    SyncState,
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 import {
     AUTH_MODES_SELECT_VALUES,
     JWT_ACCESS_TOKEN_EXPIRY,
@@ -42,6 +49,8 @@ import {
     SYNC_INTERVAL_SELECT_VALUES_WITH_CUSTOM,
     SYNC_INTERVAL_VALUES,
     SYNC_SETTINGS_HIDDEN_BACKUP_FLAGS,
+    SYNC_START_RESULT_TRANSLATION,
+    SYNC_STATE_TRANSLATION,
 } from '@/features/settings/Settings.constants.ts';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
@@ -53,6 +62,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { AwaitableComponent } from 'awaitable-component';
 import { getAutoBackupFlagsInfo } from '@/features/backup/Backup.utils.ts';
 import type { BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
+import { epochToDate, getDateString } from '@/base/utils/DateHelper.ts';
 
 const convertSyncDataToBackupFlags = (settings: ServerSettingsType): BackupFlagInclusionState => ({
     includeManga: settings.syncDataManga,
@@ -88,6 +98,7 @@ export const ServerSettings = () => {
 
     useAppTitle(t`Server`);
 
+    const syncStatusRequest = requestManager.useGetSyncStatus();
     const {
         settings: { serverInformAvailableUpdate, serverInformVersionUpdated },
         loading: areMetadataServerSettingsLoading,
@@ -220,6 +231,11 @@ export const ServerSettings = () => {
     const syncDataFlagsInfo = getAutoBackupFlagsInfo(serverSettings);
     const includedSyncDataText = syncDataFlagsInfo.true;
     const excludedSyncDataText = syncDataFlagsInfo.false;
+
+    const syncStatus = syncStatusRequest.data?.lastSyncStatus;
+    const syncDate = syncStatus?.endDate ?? syncStatus?.startDate;
+    const syncState = syncStatus?.state;
+    const isSyncing = !!syncState && ![SyncState.Success, SyncState.Error].includes(syncState);
 
     return (
         <List sx={{ pt: 0 }}>
@@ -733,6 +749,33 @@ export const ServerSettings = () => {
                 }
             >
                 <ListItemButton
+                    disabled={isSyncing}
+                    onClick={() =>
+                        requestManager
+                            .startSync()
+                            .response.then((response) => {
+                                const startResult = response.data?.startSync.result;
+
+                                makeToast(
+                                    t(SYNC_START_RESULT_TRANSLATION[startResult!]),
+                                    startResult === StartSyncResult.Success ? 'success' : 'error',
+                                );
+                            })
+                            .catch((e) => makeToast(t`Could not start sync`, 'error', getErrorMessage(e)))
+                    }
+                >
+                    <ListItemText
+                        primary={isSyncing ? t`Sync status` : t`Start sync`}
+                        secondary={
+                            <>
+                                {syncDate && t`Last sync: ${getDateString(epochToDate(Number(syncDate)), true, true)}`}{' '}
+                                {syncState && t`- State: ${t(SYNC_STATE_TRANSLATION[syncState])}`}
+                                {!!syncStatus?.errorMessage && `\nError: ${syncStatus.errorMessage}`}
+                            </>
+                        }
+                    />
+                </ListItemButton>
+                <ListItemButton
                     onClick={async () => {
                         try {
                             const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {
@@ -748,7 +791,7 @@ export const ServerSettings = () => {
                     }}
                 >
                     <ListItemText
-                        primary={t`Backup data`}
+                        primary={t`Sync data`}
                         secondary={
                             <>
                                 <span>{t`Include: ${includedSyncDataText}`}</span>
