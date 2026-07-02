@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-06-10 08:01+0000\n"
+"PO-Revision-Date: 2026-06-22 20:51+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -4220,3 +4220,37 @@ msgid "WebUI must be kept open. Migration can't be resumed"
 msgstr ""
 "Vous devez garder l'interface web (WebUI) ouverte. La migration ne peut pas "
 "reprendre"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "Recherche manuelle pour migration de masse"
+
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "Could not delete category"
+msgstr "Impossible de supprimer la catégorie"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "Impossible de réessayer \"{title}\""
+
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr ""
+"L'entrée \"{0} ({1} ; {sourceTitle} ({2}))\" est dans l'état invalide \"{3}\""
+
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{id}\" not found"
+msgstr "L'entrée \"{id}\" est introuvable"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "Source inconnue"
+
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\""
+msgstr "Vous allez supprimer la catégorie \"{0}\""
