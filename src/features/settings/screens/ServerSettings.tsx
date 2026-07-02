@@ -60,7 +60,7 @@ import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import { BackupFlagInclusionDialog } from '@/features/backup/component/BackupFlagInclusionDialog.tsx';
 import ListItemButton from '@mui/material/ListItemButton';
 import { AwaitableComponent } from 'awaitable-component';
-import { getAutoBackupFlagsInfo } from '@/features/backup/Backup.utils.ts';
+import { convertToAutoBackupFlags, getAutoBackupFlagsInfo } from '@/features/backup/Backup.utils.ts';
 import type { BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 import { epochToDate, getDateString } from '@/base/utils/DateHelper.ts';
 
@@ -228,7 +228,10 @@ export const ServerSettings = () => {
     const isCustomSyncInterval = !SYNC_INTERVAL_VALUES.includes(
         d(serverSettings.syncInterval).minutes.asWholeMinutes.toISOString(),
     );
-    const syncDataFlagsInfo = getAutoBackupFlagsInfo(serverSettings);
+    const syncDataFlagsInfo = getAutoBackupFlagsInfo(
+        convertToAutoBackupFlags(convertSyncDataToBackupFlags(serverSettings)),
+        SYNC_SETTINGS_HIDDEN_BACKUP_FLAGS,
+    );
     const includedSyncDataText = syncDataFlagsInfo.true;
     const excludedSyncDataText = syncDataFlagsInfo.false;
 
