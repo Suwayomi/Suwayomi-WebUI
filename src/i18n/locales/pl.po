@@ -28,10 +28,6 @@ msgstr "{progress}% | Aktualizację…"
 msgid "*: Active setting"
 msgstr "*: Aktywne ustawienia"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi nie zapewnia żadnego wsparcia dla zewnętrznych repozytoriów lub rozszerzeń! </0><1/>Dodawaj repozytoria rozważnie, ponieważ mogą istnieć twórcy, tworzący szkodliwe rozszerzenia.<2/>Ty jako użytkownik musisz zweryfikować bezpieczeństwo i czy ufasz jakiemukolwiek repozytorium lub rozszerzeniu."
-
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "Frontend skoncentrowany na podglądzie, zbudowany przy użyciu svelte"
@@ -65,14 +61,6 @@ msgstr "Dodaj"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Dodaj zakładkę"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Dodaj repozytoria, z których można instalować rozszerzenia"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Dodaj repozytorium"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1022,10 +1010,6 @@ msgstr "Powróć do poprzedniej strony"
 msgid "Extension info"
 msgstr "Informacje o rozszerzeniu"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Repozytoria rozszerzeń"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -1359,10 +1343,6 @@ msgstr "Nieprawidłowe dane wejściowe"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "Nieprawidłowy json"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Nieprawidłowy adres URL repozytorium"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -2921,10 +2901,6 @@ msgstr "W bibliotece znajduje się pozycja o tej samej nazwie."
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
 msgstr "Nie czytałeś jeszcze żadnej serii."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Aby móc instalować rozszerzenia, musisz dodać repozytorium rozszerzeń"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."

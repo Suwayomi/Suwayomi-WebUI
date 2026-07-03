@@ -383,14 +383,6 @@ msgstr ""
 msgid "*: Active setting"
 msgstr "*: Ενεργή ρύθμιση"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr ""
-"<0>Το Suwayomi δεν παρέχει καμία υποστήριξη για αποθετήρια ή επεκτάσεις "
-"τρίτων!</0><1/>Χρησιμοποίησε με προσοχή, καθώς μπορεί να υπάρχουν κακόβουλοι "
-"που δημιουργούν αυτά τα αποθετήρια.<2/>Ως χρήστης, πρέπει να επαληθεύσεις "
-"την ασφάλεια και να εμπιστεύεσαι κάθε αποθετήριο ή επέκταση."
-
 #: src/features/manga/services/Mangas.ts
 msgid "A migration is already in progress"
 msgstr "Μια μετεγκατάσταση είναι ήδη σε εξέλιξη"
@@ -445,14 +437,6 @@ msgstr "Προσθήκη"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Προσθήκη σελιδοδείκτη"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Πρόσθεσε αποθετήρια από τα οποία μπορούν να εγκατασταθούν επεκτάσεις"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Προσθήκη αποθετηρίου"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1677,10 +1661,6 @@ msgstr "Πληροφορίες επέκτασης"
 msgid "Extension installed"
 msgstr "Η επέκταση εγκαταστάθηκε"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Αποθετήρια επεκτάσεων"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "Αποτυχία σύνδεσης με τον διακομιστή KOReader Sync."
@@ -2115,10 +2095,6 @@ msgstr "Μη έγκυρη εισαγωγή"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "Μη έγκυρο json"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Μη έγκυρο URL αποθετηρίου"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -4154,12 +4130,6 @@ msgstr "Έχεις μια εγγραφή στη βιβλιοθήκη σου με
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
 msgstr "Δεν έχεις διαβάσει καμία σειρά ακόμα."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr ""
-"Πρέπει να προσθέσεις ένα αποθετήριο επεκτάσεων για να μπορέσεις να "
-"εγκαταστήσεις επεκτάσεις"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."

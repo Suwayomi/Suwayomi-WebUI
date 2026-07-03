@@ -27,10 +27,6 @@ msgstr "{progress}% | Đang cập nhật…"
 msgid "*: Active setting"
 msgstr "*: Cài đặt đang hoạt động"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi không cung cấp bất cứ hỗ trờ gì cho kho tiện ích hay tiện ích của bên thứ 3!</0><1/>Cẩn trọng với những tiện ích vì chúng có thể được tạo bởi những kẻ xấu. <2/>Bạn với tư cách là người dùng nên kiểm tra trước khi tin tưởng bất kì kho tiện ích hay tiện ích nào."
-
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "Giao diện người dùng web được thiết kế tập trung vào bản xem trước với kiểu dáng thanh mảnh và tinh tế"
@@ -64,14 +60,6 @@ msgstr "Thêm"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Thêm vào mục yêu thích"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Thêm kho tiện ích"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Thêm kho tiện ích"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1121,10 +1109,6 @@ msgstr "Quay về trang trước đấy"
 msgid "Extension info"
 msgstr "Thông tin chi tiết"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Kho tiện ích"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "Không thể kết nối với máy chủ KOReader Sync."
@@ -1513,10 +1497,6 @@ msgstr "Ô nhập không hợp lệ"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "Json không hợp lệ"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Địa chỉ kho tiện ích không chính xác"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -3228,10 +3208,6 @@ msgstr "Bạn có một truyện có tên trùng nhau trong thư viện."
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
 msgstr "Bạn chưa đọc bất kỳ bộ truyện nào."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Bạn phải thêm kho tiện ích trước khi cài đặt tiện ích"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."

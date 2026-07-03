@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-06-10 08:01+0000\n"
+"PO-Revision-Date: 2026-06-22 20:51+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -26,10 +26,6 @@ msgstr "{progress} % | Mise à jour…"
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
 msgstr "* : Paramètre actif"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0> Suwayomi ne fournit aucun support pour les dépôts ou extensions tiers ! </0> <2/> Utilisez avec prudence car il pourrait y avoir des acteurs malveillants créant ces dépôts. <2/> En tant qu'utilisateur, vous devez vérifier la sécurité et que vous faites confiance à tout dépôt ou extension."
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -64,14 +60,6 @@ msgstr "Ajouter"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Ajouter un marque-page"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Ajouter des dépôts à partir desquels des extensions peuvent être installées"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Ajouter un dépôt"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1065,10 +1053,6 @@ msgstr "Revenir à la page précédente"
 msgid "Extension info"
 msgstr "Infos sur l’extension"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Dépôts d'extensions"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -1404,10 +1388,6 @@ msgstr "Entrée invalide"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "JSON invalide"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "URL du dépôt invalide"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -3029,10 +3009,6 @@ msgstr "Vous avez une entrée avec le même nom dans votre bibliothèque."
 msgid "You have not read any series yet."
 msgstr "Vous n'avez lu aucune série pour le moment."
 
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Vous devez ajouter un dépôt d’extensions pour pouvoir installer des extensions"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "Votre navigateur vous demandera de saisir des identifiants via une boîte de dialogue."
@@ -4220,3 +4196,37 @@ msgid "WebUI must be kept open. Migration can't be resumed"
 msgstr ""
 "Vous devez garder l'interface web (WebUI) ouverte. La migration ne peut pas "
 "reprendre"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "Recherche manuelle pour migration de masse"
+
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "Could not delete category"
+msgstr "Impossible de supprimer la catégorie"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "Impossible de réessayer \"{title}\""
+
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr ""
+"L'entrée \"{0} ({1} ; {sourceTitle} ({2}))\" est dans l'état invalide \"{3}\""
+
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{id}\" not found"
+msgstr "L'entrée \"{id}\" est introuvable"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "Source inconnue"
+
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\""
+msgstr "Vous allez supprimer la catégorie \"{0}\""

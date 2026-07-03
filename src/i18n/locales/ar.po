@@ -21,10 +21,6 @@ msgstr ""
 msgid "{progress}% | Updating…"
 msgstr "{progress}% | جارٍ التحديث…"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>لا يقدم Suwayomi أي دعم لمستودعات أو ملحقات الطرف الثالث!</0><1/>استخدمه بحذر حيث قد يكون هناك جهات فاعلة ضارة تقوم بإنشاء تلك المستودعات.<2/>أنت كمستخدم بحاجة إلى التحقق من الأمان وأنك تثق في أي مستودع أو امتداد."
-
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "A-Z"
 msgstr "أ–ي"
@@ -50,14 +46,6 @@ msgstr "إضافة"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "إضافة إشارة مرجعية"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "إضافة مستودعات يمكن تثبيت الإضافات منها"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "إضافة مستودع"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -735,10 +723,6 @@ msgstr "استبعاد: {excludedCategoriesText}"
 msgid "Exit reader"
 msgstr "الخروج من القارئ"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "مستودعات التمديد"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -994,10 +978,6 @@ msgstr "نوع الملف غير صالح"
 #: src/features/settings/components/images/Processing.tsx
 msgid "Invalid input"
 msgstr "إدخال غير صالح"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "رابط المستودع غير صالح"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "IP"
@@ -2013,10 +1993,6 @@ msgstr "لا توجد أي تحديثات بعد."
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "You have an entry in your library with the same name."
 msgstr "لديك إدخال في مكتبتك يحمل نفس الاسم."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "يجب عليك إضافة مستودع للإضافات لتتمكن من تثبيتها"
 
 #: src/features/library/screens/Library.tsx
 #: src/features/library/screens/Library.tsx

@@ -1,27 +1,25 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.946Z\n"
+"PO-Revision-Date: 2026-06-22 20:51+0000\n"
+"Last-Translator: Petro Escobar <pravduk.vlad19@gmail.com>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/suwayomi/"
+"suwayomi-webui/uk/>\n"
+"Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: uk\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/app-updates/components/VersionInfo.tsx
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "{progress}% | Updating…"
 msgstr "{progress}% | Оновлення…"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi не надає жодної підтримки стороннім репозиторіям або розширенням!</0><1/>Використовуйте з обережністю, оскільки ці репозиторії можуть створюватися зловмисниками.<2/>Вам, як користувачу, потрібно довіряти тільки перевіреним репозиторіям та розширенням."
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -52,14 +50,6 @@ msgstr "Додати"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Додати закладку"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Додати репозиторії, з яких можуть бути встановлені розширення"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Додати репозиторій"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -475,7 +465,7 @@ msgstr "Discord"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/settings/screens/Appearance.tsx
 msgid "Display"
-msgstr "Дисплей"
+msgstr "Відобразити"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Display mode"
@@ -483,7 +473,7 @@ msgstr "Режим відображення"
 
 #: src/features/category/components/CategorySelect.tsx
 msgid "Don't show this dialog again"
-msgstr "Більше не показувати цей діалог"
+msgstr "Більше не показувати це вікно"
 
 #: src/features/chapter/Chapter.constants.ts
 #: src/features/chapter/components/buttons/ChapterDownloadButton.tsx
@@ -508,7 +498,7 @@ msgstr "Завантажити нові глави"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "Download selected"
-msgstr "Вибране завантаження"
+msgstr "Завантажити вибрані"
 
 #: src/features/chapter/components/ChapterOptions.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -567,10 +557,6 @@ msgstr "Виключити: {excludedCategoriesText}"
 #: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
 msgid "Exit reader"
 msgstr "Вийти"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Репозиторії розширень"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
@@ -784,10 +770,6 @@ msgstr "Неправильний тип файлу"
 #: src/features/settings/components/images/Processing.tsx
 msgid "Invalid input"
 msgstr "Невірно введені дані"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Недійсна URL-адреса репозиторія"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "IP"
@@ -1591,11 +1573,99 @@ msgstr "У вас поки немає жодної категорії."
 msgid "You don't have any updates yet."
 msgstr "У вас ще немає оновлень."
 
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Ви повинні додати репозиторій розширень, щоб мати змогу встановлювати розширення"
-
 #: src/features/library/screens/Library.tsx
 #: src/features/library/screens/Library.tsx
 msgid "Your library is empty"
 msgstr "Ваша бібліотека порожня"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Delete search"
+msgstr "Очистити пошук"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleted theme \"{0}\""
+msgstr "Тему видалалено \"{0}\""
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleting theme \"{0}\"…"
+msgstr "Видалення теми \"{0}\"…"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Descending"
+msgstr "Спадання"
+
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Desktop"
+msgstr "Робочий стіл"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination - {0}"
+msgstr "Призначення - {0}"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Disable authentication"
+msgstr "Вимкнути автентифікацію"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Disconnect from KOReader Sync server"
+msgstr "Від'єднатись від серверу KOReader Sync"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Disconnected"
+msgstr "Від'єднано"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Display file sizes in binary (KiB, MiB, GiB) instead of decimal (KB, MB, GB)"
+msgstr ""
+"Відобразити розміри файлів бінарно (KiB, MiB, GiB)  замість десяткового (KB, "
+"MB, GB)"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Document matching method"
+msgstr "Метод порівняння документів"
+
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Does not work when marking multiple manga as read at once"
+msgstr "Не працює, коли одночасно декілька манг позначено як прочитано"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "Зроблено"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Double page"
+msgstr "Подвійна сторінка"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Doujinshi"
+msgstr "Доджінші"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "Download ahead ({count})"
+msgstr "Попереднє завантаження ({count})"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "Download queue"
+msgstr "Черга завантаження"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+#, fuzzy
+msgid "Downloads"
+msgstr "Завантаження"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+#, fuzzy
+msgid "Drag to prioritize"
+msgstr "Потягніть щоб втсановити пріорітет"
+
+#: src/features/theme/Themes.ts
+#, fuzzy
+msgid "Dune"
+msgstr "Дюна"

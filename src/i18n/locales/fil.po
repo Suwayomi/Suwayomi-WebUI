@@ -20,10 +20,6 @@ msgstr ""
 msgid "{count} remaining"
 msgstr "{count} ang natitira"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Ang Suwayomi ay hindi nagbibigay ng anumang suporta para sa mga 3rd party na repository o extension!</0><1/>Gumamit nang may pag-iingat dahil maaaring may mga malisyosong aktor na gumagawa ng mga repository na iyon.<2/>Ikaw bilang user ay kailangang i-verify ang seguridad at na pinagkakatiwalaan mo ang anumang repository o extension."
-
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
@@ -36,14 +32,6 @@ msgstr "Magdagdag"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Magdagdag ng bookmark"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Magdagdag ng mga repository kung saan maaaring mai-install ang mga extension"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Magdagdag ng repository"
 
 #: src/base/utils/Languages.ts
 #: src/features/backup/Backup.utils.ts
@@ -295,10 +283,6 @@ msgstr "Ibukod ang mga scanlator"
 msgid "Exclude: {excludedCategoriesText}"
 msgstr "Ibukod: {excludedCategoriesText}"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Mga Extension repository"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -438,10 +422,6 @@ msgstr "Di-wastong uri ng file"
 #: src/features/settings/components/images/Processing.tsx
 msgid "Invalid input"
 msgstr "Di-wastong input"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Di-wastong url ng repository"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Last read chapter"
@@ -813,10 +793,6 @@ msgstr "Kahapon sa {timeString}"
 #: src/features/category/components/CategorySelect.tsx
 msgid "You don't have any categories yet."
 msgstr "Wala ka pang mga kategorya."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Kailangan mong magdagdag ng extension repository upang makapag-install ng mga extension"
 
 #. placeholder {0}: updateStatus.progress
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx

@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-06-21 16:43+0000\n"
+"PO-Revision-Date: 2026-07-03 19:59+0000\n"
 "Last-Translator: 清水汐音 <chenzhongjie19940725@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.7.dev0\n"
+"X-Generator: Weblate 2026.7.1.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -42,13 +42,6 @@ msgstr "{progress}% | 正在更新…"
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
 msgstr "*: 应用设置"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr ""
-"<0>Suwayomi不提供任何对第三方存储库或扩展的支持！</0><1/>请谨慎使用，因为这些"
-"存储库中可能有恶意行为。<2/>作为用户，你需要验证安全性以及是否信任任何存储库"
-"或扩展。"
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -83,14 +76,6 @@ msgstr "添加"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "添加收藏"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "添加可以安装扩展的存储库"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "添加源"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1138,10 +1123,6 @@ msgstr "返回到上一页面"
 msgid "Extension info"
 msgstr "插件信息"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "扩展库"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "连接KOReader同步服务器失败。"
@@ -1527,10 +1508,6 @@ msgstr "无效输入"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "无效的json"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "无效的存储库地址"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -3229,10 +3206,6 @@ msgstr "你的书架中存在一个名称相同的作品。"
 msgid "You have not read any series yet."
 msgstr "最近没有阅读。"
 
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "你必须添加扩展库才能安装扩展程序"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "你的浏览器将通过对话框提示你输入凭据。"
@@ -4127,3 +4100,207 @@ msgstr "无法删除分类"
 #: src/features/category/components/CategorySettingsCard.tsx
 msgid "You are about to delete category \"{0}\""
 msgstr "你即将删除分类“{0}”"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "无法重试“{title}”"
+
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr "条目“{0}（{1}；{sourceTitle}（{2}））”处于无效状态“{3}”"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{id}\" not found"
+msgstr "未找到条目“{id}”"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "未知源"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
+msgstr "{extensionCount, plural, one {# 个扩展} other {# 个扩展}}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{extensionStoreCount, plural, one {# extension store} other {# extension stores}}"
+msgstr "{extensionStoreCount, plural, one {# 个扩展源} other {# 个扩展源}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
+msgstr ""
+"{installedExtensionCount, plural, one {已安装 # 个扩展} other {已安装 # 个扩"
+"展}}"
+
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Add extension store"
+msgstr "添加扩展源"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Copy index url"
+msgstr "复制索引地址"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not add extension store"
+msgstr "无法添加扩展源"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not remove extension store \"{name}\""
+msgstr "无法移除扩展源“{name}”"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Daily"
+msgstr "每日"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable the WebView via CEF (Chromium)"
+msgstr "通过 CEF（Chromium）启用 WebView"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 12 hours"
+msgstr "每12小时"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 3 hours"
+msgstr "每3小时"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 30 minutes"
+msgstr "每30分钟"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 6 hours"
+msgstr "每6小时"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every hour"
+msgstr "每小时"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Exclude: {excludedSyncDataText}"
+msgstr "排除：{excludedSyncDataText}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Extension stores"
+msgstr "扩展源"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Include: {includedSyncDataText}"
+msgstr "包含：{excludedSyncDataText}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open discord"
+msgstr "打开discord"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open website"
+msgstr "打开网站"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Skip chapter metadata feed"
+msgstr "跳过章节元数据更新流"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync"
+msgstr "同步"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync data"
+msgstr "同步数据"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync interval"
+msgstr "同步间隔"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi"
+msgstr "SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi API key"
+msgstr "SyncYomi API密钥"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi enabled"
+msgstr "已启用SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi host"
+msgstr "SyncYomi 主机地址"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Unable to load extension stores"
+msgstr "无法加载扩展源"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "WebView"
+msgstr "WebView"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Weekly"
+msgstr "每星期"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"
+msgstr ""
+"启用后，下载和流式链接将直接显示在章节列表中。将应用 KoSync 策略，但会忽略 "
+"PROMPT 冲突（以本地进度为优先）"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "You are about to remove \"{name}\" from the extension stores"
+msgstr "你即将从扩展源中移除“{name}”"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "You have to add a extension store to be able to install extensions"
+msgstr "你需要添加扩展源才能安装扩展"
+
+#. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "- State: {0}"
+msgstr "- 状态：{0}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not start sync"
+msgstr "无法开始同步"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Creating backup"
+msgstr "正在创建备份"
+
+#. placeholder {0}: getDateString(epochToDate(Number(syncDate)), true, true)
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Last sync: {0}"
+msgstr "上次同步：{0}"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Merging"
+msgstr "合并中"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Restoring"
+msgstr "恢复中"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Start sync"
+msgstr "开始同步"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync disabled"
+msgstr "已禁止同步"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync in progress"
+msgstr "同步进行中"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync started"
+msgstr "已开始同步"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Uploading"
+msgstr "上传中"

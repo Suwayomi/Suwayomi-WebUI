@@ -23,10 +23,6 @@ msgstr "{count} resterend"
 msgid "{progress}% | Updating…"
 msgstr "{progress}% | Bijgewerkt…"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi biedt geen ondersteuning voor repository's of extensies van derden!</0><1/>Wees voorzichtig, want er kunnen kwaadwillende mensen zijn die deze repository's maken.<2/>U als gebruiker moet de beveiliging verifiëren, dat u elke repository of extensie vertrouwt."
-
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "A-Z"
 msgstr "A-Z"
@@ -43,14 +39,6 @@ msgstr "Toevoegen"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Bladwijzer toevoegen"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Voeg repositories toe, waaruit extensies kunnen worden geïnstalleerd"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Voeg repository toe"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -567,10 +555,6 @@ msgstr "Uitsluiten:{excludedCategoriesText}"
 msgid "Exit reader"
 msgstr "Verlaat lezer"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Extensie-repository's"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -754,10 +738,6 @@ msgstr "Ongeldig bestandstype"
 #: src/features/settings/components/images/Processing.tsx
 msgid "Invalid input"
 msgstr "Ongeldig invoer"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Ongeldige repository-URL"
 
 #: src/features/extension/info/components/Meta.tsx
 #: src/features/settings/screens/Appearance.tsx
@@ -1537,10 +1517,6 @@ msgstr "U heeft een manga in uw bibliotheek met dezelfde naam."
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
 msgstr "Je hebt nog geen enkele serie gelezen."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "U moet een extensierepository toevoegen om extensies te kunnen installeren"
 
 #: src/features/library/screens/Library.tsx
 #: src/features/library/screens/Library.tsx

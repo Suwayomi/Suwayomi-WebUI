@@ -27,10 +27,6 @@ msgstr "{progress}% | アップデート中…"
 msgid "*: Active setting"
 msgstr "*:アクティブ設定"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi はサードパーティのリポジトリや拡張機能のサポートを提供しません!</0><1/>悪意のある攻撃者がこれらのリポジトリを作成している可能性があるため、使用には注意してください。<2/>ユーザーは、セキュリティを確認し、リポジトリまたは拡張機能を信頼していることを確認する必要があります。"
-
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "svelte で構築されたプレビュー重視の Web フロントエンド"
@@ -64,14 +60,6 @@ msgstr "追加"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "ブックマークを追加"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "拡張機能をインストールできるリポジトリを追加する"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "リポジトリの追加"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1021,10 +1009,6 @@ msgstr "前のページに戻る"
 msgid "Extension info"
 msgstr "拡張機能の情報"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "拡張機能リポジトリ"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -1354,10 +1338,6 @@ msgstr "無効な入力"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "無効的なjson"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "無効なリポジトリURL"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -2912,10 +2892,6 @@ msgstr "同じ名前のエントリーがあなたのライブラリにありま
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
 msgstr "まだ何も読んでいません。"
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "拡張機能をインストールできるように、拡張機能リポジトリを追加する必要があります"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."

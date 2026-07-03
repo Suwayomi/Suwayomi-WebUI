@@ -18,14 +18,6 @@ msgstr ""
 msgid "Add bookmark"
 msgstr "Tilføj bogmærke"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Tilføj repositories hvor plugins kan blive installeret fra"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Tilføj repository"
-
 #: src/base/utils/Languages.ts
 #: src/features/backup/Backup.utils.ts
 #: src/features/category/components/CategoriesInclusionSetting.tsx
@@ -196,10 +188,6 @@ msgstr "Installer eksternt plugin"
 msgid "Installing extension file…"
 msgstr "Installerer pluginfil…"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Ugyldigt repositorylink"
-
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Last read chapter"
 msgstr "Sidste læste kapitel"
@@ -320,7 +308,3 @@ msgstr "Opdater alle"
 #: src/features/category/components/CategorySelect.tsx
 msgid "You don't have any categories yet."
 msgstr "Du har ikke nogen kategorier endnu."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Du skal tilføje et repository for at kunne installere plugins"
