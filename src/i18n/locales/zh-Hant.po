@@ -27,10 +27,6 @@ msgstr "{progress}% | 正在更新…"
 msgid "*: Active setting"
 msgstr "*: 啟用設定"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi 不提供任何第三方儲存庫或擴充套件的支援！</0><1/>請謹慎使用，因為可能是惡意行為者製作了這些儲存庫。<2/>作為使用者，您需要確認其安全性以及是否信任任何儲存庫或擴充套件。"
-
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "以預覽為重點的網絡前端，採用纖瘦設計"
@@ -64,14 +60,6 @@ msgstr "新增"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "新增收藏"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "新增可以安裝擴充套件的儲存庫"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "新增儲存庫"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1079,10 +1067,6 @@ msgstr "返回至上一頁面"
 msgid "Extension info"
 msgstr "擴充套件資訊"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "擴充套件儲存庫"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "連接至 KOReader 同步伺服器失敗。"
@@ -1423,10 +1407,6 @@ msgstr "無效的輸入"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "無效的 JSON"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "無效的儲存庫超連結"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -3062,10 +3042,6 @@ msgstr "您的書櫃中存在相同名稱的項目。"
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
 msgstr "您尚未閱讀任何系列。"
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "您必須新增擴充套件儲存庫才能夠安裝擴充套件"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."

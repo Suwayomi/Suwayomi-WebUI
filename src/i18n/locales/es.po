@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.820Z\n"
-"PO-Revision-Date: 2026-06-21 16:46+0000\n"
-"Last-Translator: schroda <50052685+schroda@users.noreply.github.com>\n"
+"PO-Revision-Date: 2026-06-28 07:18+0000\n"
+"Last-Translator: zeedif <carlos_antonio-rl@hotmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/es/>\n"
 "Language: es\n"
@@ -26,10 +26,6 @@ msgstr "{progress}% | Actualizando…"
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
 msgstr "*: Opción activa"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>¡Suwayomi no proporciona soporte para repositorios o extensiones de terceros!</0><1/>Usar con precaución ya que podría haber actores maliciosos haciendo esos repositorios.<2/>Como usuario necesitas verificar la seguridad y que confíes en cualquier repositorio o extensión."
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -64,14 +60,6 @@ msgstr "Añadir"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Marcar capítulo"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Añadir repositorios desde los que instalar extensiones"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Añadir repositorio"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1093,10 +1081,6 @@ msgstr "Salir a la página anterior"
 msgid "Extension info"
 msgstr "Información de la extensión"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Repositorios de extensiones"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "Fallo al conectar al servidor de sincronizacion KOReader."
@@ -1471,10 +1455,6 @@ msgstr "Entrada no válida"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "Json incorrecto"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Url del repositorio no válida"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -3178,10 +3158,6 @@ msgstr "Tienes una entrada en tu biblioteca con el mismo nombre."
 msgid "You have not read any series yet."
 msgstr "Todavía no has leído ninguna serie."
 
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Tienes que añadir un repositorio de extensiones para poder instalar extensiones"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "Tu navegador te pedirá que introduzcas las credenciales con un diálogo."
@@ -3530,11 +3506,11 @@ msgstr "Excluido"
 
 #: src/features/browse/screens/Browse.tsx
 msgid "Extension"
-msgstr "Extinción"
+msgstr "Extensión"
 
 #: src/features/browse/extensions/Extensions.tsx
 msgid "Extension installed"
-msgstr "Extinción instalada"
+msgstr "Extensión instalada"
 
 #: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
 msgid "Include"
@@ -3734,3 +3710,12 @@ msgstr ""
 #: src/features/migration/MigrationManager.ts
 msgid "Abort migration"
 msgstr "Abortar migración"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Could not install the extension"
+msgstr "No se pudo instalar la extensión"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+#, fuzzy
+msgid "Show in sources and extensions lists"
+msgstr "Mostrar en las listas de fuentes y extensiones"

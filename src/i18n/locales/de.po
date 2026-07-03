@@ -27,10 +27,6 @@ msgstr "{progress}% | Aktualisiere…"
 msgid "*: Active setting"
 msgstr "*: Aktive Einstellung"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi bietet keine Unterstützung für Repositories oder Erweiterungen von Drittanbietern an!</0><1/>Sei vorsichtig, da diese Repositories von böswilligen Akteuren erstellt werden könnten.<2/>Du als Benutzer musst die Sicherheit des Repositories oder der Erweiterung überprüfen, bevor du diesen vertraust."
-
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "Ein mit svelte erstelltes Web Frontend mit Fokus auf die Vorschau"
@@ -64,14 +60,6 @@ msgstr "Hinzufügen"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Lesezeichen hinzufügen"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Füge zusätzliche Repositories mit installierbaren Erweiterungen hinzu"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Repository hinzufügen"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -1121,10 +1109,6 @@ msgstr "Zur vorherigen Seite zurück"
 msgid "Extension info"
 msgstr "Erweiterungsinformationen"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Erweiterungs-Repositories"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "Fehler beim Verbinden zum KOReader Sync Server."
@@ -1515,10 +1499,6 @@ msgstr "Ungültige Eingabe"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "Invalides JSON"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Ungültige Repository-URL"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -3230,10 +3210,6 @@ msgstr "Du hast einen Eintrag mit demselben Namen bereits in deiner Bibliothek."
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
 msgstr "Du hast noch keine Serien gelesen."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Es muss ein Erweiterungs-Repository hinzugefügt werden, bevor Erweiterungen installiert werden können"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
