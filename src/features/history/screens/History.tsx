@@ -7,9 +7,8 @@
  */
 
 import Typography from '@mui/material/Typography';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
-import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -22,7 +21,6 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ChapterHistoryCard } from '@/features/history/components/ChapterHistoryCard.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 export const History: React.FC = () => {
@@ -87,35 +85,6 @@ export const History: React.FC = () => {
         }
     }, [filteredOutAllItemsOfFetchedPage, isLoading, hasNextPage, loadMore]);
 
-    const gridRef = useRef<HTMLDivElement>(null);
-
-    useResizeObserver(
-        gridRef,
-        useCallback(
-            (entries, resizeObserver) => {
-                const gridHeight = entries[0].target.clientHeight;
-                const isScrollbarVisible = gridHeight > document.documentElement.clientHeight;
-
-                if (isLoading) {
-                    return;
-                }
-
-                if (!gridHeight) {
-                    return;
-                }
-
-                if (isScrollbarVisible) {
-                    resizeObserver.disconnect();
-                    return;
-                }
-
-                loadMore();
-                resizeObserver.disconnect();
-            },
-            [gridRef, loadMore, isLoading],
-        ),
-    );
-
     if (error) {
         return (
             <EmptyViewAbsoluteCentered
@@ -131,29 +100,27 @@ export const History: React.FC = () => {
     }
 
     return (
-        <Box ref={gridRef} sx={{ height: '100%' }}>
-            <StyledGroupedVirtuoso
-                persistKey="history"
-                components={{
-                    Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
-                }}
-                overscan={window.innerHeight * 0.5}
-                endReached={loadMore}
-                groupCounts={groupCounts}
-                groupContent={(index) => (
-                    <StyledGroupHeader isFirstItem={index === 0}>
-                        <Typography variant="h5" component="h2">
-                            {groupedHistory[index][VirtuosoUtil.GROUP]}
-                        </Typography>
-                    </StyledGroupHeader>
-                )}
-                computeItemKey={computeItemKey}
-                itemContent={(index) => (
-                    <StyledGroupItemWrapper>
-                        <ChapterHistoryCard chapter={readEntries[index]} />
-                    </StyledGroupItemWrapper>
-                )}
-            />
-        </Box>
+        <StyledGroupedVirtuoso
+            persistKey="history"
+            components={{
+                Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
+            }}
+            overscan={window.innerHeight * 0.5}
+            endReached={loadMore}
+            groupCounts={groupCounts}
+            groupContent={(index) => (
+                <StyledGroupHeader isFirstItem={index === 0}>
+                    <Typography variant="h5" component="h2">
+                        {groupedHistory[index][VirtuosoUtil.GROUP]}
+                    </Typography>
+                </StyledGroupHeader>
+            )}
+            computeItemKey={computeItemKey}
+            itemContent={(index) => (
+                <StyledGroupItemWrapper>
+                    <ChapterHistoryCard chapter={readEntries[index]} />
+                </StyledGroupItemWrapper>
+            )}
+        />
     );
 };
