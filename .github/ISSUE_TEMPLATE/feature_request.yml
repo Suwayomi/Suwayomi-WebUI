@@ -29,7 +29,7 @@ body:
       options:
         - label: I have searched the existing issues and this is a new ticket, **NOT** a duplicate or related to another open or closed issue.
           required: true
-        - label: I have checked the [ongoing preview changelog](https://github.com/Suwayomi/Suwayomi-WebUI/issues/749) and this feature is **NOT** yet listed.
+        - label: I have checked the [ongoing preview changelog](https://github.com/Suwayomi/Suwayomi-WebUI/blob/master/CHANGELOG.md) and this feature is **NOT** yet listed.
           required: true
         - label: This feature is UI related and does not belong to the server. If in doubt, create the request in the [Suwayomi-Server repository](https://github.com/Suwayomi/Suwayomi-Server/issues).
           required: true

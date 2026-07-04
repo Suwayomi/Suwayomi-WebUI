@@ -45,7 +45,6 @@ export const MangaGridCard = memo(
         manga,
         longPressBind,
         popupState,
-        handleClick,
         mangaLinkTo,
         selected,
         inLibraryIndicator,
@@ -65,7 +64,6 @@ export const MangaGridCard = memo(
             <Link
                 component={RouterLink}
                 {...longPressBind(() => popupState.open(optionButtonRef.current))}
-                onClick={handleClick}
                 to={mangaLinkTo}
                 state={Mangas.createLocationState(manga, mode)}
                 onContextMenu={preventMobileContextMenu}

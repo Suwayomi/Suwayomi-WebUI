@@ -19,6 +19,8 @@ import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { useReaderScrollbarStore } from '@/features/reader/stores/ReaderStore.ts';
+import { ScrollDirection } from '@/base/Base.types.ts';
+import { getSafeAreaInsets } from '@/features/reader/settings/ReaderSettings.utils.tsx';
 
 const getCustomFilterString = (customFilter: ReaderCustomFilter): string =>
     Object.keys(customFilter)
@@ -63,6 +65,7 @@ const BaseReaderPage = ({
     pageScaleMode,
     shouldStretchPage,
     readerWidth,
+    safeAreaInset,
     onLoad,
     onError,
     setRef,
@@ -70,7 +73,10 @@ const BaseReaderPage = ({
     isLoaded,
     ...props
 }: Omit<SpinnerImageProps, 'spinnerStyle' | 'imgStyle' | 'onLoad' | 'onError'> &
-    Pick<IReaderSettings, 'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth'> &
+    Pick<
+        IReaderSettings,
+        'readingMode' | 'customFilter' | 'pageScaleMode' | 'shouldStretchPage' | 'readerWidth' | 'safeAreaInset'
+    > &
     Pick<NavbarContextType, 'readerNavBarWidth'> & {
         pageIndex: number;
         pagesIndex: number;
@@ -115,8 +121,8 @@ const BaseReaderPage = ({
                     shouldStretchPage,
                     pageScaleMode,
                     readerWidth,
-                    readerNavBarWidth + scrollbar.ySize,
-                    scrollbar.xSize,
+                    [readerNavBarWidth, scrollbar.ySize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.X)],
+                    [scrollbar.xSize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.Y)],
                     doublePage,
                     isTabletWidth,
                 ),
@@ -132,8 +138,8 @@ const BaseReaderPage = ({
                     pageScaleMode,
                     doublePage,
                     readerWidth,
-                    readerNavBarWidth + scrollbar.ySize,
-                    scrollbar.xSize,
+                    [readerNavBarWidth, scrollbar.ySize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.X)],
+                    [scrollbar.xSize, ...getSafeAreaInsets(safeAreaInset, ScrollDirection.Y)],
                 ),
                 filter: getCustomFilterString(customFilter),
                 objectFit: 'contain',

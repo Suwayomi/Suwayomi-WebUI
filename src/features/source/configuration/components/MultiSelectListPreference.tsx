@@ -120,16 +120,20 @@ export function MultiSelectListPreference(props: MultiSelectListPreferenceProps)
     }, [currentValue]);
 
     const findEntriesOf = (values?: string[] | null) =>
-        values?.map((value) => {
-            const idx = entryValues.indexOf(value);
-            return entries[idx];
-        }) ?? [];
+        values
+            ?.map((value) => {
+                const idx = entryValues.indexOf(value);
+                return entries[idx];
+            })
+            .filter((value) => typeof value === 'string') ?? [];
 
     const findEntryValuesOf = (values?: string[] | null) =>
-        values?.map((value) => {
-            const idx = entries.indexOf(value);
-            return entryValues[idx];
-        }) ?? [];
+        values
+            ?.map((value) => {
+                const idx = entries.indexOf(value);
+                return entryValues[idx];
+            })
+            .filter((value) => typeof value === 'string') ?? [];
 
     const getSummary = () => summary;
 

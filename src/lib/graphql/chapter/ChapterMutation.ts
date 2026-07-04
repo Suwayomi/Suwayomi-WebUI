@@ -7,9 +7,8 @@
  */
 
 import gql from 'graphql-tag';
-import { CHAPTER_LIST_FIELDS, CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
+import { CHAPTER_META_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
 import { TRACK_RECORD_BIND_FIELDS } from '@/lib/graphql/tracker/TrackRecordFragments.ts';
-import { MANGA_CHAPTER_NODE_FIELDS, MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 
 // makes the server fetch and return the pages of a chapter
 export const GET_CHAPTER_PAGES_FETCH = gql`
@@ -18,28 +17,13 @@ export const GET_CHAPTER_PAGES_FETCH = gql`
             chapter {
                 id
                 pageCount
-            }
-            pages
-        }
-    }
-`;
-
-// makes the server fetch and return the chapters of the manga
-export const GET_MANGA_CHAPTERS_FETCH = gql`
-    ${CHAPTER_LIST_FIELDS}
-    ${MANGA_CHAPTER_STAT_FIELDS}
-    ${MANGA_CHAPTER_NODE_FIELDS}
-
-    mutation GET_MANGA_CHAPTERS_FETCH($input: FetchChaptersInput!) {
-        fetchChapters(input: $input) {
-            chapters {
-                ...CHAPTER_LIST_FIELDS
+                isDownloaded
                 manga {
                     id
-                    ...MANGA_CHAPTER_STAT_FIELDS
-                    ...MANGA_CHAPTER_NODE_FIELDS
+                    downloadCount
                 }
             }
+            pages
         }
     }
 `;

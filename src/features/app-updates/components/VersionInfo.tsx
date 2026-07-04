@@ -15,7 +15,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import DownloadingIcon from '@mui/icons-material/Downloading';
 import { t } from '@lingui/core/macro';
-import { UpdateState } from '@/lib/graphql/generated/graphql.ts';
+import { UpdateState } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export type BaseVersionInfoProps = {
     version: string;

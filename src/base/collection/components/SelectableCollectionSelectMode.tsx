@@ -18,12 +18,14 @@ export const SelectableCollectionSelectMode = ({
     areNoItemsSelected,
     onSelectAll,
     onModeChange,
+    isCancelable = true,
 }: {
     isActive: boolean;
     areAllItemsSelected: boolean;
     areNoItemsSelected: boolean;
     onSelectAll: (selectAll: boolean) => void;
     onModeChange: (checked: boolean) => void;
+    isCancelable?: boolean;
 }) => {
     const { t } = useLingui();
 
@@ -36,20 +38,22 @@ export const SelectableCollectionSelectMode = ({
                     onChange={onSelectAll}
                 />
             )}
-            <CustomTooltip title={!isActive ? t`Select all` : t`Cancel`}>
-                <Checkbox
-                    checkedIcon={<ClearIcon />}
-                    sx={{
-                        padding: '8px',
-                        color: 'inherit',
-                        '&.Mui-checked': {
+            {isCancelable && (
+                <CustomTooltip title={!isActive ? t`Select all` : t`Cancel`}>
+                    <Checkbox
+                        checkedIcon={<ClearIcon />}
+                        sx={{
+                            padding: '8px',
                             color: 'inherit',
-                        },
-                    }}
-                    checked={isActive}
-                    onChange={(_, checked) => onModeChange(checked)}
-                />
-            </CustomTooltip>
+                            '&.Mui-checked': {
+                                color: 'inherit',
+                            },
+                        }}
+                        checked={isActive}
+                        onChange={(_, checked) => onModeChange(checked)}
+                    />
+                </CustomTooltip>
+            )}
         </>
     );
 };

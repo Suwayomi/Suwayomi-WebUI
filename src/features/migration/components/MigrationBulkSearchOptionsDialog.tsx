@@ -1,0 +1,127 @@
+/*
+ * Copyright (C) Contributors to the Suwayomi project
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+import { useLingui } from '@lingui/react/macro';
+import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
+import type { AwaitableComponentProps } from 'awaitable-component';
+import Typography from '@mui/material/Typography';
+import WarningIcon from '@mui/icons-material/Warning';
+import { useState } from 'react';
+import type { MigrationBulkSearchSettings } from '@/features/migration/Migration.types.ts';
+
+export const MigrationBulkSearchOptionsDialog = ({
+    isVisible,
+    onDismiss,
+    onSubmit,
+    onExitComplete,
+}: AwaitableComponentProps<MigrationBulkSearchSettings>) => {
+    const { t } = useLingui();
+
+    const [selectHighestChapterNumberSource, setSelectHighestChapterNumberSource] = useState(false);
+    const [ignoreOutdatedMatches, setIgnoreOutdatedMatches] = useState(false);
+    const [ignoreWithMissingChapters, setIgnoreWithMissingChapters] = useState(false);
+    const [requireAdditionalChapters, setRequireAdditionalChapters] = useState(false);
+    const [performAdvancedSearch, setPerformAdvancedSearch] = useState(false);
+
+    return (
+        <Dialog open={isVisible} fullWidth onClose={onDismiss} onTransitionExited={onExitComplete}>
+            <DialogTitle>{t`Search options`}</DialogTitle>
+            <DialogContent dividers>
+                <CheckboxInput
+                    primaryText={t`Ignore matches that are behind in chapters`}
+                    secondaryText={t`Automatically select matches if they have at least the same latest chapter`}
+                    sx={{
+                        alignItems: 'start',
+                    }}
+                    checked={ignoreOutdatedMatches}
+                    onChange={(_, checked) => setIgnoreOutdatedMatches(checked)}
+                />
+                <CheckboxInput
+                    primaryText={t`Ignore matches without newer chapters`}
+                    secondaryText={t`Automatically select matches if they have additional chapters`}
+                    sx={{
+                        alignItems: 'start',
+                    }}
+                    checked={requireAdditionalChapters}
+                    onChange={(_, checked) => setRequireAdditionalChapters(checked)}
+                />
+                <CheckboxInput
+                    primaryText={t`Ignore matches with missing chapters`}
+                    secondaryText={t`Automatically select matches if they have no missing chapters`}
+                    sx={{
+                        alignItems: 'start',
+                    }}
+                    checked={ignoreWithMissingChapters}
+                    onChange={(_, checked) => setIgnoreWithMissingChapters(checked)}
+                />
+            </DialogContent>
+            <DialogContent dividers>
+                <Stack
+                    direction="row"
+                    sx={{
+                        alignItems: 'center',
+                    }}
+                >
+                    <WarningIcon color="warning" />
+                    <Typography
+                        variant="body1"
+                        sx={{
+                            marginLeft: '10px',
+                            marginTop: '5px',
+                            whiteSpace: 'pre-line',
+                        }}
+                        color="error"
+                    >
+                        {t`These options are slow and dangerous and may lead to restrictions from sources`}
+                    </Typography>
+                </Stack>
+                <CheckboxInput
+                    primaryText={t`Advanced search mode`}
+                    secondaryText={t`Breaks down the title into keywords for a wider search`}
+                    sx={{
+                        alignItems: 'start',
+                    }}
+                    checked={performAdvancedSearch}
+                    onChange={(_, checked) => setPerformAdvancedSearch(checked)}
+                />
+                <CheckboxInput
+                    primaryText={t`Match based on chapter number`}
+                    secondaryText={t`If enabled, chooses the match furthest ahead.\nOtherwise, picks the first match by source priority.`}
+                    sx={{
+                        alignItems: 'start',
+                    }}
+                    checked={selectHighestChapterNumberSource}
+                    onChange={(_, checked) => setSelectHighestChapterNumberSource(checked)}
+                />
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={onDismiss}>{t`Cancel`}</Button>
+                <Button
+                    variant="contained"
+                    onClick={() =>
+                        onSubmit({
+                            selectHighestChapterNumberSource,
+                            ignoreOutdatedMatches,
+                            requireAdditionalChapters,
+                            ignoreWithMissingChapters,
+                            performAdvancedSearch,
+                        })
+                    }
+                >
+                    {t`Search`}
+                </Button>
+            </DialogActions>
+        </Dialog>
+    );
+};

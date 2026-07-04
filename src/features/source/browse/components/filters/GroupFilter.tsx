@@ -19,7 +19,7 @@ import { Options } from '@/features/source/browse/components/SourceOptions.tsx';
 import type { IPos, SourceFilters } from '@/features/source/Source.types.ts';
 
 interface Props {
-    state: ExtractByKeyValue<SourceFilters, '__typename', 'GroupFilter'>['filters'];
+    state: ExtractByKeyValue<SourceFilters, 'type', 'GroupFilter'>['filters'];
     name: string;
     position: number;
     updateFilterValue: (value: IPos[]) => void;

@@ -63,9 +63,11 @@ function ListDialog(props: IListDialogProps) {
         <Dialog
             sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }}
             maxWidth="xs"
-            TransitionProps={{ onEntering: handleEntering }}
             open={open}
             onClose={handleCancel}
+            slotProps={{
+                transition: { onEntering: handleEntering },
+            }}
         >
             <DialogTitle>{title}</DialogTitle>
             <DialogContent dividers>

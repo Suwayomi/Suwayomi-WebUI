@@ -35,19 +35,15 @@ export const SelectionFAB: React.FC<SelectionFABProps> = ({ children, title }) =
         {(popupState) => (
             <>
                 <FabContainer {...bindTrigger(popupState)}>
-                    <Fab variant="extended" color="primary" id="selectionMenuButton">
+                    <Fab variant="extended" color="primary">
                         {title}
                         <MoreHoriz sx={{ ml: 1 }} />
                     </Fab>
                 </FabContainer>
                 <Menu
                     {...bindMenu(popupState)}
-                    id="selectionMenu"
                     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
                     transformOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                    MenuListProps={{
-                        'aria-labelledby': 'selectionMenuButton',
-                    }}
                 >
                     {(onClose, setHideMenu) => children(onClose, setHideMenu)}
                 </Menu>

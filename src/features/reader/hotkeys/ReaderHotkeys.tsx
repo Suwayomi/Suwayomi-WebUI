@@ -12,7 +12,6 @@ import { HOTKEY_SCOPES } from '@/features/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { ReaderHotkey } from '@/features/reader/Reader.types.ts';
-import { getNextRotationValue } from '@/base/utils/ValueRotationButton.utils.ts';
 import {
     AUTO_SCROLL_SPEED,
     CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION,
@@ -30,6 +29,7 @@ import {
     getReaderSettingsStore,
     useReaderSettingsStore,
 } from '@/features/reader/stores/ReaderStore.ts';
+import { getNextRotationValue } from '@/lib/HelperFunctions.ts';
 
 const useHotkeys = (...args: Parameters<typeof useHotKeysHook>): ReturnType<typeof useHotKeysHook> => {
     const [keys, callback, options, dependencies] = args;

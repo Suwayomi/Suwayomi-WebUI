@@ -58,7 +58,7 @@ export const DownloadSettings = () => {
     const categories = requestManager.useGetCategories<GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables>(
         GET_CATEGORIES_SETTINGS,
     );
-    const serverSettings = requestManager.useGetServerSettings({ notifyOnNetworkStatusChange: true });
+    const serverSettings = requestManager.useGetServerSettings();
     const [mutateSettings] = requestManager.useUpdateServerSettings();
     const {
         settings: metadataSettings,
@@ -133,7 +133,7 @@ export const DownloadSettings = () => {
                     onChange={(e) => updateSetting('downloadAsCbz', e.target.checked)}
                 />
             </ListItem>
-            <ListItemLink to={AppRoutes.settings.childRoutes.images.childRoutes.processingDownloads.path}>
+            <ListItemLink to={AppRoutes.settings.children.images.children.processingDownloads.path}>
                 <ListItemText primary={t`Image download processing`} />
             </ListItemLink>
             <List

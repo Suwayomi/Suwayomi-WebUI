@@ -19,7 +19,7 @@ import type { AwaitableComponentProps } from 'awaitable-component';
 import { useLingui } from '@lingui/react/macro';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import type { ValidateBackupResult } from '@/lib/graphql/generated/graphql.ts';
+import type { ValidateBackupResult } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export const BackupValidationDialog = ({
     validationResult,
@@ -82,7 +82,7 @@ export const BackupValidationDialog = ({
                         <Button
                             onClick={onDismiss}
                             component={Link}
-                            to={AppRoutes.settings.childRoutes.tracking.path}
+                            to={AppRoutes.settings.children.tracking.path}
                             autoFocus={!!validationResult?.missingTrackers.length}
                             variant={validationResult?.missingTrackers.length ? 'contained' : 'text'}
                         >

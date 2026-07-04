@@ -21,6 +21,7 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
 const disabledUpdateCheck = () => Promise.resolve();
 
@@ -41,7 +42,6 @@ export const ServerUpdateChecker = () => {
         error: serverUpdateCheckError,
         refetch: checkForUpdate,
     } = requestManager.useCheckForServerUpdate({
-        notifyOnNetworkStatusChange: true,
         fetchPolicy: 'cache-only',
     });
 
@@ -63,7 +63,7 @@ export const ServerUpdateChecker = () => {
     const changelogUrl =
         aboutServer?.buildType.toLowerCase() === 'stable'
             ? `https://github.com/Suwayomi/Suwayomi-Server/releases/tag/${aboutServer.version}`
-            : undefined;
+            : 'https://github.com/Suwayomi/Suwayomi-Server/blob/master/CHANGELOG.md';
 
     const isSameAsCurrent = !version || !serverVersion || serverVersion === version;
 
@@ -93,7 +93,7 @@ export const ServerUpdateChecker = () => {
             return null;
         }
 
-        const isAboutPage = window.location.pathname === AppRoutes.about.path;
+        const isAboutPage = SubpathUtil.getPathname() === AppRoutes.about.path;
         if (isAboutPage) {
             return null;
         }

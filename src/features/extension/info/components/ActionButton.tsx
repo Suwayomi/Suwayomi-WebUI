@@ -25,10 +25,8 @@ export const ActionButton = ({ pkgName, isInstalled, isObsolete, hasUpdate }: TE
     return (
         <Box sx={{ px: 1, flexGrow: 1, flexBasis: 0 }}>
             <Button
-                sx={{
-                    width: '100%',
-                    color: installedState === InstalledState.OBSOLETE ? 'red' : 'inherit',
-                }}
+                sx={{ width: '100%' }}
+                color={installedState === InstalledState.OBSOLETE ? 'error' : undefined}
                 variant="outlined"
                 size="large"
                 onClick={async () => {

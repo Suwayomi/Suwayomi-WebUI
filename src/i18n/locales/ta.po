@@ -26,10 +26,6 @@ msgstr "{progress}% | புதுப்பித்தல்…"
 msgid "*: Active setting"
 msgstr "*: -செயலில் அமைப்பு"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0> 3 வது தரப்பு களஞ்சியங்கள் அல்லது நீட்டிப்புகளுக்கு சுவாவோமி எந்த ஆதரவையும் வழங்கவில்லை! </0> <2/> அந்தக் களஞ்சியங்களை உருவாக்கும் தீங்கிழைக்கும் நடிகர்கள் இருப்பதால் எச்சரிக்கையுடன் பயன்படுத்தவும்.<2/>பயனராக நீங்கள் பாதுகாப்பை சரிபார்க்க வேண்டும் மற்றும் எந்தக் களஞ்சியத்தையும் நீட்டிப்பையும் நம்புகிறீர்கள்."
-
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "ச்வெல்டேவுடன் கட்டப்பட்ட ஒரு முன்னோட்டம் கவனம் செலுத்திய வலை முன்புறம்"
@@ -63,14 +59,6 @@ msgstr "கூட்டு"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "புக்மார்க்கைச் சேர்க்கவும்"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "நீட்டிப்புகளை நிறுவக்கூடிய களஞ்சியங்களைச் சேர்க்கவும்"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "களஞ்சியத்தைச் சேர்க்கவும்"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -360,7 +348,7 @@ msgstr "பதிவேற்றுவதன் மூலம்"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -525,7 +513,7 @@ msgid "Copied to clipboard"
 msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கப்பட்டது"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "நகலெடு"
 
@@ -794,7 +782,7 @@ msgstr "அத்தியாயத்தை கைமுறையாக வா�
 msgid "Delete chapters"
 msgstr "அத்தியாயங்களை நீக்கு"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "பதிவிறக்கம் செய்யப்பட்டதை நீக்கு"
 
@@ -1020,10 +1008,6 @@ msgstr "முந்தைய பக்கத்திற்கு வெளி�
 msgid "Extension info"
 msgstr "நீட்டிப்பு செய்தி"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "நீட்டிப்பு களஞ்சியங்கள்"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -1229,10 +1213,6 @@ msgstr "ஏற்கனவே நூலகத்தில் உள்ளீட�
 msgid "Hide history"
 msgstr "வரலாற்றை மறைக்க"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "NSFW நீட்டிப்புகள் மற்றும் ஆதாரங்களை மறைக்கவும்"
-
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
 msgstr "கிடைமட்டமாக"
@@ -1357,10 +1337,6 @@ msgstr "தவறான உள்ளீடு"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "தவறான சாதொபொகு"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "தவறான களஞ்சிய முகவரி"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -1607,12 +1583,12 @@ msgstr "பட்டியல்"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "இடம்பெயர்வு"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "இடம்பெயரும் மங்கா…"
 
@@ -2228,10 +2204,6 @@ msgstr "அதன் சேவையக சேமிக்கப்பட்ட 
 msgid "Select all"
 msgstr "அனைத்தையும் தெரிவுசெய்"
 
-#: src/features/migration/components/MigrateDialog.tsx
-msgid "Select data to include"
-msgstr "சேர்க்க தரவைத் தேர்ந்தெடுக்கவும்"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "செபியா"
@@ -2285,7 +2257,7 @@ msgid "Show continue reading button"
 msgstr "தொடர்ந்து வாசிப்பு பொத்தானைக் காட்டு"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "நுழைவு காட்டு"
 
@@ -2304,10 +2276,6 @@ msgstr "குறைவாகக் காட்டு"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "மேலும் காட்டு"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW ஐக் காட்டு"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -2923,10 +2891,6 @@ msgstr "அதே பெயருடன் உங்கள் நூலகத்
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
 msgstr "நீங்கள் இதுவரை எந்த தொடரும் படிக்கவில்லை."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "நீட்டிப்புகளை நிறுவ நீங்கள் ஒரு நீட்டிப்பு களஞ்சியத்தை சேர்க்க வேண்டும்"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."

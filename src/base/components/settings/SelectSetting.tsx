@@ -20,7 +20,7 @@ import DialogActions from '@mui/material/DialogActions';
 import ListItemButton from '@mui/material/ListItemButton';
 import { useEffect, useMemo, useState } from 'react';
 import DialogContentText from '@mui/material/DialogContentText';
-import InfoIcon from '@mui/icons-material/Info';
+import WarningIcon from '@mui/icons-material/Warning';
 import { useLingui } from '@lingui/react/macro';
 import { Select } from '@/base/components/inputs/Select.tsx';
 
@@ -82,7 +82,9 @@ export const SelectSetting = <SettingValue extends string | number>({
                 <ListItemText
                     primary={settingName}
                     secondary={valueDisplayText ? t(valueDisplayText as MessageDescriptor) : t`Loading…`}
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    slotProps={{
+                        secondary: { sx: { display: 'flex', flexDirection: 'column' } },
+                    }}
                 />
             </ListItemButton>
             <Dialog open={isDialogOpen} onClose={() => closeDialog()} fullWidth>
@@ -110,7 +112,7 @@ export const SelectSetting = <SettingValue extends string | number>({
                                         alignItems: 'center',
                                     }}
                                 >
-                                    <InfoIcon color="warning" />
+                                    <WarningIcon color="warning" />
                                     <Typography
                                         variant="body1"
                                         sx={{

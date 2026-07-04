@@ -28,6 +28,9 @@ export type TextSettingDialogProps = {
     isDialogOpen: boolean;
     setIsDialogOpen: (open: boolean) => void;
     validate?: (value: string) => boolean;
+    onExitComplete?: () => void;
+    onDismiss?: () => void;
+    disabled?: boolean;
 };
 
 export const TextSettingDialog = ({
@@ -41,6 +44,9 @@ export const TextSettingDialog = ({
     isDialogOpen,
     setIsDialogOpen,
     validate = () => true,
+    onExitComplete,
+    onDismiss,
+    disabled,
 }: TextSettingDialogProps) => {
     const { t } = useLingui();
 
@@ -60,12 +66,21 @@ export const TextSettingDialog = ({
     }, [value]);
 
     const closeDialog = (resetValue: boolean = true) => {
+        if (disabled) {
+            return;
+        }
+
         if (resetValue) {
             setDialogValue(value ?? '');
             setIsValidValue(true);
         }
 
         setIsDialogOpen(false);
+
+        const rejected = resetValue;
+        if (rejected) {
+            onDismiss?.();
+        }
     };
 
     const updateSetting = () => {
@@ -74,7 +89,7 @@ export const TextSettingDialog = ({
     };
 
     return (
-        <Dialog open={isDialogOpen} onClose={() => closeDialog()} fullWidth>
+        <Dialog open={isDialogOpen} onClose={() => closeDialog()} fullWidth onTransitionExited={onExitComplete}>
             <DialogTitle>{dialogTitle}</DialogTitle>
             <DialogContent>
                 {!!dialogDescription && (
@@ -99,10 +114,10 @@ export const TextSettingDialog = ({
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => closeDialog()} color="primary">
+                <Button disabled={disabled} onClick={() => closeDialog()} color="primary">
                     {t`Cancel`}
                 </Button>
-                <Button onClick={() => updateSetting()} disabled={!isValidValue} color="primary">
+                <Button onClick={() => updateSetting()} disabled={disabled || !isValidValue} color="primary">
                     {t`Ok`}
                 </Button>
             </DialogActions>

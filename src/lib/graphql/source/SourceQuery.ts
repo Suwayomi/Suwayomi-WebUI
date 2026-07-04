@@ -8,9 +8,9 @@
 
 import gql from 'graphql-tag';
 import {
+    SOURCE_BASE_FIELDS,
     SOURCE_BROWSE_FIELDS,
     SOURCE_LIST_FIELDS,
-    SOURCE_MIGRATABLE_FIELDS,
     SOURCE_SETTING_FIELDS,
 } from '@/lib/graphql/source/SourceFragments.ts';
 
@@ -35,11 +35,11 @@ export const GET_SOURCE_SETTINGS = gql`
 `;
 
 export const GET_SOURCE_MIGRATABLE = gql`
-    ${SOURCE_MIGRATABLE_FIELDS}
+    ${SOURCE_BASE_FIELDS}
 
     query GET_SOURCE_MIGRATABLE($id: LongString!) {
         source(id: $id) {
-            ...SOURCE_MIGRATABLE_FIELDS
+            ...SOURCE_BASE_FIELDS
         }
     }
 `;
@@ -57,14 +57,14 @@ export const GET_SOURCES_LIST = gql`
 `;
 
 export const GET_MIGRATABLE_SOURCES = gql`
-    ${SOURCE_MIGRATABLE_FIELDS}
+    ${SOURCE_BASE_FIELDS}
 
     query GET_MIGRATABLE_SOURCES {
         mangas(condition: { inLibrary: true }) {
             nodes {
                 sourceId
                 source {
-                    ...SOURCE_MIGRATABLE_FIELDS
+                    ...SOURCE_BASE_FIELDS
                 }
             }
         }

@@ -35,10 +35,12 @@ const BaseBasePager = ({
     pageScaleMode,
     shouldStretchPage,
     readerWidth,
+    safeAreaInset,
     readerNavBarWidth,
     resumeMode,
     handleAsInitialRender,
     ref,
+    currentChapterRemainingPages,
 }: Omit<ReaderPagerProps, 'pageLoadStates' | 'retryFailedPagesKeyPrefix' | 'isPreloadMode'> &
     Pick<IReaderSettings, 'readingMode' | 'imagePreLoadAmount'> & {
         createPage: (
@@ -52,6 +54,7 @@ const BaseBasePager = ({
             pageScaleMode: ReaderPagerProps['pageScaleMode'],
             shouldStretchPage: ReaderPagerProps['shouldStretchPage'],
             readerWidth: ReaderPagerProps['readerWidth'],
+            safeAreaInset: ReaderPagerProps['safeAreaInset'],
             readerNavBarWidth: ReaderPagerProps['readerNavBarWidth'],
         ) => ReactNode;
         slots?: { boxProps?: BoxProps };
@@ -65,6 +68,7 @@ const BaseBasePager = ({
     const pagesIndexesToRender = useMemo(
         () =>
             getPageIndexesToLoad(
+                currentChapterRemainingPages,
                 currentPageIndex,
                 pages,
                 previousCurrentPageIndex.current,
@@ -74,7 +78,16 @@ const BaseBasePager = ({
                 isPreviousChapter,
                 isNextChapter,
             ),
-        [currentPageIndex, pages, imagePreLoadAmount, readingMode, isCurrentChapter, isPreviousChapter, isNextChapter],
+        [
+            currentChapterRemainingPages,
+            currentPageIndex,
+            pages,
+            imagePreLoadAmount,
+            readingMode,
+            isCurrentChapter,
+            isPreviousChapter,
+            isNextChapter,
+        ],
     );
     useEffect(() => {
         if (isCurrentChapter) {
@@ -125,6 +138,7 @@ const BaseBasePager = ({
                     pageScaleMode,
                     shouldStretchPage,
                     readerWidth,
+                    safeAreaInset,
                     readerNavBarWidth,
                 ),
             )}

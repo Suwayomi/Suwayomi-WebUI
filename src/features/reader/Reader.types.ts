@@ -136,6 +136,13 @@ export enum ReaderScrollAmount {
     LARGE = 95,
 }
 
+export interface SafeAreaInset {
+    top: boolean;
+    right: boolean;
+    bottom: boolean;
+    left: boolean;
+}
+
 export interface IReaderSettingsGlobal {
     overlayMode: ReaderOverlayMode;
     exitMode: ReaderExitMode;
@@ -169,6 +176,7 @@ export interface IReaderSettingsGlobal {
     scrollAmount: ReaderScrollAmount;
     shouldUseInfiniteScroll: boolean;
     shouldShowTransitionPage: boolean;
+    safeAreaInset: SafeAreaInset;
 }
 
 export interface IReaderSettingsManga {
@@ -342,6 +350,7 @@ export interface ReaderPagerProps
             | 'customFilter'
             | 'shouldStretchPage'
             | 'readerWidth'
+            | 'safeAreaInset'
         >,
         Pick<NavbarContextType, 'readerNavBarWidth'> {
     onLoad?: (pagesIndex: number, url: string, isPrimary?: boolean) => void;
@@ -354,6 +363,7 @@ export interface ReaderPagerProps
     resumeMode: ReaderResumeMode;
     handleAsInitialRender: boolean;
     ref?: Ref<HTMLDivElement>;
+    currentChapterRemainingPages: number;
 }
 
 export enum PageInViewportType {
@@ -374,7 +384,7 @@ export enum ReaderResumeMode {
     LAST_READ,
 }
 
-export interface ReaderOpenChapterLocationState {
+export interface RouteStateReader {
     resumeMode?: ReaderResumeMode;
     updateInitialChapter?: boolean;
 }

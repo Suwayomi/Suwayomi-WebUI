@@ -55,6 +55,8 @@ export class RestClient
             const isAuthRequired = AuthManager.isAuthRequired();
             const accessToken = AuthManager.getAccessToken();
 
+            await this.awaitRateLimit(updatedUrl);
+
             let result: Response;
 
             switch (httpMethod) {
@@ -87,6 +89,11 @@ export class RestClient
 
             if (result.status === 401) {
                 await BaseClient.refreshAccessToken(this.handleRefreshToken);
+                return this.fetcher(url, { data, httpMethod, config, checkResponseIsJson });
+            }
+
+            if (result.status === 429) {
+                this.addRateLimit(updatedUrl, result.headers.get('Retry-After'));
                 return this.fetcher(url, { data, httpMethod, config, checkResponseIsJson });
             }
 

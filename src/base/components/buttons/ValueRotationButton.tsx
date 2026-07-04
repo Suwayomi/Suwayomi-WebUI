@@ -11,9 +11,30 @@ import { useMemo } from 'react';
 import Button from '@mui/material/Button';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import type { MultiValueButtonProps } from '@/base/Base.types.ts';
-import { getNextRotationValue } from '@/base/utils/ValueRotationButton.utils.ts';
 import { Superscript } from '@/base/components/texts/Superscript.tsx';
+import type { ValueToDisplayData } from '@/base/Base.types.ts';
+import { getNextRotationValue } from '@/lib/HelperFunctions.ts';
+
+export interface ValueRotationButtonBaseProps<Value extends string | number> {
+    tooltip?: string;
+    value: Value;
+    defaultValue?: Value;
+    values: Value[];
+    setValue: (value: Value) => void;
+    valueToDisplayData: ValueToDisplayData<Value>;
+}
+
+export interface ValueRotationButtonDefaultableProps<Value extends string | number> extends OptionalProperty<
+    ValueRotationButtonBaseProps<Value>,
+    'value'
+> {
+    isDefaultable?: boolean;
+    onDefault?: () => void;
+}
+
+export type ValueRotationButtonProps<Value extends string | number> =
+    | (ValueRotationButtonBaseProps<Value> & PropertiesNever<ValueRotationButtonDefaultableProps<Value>>)
+    | ValueRotationButtonDefaultableProps<Value>;
 
 export const ValueRotationButton = <Value extends string | number>({
     tooltip,
@@ -25,7 +46,7 @@ export const ValueRotationButton = <Value extends string | number>({
     isDefaultable,
     onDefault,
     defaultIcon,
-}: MultiValueButtonProps<Value> & { defaultIcon?: ReactNode }) => {
+}: ValueRotationButtonProps<Value> & { defaultIcon?: ReactNode }) => {
     const { t } = useLingui();
 
     const isDefault = value === undefined;
@@ -53,7 +74,7 @@ export const ValueRotationButton = <Value extends string | number>({
                         <Superscript
                             superscript={`(${t`Default`})`}
                             text={
-                                valueToDisplayData[defaultValue].isTitleString
+                                typeof valueToDisplayData[defaultValue].title === 'string'
                                     ? valueToDisplayData[defaultValue].title
                                     : t(valueToDisplayData[defaultValue].title)
                             }
@@ -77,7 +98,7 @@ export const ValueRotationButton = <Value extends string | number>({
                     startIcon={valueToDisplayData[value].icon}
                     size="large"
                 >
-                    {valueToDisplayData[value].isTitleString
+                    {typeof valueToDisplayData[value].title === 'string'
                         ? valueToDisplayData[value].title
                         : t(valueToDisplayData[value].title)}
                 </Button>

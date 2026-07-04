@@ -18,10 +18,6 @@ msgstr ""
 msgid "{count} remaining"
 msgstr "{count} ที่เหลืออยู่"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi ไม่ได้ให้การสนับสนุนใด ๆ สำหรับที่เก็บข้อมูลหรือส่วนขยายของบุคคลที่สาม!</0><1/>ใช้ด้วยความระมัดระวัง เนื่องจากอาจมีผู้ไม่ประสงค์ดีสร้างที่เก็บข้อมูลเหล่านี้<2/>คุณในฐานะผู้ใช้จำเป็นต้องตรวจสอบความปลอดภัยและต้องเชื่อถือที่เก็บข้อมูลหรือส่วนขยายใดๆ"
-
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
@@ -34,14 +30,6 @@ msgstr "เพิ่ม"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "เพิ่มบุ๊คมาร์ก"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "เพิ่มที่เก็บข้อมูลซึ่งสามารถติดตั้งส่วนขยายได้"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "เพิ่มที่เก็บข้อมูล"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Advanced"
@@ -128,7 +116,7 @@ msgstr "ค้นหา"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -184,7 +172,7 @@ msgid "Copied to clipboard"
 msgstr "คัดลอกไปยังคลิปบอร์ดแล้ว"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "คัดลอก"
 
@@ -374,10 +362,6 @@ msgstr "นักสแกนที่ไม่รวม"
 msgid "Exclude: {excludedCategoriesText}"
 msgstr "ยกเว้น: {excludedCategoriesText}"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "ที่เก็บข้อมูลส่วนขยาย"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -516,10 +500,6 @@ msgstr "ประเภทไฟล์ไม่ถูกต้อง"
 msgid "Invalid input"
 msgstr "ข้อมูลอินพุตไม่ถูกต้อง"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "URL ของที่เก็บข้อมูลไม่ถูกต้อง"
-
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Last read chapter"
 msgstr "ตอนที่อ่านล่าสุด"
@@ -591,7 +571,7 @@ msgstr "เมนู"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrate"
 msgstr "ย้าย"
 
@@ -919,7 +899,3 @@ msgstr "เมื่อวานนี้เวลา {timeString}"
 #: src/features/category/components/CategorySelect.tsx
 msgid "You don't have any categories yet."
 msgstr "คุณยังไม่มีหมวดหมู่ใด ๆ"
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "คุณต้องเพิ่มที่เก็บส่วนขยายจึงจะสามารถติดตั้งส่วนขยายได้"

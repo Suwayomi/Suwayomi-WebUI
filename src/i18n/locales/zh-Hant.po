@@ -27,10 +27,6 @@ msgstr "{progress}% | 正在更新…"
 msgid "*: Active setting"
 msgstr "*: 啟用設定"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi 不提供任何第三方儲存庫或擴充套件的支援！</0><1/>請謹慎使用，因為可能是惡意行為者製作了這些儲存庫。<2/>作為使用者，您需要確認其安全性以及是否信任任何儲存庫或擴充套件。"
-
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "以預覽為重點的網絡前端，採用纖瘦設計"
@@ -64,14 +60,6 @@ msgstr "新增"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "新增收藏"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "新增可以安裝擴充套件的儲存庫"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "新增儲存庫"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -365,7 +353,7 @@ msgstr "依照更新日期"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -548,7 +536,7 @@ msgid "Copied to clipboard"
 msgstr "已複製到剪貼簿"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "複製"
 
@@ -834,7 +822,7 @@ msgstr "手動標記為已讀後刪除章節"
 msgid "Delete chapters"
 msgstr "刪除章節"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "刪除已下載項目"
 
@@ -1079,10 +1067,6 @@ msgstr "返回至上一頁面"
 msgid "Extension info"
 msgstr "擴充套件資訊"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "擴充套件儲存庫"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "連接至 KOReader 同步伺服器失敗。"
@@ -1300,10 +1284,6 @@ msgstr "隱藏已在書櫃中的條目"
 msgid "Hide history"
 msgstr "隱藏歷史記錄"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "顯示 NSFW 擴充套件與來源"
-
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
@@ -1427,10 +1407,6 @@ msgstr "無效的輸入"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "無效的 JSON"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "無效的儲存庫超連結"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -1702,12 +1678,12 @@ msgstr "選單"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "遷移"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "正在遷移漫畫…"
 
@@ -2319,10 +2295,6 @@ msgstr "選擇一個裝置以使用它儲存在伺服器中的 UI 設定"
 msgid "Select all"
 msgstr "全選"
 
-#: src/features/migration/components/MigrateDialog.tsx
-msgid "Select data to include"
-msgstr "選擇要包含的資料"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "深褐色"
@@ -2395,7 +2367,7 @@ msgid "Show continue reading button"
 msgstr "顯示繼續閱讀按鈕"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "顯示條目"
 
@@ -2414,10 +2386,6 @@ msgstr "顯示較少項目"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "顯示更多項目"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW (18+) 內容"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -2788,7 +2756,7 @@ msgstr "追蹤器"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/settings/screens/Settings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
@@ -3075,10 +3043,6 @@ msgstr "您的書櫃中存在相同名稱的項目。"
 msgid "You have not read any series yet."
 msgstr "您尚未閱讀任何系列。"
 
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "您必須新增擴充套件儲存庫才能夠安裝擴充套件"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "您的瀏覽器將通過對話框提示您輸入憑證。"
@@ -3108,14 +3072,14 @@ msgstr "呼叫逾時"
 
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Category"
 msgstr "分類"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx

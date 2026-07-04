@@ -56,9 +56,7 @@ export function SourceConfigure() {
     const { data, loading, error, refetch } = requestManager.useGetSource<
         GetSourceSettingsQuery,
         GetCategoriesSettingsQueryVariables
-    >(GET_SOURCE_SETTINGS, sourceId, {
-        notifyOnNetworkStatusChange: true,
-    });
+    >(GET_SOURCE_SETTINGS, sourceId);
     const sourcePreferences = data?.source.preferences ?? STABLE_EMPTY_ARRAY;
 
     const updateValue =

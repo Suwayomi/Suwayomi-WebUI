@@ -44,7 +44,7 @@ export function CategorySettings() {
     const { data, loading, error, refetch } = requestManager.useGetCategories<
         GetCategoriesSettingsQuery,
         GetCategoriesSettingsQueryVariables
-    >(GET_CATEGORIES_SETTINGS, { notifyOnNetworkStatusChange: true });
+    >(GET_CATEGORIES_SETTINGS);
     const [reorderCategory, { reset: revertReorder }] = requestManager.useReorderCategory();
 
     const [categoryToEdit, setCategoryToEdit] = useState<number>(CREATE_NEW_CATEGORY_ID);

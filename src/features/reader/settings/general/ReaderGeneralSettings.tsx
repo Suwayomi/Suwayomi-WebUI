@@ -16,6 +16,7 @@ import { ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.typ
 import { ReaderSettingOverlayMode } from '@/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { ReaderSettingBackgroundColor } from '@/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx';
+import { ReaderSettingSafeAreaInset } from '@/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx';
 
 export const ReaderGeneralSettings = ({
     overlayMode,
@@ -59,6 +60,10 @@ export const ReaderGeneralSettings = ({
                     onChange={(_, checked) => updateSetting('shouldShowPageNumber', checked)}
                 />
             )}
+            <ReaderSettingSafeAreaInset
+                safeAreaInset={settings.safeAreaInset}
+                updateSetting={(value) => updateSetting('safeAreaInset', value)}
+            />
         </Stack>
     );
 };

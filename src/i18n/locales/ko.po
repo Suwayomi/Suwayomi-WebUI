@@ -1,17 +1,18 @@
 msgid ""
 msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.871Z\n"
+"PO-Revision-Date: 2026-05-18 11:57+0000\n"
+"Last-Translator: asqwas <zerory3@gmail.com>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
+"webui/ko/>\n"
+"Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
-"Language: ko\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -25,10 +26,6 @@ msgstr "{progress}% | 업데이트중…"
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
 msgstr "*: 활성 설정"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi는 서드파티 저장소나 확장 기능에 대해 어떠한 지원도 제공하지 않습니다!</0><1/>해당 저장소는 악의적인 제작자가 만들었을 수도 있으므로 주의해서 사용하세요.<2/>사용자인 여러분이 해당 저장소나 확장 기능의 보안과 신뢰성을 직접 확인해야 합니다."
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -63,14 +60,6 @@ msgstr "추가"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "북마크 추가"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "확장 기능을 설치할 저장소를 추가합니다"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "저장소 추가"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -108,7 +97,7 @@ msgstr "연령 등급"
 #: src/features/extension/Extensions.constants.ts
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "All"
-msgstr "모든 언어"
+msgstr "모두 다운로드"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Allow deleting bookmarked chapters"
@@ -373,7 +362,7 @@ msgstr "호출 시간 초과"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -586,7 +575,7 @@ msgid "Copied to clipboard"
 msgstr "클립보드에 복사됨"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "복사"
 
@@ -872,7 +861,7 @@ msgstr "읽음으로 표시하면 챕터 삭제"
 msgid "Delete chapters"
 msgstr "챕터 삭제"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "다운로드된 항목 삭제"
 
@@ -1117,10 +1106,6 @@ msgstr "이전 페이지로 나가기"
 msgid "Extension info"
 msgstr "확장 정보"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "확장 저장소"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "KOReader 동기화 서버에 연결하지 못했습니다."
@@ -1350,10 +1335,6 @@ msgstr "라이브러리에 이미 있는 항목 숨기기"
 msgid "Hide history"
 msgstr "기록 숨기기"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "NSFW 확장 프로그램 및 출처 숨기기"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Hikari connection pool"
 msgstr "Hikari 연결 풀"
@@ -1512,10 +1493,6 @@ msgstr "잘못된 입력"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "잘못된 JSON"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "잘못된 저장소 URL"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -1807,12 +1784,12 @@ msgstr "메뉴"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "마이그레이션"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "만화 마이그레이션 중…"
 
@@ -2449,10 +2426,6 @@ msgstr "서버에 저장된 UI 설정을 사용할 기기를 선택하세요"
 msgid "Select all"
 msgstr "모두 선택"
 
-#: src/features/migration/components/MigrateDialog.tsx
-msgid "Select data to include"
-msgstr "포함할 데이터 선택"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "세피아"
@@ -2525,7 +2498,7 @@ msgid "Show continue reading button"
 msgstr "계속 읽기 버튼 표시"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "항목 표시"
 
@@ -2544,10 +2517,6 @@ msgstr "간략히 보기"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "자세히 보기"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW 표시"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -2931,7 +2900,7 @@ msgstr "추적"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/settings/screens/Settings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
@@ -3226,10 +3195,6 @@ msgstr "라이브러리에 동일한 이름의 항목이 있습니다."
 msgid "You have not read any series yet."
 msgstr "아직 읽은 시리즈가 없습니다."
 
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "확장 기능을 설치하려면 확장 저장소를 추가해야 합니다"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "브라우저에 자격 증명 입력 대화 상자가 나타납니다."
@@ -3242,3 +3207,19 @@ msgstr "라이브러리가 비어 있습니다"
 #: src/features/settings/Settings.constants.ts
 msgid "Your library will be accessible. Use this only on private networks or when otherwise securing access."
 msgstr "라이브러리에 접근할 수 있습니다. 개인 네트워크에서만 사용하거나 다른 방법으로 접근을 보호할 때 사용하세요."
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "안전 영역 패딩 적용"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "고급 검색 모드"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr "콘텐츠가 기기의 컷아웃 및 화면 가장자리와 겹치는 것을 방지합니다"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Keybinds"
+msgstr "키설정"

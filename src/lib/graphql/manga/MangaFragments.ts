@@ -73,6 +73,10 @@ export const MANGA_CHAPTER_NODE_FIELDS = gql`
             id
             uploadDate
         }
+        highestNumberedChapter {
+            id
+            chapterNumber
+        }
     }
 `;
 
@@ -108,6 +112,7 @@ export const MANGA_LIBRARY_FIELDS = gql`
     ${MANGA_CHAPTER_STAT_FIELDS}
     ${MANGA_CHAPTER_NODE_FIELDS}
     ${MANGA_META_FIELDS}
+    ${SOURCE_BASE_FIELDS}
 
     fragment MANGA_LIBRARY_FIELDS on MangaType {
         ...MANGA_BASE_FIELDS
@@ -128,8 +133,7 @@ export const MANGA_LIBRARY_FIELDS = gql`
         }
 
         source {
-            id
-            displayName
+            ...SOURCE_BASE_FIELDS
         }
 
         trackRecords {
@@ -143,12 +147,33 @@ export const MANGA_LIBRARY_FIELDS = gql`
     }
 `;
 
+export const MANGA_MIGRATION_FIELDS = gql`
+    ${MANGA_BASE_FIELDS}
+    ${MANGA_CHAPTER_NODE_FIELDS}
+
+    fragment MANGA_MIGRATION_FIELDS on MangaType {
+        ...MANGA_BASE_FIELDS
+        ...MANGA_CHAPTER_NODE_FIELDS
+        artist
+        author
+        source {
+            id
+            name
+            displayName
+        }
+    }
+`;
+
 export const MANGA_SCREEN_FIELDS = gql`
     ${MANGA_LIBRARY_FIELDS}
     ${MANGA_META_FIELDS}
+    ${MANGA_CHAPTER_NODE_FIELDS}
+    ${MANGA_MIGRATION_FIELDS}
 
     fragment MANGA_SCREEN_FIELDS on MangaType {
         ...MANGA_LIBRARY_FIELDS
+        ...MANGA_CHAPTER_NODE_FIELDS
+        ...MANGA_MIGRATION_FIELDS
 
         artist
         author
@@ -164,6 +189,7 @@ export const MANGA_SCREEN_FIELDS = gql`
         sourceId
         source {
             id
+            name
             displayName
         }
 

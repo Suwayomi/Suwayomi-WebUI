@@ -22,16 +22,6 @@ export const SOURCE_BASE_FIELDS = gql`
         name
         displayName
         lang
-    }
-`;
-
-export const SOURCE_MIGRATABLE_FIELDS = gql`
-    ${SOURCE_BASE_FIELDS}
-
-    fragment SOURCE_MIGRATABLE_FIELDS on SourceType {
-        ...SOURCE_BASE_FIELDS
-
-        lang
         iconUrl
     }
 `;
@@ -45,7 +35,7 @@ export const SOURCE_LIST_FIELDS = gql`
 
         lang
         iconUrl
-        isNsfw
+        contentWarning
         isConfigurable
         supportsLatest
 
@@ -55,7 +45,11 @@ export const SOURCE_LIST_FIELDS = gql`
 
         extension {
             pkgName
-            repo
+            storeIndexUrl
+            extensionStore {
+                indexUrl
+                name
+            }
         }
     }
 `;
@@ -67,7 +61,7 @@ export const SOURCE_BROWSE_FIELDS = gql`
     fragment SOURCE_BROWSE_FIELDS on SourceType {
         ...SOURCE_BASE_FIELDS
 
-        baseUrl
+        homeUrl
 
         isConfigurable
         supportsLatest

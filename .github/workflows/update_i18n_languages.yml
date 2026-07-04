@@ -31,24 +31,29 @@ jobs:
         with:
           node-version-file: './master/package.json'
 
+      - uses: pnpm/action-setup@v4.2.0
+        name: Install pnpm
+        with:
+          version: 11.1.2
+
       - name: Cache node_modules
         uses: actions/cache@v4
         with:
           path: |
             **/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Install dependencies
         run: |
           cd master
-          yarn ci
+          pnpm ci
 
       - name: Update i18n resources
         run: |
           cd master
           echo "WEBLATE_TOKEN=${{ secrets.MY_SECRET }}" > .env
-          yarn i18n:gen-resources
-          yarn manga:gen-type-tags
+          pnpm i18n:gen-resources
+          pnpm manga:gen-type-tags
 
       - name: Push changes
         run: |

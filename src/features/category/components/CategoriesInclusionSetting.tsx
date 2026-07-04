@@ -19,7 +19,7 @@ import { useLingui } from '@lingui/react/macro';
 import { t as translate } from '@lingui/core/macro';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { IncludeOrExclude } from '@/lib/graphql/generated/graphql.ts';
+import { IncludeOrExclude } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { CheckboxContainer } from '@/base/components/inputs/CheckboxContainer.ts';
 import type {
@@ -162,7 +162,9 @@ export const CategoriesInclusionSetting = ({
                             <span>{t`Exclude: ${excludedCategoriesText}`}</span>
                         </>
                     }
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    slotProps={{
+                        secondary: { sx: { display: 'flex', flexDirection: 'column' } },
+                    }}
                 />
             </ListItemButton>
             <Dialog open={isDialogOpen} onClose={closeDialog}>

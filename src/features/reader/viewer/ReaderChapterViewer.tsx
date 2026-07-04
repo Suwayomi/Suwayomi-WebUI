@@ -52,6 +52,7 @@ const BaseReaderChapterViewer = ({
     retryFailedPagesKeyPrefix,
     readingMode,
     readerWidth,
+    safeAreaInset,
     pageScaleMode,
     shouldOffsetDoubleSpreads,
     readingDirection,
@@ -80,6 +81,7 @@ const BaseReaderChapterViewer = ({
     minWidth,
     minHeight,
     scrollElement,
+    currentChapterRemainingPages,
 }: Pick<ReaderStatePages, 'currentPageIndex' | 'transitionPageMode' | 'retryFailedPagesKeyPrefix'> &
     Omit<ReaderPagerProps, 'pages' | 'totalPages' | 'pageLoadStates' | 'handleAsInitialRender' | 'resumeMode'> &
     Pick<
@@ -427,10 +429,12 @@ const BaseReaderChapterViewer = ({
                 customFilter={customFilter}
                 shouldStretchPage={shouldStretchPage}
                 readerWidth={readerWidth}
+                safeAreaInset={safeAreaInset}
                 readerNavBarWidth={readerNavBarWidth}
                 isPreloadMode={isPreloadMode}
                 resumeMode={resumeMode}
                 handleAsInitialRender={scrollIntoView}
+                currentChapterRemainingPages={currentChapterRemainingPages}
             />
             {showNextTransitionPage && (
                 <ReaderTransitionPage chapterId={chapterId} type={ReaderTransitionPageMode.NEXT} />

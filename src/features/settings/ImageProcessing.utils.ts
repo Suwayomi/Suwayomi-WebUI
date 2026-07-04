@@ -25,7 +25,7 @@ import type {
     SettingsDownloadConversion,
     SettingsDownloadConversionHeader,
     SettingsDownloadConversionType,
-} from '@/lib/graphql/generated/graphql.ts';
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 

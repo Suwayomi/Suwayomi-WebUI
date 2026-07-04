@@ -13,6 +13,7 @@ import type {
     BackupFlagInclusionState,
 } from '@/features/backup/Backup.types.ts';
 import { BACKUP_FLAGS_TO_TRANSLATION } from '@/features/backup/Backup.constants.ts';
+import omit from 'lodash/fp/omit';
 
 export const convertToAutoBackupFlags = (flags: BackupFlagInclusionState): AutoBackupFlagInclusionState => ({
     autoBackupIncludeCategories: flags.includeCategories,
@@ -46,11 +47,14 @@ const getIncludeExcludeText = (count: number, allCount: number, specificText: st
     return specificText;
 };
 
-export const getAutoBackupFlagsInfo = (autoFlags: AutoBackupFlagInclusionState): Record<`${boolean}`, string> => {
-    const flags = convertToBackupFlags(autoFlags);
+export const getAutoBackupFlagsInfo = (
+    autoFlags: AutoBackupFlagInclusionState,
+    hiddenFlags: BackupFlag[] = [],
+): Record<`${boolean}`, string> => {
+    const flags = omit(hiddenFlags, convertToBackupFlags(autoFlags));
     const totalFlags = Object.keys(flags).length;
 
-    const flagsByState = Object.groupBy(Object.entries(flags), ([, value]) => value.toString());
+    const flagsByState = Object.groupBy(Object.entries(flags), ([, value]) => (value as boolean).toString());
 
     const includedFlagsString =
         flagsByState.true?.map(([key]) => t(BACKUP_FLAGS_TO_TRANSLATION[key as BackupFlag])).join(', ') ?? '';

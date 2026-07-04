@@ -50,7 +50,7 @@ Thus, there is no need to manually download any builds unless you want to host t
 
 ## Preview
 
-An ongoing changelog of all relevant changes since the last stable release can be found [here](https://github.com/Suwayomi/Suwayomi-WebUI/issues/749)
+An ongoing changelog of all relevant changes since the last stable release can be found [here](https://github.com/Suwayomi/Suwayomi-WebUI/blob/master/CHANGELOG.md)
 
 To use the preview version you can select the PREVIEW channel in the settings of your Suwayomi-Server.
 The server is then able to download and also keep the version automatically up-to-date.

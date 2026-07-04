@@ -46,7 +46,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const isOpen = isSearchOpen || !!query;
 
     const updateSearchOpenState = (open: boolean) => {
-        if (!isClosable) {
+        if (!isClosable && !open) {
             return;
         }
 

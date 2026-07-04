@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import type { ComponentProps } from 'react';
 import { memo, useMemo } from 'react';
-import { alpha, useTheme } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
 import { ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
@@ -29,8 +29,7 @@ import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { getValueFromObject, noOp } from '@/lib/HelperFunctions.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import type { ChapterType } from '@/lib/graphql/generated/graphql.ts';
-import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterIdInfo, ChapterNameInfo, ChapterScanlatorInfo } from '@/features/chapter/Chapter.types.ts';
 import {
     useReaderChaptersStore,
     useReaderPagesStore,
@@ -46,8 +45,8 @@ const ChapterInfo = ({
     backgroundColor,
 }: {
     title: string;
-    name?: ChapterType['name'];
-    scanlator?: ChapterType['scanlator'];
+    name?: ChapterNameInfo['name'];
+    scanlator?: ChapterScanlatorInfo['scanlator'];
     backgroundColor: IReaderSettings['backgroundColor'];
 }) => {
     const theme = useTheme();
@@ -55,7 +54,7 @@ const ChapterInfo = ({
     const contrastText = theme.palette.getContrastText(
         getValueFromObject(theme.palette, READER_BACKGROUND_TO_COLOR[backgroundColor]),
     );
-    const disabledText = alpha(contrastText, 0.5);
+    const disabledText = theme.alpha(contrastText, 0.5);
 
     if (!name) {
         return null;
@@ -63,12 +62,12 @@ const ChapterInfo = ({
 
     return (
         <Stack>
-            <Typography color={contrastText}>{title}</Typography>
-            <Typography color={contrastText} variant="h6" component="h1">
+            <Typography sx={{ color: contrastText }}>{title}</Typography>
+            <Typography sx={{ color: contrastText }} variant="h6" component="h1">
                 {name}
             </Typography>
             {scanlator && (
-                <Typography variant="body2" color={disabledText}>
+                <Typography variant="body2" sx={{ color: disabledText }}>
                     {scanlator}
                 </Typography>
             )}
@@ -89,12 +88,12 @@ const BaseReaderTransitionPage = ({
 }: Pick<NavbarContextType, 'readerNavBarWidth'> & {
     // gets used in the "source props creators" of the "withPropsFrom" call
     chapterId: ChapterIdInfo['id'];
-    currentChapterName?: ChapterType['name'];
-    currentChapterScanlator?: ChapterType['scanlator'];
-    previousChapterName?: ChapterType['name'];
-    previousChapterScanlator?: ChapterType['scanlator'];
-    nextChapterName?: ChapterType['name'];
-    nextChapterScanlator?: ChapterType['scanlator'];
+    currentChapterName?: ChapterNameInfo['name'];
+    currentChapterScanlator?: ChapterScanlatorInfo['scanlator'];
+    previousChapterName?: ChapterNameInfo['name'];
+    previousChapterScanlator?: ChapterScanlatorInfo['scanlator'];
+    nextChapterName?: ChapterNameInfo['name'];
+    nextChapterScanlator?: ChapterScanlatorInfo['scanlator'];
     type: Exclude<ReaderTransitionPageMode, ReaderTransitionPageMode.NONE | ReaderTransitionPageMode.BOTH>;
     handleBack: () => void;
 }) => {

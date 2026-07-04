@@ -83,7 +83,7 @@ export const SnackbarWithDescription = memo(
                 >
                     <TitleComponent>{message}</TitleComponent>
                     {actualDescription}
-                    {isDescriptionTooLong || (isGraphqlException && graphqlStackTrace) ? (
+                    {(isDescriptionTooLong || (isGraphqlException && graphqlStackTrace)) && (
                         <Button
                             onClick={() => {
                                 Confirmation.show({
@@ -108,8 +108,6 @@ export const SnackbarWithDescription = memo(
                         >
                             {t`Show more`}
                         </Button>
-                    ) : (
-                        ''
                     )}
                 </Alert>
             </SnackbarContent>

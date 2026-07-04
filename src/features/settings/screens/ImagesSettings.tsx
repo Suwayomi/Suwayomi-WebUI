@@ -53,10 +53,10 @@ export const ImagesSettings = () => {
                     </ListSubheader>
                 }
             >
-                <ListItemLink to={AppRoutes.settings.childRoutes.images.childRoutes.processingDownloads.path}>
+                <ListItemLink to={AppRoutes.settings.children.images.children.processingDownloads.path}>
                     <ListItemText primary={t`Image download processing`} />
                 </ListItemLink>
-                <ListItemLink to={AppRoutes.settings.childRoutes.images.childRoutes.processingServe.path}>
+                <ListItemLink to={AppRoutes.settings.children.images.children.processingServe.path}>
                     <ListItemText primary={t`Image serve processing`} />
                 </ListItemLink>
             </List>

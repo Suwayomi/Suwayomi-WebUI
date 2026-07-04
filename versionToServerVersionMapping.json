@@ -1,47 +1,22 @@
 [
     {
         "uiVersion": "PREVIEW",
-        "serverVersion": "r2066"
+        "serverVersion": "r2230"
     },
     {
-        "tag": "OLD PREVIEW",
-        "uiVersion": "r2998",
-        "serverVersion": "r2061"
+        "tag": "v20260509.01",
+        "uiVersion": "r3147",
+        "serverVersion": "r2099"
+    },
+    {
+        "tag": "v20260508.01",
+        "uiVersion": "r3136",
+        "serverVersion": "r2099"
     },
     {
         "tag": "v20251230.01",
         "uiVersion": "r2937",
         "serverVersion": "r2038"
-    },
-    {
-        "tag": "OLD_PREVIEW",
-        "uiVersion": "r2937",
-        "serverVersion": "r2031"
-    },
-    {
-        "tag": "OLD_PREVIEW",
-        "uiVersion": "r2914",
-        "serverVersion": "r1960"
-    },
-    {
-        "tag": "OLD_PREVIEW",
-        "uiVersion": "r2843",
-        "serverVersion": "r1941"
-    },
-    {
-        "tag": "OLD_PREVIEW",
-        "uiVersion": "r2817",
-        "serverVersion": "r1910"
-    },
-    {
-        "tag": "OLD_PREVIEW",
-        "uiVersion": "r2765",
-        "serverVersion": "r1901"
-    },
-    {
-        "tag": "OLD_PREVIEW",
-        "uiVersion": "r2763",
-        "serverVersion": "r1868"
     },
     {
         "tag": "v20250801.01",

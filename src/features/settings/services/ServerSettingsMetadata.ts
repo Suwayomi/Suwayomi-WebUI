@@ -38,7 +38,7 @@ export const useMetadataServerSettings = (): {
     loading: boolean;
     request: ReturnType<typeof requestManager.useGetGlobalMeta>;
 } => {
-    const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
+    const request = requestManager.useGetGlobalMeta();
     const { data, loading } = request;
     const metadata = useMemo(() => convertFromGqlMeta(data?.metas.nodes), [data?.metas.nodes]);
     const tmpSettings = getMetadataServerSettingsWithDefaultFallback(metadata, undefined, useEffect);

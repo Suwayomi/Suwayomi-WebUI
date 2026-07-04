@@ -8,15 +8,20 @@
 
 import gql from 'graphql-tag';
 import { EXTENSION_LIST_FIELDS } from '@/lib/graphql/extension/ExtensionFragments.ts';
+import { EXTENSION_STORE_FIELDS } from '@/lib/graphql/extension/store/ExtensionStoreFragments.ts';
 
 // makes the server fetch and return the latest extensions
 export const GET_EXTENSIONS_FETCH = gql`
     ${EXTENSION_LIST_FIELDS}
+    ${EXTENSION_STORE_FIELDS}
 
     mutation GET_EXTENSIONS_FETCH($input: FetchExtensionsInput = {}) {
         fetchExtensions(input: $input) {
             extensions {
                 ...EXTENSION_LIST_FIELDS
+            }
+            extensionStores {
+                ...EXTENSION_STORE_FIELDS
             }
         }
     }

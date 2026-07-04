@@ -23,6 +23,7 @@ import type {
     MangaSourceIdInfo,
 } from '@/features/manga/Manga.types.ts';
 import { SearchLink } from '@/features/manga/components/details/SearchLink.tsx';
+import uniq from 'lodash/fp/uniq';
 
 const OPEN_CLOSE_BUTTON_HEIGHT = '35px';
 const DESCRIPTION_COLLAPSED_SIZE = 75;
@@ -46,7 +47,7 @@ export const DescriptionGenre = ({
     const collapsedSize = description
         ? Math.min(DESCRIPTION_COLLAPSED_SIZE, descriptionHeight ?? DESCRIPTION_COLLAPSED_SIZE)
         : 0;
-    const genres = useMemo(() => mangaGenres.filter(Boolean), [mangaGenres]);
+    const genres = useMemo(() => uniq(mangaGenres.filter(Boolean)), [mangaGenres]);
 
     return (
         <>

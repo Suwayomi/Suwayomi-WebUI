@@ -15,7 +15,7 @@ import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListItemLink } from '@/base/components/lists/ListItemLink.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
-import { UpdateState } from '@/lib/graphql/generated/graphql.ts';
+import { UpdateState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { VersionInfo } from '@/features/app-updates/components/VersionInfo.tsx';
@@ -28,20 +28,20 @@ export function About() {
 
     useAppTitle(t`About`);
 
-    const { data, loading, error, refetch } = requestManager.useGetAbout({ notifyOnNetworkStatusChange: true });
+    const { data, loading, error, refetch } = requestManager.useGetAbout();
 
     const {
         data: serverUpdateCheckData,
         loading: isCheckingForServerUpdate,
         refetch: checkForServerUpdate,
         error: serverUpdateCheckError,
-    } = requestManager.useCheckForServerUpdate({ notifyOnNetworkStatusChange: true });
+    } = requestManager.useCheckForServerUpdate();
     const {
         data: webUIUpdateData,
         loading: isCheckingForWebUIUpdate,
         refetch: checkForWebUIUpdate,
         error: orgWebUIUpdateCheckError,
-    } = requestManager.useCheckForWebUIUpdate({ notifyOnNetworkStatusChange: true });
+    } = requestManager.useCheckForWebUIUpdate();
     const webUIUpdateCheckError = orgWebUIUpdateCheckError || webUIUpdateData?.checkForWebUIUpdate.tag === '';
 
     const { data: webUIUpdateStatusData } = requestManager.useGetWebUIUpdateStatus();

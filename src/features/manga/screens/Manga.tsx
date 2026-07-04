@@ -71,7 +71,7 @@ export const Manga: React.FC = () => {
                 alignItems: 'center',
             }}
         >
-            {error && !isValidating && !refreshing && (
+            {!!error && !isValidating && !refreshing && (
                 <CustomTooltip
                     title={
                         <>

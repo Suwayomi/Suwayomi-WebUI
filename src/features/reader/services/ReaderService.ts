@@ -13,7 +13,7 @@ import { useTheme } from '@mui/material/styles';
 import { t } from '@lingui/core/macro';
 import type { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import type { IReaderSettings, ReaderOpenChapterLocationState } from '@/features/reader/Reader.types.ts';
+import type { IReaderSettings, RouteStateReader } from '@/features/reader/Reader.types.ts';
 import { ReaderExitMode, ReaderOverlayMode, ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
@@ -21,7 +21,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
 import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import type { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql.ts';
+import type { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import {
     getChapterIdsForDownloadAhead,
@@ -82,7 +82,7 @@ export class ReaderService {
         return ReaderService.chapterUpdateQueues.get(id)!;
     }
 
-    static navigateToChapter(chapter: TChapterReader, state?: ReaderOpenChapterLocationState): void {
+    static navigateToChapter(chapter: TChapterReader, state?: RouteStateReader): void {
         ReactRouter.navigate(Chapters.getReaderUrl(chapter), {
             replace: true,
             state,

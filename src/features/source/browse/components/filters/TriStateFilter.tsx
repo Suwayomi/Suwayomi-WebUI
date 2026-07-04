@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
-import { TriState } from '@/lib/graphql/generated/graphql.ts';
+import { TriState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import type { IPos } from '@/features/source/Source.types.ts';
 
 interface Props {

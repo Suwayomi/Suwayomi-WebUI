@@ -48,7 +48,7 @@ export const SourceCard = (source: SourceIdInfo & SourceLanguageInfo & SourceCon
                             <CustomTooltip title={t`Settings`}>
                                 <IconButton
                                     component={Link}
-                                    to={AppRoutes.sources.childRoutes.configure.path(id)}
+                                    to={AppRoutes.sources.children.configure.path(id)}
                                     color="inherit"
                                     onClick={(e) => e.stopPropagation()}
                                     {...MUIUtil.preventRippleProp()}

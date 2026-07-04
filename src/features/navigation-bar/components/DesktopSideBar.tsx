@@ -54,8 +54,10 @@ export const DesktopSideBar = ({ navBarItems }: { navBarItems: NavbarItem[] }) =
                     zIndex: (theme) => theme.zIndex.drawer - 1,
                 },
             }}
-            PaperProps={{
-                ref,
+            slotProps={{
+                paper: {
+                    ref,
+                },
             }}
         >
             <Box

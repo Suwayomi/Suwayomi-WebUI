@@ -8,10 +8,10 @@
 
 import type { MessageDescriptor } from '@lingui/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { useQueryParam, StringParam } from 'use-query-params';
+import { StringParam, useQueryParam } from 'use-query-params';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -43,7 +43,8 @@ import { MANGA_GRID_SNAPSHOT_KEY } from '@/features/manga/components/MangaGrid.t
 import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { GET_SOURCE_BROWSE } from '@/lib/graphql/source/SourceQuery.ts';
-import type { IPos, SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { IPos, RouteStateSourceBrowse, SourceIdInfo } from '@/features/source/Source.types.ts';
+import { SourceContentType } from '@/features/source/Source.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { EmptyView } from '@/base/components/feedback/EmptyView.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -57,6 +58,8 @@ import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitl
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
+import { MigrationManager } from '@/features/migration/MigrationManager.ts';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
@@ -76,12 +79,6 @@ const StyledGridWrapper = styled(Box)(() => ({
     minHeight: '100%',
     position: 'relative',
 }));
-
-export enum SourceContentType {
-    POPULAR,
-    LATEST,
-    SEARCH,
-}
 
 const SOURCE_CONTENT_TYPE_TO_ERROR_MSG_KEY: { [contentType in SourceContentType]: MessageDescriptor } = {
     [SourceContentType.POPULAR]: msg`No manga found`,
@@ -111,6 +108,7 @@ const useSourceManga = (
     filters: IPos[],
     initialPages: number,
     hideLibraryEntries: boolean,
+    mangaId?: MangaIdInfo['id'],
 ): [
     AbortableApolloUseMutationPaginatedResponse<GetSourceMangasFetchMutation, GetSourceMangasFetchMutationVariables>[0],
     AbortableApolloUseMutationPaginatedResponse<
@@ -171,7 +169,9 @@ const useSourceManga = (
 
         pages.forEach((page, index) => {
             const pageItems = page.data?.fetchSourceManga?.mangas ?? [];
-            const nonLibraryPageItems = pageItems.filter((item) => !hideLibraryEntries || !item.inLibrary);
+            const nonLibraryPageItems = pageItems.filter(
+                (item) => item.id !== mangaId && (!hideLibraryEntries || !item.inLibrary),
+            );
             const uniqueItems = getUniqueMangas([...allItems, ...nonLibraryPageItems]);
 
             const isLastPage = !isPageLoading && pages.length === index + 1;
@@ -191,8 +191,10 @@ const useSourceManga = (
         {
             ...pages[pages.length - 1],
             data: {
+                __typename: 'Mutation',
                 ...lastLoadedPage!.data,
                 fetchSourceManga: {
+                    __typename: 'FetchSourceMangaPayload',
                     ...lastLoadedPage!.data!.fetchSourceManga,
                     hasNextPage:
                         pages.length > lastLoadedPageIndex + 1
@@ -216,11 +218,12 @@ export function SourceMangas() {
     const navigate = useNavigate();
     const location = useLocation();
     const { key: locationKey, state: locationState } = location;
-    const { contentType: initialContentType = SourceContentType.POPULAR, clearCache = false } =
-        useLocation<{
-            contentType: SourceContentType;
-            clearCache: boolean;
-        }>().state ?? STABLE_EMPTY_OBJECT;
+    const {
+        contentType: initialContentType = SourceContentType.POPULAR,
+        clearCache = false,
+        mode = 'source',
+        mangaId,
+    } = useLocation<RouteStateSourceBrowse>().state ?? STABLE_EMPTY_OBJECT;
 
     const {
         settings: { hideLibraryEntries },
@@ -287,7 +290,7 @@ export function SourceMangas() {
     const [
         loadPage,
         { data, error, isLoading: loading, size: lastPageNum, abortRequest, filteredOutAllItemsOfFetchedPage },
-    ] = useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries);
+    ] = useSourceManga(sourceId, contentType, query, filtersToApply, 1, hideLibraryEntries, mangaId);
     currentAbortRequest.current = abortRequest;
     const mangas = data?.fetchSourceManga?.mangas ?? STABLE_EMPTY_ARRAY;
     const hasNextPage = !!data?.fetchSourceManga?.hasNextPage;
@@ -361,7 +364,10 @@ export function SourceMangas() {
                         pathname: '',
                     },
                     {
-                        state: { ...locationState, contentType: newContentType },
+                        state: {
+                            ...locationState,
+                            ...AppRoutes.sources.children.browse.state({ contentType: newContentType }),
+                        },
                     },
                 );
             }
@@ -417,10 +423,10 @@ export function SourceMangas() {
         <>
             <AppbarSearch />
             <SourceGridLayout />
-            <CustomTooltip title={t`Open in WebView`} disabled={!source?.baseUrl}>
+            <CustomTooltip title={t`Open in WebView`} disabled={!source?.homeUrl}>
                 <IconButton
-                    disabled={!source?.baseUrl}
-                    href={source?.baseUrl ? requestManager.getWebviewUrl(source?.baseUrl) : ''}
+                    disabled={!source?.homeUrl}
+                    href={source?.homeUrl ? requestManager.getWebviewUrl(source?.homeUrl) : ''}
                     rel="noreferrer"
                     target="_blank"
                     color="inherit"
@@ -431,7 +437,7 @@ export function SourceMangas() {
             {source?.isConfigurable && (
                 <CustomTooltip title={t`Settings`}>
                     <IconButton
-                        onClick={() => navigate(AppRoutes.sources.childRoutes.configure.path(sourceId))}
+                        onClick={() => navigate(AppRoutes.sources.children.configure.path(sourceId))}
                         aria-label="display more actions"
                         edge="end"
                         color="inherit"
@@ -486,8 +492,20 @@ export function SourceMangas() {
                     messageExtra={messageExtra}
                     isLoading={isLoading}
                     gridLayout={sourceGridLayout}
-                    mode="source"
+                    mode={mode}
                     inLibraryIndicator
+                    onMigrateSelect={
+                        mangaId
+                            ? (match) => {
+                                  MigrationManager.selectManualMatch(mangaId, {
+                                      ...match,
+                                      sourceTitle: Sources.getFromCache(match.sourceId)?.displayName,
+                                      latestChapterNumber: undefined,
+                                  });
+                                  ReactRouter.navigate(AppRoutes.migrate.path);
+                              }
+                            : undefined
+                    }
                 />
             )}
             {error && (

@@ -16,19 +16,16 @@ import { getMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { Categories } from '@/features/category/services/Categories.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
-import type {
-    GetCategoriesBaseQuery,
-    GetCategoriesBaseQueryVariables,
-    MangaType,
-} from '@/lib/graphql/generated/graphql.ts';
+import type { GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_BASE } from '@/lib/graphql/category/CategoryQuery.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
+import type { MangaIdInfo, MangaInLibraryInfo, MangaTitleInfo } from '@/features/manga/Manga.types.ts';
 
 export const useManageMangaLibraryState = (
-    manga: Pick<MangaType, 'id' | 'title'> & Partial<Pick<MangaType, 'inLibrary'>>,
+    manga: MangaIdInfo & MangaTitleInfo & Partial<MangaInLibraryInfo>,
     confirmRemoval: boolean = false,
 ) => {
     const { t } = useLingui();

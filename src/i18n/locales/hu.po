@@ -340,14 +340,6 @@ msgstr "Hozzáadás"
 msgid "Add bookmark"
 msgstr "Könyvjelző hozzáadása"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Tárolók hozzáadása bővítmények telepítéséhez"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Tároló hozzáadása"
-
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
 #: src/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx
@@ -657,7 +649,7 @@ msgstr "Feltöltés ideje szerint"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -683,7 +675,7 @@ msgstr "Kategóriák"
 
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Category"
 msgstr "Kategória"
 
@@ -720,7 +712,7 @@ msgstr "Csatorna"
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
@@ -877,7 +869,7 @@ msgid "Copied to clipboard"
 msgstr "Másolva a vágólapra"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "Másolás"
 
@@ -1202,7 +1194,7 @@ msgstr "Fejezet törlése olvasottnak jelölés után"
 msgid "Delete chapters"
 msgstr "Fejezetek törlése"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "Letöltöttek törlése"
 
@@ -1458,10 +1450,6 @@ msgstr "Bővítmény adatai"
 msgid "Extension installed"
 msgstr "Bővítmény telepítve"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Bővítménytárolók"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "Nem sikerült a KOReader Sync szerverhez való csatlakozás."
@@ -1667,10 +1655,6 @@ msgstr "Már könytárban lévő címek elrejtése"
 msgid "Hide history"
 msgstr "Elrejtési előzmények"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "NSFW bővítmények és források elrejtése"
-
 #: src/features/backup/Backup.constants.ts
 #: src/features/history/screens/History.tsx
 #: src/features/history/screens/HistorySettings.tsx
@@ -1778,10 +1762,6 @@ msgstr "Érvénytelen bemenet"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "Érvénytelen json"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Érvénytelen tároló-url"
 
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Invert tap zones"
@@ -2058,7 +2038,7 @@ msgstr "Menü"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "Átmozgatás"
@@ -2068,7 +2048,7 @@ msgstr "Átmozgatás"
 msgid "Migrate \"{0}\""
 msgstr "\"{0}\" átmozgatása"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "Manga átmozgatás alatt…"
 
@@ -2768,10 +2748,6 @@ msgstr "Kevesebb megjelenítése"
 msgid "Show more"
 msgstr "Több megjelenítése"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW tartalmak megjelenítése"
-
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
 msgstr "Elemek számának megjelenítése"
@@ -2781,7 +2757,7 @@ msgid "Show only downloaded chapters"
 msgstr "Csak a letöltött fejezetek megjelenítése"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "Elem megjelenítése"
 
@@ -3150,7 +3126,7 @@ msgstr "Követők"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/settings/screens/Settings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
@@ -3452,11 +3428,6 @@ msgstr "Már van egy könyvtári elemed ezzel a névvel."
 msgid "You have not read any series yet."
 msgstr "Még nem olvastál egyetlen sorozatot sem."
 
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr ""
-"Hozzá kell adnod egy bővítménytárolót, hogy tudj bővítményeket telepíteni"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "A böngésző kérni fogja a bejelentkezési adataid egy panelben."
@@ -3471,14 +3442,6 @@ msgid "Your library will be accessible. Use this only on private networks or whe
 msgstr ""
 "A könyvtárad elérhető lesz. Ezt csak privát hálózatokon használd, vagy "
 "védett hozzáférés mellett."
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr ""
-"<0>Suwayomi nem nyújt semmilyen támogatást külső tárolóknak vagy "
-"bővítményeknek!</0><1/>Használd elővigyázatossággal, mivel akár ártalmas "
-"személyek is készíthetik őket.<2/>Neked, mint felhasználónak kell "
-"megbizonyosodnod a tárolók vagy a bővítmények megbízhatóságáról."
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Changes the theme colors on the manga page based on the thumbnail"

@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.799Z\n"
-"PO-Revision-Date: 2026-02-21 08:09+0000\n"
-"Last-Translator: mahranaka <robertlang123450@gmail.com>\n"
+"PO-Revision-Date: 2026-06-10 08:01+0000\n"
+"Last-Translator: Constantin Piber <cp.piber@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/de/>\n"
 "Language: de\n"
@@ -12,8 +12,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.6\n"
 "X-Message-Format: ICU\n"
-"X-Generator: Weblate 5.16.1-dev\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -26,10 +26,6 @@ msgstr "{progress}% | Aktualisiere…"
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
 msgstr "*: Aktive Einstellung"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi bietet keine Unterstützung für Repositories oder Erweiterungen von Drittanbietern an!</0><1/>Sei vorsichtig, da diese Repositories von böswilligen Akteuren erstellt werden könnten.<2/>Du als Benutzer musst die Sicherheit des Repositories oder der Erweiterung überprüfen, bevor du diesen vertraust."
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -64,14 +60,6 @@ msgstr "Hinzufügen"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Lesezeichen hinzufügen"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Füge zusätzliche Repositories mit installierbaren Erweiterungen hinzu"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Repository hinzufügen"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -374,7 +362,7 @@ msgstr "Aufruf Timeout"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -589,7 +577,7 @@ msgid "Copied to clipboard"
 msgstr "In Zwischenablage kopiert"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -678,18 +666,19 @@ msgstr "Backup konnte nicht wiederhergestellt werden"
 
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 msgid "Could not retry failed download."
-msgstr "Der Download konnte nicht wiederholt werden."
+msgstr "Fehlerhafter Download konnte nicht wiederholt werden."
 
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not save the default search settings to the server"
-msgstr "Die Standardsucheinstellungen konnten nicht gespeichert werden"
+msgstr ""
+"Die Standardsucheinstellungen konnten nicht auf den Server gespeichert werden"
 
 #: src/features/reader/services/ReaderService.ts
 #: src/features/reader/services/ReaderService.ts
 msgid "Could not save the reader settings to the server"
-msgstr "Die Leseeinstellungen konnten nicht gespeichert werden"
+msgstr "Die Leseeinstellungen konnten nicht auf den Server gespeichert werden"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Could not save theme changes"
@@ -701,7 +690,7 @@ msgstr "Quelle konnte nicht durchsucht werden"
 
 #: src/features/updates/components/UpdateChecker.tsx
 msgid "Could not stop global update"
-msgstr "Globales Update konnten nicht abgehalten werden"
+msgstr "Globales Update konnte nicht gestoppt werden"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/components/TrackerSearch.tsx
@@ -715,7 +704,7 @@ msgstr "Verfolgung von Manga konnte nicht aufgehoben werden"
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "Could not update WebUI"
-msgstr "Konnte WebUI nicht aktualisieren"
+msgstr "WebUI konnte nicht aktualisiert werden"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not validate backup"
@@ -875,7 +864,7 @@ msgstr "Lösche Kapitel, nach sie manuell als gelesen markiert wurden"
 msgid "Delete chapters"
 msgstr "Lösche Kapitel"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "Heruntergeladene Löschen"
 
@@ -1120,10 +1109,6 @@ msgstr "Zur vorherigen Seite zurück"
 msgid "Extension info"
 msgstr "Erweiterungsinformationen"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Erweiterungs-Repositories"
-
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to connect to KOReader Sync server."
 msgstr "Fehler beim Verbinden zum KOReader Sync Server."
@@ -1355,10 +1340,6 @@ msgstr "Verstecke Einträge, welche bereits in deiner Bibliothek sind"
 msgid "Hide history"
 msgstr "Verlauf verstecken"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "NSFW Erweiterungen und Quellen verstecken"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Hikari connection pool"
 msgstr "Hikari Connection Pool"
@@ -1518,10 +1499,6 @@ msgstr "Ungültige Eingabe"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "Invalides JSON"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Ungültige Repository-URL"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -1813,12 +1790,12 @@ msgstr "Menü"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "Migrieren"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "Manga werden migriert…"
 
@@ -2463,10 +2440,6 @@ msgstr "Wähle ein Gerät, um dessen am Server gespeicherten UI-Einstellungen zu
 msgid "Select all"
 msgstr "Alle auswählen"
 
-#: src/features/migration/components/MigrateDialog.tsx
-msgid "Select data to include"
-msgstr "Wähle Daten zu inkludieren"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sepia"
@@ -2543,7 +2516,7 @@ msgid "Show continue reading button"
 msgstr "Weiterlesen-Knopf anzeigen"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "Eintrag anzeigen"
 
@@ -2562,10 +2535,6 @@ msgstr "Weniger anzeigen"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Mehr anzeigen"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW-Inhalte anzeigen"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -2946,7 +2915,7 @@ msgstr "Tracker"
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/settings/screens/Settings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
@@ -3241,10 +3210,6 @@ msgstr "Du hast einen Eintrag mit demselben Namen bereits in deiner Bibliothek."
 #: src/features/history/screens/History.tsx
 msgid "You have not read any series yet."
 msgstr "Du hast noch keine Serien gelesen."
-
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Es muss ein Erweiterungs-Repository hinzugefügt werden, bevor Erweiterungen installiert werden können"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
@@ -3550,14 +3515,14 @@ msgstr "Auch von {0} entfernen"
 
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Category"
 msgstr "Kategorie"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
@@ -3801,3 +3766,409 @@ msgstr ""
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Shows a dialog in case the version of the server has changed"
 msgstr "Zeigt einen Dialog an, wenn die Server-Version aktualisiert wurde"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr "Flaresolverr Einstellungen Bestätigung"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr ""
+"Flaresolverr ist eine <0><1>separate</1></0>, von Suwayomi <2><3>"
+"unabhängige</3></2> Applikation, welche manuell <4><5>installiert</5></4> "
+"und <6><7>ausgeführt</7></6> werden muss.<8/>Siehe <9>FlareSolverr</9> für "
+"weitere Informationen zum Aufsetzen<10/><11/>Sollte sie <12><13>nicht</13></"
+"12> korrekt aufgesetzt und gestartet worden sein, wird diese Einstellung <14>"
+"<15>keine</15></14> Auswirkung haben"
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr ""
+"{0, plural, one {1 Eintrag ohne Treffer} other {# Einträge ohne Treffer}}"
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr ""
+"{0, plural, one {1 Eintrag ausgeschlossen} other {# Einträge ausgeschlossen}}"
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr ""
+"{0, plural, one {1 fehlgeschlagener Eintrag} other {# fehlgeschlagene "
+"Einträge}}"
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr "{0, plural, one {1 passender Eintrag} other {# passende Einträge}}"
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr "{0, plural, one {1 migrierter Eintrag} other {# migrierte Einträge}}"
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr ""
+"{0, plural, one {1 Eintrag wird übertragen} other {# Einträge werden "
+"übertragen}}"
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr "{0, plural, one {1 wird gesucht} other {# werden gesucht}}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr ""
+"{otherResultsCount, plural, one {# weiterer Treffer} other {# weitere "
+"Treffer}}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Abort"
+msgstr "Abbrechen"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr "Migration abbrechen"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr "Bist du sicher, das du die Migration abbrechen willst?"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Available"
+msgstr "Verfügbar"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "Weiter"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Current source"
+msgstr "Aktuelle Quelle"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination - {0}"
+msgstr "Ziel - {0}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "Abschließen"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr "Ziehen, um zu priorisieren"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
+msgstr "Exkludieren"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr "Exkludiert"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr "Inkludieren"
+
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr "Neuestes Kapitel: {latestChapterNumber}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr "Manuelle Suche"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr "Treffer gefunden"
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr "Treffer"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr "Migriere"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr "Migriere…"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr "Migration abgeschlossen"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr "Migration fehlgeschlagen"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr "Migration von \"{title}\" schlug fehl:"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr "Migrationsinformation"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr "Migrationseinstellungen"
+
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr "Keine Treffer gefunden"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr "Läuft…"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr "Suche fehlgeschlagen"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr "Suche für \"{title}\" schlug fehl:"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr "Suchresultate"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr "Suche…"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr "Wähle Ziel-Quellen"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr "Aktive Quellen wählen"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr "Angepinnte Quellen wählen"
+
+#: src/features/migration/components/MigrationSourceList.tsx
+msgid "Selected"
+msgstr "Ausgewählt"
+
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry - {sourceTitle}"
+msgstr "Quelleintrag - {sourceTitle}"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr "Migration starten"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr "Suche starten"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr "Migration erfolgreich abgeschlossen"
+
+#: src/features/migration/MigrationManager.ts
+msgid ""
+"The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"Die Migration läuft am aktuellen Gerät, NICHT am Server.\n"
+"Die Migration wird im Hintergrund durchgeführt, solange die Seite am "
+"Endgerät offen bleibt.\n"
+"Es kann die Seite geschlossen werden; die Migration wird automatisch "
+"fortgesetzt, sobald die Seite am selben Gerät wieder geöffnet wird."
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr "Quellen konnten nicht geladen werden"
+
+#: src/features/migration/MigrationManager.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr "Verstanden"
+
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr ""
+"{0, plural, one {1 Eintrag mit nur veralteten Treffern} other {# Einträge "
+"mit nur veralteten Treffern}}"
+
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr "Eine Migration läuft bereits"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "Erweiterter Suchmodus"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "Abgesicherten Bereich anlegen"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr "Zerlegt den Titel in Schlüsselwörter für eine erweiterte Suche"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid ""
+"If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+"Wenn aktiv, wähle den Treffer, welcher am aktuellsten ist. \n"
+"Ansonsten wähle den Treffer nach Quellen-Priorität."
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr "Ignoriere Treffer ohne neuere Kapitel"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr "Vergleiche basierend auf Kapitelnummer"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Only outdated matches found"
+msgstr "Nur veraltete Treffer gefunden"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr ""
+"Reserviert einen Bereich, um Überlappen der Geräte-Ausschnitte und Kanten zu "
+"vermeiden"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search options"
+msgstr "Such-Optionen"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "These options are slow and dangerous and may lead to restrictions from sources"
+msgstr ""
+"Diese Optionen sind langsam und gefährlich, und können zu Restriktionen "
+"durch Quellen führen"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Top"
+msgstr "Oben"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "Abgebrochen"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr "Wähle Einträge automatisch, welche zusätzliche Kapitel verfügbar haben"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr ""
+"Wähle Einträge automatisch, welche zumindest dasselbe Kapitel als Neustes "
+"verfügbar haben"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr "Wähle automatisch Einträge, wenn keine Kapitel fehlen"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "Ignoriere Einträge, welche weniger Kapitel verfügbar haben"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "Ignoriere Einträge, bei denen Kapitel fehlen"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "Migriere ausgewählte"
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "Fehlend: {0}"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "Keine Quellen zum migrieren verfügbar"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "NSFW (18+) Quellen"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "In Quellen & Erweiterungen Listen anzeigen"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "Quellen"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr ""
+"Dies verhindert nicht, dass inoffizielle oder potenziell falsch markierte "
+"Erweiterungen NSFW (18+) Inhalt in der Applikation anzeigen können."
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr "{0, plural, one {1 Eintrag abgebrochen} other {# Einträge abgebrochen}}"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "Manuelle Migrationssuche für \"{title}\""
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "Aktive Einstellung ({title})"
+
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr "Eintrag kann nicht zu sich selbst migriert werden"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Multi"
+msgstr "Mehrfach"
+
+#: src/features/migration/MigrationManager.ts
+msgid "WebUI must be kept open. Migration can't be resumed"
+msgstr ""
+"WebUI muss offen gehalten werden. Die Migration kann nicht wiederaufgenommen "
+"werden"

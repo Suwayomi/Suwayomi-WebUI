@@ -69,6 +69,28 @@ export const TRACKER_BIND = gql`
     }
 `;
 
+export const TRACK_BIND_TRACK_RECORD = gql`
+    ${TRACK_RECORD_BIND_FIELDS}
+
+    mutation TRACKER_BIND_TRACK_RECORD($input: BindTrackRecordInput!) {
+        bindTrackRecord(input: $input) {
+            trackRecord {
+                ...TRACK_RECORD_BIND_FIELDS
+                manga {
+                    id
+                    trackRecords {
+                        totalCount
+                        nodes {
+                            id
+                            trackerId
+                        }
+                    }
+                }
+            }
+        }
+    }
+`;
+
 export const TRACKER_UNBIND = gql`
     mutation TRACKER_UNBIND($input: UnbindTrackInput!) {
         unbindTrack(input: $input) {

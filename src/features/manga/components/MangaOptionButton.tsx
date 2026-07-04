@@ -17,8 +17,8 @@ import { bindTrigger } from 'material-ui-popup-state';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
-import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 const preventDefaultAction = (e: BaseSyntheticEvent) => {
     e.stopPropagation();
@@ -35,7 +35,7 @@ export const MangaOptionButton = ({
 }: {
     id: number;
     selected?: boolean | null;
-    handleSelection?: SelectableCollectionReturnType<MangaType['id']>['handleSelection'];
+    handleSelection?: SelectableCollectionReturnType<MangaIdInfo['id']>['handleSelection'];
     asCheckbox?: boolean;
     popupState: PopupState;
     ref?: ForwardedRef<HTMLButtonElement | null>;

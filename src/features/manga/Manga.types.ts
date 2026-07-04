@@ -6,34 +6,44 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { LongPressPointerHandlers, LongPressResult } from 'use-long-press';
 import type { PopupState } from 'material-ui-popup-state/hooks';
 import type { JSX } from 'react';
 import type { SelectableCollectionReturnType } from '@/base/collection/hooks/useSelectableCollection.ts';
 import type { useManageMangaLibraryState } from '@/features/manga/hooks/useManageMangaLibraryState.tsx';
+import type { MangaReaderFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
+import type { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
+import type { GridLayout } from '@/base/Base.types.ts';
 import type {
-    ChapterType,
-    MangaReaderFieldsFragment,
+    ChapterIdInfo,
+    ChapterListOptions,
+    ChapterNameInfo,
+    ChapterNumberInfo,
+    ChapterReadInfo,
+    ChapterSourceOrderInfo,
+} from '@/features/chapter/Chapter.types.ts';
+import type { MigrationMatch } from '@/features/migration/Migration.types.ts';
+import type {
     MangaType as MangaTypeGql,
     Maybe,
     SourceType,
     TrackRecordType,
-} from '@/lib/graphql/generated/graphql.ts';
-import type { SingleModeProps } from '@/features/manga/components/MangaActionMenuItems.tsx';
-import type { GridLayout } from '@/base/Base.types.ts';
-import type { ChapterListOptions } from '@/features/chapter/Chapter.types.ts';
+} from '@/lib/graphql/generated/graphql-base.types.ts';
+import type { UsePressResult } from '@/base/hooks/usePress.ts';
 
-export type MangaCardMode = 'default' | 'source' | 'migrate.search' | 'migrate.select' | 'duplicate';
+export type MangaCardMode = 'default' | 'source' | 'migrate.select.bulk' | 'migrate.select.single' | 'duplicate';
 
-type MangaCardBaseProps = Pick<MangaTypeGql, 'id' | 'title' | 'sourceId'> &
+type MangaCardBaseProps = Pick<MangaTypeGql, 'id' | 'title' | 'sourceId' | 'inLibrary'> &
     Omit<SingleModeProps['manga'], 'downloadCount' | 'unreadCount' | 'chapters'> &
-    Partial<Pick<MangaTypeGql, 'inLibrary' | 'downloadCount' | 'unreadCount'>> & {
-        firstUnreadChapter?: Pick<ChapterType, 'id' | 'sourceOrder' | 'isRead' | 'chapterNumber' | 'name'> | null;
+    Partial<Pick<MangaTypeGql, 'downloadCount' | 'unreadCount'>> & {
+        firstUnreadChapter?:
+            | (ChapterIdInfo & ChapterSourceOrderInfo & ChapterReadInfo & ChapterNumberInfo & ChapterNameInfo)
+            | null;
     };
 
 export type MangaIdInfo = Pick<MangaTypeGql, 'id'>;
 export type MangaChapterCountInfo = { chapters: Pick<MangaTypeGql['chapters'], 'totalCount'> };
-export type MangaInLibraryInfo = Pick<MangaTypeGql, 'inLibrary'>;
+export type MangaHighestChapterNumberInfo = { highestNumberedChapter?: (ChapterIdInfo & ChapterNumberInfo) | null };
+export type MangaInLibraryInfo = Pick<MangaTypeGql, 'inLibrary' | 'inLibraryAt'>;
 export type MangaDownloadInfo = Pick<MangaTypeGql, 'downloadCount'> & MangaChapterCountInfo;
 export type MangaUnreadInfo = Pick<MangaTypeGql, 'unreadCount'> & MangaChapterCountInfo;
 export type MangaThumbnailInfo = Pick<MangaTypeGql, 'thumbnailUrl' | 'thumbnailUrlLastFetched' | 'sourceId'>;
@@ -42,7 +52,7 @@ export type MangaTrackRecordInfo = MangaIdInfo & {
 };
 export type MangaGenreInfo = Pick<MangaTypeGql, 'genre'>;
 export type MangaSourceIdInfo = Pick<MangaTypeGql, 'sourceId'>;
-export type MangaSourceNameInfo = { source?: Maybe<Pick<SourceType, 'name'>> };
+export type MangaSourceNameInfo = { source?: Maybe<Pick<SourceType, 'name' | 'displayName'>> };
 export type MangaSourceLngInfo = { source?: Maybe<Pick<SourceType, 'lang'>> };
 export type MangaArtistInfo = Pick<MangaTypeGql, 'artist'>;
 export type MangaAuthorInfo = Pick<MangaTypeGql, 'author'>;
@@ -58,15 +68,15 @@ export interface MangaCardProps {
     inLibraryIndicator?: boolean;
     selected?: boolean | null;
     handleSelection?: SelectableCollectionReturnType<MangaTypeGql['id']>['handleSelection'];
+    onMigrateSelect?: (manga: Omit<MigrationMatch, 'sourceTitle' | 'isManualMatch' | 'latestChapterNumber'>) => void;
     mode?: MangaCardMode;
 }
 
 export type SpecificMangaCardProps = Omit<MangaCardProps, 'manga'> &
     Pick<ReturnType<typeof useManageMangaLibraryState>, 'isInLibrary'> & {
         manga: MangaCardSpecificProps;
-        longPressBind: LongPressResult<LongPressPointerHandlers>;
+        longPressBind: UsePressResult;
         popupState: PopupState;
-        handleClick: (event: React.MouseEvent | React.TouchEvent) => void;
         mangaLinkTo: string;
         continueReadingButton: JSX.Element;
         mangaBadges: JSX.Element;

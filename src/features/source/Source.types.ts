@@ -7,13 +7,16 @@
  */
 
 import type {
-    ExtensionType,
     GetSourceBrowseQuery,
     GetSourceSettingsQuery,
     SourceMetaFieldsFragment,
+} from '@/lib/graphql/generated/graphql.ts';
+import type {
+    ExtensionType,
     SourcePreferenceChangeInput,
     SourceType,
-} from '@/lib/graphql/generated/graphql.ts';
+} from '@/lib/graphql/generated/graphql-base.types.ts';
+import type { MangaCardMode, MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 export interface IPos {
     type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
@@ -44,10 +47,10 @@ export interface PreferenceProps {
 }
 
 export type CheckBoxPreferenceProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'CheckBoxPreference'>;
+    ExtractByKeyValue<SourcePreferences, 'type', 'CheckBoxPreference'>;
 
 export type SwitchPreferenceCompatProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'SwitchPreference'>;
+    ExtractByKeyValue<SourcePreferences, 'type', 'SwitchPreference'>;
 
 export type TwoStatePreferenceProps = (CheckBoxPreferenceProps | SwitchPreferenceCompatProps) & {
     // intetnal props
@@ -55,20 +58,33 @@ export type TwoStatePreferenceProps = (CheckBoxPreferenceProps | SwitchPreferenc
 };
 
 export type ListPreferenceProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'ListPreference'>;
+    Omit<ExtractByKeyValue<SourcePreferences, 'type', 'ListPreference'>, '__typename'>;
 
 export type MultiSelectListPreferenceProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'MultiSelectListPreference'>;
+    Omit<ExtractByKeyValue<SourcePreferences, 'type', 'MultiSelectListPreference'>, '__typename'>;
 
 export type EditTextPreferenceProps = PreferenceProps &
-    ExtractByKeyValue<SourcePreferences, '__typename', 'EditTextPreference'>;
+    Omit<ExtractByKeyValue<SourcePreferences, 'type', 'EditTextPreference'>, '__typename'>;
 
 export type SourceIdInfo = Pick<SourceType, 'id'>;
 export type SourceLanguageInfo = Pick<SourceType, 'lang'>;
 export type SourceNameInfo = Pick<SourceType, 'name'>;
 export type SourceDisplayNameInfo = Pick<SourceType, 'displayName'>;
-export type SourceNsfwInfo = Pick<SourceType, 'isNsfw'>;
-export type SourceRepoInfo = { extension: Pick<ExtensionType, 'repo'> };
+export type SourceNsfwInfo = Pick<SourceType, 'contentWarning'>;
+export type SourceStoreInfo = { extension: Pick<ExtensionType, 'storeIndexUrl'> };
 export type SourceMetaInfo = { meta: SourceMetaFieldsFragment[] };
 export type SourceConfigurableInfo = Pick<SourceType, 'isConfigurable'>;
 export type SourceIconInfo = Pick<SourceType, 'iconUrl'>;
+
+export enum SourceContentType {
+    POPULAR,
+    LATEST,
+    SEARCH,
+}
+
+export interface RouteStateSourceBrowse {
+    contentType?: SourceContentType;
+    clearCache?: boolean;
+    mode?: MangaCardMode;
+    mangaId?: MangaIdInfo['id'];
+}

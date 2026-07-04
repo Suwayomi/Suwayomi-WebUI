@@ -15,12 +15,12 @@ import { Extensions } from '@/features/browse/extensions/Extensions.tsx';
 import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
 import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
-import { Migration } from '@/features/migration/screens/Migration.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
+import { Migration } from '@/features/migration/screens/Migration.tsx';
 
 export function Browse() {
     const { t } = useLingui();

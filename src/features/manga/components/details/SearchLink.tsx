@@ -27,11 +27,11 @@ export const SearchLink = ({
     const link = (() => {
         const isSourceMode = mode === 'source' && sourceId !== undefined;
         if (isSourceMode) {
-            return AppRoutes.sources.childRoutes.browse.path(sourceId, query);
+            return AppRoutes.sources.children.browse.path(sourceId, query);
         }
 
         if (mode === 'source.global-search') {
-            return AppRoutes.sources.childRoutes.searchAll.path(query);
+            return AppRoutes.sources.children.searchAll.path(query);
         }
 
         return AppRoutes.library.path(undefined, query);

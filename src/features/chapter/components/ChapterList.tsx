@@ -139,7 +139,6 @@ export const ChapterList = ({
     } = requestManager.useGetMangaChapters<GetChaptersMangaQuery, GetChaptersMangaQueryVariables>(
         GET_CHAPTERS_MANGA,
         manga.id,
-        { notifyOnNetworkStatusChange: true },
     );
     const chapters = chaptersData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
 
@@ -189,9 +188,11 @@ export const ChapterList = ({
             <Stack direction="column" sx={{ position: 'relative', flexBasis: '60%' }}>
                 <ChapterListHeader
                     ref={setChapterListHeaderRef}
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
+                    sx={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
                     scrollbarWidth={scrollbarWidth}
                 >
                     <Stack>

@@ -31,17 +31,56 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import type { MetadataUpdateSettings } from '@/features/app-updates/AppUpdateChecker.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import { AuthMode, CbzMediaType, DatabaseType, SortOrder } from '@/lib/graphql/generated/graphql';
+import type { PartialSettingsTypeInput } from '@/lib/graphql/generated/graphql-base.types.ts';
+import {
+    AuthMode,
+    CbzMediaType,
+    DatabaseType,
+    SortOrder,
+    StartSyncResult,
+    SyncState,
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 import {
     AUTH_MODES_SELECT_VALUES,
     JWT_ACCESS_TOKEN_EXPIRY,
     JWT_REFRESH_TOKEN_EXPIRY,
+    SYNC_INTERVAL_CUSTOM_VALUE,
+    SYNC_INTERVAL_SELECT_VALUES,
+    SYNC_INTERVAL_SELECT_VALUES_WITH_CUSTOM,
+    SYNC_INTERVAL_VALUES,
+    SYNC_SETTINGS_HIDDEN_BACKUP_FLAGS,
+    SYNC_START_RESULT_TRANSLATION,
+    SYNC_STATE_TRANSLATION,
 } from '@/features/settings/Settings.constants.ts';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
 import { AuthManager } from '@/features/authentication/AuthManager.ts';
 import type { ServerSettings as ServerSettingsType } from '@/features/settings/Settings.types.ts';
 import { KoreaderSyncSettings } from '@/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
+import { BackupFlagInclusionDialog } from '@/features/backup/component/BackupFlagInclusionDialog.tsx';
+import ListItemButton from '@mui/material/ListItemButton';
+import { AwaitableComponent } from 'awaitable-component';
+import { convertToAutoBackupFlags, getAutoBackupFlagsInfo } from '@/features/backup/Backup.utils.ts';
+import type { BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
+import { epochToDate, getDateString } from '@/base/utils/DateHelper.ts';
+
+const convertSyncDataToBackupFlags = (settings: ServerSettingsType): BackupFlagInclusionState => ({
+    includeManga: settings.syncDataManga,
+    includeChapters: settings.syncDataChapters,
+    includeCategories: settings.syncDataCategories,
+    includeHistory: settings.syncDataHistory,
+    includeTracking: settings.syncDataTracking,
+    includeClientData: false,
+    includeServerSettings: false,
+});
+
+const convertBackupFlagsToSyncData = (flags: BackupFlagInclusionState): PartialSettingsTypeInput => ({
+    syncDataManga: flags.includeManga,
+    syncDataChapters: flags.includeChapters,
+    syncDataCategories: flags.includeCategories,
+    syncDataHistory: flags.includeHistory,
+    syncDataTracking: flags.includeTracking,
+});
 
 const getLogFilesCleanupDisplayValue = (ttl: number): string => {
     if (ttl === 0) {
@@ -59,6 +98,7 @@ export const ServerSettings = () => {
 
     useAppTitle(t`Server`);
 
+    const syncStatusRequest = requestManager.useGetSyncStatus();
     const {
         settings: { serverInformAvailableUpdate, serverInformVersionUpdated },
         loading: areMetadataServerSettingsLoading,
@@ -73,9 +113,7 @@ export const ServerSettings = () => {
         loading: areServerSettingsLoading,
         error: serverSettingsError,
         refetch: refetchServerSettings,
-    } = requestManager.useGetServerSettings({
-        notifyOnNetworkStatusChange: true,
-    });
+    } = requestManager.useGetServerSettings();
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const koSyncStatus = requestManager.useKoSyncStatus();
@@ -87,6 +125,15 @@ export const ServerSettings = () => {
     ) => {
         try {
             await mutateSettings({ variables: { input: { settings: { [setting]: value } } } });
+            onCompletion?.(true);
+        } catch (e) {
+            makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
+            onCompletion?.(false);
+        }
+    };
+    const updateSettings = async (settings: PartialSettingsTypeInput, onCompletion?: (success: boolean) => void) => {
+        try {
+            await mutateSettings({ variables: { input: { settings } } });
             onCompletion?.(true);
         } catch (e) {
             makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
@@ -177,6 +224,21 @@ export const ServerSettings = () => {
     const koreaderSyncStatus = koSyncStatus.data!.koSyncStatus;
     const authModeDisabled = !serverSettings.authUsername?.trim() || !serverSettings.authPassword?.trim();
     const isH2Database = serverSettings.databaseType === DatabaseType.H2;
+
+    const isCustomSyncInterval = !SYNC_INTERVAL_VALUES.includes(
+        d(serverSettings.syncInterval).minutes.asWholeMinutes.toISOString(),
+    );
+    const syncDataFlagsInfo = getAutoBackupFlagsInfo(
+        convertToAutoBackupFlags(convertSyncDataToBackupFlags(serverSettings)),
+        SYNC_SETTINGS_HIDDEN_BACKUP_FLAGS,
+    );
+    const includedSyncDataText = syncDataFlagsInfo.true;
+    const excludedSyncDataText = syncDataFlagsInfo.false;
+
+    const syncStatus = syncStatusRequest.data?.lastSyncStatus;
+    const syncDate = syncStatus?.endDate ?? syncStatus?.startDate;
+    const syncState = syncStatus?.state;
+    const isSyncing = !!syncState && ![SyncState.Success, SyncState.Error].includes(syncState);
 
     return (
         <List sx={{ pt: 0 }}>
@@ -401,7 +463,7 @@ export const ServerSettings = () => {
                                     ),
                                     actions: {
                                         confirm: {
-                                            title: t`I understand`,
+                                            title: t`Understood`,
                                         },
                                     },
                                 });
@@ -543,6 +605,17 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('opdsShowOnlyDownloadedChapters', e.target.checked)}
                     />
                 </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Skip chapter metadata feed`}
+                        secondary={t`When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.opdsSkipChapterMetadataFeed}
+                        onChange={(e) => updateSetting('opdsSkipChapterMetadataFeed', e.target.checked)}
+                    />
+                </ListItem>
                 <SelectSetting<SortOrder>
                     settingName={t`Chapter sort order`}
                     dialogDescription={t`Choose the order in which chapters are displayed.`}
@@ -654,6 +727,124 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('useHikariConnectionPool', e.target.checked)}
                     />
                 </ListItem>
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-webview">
+                        {t`WebView`}
+                    </ListSubheader>
+                }
+            >
+                <ListItem>
+                    <ListItemText primary={t`WebView`} secondary={t`Enable the WebView via CEF (Chromium)`} />
+                    <Switch
+                        edge="end"
+                        checked={serverSettings.kcefEnabled}
+                        onChange={(e) => updateSetting('kcefEnabled', e.target.checked)}
+                    />
+                </ListItem>
+            </List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="server-settings-sync">
+                        {t`Sync`}
+                    </ListSubheader>
+                }
+            >
+                <ListItemButton
+                    disabled={isSyncing}
+                    onClick={() =>
+                        requestManager
+                            .startSync()
+                            .response.then((response) => {
+                                const startResult = response.data?.startSync.result;
+
+                                makeToast(
+                                    t(SYNC_START_RESULT_TRANSLATION[startResult!]),
+                                    startResult === StartSyncResult.Success ? 'success' : 'error',
+                                );
+                            })
+                            .catch((e) => makeToast(t`Could not start sync`, 'error', getErrorMessage(e)))
+                    }
+                >
+                    <ListItemText
+                        primary={isSyncing ? t`Sync status` : t`Start sync`}
+                        secondary={
+                            <>
+                                {syncDate && t`Last sync: ${getDateString(epochToDate(Number(syncDate)), true, true)}`}{' '}
+                                {syncState && t`- State: ${t(SYNC_STATE_TRANSLATION[syncState])}`}
+                                {!!syncStatus?.errorMessage && `\nError: ${syncStatus.errorMessage}`}
+                            </>
+                        }
+                    />
+                </ListItemButton>
+                <ListItemButton
+                    onClick={async () => {
+                        try {
+                            const flags = await AwaitableComponent.show(BackupFlagInclusionDialog, {
+                                title: t`Sync data`,
+                                flags: convertSyncDataToBackupFlags(serverSettings),
+                                hiddenFlags: SYNC_SETTINGS_HIDDEN_BACKUP_FLAGS,
+                            });
+
+                            await updateSettings(convertBackupFlagsToSyncData(flags));
+                        } catch (e) {
+                            // Ignore
+                        }
+                    }}
+                >
+                    <ListItemText
+                        primary={t`Sync data`}
+                        secondary={
+                            <>
+                                <span>{t`Include: ${includedSyncDataText}`}</span>
+                                <span>{t`Exclude: ${excludedSyncDataText}`}</span>
+                            </>
+                        }
+                        slotProps={{
+                            secondary: { sx: { display: 'flex', flexDirection: 'column' } },
+                        }}
+                    />
+                </ListItemButton>
+                <SelectSetting
+                    settingName={t`Sync interval`}
+                    value={
+                        isCustomSyncInterval
+                            ? SYNC_INTERVAL_CUSTOM_VALUE
+                            : d(serverSettings.syncInterval).minutes.asWholeMinutes.toISOString()
+                    }
+                    values={
+                        isCustomSyncInterval ? SYNC_INTERVAL_SELECT_VALUES_WITH_CUSTOM : SYNC_INTERVAL_SELECT_VALUES
+                    }
+                    handleChange={(syncInterval) => updateSetting('syncInterval', syncInterval)}
+                />
+                <List
+                    subheader={
+                        <ListSubheader component="div" id="server-settings-sync-syncyomi">
+                            {t`SyncYomi`}
+                        </ListSubheader>
+                    }
+                >
+                    <ListItem>
+                        <ListItemText primary={t`SyncYomi enabled`} />
+                        <Switch
+                            edge="end"
+                            checked={serverSettings.syncYomiEnabled}
+                            onChange={(e) => updateSetting('syncYomiEnabled', e.target.checked)}
+                        />
+                    </ListItem>
+                    <TextSetting
+                        settingName={t`SyncYomi host`}
+                        value={serverSettings.syncYomiHost}
+                        handleChange={(host) => updateSetting('syncYomiHost', host)}
+                    />
+                    <TextSetting
+                        settingName={t`SyncYomi API key`}
+                        value={serverSettings.syncYomiApiKey}
+                        handleChange={(apiKey) => updateSetting('syncYomiApiKey', apiKey)}
+                        isPassword
+                    />
+                </List>
             </List>
             <List
                 subheader={

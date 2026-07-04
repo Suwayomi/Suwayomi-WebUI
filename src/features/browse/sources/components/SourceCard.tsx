@@ -18,7 +18,6 @@ import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import IconButton from '@mui/material/IconButton';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { SourceContentType } from '@/features/source/browse/screens/SourceMangas.tsx';
 import type { GetSourcesListQuery } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
@@ -30,6 +29,8 @@ import { createUpdateSourceMetadata, useGetSourceMetadata } from '@/features/sou
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
+import { SourceContentType } from '@/features/source/Source.types.ts';
+import { isNsfw } from '@/features/extension/Extensions.utils.ts';
 
 interface IProps {
     source: GetSourcesListQuery['sources']['nodes'][number];
@@ -47,8 +48,8 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
         lang,
         iconUrl,
         supportsLatest,
-        isNsfw,
-        extension: { repo },
+        contentWarning,
+        extension: { extensionStore },
     } = source;
 
     const { isPinned } = useGetSourceMetadata(source);
@@ -63,8 +64,11 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
         <Card>
             <CardActionArea
                 component={Link}
-                to={AppRoutes.sources.childRoutes.browse.path(id)}
-                state={{ contentType: SourceContentType.POPULAR, clearCache: true }}
+                to={AppRoutes.sources.children.browse.path(id)}
+                state={AppRoutes.sources.children.browse.state({
+                    contentType: SourceContentType.POPULAR,
+                    clearCache: true,
+                })}
             >
                 <ListCardContent>
                     <ListCardAvatar
@@ -89,21 +93,26 @@ export const SourceCard: React.FC<IProps> = (props: IProps) => {
                         </Typography>
                         <Typography variant="caption">
                             {showLanguage && languageCodeToName(lang)}
-                            {isNsfw && (
+                            {isNsfw(contentWarning) && (
                                 <Typography variant="caption" color="error">
                                     {' 18+'}
                                 </Typography>
                             )}
                         </Typography>
-                        {showSourceRepo && <Typography variant="caption">{repo}</Typography>}
+                        {showSourceRepo && extensionStore && (
+                            <Typography variant="caption">{extensionStore.name}</Typography>
+                        )}
                     </Stack>
                     {supportsLatest && (
                         <Button
                             {...MUIUtil.preventRippleProp()}
                             variant="outlined"
                             component={Link}
-                            to={AppRoutes.sources.childRoutes.browse.path(id)}
-                            state={{ contentType: SourceContentType.LATEST, clearCache: true }}
+                            to={AppRoutes.sources.children.browse.path(id)}
+                            state={AppRoutes.sources.children.browse.state({
+                                contentType: SourceContentType.LATEST,
+                                clearCache: true,
+                            })}
                         >
                             {t`Latest`}
                         </Button>

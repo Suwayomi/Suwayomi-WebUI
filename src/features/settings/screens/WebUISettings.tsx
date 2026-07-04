@@ -15,8 +15,8 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { WebUIUpdateIntervalSetting } from '@/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx';
 import { TextSetting } from '@/base/components/settings/text/TextSetting.tsx';
 import { SelectSetting } from '@/base/components/settings/SelectSetting.tsx';
-import type { WebUiChannel, WebUiInterface } from '@/lib/graphql/generated/graphql.ts';
-import { WebUiFlavor } from '@/lib/graphql/generated/graphql.ts';
+import type { WebUiChannel, WebUiInterface } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { WebUiFlavor } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -54,9 +54,7 @@ export const WebUISettings = () => {
         loading: areServerSettingsLoading,
         error: serverSettingsError,
         refetch: refetchServerSettings,
-    } = requestManager.useGetServerSettings({
-        notifyOnNetworkStatusChange: true,
-    });
+    } = requestManager.useGetServerSettings();
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const updateSetting = <Setting extends keyof WebUISettingsType>(

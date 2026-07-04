@@ -27,10 +27,6 @@ msgstr "{progress}% | Güncelleniyor…"
 msgid "*: Active setting"
 msgstr "*: Etkin ayar"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi, 3. taraf depolar veya uzantılar için herhangi bir destek sağlamaz!</0><1/>Bu depoları kötü niyetli aktörler tarafından oluşturulabileceğinden dikkatli bir biçimde kullanılmalıdır.<2/>Depo/eklenti güvenilirliğini doğrulamak kullanıcı sorumluluğundadır."
-
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "İncelikle oluşturulmuş, önizleme odaklı bir web ön yüzü"
@@ -64,14 +60,6 @@ msgstr "Ekle"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Yer imlerine ekle"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Uzantıların yüklenebileceği depoları ekleyin"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Depo ekle"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -329,7 +317,7 @@ msgstr "Çağrı zaman aşımı"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -487,7 +475,7 @@ msgid "Copied to clipboard"
 msgstr "Panoya kopyalandı"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "Kopyala"
 
@@ -720,7 +708,7 @@ msgstr "Okundu olarak işaretlendikten sonra bölümü sil"
 msgid "Delete chapters"
 msgstr "Bölümleri sil"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "İndirilenleri sil"
 
@@ -916,10 +904,6 @@ msgstr "Hariç Tut: {excludedCategoriesText}"
 #: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
 msgid "Exit reader"
 msgstr "Okuyucudan çık"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Eklenti depoları"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
@@ -1118,10 +1102,6 @@ msgstr "Kütüphanede bulunan girdileri gizle"
 msgid "Hide history"
 msgstr "Geçimişi gizle"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "NSFW uzantılarını ve kaynaklarını gizle"
-
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
 msgstr "Yatay"
@@ -1242,10 +1222,6 @@ msgstr "Geçersiz girdi"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "Geçersiz json"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Geçersiz depo url'si"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -1464,12 +1440,12 @@ msgstr "Menü"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "Taşı"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "Manga taşınıyor…"
 
@@ -2004,10 +1980,6 @@ msgstr "Sunucusunda depolanan kullanıcı arayüzü ayarlarını kullanmak için
 msgid "Select all"
 msgstr "Hepsini seç"
 
-#: src/features/migration/components/MigrateDialog.tsx
-msgid "Select data to include"
-msgstr "Dahil edilecek verileri seçin"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sepya"
@@ -2049,7 +2021,7 @@ msgid "Show continue reading button"
 msgstr "Okumaya devam et düğmesini göster"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "Öğeyi göster"
 
@@ -2068,10 +2040,6 @@ msgstr "Daha az göster"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Daha fazla göster"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "NSFW'yi göster"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -2648,10 +2616,6 @@ msgstr "Kütüphanenizde aynı isimde bir giriş var."
 msgid "You have not read any series yet."
 msgstr "Henüz hiçbir seri okumadınız."
 
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Eklentileri yükleyebilmek için eklenti deposu eklemelisiniz"
-
 #: src/features/library/screens/Library.tsx
 #: src/features/library/screens/Library.tsx
 msgid "Your library is empty"
@@ -2800,14 +2764,14 @@ msgstr "Kategoriler"
 
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Category"
 msgstr "Kategori"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx

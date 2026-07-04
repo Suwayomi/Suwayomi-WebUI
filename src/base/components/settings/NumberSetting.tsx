@@ -22,7 +22,7 @@ import * as React from 'react';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Slider from '@mui/material/Slider';
 import DialogContentText from '@mui/material/DialogContentText';
-import InfoIcon from '@mui/icons-material/Info';
+import WarningIcon from '@mui/icons-material/Warning';
 import type { SxProps, Theme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 
@@ -122,7 +122,9 @@ export const NumberSetting = ({
                     primary={settingTitle}
                     secondary={settingValue}
                     sx={sx}
-                    secondaryTypographyProps={{ style: { display: 'flex', flexDirection: 'column' } }}
+                    slotProps={{
+                        secondary: { sx: { display: 'flex', flexDirection: 'column' } },
+                    }}
                 />
             </ListItemButton>
             <Dialog open={isDialogOpen} onClose={cancel}>
@@ -147,7 +149,7 @@ export const NumberSetting = ({
                                         alignItems: 'center',
                                     }}
                                 >
-                                    <InfoIcon color="warning" />
+                                    <WarningIcon color="warning" />
                                     <Typography
                                         variant="body1"
                                         sx={{

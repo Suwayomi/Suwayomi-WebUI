@@ -21,7 +21,7 @@ import { convertToGqlMeta } from '@/features/metadata/services/MetadataConverter
 import { MetadataChunker } from '@/features/metadata/services/MetadataChunker.ts';
 import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
-import type { MetaInput } from '@/lib/graphql/generated/graphql.ts';
+import type { MetaInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 type MetadataUpdateOptions = {
     update?: MetadataKeyValuePair[];

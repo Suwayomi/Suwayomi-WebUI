@@ -15,7 +15,6 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Label from '@mui/icons-material/Label';
 import { useMemo, useState } from 'react';
 import SyncAltIcon from '@mui/icons-material/SyncAlt';
-import { Link } from 'react-router-dom';
 import SyncIcon from '@mui/icons-material/Sync';
 import Dialog from '@mui/material/Dialog';
 import { AwaitableComponent } from 'awaitable-component';
@@ -32,18 +31,30 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { TrackManga } from '@/features/tracker/components/TrackManga.tsx';
 import { ChaptersDownloadActionMenuItems } from '@/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx';
 import { NestedMenuItem } from '@/base/components/menu/NestedMenuItem.tsx';
-import type { MangaChapterStatFieldsFragment, MangaType } from '@/lib/graphql/generated/graphql.ts';
-import type { MangaAction, MangaDownloadInfo, MangaIdInfo, MangaUnreadInfo } from '@/features/manga/Manga.types.ts';
+import type { MangaChapterStatFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
+import type {
+    MangaAction,
+    MangaDownloadInfo,
+    MangaIdInfo,
+    MangaInLibraryInfo,
+    MangaSourceIdInfo,
+    MangaTitleInfo,
+    MangaUnreadInfo,
+} from '@/features/manga/Manga.types.ts';
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
-import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 
 type BaseProps = { onClose: () => void; setHideMenu: (hide: boolean) => void };
 
 export type SingleModeProps = {
-    manga: Pick<MangaType, 'id' | 'title' | 'sourceId'> & MangaDownloadInfo & MangaUnreadInfo;
-    handleSelection?: SelectableCollectionReturnType<MangaType['id']>['handleSelection'];
+    manga: MangaIdInfo &
+        MangaTitleInfo &
+        MangaSourceIdInfo &
+        MangaDownloadInfo &
+        MangaUnreadInfo &
+        Pick<MangaInLibraryInfo, 'inLibrary'>;
+    handleSelection?: SelectableCollectionReturnType<MangaIdInfo['id']>['handleSelection'];
 };
 
 type SelectModeProps = {
@@ -57,7 +68,7 @@ type Props =
 export const MangaActionMenuItems = ({
     manga,
     handleSelection,
-    selectedMangas: passedSelectedMangas,
+    selectedMangas = STABLE_EMPTY_ARRAY,
     onClose,
     setHideMenu,
 }: Props) => {
@@ -66,16 +77,15 @@ export const MangaActionMenuItems = ({
     const [isTrackDialogOpen, setIsTrackDialogOpen] = useState(false);
 
     const isSingleMode = !!manga;
-    const selectedMangas = passedSelectedMangas ?? STABLE_EMPTY_ARRAY;
 
     const getMenuItemTitle = createGetMenuItemTitle(isSingleMode, MANGA_ACTION_TO_TRANSLATION);
     const shouldShowMenuItem = createShouldShowMenuItem(isSingleMode);
     const isMenuItemDisabled = createIsMenuItemDisabled(isSingleMode);
 
-    const isFullyDownloaded = !!manga && manga.downloadCount === manga.chapters.totalCount;
-    const hasDownloadedChapters = !!manga?.downloadCount;
-    const hasUnreadChapters = !!manga?.unreadCount;
-    const hasReadChapters = !!manga && manga.unreadCount !== manga.chapters.totalCount;
+    const isDownloadable = !!manga && !!manga.chapters.totalCount && !Mangas.isFullyDownloaded(manga);
+    const hasDownloadedChapters = manga && Mangas.isPartiallyDownloaded(manga);
+    const hasUnreadChapters = manga && !!manga.chapters.totalCount && !Mangas.isFullyRead(manga);
+    const hasReadChapters = !!manga && Mangas.isPartiallyRead(manga);
 
     const handleSelect = () => {
         handleSelection?.(manga.id, true);
@@ -111,7 +121,7 @@ export const MangaActionMenuItems = ({
             {!!handleSelection && isSingleMode && (
                 <MenuItem onClick={handleSelect} Icon={CheckBoxOutlineBlank} title={t`Select`} />
             )}
-            {shouldShowMenuItem(!isFullyDownloaded) && (
+            {shouldShowMenuItem(isDownloadable) && (
                 <NestedMenuItem
                     disabled={isMenuItemDisabled(!downloadableMangas.length)}
                     LeftIcon={Download}
@@ -148,15 +158,11 @@ export const MangaActionMenuItems = ({
                     title={getMenuItemTitle('mark_as_unread', readMangas.length)}
                 />
             )}
-            {isSingleMode && (
-                <Link
-                    to={AppRoutes.migrate.childRoutes.search.path(manga?.sourceId ?? -1, manga?.id ?? -1, manga?.title)}
-                    state={{ mangaTitle: manga?.title }}
-                    style={{ textDecoration: 'none', color: 'inherit' }}
-                >
-                    <MenuItem Icon={SyncAltIcon} title={getMenuItemTitle('migrate', selectedMangas.length)} />
-                </Link>
-            )}
+            <MenuItem
+                title={getMenuItemTitle('migrate', selectedMangas.length)}
+                Icon={SyncAltIcon}
+                onClick={() => performAction('migrate', selectedMangas)}
+            />
             {isSingleMode && (
                 <MenuItem
                     onClick={() => {
@@ -171,7 +177,7 @@ export const MangaActionMenuItems = ({
                 onClick={() => {
                     AwaitableComponent.show(CategorySelect, {
                         mangaId: manga?.id,
-                        mangaIds: passedSelectedMangas ? Mangas.getIds(selectedMangas) : undefined,
+                        mangaIds: !isSingleMode ? Mangas.getIds(selectedMangas) : undefined,
                         addToLibrary: false,
                     });
                     setHideMenu(true);

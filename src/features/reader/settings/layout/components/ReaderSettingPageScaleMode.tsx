@@ -17,14 +17,15 @@ import {
     READER_PAGE_SCALE_MODE_VALUES,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ButtonSelectInput } from '@/base/components/inputs/ButtonSelectInput.tsx';
-import type { MultiValueButtonDefaultableProps } from '@/base/Base.types.ts';
+
+import type { SelectButtonDefaultableProps } from '@/base/components/buttons/SelectButton.tsx';
 
 export const ReaderSettingPageScaleMode = ({
     pageScaleMode,
     setPageScaleMode,
     ...buttonSelectInputProps
 }: Pick<IReaderSettingsWithDefaultFlag, 'pageScaleMode'> &
-    Pick<MultiValueButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
+    Pick<SelectButtonDefaultableProps<ReadingDirection>, 'isDefaultable' | 'onDefault'> & {
         setPageScaleMode: (mode: IReaderSettings['pageScaleMode']) => void;
     }) => {
     const { t } = useLingui();

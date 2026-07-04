@@ -13,7 +13,6 @@ import {
     requestMangaMetadataUpdate,
     requestServerMetadataUpdate,
 } from '@/features/metadata/services/MetadataUpdater.ts';
-import type { MangaType } from '@/lib/graphql/generated/graphql.ts';
 import type { IReaderSettings, IReaderSettingsWithDefaultFlag, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
@@ -84,6 +83,7 @@ const convertSettingsToMetadata = (
     readerWidth: JSON.stringify(settings.readerWidth),
     hotkeys: JSON.stringify(settings.hotkeys),
     autoScroll: JSON.stringify(settings.autoScroll),
+    safeAreaInset: JSON.stringify(settings.autoScroll),
 });
 
 export const DEFAULT_READER_SETTINGS_WITH_DEFAULT_FLAG = convertToSettingsWithDefaultFlag(
@@ -174,7 +174,7 @@ export const useDefaultReaderSettings = (
     loading: boolean;
     request: ReturnType<typeof requestManager.useGetGlobalMeta>;
 } => {
-    const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
+    const request = requestManager.useGetGlobalMeta();
     const { data, loading } = request;
     const metadata = useMemo(() => convertFromGqlMeta(data?.metas.nodes), [data?.metas.nodes]);
     const metaHolder: MetadataHolder = useMemo(() => ({ meta: metadata }), [metadata]);
@@ -200,7 +200,7 @@ export const useDefaultReaderSettingsWithDefaultFlag = (
     loading: boolean;
     request: ReturnType<typeof requestManager.useGetGlobalMeta>;
 } => {
-    const request = requestManager.useGetGlobalMeta({ notifyOnNetworkStatusChange: true });
+    const request = requestManager.useGetGlobalMeta();
     const { data, loading } = request;
     const metadata = useMemo(() => convertFromGqlMeta(data?.metas.nodes), [data?.metas.nodes]);
     const metaHolder: MetadataHolder = useMemo(() => ({ meta: metadata }), [metadata]);
@@ -219,7 +219,7 @@ export const useDefaultReaderSettingsWithDefaultFlag = (
 };
 
 export const updateReaderSettings = async <Setting extends keyof IReaderSettings = keyof IReaderSettings>(
-    manga: Pick<MangaType, 'id'> & GqlMetaHolder,
+    manga: MangaIdInfo & GqlMetaHolder,
     setting: Setting,
     value: IReaderSettings[Setting],
     isGlobal: boolean = false,
@@ -240,7 +240,7 @@ export const updateReaderSettings = async <Setting extends keyof IReaderSettings
 };
 export const createUpdateReaderSettings =
     <Settings extends keyof IReaderSettings>(
-        manga: Pick<MangaType, 'id'> & GqlMetaHolder,
+        manga: MangaIdInfo & GqlMetaHolder,
         handleError: (error: any) => void = defaultPromiseErrorHandler('createUpdateReaderSettings'),
         profile?: ReadingMode,
     ): ((...args: OmitFirst<Parameters<typeof updateReaderSettings<Settings>>>) => Promise<void>) =>

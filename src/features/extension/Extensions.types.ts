@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { ExtensionType } from '@/lib/graphql/generated/graphql.ts';
+import type { ExtensionStoreType, ExtensionType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export enum ExtensionAction {
     UPDATE = 'UPDATE',
@@ -36,15 +36,14 @@ export type TExtension = Pick<
     | 'pkgName'
     | 'name'
     | 'lang'
-    | 'versionCode'
+    | 'versionCodeLong'
     | 'versionName'
     | 'iconUrl'
-    | 'repo'
-    | 'isNsfw'
+    | 'contentWarning'
     | 'isInstalled'
     | 'isObsolete'
     | 'hasUpdate'
->;
+> & { extensionStore?: Pick<ExtensionStoreType, 'indexUrl' | 'name'> | null };
 
 export type GroupedExtensionsResult<KEY extends string = string> = [KEY, TExtension[]][];
 

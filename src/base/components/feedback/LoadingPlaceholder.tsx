@@ -10,17 +10,21 @@ import React, { type JSX } from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
-interface IProps {
+export function LoadingPlaceholder({
+    children,
+    shouldRender,
+    component,
+    componentProps,
+    usePadding,
+    size,
+}: {
     shouldRender?: boolean | (() => boolean);
     children?: React.ReactNode;
     component?: string | React.FunctionComponent<any> | React.ComponentClass<any, any>;
     componentProps?: any;
     usePadding?: boolean;
-}
-
-export function LoadingPlaceholder(props: IProps) {
-    const { children, shouldRender, component, componentProps, usePadding } = props;
-
+    size?: number;
+}) {
     let condition = true;
     if (shouldRender !== undefined) {
         condition = shouldRender instanceof Function ? shouldRender() : shouldRender;
@@ -47,7 +51,7 @@ export function LoadingPlaceholder(props: IProps) {
                 justifyContent: 'center',
             }}
         >
-            <CircularProgress thickness={5} />
+            <CircularProgress thickness={5} size={size} />
         </Box>
     );
 }

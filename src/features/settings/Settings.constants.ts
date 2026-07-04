@@ -24,12 +24,15 @@ import {
     AuthMode,
     KoreaderSyncChecksumMethod,
     KoreaderSyncConflictStrategy,
+    StartSyncResult,
+    SyncState,
     WebUiChannel,
     WebUiFlavor,
     WebUiInterface,
-} from '@/lib/graphql/generated/graphql.ts';
+} from '@/lib/graphql/generated/graphql-base.types.ts';
 import { ThemeMode } from '@/features/theme/AppTheme.types.ts';
 import { getPreferredISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
+import type { BackupFlag } from '@/features/backup/Backup.types.ts';
 
 export const MANGA_GRID_WIDTH = {
     min: 100,
@@ -316,4 +319,63 @@ export const IMAGE_PROCESSING_TYPE_TO_SETTING: Record<
 > = {
     [ImageProcessingType.DOWNLOAD]: 'downloadConversions',
     [ImageProcessingType.SERVE]: 'serveConversions',
+};
+
+const SYNC_INTERVAL_TO_TRANSLATION: Record<string, SelectSettingValueDisplayInfo> = {
+    [d(0).seconds.asWholeMinutes.toISOString()]: {
+        text: msg`Disabled`,
+    },
+    [d(30).minutes.asWholeMinutes.toISOString()]: {
+        text: msg`Every 30 minutes`,
+    },
+    [d(1).hours.asWholeMinutes.toISOString()]: {
+        text: msg`Every hour`,
+    },
+    [d(3).hours.asWholeMinutes.toISOString()]: {
+        text: msg`Every 3 hours`,
+    },
+    [d(6).hours.asWholeMinutes.toISOString()]: {
+        text: msg`Every 6 hours`,
+    },
+    [d(12).hours.asWholeMinutes.toISOString()]: {
+        text: msg`Every 12 hours`,
+    },
+    [d(1).days.asWholeMinutes.toISOString()]: {
+        text: msg`Daily`,
+    },
+    [d(7).days.asWholeMinutes.toISOString()]: {
+        text: msg`Weekly`,
+    },
+};
+export const SYNC_INTERVAL_CUSTOM_VALUE = d(10).days.asWholeMinutes.toISOString();
+export const SYNC_INTERVAL_VALUES = Object.keys(SYNC_INTERVAL_TO_TRANSLATION);
+export const SYNC_INTERVAL_SELECT_VALUES: SelectSettingValue<string>[] = SYNC_INTERVAL_VALUES.map((value) => [
+    value,
+    SYNC_INTERVAL_TO_TRANSLATION[value],
+]);
+export const SYNC_INTERVAL_SELECT_VALUES_WITH_CUSTOM: SelectSettingValue<string>[] = [
+    ...SYNC_INTERVAL_SELECT_VALUES,
+    [SYNC_INTERVAL_CUSTOM_VALUE, { text: msg`Custom` }],
+];
+
+export const SYNC_SETTINGS_HIDDEN_BACKUP_FLAGS = [
+    'includeServerSettings',
+    'includeClientData',
+] as const satisfies BackupFlag[];
+
+export const SYNC_START_RESULT_TRANSLATION: Record<StartSyncResult, MessageDescriptor> = {
+    [StartSyncResult.Success]: msg`Sync started`,
+    [StartSyncResult.SyncDisabled]: msg`Sync disabled`,
+    [StartSyncResult.SyncInProgress]: msg`Sync in progress`,
+};
+
+export const SYNC_STATE_TRANSLATION: Record<SyncState, MessageDescriptor> = {
+    [SyncState.CreatingBackup]: msg`Creating backup`,
+    [SyncState.Downloading]: msg`Downloading`,
+    [SyncState.Error]: msg`Error`,
+    [SyncState.Merging]: msg`Merging`,
+    [SyncState.Restoring]: msg`Restoring`,
+    [SyncState.Started]: msg`Started`,
+    [SyncState.Success]: msg`Success`,
+    [SyncState.Uploading]: msg`Uploading`,
 };

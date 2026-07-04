@@ -39,7 +39,6 @@ import type {
     GetLibraryMangaCountQuery,
     GetLibraryMangaCountQueryVariables,
     MangaChapterStatFieldsFragment,
-    MangaType,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/category/CategoryQuery.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
@@ -51,6 +50,7 @@ import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -76,9 +76,6 @@ export function Library() {
         refetch: refetchCategories,
     } = requestManager.useGetCategories<GetCategoriesLibraryQuery, GetCategoriesLibraryQueryVariables>(
         GET_CATEGORIES_LIBRARY,
-        {
-            notifyOnNetworkStatusChange: true,
-        },
     );
     const tabsData = categoriesResponse?.categories.nodes.filter(
         (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
@@ -102,7 +99,7 @@ export function Library() {
         error: mangaError,
         loading: mangaLoading,
         refetch: refetchCategoryMangas,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab, notifyOnNetworkStatusChange: true });
+    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab });
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
     const {
         visibleMangas: mangas,
@@ -125,7 +122,7 @@ export function Library() {
         handleSelectAll,
         handleSelection,
         clearSelection,
-    } = useSelectableCollection<MangaType['id'], string>(mangas.length, {
+    } = useSelectableCollection<MangaIdInfo['id'], string>(mangas.length, {
         itemIds: mangaIds,
         currentKey: activeTab?.id.toString(),
         initialState: undefined,
@@ -182,7 +179,7 @@ export function Library() {
                     <Button
                         size="large"
                         component={Link}
-                        to={AppRoutes.sources.childRoutes.searchAll.path(query)}
+                        to={AppRoutes.sources.children.searchAll.path(query)}
                         sx={{ textTransform: 'none', width: '100%' }}
                     >
                         {t`Search for "${query}" globally`}

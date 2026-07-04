@@ -1,0 +1,4154 @@
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2026-06-05 13:01+0000\n"
+"Last-Translator: Philip Prescott-Decie <presdec@gmail.com>\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
+"webui/el/>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2026.6\n"
+
+#. placeholder {0}: selectedChapters.length
+#. placeholder {0}: visibleChapters.length
+#: src/features/chapter/components/ChapterList.tsx
+msgid "{0, plural, one {# chapter} other {# chapters}}"
+msgstr "{0, plural, one {# κεφάλαιο} other {# κεφάλαια}}"
+
+#. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "{0, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{0, plural, one {# Κεφάλαιο} other {# Κεφάλαια}}"
+
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {# ημέρα} other {# ημέρες}}"
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr "{0, plural, one {# manga} other {# manga}}"
+
+#. placeholder {0}: serverSettings.flareSolverrSessionTtl
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# minute} other {# minutes}}"
+msgstr "{0, plural, one {# λεπτό} other {# λεπτά}}"
+
+#. placeholder {0}: autoScroll.value
+#. placeholder {0}: serverSettings.flareSolverrTimeout
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# second} other {# seconds}}"
+msgstr "{0, plural, one {# δευτερόλεπτο} other {# δευτερόλεπτα}}"
+
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr "{0, plural, one {# Πηγή} other {# Πηγές}}"
+
+#. placeholder {0}: trackersInUse.length
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "{0, plural, one {# Tracker} other {# Tracker}}"
+msgstr "{0, plural, one {# Tracker} other {# Tracker}}"
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr "{0, plural, one {1 ματαιωμένη εγγραφή} other {# ματαιωμένες εγγραφές}}"
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr ""
+"{0, plural, one {1 εγγραφή χωρίς αποτέλεσμα} other {# εγγραφές χωρίς "
+"αποτέλεσμα}}"
+
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr ""
+"{0, plural, one {1 εγγραφή μόνο με παλιά αποτελέσματα} other {# εγγραφές "
+"μόνο με παλιά αποτελέσματα}}"
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr ""
+"{0, plural, one {1 εξαιρούμενη εγγραφή} other {# εξαιρούμενες εγγραφές}}"
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr ""
+"{0, plural, one {1 αποτυχημένη εγγραφή} other {# αποτυχημένες εγγραφές}}"
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr ""
+"{0, plural, one {1 εγγραφή με αποτέλεσμα} other {# εγγραφές με αποτέλεσμα}}"
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr ""
+"{0, plural, one {1 μετεγκατεστημένη εγγραφή} other {# μετεγκατεστημένες "
+"εγγραφές}}"
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr ""
+"{0, plural, one {1 εγγραφή υπό μετεγκατάσταση} other {# εγγραφές υπό "
+"μετεγκατάσταση}}"
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr "{0, plural, one {1 σε αναζήτηση} other {# σε αναζήτηση}}"
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr "{0, plural, one {Δευτερόλεπτο} other {Δευτερόλεπτα}}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr "{0}% | Ενημέρωση…"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr ""
+"{availableUpdates, plural, one {# διαθέσιμη ενημέρωση} other {# διαθέσιμες "
+"ενημερώσεις}}"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "{categoryCount, plural, one {# category} other {# categories}}"
+msgstr "{categoryCount, plural, one {# κατηγορία} other {# κατηγορίες}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr ""
+"{count, plural, one {Άλλαξαν οι κατηγορίες του manga} other {Άλλαξαν οι "
+"κατηγορίες # manga}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr ""
+"{count, plural, one {Αφαιρέθηκε ο σελιδοδείκτης κεφαλαίου} other "
+"{Αφαιρέθηκαν # σελιδοδείκτες κεφαλαίων}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr ""
+"{count, plural, one {Σελιδοδείκτης κεφαλαίου προστέθηκε} other {# κεφάλαια "
+"προστέθηκαν στους σελιδοδείκτες}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr ""
+"{count, plural, one {Κεφάλαιο διαγράφηκε} other {# κεφάλαια διαγράφηκαν}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr ""
+"{count, plural, one {Κεφάλαιο σημειώθηκε ως αναγνωσμένο} other {# κεφάλαια "
+"σημειώθηκαν ως αναγνωσμένα}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr ""
+"{count, plural, one {Κεφάλαιο σημειώθηκε ως μη αναγνωσμένο} other {# "
+"κεφάλαια σημειώθηκαν ως μη αναγνωσμένα}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η προσθήκη της λήψης} other {Δεν ήταν "
+"δυνατή η προσθήκη λήψεων}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η προσθήκη σελιδοδείκτη στο κεφάλαιο} "
+"other {Δεν ήταν δυνατή η προσθήκη σελιδοδεικτών στα κεφάλαια}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η αλλαγή κατηγοριών του manga} other "
+"{Δεν ήταν δυνατή η αλλαγή κατηγοριών του manga}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η διαγραφή του κεφαλαίου} other {Δεν "
+"ήταν δυνατή η διαγραφή κεφαλαίων}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η εγκατάσταση της επέκτασης} other {Δεν "
+"ήταν δυνατή η εγκατάσταση των επεκτάσεων}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η σήμανση του κεφαλαίου ως "
+"αναγνωσμένου} other {Δεν ήταν δυνατή η σήμανση κεφαλαίων ως αναγνωσμένων}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η σήμανση του κεφαλαίου ως μη "
+"αναγνωσμένου} other {Δεν ήταν δυνατή η σήμανση κεφαλαίων ως μη αναγνωσμένων}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η αφαίρεση manga από τη βιβλιοθήκη} "
+"other {Δεν ήταν δυνατή η αφαίρεση manga από τη βιβλιοθήκη}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η αφαίρεση του σελιδοδείκτη} other {Δεν "
+"ήταν δυνατή η αφαίρεση των σελιδοδεικτών}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η κατάργηση εγκατάστασης της επέκτασης} "
+"other {Δεν ήταν δυνατή η κατάργηση εγκατάστασης των επεκτάσεων}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
+msgstr ""
+"{count, plural, one {Δεν ήταν δυνατή η ενημέρωση της επέκτασης} other {Δεν "
+"ήταν δυνατή η ενημέρωση των επεκτάσεων}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download added} other {# downloads added}}"
+msgstr "{count, plural, one {Η λήψη προστέθηκε} other {# λήψεις προστέθηκαν}}"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
+msgstr "{count, plural, one {Επόμενο κεφάλαιο} other {Επόμενα # κεφάλαια}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+msgstr ""
+"{count, plural, one {Το manga αφαιρέθηκε από τη βιβλιοθήκη} other {# manga "
+"αφαιρέθηκαν από τη βιβλιοθήκη}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}} other {There are # missing chapters.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}}}"
+msgstr ""
+"{count, plural, one {Λείπει # κεφάλαιο.\n"
+"Τρέχον: {currentChapter}\n"
+"Επόμενο: {nextChapter}} other {Λείπουν # κεφάλαια.\n"
+"Τρέχον: {currentChapter}\n"
+"Επόμενο: {nextChapter}}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"{count, plural, one {There is # missing chapter.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}} other {There are # missing chapters.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}}}"
+msgstr ""
+"{count, plural, one {Λείπει # κεφάλαιο.\n"
+"Προηγούμενο: {nextChapter}\n"
+"Τρέχον: {currentChapter}} other {Λείπουν # κεφάλαια.\n"
+"Προηγούμενο: {nextChapter}\n"
+"Τρέχον: {currentChapter}}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
+msgstr ""
+"{count, plural, one {Πρόκειται να αλλάξεις την κατηγορία μιας εγγραφής} "
+"other {Πρόκειται να αλλάξεις την κατηγορία # εγγραφών}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
+msgstr ""
+"{count, plural, one {Πρόκειται να διαγράψεις μια λήψη} other {Πρόκειται να "
+"διαγράψεις # λήψεις}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid ""
+"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+msgstr ""
+"{count, plural, one {Πρόκειται να κατεβάσεις ένα κεφάλαιο} other {Πρόκειται "
+"να κατεβάσεις # κεφάλαια.\n"
+"Το Suwayomi δεν είναι εργαλείο μαζικής λήψης και πολλές λήψεις μπορεί να σε "
+"αποκλείσουν από πηγές ή/και να προκαλέσουν προβλήματα απόδοσης.}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+msgstr ""
+"{count, plural, one {Πρόκειται να σημειώσεις ένα κεφάλαιο ως αναγνωσμένο} "
+"other {Πρόκειται να σημειώσεις # κεφάλαια ως αναγνωσμένα}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
+msgstr ""
+"{count, plural, one {Πρόκειται να σημειώσεις ένα κεφάλαιο ως μη αναγνωσμένο} "
+"other {Πρόκειται να σημειώσεις # κεφάλαια ως μη αναγνωσμένα}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
+msgstr ""
+"{count, plural, one {Πρόκειται να αφαιρέσεις έναν σελιδοδείκτη} other "
+"{Πρόκειται να αφαιρέσεις # σελιδοδείκτες}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+msgstr ""
+"{count, plural, one {Πρόκειται να αφαιρέσεις μια εγγραφή από τη βιβλιοθήκη "
+"σου} other {Πρόκειται να αφαιρέσεις # εγγραφές από τη βιβλιοθήκη σου}}"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{count} remaining"
+msgstr "{count} απομένουν"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "{currentAutoUpdateIntervalHours}h"
+msgstr "{currentAutoUpdateIntervalHours}ω"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr ""
+"{currentDownloadAheadLimit, plural, one {# Κεφάλαιο} other {# Κεφάλαια}}"
+
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
+msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr ""
+"{missingChapterCount, plural, one {Λείπει # κεφάλαιο} other {Λείπουν # "
+"κεφάλαια}}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr ""
+"{otherResultsCount, plural, one {# ακόμη αποτέλεσμα} other {# ακόμη "
+"αποτελέσματα}}"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "{progress}% | Updating…"
+msgstr "{progress}% | Ενημέρωση…"
+
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Διαγραφή αντιγράφων ασφαλείας παλαιότερων από # ημέρα} "
+"other {Διαγραφή αντιγράφων ασφαλείας παλαιότερων από # ημέρες}}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Διαγραφή αρχείων καταγραφής παλαιότερων από # ημέρα} "
+"other {Διαγραφή αρχείων καταγραφής παλαιότερων από # ημέρες}}"
+
+#: src/features/reader/settings/components/DefaultSettingFootnote.tsx
+msgid "*: Active setting"
+msgstr "*: Ενεργή ρύθμιση"
+
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr "Μια μετεγκατάσταση είναι ήδη σε εξέλιξη"
+
+#: src/features/settings/Settings.constants.ts
+msgid "A preview focused web frontend built with svelte"
+msgstr "Ένα web frontend με έμφαση στην προεπισκόπηση, φτιαγμένο με svelte"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "A-Z"
+msgstr "Α-Ω"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Abort"
+msgstr "Ματαίωση"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr "Ματαίωση μετεγκατάστασης"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "Ματαιώθηκε"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/About.tsx
+msgid "About"
+msgstr "Σχετικά"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Active device"
+msgstr "Ενεργή συσκευή"
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting"
+msgstr "Ενεργή ρύθμιση"
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "Ενεργή ρύθμιση ({title})"
+
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/settings/components/images/KeyValueItems.tsx
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+msgid "Add"
+msgstr "Προσθήκη"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Add bookmark"
+msgstr "Προσθήκη σελιδοδείκτη"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/manga/components/MangaBadges.tsx
+#: src/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx
+msgid "Add To Library"
+msgstr "Προσθήκη στη βιβλιοθήκη"
+
+#: src/features/tracker/components/cards/TrackerUntrackedCard.tsx
+msgid "Add tracking"
+msgstr "Προσθήκη παρακολούθησης"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "Added manga to library!"
+msgstr "Το manga προστέθηκε στη βιβλιοθήκη!"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Advanced"
+msgstr "Για προχωρημένους"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "Λειτουργία αναζήτησης για προχωρημένους"
+
+#: src/features/settings/Settings.constants.ts
+msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
+msgstr ""
+"Αφού αλλάξεις αυτή τη ρύθμιση, πήγαινε στη σελίδα «Σχετικά» και έλεγξε αν "
+"υπάρχει ενημέρωση για το webUI και εγκατέστησέ την"
+
+#: src/features/extension/info/components/Meta.tsx
+msgid "Age rating"
+msgstr "Όριο ηλικίας"
+
+#: src/features/backup/Backup.utils.ts
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "All"
+msgstr "Όλα"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Allow deleting bookmarked chapters"
+msgstr "Να επιτρέπεται η διαγραφή κεφαλαίων με σελιδοδείκτη"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Allowed Languages"
+msgstr "Επιτρεπόμενες γλώσσες"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Alpha"
+msgstr "Alpha"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Also remove from {0}"
+msgstr "Αφαίρεσε επίσης από {0}"
+
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Appearance"
+msgstr "Εμφάνιση"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "Εφαρμογή γεμίσματος ασφαλούς περιοχής"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr "Είσαι σίγουρος/-η ότι θέλεις να ματαιώσεις τη μετεγκατάσταση;"
+
+#: src/features/chapter/services/Chapters.ts
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/manga/services/Mangas.ts
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Are you sure?"
+msgstr "Είσαι σίγουρος/-η;"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Artist"
+msgstr "Καλλιτέχνης"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Ascending"
+msgstr "Αύξουσα"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Authentication"
+msgstr "Έλεγχος ταυτότητας"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Authentication Mode"
+msgstr "Λειτουργία ελέγχου ταυτότητας"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Author"
+msgstr "Συγγραφέας"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Auto"
+msgstr "Αυτόματα"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "Auto download while reading"
+msgstr "Αυτόματη λήψη κατά την ανάγνωση"
+
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+#: src/features/reader/overlay/navigation/mobile/quick-settings/ReaderBottomBarMobileQuickSettings.tsx
+msgid "Auto scroll"
+msgstr "Αυτόματη κύλιση"
+
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+msgid "Auto scroll speed"
+msgstr "Ταχύτητα αυτόματης κύλισης"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Auto webtoon mode"
+msgstr "Αυτόματη λειτουργία webtoon"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Auto-download"
+msgstr "Αυτόματη λήψη"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+msgid "Automatic progress bar vertical position"
+msgstr "Αυτόματη κατακόρυφη θέση μπάρας προόδου"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "Automatic update interval"
+msgstr "Διάστημα αυτόματης ενημέρωσης"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "Automatic updates"
+msgstr "Αυτόματες ενημερώσεις"
+
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+msgid "Automatically download the latest version"
+msgstr "Αυτόματη λήψη της τελευταίας έκδοσης"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Automatically mark chapters as read when you download them."
+msgstr "Αυτόματη σήμανση κεφαλαίων ως αναγνωσμένων κατά τη λήψη τους."
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Automatically refresh metadata"
+msgstr "Αυτόματη ανανέωση μεταδεδομένων"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr "Αυτόματη επιλογή αποτελεσμάτων που έχουν επιπλέον κεφάλαια"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr ""
+"Αυτόματη επιλογή αποτελεσμάτων που έχουν τουλάχιστον το ίδιο τελευταίο "
+"κεφάλαιο"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr "Αυτόματη επιλογή αποτελεσμάτων που δεν έχουν κενά κεφάλαια"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
+msgstr ""
+"Αυτόματη χρήση λειτουργίας webtoon για εγγραφές που πιθανώς χρησιμοποιούν "
+"μορφή μακριάς λωρίδας"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Available"
+msgstr "Διαθέσιμο"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Back up library as a Tachiyomi backup"
+msgstr "Δημιουργία αντιγράφου ασφαλείας βιβλιοθήκης ως αντίγραφο Tachiyomi"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Background color"
+msgstr "Χρώμα φόντου"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Backup"
+msgstr "Αντίγραφο ασφαλείας"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup cleanup"
+msgstr "Εκκαθάριση αντιγράφων ασφαλείας"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup data"
+msgstr "Δεδομένα αντιγράφου ασφαλείας"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup interval"
+msgstr "Διάστημα αντιγράφου ασφαλείας"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup location"
+msgstr "Τοποθεσία αντιγράφου ασφαλείας"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup restored."
+msgstr "Το αντίγραφο ασφαλείας αποκαταστάθηκε."
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup time"
+msgstr "Ώρα αντιγράφου ασφαλείας"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "Backup validation"
+msgstr "Επαλήθευση αντιγράφου ασφαλείας"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Badges"
+msgstr "Σήματα"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Basic Authentication"
+msgstr "Βασικός έλεγχος ταυτότητας"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Behaviour"
+msgstr "Συμπεριφορά"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Binary"
+msgstr "Δυαδικό"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Binary file size"
+msgstr "Μέγεθος αρχείου Binary"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Black"
+msgstr "Μαύρο"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Blue"
+msgstr "Μπλε"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Bookmark selected"
+msgstr "Προσθήκη σελιδοδείκτη στα επιλεγμένα"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Bookmarked"
+msgstr "Με σελιδοδείκτη"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Both"
+msgstr "Και τα δύο"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Bottom"
+msgstr "Κάτω"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr "Αναλύει τον τίτλο σε λέξεις-κλειδιά για ευρύτερη αναζήτηση"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Briefly show current mode when reader is opened or mode got changed"
+msgstr ""
+"Σύντομη εμφάνιση τρέχουσας λειτουργίας κατά το άνοιγμα του αναγνώστη ή "
+"αλλαγή λειτουργίας"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Briefly show tap zone layout preview when reader is opened or layout got changed"
+msgstr ""
+"Σύντομη εμφάνιση προεπισκόπησης διάταξης ζώνης αφής κατά το άνοιγμα ή αλλαγή "
+"διάταξης"
+
+#: src/features/theme/Themes.ts
+msgid "Bright Pink"
+msgstr "Έντονο ροζ"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "Browse"
+msgstr "Περιήγηση"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Browser"
+msgstr "Πρόγραμμα περιήγησης"
+
+#: src/features/settings/screens/About.tsx
+msgid "Build time"
+msgstr "Ώρα κατασκευής"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Bundled"
+msgstr "Ενσωματωμένο"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By chapter number"
+msgstr "Κατά αριθμό κεφαλαίου"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By date fetched"
+msgstr "Κατά ημερομηνία λήψης"
+
+#: src/features/migration/Migration.constants.ts
+msgid "By manga count"
+msgstr "Κατά πλήθος manga"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By source"
+msgstr "Κατά πηγή"
+
+#: src/features/migration/Migration.constants.ts
+msgid "By source name"
+msgstr "Κατά όνομα πηγής"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By upload date"
+msgstr "Κατά ημερομηνία ανάρτησης"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Call timeout"
+msgstr "Χρονικό όριο κλήσης"
+
+#: src/base/collection/components/SelectableCollectionSelectMode.tsx
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/base/components/modals/ConfirmDialog.tsx
+#: src/base/components/modals/LoginDialog.tsx
+#: src/base/components/settings/CheckboxListSetting.tsx
+#: src/base/components/settings/DateSetting.tsx
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/base/components/settings/NumberSetting.tsx
+#: src/base/components/settings/SelectSetting.tsx
+#: src/base/components/settings/text/TextSettingDialog.tsx
+#: src/base/components/settings/TimeSetting.tsx
+#: src/features/backup/component/BackupFlagInclusionDialog.tsx
+#: src/features/backup/component/BackupValidationDialog.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+#: src/features/source/configuration/components/EditTextPreference.tsx
+#: src/features/source/configuration/components/ListPreference.tsx
+#: src/features/source/configuration/components/MultiSelectListPreference.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Cancel"
+msgstr "Άκυρο"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/Tracker.constants.ts
+msgid "Cancelled"
+msgstr "Ακυρώθηκε"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/settings/screens/More.tsx
+msgid "Categories"
+msgstr "Κατηγορίες"
+
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Category"
+msgstr "Κατηγορία"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Category Name"
+msgstr "Όνομα κατηγορίας"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Category selection dialog"
+msgstr "Παράθυρο επιλογής κατηγορίας"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "CBZ MIME-Type"
+msgstr "CBZ MIME-Type"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Change categories"
+msgstr "Αλλαγή κατηγοριών"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Change categories of selected"
+msgstr "Αλλαγή κατηγοριών των επιλεγμένων"
+
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Changelog"
+msgstr "Αρχείο αλλαγών"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Changes the theme colors on the manga page based on the thumbnail"
+msgstr "Αλλάζει τα χρώματα θέματος στη σελίδα manga με βάση τη μικρογραφία"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Channel"
+msgstr "Κανάλι"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Chapter"
+msgstr "Κεφάλαιο"
+
+#: src/features/reader/screens/Reader.tsx
+msgid "Chapter does not exist"
+msgstr "Το κεφάλαιο δεν υπάρχει"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Chapter download limit"
+msgstr "Όριο λήψης κεφαλαίων"
+
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+msgid "Chapter list"
+msgstr "Λίστα κεφαλαίων"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+msgid "Chapter number"
+msgstr "Αριθμός κεφαλαίου"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Chapter sort order"
+msgstr "Σειρά ταξινόμησης κεφαλαίων"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "Chapter transition warning"
+msgstr "Προειδοποίηση μετάβασης κεφαλαίου"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Chapters"
+msgstr "Κεφάλαια"
+
+#: src/features/library/screens/LibraryDuplicates.tsx
+msgid "Check description"
+msgstr "Έλεγχος περιγραφής"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Check for new cover and details when updating library"
+msgstr ""
+"Έλεγχος για νέο εξώφυλλο και λεπτομέρειες κατά την ενημέρωση βιβλιοθήκης"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Check out"
+msgstr "Δες εδώ"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "Checking for update"
+msgstr "Έλεγχος για ενημέρωση"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Choose the order in which chapters are displayed."
+msgstr "Επίλεξε τη σειρά εμφάνισης των κεφαλαίων."
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Cleanup database"
+msgstr "Εκκαθάριση βάσης δεδομένων"
+
+#: src/base/collection/components/SelectableCollectionSelectAll.tsx
+msgid "Clear"
+msgstr "Εκκαθάριση"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Clear cache"
+msgstr "Εκκαθάριση κρυφής μνήμης"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Cleared the cache"
+msgstr "Η κρυφή μνήμη εκκαθαρίστηκε"
+
+#: src/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx
+msgid "Click key to remove binding"
+msgstr "Πάτα πλήκτρο για αφαίρεση συντόμευσης"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Client"
+msgstr "Πρόγραμμα-πελάτης"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Client data"
+msgstr "Δεδομένα προγράμματος-πελάτη"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Close"
+msgstr "Κλείσιμο"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cloudflare bypass"
+msgstr "Παράκαμψη Cloudflare"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Color filter blend mode"
+msgstr "Λειτουργία ανάμειξης φίλτρου χρώματος"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Comfortable grid"
+msgstr "Άνετο πλέγμα"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Comic"
+msgstr "Κόμικ"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Compact grid"
+msgstr "Συμπαγές πλέγμα"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Compatible"
+msgstr "Συμβατό"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Completed"
+msgstr "Ολοκληρωμένο"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Compression level"
+msgstr "Επίπεδο συμπίεσης"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Connect timeout"
+msgstr "Χρονικό όριο σύνδεσης"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connect to KOReader Sync server"
+msgstr "Σύνδεση στον διακομιστή KOReader Sync"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr "Συνδεδεμένος/-η ως {currentUsername} στο {currentServerAddress}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr "Συνδεδεμένος/-η ως {initialUsername} στο {initialServerAddress}"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "Συνέχεια"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Continue reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Συνέχεια ανάγνωσης\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Continuous chapter display"
+msgstr "Συνεχής εμφάνιση κεφαλαίων"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Continuous horizontal"
+msgstr "Συνεχής οριζόντια"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Continuous vertical"
+msgstr "Συνεχής κατακόρυφα"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid ""
+"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
+msgstr ""
+"Ελέγχει τον τύπο MIME που στέλνει το Suwayomi στις εγγραφές OPDS για αρχεία "
+"CBZ. Επηρεάζει επίσης την καθολική λήψη CBZ.\n"
+"Το Modern ακολουθεί το πρόσφατο πρότυπο IANA (2017), ενώ το LEGACY "
+"(παρωχημένος τύπος MIME για .cbz) και το COMPATIBLE (παρωχημένος τύπος MIME "
+"για όλα τα αρχεία κόμικ) ενδέχεται να είναι πιο συμβατά με παλαιότερα "
+"προγράμματα."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Convert images to different formats"
+msgstr "Μετατροπή εικόνων σε διαφορετικές μορφές"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+msgid "Copied to clipboard"
+msgstr "Αντιγράφηκε στο πρόχειρο"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Copy"
+msgstr "Αντιγραφή"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "Could not add manga to library!"
+msgstr "Δεν ήταν δυνατή η προσθήκη manga στη βιβλιοθήκη!"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid ""
+"Could not check for duplicated manga in your library.\n"
+"\n"
+"Error: {errorMessage}"
+msgstr ""
+"Δεν ήταν δυνατός ο έλεγχος για διπλότυπα manga στη βιβλιοθήκη σου.\n"
+"\n"
+"Σφάλμα: {errorMessage}"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "Could not check for update"
+msgstr "Δεν ήταν δυνατός ο έλεγχος για ενημέρωση"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Could not check for updates"
+msgstr "Δεν ήταν δυνατός ο έλεγχος για ενημερώσεις"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Could not clear the cache"
+msgstr "Δεν ήταν δυνατή η εκκαθάριση της μνήμης cache"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Could not create backup"
+msgstr "Δεν ήταν δυνατή η δημιουργία αντιγράφου ασφαλείας"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Could not create category"
+msgstr "Δεν ήταν δυνατή η δημιουργία κατηγορίας"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Could not create theme"
+msgstr "Δεν ήταν δυνατή η δημιουργία θέματος"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Could not delete theme \"{0}\""
+msgstr "Δεν ήταν δυνατή η διαγραφή του θέματος \"{0}\""
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Could not find source. Check your installed extensions."
+msgstr "Δεν βρέθηκε πηγή. Έλεγξε τις εγκατεστημένες επεκτάσεις σου."
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Could not install the extension"
+msgstr "Δεν ήταν δυνατή η εγκατάσταση της επέκτασης"
+
+#: src/features/category/screens/CategorySettings.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "Could not load categories"
+msgstr "Δεν ήταν δυνατή η φόρτωση κατηγοριών"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not load language"
+msgstr "Δεν ήταν δυνατή η φόρτωση γλώσσας"
+
+#: src/features/tracker/components/TrackManga.tsx
+msgid "Could not load latest track info from tracker"
+msgstr ""
+"Δεν ήταν δυνατή η φόρτωση των τελευταίων πληροφοριών παρακολούθησης από το "
+"tracker"
+
+#: src/features/library/screens/Library.tsx
+#: src/features/manga/screens/Manga.tsx
+msgid "Could not load manga"
+msgstr "Δεν ήταν δυνατή η φόρτωση manga"
+
+#: src/features/theme/components/ThemePreview.tsx
+msgid "Could not load theme fonts"
+msgstr "Δεν ήταν δυνατή η φόρτωση γραμματοσειρών θέματος"
+
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "Could not load track info"
+msgstr "Δεν ήταν δυνατή η φόρτωση πληροφοριών παρακολούθησης"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log in to {0}"
+msgstr "Δεν ήταν δυνατή η σύνδεση στο {0}"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Could not log in to {trackerName}"
+msgstr "Δεν ήταν δυνατή η σύνδεση στο {trackerName}"
+
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Could not log in to Suwayomi"
+msgstr "Δεν ήταν δυνατή η σύνδεση στο Suwayomi"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log out from {0}"
+msgstr "Δεν ήταν δυνατή η αποσύνδεση από το {0}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Could not log out from KOReader Sync"
+msgstr "Δεν ήταν δυνατή η αποσύνδεση από το KOReader Sync"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Could not migrate manga"
+msgstr "Δεν ήταν δυνατή η μετεγκατάσταση manga"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Could not remove all downloads from the queue"
+msgstr "Δεν ήταν δυνατή η αφαίρεση όλων των λήψεων από την ουρά"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Could not remove non library manga from categories"
+msgstr "Δεν ήταν δυνατή η αφαίρεση manga εκτός βιβλιοθήκης από τις κατηγορίες"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Could not remove the download from the queue."
+msgstr "Δεν ήταν δυνατή η αφαίρεση της λήψης από την ουρά."
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Could not restore backup"
+msgstr "Δεν ήταν δυνατή η επαναφορά αντιγράφου ασφαλείας"
+
+#: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
+msgid "Could not retry failed download."
+msgstr "Δεν ήταν δυνατή η επανάληψη της αποτυχημένης λήψης."
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr "Δεν ήταν δυνατή η αποθήκευση αλλαγών"
+
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Could not save the default search settings to the server"
+msgstr ""
+"Δεν ήταν δυνατή η αποθήκευση των προεπιλεγμένων ρυθμίσεων αναζήτησης στον "
+"διακομιστή"
+
+#: src/features/reader/services/ReaderService.ts
+msgid "Could not save the reader settings to the server"
+msgstr "Δεν ήταν δυνατή η αποθήκευση των ρυθμίσεων αναγνώστη στον διακομιστή"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Could not save theme changes"
+msgstr "Δεν ήταν δυνατή η αποθήκευση αλλαγών θέματος"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Could not search source"
+msgstr "Δεν ήταν δυνατή η αναζήτηση στην πηγή"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Could not stop global update"
+msgstr "Δεν ήταν δυνατή η διακοπή της καθολικής ενημέρωσης"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Could not track manga"
+msgstr "Δεν ήταν δυνατή η παρακολούθηση manga"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Could not untrack manga"
+msgstr "Δεν ήταν δυνατή η κατάργηση παρακολούθησης manga"
+
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Could not update WebUI"
+msgstr "Δεν ήταν δυνατή η ενημέρωση του WebUI"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Could not validate backup"
+msgstr "Δεν ήταν δυνατή η επικύρωση αντιγράφου ασφαλείας"
+
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Create"
+msgstr "Δημιουργία"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Create backup"
+msgstr "Δημιουργία αντιγράφου ασφαλείας"
+
+#: src/features/theme/components/CreateThemeButton.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Create theme"
+msgstr "Δημιουργία θέματος"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Created theme"
+msgstr "Το θέμα δημιουργήθηκε"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Creating backup…"
+msgstr "Δημιουργία αντιγράφου ασφαλείας…"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Creating theme…"
+msgstr "Δημιουργία θέματος…"
+
+#: src/features/theme/Themes.ts
+msgid "Crimson"
+msgstr "Άλικο"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Current source"
+msgstr "Τρέχουσα πηγή"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Current:"
+msgstr "Τρέχον:"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Currently publishing"
+msgstr "Εκδίδεται τώρα"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Custom"
+msgstr "Προσαρμοσμένο"
+
+#: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
+msgid "Custom brightness"
+msgstr "Προσαρμοσμένη φωτεινότητα"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Custom color filters"
+msgstr "Προσαρμοσμένα φίλτρα χρώματος"
+
+#: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
+msgid "Custom contrast"
+msgstr "Προσαρμοσμένη αντίθεση"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Custom filter"
+msgstr "Προσαρμοσμένο φίλτρο"
+
+#: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
+msgid "Custom hue"
+msgstr "Προσαρμοσμένη απόχρωση"
+
+#: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
+msgid "Custom saturate"
+msgstr "Προσαρμοσμένος κορεσμός"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Custom scroll amount"
+msgstr "Προσαρμοσμένο ποσό κύλισης"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Cycle image scale type"
+msgstr "Εναλλαγή τύπου κλιμάκωσης εικόνας"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Cycle reading direction"
+msgstr "Εναλλαγή κατεύθυνσης ανάγνωσης"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Cycle reading mode"
+msgstr "Εναλλαγή λειτουργίας ανάγνωσης"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Dark"
+msgstr "Σκοτεινό"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Darken"
+msgstr "Σκούρεμα"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Database"
+msgstr "Βάση δεδομένων"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Database url"
+msgstr "URL βάσης δεδομένων"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Day"
+msgstr "Ημέρα"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Decrease auto scroll speed"
+msgstr "Μείωση ταχύτητας αυτόματης κύλισης"
+
+#: src/base/components/buttons/SelectButton.tsx
+#: src/base/components/buttons/ValueRotationButton.tsx
+#: src/features/backup/screens/Backup.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/theme/Themes.ts
+msgid "Default"
+msgstr "Προεπιλογή"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Default category when adding new manga to the library"
+msgstr "Προεπιλεγμένη κατηγορία κατά την προσθήκη νέου manga στη βιβλιοθήκη"
+
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/features/category/components/CategorySettingsCard.tsx
+#: src/features/chapter/Chapter.constants.ts
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+#: src/features/reader/hotkeys/settings/components/Hotkey.tsx
+#: src/features/settings/components/images/KeyValueItem.tsx
+#: src/features/settings/components/images/Processing.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+#: src/features/theme/components/ThemePreview.tsx
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Delete all"
+msgstr "Διαγραφή όλων"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Delete chapter after manually marking it as read"
+msgstr "Διαγραφή κεφαλαίου μετά από χειροκίνητη σήμανση ως αναγνωσμένου"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Delete chapters"
+msgstr "Διαγραφή κεφαλαίων"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Delete downloaded"
+msgstr "Διαγραφή ληφθέντων"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Delete finished chapters while reading"
+msgstr "Διαγραφή ολοκληρωμένων κεφαλαίων κατά την ανάγνωση"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Delete search"
+msgstr "Διαγραφή αναζήτησης"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Delete selected"
+msgstr "Διαγραφή επιλεγμένων"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleted theme \"{0}\""
+msgstr "Το θέμα \"{0}\" διαγράφηκε"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleting theme \"{0}\"…"
+msgstr "Διαγραφή θέματος \"{0}\"…"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Descending"
+msgstr "Φθίνουσα"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/manga/components/MangaOptionButton.tsx
+msgid "Deselect"
+msgstr "Αποεπιλογή"
+
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Desktop"
+msgstr "Επιτραπέζιος"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination - {0}"
+msgstr "Προορισμός - {0}"
+
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Device"
+msgstr "Συσκευή"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Devices"
+msgstr "Συσκευές"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Disable authentication"
+msgstr "Απενεργοποίηση ελέγχου ταυτότητας"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Disabled"
+msgstr "Απενεργοποιημένο"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Disconnect from KOReader Sync server"
+msgstr "Αποσύνδεση από τον διακομιστή KOReader Sync"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Disconnected"
+msgstr "Αποσυνδεδεμένο"
+
+#: src/features/settings/screens/About.tsx
+msgid "Discord"
+msgstr "Discord"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/settings/screens/Appearance.tsx
+msgid "Display"
+msgstr "Εμφάνιση"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Display file sizes in binary (KiB, MiB, GiB) instead of decimal (KB, MB, GB)"
+msgstr ""
+"Εμφάνιση μεγέθους αρχείων σε δυαδική μορφή (KiB, MiB, GiB) αντί για δεκαδική "
+"(KB, MB, GB)"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Display mode"
+msgstr "Λειτουργία εμφάνισης"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Document matching method"
+msgstr "Μέθοδος αντιστοίχισης εγγράφου"
+
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Does not work when marking multiple manga as read at once"
+msgstr ""
+"Δεν λειτουργεί κατά τη σήμανση πολλαπλών manga ως αναγνωσμένα ταυτόχρονα"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "Don't show this dialog again"
+msgstr "Να μην εμφανιστεί ξανά αυτό το παράθυρο"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "Ολοκληρώθηκε"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Double page"
+msgstr "Διπλή σελίδα"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Doujinshi"
+msgstr "Doujinshi"
+
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/chapter/Chapter.constants.ts
+#: src/features/chapter/components/buttons/ChapterDownloadButton.tsx
+#: src/features/chapter/components/ChaptersToolbarMenu.tsx
+msgid "Download"
+msgstr "Λήψη"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Download ahead"
+msgstr "Λήψη εκ των προτέρων"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "Download ahead ({count})"
+msgstr "Λήψη εκ των προτέρων ({count})"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Download badges"
+msgstr "Σήματα λήψης"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Download location"
+msgstr "Τοποθεσία λήψης"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Download new chapters"
+msgstr "Λήψη νέων κεφαλαίων"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "Download queue"
+msgstr "Ουρά λήψης"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Download selected"
+msgstr "Λήψη επιλεγμένων"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Downloaded"
+msgstr "Ληφθέν"
+
+#: src/base/components/downloads/DownloadStateIndicator.tsx
+msgid "Downloading"
+msgstr "Γίνεται λήψη"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "Downloads"
+msgstr "Λήψεις"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr "Σύρε για να ορίσεις προτεραιότητα"
+
+#: src/features/theme/Themes.ts
+msgid "Dune"
+msgstr "Dune"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Duplicate chapters"
+msgstr "Διπλότυπα κεφάλαια"
+
+#: src/features/library/screens/LibraryDuplicates.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Duplicated entries"
+msgstr "Διπλότυπες εγγραφές"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Dynamic theme colors on manga page"
+msgstr "Δυναμικά χρώματα θέματος στη σελίδα manga"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "Edge"
+msgstr "Άκρη"
+
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/category/components/CategorySettingsCard.tsx
+#: src/features/theme/components/ThemePreview.tsx
+msgid "Edit"
+msgstr "Επεξεργασία"
+
+#: src/features/category/screens/CategorySettings.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Edit categories"
+msgstr "Επεξεργασία κατηγοριών"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Edit category"
+msgstr "Επεξεργασία κατηγορίας"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+msgid "Edit manga categories"
+msgstr "Επεξεργασία κατηγοριών manga"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Edit theme"
+msgstr "Επεξεργασία θέματος"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Electron"
+msgstr "Electron"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Electron path"
+msgstr "Διαδρομή Electron"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable debug logs"
+msgstr "Ενεργοποίηση αρχείων καταγραφής εντοπισμού σφαλμάτων"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable page read progress"
+msgstr "Ενεργοποίηση προόδου ανάγνωσης σελίδας"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
+msgstr ""
+"Οι εγγραφές σε εξαιρούμενες κατηγορίες δεν θα ληφθούν ακόμα κι αν βρίσκονται "
+"και σε συμπεριλαμβανόμενες κατηγορίες"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Entries in excluded categories will not be updated even if they are also in included categories"
+msgstr ""
+"Οι εγγραφές σε εξαιρούμενες κατηγορίες δεν θα ενημερωθούν ακόμα κι αν "
+"βρίσκονται και σε συμπεριλαμβανόμενες κατηγορίες"
+
+#: src/base/components/downloads/DownloadStateIndicator.tsx
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+msgid "Error"
+msgstr "Σφάλμα"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
+msgstr ""
+"Παράδειγμα πιθανών τιμών: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB "
+"(gigabytes)"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
+msgstr "Εξαίρεση"
+
+#: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
+msgid "Exclude scanlators"
+msgstr "Εξαίρεση scanlators"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+msgid "Exclude: {excludedCategoriesText}"
+msgstr "Εξαίρεση: {excludedCategoriesText}"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr "Εξαιρούμενο"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
+msgid "Exit reader"
+msgstr "Έξοδος από τον αναγνώστη"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Exit to manga page"
+msgstr "Έξοδος στη σελίδα manga"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Exit to previous page"
+msgstr "Έξοδος στην προηγούμενη σελίδα"
+
+#: src/features/browse/screens/Browse.tsx
+msgid "Extension"
+msgstr "Επέκταση"
+
+#: src/features/extension/info/screens/ExtensionInfo.tsx
+msgid "Extension info"
+msgstr "Πληροφορίες επέκτασης"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Extension installed"
+msgstr "Η επέκταση εγκαταστάθηκε"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Failed to connect to KOReader Sync server."
+msgstr "Αποτυχία σύνδεσης με τον διακομιστή KOReader Sync."
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Failed to disconnect from KOReader Sync server."
+msgstr "Αποτυχία αποσύνδεσης από τον διακομιστή KOReader Sync."
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/browse/sources/components/SourceCard.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/chapter/components/buttons/ChapterDownloadButton.tsx
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/extension/info/components/SourceCard.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+#: src/features/history/screens/HistorySettings.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+#: src/features/source/services/Sources.ts
+#: src/features/theme/AppThemeContext.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Failed to save changes"
+msgstr "Αποτυχία αποθήκευσης αλλαγών"
+
+#: src/features/settings/Settings.constants.ts
+msgid ""
+"Features and changes in this version might not be completely ready yet and can cause bugs.\n"
+"Make sure that you have automatic backups enabled to prevent loss of your library!\n"
+"\n"
+"After changing this setting go to the \"About\" page and check for a webUI update and install it"
+msgstr ""
+"Τα χαρακτηριστικά και οι αλλαγές σε αυτή την έκδοση μπορεί να μην είναι "
+"πλήρως έτοιμα και να προκαλούν σφάλματα.\n"
+"Βεβαιώσου ότι έχεις ενεργοποιημένα αυτόματα αντίγραφα ασφαλείας για να "
+"αποτρέψεις απώλεια της βιβλιοθήκης σου!\n"
+"\n"
+"Αφού αλλάξεις αυτή τη ρύθμιση, πήγαινε στη σελίδα «Σχετικά» και έλεγξε για "
+"ενημέρωση webUI και εγκατέστησέ τη"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Feel free to translate the project on"
+msgstr "Μη διστάσεις να μεταφράσεις το project στο"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Fifth to last read chapter"
+msgstr "Πέμπτο από το τελευταίο αναγνωσμένο κεφάλαιο"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Filename"
+msgstr "Όνομα αρχείου"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Filter"
+msgstr "Φίλτρο"
+
+#: src/features/chapter/components/ChaptersToolbarMenu.tsx
+msgid "Filter and sort"
+msgstr "Φίλτρο και ταξινόμηση"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Filter manga feed to display only chapters you have downloaded."
+msgstr ""
+"Φιλτράρισμα ροής manga για εμφάνιση μόνο των κεφαλαίων που έχεις κατεβάσει."
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Finish date"
+msgstr "Ημερομηνία ολοκλήρωσης"
+
+#: src/base/components/downloads/DownloadStateIndicator.tsx
+#: src/features/tracker/Tracker.constants.ts
+msgid "Finished"
+msgstr "Ολοκληρώθηκε"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Finished:"
+msgstr "Ολοκληρώθηκε:"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Fit height"
+msgstr "Προσαρμογή στο ύψος"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Fit screen"
+msgstr "Προσαρμογή στην οθόνη"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Fit width"
+msgstr "Προσαρμογή στο πλάτος"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr enabled"
+msgstr "Το FlareSolverr είναι ενεργοποιημένο"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr ""
+"Το Flaresolverr είναι ένα <0><1>ξεχωριστό</1></0>, <2><3>άσχετο</3></2> με "
+"το Suwayomi πρόγραμμα που πρέπει να <4><5>εγκατασταθεί</5></4> και να <6><7>"
+"εκτελεστεί</7></6> χειροκίνητα.<8/>Δες το <9>FlareSolverr</9> για "
+"πληροφορίες σχετικά με τη ρύθμισή του<10/><11/>Αν <12><13>δεν</13></12> έχει "
+"ρυθμιστεί και εκτελεστεί σωστά, η ενεργοποίηση αυτής της ρύθμισης <14><15>"
+"δεν</15></14> θα κάνει τίποτα"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr request timeout"
+msgstr "Χρονικό όριο αιτήματος FlareSolverr"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr server url"
+msgstr "URL διακομιστή FlareSolverr"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr session name"
+msgstr "Όνομα συνεδρίας FlareSolverr"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr session TTL"
+msgstr "TTL συνεδρίας FlareSolverr"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr "Επιβεβαίωση ρύθμισης Flaresolverr"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes"
+msgstr ""
+"Το FlareSolverr θα ανανεώνει αυτόματα τις ληγμένες συνεδρίες βάσει του TTL "
+"που παρέχεται σε λεπτά"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Flavor"
+msgstr "Παραλλαγή"
+
+#: src/features/theme/Themes.ts
+msgid "Forest Dew"
+msgstr "Forest Dew"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Forget manga categories"
+msgstr "Αγνόηση κατηγοριών manga"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Fourth to last read chapter"
+msgstr "Τέταρτο από το τελευταίο αναγνωσμένο κεφάλαιο"
+
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "General"
+msgstr "Γενικά"
+
+#: src/features/settings/screens/About.tsx
+msgid "GitHub Server"
+msgstr "GitHub Server"
+
+#: src/features/settings/screens/About.tsx
+msgid "GitHub WebUI"
+msgstr "GitHub WebUI"
+
+#: src/features/browse/sources/Sources.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Global Search"
+msgstr "Καθολική αναζήτηση"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Global update"
+msgstr "Καθολική ενημέρωση"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Global update (last update: {date})"
+msgstr "Καθολική ενημέρωση (τελευταία ενημέρωση: {date})"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Gray"
+msgstr "Γκρι"
+
+#: src/features/reader/filters/settings/components/ReaderSettingGrayscale.tsx
+msgid "Grayscale"
+msgstr "Κλίμακα του γκρι"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Green"
+msgstr "Πράσινο"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+msgid "h"
+msgstr "ω"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "H2"
+msgstr "H2"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Has results"
+msgstr "Έχει αποτελέσματα"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Headers"
+msgstr "Κεφαλίδες"
+
+#. placeholder {0}: headers?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Headers ({0})"
+msgstr "Κεφαλίδες ({0})"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/Tracker.constants.ts
+msgid "Hiatus"
+msgstr "Διακοπή"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
+msgid "Hidden"
+msgstr "Κρυφό"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Hide entries already in library"
+msgstr "Απόκρυψη εγγραφών που υπάρχουν ήδη στη βιβλιοθήκη"
+
+#: src/features/history/screens/HistorySettings.tsx
+msgid "Hide history"
+msgstr "Απόκρυψη ιστορικού"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Hikari connection pool"
+msgstr "Hikari connection pool"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/history/screens/History.tsx
+#: src/features/history/screens/HistorySettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "History"
+msgstr "Ιστορικό"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Horizontal"
+msgstr "Οριζόντιο"
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Hotkey already exists"
+msgstr "Η συντόμευση υπάρχει ήδη"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "How many chapters should get downloaded while reading."
+msgstr "Πόσα κεφάλαια να γίνεται λήψη κατά την ανάγνωση."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "How much time FlareSolverr has to handle the request"
+msgstr "Πόσος χρόνος έχει το FlareSolverr για να διαχειριστεί το αίτημα"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid ""
+"If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+"Αν είναι ενεργό, επιλέγει το αποτέλεσμα που είναι πιο μπροστά.\n"
+"Διαφορετικά, επιλέγει το πρώτο αποτέλεσμα βάσει προτεραιότητας πηγής."
+
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+msgid "Ignore"
+msgstr "Παράβλεψη"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Ignore automatic chapter downloads for entries with unread chapters"
+msgstr "Παράβλεψη αυτόματης λήψης κεφαλαίων για εγγραφές με αδιάβαστα κεφάλαια"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Ignore filters when searching"
+msgstr "Παράβλεψη φίλτρων κατά την αναζήτηση"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "Παράβλεψη αποτελεσμάτων που υστερούν σε κεφάλαια"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "Παράβλεψη αποτελεσμάτων με κενά κεφάλαια"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr "Παράβλεψη αποτελεσμάτων χωρίς νεότερα κεφάλαια"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Ignore re-uploaded chapters"
+msgstr "Παράβλεψη κεφαλαίων που αναφορτώθηκαν"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Image"
+msgstr "Εικόνα"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Image download processing"
+msgstr "Επεξεργασία λήψης εικόνας"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Image processing"
+msgstr "Επεξεργασία εικόνας"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Image serve processing"
+msgstr "Επεξεργασία παράδοσης εικόνας"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Images"
+msgstr "Εικόνες"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Improves performance, but may cause issues for some installations where data cannot be read from the database"
+msgstr ""
+"Βελτιώνει την απόδοση, αλλά μπορεί να προκαλέσει προβλήματα σε ορισμένες "
+"εγκαταστάσεις όπου δεν είναι δυνατή η ανάγνωση δεδομένων από τη βάση "
+"δεδομένων"
+
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+msgid ""
+"In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
+"Set the target mode to disabled to prevent processing for a MIME-Type"
+msgstr ""
+"Αν δεν έχει οριστεί MIME-Type, θα χρησιμοποιηθεί το \"προεπιλεγμένο\" για "
+"την επεξεργασία.\n"
+"Ορίσε τη λειτουργία στόχου σε απενεργοποιημένη για να αποτρέψεις την "
+"επεξεργασία για ένα MIME-Type"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/manga/components/MangaBadges.tsx
+#: src/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx
+msgid "In Library"
+msgstr "Στη βιβλιοθήκη"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr "Συμπερίληψη"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+msgid "Include: {includedCategoriesText}"
+msgstr "Συμπερίληψη: {includedCategoriesText}"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Increase auto scroll speed"
+msgstr "Αύξηση ταχύτητας αυτόματης κύλισης"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about available update"
+msgstr "Ειδοποίηση για διαθέσιμη ενημέρωση"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Inform about changing scanlator on chapter transition"
+msgstr "Ειδοποίηση για αλλαγή scanlator κατά τη μετάβαση κεφαλαίου"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Inform about missing chapters on chapter transition"
+msgstr "Ειδοποίηση για κενά κεφάλαια κατά τη μετάβαση κεφαλαίου"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr "Ειδοποίηση για ενημερωμένη έκδοση"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr "Ειδοποίηση για ενημέρωση έκδοσης"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+msgid "Information"
+msgstr "Πληροφορία"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+#: src/features/extension/Extensions.constants.ts
+msgid "Install"
+msgstr "Εγκατάσταση"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Install external extension"
+msgstr "Εγκατάσταση εξωτερικής επέκτασης"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Installed"
+msgstr "Εγκατεστημένο"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Installing"
+msgstr "Γίνεται εγκατάσταση"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Installing extension file…"
+msgstr "Γίνεται εγκατάσταση αρχείου επέκτασης…"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Interface"
+msgstr "Διεπαφή"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Invalid filetype"
+msgstr "Μη έγκυρος τύπος αρχείου"
+
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/base/components/settings/NumberSetting.tsx
+#: src/base/components/settings/text/TextSettingDialog.tsx
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/settings/components/images/KeyValueItem.tsx
+#: src/features/settings/components/images/MimeTypeTextField.tsx
+#: src/features/settings/components/images/Processing.tsx
+msgid "Invalid input"
+msgstr "Μη έγκυρη εισαγωγή"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Invalid json"
+msgstr "Μη έγκυρο json"
+
+#: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
+msgid "Invert"
+msgstr "Αντιστροφή"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Invert tap zones"
+msgstr "Αντιστροφή ζωνών αφής"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "IP"
+msgstr "IP"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "item"
+msgstr "στοιχείο"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Items per page"
+msgstr "Στοιχεία ανά σελίδα"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT access token expiry"
+msgstr "Λήξη JWT access token"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT audience claim"
+msgstr "JWT audience claim"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT refresh token expiry"
+msgstr "Λήξη JWT refresh token"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Keep local"
+msgstr "Διατήρηση τοπικού"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep previous and upcoming chapters visible while reading in continuous reading modes, allowing seamless scrolling between chapters."
+msgstr ""
+"Διατήρηση προηγούμενων και επόμενων κεφαλαίων ορατών κατά την ανάγνωση σε "
+"συνεχείς λειτουργίες, επιτρέποντας ομαλή κύλιση μεταξύ κεφαλαίων."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Keep remote"
+msgstr "Διατήρηση απομακρυσμένου"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Keybinds"
+msgstr "Συντομεύσεις πληκτρολογίου"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "Kindle"
+msgstr "Kindle"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "KOReader Sync"
+msgstr "KOReader Sync"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "L-Shape"
+msgstr "L-Shape"
+
+#: src/features/extension/info/components/Meta.tsx
+#: src/features/settings/screens/Appearance.tsx
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: src/base/utils/Languages.ts
+msgid "Language with code: {code}"
+msgstr "Γλώσσα με κωδικό: {code}"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Large"
+msgstr "Μεγάλο"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Last read chapter"
+msgstr "Τελευταίο διαβασμένο κεφάλαιο"
+
+#: src/features/updates/screens/Updates.tsx
+msgid "Last update: {date}"
+msgstr "Τελευταία ενημέρωση: {date}"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Last used"
+msgstr "Τελευταία χρήση"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Latest"
+msgstr "Πιο πρόσφατο"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Latest fetched chapter"
+msgstr "Πιο πρόσφατο ανακτηθέν κεφάλαιο"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Latest uploaded chapter"
+msgstr "Πιο πρόσφατο ανεβασμένο κεφάλαιο"
+
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr "Πιο πρόσφατο: {latestChapterNumber}"
+
+#: src/features/theme/Themes.ts
+msgid "Lavender"
+msgstr "Λεβάντα"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Layout"
+msgstr "Διάταξη"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Left"
+msgstr "Αριστερά"
+
+#: src/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Left to right"
+msgstr "Αριστερά προς δεξιά"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Legacy"
+msgstr "Παλαιό"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "legacy backups are not supported!"
+msgstr "τα παλαιά αντίγραφα ασφαλείας δεν υποστηρίζονται!"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "Library"
+msgstr "Βιβλιοθήκη"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Library entries"
+msgstr "Εγγραφές βιβλιοθήκης"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Licensed"
+msgstr "Με άδεια"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Light"
+msgstr "Φωτεινό"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Lighten"
+msgstr "Φωτισμός"
+
+#: src/features/reader/settings/layout/components/ReaderSettingWidth.tsx
+msgid "Limit reader width"
+msgstr "Περιορισμός πλάτους αναγνώστη"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Limit the amount of new chapters that are going to get downloaded."
+msgstr "Περιορισμός του αριθμού των νέων κεφαλαίων που θα κατεβαίνουν."
+
+#: src/features/settings/screens/About.tsx
+msgid "Links"
+msgstr "Σύνδεσμοι"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "List"
+msgstr "Λίστα"
+
+#: src/features/theme/components/ThemePreview.tsx
+msgid "Loading theme fonts…"
+msgstr "Φόρτωση γραμματοσειρών θέματος…"
+
+#: src/base/components/settings/SelectSetting.tsx
+msgid "Loading…"
+msgstr "Φόρτωση…"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/migration/components/MigrationCard.tsx
+msgid "Local source"
+msgstr "Τοπική πηγή"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Local source guide"
+msgstr "Οδηγός τοπικής πηγής"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Local source location"
+msgstr "Τοποθεσία τοπικής πηγής"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Log file cleanup"
+msgstr "Εκκαθάριση αρχείου καταγραφής"
+
+#: src/base/components/modals/LoginDialog.tsx
+#: src/features/authentication/screens/LoginPage.tsx
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "Log in"
+msgstr "Σύνδεση"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log in to {0}"
+msgstr "Σύνδεση στο {0}"
+
+#: src/base/components/modals/LoginDialog.tsx
+msgid "Log out"
+msgstr "Αποσύνδεση"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log out from {0}"
+msgstr "Αποσύνδεση από το {0}"
+
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Logged in"
+msgstr "Συνδεδεμένος/-η"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Logging in to {trackerName}…"
+msgstr "Σύνδεση στο {trackerName}…"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Long strip"
+msgstr "Μακρά λωρίδα"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid ""
+"Manage your existing devices.\n"
+"UI specific settings that are stored on the server are per device.\n"
+"This makes it possible to have e.g. different settings on a desktop and a smartphone"
+msgstr ""
+"Διαχείρισε τις υπάρχουσες συσκευές σου.\n"
+"Οι ρυθμίσεις διεπαφής που αποθηκεύονται στον διακομιστή είναι ανά συσκευή.\n"
+"Αυτό επιτρέπει π.χ. διαφορετικές ρυθμίσεις σε desktop και smartphone"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/manga/screens/Manga.tsx
+#: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
+#: src/features/tracker/Tracker.constants.ts
+msgid "Manga"
+msgstr "Manga"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Manga item width"
+msgstr "Πλάτος στοιχείου manga"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Manga thumbnail as background"
+msgstr "Μικρογραφία manga ως φόντο"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/Tracker.constants.ts
+msgid "Manhua"
+msgstr "Manhua"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/Tracker.constants.ts
+msgid "Manhwa"
+msgstr "Manhwa"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "Χειροκίνητη αναζήτηση μετεγκατάστασης για \"{title}\""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr "Χειροκίνητη αναζήτηση"
+
+#: src/features/chapter/components/ChaptersToolbarMenu.tsx
+msgid "Mark all as read"
+msgstr "Σήμανση όλων ως αναγνωσμένα"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Mark as read"
+msgstr "Σήμανση ως αναγνωσμένο"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Mark as unread"
+msgstr "Σήμανση ως μη αναγνωσμένο"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Mark chapters as read on download"
+msgstr "Σήμανση κεφαλαίων ως αναγνωσμένων κατά τη λήψη"
+
+#: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
+msgid "Mark previous as read"
+msgstr "Σήμανση προηγούμενων ως αναγνωσμένων"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Mark selected as read"
+msgstr "Σήμανση επιλεγμένων ως αναγνωσμένα"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Mark selected as unread"
+msgstr "Σήμανση επιλεγμένων ως μη αναγνωσμένα"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr "Αντιστοίχιση βάσει αριθμού κεφαλαίου"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr "Βρέθηκε αποτέλεσμα"
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr "Αποτελέσματα"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Maximum log file size"
+msgstr "Μέγιστο μέγεθος αρχείου καταγραφής"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Maximum size of all log files"
+msgstr "Μέγιστο μέγεθος όλων των αρχείων καταγραφής"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Medium"
+msgstr "Μεσαίο"
+
+#: src/features/reader/tap-zones/ReaderTapZone.constants.ts
+msgid "Menu"
+msgstr "Μενού"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/manga/Manga.constants.ts
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
+msgid "Migrate"
+msgstr "Μετεγκατάσταση"
+
+#. placeholder {0}: manga.title
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/migration/MigrationManager.ts
+msgid "Migrate \"{0}\""
+msgstr "Μετεγκατάσταση \"{0}\""
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "Μετεγκατάσταση επιλεγμένων"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr "Μετεγκατάσταση σε εξέλιξη"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Migrating manga…"
+msgstr "Μετεγκατάσταση manga…"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr "Μετεγκατάσταση…"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr "Η μετεγκατάσταση ολοκληρώθηκε"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr "Η μετεγκατάσταση απέτυχε"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr "Η μετεγκατάσταση για \"{title}\" απέτυχε με σφάλμα:"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr "Πληροφορίες μετεγκατάστασης"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr "Επιλογές μετεγκατάστασης"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "MIME-Type"
+msgstr "MIME-Type"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "MIME-Type target"
+msgstr "Στόχος MIME-Type"
+
+#: src/features/theme/Themes.ts
+msgid "Minty Miracles"
+msgstr "Minty Miracles"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Minute"
+msgstr "Λεπτό"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Misc"
+msgstr "Διάφορα"
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "Λείπουν: {0}"
+
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Mobile"
+msgstr "Κινητό"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Modern"
+msgstr "Μοντέρνο"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/More.tsx
+msgid "More"
+msgstr "Περισσότερα"
+
+#: src/features/theme/Themes.ts
+msgid "Mountain Sunset"
+msgstr "Mountain Sunset"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Multi"
+msgstr "Πολλαπλό"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Multiply"
+msgstr "Πολλαπλασιασμός"
+
+#: src/features/settings/components/images/KeyValueItem.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Name"
+msgstr "Όνομα"
+
+#: src/features/backup/Backup.utils.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Never"
+msgstr "Ποτέ"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "New category"
+msgstr "Νέα κατηγορία"
+
+#: src/features/reader/tap-zones/ReaderTapZone.constants.ts
+msgid "Next"
+msgstr "Επόμενο"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+msgid "Next chapter"
+msgstr "Επόμενο κεφάλαιο"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
+msgid "Next page"
+msgstr "Επόμενη σελίδα"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Next:"
+msgstr "Επόμενο:"
+
+#: src/features/chapter/components/ChapterList.tsx
+msgid "No chapters found"
+msgstr "Δεν βρέθηκαν κεφάλαια"
+
+#: src/features/chapter/components/ChapterList.tsx
+msgid "No chapters matching filter"
+msgstr "Δεν υπάρχουν κεφάλαια που να ταιριάζουν με το φίλτρο"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "No downloads"
+msgstr "Δεν υπάρχουν λήψεις"
+
+#: src/features/global-search/screens/SearchAll.tsx
+#: src/features/manga/components/MangaGrid.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "No manga found"
+msgstr "Δεν βρέθηκε manga"
+
+#: src/features/library/components/LibraryMangaGrid.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "No manga matches this filter"
+msgstr "Κανένα manga δεν ταιριάζει με αυτό το φίλτρο"
+
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr "Δεν βρέθηκε αποτέλεσμα"
+
+#: src/features/reader/viewer/ReaderChapterViewer.tsx
+msgid "No pages found"
+msgstr "Δεν βρέθηκαν σελίδες"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "Δεν υπάρχουν διαθέσιμες πηγές για μετεγκατάσταση"
+
+#: src/features/browse/sources/Sources.tsx
+msgid "No sources found. Install Some extensions first."
+msgstr "Δεν βρέθηκαν πηγές. Εγκατέστησε πρώτα κάποιες επεκτάσεις."
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr "Δεν υπάρχουν εγκατεστημένες πηγές"
+
+#: src/features/backup/Backup.utils.ts
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "None"
+msgstr "Κανένα"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Not yet published"
+msgstr "Δεν έχει εκδοθεί ακόμα"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Not yet released"
+msgstr "Δεν έχει κυκλοφορήσει ακόμα"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Novel"
+msgstr "Μυθιστόρημα"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "Πηγές NSFW (18+)"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid ""
+"Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
+"Higher values may affect client performance."
+msgstr ""
+"Αριθμός στοιχείων ανά σελίδα στις ροές OPDS (π.χ., Ιστορικό βιβλιοθήκης, "
+"Κεφάλαια manga).\n"
+"Μεγαλύτερες τιμές μπορεί να επηρεάσουν την απόδοση του client."
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "Number of unread chapters to download"
+msgstr "Αριθμός μη αναγνωσμένων κεφαλαίων για λήψη"
+
+#: src/features/browse/extensions/components/ExtensionCard.tsx
+#: src/features/extension/Extensions.constants.ts
+msgid "Obsolete"
+msgstr "Παρωχημένο"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "OEL"
+msgstr "OEL"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopOffsetDoubleSpread.tsx
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Offset double spreads"
+msgstr "Μετατόπιση διπλών σελίδων"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/base/components/modals/ConfirmDialog.tsx
+#: src/base/components/settings/CheckboxListSetting.tsx
+#: src/base/components/settings/DateSetting.tsx
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/base/components/settings/NumberSetting.tsx
+#: src/base/components/settings/SelectSetting.tsx
+#: src/base/components/settings/text/TextSettingDialog.tsx
+#: src/base/components/settings/TimeSetting.tsx
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+#: src/features/backup/component/BackupFlagInclusionDialog.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/chapter/services/Chapters.ts
+#: src/features/manga/services/Mangas.ts
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+#: src/features/source/configuration/components/EditTextPreference.tsx
+#: src/features/source/configuration/components/ListPreference.tsx
+#: src/features/source/configuration/components/MultiSelectListPreference.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Ok"
+msgstr "Εντάξει"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Oneshot"
+msgstr "Oneshot"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Ongoing"
+msgstr "Σε εξέλιξη"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Only outdated matches found"
+msgstr "Βρέθηκαν μόνο παλαιωμένα αποτελέσματα"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "Only works if the current chapter plus the next chapter are already downloaded."
+msgstr "Λειτουργεί μόνο αν το τρέχον κεφάλαιο και το επόμενο έχουν ήδη ληφθεί."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "OPDS"
+msgstr "OPDS"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "Open"
+msgstr "Άνοιγμα"
+
+#: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Open in browser"
+msgstr "Άνοιγμα στο πρόγραμμα περιήγησης"
+
+#: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Open in WebView"
+msgstr "Άνοιγμα στο WebView"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
+msgid "Open page on exit"
+msgstr "Άνοιγμα σελίδας κατά την έξοδο"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Open the WebUI when starting the server"
+msgstr "Άνοιγμα του WebUI κατά την εκκίνηση του διακομιστή"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/manga/components/MangaOptionButton.tsx
+msgid "Options"
+msgstr "Επιλογές"
+
+#: src/features/theme/Themes.ts
+msgid "Orange Juice"
+msgstr "Orange Juice"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Original size"
+msgstr "Αρχικό μέγεθος"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Other"
+msgstr "Άλλο"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Overlay"
+msgstr "Επικάλυψη"
+
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Overlay mode"
+msgstr "Λειτουργία επικάλυψης"
+
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
+msgid "Page"
+msgstr "Σελίδα"
+
+#: src/features/reader/settings/layout/components/ReaderSettingPageGap.tsx
+msgid "Page gap"
+msgstr "Κενό μεταξύ σελίδων"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Parallel source requests"
+msgstr "Παράλληλα αιτήματα πηγής"
+
+#: src/base/components/inputs/PasswordTextField.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Password"
+msgstr "Κωδικός πρόσβασης"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "Paused — {count} remaining"
+msgstr "Σε παύση — απομένουν {count}"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr "Σε αναμονή…"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Percentage Tolerance"
+msgstr "Ανοχή ποσοστού"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+msgid "Pin source"
+msgstr "Καρφίτσωσε πηγή"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Pinned"
+msgstr "Καρφιτσωμένα"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Popular"
+msgstr "Δημοφιλή"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Port"
+msgstr "Θύρα"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "PostgreSQL"
+msgstr "PostgreSQL"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Preload images"
+msgstr "Προφόρτωση εικόνων"
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Press keys"
+msgstr "Πάτησε πλήκτρα"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr ""
+"Αποτρέπει την επικάλυψη περιεχομένου με εγκοπές συσκευής και άκρα οθόνης"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Preview"
+msgstr "Προεπισκόπηση"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
+#: src/features/reader/tap-zones/ReaderTapZone.constants.ts
+msgid "Previous"
+msgstr "Προηγούμενο"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+msgid "Previous chapter"
+msgstr "Προηγούμενο κεφάλαιο"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
+msgid "Previous page"
+msgstr "Προηγούμενη σελίδα"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Previous:"
+msgstr "Προηγούμενο:"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+msgid "Progress bar position"
+msgstr "Θέση γραμμής προόδου"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarSize.tsx
+msgid "Progress bar size"
+msgstr "Μέγεθος γραμμής προόδου"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
+msgid "Progress bar style"
+msgstr "Στυλ γραμμής προόδου"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Prompt"
+msgstr "Προτροπή"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Publishing finished"
+msgstr "Η έκδοση ολοκληρώθηκε"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Pure black dark mode"
+msgstr "Καθαρό μαύρο σκοτεινό θέμα"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarSize.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingPageGap.tsx
+msgid "px"
+msgstr "px"
+
+#: src/base/components/downloads/DownloadStateIndicator.tsx
+msgid "Queued"
+msgstr "Στην ουρά"
+
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+msgid "Quick settings"
+msgstr "Γρήγορες ρυθμίσεις"
+
+#: src/features/reader/settings/screens/GlobalReaderSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Reader"
+msgstr "Αναγνώστης"
+
+#: src/features/reader/screens/Reader.tsx
+msgid "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
+msgstr "Αναγνώστης — Manga {mangaId} Κεφάλαιο {chapterSourceOrder}"
+
+#: src/features/reader/settings/layout/components/ReaderSettingWidth.tsx
+msgid "Reader width"
+msgstr "Πλάτος αναγνώστη"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopReadingDirection.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx
+msgid "Reading direction"
+msgstr "Κατεύθυνση ανάγνωσης"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopReadingMode.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingReadingMode.tsx
+msgid "Reading mode"
+msgstr "Λειτουργία ανάγνωσης"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Recently added"
+msgstr "Πρόσφατα προστέθηκαν"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Recently read"
+msgstr "Πρόσφατα διαβάστηκαν"
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Record keybind"
+msgstr "Καταγραφή συντόμευσης"
+
+#. placeholder {0}: recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Recorded hotkeys: {0}"
+msgstr "Καταγεγραμμένες συντομεύσεις: {0}"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Red"
+msgstr "Κόκκινο"
+
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Refresh"
+msgstr "Ανανέωση"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Releasing"
+msgstr "Σε κυκλοφορία"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+msgid "Reload data from source"
+msgstr "Επαναφόρτωση δεδομένων από πηγή"
+
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+msgid "Remind later"
+msgstr "Υπενθύμισε αργότερα"
+
+#: src/base/components/settings/DateSetting.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Remove"
+msgstr "Αφαίρεση"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Remove {0} tracking?"
+msgstr "Αφαίρεση παρακολούθησης {0};"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Remove bookmark"
+msgstr "Αφαίρεση σελιδοδείκτη"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Remove bookmarks from selected"
+msgstr "Αφαίρεση σελιδοδεικτών από επιλεγμένα"
+
+#: src/features/manga/components/MangaBadges.tsx
+#: src/features/manga/Manga.constants.ts
+#: src/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx
+msgid "Remove from the library"
+msgstr "Αφαίρεση από τη βιβλιοθήκη"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Remove manga from categories when removing them from the library"
+msgstr "Αφαίρεση manga από κατηγορίες κατά την κατάργησή τους από τη βιβλιοθήκη"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Remove non library manga from categories"
+msgstr "Αφαίρεση manga εκτός βιβλιοθήκης από κατηγορίες"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Remove selected from the library"
+msgstr "Αφαίρεση επιλεγμένων από τη βιβλιοθήκη"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Removed non library manga from categories"
+msgstr "Τα manga εκτός βιβλιοθήκης αφαιρέθηκαν από τις κατηγορίες"
+
+#: src/base/components/buttons/ResetButton.tsx
+#: src/base/components/settings/CheckboxListSetting.tsx
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Reset"
+msgstr "Επαναφορά"
+
+#: src/base/components/settings/DateSetting.tsx
+#: src/base/components/settings/NumberSetting.tsx
+#: src/base/components/settings/TimeSetting.tsx
+msgid "Reset to Default"
+msgstr "Επαναφορά προεπιλογών"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Response fallback"
+msgstr "Εναλλακτική απόκριση"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "Restore"
+msgstr "Επαναφορά"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Restore Backup"
+msgstr "Επαναφορά αντιγράφου ασφαλείας"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Restoring backup…"
+msgstr "Γίνεται επαναφορά αντιγράφου ασφαλείας…"
+
+#: src/features/manga/components/ResumeFAB.tsx
+msgid "Resume"
+msgstr "Συνέχεια"
+
+#: src/base/components/feedback/EmptyView.tsx
+#: src/base/components/SpinnerImage.tsx
+#: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Retry"
+msgstr "Επανάληψη"
+
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
+msgid "Retry errored pages"
+msgstr "Επανάληψη σελίδων με σφάλμα"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Right"
+msgstr "Δεξιά"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "Right and left"
+msgstr "Δεξιά και αριστερά"
+
+#: src/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Right to left"
+msgstr "Από δεξιά προς αριστερά"
+
+#: src/features/theme/Themes.ts
+msgid "Rosegold"
+msgstr "Ροζ χρυσό"
+
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Save"
+msgstr "Αποθήκευσε"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Save as CBZ archive"
+msgstr "Αποθήκευση ως αρχείο CBZ"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Save current search"
+msgstr "Αποθήκευση τρέχουσας αναζήτησης"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Save dynamic color theme"
+msgstr "Αποθήκευση δυναμικού θέματος χρωμάτων"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Save search"
+msgstr "Αποθήκευση αναζήτησης"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Saved theme changes"
+msgstr "Οι αλλαγές θέματος αποθηκεύτηκαν"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Saving theme changes…"
+msgstr "Αποθήκευση αλλαγών θέματος…"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingPageScaleMode.tsx
+msgid "Scale type"
+msgstr "Τύπος κλιμάκωσης"
+
+#: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
+msgid "Scanlator"
+msgstr "Scanlator"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Score"
+msgstr "Βαθμολογία"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Screen"
+msgstr "Οθόνη"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Scroll amount"
+msgstr "Ποσότητα κύλισης"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Scroll backward"
+msgstr "Κύλιση προς τα πίσω"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Scroll forward"
+msgstr "Κύλιση προς τα εμπρός"
+
+#: src/base/components/AppbarSearch.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search"
+msgstr "Αναζήτηση"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr "Η αναζήτηση απέτυχε"
+
+#: src/features/library/screens/Library.tsx
+msgid "Search for \"{query}\" globally"
+msgstr "Αναζήτηση για \"{query}\" παγκοσμίως"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr "Η αναζήτηση για \"{title}\" απέτυχε με σφάλμα:"
+
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid ""
+"Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
+"Limit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
+msgstr ""
+"Αναζήτηση με ID μέσω \"id:<ID>\" (π.χ. \"id:13\")\n"
+"Περιορισμός αναζήτησης στις λίστες σου μέσω \"my:<Title>\" (π.χ. \"my:One "
+"Piece\")"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search options"
+msgstr "Επιλογές αναζήτησης"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Search parameters"
+msgstr "Παράμετροι αναζήτησης"
+
+#. placeholder {0}: searchParams?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Search parameters ({0})"
+msgstr "Παράμετροι αναζήτησης ({0})"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr "Αποτελέσματα αναζήτησης"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Search results will include manga that do not match the current filters"
+msgstr ""
+"Τα αποτελέσματα αναζήτησης θα περιλαμβάνουν manga που δεν ταιριάζουν με τα "
+"τρέχοντα φίλτρα"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr "Αναζήτηση…"
+
+#: src/features/settings/components/images/Processing.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Second"
+msgstr "Δευτερόλεπτο"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Second to last read chapter"
+msgstr "Προτελευταίο διαβασμένο κεφάλαιο"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "See <0>FlareSolverr</0> for information on how to set it up"
+msgstr "Δες <0>FlareSolverr</0> για πληροφορίες σχετικά με τη ρύθμισή του"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
+msgstr ""
+"Δες την επίσημη <0>τεκμηρίωση MUI</0> για τον τρόπο προσαρμογής του "
+"θέματος.<1/>Το palette API δεν υποστηρίζεται, πρέπει να χρησιμοποιήσεις το "
+"νέο <2>color schemes API</2>.<3/><4/>Μπορείς να χρησιμοποιήσεις εργαλεία "
+"δημιουργίας θεμάτων όπως το <5>MUI Theme Creator</5>, ωστόσο πρέπει να "
+"προσαρμόσεις το δημιουργημένο αντικείμενο σύμφωνα με το νέο color schemes "
+"API.<6/><7/>Αν δεν έχει οριστεί φόντο, το φόντο θα υπολογιστεί βάσει του "
+"κύριου χρώματος."
+
+#: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/manga/components/MangaActionMenuItems.tsx
+#: src/features/manga/components/MangaOptionButton.tsx
+#: src/features/migration/components/migration-entry/MigrationMatchedEntry.tsx
+msgid "Select"
+msgstr "Επιλογή"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Select a device to use its server stored UI settings"
+msgstr ""
+"Επίλεξε συσκευή για να χρησιμοποιήσεις τις αποθηκευμένες ρυθμίσεις διεπαφής "
+"του διακομιστή"
+
+#: src/base/collection/components/SelectableCollectionSelectAll.tsx
+#: src/base/collection/components/SelectableCollectionSelectMode.tsx
+#: src/base/components/settings/CheckboxListSetting.tsx
+msgid "Select all"
+msgstr "Επιλογή όλων"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr "Επιλογή πηγών προορισμού"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr "Επιλογή ενεργοποιημένων πηγών"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr "Επιλογή καρφιτσωμένων πηγών"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Selected"
+msgstr "Επιλεγμένο"
+
+#: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
+msgid "Sepia"
+msgstr "Σέπια"
+
+#: src/features/reader/settings/layout/ReaderLayoutSettings.tsx
+msgid "Series settings"
+msgstr "Ρυθμίσεις σειράς"
+
+#: src/features/settings/screens/About.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Server"
+msgstr "Διακομιστής"
+
+#: src/base/components/modals/LoginDialog.tsx
+#: src/features/settings/components/ServerAddressSetting.tsx
+msgid "Server address"
+msgstr "Διεύθυνση διακομιστή"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Server bindings"
+msgstr "Συνδέσεις διακομιστή"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Server settings"
+msgstr "Ρυθμίσεις διακομιστή"
+
+#: src/features/settings/screens/About.tsx
+msgid "Server version"
+msgstr "Έκδοση διακομιστή"
+
+#. placeholder {0}: selectedServerChannelInfo.tag
+#. placeholder {1}: selectedServerChannelInfo.channel
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server version {0} ({1}) available for download"
+msgstr "Η έκδοση διακομιστή {0} ({1}) είναι διαθέσιμη για λήψη"
+
+#. placeholder {0}: aboutServer?.buildType
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server was updated to version {version} ({0})"
+msgstr "Ο διακομιστής ενημερώθηκε στην έκδοση {version} ({0})"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Set as active theme"
+msgstr "Ορισμός ως ενεργό θέμα"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "Set categories"
+msgstr "Ορισμός κατηγοριών"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Sets the manga thumbnail as the background image on the manga page"
+msgstr "Ορίζει τη μικρογραφία του manga ως εικόνα φόντου στη σελίδα του manga"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Setting can not be changed while the reader is opened"
+msgstr "Η ρύθμιση δεν μπορεί να αλλαχτεί ενώ ο αναγνώστης είναι ανοιχτός"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/features/backup/Backup.constants.ts
+#: src/features/browse/extensions/components/ExtensionCard.tsx
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/info/components/SourceCard.tsx
+#: src/features/library/components/LibraryToolbarMenu.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/reader/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopQuickSettings.tsx
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+msgid "Share"
+msgstr "Κοινοποίηση"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Show all duplicated entries in your library"
+msgstr "Εμφάνιση όλων των διπλότυπων εγγραφών στη βιβλιοθήκη σου"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Show continue reading button"
+msgstr "Εμφάνιση κουμπιού συνέχισης ανάγνωσης"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Show entry"
+msgstr "Εμφάνιση εγγραφής"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Show icon in system tray"
+msgstr "Εμφάνιση εικονιδίου στην περιοχή ειδοποιήσεων"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "Εμφάνιση στις λίστες πηγών και επεκτάσεων"
+
+#: src/base/components/feedback/EmptyView.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Show less"
+msgstr "Εμφάνιση λιγότερων"
+
+#: src/base/components/feedback/EmptyView.tsx
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Show more"
+msgstr "Εμφάνιση περισσότερων"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Show number of items"
+msgstr "Εμφάνιση αριθμού στοιχείων"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Show only downloaded chapters"
+msgstr "Εμφάνιση μόνο ληφθέντων κεφαλαίων"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Show only unread chapters"
+msgstr "Εμφάνιση μόνο αδιάβαστων κεφαλαίων"
+
+#: src/features/reader/settings/general/ReaderGeneralSettings.tsx
+msgid "Show page number"
+msgstr "Εμφάνιση αριθμού σελίδας"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Show reading mode"
+msgstr "Εμφάνιση τρόπου ανάγνωσης"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Show tap zones overlay"
+msgstr "Εμφάνιση επικάλυψης ζωνών αφής"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Show the category selection dialog when adding a manga to the library"
+msgstr ""
+"Εμφάνιση παραθύρου επιλογής κατηγορίας κατά την προσθήκη manga στη βιβλιοθήκη"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Show transition page"
+msgstr "Εμφάνιση σελίδας μετάβασης"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case a new version is available"
+msgstr "Εμφανίζει παράθυρο διαλόγου αν υπάρχει νέα έκδοση"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr ""
+"Εμφανίζει παράθυρο διαλόγου αν η έκδοση ενημερώθηκε. Αυτό το παράθυρο θα "
+"εμφανίζεται αν απαιτείται ανανέωση της εφαρμογής, ανεξάρτητα από αυτή τη "
+"ρύθμιση."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr "Εμφανίζει παράθυρο διαλόγου αν η έκδοση του διακομιστή άλλαξε"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Simple Login"
+msgstr "Απλή σύνδεση"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Single page"
+msgstr "Μία σελίδα"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Skip duplicate chapters"
+msgstr "Παράλειψη διπλότυπων κεφαλαίων"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Skip filtered chapters"
+msgstr "Παράλειψη φιλτραρισμένων κεφαλαίων"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+msgid "Skip updating entries"
+msgstr "Παράλειψη ενημέρωσης εγγραφών"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Small"
+msgstr "Μικρό"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Smartphone_Name-1 | length: 16, chars: letters, numbers, -, _"
+msgstr "Smartphone_Name-1 | length: 16, chars: letters, numbers, -, _"
+
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+msgid "Smooth auto scrolling"
+msgstr "Ομαλή αυτόματη κύλιση"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS host"
+msgstr "Διακομιστής SOCKS"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS password"
+msgstr "Κωδικός SOCKS"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS port"
+msgstr "Θύρα SOCKS"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS proxy"
+msgstr "Διαμεσολαβητής SOCKS"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS username"
+msgstr "Όνομα χρήστη SOCKS"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS version"
+msgstr "Έκδοση SOCKS"
+
+#: src/base/components/feedback/ErrorBoundary.tsx
+msgid ""
+"Something went wrong\n"
+"An error occurred that we cannot recover from"
+msgstr ""
+"Κάτι πήγε στραβά\n"
+"Παρουσιάστηκε σφάλμα από το οποίο δεν μπορούμε να ανακάμψουμε"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Sort"
+msgstr "Ταξινόμηση"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Source"
+msgstr "Πηγή"
+
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+msgid "Source Configuration"
+msgstr "Διαμόρφωση πηγής"
+
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry - {sourceTitle}"
+msgstr "Εγγραφή πηγής - {sourceTitle}"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+msgid "Source title"
+msgstr "Τίτλος πηγής"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "Πηγές"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Stable"
+msgstr "Σταθερή"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
+msgid "Standard"
+msgstr "Τυπική"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+#: src/features/manga/components/ResumeFAB.tsx
+msgid "Start"
+msgstr "Έναρξη"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Start date"
+msgstr "Ημερομηνία έναρξης"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr "Έναρξη μετεγκατάστασης"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Start reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Έναρξη ανάγνωσης\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr "Έναρξη αναζήτησης"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Started"
+msgstr "Ξεκίνησε"
+
+#: src/features/reader/overlay/navigation/desktop/ReaderNavBarDesktop.tsx
+msgid "Static navigation"
+msgstr "Σταθερή πλοήγηση"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Status"
+msgstr "Κατάσταση"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Stop"
+msgstr "Διακοπή"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Stop global update"
+msgstr "Διακοπή καθολικής ενημέρωσης"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingStretchPage.tsx
+msgid "Stretch small pages"
+msgstr "Τέντωμα μικρών σελίδων"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Submit"
+msgstr "Υποβολή"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+msgid "Success"
+msgstr "Επιτυχία"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr "Η μετεγκατάσταση ολοκληρώθηκε"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Successfully migrated manga"
+msgstr "Το manga μετεγκαταστάθηκε επιτυχώς"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Sync status"
+msgstr "Κατάσταση συγχρονισμού"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Sync to a newer state"
+msgstr "Συγχρονισμός σε νεότερη κατάσταση"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Sync to an older state"
+msgstr "Συγχρονισμός σε παλαιότερη κατάσταση"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Sync will not be triggered if the progress difference is within this tolerance."
+msgstr ""
+"Ο συγχρονισμός δεν θα ενεργοποιηθεί αν η διαφορά προόδου βρίσκεται εντός "
+"αυτής της ανοχής."
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "System"
+msgstr "Σύστημα"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Tabs"
+msgstr "Καρτέλες"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "Tap zones"
+msgstr "Ζώνες αφής"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Target mode"
+msgstr "Λειτουργία προορισμού"
+
+#: src/features/settings/Settings.constants.ts
+msgid "That haven't been started"
+msgstr "Που δεν έχουν ξεκινήσει"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "The address of the FlareSolverr server"
+msgstr "Η διεύθυνση του διακομιστή FlareSolverr"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used"
+msgstr ""
+"Η προσωρινή μνήμη του πελάτη (browser, Electron) πρέπει να εκκαθαριστεί μαζί "
+"με αυτή, αλλιώς η προσωρινή μνήμη του πελάτη θα συνεχίσει να χρησιμοποιείται"
+
+#: src/features/library/screens/Library.tsx
+msgid "The category is empty"
+msgstr "Η κατηγορία είναι άδεια"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "The following sources are not installed:"
+msgstr "Οι παρακάτω πηγές δεν είναι εγκατεστημένες:"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "The following trackers are not logged in:"
+msgstr "Οι παρακάτω trackers δεν έχουν συνδεθεί:"
+
+#: src/features/settings/Settings.constants.ts
+msgid "The login will be handled by the client."
+msgstr "Η σύνδεση θα γίνει από τον πελάτη."
+
+#: src/features/settings/Settings.constants.ts
+msgid "The login will be handled by the server."
+msgstr "Η σύνδεση θα γίνει από τον διακομιστή."
+
+#: src/features/migration/MigrationManager.ts
+msgid ""
+"The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"Η μετεγκατάσταση εκτελείται στον πελάτη στην τρέχουσα συσκευή, ΟΧΙ στον "
+"διακομιστή.\n"
+"Όσο ο πελάτης είναι ανοιχτός, η μετεγκατάσταση θα εκτελείται στο "
+"παρασκήνιο.\n"
+"Ο πελάτης μπορεί να κλείσει. Η μετεγκατάσταση θα συνεχιστεί μόλις ανοίξει "
+"ξανά στην ίδια συσκευή που ξεκίνησε."
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"The next chapter has a different scanlator then the current one.\n"
+"Current: {currentScanlator}\n"
+"Next: {nextScanlator}"
+msgstr ""
+"Το επόμενο κεφάλαιο έχει διαφορετικό scanlator από το τρέχον.\n"
+"Τρέχον: {currentScanlator}\n"
+"Επόμενο: {nextScanlator}"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "The path to the directory on the server where automated backups should get saved in"
+msgstr ""
+"Η διαδρομή προς τον κατάλογο στον διακομιστή όπου αποθηκεύονται τα αυτόματα "
+"αντίγραφα ασφαλείας"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "The path to the directory on the server where downloaded files should get saved in"
+msgstr ""
+"Η διαδρομή προς τον κατάλογο στον διακομιστή όπου αποθηκεύονται τα ληφθέντα "
+"αρχεία"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "The path to the directory on the server where local source files are saved in"
+msgstr ""
+"Η διαδρομή προς τον κατάλογο στον διακομιστή όπου αποθηκεύονται τα τοπικά "
+"αρχεία πηγής"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "The path to the electron installation on the server"
+msgstr "Η διαδρομή προς την εγκατάσταση του Electron στον διακομιστή"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid ""
+"The previous chapter has a different scanlator then the current one.\n"
+"Previous: {nextScanlator}\n"
+"Current: {currentScanlator}"
+msgstr ""
+"Το προηγούμενο κεφάλαιο έχει διαφορετικό scanlator από το τρέχον.\n"
+"Προηγούμενο: {nextScanlator}\n"
+"Τρέχον: {currentScanlator}"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "The theme name must be unique and has a limit of 16 characters"
+msgstr ""
+"Το όνομα του θέματος πρέπει να είναι μοναδικό και έχει όριο 16 χαρακτήρων"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Theme"
+msgstr "Θέμα"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Theme mode"
+msgstr "Λειτουργία θέματος"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "There is no next chapter"
+msgstr "Δεν υπάρχει επόμενο κεφάλαιο"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "There is no previous chapter"
+msgstr "Δεν υπάρχει προηγούμενο κεφάλαιο"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "These options are slow and dangerous and may lead to restrictions from sources"
+msgstr ""
+"Αυτές οι επιλογές είναι αργές και επικίνδυνες και μπορεί να οδηγήσουν σε "
+"περιορισμούς από τις πηγές"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Third to last read chapter"
+msgstr "Τρίτο από το τελευταίο αναγνωσμένο κεφάλαιο"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr ""
+"Αυτό δεν εμποδίζει ανεπίσημες ή πιθανώς λανθασμένα σημασμένες επεκτάσεις από "
+"το να εμφανίζουν περιεχόμενο NSFW (18+) στην εφαρμογή."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "This icon will be shown on the system that is running the server"
+msgstr "Αυτό το εικονίδιο θα εμφανίζεται στο σύστημα που εκτελεί τον διακομιστή"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "This is the latest version"
+msgstr "Αυτή είναι η τελευταία έκδοση"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "This will delete the saved search \"{savedSearch}\""
+msgstr "Αυτό θα διαγράψει την αποθηκευμένη αναζήτηση \"{savedSearch}\""
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "This will remove the tracking locally."
+msgstr "Αυτό θα αφαιρέσει την παρακολούθηση τοπικά."
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Tiny"
+msgstr "Πολύ μικρό"
+
+#: src/base/utils/DateHelper.ts
+msgid "Today"
+msgstr "Σήμερα"
+
+#: src/base/utils/DateHelper.ts
+msgid "Today at {timeString}"
+msgstr "Σήμερα στις {timeString}"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Toggle auto scroll"
+msgstr "Εναλλαγή αυτόματης κύλισης"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Toggle menu"
+msgstr "Εναλλαγή μενού"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Toggle offset double spreads"
+msgstr "Εναλλαγή μετατόπισης διπλών σελίδων"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Toggle stretch image"
+msgstr "Εναλλαγή τεντώματος εικόνας"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Top"
+msgstr "Πάνω"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Total chapters"
+msgstr "Σύνολο κεφαλαίων"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Track"
+msgstr "Παρακολούθηση"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Track and update your reading progress by page for each chapter during page streaming"
+msgstr ""
+"Παρακολούθηση και ενημέρωση της προόδου ανάγνωσής σου ανά σελίδα για κάθε "
+"κεφάλαιο κατά τη ροή σελίδων"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Track privately"
+msgstr "Ιδιωτική παρακολούθηση"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Track publicly"
+msgstr "Δημόσια παρακολούθηση"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Tracked"
+msgstr "Παρακολουθείται"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Tracked manga"
+msgstr "Παρακολουθούμενα manga"
+
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Trackers"
+msgstr "Trackers"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/manga/components/TrackMangaButton.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Tracking"
+msgstr "Παρακολούθηση"
+
+#: src/features/theme/Themes.ts
+msgid "Tree Frog Green"
+msgstr "Πράσινο Δενδροβάτραχου"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Type"
+msgstr "Τύπος"
+
+#: src/features/settings/Settings.constants.ts
+msgid "UI Login"
+msgstr "Σύνδεση UI"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/browse/sources/Sources.tsx
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/downloads/screens/DownloadQueue.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/extension/info/screens/ExtensionInfo.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+#: src/features/history/screens/History.tsx
+#: src/features/history/screens/HistorySettings.tsx
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/LibraryDuplicates.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
+#: src/features/reader/screens/Reader.tsx
+#: src/features/reader/settings/screens/GlobalReaderSettings.tsx
+#: src/features/reader/viewer/ReaderChapterViewer.tsx
+#: src/features/settings/screens/About.tsx
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+#: src/features/theme/components/ThemeList.tsx
+#: src/features/tracker/components/TrackerSearch.tsx
+#: src/features/tracker/components/TrackManga.tsx
+#: src/features/tracker/screens/TrackingSettings.tsx
+#: src/features/updates/screens/Updates.tsx
+msgid "Unable to load data"
+msgstr "Αδυναμία φόρτωσης δεδομένων"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr "Αδυναμία φόρτωσης πηγών"
+
+#: src/features/migration/MigrationManager.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr "Κατανοητό"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Uninstall"
+msgstr "Κατάργηση εγκατάστασης"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Uninstalling"
+msgstr "Γίνεται κατάργηση εγκατάστασης"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/manga/Manga.constants.ts
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+#: src/features/tracker/Tracker.constants.ts
+msgid "Unknown"
+msgstr "Άγνωστο"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+msgid "Unpin source"
+msgstr "Ξεκαρφίτσωσε πηγή"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Unread"
+msgstr "Μη αναγνωσμένο"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Unread badges"
+msgstr "Σήματα μη αναγνωσμένων"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Unread chapters"
+msgstr "Μη αναγνωσμένα κεφάλαια"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Untracked manga"
+msgstr "Μη παρακολουθούμενα manga"
+
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+#: src/features/extension/Extensions.constants.ts
+msgid "Update"
+msgstr "Ενημέρωση"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Update all"
+msgstr "Ενημέρωση όλων"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+msgid "Update available"
+msgstr "Διαθέσιμη ενημέρωση"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Update category"
+msgstr "Ενημέρωση κατηγορίας"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "Update failed"
+msgstr "Αποτυχία ενημέρωσης"
+
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+msgid "Update interval"
+msgstr "Διάστημα ενημέρωσης"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Update library"
+msgstr "Ενημέρωση βιβλιοθήκης"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Update pending"
+msgstr "Ενημέρωση σε αναμονή"
+
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Update progress after manually marking as read"
+msgstr "Ενημέρωση προόδου μετά από χειροκίνητη σήμανση ως αναγνωσμένο"
+
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Update progress after reading"
+msgstr "Ενημέρωση προόδου μετά την ανάγνωση"
+
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Updated version"
+msgstr "Ενημερωμένη έκδοση"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/updates/screens/Updates.tsx
+msgid "Updates"
+msgstr "Ενημερώσεις"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Updating"
+msgstr "Γίνεται ενημέρωση"
+
+#: src/features/settings/Settings.constants.ts
+msgid "URL"
+msgstr "URL"
+
+#: src/features/settings/Settings.constants.ts
+msgid ""
+"Use a custom WebUI.\n"
+"To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
+msgstr ""
+"Χρήση προσαρμοσμένου WebUI.\n"
+"Για να χρησιμοποιήσεις προσαρμοσμένο WebUI, αντικατέστησε το περιεχόμενο του "
+"φακέλου \"webUI\" στον ριζικό κατάλογο του διακομιστή με τα αρχεία του "
+"προσαρμοσμένου WebUI"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Use SOCKS proxy"
+msgstr "Χρήση διακομιστή μεσολάβησης SOCKS"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use the default WebUI"
+msgstr "Χρήση του προεπιλεγμένου WebUI"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Use the FlareSolverr response in case the server runs into a Cloudflare challenge while FlareSolverr does not and is therefore unable to solve the challenge (does not work for images)"
+msgstr ""
+"Χρήση της απάντησης του FlareSolverr σε περίπτωση που ο διακομιστής "
+"αντιμετωπίσει πρόκληση Cloudflare ενώ το FlareSolverr δεν το κάνει και "
+"επομένως δεν μπορεί να λύσει την πρόκληση (δεν λειτουργεί για εικόνες)"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use the latest features and help us get them ready for a stable release."
+msgstr ""
+"Χρησιμοποίησε τις πιο πρόσφατες λειτουργίες και βοήθησέ μας να τις "
+"ετοιμάσουμε για μια σταθερή έκδοση."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use the latest released version."
+msgstr "Χρησιμοποίησε την πιο πρόσφατη κυκλοφορημένη έκδοση."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use the version that was delivered with the server release"
+msgstr "Χρησιμοποίησε την έκδοση που συνόδευε την κυκλοφορία του διακομιστή"
+
+#: src/base/components/modals/LoginDialog.tsx
+#: src/features/authentication/screens/LoginPage.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Username"
+msgstr "Όνομα χρήστη"
+
+#: src/features/settings/components/images/KeyValueItem.tsx
+msgid "Value"
+msgstr "Τιμή"
+
+#: src/features/theme/Themes.ts
+msgid "Veronica"
+msgstr "Veronica"
+
+#: src/features/extension/info/components/Meta.tsx
+msgid "Version"
+msgstr "Έκδοση"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Vertical"
+msgstr "Κατακόρυφο"
+
+#: src/features/settings/Settings.constants.ts
+msgid "VUI"
+msgstr "VUI"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+msgid "Warning"
+msgstr "Προειδοποίηση"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Weblate"
+msgstr "Weblate"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Webtoon"
+msgstr "Webtoon"
+
+#: src/features/settings/screens/About.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "WebUI"
+msgstr "WebUI"
+
+#: src/features/settings/screens/About.tsx
+msgid "WebUI channel"
+msgstr "Κανάλι WebUI"
+
+#: src/features/settings/screens/About.tsx
+msgid "WebUI version"
+msgstr "Έκδοση WebUI"
+
+#. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
+#. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI version {0} ({1}) available for download"
+msgstr "Η έκδοση WebUI {0} ({1}) είναι διαθέσιμη για λήψη"
+
+#. placeholder {0}: aboutWebUI?.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI was updated to version {newVersion} ({0})"
+msgstr "Το WebUI ενημερώθηκε στην έκδοση {newVersion} ({0})"
+
+#: src/features/settings/Settings.constants.ts
+msgid "When you enable this, you may need to refresh this tab for the login page to appear."
+msgstr ""
+"Όταν το ενεργοποιήσεις, μπορεί να χρειαστεί να ανανεώσεις αυτή την καρτέλα "
+"για να εμφανιστεί η σελίδα σύνδεσης."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Where to start the WebUI when starting the server"
+msgstr "Από πού να ξεκινά το WebUI κατά την εκκίνηση του διακομιστή"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "White"
+msgstr "Λευκό"
+
+#: src/features/settings/Settings.constants.ts
+msgid "With \"Completed\" status"
+msgstr "Με κατάσταση «Ολοκληρωμένο»"
+
+#: src/features/settings/Settings.constants.ts
+msgid "With unread chapter(s)"
+msgstr "Με μη αναγνωσμένο/α κεφάλαιο/α"
+
+#: src/base/utils/DateHelper.ts
+msgid "Yesterday"
+msgstr "Χθες"
+
+#: src/base/utils/DateHelper.ts
+msgid "Yesterday at {timeString}"
+msgstr "Χθες στις {timeString}"
+
+#: src/features/theme/Themes.ts
+msgid "Ying & Yang"
+msgstr "Ying & Yang"
+
+#. placeholder {0}: manga.title
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "You are about to remove \"{0}\" from your library"
+msgstr "Πρόκειται να αφαιρέσεις το \"{0}\" από τη βιβλιοθήκη σου"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "You can also drag and drop the backup file here to restore it"
+msgstr ""
+"Μπορείς επίσης να σύρεις και να αποθέσεις το αρχείο αντιγράφου ασφαλείας εδώ "
+"για να το επαναφέρεις"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "You don't have any categories yet."
+msgstr "Δεν έχεις ακόμα καμία κατηγορία."
+
+#: src/features/updates/screens/Updates.tsx
+msgid "You don't have any updates yet."
+msgstr "Δεν έχεις ακόμα καμία ενημέρωση."
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "You have an entry in your library with the same name."
+msgstr "Έχεις μια εγγραφή στη βιβλιοθήκη σου με το ίδιο όνομα."
+
+#: src/features/history/screens/History.tsx
+msgid "You have not read any series yet."
+msgstr "Δεν έχεις διαβάσει καμία σειρά ακόμα."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Your browser will prompt you to enter credentials with a dialog."
+msgstr ""
+"Το πρόγραμμα περιήγησής σου θα σου ζητήσει να εισάγεις τα διαπιστευτήριά σου "
+"μέσω ενός παραθύρου διαλόγου."
+
+#: src/features/library/screens/Library.tsx
+msgid "Your library is empty"
+msgstr "Η βιβλιοθήκη σου είναι κενή"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Your library will be accessible. Use this only on private networks or when otherwise securing access."
+msgstr ""
+"Η βιβλιοθήκη σου θα είναι προσβάσιμη. Χρησιμοποίησε το μόνο σε ιδιωτικά "
+"δίκτυα ή όταν η πρόσβαση διασφαλίζεται με άλλο τρόπο."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Filter manga feed to display only chapters you haven’t read yet."
+msgstr ""
+"Φιλτράρισμα ροής manga για εμφάνιση μόνο των κεφαλαίων που δεν έχεις "
+"διαβάσει ακόμα."

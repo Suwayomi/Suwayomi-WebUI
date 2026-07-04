@@ -28,10 +28,6 @@ msgstr "{progress}% | Aktualizację…"
 msgid "*: Active setting"
 msgstr "*: Aktywne ustawienia"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "<0>Suwayomi does not provide any support for 3rd party repositories or extensions!</0><1/>Use with caution as there could be malicious actors making those repositories.<2/>You as the user need to verify the security and that you trust any repository or extension."
-msgstr "<0>Suwayomi nie zapewnia żadnego wsparcia dla zewnętrznych repozytoriów lub rozszerzeń! </0><1/>Dodawaj repozytoria rozważnie, ponieważ mogą istnieć twórcy, tworzący szkodliwe rozszerzenia.<2/>Ty jako użytkownik musisz zweryfikować bezpieczeństwo i czy ufasz jakiemukolwiek repozytorium lub rozszerzeniu."
-
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
 msgstr "Frontend skoncentrowany na podglądzie, zbudowany przy użyciu svelte"
@@ -65,14 +61,6 @@ msgstr "Dodaj"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Dodaj zakładkę"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repositories from which extensions can be installed"
-msgstr "Dodaj repozytoria, z których można instalować rozszerzenia"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Add repository"
-msgstr "Dodaj repozytorium"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -362,7 +350,7 @@ msgstr "Według daty przesłania"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
 #: src/features/source/browse/components/SourceOptions.tsx
@@ -527,7 +515,7 @@ msgid "Copied to clipboard"
 msgstr "Skopiowano do schowka"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "Kopiuj"
 
@@ -796,7 +784,7 @@ msgstr "Usuń rozdział po ręcznym oznaczeniu go jako przeczytany"
 msgid "Delete chapters"
 msgstr "Usuń rozdziały"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
 msgstr "Usuń pobrane"
 
@@ -1022,10 +1010,6 @@ msgstr "Powróć do poprzedniej strony"
 msgid "Extension info"
 msgstr "Informacje o rozszerzeniu"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Extension repositories"
-msgstr "Repozytoria rozszerzeń"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -1235,10 +1219,6 @@ msgstr "Ukryj pozycje już znajdujące się w bibliotece"
 msgid "Hide history"
 msgstr "Ukryj historię"
 
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Hide NSFW extensions and sources"
-msgstr "Ukryj rozszerzenia i źródła NSFW"
-
 #: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
 msgid "Horizontal"
 msgstr "Poziomo"
@@ -1363,10 +1343,6 @@ msgstr "Nieprawidłowe dane wejściowe"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
 msgstr "Nieprawidłowy json"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Invalid repository url"
-msgstr "Nieprawidłowy adres URL repozytorium"
 
 #: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
 msgid "Invert"
@@ -1617,12 +1593,12 @@ msgstr "Menu"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/migration/screens/Migrate.tsx
 msgid "Migrate"
 msgstr "Migruj"
 
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Migrating manga…"
 msgstr "Migruję mangę…"
 
@@ -2238,10 +2214,6 @@ msgstr "Wybierz urządzenie, aby użyć jego ustawień interfejsu użytkownika z
 msgid "Select all"
 msgstr "Wybierz wszystko"
 
-#: src/features/migration/components/MigrateDialog.tsx
-msgid "Select data to include"
-msgstr "Wybierz dane do uwzględnienia"
-
 #: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
 msgid "Sepia"
 msgstr "Sepia"
@@ -2295,7 +2267,7 @@ msgid "Show continue reading button"
 msgstr "Pokaż przycisk kontynuowania czytania"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Show entry"
 msgstr "Pokaż pozycję"
 
@@ -2314,10 +2286,6 @@ msgstr "Pokaż mniej"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Show more"
 msgstr "Pokaż więcej"
-
-#: src/features/browse/screens/BrowseSettings.tsx
-msgid "Show NSFW"
-msgstr "Pokaż NSFW"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Show number of items"
@@ -2934,10 +2902,6 @@ msgstr "W bibliotece znajduje się pozycja o tej samej nazwie."
 msgid "You have not read any series yet."
 msgstr "Nie czytałeś jeszcze żadnej serii."
 
-#: src/features/browse/extensions/Extensions.tsx
-msgid "You have to add a extension repository to be able to install extensions"
-msgstr "Aby móc instalować rozszerzenia, musisz dodać repozytorium rozszerzeń"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
 msgstr "Przeglądarka wyświetli okno dialogowe z prośbą o wprowadzenie poświadczeń."
@@ -3152,7 +3116,7 @@ msgstr ""
 
 #: src/features/backup/Backup.constants.ts
 #: src/features/manga/components/TrackMangaButton.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/settings/screens/Settings.tsx
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Tracking"
@@ -3192,14 +3156,14 @@ msgstr "Kategorie"
 
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategoriesInclusionSetting.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Category"
 msgstr "Kategoria"
 
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 #: src/features/downloads/screens/DownloadSettings.tsx
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
@@ -3217,7 +3181,7 @@ msgid "Clear"
 msgstr "Wyczyść"
 
 #: src/features/backup/Backup.constants.ts
-#: src/features/migration/components/MigrateDialog.tsx
+#: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Client data"
 msgstr "Dane klienta"
 

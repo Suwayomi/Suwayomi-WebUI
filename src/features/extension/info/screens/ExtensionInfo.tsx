@@ -81,7 +81,7 @@ export const ExtensionInfo = () => {
             <Meta {...extension} />
             <Stack sx={{ flexDirection: 'row' }}>
                 <ActionButton {...{ ...extension, isInstalled: true, hasUpdate: false }} />
-                {extension.hasUpdate && <ActionButton {...extension} />}
+                {extension.hasUpdate && !extension.isObsolete && <ActionButton {...extension} />}
             </Stack>
             <Box sx={{ px: 1 }}>
                 {sources.map((source) => (

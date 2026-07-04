@@ -6,20 +6,23 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { SourceType } from '@/lib/graphql/generated/graphql.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 import type { ChapterSourceOrderInfo } from '@/features/chapter/Chapter.types.ts';
 import type { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
+import type { RouteStateSourceBrowse, SourceIdInfo } from '@/features/source/Source.types.ts';
+import type { RouteStateReader } from '@/features/reader/Reader.types.ts';
+import type { RouteStateSourcesSearchAll } from '@/features/global-search/SearchAll.types.ts';
 
 type AppRouteInfo = {
     match: string;
     path?: string | ((...args: any[]) => string);
+    state?: (...args: any[]) => Record<string, unknown>;
 };
 
-type TAppRoutes = Record<string, AppRouteInfo & { childRoutes?: TAppRoutes }>;
+type TAppRoutes = Record<string, AppRouteInfo & { children?: TAppRoutes }>;
 
 export const AppRoutes = {
     root: {
@@ -32,7 +35,7 @@ export const AppRoutes = {
     authentication: {
         match: 'auth',
         path: '/auth',
-        childRoutes: {
+        children: {
             login: {
                 match: 'login',
                 path: '/auth/login',
@@ -46,7 +49,7 @@ export const AppRoutes = {
     settings: {
         match: 'settings',
         path: '/settings',
-        childRoutes: {
+        children: {
             categories: {
                 match: 'categories',
                 path: '/settings/categories',
@@ -59,7 +62,7 @@ export const AppRoutes = {
                 match: 'library',
                 path: '/settings/library',
 
-                childRoutes: {
+                children: {
                     duplicates: {
                         match: 'duplicates',
                         path: '/settings/library/duplicates',
@@ -69,7 +72,7 @@ export const AppRoutes = {
             download: {
                 match: 'download',
                 path: '/settings/download',
-                childRoutes: {
+                children: {
                     // TODO: deprecated - got moved to "settings/images/processing/downloads"
                     conversions: {
                         match: 'conversions',
@@ -80,7 +83,7 @@ export const AppRoutes = {
             images: {
                 match: 'images',
                 path: '/settings/images',
-                childRoutes: {
+                children: {
                     processingDownloads: {
                         match: 'processing/downloads',
                         path: '/settings/images/processing/downloads',
@@ -106,6 +109,12 @@ export const AppRoutes = {
             browse: {
                 match: 'browse',
                 path: '/settings/browse',
+                children: {
+                    extensionStores: {
+                        match: 'extension-stores',
+                        path: '/settings/browse/extension-stores',
+                    },
+                },
             },
             device: {
                 match: 'device',
@@ -128,27 +137,30 @@ export const AppRoutes = {
     sources: {
         match: 'sources',
         path: '/sources',
-        childRoutes: {
+        children: {
             browse: {
                 match: ':sourceId',
-                path: (sourceId: SourceType['id'], query?: string | null | undefined) =>
+                path: (sourceId: SourceIdInfo['id'], query?: string | null | undefined) =>
                     UrlUtil.addQueryParam(`/sources/${sourceId}`, query),
+                state: (state: RouteStateSourceBrowse) => ({
+                    ...state,
+                }),
             },
             configure: {
                 match: ':sourceId/configure',
-                path: (sourceId: SourceType['id']) => `/sources/${sourceId}/configure`,
+                path: (sourceId: SourceIdInfo['id']) => `/sources/${sourceId}/configure`,
             },
             searchAll: {
                 match: 'all/search',
                 path: (query?: string | null | undefined) => UrlUtil.addQueryParam('/sources/all/search', query),
+                state: (state: RouteStateSourcesSearchAll) => ({ ...state }),
             },
         },
     },
-
     extension: {
         match: 'extension',
         path: '/extension',
-        childRoutes: {
+        children: {
             info: {
                 match: ':pkgName',
                 path: (pkgName: string) => `/extension/${pkgName}`,
@@ -162,8 +174,7 @@ export const AppRoutes = {
     manga: {
         match: 'manga/:id',
         path: (mangaId: MangaIdInfo['id']) => `/manga/${mangaId}`,
-
-        childRoutes: {
+        children: {
             reader: {
                 match: 'chapter/:chapterNum',
                 path: (mangaId: MangaIdInfo['id'], chapterNum: ChapterSourceOrderInfo['sourceOrder']) =>
@@ -199,14 +210,22 @@ export const AppRoutes = {
             }),
     },
     migrate: {
-        match: 'migrate/source/:sourceId',
-        path: (sourceId: SourceType['id']) => `/migrate/source/${sourceId}`,
-
-        childRoutes: {
-            search: {
-                match: 'manga/:mangaId/search',
-                path: (sourceId: SourceType['id'], mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
+        match: 'migrate/*',
+        path: '/migrate',
+        children: {
+            singleMangaSearch: {
+                match: 'source/:sourceId/manga/:mangaId/search',
+                path: (sourceId: SourceIdInfo['id'], mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
                     UrlUtil.addQueryParam(`/migrate/source/${sourceId}/manga/${mangaId}/search`, query),
+                state: (state: RouteStateSourcesSearchAll) => ({
+                    ...state,
+                }),
+            },
+            manualSearch: {
+                match: 'manual-search/:mangaId',
+                path: (mangaId: MangaIdInfo['id'], query?: string | null | undefined) =>
+                    UrlUtil.addQueryParam(`/migrate/manual-search/${mangaId}`, query),
+                state: (state: RouteStateSourcesSearchAll) => ({ ...state }),
             },
         },
     },
@@ -218,6 +237,7 @@ export const AppRoutes = {
         match: '/manga/:mangaId/chapter/:chapterSourceOrder/*',
         path: (mangaId: MangaIdInfo['id'], chapterSourceOrder: ChapterSourceOrderInfo['sourceOrder']) =>
             `/manga/${mangaId}/chapter/${chapterSourceOrder}`,
+        state: (state: RouteStateReader) => ({ ...state }),
     },
     more: {
         match: '/more',
@@ -225,7 +245,7 @@ export const AppRoutes = {
     },
 } as const satisfies TAppRoutes;
 
-type ExtractChildRouteStringPaths<T> = T extends { childRoutes: infer U } ? ExtractStringPaths<U[keyof U]> : never;
+type ExtractChildRouteStringPaths<T> = T extends { children: infer U } ? ExtractStringPaths<U[keyof U]> : never;
 
 type ExtractStringPaths<T> = T extends { path: infer P }
     ? P extends string
