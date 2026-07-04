@@ -40,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Improve preloading pages from the previous/next chapter
 - (**Category**) Require confirmation before deleting a category
 - (**Download**) Respect manga chapter filters on bulk manga download in the library
+- (**History**) Show only the last read chapter per manga
 
 ### Fixed
 
