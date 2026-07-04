@@ -7,7 +7,7 @@
  */
 
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -22,6 +22,7 @@ import { ChapterHistoryCard } from '@/features/history/components/ChapterHistory
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import uniqBy from 'lodash/fp/uniqBy';
 
 export const History: React.FC = () => {
     const { t } = useLingui();
@@ -38,8 +39,13 @@ export const History: React.FC = () => {
         fetchPolicy: 'cache-and-network',
     });
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
-    const endCursor = chapterHistoryData?.chapters.pageInfo.endCursor;
-    const readEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
+
+    const allReadEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
+    const readEntries = useMemo(() => uniqBy('mangaId', allReadEntries), [allReadEntries]);
+
+    const [prevReadEntriesLength, setPrevReadEntriesLength] = useState(0);
+    const filteredOutAllItemsOfFetchedPage = allReadEntries.length > 0 && readEntries.length === prevReadEntriesLength;
+
     const groupedHistory = useMemo(
         () => Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')),
         [readEntries],
@@ -60,8 +66,16 @@ export const History: React.FC = () => {
             return;
         }
 
-        fetchMore({ variables: { offset: readEntries.length } });
-    }, [hasNextPage, endCursor]);
+        fetchMore({ variables: { offset: allReadEntries.length } }).then(() =>
+            setPrevReadEntriesLength(readEntries.length),
+        );
+    }, [hasNextPage, allReadEntries.length, readEntries.length]);
+
+    useEffect(() => {
+        if (filteredOutAllItemsOfFetchedPage && hasNextPage && !isLoading) {
+            loadMore();
+        }
+    }, [filteredOutAllItemsOfFetchedPage, isLoading, hasNextPage, loadMore]);
 
     if (error) {
         return (
