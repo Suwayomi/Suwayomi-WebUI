@@ -22,6 +22,7 @@ import { ChapterHistoryCard } from '@/features/history/components/ChapterHistory
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import uniqBy from 'lodash/fp/uniqBy';
 
 export const History: React.FC = () => {
     const { t } = useLingui();
@@ -40,16 +41,7 @@ export const History: React.FC = () => {
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
 
     const allReadEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
-    const readEntries = useMemo(() => {
-        const seenMangaIds = new Set<number>();
-        return allReadEntries.filter((chapter) => {
-            if (seenMangaIds.has(chapter.manga.id)) {
-                return false;
-            }
-            seenMangaIds.add(chapter.manga.id);
-            return true;
-        });
-    }, [allReadEntries]);
+    const readEntries = useMemo(() => uniqBy('mangaId', allReadEntries), [allReadEntries]);
 
     const [prevReadEntriesLength, setPrevReadEntriesLength] = useState(0);
     const filteredOutAllItemsOfFetchedPage = allReadEntries.length > 0 && readEntries.length === prevReadEntriesLength;
