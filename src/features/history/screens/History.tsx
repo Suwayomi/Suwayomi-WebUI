@@ -7,7 +7,7 @@
  */
 
 import Typography from '@mui/material/Typography';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import Box from '@mui/material/Box';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -40,7 +40,6 @@ export const History: React.FC = () => {
         fetchPolicy: 'cache-and-network',
     });
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
-    const endCursor = chapterHistoryData?.chapters.pageInfo.endCursor;
 
     const allReadEntries = chapterHistoryData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
     const readEntries = useMemo(() => {
@@ -54,11 +53,8 @@ export const History: React.FC = () => {
         });
     }, [allReadEntries]);
 
-    const prevReadEntriesLengthRef = useRef(0);
-    const filteredOutAllItemsOfFetchedPage =
-        allReadEntries.length > 0 && readEntries.length === prevReadEntriesLengthRef.current;
-
-    prevReadEntriesLengthRef.current = readEntries.length;
+    const [prevReadEntriesLength, setPrevReadEntriesLength] = useState(0);
+    const filteredOutAllItemsOfFetchedPage = allReadEntries.length > 0 && readEntries.length === prevReadEntriesLength;
 
     const groupedHistory = useMemo(
         () => Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')),
@@ -80,8 +76,10 @@ export const History: React.FC = () => {
             return;
         }
 
-        fetchMore({ variables: { offset: allReadEntries.length } });
-    }, [hasNextPage, endCursor, allReadEntries.length]);
+        fetchMore({ variables: { offset: allReadEntries.length } }).then(() =>
+            setPrevReadEntriesLength(readEntries.length),
+        );
+    }, [hasNextPage, allReadEntries.length, readEntries.length]);
 
     useEffect(() => {
         if (filteredOutAllItemsOfFetchedPage && hasNextPage && !isLoading) {
