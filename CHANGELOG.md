@@ -41,6 +41,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Category**) Require confirmation before deleting a category
 - (**Download**) Respect manga chapter filters on bulk manga download in the library
 - (**History**) Show only the last read chapter per manga
+- (**Updates**) Show only the first unread chapter per manga per day
 
 ### Fixed
 
