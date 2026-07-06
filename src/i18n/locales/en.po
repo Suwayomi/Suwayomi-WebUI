@@ -111,15 +111,15 @@ msgstr "{0, plural, one {1 migrating entry} other {# migrating entries}}"
 msgid "{0, plural, one {1 searching} other {# searching}}"
 msgstr "{0, plural, one {1 searching} other {# searching}}"
 
-#. placeholder {0}: firstFewOtherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Plus chapter {firstFewUpdatesString}} other {Plus chapters {firstFewUpdatesString}}}"
-msgstr "{0, plural, one {Plus chapter {firstFewUpdatesString}} other {Plus chapters {firstFewUpdatesString}}}"
-
 #. placeholder {0}: autoScroll.value
 #: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
 msgid "{0, plural, one {Second} other {Seconds}}"
 msgstr "{0, plural, one {Second} other {Seconds}}"
+
+#. placeholder {0}: otherChapters.length
+#: src/features/updates/components/ChapterUpdateCard.tsx
+msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
 
 #. placeholder {0}: searchProgress.completed
 #. placeholder {1}: searchProgress.total
@@ -2825,10 +2825,6 @@ msgstr "Pin source"
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "Pinned"
 msgstr "Pinned"
-
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "Plus chapters {firstFewUpdatesString} and {remainingUpdatesCount} more"
-msgstr "Plus chapters {firstFewUpdatesString} and {remainingUpdatesCount} more"
 
 #: src/features/source/browse/screens/SourceMangas.tsx
 msgid "Popular"

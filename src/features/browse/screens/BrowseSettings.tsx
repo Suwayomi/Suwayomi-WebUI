@@ -116,7 +116,7 @@ export const BrowseSettings = () => {
                     <ListItemText
                         primary={t`Extension stores`}
                         secondary={
-                            extensionStoreCount &&
+                            !!extensionStoreCount &&
                             plural(extensionStoreCount, {
                                 one: '# extension store',
                                 other: '# extension stores',
