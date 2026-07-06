@@ -726,6 +726,23 @@ export const METADATA_MIGRATIONS: IMetadataMigration[] = [
                 })) satisfies IMetadataMigration['values'])(),
         ],
     },
+    {
+        values: [
+            {
+                key: 'browseLanguages',
+                oldValue: /^\[.*]$/g,
+                newValue: (browseLanguagesValue) => {
+                    const convertedBrowseLanguages = convertToObject<string[]>(browseLanguagesValue, []);
+
+                    const convertedToValidIsoCodes = convertedBrowseLanguages.map(
+                        (language) => getISOLanguage(language)?.isoCode ?? language,
+                    );
+
+                    return JSON.stringify(convertedToValidIsoCodes);
+                },
+            },
+        ],
+    },
 ];
 
 export const ALL_APP_METADATA_KEY_PREFIXES: string[] = [

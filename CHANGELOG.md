@@ -72,6 +72,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Fix preserving scroll position
 - (**Reader**) Fix missing gap between chapters in continuous vertical and horizontal reading modes with disabled transition page
 - (**Browse**) Fix showing only nsfw sources in the browse source page when the "show nsfw" setting is disabled
+- (**Browse**) Fix not being able to select some languages as an "allowed language" in some situations (e.g., browser native language "en-GB" prevented "English" from getting visually shown as enabled)
 - (**Manga/Library**) Fix mark as read/unread option not being disabled for manga without any chapters
 - (**Manga/Library**) Fix delete/download option not being disabled for manga without any chapters
 - (**Source**) Fix changing configuration settings with multi option selection where a selected option does not exist anymore. (E.g. Komgas "Default libraries" setting, still having a library selected that has been deleted)

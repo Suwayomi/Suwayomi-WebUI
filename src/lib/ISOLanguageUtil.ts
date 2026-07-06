@@ -116,7 +116,9 @@ const toUniqueISOLanguageCodes = (codes: string[]): string[] => {
 };
 
 export function getPreferredISOLanguageCodes(): readonly string[] {
-    const preferredLanguages = toUniqueISOLanguageCodes([...navigator.languages]);
+    const preferredLanguages = toUniqueISOLanguageCodes([...navigator.languages]).map(
+        (language) => getISOLanguage(language)?.isoCode ?? language,
+    );
 
     if (!preferredLanguages.length) {
         return [DEFAULT_LANGUAGE];
