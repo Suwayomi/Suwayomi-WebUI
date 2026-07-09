@@ -6,18 +6,18 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type {MessageDescriptor} from '@lingui/core';
+import type { MessageDescriptor } from '@lingui/core';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import ZoomOutMapIcon from '@mui/icons-material/ZoomOutMap';
 import ExpandIcon from '@mui/icons-material/Expand';
 import CropOriginalIcon from '@mui/icons-material/CropOriginal';
-import type {TooltipProps} from '@mui/material/Tooltip';
-import type {Direction} from '@mui/material/styles';
-import {msg} from '@lingui/core/macro';
-import type {ValueToDisplayData} from '@/base/Base.types';
-import {ScrollDirection} from '@/base/Base.types';
-import type {IReaderSettings, IReaderSettingsGlobal} from '@/features/reader/Reader.types.ts';
+import type { TooltipProps } from '@mui/material/Tooltip';
+import type { Direction } from '@mui/material/styles';
+import { msg } from '@lingui/core/macro';
+import type { ValueToDisplayData } from '@/base/Base.types';
+import { ScrollDirection } from '@/base/Base.types';
+import type { IReaderSettings, IReaderSettingsGlobal } from '@/features/reader/Reader.types.ts';
 import {
     ProgressBarPosition,
     ProgressBarType,
@@ -31,12 +31,12 @@ import {
     ReadingDirection,
     ReadingMode,
 } from '@/features/reader/Reader.types.ts';
-import {SinglePageIcon} from '@/assets/icons/svg/SinglePageIcon.tsx';
-import {DoublePageIcon} from '@/assets/icons/svg/DoublePageIcon.tsx';
-import {ContinuousVerticalPageIcon} from '@/assets/icons/svg/ContinuousVerticalPageIcon.tsx';
-import {ContinuousHorizontalPageIcon} from '@/assets/icons/svg/ContinuousHorizontalPageIcon.tsx';
-import {TapZoneLayouts} from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import {WebtoonPageIcon} from '@/assets/icons/svg/WebtoonPageIcon.tsx';
+import { SinglePageIcon } from '@/assets/icons/svg/SinglePageIcon.tsx';
+import { DoublePageIcon } from '@/assets/icons/svg/DoublePageIcon.tsx';
+import { ContinuousVerticalPageIcon } from '@/assets/icons/svg/ContinuousVerticalPageIcon.tsx';
+import { ContinuousHorizontalPageIcon } from '@/assets/icons/svg/ContinuousHorizontalPageIcon.tsx';
+import { TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { WebtoonPageIcon } from '@/assets/icons/svg/WebtoonPageIcon.tsx';
 
 export const AUTO_SCROLL_SPEED = {
     min: 0.5,

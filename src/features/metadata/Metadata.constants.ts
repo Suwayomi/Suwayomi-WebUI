@@ -7,9 +7,9 @@
  */
 
 import deepmerge from '@mui/utils/deepmerge';
-import type {AppMetadataKeys, IMetadataMigration} from '@/features/metadata/Metadata.types.ts';
-import type {IReaderSettings, ReaderCustomFilter, SafeAreaInset} from '@/features/reader/Reader.types.ts';
-import {ProgressBarPosition, ReaderPageScaleMode, ReadingMode} from '@/features/reader/Reader.types.ts';
+import type { AppMetadataKeys, IMetadataMigration } from '@/features/metadata/Metadata.types.ts';
+import type { IReaderSettings, ReaderCustomFilter, SafeAreaInset } from '@/features/reader/Reader.types.ts';
+import { ProgressBarPosition, ReaderPageScaleMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import {
     AUTO_SCROLL_SPEED,
     CUSTOM_FILTER,
@@ -19,19 +19,19 @@ import {
     PROGRESS_BAR_SIZE,
     SCROLL_AMOUNT,
 } from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import {coerceIn, jsonSaveParse} from '@/lib/HelperFunctions.ts';
-import {DOWNLOAD_AHEAD} from '@/features/downloads/Downloads.constants.ts';
-import {MANGA_GRID_WIDTH} from '@/features/settings/Settings.constants.ts';
-import type {SortSettings} from '@/features/migration/Migration.types.ts';
-import type {ISourceMetadata} from '@/features/source/Source.types.ts';
-import type {LibraryOptions} from '@/features/library/Library.types.ts';
-import type {MetadataThemeSettings} from '@/features/theme/AppTheme.types.ts';
-import type {TapZoneInvertMode} from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import {detectLocale, getISOLanguage} from '@/lib/ISOLanguageUtil.ts';
-import type {I18nResourceCode} from '@/i18n';
-import {i18nResources} from '@/i18n';
-import {toUniqueLanguageCodes} from '@/base/utils/Languages.ts';
-import {assertIsDefined} from '@/base/Asserts.ts';
+import { coerceIn, jsonSaveParse } from '@/lib/HelperFunctions.ts';
+import { DOWNLOAD_AHEAD } from '@/features/downloads/Downloads.constants.ts';
+import { MANGA_GRID_WIDTH } from '@/features/settings/Settings.constants.ts';
+import type { SortSettings } from '@/features/migration/Migration.types.ts';
+import type { ISourceMetadata } from '@/features/source/Source.types.ts';
+import type { LibraryOptions } from '@/features/library/Library.types.ts';
+import type { MetadataThemeSettings } from '@/features/theme/AppTheme.types.ts';
+import type { TapZoneInvertMode } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import { detectLocale, getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
+import type { I18nResourceCode } from '@/i18n';
+import { i18nResources } from '@/i18n';
+import { toUniqueLanguageCodes } from '@/base/utils/Languages.ts';
+import { assertIsDefined } from '@/base/Asserts.ts';
 
 const MATCH_ARRAY_NUMBERS = /^\[\d+(?:,\d+)*]$/g;
 

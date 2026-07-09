@@ -7,35 +7,35 @@
  */
 
 import Box from '@mui/material/Box';
-import {memo, useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {useLingui} from '@lingui/react/macro';
-import {useDefaultReaderSettings} from '@/features/reader/settings/ReaderSettingsMetadata.ts';
-import {useNavBarContext} from '@/features/navigation-bar/NavbarContext.tsx';
-import {ReaderOverlay} from '@/features/reader/overlay/ReaderOverlay.tsx';
-import {requestManager} from '@/lib/requests/RequestManager.ts';
-import type {GetChaptersReaderQuery, GetMangaReaderQuery} from '@/lib/graphql/generated/graphql.ts';
-import {GET_MANGA_READER} from '@/lib/graphql/manga/MangaQuery.ts';
-import {LoadingPlaceholder} from '@/base/components/feedback/LoadingPlaceholder.tsx';
-import {EmptyViewAbsoluteCentered} from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
-import {defaultPromiseErrorHandler} from '@/lib/DefaultPromiseErrorHandler.ts';
-import {GET_CHAPTERS_READER} from '@/lib/graphql/chapter/ChapterQuery.ts';
-import {TapZoneLayout} from '@/features/reader/tap-zones/TapZoneLayout.tsx';
-import {ReaderRGBAFilter} from '@/features/reader/filters/ReaderRGBAFilter.tsx';
-import {ReaderViewer} from '@/features/reader/viewer/ReaderViewer.tsx';
-import {READER_BACKGROUND_TO_COLOR} from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import {ReaderHotkeys} from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
-import {getErrorMessage} from '@/lib/HelperFunctions.ts';
-import type {NavbarContextType} from '@/features/navigation-bar/NavigationBar.types.ts';
-import {withPropsFrom} from '@/base/hoc/withPropsFrom.tsx';
-import {useReaderResetStates} from '@/features/reader/hooks/useReaderResetStates.ts';
-import {useReaderWakeLock} from '@/features/reader/wake-lock/useReaderWakeLock.ts';
-import {useReaderSetSettingsState} from '@/features/reader/hooks/useReaderSetSettingsState.ts';
-import {useReaderShowSettingPreviewOnChange} from '@/features/reader/hooks/useReaderShowSettingPreviewOnChange.ts';
-import {useReaderSetChaptersState} from '@/features/reader/hooks/useReaderSetChaptersState.ts';
-import {useAppTitle} from '@/features/navigation-bar/hooks/useAppTitle.ts';
-import {useChapterListOptions} from '@/features/chapter/utils/ChapterList.util.tsx';
-import {FALLBACK_MANGA} from '@/features/manga/Manga.constants.ts';
+import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useLingui } from '@lingui/react/macro';
+import { useDefaultReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
+import { ReaderOverlay } from '@/features/reader/overlay/ReaderOverlay.tsx';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import type { GetChaptersReaderQuery, GetMangaReaderQuery } from '@/lib/graphql/generated/graphql.ts';
+import { GET_MANGA_READER } from '@/lib/graphql/manga/MangaQuery.ts';
+import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
+import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { GET_CHAPTERS_READER } from '@/lib/graphql/chapter/ChapterQuery.ts';
+import { TapZoneLayout } from '@/features/reader/tap-zones/TapZoneLayout.tsx';
+import { ReaderRGBAFilter } from '@/features/reader/filters/ReaderRGBAFilter.tsx';
+import { ReaderViewer } from '@/features/reader/viewer/ReaderViewer.tsx';
+import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
+import { ReaderHotkeys } from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
+import { useReaderResetStates } from '@/features/reader/hooks/useReaderResetStates.ts';
+import { useReaderWakeLock } from '@/features/reader/wake-lock/useReaderWakeLock.ts';
+import { useReaderSetSettingsState } from '@/features/reader/hooks/useReaderSetSettingsState.ts';
+import { useReaderShowSettingPreviewOnChange } from '@/features/reader/hooks/useReaderShowSettingPreviewOnChange.ts';
+import { useReaderSetChaptersState } from '@/features/reader/hooks/useReaderSetChaptersState.ts';
+import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { useChapterListOptions } from '@/features/chapter/utils/ChapterList.util.tsx';
+import { FALLBACK_MANGA } from '@/features/manga/Manga.constants.ts';
 import {
     getReaderOverlayStore,
     getReaderStore,
@@ -43,7 +43,7 @@ import {
     useReaderSettingsStore,
     useReaderStore,
 } from '@/features/reader/stores/ReaderStore.ts';
-import {ReaderAutoScroll} from '@/features/reader/auto-scroll/ReaderAutoScroll.tsx';
+import { ReaderAutoScroll } from '@/features/reader/auto-scroll/ReaderAutoScroll.tsx';
 
 const BaseReader = ({
     setOverride,
