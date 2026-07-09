@@ -2155,8 +2155,8 @@ msgid "Keep remote"
 msgstr "Keep remote"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
-msgid "Keep screen on while reading"
-msgstr "Keep screen on while reading"
+msgid "Keep screen on"
+msgstr "Keep screen on"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Keybinds"

@@ -8,27 +8,21 @@
 
 import { useEffect, useRef } from 'react';
 
-export function useReaderWakeLock(isLoading: boolean, shouldKeepScreenReading: boolean) {
-    const wakeLockSentinelRef = useRef<any | null>(null);
+export function useReaderWakeLock(shouldLock: boolean) {
+    const wakeLockSentinelRef = useRef<WakeLockSentinel | null>(null);
 
     useEffect(() => {
+        if (!('wakeLock' in navigator)) {return;}
+
         const requestWakeLock = async () => {
-            if (!('wakeLock' in navigator)) {
-                return;
-            }
             try {
-                if (wakeLockSentinelRef.current) {
-                    return;
-                }
-
+                if (wakeLockSentinelRef.current) {return;}
                 wakeLockSentinelRef.current = await navigator.wakeLock.request('screen');
-
                 wakeLockSentinelRef.current.addEventListener('release', () => {
                     wakeLockSentinelRef.current = null;
                 });
-            } catch (err) {
-                // oxlint-disable-next-line no-console
-                console.error('Error al activar Wake Lock en el lector:', err);
+            } catch {
+                wakeLockSentinelRef.current = null;
             }
         };
 
@@ -40,12 +34,12 @@ export function useReaderWakeLock(isLoading: boolean, shouldKeepScreenReading: b
         };
 
         const handleVisibilityChange = async () => {
-            if (document.visibilityState === 'visible' && !isLoading && shouldKeepScreenReading) {
+            if (document.visibilityState === 'visible' && shouldLock) {
                 await requestWakeLock();
             }
         };
 
-        if (!isLoading && shouldKeepScreenReading) {
+        if (shouldLock) {
             requestWakeLock();
             document.addEventListener('visibilitychange', handleVisibilityChange);
         } else {
@@ -56,5 +50,5 @@ export function useReaderWakeLock(isLoading: boolean, shouldKeepScreenReading: b
             document.removeEventListener('visibilitychange', handleVisibilityChange);
             releaseWakeLock();
         };
-    }, [isLoading, shouldKeepScreenReading]);
+    }, [shouldLock]);
 }

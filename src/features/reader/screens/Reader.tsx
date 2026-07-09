@@ -66,7 +66,7 @@ const BaseReader = ({
         tapZoneInvertMode,
         shouldShowReadingModePreview,
         shouldShowTapZoneLayoutPreview,
-        shouldKeepScreenReading,
+        shouldWakeLockScreen,
     } = useReaderSettingsStore(
         'shouldSkipDupChapters',
         'shouldSkipFilteredChapters',
@@ -76,7 +76,7 @@ const BaseReader = ({
         'tapZoneInvertMode',
         'shouldShowReadingModePreview',
         'shouldShowTapZoneLayoutPreview',
-        'shouldKeepScreenReading',
+        'shouldWakeLockScreen',
     );
     const safeAreaInset = useReaderSettingsStore((state) => state.safeAreaInset);
 
@@ -120,7 +120,7 @@ const BaseReader = ({
     }, [mangaResponse.data?.manga]);
 
     useReaderResetStates();
-    useReaderWakeLock(isLoading, shouldKeepScreenReading);
+    useReaderWakeLock(!isLoading && shouldWakeLockScreen);
     useReaderSetSettingsState(
         mangaResponse,
         defaultSettingsResponse,
