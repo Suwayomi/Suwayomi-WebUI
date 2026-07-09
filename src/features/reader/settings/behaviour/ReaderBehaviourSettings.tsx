@@ -9,19 +9,16 @@
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useLingui } from '@lingui/react/macro';
-import type { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import type { IReaderSettingsWithDefaultFlag, ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
-import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
-import { ReaderSettingExitMode } from '@/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx';
-import { isOffsetDoubleSpreadPagesEditable } from '@/features/reader/settings/ReaderSettings.utils.tsx';
-import { SliderInput } from '@/base/components/inputs/SliderInput.tsx';
-import {
-    DEFAULT_READER_SETTINGS,
-    IMAGE_PRE_LOAD_AMOUNT,
-} from '@/features/reader/settings/ReaderSettings.constants.tsx';
-import { ReaderSettingAutoScroll } from '@/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx';
-import { ReaderSettingScrollAmount } from '@/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx';
+import {useLingui} from '@lingui/react/macro';
+import type {ReaderService} from '@/features/reader/services/ReaderService.ts';
+import type {IReaderSettingsWithDefaultFlag, ReaderSettingsTypeProps} from '@/features/reader/Reader.types.ts';
+import {CheckboxInput} from '@/base/components/inputs/CheckboxInput.tsx';
+import {ReaderSettingExitMode} from '@/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx';
+import {isOffsetDoubleSpreadPagesEditable} from '@/features/reader/settings/ReaderSettings.utils.tsx';
+import {SliderInput} from '@/base/components/inputs/SliderInput.tsx';
+import {DEFAULT_READER_SETTINGS, IMAGE_PRE_LOAD_AMOUNT,} from '@/features/reader/settings/ReaderSettings.constants.tsx';
+import {ReaderSettingAutoScroll} from '@/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx';
+import {ReaderSettingScrollAmount} from '@/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx';
 
 export const ReaderBehaviourSettings = ({
     settings,
@@ -135,6 +132,11 @@ export const ReaderBehaviourSettings = ({
                 label={t`Inform about changing scanlator on chapter transition`}
                 checked={settings.shouldInformAboutScanlatorChange}
                 onChange={(_, checked) => updateSetting('shouldInformAboutScanlatorChange', checked)}
+            />
+            <CheckboxInput
+                label={t`Keep screen on while reading`}
+                checked={settings.shouldKeepScreenReading}
+                onChange={(_, checked) => updateSetting('shouldKeepScreenReading', checked)}
             />
             <ReaderSettingAutoScroll
                 autoScroll={settings.autoScroll}

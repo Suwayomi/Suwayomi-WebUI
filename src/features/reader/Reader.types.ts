@@ -6,11 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import type { MutableRefObject, Ref } from 'react';
-import type { TapZoneInvertMode, TapZoneLayouts } from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
-import type { TChapterReader } from '@/features/chapter/Chapter.types.ts';
-import type { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
+import type {MutableRefObject, Ref} from 'react';
+import type {TapZoneInvertMode, TapZoneLayouts} from '@/features/reader/tap-zones/TapZoneLayout.types.ts';
+import type {TChapterReader} from '@/features/chapter/Chapter.types.ts';
+import type {ReaderService} from '@/features/reader/services/ReaderService.ts';
+import type {NavbarContextType} from '@/features/navigation-bar/NavigationBar.types.ts';
 
 export enum ProgressBarType {
     HIDDEN,
@@ -173,6 +173,7 @@ export interface IReaderSettingsGlobal {
     shouldShowTapZoneLayoutPreview: boolean;
     shouldInformAboutMissingChapter: boolean;
     shouldInformAboutScanlatorChange: boolean;
+    shouldKeepScreenReading: boolean;
     scrollAmount: ReaderScrollAmount;
     shouldUseInfiniteScroll: boolean;
     shouldShowTransitionPage: boolean;
