@@ -26,6 +26,7 @@ import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import type { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import { useTheme } from '@mui/material/styles';
 
 const BaseReaderNavBarDesktopChapterNavigation = ({
     currentChapterId,
@@ -43,6 +44,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
         readerThemeDirection: ReturnType<typeof ReaderService.useGetThemeDirection>;
     }) => {
     const { t } = useLingui();
+    const theme = useTheme();
 
     const popupState = usePopupState({ variant: 'popover', popupId: 'reader-nav-bar-desktop-chapter-list' });
 
@@ -60,7 +62,7 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
                 }}
                 disabled={getOptionForDirection(!previousChapter, !nextChapter, readerThemeDirection)}
             />
-            <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
+            <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }} dir={theme.direction}>
                 <InputLabel id="reader-nav-bar-desktop-chapter-select">{t`Chapter`}</InputLabel>
                 <Select
                     {...bindTrigger(popupState)}

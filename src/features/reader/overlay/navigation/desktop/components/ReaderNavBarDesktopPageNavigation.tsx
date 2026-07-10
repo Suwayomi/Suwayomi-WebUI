@@ -19,9 +19,11 @@ import { ReaderNavBarDesktopNextPreviousButton } from '@/features/reader/overlay
 import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { useReaderPagesStore, useReaderSettingsStore } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
+import { useTheme } from '@mui/material/styles';
 
 const BaseReaderNavBarDesktopPageNavigation = () => {
     const { t } = useLingui();
+    const theme = useTheme();
     const getOptionForDirection = useGetOptionForDirection();
     const { currentPageIndex, pages } = useReaderPagesStore('currentPageIndex', 'pages');
     const readingDirection = useReaderSettingsStore((state) => state.readingDirection.value);
@@ -41,7 +43,7 @@ const BaseReaderNavBarDesktopPageNavigation = () => {
                 )}
                 onClick={() => ReaderControls.openPage('previous', undefined, false)}
             />
-            <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }}>
+            <FormControl sx={{ flexBasis: '70%', flexGrow: 0, flexShrink: 0 }} dir={theme.direction}>
                 <InputLabel id="reader-nav-bar-desktop-page-select">{t`Page`}</InputLabel>
                 <Select
                     labelId="reader-nav-bar-desktop-page-select"
