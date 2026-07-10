@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-07-03 19:59+0000\n"
+"PO-Revision-Date: 2026-07-10 18:51+0000\n"
 "Last-Translator: 清水汐音 <chenzhongjie19940725@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
@@ -4127,7 +4127,7 @@ msgstr "{extensionCount, plural, one {# 个扩展} other {# 个扩展}}"
 
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "{extensionStoreCount, plural, one {# extension store} other {# extension stores}}"
-msgstr "{extensionStoreCount, plural, one {# 个扩展源} other {# 个扩展源}}"
+msgstr "{extensionStoreCount, plural, one {# 个扩展商店} other {# 个扩展商店}}"
 
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
@@ -4138,7 +4138,7 @@ msgstr ""
 #: src/features/browse/extensions/Extensions.tsx
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "Add extension store"
-msgstr "添加扩展源"
+msgstr "添加扩展商店"
 
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "Copy index url"
@@ -4146,11 +4146,11 @@ msgstr "复制索引地址"
 
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "Could not add extension store"
-msgstr "无法添加扩展源"
+msgstr "无法添加扩展商店"
 
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "Could not remove extension store \"{name}\""
-msgstr "无法移除扩展源“{name}”"
+msgstr "无法移除扩展商店“{name}”"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Daily"
@@ -4187,7 +4187,7 @@ msgstr "排除：{excludedSyncDataText}"
 #: src/features/browse/screens/BrowseSettings.tsx
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "Extension stores"
-msgstr "扩展源"
+msgstr "扩展商店"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Include: {includedSyncDataText}"
@@ -4235,7 +4235,7 @@ msgstr "SyncYomi 主机地址"
 
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "Unable to load extension stores"
-msgstr "无法加载扩展源"
+msgstr "无法加载扩展商店"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "WebView"
@@ -4253,11 +4253,11 @@ msgstr ""
 
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "You are about to remove \"{name}\" from the extension stores"
-msgstr "你即将从扩展源中移除“{name}”"
+msgstr "你即将从扩展商店中移除“{name}”"
 
 #: src/features/browse/extensions/Extensions.tsx
 msgid "You have to add a extension store to be able to install extensions"
-msgstr "你需要添加扩展源才能安装扩展"
+msgstr "你需要添加扩展商店才能安装扩展"
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
@@ -4304,3 +4304,12 @@ msgstr "已开始同步"
 #: src/features/settings/Settings.constants.ts
 msgid "Uploading"
 msgstr "上传中"
+
+#. placeholder {0}: otherChapters.length
+#: src/features/updates/components/ChapterUpdateCard.tsx
+msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr "{0, plural, one {显示另外 # 章} other {显示另外 # 章}}"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Automated backup"
+msgstr "自动备份"
