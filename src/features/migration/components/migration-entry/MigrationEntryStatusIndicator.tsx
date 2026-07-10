@@ -11,11 +11,13 @@ import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import Box from '@mui/material/Box';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import type { ReactNode } from 'react';
-import type { Theme } from '@mui/material/styles';
+import { type Theme } from '@mui/material/styles';
 import type { SystemCssProperties } from '@mui/system/styleFunctionSx';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import CheckIcon from '@mui/icons-material/Check';
+import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 
 const StatusIndicatorWrapper = ({
     backgroundColor,
@@ -48,6 +50,9 @@ export const MigrationEntryStatusIndicator = ({
     hasResults: boolean;
 }) => {
     const isTabletWidth = MediaQuery.useIsTabletWidth();
+    const getOptionForDirection = useGetOptionForDirection();
+
+    const ArrowIcon = getOptionForDirection(ArrowForwardIcon, ArrowBackIcon);
 
     if ([MigrationEntryStatus.SEARCHING, MigrationEntryStatus.MIGRATING].includes(status)) {
         return <LoadingPlaceholder size={isTabletWidth ? 22 : 32} />;
@@ -97,10 +102,7 @@ export const MigrationEntryStatusIndicator = ({
             <StatusIndicatorWrapper
                 backgroundColor="primary.dark"
                 statusIcon={
-                    <ArrowForwardIcon
-                        fontSize={isTabletWidth ? undefined : 'large'}
-                        sx={{ color: 'primary.contrastText' }}
-                    />
+                    <ArrowIcon fontSize={isTabletWidth ? undefined : 'large'} sx={{ color: 'primary.contrastText' }} />
                 }
             />
         );
