@@ -15,11 +15,11 @@ const outputFilePath = path.join(import.meta.dirname, `../../../${OUTPUT_FILE_PA
 const localesDirPath = path.join(import.meta.dirname, '../../../src/i18n/locales');
 
 const MANGA_TYPE_TO_MSG_IDS = {
-    MANGA: ['Manga'],
-    COMIC: ['Comic'],
-    WEBTOON: ['Webtoon', 'Long strip'],
-    MANHWA: ['Manhwa', 'Long strip'],
-    MANHUA: ['Manhua', 'Long strip'],
+    MANGA: ['entry-type-detection-manga', 'Manga'],
+    COMIC: ['entry-type-detection-comic', 'Comic'],
+    WEBTOON: ['entry-type-detection-webtoon', 'entry-type-detection-long-strip', 'Webtoon', 'Long strip'],
+    MANHWA: ['entry-type-detection-manhwa', 'entry-type-detection-long-strip', 'Manhwa', 'Long strip'],
+    MANHUA: ['entry-type-detection-manhua', 'entry-type-detection-long-strip', 'Manhua', 'Long strip'],
 } as const satisfies Record<string, string[]>;
 
 type MangaTypeMsgId = (typeof MANGA_TYPE_TO_MSG_IDS)[keyof typeof MANGA_TYPE_TO_MSG_IDS][number];
@@ -64,7 +64,7 @@ const allTranslationsByMsgId = poFiles
 const translationsByMangaType = Object.fromEntries(
     Object.entries(MANGA_TYPE_TO_MSG_IDS).map(([mangaType, msgIds]) => [
         mangaType,
-        [...new Set([...msgIds, ...msgIds.flatMap((msgId) => [...(allTranslationsByMsgId.get(msgId) ?? [])])])],
+        [...new Set([...msgIds.flatMap((msgId) => [...(allTranslationsByMsgId.get(msgId) ?? [])])])],
     ]),
 );
 

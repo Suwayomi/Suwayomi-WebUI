@@ -161,11 +161,60 @@ export const SOURCES_BY_MANGA_TYPE: Record<MangaType, string[]> = {
 // @ts-ignore - see comment
 // oxlint-disable-next-line no-unused-vars
 const MANGA_TAG_DESCRIPTORS_BY_MANGA_TYPE: Record<MangaType, MessageDescriptor[]> = {
-    [MangaType.MANGA]: [msg`Manga`],
-    [MangaType.COMIC]: [msg`Comic`],
-    [MangaType.WEBTOON]: [msg`Webtoon`, msg`Long strip`],
-    [MangaType.MANHWA]: [msg`Manhwa`, msg`Long strip`],
-    [MangaType.MANHUA]: [msg`Manhua`, msg`Long strip`],
+    [MangaType.MANGA]: [
+        msg({
+            id: 'entry-type-detection-manga',
+            message: 'Manga',
+            comment:
+                'Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")',
+        }),
+    ],
+    [MangaType.COMIC]: [
+        msg({
+            id: 'entry-type-detection-comic',
+            message: 'Comic',
+            comment:
+                'Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")',
+        }),
+    ],
+    [MangaType.WEBTOON]: [
+        msg({
+            id: 'entry-type-detection-webtoon',
+            message: 'Webtoon',
+            comment:
+                'Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")',
+        }),
+        msg({
+            id: 'entry-type-detection-long-strip',
+            message: 'Long strip',
+            comment:
+                'Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")',
+        }),
+    ],
+    [MangaType.MANHWA]: [
+        msg({
+            id: 'entry-type-detection-manhwa',
+            message: 'Manhwa',
+            comment:
+                'Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")',
+        }),
+        msg({
+            id: 'entry-type-detection-long-strip',
+            message: 'Long strip',
+        }),
+    ],
+    [MangaType.MANHUA]: [
+        msg({
+            id: 'entry-type-detection-manhua',
+            message: 'Manhua',
+            comment:
+                'Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")',
+        }),
+        msg({
+            id: 'entry-type-detection-long-strip',
+            message: 'Long strip',
+        }),
+    ],
 };
 
 /**
