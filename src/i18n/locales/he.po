@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-07-03 21:09+0000\n"
+"PO-Revision-Date: 2026-07-10 10:01+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -357,8 +357,8 @@ msgstr "מתקדם"
 #: src/features/settings/Settings.constants.ts
 msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
 msgstr ""
-"לאחר שינוי הגדרה זו, יש לעבור לעמוד \"אודות\", לבדוק אם קיים עדכון לממשק ה־ "
-"WebUI ולהתקין אותו"
+"לאחר שינוי הגדרה זו, יש לעבור לעמוד \"אודות\", לבדוק אם יש עדכון זמין לממשק ה"
+"־ WebUI ולהתקין אותו"
 
 #: src/features/extension/info/components/Meta.tsx
 msgid "Age rating"
@@ -380,7 +380,7 @@ msgstr "מחיקת פרקים שנמצאים בסימניות"
 #: src/base/components/inputs/LanguageSelect.tsx
 #: src/features/source/components/SourceLanguageSelect.tsx
 msgid "Allowed Languages"
-msgstr "שפות מורשות"
+msgstr "שפות להצגה"
 
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
@@ -457,7 +457,7 @@ msgstr "מיקום סרגל ההתקדמות האנכי במצב אוטומטי"
 
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
 msgid "Automatic update interval"
-msgstr "תדירות בדיקת עדכונים אוטומטית"
+msgstr "‏תדירות בדיקת עדכונים אוטומטית"
 
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
 msgid "Automatic updates"
@@ -601,11 +601,11 @@ msgstr "Bundled (גרסה מובנית)"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "By chapter number"
-msgstr "לפי מספר פרק"
+msgstr "לפי מספר הפרק"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "By date fetched"
-msgstr "לפי מועד ההוספה"
+msgstr "לפי תאריך השליפה מהמקור"
 
 #: src/features/migration/Migration.constants.ts
 msgid "By manga count"
@@ -621,7 +621,7 @@ msgstr "לפי שם שרת המקור"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "By upload date"
-msgstr "לפי תאריך ההעלאה"
+msgstr "לפי תאריך ההעלאה למקור"
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "Call timeout"
@@ -654,7 +654,7 @@ msgstr "זמן מוקצב לבקשה"
 #: src/features/theme/components/CreateThemeDialog.tsx
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Cancel"
-msgstr "ביטול"
+msgstr "‏ביטול"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
@@ -687,7 +687,7 @@ msgstr "החלפת קטגוריות"
 
 #: src/features/manga/Manga.constants.ts
 msgid "Change categories of selected"
-msgstr "שינוי הקטגוריות של הנבחרים"
+msgstr "שינוי קטגוריות הנבחרים"
 
 #: src/features/app-updates/components/ServerUpdateChecker.tsx
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
@@ -729,7 +729,7 @@ msgstr "רשימת פרקים"
 
 #: src/features/chapter/components/ChapterOptions.tsx
 msgid "Chapter number"
-msgstr "מספר פרק"
+msgstr "מספר הפרק"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Chapter sort order"
@@ -753,7 +753,7 @@ msgstr "בדיקת עדכונים לתמונת הכריכה ופרטי המנג�
 
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "Checking for update"
-msgstr "בודק אם קיים עדכון"
+msgstr "בודק אם יש עדכון זמין"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Choose the order in which chapters are displayed."
@@ -914,11 +914,11 @@ msgstr ""
 
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "Could not check for update"
-msgstr "לא ניתן היה לבדוק אם קיים עדכון"
+msgstr "לא ניתן היה לבדוק אם יש עדכון זמין"
 
 #: src/features/updates/components/UpdateChecker.tsx
 msgid "Could not check for updates"
-msgstr "לא ניתן היה לבדוק אם קיימים עדכונים"
+msgstr "לא ניתן היה לבדוק אם יש עדכונים זמינים"
 
 #: src/features/settings/screens/ImagesSettings.tsx
 msgid "Could not clear the cache"
@@ -1325,7 +1325,7 @@ msgstr "בהורדות"
 
 #: src/base/components/downloads/DownloadStateIndicator.tsx
 msgid "Downloading"
-msgstr "בהורדה"
+msgstr "מוריד"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -1379,7 +1379,7 @@ msgstr "האפשרות פועלת רק אם הפרק הנוכחי והפרק ה�
 #. placeholder {1}: selectedServerChannelInfo.channel
 #: src/features/app-updates/components/ServerUpdateChecker.tsx
 msgid "Server version {0} ({1}) available for download"
-msgstr "גרסת השרת {0} ‏({1}) זמינה להורדה"
+msgstr "גרסת השרת ‎{0}‎‏ ‎({1})‎‏ זמינה להורדה"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Show only downloaded chapters"
@@ -1393,7 +1393,7 @@ msgstr "נתיב התיקייה בשרת לשמירת קבצים שהורדו"
 #. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "WebUI version {0} ({1}) available for download"
-msgstr "גרסת ממשק המשתמש (WebUI)‏ {0}‏ ({1}) זמינה להורדה"
+msgstr "גרסת ממשק המשתמש ‎(WebUI)‎‏ ‎{0}‎‏ ‎({1})‎‏ זמינה להורדה"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "Remove bookmark"
@@ -1533,15 +1533,15 @@ msgstr "כבר קיימת פעולת העברה בתהליך"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Abort"
-msgstr "עצירה"
+msgstr "ביטול‏"
 
 #: src/features/migration/MigrationManager.ts
 msgid "Abort migration"
-msgstr "עצירת העברה"
+msgstr "ביטול ההעברה"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Aborted"
-msgstr "ההעברה נעצרה"
+msgstr "ההעברה בוטלה"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Advanced search mode"
@@ -1553,7 +1553,7 @@ msgstr "הוספת שוליים לתוכן לפי האזור הבטוח"
 
 #: src/features/migration/MigrationManager.ts
 msgid "Are you sure you want to abort the migration?"
-msgstr "האם ברצונך לעצור את פעולת העברה?"
+msgstr "האם ברצונך לבטל את פעולת ההעברה?"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Automatically select matches if they have additional chapters"
@@ -1565,7 +1565,7 @@ msgstr "בחירה אוטומטית של התאמות שבהן לפחות הפר
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Automatically select matches if they have no missing chapters"
-msgstr "בחירה אוטומטית של התאמות שבהן לא חסרים פרקים"
+msgstr "בחירה אוטומטית של התאמות שאין בהן פרקים חסרים"
 
 #: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Available"
@@ -1573,7 +1573,7 @@ msgstr "זמינים"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Breaks down the title into keywords for a wider search"
-msgstr "פירוק הכותרת למילות מפתח עבור חיפוש רחב יותר"
+msgstr "פירוק הכותרת למילות מפתח לצורך חיפוש רחב יותר"
 
 #: src/features/migration/components/MigrationContinueButton.tsx
 msgid "Continue"
@@ -1748,7 +1748,7 @@ msgstr "עמוד כפול"
 
 #: src/features/tracker/Tracker.constants.ts
 msgid "Doujinshi"
-msgstr "דוג'ינשי (Doujinshi)"
+msgstr "יצירה עצמאית (Doujinshi)"
 
 #. placeholder {0}: abortedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
@@ -1872,7 +1872,7 @@ msgstr "פריט בעל שם זהה כבר קיים בספרייה."
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
 msgid "Source entry - {sourceTitle}"
-msgstr "פריט המקור - {sourceTitle}"
+msgstr "הפריט הנוכחי - {sourceTitle}"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
@@ -1965,8 +1965,8 @@ msgstr ""
 "לבאגים.\n"
 "יש לוודא שהגיבוי האוטומטי מופעל כדי למנוע אובדן של הספרייה!\n"
 "\n"
-"לאחר שינוי הגדרה זו, יש לעבור לעמוד \"אודות\", לבדוק אם קיים עדכון לממשק ה־ "
-"WebUI ולהתקין אותו"
+"לאחר שינוי הגדרה זו, יש לעבור לעמוד \"אודות\", לבדוק אם יש עדכון זמין לממשק ה"
+"־ WebUI ולהתקין אותו"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Feel free to translate the project on"
@@ -2167,7 +2167,7 @@ msgstr "ירוק"
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
 #: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
 msgid "h"
-msgstr "שעות"
+msgstr "‏ שעות"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "H2"
@@ -2243,7 +2243,7 @@ msgstr "התעלמות מהסינון בעת חיפוש"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Ignore matches that are behind in chapters"
-msgstr "התעלמות מהתאמות עם פחות פרקים"
+msgstr "התעלמות מהתאמות שנמצאות בפיגור בפרקים"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 msgid "Ignore matches with missing chapters"
@@ -2342,7 +2342,7 @@ msgstr "מיקום מקור התוכן המקומי"
 
 #: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "No sources available to migrate to"
-msgstr "אין מקורות זמינים לביצוע ההעברה"
+msgstr "לא נמצאו מקורות זמינים לביצוע ההעברה"
 
 #: src/features/library/screens/Library.tsx
 msgid "Your library is empty"
@@ -2387,7 +2387,7 @@ msgstr "לבנדר"
 #: src/features/source/browse/screens/SourceMangas.tsx
 #: src/features/source/components/SourceLanguageSelect.tsx
 msgid "Settings"
-msgstr "‮הגדרות"
+msgstr "הגדרות"
 
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -2448,7 +2448,7 @@ msgstr "גרסת השרת"
 #. placeholder {0}: aboutServer?.buildType
 #: src/features/app-updates/components/ServerUpdateChecker.tsx
 msgid "Server was updated to version {version} ({0})"
-msgstr "השרת עודכן לגרסה {version}‏ ({0})"
+msgstr "השרת עודכן לגרסה ‎{version}‎‏ ‎({0})‎‏"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Shows a dialog in case the version of the server has changed"
@@ -2669,7 +2669,7 @@ msgstr "הגרסה עודכנה"
 #. placeholder {0}: aboutWebUI?.channel
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "WebUI was updated to version {newVersion} ({0})"
-msgstr "ממשק המשתמש (WebUI) עודכן לגרסה {newVersion} ‏({0})"
+msgstr "ממשק המשתמש ‎(WebUI)‎‏ עודכן לגרסה ‎{newVersion}‎‏ ‎({0})‎‏"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Stable"
@@ -3058,7 +3058,7 @@ msgstr "פתיחת ממשק המשתמש (WebUI) בעת הפעלת השרת"
 
 #: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
 msgid "Update interval"
-msgstr "תדירות בדיקת עדכונים"
+msgstr "תדירות בדיקת עדכונים אוטומטית‏"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Use the default WebUI"
@@ -3091,7 +3091,7 @@ msgstr "שימוש בגרסה שסופקה עם גרסת השרת"
 
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Inform about updated version"
-msgstr "הודעה לאחר עדכון גרסה"
+msgstr "‏הודעה לאחר עדכון גרסה"
 
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
@@ -3265,7 +3265,7 @@ msgstr "סוג קובץ לא תקין"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
-msgstr "קובץ JSON לא תקין"
+msgstr "קובץ json לא תקין"
 
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/base/components/settings/NumberSetting.tsx
@@ -3499,7 +3499,7 @@ msgstr "רב-לשוני"
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Status"
-msgstr "מצב"
+msgstr "סטטוס"
 
 #: src/features/chapter/components/ChapterOptions.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -3589,7 +3589,7 @@ msgstr "אפשרויות אלו איטיות ומסוכנות, ועלולות ל
 msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
 msgstr ""
 "האפשרות אינה מונעת מתוספים לא רשמיים או מתוספים שסומנו באופן שגוי להציג תוכן "
-"למבוגרים בלבד (18+ NSFW‏) באפליקציה."
+"למבוגרים בלבד (18+ / NSFW) באפליקציה."
 
 #: src/features/app-updates/components/VersionInfo.tsx
 msgid "This is the latest version"
@@ -3634,7 +3634,7 @@ msgstr "הסנכרון כבוי"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Start sync"
-msgstr "התחלת סנכרון"
+msgstr "הרצת סנכרון"
 
 #. placeholder {0}: getDateString(epochToDate(Number(syncDate)), true, true)
 #: src/features/settings/screens/ServerSettings.tsx
@@ -3652,7 +3652,7 @@ msgstr "לא ניתן היה להתחיל את הסנכרון"
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "- State: {0}"
-msgstr "- מצב: {0}"
+msgstr "- סטטוס: {0}"
 
 #: src/features/backup/component/BackupValidationDialog.tsx
 msgid "The following sources are not installed:"
@@ -3669,7 +3669,7 @@ msgstr "שחזור"
 
 #: src/features/extension/Extensions.constants.ts
 msgid "Uninstall"
-msgstr "הסרה"
+msgstr "הסרה‏"
 
 #: src/features/extension/Extensions.constants.ts
 msgid "Installed"
@@ -3705,7 +3705,7 @@ msgstr "מסיר"
 
 #: src/features/extension/Extensions.constants.ts
 msgid "Update pending"
-msgstr "עדכון בהמתנה"
+msgstr "עדכונים זמינים"
 
 #: src/features/extension/Extensions.constants.ts
 msgid "Updating"
@@ -3747,3 +3747,600 @@ msgstr "Kindle‏"
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Webtoon"
 msgstr "Webtoon‏"
+
+#: src/features/updates/screens/Updates.tsx
+msgid "Last update: {date}"
+msgstr "עדכון אחרון: {date}"
+
+#: src/features/settings/screens/About.tsx
+msgid "WebUI channel"
+msgstr "ערוץ ההפצה של WebUI"
+
+#: src/features/settings/screens/About.tsx
+msgid "WebUI version"
+msgstr "גרסת WebUI"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
+msgstr "{extensionCount, plural, one {תוסף אחד} other {# תוספים}}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{extensionStoreCount, plural, one {# extension store} other {# extension stores}}"
+msgstr ""
+"{extensionStoreCount, plural, one {מאגר תוספים אחד} other {# מאגרי תוספים}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
+msgstr "{installedExtensionCount, plural, one {אחד מותקן} other {# מותקנים}}"
+
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Add extension store"
+msgstr "הוספת מאגר תוספים"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not add extension store"
+msgstr "לא ניתן היה להוסיף את מאגר התוספים"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not remove extension store \"{name}\""
+msgstr "לא ניתן היה להסיר את מאגר התוספים \"{name}\""
+
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Extension stores"
+msgstr "מאגרי תוספים"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Install external extension"
+msgstr "התקנת תוסף חיצוני"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Installing extension file…"
+msgstr "מתקין תוסף מקובץ…"
+
+#: src/features/browse/sources/Sources.tsx
+msgid "No sources found. Install Some extensions first."
+msgstr "לא נמצאו מקורות. יש להתקין תוספים תחילה."
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "הצגה ברשימות התוספים והמקורות"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/browse/sources/Sources.tsx
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/downloads/screens/DownloadQueue.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/extension/info/screens/ExtensionInfo.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+#: src/features/history/screens/History.tsx
+#: src/features/history/screens/HistorySettings.tsx
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/LibraryDuplicates.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
+#: src/features/reader/screens/Reader.tsx
+#: src/features/reader/settings/screens/GlobalReaderSettings.tsx
+#: src/features/reader/viewer/ReaderChapterViewer.tsx
+#: src/features/settings/screens/About.tsx
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+#: src/features/theme/components/ThemeList.tsx
+#: src/features/tracker/components/TrackerSearch.tsx
+#: src/features/tracker/components/TrackManga.tsx
+#: src/features/tracker/screens/TrackingSettings.tsx
+#: src/features/updates/screens/Updates.tsx
+msgid "Unable to load data"
+msgstr "לא ניתן לטעון נתונים"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Unable to load extension stores"
+msgstr "לא ניתן לטעון את מאגרי התוספים"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr "לא ניתן לטעון את המקורות"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "You are about to remove \"{name}\" from the extension stores"
+msgstr "פעולה זאת תסיר את \"{name}\" ממאגרי התוספים"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "You have to add a extension store to be able to install extensions"
+msgstr "כדי להתקין תוספים, יש להוסיף תחילה מאגר תוספים"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Pinned"
+msgstr "נעוצים"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Copy index url"
+msgstr "העתקת כתובת מאגר התוספים"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+msgid "Information"
+msgstr "מידע"
+
+#: src/base/utils/Languages.ts
+msgid "Language with code: {code}"
+msgstr "שפה עם הקוד: {code}"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Last used"
+msgstr "בשימוש לאחרונה"
+
+#: src/features/extension/info/components/Meta.tsx
+msgid "Version"
+msgstr "גרסה"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "מקור לא ידוע"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+msgid "Pin source"
+msgstr "נעיצת מקור"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr "בחירת מקורות נעוצים"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+msgid "Unpin source"
+msgstr "ביטול נעיצת מקור"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr "חיפוש ידני"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr "התאמה לפי מספר פרק"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Selected"
+msgstr "נבחרים"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr "בחירת מקורות היעד"
+
+#: src/features/reader/overlay/navigation/desktop/ReaderNavBarDesktop.tsx
+msgid "Static navigation"
+msgstr "תפריט ניווט קבוע"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr "בחירת מקורות פעילים"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Unread"
+msgstr "לא נקראו"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Unread chapters"
+msgstr "מספר פרקים שלא נקראו"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Total chapters"
+msgstr "מספר פרקים כולל"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Recently added"
+msgstr "נוספו לאחרונה"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Recently read"
+msgstr "נקראו לאחרונה"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Latest fetched chapter"
+msgstr "פרקים שהתעדכנו לאחרונה"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Latest uploaded chapter"
+msgstr "פרקים שהועלו לאחרונה"
+
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr "הפרק האחרון: {latestChapterNumber}"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Latest"
+msgstr "עדכני"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Popular"
+msgstr "פופולרי"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "List"
+msgstr "רשימה"
+
+#: src/features/settings/components/images/KeyValueItem.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Name"
+msgstr "שם"
+
+#: src/features/backup/Backup.utils.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Never"
+msgstr "אף פעם"
+
+#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+msgid "Share"
+msgstr "שיתוף"
+
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+msgid "Quick settings"
+msgstr "הגדרות מהירות"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "מקורות למבוגרים בלבד (18+ / NSFW)"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr "אין מקורות מותקנים"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/manga/components/MangaOptionButton.tsx
+msgid "Options"
+msgstr "אפשרויות"
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "חסרים: {0}"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Uploading"
+msgstr "מעלה"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+msgid "Warning"
+msgstr "אזהרה"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Merging"
+msgstr "ממזג"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Success"
+msgstr "הושלם בהצלחה"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr "התחלת החיפוש"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr "בהמתנה…"
+
+#: src/base/components/downloads/DownloadStateIndicator.tsx
+msgid "Queued"
+msgstr "בהמתנה"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/manga/Manga.constants.ts
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
+msgid "Migrate"
+msgstr "העברה"
+
+#. placeholder {0}: manga.title
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/migration/MigrationManager.ts
+msgid "Migrate \"{0}\""
+msgstr "העברת \"{0}\""
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "העברת הנבחרים"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr "אפשרויות העברה"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr "מעביר"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Migrating manga…"
+msgstr "מעביר מנגה…"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr "מעביר…"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr "ההעברה הושלמה"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr "מידע על ההעברה"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr "התחלת ההעברה"
+
+#: src/features/migration/MigrationManager.ts
+msgid ""
+"The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"ההעברה מתבצעת בממשק המשתמש במכשיר הנוכחי, ולא בשרת.\n"
+"כל עוד שהממשק פתוח, התהליך ימשיך לרוץ ברקע.\n"
+"אפשר לסגור את הממשק, והתהליך יתחדש לאחר פתיחתו מחדש באותו מכשיר שבו התחיל."
+
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr "ההעברה בוצעה בהצלחה"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Successfully migrated manga"
+msgstr "המנגה הועברה בהצלחה"
+
+#: src/features/migration/MigrationManager.ts
+msgid "WebUI must be kept open. Migration can't be resumed"
+msgstr "לא ניתן לחדש את ההעברה, יש להשאיר את ממשק המשתמש (WebUI) פתוח"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "חיפוש ידני להעברת \"{title}\""
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "התאמה ידנית בהעברה מרובה"
+
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr "אי אפשר לבחור את אותו פריט כיעד ההעברה"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "OPDS"
+msgstr "קטלוג OPDS"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "Paused — {count} remaining"
+msgstr "בהשהיה — נותרו {count}"
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Record keybind"
+msgstr "הקלטת צירוף מקשים"
+
+#. placeholder {0}: recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Recorded hotkeys: {0}"
+msgstr "צירוף המקשים שהוקלט: {0}"
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Press keys"
+msgstr "יש ללחוץ על המקשים"
+
+#: src/base/components/settings/DateSetting.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Remove"
+msgstr "‏הסרה"
+
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Refresh"
+msgstr "רענון"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+msgid "Reload data from source"
+msgstr "רענון נתונים מהמקור"
+
+#: src/features/manga/components/ResumeFAB.tsx
+msgid "Resume"
+msgstr "המשך קריאה"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "לא ניתן היה לנסות שוב את העברת \"{title}\""
+
+#. placeholder {0}: otherChapters.length
+#: src/features/updates/components/ChapterUpdateCard.tsx
+msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr "{0, plural, one {הצגת פרק אחד נוסף} other {הצגת # פרקים נוספים}}"
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr "התאמות"
+
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+msgid "Source Configuration"
+msgstr "הגדרות המקור"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+msgid "Source title"
+msgstr "שם הפרק מהמקור"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Score"
+msgstr "ציון"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "מקורות"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Smartphone_Name-1 | length: 16, chars: letters, numbers, -, _"
+msgstr "Smartphone_Name-1 | עד 16 תווים: אותיות באנגלית, מספרים, -, _"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Stop"
+msgstr "עצירה"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Stop global update"
+msgstr "עצירת העדכון הכללי"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+#: src/features/manga/components/ResumeFAB.tsx
+msgid "Start"
+msgstr "התחלה"
+
+#: src/features/browse/extensions/components/ExtensionCard.tsx
+#: src/features/extension/Extensions.constants.ts
+msgid "Obsolete"
+msgstr "הוסר מהמאגר ולא מתוחזק"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Weblate"
+msgstr "Weblate"
+
+#: src/features/settings/components/images/KeyValueItem.tsx
+msgid "Value"
+msgstr "ערך"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Start date"
+msgstr "תאריך התחלה"
+
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+#: src/features/extension/Extensions.constants.ts
+msgid "Update"
+msgstr "עדכון"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Update all"
+msgstr "עדכון הכול"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Update category"
+msgstr "עדכון הקטגוריה"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Update library"
+msgstr "עדכון הספרייה"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarSize.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingPageGap.tsx
+msgid "px"
+msgstr "px‏"
+
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr ""
+"הפריט ‎\"‏‎{0}‎‏ (‎{1}‎‏; ‎{sourceTitle}‎‏ (‎{2}‎‏)‎)‎\"‎‏ נמצא במצב לא תקין: ‎\"{3}\"‎‏"
+
+#: src/features/reader/screens/Reader.tsx
+msgid "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
+msgstr "ממשק קריאה — מנגה {mangaId}, פרק {chapterSourceOrder}"
+
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid ""
+"Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
+"Limit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
+msgstr ""
+"חיפוש לפי מזהה באמצעות ‎\"id:<ID>\"‎‏ (לדוגמה: ‎\"id:13\"‎‏)\n"
+"הגבלת החיפוש לרשימות המעקב האישיות שלך באמצעות ‎\"my:<Title>\"‎‏ (לדוגמה: ‎"
+"\"my:One Piece\"‎‏)"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/More.tsx
+msgid "More"
+msgstr "עוד"
+
+#: src/base/components/feedback/EmptyView.tsx
+#: src/base/components/SpinnerImage.tsx
+#: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Retry"
+msgstr "ניסיון חוזר"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Long strip"
+msgstr "פורמט ארוך (Long strip)"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/Tracker.constants.ts
+msgid "Manhua"
+msgstr "מנגה סינית (Manhua)"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/Tracker.constants.ts
+msgid "Manhwa"
+msgstr "מנגה קוראנית (Manhwa)"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Novel"
+msgstr "רומן / ספר"
+
+#: src/features/settings/Settings.constants.ts
+msgid "VUI"
+msgstr "VUI"
+
+#: src/features/settings/screens/About.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "WebUI"
+msgstr "WebUI‏"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Oneshot"
+msgstr "סיפור קצר (Oneshot)"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "OEL"
+msgstr "מנגה מערבית (OEL)"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT access token expiry"
+msgstr "משך תוקף אסימון הגישה של JWT"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT refresh token expiry"
+msgstr "משך תוקף אסימון הרענון של JWT"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT audience claim"
+msgstr "מזהה קהל היעד של JWT"
+
+#: src/features/library/screens/Library.tsx
+msgid "Search for \"{query}\" globally"
+msgstr "חיפוש \"{query}\" במקורות המותקנים"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/settings/Settings.constants.ts
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Started"
+msgstr "הותחלה"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Automated backup"
+msgstr "גיבוי אוטומטי"
