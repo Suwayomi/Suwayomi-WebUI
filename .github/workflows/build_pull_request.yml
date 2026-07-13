@@ -24,6 +24,9 @@ jobs:
       - name: Run ESLint
         run: pnpm lint
 
+      - name: Run ESLint
+        run: pnpm format:check
+
       - name: Run TSC
         run: pnpm tsc
 
