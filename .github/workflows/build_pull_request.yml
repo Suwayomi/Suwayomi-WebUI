@@ -21,10 +21,10 @@ jobs:
       - name: Install modules
         run: pnpm ci
 
-      - name: Run ESLint
+      - name: Run linter
         run: pnpm lint
 
-      - name: Run ESLint
+      - name: Run format check
         run: pnpm format:check
 
       - name: Run TSC
