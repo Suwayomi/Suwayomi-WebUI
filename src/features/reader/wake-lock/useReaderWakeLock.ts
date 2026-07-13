@@ -10,10 +10,8 @@ import { useEffect, useRef } from 'react';
 
 export function useReaderWakeLock(shouldLock: boolean) {
     const wakeLockSentinelRef = useRef<WakeLockSentinel | null>(null);
-
+    if (!('wakeLock' in navigator)) {return;}
     useEffect(() => {
-        if (!('wakeLock' in navigator)) {return;}
-
         const requestWakeLock = async () => {
             try {
                 if (wakeLockSentinelRef.current) {return;}
