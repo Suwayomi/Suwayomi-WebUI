@@ -2194,10 +2194,9 @@ msgstr "Large"
 msgid "Last read chapter"
 msgstr "Last read chapter"
 
-#. placeholder {0}: getDateString(epochToDate(Number(syncDate)), true, true)
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Last sync: {0}"
-msgstr "Last sync: {0}"
+msgid "Last sync: {syncDate}"
+msgstr "Last sync: {syncDate}"
 
 #: src/features/updates/screens/Updates.tsx
 msgid "Last update: {date}"
