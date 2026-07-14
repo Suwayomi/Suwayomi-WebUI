@@ -3555,8 +3555,15 @@ export class RequestManager {
                     const { cache } = this.graphQLClient.client;
 
                     if (downloadChanged?.omittedUpdates) {
+                        const cacheData = (cache as InMemoryCache).extract();
+
                         this.graphQLClient.client.refetchQueries({
                             updateCache() {
+                                for (const [id, value] of Object.entries(cacheData)) {
+                                    if ((value as any)?.__typename === 'DownloadType') {
+                                        cache.evict({ id });
+                                    }
+                                }
                                 cache.evict({ id: 'DownloadStatus:{}' });
                                 cache.evict({ fieldName: 'downloadStatus' });
                             },
