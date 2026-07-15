@@ -499,6 +499,7 @@ msgstr "Author"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 msgid "Auto"
 msgstr "Auto"
 
@@ -1577,6 +1578,10 @@ msgstr "Electron"
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Electron path"
 msgstr "Electron path"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Enable auto background color in continuous reading mode"
+msgstr "Enable auto background color in continuous reading mode"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Enable debug logs"

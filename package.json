@@ -54,6 +54,7 @@
         "@vibrant/color": "4.0.4",
         "apollo-upload-client": "19.0.0",
         "awaitable-component": "1.0.0",
+        "colorthief": "3.4.0",
         "csstype": "3.2.3",
         "dayjs": "1.11.21",
         "fast-average-color": "9.5.2",

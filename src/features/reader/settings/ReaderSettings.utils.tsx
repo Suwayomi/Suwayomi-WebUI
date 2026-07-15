@@ -14,7 +14,12 @@ import type {
     ReaderPagerProps,
     SafeAreaInset,
 } from '@/features/reader/Reader.types.ts';
-import { ProgressBarPosition, ReaderPageScaleMode, ReadingMode } from '@/features/reader/Reader.types.ts';
+import {
+    ProgressBarPosition,
+    ReaderBackgroundColor,
+    ReaderPageScaleMode,
+    ReadingMode,
+} from '@/features/reader/Reader.types.ts';
 import type { MangaGenreInfo, MangaSourceNameInfo } from '@/features/manga/Manga.types.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { ReaderPagedPager } from '@/features/reader/viewer/pager/components/ReaderPagedPager.tsx';
@@ -22,6 +27,10 @@ import { ReaderDoublePagedPager } from '@/features/reader/viewer/pager/component
 import { ReaderVerticalPager } from '@/features/reader/viewer/pager/components/ReaderVerticalPager.tsx';
 import { ReaderHorizontalPager } from '@/features/reader/viewer/pager/components/ReaderHorizontalPager.tsx';
 import { ScrollDirection } from '@/base/Base.types.ts';
+import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
+import { getValueFromObject } from '@/lib/HelperFunctions.ts';
+import type { Theme } from '@mui/material/styles';
+import { Colors } from '@/lib/Colors.ts';
 
 export const isOffsetDoubleSpreadPagesEditable = (readingMode: IReaderSettings['readingMode']): boolean =>
     readingMode === ReadingMode.DOUBLE_PAGE;
@@ -117,3 +126,33 @@ export const getSafeAreaInsets = (
     ...(direction === ScrollDirection.Y && safeAreaInset.bottom ? ['env(safe-area-inset-bottom)'] : []),
     ...(direction === ScrollDirection.X && safeAreaInset.left ? ['env(safe-area-inset-left)'] : []),
 ];
+
+export const getReaderBackgroundColor = (
+    backgroundColor: ReaderBackgroundColor,
+    pageBackgroundColor: string | undefined,
+    isContinuousReadingModeFlag: boolean,
+    useAutoBackgroundColorContinuousMode: boolean,
+    theme: Theme,
+    invertColors: boolean = false,
+    applySepia: boolean = false,
+    applyGrayscale: boolean = false,
+): string => {
+    const applyFilters = (hex: string): string => {
+        const maybeGray = applyGrayscale ? Colors.grayscaleHex(hex) : hex;
+        const maybeSepia = applySepia ? Colors.sepiaHex(maybeGray) : maybeGray;
+        const maybeInverted = invertColors ? Colors.invertColorHex(maybeSepia) : maybeSepia;
+
+        return maybeInverted;
+    };
+
+    const isAuto = backgroundColor === ReaderBackgroundColor.AUTO;
+    const isAutoColorUsable = isAuto && !!pageBackgroundColor;
+    const isAutoColorAllowed = !isContinuousReadingModeFlag || useAutoBackgroundColorContinuousMode;
+
+    const useAutoColor = isAutoColorUsable && isAutoColorAllowed;
+    if (useAutoColor) {
+        return applyFilters(pageBackgroundColor);
+    }
+
+    return getValueFromObject(theme.palette, READER_BACKGROUND_TO_COLOR[backgroundColor]);
+};

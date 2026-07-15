@@ -296,6 +296,9 @@ export const APP_METADATA: Record<
     backgroundColor: {
         convert: convertToNumber, // ReaderBackgroundColor (enum)
     },
+    useAutoBackgroundColorContinuousMode: {
+        convert: convertToBoolean,
+    },
     pageGap: {
         convert: convertToNumber,
         toConstrainedValue: (value: number) => coerceIn(value, PAGE_GAP.min, PAGE_GAP.max),

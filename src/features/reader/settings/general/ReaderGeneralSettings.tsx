@@ -33,7 +33,8 @@ export const ReaderGeneralSettings = ({
             />
             <ReaderSettingBackgroundColor
                 backgroundColor={settings.backgroundColor}
-                updateSetting={(value) => updateSetting('backgroundColor', value)}
+                useAutoBackgroundColorContinuousMode={settings.useAutoBackgroundColorContinuousMode}
+                updateSetting={(...args) => updateSetting(...args)}
             />
             <ReaderSettingProgressBarType
                 overlayMode={overlayMode}

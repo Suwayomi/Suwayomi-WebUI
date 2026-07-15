@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Settings/WebView**) Add setting to enable/disable WebView
 - (**Settings/Sync**) Add sync settings
 - (**Extension**) Support installing external JARs
+- (**Reader**) Add auto background color setting
 
 ### Changed
 
