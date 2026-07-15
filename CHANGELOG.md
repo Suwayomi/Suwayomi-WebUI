@@ -39,6 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Simplify changing settings in desktop sidebar
 - (**Reader**) Ignore tap zone clicks while window does not have focus
 - (**Reader**) Improve preloading pages from the previous/next chapter
+- (**Reader**) Show page number with the standard desktop progress bar selected
 - (**Category**) Require confirmation before deleting a category
 - (**Download**) Respect manga chapter filters on bulk manga download in the library
 - (**History**) Show only the last read chapter per manga
