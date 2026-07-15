@@ -18,5 +18,6 @@ export const ReaderProgressBarPageNumber = styled(Typography)({
     textAlign: 'center',
     userSelect: 'none',
     cursor: 'pointer',
+    textWrap: 'nowrap',
     WebkitTapHighlightColor: 'transparent',
 });
