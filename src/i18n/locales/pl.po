@@ -480,10 +480,6 @@ msgstr "Tryb mieszania filtra kolorów"
 msgid "Comfortable grid"
 msgstr "Wygodna siatka"
 
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "Komiks"
-
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Compact grid"
@@ -1501,12 +1497,6 @@ msgstr "Wyloguj"
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Logged in"
 msgstr "Zalogowano"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "Długi pasek"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""
