@@ -8,12 +8,18 @@
 
 import { useEffect, useRef } from 'react';
 
-export function useReaderWakeLock(shouldLock: boolean) {
+export const useWakeLock = (shouldLock: boolean) => {
     const wakeLockSentinelRef = useRef<WakeLockSentinel | null>(null);
+
     useEffect(() => {
         if (!('wakeLock' in navigator)) {
             return;
         }
+
+        if (!shouldLock) {
+            return;
+        }
+
         const requestWakeLock = async () => {
             try {
                 if (wakeLockSentinelRef.current) {
@@ -41,16 +47,12 @@ export function useReaderWakeLock(shouldLock: boolean) {
             }
         };
 
-        if (shouldLock) {
-            requestWakeLock();
-            document.addEventListener('visibilitychange', handleVisibilityChange);
-        } else {
-            releaseWakeLock();
-        }
+        requestWakeLock();
+        document.addEventListener('visibilitychange', handleVisibilityChange);
 
         return () => {
             document.removeEventListener('visibilitychange', handleVisibilityChange);
             releaseWakeLock();
         };
     }, [shouldLock]);
-}
+};
