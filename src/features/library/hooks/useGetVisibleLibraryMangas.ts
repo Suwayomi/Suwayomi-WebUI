@@ -173,6 +173,8 @@ const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(
 
 const sortByString = (a: string, b: string): number => a.localeCompare(b, undefined, { sensitivity: 'base' });
 
+const sortByRandom = () => Math.floor((Math.random() * 3) - 1);
+
 type TMangaSort = MangaTitleInfo &
     MangaInLibraryInfo &
     MangaUnreadInfo &
@@ -204,6 +206,8 @@ const sortManga = <Manga extends TMangaSort>(
                 return (a, b) => sortByNumber(a.latestFetchedChapter?.fetchedAt, b.latestFetchedChapter?.fetchedAt);
             case 'totalChapters':
                 return (a, b) => sortByNumber(a.chapters.totalCount, b.chapters.totalCount);
+            case 'random':
+                return () => sortByRandom();
             default:
                 return () => 0;
         }
