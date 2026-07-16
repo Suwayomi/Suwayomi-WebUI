@@ -951,10 +951,6 @@ msgstr "Λειτουργία ανάμειξης φίλτρου χρώματος"
 msgid "Comfortable grid"
 msgstr "Άνετο πλέγμα"
 
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "Κόμικ"
-
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Compact grid"
@@ -2321,10 +2317,6 @@ msgstr "Συνδεδεμένος/-η"
 #: src/features/tracker/screens/TrackerOAuthLogin.tsx
 msgid "Logging in to {trackerName}…"
 msgstr "Σύνδεση στο {trackerName}…"
-
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "Μακρά λωρίδα"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""

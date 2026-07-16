@@ -478,10 +478,6 @@ msgstr "வண்ண வடிகட்டி கலப்பு முறை"
 msgid "Comfortable grid"
 msgstr "வசதியான கட்டம்"
 
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "காமிக்"
-
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Compact grid"
@@ -1495,12 +1491,6 @@ msgstr "விடுபதிகை"
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Logged in"
 msgstr "உள்நுழைந்தது"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "நீண்ட துண்டு"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""

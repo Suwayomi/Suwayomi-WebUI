@@ -520,10 +520,6 @@ msgstr "Режим смешивания цветового фильтра"
 msgid "Comfortable grid"
 msgstr "Удобная сетка"
 
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "Комикс"
-
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Compact grid"
@@ -1707,12 +1703,6 @@ msgstr "Выйти"
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Logged in"
 msgstr "В системе"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "Длинная полоска"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""

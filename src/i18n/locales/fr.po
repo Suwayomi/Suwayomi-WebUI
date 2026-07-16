@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-07-07 06:42+0000\n"
+"PO-Revision-Date: 2026-07-16 07:01+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -495,10 +495,6 @@ msgstr "Mode de fusion du filtre de couleur"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Comfortable grid"
 msgstr "Grille confortable"
-
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "Comic"
 
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -1562,12 +1558,6 @@ msgstr "Se déconnecter"
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Logged in"
 msgstr "Connecté"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "Bande continue"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""
@@ -4317,11 +4307,6 @@ msgstr "Magasins d'extensions"
 msgid "Include: {includedSyncDataText}"
 msgstr "Inclure : {includedSyncDataText}"
 
-#. placeholder {0}: getDateString(epochToDate(Number(syncDate)), true, true)
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Last sync: {0}"
-msgstr "Dernière synchro : {0}"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Merging"
 msgstr "Fusion en cours"
@@ -4426,3 +4411,11 @@ msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
 msgstr ""
 "{0, plural, one {Afficher # chapitre de plus} other {Afficher # chapitres de "
 "plus}}"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Automated backup"
+msgstr "Sauvegarde automatique"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Last sync: {syncDate}"
+msgstr "Dernière synchro : {syncDate}"

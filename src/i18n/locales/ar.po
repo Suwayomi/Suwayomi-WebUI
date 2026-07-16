@@ -2868,10 +2868,6 @@ msgstr "بيانات المستخدم"
 msgid "Color filter blend mode"
 msgstr "وضع دمج فلتر الألوان"
 
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "قصص مصورة"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Compatible"
 msgstr "متوافق"
@@ -3420,12 +3416,6 @@ msgstr "تسجيل الخروج من {0}"
 #: src/features/tracker/screens/TrackerOAuthLogin.tsx
 msgid "Logging in to {trackerName}…"
 msgstr "جاري تسجيل الدخول إلى {trackerName}…"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "شريط طولي"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""
