@@ -49,6 +49,7 @@ const SORT_OPTIONS: [LibrarySortMode, MessageDescriptor][] = [
     ['lastRead', msg`Recently read`],
     ['latestFetchedChapter', msg`Latest fetched chapter`],
     ['latestUploadedChapter', msg`Latest uploaded chapter`],
+    ['random', msg`Random`],
 ];
 
 export const LibraryOptionsPanel = ({
