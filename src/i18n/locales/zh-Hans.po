@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-07-10 18:51+0000\n"
+"PO-Revision-Date: 2026-07-16 19:37+0000\n"
 "Last-Translator: 清水汐音 <chenzhongjie19940725@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -529,10 +529,6 @@ msgstr "颜色滤镜混合模式"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Comfortable grid"
 msgstr "松散网格"
-
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "美漫"
 
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -1707,12 +1703,6 @@ msgstr "注销"
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Logged in"
 msgstr "已登录"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "条漫"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""
@@ -4272,11 +4262,6 @@ msgstr "无法开始同步"
 msgid "Creating backup"
 msgstr "正在创建备份"
 
-#. placeholder {0}: getDateString(epochToDate(Number(syncDate)), true, true)
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Last sync: {0}"
-msgstr "上次同步：{0}"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Merging"
 msgstr "合并中"
@@ -4313,3 +4298,47 @@ msgstr "{0, plural, one {显示另外 # 章} other {显示另外 # 章}}"
 #: src/features/backup/screens/Backup.tsx
 msgid "Automated backup"
 msgstr "自动备份"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-comic"
+msgstr "美漫"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-long-strip"
+msgstr "条漫"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manga"
+msgstr "漫画"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhua"
+msgstr "国漫"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhwa"
+msgstr "韩漫"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-webtoon"
+msgstr "网漫"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Enable auto background color in continuous reading mode"
+msgstr "连续阅读模式下自动调整背景颜色"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Last sync: {syncDate}"
+msgstr "上一次同步：{syncDate}"
