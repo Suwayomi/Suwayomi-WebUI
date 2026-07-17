@@ -15,7 +15,6 @@ import Popover from '@mui/material/Popover';
 import { bindPopover, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { Link } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { ReaderChapterList } from '@/features/reader/overlay/navigation/components/ReaderChapterList.tsx';
@@ -80,7 +79,6 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
                 </Select>
             </FormControl>
             <ReaderNavBarDesktopNextPreviousButton
-                component={Link}
                 type="next"
                 title={getOptionForDirection(t`Next chapter`, t`Previous chapter`, readerThemeDirection)}
                 onClick={() => {

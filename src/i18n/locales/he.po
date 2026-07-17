@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-07-10 10:01+0000\n"
+"PO-Revision-Date: 2026-07-16 07:01+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.7.1.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: updateStatus.progress
@@ -808,10 +808,6 @@ msgstr "מצב מיזוג מסנן הצבע"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Comfortable grid"
 msgstr "פריסה מרווחת"
-
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "קומיקס"
 
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -3636,11 +3632,6 @@ msgstr "הסנכרון כבוי"
 msgid "Start sync"
 msgstr "הרצת סנכרון"
 
-#. placeholder {0}: getDateString(epochToDate(Number(syncDate)), true, true)
-#: src/features/settings/screens/ServerSettings.tsx
-msgid "Last sync: {0}"
-msgstr "סנכרון אחרון: {0}"
-
 #: src/features/settings/Settings.constants.ts
 msgid "Restoring"
 msgstr "משחזר"
@@ -4283,10 +4274,6 @@ msgid "Retry"
 msgstr "ניסיון חוזר"
 
 #: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "פורמט ארוך (Long strip)"
-
-#: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhua"
 msgstr "מנגה סינית (Manhua)"
@@ -4344,3 +4331,43 @@ msgstr "הותחלה"
 #: src/features/backup/screens/Backup.tsx
 msgid "Automated backup"
 msgstr "גיבוי אוטומטי"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-comic"
+msgstr "קומיקס"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhwa"
+msgstr "מנהווה"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhua"
+msgstr "מנהואה"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-webtoon"
+msgstr "וובטון"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manga"
+msgstr "מנגה"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-long-strip"
+msgstr "רצועה ארוכה"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Last sync: {syncDate}"
+msgstr "סנכרון אחרון: {syncDate}"
