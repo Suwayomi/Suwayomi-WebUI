@@ -62,7 +62,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import { AwaitableComponent } from 'awaitable-component';
 import { convertToAutoBackupFlags, getAutoBackupFlagsInfo } from '@/features/backup/Backup.utils.ts';
 import type { BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
-import { epochToDate, getDateString } from '@/base/utils/DateHelper.ts';
+import { getDateString } from '@/base/utils/DateHelper.ts';
 
 const convertSyncDataToBackupFlags = (settings: ServerSettingsType): BackupFlagInclusionState => ({
     includeManga: settings.syncDataManga,
@@ -236,7 +236,8 @@ export const ServerSettings = () => {
     const excludedSyncDataText = syncDataFlagsInfo.false;
 
     const syncStatus = syncStatusRequest.data?.lastSyncStatus;
-    const syncDate = syncStatus?.endDate ?? syncStatus?.startDate;
+    const tmpSyncDate = syncStatus?.endDate ?? syncStatus?.startDate;
+    const syncDate = tmpSyncDate ? getDateString(Number(tmpSyncDate), true, true) : undefined;
     const syncState = syncStatus?.state;
     const isSyncing = !!syncState && ![SyncState.Success, SyncState.Error].includes(syncState);
 
@@ -771,7 +772,7 @@ export const ServerSettings = () => {
                         primary={isSyncing ? t`Sync status` : t`Start sync`}
                         secondary={
                             <>
-                                {syncDate && t`Last sync: ${getDateString(epochToDate(Number(syncDate)), true, true)}`}{' '}
+                                {syncDate && t`Last sync: ${syncDate}`}{' '}
                                 {syncState && t`- State: ${t(SYNC_STATE_TRANSLATION[syncState])}`}
                                 {!!syncStatus?.errorMessage && `\nError: ${syncStatus.errorMessage}`}
                             </>

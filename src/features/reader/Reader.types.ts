@@ -69,6 +69,7 @@ export enum ReaderBackgroundColor {
     BLACK,
     GRAY,
     WHITE,
+    AUTO,
 }
 
 export interface ReaderFilterRGBA {
@@ -159,6 +160,7 @@ export interface IReaderSettingsGlobal {
     shouldShowPageNumber: boolean;
     isStaticNav: boolean;
     backgroundColor: ReaderBackgroundColor;
+    useAutoBackgroundColorContinuousMode: boolean;
     hotkeys: Record<ReaderHotkey, string[]>;
     imagePreLoadAmount: number;
     shouldUseAutoWebtoonMode: boolean;
@@ -322,6 +324,10 @@ export interface ReaderStatePages {
     setPageLoadStates: (
         set: ((prevStates: ReaderPageLoadState[]) => ReaderPageLoadState[]) | ReaderPageLoadState[],
     ) => void;
+    pageBackgroundColors: ReaderPageBackgroundColor[];
+    setPageBackgroundColor: (
+        set: ((prev: ReaderPageBackgroundColor[]) => ReaderPageBackgroundColor[]) | ReaderPageBackgroundColor[],
+    ) => void;
     pages: PageData[];
     setPages: (pages: PageData[]) => void;
     transitionPageMode: ReaderTransitionPageMode;
@@ -396,3 +402,5 @@ export type TReaderStateSettingsContext = {
 };
 
 export type ReaderPageSpreadState = { url: string; isSpread: boolean };
+
+export type ReaderPageBackgroundColor = { url: string; color: string | undefined };

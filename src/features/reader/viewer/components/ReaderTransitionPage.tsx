@@ -14,7 +14,7 @@ import type { ComponentProps } from 'react';
 import { memo, useMemo } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
-import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
+import type { ReaderBackgroundColor } from '@/features/reader/Reader.types.ts';
 import { ReaderTransitionPageMode, ReadingMode } from '@/features/reader/Reader.types.ts';
 import { isTransitionPageVisible } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
 import { useBackButton } from '@/base/hooks/useBackButton.ts';
@@ -28,7 +28,6 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { getValueFromObject, noOp } from '@/lib/HelperFunctions.ts';
-import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import type { ChapterIdInfo, ChapterNameInfo, ChapterScanlatorInfo } from '@/features/chapter/Chapter.types.ts';
 import {
     useReaderChaptersStore,
@@ -37,6 +36,7 @@ import {
     useReaderSettingsStore,
     useReaderStore,
 } from '@/features/reader/stores/ReaderStore.ts';
+import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 
 const ChapterInfo = ({
     title,
@@ -47,12 +47,12 @@ const ChapterInfo = ({
     title: string;
     name?: ChapterNameInfo['name'];
     scanlator?: ChapterScanlatorInfo['scanlator'];
-    backgroundColor: IReaderSettings['backgroundColor'];
+    backgroundColor: ReaderBackgroundColor;
 }) => {
     const theme = useTheme();
 
     const contrastText = theme.palette.getContrastText(
-        getValueFromObject(theme.palette, READER_BACKGROUND_TO_COLOR[backgroundColor]),
+        getValueFromObject<string>(theme.palette, READER_BACKGROUND_TO_COLOR[backgroundColor]),
     );
     const disabledText = theme.alpha(contrastText, 0.5);
 
@@ -131,21 +131,22 @@ const BaseReaderTransitionPage = ({
             sx={{
                 justifyContent: 'center',
                 alignItems: 'center',
+                backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
                 ...applyStyles(!isContinuousReadingMode(readingMode), {
-                    width: '100%',
-                    height: '100%',
+                    width: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                    height: `calc(100vh - ${scrollbar.xSize}px)`,
                 }),
                 ...applyStyles(isContinuousReadingMode(readingMode), {
                     position: 'sticky',
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         left: 0,
-                        maxWidth: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
-                        minHeight: `calc(100vh - ${scrollbar.xSize}px)`,
+                        width: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                        height: `calc(100vh - ${scrollbar.xSize}px)`,
                     }),
                     ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
                         top: 0,
-                        minWidth: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
-                        maxHeight: `calc(100vh - ${scrollbar.xSize}px)`,
+                        width: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                        height: `calc(100vh - ${scrollbar.xSize}px)`,
                     }),
                 }),
             }}

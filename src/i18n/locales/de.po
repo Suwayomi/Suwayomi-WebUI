@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.799Z\n"
-"PO-Revision-Date: 2026-06-10 08:01+0000\n"
+"PO-Revision-Date: 2026-07-12 11:33+0000\n"
 "Last-Translator: Constantin Piber <cp.piber@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/de/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.1.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -513,10 +513,6 @@ msgstr "Farbfilter Mischmodus"
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Comfortable grid"
 msgstr "Komfortable Gitteransicht"
-
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "Comic"
 
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
@@ -1698,12 +1694,6 @@ msgstr "Abmelden"
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Logged in"
 msgstr "Eingeloggt"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "Long strip"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""
@@ -4172,3 +4162,266 @@ msgid "WebUI must be kept open. Migration can't be resumed"
 msgstr ""
 "WebUI muss offen gehalten werden. Die Migration kann nicht wiederaufgenommen "
 "werden"
+
+#. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "- State: {0}"
+msgstr "- Status: {0}"
+
+#. placeholder {0}: otherChapters.length
+#: src/features/updates/components/ChapterUpdateCard.tsx
+msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr ""
+"{0, plural, one {Zeige # weiteres Kapitel} other {Zeige # weitere Kapitel}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
+msgstr "{extensionCount, plural, one {# Erweiterung} other {# Erweiterungen}}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{extensionStoreCount, plural, one {# extension store} other {# extension stores}}"
+msgstr ""
+"{extensionStoreCount, plural, one {# Erweiterungskatalog} other {# "
+"Erweiterungskataloge}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
+msgstr ""
+"{installedExtensionCount, plural, one {# installiert} other {# installiert}}"
+
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Add extension store"
+msgstr "Erweiterungskatalog hinzufügen"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Automated backup"
+msgstr "Automatisiertes Backup"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "Manuelle Suche für Mehrfach-Migration"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-comic"
+msgstr "Comic"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Copy index url"
+msgstr "Index-URL kopieren"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not add extension store"
+msgstr "Erweiterungskatalog konnte nicht hinzugefügt werden"
+
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "Could not delete category"
+msgstr "Kategorie konnte nicht gelöscht werden"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not remove extension store \"{name}\""
+msgstr "Erweiterungskatalog \"{name}\" konnte nicht entfernt werden"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "\"{title}\" konnte nicht neu geladen werden"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not start sync"
+msgstr "Sync konnte nicht gestartet werden"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Creating backup"
+msgstr "Backup wird erstellt"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Daily"
+msgstr "Täglich"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable the WebView via CEF (Chromium)"
+msgstr "Aktiviere WebView via CEF (Chromium)"
+
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr ""
+"Eintrag \"{0} ({1}; {sourceTitle} ({2}))\" ist in invalidem Zustand \"{3}\""
+
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{id}\" not found"
+msgstr "Eintrag \"{id}\" nicht gefunden"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 12 hours"
+msgstr "Alle 12 Stunden"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 3 hours"
+msgstr "Alle 3 Stunden"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 30 minutes"
+msgstr "Alle 30 Minuten"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 6 hours"
+msgstr "Alle 6 Stunden"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every hour"
+msgstr "Jede Stunde"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Exclude: {excludedSyncDataText}"
+msgstr "Ausgeschlossen: {excludedSyncDataText}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Extension stores"
+msgstr "Erweiterungskataloge"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Include: {includedSyncDataText}"
+msgstr "Eingeschlossen: {includedSyncDataText}"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-long-strip"
+msgstr "Long Strip"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manga"
+msgstr "Manga"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhua"
+msgstr "Manhua"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhwa"
+msgstr "Manhwa"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Merging"
+msgstr "Daten werden zusammengeführt"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open discord"
+msgstr "Discord öffnen"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open website"
+msgstr "Webseite öffnen"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Restoring"
+msgstr "Daten werden wiederhergestellt"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Skip chapter metadata feed"
+msgstr "Metadaten-Feed für Kapitel auslassen"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Start sync"
+msgstr "Starte Sync"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync"
+msgstr "Sync"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync data"
+msgstr "Daten zu Synchronisieren"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync disabled"
+msgstr "Sync ist deaktiviert"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync in progress"
+msgstr "Sync läuft"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync interval"
+msgstr "Sync-Intervall"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync started"
+msgstr "Sync wird gestartet"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi"
+msgstr "SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi API key"
+msgstr "SyncYomi API Schlüssel"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi enabled"
+msgstr "SyncYomi aktiviert"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi host"
+msgstr "SyncYomi Host"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Unable to load extension stores"
+msgstr "Erweiterungskataloge konnten nicht geladen werden"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "Unbekannte Quelle"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Uploading"
+msgstr "Daten werden hochgeladen"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-webtoon"
+msgstr "Webtoon"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "WebView"
+msgstr "WebView"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Weekly"
+msgstr "Wöchentlich"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"
+msgstr ""
+"Wenn aktiviert, werden Download- und Streaming-Links direkt in der "
+"Kapitelliste eingebettet. KoSync Strategien werden angewant, aber PROMP-"
+"Konflikte werden ignoriert (Lokaler Fortschritt hat Priorität)"
+
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\""
+msgstr "Do bist dabei, die Kategorie \"{0}\" zu löschen"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "You are about to remove \"{name}\" from the extension stores"
+msgstr "Du bist dabei, den Erweiterungskatalog \"{name}\" zu entfernen"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "You have to add a extension store to be able to install extensions"
+msgstr ""
+"Du musst einen Erweiterungskatalog hinzufügen, um Erweiterungen zu "
+"installieren"

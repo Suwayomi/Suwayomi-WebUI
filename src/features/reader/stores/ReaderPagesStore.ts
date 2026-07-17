@@ -25,6 +25,7 @@ export const READER_DEFAULT_PAGES_STATE: Omit<
     | 'setPageUrls'
     | 'setPageSpreadStates'
     | 'setPageLoadStates'
+    | 'setPageBackgroundColor'
     | 'setPages'
     | 'setTransitionPageMode'
     | 'setRetryFailedPagesKeyPrefix'
@@ -36,6 +37,7 @@ export const READER_DEFAULT_PAGES_STATE: Omit<
     pageUrls: [],
     pageSpreadStates: [{ url: '', isSpread: false }],
     pageLoadStates: [{ url: '', loaded: false }],
+    pageBackgroundColors: [{ url: '', color: undefined }],
     pages: [
         {
             name: '1',
@@ -113,6 +115,19 @@ export const createReaderPagesStoreSlice = <T extends ReaderPagesStoreSlice>(
                 },
                 undefined,
                 createActionName('setPageLoadStates'),
+            ),
+        setPageBackgroundColor: (dominantColors) =>
+            set(
+                (draft) => {
+                    if (typeof dominantColors === 'function') {
+                        draft.pages.pageBackgroundColors = dominantColors(get().pages.pageBackgroundColors);
+                        return;
+                    }
+
+                    draft.pages.pageBackgroundColors = dominantColors;
+                },
+                undefined,
+                createActionName('setPageBackgroundColors'),
             ),
         setPages: (pages) =>
             set(

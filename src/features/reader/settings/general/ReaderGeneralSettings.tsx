@@ -12,7 +12,6 @@ import { ReaderSettingProgressBarType } from '@/features/reader/overlay/progress
 import { ReaderSettingProgressBarSize } from '@/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarSize.tsx';
 import { ReaderSettingProgressBarPosition } from '@/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx';
 import type { IReaderSettings, ReaderSettingsTypeProps } from '@/features/reader/Reader.types.ts';
-import { ProgressBarType, ReaderOverlayMode } from '@/features/reader/Reader.types.ts';
 import { ReaderSettingOverlayMode } from '@/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { ReaderSettingBackgroundColor } from '@/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx';
@@ -34,7 +33,8 @@ export const ReaderGeneralSettings = ({
             />
             <ReaderSettingBackgroundColor
                 backgroundColor={settings.backgroundColor}
-                updateSetting={(value) => updateSetting('backgroundColor', value)}
+                useAutoBackgroundColorContinuousMode={settings.useAutoBackgroundColorContinuousMode}
+                updateSetting={(...args) => updateSetting(...args)}
             />
             <ReaderSettingProgressBarType
                 overlayMode={overlayMode}
@@ -53,13 +53,11 @@ export const ReaderGeneralSettings = ({
                 progressBarPositionAutoVertical={settings.progressBarPositionAutoVertical}
                 updateSetting={updateSetting}
             />
-            {(settings.progressBarType === ProgressBarType.HIDDEN || overlayMode === ReaderOverlayMode.MOBILE) && (
-                <CheckboxInput
-                    label={t`Show page number`}
-                    checked={settings.shouldShowPageNumber}
-                    onChange={(_, checked) => updateSetting('shouldShowPageNumber', checked)}
-                />
-            )}
+            <CheckboxInput
+                label={t`Show page number`}
+                checked={settings.shouldShowPageNumber}
+                onChange={(_, checked) => updateSetting('shouldShowPageNumber', checked)}
+            />
             <ReaderSettingSafeAreaInset
                 safeAreaInset={settings.safeAreaInset}
                 updateSetting={(value) => updateSetting('safeAreaInset', value)}

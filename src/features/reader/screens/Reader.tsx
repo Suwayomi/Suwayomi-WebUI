@@ -23,7 +23,6 @@ import { GET_CHAPTERS_READER } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import { TapZoneLayout } from '@/features/reader/tap-zones/TapZoneLayout.tsx';
 import { ReaderRGBAFilter } from '@/features/reader/filters/ReaderRGBAFilter.tsx';
 import { ReaderViewer } from '@/features/reader/viewer/ReaderViewer.tsx';
-import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { ReaderHotkeys } from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
@@ -40,16 +39,24 @@ import {
     getReaderOverlayStore,
     getReaderStore,
     useReaderChaptersStore,
+    useReaderPagesStore,
     useReaderSettingsStore,
     useReaderStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { ReaderAutoScroll } from '@/features/reader/auto-scroll/ReaderAutoScroll.tsx';
+import { getReaderBackgroundColor, isContinuousReadingMode } from '@/features/reader/settings/ReaderSettings.utils.tsx';
+import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
+import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
+import { READING_DIRECTION_TO_THEME_DIRECTION } from '@/features/reader/settings/ReaderSettings.constants.tsx';
+import { useTheme } from '@mui/material/styles';
 
 const BaseReader = ({
     setOverride,
     readerNavBarWidth,
 }: Pick<NavbarContextType, 'setOverride' | 'readerNavBarWidth'>) => {
     const { t } = useLingui();
+    const theme = useTheme();
+
     const manga = useReaderStore('manga');
     const { mangaChapters, initialChapter, chapterForDuplicatesHandling, currentChapter } = useReaderChaptersStore(
         'mangaChapters',
@@ -61,24 +68,33 @@ const BaseReader = ({
         shouldSkipDupChapters,
         shouldSkipFilteredChapters,
         backgroundColor,
-        readingMode,
-        tapZoneLayout,
-        tapZoneInvertMode,
         shouldShowReadingModePreview,
         shouldShowTapZoneLayoutPreview,
         shouldWakeLockScreen,
+        useAutoBackgroundColorContinuousMode,
     } = useReaderSettingsStore(
         'shouldSkipDupChapters',
         'shouldSkipFilteredChapters',
         'backgroundColor',
-        'readingMode',
-        'tapZoneLayout',
-        'tapZoneInvertMode',
         'shouldShowReadingModePreview',
         'shouldShowTapZoneLayoutPreview',
         'shouldWakeLockScreen',
+        'useAutoBackgroundColorContinuousMode',
     );
-    const safeAreaInset = useReaderSettingsStore((state) => state.safeAreaInset);
+    const readingMode = useReaderSettingsStore('readingMode');
+    const readingDirection = useReaderSettingsStore('readingDirection');
+    const tapZoneLayout = useReaderSettingsStore('tapZoneLayout');
+    const tapZoneInvertMode = useReaderSettingsStore('tapZoneInvertMode');
+    const safeAreaInset = useReaderSettingsStore('safeAreaInset');
+    const { invertColors, applySepia, applyGrayscale } = useReaderSettingsStore((state) => ({
+        invertColors: state.customFilter.invert,
+        applySepia: state.customFilter.sepia,
+        applyGrayscale: state.customFilter.grayscale,
+    }));
+
+    const currentPageIndex = useReaderPagesStore('currentPageIndex');
+    const pages = useReaderPagesStore('pages');
+    const pageBackgroundColors = useReaderPagesStore('pageBackgroundColors');
 
     const scrollElementRef = useRef<HTMLDivElement | null>(null);
 
@@ -114,6 +130,30 @@ const BaseReader = ({
         (chaptersResponse.loading && chaptersResponse.dataState !== 'complete') ||
         defaultSettingsResponse.loading;
     const error = mangaResponse.error ?? chaptersResponse.error ?? defaultSettingsResponse.error;
+
+    const page = getPage(currentPageIndex, pages);
+    const primaryPageBackground = getReaderBackgroundColor(
+        backgroundColor,
+        pageBackgroundColors[page.primary.index]?.color,
+        isContinuousReadingMode(readingMode.value),
+        useAutoBackgroundColorContinuousMode,
+        theme,
+        invertColors,
+        applySepia,
+        applyGrayscale,
+    );
+    const secondaryPageBackground = getReaderBackgroundColor(
+        backgroundColor,
+        pageBackgroundColors[page.secondary?.index ?? page.primary.index]?.color,
+        isContinuousReadingMode(readingMode.value),
+        useAutoBackgroundColorContinuousMode,
+        theme,
+        invertColors,
+        applySepia,
+        applyGrayscale,
+    );
+
+    const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
 
     useEffect(() => {
         getReaderStore().setManga(mangaResponse.data?.manga);
@@ -238,10 +278,11 @@ const BaseReader = ({
                 pr: safeAreaInset.right ? 'env(safe-area-inset-right)' : undefined,
                 pl: safeAreaInset.left ? 'env(safe-area-inset-left)' : undefined,
                 marginLeft: `${readerNavBarWidth}px`,
-                transition: (theme) =>
-                    `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s`,
+                transition: `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s, background 1.${theme.transitions.duration.shortest}s`,
                 overflow: 'auto',
-                backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
+                background: isContinuousReadingMode(readingMode.value)
+                    ? primaryPageBackground
+                    : `linear-gradient(to right, ${getOptionForDirection(primaryPageBackground, secondaryPageBackground, direction)} 0 50%, ${getOptionForDirection(secondaryPageBackground, primaryPageBackground, direction)} 50% 100%)`,
             }}
         >
             <ReaderViewer ref={scrollElementRef} />

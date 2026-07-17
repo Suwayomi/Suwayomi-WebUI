@@ -351,6 +351,7 @@ msgstr "A-Z"
 
 #: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
 #: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
 msgid "Abort"
 msgstr "Abort"
 
@@ -498,6 +499,7 @@ msgstr "Author"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 #: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 msgid "Auto"
 msgstr "Auto"
 
@@ -521,6 +523,10 @@ msgstr "Auto webtoon mode"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Auto-download"
 msgstr "Auto-download"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Automated backup"
+msgstr "Automated backup"
 
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 msgid "Automatic progress bar vertical position"
@@ -910,8 +916,10 @@ msgstr "Color filter blend mode"
 msgid "Comfortable grid"
 msgstr "Comfortable grid"
 
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
 #: src/features/manga/Manga.constants.ts
-msgid "Comic"
+msgid "entry-type-detection-comic"
 msgstr "Comic"
 
 #: src/base/components/GridLayouts.tsx
@@ -1571,6 +1579,10 @@ msgstr "Electron"
 msgid "Electron path"
 msgstr "Electron path"
 
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Enable auto background color in continuous reading mode"
+msgstr "Enable auto background color in continuous reading mode"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Enable debug logs"
 msgstr "Enable debug logs"
@@ -2191,10 +2203,9 @@ msgstr "Large"
 msgid "Last read chapter"
 msgstr "Last read chapter"
 
-#. placeholder {0}: getDateString(epochToDate(Number(syncDate)), true, true)
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "Last sync: {0}"
-msgstr "Last sync: {0}"
+msgid "Last sync: {syncDate}"
+msgstr "Last sync: {syncDate}"
 
 #: src/features/updates/screens/Updates.tsx
 msgid "Last update: {date}"
@@ -2343,8 +2354,10 @@ msgstr "Logged in"
 msgid "Logging in to {trackerName}…"
 msgstr "Logging in to {trackerName}…"
 
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
 #: src/features/manga/Manga.constants.ts
-msgid "Long strip"
+msgid "entry-type-detection-long-strip"
 msgstr "Long strip"
 
 #: src/features/device/screens/DeviceSetting.tsx
@@ -2357,11 +2370,16 @@ msgstr ""
 "UI specific settings that are stored on the server are per device.\n"
 "This makes it possible to have e.g. different settings on a desktop and a smartphone"
 
-#: src/features/manga/Manga.constants.ts
 #: src/features/manga/screens/Manga.tsx
 #: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manga"
+msgstr "Manga"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manga"
 msgstr "Manga"
 
 #: src/features/settings/screens/Appearance.tsx
@@ -2372,14 +2390,24 @@ msgstr "Manga item width"
 msgid "Manga thumbnail as background"
 msgstr "Manga thumbnail as background"
 
-#: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhua"
 msgstr "Manhua"
 
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
 #: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhua"
+msgstr "Manhua"
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhwa"
+msgstr "Manhwa"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhwa"
 msgstr "Manhwa"
 
 #: src/features/migration/MigrationManager.ts
@@ -4095,9 +4123,14 @@ msgstr "Warning"
 msgid "Weblate"
 msgstr "Weblate"
 
-#: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Webtoon"
+msgstr "Webtoon"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-webtoon"
 msgstr "Webtoon"
 
 #: src/features/settings/screens/About.tsx

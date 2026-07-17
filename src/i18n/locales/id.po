@@ -316,10 +316,6 @@ msgstr "Tutup"
 msgid "Comfortable grid"
 msgstr "Grid nyaman"
 
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "Komik"
-
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Compact grid"
@@ -940,12 +936,6 @@ msgstr "Keluar"
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Logged in"
 msgstr "Masuk"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "Strip panjang"
 
 #: src/features/manga/Manga.constants.ts
 msgid "Manga"

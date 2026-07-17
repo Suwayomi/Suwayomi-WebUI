@@ -132,7 +132,7 @@ export const MigrationSearch = () => {
                 />
             </Stack>
             <MigrationContinueButton
-                title={!isSearchComplete || !hasMigratableEntries ? `Abort` : t`Start migration`}
+                title={!isSearchComplete || !hasMigratableEntries ? t`Abort` : t`Start migration`}
                 onClick={async () => {
                     if (!isSearchComplete || !hasMigratableEntries) {
                         await MigrationManager.abort('User aborted search');

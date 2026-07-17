@@ -9,7 +9,12 @@
 import { useLayoutEffect, useRef } from 'react';
 import { getInitialReaderPageIndex } from '@/features/reader/Reader.utils.ts';
 import { createPagesData } from '@/features/reader/viewer/pager/ReaderPager.utils.tsx';
-import type { ReaderPageSpreadState, ReaderResumeMode, ReaderStatePages } from '@/features/reader/Reader.types.ts';
+import type {
+    ReaderPageBackgroundColor,
+    ReaderPageSpreadState,
+    ReaderResumeMode,
+    ReaderStatePages,
+} from '@/features/reader/Reader.types.ts';
 import { ReaderTransitionPageMode } from '@/features/reader/Reader.types.ts';
 import type { requestManager } from '@/lib/requests/RequestManager.ts';
 import type { TChapterReader } from '@/features/chapter/Chapter.types.ts';
@@ -25,6 +30,7 @@ export const useReaderSetPagesState = (
     pages: ReaderStatePages['pages'],
     pageLoadStates: ReaderStatePages['pageLoadStates'],
     pagesToSpreadState: ReaderPageSpreadState[],
+    pageBackgroundColors: ReaderPageBackgroundColor[],
     arePagesFetched: boolean,
     setArePagesFetched: (fetched: boolean) => void,
     setReaderStateChapters: ReaderChaptersStoreSlice['chapters']['setReaderStateChapters'],
@@ -33,6 +39,7 @@ export const useReaderSetPagesState = (
     setPageUrls: ReaderStatePages['setPageUrls'],
     setPageLoadStates: ReaderStatePages['setPageLoadStates'],
     setPagesToSpreadState: (state: ReaderPageSpreadState[]) => void,
+    setPageBackgroundColors: (state: ReaderPageBackgroundColor[]) => void,
     setCurrentPageIndex: ReaderStatePages['setCurrentPageIndex'],
     setPageToScrollToIndex: ReaderStatePages['setPageToScrollToIndex'],
     setTransitionPageMode: ReaderStatePages['setTransitionPageMode'],
@@ -62,10 +69,12 @@ export const useReaderSetPagesState = (
             setPageUrls(newPages);
             setPageLoadStates(newPageData.map(({ primary: { url } }) => ({ url, loaded: false })));
             setPagesToSpreadState(newPageData.map(({ primary: { url } }) => ({ url, isSpread: false })));
+            setPageBackgroundColors(newPageData.map(({ primary: { url } }) => ({ url, color: undefined })));
         } else {
             setPages(pages);
             setPageLoadStates(pageLoadStates);
             setPagesToSpreadState(pagesToSpreadState);
+            setPageBackgroundColors(pageBackgroundColors);
         }
 
         setTotalPages(pagesPayload.pages.length);

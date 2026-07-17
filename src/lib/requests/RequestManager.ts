@@ -2393,6 +2393,14 @@ export class RequestManager {
                 onCompleted: () => {
                     this.graphQLClient.client.refetchQueries({
                         updateCache(cache) {
+                            const data = (cache as InMemoryCache).extract();
+
+                            for (const [id, value] of Object.entries(data)) {
+                                if ((value as any).__typename === 'CategoryType') {
+                                    cache.evict({ id });
+                                }
+                            }
+
                             cache.evict({ fieldName: 'categories' });
                             cache.evict({ fieldName: 'mangas' });
                         },
@@ -2419,6 +2427,14 @@ export class RequestManager {
         response.response.then(() => {
             this.graphQLClient.client.refetchQueries({
                 updateCache(cache) {
+                    const data = (cache as InMemoryCache).extract();
+
+                    for (const [id, value] of Object.entries(data)) {
+                        if ((value as any).__typename === 'CategoryType') {
+                            cache.evict({ id });
+                        }
+                    }
+
                     cache.evict({ fieldName: 'categories' });
                     cache.evict({ fieldName: 'mangas' });
                 },
@@ -3555,8 +3571,15 @@ export class RequestManager {
                     const { cache } = this.graphQLClient.client;
 
                     if (downloadChanged?.omittedUpdates) {
+                        const cacheData = (cache as InMemoryCache).extract();
+
                         this.graphQLClient.client.refetchQueries({
                             updateCache() {
+                                for (const [id, value] of Object.entries(cacheData)) {
+                                    if ((value as any)?.__typename === 'DownloadType') {
+                                        cache.evict({ id });
+                                    }
+                                }
                                 cache.evict({ id: 'DownloadStatus:{}' });
                                 cache.evict({ fieldName: 'downloadStatus' });
                             },

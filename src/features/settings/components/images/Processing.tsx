@@ -45,6 +45,7 @@ import {
     isValidConnectTimeoutSetting,
 } from '@/features/settings/ImageProcessing.utils.ts';
 import { UrlUtil } from '@/lib/UrlUtil.ts';
+import { useGetOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
 
 export const Processing = ({
     conversion,
@@ -58,6 +59,7 @@ export const Processing = ({
 }) => {
     const { t } = useLingui();
     const theme = useTheme();
+    const getOptionForDirection = useGetOptionForDirection();
 
     const { ref: textFieldRef, height: textFieldHeight } = useElementSize();
 
@@ -116,7 +118,7 @@ export const Processing = ({
                             [theme.breakpoints.up('md')]: { mx: 1 },
                         }}
                     >
-                        →
+                        {getOptionForDirection('→', '←')}
                     </TypographyMaxLines>
                     <FormControl sx={{ minWidth: '100px' }}>
                         <InputLabel id="image-conversion-target-mode-label">{t`Target mode`}</InputLabel>

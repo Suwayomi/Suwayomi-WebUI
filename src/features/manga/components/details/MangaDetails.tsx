@@ -261,11 +261,13 @@ export const MangaDetails = ({
                                     {manga.title}
                                 </Typography>
                             </SearchLink>
-                            <CustomTooltip title={t`Copy`}>
-                                <IconButton onClick={copyTitle} color="inherit">
-                                    <ContentCopyIcon fontSize="small" />
-                                </IconButton>
-                            </CustomTooltip>
+                            {!!navigator.clipboard && (
+                                <CustomTooltip title={t`Copy`}>
+                                    <IconButton onClick={copyTitle} color="inherit">
+                                        <ContentCopyIcon fontSize="small" />
+                                    </IconButton>
+                                </CustomTooltip>
+                            )}
                         </Stack>
                         {manga.author && (
                             <Metadata

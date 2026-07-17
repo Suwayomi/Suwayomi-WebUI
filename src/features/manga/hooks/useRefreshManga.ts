@@ -30,6 +30,7 @@ export const useRefreshManga = (mangaId: string) => {
         try {
             const { error: tmpError } = await requestManager.refreshManga(mangaId, {
                 awaitRefetchQueries: true,
+                errorPolicy: 'all',
             }).response;
 
             handleError(tmpError);

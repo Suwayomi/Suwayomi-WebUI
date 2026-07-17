@@ -268,7 +268,7 @@ export function Backup() {
                 <List
                     subheader={
                         <ListSubheader component="div" id="backup-settings">
-                            Automated backup
+                            {t`Automated backup`}
                         </ListSubheader>
                     }
                 >

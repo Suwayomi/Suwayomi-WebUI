@@ -781,10 +781,6 @@ msgstr "Cache ürítése"
 msgid "Cleared the cache"
 msgstr "Cache kiürítve"
 
-#: src/features/manga/Manga.constants.ts
-msgid "Comic"
-msgstr "Képregény"
-
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Client"
 msgstr "Kliens"
@@ -3613,12 +3609,6 @@ msgstr "Kérés időtúllépése"
 #: src/features/manga/Manga.constants.ts
 msgid "Licensed"
 msgstr "Hivatalos"
-
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-#: src/features/manga/Manga.constants.ts
-msgid "Long strip"
-msgstr "Függőleges folyamatos"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid ""

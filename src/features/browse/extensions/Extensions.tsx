@@ -172,7 +172,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const handleExtensionUpdate = useCallback(() => setRefetchExtensions({}), []);
 
     const submitExternalExtension = (file: File) => {
-        if (!file.name.toLowerCase().endsWith('apk')) {
+        if (!file.name.toLowerCase().match(/\.(apk|jar)$/g)) {
             makeToast(t`Invalid filetype`, 'error');
             return;
         }

@@ -648,7 +648,5 @@ export const getScrollToXForReadingDirection = (
     return getOptionForDirection(-element.scrollWidth, 0, themeDirectionForReadingDirection);
 };
 
-export const isPageOfOutdatedPageLoadStates = (
-    url: string,
-    pageLoadState: ReaderStatePages['pageLoadStates'][number] | undefined,
-): boolean => pageLoadState === undefined || pageLoadState.url !== url;
+export const isPageOfOutdatedPageLoadStates = (url: string, state: { url: string } | undefined): boolean =>
+    state === undefined || state.url !== url;

@@ -31,11 +31,15 @@ const BaseReaderPageNumber = ({
     Pick<NavbarContextType, 'readerNavBarWidth'>) => {
     const scrollbar = useReaderScrollbarStore((state) => state);
     const { currentPageIndex, pages, totalPages } = useReaderPagesStore('currentPageIndex', 'pages', 'totalPages');
-    const { readingDirection, shouldShowPageNumber, progressBarType } = useReaderSettingsStore((state) => ({
-        readingDirection: state.readingDirection.value,
-        shouldShowPageNumber: state.shouldShowPageNumber,
-        progressBarType: state.progressBarType,
-    }));
+    const { readingDirection, shouldShowPageNumber, progressBarType, progressBarSize } = useReaderSettingsStore(
+        (state) => ({
+            readingDirection: state.readingDirection.value,
+            shouldShowPageNumber: state.shouldShowPageNumber,
+            progressBarType: state.progressBarType,
+            progressBarSize: state.progressBarSize,
+        }),
+    );
+    const progressBarSizeInset = isDesktop && progressBarType === ProgressBarType.STANDARD ? progressBarSize : 0;
     const safeAreaInset = useReaderSettingsStore((state) => state.safeAreaInset);
     const isMaximized = useReaderProgressBarStore('isMaximized');
 
@@ -55,14 +59,6 @@ const BaseReaderPageNumber = ({
         return null;
     }
 
-    if (isDesktop && progressBarType === ProgressBarType.STANDARD) {
-        return null;
-    }
-
-    if (isMaximized && progressBarType === ProgressBarType.HIDDEN) {
-        return null;
-    }
-
     return (
         <Stack
             sx={{
@@ -70,7 +66,7 @@ const BaseReaderPageNumber = ({
                 left: readerNavBarWidth,
                 right: 0,
                 bottom: (theme) =>
-                    `calc(${theme.spacing(1)} + max(${scrollbar.xSize}px, ${safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : '0px'}))`,
+                    `calc(${theme.spacing(1)} + ${progressBarSizeInset}px + max(${scrollbar.xSize}px, ${safeAreaInset.bottom ? 'env(safe-area-inset-bottom)' : '0px'}))`,
                 alignItems: 'center',
                 transition: (theme) => `left 0.${theme.transitions.duration.shortest}s`,
             }}
