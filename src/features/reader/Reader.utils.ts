@@ -25,6 +25,7 @@ import {
     isContinuousReadingMode,
     isContinuousVerticalReadingMode,
 } from '@/features/reader/settings/ReaderSettings.utils.tsx';
+import { Colors } from '@/lib/Colors.ts';
 
 export const getInitialReaderPageIndex = (
     resumeMode: ReaderResumeMode,
@@ -157,52 +158,69 @@ const getPageBackgroundColor = (
         return [top, right, bottom, left];
     })();
 
-    const blackThreshold = 10;
-    const whiteThreshold = 246;
-
-    const considerBlack = (color: ColorThief.Color | null): boolean => {
-        if (!color) {
+    // oxlint-disable-next-line unicorn/consistent-function-scoping
+    const considerBlack = (hex: string | undefined | null, threshold: number): boolean => {
+        if (!hex) {
             return true;
         }
 
-        const { r, g, b } = color.rgb();
-        return r <= blackThreshold && g <= blackThreshold && b <= blackThreshold;
+        const { r, g, b } = Colors.hexToRgb(hex);
+        return r <= threshold && g <= threshold && b <= threshold;
     };
 
-    const considerWhite = (color: ColorThief.Color | null): boolean => {
-        if (!color) {
+    // oxlint-disable-next-line unicorn/consistent-function-scoping
+    const considerWhite = (hex: string | undefined | null, threshold: number): boolean => {
+        if (!hex) {
             return true;
         }
 
-        const { r, g, b } = color.rgb();
-        return r >= whiteThreshold && g >= whiteThreshold && b >= whiteThreshold;
+        const { r, g, b } = Colors.hexToRgb(hex);
+        return r >= threshold && g >= threshold && b >= threshold;
     };
 
-    const getHexValue = (color: ColorThief.Color | null) => {
-        if (considerBlack(color)) {
-            return '#000000';
-        }
-
-        if (considerWhite(color)) {
+    const getNormalizedColor = (hex: string | undefined | null, threshold: { white: number; black: number }) => {
+        if (!hex || considerWhite(hex, threshold.white)) {
             return '#ffffff';
         }
 
-        return color!.hex();
+        if (considerBlack(hex, threshold.black)) {
+            return '#000000';
+        }
+
+        return hex;
     };
-    const colorsByHexValue = groupBy((color) => getHexValue(color), borderColorPalettes.flat().filter(Boolean));
-    const proportionByHexValue = mapValues(
-        (colors) =>
-            sumBy((color) => {
-                const fillsWholeBorder = color!.proportion >= 0.97;
+
+    const determinationThresholds = { white: 235, black: 10 };
+
+    const normalizedBorderColorPalettes = borderColorPalettes.map((borderPalette) => {
+        const borderPaletteColorsByHexValue = groupBy(
+            (color) => getNormalizedColor(color?.hex(), determinationThresholds),
+            borderPalette?.filter(Boolean),
+        );
+
+        return Object.values(
+            mapValues((colors) => {
+                const proportionSum = sumBy((color) => color!.proportion, colors);
+                const populationSum = sumBy((color) => color!.population, colors);
+
+                const fillsWholeBorder = proportionSum >= 0.97;
                 const multiplier = fillsWholeBorder ? borderColorPalettes.length : 1;
 
-                return color!.proportion * multiplier;
-            }, colors),
-        colorsByHexValue,
-    );
-    const [hexValue] = maxBy(([_hex, proportion]) => proportion, Object.entries(proportionByHexValue))!;
+                const [color] = colors;
+                const { r, g, b } = color.rgb();
 
-    return hexValue;
+                return ColorThief.createColor(r, g, b, populationSum, proportionSum * multiplier, color.gamut);
+            }, borderPaletteColorsByHexValue),
+        );
+    });
+    const colorsByHexValue = groupBy(
+        (color) => getNormalizedColor(color?.hex(), determinationThresholds),
+        normalizedBorderColorPalettes.flat().filter(Boolean),
+    );
+    const proportionByHexValue = mapValues((colors) => sumBy((color) => color!.proportion, colors), colorsByHexValue);
+    const [hex] = maxBy(([_hex, proportion]) => proportion, Object.entries(proportionByHexValue))!;
+
+    return getNormalizedColor(hex, { white: 235, black: 30 });
 };
 
 const updatePageBackgroundColor = async (
