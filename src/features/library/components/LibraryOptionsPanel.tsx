@@ -13,7 +13,7 @@ import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
-import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
+import { SortRadioInput, SortRadioInputRandom } from '@/base/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -146,7 +146,18 @@ export const LibraryOptionsPanel = ({
                 }
                 if (key === 'sort') {
                     return SORT_OPTIONS.map(([mode, label]) => (
-                        <SortRadioInput
+                        (mode === 'random')? <SortRadioInputRandom
+                            key={mode}
+                            label={t(label)}
+                            checked={categoryLibraryOptions.sortBy === mode}
+                            sortDescending={categoryLibraryOptions.sortDesc}
+                            onClick={() =>
+                                mode !== categoryLibraryOptions.sortBy
+                                    ? updateCategoryLibraryOptions('sortBy', mode)
+                                    : updateCategoryLibraryOptions('sortDesc', !categoryLibraryOptions.sortDesc)
+                            }
+
+                        /> : <SortRadioInput
                             key={mode}
                             label={t(label)}
                             checked={categoryLibraryOptions.sortBy === mode}
