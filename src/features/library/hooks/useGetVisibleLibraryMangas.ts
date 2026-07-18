@@ -250,14 +250,19 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     } = options;
     const { settings } = useMetadataServerSettings();
 
+    const sortedMangas = useMemo(
+        () => sortManga(mangas, options.sortBy, options.sortDesc),
+        [mangas, options.sortBy, options.sortDesc],
+    );
+
     const filteredMangas = useMemo(
         () =>
-            filterMangas(mangas, query, {
+            filterMangas(sortedMangas, query, {
                 ...options,
                 ignoreFilters: settings.ignoreFilters,
             }),
         [
-            mangas,
+            sortedMangas,
             query,
             hasUnreadChapters,
             hasReadChapters,
@@ -268,10 +273,6 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasStatus,
             settings.ignoreFilters,
         ],
-    );
-    const sortedMangas = useMemo(
-        () => sortManga(filteredMangas, options.sortBy, options.sortDesc),
-        [filteredMangas, options.sortBy, options.sortDesc],
     );
 
     const isATrackFilterActive = Object.values(options.hasTrackerBinding).some(
@@ -288,7 +289,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         mangas.length > 0;
 
     return {
-        visibleMangas: sortedMangas,
+        visibleMangas: filteredMangas,
         showFilteredOutMessage,
         filterKey: `${JSON.stringify(options)}${settings.ignoreFilters}`,
     };
