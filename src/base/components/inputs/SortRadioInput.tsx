@@ -24,9 +24,6 @@ export const SortRadioInput = memo(({ sortDescending, ...rest }: IProps) => (
     />
 ));
 
-export const SortRadioInputRandom = memo(({ sortDescending, ...rest}: IProps) => (
-    <RadioInput
-        checkedIcon={<Replay color="primary" />}
-        {...rest}
-    />
+export const SortRadioInputRandom = memo(({ sortDescending, ...rest }: IProps) => (
+    <RadioInput checkedIcon={<Replay color="primary" />} {...rest} />
 ));

@@ -145,30 +145,33 @@ export const LibraryOptionsPanel = ({
                     );
                 }
                 if (key === 'sort') {
-                    return SORT_OPTIONS.map(([mode, label]) => (
-                        (mode === 'random')? <SortRadioInputRandom
-                            key={mode}
-                            label={t(label)}
-                            checked={categoryLibraryOptions.sortBy === mode}
-                            sortDescending={categoryLibraryOptions.sortDesc}
-                            onClick={() =>
-                                mode !== categoryLibraryOptions.sortBy
-                                    ? updateCategoryLibraryOptions('sortBy', mode)
-                                    : updateCategoryLibraryOptions('sortDesc', !categoryLibraryOptions.sortDesc)
-                            }
-
-                        /> : <SortRadioInput
-                            key={mode}
-                            label={t(label)}
-                            checked={categoryLibraryOptions.sortBy === mode}
-                            sortDescending={categoryLibraryOptions.sortDesc}
-                            onClick={() =>
-                                mode !== categoryLibraryOptions.sortBy
-                                    ? updateCategoryLibraryOptions('sortBy', mode)
-                                    : updateCategoryLibraryOptions('sortDesc', !categoryLibraryOptions.sortDesc)
-                            }
-                        />
-                    ));
+                    return SORT_OPTIONS.map(([mode, label]) =>
+                        mode === 'random' ? (
+                            <SortRadioInputRandom
+                                key={mode}
+                                label={t(label)}
+                                checked={categoryLibraryOptions.sortBy === mode}
+                                sortDescending={categoryLibraryOptions.sortDesc}
+                                onClick={() =>
+                                    mode !== categoryLibraryOptions.sortBy
+                                        ? updateCategoryLibraryOptions('sortBy', mode)
+                                        : updateCategoryLibraryOptions('sortDesc', !categoryLibraryOptions.sortDesc)
+                                }
+                            />
+                        ) : (
+                            <SortRadioInput
+                                key={mode}
+                                label={t(label)}
+                                checked={categoryLibraryOptions.sortBy === mode}
+                                sortDescending={categoryLibraryOptions.sortDesc}
+                                onClick={() =>
+                                    mode !== categoryLibraryOptions.sortBy
+                                        ? updateCategoryLibraryOptions('sortBy', mode)
+                                        : updateCategoryLibraryOptions('sortDesc', !categoryLibraryOptions.sortDesc)
+                                }
+                            />
+                        ),
+                    );
                 }
                 if (key === 'display') {
                     return (

@@ -173,7 +173,7 @@ const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(
 
 const sortByString = (a: string, b: string): number => a.localeCompare(b, undefined, { sensitivity: 'base' });
 
-const sortByRandom = () => Math.floor((Math.random() * 3) - 1);
+const sortByRandom = () => Math.floor(Math.random() * 3 - 1);
 
 type TMangaSort = MangaTitleInfo &
     MangaInLibraryInfo &
