@@ -117,6 +117,11 @@ const statusFilter = (statusFilters: LibraryOptions['hasStatus'], manga: MangaSt
         .map(([status, statusFilterState]) => triStateFilterBoolean(statusFilterState, status === manga.status))
         .every(Boolean);
 
+const sourceFilter = (sourceFilters: LibraryOptions['hasSource'], manga: MangaSourceIdInfo): boolean =>
+    Object.entries(sourceFilters)
+        .map(([sourceId, sourceFilterState]) => triStateFilterBoolean(sourceFilterState, sourceId === manga.sourceId))
+        .every(Boolean);
+
 type TMangaFilterOptions = Pick<
     LibraryOptions,
     | 'hasUnreadChapters'
@@ -126,10 +131,12 @@ type TMangaFilterOptions = Pick<
     | 'hasDuplicateChapters'
     | 'hasTrackerBinding'
     | 'hasStatus'
+    | 'hasSource'
 >;
 type TMangaFilter = Pick<MangaType, 'bookmarkCount' | 'hasDuplicateChapters'> &
     TMangaTrackerFilter &
     MangaStatusInfo &
+    MangaSourceIdInfo &
     MangaChapterCountInfo &
     MangaDownloadInfo &
     MangaUnreadInfo;
@@ -143,6 +150,7 @@ const filterManga = (
         hasDuplicateChapters,
         hasTrackerBinding,
         hasStatus,
+        hasSource,
     }: TMangaFilterOptions,
 ): boolean =>
     triStateFilterNumber(hasDownloadedChapters, manga.downloadCount) &&
@@ -151,7 +159,8 @@ const filterManga = (
     triStateFilterNumber(hasBookmarkedChapters, manga.bookmarkCount) &&
     triStateFilterBoolean(hasDuplicateChapters, manga.hasDuplicateChapters) &&
     trackerFilter(hasTrackerBinding, manga) &&
-    statusFilter(hasStatus, manga);
+    statusFilter(hasStatus, manga) &&
+    sourceFilter(hasSource, manga);
 
 type TMangasFilter = TMangaQueryFilter & TMangaFilter;
 const filterMangas = <Manga extends TMangasFilter>(
@@ -243,6 +252,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         hasTrackerBinding,
         hasDuplicateChapters,
         hasStatus,
+        hasSource,
     } = options;
     const { settings } = useMetadataServerSettings();
 
@@ -262,6 +272,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasTrackerBinding,
             hasDuplicateChapters,
             hasStatus,
+            hasSource,
             settings.ignoreFilters,
         ],
     );
@@ -273,13 +284,17 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     const isATrackFilterActive = Object.values(options.hasTrackerBinding).some(
         (trackFilterState) => trackFilterState != null,
     );
+    const isASourceFilterActive = Object.values(options.hasSource).some(
+        (sourceFilterState) => sourceFilterState != null,
+    );
     const showFilteredOutMessage =
         (hasUnreadChapters != null ||
             hasReadChapters != null ||
             hasDownloadedChapters != null ||
             hasBookmarkedChapters != null ||
             !!query ||
-            isATrackFilterActive) &&
+            isATrackFilterActive ||
+            isASourceFilterActive) &&
         filteredMangas.length === 0 &&
         mangas.length > 0;
 

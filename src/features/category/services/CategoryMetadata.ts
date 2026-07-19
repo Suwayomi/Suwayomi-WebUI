@@ -36,6 +36,7 @@ export const DEFAULT_CATEGORY_METADATA: ICategoryMetadata = {
     hasDuplicateChapters: undefined,
     hasTrackerBinding: {},
     hasStatus: {} as LibraryOptions['hasStatus'],
+    hasSource: {},
 };
 
 const convertAppMetadataToGqlMetadata = (
@@ -44,6 +45,7 @@ const convertAppMetadataToGqlMetadata = (
     ...metadata,
     hasTrackerBinding: metadata.hasTrackerBinding ? JSON.stringify(metadata.hasTrackerBinding) : undefined,
     hasStatus: metadata.hasStatus ? JSON.stringify(metadata.hasStatus) : undefined,
+    hasSource: metadata.hasSource ? JSON.stringify(metadata.hasSource) : undefined,
 });
 
 const getCategoryMetadataWithDefaultValueFallback = (

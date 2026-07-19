@@ -43,6 +43,7 @@ export interface LibraryOptions {
     hasDuplicateChapters: NullAndUndefined<boolean>;
     hasTrackerBinding: Record<TrackerIdInfo['id'], NullAndUndefined<boolean>>;
     hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
+    hasSource: Record<string, NullAndUndefined<boolean>>;
 }
 
 export type TMangaDuplicate = MangaIdInfo & MangaTitleInfo & MangaDescriptionInfo;

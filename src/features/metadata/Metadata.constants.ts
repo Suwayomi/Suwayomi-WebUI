@@ -200,6 +200,9 @@ export const APP_METADATA: Record<
     hasStatus: {
         convert: convertToObject<LibraryOptions['hasStatus']>,
     },
+    hasSource: {
+        convert: convertToObject<LibraryOptions['hasSource']>,
+    },
     customThemes: {
         convert: convertToObject<MetadataThemeSettings['customThemes']>,
     },
@@ -437,6 +440,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'hasDuplicateChapters',
     'hasTrackerBinding',
     'hasStatus',
+    'hasSource',
     // sort
     'sortBy',
     'sortDesc',

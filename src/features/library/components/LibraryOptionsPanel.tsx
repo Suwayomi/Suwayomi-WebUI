@@ -9,8 +9,10 @@
 import type { MessageDescriptor } from '@lingui/core';
 import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
+import { useMemo } from 'react';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
@@ -64,6 +66,26 @@ export const LibraryOptionsPanel = ({
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY);
+
+    const migratableSourcesResult = requestManager.useGetMigratableSources({ skip: !open });
+    const librarySources = useMemo(() => {
+        const nodes = migratableSourcesResult.data?.mangas.nodes;
+        if (!nodes) {
+            return STABLE_EMPTY_ARRAY as { id: string; displayName: string }[];
+        }
+
+        const sourceMap = new Map<string, { id: string; displayName: string }>();
+        nodes.forEach(({ sourceId, source }) => {
+            if (!sourceMap.has(sourceId)) {
+                sourceMap.set(sourceId, {
+                    id: sourceId,
+                    displayName: source?.displayName ?? source?.name ?? sourceId,
+                });
+            }
+        });
+
+        return [...sourceMap.values()].sort((a, b) => a.displayName.localeCompare(b.displayName));
+    }, [migratableSourcesResult.data?.mangas.nodes]);
 
     const categoryLibraryOptions = useGetCategoryMetadata(category);
     const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, (e) =>
@@ -136,6 +158,23 @@ export const LibraryOptionsPanel = ({
                                         updateCategoryLibraryOptions('hasTrackerBinding', {
                                             ...categoryLibraryOptions.hasTrackerBinding,
                                             [tracker.id]: checked,
+                                        })
+                                    }
+                                />
+                            ))}
+                            <FormLabel sx={{ mt: 2 }}>{t`Source`}</FormLabel>
+                            {migratableSourcesResult.loading && (
+                                <CircularProgress size={20} sx={{ alignSelf: 'center', my: 1 }} />
+                            )}
+                            {librarySources.map((source) => (
+                                <ThreeStateCheckboxInput
+                                    key={source.id}
+                                    label={source.displayName}
+                                    checked={categoryLibraryOptions.hasSource[source.id]}
+                                    onChange={(checked) =>
+                                        updateCategoryLibraryOptions('hasSource', {
+                                            ...categoryLibraryOptions.hasSource,
+                                            [source.id]: checked,
                                         })
                                     }
                                 />

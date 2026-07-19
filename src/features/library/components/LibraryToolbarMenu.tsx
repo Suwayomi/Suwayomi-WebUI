@@ -31,7 +31,8 @@ export const LibraryToolbarMenu = ({
         options.hasBookmarkedChapters != null ||
         options.hasDuplicateChapters != null ||
         Object.values(options.hasStatus).some((hasStatus) => hasStatus != null) ||
-        Object.values(options.hasTrackerBinding).some((trackerFilterStatus) => trackerFilterStatus != null);
+        Object.values(options.hasTrackerBinding).some((trackerFilterStatus) => trackerFilterStatus != null) ||
+        Object.values(options.hasSource).some((sourceFilterStatus) => sourceFilterStatus != null);
 
     return (
         <>
