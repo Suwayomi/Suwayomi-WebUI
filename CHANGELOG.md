@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Settings/Sync**) Add sync settings
 - (**Extension**) Support installing external JARs
 - (**Reader**) Add auto background color setting
+- (**Library**) Add random sort option to library
 
 ### Changed
 
@@ -46,6 +47,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**History**) Show only the last read chapter per manga
 - (**Updates**) Show only the first unread chapter per manga per day
 - (**Manga**) Hide details page title copy button in unsupported environments (secure context (https, localhost) required)
+- (**Sorting/Filtering**) Changed the order from filter->sort to sort->filter
 
 ### Fixed
 
