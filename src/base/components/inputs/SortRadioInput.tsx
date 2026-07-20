@@ -8,7 +8,6 @@
 
 import ArrowDownward from '@mui/icons-material/ArrowDownward';
 import ArrowUpward from '@mui/icons-material/ArrowUpward';
-import Replay from '@mui/icons-material/Replay';
 import { memo } from 'react';
 import type { RadioInputProps } from '@/base/components/inputs/RadioInput.tsx';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
@@ -22,8 +21,4 @@ export const SortRadioInput = memo(({ sortDescending, ...rest }: IProps) => (
         checkedIcon={sortDescending ? <ArrowDownward color="primary" /> : <ArrowUpward color="primary" />}
         {...rest}
     />
-));
-
-export const SortRadioInputRandom = memo(({ sortDescending, ...rest }: IProps) => (
-    <RadioInput checkedIcon={<Replay color="primary" />} {...rest} />
 ));

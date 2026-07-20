@@ -16,7 +16,7 @@ import { useMemo } from 'react';
 import uniqBy from 'lodash/fp/uniqBy';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
-import { SortRadioInput, SortRadioInputRandom } from '@/base/components/inputs/SortRadioInput.tsx';
+import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { OptionsTabs } from '@/base/components/modals/OptionsTabs.tsx';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -38,6 +38,7 @@ import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts
 import { GridLayout } from '@/base/Base.types';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Collapsable } from '@/base/components/Collapsable.tsx';
+import Replay from '@mui/icons-material/Replay';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: MessageDescriptor } = {
     filter: msg`Filter`,
@@ -211,33 +212,20 @@ export const LibraryOptionsPanel = ({
                     );
                 }
                 if (key === 'sort') {
-                    return SORT_OPTIONS.map(([mode, label]) =>
-                        mode === 'random' ? (
-                            <SortRadioInputRandom
-                                key={mode}
-                                label={t(label)}
-                                checked={categoryLibraryOptions.sortBy === mode}
-                                sortDescending={categoryLibraryOptions.sortDesc}
-                                onClick={() =>
-                                    mode !== categoryLibraryOptions.sortBy
-                                        ? updateCategoryLibraryOptions('sortBy', mode)
-                                        : updateCategoryLibraryOptions('sortDesc', !categoryLibraryOptions.sortDesc)
-                                }
-                            />
-                        ) : (
-                            <SortRadioInput
-                                key={mode}
-                                label={t(label)}
-                                checked={categoryLibraryOptions.sortBy === mode}
-                                sortDescending={categoryLibraryOptions.sortDesc}
-                                onClick={() =>
-                                    mode !== categoryLibraryOptions.sortBy
-                                        ? updateCategoryLibraryOptions('sortBy', mode)
-                                        : updateCategoryLibraryOptions('sortDesc', !categoryLibraryOptions.sortDesc)
-                                }
-                            />
-                        ),
-                    );
+                    return SORT_OPTIONS.map(([mode, label]) => (
+                        <SortRadioInput
+                            key={mode}
+                            label={t(label)}
+                            checked={categoryLibraryOptions.sortBy === mode}
+                            checkedIcon={mode === 'random' ? <Replay /> : undefined}
+                            sortDescending={categoryLibraryOptions.sortDesc}
+                            onClick={() =>
+                                mode !== categoryLibraryOptions.sortBy
+                                    ? updateCategoryLibraryOptions('sortBy', mode)
+                                    : updateCategoryLibraryOptions('sortDesc', !categoryLibraryOptions.sortDesc)
+                            }
+                        />
+                    ));
                 }
                 if (key === 'display') {
                     return (
