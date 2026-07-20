@@ -1119,6 +1119,10 @@ msgstr "Could not log out from KOReader Sync"
 msgid "Could not migrate manga"
 msgstr "Could not migrate manga"
 
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Could not open random entry"
+msgstr "Could not open random entry"
+
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Could not remove all downloads from the queue"
 msgstr "Could not remove all downloads from the queue"
@@ -2783,6 +2787,10 @@ msgstr "Open in WebView"
 #: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
 msgid "Open page on exit"
 msgstr "Open page on exit"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Open random entry"
+msgstr "Open random entry"
 
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Open the WebUI when starting the server"

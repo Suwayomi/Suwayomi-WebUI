@@ -217,7 +217,7 @@ export const LibraryOptionsPanel = ({
                             key={mode}
                             label={t(label)}
                             checked={categoryLibraryOptions.sortBy === mode}
-                            checkedIcon={mode === 'random' ? <Replay /> : undefined}
+                            checkedIcon={mode === 'random' ? <Replay color="primary" /> : undefined}
                             sortDescending={categoryLibraryOptions.sortDesc}
                             onClick={() =>
                                 mode !== categoryLibraryOptions.sortBy

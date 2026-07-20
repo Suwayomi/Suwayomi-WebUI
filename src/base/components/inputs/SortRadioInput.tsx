@@ -16,9 +16,11 @@ interface IProps extends RadioInputProps {
     sortDescending?: boolean | null | undefined;
 }
 
-export const SortRadioInput = memo(({ sortDescending, ...rest }: IProps) => (
+export const SortRadioInput = memo(({ sortDescending, checkedIcon, ...rest }: IProps) => (
     <RadioInput
-        checkedIcon={sortDescending ? <ArrowDownward color="primary" /> : <ArrowUpward color="primary" />}
         {...rest}
+        checkedIcon={
+            checkedIcon ?? (sortDescending ? <ArrowDownward color="primary" /> : <ArrowUpward color="primary" />)
+        }
     />
 ));
