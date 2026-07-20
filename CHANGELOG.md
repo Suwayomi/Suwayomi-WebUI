@@ -8,7 +8,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- (**Library**) Add source filter to library filtering options
 - (**Migration**) Add a search option to ignore outdated matches
 - (**Migration**) Add a search option to ignore matches with missing chapters
 - (**Migration**) Add "local source" as a possible destination source
@@ -19,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Add setting to keep the screen on while reading
 - (**Extension**) Support installing external JARs
 - (**Reader**) Add auto background color setting
+- (**Library**) Add source filter
 - (**Library**) Add random sort option to library
 
 ### Changed
@@ -49,6 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**History**) Show only the last read chapter per manga
 - (**Updates**) Show only the first unread chapter per manga per day
 - (**Manga**) Hide details page title copy button in unsupported environments (secure context (https, localhost) required)
+- (**Library**) Collapse `Status`, `Tracked` and `Source` filters
 
 ### Fixed
 

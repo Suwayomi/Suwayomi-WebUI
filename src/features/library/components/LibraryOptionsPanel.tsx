@@ -11,6 +11,7 @@ import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
+import type { ReactNode } from 'react';
 import { useMemo } from 'react';
 import uniqBy from 'lodash/fp/uniqBy';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
@@ -36,6 +37,7 @@ import type { CategoryMetadataInfo } from '@/features/category/Category.types.ts
 import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { GridLayout } from '@/base/Base.types';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { Collapsable } from '@/base/components/Collapsable.tsx';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: MessageDescriptor } = {
     filter: msg`Filter`,
@@ -53,6 +55,23 @@ const SORT_OPTIONS: [LibrarySortMode, MessageDescriptor][] = [
     ['latestUploadedChapter', msg`Latest uploaded chapter`],
     ['random', msg`Random`],
 ];
+
+const CollapsableFilter = ({ title, items, isActive }: { title: string; items: ReactNode[]; isActive: boolean }) => (
+    <Collapsable
+        header={title}
+        collapse={items}
+        initialState={isActive}
+        slots={{
+            headerWrapper: {
+                component: FormLabel,
+                sx: {
+                    mt: 2,
+                    color: isActive ? 'warning.main' : undefined,
+                },
+            },
+        }}
+    />
+);
 
 export const LibraryOptionsPanel = ({
     category,
@@ -90,6 +109,14 @@ export const LibraryOptionsPanel = ({
         makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
 
+    const isStatusFilterActive = Object.values(MangaStatus).some(
+        (status) => categoryLibraryOptions.hasStatus[status] != null,
+    );
+    const isTrackerFilterActive = loggedInTrackers.some(
+        (tracker) => categoryLibraryOptions.hasTrackerBinding[tracker.id] != null,
+    );
+    const isSourceFilterActive = librarySources.some((source) => categoryLibraryOptions.hasSource[source.id] != null);
+
     return (
         <OptionsTabs<'filter' | 'sort' | 'display'>
             open={open}
@@ -125,38 +152,46 @@ export const LibraryOptionsPanel = ({
                                 checked={categoryLibraryOptions.hasDuplicateChapters}
                                 onChange={(c) => updateCategoryLibraryOptions('hasDuplicateChapters', c)}
                             />
-                            <FormLabel sx={{ mt: 2 }}>{t`Status`}</FormLabel>
-                            {Object.values(MangaStatus).map((status) => (
-                                <ThreeStateCheckboxInput
-                                    key={status}
-                                    label={t(MANGA_STATUS_TO_TRANSLATION[status])}
-                                    checked={categoryLibraryOptions.hasStatus[status]}
-                                    onChange={(checked) =>
-                                        updateCategoryLibraryOptions('hasStatus', {
-                                            ...categoryLibraryOptions.hasStatus,
-                                            [status]: checked,
-                                        })
-                                    }
+                            <CollapsableFilter
+                                title={t`Status`}
+                                items={Object.values(MangaStatus).map((status) => (
+                                    <ThreeStateCheckboxInput
+                                        key={status}
+                                        label={t(MANGA_STATUS_TO_TRANSLATION[status])}
+                                        checked={categoryLibraryOptions.hasStatus[status]}
+                                        onChange={(checked) =>
+                                            updateCategoryLibraryOptions('hasStatus', {
+                                                ...categoryLibraryOptions.hasStatus,
+                                                [status]: checked,
+                                            })
+                                        }
+                                    />
+                                ))}
+                                isActive={isStatusFilterActive}
+                            />
+                            {!!loggedInTrackers.length && (
+                                <CollapsableFilter
+                                    title={t`Tracked`}
+                                    items={loggedInTrackers.map((tracker) => (
+                                        <ThreeStateCheckboxInput
+                                            key={tracker.id}
+                                            label={tracker.name}
+                                            checked={categoryLibraryOptions.hasTrackerBinding[tracker.id]}
+                                            onChange={(checked) =>
+                                                updateCategoryLibraryOptions('hasTrackerBinding', {
+                                                    ...categoryLibraryOptions.hasTrackerBinding,
+                                                    [tracker.id]: checked,
+                                                })
+                                            }
+                                        />
+                                    ))}
+                                    isActive={isTrackerFilterActive}
                                 />
-                            ))}
-                            <FormLabel sx={{ mt: 2 }}>{t`Tracked`}</FormLabel>
-                            {loggedInTrackers.map((tracker) => (
-                                <ThreeStateCheckboxInput
-                                    key={tracker.id}
-                                    label={tracker.name}
-                                    checked={categoryLibraryOptions.hasTrackerBinding[tracker.id]}
-                                    onChange={(checked) =>
-                                        updateCategoryLibraryOptions('hasTrackerBinding', {
-                                            ...categoryLibraryOptions.hasTrackerBinding,
-                                            [tracker.id]: checked,
-                                        })
-                                    }
-                                />
-                            ))}
-                            {librarySources.length > 0 && (
-                                <>
-                                    <FormLabel sx={{ mt: 2 }}>{t`Source`}</FormLabel>
-                                    {librarySources.map((source) => (
+                            )}
+                            {!!librarySources.length && (
+                                <CollapsableFilter
+                                    title={t`Source`}
+                                    items={librarySources.map((source) => (
                                         <ThreeStateCheckboxInput
                                             key={source.id}
                                             label={source.displayName}
@@ -169,7 +204,8 @@ export const LibraryOptionsPanel = ({
                                             }
                                         />
                                     ))}
-                                </>
+                                    isActive={isSourceFilterActive}
+                                />
                             )}
                         </>
                     );
