@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Add setting to keep the screen on while reading
 - (**Extension**) Support installing external JARs
 - (**Reader**) Add auto background color setting
+- (**Library**) Add random sort option to library
 
 ### Changed
 

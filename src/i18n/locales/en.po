@@ -2942,6 +2942,10 @@ msgstr "Queued"
 msgid "Quick settings"
 msgstr "Quick settings"
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Random"
+msgstr "Random"
+
 #: src/features/reader/settings/screens/GlobalReaderSettings.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Reader"

@@ -182,6 +182,8 @@ const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(
 
 const sortByString = (a: string, b: string): number => a.localeCompare(b, undefined, { sensitivity: 'base' });
 
+const sortByRandom = () => Math.floor(Math.random() * 3 - 1);
+
 type TMangaSort = MangaTitleInfo &
     MangaInLibraryInfo &
     MangaUnreadInfo &
@@ -213,6 +215,8 @@ const sortManga = <Manga extends TMangaSort>(
                 return (a, b) => sortByNumber(a.latestFetchedChapter?.fetchedAt, b.latestFetchedChapter?.fetchedAt);
             case 'totalChapters':
                 return (a, b) => sortByNumber(a.chapters.totalCount, b.chapters.totalCount);
+            case 'random':
+                return () => sortByRandom();
             default:
                 return () => 0;
         }
@@ -256,14 +260,19 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     } = options;
     const { settings } = useMetadataServerSettings();
 
+    const sortedMangas = useMemo(
+        () => sortManga(mangas, options.sortBy, options.sortDesc),
+        [mangas, options.sortBy, options.sortDesc],
+    );
+
     const filteredMangas = useMemo(
         () =>
-            filterMangas(mangas, query, {
+            filterMangas(sortedMangas, query, {
                 ...options,
                 ignoreFilters: settings.ignoreFilters,
             }),
         [
-            mangas,
+            sortedMangas,
             query,
             hasUnreadChapters,
             hasReadChapters,
@@ -275,10 +284,6 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasSource,
             settings.ignoreFilters,
         ],
-    );
-    const sortedMangas = useMemo(
-        () => sortManga(filteredMangas, options.sortBy, options.sortDesc),
-        [filteredMangas, options.sortBy, options.sortDesc],
     );
 
     const isATrackFilterActive = Object.values(options.hasTrackerBinding).some(
@@ -299,7 +304,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         mangas.length > 0;
 
     return {
-        visibleMangas: sortedMangas,
+        visibleMangas: filteredMangas,
         showFilteredOutMessage,
         filterKey: `${JSON.stringify(options)}${settings.ignoreFilters}`,
     };
