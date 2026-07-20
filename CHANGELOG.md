@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Add auto background color setting
 - (**Library**) Add source filter
 - (**Library**) Add random sort option to library
+- (**Library**) Add button to open random library entry
 
 ### Changed
 

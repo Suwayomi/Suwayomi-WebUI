@@ -14,6 +14,15 @@ import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { LibraryOptionsPanel } from '@/features/library/components/LibraryOptionsPanel.tsx';
 import { getCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+import { requestManager } from '@/lib/requests/RequestManager.ts';
+import type { GetMangasBaseQuery, GetMangasBaseQueryVariables } from '@/lib/graphql/generated/graphql.ts';
+import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
+import { makeToast } from '@/base/utils/Toast.ts';
+import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { assertIsDefined } from '@/base/Asserts.ts';
 
 export const LibraryToolbarMenu = ({
     category,
@@ -36,6 +45,34 @@ export const LibraryToolbarMenu = ({
 
     return (
         <>
+            <CustomTooltip title={t`Open random entry`}>
+                <IconButton
+                    onClick={async () => {
+                        try {
+                            const mangasResponse = await requestManager.getMangas<
+                                GetMangasBaseQuery,
+                                GetMangasBaseQueryVariables
+                            >(GET_MANGAS_BASE, {
+                                condition: { inLibrary: true },
+                            }).response;
+
+                            const randomManga =
+                                mangasResponse.data?.mangas.nodes[
+                                    Math.floor(Math.random() * mangasResponse.data?.mangas.totalCount)
+                                ];
+
+                            assertIsDefined(randomManga);
+
+                            ReactRouter.navigate(AppRoutes.manga.path(randomManga.id));
+                        } catch (e) {
+                            makeToast(t`Could not open random entry`, 'error', getErrorMessage(e));
+                        }
+                    }}
+                    color={active ? 'warning' : 'inherit'}
+                >
+                    <ShuffleIcon />
+                </IconButton>
+            </CustomTooltip>
             <CustomTooltip title={t`Settings`}>
                 <IconButton onClick={() => setOpen(!open)} color={active ? 'warning' : 'inherit'}>
                     <FilterList />
