@@ -2166,6 +2166,10 @@ msgstr "Keep previous and upcoming chapters visible while reading in continuous 
 msgid "Keep remote"
 msgstr "Keep remote"
 
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep screen on"
+msgstr "Keep screen on"
+
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Keybinds"
 msgstr "Keybinds"

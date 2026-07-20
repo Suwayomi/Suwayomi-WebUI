@@ -136,6 +136,11 @@ export const ReaderBehaviourSettings = ({
                 checked={settings.shouldInformAboutScanlatorChange}
                 onChange={(_, checked) => updateSetting('shouldInformAboutScanlatorChange', checked)}
             />
+            <CheckboxInput
+                label={t`Keep screen on`}
+                checked={settings.shouldWakeLockScreen}
+                onChange={(_, checked) => updateSetting('shouldWakeLockScreen', checked)}
+            />
             <ReaderSettingAutoScroll
                 autoScroll={settings.autoScroll}
                 setAutoScroll={(...args) => updateSetting('autoScroll', ...args)}
