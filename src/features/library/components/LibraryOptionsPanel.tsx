@@ -11,6 +11,8 @@ import FormLabel from '@mui/material/FormLabel';
 import RadioGroup from '@mui/material/RadioGroup';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
+import { useMemo } from 'react';
+import uniqBy from 'lodash/fp/uniqBy';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
@@ -64,6 +66,16 @@ export const LibraryOptionsPanel = ({
 
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY);
+
+    const migratableSourcesResult = requestManager.useGetMigratableSources();
+    const librarySources = useMemo(() => {
+        const sources = migratableSourcesResult.data?.mangas.nodes
+            .map(({ source }) => source)
+            .filter((source) => source != null);
+        const uniqueSources = uniqBy('id', sources);
+
+        return uniqueSources.toSorted((a, b) => a.displayName.localeCompare(b.displayName));
+    }, [migratableSourcesResult.data?.mangas.nodes]);
 
     const categoryLibraryOptions = useGetCategoryMetadata(category);
     const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, (e) =>
@@ -140,6 +152,24 @@ export const LibraryOptionsPanel = ({
                                     }
                                 />
                             ))}
+                            {librarySources.length > 0 && (
+                                <>
+                                    <FormLabel sx={{ mt: 2 }}>{t`Source`}</FormLabel>
+                                    {librarySources.map((source) => (
+                                        <ThreeStateCheckboxInput
+                                            key={source.id}
+                                            label={source.displayName}
+                                            checked={categoryLibraryOptions.hasSource[source.id]}
+                                            onChange={(checked) =>
+                                                updateCategoryLibraryOptions('hasSource', {
+                                                    ...categoryLibraryOptions.hasSource,
+                                                    [source.id]: checked,
+                                                })
+                                            }
+                                        />
+                                    ))}
+                                </>
+                            )}
                         </>
                     );
                 }
