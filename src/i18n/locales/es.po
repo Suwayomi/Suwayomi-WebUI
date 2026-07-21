@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.820Z\n"
-"PO-Revision-Date: 2026-06-28 07:18+0000\n"
-"Last-Translator: zeedif <carlos_antonio-rl@hotmail.com>\n"
+"PO-Revision-Date: 2026-07-18 14:37+0000\n"
+"Last-Translator: schroda <50052685+schroda@users.noreply.github.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/es/>\n"
 "Language: es\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.7.dev0\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -25,7 +25,7 @@ msgstr "{progress}% | Actualizando…"
 
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
-msgstr "*: Opción activa"
+msgstr "*: Activar Opciones"
 
 #: src/features/settings/Settings.constants.ts
 msgid "A preview focused web frontend built with svelte"
@@ -3699,7 +3699,7 @@ msgstr ""
 
 #: src/features/migration/MigrationManager.ts
 msgid "Abort migration"
-msgstr "Abortar migración"
+msgstr "Cancelar migración"
 
 #: src/features/browse/extensions/Extensions.tsx
 msgid "Could not install the extension"
@@ -3709,3 +3709,298 @@ msgstr "No se pudo instalar la extensión"
 #, fuzzy
 msgid "Show in sources and extensions lists"
 msgstr "Mostrar en las listas de fuentes y extensiones"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid ""
+"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+msgstr ""
+"{count, plural,one {Estás a punto de descargar un capítulo} other {Estás a "
+"punto de descargar # capítulos.\n"
+"Suwayomi no es un descargador masivo y descargar demasiados capítulos puede "
+"hacer que las fuentes te bloqueen o provocar problemas de rendimiento.}\n"
+"}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+msgstr ""
+"{count, plural, one {Estás a punto de marcar un capítulo como leído.} other "
+"{Estás a punto de marcar # capítulos como leídos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
+msgstr ""
+"{count, plural, one {Estás a punto de eliminar un marcador.} other {Estás a "
+"punto de eliminar # marcadores}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+msgstr ""
+"{count, plural, one {Estás a punto de eliminar una entrada de tu biblioteca} "
+"other {Estás a punto de eliminar # entradas de tu biblioteca}}"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr ""
+"{currentDownloadAheadLimit, plural, one {# Capitulo} other {# Capitulos}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
+msgstr "{extensionCount, plural, one {# extensión} other {# extensiones}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
+msgstr ""
+"{installedExtensionCount, plural, one {# Instalada} other {# Instaladas}}"
+
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
+msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr ""
+"{missingChapterCount, plural, one {Falta # Capitulo} other {Faltan # "
+"Capítulos}}"
+
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr "Ya se está llevando a cabo una migración"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Abort"
+msgstr "Cancelar"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "Cancelado"
+
+#. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "- State: {0}"
+msgstr "- Estado: {0}"
+
+#. placeholder {0}: otherChapters.length
+#: src/features/updates/components/ChapterUpdateCard.tsx
+msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr ""
+"{0, plural, one {mostrar # mas capitulos} other {Mostrar # mas capitulos}}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr ""
+"{otherResultsCount, plural,one {# coincidencia más}other {# coincidencias "
+"más}}"
+
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Eliminar copias de seguridad que tengan más de # día} "
+"other {Eliminar copias de seguridad que tengan más de # días}}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Eliminar archivos de registro que tengan más de # días} "
+"other {Eliminar archivos de registro que tengan más de # días de "
+"antigüedad.}}"
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "Configuración activa ({title})"
+
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Add extension store"
+msgstr "Agregar tienda de extensiones"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Also remove from {0}"
+msgstr "También eliminar de {0}"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "Aplicar relleno del área segura"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Automated backup"
+msgstr "Copia de seguridad automatica"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "Búsqueda manual en migración masiva"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Call timeout"
+msgstr "Tiempo de espera"
+
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr "No se puede migrar una entrada a sí misma"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-comic"
+msgstr "Comic"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connect to KOReader Sync server"
+msgstr "Conectarse al servidor de sincronización de KOReader"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr "Conectado como {currentUsername} a {currentServerAddress}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr "Conectado como {initialUsername} a {initialServerAddress}"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid ""
+"Continue reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Continua leyendo\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid ""
+"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
+msgstr ""
+"Controla el tipo MIME que Suwayomi envía en las entradas OPDS para los "
+"archivos CBZ. También afecta la descarga global de archivos CBZ.\n"
+" **Moderno** sigue el estándar más reciente de la IANA (2017), mientras que "
+"**Legado** (tipo MIME obsoleto para archivos .cbz) y **Compatible** (tipo "
+"MIME obsoleto para todos los archivos de cómics) pueden ofrecer una mayor "
+"compatibilidad con clientes más antiguos."
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Copy index url"
+msgstr "Copiar url del índice"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not add extension store"
+msgstr "No se puede añadir tienda de extensión"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid ""
+"Could not check for duplicated manga in your library.\n"
+"\n"
+"Error: {errorMessage}"
+msgstr ""
+"No se pudo comprobar si hay manga duplicado en tu biblioteca.\n"
+"\n"
+"Error: {{error}}"
+
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "Could not delete category"
+msgstr "No se puede eliminar la categoría"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Could not delete theme \"{0}\""
+msgstr "No se pudo eliminar el tema \"{{theme}}\""
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log in to {0}"
+msgstr "No se pudo iniciar sesión en {{0}}"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Could not log in to {trackerName}"
+msgstr "No se pudo iniciar sesión en {{trackerName}}"
+
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Could not log in to Suwayomi"
+msgstr "No se pudo iniciar sesión en Suwayomi"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log out from {0}"
+msgstr "No se pudo cerrar la sesión de {0}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Could not log out from KOReader Sync"
+msgstr "No podía salir de KOReader Sync"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not remove extension store \"{name}\""
+msgstr "No podía quitar la tienda de extensión \"{name}\""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "No se pudo reintentar \"{title}\""
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr "No se pudieron guardar los cambios."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not start sync"
+msgstr "No se pudo iniciar la sincronización"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Creating backup"
+msgstr "Creando copia de seguridad"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Current source"
+msgstr "Fuente actual"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Daily"
+msgstr "Diario"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Day"
+msgstr "Día"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleted theme \"{0}\""
+msgstr "Tema eliminado \"{0}\""
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleting theme \"{0}\"…"
+msgstr "Eliminando tema \"{0}\"…"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination - {0}"
+msgstr "Destino - {0}"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "Hecho"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr "Arrastra para priorizar"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Enable auto background color in continuous reading mode"
+msgstr "Activar el color de fondo automático en modo de lectura continua"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable the WebView via CEF (Chromium)"
+msgstr "Permitir el WebView a través de CEF (Chromium)"
+
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr "Entrada \"{0} ({1}; {sourceTitle} ({2})\" en estado inválido \"{3}\""
