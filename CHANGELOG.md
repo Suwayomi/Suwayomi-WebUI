@@ -130,6 +130,12 @@ Thanks to everyone that contributed to the translation of this project.
 - Japanese (ja) (69.7%)
 - Chinese (Traditional) (zh-Hant) (74.9%)
 
+### Contributors
+
+Thanks to everyone that contributed to this release
+
+@schroda, @github-actions[bot], @weblate, @cpiber, @CyberMageIL, @ONeithan, @tigce2, @imzekee0, @aizhimoran, @themaskedshell, @jburkh10, @Seanstoppable, @web-flow, @vtorres-t, @Daemonhellz, @96Angang, @matsuaa, @zeedif, @IJCS, @ZerOri, @presdec, @asqwas22, @mrintrepide, @leollo98, @Alexis-Silvery
+
 ## [20260509.01] (r3147) - 2026-05-09
 
 ### Fixed
