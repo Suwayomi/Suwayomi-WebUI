@@ -227,7 +227,7 @@ const MANGA_TAG_DESCRIPTORS_BY_MANGA_TYPE: Record<MangaType, MessageDescriptor[]
  */
 export const MANGA_TAGS_BY_MANGA_TYPE: Record<MangaType, string[]> = {
     [MangaType.MANGA]: ['Manga', 'מנגה', '만화', '漫画', 'مانجا', 'مانگا', 'Mangá', 'Манга', 'மங்கா-', 'Truyện Nhật'],
-    [MangaType.COMIC]: ['Comic', 'קומיקס', '코믹', '美漫'],
+    [MangaType.COMIC]: ['Comic', 'קומיקס', '코믹', 'Quadrinho', '美漫'],
     [MangaType.WEBTOON]: [
         'Webtoon',
         'וובטון',
