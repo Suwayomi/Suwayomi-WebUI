@@ -68,7 +68,7 @@ export const LibraryToolbarMenu = ({
                             makeToast(t`Could not open random entry`, 'error', getErrorMessage(e));
                         }
                     }}
-                    color={active ? 'warning' : 'inherit'}
+                    color="inherit"
                 >
                     <ShuffleIcon />
                 </IconButton>
