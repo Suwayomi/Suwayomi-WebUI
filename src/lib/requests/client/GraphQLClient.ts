@@ -83,6 +83,12 @@ const typePolicies: TypedTypePolicies = {
                     id: args?.id,
                 });
             },
+            chapter(_, { args, toReference }) {
+                return toReference({
+                    __typename: 'ChapterType',
+                    id: args?.id,
+                });
+            },
             category(_, { args, toReference }) {
                 return toReference({
                     __typename: 'CategoryType',
@@ -135,6 +141,12 @@ const typePolicies: TypedTypePolicies = {
             },
             lastSyncStatus(_, { toReference }) {
                 return toReference({ __typename: 'SyncStatus', key: {} });
+            },
+            tracker(_, { toReference }) {
+                return toReference({ __typename: 'TrackerType', key: {} });
+            },
+            trackRecord(_, { toReference }) {
+                return toReference({ __typename: 'TrackRecordType', key: {} });
             },
             mangas: {
                 keyArgs: ['condition', 'filter', 'orderBy', 'orderByType', 'order'],
