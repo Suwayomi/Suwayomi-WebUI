@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-07-16 07:01+0000\n"
+"PO-Revision-Date: 2026-07-20 01:01+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -2785,8 +2785,8 @@ msgstr "עמוד בודד"
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Keep previous and upcoming chapters visible while reading in continuous reading modes, allowing seamless scrolling between chapters."
 msgstr ""
-"הפרקים הסמוכים יישארו מוצגים במהלך הקריאה במצבי גלילה, כדי לאפשר מעבר רציף "
-"בין פרקים."
+"הפרקים הסמוכים יישארו מוצגים במהלך הקריאה במצבי גלילה רציפה, כדי לאפשר מעבר "
+"רציף בין פרקים."
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Skip duplicate chapters"
@@ -4371,3 +4371,7 @@ msgstr "רצועה ארוכה"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Last sync: {syncDate}"
 msgstr "סנכרון אחרון: {syncDate}"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Enable auto background color in continuous reading mode"
+msgstr "התאמה אוטומטית של צבע הרקע במצבי גלילה רציפה"
