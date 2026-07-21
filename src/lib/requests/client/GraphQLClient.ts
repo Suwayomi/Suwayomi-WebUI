@@ -136,6 +136,12 @@ const typePolicies: TypedTypePolicies = {
             lastSyncStatus(_, { toReference }) {
                 return toReference({ __typename: 'SyncStatus', key: {} });
             },
+            mangas: {
+                keyArgs: ['condition', 'filter', 'orderBy', 'orderByType', 'order'],
+                merge(existing, incoming, { mergeObjects }) {
+                    return mergeObjects(existing, incoming);
+                },
+            },
             chapters: {
                 keyArgs: ['condition', 'filter', 'orderBy', 'orderByType', 'order'],
                 merge(existing, incoming) {
