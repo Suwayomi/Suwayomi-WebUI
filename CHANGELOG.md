@@ -8,6 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- /
+
+### Changed
+
+- /
+
+### Fixed
+
+- /
+
+## [20260722.01] (r3355) - 2026-07-22
+
+### Added
+
 - (**Migration**) Add a search option to ignore outdated matches
 - (**Migration**) Add a search option to ignore matches with missing chapters
 - (**Migration**) Add "local source" as a possible destination source
@@ -16,8 +30,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Settings/WebView**) Add setting to enable/disable WebView
 - (**Settings/Sync**) Add sync settings
 - (**Reader**) Add setting to keep the screen on while reading
-- (**Extension**) Support installing external JARs
 - (**Reader**) Add auto background color setting
+- (**Extension**) Support installing external JARs
 - (**Library**) Add source filter
 - (**Library**) Add random sort option to library
 - (**Library**) Add button to open random library entry
@@ -40,7 +54,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Show dialog on manual search selection to optionally open the search result entry instead of selecting it
 - (**Migration**) Show "manual search matches" under "other matches"
 - (**Source/Extension**) Rename language "All" to "Multi"
-- (**Extension/Settings**) Renamed "extension repo" to "extension stores"
+- (**Settings/Extension**) Renamed "extension repo" to "extension stores"
 - (**Reader**) Simplify changing settings in desktop sidebar
 - (**Reader**) Ignore tap zone clicks while window does not have focus
 - (**Reader**) Improve preloading pages from the previous/next chapter
@@ -89,6 +103,32 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Source**) Fix changing configuration settings with multi option selection where a selected option does not exist anymore. (E.g. Komgas "Default libraries" setting, still having a library selected that has been deleted)
 - (**Download**) Fix not respecting chapter list filters for downloads
 - (**Download**) Fix showing outdated download info in for some chapter cards after clearing the download queue
+
+### Translations
+
+Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/)
+
+Thanks to everyone that contributed to the translation of this project.
+
+#### Added
+
+- Hebrew (by CyberMageIL)
+- Greek (by Philip Prescott-Decie)
+- Portuguese (by Silvery, Rodrigo Marques)
+
+#### Updated
+
+- Chinese (Simplified) (by 清水汐音, ZerOriSama)
+- French (by Damien O'Neil, mrintrepide)
+- German (by Constantin Piber)
+- Spanish (by Tiago Centurion, IJCS, zeedif, Harold Marin Salazar)
+- Korean (by jsyoon)
+
+#### Removed (less than 75% translated)
+
+- Italian (it) (71%)
+- Japanese (ja) (69.7%)
+- Chinese (Traditional) (zh-Hant) (74.9%)
 
 ## [20260509.01] (r3147) - 2026-05-09
 
@@ -856,7 +896,8 @@ Thanks to everyone that contributed to this release
 
 @schroda, @jesusFx, @QuietBlade, @anvstin, @guohuageng, @plum7x, @HiyoriTUK, @aizhimoran, @JiPaix, @Yuhyeong, @a18ccms, @chancez, @rickymcmuffin, @zmmx, @alexandrejournet, @ibaraki-douji, @nitezs, @misaka10843, @Becods, @skrewde, @xconkhi9x, @cnmorocho, @Wip-Sama, @Kefir2105, @RafieHardinur, @SuperMario229, @Alexandre-P-J, @AriaMoradi, @NathanBnm, @FumoVite, @JoHena, @bandysharif, @DevCoz, @comradekingu, @Zereef, @akabhirav
 
-[unreleased]: https://github.com/suwayomi/suwayomi-webui/compare/v20260509.01...HEAD
+[unreleased]: https://github.com/suwayomi/suwayomi-webui/compare/v20260722.01...HEAD
+[20260722.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20260509.01...v20260722.01
 [20260509.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20260508.01...v20260509.01
 [20260508.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20251230.01...v20260508.01
 [20251230.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20250801.01...v20251230.01
