@@ -424,7 +424,9 @@ export const DebugInformation = () => {
         <Collapsable
             slots={{
                 headerWrapper: { sx: { alignItems: 'center' } },
-                collapse: { slotProps: { wrapperInner: { sx: { whiteSpace: 'pre' } } }, unmountOnExit: false },
+                collapse: {
+                    slotProps: { wrapperInner: { sx: { whiteSpace: 'pre', textWrap: 'pretty' } } },
+                },
             }}
             header={
                 <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 1 }}>
