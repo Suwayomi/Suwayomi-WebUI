@@ -993,6 +993,10 @@ msgstr ""
 msgid "Convert images to different formats"
 msgstr "Convert images to different formats"
 
+#: src/lib/HelperFunctions.ts
+msgid "Copied to clipboard"
+msgstr "Copied to clipboard"
+
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/settings/components/DebugInformation.tsx
@@ -1032,6 +1036,10 @@ msgstr "Could not check for updates"
 #: src/features/settings/screens/ImagesSettings.tsx
 msgid "Could not clear the cache"
 msgstr "Could not clear the cache"
+
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "Could not copy to clipboard"
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not create backup"

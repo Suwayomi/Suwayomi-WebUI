@@ -9,6 +9,7 @@
 import { CombinedGraphQLErrors } from '@apollo/client';
 import type { ReactNode } from 'react';
 import { makeToast } from '@/base/utils/Toast.ts';
+import { t } from '@lingui/core/macro';
 
 export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): T | null => {
     try {
@@ -100,9 +101,9 @@ export const maybeExecuteWithDelay = (
 export const copyToClipboard = async (text: string) => {
     try {
         await navigator.clipboard.writeText(text);
-        makeToast('Copied to clipboard', 'info');
+        makeToast(t`Copied to clipboard`, 'info');
     } catch (e) {
-        makeToast('Could not copy to clipboard', 'error', getErrorMessage(e));
+        makeToast(t`Could not copy to clipboard`, 'error', getErrorMessage(e));
     }
 };
 
