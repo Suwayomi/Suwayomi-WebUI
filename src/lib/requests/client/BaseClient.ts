@@ -110,7 +110,7 @@ export abstract class BaseClient<Client, ClientConfig, Fetcher> {
 
         const defaultUrl = import.meta.env.DEV
             ? import.meta.env.VITE_SERVER_URL_DEFAULT
-            : `${protocol}//${hostname}:${port}`;
+            : `${protocol}//${hostname}${port.length ? `:${port}` : ''}`;
 
         const serverBaseURL = AppStorage.local.getItemParsed(BaseClient.BASE_URL_KEY, defaultUrl);
 
