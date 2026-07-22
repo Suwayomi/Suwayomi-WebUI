@@ -993,14 +993,9 @@ msgstr ""
 msgid "Convert images to different formats"
 msgstr "Convert images to different formats"
 
-#: src/features/extension/store/screens/ExtensionStores.tsx
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "Copied to clipboard"
-
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/settings/components/DebugInformation.tsx
 msgid "Copy"
 msgstr "Copy"
 
@@ -1071,6 +1066,10 @@ msgstr "Could not install the extension"
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "Could not load categories"
 msgstr "Could not load categories"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Could not load data"
+msgstr "Could not load data"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Could not load language"
@@ -1313,6 +1312,10 @@ msgstr "Database url"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Day"
 msgstr "Day"
+
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "Debug information"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Decrease auto scroll speed"
@@ -3360,6 +3363,10 @@ msgstr "Settings"
 #: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
 msgid "Share"
 msgstr "Share"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Show"
+msgstr "Show"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Show all duplicated entries in your library"

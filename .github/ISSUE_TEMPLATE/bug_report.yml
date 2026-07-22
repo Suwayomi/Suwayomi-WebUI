@@ -37,27 +37,6 @@ body:
     required: true
 
 - type: input
-  id: suwayomi-server-version
-  attributes:
-    label: Suwayomi-Server version
-    description: You can find your Suwayomi-Server version in **More → About**.
-    placeholder: |
-      Example: "v1.1.1 | v1.1.1-r1701"
-  validations:
-    required: true
-    
-- type: dropdown
-  id: database
-  attributes:
-    label: Used database
-    description: H2 is the default database
-    options:
-      - H2
-      - PostgreSQL
-  validations:
-    required: true
-
-- type: input
   id: server-os
   attributes:
     label: Server operating system
@@ -87,33 +66,22 @@ body:
   validations:
     required: true
 
-- type: input
-  id: suwayomi-webui-version
+- type: textarea
+  id: debug-information
   attributes:
-    label: Suwayomi-WebUI version
-    description: You can find your Suwayomi-WebUI version in **More → About**.
-    placeholder: |
-      Example: "r1689 STABLE | r2401 PREVIEW"
-  validations:
-    required: true
-
-- type: input
-  id: client-browser
-  attributes:
-    label: Used web browser
-    description: The browser which is used to open Suwayomi-WebUI
-    placeholder: |
-      Example: "Chrome 134.0.6998.118 (64-Bit) | FireFox 136.0.2 (64-Bit) | Electron v35.0.2"
-  validations:
-    required: true
-
-- type: input
-  id: client-os
-  attributes:
-    label: Client operating system
-    description: The system on which the Suwayomi-WebUI is running on
-    placeholder: |
-      Example: "Windows 11 Pro 24H2 | Ubuntu 24.04.2 LTS"
+    label: Debug information
+    description: |
+      Provide the debug information from the About page.
+      _Note:_ You can paste the copied debug information into the placeholder below.
+    value: |
+      <details>
+        <summary>Click here to see debug information</summary>
+        <!-- Please leave one blank line below for enabling the code block rendering. -->
+      
+        ```
+        Replace this text with the copied debug information
+        ```
+      </details>
   validations:
     required: true
 

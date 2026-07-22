@@ -8,6 +8,7 @@
 
 import { CombinedGraphQLErrors } from '@apollo/client';
 import type { ReactNode } from 'react';
+import { makeToast } from '@/base/utils/Toast.ts';
 
 export const jsonSaveParse = <T = any>(...args: Parameters<typeof JSON.parse>): T | null => {
     try {
@@ -94,4 +95,38 @@ export const maybeExecuteWithDelay = (
 
     action();
     return undefined;
+};
+
+export const copyToClipboard = async (text: string) => {
+    try {
+        await navigator.clipboard.writeText(text);
+        makeToast('Copied to clipboard', 'info');
+    } catch (e) {
+        makeToast('Could not copy to clipboard', 'error', getErrorMessage(e));
+    }
+};
+
+export const getRenderedText = (el: HTMLElement, cssText: string) => {
+    const clone = el.cloneNode(true) as HTMLElement;
+
+    const rect = el.getBoundingClientRect();
+
+    clone.style.cssText = `
+    position: absolute;
+    left: -99999px;
+    top: 0;
+    visibility: visible;
+    display: block;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    width: ${rect.width}px;
+    ${cssText}
+  `;
+
+    document.body.appendChild(clone);
+    const text = clone.innerText;
+    clone.remove();
+
+    return text;
 };

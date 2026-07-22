@@ -20,7 +20,6 @@ import { memo } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
-import { makeToast } from '@/base/utils/Toast.ts';
 import type { MobileHeaderProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
@@ -35,6 +34,7 @@ import {
     useReaderScrollbarStore,
     useReaderStore,
 } from '@/features/reader/stores/ReaderStore.ts';
+import { copyToClipboard } from '@/lib/HelperFunctions.ts';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
@@ -113,13 +113,7 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                     >
                         {t`Open in WebView`}
                     </MenuItem>
-                    <MenuItem
-                        disabled={!realUrl}
-                        onClick={async () => {
-                            await navigator.clipboard.writeText(title);
-                            makeToast(t`Copied to clipboard`, 'info');
-                        }}
-                    >
+                    <MenuItem disabled={!realUrl} onClick={() => copyToClipboard(title)}>
                         {t`Share`}
                     </MenuItem>
                 </Menu>

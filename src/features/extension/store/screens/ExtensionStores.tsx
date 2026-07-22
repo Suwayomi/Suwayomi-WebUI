@@ -8,7 +8,7 @@
 
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
-import { getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
+import { copyToClipboard, getErrorMessage, noOp } from '@/lib/HelperFunctions.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { useLingui } from '@lingui/react/macro';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -127,9 +127,8 @@ const ExtensionStoreCard = ({
                         )}
                         <CustomTooltip title={t`Copy index url`}>
                             <IconButton
-                                onClick={async () => {
-                                    await navigator.clipboard.writeText(indexUrl);
-                                    makeToast(t`Copied to clipboard`, 'info');
+                                onClick={() => {
+                                    copyToClipboard(indexUrl);
                                 }}
                                 color="inherit"
                             >

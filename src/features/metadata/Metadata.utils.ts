@@ -12,6 +12,8 @@ import { getActiveDevice } from '@/features/device/services/Device.ts';
 
 export const extractOriginalKey = (key: string) => key.split('_').slice(-1)[0];
 
+export const getMetadataKeyRaw = (key: string, prefixes: string[]): string => `${prefixes.join('_')}_${key}`;
+
 /**
  * Returns the key with the provided prefixes.
  *
@@ -34,7 +36,7 @@ export const getMetadataKey = (key: string, prefixes: string[] = [], appPrefix: 
         (prefix) => prefix.toLowerCase() !== 'default',
     );
 
-    return `${finalPrefix.join('_')}_${key}`;
+    return getMetadataKeyRaw(key, finalPrefix);
 };
 
 export const doesAppMetadataKeyExistIn = (
@@ -46,3 +48,19 @@ export const doesAppMetadataKeyExistIn = (
 
 export const doesMetadataKeyExistIn = (meta: Metadata | undefined, key: string): boolean =>
     Object.prototype.hasOwnProperty.call(meta ?? {}, key);
+
+export const getAppMetadataFrom = (
+    meta: Metadata,
+    prefixes: string[] = [],
+    appPrefix: string = APP_METADATA_KEY_PREFIX,
+): Metadata => {
+    const appMetadata: Metadata = {};
+
+    Object.entries(meta).forEach(([key, value]) => {
+        if (key.startsWith([appPrefix, ...prefixes].join('_'))) {
+            appMetadata[key] = value;
+        }
+    });
+
+    return appMetadata;
+};

@@ -20,7 +20,7 @@ import type {
     MetadataHolderType,
     MetadataKeyValuePair,
 } from '@/features/metadata/Metadata.types.ts';
-import { extractOriginalKey, getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
+import { extractOriginalKey, getAppMetadataFrom, getMetadataKey } from '@/features/metadata/Metadata.utils.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
@@ -35,22 +35,6 @@ const getAppKeyPrefixForMigration = (migrationId: number): string => {
         .find((migration) => !!migration.appKeyPrefix);
 
     return appKeyPrefix?.appKeyPrefix?.newPrefix ?? APP_METADATA_KEY_PREFIX;
-};
-
-const getAppMetadataFrom = (
-    meta: Metadata,
-    prefixes: string[] = [],
-    appPrefix: string = APP_METADATA_KEY_PREFIX,
-): Metadata => {
-    const appMetadata: Metadata = {};
-
-    Object.entries(meta).forEach(([key, value]) => {
-        if (key.startsWith([appPrefix, ...prefixes].join('_'))) {
-            appMetadata[key] = value;
-        }
-    });
-
-    return appMetadata;
 };
 
 const applyAppKeyPrefixMigration = (meta: Metadata, migration: IMetadataMigration): Metadata => {

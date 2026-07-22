@@ -16,3 +16,5 @@ export const enhancedCleanup = (str: string): string =>
 
 export const reverseString = (str: string, separator: string = ''): string =>
     str.split(separator).reverse().join(separator);
+
+export const indent = (str: string, level: number, char: string): string => char.repeat(level) + str;
