@@ -442,7 +442,7 @@ export const DebugInformation = () => {
                     )}
                 </Stack>
             }
-            collapse={<Stack ref={contentTextRef}>{mapObjectToMetadata(debugInfo)}</Stack>}
+            collapse={<Stack ref={contentTextRef}>{mapObjectToMetadata(debugInfo, 2)}</Stack>}
         />
     );
 };
