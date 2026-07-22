@@ -37,6 +37,7 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { MIGRATION_LOCAL_STORAGE_KEY } from '@/features/migration/Migration.constants.ts';
 import type { MigrationState } from '@/features/migration/Migration.types.ts';
+import { useNetwork, useOrientation, useViewportSize } from '@mantine/hooks';
 
 const PRIVACY_UNSAFE_SERVER_SETTINGS: (keyof ServerSettings)[] = [
     'socksProxyUsername',
@@ -347,11 +348,14 @@ export const DebugInformation = () => {
         setReaderSettingsByReadingMode(settingsByReadingMode);
     }, [defaultReaderSettings.metadata, defaultReaderSettings.settings]);
 
+    const viewportSize = useViewportSize();
+    const orientation = useOrientation();
+    const network = useNetwork();
     useEffect(() => {
         getBrowserDebugInfo(baseUrl)
             .then(setBrowserDebugInfo)
             .catch(defaultPromiseErrorHandler('DebugInformation::getBrowserDebugInfo'));
-    }, [baseUrl]);
+    }, [baseUrl, viewportSize, orientation, network]);
 
     const isLoading =
         aboutRequest.loading ||
