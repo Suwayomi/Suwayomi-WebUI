@@ -245,7 +245,7 @@ export const DebugInformation = () => {
     const sources = sourcesRequest.data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
 
     const areFromMultipleStores = useMemo(() => Sources.areFromMultipleStores(sources), [sources]);
-    const enabledSourcesCount = useMemo(() => Sources.filter(sources, { enabled: true }).length, [sources]);
+    const disabledSourcesCount = useMemo(() => Sources.filter(sources, { enabled: false }).length, [sources]);
     const nsfwSourcesCount = useMemo(() => Sources.filter(sources, { isNsfw: true }).length, [sources]);
     const pinnedSourcesCount = useMemo(() => Sources.filter(sources, { pinned: true }).length, [sources]);
 
@@ -297,7 +297,7 @@ export const DebugInformation = () => {
                 'Extension stores': extensionStoresCount,
                 'Extensions installed': extensions.length,
                 'Sources from different stores': areFromMultipleStores,
-                'Sources enabled': enabledSourcesCount,
+                'Sources disabled': disabledSourcesCount,
                 'Sources NSFW': nsfwSourcesCount,
                 'Sources pinned': pinnedSourcesCount,
                 'Show NSFW': clientSettings.settings.showNsfw,
@@ -317,7 +317,7 @@ export const DebugInformation = () => {
             extensionStoresCount,
             extensions.length,
             areFromMultipleStores,
-            enabledSourcesCount,
+            disabledSourcesCount,
             nsfwSourcesCount,
             pinnedSourcesCount,
             browserDebugInfo,
