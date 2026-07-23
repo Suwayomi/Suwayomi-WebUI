@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.885Z\n"
-"PO-Revision-Date: 2026-03-30 09:09+0000\n"
-"Last-Translator: AteX <atex@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-07-23 16:54+0000\n"
+"Last-Translator: js850604 <js850604@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/pl/>\n"
 "Language: pl\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 "X-Message-Format: ICU\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 2026.8.dev0\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -504,11 +504,6 @@ msgstr "Ciągły poziomy"
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Continuous vertical"
 msgstr "Ciągły pionowy"
-
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "Skopiowano do schowka"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx

@@ -1027,11 +1027,6 @@ msgid "Convert images to different formats"
 msgstr "Μετατροπή εικόνων σε διαφορετικές μορφές"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "Αντιγράφηκε στο πρόχειρο"
-
-#: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 msgid "Copy"
 msgstr "Αντιγραφή"
