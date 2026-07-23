@@ -435,7 +435,7 @@ export const DebugInformation = () => {
             header={
                 <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 1 }}>
                     {t`Show`}
-                    {'clipboard' in navigator && (
+                    {!!navigator.clipboard && (
                         <Button
                             variant="text"
                             size="small"
