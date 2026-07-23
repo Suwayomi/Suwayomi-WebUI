@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-07-20 01:01+0000\n"
+"PO-Revision-Date: 2026-07-23 16:54+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -235,8 +235,8 @@ msgid ""
 msgstr ""
 "{count, plural, one {פעולה זו תחל בהורדת פרק אחד} other {פעולה זו תחל בהורדת "
 "# פרקים.\n"
-"Suwayomi אינה מיועדת לביצוע הורדה המונית. מספר רב מדי של הורדות עלול להוביל "
-"לחסימה משרתי המקור ו/או לגרום לבעיות בביצועים.}}"
+"Suwayomi אינה מיועדת להורדה המונית של פרקים. מספר רב מדי של הורדות עלול "
+"להוביל לחסימה מצד המקורות ו/או לגרום לבעיות בביצועים.}}"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
@@ -613,11 +613,11 @@ msgstr "לפי כמות המנגות"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "By source"
-msgstr "לפי שרת המקור"
+msgstr "לפי סדר הפרקים במקור"
 
 #: src/features/migration/Migration.constants.ts
 msgid "By source name"
-msgstr "לפי שם שרת המקור"
+msgstr "לפי שם המקור"
 
 #: src/features/chapter/Chapter.constants.ts
 msgid "By upload date"
@@ -683,7 +683,7 @@ msgstr "חלון בחירת קטגוריה"
 
 #: src/features/manga/Manga.constants.ts
 msgid "Change categories"
-msgstr "החלפת קטגוריות"
+msgstr "שינוי קטגוריות"
 
 #: src/features/manga/Manga.constants.ts
 msgid "Change categories of selected"
@@ -885,11 +885,6 @@ msgid "Convert images to different formats"
 msgstr "המרת תמונות לפורמטים אחרים"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "הועתק ללוח"
-
-#: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "העתקה"
@@ -941,7 +936,7 @@ msgstr "לא ניתן היה למחוק את ערכת הנושא \"{0}\""
 
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Could not find source. Check your installed extensions."
-msgstr "לא ניתן היה למצוא את שרת המקור. יש לבדוק את התוספים המותקנים."
+msgstr "לא ניתן היה למצוא את המקור. יש לבדוק את התוספים המותקנים."
 
 #: src/features/browse/extensions/Extensions.tsx
 msgid "Could not install the extension"
@@ -1146,7 +1141,7 @@ msgstr "לא ניתן היה לשמור את הגדרות ממשק הקריאה 
 
 #: src/features/global-search/screens/SearchAll.tsx
 msgid "Could not search source"
-msgstr "לא ניתן היה להריץ חיפוש בשרת המקור"
+msgstr "לא ניתן היה לבצע חיפוש במקור"
 
 #: src/features/updates/components/UpdateChecker.tsx
 msgid "Could not stop global update"
@@ -1577,7 +1572,7 @@ msgstr "המשך"
 
 #: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Current source"
-msgstr "שרת מקור נוכחי"
+msgstr "המקור הנוכחי"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Cycle image scale type"
@@ -2129,11 +2124,11 @@ msgstr "כללי"
 
 #: src/features/settings/screens/About.tsx
 msgid "GitHub Server"
-msgstr "מאגר קוד המקור של השרת (Suwayomi-Server)"
+msgstr "מאגר GitHub של השרת (Suwayomi-Server)"
 
 #: src/features/settings/screens/About.tsx
 msgid "GitHub WebUI"
-msgstr "מאגר קוד המקור של ממשק המשתמש (Suwayomi-WebUI)"
+msgstr "מאגר GitHub של ממשק המשתמש (Suwayomi-WebUI)"
 
 #: src/features/browse/sources/Sources.tsx
 #: src/features/global-search/screens/SearchAll.tsx
@@ -2226,8 +2221,8 @@ msgid ""
 "If enabled, chooses the match furthest ahead.\n"
 "Otherwise, picks the first match by source priority."
 msgstr ""
-"אם אפשרות זו מופעלת, תיבחר ההתאמה המתקדמת ביותר.\n"
-"אחרת תיבחר ההתאמה הראשונה לפי עדיפות שרת המקור."
+"כאשר האפשרות מופעלת, תיבחר ההתאמה המתקדמת ביותר.\n"
+"אחרת, תיבחר ההתאמה הראשונה לפי סדר עדיפות המקורות."
 
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
 msgid "Ignore"
@@ -4375,3 +4370,39 @@ msgstr "סנכרון אחרון: {syncDate}"
 #: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 msgid "Enable auto background color in continuous reading mode"
 msgstr "התאמה אוטומטית של צבע הרקע במצבי גלילה רציפה"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Could not load data"
+msgstr "לא ניתן היה לטעון את הנתונים"
+
+#: src/lib/HelperFunctions.ts
+msgid "Copied to clipboard"
+msgstr "הועתק ללוח"
+
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "לא ניתן היה להעתיק ללוח"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Could not open random entry"
+msgstr "לא ניתן היה לפתוח פריט אקראי"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Show"
+msgstr "הצגה"
+
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "מידע לניפוי שגיאות"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Open random entry"
+msgstr "פתיחת פריט אקראי"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Random"
+msgstr "אקראי"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep screen on"
+msgstr "השארת המסך דולק בזמן הקריאה"
