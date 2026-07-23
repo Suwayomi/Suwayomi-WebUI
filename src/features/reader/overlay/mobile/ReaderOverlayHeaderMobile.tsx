@@ -113,7 +113,7 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                     >
                         {t`Open in WebView`}
                     </MenuItem>
-                    <MenuItem disabled={!realUrl} onClick={() => copyToClipboard(title)}>
+                    <MenuItem disabled={!realUrl} onClick={() => copyToClipboard(realUrl!)}>
                         {t`Share`}
                     </MenuItem>
                 </Menu>
