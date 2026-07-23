@@ -194,7 +194,7 @@ const usePreserveOnLeadingPageRender = (
     useEffect(() => {
         const scrollElement = scrollElementRef.current;
 
-        if (!scrollElement || !isContinuousReadingModeActive) {
+        if (!scrollElement || !isContinuousReadingModeActive || isContinuousVerticalReadingModeActive) {
             return () => {};
         }
 

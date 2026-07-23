@@ -36,6 +36,7 @@ import type {
 } from '@/features/manga/Manga.types.ts';
 import ShareIcon from '@mui/icons-material/Share';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { ShareGuard } from '@/base/components/ShareGuard.tsx';
 
 interface IProps {
     manga: MangaIdInfo & MangaInLibraryInfo & MangaSourceIdInfo & MangaTitleInfo & MangaUrlInfo;
@@ -89,10 +90,11 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                             </IconButton>
                         </CustomTooltip>
                     )}
-                    {manga.realUrl && 'share' in navigator && (
-                        <CustomTooltip title={t`Share`}>
+                    <ShareGuard>
+                        <CustomTooltip title={t`Share`} disabled={!manga.realUrl}>
                             <IconButton
                                 color="inherit"
+                                disabled={!manga.realUrl}
                                 onClick={() =>
                                     navigator
                                         .share({
@@ -105,7 +107,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                 <ShareIcon />
                             </IconButton>
                         </CustomTooltip>
-                    )}
+                    </ShareGuard>
                     {manga.inLibrary && (
                         <>
                             <CustomTooltip title={t`Migrate`}>
@@ -216,8 +218,9 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                 <ListItemText>{t`Edit manga categories`}</ListItemText>
                             </MenuItem>,
                         ]}
-                        {manga.realUrl && 'share' in navigator && (
+                        <ShareGuard>
                             <MenuItem
+                                disabled={!manga.realUrl}
                                 onClick={() =>
                                     navigator
                                         .share({
@@ -232,7 +235,7 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
                                 </ListItemIcon>
                                 <ListItemText>{t`Share`}</ListItemText>
                             </MenuItem>
-                        )}
+                        </ShareGuard>
                     </Menu>
                 </>
             )}

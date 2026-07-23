@@ -31,6 +31,7 @@ import {
 import type { ChapterDownloadInfo, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import ShareIcon from '@mui/icons-material/Share';
+import { ShareGuard } from '@/base/components/ShareGuard';
 
 const DownloadButton = ({ id = -1, isDownloaded }: ChapterIdInfo & ChapterDownloadInfo) => {
     const { t } = useLingui();
@@ -125,7 +126,7 @@ export const ReaderNavBarDesktopActions = memo(() => {
                     <IconWebView />
                 </IconButton>
             </CustomTooltip>
-            {'share' in navigator && (
+            <ShareGuard>
                 <CustomTooltip title={t`Share`} disabled={!realUrl}>
                     <IconButton
                         color="inherit"
@@ -142,7 +143,7 @@ export const ReaderNavBarDesktopActions = memo(() => {
                         <ShareIcon />
                     </IconButton>
                 </CustomTooltip>
-            )}
+            </ShareGuard>
         </Stack>
     );
 });

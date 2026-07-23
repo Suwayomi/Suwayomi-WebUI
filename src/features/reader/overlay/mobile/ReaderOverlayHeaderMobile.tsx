@@ -35,6 +35,7 @@ import {
     useReaderStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import { ShareGuard } from '@/base/components/ShareGuard.tsx';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
@@ -113,7 +114,7 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                     >
                         {t`Open in WebView`}
                     </MenuItem>
-                    {!!navigator.share && (
+                    <ShareGuard>
                         <MenuItem
                             disabled={!realUrl}
                             onClick={() => {
@@ -128,7 +129,23 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                         >
                             {t`Share`}
                         </MenuItem>
-                    )}
+                    </ShareGuard>
+                    <ShareGuard>
+                        <MenuItem
+                            disabled={!realUrl}
+                            onClick={() => {
+                                navigator
+                                    .share({
+                                        title: `${title} - ${name}`,
+                                        text: name,
+                                        url: realUrl ?? undefined,
+                                    })
+                                    .catch(defaultPromiseErrorHandler('ReaderOverlayHeaderMobile::share'));
+                            }}
+                        >
+                            {t`Share`}
+                        </MenuItem>
+                    </ShareGuard>
                 </Menu>
             </Stack>
         </Slide>
