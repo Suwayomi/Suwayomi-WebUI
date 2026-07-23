@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Changed
 
 - (**Reader**) Hide share button in unsecure context (not localhost or https)
+- (**Reader**) Use device share functionality for "Share" button in reader mobile header (secure context (localhost, https))
 
 ### Fixed
 

@@ -34,7 +34,7 @@ import {
     useReaderScrollbarStore,
     useReaderStore,
 } from '@/features/reader/stores/ReaderStore.ts';
-import { copyToClipboard } from '@/lib/HelperFunctions.ts';
+import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 
@@ -113,8 +113,19 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                     >
                         {t`Open in WebView`}
                     </MenuItem>
-                    {!!navigator.clipboard && (
-                        <MenuItem disabled={!realUrl} onClick={() => copyToClipboard(realUrl!)}>
+                    {!!navigator.share && (
+                        <MenuItem
+                            disabled={!realUrl}
+                            onClick={() => {
+                                navigator
+                                    .share({
+                                        title: `${title} - ${name}`,
+                                        text: name,
+                                        url: realUrl ?? undefined,
+                                    })
+                                    .catch(defaultPromiseErrorHandler('ReaderOverlayHeaderMobile::share'));
+                            }}
+                        >
                             {t`Share`}
                         </MenuItem>
                     )}
