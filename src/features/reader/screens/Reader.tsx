@@ -160,7 +160,7 @@ const BaseReader = ({
     }, [mangaResponse.data?.manga]);
 
     useReaderResetStates();
-    useWakeLock(shouldWakeLockScreen);
+    useWakeLock(shouldWakeLockScreen && !isLoading);
     useReaderSetSettingsState(
         mangaResponse,
         defaultSettingsResponse,
