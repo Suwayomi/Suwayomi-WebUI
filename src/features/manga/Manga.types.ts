@@ -59,6 +59,7 @@ export type MangaAuthorInfo = Pick<MangaTypeGql, 'author'>;
 export type MangaTitleInfo = Pick<MangaTypeGql, 'title'>;
 export type MangaDescriptionInfo = Pick<MangaTypeGql, 'description'>;
 export type MangaStatusInfo = Pick<MangaTypeGql, 'status'>;
+export type MangaUrlInfo = Pick<MangaTypeGql, 'realUrl'>;
 
 type MangaCardSpecificProps = MangaCardBaseProps & MangaThumbnailInfo;
 

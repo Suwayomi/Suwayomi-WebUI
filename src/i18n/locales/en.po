@@ -3368,7 +3368,9 @@ msgstr "Setting can not be changed while the reader is opened"
 msgid "Settings"
 msgstr "Settings"
 
+#: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
 msgid "Share"
 msgstr "Share"
 
