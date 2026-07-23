@@ -35,7 +35,7 @@ import {
     useReaderStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { ShareGuard } from '@/base/components/ShareGuard.tsx';
+import { ShareGuard } from '@/base/components/guard/ShareGuard.tsx';
 
 const DEFAULT_MANGA = { ...FALLBACK_MANGA, title: '' };
 

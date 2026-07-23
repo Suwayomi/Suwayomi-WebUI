@@ -15,6 +15,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - (**Reader**) Hide share button in unsecure context (not localhost or https)
 - (**Reader**) Use device share functionality for "Share" button in reader mobile header (secure context (localhost, https))
+- (**Extension**) Hide extension store copy button in unsecure context (not localhost or https)
+- (**Library**) Open random manga based on active category and filters
 
 ### Fixed
 

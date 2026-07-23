@@ -56,6 +56,7 @@ import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { copyToClipboard } from '@/lib/HelperFunctions.ts';
+import { ClipBoardGuard } from '@/base/components/guard/ClipBoardGuard.tsx';
 
 const DetailsWrapper = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -252,13 +253,13 @@ export const MangaDetails = ({
                                     {manga.title}
                                 </Typography>
                             </SearchLink>
-                            {!!navigator.clipboard && (
+                            <ClipBoardGuard>
                                 <CustomTooltip title={t`Copy`}>
                                     <IconButton onClick={() => copyToClipboard(manga.title)} color="inherit">
                                         <ContentCopyIcon fontSize="small" />
                                     </IconButton>
                                 </CustomTooltip>
-                            )}
+                            </ClipBoardGuard>
                         </Stack>
                         {manga.author && (
                             <Metadata

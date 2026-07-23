@@ -36,7 +36,7 @@ import type {
 } from '@/features/manga/Manga.types.ts';
 import ShareIcon from '@mui/icons-material/Share';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { ShareGuard } from '@/base/components/ShareGuard.tsx';
+import { ShareGuard } from '@/base/components/guard/ShareGuard.tsx';
 
 interface IProps {
     manga: MangaIdInfo & MangaInLibraryInfo & MangaSourceIdInfo & MangaTitleInfo & MangaUrlInfo;

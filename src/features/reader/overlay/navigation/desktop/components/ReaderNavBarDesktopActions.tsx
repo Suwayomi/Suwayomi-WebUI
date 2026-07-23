@@ -31,7 +31,7 @@ import {
 import type { ChapterDownloadInfo, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import ShareIcon from '@mui/icons-material/Share';
-import { ShareGuard } from '@/base/components/ShareGuard';
+import { ShareGuard } from '@/base/components/guard/ShareGuard.tsx';
 
 const DownloadButton = ({ id = -1, isDownloaded }: ChapterIdInfo & ChapterDownloadInfo) => {
     const { t } = useLingui();

@@ -15,19 +15,19 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { LibraryOptionsPanel } from '@/features/library/components/LibraryOptionsPanel.tsx';
 import { getCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
 import ShuffleIcon from '@mui/icons-material/Shuffle';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import type { GetMangasBaseQuery, GetMangasBaseQueryVariables } from '@/lib/graphql/generated/graphql.ts';
-import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 
 export const LibraryToolbarMenu = ({
     category,
+    mangas,
 }: {
     category: ComponentProps<typeof LibraryOptionsPanel>['category'];
+    mangas: MangaIdInfo[];
 }) => {
     const { t } = useLingui();
 
@@ -45,21 +45,12 @@ export const LibraryToolbarMenu = ({
 
     return (
         <>
-            <CustomTooltip title={t`Open random entry`}>
+            <CustomTooltip title={t`Open random entry`} disabled={!mangas.length}>
                 <IconButton
+                    disabled={!mangas.length}
                     onClick={async () => {
                         try {
-                            const mangasResponse = await requestManager.getMangas<
-                                GetMangasBaseQuery,
-                                GetMangasBaseQueryVariables
-                            >(GET_MANGAS_BASE, {
-                                condition: { inLibrary: true },
-                            }).response;
-
-                            const randomManga =
-                                mangasResponse.data?.mangas.nodes[
-                                    Math.floor(Math.random() * mangasResponse.data?.mangas.totalCount)
-                                ];
+                            const randomManga = mangas[Math.floor(Math.random() * mangas.length)];
 
                             assertIsDefined(randomManga);
 

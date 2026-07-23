@@ -207,7 +207,7 @@ export function Library() {
             {!isSelectModeActive && activeTab && (
                 <>
                     <AppbarSearch />
-                    <LibraryToolbarMenu category={activeTab} />
+                    <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <UpdateChecker categoryId={activeTab?.id} />
                 </>
             )}
@@ -231,7 +231,7 @@ export function Library() {
                 />
             )}
         </>,
-        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas.length],
+        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas],
     );
 
     const handleTabChange = (newTab: number) => {
