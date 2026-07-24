@@ -245,6 +245,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     visibleMangas: Manga[];
     showFilteredOutMessage: boolean;
     filterKey: string;
+    isFiltered: boolean;
 } => {
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
     const options = useGetCategoryMetadata(category ?? DEFAULT_CATEGORY);
@@ -303,9 +304,12 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         filteredMangas.length === 0 &&
         mangas.length > 0;
 
+    const isFiltered = filteredMangas.length !== mangas.length;
+
     return {
         visibleMangas: filteredMangas,
         showFilteredOutMessage,
         filterKey: `${JSON.stringify(options)}${settings.ignoreFilters}`,
+        isFiltered,
     };
 };

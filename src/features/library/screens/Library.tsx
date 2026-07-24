@@ -105,6 +105,7 @@ export function Library() {
         visibleMangas: mangas,
         showFilteredOutMessage,
         filterKey,
+        isFiltered,
     } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
 
     const retryFetchCategoryMangas = useCallback(
@@ -195,12 +196,12 @@ export function Library() {
             {showTabSize && (
                 <TitleSizeTag
                     sx={{ ...theme.applyStyles('light', { backgroundColor: 'background.paper' }) }}
-                    label={librarySize}
+                    label={isFiltered ? `${mangas.length}/${librarySize}` : librarySize}
                 />
             )}
         </TitleWithSizeTag>,
         t`Library`,
-        [t, showTabSize, librarySize],
+        [t, showTabSize, librarySize, isFiltered, mangas.length],
     );
     useAppAction(
         <>
@@ -296,7 +297,15 @@ export function Library() {
                         label={
                             <TitleWithSizeTag>
                                 {tab.name}
-                                {showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
+                                {showTabSize ? (
+                                    <TitleSizeTag
+                                        label={
+                                            tab === activeTab && isFiltered
+                                                ? `${mangas.length}/${tab.mangas.totalCount}`
+                                                : tab.mangas.totalCount
+                                        }
+                                    />
+                                ) : null}
                             </TitleWithSizeTag>
                         }
                         value={tab.id}
