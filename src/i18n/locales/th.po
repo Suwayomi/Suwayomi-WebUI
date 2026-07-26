@@ -167,11 +167,6 @@ msgid "Compact grid"
 msgstr "กริดแบบกะทัดรัด"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "คัดลอกไปยังคลิปบอร์ดแล้ว"
-
-#: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "คัดลอก"

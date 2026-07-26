@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-07-16 07:01+0000\n"
+"PO-Revision-Date: 2026-07-26 12:01+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
@@ -520,11 +520,6 @@ msgstr "Horizontal continu"
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Continuous vertical"
 msgstr "Vertical continu"
-
-#: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "Copié dans le presse-papiers"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
@@ -4419,3 +4414,44 @@ msgstr "Sauvegarde automatique"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Last sync: {syncDate}"
 msgstr "Dernière synchro : {syncDate}"
+
+#: src/lib/HelperFunctions.ts
+msgid "Copied to clipboard"
+msgstr "Copié dans le presse-papier"
+
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "Impossible de copier dans le presse-papier"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Could not load data"
+msgstr "Impossible de charger les données"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Could not open random entry"
+msgstr "Impossible d'ouvrir une entrée au hasard"
+
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "Informations de débogage"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Enable auto background color in continuous reading mode"
+msgstr ""
+"Activer la couleur d'arrière-plan automatique pour la lecture en mode continu"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep screen on"
+msgstr "Garder l'écran allumé"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Open random entry"
+msgstr "Ouvrir une entrée au hasard"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Random"
+msgstr "Au hasard"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Show"
+msgstr "Afficher"

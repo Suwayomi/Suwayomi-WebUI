@@ -568,11 +568,6 @@ msgid "Convert images to different formats"
 msgstr "Konvertiere Bilder zu verschiedenen Formaten"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "In Zwischenablage kopiert"
-
-#: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "Kopieren"

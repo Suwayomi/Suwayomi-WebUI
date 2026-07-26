@@ -504,11 +504,6 @@ msgid "Continuous vertical"
 msgstr "தொடர்ச்சியான செங்குத்து"
 
 #: src/features/manga/components/details/MangaDetails.tsx
-#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
-msgid "Copied to clipboard"
-msgstr "இடைநிலைப்பலகைக்கு நகலெடுக்கப்பட்டது"
-
-#: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Copy"
 msgstr "நகலெடு"
