@@ -195,7 +195,8 @@ export function Library() {
             {t`Library`}
             {showTabSize && (
                 <TitleSizeTag
-                    sx={{ ...theme.applyStyles('light', { backgroundColor: 'background.paper' }) }}
+                    sx={{ ...(!isFiltered && theme.applyStyles('light', { backgroundColor: 'background.paper' })) }}
+                    color={isFiltered ? 'warning' : 'default'}
                     label={isFiltered ? `${mangas.length}/${librarySize}` : librarySize}
                 />
             )}
@@ -299,6 +300,7 @@ export function Library() {
                                 {tab.name}
                                 {showTabSize ? (
                                     <TitleSizeTag
+                                        color={tab === activeTab && isFiltered ? 'warning' : 'default'}
                                         label={
                                             tab === activeTab && isFiltered
                                                 ? `${mangas.length}/${tab.mangas.totalCount}`
