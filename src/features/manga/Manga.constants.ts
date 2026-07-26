@@ -233,6 +233,7 @@ export const MANGA_TAGS_BY_MANGA_TYPE: Record<MangaType, string[]> = {
         'וובטון',
         '웹툰',
         '网漫',
+        '網路漫畫',
         'Long Strip',
         'Long strip',
         'רצועה ארוכה',
