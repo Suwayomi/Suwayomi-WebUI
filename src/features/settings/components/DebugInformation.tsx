@@ -77,7 +77,7 @@ const getBrowserDebugInfo = async (serverAddress: string) => {
     return {
         page: {
             protocol: window.location.protocol,
-            localhost: window.location.hostname.includes('localhost'),
+            localhost: window.location.hostname.includes('localhost') || window.location.hostname.includes('127.0.0.1'),
             matchesServerAddress: window.location.origin === serverAddress,
         },
 
