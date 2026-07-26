@@ -248,7 +248,7 @@ export const DebugInformation = () => {
     const nonLibraryCategoryMangasCountRequest = requestManager.useGetMangas<
         GetMangasCountQuery,
         GetMangasCountQueryVariables
-    >(GET_MANGAS_COUNT, { condition: { inLibrary: true }, filter: { categoryId: { isNull: false } } });
+    >(GET_MANGAS_COUNT, { condition: { inLibrary: false }, filter: { categoryId: { isNull: false } } });
     const extensionStoresRequest = requestManager.useGetExtensionStores();
     const extensionsRequest = requestManager.useGetExtensionList({ variables: { condition: { isInstalled: true } } });
     const sourcesRequest = requestManager.useGetSourceList();
