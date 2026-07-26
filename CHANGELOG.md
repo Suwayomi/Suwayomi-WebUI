@@ -8,6 +8,20 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
+- .
+
+### Changed
+
+- .
+
+### Fixed
+
+- .
+
+## [20260726.01] (r3379) - 2026-07-26
+
+### Added
+
 - (**Manga**) Add share button (secure context (localhost, https))
 - (**Reader**) Add share button to desktop navigation bar (secure context (localhost, https))
 
@@ -22,6 +36,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - (**Reader**) Fix electron asking for "wake lock" permission even with the "Keep screen on" setting disabled
 - (**Reader**) Fix page resume in chromium browsers
+
+### Translations
+
+Feel free to translate the project on [Weblate](https://hosted.weblate.org/projects/suwayomi/suwayomi-webui/)
+
+Thanks to everyone that contributed to the translation of this project.
+
+#### Added
+
+- Chinese (Traditional) (by hjd9111202, js850604)
+
+#### Updated
+
+- Chinese (Simplified) (by 無情天)
+- Hebrew (by CyberMageIL)
+- French (by Damien O'Neil)
+
+### Contributors
+
+Thanks to everyone that contributed to this release
+
+@github-actions[bot], @weblate, @CyberMageIL, @Daemonhellz, @hjd9111202, @js850604, @kofzhanganguo, @schroda
 
 ## [20260722.01] (r3355) - 2026-07-22
 
@@ -907,7 +943,8 @@ Thanks to everyone that contributed to this release
 
 @schroda, @jesusFx, @QuietBlade, @anvstin, @guohuageng, @plum7x, @HiyoriTUK, @aizhimoran, @JiPaix, @Yuhyeong, @a18ccms, @chancez, @rickymcmuffin, @zmmx, @alexandrejournet, @ibaraki-douji, @nitezs, @misaka10843, @Becods, @skrewde, @xconkhi9x, @cnmorocho, @Wip-Sama, @Kefir2105, @RafieHardinur, @SuperMario229, @Alexandre-P-J, @AriaMoradi, @NathanBnm, @FumoVite, @JoHena, @bandysharif, @DevCoz, @comradekingu, @Zereef, @akabhirav
 
-[unreleased]: https://github.com/suwayomi/suwayomi-webui/compare/v20260722.01...HEAD
+[unreleased]: https://github.com/suwayomi/suwayomi-webui/compare/v20260726.01...HEAD
+[20260726.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20260722.01...v20260726.01
 [20260722.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20260509.01...v20260722.01
 [20260509.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20260508.01...v20260509.01
 [20260508.01]: https://github.com/suwayomi/suwayomi-webui/compare/v20251230.01...v20260508.01
