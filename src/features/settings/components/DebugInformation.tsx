@@ -485,85 +485,22 @@ export const DebugInformation = () => {
             <EmptyView
                 message={t`Could not load data`}
                 retry={() => {
-                    if (aboutRequest.error) {
-                        aboutRequest.refetch().catch(defaultPromiseErrorHandler('DebugInformation::aboutRequest'));
-                    }
-
-                    if (extensionStoresRequest.error) {
-                        extensionStoresRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::extensionStoresRequest'));
-                    }
-
-                    if (extensionsRequest.error) {
-                        extensionsRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::extensionsRequest'));
-                    }
-
-                    if (sourcesRequest.error) {
-                        sourcesRequest.refetch().catch(defaultPromiseErrorHandler('DebugInformation::sourcesRequest'));
-                    }
-
-                    if (serverSettingsRequest.error) {
-                        serverSettingsRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::serverSettingsRequest'));
-                    }
-
-                    if (clientSettings.request.error) {
-                        clientSettings.request
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::clientSettings'));
-                    }
-
-                    if (defaultReaderSettings.request.error) {
-                        defaultReaderSettings.request
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::defaultReaderSettings'));
-                    }
-
-                    if (categoriesRequest.error) {
-                        categoriesRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::categoriesRequest'));
-                    }
-
-                    if (libraryMangasCountRequest.error) {
-                        libraryMangasCountRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::libraryMangasCountRequest'));
-                    }
-
-                    if (nonLibraryCategoryMangasCountRequest.error) {
-                        nonLibraryCategoryMangasCountRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::nonLibraryCategoriesRequest'));
-                    }
-
-                    if (webUIUpdateStatusRequest.error) {
-                        webUIUpdateStatusRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::webUIUpdateStatusRequest'));
-                    }
-
-                    if (downloadStatusRequest.error) {
-                        downloadStatusRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::downloadStatusRequest'));
-                    }
-
-                    if (syncStatusRequest.error) {
-                        syncStatusRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::syncStatusRequest'));
-                    }
-
-                    if (trackersRequest.error) {
-                        trackersRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('DebugInformation::trackersRequest'));
-                    }
+                    Promise.all([
+                        aboutRequest.error && aboutRequest.refetch(),
+                        extensionStoresRequest.error && extensionStoresRequest.refetch(),
+                        extensionsRequest.error && extensionsRequest.refetch(),
+                        sourcesRequest.error && sourcesRequest.refetch(),
+                        serverSettingsRequest.error && serverSettingsRequest.refetch(),
+                        clientSettings.request.error && clientSettings.request.refetch(),
+                        defaultReaderSettings.request.error && defaultReaderSettings.request.refetch(),
+                        categoriesRequest.error && categoriesRequest.refetch(),
+                        libraryMangasCountRequest.error && libraryMangasCountRequest.refetch(),
+                        nonLibraryCategoryMangasCountRequest.error && nonLibraryCategoryMangasCountRequest.refetch(),
+                        webUIUpdateStatusRequest.error && webUIUpdateStatusRequest.refetch(),
+                        downloadStatusRequest.error && downloadStatusRequest.refetch(),
+                        syncStatusRequest.error && syncStatusRequest.refetch(),
+                        trackersRequest.error && trackersRequest.refetch(),
+                    ]).catch(defaultPromiseErrorHandler('DebugInformation::retry'));
                 }}
             />
         );
