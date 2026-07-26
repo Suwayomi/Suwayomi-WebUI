@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 
 - (**Reader**) Fix electron asking for "wake lock" permission even with the "Keep screen on" setting disabled
+- (**Reader**) Fix page resume in chromium browsers
 
 ## [20260722.01] (r3355) - 2026-07-22
 
