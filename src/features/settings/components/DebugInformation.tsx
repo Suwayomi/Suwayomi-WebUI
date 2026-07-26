@@ -41,13 +41,13 @@ import { useNetwork, useOrientation, useViewportSize } from '@mantine/hooks';
 import type {
     GetCategoriesLibraryQuery,
     GetCategoriesLibraryQueryVariables,
-    GetLibraryMangaCountQuery,
+    GetMangasCountQuery,
+    GetMangasCountQueryVariables,
     GetTrackersSettingsQuery,
 } from '@/lib/graphql/generated/graphql.ts';
-import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/manga/MangaQuery.ts';
+import { GET_MANGAS_COUNT } from '@/lib/graphql/manga/MangaQuery.ts';
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/category/CategoryQuery.ts';
 import { getCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
-import sumBy from 'lodash/fp/sumBy';
 import groupBy from 'lodash/fp/groupBy';
 import mapValues from 'lodash/fp/mapValues';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
@@ -240,10 +240,14 @@ export const DebugInformation = () => {
         GetCategoriesLibraryQuery,
         GetCategoriesLibraryQueryVariables
     >(GET_CATEGORIES_LIBRARY, {});
-    const libraryMangasCountRequest = requestManager.useGetMangas<GetLibraryMangaCountQuery>(
-        GET_LIBRARY_MANGA_COUNT,
-        {},
+    const libraryMangasCountRequest = requestManager.useGetMangas<GetMangasCountQuery, GetMangasCountQueryVariables>(
+        GET_MANGAS_COUNT,
+        { condition: { inLibrary: true } },
     );
+    const nonLibraryCategoryMangasCountRequest = requestManager.useGetMangas<
+        GetMangasCountQuery,
+        GetMangasCountQueryVariables
+    >(GET_MANGAS_COUNT, { condition: { inLibrary: true }, filter: { categoryId: { isNull: false } } });
     const extensionStoresRequest = requestManager.useGetExtensionStores();
     const extensionsRequest = requestManager.useGetExtensionList({ variables: { condition: { isInstalled: true } } });
     const sourcesRequest = requestManager.useGetSourceList();
@@ -271,11 +275,7 @@ export const DebugInformation = () => {
     const categories = categoriesRequest.data?.categories.nodes ?? STABLE_EMPTY_ARRAY;
 
     const libraryMangasCount = libraryMangasCountRequest.data?.mangas.totalCount ?? 0;
-    const nonLibraryMangasInCategoriesCount = useMemo(() => {
-        const categoriesEntriesCount = sumBy((category) => category.mangas.totalCount, categories);
-
-        return categoriesEntriesCount - libraryMangasCount;
-    }, [categories, libraryMangasCount]);
+    const nonLibraryMangasInCategoriesCount = nonLibraryCategoryMangasCountRequest.data?.mangas.totalCount ?? 0;
 
     const extensionStoresCount = extensionStoresRequest.data?.extensionStores.totalCount ?? 0;
     const extensions = extensionsRequest.data?.extensions.nodes ?? STABLE_EMPTY_ARRAY;
@@ -451,6 +451,7 @@ export const DebugInformation = () => {
         defaultReaderSettings.loading ||
         categoriesRequest.loading ||
         libraryMangasCountRequest.loading ||
+        nonLibraryCategoryMangasCountRequest.loading ||
         webUIUpdateStatusRequest.loading ||
         downloadStatusRequest.loading ||
         syncStatusRequest.loading ||
@@ -469,6 +470,7 @@ export const DebugInformation = () => {
         defaultReaderSettings.request.error ||
         categoriesRequest.error ||
         libraryMangasCountRequest.error ||
+        nonLibraryCategoryMangasCountRequest.error ||
         webUIUpdateStatusRequest.error ||
         downloadStatusRequest.error ||
         syncStatusRequest.error ||
@@ -526,6 +528,12 @@ export const DebugInformation = () => {
                         libraryMangasCountRequest
                             .refetch()
                             .catch(defaultPromiseErrorHandler('DebugInformation::libraryMangasCountRequest'));
+                    }
+
+                    if (nonLibraryCategoryMangasCountRequest.error) {
+                        nonLibraryCategoryMangasCountRequest
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('DebugInformation::nonLibraryCategoriesRequest'));
                     }
 
                     if (webUIUpdateStatusRequest.error) {

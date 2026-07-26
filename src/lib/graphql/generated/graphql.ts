@@ -2531,12 +2531,18 @@ export type GetMigratableSourceMangasQuery = {
     };
 };
 
-export type GetLibraryMangaCountQueryVariables = Exact<{ [key: string]: never }>;
+export type GetMangasCountQueryVariables = Exact<{
+    after?: string | null | undefined;
+    before?: string | null | undefined;
+    condition?: Types.MangaConditionInput | null | undefined;
+    filter?: Types.MangaFilterInput | null | undefined;
+    first?: number | null | undefined;
+    last?: number | null | undefined;
+    offset?: number | null | undefined;
+    order?: Array<Types.MangaOrderInput> | Types.MangaOrderInput | null | undefined;
+}>;
 
-export type GetLibraryMangaCountQuery = {
-    __typename: 'Query';
-    mangas: { __typename: 'MangaNodeList'; totalCount: number };
-};
+export type GetMangasCountQuery = { __typename: 'Query'; mangas: { __typename: 'MangaNodeList'; totalCount: number } };
 
 export type UpdateGlobalMetadataMutationVariables = Exact<{
     preUpdateDeleteInput: Types.DeleteGlobalMetasInput;

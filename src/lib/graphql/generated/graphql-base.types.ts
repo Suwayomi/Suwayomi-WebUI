@@ -762,6 +762,7 @@ export type ExtensionConditionInput = {
     iconUrl?: InputMaybe<Scalars['String']['input']>;
     isInstalled?: InputMaybe<Scalars['Boolean']['input']>;
     isObsolete?: InputMaybe<Scalars['Boolean']['input']>;
+    jarUrl?: InputMaybe<Scalars['String']['input']>;
     lang?: InputMaybe<Scalars['String']['input']>;
     name?: InputMaybe<Scalars['String']['input']>;
     pkgName?: InputMaybe<Scalars['String']['input']>;
@@ -787,6 +788,7 @@ export type ExtensionFilterInput = {
     iconUrl?: InputMaybe<StringFilterInput>;
     isInstalled?: InputMaybe<BooleanFilterInput>;
     isObsolete?: InputMaybe<BooleanFilterInput>;
+    jarUrl?: InputMaybe<StringFilterInput>;
     lang?: InputMaybe<StringFilterInput>;
     name?: InputMaybe<StringFilterInput>;
     not?: InputMaybe<ExtensionFilterInput>;
@@ -882,6 +884,7 @@ export type ExtensionType = {
     /** @deprecated Removed in extension api v1.6, replace with contentWarning */
     isNsfw: Scalars['Boolean']['output'];
     isObsolete: Scalars['Boolean']['output'];
+    jarUrl?: Maybe<Scalars['String']['output']>;
     lang: Scalars['String']['output'];
     name: Scalars['String']['output'];
     pkgName: Scalars['String']['output'];

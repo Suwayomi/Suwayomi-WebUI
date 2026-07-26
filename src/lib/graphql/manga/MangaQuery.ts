@@ -279,9 +279,27 @@ export const GET_MIGRATABLE_SOURCE_MANGAS = gql`
     }
 `;
 
-export const GET_LIBRARY_MANGA_COUNT = gql`
-    query GET_LIBRARY_MANGA_COUNT {
-        mangas(condition: { inLibrary: true }) {
+export const GET_MANGAS_COUNT = gql`
+    query GET_MANGAS_COUNT(
+        $after: Cursor
+        $before: Cursor
+        $condition: MangaConditionInput
+        $filter: MangaFilterInput
+        $first: Int
+        $last: Int
+        $offset: Int
+        $order: [MangaOrderInput!]
+    ) {
+        mangas(
+            after: $after
+            before: $before
+            condition: $condition
+            filter: $filter
+            first: $first
+            last: $last
+            offset: $offset
+            order: $order
+        ) {
             totalCount
         }
     }

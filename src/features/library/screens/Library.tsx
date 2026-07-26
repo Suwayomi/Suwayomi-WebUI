@@ -36,15 +36,15 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import type {
     GetCategoriesLibraryQuery,
     GetCategoriesLibraryQueryVariables,
-    GetLibraryMangaCountQuery,
-    GetLibraryMangaCountQueryVariables,
+    GetMangasCountQuery,
+    GetMangasCountQueryVariables,
     MangaChapterStatFieldsFragment,
 } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/category/CategoryQuery.ts';
 import { Mangas } from '@/features/manga/services/Mangas.ts';
 import { MANGA_CHAPTER_STAT_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
-import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/manga/MangaQuery.ts';
+import { GET_MANGAS_COUNT } from '@/lib/graphql/manga/MangaQuery.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
@@ -82,10 +82,10 @@ export function Library() {
     );
     const tabs = tabsData ?? STABLE_EMPTY_ARRAY;
 
-    const librarySizeResponse = requestManager.useGetMangas<
-        GetLibraryMangaCountQuery,
-        GetLibraryMangaCountQueryVariables
-    >(GET_LIBRARY_MANGA_COUNT, {});
+    const librarySizeResponse = requestManager.useGetMangas<GetMangasCountQuery, GetMangasCountQueryVariables>(
+        GET_MANGAS_COUNT,
+        { condition: { inLibrary: true } },
+    );
 
     const librarySize = librarySizeResponse.data?.mangas.totalCount ?? 0;
 

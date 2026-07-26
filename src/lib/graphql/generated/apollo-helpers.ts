@@ -573,6 +573,7 @@ export type ExtensionTypeKeySpecifier = (
     | 'isInstalled'
     | 'isNsfw'
     | 'isObsolete'
+    | 'jarUrl'
     | 'lang'
     | 'name'
     | 'pkgName'
@@ -595,6 +596,7 @@ export type ExtensionTypeFieldPolicy = {
     isInstalled?: FieldPolicy<any> | FieldReadFunction<any>;
     isNsfw?: FieldPolicy<any> | FieldReadFunction<any>;
     isObsolete?: FieldPolicy<any> | FieldReadFunction<any>;
+    jarUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     lang?: FieldPolicy<any> | FieldReadFunction<any>;
     name?: FieldPolicy<any> | FieldReadFunction<any>;
     pkgName?: FieldPolicy<any> | FieldReadFunction<any>;
