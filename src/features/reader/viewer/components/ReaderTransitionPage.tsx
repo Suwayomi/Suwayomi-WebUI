@@ -37,6 +37,7 @@ import {
     useReaderStore,
 } from '@/features/reader/stores/ReaderStore.ts';
 import { READER_BACKGROUND_TO_COLOR } from '@/features/reader/settings/ReaderSettings.constants.tsx';
+import { getPage } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 
 const ChapterInfo = ({
     title,
@@ -51,8 +52,15 @@ const ChapterInfo = ({
 }) => {
     const theme = useTheme();
 
+    const readingMode = useReaderSettingsStore((state) => state.readingMode.value);
+    const autoBackgroundColor = useReaderPagesStore((state) =>
+        isContinuousReadingMode(readingMode)
+            ? state.pageBackgroundColors[getPage(state.currentPageIndex, state.pages)?.pagesIndex ?? 0]?.color
+            : undefined,
+    );
+
     const contrastText = theme.palette.getContrastText(
-        getValueFromObject<string>(theme.palette, READER_BACKGROUND_TO_COLOR[backgroundColor]),
+        autoBackgroundColor ?? getValueFromObject<string>(theme.palette, READER_BACKGROUND_TO_COLOR[backgroundColor]),
     );
     const disabledText = theme.alpha(contrastText, 0.5);
 
@@ -131,8 +139,8 @@ const BaseReaderTransitionPage = ({
             sx={{
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
                 ...applyStyles(!isContinuousReadingMode(readingMode), {
+                    backgroundColor: READER_BACKGROUND_TO_COLOR[backgroundColor],
                     width: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
                     height: `calc(100vh - ${scrollbar.xSize}px)`,
                 }),
@@ -140,13 +148,13 @@ const BaseReaderTransitionPage = ({
                     position: 'sticky',
                     ...applyStyles(isContinuousVerticalReadingMode(readingMode), {
                         left: 0,
-                        width: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
-                        height: `calc(100vh - ${scrollbar.xSize}px)`,
+                        maxWidth: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                        minHeight: `calc(100vh - ${scrollbar.xSize}px)`,
                     }),
                     ...applyStyles(readingMode === ReadingMode.CONTINUOUS_HORIZONTAL, {
                         top: 0,
-                        width: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
-                        height: `calc(100vh - ${scrollbar.xSize}px)`,
+                        minWidth: `calc(100vw - ${scrollbar.ySize}px - ${readerNavBarWidth}px)`,
+                        maxHeight: `calc(100vh - ${scrollbar.xSize}px)`,
                     }),
                 }),
             }}
