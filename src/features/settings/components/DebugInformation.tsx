@@ -38,6 +38,20 @@ import { useLocalStorage } from '@/base/hooks/useStorage.tsx';
 import { MIGRATION_LOCAL_STORAGE_KEY } from '@/features/migration/Migration.constants.ts';
 import type { MigrationState } from '@/features/migration/Migration.types.ts';
 import { useNetwork, useOrientation, useViewportSize } from '@mantine/hooks';
+import type {
+    GetCategoriesLibraryQuery,
+    GetCategoriesLibraryQueryVariables,
+    GetLibraryMangaCountQuery,
+    GetTrackersSettingsQuery,
+} from '@/lib/graphql/generated/graphql.ts';
+import { GET_LIBRARY_MANGA_COUNT } from '@/lib/graphql/manga/MangaQuery.ts';
+import { GET_CATEGORIES_LIBRARY } from '@/lib/graphql/category/CategoryQuery.ts';
+import { getCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
+import sumBy from 'lodash/fp/sumBy';
+import groupBy from 'lodash/fp/groupBy';
+import mapValues from 'lodash/fp/mapValues';
+import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
+import { Trackers } from '@/features/tracker/services/Trackers.ts';
 
 const PRIVACY_UNSAFE_SERVER_SETTINGS: (keyof ServerSettings)[] = [
     'socksProxyUsername',
@@ -222,12 +236,25 @@ export const DebugInformation = () => {
     const [baseUrl] = requestManager.useBaseUrl();
 
     const aboutRequest = requestManager.useGetAbout();
+    const categoriesRequest = requestManager.useGetCategories<
+        GetCategoriesLibraryQuery,
+        GetCategoriesLibraryQueryVariables
+    >(GET_CATEGORIES_LIBRARY, {});
+    const libraryMangasCountRequest = requestManager.useGetMangas<GetLibraryMangaCountQuery>(
+        GET_LIBRARY_MANGA_COUNT,
+        {},
+    );
     const extensionStoresRequest = requestManager.useGetExtensionStores();
     const extensionsRequest = requestManager.useGetExtensionList({ variables: { condition: { isInstalled: true } } });
     const sourcesRequest = requestManager.useGetSourceList();
     const serverSettingsRequest = requestManager.useGetServerSettings();
     const clientSettings = useMetadataServerSettings();
     const defaultReaderSettings = useDefaultReaderSettings();
+    const webUIUpdateStatusRequest = requestManager.useGetWebUIUpdateStatus();
+    const globalUpdateRequest = requestManager.useGetGlobalUpdateSummary();
+    const downloadStatusRequest = requestManager.useGetDownloadStatus();
+    const syncStatusRequest = requestManager.useGetSyncStatus();
+    const trackersRequest = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
 
     const [migrationState] = useLocalStorage<{ state: MigrationState }>(MIGRATION_LOCAL_STORAGE_KEY);
 
@@ -241,6 +268,15 @@ export const DebugInformation = () => {
     const aboutServer = aboutRequest.data?.aboutServer;
     const aboutWebUI = aboutRequest.data?.aboutWebUI;
 
+    const categories = categoriesRequest.data?.categories.nodes ?? STABLE_EMPTY_ARRAY;
+
+    const libraryMangasCount = libraryMangasCountRequest.data?.mangas.totalCount ?? 0;
+    const nonLibraryMangasInCategoriesCount = useMemo(() => {
+        const categoriesEntriesCount = sumBy((category) => category.mangas.totalCount, categories);
+
+        return categoriesEntriesCount - libraryMangasCount;
+    }, [categories, libraryMangasCount]);
+
     const extensionStoresCount = extensionStoresRequest.data?.extensionStores.totalCount ?? 0;
     const extensions = extensionsRequest.data?.extensions.nodes ?? STABLE_EMPTY_ARRAY;
     const sources = sourcesRequest.data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
@@ -249,6 +285,13 @@ export const DebugInformation = () => {
     const disabledSourcesCount = useMemo(() => Sources.filter(sources, { enabled: false }).length, [sources]);
     const nsfwSourcesCount = useMemo(() => Sources.filter(sources, { isNsfw: true }).length, [sources]);
     const pinnedSourcesCount = useMemo(() => Sources.filter(sources, { pinned: true }).length, [sources]);
+
+    const webUIUpdateStatus = webUIUpdateStatusRequest.data?.getWebUIUpdateStatus ?? STABLE_EMPTY_OBJECT;
+    const globalUpdateStatus = globalUpdateRequest.data?.libraryUpdateStatus ?? STABLE_EMPTY_OBJECT;
+    const downloadStatus = downloadStatusRequest.data?.downloadStatus ?? STABLE_EMPTY_OBJECT;
+    const syncStatus = syncStatusRequest.data?.lastSyncStatus ?? STABLE_EMPTY_OBJECT;
+
+    const trackers = trackersRequest.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY;
 
     const activeDevice = getActiveDevice();
 
@@ -297,6 +340,9 @@ export const DebugInformation = () => {
             'Extensions/Sources': {
                 'Extension stores': extensionStoresCount,
                 'Extensions installed': extensions.length,
+                'Extensions outdated': extensions.filter((extension) => extension.hasUpdate && !extension.isObsolete)
+                    .length,
+                'Extension obsolete': extensions.filter((extension) => extension.isObsolete).length,
                 'Sources from different stores': areFromMultipleStores,
                 'Sources disabled': disabledSourcesCount,
                 'Sources NSFW': nsfwSourcesCount,
@@ -304,6 +350,36 @@ export const DebugInformation = () => {
                 'Show NSFW': clientSettings.settings.showNsfw,
                 'Browse languages': clientSettings.settings.browseLanguages,
             },
+            Library: {
+                Entries: libraryMangasCount,
+                'Non library entries in categories': nonLibraryMangasInCategoriesCount,
+                Categories: mapValues(
+                    (items) => (items as unknown[])[0],
+                    groupBy(
+                        'id',
+                        categories.map((category) => ({
+                            id: category.id,
+                            entries: category.mangas.totalCount ?? 0,
+                            metas: getCategoryMetadata(category),
+                        })),
+                    ),
+                ),
+            },
+            Trackers: {
+                'Logged in': Trackers.getLoggedIn(trackers).length,
+                'Tokens expired': trackers.filter((tracker) => tracker.isTokenExpired).length,
+                ...mapValues((items) => (items as unknown[])[0], groupBy('name', trackers)),
+            },
+            'Update Status': globalUpdateStatus.jobsInfo,
+            'Download Status': {
+                State: downloadStatus.state,
+                Entries: {
+                    Total: downloadStatus.queue.length,
+                    ...mapValues((items) => (items as unknown[]).length, groupBy('state', downloadStatus.queue)),
+                },
+            },
+            'Sync status': syncStatus,
+            'WebUI update status': webUIUpdateStatus,
             'Migration state': migrationState?.state,
             Client: browserDebugInfo,
         }),
@@ -323,6 +399,14 @@ export const DebugInformation = () => {
             pinnedSourcesCount,
             browserDebugInfo,
             migrationState,
+            categories,
+            libraryMangasCount,
+            nonLibraryMangasInCategoriesCount,
+            webUIUpdateStatus,
+            globalUpdateStatus,
+            downloadStatus,
+            syncStatus,
+            trackers,
         ],
     );
 
