@@ -52,6 +52,7 @@ import groupBy from 'lodash/fp/groupBy';
 import mapValues from 'lodash/fp/mapValues';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import { Trackers } from '@/features/tracker/services/Trackers.ts';
+import pickBy from 'lodash/fp/pickBy';
 
 const PRIVACY_UNSAFE_SERVER_SETTINGS: (keyof ServerSettings)[] = [
     'socksProxyUsername',
@@ -349,6 +350,10 @@ export const DebugInformation = () => {
                 'Sources pinned': pinnedSourcesCount,
                 'Show NSFW': clientSettings.settings.showNsfw,
                 'Browse languages': clientSettings.settings.browseLanguages,
+                'Visible sources by language': pickBy(
+                    (_value, key) => clientSettings.settings.browseLanguages.includes(key),
+                    mapValues((items) => (items as unknown[]).length, groupBy('lang', sources)),
+                ),
             },
             Library: {
                 Entries: libraryMangasCount,
