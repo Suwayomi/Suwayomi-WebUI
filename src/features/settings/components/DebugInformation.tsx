@@ -286,10 +286,10 @@ export const DebugInformation = () => {
     const nsfwSourcesCount = useMemo(() => Sources.filter(sources, { isNsfw: true }).length, [sources]);
     const pinnedSourcesCount = useMemo(() => Sources.filter(sources, { pinned: true }).length, [sources]);
 
-    const webUIUpdateStatus = webUIUpdateStatusRequest.data?.getWebUIUpdateStatus ?? STABLE_EMPTY_OBJECT;
-    const globalUpdateStatus = globalUpdateRequest.data?.libraryUpdateStatus ?? STABLE_EMPTY_OBJECT;
-    const downloadStatus = downloadStatusRequest.data?.downloadStatus ?? STABLE_EMPTY_OBJECT;
-    const syncStatus = syncStatusRequest.data?.lastSyncStatus ?? STABLE_EMPTY_OBJECT;
+    const webUIUpdateStatus = webUIUpdateStatusRequest.data?.getWebUIUpdateStatus;
+    const globalUpdateStatus = globalUpdateRequest.data?.libraryUpdateStatus;
+    const downloadStatus = downloadStatusRequest.data?.downloadStatus;
+    const syncStatus = syncStatusRequest.data?.lastSyncStatus;
 
     const trackers = trackersRequest.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY;
 
@@ -370,12 +370,12 @@ export const DebugInformation = () => {
                 'Tokens expired': trackers.filter((tracker) => tracker.isTokenExpired).length,
                 ...mapValues((items) => (items as unknown[])[0], groupBy('name', trackers)),
             },
-            'Update Status': globalUpdateStatus.jobsInfo,
+            'Update Status': globalUpdateStatus?.jobsInfo,
             'Download Status': {
-                State: downloadStatus.state,
+                State: downloadStatus?.state,
                 Entries: {
-                    Total: downloadStatus.queue.length,
-                    ...mapValues((items) => (items as unknown[]).length, groupBy('state', downloadStatus.queue)),
+                    Total: downloadStatus?.queue.length,
+                    ...mapValues((items) => (items as unknown[]).length, groupBy('state', downloadStatus?.queue)),
                 },
             },
             'Sync status': syncStatus,
@@ -448,7 +448,13 @@ export const DebugInformation = () => {
         sourcesRequest.loading ||
         serverSettingsRequest.loading ||
         clientSettings.loading ||
-        defaultReaderSettings.loading;
+        defaultReaderSettings.loading ||
+        categoriesRequest.loading ||
+        libraryMangasCountRequest.loading ||
+        webUIUpdateStatusRequest.loading ||
+        downloadStatusRequest.loading ||
+        syncStatusRequest.loading ||
+        trackersRequest.loading;
     if (isLoading) {
         return <LoadingPlaceholder />;
     }
@@ -460,7 +466,13 @@ export const DebugInformation = () => {
         sourcesRequest.error ||
         serverSettingsRequest.error ||
         clientSettings.request.error ||
-        defaultReaderSettings.request.error;
+        defaultReaderSettings.request.error ||
+        categoriesRequest.error ||
+        libraryMangasCountRequest.error ||
+        webUIUpdateStatusRequest.error ||
+        downloadStatusRequest.error ||
+        syncStatusRequest.error ||
+        trackersRequest.error;
     if (hasError) {
         return (
             <EmptyView
@@ -502,6 +514,42 @@ export const DebugInformation = () => {
                         defaultReaderSettings.request
                             .refetch()
                             .catch(defaultPromiseErrorHandler('DebugInformation::defaultReaderSettings'));
+                    }
+
+                    if (categoriesRequest.error) {
+                        categoriesRequest
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('DebugInformation::categoriesRequest'));
+                    }
+
+                    if (libraryMangasCountRequest.error) {
+                        libraryMangasCountRequest
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('DebugInformation::libraryMangasCountRequest'));
+                    }
+
+                    if (webUIUpdateStatusRequest.error) {
+                        webUIUpdateStatusRequest
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('DebugInformation::webUIUpdateStatusRequest'));
+                    }
+
+                    if (downloadStatusRequest.error) {
+                        downloadStatusRequest
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('DebugInformation::downloadStatusRequest'));
+                    }
+
+                    if (syncStatusRequest.error) {
+                        syncStatusRequest
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('DebugInformation::syncStatusRequest'));
+                    }
+
+                    if (trackersRequest.error) {
+                        trackersRequest
+                            .refetch()
+                            .catch(defaultPromiseErrorHandler('DebugInformation::trackersRequest'));
                     }
                 }}
             />
