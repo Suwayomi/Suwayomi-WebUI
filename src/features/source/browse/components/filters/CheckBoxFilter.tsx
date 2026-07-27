@@ -9,26 +9,24 @@
 import React from 'react';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import type { IPos } from '@/features/source/Source.types.ts';
+import isEqual from 'lodash/fp/isEqual';
 
 interface Props {
     state: boolean;
     name: string;
-    position: number;
-    group: number | undefined;
+    positions: number[];
     updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 
 export const CheckBoxFilter: React.FC<Props> = (props: Props) => {
-    const { state, name, position, group, updateFilterValue, update } = props;
+    const { state, name, positions, updateFilterValue, update } = props;
     const [val, setval] = React.useState(state);
 
     const handleChange = (event: { target: { name: any; checked: any } }) => {
         setval(event.target.checked);
-        const upd = update.filter(
-            (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
-        );
-        updateFilterValue([...upd, { type: 'checkBoxState', position, state: event.target.checked, group }]);
+        const upd = update.filter((e: { positions: number[] }) => !isEqual(positions, e.positions));
+        updateFilterValue([...upd, { type: 'checkBoxState', positions, state: event.target.checked }]);
     };
 
     if (state !== undefined) {

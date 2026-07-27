@@ -12,14 +12,14 @@ import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import type { IPos } from '@/features/source/Source.types.ts';
+import isEqual from 'lodash/fp/isEqual';
 
 interface Props {
     values: any;
     name: string;
     state: number;
-    position: number;
+    positions: number[];
     updateFilterValue: (value: IPos[]) => void;
-    group: number | undefined;
     update: any;
 }
 
@@ -27,10 +27,9 @@ function NoSelect(
     values: string[],
     name: string,
     state: number,
-    position: number,
+    positions: number[],
     updateFilterValue: (value: IPos[]) => void,
     update: any,
-    group?: number,
 ) {
     const [val, setval] = useState(state);
 
@@ -38,10 +37,8 @@ function NoSelect(
         const handleChange = (event: { target: { name: any; value: any } }) => {
             const vall = values.indexOf(`${event.target.value}`);
             setval(vall);
-            const upd = update.filter(
-                (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
-            );
-            updateFilterValue([...upd, { type: 'selectState', position, state: vall, group }]);
+            const upd = update.filter((e: { positions: number[] }) => !isEqual(positions, e.positions));
+            updateFilterValue([...upd, { type: 'selectState', positions, state: vall }]);
         };
 
         const rett = values.map((value: string) => (
@@ -61,5 +58,5 @@ function NoSelect(
     return null;
 }
 
-export const SelectFilter: React.FC<Props> = ({ values, name, state, position, updateFilterValue, update, group }) =>
-    NoSelect(values, name, state, position, updateFilterValue, update, group);
+export const SelectFilter: React.FC<Props> = ({ values, name, state, positions, updateFilterValue, update }) =>
+    NoSelect(values, name, state, positions, updateFilterValue, update);

@@ -10,12 +10,12 @@ import React from 'react';
 import { ThreeStateCheckboxInput } from '@/base/components/inputs/ThreeStateCheckboxInput.tsx';
 import { TriState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import type { IPos } from '@/features/source/Source.types.ts';
+import isEqual from 'lodash/fp/isEqual';
 
 interface Props {
     state: TriState;
     name: string;
-    position: number;
-    group: number | undefined;
+    positions: number[];
     updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
@@ -47,23 +47,20 @@ const convertNumberToTriState = (state: number): TriState => {
 };
 
 export const TriStateFilter: React.FC<Props> = (props) => {
-    const { state, name, position, group, updateFilterValue, update } = props;
+    const { state, name, positions, updateFilterValue, update } = props;
     const [val, setval] = React.useState(convertTriStateToNumber(state));
 
     const handleChange = (checked: boolean | null | undefined) => {
         // oxlint-disable-next-line no-nested-ternary
         const newState = checked === undefined ? 0 : checked ? 1 : 2;
         setval(newState);
-        const upd = update.filter(
-            (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
-        );
+        const upd = update.filter((e: { positions: number }) => !isEqual(positions, e.positions));
         updateFilterValue([
             ...upd,
             {
                 type: 'triState',
-                position,
+                positions,
                 state: convertNumberToTriState(newState),
-                group,
             },
         ]);
     };

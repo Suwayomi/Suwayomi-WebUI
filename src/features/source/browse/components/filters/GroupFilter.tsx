@@ -21,13 +21,13 @@ import type { IPos, SourceFilters } from '@/features/source/Source.types.ts';
 interface Props {
     state: ExtractByKeyValue<SourceFilters, 'type', 'GroupFilter'>['filters'];
     name: string;
-    position: number;
+    positions: number[];
     updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 
 export const GroupFilter: React.FC<Props> = (props: Props) => {
-    const { state, name, position, updateFilterValue, update } = props;
+    const { state, name, positions, updateFilterValue, update } = props;
 
     const [open, setOpen] = React.useState(false);
 
@@ -37,12 +37,12 @@ export const GroupFilter: React.FC<Props> = (props: Props) => {
                 <ListItemText primary={name} />
                 {open ? <ExpandLess /> : <ExpandMore />}
             </ListItemButton>
-            <Collapse in={open}>
+            <Collapse in={open} unmountOnExit>
                 {/* Container is moved outside 2, so content has to go inside 4 */}
                 <Stack sx={{ mx: 4 }}>
                     <Options
                         sourceFilter={state as SourceFilters[]}
-                        group={position}
+                        positions={positions}
                         updateFilterValue={updateFilterValue}
                         update={update}
                     />

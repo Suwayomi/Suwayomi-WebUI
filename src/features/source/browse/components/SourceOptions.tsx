@@ -40,11 +40,12 @@ import { StyledFab } from '@/base/components/buttons/StyledFab.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { IPos, ISourceMetadata, SourceFilters } from '@/features/source/Source.types.ts';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
+import isEqual from 'lodash/fp/isEqual';
 
 interface IFilters {
     sourceFilter: SourceFilters[];
     updateFilterValue: (value: IPos[]) => void;
-    group: number | undefined;
+    positions: number[];
     update: any;
 }
 
@@ -59,24 +60,22 @@ interface IFilters1 {
     update: any;
 }
 
-export function Options({ sourceFilter, group, updateFilterValue, update }: IFilters) {
+export function Options({ sourceFilter, positions, updateFilterValue, update }: IFilters) {
     return (
-        <Stack key={`filters ${group}`}>
+        <Stack>
             {sourceFilter.map((e, index) => {
-                let checkif = update.find(
-                    (el: { group: number | undefined; position: number }) =>
-                        el.group === group && el.position === index,
+                let checkif = update.find((el: { positions: number[] }) =>
+                    isEqual(el.positions, [...positions, index]),
                 );
                 checkif = checkif ? checkif.state : checkif;
-                switch (e.type) {
+                switch (e.__typename) {
                     case 'CheckBoxFilter':
                         return (
                             <CheckBoxFilter
-                                key={`filters ${e.name}`}
+                                key={`filters-options ${e.name}`}
                                 name={e.name}
                                 state={checkif ?? e.CheckBoxFilterDefault}
-                                position={index}
-                                group={group}
+                                positions={[...positions, index]}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
@@ -84,35 +83,34 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                     case 'GroupFilter':
                         return (
                             <GroupFilter
-                                key={`filters ${e.name}`}
+                                key={`filters-group ${e.name}`}
                                 name={e.name}
                                 state={e.filters}
-                                position={index}
+                                positions={[...positions, index]}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
                         );
                     case 'HeaderFilter':
-                        return <HeaderFilter key={`filters ${e.name}`} name={e.name} />;
+                        return <HeaderFilter key={`filters-head ${e.name}`} name={e.name} />;
                     case 'SelectFilter':
                         return (
                             <SelectFilter
-                                key={`filters ${e.name}`}
+                                key={`filters-select ${e.name}`}
                                 name={e.name}
                                 values={e.values}
                                 state={checkif != null ? parseInt(checkif, 10) : e.SelectFilterDefault}
-                                position={index}
-                                group={group}
+                                positions={[...positions, index]}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
                         );
                     case 'SeparatorFilter':
-                        return <SeparatorFilter key={`filters ${e.name}`} name={e.name} />;
+                        return <SeparatorFilter key={`filters-separator ${e.name}`} name={e.name} />;
                     case 'SortFilter':
                         return (
                             <SortFilter
-                                key={`filters ${e.name}`}
+                                key={`filters-sort ${e.name}`}
                                 name={e.name}
                                 values={e.values}
                                 state={
@@ -121,8 +119,7 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                                         index: e.SortFilterDefault?.index,
                                     }
                                 }
-                                position={index}
-                                group={group}
+                                positions={[...positions, index]}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
@@ -130,11 +127,10 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                     case 'TextFilter':
                         return (
                             <TextFilter
-                                key={`filters ${e.name}`}
+                                key={`filters-text ${e.name}`}
                                 name={e.name}
                                 state={checkif ?? e.TextFilterDefault}
-                                position={index}
-                                group={group}
+                                positions={[...positions, index]}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
@@ -142,17 +138,16 @@ export function Options({ sourceFilter, group, updateFilterValue, update }: IFil
                     case 'TriStateFilter':
                         return (
                             <TriStateFilter
-                                key={`filters ${e.name}`}
+                                key={`filters-tristate ${e.name}`}
                                 name={e.name}
                                 state={checkif != null ? checkif : e.TriStateFilterDefault}
-                                position={index}
-                                group={group}
+                                positions={[...positions, index]}
                                 updateFilterValue={updateFilterValue}
                                 update={update}
                             />
                         );
                     default:
-                        throw new Error(`Unknown source filter "${e}"`);
+                        throw new Error(`Unknown source filter "${JSON.stringify(e)}"`);
                 }
             })}
         </Stack>
@@ -290,7 +285,7 @@ export function SourceOptions({
                     <Options
                         sourceFilter={sourceFilter}
                         updateFilterValue={updateFilterValue}
-                        group={undefined}
+                        positions={[]}
                         update={update}
                     />
                 </Box>

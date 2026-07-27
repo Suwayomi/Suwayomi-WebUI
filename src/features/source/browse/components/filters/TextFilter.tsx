@@ -14,26 +14,24 @@ import InputLabel from '@mui/material/InputLabel';
 import React, { useEffect } from 'react';
 import { useDebounce } from '@/base/hooks/useDebounce.ts';
 import type { IPos } from '@/features/source/Source.types.ts';
+import isEqual from 'lodash/fp/isEqual';
 
 interface Props {
     state: string;
     name: string;
-    position: number;
-    group: number | undefined;
+    positions: number[];
     updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 
 export const TextFilter: React.FC<Props> = (props) => {
-    const { state, name, position, group, updateFilterValue, update } = props;
+    const { state, name, positions, updateFilterValue, update } = props;
     const [Search, setsearch] = React.useState(state || '');
     const inputText = useDebounce(Search, 500);
 
     useEffect(() => {
-        const upd = update.filter(
-            (el: { position: number; group: number | undefined }) => !(position === el.position && group === el.group),
-        );
-        updateFilterValue([...upd, { type: 'textState', position, state: inputText, group }]);
+        const upd = update.filter((el: { positions: number }) => !isEqual(positions, el.positions));
+        updateFilterValue([...upd, { type: 'textState', positions, state: inputText }]);
     }, [inputText]);
 
     if (state !== undefined) {

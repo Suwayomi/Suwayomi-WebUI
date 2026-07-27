@@ -20,9 +20,8 @@ import type { MangaCardMode, MangaIdInfo } from '@/features/manga/Manga.types.ts
 
 export interface IPos {
     type: 'selectState' | 'textState' | 'checkBoxState' | 'triState' | 'sortState';
-    position: number;
+    positions: number[];
     state: any;
-    group?: number;
 }
 
 export type SavedSourceSearch = { query?: string; filters?: IPos[] };

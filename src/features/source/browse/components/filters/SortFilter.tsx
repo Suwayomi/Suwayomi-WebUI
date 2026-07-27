@@ -17,19 +17,19 @@ import React from 'react';
 import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
 import type { SortSelectionInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import type { IPos } from '@/features/source/Source.types.ts';
+import isEqual from 'lodash/fp/isEqual';
 
 interface Props {
     values: any;
     name: string;
     state: SortSelectionInput;
-    position: number;
-    group: number | undefined;
+    positions: number[];
     updateFilterValue: (value: IPos[]) => void;
     update: any;
 }
 
 export const SortFilter: React.FC<Props> = (props: Props) => {
-    const { values, name, state, position, group, updateFilterValue, update } = props;
+    const { values, name, state, positions, updateFilterValue, update } = props;
     const [val, setval] = React.useState(state);
 
     const [open, setOpen] = React.useState(false);
@@ -48,10 +48,8 @@ export const SortFilter: React.FC<Props> = (props: Props) => {
             }
             tmp.index = index;
             setval(tmp);
-            const upd = update.filter(
-                (e: { position: number; group: number | undefined }) => !(position === e.position && group === e.group),
-            );
-            updateFilterValue([...upd, { type: 'sortState', position, state: tmp, group }]);
+            const upd = update.filter((e: { positions: number[] }) => !isEqual(positions, e.positions));
+            updateFilterValue([...upd, { type: 'sortState', positions, state: tmp }]);
         };
 
         return (

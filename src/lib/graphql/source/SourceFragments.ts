@@ -58,6 +58,51 @@ export const SOURCE_BROWSE_FIELDS = gql`
     ${SOURCE_BASE_FIELDS}
     ${SOURCE_META_FIELDS}
 
+    fragment CHECKBOX_FIELDS on CheckBoxFilter {
+        type: __typename
+        CheckBoxFilterDefault: default
+        name
+    }
+
+    fragment HEADER_FIELDS on HeaderFilter {
+        type: __typename
+        name
+    }
+
+    fragment SELECT_FIELDS on SelectFilter {
+        type: __typename
+        SelectFilterDefault: default
+        name
+        values
+    }
+
+    fragment TRI_STATE_FIELDS on TriStateFilter {
+        type: __typename
+        TriStateFilterDefault: default
+        name
+    }
+
+    fragment TEXT_FIELDS on TextFilter {
+        type: __typename
+        TextFilterDefault: default
+        name
+    }
+
+    fragment SORT_FIELDS on SortFilter {
+        type: __typename
+        SortFilterDefault: default {
+            ascending
+            index
+        }
+        name
+        values
+    }
+
+    fragment SEPARATOR_FIELDS on SeparatorFilter {
+        type: __typename
+        name
+    }
+
     fragment SOURCE_BROWSE_FIELDS on SourceType {
         ...SOURCE_BASE_FIELDS
 
@@ -72,84 +117,104 @@ export const SOURCE_BROWSE_FIELDS = gql`
 
         filters {
             ... on CheckBoxFilter {
-                type: __typename
-                CheckBoxFilterDefault: default
-                name
+                ...CHECKBOX_FIELDS
             }
             ... on HeaderFilter {
-                type: __typename
-                name
+                ...HEADER_FIELDS
             }
             ... on SelectFilter {
-                type: __typename
-                SelectFilterDefault: default
-                name
-                values
+                ...SELECT_FIELDS
             }
             ... on TriStateFilter {
-                type: __typename
-                TriStateFilterDefault: default
-                name
+                ...TRI_STATE_FIELDS
             }
             ... on TextFilter {
-                type: __typename
-                TextFilterDefault: default
-                name
+                ...TEXT_FIELDS
             }
             ... on SortFilter {
-                type: __typename
-                SortFilterDefault: default {
-                    ascending
-                    index
-                }
-                name
-                values
+                ...SORT_FIELDS
             }
             ... on SeparatorFilter {
-                type: __typename
-                name
+                ...SEPARATOR_FIELDS
             }
             ... on GroupFilter {
                 type: __typename
                 name
                 filters {
                     ... on CheckBoxFilter {
-                        type: __typename
-                        CheckBoxFilterDefault: default
-                        name
+                        ...CHECKBOX_FIELDS
                     }
                     ... on HeaderFilter {
-                        type: __typename
-                        name
+                        ...HEADER_FIELDS
                     }
                     ... on SelectFilter {
-                        type: __typename
-                        SelectFilterDefault: default
-                        name
-                        values
+                        ...SELECT_FIELDS
                     }
                     ... on TriStateFilter {
-                        type: __typename
-                        TriStateFilterDefault: default
-                        name
+                        ...TRI_STATE_FIELDS
                     }
                     ... on TextFilter {
-                        type: __typename
-                        TextFilterDefault: default
-                        name
+                        ...TEXT_FIELDS
                     }
                     ... on SortFilter {
-                        type: __typename
-                        SortFilterDefault: default {
-                            ascending
-                            index
-                        }
-                        name
-                        values
+                        ...SORT_FIELDS
                     }
                     ... on SeparatorFilter {
+                        ...SEPARATOR_FIELDS
+                    }
+                    ... on GroupFilter {
                         type: __typename
                         name
+                        filters {
+                            ... on CheckBoxFilter {
+                                ...CHECKBOX_FIELDS
+                            }
+                            ... on HeaderFilter {
+                                ...HEADER_FIELDS
+                            }
+                            ... on SelectFilter {
+                                ...SELECT_FIELDS
+                            }
+                            ... on TriStateFilter {
+                                ...TRI_STATE_FIELDS
+                            }
+                            ... on TextFilter {
+                                ...TEXT_FIELDS
+                            }
+                            ... on SortFilter {
+                                ...SORT_FIELDS
+                            }
+                            ... on SeparatorFilter {
+                                ...SEPARATOR_FIELDS
+                            }
+                            ... on GroupFilter {
+                                type: __typename
+                                name
+                                filters {
+                                    ... on CheckBoxFilter {
+                                        ...CHECKBOX_FIELDS
+                                    }
+                                    ... on HeaderFilter {
+                                        ...HEADER_FIELDS
+                                    }
+                                    ... on SelectFilter {
+                                        ...SELECT_FIELDS
+                                    }
+                                    ... on TriStateFilter {
+                                        ...TRI_STATE_FIELDS
+                                    }
+                                    ... on TextFilter {
+                                        ...TEXT_FIELDS
+                                    }
+                                    ... on SortFilter {
+                                        ...SORT_FIELDS
+                                    }
+                                    ... on SeparatorFilter {
+                                        ...SEPARATOR_FIELDS
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
