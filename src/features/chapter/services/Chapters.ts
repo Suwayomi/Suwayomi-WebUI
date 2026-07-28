@@ -458,7 +458,7 @@ export class Chapters {
 
         return sortedChapters.reduce(
             (missingChapterCount, chapter, index) =>
-                missingChapterCount + Chapters.getGap(chapter, sortedChapters[index - 1]),
+                missingChapterCount + Chapters.getGap(chapter, sortedChapters[index - 1] ?? { chapterNumber: 0 }),
             0,
         );
     }
