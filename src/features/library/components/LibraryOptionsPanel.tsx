@@ -12,8 +12,6 @@ import RadioGroup from '@mui/material/RadioGroup';
 import { useLingui } from '@lingui/react/macro';
 import { msg } from '@lingui/core/macro';
 import type { ReactNode } from 'react';
-import { useMemo } from 'react';
-import uniqBy from 'lodash/fp/uniqBy';
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { RadioInput } from '@/base/components/inputs/RadioInput.tsx';
 import { SortRadioInput } from '@/base/components/inputs/SortRadioInput.tsx';
@@ -39,6 +37,7 @@ import { GridLayout } from '@/base/Base.types';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Collapsable } from '@/base/components/Collapsable.tsx';
 import Replay from '@mui/icons-material/Replay';
+import { Sources } from '@/features/source/services/Sources';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: MessageDescriptor } = {
     filter: msg`Filter`,
@@ -88,15 +87,7 @@ export const LibraryOptionsPanel = ({
     const trackerList = requestManager.useGetTrackerList<GetTrackersSettingsQuery>(GET_TRACKERS_SETTINGS);
     const loggedInTrackers = Trackers.getLoggedIn(trackerList.data?.trackers.nodes ?? STABLE_EMPTY_ARRAY);
 
-    const migratableSourcesResult = requestManager.useGetMigratableSources();
-    const librarySources = useMemo(() => {
-        const sources = migratableSourcesResult.data?.mangas.nodes
-            .map(({ source }) => source)
-            .filter((source) => source != null);
-        const uniqueSources = uniqBy('id', sources);
-
-        return uniqueSources.toSorted((a, b) => a.displayName.localeCompare(b.displayName));
-    }, [migratableSourcesResult.data?.mangas.nodes]);
+    const { sources: librarySources } = Sources.useGetMigratableSources();
 
     const categoryLibraryOptions = useGetCategoryMetadata(category);
     const updateCategoryLibraryOptions = createUpdateCategoryMetadata(category, (e) =>
@@ -195,7 +186,7 @@ export const LibraryOptionsPanel = ({
                                     items={librarySources.map((source) => (
                                         <ThreeStateCheckboxInput
                                             key={source.id}
-                                            label={source.displayName}
+                                            label={source.displayName ?? source.id}
                                             checked={categoryLibraryOptions.hasSource[source.id]}
                                             onChange={(checked) =>
                                                 updateCategoryLibraryOptions('hasSource', {

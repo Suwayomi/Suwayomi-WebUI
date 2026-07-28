@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useMemo } from 'react';
 import List from '@mui/material/List';
 import Stack from '@mui/material/Stack';
 import IconButton from '@mui/material/IconButton';
@@ -16,18 +15,11 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { MigrationCard } from '@/features/migration/components/MigrationCard.tsx';
 import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import type {
-    SortSettings,
-    TMigratableSource,
-    TMigratableSourcesResult,
-} from '@/features/migration/Migration.types.ts';
-import { SortBy, SortOrder } from '@/features/migration/Migration.types.ts';
 import { sortByToTranslation, sortOrderToTranslation } from '@/features/migration/Migration.constants.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -36,48 +28,7 @@ import {
 import { makeToast } from '@/base/utils/Toast.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-
-const getMigratableSources = (
-    mangas: TMigratableSourcesResult | undefined,
-    { sortBy, sortOrder }: SortSettings,
-): TMigratableSource[] => {
-    if (!mangas) {
-        return [];
-    }
-
-    const sourceBySourceId: Record<string, TMigratableSource> = {};
-
-    mangas.forEach(({ sourceId, source }) => {
-        const uniqueSource = sourceBySourceId[sourceId] ?? {
-            ...{ id: sourceId, name: sourceId, lang: 'unknown', iconUrl: null, mangaCount: 0, ...source },
-        };
-
-        sourceBySourceId[sourceId] = {
-            ...uniqueSource,
-            mangaCount: uniqueSource.mangaCount + 1,
-        };
-    });
-
-    const sourcesSortedBy = Object.values(sourceBySourceId).toSorted((a, b) => {
-        switch (sortBy) {
-            case SortBy.SOURCE_NAME:
-                return a.name.localeCompare(b.name);
-            case SortBy.MANGA_COUNT:
-                return a.mangaCount - b.mangaCount;
-            default:
-                throw new Error(`Unexpected "sortBy" "${sortBy}"`);
-        }
-    });
-
-    switch (sortOrder) {
-        case SortOrder.ASC:
-            return sourcesSortedBy;
-        case SortOrder.DESC:
-            return sourcesSortedBy.toReversed();
-        default:
-            throw new Error(`Unexpected "sortOrder" "${sortOrder}"`);
-    }
-};
+import { Sources } from '@/features/source/services/Sources';
 
 export const MigrationSelectSource = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
     const { t } = useLingui();
@@ -89,13 +40,13 @@ export const MigrationSelectSource = ({ tabsMenuHeight }: { tabsMenuHeight: numb
     const updateMetadataServerSettings = createUpdateMetadataServerSettings<'migrateSortSettings'>((e) =>
         makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
+
     const { sortBy, sortOrder } = migrateSortSettings;
 
-    const { data, loading, error, refetch } = requestManager.useGetMigratableSources();
-    const migratableSources = useMemo(
-        () => getMigratableSources(data?.mangas.nodes, migrateSortSettings),
-        [data?.mangas.nodes, migrateSortSettings],
-    );
+    const {
+        sources: migratableSources,
+        request: { loading, error, refetch },
+    } = Sources.useGetMigratableSources(migrateSortSettings);
 
     if (loading) {
         return <LoadingPlaceholder />;
