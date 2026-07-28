@@ -30,6 +30,8 @@ import type {
     MangaUnreadInfo,
 } from '@/features/manga/Manga.types.ts';
 import { SearchParam } from '@/base/Base.types.ts';
+import { Sources } from '@/features/source/services/Sources';
+import pickBy from 'lodash/fp/pickBy';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,
@@ -247,7 +249,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     filterKey: string;
 } => {
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
-    const options = useGetCategoryMetadata(category ?? DEFAULT_CATEGORY);
+    const { hasSource: hasSourceFilter, ...options } = useGetCategoryMetadata(category ?? DEFAULT_CATEGORY);
     const {
         hasUnreadChapters,
         hasReadChapters,
@@ -256,19 +258,24 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         hasTrackerBinding,
         hasDuplicateChapters,
         hasStatus,
-        hasSource,
+        sortBy,
+        sortDesc,
     } = options;
     const { settings } = useMetadataServerSettings();
+    const { sources } = Sources.useGetMigratableSources();
 
-    const sortedMangas = useMemo(
-        () => sortManga(mangas, options.sortBy, options.sortDesc),
-        [mangas, options.sortBy, options.sortDesc],
+    const sortedMangas = useMemo(() => sortManga(mangas, sortBy, sortDesc), [mangas, sortBy, sortDesc]);
+
+    const hasSource = useMemo(
+        () => pickBy((_state, sourceId) => sources.some((source) => source.id === sourceId), hasSourceFilter),
+        [hasSourceFilter, sources],
     );
 
     const filteredMangas = useMemo(
         () =>
             filterMangas(sortedMangas, query, {
                 ...options,
+                hasSource,
                 ignoreFilters: settings.ignoreFilters,
             }),
         [
@@ -286,12 +293,8 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         ],
     );
 
-    const isATrackFilterActive = Object.values(options.hasTrackerBinding).some(
-        (trackFilterState) => trackFilterState != null,
-    );
-    const isASourceFilterActive = Object.values(options.hasSource).some(
-        (sourceFilterState) => sourceFilterState != null,
-    );
+    const isATrackFilterActive = Object.values(hasTrackerBinding).some((trackFilterState) => trackFilterState != null);
+    const isASourceFilterActive = Object.values(hasSource).some((sourceFilterState) => sourceFilterState != null);
     const showFilteredOutMessage =
         (hasUnreadChapters != null ||
             hasReadChapters != null ||

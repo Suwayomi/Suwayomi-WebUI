@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Fixed
 
 - (**Browse**) Fix filtering with nested group changes
+- (**Library**) Fix source filter potentially causing all manga to get filtered out
 
 ## [20260726.01] (r3379) - 2026-07-26
 
