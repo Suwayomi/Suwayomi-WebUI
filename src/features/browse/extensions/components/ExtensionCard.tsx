@@ -6,6 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
+import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import Button from '@mui/material/Button';
@@ -31,6 +32,29 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { OptionalCardActionAreaLink } from '@/base/components/lists/cards/OptionalCardActionAreaLink.tsx';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
+import CardActionArea from '@mui/material/CardActionArea';
+
+const CardAction = ({
+    isInstalled,
+    pkgName,
+    children,
+    performExtensionAction,
+}: {
+    isInstalled: boolean;
+    pkgName: string;
+    children?: ReactNode;
+    performExtensionAction: () => void;
+}) => {
+    if (isInstalled) {
+        return (
+            <OptionalCardActionAreaLink to={AppRoutes.extension.children.info.path(pkgName)}>
+                {children}
+            </OptionalCardActionAreaLink>
+        );
+    }
+
+    return <CardActionArea onClick={performExtensionAction}>{children}</CardActionArea>;
+};
 
 interface IProps {
     extension: TExtension;
@@ -106,7 +130,7 @@ export function ExtensionCard(props: IProps) {
 
     return (
         <Card>
-            <OptionalCardActionAreaLink disabled={!isInstalled} to={AppRoutes.extension.children.info.path(pkgName)}>
+            <CardAction isInstalled={isInstalled} pkgName={pkgName} performExtensionAction={handleButtonClick}>
                 <ListCardContent>
                     <ListCardAvatar
                         iconUrl={requestManager.getValidImgUrlFor(iconUrl)}
@@ -173,6 +197,7 @@ export function ExtensionCard(props: IProps) {
                     <Button
                         variant="outlined"
                         sx={{ flexShrink: 0 }}
+                        {...MUIUtil.preventRippleProp()}
                         onClick={(e) => {
                             e.preventDefault();
                             handleButtonClick();
@@ -181,7 +206,7 @@ export function ExtensionCard(props: IProps) {
                         {t(INSTALLED_STATE_TO_TRANSLATION_MAP[installedState])}
                     </Button>
                 </ListCardContent>
-            </OptionalCardActionAreaLink>
+            </CardAction>
         </Card>
     );
 }
