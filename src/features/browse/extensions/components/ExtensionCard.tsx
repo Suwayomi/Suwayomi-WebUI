@@ -200,6 +200,7 @@ export function ExtensionCard(props: IProps) {
                         {...MUIUtil.preventRippleProp()}
                         onClick={(e) => {
                             e.preventDefault();
+                            e.stopPropagation();
                             handleButtonClick();
                         }}
                     >
