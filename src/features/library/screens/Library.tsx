@@ -105,8 +105,12 @@ export function Library() {
         visibleMangas: mangas,
         showFilteredOutMessage,
         filterKey,
-        isFiltered,
     } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
+
+    const getTabCount = (tab: (typeof tabs)[number]) => {
+        if (tab !== activeTab || mangas.length === tab.mangas.totalCount) {return tab.mangas.totalCount;}
+        return `${mangas.length}/${tab.mangas.totalCount}`;
+    };
 
     const retryFetchCategoryMangas = useCallback(
         () => refetchCategoryMangas().catch(defaultPromiseErrorHandler('Library::refetchCategoryMangas')),
@@ -195,14 +199,13 @@ export function Library() {
             {t`Library`}
             {showTabSize && (
                 <TitleSizeTag
-                    sx={{ ...(!isFiltered && theme.applyStyles('light', { backgroundColor: 'background.paper' })) }}
-                    color={isFiltered ? 'warning' : 'default'}
-                    label={isFiltered ? `${mangas.length}/${librarySize}` : librarySize}
+                    sx={{ ...theme.applyStyles('light', { backgroundColor: 'background.paper' }) }}
+                    label={librarySize}
                 />
             )}
         </TitleWithSizeTag>,
         t`Library`,
-        [t, showTabSize, librarySize, isFiltered, mangas.length],
+        [t, showTabSize, librarySize],
     );
     useAppAction(
         <>
@@ -298,16 +301,7 @@ export function Library() {
                         label={
                             <TitleWithSizeTag>
                                 {tab.name}
-                                {showTabSize ? (
-                                    <TitleSizeTag
-                                        color={tab === activeTab && isFiltered ? 'warning' : 'default'}
-                                        label={
-                                            tab === activeTab && isFiltered
-                                                ? `${mangas.length}/${tab.mangas.totalCount}`
-                                                : tab.mangas.totalCount
-                                        }
-                                    />
-                                ) : null}
+                                {showTabSize ? <TitleSizeTag label={getTabCount(tab)} /> : null}
                             </TitleWithSizeTag>
                         }
                         value={tab.id}
