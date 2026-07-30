@@ -108,7 +108,9 @@ export function Library() {
     } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
 
     const getTabCount = (tab: (typeof tabs)[number]) => {
-        if (tab !== activeTab || mangas.length === tab.mangas.totalCount) {return tab.mangas.totalCount;}
+        if (tab !== activeTab || mangas.length === tab.mangas.totalCount) {
+            return tab.mangas.totalCount;
+        }
         return `${mangas.length}/${tab.mangas.totalCount}`;
     };
 
