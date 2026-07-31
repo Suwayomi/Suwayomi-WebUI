@@ -52,8 +52,11 @@ const ChapterInfo = ({
     const theme = useTheme();
 
     const readingMode = useReaderSettingsStore((state) => state.readingMode.value);
+    const useAutoBackgroundColorContinuousMode = useReaderSettingsStore('useAutoBackgroundColorContinuousMode');
     const autoBackgroundColor = useReaderPagesStore((state) =>
-        backgroundColor === ReaderBackgroundColor.AUTO && isContinuousReadingMode(readingMode)
+        backgroundColor === ReaderBackgroundColor.AUTO &&
+        useAutoBackgroundColorContinuousMode &&
+        isContinuousReadingMode(readingMode)
             ? state.pageBackgroundColors[getPage(state.currentPageIndex, state.pages)?.pagesIndex ?? 0]?.color
             : undefined,
     );
