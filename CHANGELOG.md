@@ -37,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
+- (**Global**) Fix local and session storage being shared between instances on the same domain with different subpaths
 - (**Reader**) Fix electron asking for "wake lock" permission even with the "Keep screen on" setting disabled
 - (**Reader**) Fix page resume in chromium browsers
 

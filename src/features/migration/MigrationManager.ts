@@ -75,6 +75,7 @@ import { ControlledPromise } from '@/lib/ControlledPromise.ts';
 import { d } from 'koration';
 import merge from 'lodash/fp/merge';
 import mapValues from 'lodash/fp/mapValues';
+import { AppStorage } from '@/lib/storage/AppStorage.ts';
 
 const RESUMABLE_PHASES: readonly MigrationPhase[] = [MigrationPhase.SEARCHING, MigrationPhase.MIGRATING];
 
@@ -85,7 +86,7 @@ const migrationStore = create<MigrationState>()(
         persist(
             immer(() => ({ ...DEFAULT_MIGRATION_STATE })),
             {
-                name: MIGRATION_LOCAL_STORAGE_KEY,
+                name: AppStorage.getKey(MIGRATION_LOCAL_STORAGE_KEY),
                 merge: (persistedState, currentState) => {
                     const persisted = persistedState as MigrationState | undefined;
 
@@ -104,7 +105,7 @@ const migrationStore = create<MigrationState>()(
 const useMigrationStore = ZustandUtil.createStoreHook(migrationStore);
 
 window.addEventListener('storage', (e) => {
-    const isMigrationStateUpdate = e.key === MIGRATION_LOCAL_STORAGE_KEY;
+    const isMigrationStateUpdate = e.key === AppStorage.getKey(MIGRATION_LOCAL_STORAGE_KEY);
     if (isMigrationStateUpdate) {
         migrationStore.persist.rehydrate();
     }

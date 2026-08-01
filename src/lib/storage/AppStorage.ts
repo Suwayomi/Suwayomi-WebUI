@@ -8,6 +8,9 @@
 
 /* oxlint-disable max-classes-per-file */
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
+import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
+
+const getKey = (key: string): string => `suwayomi_webui_${SubpathUtil.getSubpath()}_${key}`;
 
 export class Storage {
     constructor(private readonly storage: typeof window.localStorage) {}
@@ -27,7 +30,21 @@ export class Storage {
     }
 
     getItem(key: string): string | null {
-        return this.storage.getItem(key);
+        const valueForNewKey = this.storage.getItem(getKey(key));
+
+        if (valueForNewKey) {
+            return valueForNewKey;
+        }
+
+        // TODO - deprecated - remove code below this after next stable release (current v20260726.01)
+        const valueForOldKey = this.storage.getItem(key);
+
+        if (valueForOldKey) {
+            this.storage.setItem(getKey(key), valueForOldKey);
+            this.storage.removeItem(key);
+        }
+
+        return valueForOldKey;
     }
 
     getItemParsed<T>(key: string, defaultValue: T): T {
@@ -36,6 +53,7 @@ export class Storage {
 
     setItem(key: string, value: unknown, emitEvent: boolean = true): void {
         const currentValue = this.getItem(key);
+        const actualKey = getKey(key);
 
         const fireEvent = (valueToStore: string | undefined) => {
             if (!emitEvent) {
@@ -44,7 +62,7 @@ export class Storage {
 
             window.dispatchEvent(
                 new StorageEvent('storage', {
-                    key,
+                    key: actualKey,
                     oldValue: currentValue,
                     newValue: valueToStore,
                 }),
@@ -52,7 +70,7 @@ export class Storage {
         };
 
         if (value === undefined) {
-            this.storage.removeItem(key);
+            this.storage.removeItem(actualKey);
             fireEvent(undefined);
             return;
         }
@@ -60,7 +78,7 @@ export class Storage {
         const stringify = typeof value !== 'string';
         const valueToStore = stringify ? JSON.stringify(value) : value;
 
-        this.storage.setItem(key, valueToStore);
+        this.storage.setItem(actualKey, valueToStore);
         fireEvent(valueToStore as string);
     }
 
@@ -75,4 +93,8 @@ export class AppStorage {
     static readonly local: Storage = new Storage(window.localStorage);
 
     static readonly session: Storage = new Storage(window.sessionStorage);
+
+    static getKey(key: string): string {
+        return getKey(key);
+    }
 }
