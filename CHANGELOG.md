@@ -27,6 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - (**Manga**) Add share button (secure context (localhost, https))
 - (**Reader**) Add share button to desktop navigation bar (secure context (localhost, https))
+- (**Library**) Show filtered item count in active category tab
 
 ### Changed
 

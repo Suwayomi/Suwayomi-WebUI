@@ -107,6 +107,13 @@ export function Library() {
         filterKey,
     } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
 
+    const getTabCount = (tab: (typeof tabs)[number]) => {
+        if (tab !== activeTab || mangas.length === tab.mangas.totalCount) {
+            return tab.mangas.totalCount;
+        }
+        return `${mangas.length}/${tab.mangas.totalCount}`;
+    };
+
     const retryFetchCategoryMangas = useCallback(
         () => refetchCategoryMangas().catch(defaultPromiseErrorHandler('Library::refetchCategoryMangas')),
         [refetchCategoryMangas, activeTab],
@@ -296,7 +303,7 @@ export function Library() {
                         label={
                             <TitleWithSizeTag>
                                 {tab.name}
-                                {showTabSize ? <TitleSizeTag label={tab.mangas.totalCount} /> : null}
+                                {showTabSize ? <TitleSizeTag label={getTabCount(tab)} /> : null}
                             </TitleWithSizeTag>
                         }
                         value={tab.id}
