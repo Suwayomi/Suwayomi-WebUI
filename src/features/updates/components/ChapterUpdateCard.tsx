@@ -29,6 +29,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Collapse from '@mui/material/Collapse';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { useTheme } from '@mui/material/styles';
+import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 
 export const ChapterUpdateCard = memo(
     ({
@@ -98,7 +99,11 @@ export const ChapterUpdateCard = memo(
                                 />
                                 {isGroup && (
                                     <Button
-                                        sx={{ width: 'fit-content', ...theme.typography.caption }}
+                                        sx={{
+                                            maxWidth: 'fit-content',
+                                            justifyContent: 'flex-start',
+                                            ...theme.typography.caption,
+                                        }}
                                         variant="text"
                                         size="small"
                                         endIcon={isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
@@ -108,10 +113,12 @@ export const ChapterUpdateCard = memo(
                                             setIsExpanded(!isExpanded);
                                         }}
                                     >
-                                        {plural(otherChapters.length, {
-                                            one: 'Show # more chapter',
-                                            other: 'Show # more chapters',
-                                        })}
+                                        <TypographyMaxLines lines={1} variant="caption" sx={{ textAlign: 'start' }}>
+                                            {plural(otherChapters.length, {
+                                                one: 'Show # more chapter',
+                                                other: 'Show # more chapters',
+                                            })}
+                                        </TypographyMaxLines>
                                     </Button>
                                 )}
                             </Stack>
