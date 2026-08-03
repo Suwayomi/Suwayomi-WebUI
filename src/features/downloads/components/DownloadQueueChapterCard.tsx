@@ -80,7 +80,11 @@ export const DownloadQueueChapterCard = memo(
                             <IconButton {...MUIUtil.preventRippleProp()} sx={{ pointerEvents: 'none' }}>
                                 <DragHandle />
                             </IconButton>
-                            <ChapterCardMetadata title={item.manga.title} secondaryText={item.chapter.name} />
+                            <ChapterCardMetadata
+                                title={item.manga.title}
+                                secondaryText={item.chapter.scanlator}
+                                ternaryText={item.chapter.name}
+                            />
                             <DownloadStateIndicator chapterId={item.chapter.id} />
                             <ChapterDownloadRetryButton chapterId={item.chapter.id} />
                             <CustomTooltip title={t`Delete`}>

@@ -36,7 +36,7 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                 }}
             >
                 <ListCardContent sx={{ justifyContent: 'space-between' }}>
-                    <Box sx={{ display: 'flex', flexGrow: 1, gap: 1 }}>
+                    <Box sx={{ display: 'flex', flexGrow: 1, gap: 1, alignItems: 'center' }}>
                         <ChapterCardThumbnail
                             mangaId={manga.id}
                             sourceId={manga.sourceId}
@@ -46,7 +46,8 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                         />
                         <ChapterCardMetadata
                             title={manga.title}
-                            secondaryText={`${chapter.name} — ${timeFormatter.format(epochToDate(Number(chapter.lastReadAt)).valueOf())}`}
+                            secondaryText={chapter.scanlator}
+                            ternaryText={`${chapter.name} — ${timeFormatter.format(epochToDate(Number(chapter.lastReadAt)).valueOf())}`}
                         />
                     </Box>
                     <DownloadStateIndicator chapterId={chapter.id} />

@@ -926,8 +926,28 @@ export type DownloadTypeFieldsFragment = {
     progress: number;
     state: Types.DownloadState;
     tries: number;
-    chapter: { __typename: 'ChapterType'; id: number; name: string; sourceOrder: number; isDownloaded: boolean };
-    manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+    chapter: {
+        __typename: 'ChapterType';
+        isDownloaded: boolean;
+        id: number;
+        name: string;
+        mangaId: number;
+        scanlator: string | null;
+        realUrl: string | null;
+        sourceOrder: number;
+        chapterNumber: number;
+    };
+    manga: {
+        __typename: 'MangaType';
+        downloadCount: number;
+        id: number;
+        title: string;
+        thumbnailUrl: string | null;
+        thumbnailUrlLastFetched: string | null;
+        inLibrary: boolean;
+        initialized: boolean;
+        sourceId: string;
+    };
 };
 
 export type DownloadStatusFieldsFragment = {
@@ -938,8 +958,28 @@ export type DownloadStatusFieldsFragment = {
         progress: number;
         state: Types.DownloadState;
         tries: number;
-        chapter: { __typename: 'ChapterType'; id: number; name: string; sourceOrder: number; isDownloaded: boolean };
-        manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+        chapter: {
+            __typename: 'ChapterType';
+            isDownloaded: boolean;
+            id: number;
+            name: string;
+            mangaId: number;
+            scanlator: string | null;
+            realUrl: string | null;
+            sourceOrder: number;
+            chapterNumber: number;
+        };
+        manga: {
+            __typename: 'MangaType';
+            downloadCount: number;
+            id: number;
+            title: string;
+            thumbnailUrl: string | null;
+            thumbnailUrlLastFetched: string | null;
+            inLibrary: boolean;
+            initialized: boolean;
+            sourceId: string;
+        };
     }>;
 };
 
@@ -958,12 +998,26 @@ export type DownloadUpdatesFieldsFragment = {
             tries: number;
             chapter: {
                 __typename: 'ChapterType';
+                isDownloaded: boolean;
                 id: number;
                 name: string;
+                mangaId: number;
+                scanlator: string | null;
+                realUrl: string | null;
                 sourceOrder: number;
-                isDownloaded: boolean;
+                chapterNumber: number;
             };
-            manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+            manga: {
+                __typename: 'MangaType';
+                downloadCount: number;
+                id: number;
+                title: string;
+                thumbnailUrl: string | null;
+                thumbnailUrlLastFetched: string | null;
+                inLibrary: boolean;
+                initialized: boolean;
+                sourceId: string;
+            };
         };
     }>;
 };
@@ -986,12 +1040,26 @@ export type ClearDownloaderMutation = {
                 tries: number;
                 chapter: {
                     __typename: 'ChapterType';
+                    isDownloaded: boolean;
                     id: number;
                     name: string;
+                    mangaId: number;
+                    scanlator: string | null;
+                    realUrl: string | null;
                     sourceOrder: number;
-                    isDownloaded: boolean;
+                    chapterNumber: number;
                 };
-                manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                manga: {
+                    __typename: 'MangaType';
+                    downloadCount: number;
+                    id: number;
+                    title: string;
+                    thumbnailUrl: string | null;
+                    thumbnailUrlLastFetched: string | null;
+                    inLibrary: boolean;
+                    initialized: boolean;
+                    sourceId: string;
+                };
             }>;
         };
     } | null;
@@ -1049,12 +1117,26 @@ export type DequeueChapterDownloadMutation = {
                 tries: number;
                 chapter: {
                     __typename: 'ChapterType';
+                    isDownloaded: boolean;
                     id: number;
                     name: string;
+                    mangaId: number;
+                    scanlator: string | null;
+                    realUrl: string | null;
                     sourceOrder: number;
-                    isDownloaded: boolean;
+                    chapterNumber: number;
                 };
-                manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                manga: {
+                    __typename: 'MangaType';
+                    downloadCount: number;
+                    id: number;
+                    title: string;
+                    thumbnailUrl: string | null;
+                    thumbnailUrlLastFetched: string | null;
+                    inLibrary: boolean;
+                    initialized: boolean;
+                    sourceId: string;
+                };
             }>;
         };
     } | null;
@@ -1078,12 +1160,26 @@ export type DequeueChapterDownloadsMutation = {
                 tries: number;
                 chapter: {
                     __typename: 'ChapterType';
+                    isDownloaded: boolean;
                     id: number;
                     name: string;
+                    mangaId: number;
+                    scanlator: string | null;
+                    realUrl: string | null;
                     sourceOrder: number;
-                    isDownloaded: boolean;
+                    chapterNumber: number;
                 };
-                manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                manga: {
+                    __typename: 'MangaType';
+                    downloadCount: number;
+                    id: number;
+                    title: string;
+                    thumbnailUrl: string | null;
+                    thumbnailUrlLastFetched: string | null;
+                    inLibrary: boolean;
+                    initialized: boolean;
+                    sourceId: string;
+                };
             }>;
         };
     } | null;
@@ -1107,12 +1203,26 @@ export type EnqueueChapterDownloadMutation = {
                 tries: number;
                 chapter: {
                     __typename: 'ChapterType';
+                    isDownloaded: boolean;
                     id: number;
                     name: string;
+                    mangaId: number;
+                    scanlator: string | null;
+                    realUrl: string | null;
                     sourceOrder: number;
-                    isDownloaded: boolean;
+                    chapterNumber: number;
                 };
-                manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                manga: {
+                    __typename: 'MangaType';
+                    downloadCount: number;
+                    id: number;
+                    title: string;
+                    thumbnailUrl: string | null;
+                    thumbnailUrlLastFetched: string | null;
+                    inLibrary: boolean;
+                    initialized: boolean;
+                    sourceId: string;
+                };
             }>;
         };
     } | null;
@@ -1136,12 +1246,26 @@ export type EnqueueChapterDownloadsMutation = {
                 tries: number;
                 chapter: {
                     __typename: 'ChapterType';
+                    isDownloaded: boolean;
                     id: number;
                     name: string;
+                    mangaId: number;
+                    scanlator: string | null;
+                    realUrl: string | null;
                     sourceOrder: number;
-                    isDownloaded: boolean;
+                    chapterNumber: number;
                 };
-                manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                manga: {
+                    __typename: 'MangaType';
+                    downloadCount: number;
+                    id: number;
+                    title: string;
+                    thumbnailUrl: string | null;
+                    thumbnailUrlLastFetched: string | null;
+                    inLibrary: boolean;
+                    initialized: boolean;
+                    sourceId: string;
+                };
             }>;
         };
     } | null;
@@ -1165,12 +1289,26 @@ export type ReorderChapterDownloadMutation = {
                 tries: number;
                 chapter: {
                     __typename: 'ChapterType';
+                    isDownloaded: boolean;
                     id: number;
                     name: string;
+                    mangaId: number;
+                    scanlator: string | null;
+                    realUrl: string | null;
                     sourceOrder: number;
-                    isDownloaded: boolean;
+                    chapterNumber: number;
                 };
-                manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                manga: {
+                    __typename: 'MangaType';
+                    downloadCount: number;
+                    id: number;
+                    title: string;
+                    thumbnailUrl: string | null;
+                    thumbnailUrlLastFetched: string | null;
+                    inLibrary: boolean;
+                    initialized: boolean;
+                    sourceId: string;
+                };
             }>;
         };
     } | null;
@@ -1214,12 +1352,26 @@ export type GetDownloadStatusQuery = {
             tries: number;
             chapter: {
                 __typename: 'ChapterType';
+                isDownloaded: boolean;
                 id: number;
                 name: string;
+                mangaId: number;
+                scanlator: string | null;
+                realUrl: string | null;
                 sourceOrder: number;
-                isDownloaded: boolean;
+                chapterNumber: number;
             };
-            manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+            manga: {
+                __typename: 'MangaType';
+                downloadCount: number;
+                id: number;
+                title: string;
+                thumbnailUrl: string | null;
+                thumbnailUrlLastFetched: string | null;
+                inLibrary: boolean;
+                initialized: boolean;
+                sourceId: string;
+            };
         }>;
     };
 };
@@ -1245,12 +1397,26 @@ export type DownloadStatusSubscription = {
                 tries: number;
                 chapter: {
                     __typename: 'ChapterType';
+                    isDownloaded: boolean;
                     id: number;
                     name: string;
+                    mangaId: number;
+                    scanlator: string | null;
+                    realUrl: string | null;
                     sourceOrder: number;
-                    isDownloaded: boolean;
+                    chapterNumber: number;
                 };
-                manga: { __typename: 'MangaType'; id: number; title: string; downloadCount: number };
+                manga: {
+                    __typename: 'MangaType';
+                    downloadCount: number;
+                    id: number;
+                    title: string;
+                    thumbnailUrl: string | null;
+                    thumbnailUrlLastFetched: string | null;
+                    inLibrary: boolean;
+                    initialized: boolean;
+                    sourceId: string;
+                };
             };
         }>;
     };
@@ -3304,429 +3470,7 @@ export type SourceBrowseFieldsFragment = {
                                             type: 'CheckBoxFilter';
                                             CheckBoxFilterDefault: boolean;
                                         }
-                                      | {
-                                            __typename: 'GroupFilter';
-                                            name: string;
-                                            type: 'GroupFilter';
-                                            filters: Array<
-                                                | {
-                                                      __typename: 'CheckBoxFilter';
-                                                      name: string;
-                                                      type: 'CheckBoxFilter';
-                                                      CheckBoxFilterDefault: boolean;
-                                                  }
-                                                | {
-                                                      __typename: 'GroupFilter';
-                                                      name: string;
-                                                      type: 'GroupFilter';
-                                                      filters: Array<
-                                                          | {
-                                                                __typename: 'CheckBoxFilter';
-                                                                name: string;
-                                                                type: 'CheckBoxFilter';
-                                                                CheckBoxFilterDefault: boolean;
-                                                            }
-                                                          | {
-                                                                __typename: 'GroupFilter';
-                                                                name: string;
-                                                                type: 'GroupFilter';
-                                                                filters: Array<
-                                                                    | {
-                                                                          __typename: 'CheckBoxFilter';
-                                                                          name: string;
-                                                                          type: 'CheckBoxFilter';
-                                                                          CheckBoxFilterDefault: boolean;
-                                                                      }
-                                                                    | {
-                                                                          __typename: 'GroupFilter';
-                                                                          name: string;
-                                                                          type: 'GroupFilter';
-                                                                          filters: Array<
-                                                                              | {
-                                                                                    __typename: 'CheckBoxFilter';
-                                                                                    name: string;
-                                                                                    type: 'CheckBoxFilter';
-                                                                                    CheckBoxFilterDefault: boolean;
-                                                                                }
-                                                                              | {
-                                                                                    __typename: 'GroupFilter';
-                                                                                    name: string;
-                                                                                    type: 'GroupFilter';
-                                                                                    filters: Array<
-                                                                                        | {
-                                                                                              __typename: 'CheckBoxFilter';
-                                                                                              name: string;
-                                                                                              type: 'CheckBoxFilter';
-                                                                                              CheckBoxFilterDefault: boolean;
-                                                                                          }
-                                                                                        | {
-                                                                                              __typename: 'GroupFilter';
-                                                                                              name: string;
-                                                                                              type: 'GroupFilter';
-                                                                                              filters: Array<
-                                                                                                  | {
-                                                                                                        __typename: 'CheckBoxFilter';
-                                                                                                        name: string;
-                                                                                                        type: 'CheckBoxFilter';
-                                                                                                        CheckBoxFilterDefault: boolean;
-                                                                                                    }
-                                                                                                  | {
-                                                                                                        __typename: 'GroupFilter';
-                                                                                                        name: string;
-                                                                                                        type: 'GroupFilter';
-                                                                                                        filters: Array<
-                                                                                                            | {
-                                                                                                                  __typename: 'CheckBoxFilter';
-                                                                                                                  name: string;
-                                                                                                                  type: 'CheckBoxFilter';
-                                                                                                                  CheckBoxFilterDefault: boolean;
-                                                                                                              }
-                                                                                                            | {
-                                                                                                                  __typename: 'GroupFilter';
-                                                                                                                  name: string;
-                                                                                                                  type: 'GroupFilter';
-                                                                                                                  filters: Array<
-                                                                                                                      | {
-                                                                                                                            __typename: 'CheckBoxFilter';
-                                                                                                                            name: string;
-                                                                                                                            type: 'CheckBoxFilter';
-                                                                                                                            CheckBoxFilterDefault: boolean;
-                                                                                                                        }
-                                                                                                                      | {
-                                                                                                                            __typename: 'GroupFilter';
-                                                                                                                        }
-                                                                                                                      | {
-                                                                                                                            __typename: 'HeaderFilter';
-                                                                                                                            name: string;
-                                                                                                                            type: 'HeaderFilter';
-                                                                                                                        }
-                                                                                                                      | {
-                                                                                                                            __typename: 'SelectFilter';
-                                                                                                                            name: string;
-                                                                                                                            values: Array<string>;
-                                                                                                                            type: 'SelectFilter';
-                                                                                                                            SelectFilterDefault: number;
-                                                                                                                        }
-                                                                                                                      | {
-                                                                                                                            __typename: 'SeparatorFilter';
-                                                                                                                            name: string;
-                                                                                                                            type: 'SeparatorFilter';
-                                                                                                                        }
-                                                                                                                      | {
-                                                                                                                            __typename: 'SortFilter';
-                                                                                                                            name: string;
-                                                                                                                            values: Array<string>;
-                                                                                                                            type: 'SortFilter';
-                                                                                                                            SortFilterDefault: {
-                                                                                                                                __typename: 'SortSelection';
-                                                                                                                                ascending: boolean;
-                                                                                                                                index: number;
-                                                                                                                            } | null;
-                                                                                                                        }
-                                                                                                                      | {
-                                                                                                                            __typename: 'TextFilter';
-                                                                                                                            name: string;
-                                                                                                                            type: 'TextFilter';
-                                                                                                                            TextFilterDefault: string;
-                                                                                                                        }
-                                                                                                                      | {
-                                                                                                                            __typename: 'TriStateFilter';
-                                                                                                                            name: string;
-                                                                                                                            type: 'TriStateFilter';
-                                                                                                                            TriStateFilterDefault: Types.TriState;
-                                                                                                                        }
-                                                                                                                  >;
-                                                                                                              }
-                                                                                                            | {
-                                                                                                                  __typename: 'HeaderFilter';
-                                                                                                                  name: string;
-                                                                                                                  type: 'HeaderFilter';
-                                                                                                              }
-                                                                                                            | {
-                                                                                                                  __typename: 'SelectFilter';
-                                                                                                                  name: string;
-                                                                                                                  values: Array<string>;
-                                                                                                                  type: 'SelectFilter';
-                                                                                                                  SelectFilterDefault: number;
-                                                                                                              }
-                                                                                                            | {
-                                                                                                                  __typename: 'SeparatorFilter';
-                                                                                                                  name: string;
-                                                                                                                  type: 'SeparatorFilter';
-                                                                                                              }
-                                                                                                            | {
-                                                                                                                  __typename: 'SortFilter';
-                                                                                                                  name: string;
-                                                                                                                  values: Array<string>;
-                                                                                                                  type: 'SortFilter';
-                                                                                                                  SortFilterDefault: {
-                                                                                                                      __typename: 'SortSelection';
-                                                                                                                      ascending: boolean;
-                                                                                                                      index: number;
-                                                                                                                  } | null;
-                                                                                                              }
-                                                                                                            | {
-                                                                                                                  __typename: 'TextFilter';
-                                                                                                                  name: string;
-                                                                                                                  type: 'TextFilter';
-                                                                                                                  TextFilterDefault: string;
-                                                                                                              }
-                                                                                                            | {
-                                                                                                                  __typename: 'TriStateFilter';
-                                                                                                                  name: string;
-                                                                                                                  type: 'TriStateFilter';
-                                                                                                                  TriStateFilterDefault: Types.TriState;
-                                                                                                              }
-                                                                                                        >;
-                                                                                                    }
-                                                                                                  | {
-                                                                                                        __typename: 'HeaderFilter';
-                                                                                                        name: string;
-                                                                                                        type: 'HeaderFilter';
-                                                                                                    }
-                                                                                                  | {
-                                                                                                        __typename: 'SelectFilter';
-                                                                                                        name: string;
-                                                                                                        values: Array<string>;
-                                                                                                        type: 'SelectFilter';
-                                                                                                        SelectFilterDefault: number;
-                                                                                                    }
-                                                                                                  | {
-                                                                                                        __typename: 'SeparatorFilter';
-                                                                                                        name: string;
-                                                                                                        type: 'SeparatorFilter';
-                                                                                                    }
-                                                                                                  | {
-                                                                                                        __typename: 'SortFilter';
-                                                                                                        name: string;
-                                                                                                        values: Array<string>;
-                                                                                                        type: 'SortFilter';
-                                                                                                        SortFilterDefault: {
-                                                                                                            __typename: 'SortSelection';
-                                                                                                            ascending: boolean;
-                                                                                                            index: number;
-                                                                                                        } | null;
-                                                                                                    }
-                                                                                                  | {
-                                                                                                        __typename: 'TextFilter';
-                                                                                                        name: string;
-                                                                                                        type: 'TextFilter';
-                                                                                                        TextFilterDefault: string;
-                                                                                                    }
-                                                                                                  | {
-                                                                                                        __typename: 'TriStateFilter';
-                                                                                                        name: string;
-                                                                                                        type: 'TriStateFilter';
-                                                                                                        TriStateFilterDefault: Types.TriState;
-                                                                                                    }
-                                                                                              >;
-                                                                                          }
-                                                                                        | {
-                                                                                              __typename: 'HeaderFilter';
-                                                                                              name: string;
-                                                                                              type: 'HeaderFilter';
-                                                                                          }
-                                                                                        | {
-                                                                                              __typename: 'SelectFilter';
-                                                                                              name: string;
-                                                                                              values: Array<string>;
-                                                                                              type: 'SelectFilter';
-                                                                                              SelectFilterDefault: number;
-                                                                                          }
-                                                                                        | {
-                                                                                              __typename: 'SeparatorFilter';
-                                                                                              name: string;
-                                                                                              type: 'SeparatorFilter';
-                                                                                          }
-                                                                                        | {
-                                                                                              __typename: 'SortFilter';
-                                                                                              name: string;
-                                                                                              values: Array<string>;
-                                                                                              type: 'SortFilter';
-                                                                                              SortFilterDefault: {
-                                                                                                  __typename: 'SortSelection';
-                                                                                                  ascending: boolean;
-                                                                                                  index: number;
-                                                                                              } | null;
-                                                                                          }
-                                                                                        | {
-                                                                                              __typename: 'TextFilter';
-                                                                                              name: string;
-                                                                                              type: 'TextFilter';
-                                                                                              TextFilterDefault: string;
-                                                                                          }
-                                                                                        | {
-                                                                                              __typename: 'TriStateFilter';
-                                                                                              name: string;
-                                                                                              type: 'TriStateFilter';
-                                                                                              TriStateFilterDefault: Types.TriState;
-                                                                                          }
-                                                                                    >;
-                                                                                }
-                                                                              | {
-                                                                                    __typename: 'HeaderFilter';
-                                                                                    name: string;
-                                                                                    type: 'HeaderFilter';
-                                                                                }
-                                                                              | {
-                                                                                    __typename: 'SelectFilter';
-                                                                                    name: string;
-                                                                                    values: Array<string>;
-                                                                                    type: 'SelectFilter';
-                                                                                    SelectFilterDefault: number;
-                                                                                }
-                                                                              | {
-                                                                                    __typename: 'SeparatorFilter';
-                                                                                    name: string;
-                                                                                    type: 'SeparatorFilter';
-                                                                                }
-                                                                              | {
-                                                                                    __typename: 'SortFilter';
-                                                                                    name: string;
-                                                                                    values: Array<string>;
-                                                                                    type: 'SortFilter';
-                                                                                    SortFilterDefault: {
-                                                                                        __typename: 'SortSelection';
-                                                                                        ascending: boolean;
-                                                                                        index: number;
-                                                                                    } | null;
-                                                                                }
-                                                                              | {
-                                                                                    __typename: 'TextFilter';
-                                                                                    name: string;
-                                                                                    type: 'TextFilter';
-                                                                                    TextFilterDefault: string;
-                                                                                }
-                                                                              | {
-                                                                                    __typename: 'TriStateFilter';
-                                                                                    name: string;
-                                                                                    type: 'TriStateFilter';
-                                                                                    TriStateFilterDefault: Types.TriState;
-                                                                                }
-                                                                          >;
-                                                                      }
-                                                                    | {
-                                                                          __typename: 'HeaderFilter';
-                                                                          name: string;
-                                                                          type: 'HeaderFilter';
-                                                                      }
-                                                                    | {
-                                                                          __typename: 'SelectFilter';
-                                                                          name: string;
-                                                                          values: Array<string>;
-                                                                          type: 'SelectFilter';
-                                                                          SelectFilterDefault: number;
-                                                                      }
-                                                                    | {
-                                                                          __typename: 'SeparatorFilter';
-                                                                          name: string;
-                                                                          type: 'SeparatorFilter';
-                                                                      }
-                                                                    | {
-                                                                          __typename: 'SortFilter';
-                                                                          name: string;
-                                                                          values: Array<string>;
-                                                                          type: 'SortFilter';
-                                                                          SortFilterDefault: {
-                                                                              __typename: 'SortSelection';
-                                                                              ascending: boolean;
-                                                                              index: number;
-                                                                          } | null;
-                                                                      }
-                                                                    | {
-                                                                          __typename: 'TextFilter';
-                                                                          name: string;
-                                                                          type: 'TextFilter';
-                                                                          TextFilterDefault: string;
-                                                                      }
-                                                                    | {
-                                                                          __typename: 'TriStateFilter';
-                                                                          name: string;
-                                                                          type: 'TriStateFilter';
-                                                                          TriStateFilterDefault: Types.TriState;
-                                                                      }
-                                                                >;
-                                                            }
-                                                          | {
-                                                                __typename: 'HeaderFilter';
-                                                                name: string;
-                                                                type: 'HeaderFilter';
-                                                            }
-                                                          | {
-                                                                __typename: 'SelectFilter';
-                                                                name: string;
-                                                                values: Array<string>;
-                                                                type: 'SelectFilter';
-                                                                SelectFilterDefault: number;
-                                                            }
-                                                          | {
-                                                                __typename: 'SeparatorFilter';
-                                                                name: string;
-                                                                type: 'SeparatorFilter';
-                                                            }
-                                                          | {
-                                                                __typename: 'SortFilter';
-                                                                name: string;
-                                                                values: Array<string>;
-                                                                type: 'SortFilter';
-                                                                SortFilterDefault: {
-                                                                    __typename: 'SortSelection';
-                                                                    ascending: boolean;
-                                                                    index: number;
-                                                                } | null;
-                                                            }
-                                                          | {
-                                                                __typename: 'TextFilter';
-                                                                name: string;
-                                                                type: 'TextFilter';
-                                                                TextFilterDefault: string;
-                                                            }
-                                                          | {
-                                                                __typename: 'TriStateFilter';
-                                                                name: string;
-                                                                type: 'TriStateFilter';
-                                                                TriStateFilterDefault: Types.TriState;
-                                                            }
-                                                      >;
-                                                  }
-                                                | { __typename: 'HeaderFilter'; name: string; type: 'HeaderFilter' }
-                                                | {
-                                                      __typename: 'SelectFilter';
-                                                      name: string;
-                                                      values: Array<string>;
-                                                      type: 'SelectFilter';
-                                                      SelectFilterDefault: number;
-                                                  }
-                                                | {
-                                                      __typename: 'SeparatorFilter';
-                                                      name: string;
-                                                      type: 'SeparatorFilter';
-                                                  }
-                                                | {
-                                                      __typename: 'SortFilter';
-                                                      name: string;
-                                                      values: Array<string>;
-                                                      type: 'SortFilter';
-                                                      SortFilterDefault: {
-                                                          __typename: 'SortSelection';
-                                                          ascending: boolean;
-                                                          index: number;
-                                                      } | null;
-                                                  }
-                                                | {
-                                                      __typename: 'TextFilter';
-                                                      name: string;
-                                                      type: 'TextFilter';
-                                                      TextFilterDefault: string;
-                                                  }
-                                                | {
-                                                      __typename: 'TriStateFilter';
-                                                      name: string;
-                                                      type: 'TriStateFilter';
-                                                      TriStateFilterDefault: Types.TriState;
-                                                  }
-                                            >;
-                                        }
+                                      | { __typename: 'GroupFilter' }
                                       | { __typename: 'HeaderFilter'; name: string; type: 'HeaderFilter' }
                                       | {
                                             __typename: 'SelectFilter';
@@ -4126,429 +3870,7 @@ export type GetSourceBrowseQuery = {
                                                 type: 'CheckBoxFilter';
                                                 CheckBoxFilterDefault: boolean;
                                             }
-                                          | {
-                                                __typename: 'GroupFilter';
-                                                name: string;
-                                                type: 'GroupFilter';
-                                                filters: Array<
-                                                    | {
-                                                          __typename: 'CheckBoxFilter';
-                                                          name: string;
-                                                          type: 'CheckBoxFilter';
-                                                          CheckBoxFilterDefault: boolean;
-                                                      }
-                                                    | {
-                                                          __typename: 'GroupFilter';
-                                                          name: string;
-                                                          type: 'GroupFilter';
-                                                          filters: Array<
-                                                              | {
-                                                                    __typename: 'CheckBoxFilter';
-                                                                    name: string;
-                                                                    type: 'CheckBoxFilter';
-                                                                    CheckBoxFilterDefault: boolean;
-                                                                }
-                                                              | {
-                                                                    __typename: 'GroupFilter';
-                                                                    name: string;
-                                                                    type: 'GroupFilter';
-                                                                    filters: Array<
-                                                                        | {
-                                                                              __typename: 'CheckBoxFilter';
-                                                                              name: string;
-                                                                              type: 'CheckBoxFilter';
-                                                                              CheckBoxFilterDefault: boolean;
-                                                                          }
-                                                                        | {
-                                                                              __typename: 'GroupFilter';
-                                                                              name: string;
-                                                                              type: 'GroupFilter';
-                                                                              filters: Array<
-                                                                                  | {
-                                                                                        __typename: 'CheckBoxFilter';
-                                                                                        name: string;
-                                                                                        type: 'CheckBoxFilter';
-                                                                                        CheckBoxFilterDefault: boolean;
-                                                                                    }
-                                                                                  | {
-                                                                                        __typename: 'GroupFilter';
-                                                                                        name: string;
-                                                                                        type: 'GroupFilter';
-                                                                                        filters: Array<
-                                                                                            | {
-                                                                                                  __typename: 'CheckBoxFilter';
-                                                                                                  name: string;
-                                                                                                  type: 'CheckBoxFilter';
-                                                                                                  CheckBoxFilterDefault: boolean;
-                                                                                              }
-                                                                                            | {
-                                                                                                  __typename: 'GroupFilter';
-                                                                                                  name: string;
-                                                                                                  type: 'GroupFilter';
-                                                                                                  filters: Array<
-                                                                                                      | {
-                                                                                                            __typename: 'CheckBoxFilter';
-                                                                                                            name: string;
-                                                                                                            type: 'CheckBoxFilter';
-                                                                                                            CheckBoxFilterDefault: boolean;
-                                                                                                        }
-                                                                                                      | {
-                                                                                                            __typename: 'GroupFilter';
-                                                                                                            name: string;
-                                                                                                            type: 'GroupFilter';
-                                                                                                            filters: Array<
-                                                                                                                | {
-                                                                                                                      __typename: 'CheckBoxFilter';
-                                                                                                                      name: string;
-                                                                                                                      type: 'CheckBoxFilter';
-                                                                                                                      CheckBoxFilterDefault: boolean;
-                                                                                                                  }
-                                                                                                                | {
-                                                                                                                      __typename: 'GroupFilter';
-                                                                                                                      name: string;
-                                                                                                                      type: 'GroupFilter';
-                                                                                                                      filters: Array<
-                                                                                                                          | {
-                                                                                                                                __typename: 'CheckBoxFilter';
-                                                                                                                                name: string;
-                                                                                                                                type: 'CheckBoxFilter';
-                                                                                                                                CheckBoxFilterDefault: boolean;
-                                                                                                                            }
-                                                                                                                          | {
-                                                                                                                                __typename: 'GroupFilter';
-                                                                                                                            }
-                                                                                                                          | {
-                                                                                                                                __typename: 'HeaderFilter';
-                                                                                                                                name: string;
-                                                                                                                                type: 'HeaderFilter';
-                                                                                                                            }
-                                                                                                                          | {
-                                                                                                                                __typename: 'SelectFilter';
-                                                                                                                                name: string;
-                                                                                                                                values: Array<string>;
-                                                                                                                                type: 'SelectFilter';
-                                                                                                                                SelectFilterDefault: number;
-                                                                                                                            }
-                                                                                                                          | {
-                                                                                                                                __typename: 'SeparatorFilter';
-                                                                                                                                name: string;
-                                                                                                                                type: 'SeparatorFilter';
-                                                                                                                            }
-                                                                                                                          | {
-                                                                                                                                __typename: 'SortFilter';
-                                                                                                                                name: string;
-                                                                                                                                values: Array<string>;
-                                                                                                                                type: 'SortFilter';
-                                                                                                                                SortFilterDefault: {
-                                                                                                                                    __typename: 'SortSelection';
-                                                                                                                                    ascending: boolean;
-                                                                                                                                    index: number;
-                                                                                                                                } | null;
-                                                                                                                            }
-                                                                                                                          | {
-                                                                                                                                __typename: 'TextFilter';
-                                                                                                                                name: string;
-                                                                                                                                type: 'TextFilter';
-                                                                                                                                TextFilterDefault: string;
-                                                                                                                            }
-                                                                                                                          | {
-                                                                                                                                __typename: 'TriStateFilter';
-                                                                                                                                name: string;
-                                                                                                                                type: 'TriStateFilter';
-                                                                                                                                TriStateFilterDefault: Types.TriState;
-                                                                                                                            }
-                                                                                                                      >;
-                                                                                                                  }
-                                                                                                                | {
-                                                                                                                      __typename: 'HeaderFilter';
-                                                                                                                      name: string;
-                                                                                                                      type: 'HeaderFilter';
-                                                                                                                  }
-                                                                                                                | {
-                                                                                                                      __typename: 'SelectFilter';
-                                                                                                                      name: string;
-                                                                                                                      values: Array<string>;
-                                                                                                                      type: 'SelectFilter';
-                                                                                                                      SelectFilterDefault: number;
-                                                                                                                  }
-                                                                                                                | {
-                                                                                                                      __typename: 'SeparatorFilter';
-                                                                                                                      name: string;
-                                                                                                                      type: 'SeparatorFilter';
-                                                                                                                  }
-                                                                                                                | {
-                                                                                                                      __typename: 'SortFilter';
-                                                                                                                      name: string;
-                                                                                                                      values: Array<string>;
-                                                                                                                      type: 'SortFilter';
-                                                                                                                      SortFilterDefault: {
-                                                                                                                          __typename: 'SortSelection';
-                                                                                                                          ascending: boolean;
-                                                                                                                          index: number;
-                                                                                                                      } | null;
-                                                                                                                  }
-                                                                                                                | {
-                                                                                                                      __typename: 'TextFilter';
-                                                                                                                      name: string;
-                                                                                                                      type: 'TextFilter';
-                                                                                                                      TextFilterDefault: string;
-                                                                                                                  }
-                                                                                                                | {
-                                                                                                                      __typename: 'TriStateFilter';
-                                                                                                                      name: string;
-                                                                                                                      type: 'TriStateFilter';
-                                                                                                                      TriStateFilterDefault: Types.TriState;
-                                                                                                                  }
-                                                                                                            >;
-                                                                                                        }
-                                                                                                      | {
-                                                                                                            __typename: 'HeaderFilter';
-                                                                                                            name: string;
-                                                                                                            type: 'HeaderFilter';
-                                                                                                        }
-                                                                                                      | {
-                                                                                                            __typename: 'SelectFilter';
-                                                                                                            name: string;
-                                                                                                            values: Array<string>;
-                                                                                                            type: 'SelectFilter';
-                                                                                                            SelectFilterDefault: number;
-                                                                                                        }
-                                                                                                      | {
-                                                                                                            __typename: 'SeparatorFilter';
-                                                                                                            name: string;
-                                                                                                            type: 'SeparatorFilter';
-                                                                                                        }
-                                                                                                      | {
-                                                                                                            __typename: 'SortFilter';
-                                                                                                            name: string;
-                                                                                                            values: Array<string>;
-                                                                                                            type: 'SortFilter';
-                                                                                                            SortFilterDefault: {
-                                                                                                                __typename: 'SortSelection';
-                                                                                                                ascending: boolean;
-                                                                                                                index: number;
-                                                                                                            } | null;
-                                                                                                        }
-                                                                                                      | {
-                                                                                                            __typename: 'TextFilter';
-                                                                                                            name: string;
-                                                                                                            type: 'TextFilter';
-                                                                                                            TextFilterDefault: string;
-                                                                                                        }
-                                                                                                      | {
-                                                                                                            __typename: 'TriStateFilter';
-                                                                                                            name: string;
-                                                                                                            type: 'TriStateFilter';
-                                                                                                            TriStateFilterDefault: Types.TriState;
-                                                                                                        }
-                                                                                                  >;
-                                                                                              }
-                                                                                            | {
-                                                                                                  __typename: 'HeaderFilter';
-                                                                                                  name: string;
-                                                                                                  type: 'HeaderFilter';
-                                                                                              }
-                                                                                            | {
-                                                                                                  __typename: 'SelectFilter';
-                                                                                                  name: string;
-                                                                                                  values: Array<string>;
-                                                                                                  type: 'SelectFilter';
-                                                                                                  SelectFilterDefault: number;
-                                                                                              }
-                                                                                            | {
-                                                                                                  __typename: 'SeparatorFilter';
-                                                                                                  name: string;
-                                                                                                  type: 'SeparatorFilter';
-                                                                                              }
-                                                                                            | {
-                                                                                                  __typename: 'SortFilter';
-                                                                                                  name: string;
-                                                                                                  values: Array<string>;
-                                                                                                  type: 'SortFilter';
-                                                                                                  SortFilterDefault: {
-                                                                                                      __typename: 'SortSelection';
-                                                                                                      ascending: boolean;
-                                                                                                      index: number;
-                                                                                                  } | null;
-                                                                                              }
-                                                                                            | {
-                                                                                                  __typename: 'TextFilter';
-                                                                                                  name: string;
-                                                                                                  type: 'TextFilter';
-                                                                                                  TextFilterDefault: string;
-                                                                                              }
-                                                                                            | {
-                                                                                                  __typename: 'TriStateFilter';
-                                                                                                  name: string;
-                                                                                                  type: 'TriStateFilter';
-                                                                                                  TriStateFilterDefault: Types.TriState;
-                                                                                              }
-                                                                                        >;
-                                                                                    }
-                                                                                  | {
-                                                                                        __typename: 'HeaderFilter';
-                                                                                        name: string;
-                                                                                        type: 'HeaderFilter';
-                                                                                    }
-                                                                                  | {
-                                                                                        __typename: 'SelectFilter';
-                                                                                        name: string;
-                                                                                        values: Array<string>;
-                                                                                        type: 'SelectFilter';
-                                                                                        SelectFilterDefault: number;
-                                                                                    }
-                                                                                  | {
-                                                                                        __typename: 'SeparatorFilter';
-                                                                                        name: string;
-                                                                                        type: 'SeparatorFilter';
-                                                                                    }
-                                                                                  | {
-                                                                                        __typename: 'SortFilter';
-                                                                                        name: string;
-                                                                                        values: Array<string>;
-                                                                                        type: 'SortFilter';
-                                                                                        SortFilterDefault: {
-                                                                                            __typename: 'SortSelection';
-                                                                                            ascending: boolean;
-                                                                                            index: number;
-                                                                                        } | null;
-                                                                                    }
-                                                                                  | {
-                                                                                        __typename: 'TextFilter';
-                                                                                        name: string;
-                                                                                        type: 'TextFilter';
-                                                                                        TextFilterDefault: string;
-                                                                                    }
-                                                                                  | {
-                                                                                        __typename: 'TriStateFilter';
-                                                                                        name: string;
-                                                                                        type: 'TriStateFilter';
-                                                                                        TriStateFilterDefault: Types.TriState;
-                                                                                    }
-                                                                              >;
-                                                                          }
-                                                                        | {
-                                                                              __typename: 'HeaderFilter';
-                                                                              name: string;
-                                                                              type: 'HeaderFilter';
-                                                                          }
-                                                                        | {
-                                                                              __typename: 'SelectFilter';
-                                                                              name: string;
-                                                                              values: Array<string>;
-                                                                              type: 'SelectFilter';
-                                                                              SelectFilterDefault: number;
-                                                                          }
-                                                                        | {
-                                                                              __typename: 'SeparatorFilter';
-                                                                              name: string;
-                                                                              type: 'SeparatorFilter';
-                                                                          }
-                                                                        | {
-                                                                              __typename: 'SortFilter';
-                                                                              name: string;
-                                                                              values: Array<string>;
-                                                                              type: 'SortFilter';
-                                                                              SortFilterDefault: {
-                                                                                  __typename: 'SortSelection';
-                                                                                  ascending: boolean;
-                                                                                  index: number;
-                                                                              } | null;
-                                                                          }
-                                                                        | {
-                                                                              __typename: 'TextFilter';
-                                                                              name: string;
-                                                                              type: 'TextFilter';
-                                                                              TextFilterDefault: string;
-                                                                          }
-                                                                        | {
-                                                                              __typename: 'TriStateFilter';
-                                                                              name: string;
-                                                                              type: 'TriStateFilter';
-                                                                              TriStateFilterDefault: Types.TriState;
-                                                                          }
-                                                                    >;
-                                                                }
-                                                              | {
-                                                                    __typename: 'HeaderFilter';
-                                                                    name: string;
-                                                                    type: 'HeaderFilter';
-                                                                }
-                                                              | {
-                                                                    __typename: 'SelectFilter';
-                                                                    name: string;
-                                                                    values: Array<string>;
-                                                                    type: 'SelectFilter';
-                                                                    SelectFilterDefault: number;
-                                                                }
-                                                              | {
-                                                                    __typename: 'SeparatorFilter';
-                                                                    name: string;
-                                                                    type: 'SeparatorFilter';
-                                                                }
-                                                              | {
-                                                                    __typename: 'SortFilter';
-                                                                    name: string;
-                                                                    values: Array<string>;
-                                                                    type: 'SortFilter';
-                                                                    SortFilterDefault: {
-                                                                        __typename: 'SortSelection';
-                                                                        ascending: boolean;
-                                                                        index: number;
-                                                                    } | null;
-                                                                }
-                                                              | {
-                                                                    __typename: 'TextFilter';
-                                                                    name: string;
-                                                                    type: 'TextFilter';
-                                                                    TextFilterDefault: string;
-                                                                }
-                                                              | {
-                                                                    __typename: 'TriStateFilter';
-                                                                    name: string;
-                                                                    type: 'TriStateFilter';
-                                                                    TriStateFilterDefault: Types.TriState;
-                                                                }
-                                                          >;
-                                                      }
-                                                    | { __typename: 'HeaderFilter'; name: string; type: 'HeaderFilter' }
-                                                    | {
-                                                          __typename: 'SelectFilter';
-                                                          name: string;
-                                                          values: Array<string>;
-                                                          type: 'SelectFilter';
-                                                          SelectFilterDefault: number;
-                                                      }
-                                                    | {
-                                                          __typename: 'SeparatorFilter';
-                                                          name: string;
-                                                          type: 'SeparatorFilter';
-                                                      }
-                                                    | {
-                                                          __typename: 'SortFilter';
-                                                          name: string;
-                                                          values: Array<string>;
-                                                          type: 'SortFilter';
-                                                          SortFilterDefault: {
-                                                              __typename: 'SortSelection';
-                                                              ascending: boolean;
-                                                              index: number;
-                                                          } | null;
-                                                      }
-                                                    | {
-                                                          __typename: 'TextFilter';
-                                                          name: string;
-                                                          type: 'TextFilter';
-                                                          TextFilterDefault: string;
-                                                      }
-                                                    | {
-                                                          __typename: 'TriStateFilter';
-                                                          name: string;
-                                                          type: 'TriStateFilter';
-                                                          TriStateFilterDefault: Types.TriState;
-                                                      }
-                                                >;
-                                            }
+                                          | { __typename: 'GroupFilter' }
                                           | { __typename: 'HeaderFilter'; name: string; type: 'HeaderFilter' }
                                           | {
                                                 __typename: 'SelectFilter';

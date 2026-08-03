@@ -7,19 +7,21 @@
  */
 
 import gql from 'graphql-tag';
+import { CHAPTER_BASE_FIELDS } from '@/lib/graphql/chapter/ChapterFragments.ts';
+import { MANGA_BASE_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 
 export const DOWNLOAD_TYPE_FIELDS = gql`
+    ${CHAPTER_BASE_FIELDS}
+    ${MANGA_BASE_FIELDS}
+
     fragment DOWNLOAD_TYPE_FIELDS on DownloadType {
         chapter {
-            id
-            name
-            sourceOrder
+            ...CHAPTER_BASE_FIELDS
             isDownloaded
         }
 
         manga {
-            id
-            title
+            ...MANGA_BASE_FIELDS
             downloadCount
         }
 

@@ -57,7 +57,7 @@ export const ChapterUpdateCard = memo(
                     }}
                 >
                     <ListCardContent sx={{ justifyContent: 'space-between' }}>
-                        <Box sx={{ display: 'flex', flexGrow: 1, gap: 1 }}>
+                        <Box sx={{ display: 'flex', flexGrow: 1, gap: 1, alignItems: 'center' }}>
                             <ChapterCardThumbnail
                                 mangaId={manga.id}
                                 sourceId={manga.sourceId}
@@ -91,7 +91,11 @@ export const ChapterUpdateCard = memo(
                                 }
                             />
                             <Stack>
-                                <ChapterCardMetadata title={manga.title} secondaryText={chapter.name} />
+                                <ChapterCardMetadata
+                                    title={manga.title}
+                                    secondaryText={chapter.scanlator}
+                                    ternaryText={chapter.name}
+                                />
                                 {isGroup && (
                                     <Button
                                         sx={{ width: 'fit-content', ...theme.typography.caption }}
