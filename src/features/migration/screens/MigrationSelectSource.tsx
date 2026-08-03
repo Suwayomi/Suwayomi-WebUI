@@ -26,13 +26,12 @@ import {
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
-import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/features/source/services/Sources';
+import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 
-export const MigrationSelectSource = ({ tabsMenuHeight }: { tabsMenuHeight: number }) => {
+export const MigrationSelectSource = () => {
     const { t } = useLingui();
-    const { appBarHeight } = useNavBarContext();
 
     const {
         settings: { migrateSortSettings },
@@ -64,43 +63,46 @@ export const MigrationSelectSource = ({ tabsMenuHeight }: { tabsMenuHeight: numb
 
     return (
         <>
-            <Stack
-                sx={{
-                    position: 'sticky',
-                    top: `${appBarHeight + tabsMenuHeight}px`,
-                    flexDirection: 'row',
-                    justifyContent: 'end',
-                    alignItems: 'center',
-                    gap: 1,
-                    p: 1,
-                    backgroundColor: 'background.default',
-                    zIndex: 1,
-                }}
-            >
-                <CustomTooltip title={t(sortByToTranslation[sortBy])}>
-                    <IconButton
-                        color="inherit"
-                        onClick={() =>
-                            updateMetadataServerSettings('migrateSortSettings', { sortBy: (sortBy + 1) % 2, sortOrder })
-                        }
-                    >
-                        {sortBy ? <TagIcon /> : <SortByAlphaIcon />}
-                    </IconButton>
-                </CustomTooltip>
-                <CustomTooltip title={t(sortOrderToTranslation[sortOrder])}>
-                    <IconButton
-                        color="inherit"
-                        onClick={() =>
-                            updateMetadataServerSettings('migrateSortSettings', {
-                                sortBy,
-                                sortOrder: (sortOrder + 1) % 2,
-                            })
-                        }
-                    >
-                        {sortOrder ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
-                    </IconButton>
-                </CustomTooltip>
-            </Stack>
+            <OffsetComponent>
+                <Stack
+                    sx={{
+                        flexDirection: 'row',
+                        justifyContent: 'end',
+                        alignItems: 'center',
+                        gap: 1,
+                        p: 1,
+                        backgroundColor: 'background.default',
+                    }}
+                >
+                    <CustomTooltip title={t(sortByToTranslation[sortBy])}>
+                        <IconButton
+                            color="inherit"
+                            onClick={() =>
+                                updateMetadataServerSettings('migrateSortSettings', {
+                                    sortBy: (sortBy + 1) % 2,
+                                    sortOrder,
+                                })
+                            }
+                        >
+                            {sortBy ? <TagIcon /> : <SortByAlphaIcon />}
+                        </IconButton>
+                    </CustomTooltip>
+                    <CustomTooltip title={t(sortOrderToTranslation[sortOrder])}>
+                        <IconButton
+                            color="inherit"
+                            onClick={() =>
+                                updateMetadataServerSettings('migrateSortSettings', {
+                                    sortBy,
+                                    sortOrder: (sortOrder + 1) % 2,
+                                })
+                            }
+                        >
+                            {sortOrder ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
+                        </IconButton>
+                    </CustomTooltip>
+                </Stack>
+            </OffsetComponent>
+
             <List sx={{ p: 0 }}>
                 {migratableSources.map((migratableSource) => (
                     <StyledGroupItemWrapper key={migratableSource.id}>

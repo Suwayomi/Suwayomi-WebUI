@@ -11,7 +11,7 @@ import Stack from '@mui/material/Stack';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import type { ComponentProps } from 'react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -39,7 +39,6 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/chapter/ChapterQuery.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { shouldForwardProp } from '@/base/utils/ShouldForwardProp.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -47,6 +46,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { ChapterListCard } from '@/features/chapter/components/cards/ChapterListCard.tsx';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { useElementSize } from '@mantine/hooks';
 
 type ChapterListHeaderProps = {
     scrollbarWidth: number;
@@ -118,12 +118,7 @@ export const ChapterList = ({
 
     const isMobileWidth = MediaQuery.useIsBelowWidth('md');
 
-    const [chapterListHeaderHeight, setChapterListHeaderHeight] = useState(50);
-    const [chapterListHeaderRef, setChapterListHeaderRef] = useState<HTMLDivElement | null>(null);
-    useResizeObserver(
-        chapterListHeaderRef,
-        useCallback(() => setChapterListHeaderHeight(chapterListHeaderRef?.offsetHeight ?? 0), [chapterListHeaderRef]),
-    );
+    const { ref: chapterListHeaderRef, height: chapterListHeaderHeight } = useElementSize();
 
     const scrollbarWidth = MediaQuery.useGetScrollbarSize('width');
 
@@ -187,7 +182,7 @@ export const ChapterList = ({
         <>
             <Stack direction="column" sx={{ position: 'relative', flexBasis: '60%' }}>
                 <ChapterListHeader
-                    ref={setChapterListHeaderRef}
+                    ref={chapterListHeaderRef}
                     sx={{
                         flexDirection: 'row',
                         alignItems: 'center',

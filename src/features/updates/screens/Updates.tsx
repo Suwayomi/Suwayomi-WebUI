@@ -7,7 +7,7 @@
  */
 
 import Typography from '@mui/material/Typography';
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
@@ -21,7 +21,6 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ChapterUpdateCard } from '@/features/updates/components/ChapterUpdateCard.tsx';
-import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
@@ -29,10 +28,11 @@ import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import mapValues from 'lodash/fp/mapValues';
 import difference from 'lodash/fp/difference';
 import uniqBy from 'lodash/fp/uniqBy';
+import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { useElementSize } from '@mantine/hooks';
 
 export const Updates: React.FC = () => {
     const { t } = useLingui();
-    const { appBarHeight } = useNavBarContext();
 
     useAppTitleAndAction(t`Updates`, <UpdateChecker />);
 
@@ -115,11 +115,7 @@ export const Updates: React.FC = () => {
         useCallback((index) => firstUnreadUpdatesEntries[index].id, [firstUnreadUpdatesEntries]),
     );
 
-    const lastUpdateTimestampCompRef = useRef<HTMLElement>(null);
-    const [lastUpdateTimestampCompHeight, setLastUpdateTimestampCompHeight] = useState(0);
-    useLayoutEffect(() => {
-        setLastUpdateTimestampCompHeight(lastUpdateTimestampCompRef.current?.clientHeight ?? 0);
-    }, [lastUpdateTimestampCompRef.current]);
+    const { ref: lastUpdateTimestampCompRef, height: lastUpdateTimestampCompHeight } = useElementSize();
 
     const { data: lastUpdateTimestampData } = requestManager.useGetLastGlobalUpdateTimestamp({
         /**
@@ -163,20 +159,21 @@ export const Updates: React.FC = () => {
     }
 
     return (
-        <>
-            <Typography
-                ref={lastUpdateTimestampCompRef}
-                sx={{
-                    position: 'sticky',
-                    top: appBarHeight,
-                    zIndex: GROUPED_VIRTUOSO_Z_INDEX,
-                    backgroundColor: 'background.default',
-                    marginLeft: '10px',
-                    paddingTop: (theme) => ({ [theme.breakpoints.up('sm')]: { paddingTop: '6px' } }),
-                }}
-            >
-                {t`Last update: ${date}`}
-            </Typography>
+        <OffsetComponentWithContainer
+            sx={{
+                zIndex: GROUPED_VIRTUOSO_Z_INDEX,
+            }}
+            component={
+                <Typography
+                    ref={lastUpdateTimestampCompRef}
+                    sx={{
+                        backgroundColor: 'background.default',
+                        pl: '10px',
+                        paddingTop: (theme) => ({ [theme.breakpoints.up('sm')]: { paddingTop: '6px' } }),
+                    }}
+                >{t`Last update: ${date}`}</Typography>
+            }
+        >
             <StyledGroupedVirtuoso
                 persistKey="updates"
                 heightToSubtract={lastUpdateTimestampCompHeight}
@@ -207,6 +204,6 @@ export const Updates: React.FC = () => {
                     </StyledGroupItemWrapper>
                 )}
             />
-        </>
+        </OffsetComponentWithContainer>
     );
 };

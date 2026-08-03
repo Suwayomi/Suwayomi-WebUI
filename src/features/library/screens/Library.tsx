@@ -51,6 +51,7 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -296,21 +297,23 @@ export function Library() {
 
     return (
         <TabsWrapper>
-            <TabsMenu value={activeTab.id} onChange={(e, newTab) => handleTabChange(newTab)}>
-                {tabs.map((tab) => (
-                    <Tab
-                        sx={{ flexGrow: 1, maxWidth: 'unset' }}
-                        key={tab.id}
-                        label={
-                            <TitleWithSizeTag>
-                                {tab.name}
-                                {showTabSize ? <TitleSizeTag label={getTabCount(tab)} /> : null}
-                            </TitleWithSizeTag>
-                        }
-                        value={tab.id}
-                    />
-                ))}
-            </TabsMenu>
+            <OffsetComponent>
+                <TabsMenu value={activeTab.id} onChange={(e, newTab) => handleTabChange(newTab)}>
+                    {tabs.map((tab) => (
+                        <Tab
+                            sx={{ flexGrow: 1, maxWidth: 'unset' }}
+                            key={tab.id}
+                            label={
+                                <TitleWithSizeTag>
+                                    {tab.name}
+                                    {showTabSize ? <TitleSizeTag label={getTabCount(tab)} /> : null}
+                                </TitleWithSizeTag>
+                            }
+                            value={tab.id}
+                        />
+                    ))}
+                </TabsMenu>
+            </OffsetComponent>
             {triggerGlobalSearchButton}
             {tabs.map((tab) => (
                 <TabPanel key={tab.order} index={tab.order} currentIndex={activeTab.order}>

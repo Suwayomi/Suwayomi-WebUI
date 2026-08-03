@@ -9,8 +9,8 @@
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
-import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import type { MigrationProgress } from '@/features/migration/Migration.types.ts';
+import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 
 export const MigrationProgressBar = ({
     completed,
@@ -19,8 +19,6 @@ export const MigrationProgressBar = ({
 }: {
     label: string;
 } & MigrationProgress) => {
-    const { appBarHeight } = useNavBarContext();
-
     const progress = total > 0 ? (completed / total) * 100 : 0;
 
     if (completed === total) {
@@ -28,17 +26,14 @@ export const MigrationProgressBar = ({
     }
 
     return (
-        <Box
+        <OffsetComponent
             sx={{
-                position: 'sticky',
-                top: appBarHeight,
                 display: 'flex',
                 alignItems: 'center',
                 gap: 2,
                 px: 2,
                 py: 1,
                 backgroundColor: 'background.default',
-                zIndex: 1,
             }}
         >
             <Box sx={{ flexGrow: 1 }}>
@@ -47,6 +42,6 @@ export const MigrationProgressBar = ({
             <Typography variant="body2" color="text.secondary" sx={{ minWidth: 'fit-content' }}>
                 {label}
             </Typography>
-        </Box>
+        </OffsetComponent>
     );
 };

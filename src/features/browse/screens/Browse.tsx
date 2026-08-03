@@ -6,7 +6,6 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useCallback, useRef, useState } from 'react';
 import Tab from '@mui/material/Tab';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { useLingui } from '@lingui/react/macro';
@@ -15,23 +14,19 @@ import { Extensions } from '@/features/browse/extensions/Extensions.tsx';
 import { TabPanel } from '@/base/components/tabs/TabPanel.tsx';
 import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
 import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
-import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { BrowseTab } from '@/features/browse/Browse.types.ts';
 import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { Migration } from '@/features/migration/screens/Migration.tsx';
+import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { useElementSize } from '@mantine/hooks';
 
 export function Browse() {
     const { t } = useLingui();
     useAppTitle(t`Browse`);
 
-    const tabsMenuRef = useRef<HTMLDivElement | null>(null);
-    const [tabsMenuHeight, setTabsMenuHeight] = useState(0);
-    useResizeObserver(
-        tabsMenuRef,
-        useCallback(() => setTabsMenuHeight(tabsMenuRef.current!.offsetHeight), [tabsMenuRef.current]),
-    );
+    const { ref: tabsMenuRef, height: tabsMenuHeight } = useElementSize();
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam(SearchParam.TAB, StringParam, {});
     const tabName = (tabSearchParam as BrowseTab) ?? BrowseTab.SOURCES;
@@ -42,29 +37,35 @@ export function Browse() {
 
     return (
         <TabsWrapper>
-            <TabsMenu
-                ref={tabsMenuRef}
-                sx={{ zIndex: GROUPED_VIRTUOSO_Z_INDEX }}
-                variant="fullWidth"
-                value={tabName}
-                onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}
+            <OffsetComponentWithContainer
+                sx={{ zIndex: 2 }}
+                component={
+                    <TabsMenu
+                        ref={tabsMenuRef}
+                        sx={{ zIndex: GROUPED_VIRTUOSO_Z_INDEX }}
+                        variant="fullWidth"
+                        value={tabName}
+                        onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}
+                    >
+                        <Tab value={BrowseTab.SOURCES} sx={{ textTransform: 'none' }} label={t`Source`} />
+                        <Tab value={BrowseTab.EXTENSIONS} sx={{ textTransform: 'none' }} label={t`Extension`} />
+                        <Tab value={BrowseTab.MIGRATE} sx={{ textTransform: 'none' }} label={t`Migrate`} />
+                    </TabsMenu>
+                }
             >
-                <Tab value={BrowseTab.SOURCES} sx={{ textTransform: 'none' }} label={t`Source`} />
-                <Tab value={BrowseTab.EXTENSIONS} sx={{ textTransform: 'none' }} label={t`Extension`} />
-                <Tab value={BrowseTab.MIGRATE} sx={{ textTransform: 'none' }} label={t`Migrate`} />
-            </TabsMenu>
-            <TabPanel index={BrowseTab.SOURCE_DEPRECATED} currentIndex={tabName}>
-                <Sources tabsMenuHeight={tabsMenuHeight} />
-            </TabPanel>
-            <TabPanel index={BrowseTab.SOURCES} currentIndex={tabName}>
-                <Sources tabsMenuHeight={tabsMenuHeight} />
-            </TabPanel>
-            <TabPanel index={BrowseTab.EXTENSIONS} currentIndex={tabName}>
-                <Extensions tabsMenuHeight={tabsMenuHeight} />
-            </TabPanel>
-            <TabPanel index={BrowseTab.MIGRATE} currentIndex={tabName}>
-                <Migration tabsMenuHeight={tabsMenuHeight} />
-            </TabPanel>
+                <TabPanel index={BrowseTab.SOURCE_DEPRECATED} currentIndex={tabName}>
+                    <Sources tabsMenuHeight={tabsMenuHeight} />
+                </TabPanel>
+                <TabPanel index={BrowseTab.SOURCES} currentIndex={tabName}>
+                    <Sources tabsMenuHeight={tabsMenuHeight} />
+                </TabPanel>
+                <TabPanel index={BrowseTab.EXTENSIONS} currentIndex={tabName}>
+                    <Extensions tabsMenuHeight={tabsMenuHeight} />
+                </TabPanel>
+                <TabPanel index={BrowseTab.MIGRATE} currentIndex={tabName}>
+                    <Migration />
+                </TabPanel>
+            </OffsetComponentWithContainer>
         </TabsWrapper>
     );
 }

@@ -55,20 +55,18 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
 import { STABLE_EMPTY_ARRAY, STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
-import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import type { FilterChangeInput } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 
 const DEFAULT_SOURCE: SourceIdInfo = { id: '-1' };
 
 const ContentTypeMenu = styled('div')(({ theme }) => ({
     display: 'flex',
-    position: 'sticky',
     width: '100%',
-    zIndex: 1,
     padding: theme.spacing(1),
     gap: theme.spacing(1),
     backgroundColor: theme.palette.background.default,
@@ -218,7 +216,6 @@ const useSourceManga = (
 
 export function SourceMangas() {
     const { t } = useLingui();
-    const { appBarHeight } = useNavBarContext();
 
     const { sourceId } = useParams<{ sourceId: string }>();
 
@@ -462,32 +459,34 @@ export function SourceMangas() {
 
     return (
         <StyledGridWrapper>
-            <ContentTypeMenu sx={{ top: `${appBarHeight}px` }}>
-                <ContentTypeButton
-                    variant={contentType === SourceContentType.POPULAR ? 'contained' : 'outlined'}
-                    startIcon={<FavoriteIcon />}
-                    onClick={() => updateContentType(SourceContentType.POPULAR)}
-                >
-                    {t`Popular`}
-                </ContentTypeButton>
-                {source?.supportsLatest === undefined || source.supportsLatest ? (
+            <OffsetComponent>
+                <ContentTypeMenu>
                     <ContentTypeButton
-                        disabled={!source?.supportsLatest}
-                        variant={contentType === SourceContentType.LATEST ? 'contained' : 'outlined'}
-                        startIcon={<NewReleasesIcon />}
-                        onClick={() => updateContentType(SourceContentType.LATEST)}
+                        variant={contentType === SourceContentType.POPULAR ? 'contained' : 'outlined'}
+                        startIcon={<FavoriteIcon />}
+                        onClick={() => updateContentType(SourceContentType.POPULAR)}
                     >
-                        {t`Latest`}
+                        {t`Popular`}
                     </ContentTypeButton>
-                ) : null}
-                <ContentTypeButton
-                    variant={contentType === SourceContentType.SEARCH ? 'contained' : 'outlined'}
-                    startIcon={<FilterListIcon />}
-                    onClick={() => updateContentType(SourceContentType.SEARCH, query)}
-                >
-                    {t`Filter`}
-                </ContentTypeButton>
-            </ContentTypeMenu>
+                    {source?.supportsLatest === undefined || source.supportsLatest ? (
+                        <ContentTypeButton
+                            disabled={!source?.supportsLatest}
+                            variant={contentType === SourceContentType.LATEST ? 'contained' : 'outlined'}
+                            startIcon={<NewReleasesIcon />}
+                            onClick={() => updateContentType(SourceContentType.LATEST)}
+                        >
+                            {t`Latest`}
+                        </ContentTypeButton>
+                    ) : null}
+                    <ContentTypeButton
+                        variant={contentType === SourceContentType.SEARCH ? 'contained' : 'outlined'}
+                        startIcon={<FilterListIcon />}
+                        onClick={() => updateContentType(SourceContentType.SEARCH, query)}
+                    >
+                        {t`Filter`}
+                    </ContentTypeButton>
+                </ContentTypeMenu>
+            </OffsetComponent>
             {(isLoading || !error || (!!error && !!mangas.length)) && (
                 <BaseMangaGrid
                     // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242

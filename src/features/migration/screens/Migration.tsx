@@ -21,7 +21,7 @@ import { useEffect } from 'react';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
-export const Migration = ({ tabsMenuHeight = 0 }: { tabsMenuHeight?: number }) => {
+export const Migration = () => {
     const phase = MigrationManager.usePhase();
     const { setOnBack } = useAppPageHistoryContext();
 
@@ -59,7 +59,7 @@ export const Migration = ({ tabsMenuHeight = 0 }: { tabsMenuHeight?: number }) =
     switch (phase) {
         case MigrationPhase.IDLE:
         case MigrationPhase.SELECT_SOURCE:
-            return <MigrationSelectSource tabsMenuHeight={tabsMenuHeight} />;
+            return <MigrationSelectSource />;
         case MigrationPhase.SELECT_MANGAS:
             return <MigrationSelectMangas />;
         case MigrationPhase.SELECTING_SOURCES:
