@@ -30,6 +30,7 @@ import Collapse from '@mui/material/Collapse';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { useTheme } from '@mui/material/styles';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
+import { Virtuoso } from 'react-virtuoso';
 
 export const ChapterUpdateCard = memo(
     ({
@@ -130,9 +131,13 @@ export const ChapterUpdateCard = memo(
                 </CardActionArea>
                 {isGroup && (
                     <Collapse in={isExpanded} unmountOnExit>
-                        {otherChapters.map((otherChapter) => (
-                            <ChapterUpdateCard key={otherChapter.id} chapter={otherChapter} />
-                        ))}
+                        <Virtuoso
+                            useWindowScroll
+                            overscan={window.innerHeight * 0.5}
+                            data={otherChapters}
+                            computeItemKey={(index) => otherChapters[index].id}
+                            itemContent={(_index, otherChapter) => <ChapterUpdateCard chapter={otherChapter} />}
+                        />
                     </Collapse>
                 )}
             </Card>

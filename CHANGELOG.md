@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - (**Extension**) Install extension when clicking card of uninstalled extension
 - (**Updates/History/Downloads**) Show scanlator of chapter
+- (**Updates**) Improve render performance of the collapsed more updates
 
 ### Fixed
 
