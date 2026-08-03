@@ -55,24 +55,14 @@ export const ChapterCardMetadata = ({
         </Stack>
         {secondaryText && (
             <CustomTooltip title={secondaryText}>
-                <TypographyMaxLines
-                    variant="caption"
-                    lines={1}
-                    {...slotProps?.secondaryText}
-                    sx={{ maxWidth: 'fit-content', display: 'block', ...slotProps?.secondaryText?.sx }}
-                >
+                <TypographyMaxLines variant="caption" lines={1} {...slotProps?.secondaryText}>
                     {secondaryText}
                 </TypographyMaxLines>
             </CustomTooltip>
         )}
         {ternaryText && (
             <CustomTooltip title={ternaryText}>
-                <TypographyMaxLines
-                    variant="caption"
-                    lines={1}
-                    {...slotProps?.ternaryText}
-                    sx={{ maxWidth: 'fit-content', display: 'block', ...slotProps?.ternaryText?.sx }}
-                >
+                <TypographyMaxLines variant="caption" lines={1} {...slotProps?.ternaryText}>
                     {ternaryText}
                 </TypographyMaxLines>
             </CustomTooltip>
