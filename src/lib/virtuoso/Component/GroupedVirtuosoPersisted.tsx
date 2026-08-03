@@ -13,11 +13,11 @@ import { GroupedVirtuoso } from 'react-virtuoso';
 import { useMergedRef } from '@mantine/hooks';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 
-export const GroupedVirtuosoPersisted = ({
+export const GroupedVirtuosoPersisted = <ItemData = any, Context = any>({
     ref: passedRef,
     persistKey,
     ...props
-}: ComponentProps<typeof GroupedVirtuoso> & { persistKey: string }) => {
+}: ComponentProps<typeof GroupedVirtuoso<ItemData, Context>> & { persistKey: string }) => {
     const { state, persistState } = VirtuosoUtil.usePersistState<StateSnapshot>(persistKey);
 
     const localRef = useRef<GroupedVirtuosoHandle>(undefined);

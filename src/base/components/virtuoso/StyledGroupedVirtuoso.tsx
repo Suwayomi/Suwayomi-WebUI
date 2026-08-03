@@ -21,11 +21,11 @@ const StickyVirtuosoHeaderWithOffset =
         </Box>
     );
 
-export const StyledGroupedVirtuoso = ({
+export const StyledGroupedVirtuoso = <ItemData = any, Context = any>({
     heightToSubtract = 0,
     style,
     ...props
-}: ComponentProps<typeof GroupedVirtuosoPersisted> & { heightToSubtract?: number }) => {
+}: ComponentProps<typeof GroupedVirtuosoPersisted<ItemData, Context>> & { heightToSubtract?: number }) => {
     const { appBarHeight, bottomBarHeight } = useNavBarContext();
 
     const TopItemList = useMemo(
