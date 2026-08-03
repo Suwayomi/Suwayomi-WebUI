@@ -74,7 +74,7 @@ export const MigrationSearch = () => {
 
             <Stack
                 direction="row"
-                sx={{ p: 2, pb: DEFAULT_FULL_FAB_HEIGHT, gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}
+                sx={{ p: 2, pt: 0, pb: DEFAULT_FULL_FAB_HEIGHT, gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}
             >
                 <MigrationEntryGroup
                     status={MigrationEntryStatus.SEARCHING}

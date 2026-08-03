@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { MigrationEntry } from '@/features/migration/components/migration-entry/MigrationEntry.tsx';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
+import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
 
 export const MigrationEntryGroup = memo(
     ({
@@ -41,36 +42,43 @@ export const MigrationEntryGroup = memo(
 
         return (
             <Stack sx={{ width: '100%', gap: 2 }}>
-                <Button
-                    onClick={() => MigrationManager.setGroupExpandState(status, !isExpanded)}
-                    color={color}
-                    variant="outlined"
-                    startIcon={isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                    size="large"
-                    sx={{
-                        py: 2,
-                        justifyContent: 'center',
-                        '& .MuiButton-startIcon': {
-                            position: 'absolute',
-                            left: (theme) => theme.spacing(4),
-                            margin: 0,
-                        },
-                    }}
+                <OffsetComponentWithContainer
+                    wrapperComponent={Stack}
+                    sx={{ pt: 2, backgroundColor: 'background.default' }}
+                    component={
+                        <Button
+                            onClick={() => MigrationManager.setGroupExpandState(status, !isExpanded)}
+                            color={color}
+                            variant="outlined"
+                            startIcon={isExpanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                            size="large"
+                            sx={{
+                                py: 2,
+                                justifyContent: 'center',
+                                '& .MuiButton-startIcon': {
+                                    position: 'absolute',
+                                    left: (theme) => theme.spacing(4),
+                                    margin: 0,
+                                },
+                            }}
+                        >
+                            {title}
+                        </Button>
+                    }
                 >
-                    {title}
-                </Button>
-                <Collapse in={isExpanded} unmountOnExit>
-                    <Stack sx={{ gap: 1 }}>
-                        {entries.map((entry) => (
-                            <MigrationEntry
-                                key={entry.mangaId}
-                                entry={entry}
-                                isMigrating={isMigrating}
-                                isAborted={isAborted}
-                            />
-                        ))}
-                    </Stack>
-                </Collapse>
+                    <Collapse in={isExpanded} unmountOnExit>
+                        <Stack sx={{ gap: 1 }}>
+                            {entries.map((entry) => (
+                                <MigrationEntry
+                                    key={entry.mangaId}
+                                    entry={entry}
+                                    isMigrating={isMigrating}
+                                    isAborted={isAborted}
+                                />
+                            ))}
+                        </Stack>
+                    </Collapse>
+                </OffsetComponentWithContainer>
             </Stack>
         );
     },

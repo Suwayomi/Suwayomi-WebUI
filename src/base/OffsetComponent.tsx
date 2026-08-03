@@ -7,7 +7,7 @@
  */
 
 import { useElementSize } from '@mantine/hooks';
-import type { ComponentProps, ReactNode, Ref } from 'react';
+import type { ComponentProps, ComponentType, ReactNode, Ref } from 'react';
 import { createContext, useContext, useMemo } from 'react';
 import type { BoxProps } from '@mui/material/Box';
 import Box from '@mui/material/Box';
@@ -57,30 +57,32 @@ export const OffsetContainer = ({
     );
 };
 
-export const OffsetComponent = ({
+export const OffsetComponent = <Props extends { sx?: BoxProps['sx'] } = BoxProps>({
     ref,
     children,
-    sx,
+    wrapperComponent: WrapperComponent = Box,
+    ...wrapperProps
 }: {
     ref?: Ref<HTMLElement>;
-    sx?: BoxProps['sx'];
     children?: ReactNode;
-}) => {
+    wrapperComponent?: ComponentType<Props>;
+} & Props) => {
     const { topOffset, leftOffset } = useOffsetComponent();
 
     return (
-        <Box
+        <WrapperComponent
+            {...(wrapperProps as Props)}
             ref={ref}
             sx={{
                 position: 'sticky',
                 zIndex: 1,
-                ...sx,
+                ...wrapperProps.sx,
                 top: topOffset,
                 left: leftOffset,
             }}
         >
             {children}
-        </Box>
+        </WrapperComponent>
     );
 };
 
