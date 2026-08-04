@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-07-26 12:01+0000\n"
+"PO-Revision-Date: 2026-08-03 10:02+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -287,13 +287,13 @@ msgstr "%{progress} | מעדכן…"
 msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
 msgstr ""
 "{ttl, plural, one {מחיקת גיבויים בני יותר מיום אחד} other {מחיקת גיבויים בני "
-"יותר מ- # ימים}}"
+"יותר מ־# ימים}}"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
 msgstr ""
 "{ttl, plural, one {מחיקת קובצי יומן בני יותר מיום אחד} other {מחיקת קובצי "
-"יומן בני יותר מ- # ימים}}"
+"יומן בני יותר מ־# ימים}}"
 
 #: src/features/reader/settings/components/DefaultSettingFootnote.tsx
 msgid "*: Active setting"
@@ -305,7 +305,7 @@ msgstr "ממשק משתמש מבוסס Svelte, עם דגש על מהירות ו�
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "A-Z"
-msgstr "א-ת"
+msgstr "א–ת"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -358,7 +358,7 @@ msgstr "מתקדם"
 msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
 msgstr ""
 "לאחר שינוי הגדרה זו, יש לעבור לעמוד \"אודות\", לבדוק אם יש עדכון זמין לממשק ה"
-"־ WebUI ולהתקין אותו"
+"־WebUI ולהתקין אותו"
 
 #: src/features/extension/info/components/Meta.tsx
 msgid "Age rating"
@@ -389,7 +389,7 @@ msgstr "אלפא"
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Also remove from {0}"
-msgstr "הסרה גם מ- {0}"
+msgstr "הסרה גם מ־{0}"
 
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -836,11 +836,11 @@ msgstr "התחברות לשרת הסנכרון של KOReader"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Connected as {currentUsername} to {currentServerAddress}"
-msgstr "מחובר כ- {currentUsername} לשרת {currentServerAddress}"
+msgstr "מחובר כ־{currentUsername} לשרת {currentServerAddress}"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Connected as {initialUsername} to {initialServerAddress}"
-msgstr "מחובר כ- {initialUsername} לשרת {initialServerAddress}"
+msgstr "מחובר כ־{initialUsername} לשרת {initialServerAddress}"
 
 #: src/features/manga/components/ContinueReadingTooltip.tsx
 msgid ""
@@ -849,7 +849,7 @@ msgid ""
 "{scanlator}"
 msgstr ""
 "המשך קריאה\n"
-"#{chapterNumber} — {name}\n"
+"#{chapterNumber} – {name}\n"
 "{scanlator}"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
@@ -873,9 +873,9 @@ msgid ""
 "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 msgstr ""
-"קובע את סוג התוכן (MIME-Type) ש־ Suwayomi שולחת ברשומות OPDS עבור ארכיוני "
-"CBZ. משפיע גם על הורדות CBZ כלליות.\n"
-"האפשרות \"מודרני\" תואמת לתקן IANA העדכני (2017), בעוד ש־ \"מיושן\" ו"
+"קובע את סוג התוכן (MIME-Type) שנשלח על ידי Suwayomi ברשומות OPDS עבור "
+"ארכיוני CBZ. משפיע גם על הורדות CBZ כלליות.\n"
+"האפשרות \"מודרני\" תואמת לתקן IANA העדכני (2017), בעוד ש־\"מיושן\" ו"
 "־\"תואם\" משתמשות בסוגי תוכן מיושנים שעשויים להתאים יותר ללקוחות ישנים. "
 "\"מיושן\" רלוונטי לקובצי CBZ בלבד, ו\"תואם\" מתאים לכלל ארכיוני המנגה."
 
@@ -982,7 +982,7 @@ msgstr "לא ניתן היה להתחבר אל שירות המעקב {trackerNam
 
 #: src/features/authentication/screens/LoginPage.tsx
 msgid "Could not log in to Suwayomi"
-msgstr "לא ניתן היה להתחבר ל- Suwayomi"
+msgstr "לא ניתן היה להתחבר ל־Suwayomi"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
@@ -1080,9 +1080,9 @@ msgstr "שומר שינויים בערכת הנושא…"
 msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
 msgstr ""
 "למידע על התאמה אישית של ערכת הנושא, ניתן לעיין ב<0>מדריך הרשמי של MUI</0>"
-".<1/>ממשק ה- Palette API אינו נתמך, יש להשתמש בממשק ה- <2>Color Schemes API</"
+".<1/>ממשק ה־Palette API אינו נתמך, יש להשתמש בממשק ה־<2>Color Schemes API</"
 "2> החדש.<3/><4/>ניתן להשתמש בכלי ליצירת ערכות נושא כמו <5>MUI Theme Creator</"
-"5>, אך יש להתאים את האובייקט שנוצר לממשק ה- Color Schemes API החדש.<6/><7/>"
+"5>, אך יש להתאים את האובייקט שנוצר לממשק ה־Color Schemes API החדש.<6/><7/>"
 "במקרה שלא הוגדר גוון רקע, הוא יחושב אוטומטית על בסיס הצבע הראשי של ערכת "
 "הנושא."
 
@@ -1167,7 +1167,7 @@ msgstr "לא ניתן היה לאמת את הגיבוי"
 
 #: src/features/tracker/screens/TrackerOAuthLogin.tsx
 msgid "Logging in to {trackerName}…"
-msgstr "מתחבר ל- {trackerName}…"
+msgstr "מתחבר ל־{trackerName}…"
 
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
@@ -1671,7 +1671,7 @@ msgstr "מחשב"
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Destination - {0}"
-msgstr "פריט היעד - {0}"
+msgstr "פריט היעד – {0}"
 
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -1794,7 +1794,7 @@ msgstr "Electron (חלון אפליקציה עצמאי)"
 
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "Electron path"
-msgstr "נתיב הגישה ל- Electron"
+msgstr "נתיב הגישה ל־Electron"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Enable debug logs"
@@ -1816,8 +1816,8 @@ msgstr "שגיאה"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
 msgstr ""
-"דוגמאות לערכים אפשריים: 1 (בייטים), 1KB (קילובייט), 1MB (מגה-בייט), 1GB "
-"(גיגה-בייט)"
+"דוגמאות לערכים אפשריים: 1 (בייטים), 1KB (קילובייט), 1MB (מגה־בייט), 1GB (גיגה"
+"־בייט)"
 
 #: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
 msgid "Exclude"
@@ -1863,7 +1863,7 @@ msgstr "פריט בעל שם זהה כבר קיים בספרייה."
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
 msgid "Source entry - {sourceTitle}"
-msgstr "הפריט הנוכחי - {sourceTitle}"
+msgstr "פריט המקור – {sourceTitle}"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
@@ -1943,7 +1943,7 @@ msgstr "החיפוש נכשל"
 
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Search for \"{title}\" failed with error:"
-msgstr "החיפוש של \"{title}\" נכשלה עם השגיאה:"
+msgstr "החיפוש אחר \"{title}\" נכשל עם השגיאה:"
 
 #: src/features/settings/Settings.constants.ts
 msgid ""
@@ -1957,11 +1957,11 @@ msgstr ""
 "יש לוודא שהגיבוי האוטומטי מופעל כדי למנוע אובדן של הספרייה!\n"
 "\n"
 "לאחר שינוי הגדרה זו, יש לעבור לעמוד \"אודות\", לבדוק אם יש עדכון זמין לממשק ה"
-"־ WebUI ולהתקין אותו"
+"־WebUI ולהתקין אותו"
 
 #: src/features/settings/screens/Appearance.tsx
 msgid "Feel free to translate the project on"
-msgstr "ניתן להצטרף לתרגום הפרויקט ב-"
+msgstr "ניתן להצטרף לתרגום הפרויקט ב־"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -2075,7 +2075,7 @@ msgstr "הפעלת FlareSolverr"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
 msgstr ""
-"FlareSolverr היא תוכנה <0><1>נפרדת</1></0> ש<2><3>אינה קשורה</3></2> ל-"
+"FlareSolverr היא תוכנה <0><1>נפרדת</1></0> ש<2><3>אינה קשורה</3></2> ל־"
 "Suwayomi, ויש <4><5>להתקין</5></4> ו<6><7>להפעיל</7></6> אותה באופן ידני.<8/>"
 "למידע על אופן ההגדרה, ניתן לעיין ב<9>מדריך התקנת FlareSolverr</9>. <10/><11/>"
 "אם FlareSolverr <12><13>אינה מותקנת, מוגדרת, ופועלת כראוי</13></12>, הפעלת "
@@ -2403,7 +2403,7 @@ msgstr "ענבר"
 
 #: src/features/theme/Themes.ts
 msgid "Veronica"
-msgstr "⁧אמטיסט"
+msgstr "אמטיסט"
 
 #: src/features/theme/Themes.ts
 msgid "Tree Frog Green"
@@ -2491,7 +2491,7 @@ msgstr "אישור"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Where to start the WebUI when starting the server"
-msgstr "היכן ייפתח ממשק ה-WebUI בעת הפעלת השרת"
+msgstr "היכן ייפתח ממשק ה־WebUI בעת הפעלת השרת"
 
 #: src/features/settings/screens/WebUISettings.tsx
 msgid "The path to the electron installation on the server"
@@ -2603,7 +2603,7 @@ msgid ""
 "{scanlator}"
 msgstr ""
 "התחלת קריאה\n"
-"#{chapterNumber} — {name}\n"
+"#{chapterNumber} – {name}\n"
 "{scanlator}"
 
 #: src/features/updates/screens/Updates.tsx
@@ -2999,7 +2999,7 @@ msgstr "ניתן גם לגרור לכאן את קובץ הגיבוי כדי לש
 #: src/features/settings/screens/ImagesSettings.tsx
 msgid "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used"
 msgstr ""
-"יש לנקות גם את המטמון של סביבת העבודה (דפדפן או Electron); אחרת התמונות "
+"יש לנקות גם את המטמון של ממשק המשתמש (בדפדפן או ב־Electron); אחרת התמונות "
 "ימשיכו להיטען מהמטמון הישן"
 
 #: src/features/browse/screens/BrowseSettings.tsx
@@ -3019,7 +3019,7 @@ msgstr "היום"
 
 #: src/base/utils/DateHelper.ts
 msgid "Today at {timeString}"
-msgstr "היום ב- {timeString}"
+msgstr "היום בשעה {timeString}"
 
 #: src/base/utils/DateHelper.ts
 msgid "Yesterday"
@@ -3027,7 +3027,7 @@ msgstr "אתמול"
 
 #: src/base/utils/DateHelper.ts
 msgid "Yesterday at {timeString}"
-msgstr "אתמול ב- {timeString}"
+msgstr "אתמול בשעה {timeString}"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid "Select a device to use its server stored UI settings"
@@ -3256,7 +3256,7 @@ msgstr "סוג קובץ לא תקין"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Invalid json"
-msgstr "קובץ json לא תקין"
+msgstr "התוכן לא מתאים לפורמט json"
 
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/base/components/settings/NumberSetting.tsx
@@ -3281,7 +3281,7 @@ msgstr "התחברות"
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Log in to {0}"
-msgstr "התחברות ל- {0}"
+msgstr "התחברות ל־{0}"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Sync to a newer state"
@@ -3399,7 +3399,7 @@ msgstr "התנתקות"
 #. placeholder {0}: tracker.name
 #: src/features/tracker/components/cards/SettingsTrackerCard.tsx
 msgid "Log out from {0}"
-msgstr "התנתקות מ- {0}"
+msgstr "התנתקות מ־{0}"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Maximum log file size"
@@ -3483,7 +3483,7 @@ msgstr "לא נמצאו מנגות שתואמות לסינון"
 #: src/base/utils/Languages.ts
 #: src/features/extension/Extensions.constants.ts
 msgid "Multi"
-msgstr "רב-לשוני"
+msgstr "רב־לשוני"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
@@ -3715,7 +3715,7 @@ msgstr "הקרנה"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Overlay"
-msgstr "שכבת-על"
+msgstr "שכבת־על"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Lighten"
@@ -4114,7 +4114,7 @@ msgstr "קטלוג OPDS"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "Paused — {count} remaining"
-msgstr "בהשהיה — נותרו {count}"
+msgstr "בהשהיה – נותרו {count}"
 
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
 msgid "Record keybind"
@@ -4149,7 +4149,7 @@ msgstr "המשך קריאה"
 
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Could not retry \"{title}\""
-msgstr "לא ניתן היה לנסות שוב את העברת \"{title}\""
+msgstr "לא ניתן היה לנסות שוב את ההעברה של \"{title}\""
 
 #. placeholder {0}: otherChapters.length
 #: src/features/updates/components/ChapterUpdateCard.tsx
@@ -4244,7 +4244,7 @@ msgstr ""
 
 #: src/features/reader/screens/Reader.tsx
 msgid "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
-msgstr "ממשק קריאה — מנגה {mangaId}, פרק {chapterSourceOrder}"
+msgstr "ממשק קריאה – מנגה {mangaId}, פרק {chapterSourceOrder}"
 
 #: src/features/tracker/components/TrackerSearch.tsx
 msgid ""
