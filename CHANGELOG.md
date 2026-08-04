@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Updates/History/Downloads**) Show scanlator of chapter
 - (**Updates**) Improve render performance of the collapsed more updates
 - (**Migration**) Improve render performance of the migration search and execution page
+- (**Migration**) Show source id for missing source title for source entries
 
 ### Fixed
 
