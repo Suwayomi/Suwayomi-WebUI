@@ -11,12 +11,14 @@ import type { ButtonProps } from '@mui/material/Button';
 import Button from '@mui/material/Button';
 import Collapse from '@mui/material/Collapse';
 import Stack from '@mui/material/Stack';
+import type { ReactNode } from 'react';
 import { memo } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { MigrationEntry } from '@/features/migration/components/migration-entry/MigrationEntry.tsx';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { Virtuoso } from 'react-virtuoso';
 
 export const MigrationEntryGroup = memo(
     ({
@@ -67,16 +69,21 @@ export const MigrationEntryGroup = memo(
                     }
                 >
                     <Collapse in={isExpanded} unmountOnExit>
-                        <Stack sx={{ gap: 1 }}>
-                            {entries.map((entry) => (
-                                <MigrationEntry
-                                    key={entry.mangaId}
-                                    entry={entry}
-                                    isMigrating={isMigrating}
-                                    isAborted={isAborted}
-                                />
-                            ))}
-                        </Stack>
+                        <Virtuoso
+                            useWindowScroll
+                            data={entries}
+                            components={{
+                                List: ({ children, ...props }: { children?: ReactNode }) => (
+                                    <Stack {...props} sx={{ gap: 1 }}>
+                                        {children}
+                                    </Stack>
+                                ),
+                            }}
+                            computeItemKey={(_index, entry) => entry.mangaId}
+                            itemContent={(_index, entry) => (
+                                <MigrationEntry entry={entry} isMigrating={isMigrating} isAborted={isAborted} />
+                            )}
+                        />
                     </Collapse>
                 </OffsetComponentWithContainer>
             </Stack>
