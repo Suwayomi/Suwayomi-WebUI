@@ -43,7 +43,7 @@ export const MigrationSourceEntry = memo((entry: TMigrationEntry) => {
         return (
             <Stack sx={{ flexDirection: 'row', gap: 1, alignItems: 'flex-start', justifyContent: 'space-between' }}>
                 <Stack>
-                    <Typography variant="overline" color="textSecondary">{t`Source entry - ${sourceTitle}`}</Typography>
+                    <Typography variant="overline" color="textSecondary">{t`Source entry — ${sourceTitle}`}</Typography>
                     <TypographyMaxLines variant="h6" component="h3" title={mangaTitle}>
                         {mangaTitle}
                     </TypographyMaxLines>
@@ -85,7 +85,7 @@ export const MigrationSourceEntry = memo((entry: TMigrationEntry) => {
                 />
             </Link>
             <Stack sx={{ minWidth: 0, flex: 1 }}>
-                <Typography variant="overline" color="textSecondary">{t`Source entry - ${sourceTitle}`}</Typography>
+                <Typography variant="overline" color="textSecondary">{t`Source entry — ${sourceTitle}`}</Typography>
                 <Link
                     component={RouterLink}
                     to={AppRoutes.manga.path(mangaId)}

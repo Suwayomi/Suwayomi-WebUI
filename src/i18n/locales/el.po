@@ -392,8 +392,8 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "Ένα web frontend με έμφαση στην προεπισκόπηση, φτιαγμένο με svelte"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "Α-Ω"
+msgid "A—Z"
+msgstr "Α—Ω"
 
 #: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
 #: src/features/migration/screens/MigrationExecute.tsx
@@ -1395,8 +1395,8 @@ msgstr "Επιτραπέζιος"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "Προορισμός - {0}"
+msgid "Destination — {0}"
+msgstr "Προορισμός — {0}"
 
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -3449,8 +3449,8 @@ msgid "Source Configuration"
 msgstr "Διαμόρφωση πηγής"
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "Εγγραφή πηγής - {sourceTitle}"
+msgid "Source entry — {sourceTitle}"
+msgstr "Εγγραφή πηγής — {sourceTitle}"
 
 #: src/features/chapter/components/ChapterOptions.tsx
 msgid "Source title"

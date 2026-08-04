@@ -304,8 +304,8 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "ממשק משתמש מבוסס Svelte, עם דגש על מהירות ותגובה מיידית"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "א–ת"
+msgid "A—Z"
+msgstr "א—ת"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -1670,8 +1670,8 @@ msgstr "מחשב"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "פריט היעד – {0}"
+msgid "Destination — {0}"
+msgstr "פריט היעד — {0}"
 
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -1862,8 +1862,8 @@ msgid "You have an entry in your library with the same name."
 msgstr "פריט בעל שם זהה כבר קיים בספרייה."
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "פריט המקור – {sourceTitle}"
+msgid "Source entry — {sourceTitle}"
+msgstr "פריט המקור — {sourceTitle}"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
@@ -3637,8 +3637,8 @@ msgstr "לא ניתן היה להתחיל את הסנכרון"
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- סטטוס: {0}"
+msgid "— State: {0}"
+msgstr "— סטטוס: {0}"
 
 #: src/features/backup/component/BackupValidationDialog.tsx
 msgid "The following sources are not installed:"

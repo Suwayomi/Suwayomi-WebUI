@@ -160,7 +160,7 @@ const EntryData = (entry: MigrationMatch) => {
                 <Typography
                     variant="overline"
                     color="textSecondary"
-                >{t`Destination - ${entry.sourceTitle}`}</Typography>
+                >{t`Destination — ${entry.sourceTitle}`}</Typography>
                 <Link
                     component={RouterLink}
                     to={AppRoutes.manga.path(id)}

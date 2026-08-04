@@ -134,7 +134,7 @@ export const ReaderNavBarDesktopActions = memo(() => {
                         onClick={() =>
                             navigator
                                 .share({
-                                    title: `${mangaTitle} - ${name}`,
+                                    title: `${mangaTitle} — ${name}`,
                                     url: realUrl ?? undefined,
                                 })
                                 .catch(defaultPromiseErrorHandler('MangaToolbarMenu::share'))

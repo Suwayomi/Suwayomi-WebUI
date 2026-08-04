@@ -146,7 +146,7 @@ export const ChapterCard = memo((props: IProps) => {
                                     title={showChapterNumber ? `${t`Chapter`} ${chapter.chapterNumber}` : chapter.name}
                                     secondaryText={chapter.scanlator}
                                     ternaryText={`${getDateString(Number(chapter.uploadDate ?? 0), true)}${
-                                        isDownloaded ? ` • ${t`Downloaded`}` : ''
+                                        isDownloaded ? ` — ${t`Downloaded`}` : ''
                                     }`}
                                     infoIcons={
                                         chapter.isBookmarked && (

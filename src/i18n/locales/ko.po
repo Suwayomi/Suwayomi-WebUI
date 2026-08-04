@@ -32,8 +32,8 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "스벨트로 구축된 미리보기 중심 웹 프론트엔드"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -3207,8 +3207,8 @@ msgstr "키설정"
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- 상태: {0}"
+msgid "— State: {0}"
+msgstr "— 상태: {0}"
 
 #. placeholder {0}: selectedChapters.length
 #. placeholder {0}: visibleChapters.length
@@ -3786,8 +3786,8 @@ msgstr "테마 \"{0}\" 삭제 중…"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "대상 - {0}"
+msgid "Destination — {0}"
+msgstr "대상 — {0}"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Done"
@@ -4196,8 +4196,8 @@ msgid "Source"
 msgstr "소스"
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "소스 항목 - {sourceTitle}"
+msgid "Source entry — {sourceTitle}"
+msgstr "소스 항목 — {sourceTitle}"
 
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Sources"

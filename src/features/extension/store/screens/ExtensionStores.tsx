@@ -78,7 +78,7 @@ const ExtensionStoreCard = ({
                                         {' '}
                                         +18
                                     </TypographyMaxLines>
-                                    {extensionCount && ' - '}
+                                    {extensionCount && ' — '}
                                 </>
                             ) : null}
                             {!!extensionCount &&
@@ -87,7 +87,7 @@ const ExtensionStoreCard = ({
                                     other: '# extensions',
                                 })}
                             {installedExtensionCount
-                                ? ` - ${plural(installedExtensionCount, {
+                                ? ` — ${plural(installedExtensionCount, {
                                       one: '# installed',
                                       other: '# installed',
                                   })}`

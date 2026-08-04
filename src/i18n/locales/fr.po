@@ -32,7 +32,7 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "Une interface web axée sur les préversions, construite avec Svelte"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
+msgid "A—Z"
 msgstr "Ordre alphabétique"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -3565,8 +3565,8 @@ msgstr "Suppression du thème \"{0}\"…"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "Destination - {0}"
+msgid "Destination — {0}"
+msgstr "Destination — {0}"
 
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Disconnect from KOReader Sync server"
@@ -3981,8 +3981,8 @@ msgid "Source"
 msgstr "Source"
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "Entrée source - {sourceTitle}"
+msgid "Source entry — {sourceTitle}"
+msgstr "Entrée source — {sourceTitle}"
 
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "Start migration"
@@ -4219,8 +4219,8 @@ msgstr "Vous allez supprimer la catégorie \"{0}\""
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- État : {0}"
+msgid "— State: {0}"
+msgstr "— État : {0}"
 
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "{extensionCount, plural, one {# extension} other {# extensions}}"

@@ -25,8 +25,8 @@ msgid "{progress}% | Updating…"
 msgstr "{progress}% | Memperbarui…"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/base/components/buttons/ButtonSelect.tsx
 msgid "Active setting"
@@ -3804,8 +3804,8 @@ msgstr ""
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- Status: {0}"
+msgid "— State: {0}"
+msgstr "— Status: {0}"
 
 #. placeholder {0}: abortedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx
@@ -4046,8 +4046,8 @@ msgstr "Informasi debug"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "Tujuan - {0}"
+msgid "Destination — {0}"
+msgstr "Tujuan — {0}"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Done"

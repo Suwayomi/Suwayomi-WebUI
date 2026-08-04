@@ -32,8 +32,8 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "Una interfaz web centrada en la previsualización creada con svelte"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -3772,8 +3772,8 @@ msgstr "Cancelado"
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- Estado: {0}"
+msgid "— State: {0}"
+msgstr "— Estado: {0}"
 
 #. placeholder {0}: otherChapters.length
 #: src/features/updates/components/ChapterUpdateCard.tsx
@@ -3973,8 +3973,8 @@ msgstr "Eliminando tema \"{0}\"…"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "Destino - {0}"
+msgid "Destination — {0}"
+msgstr "Destino — {0}"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Done"

@@ -48,7 +48,7 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "使用 svelte 构建并专注于预览的 Web 前端"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
+msgid "A—Z"
 msgstr "按字母顺序"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -3782,8 +3782,8 @@ msgstr "当前图源"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "目标位置 - {0}"
+msgid "Destination — {0}"
+msgstr "目标位置 — {0}"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Done"
@@ -3899,8 +3899,8 @@ msgstr "已选择"
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "图源作品 - {sourceTitle}"
+msgid "Source entry — {sourceTitle}"
+msgstr "图源作品 — {sourceTitle}"
 
 #: src/features/migration/screens/MigrationSearch.tsx
 msgid "Start migration"
@@ -4246,8 +4246,8 @@ msgstr "你需要添加扩展商店才能安装扩展"
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- 状态：{0}"
+msgid "— State: {0}"
+msgstr "— 状态：{0}"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Could not start sync"

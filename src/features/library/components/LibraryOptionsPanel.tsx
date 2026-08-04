@@ -48,7 +48,7 @@ const TITLES: { [key in 'filter' | 'sort' | 'display']: MessageDescriptor } = {
 const SORT_OPTIONS: [LibrarySortMode, MessageDescriptor][] = [
     ['unreadChapters', msg`Unread chapters`],
     ['totalChapters', msg`Total chapters`],
-    ['alphabetically', msg`A-Z`],
+    ['alphabetically', msg`A—Z`],
     ['dateAdded', msg`Recently added`],
     ['lastRead', msg`Recently read`],
     ['latestFetchedChapter', msg`Latest fetched chapter`],

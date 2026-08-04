@@ -32,8 +32,8 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "以預覽為重點的網絡前端，採用纖瘦設計"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -3291,8 +3291,8 @@ msgstr "{0}% | 更新中…"
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "‐ 狀態：{0}"
+msgid "— State: {0}"
+msgstr "— 狀態：{0}"
 
 #. placeholder {0}: selectedChapters.length
 #. placeholder {0}: visibleChapters.length
@@ -3761,8 +3761,8 @@ msgstr "除錯資訊"
 
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
-msgid "Destination - {0}"
-msgstr "目標位置 - {0}"
+msgid "Destination — {0}"
+msgstr "目標位置 — {0}"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Done"
@@ -3825,8 +3825,8 @@ msgid "Skip chapter metadata feed"
 msgstr "略過章節中繼資料摘要"
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "作品圖源 - {sourceTitle}"
+msgid "Source entry — {sourceTitle}"
+msgstr "作品圖源 — {sourceTitle}"
 
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Sources"

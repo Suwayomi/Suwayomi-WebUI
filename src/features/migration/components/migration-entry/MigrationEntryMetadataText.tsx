@@ -49,7 +49,7 @@ export const MigrationEntryMetadataText = (
         .map((node, index, array) => (
             <>
                 {node}
-                {index < array.length - 1 && '  -  '}
+                {index < array.length - 1 && ' — '}
             </>
         ));
 

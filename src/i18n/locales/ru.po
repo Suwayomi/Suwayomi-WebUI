@@ -33,8 +33,8 @@ msgid "A preview focused web frontend built with svelte"
 msgstr "Веб-фронтенд, ориентированный на предварительный просмотр, созданный с помощью svelte"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "А-Я"
+msgid "A—Z"
+msgstr "А—Я"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx

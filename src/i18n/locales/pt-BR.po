@@ -28,8 +28,8 @@ msgid "*: Active setting"
 msgstr "*: Configuração ativa"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -2992,8 +2992,8 @@ msgstr "Compatível"
 
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
-msgid "- State: {0}"
-msgstr "- Estado: {0}"
+msgid "— State: {0}"
+msgstr "— Estado: {0}"
 
 #. placeholder {0}: abortedEntries.length
 #: src/features/migration/screens/MigrationExecute.tsx

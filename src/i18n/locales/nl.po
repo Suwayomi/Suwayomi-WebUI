@@ -24,8 +24,8 @@ msgid "{progress}% | Updating…"
 msgstr "{progress}% | Bijgewerkt…"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "A-Z"
-msgstr "A-Z"
+msgid "A—Z"
+msgstr "A—Z"
 
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
