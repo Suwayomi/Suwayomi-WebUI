@@ -9,6 +9,21 @@
 import type { MigrationMatch } from '@/features/migration/Migration.types.ts';
 import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+
+const ArtistAuthorNode = ({ value }: { value: string }) => {
+    const splitText = value.split(',');
+    const firstTwo = splitText.slice(0, 2);
+    const finalValue = [...firstTwo, splitText.length > 2 ? '…' : null].filter(Boolean).join(', ');
+
+    return (
+        <CustomTooltip title={value}>
+            <Typography sx={{ display: 'inline-flex' }} key="author" variant="inherit">
+                {finalValue}
+            </Typography>
+        </CustomTooltip>
+    );
+};
 
 export const MigrationEntryMetadataText = (
     entry: Pick<MigrationMatch, 'artist' | 'author' | 'latestChapterNumber' | 'missingChapters'>,
@@ -19,16 +34,8 @@ export const MigrationEntryMetadataText = (
     const isSameArtistAuthor = entry.artist === entry.author;
 
     const nodes = [
-        entry.author ? (
-            <Typography sx={{ display: 'inline-flex' }} key="author" variant="inherit">
-                {entry.author}
-            </Typography>
-        ) : null,
-        !isSameArtistAuthor && entry.artist ? (
-            <Typography sx={{ display: 'inline-flex' }} key="artist" variant="inherit">
-                {entry.artist}
-            </Typography>
-        ) : null,
+        entry.author ? <ArtistAuthorNode key="auhtor" value={entry.author} /> : null,
+        !isSameArtistAuthor && entry.artist ? <ArtistAuthorNode key="artist" value={entry.artist} /> : null,
         <Typography sx={{ display: 'inline-flex' }} key="latest-chapter-number" variant="inherit">
             {t`Latest: ${latestChapterNumber}`}
         </Typography>,
