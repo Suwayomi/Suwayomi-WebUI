@@ -158,8 +158,8 @@ export function ExtensionCard(props: IProps) {
                         <Typography variant="caption">
                             {isInstalled ? `${languageCodeToName(lang)}` : ''}
                             {isInstalled ? (
-                                <Typography variant="caption" sx={{ px: 1 }}>
-                                    -
+                                <Typography variant="caption" sx={{ px: 0.5 }}>
+                                    —
                                 </Typography>
                             ) : (
                                 ''
@@ -167,8 +167,8 @@ export function ExtensionCard(props: IProps) {
                             {versionName}
                             {isObsolete && (
                                 <>
-                                    <Typography variant="caption" sx={{ px: 1 }}>
-                                        -
+                                    <Typography variant="caption" sx={{ px: 0.5 }}>
+                                        —
                                     </Typography>
                                     <Typography variant="caption" color="warning" sx={{ textTransform: 'uppercase' }}>
                                         {t`Obsolete`}
@@ -177,8 +177,8 @@ export function ExtensionCard(props: IProps) {
                             )}
                             {isNsfw(contentWarning) && (
                                 <>
-                                    <Typography variant="caption" sx={{ px: 1 }}>
-                                        -
+                                    <Typography variant="caption" sx={{ px: 0.5 }}>
+                                        —
                                     </Typography>
                                     <Typography variant="caption" color="error">
                                         18+
