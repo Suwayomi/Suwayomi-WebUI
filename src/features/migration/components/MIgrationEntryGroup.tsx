@@ -68,7 +68,7 @@ export const MigrationEntryGroup = memo(
                         </Button>
                     }
                 >
-                    <Collapse in={isExpanded} unmountOnExit>
+                    <Collapse in={isExpanded}>
                         <Virtuoso
                             useWindowScroll
                             data={entries}
