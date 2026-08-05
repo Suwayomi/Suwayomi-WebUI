@@ -15,8 +15,8 @@ import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 
 const StickyVirtuosoHeaderWithOffset =
     () =>
-    ({ children, ...args }: TopItemListProps & ContextProp<unknown>) => (
-        <OffsetComponent {...args} sx={args.style}>
+    ({ children, style, ...args }: TopItemListProps & ContextProp<unknown>) => (
+        <OffsetComponent {...args} sx={style}>
             {children}
         </OffsetComponent>
     );
