@@ -10,7 +10,6 @@ import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import type { MigrationProgress } from '@/features/migration/Migration.types.ts';
-import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 
 export const MigrationProgressBar = ({
     completed,
@@ -26,7 +25,7 @@ export const MigrationProgressBar = ({
     }
 
     return (
-        <OffsetComponent
+        <Box
             sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -42,6 +41,6 @@ export const MigrationProgressBar = ({
             <Typography variant="body2" color="text.secondary" sx={{ minWidth: 'fit-content' }}>
                 {label}
             </Typography>
-        </OffsetComponent>
+        </Box>
     );
 };

@@ -21,6 +21,7 @@ import { MigrationEntryStatus } from '@/features/migration/Migration.types.ts';
 import { MigrationEntryGroup } from '@/features/migration/components/MIgrationEntryGroup.tsx';
 import { plural } from '@lingui/core/macro';
 import { MigrationEntries } from '@/features/migration/MigrationEntries.ts';
+import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
 
 export const MigrationSearch = () => {
     const { t } = useLingui();
@@ -67,70 +68,82 @@ export const MigrationSearch = () => {
 
     return (
         <>
-            <MigrationProgressBar
-                {...searchProgress}
-                label={t`${searchProgress.completed} / ${searchProgress.total}`}
-            />
-
-            <Stack
-                direction="row"
-                sx={{ p: 2, pt: 0, pb: DEFAULT_FULL_FAB_HEIGHT, gap: 4, flexWrap: 'wrap', justifyContent: 'center' }}
+            <OffsetComponentWithContainer
+                sx={{ zIndex: 2 }}
+                component={
+                    <MigrationProgressBar
+                        {...searchProgress}
+                        label={t`${searchProgress.completed} / ${searchProgress.total}`}
+                    />
+                }
             >
-                <MigrationEntryGroup
-                    status={MigrationEntryStatus.SEARCHING}
-                    title={plural(searchingEntries.length, {
-                        one: '1 searching',
-                        other: '# searching',
-                    })}
-                    entries={searchingEntries}
-                    color="info"
-                />
-                <MigrationEntryGroup
-                    status={MigrationEntryStatus.SEARCH_FAILED}
-                    title={plural(failedEntries.length, {
-                        one: '1 failed entry',
-                        other: '# failed entries',
-                    })}
-                    entries={failedEntries}
-                    color="error"
-                />
-                <MigrationEntryGroup
-                    status={MigrationEntryStatus.SEARCH_NO_MATCH}
-                    title={plural(noMatchEntries.length, {
-                        one: '1 entry with no match',
-                        other: '# entries with no match',
-                    })}
-                    entries={noMatchEntries}
-                    color="warning"
-                />
-                <MigrationEntryGroup
-                    status={MigrationEntryStatus.SEARCH_OUTDATED}
-                    title={plural(outdatedEntries.length, {
-                        one: '1 entry with only outdated matches',
-                        other: '# entries with only outdated matches',
-                    })}
-                    entries={outdatedEntries}
-                    color="warning"
-                />
-                <MigrationEntryGroup
-                    status={MigrationEntryStatus.SEARCH_ABORTED}
-                    title={plural(abortedEntries.length, {
-                        one: '1 aborted entry',
-                        other: '# aborted entries',
-                    })}
-                    entries={abortedEntries}
-                    color="warning"
-                />
-                <MigrationEntryGroup
-                    status={MigrationEntryStatus.SEARCH_COMPLETE}
-                    title={plural(matchedEntries.length, {
-                        one: '1 matched entry',
-                        other: '# matched entries',
-                    })}
-                    entries={matchedEntries}
-                    color="success"
-                />
-            </Stack>
+                <Stack
+                    direction="row"
+                    sx={{
+                        p: 2,
+                        pt: 0,
+                        pb: DEFAULT_FULL_FAB_HEIGHT,
+                        gap: 2,
+                        flexWrap: 'wrap',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <MigrationEntryGroup
+                        status={MigrationEntryStatus.SEARCHING}
+                        title={plural(searchingEntries.length, {
+                            one: '1 searching',
+                            other: '# searching',
+                        })}
+                        entries={searchingEntries}
+                        color="info"
+                    />
+                    <MigrationEntryGroup
+                        status={MigrationEntryStatus.SEARCH_FAILED}
+                        title={plural(failedEntries.length, {
+                            one: '1 failed entry',
+                            other: '# failed entries',
+                        })}
+                        entries={failedEntries}
+                        color="error"
+                    />
+                    <MigrationEntryGroup
+                        status={MigrationEntryStatus.SEARCH_NO_MATCH}
+                        title={plural(noMatchEntries.length, {
+                            one: '1 entry with no match',
+                            other: '# entries with no match',
+                        })}
+                        entries={noMatchEntries}
+                        color="warning"
+                    />
+                    <MigrationEntryGroup
+                        status={MigrationEntryStatus.SEARCH_OUTDATED}
+                        title={plural(outdatedEntries.length, {
+                            one: '1 entry with only outdated matches',
+                            other: '# entries with only outdated matches',
+                        })}
+                        entries={outdatedEntries}
+                        color="warning"
+                    />
+                    <MigrationEntryGroup
+                        status={MigrationEntryStatus.SEARCH_ABORTED}
+                        title={plural(abortedEntries.length, {
+                            one: '1 aborted entry',
+                            other: '# aborted entries',
+                        })}
+                        entries={abortedEntries}
+                        color="warning"
+                    />
+                    <MigrationEntryGroup
+                        status={MigrationEntryStatus.SEARCH_COMPLETE}
+                        title={plural(matchedEntries.length, {
+                            one: '1 matched entry',
+                            other: '# matched entries',
+                        })}
+                        entries={matchedEntries}
+                        color="success"
+                    />
+                </Stack>
+            </OffsetComponentWithContainer>
             <MigrationContinueButton
                 title={!isSearchComplete || !hasMigratableEntries ? t`Abort` : t`Start migration`}
                 onClick={async () => {
