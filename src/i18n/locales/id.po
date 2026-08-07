@@ -4342,10 +4342,6 @@ msgstr "Tampilkan di daftar sumber dan ekstensi"
 msgid "Skip chapter metadata feed"
 msgstr "Lewati feed metadata bab"
 
-#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "Entri sumber - {sourceTitle}"
-
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Sources"
 msgstr "Sumber"
