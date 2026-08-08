@@ -12,6 +12,25 @@ import Stack from '@mui/material/Stack';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 
+const TOOLTIP_PREVENT_OVERFLOW = {
+    slotProps: {
+        popper: {
+            modifiers: [
+                {
+                    name: 'preventOverflow',
+                    options: {
+                        boundary: 'viewport',
+                        padding: 8,
+                        mainAxis: true,
+                        altAxis: true,
+                        tether: false,
+                    },
+                },
+            ],
+        },
+    },
+};
+
 export const ChapterCardMetadata = ({
     title,
     secondaryText,
@@ -47,21 +66,21 @@ export const ChapterCardMetadata = ({
             }}
         >
             {infoIcons}
-            <CustomTooltip title={title}>
+            <CustomTooltip title={title} {...TOOLTIP_PREVENT_OVERFLOW}>
                 <TypographyMaxLines variant="h6" component="h3" {...slotProps?.title}>
                     {title}
                 </TypographyMaxLines>
             </CustomTooltip>
         </Stack>
         {secondaryText && (
-            <CustomTooltip title={secondaryText}>
+            <CustomTooltip title={secondaryText} {...TOOLTIP_PREVENT_OVERFLOW}>
                 <TypographyMaxLines variant="caption" lines={1} {...slotProps?.secondaryText}>
                     {secondaryText}
                 </TypographyMaxLines>
             </CustomTooltip>
         )}
         {ternaryText && (
-            <CustomTooltip title={ternaryText}>
+            <CustomTooltip title={ternaryText} {...TOOLTIP_PREVENT_OVERFLOW}>
                 <TypographyMaxLines variant="caption" lines={1} {...slotProps?.ternaryText}>
                     {ternaryText}
                 </TypographyMaxLines>
