@@ -400,6 +400,9 @@ export const APP_METADATA: Record<
     excludedScanlators: {
         convert: convertToObject<string[]>,
     },
+    notes: {
+        convert: convertToString,
+    },
     locale: {
         convert: convertToString,
         toConstrainedValue: (value: string) => {
@@ -510,6 +513,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'unread',
     'showChapterNumber',
     'excludedScanlators',
+    'notes',
 ];
 
 /**

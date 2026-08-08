@@ -407,6 +407,10 @@ msgstr "Active setting ({title})"
 msgid "Add"
 msgstr "Add"
 
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add a private note about this manga"
+msgstr "Add a private note about this manga"
+
 #: src/features/chapter/Chapter.constants.ts
 msgid "Add bookmark"
 msgstr "Add bookmark"
@@ -415,6 +419,10 @@ msgstr "Add bookmark"
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "Add extension store"
 msgstr "Add extension store"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add notes"
+msgstr "Add notes"
 
 #: src/features/manga/components/details/MangaDetails.tsx
 #: src/features/manga/components/MangaBadges.tsx
@@ -765,6 +773,7 @@ msgstr "Can't migrate an entry to itself"
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 #: src/features/downloads/components/DownloadQueueChapterCard.tsx
+#: src/features/manga/components/details/MangaNotes.tsx
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
@@ -1193,6 +1202,10 @@ msgstr "Could not retry failed downloads"
 msgid "Could not save changes"
 msgstr "Could not save changes"
 
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Could not save notes"
+msgstr "Could not save notes"
+
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/library/screens/LibrarySettings.tsx
@@ -1612,6 +1625,10 @@ msgstr "Edit category"
 #: src/features/manga/components/MangaToolbarMenu.tsx
 msgid "Edit manga categories"
 msgstr "Edit manga categories"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Edit notes"
+msgstr "Edit notes"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Edit theme"
@@ -2738,6 +2755,14 @@ msgstr "Not yet published"
 msgid "Not yet released"
 msgstr "Not yet released"
 
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes"
+msgstr "Notes"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes saved"
+msgstr "Notes saved"
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Novel"
 msgstr "Novel"
@@ -3185,6 +3210,7 @@ msgstr "Right to left"
 msgid "Rosegold"
 msgstr "Rosegold"
 
+#: src/features/manga/components/details/MangaNotes.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Save"
@@ -3214,6 +3240,10 @@ msgstr "Saved theme changes"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Saving theme changes…"
 msgstr "Saving theme changes…"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Saving…"
+msgstr "Saving…"
 
 #: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx
 #: src/features/reader/settings/layout/components/ReaderSettingPageScaleMode.tsx
