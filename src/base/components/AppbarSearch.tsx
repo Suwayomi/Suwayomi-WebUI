@@ -20,10 +20,11 @@ import { SearchParam } from '@/base/Base.types.ts';
 
 interface IProps {
     isClosable?: boolean;
+    onSubmit?: (query: string) => boolean | Promise<boolean>;
 }
 
 export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
-    const { isClosable = true } = props;
+    const { isClosable = true, onSubmit } = props;
 
     const theme = useTheme();
     const { t } = useLingui();
@@ -59,8 +60,15 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         }
     };
 
-    function handleChange(newQuery: string) {
+    async function handleChange(newQuery: string) {
         if (newQuery === '') {
+            return;
+        }
+
+        if (await onSubmit?.(newQuery)) {
+            setSearchString('');
+            setQuery(undefined);
+            updateSearchOpenState(false);
             return;
         }
 
@@ -97,7 +105,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 onChange={(e) => setSearchString(e.target.value)}
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') {
-                        handleChange(searchString);
+                        void handleChange(searchString);
                     }
                 }}
                 onBlur={handleBlur}

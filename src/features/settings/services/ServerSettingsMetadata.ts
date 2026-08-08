@@ -24,6 +24,7 @@ export const convertSettingsToMetadata = (
     customThemes: JSON.stringify(settings.customThemes),
     migrateSortSettings: JSON.stringify(settings.migrateSortSettings),
     browseLanguages: JSON.stringify(settings.browseLanguages),
+    hiddenCategoryIds: JSON.stringify(settings.hiddenCategoryIds),
 });
 
 const getMetadataServerSettingsWithDefaultFallback = (
