@@ -118,6 +118,7 @@ export const MangaCard = memo((props: MangaCardProps) => {
                                 title: t`Show entry`,
                                 link: AppRoutes.manga.path(id),
                             },
+                            autoFocus: 'extra',
                         },
                     }).then(() => {
                         assertIsDefined(onMigrateSelect);

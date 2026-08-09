@@ -27,6 +27,7 @@ type Actions = {
     extra?: Action & { link?: string };
     cancel?: Action;
     confirm?: Action;
+    autoFocus?: 'extra' | 'cancel' | 'confirm';
 };
 
 export const ConfirmDialog = ({
@@ -67,6 +68,7 @@ export const ConfirmDialog = ({
                 !passedActions?.confirm?.contain &&
                 true,
         },
+        autoFocus: passedActions?.autoFocus ?? 'confirm',
     } satisfies Actions;
 
     return (
@@ -103,6 +105,7 @@ export const ConfirmDialog = ({
                                         onExtra?.();
                                     }}
                                     variant={actions.extra.contain ? 'contained' : undefined}
+                                    autoFocus={actions.autoFocus === 'extra'}
                                 >
                                     {actions.extra.title}
                                 </Button>
@@ -116,6 +119,7 @@ export const ConfirmDialog = ({
                                     onExtra?.();
                                 }}
                                 variant={actions.extra.contain ? 'contained' : undefined}
+                                autoFocus={actions.autoFocus === 'extra'}
                             >
                                 {actions.extra.title}
                             </Button>
@@ -128,12 +132,20 @@ export const ConfirmDialog = ({
                         }}
                     >
                         {actions.cancel.show && (
-                            <Button onClick={onDismiss} variant={actions.cancel.contain ? 'contained' : undefined}>
+                            <Button
+                                onClick={onDismiss}
+                                variant={actions.cancel.contain ? 'contained' : undefined}
+                                autoFocus={actions.autoFocus === 'cancel'}
+                            >
                                 {actions.cancel.title}
                             </Button>
                         )}
                         {actions.confirm.show && (
-                            <Button onClick={onSubmit} variant={actions.confirm.contain ? 'contained' : undefined}>
+                            <Button
+                                onClick={onSubmit}
+                                variant={actions.confirm.contain ? 'contained' : undefined}
+                                autoFocus={actions.autoFocus === 'confirm'}
+                            >
                                 {actions.confirm.title}
                             </Button>
                         )}
