@@ -32,6 +32,10 @@ import type {
 import { SearchParam } from '@/base/Base.types.ts';
 import { Sources } from '@/features/source/services/Sources';
 import pickBy from 'lodash/fp/pickBy';
+import { CustomCache } from '@/lib/storage/CustomCache.ts';
+import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { Mangas } from '@/features/manga/services/Mangas.ts';
+import isEqual from 'lodash/fp/isEqual';
 
 const triStateFilter = (
     triState: NullAndUndefined<boolean>,
@@ -239,6 +243,54 @@ const sortManga = <Manga extends TMangaSort>(
     return result;
 };
 
+const SORT_CACHE = new CustomCache();
+type SortOptions = Pick<LibraryOptions, 'sortBy' | 'sortDesc'>;
+const useSortedMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>(
+    categoryId: number | undefined,
+    mangas: Manga[],
+    options: SortOptions,
+): Manga[] => {
+    const CACHE_MANGAS_KEY = `library-category-${categoryId}-mangas`;
+    const CACHE_MANGA_IDS_KEY = `library-category-${categoryId}-manga-ids`;
+    const CACHE_MANGAS_SORTED_KEY = `library-category-${categoryId}-mangas-sorted`;
+    const CACHE_SORT_OPTIONS_KEY = `library-category-${categoryId}-sort-options`;
+
+    const mangaIds = useMemo(() => Mangas.getIds(mangas), [mangas]);
+
+    const cachedMangas = SORT_CACHE.getResponseFor<Manga[]>(CACHE_MANGAS_KEY, undefined);
+    const cachedMangaIds = SORT_CACHE.getResponseFor<MangaIdInfo['id'][]>(CACHE_MANGA_IDS_KEY, undefined);
+    const cachedSortOptions = SORT_CACHE.getResponseFor<SortOptions>(CACHE_SORT_OPTIONS_KEY, undefined);
+
+    const previousSortBy = cachedSortOptions?.sortBy;
+    const previousSortDesc = cachedSortOptions?.sortDesc;
+
+    const haveMangasChanged = !isEqual(mangas, cachedMangas);
+    const haveMangaIdsChanged = !isEqual(mangaIds, cachedMangaIds);
+    const haveSortOptionsChanged = previousSortBy !== options.sortBy || previousSortDesc !== options.sortDesc;
+    const reapplySorting = haveMangaIdsChanged || haveSortOptionsChanged;
+
+    if (reapplySorting) {
+        const { sortBy, sortDesc } = cachedSortOptions ?? options;
+        const sortedMangas = sortManga(mangas, sortBy, sortDesc);
+
+        SORT_CACHE.cacheResponse(CACHE_SORT_OPTIONS_KEY, undefined, { sortBy, sortDesc });
+        SORT_CACHE.cacheResponse(CACHE_MANGAS_SORTED_KEY, undefined, sortedMangas);
+    }
+
+    SORT_CACHE.cacheResponse(CACHE_MANGAS_KEY, undefined, mangas);
+    SORT_CACHE.cacheResponse(CACHE_MANGA_IDS_KEY, undefined, mangaIds);
+
+    const sortedMangas = SORT_CACHE.getResponseFor<Manga[]>(CACHE_MANGAS_SORTED_KEY, undefined) ?? STABLE_EMPTY_ARRAY;
+
+    return useMemo(() => {
+        if (haveMangasChanged) {
+            return sortedMangas.map((sortedManga) => mangas.find((manga) => manga.id === sortedManga.id)!);
+        }
+
+        return sortedMangas;
+    }, [haveMangasChanged, sortedMangas]);
+};
+
 const DEFAULT_CATEGORY: CategoryIdInfo = { id: -1 };
 export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>(
     mangas: Manga[],
@@ -258,18 +310,16 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         hasTrackerBinding,
         hasDuplicateChapters,
         hasStatus,
-        sortBy,
-        sortDesc,
     } = options;
     const { settings } = useMetadataServerSettings();
     const { sources } = Sources.useGetMigratableSources();
-
-    const sortedMangas = useMemo(() => sortManga(mangas, sortBy, sortDesc), [mangas, sortBy, sortDesc]);
 
     const hasSource = useMemo(
         () => pickBy((_state, sourceId) => sources.some((source) => source.id === sourceId), hasSourceFilter),
         [hasSourceFilter, sources],
     );
+
+    const sortedMangas = useSortedMangas(category?.id, mangas, options);
 
     const filteredMangas = useMemo(
         () =>
