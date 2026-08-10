@@ -997,6 +997,7 @@ export type MutationKeySpecifier = (
     | 'refreshToken'
     | 'removeExtensionStore'
     | 'reorderChapterDownload'
+    | 'reorderChapterDownloads'
     | 'resetSettings'
     | 'resetWebUIUpdateStatus'
     | 'restoreBackup'
@@ -1080,6 +1081,7 @@ export type MutationFieldPolicy = {
     refreshToken?: FieldPolicy<any> | FieldReadFunction<any>;
     removeExtensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
     reorderChapterDownload?: FieldPolicy<any> | FieldReadFunction<any>;
+    reorderChapterDownloads?: FieldPolicy<any> | FieldReadFunction<any>;
     resetSettings?: FieldPolicy<any> | FieldReadFunction<any>;
     resetWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     restoreBackup?: FieldPolicy<any> | FieldReadFunction<any>;

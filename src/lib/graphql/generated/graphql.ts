@@ -947,6 +947,14 @@ export type DownloadTypeFieldsFragment = {
         inLibrary: boolean;
         initialized: boolean;
         sourceId: string;
+        source: {
+            __typename: 'SourceType';
+            id: string;
+            name: string;
+            displayName: string;
+            lang: string;
+            iconUrl: string;
+        } | null;
     };
 };
 
@@ -979,6 +987,14 @@ export type DownloadStatusFieldsFragment = {
             inLibrary: boolean;
             initialized: boolean;
             sourceId: string;
+            source: {
+                __typename: 'SourceType';
+                id: string;
+                name: string;
+                displayName: string;
+                lang: string;
+                iconUrl: string;
+            } | null;
         };
     }>;
 };
@@ -1017,6 +1033,14 @@ export type DownloadUpdatesFieldsFragment = {
                 inLibrary: boolean;
                 initialized: boolean;
                 sourceId: string;
+                source: {
+                    __typename: 'SourceType';
+                    id: string;
+                    name: string;
+                    displayName: string;
+                    lang: string;
+                    iconUrl: string;
+                } | null;
             };
         };
     }>;
@@ -1059,6 +1083,14 @@ export type ClearDownloaderMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    source: {
+                        __typename: 'SourceType';
+                        id: string;
+                        name: string;
+                        displayName: string;
+                        lang: string;
+                        iconUrl: string;
+                    } | null;
                 };
             }>;
         };
@@ -1136,6 +1168,14 @@ export type DequeueChapterDownloadMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    source: {
+                        __typename: 'SourceType';
+                        id: string;
+                        name: string;
+                        displayName: string;
+                        lang: string;
+                        iconUrl: string;
+                    } | null;
                 };
             }>;
         };
@@ -1179,6 +1219,14 @@ export type DequeueChapterDownloadsMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    source: {
+                        __typename: 'SourceType';
+                        id: string;
+                        name: string;
+                        displayName: string;
+                        lang: string;
+                        iconUrl: string;
+                    } | null;
                 };
             }>;
         };
@@ -1222,6 +1270,14 @@ export type EnqueueChapterDownloadMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    source: {
+                        __typename: 'SourceType';
+                        id: string;
+                        name: string;
+                        displayName: string;
+                        lang: string;
+                        iconUrl: string;
+                    } | null;
                 };
             }>;
         };
@@ -1265,6 +1321,14 @@ export type EnqueueChapterDownloadsMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    source: {
+                        __typename: 'SourceType';
+                        id: string;
+                        name: string;
+                        displayName: string;
+                        lang: string;
+                        iconUrl: string;
+                    } | null;
                 };
             }>;
         };
@@ -1308,6 +1372,65 @@ export type ReorderChapterDownloadMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    source: {
+                        __typename: 'SourceType';
+                        id: string;
+                        name: string;
+                        displayName: string;
+                        lang: string;
+                        iconUrl: string;
+                    } | null;
+                };
+            }>;
+        };
+    } | null;
+};
+
+export type ReorderChapterDownloadsMutationVariables = Exact<{
+    input: Types.ReorderChapterDownloadsInput;
+}>;
+
+export type ReorderChapterDownloadsMutation = {
+    __typename: 'Mutation';
+    reorderChapterDownloads: {
+        __typename: 'ReorderChapterDownloadPayload';
+        downloadStatus: {
+            __typename: 'DownloadStatus';
+            state: Types.DownloaderState;
+            queue: Array<{
+                __typename: 'DownloadType';
+                progress: number;
+                state: Types.DownloadState;
+                tries: number;
+                chapter: {
+                    __typename: 'ChapterType';
+                    isDownloaded: boolean;
+                    id: number;
+                    name: string;
+                    mangaId: number;
+                    scanlator: string | null;
+                    realUrl: string | null;
+                    sourceOrder: number;
+                    chapterNumber: number;
+                };
+                manga: {
+                    __typename: 'MangaType';
+                    downloadCount: number;
+                    id: number;
+                    title: string;
+                    thumbnailUrl: string | null;
+                    thumbnailUrlLastFetched: string | null;
+                    inLibrary: boolean;
+                    initialized: boolean;
+                    sourceId: string;
+                    source: {
+                        __typename: 'SourceType';
+                        id: string;
+                        name: string;
+                        displayName: string;
+                        lang: string;
+                        iconUrl: string;
+                    } | null;
                 };
             }>;
         };
@@ -1371,6 +1494,14 @@ export type GetDownloadStatusQuery = {
                 inLibrary: boolean;
                 initialized: boolean;
                 sourceId: string;
+                source: {
+                    __typename: 'SourceType';
+                    id: string;
+                    name: string;
+                    displayName: string;
+                    lang: string;
+                    iconUrl: string;
+                } | null;
             };
         }>;
     };
@@ -1416,6 +1547,14 @@ export type DownloadStatusSubscription = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    source: {
+                        __typename: 'SourceType';
+                        id: string;
+                        name: string;
+                        displayName: string;
+                        lang: string;
+                        iconUrl: string;
+                    } | null;
                 };
             };
         }>;

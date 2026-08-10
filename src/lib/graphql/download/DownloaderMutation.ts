@@ -111,6 +111,18 @@ export const REORDER_CHAPTER_DOWNLOAD = gql`
     }
 `;
 
+export const REORDER_CHAPTER_DOWNLOADS = gql`
+    ${DOWNLOAD_STATUS_FIELDS}
+
+    mutation REORDER_CHAPTER_DOWNLOADS($input: ReorderChapterDownloadsInput!) {
+        reorderChapterDownloads(input: $input) {
+            downloadStatus {
+                ...DOWNLOAD_STATUS_FIELDS
+            }
+        }
+    }
+`;
+
 export const START_DOWNLOADER = gql`
     mutation START_DOWNLOADER($input: StartDownloaderInput = {}) {
         startDownloader(input: $input) {

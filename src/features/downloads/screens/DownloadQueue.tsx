@@ -23,6 +23,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
+import type { ChapterDownloadReorderInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { DownloaderState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
@@ -34,13 +35,20 @@ import { useAppAction } from '@/features/navigation-bar/hooks/useAppAction.ts';
 import type { ChapterDownloadStatus } from '@/features/chapter/Chapter.types.ts';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import groupBy from 'lodash/fp/groupBy';
+import uniqBy from 'lodash/fp/uniqBy';
+import mapValues from 'lodash/fp/mapValues';
+import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
+import type { SourceIdInfo } from '@/features/source/Source.types.ts';
+import { languageCodeToName } from '@/base/utils/Languages.ts';
+import { DownloadGroupHeader } from '@/features/downloads/components/DownloadGroupHeader.tsx';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useLingui();
 
     useAppTitle(t`Download queue`);
 
-    const [reorderDownload, { reset: revertReorder }] = requestManager.useReorderChapterInDownloadQueue();
+    const [reorderDownloads, { reset: revertReorder }] = requestManager.useReorderChaptersInDownloadQueue();
 
     const { data: downloadStatusData, loading: isLoading, error, refetch } = requestManager.useGetDownloadStatus();
     const downloaderData = downloadStatusData?.downloadStatus;
@@ -49,9 +57,30 @@ export const DownloadQueue: React.FC = () => {
     const status = downloaderData?.state ?? DownloaderState.Started;
     const isQueueEmpty = !queue.length;
 
-    const dndItems = useMemo(() => queue.map((download) => download.chapter), [queue]);
     const dndSensors = DndKitUtil.useSensorsForDevice();
+    const [dndActiveSource, setDndActiveSource] = useState<any>(null);
     const [dndActiveDownload, setDndActiveDownload] = useState<ChapterDownloadStatus | null>(null);
+
+    const sources = useMemo(
+        () =>
+            uniqBy(
+                'id',
+                queue.map(
+                    (download) =>
+                        download.manga.source ?? {
+                            id: download.manga.sourceId,
+                            name: download.manga.sourceId,
+                            lang: undefined,
+                        },
+                ),
+            ),
+        [queue],
+    );
+    const downloadsBySource = useMemo(() => groupBy((download) => download.manga.sourceId, queue), [queue]);
+    const chaptersBySource = useMemo(
+        () => mapValues((downloads) => downloads.map((download) => download.chapter), downloadsBySource),
+        [downloadsBySource],
+    );
 
     const clearQueue = async () => {
         try {
@@ -69,12 +98,15 @@ export const DownloadQueue: React.FC = () => {
         }
     };
 
-    const categoryReorder = (list: ChapterDownloadStatus[], from: number, to: number) => {
-        if (from === to) {
+    const categoryReorder = (list: ChapterDownloadStatus[], reorders: ChapterDownloadReorderInput[]) => {
+        const isOrderUnchanged = reorders.every(
+            (reorder) => list.findIndex((item) => item.chapter.id === reorder.chapterId) === reorder.to,
+        );
+        if (isOrderUnchanged) {
             return;
         }
 
-        reorderDownload({ variables: { input: { chapterId: list[from].chapter.id, to } } }).catch(() => {
+        reorderDownloads({ variables: { input: { reorders } } }).catch(() => {
             revertReorder();
         });
     };
@@ -91,7 +123,27 @@ export const DownloadQueue: React.FC = () => {
         const oldIndex = queue.findIndex((download) => download.chapter.id === active.id);
         const newIndex = queue.findIndex((download) => download.chapter.id === over.id);
 
-        categoryReorder(queue, oldIndex, newIndex);
+        categoryReorder(queue, [{ chapterId: queue[oldIndex].chapter.id, to: newIndex }]);
+    };
+
+    const onDragEndSource = (event: DragEndEvent) => {
+        const { active, over } = event;
+
+        setDndActiveSource(null);
+
+        if (!over || active.id === over.id) {
+            return;
+        }
+
+        const newIndex = queue.findIndex((item) => item.manga.sourceId === over.id);
+
+        categoryReorder(
+            queue,
+            chaptersBySource[active.id as SourceIdInfo['id']].map((chapter, index) => ({
+                chapterId: chapter.id,
+                to: newIndex + index,
+            })),
+        );
     };
 
     useAppAction(
@@ -146,31 +198,81 @@ export const DownloadQueue: React.FC = () => {
                 sensors={dndSensors}
                 collisionDetection={closestCenter}
                 onDragStart={(event) =>
-                    setDndActiveDownload(queue.find((download) => download.chapter.id === event.active.id) ?? null)
+                    setDndActiveSource(sources.find((source) => source.id === event.active.id) ?? null)
                 }
-                onDragEnd={onDragEnd}
-                onDragCancel={() => setDndActiveDownload(null)}
-                onDragAbort={() => setDndActiveDownload(null)}
+                onDragEnd={onDragEndSource}
+                onDragCancel={() => setDndActiveSource(null)}
+                onDragAbort={() => setDndActiveSource(null)}
             >
-                <SortableContext items={dndItems} strategy={verticalListSortingStrategy}>
-                    <VirtuosoPersisted
-                        persistKey="download-queue"
-                        useWindowScroll
-                        overscan={window.innerHeight * 0.5}
-                        totalCount={queue.length}
-                        computeItemKey={(index) => queue[index].chapter.id}
-                        itemContent={(index) => (
-                            <DndSortableItem
-                                id={queue[index].chapter.id}
-                                isDragging={queue[index].chapter.id === dndActiveDownload?.chapter.id}
+                <SortableContext items={sources} strategy={verticalListSortingStrategy}>
+                    {sources.map((source, sourceIndex) => (
+                        <DndSortableItem
+                            key={`source-${source.id}`}
+                            id={source.id}
+                            isDragging={source.id === dndActiveSource?.id}
+                        >
+                            <DownloadGroupHeader
+                                sourceIndex={sourceIndex}
+                                title={source.name}
+                                itemCount={chaptersBySource[source.id].length}
+                                language={source.lang ? languageCodeToName(source.lang) : undefined}
+                            />
+                            <DndContext
+                                sensors={dndSensors}
+                                collisionDetection={closestCenter}
+                                onDragStart={(event) =>
+                                    setDndActiveDownload(
+                                        queue.find((download) => download.chapter.id === event.active.id) ?? null,
+                                    )
+                                }
+                                onDragEnd={onDragEnd}
+                                onDragCancel={() => setDndActiveDownload(null)}
+                                onDragAbort={() => setDndActiveDownload(null)}
                             >
-                                <DownloadQueueChapterCard item={queue[index]} status={status} />
-                            </DndSortableItem>
-                        )}
-                    />
+                                <SortableContext
+                                    items={chaptersBySource[source.id]}
+                                    strategy={verticalListSortingStrategy}
+                                >
+                                    <VirtuosoPersisted
+                                        persistKey={`download-queue-${source.id}`}
+                                        useWindowScroll
+                                        overscan={window.innerHeight * 0.5}
+                                        totalCount={!dndActiveSource ? chaptersBySource[source.id].length : 0}
+                                        computeItemKey={(index) =>
+                                            `source-${source.id}-chapter-${chaptersBySource[source.id][index].id}`
+                                        }
+                                        itemContent={(index) => (
+                                            <DndSortableItem
+                                                id={chaptersBySource[source.id][index].id}
+                                                isDragging={
+                                                    chaptersBySource[source.id][index].id ===
+                                                    dndActiveDownload?.chapter.id
+                                                }
+                                            >
+                                                <StyledGroupItemWrapper>
+                                                    <DownloadQueueChapterCard
+                                                        item={downloadsBySource[source.id][index]}
+                                                        status={status}
+                                                    />
+                                                </StyledGroupItemWrapper>
+                                            </DndSortableItem>
+                                        )}
+                                    />
+                                </SortableContext>
+                                <DndOverlayItem isActive={!!dndActiveDownload}>
+                                    <DownloadQueueChapterCard item={dndActiveDownload!} status={status} />
+                                </DndOverlayItem>
+                            </DndContext>
+                        </DndSortableItem>
+                    ))}
                 </SortableContext>
-                <DndOverlayItem isActive={!!dndActiveDownload}>
-                    <DownloadQueueChapterCard item={dndActiveDownload!} status={status} />
+                <DndOverlayItem isActive={!!dndActiveSource}>
+                    <DownloadGroupHeader
+                        sourceIndex={sources.indexOf(dndActiveSource)}
+                        title={dndActiveSource?.name}
+                        itemCount={chaptersBySource[dndActiveSource?.id]?.length ?? -1}
+                        language={dndActiveSource?.lang ? languageCodeToName(dndActiveSource.lang) : undefined}
+                    />
                 </DndOverlayItem>
             </DndContext>
         </Box>

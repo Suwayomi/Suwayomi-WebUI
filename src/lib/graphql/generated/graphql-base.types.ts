@@ -216,6 +216,11 @@ export type ChapterConditionInput = {
     url?: InputMaybe<Scalars['String']['input']>;
 };
 
+export type ChapterDownloadReorderInput = {
+    chapterId: Scalars['Int']['input'];
+    to: Scalars['Int']['input'];
+};
+
 export type ChapterEdge = Edge & {
     __typename?: 'ChapterEdge';
     cursor: Scalars['Cursor']['output'];
@@ -1486,6 +1491,7 @@ export type Mutation = {
     refreshToken: RefreshTokenPayload;
     removeExtensionStore?: Maybe<RemoveExtensionStorePayload>;
     reorderChapterDownload?: Maybe<ReorderChapterDownloadPayload>;
+    reorderChapterDownloads?: Maybe<ReorderChapterDownloadPayload>;
     resetSettings: ResetSettingsPayload;
     resetWebUIUpdateStatus?: Maybe<WebUiUpdateStatus>;
     restoreBackup: RestoreBackupPayload;
@@ -1695,6 +1701,10 @@ export type MutationRemoveExtensionStoreArgs = {
 
 export type MutationReorderChapterDownloadArgs = {
     input: ReorderChapterDownloadInput;
+};
+
+export type MutationReorderChapterDownloadsArgs = {
+    input: ReorderChapterDownloadsInput;
 };
 
 export type MutationResetSettingsArgs = {
@@ -2339,6 +2349,11 @@ export type ReorderChapterDownloadPayload = {
     __typename?: 'ReorderChapterDownloadPayload';
     clientMutationId?: Maybe<Scalars['String']['output']>;
     downloadStatus: DownloadStatus;
+};
+
+export type ReorderChapterDownloadsInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    reorders: Array<ChapterDownloadReorderInput>;
 };
 
 export type ResetSettingsInput = {

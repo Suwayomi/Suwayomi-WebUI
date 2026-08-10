@@ -10,7 +10,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import DragHandle from '@mui/icons-material/DragHandle';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
-import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import { memo, useCallback } from 'react';
 import { Link } from 'react-router-dom';
@@ -68,41 +67,39 @@ export const DownloadQueueChapterCard = memo(
         );
 
         return (
-            <Box sx={{ p: 1, pb: 0 }}>
-                <Card>
-                    <CardActionArea
-                        component={Link}
-                        to={AppRoutes.manga.path(item.manga.id)}
-                        onContextMenu={preventMobileContextMenu}
-                        sx={MediaQuery.preventMobileContextMenuSx()}
-                    >
-                        <ListCardContent>
-                            <IconButton {...MUIUtil.preventRippleProp()} sx={{ pointerEvents: 'none' }}>
-                                <DragHandle />
+            <Card>
+                <CardActionArea
+                    component={Link}
+                    to={AppRoutes.manga.path(item.manga.id)}
+                    onContextMenu={preventMobileContextMenu}
+                    sx={MediaQuery.preventMobileContextMenuSx()}
+                >
+                    <ListCardContent>
+                        <IconButton {...MUIUtil.preventRippleProp()} sx={{ pointerEvents: 'none' }}>
+                            <DragHandle />
+                        </IconButton>
+                        <ChapterCardMetadata
+                            title={item.manga.title}
+                            secondaryText={item.chapter.scanlator}
+                            ternaryText={item.chapter.name}
+                        />
+                        <DownloadStateIndicator chapterId={item.chapter.id} />
+                        <ChapterDownloadRetryButton chapterId={item.chapter.id} />
+                        <CustomTooltip title={t`Delete`}>
+                            <IconButton
+                                {...MUIUtil.preventRippleProp()}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleDelete(item.chapter);
+                                }}
+                            >
+                                <DeleteIcon />
                             </IconButton>
-                            <ChapterCardMetadata
-                                title={item.manga.title}
-                                secondaryText={item.chapter.scanlator}
-                                ternaryText={item.chapter.name}
-                            />
-                            <DownloadStateIndicator chapterId={item.chapter.id} />
-                            <ChapterDownloadRetryButton chapterId={item.chapter.id} />
-                            <CustomTooltip title={t`Delete`}>
-                                <IconButton
-                                    {...MUIUtil.preventRippleProp()}
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                        handleDelete(item.chapter);
-                                    }}
-                                >
-                                    <DeleteIcon />
-                                </IconButton>
-                            </CustomTooltip>
-                        </ListCardContent>
-                    </CardActionArea>
-                </Card>
-            </Box>
+                        </CustomTooltip>
+                    </ListCardContent>
+                </CardActionArea>
+            </Card>
         );
     },
 );
