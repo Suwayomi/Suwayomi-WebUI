@@ -44,16 +44,18 @@ export const CreateOrEditCategoryDialog = ({
 
         onClose();
 
+        const newName = dialogName.trim();
+
         if (isEditMode) {
             requestManager
-                .updateCategory(category.id, { name: dialogName, default: dialogDefault })
+                .updateCategory(category.id, { name: newName, default: dialogDefault })
                 .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
 
             return;
         }
 
         requestManager
-            .createCategory({ name: dialogName, default: dialogDefault })
+            .createCategory({ name: newName, default: dialogDefault })
             .response.catch((e) => makeToast(t`Could not create category`, 'error', getErrorMessage(e)));
     };
 
@@ -69,7 +71,7 @@ export const CreateOrEditCategoryDialog = ({
                     type="text"
                     fullWidth
                     value={dialogName}
-                    onChange={(e) => setDialogName(e.target.value.trim())}
+                    onChange={(e) => setDialogName(e.target.value)}
                     error={isInvalidName}
                     helperText={isInvalidName ? t`Invalid input` : undefined}
                 />
