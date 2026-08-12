@@ -111,6 +111,16 @@ msgstr "{0, plural, one {1 migrating entry} other {# migrating entries}}"
 msgid "{0, plural, one {1 searching} other {# searching}}"
 msgstr "{0, plural, one {1 searching} other {# searching}}"
 
+#. placeholder {0}: chapters.length
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "{0, plural, one {Could not cancel download} other {Could not cancel downloads}}"
+msgstr "{0, plural, one {Could not cancel download} other {Could not cancel downloads}}"
+
+#. placeholder {0}: reorders.length
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
+msgstr "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
+
 #. placeholder {0}: autoScroll.value
 #: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
 msgid "{0, plural, one {Second} other {Seconds}}"
@@ -746,6 +756,7 @@ msgstr "Can't migrate an entry to itself"
 #: src/features/category/components/CategoriesInclusionSetting.tsx
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
@@ -759,6 +770,10 @@ msgstr "Can't migrate an entry to itself"
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Cancel"
 msgstr "Cancel"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Cancel all for this series"
+msgstr "Cancel all for this series"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts
@@ -1141,10 +1156,6 @@ msgstr "Could not remove extension store \"{name}\""
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not remove non library manga from categories"
 msgstr "Could not remove non library manga from categories"
-
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Could not remove the download from the queue."
 
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
@@ -2587,6 +2598,22 @@ msgstr "More"
 #: src/features/theme/Themes.ts
 msgid "Mountain Sunset"
 msgstr "Mountain Sunset"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to bottom"
+msgstr "Move series to bottom"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to top"
+msgstr "Move series to top"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to bottom"
+msgstr "Move to bottom"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to top"
+msgstr "Move to top"
 
 #: src/base/utils/Languages.ts
 #: src/features/extension/Extensions.constants.ts

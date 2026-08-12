@@ -6,12 +6,11 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import DeleteIcon from '@mui/icons-material/Delete';
 import DragHandle from '@mui/icons-material/DragHandle';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import IconButton from '@mui/material/IconButton';
-import { memo, useCallback } from 'react';
+import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
@@ -21,50 +20,46 @@ import { ChapterCardMetadata } from '@/features/chapter/components/cards/Chapter
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
-import { makeToast } from '@/base/utils/Toast.ts';
-import { requestManager } from '@/lib/requests/RequestManager.ts';
-import { DownloaderState } from '@/lib/graphql/generated/graphql-base.types.ts';
-import type { ChapterDownloadStatus, ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import type { ChapterDownloadStatus } from '@/features/chapter/Chapter.types.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+
+interface ActionProps {
+    reorderDownloads: (download: ChapterDownloadStatus, mode: 'top' | 'bottom', series?: boolean) => void;
+    cancelDownloads: (download: ChapterDownloadStatus, series?: boolean) => void;
+}
+
+const ActionMenu = ({
+    open,
+    download,
+    reorderDownloads,
+    cancelDownloads,
+}: {
+    open: boolean;
+    download: ChapterDownloadStatus;
+} & ActionProps) => {
+    const { t } = useLingui();
+
+    return (
+        <Menu open={open}>
+            <MenuItem onClick={() => reorderDownloads(download, 'top')}>{t`Move to top`}</MenuItem>
+            <MenuItem onClick={() => reorderDownloads(download, 'top', true)}>{t`Move series to top`}</MenuItem>
+            <MenuItem onClick={() => reorderDownloads(download, 'bottom')}>{t`Move to bottom`}</MenuItem>
+            <MenuItem onClick={() => reorderDownloads(download, 'bottom', true)}>{t`Move series to bottom`}</MenuItem>
+            <MenuItem onClick={() => cancelDownloads(download)}>{t`Cancel`}</MenuItem>
+            <MenuItem onClick={() => cancelDownloads(download, true)}>{t`Cancel all for this series`}</MenuItem>
+        </Menu>
+    );
+};
 
 export const DownloadQueueChapterCard = memo(
-    ({ item, status }: { item: ChapterDownloadStatus; status: DownloaderState }) => {
+    ({ item, reorderDownloads, cancelDownloads }: { item: ChapterDownloadStatus } & ActionProps) => {
         const { t } = useLingui();
         const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
 
-        const handleDelete = useCallback(
-            async (chapter: ChapterIdInfo) => {
-                const isRunning = status === DownloaderState.Started;
-
-                try {
-                    if (isRunning) {
-                        // required to stop before deleting otherwise the download kept going. Server issue?
-                        await requestManager.stopDownloads().response;
-                    }
-
-                    await Promise.all([
-                        // remove from download queue
-                        requestManager.removeChapterFromDownloadQueue(chapter.id).response,
-                        // delete partial download, should be handle server side?
-                        // bug: The folder and the last image downloaded are not deleted
-                        requestManager.deleteDownloadedChapter(chapter.id).response,
-                    ]);
-                } catch (e) {
-                    makeToast(t`Could not remove the download from the queue.`, 'error', getErrorMessage(e));
-                }
-
-                if (!isRunning) {
-                    return;
-                }
-
-                requestManager
-                    .startDownloads()
-                    .response.catch(defaultPromiseErrorHandler('DownloadQueue::startDownloads'));
-            },
-            [status],
-        );
+        const [actionMenuOpen, setActionMenuOpen] = useState(false);
 
         return (
             <Card>
@@ -91,10 +86,16 @@ export const DownloadQueueChapterCard = memo(
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation();
-                                    handleDelete(item.chapter);
+                                    setActionMenuOpen(!actionMenuOpen);
                                 }}
                             >
-                                <DeleteIcon />
+                                <MoreVertIcon />
+                                <ActionMenu
+                                    open={actionMenuOpen}
+                                    download={item}
+                                    reorderDownloads={reorderDownloads}
+                                    cancelDownloads={cancelDownloads}
+                                />
                             </IconButton>
                         </CustomTooltip>
                     </ListCardContent>

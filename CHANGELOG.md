@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Library**) Prevent randomizing category sort order everytime category gets opened
 - (**Reader**) Open the first page when going to the previous chapter
 - (**Download**) Group downloads by source
+- (**Download**) Add series bulk actions
 
 ### Fixed
 

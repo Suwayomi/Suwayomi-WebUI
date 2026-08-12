@@ -42,13 +42,15 @@ import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupIt
 import type { SourceIdInfo } from '@/features/source/Source.types.ts';
 import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { DownloadGroupHeader } from '@/features/downloads/components/DownloadGroupHeader.tsx';
+import { plural } from '@lingui/core/macro';
+import { Chapters } from '@/features/chapter/services/Chapters.ts';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useLingui();
 
     useAppTitle(t`Download queue`);
 
-    const [reorderDownloads, { reset: revertReorder }] = requestManager.useReorderChaptersInDownloadQueue();
+    const [reorderDownloads] = requestManager.useReorderChaptersInDownloadQueue();
 
     const { data: downloadStatusData, loading: isLoading, error, refetch } = requestManager.useGetDownloadStatus();
     const downloaderData = downloadStatusData?.downloadStatus;
@@ -77,6 +79,14 @@ export const DownloadQueue: React.FC = () => {
         [queue],
     );
     const downloadsBySource = useMemo(() => groupBy((download) => download.manga.sourceId, queue), [queue]);
+    const chaptersByManga = useMemo(
+        () =>
+            mapValues(
+                (downloads: ChapterDownloadStatus[]) => downloads.map((download) => download.chapter),
+                groupBy((download) => download.manga.id, queue),
+            ),
+        [queue],
+    );
     const chaptersBySource = useMemo(
         () => mapValues((downloads) => downloads.map((download) => download.chapter), downloadsBySource),
         [downloadsBySource],
@@ -107,7 +117,12 @@ export const DownloadQueue: React.FC = () => {
         }
 
         reorderDownloads({ variables: { input: { reorders } } }).catch(() => {
-            revertReorder();
+            makeToast(
+                plural(reorders.length, {
+                    one: 'Could not reorder download',
+                    other: 'Could not reorder downloads',
+                }),
+            );
         });
     };
 
@@ -144,6 +159,48 @@ export const DownloadQueue: React.FC = () => {
                 to: newIndex + index,
             })),
         );
+    };
+
+    const reorderDownloadss = (download: ChapterDownloadStatus, mode: 'top' | 'bottom', series?: boolean) => {
+        const chapters = series ? chaptersByManga[download.manga.id] : [download.chapter];
+        const sourceDownloads = downloadsBySource[download.manga.sourceId];
+
+        const newIndex = (() => {
+            const [firstSourceDownload] = sourceDownloads;
+            const lastSourceDownload = sourceDownloads[sourceDownloads.length - 1];
+
+            const firstSourceDownloadIndex = queue.indexOf(firstSourceDownload);
+            const lastSourceDownloadIndex = queue.indexOf(lastSourceDownload);
+
+            if (mode === 'top') {
+                const isFirstSourceDownloadOfSeries = firstSourceDownload.manga.id === download.manga.id;
+
+                return isFirstSourceDownloadOfSeries ? 0 : firstSourceDownloadIndex;
+            }
+
+            return lastSourceDownloadIndex;
+        })();
+
+        const reorders = chapters.map((chapter, index) => ({
+            chapterId: chapter.id,
+            to: newIndex + index,
+        }));
+
+        categoryReorder(queue, reorders);
+    };
+
+    const cancelDownloads = (download: ChapterDownloadStatus, series?: boolean) => {
+        const chapters = series ? chaptersByManga[download.manga.id] : [download.chapter];
+
+        requestManager
+            .removeChaptersFromDownloadQueue(Chapters.getIds(chapters))
+            .response.catch((e) =>
+                makeToast(
+                    plural(chapters.length, { one: 'Could not cancel download', other: 'Could not cancel downloads' }),
+                    'error',
+                    getErrorMessage(e),
+                ),
+            );
     };
 
     useAppAction(
@@ -252,7 +309,8 @@ export const DownloadQueue: React.FC = () => {
                                                 <StyledGroupItemWrapper>
                                                     <DownloadQueueChapterCard
                                                         item={downloadsBySource[source.id][index]}
-                                                        status={status}
+                                                        reorderDownloads={reorderDownloadss}
+                                                        cancelDownloads={cancelDownloads}
                                                     />
                                                 </StyledGroupItemWrapper>
                                             </DndSortableItem>
@@ -260,7 +318,11 @@ export const DownloadQueue: React.FC = () => {
                                     />
                                 </SortableContext>
                                 <DndOverlayItem isActive={!!dndActiveDownload}>
-                                    <DownloadQueueChapterCard item={dndActiveDownload!} status={status} />
+                                    <DownloadQueueChapterCard
+                                        item={dndActiveDownload!}
+                                        reorderDownloads={reorderDownloadss}
+                                        cancelDownloads={cancelDownloads}
+                                    />
                                 </DndOverlayItem>
                             </DndContext>
                         </DndSortableItem>
