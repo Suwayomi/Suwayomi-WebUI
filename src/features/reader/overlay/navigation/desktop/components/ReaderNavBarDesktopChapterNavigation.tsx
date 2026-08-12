@@ -23,6 +23,7 @@ import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ReaderControls } from '@/features/reader/services/ReaderControls.ts';
 import type { ReaderStateChapters } from '@/features/reader/Reader.types.ts';
+import { ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
 import { useTheme } from '@mui/material/styles';
@@ -57,7 +58,9 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
                 type="previous"
                 title={getOptionForDirection(t`Previous chapter`, t`Next chapter`, readerThemeDirection)}
                 onClick={() => {
-                    ReaderControls.openChapter(getOptionForDirection('previous', 'next', readerThemeDirection));
+                    ReaderControls.openChapter(getOptionForDirection('previous', 'next', readerThemeDirection), {
+                        resumeMode: ReaderResumeMode.START,
+                    });
                 }}
                 disabled={getOptionForDirection(!previousChapter, !nextChapter, readerThemeDirection)}
             />
@@ -82,7 +85,9 @@ const BaseReaderNavBarDesktopChapterNavigation = ({
                 type="next"
                 title={getOptionForDirection(t`Next chapter`, t`Previous chapter`, readerThemeDirection)}
                 onClick={() => {
-                    ReaderControls.openChapter(getOptionForDirection('next', 'previous', readerThemeDirection));
+                    ReaderControls.openChapter(getOptionForDirection('next', 'previous', readerThemeDirection), {
+                        resumeMode: ReaderResumeMode.START,
+                    });
                 }}
                 disabled={getOptionForDirection(!nextChapter, !previousChapter, readerThemeDirection)}
             />

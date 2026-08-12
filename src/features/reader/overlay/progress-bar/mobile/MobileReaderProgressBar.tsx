@@ -22,7 +22,7 @@ import {
     getProgressBarPositionInfo,
 } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { getOptionForDirection } from '@/features/theme/services/ThemeCreator.ts';
-import { ProgressBarPosition } from '@/features/reader/Reader.types.ts';
+import { ProgressBarPosition, ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import { ReaderProgressBarDirectionWrapper } from '@/features/reader/overlay/progress-bar/components/ReaderProgressBarDirectionWrapper.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { ReaderProgressBarSlotMobile } from '@/features/reader/overlay/progress-bar/mobile/components/ReaderProgressBarSlotMobile.tsx';
@@ -250,7 +250,11 @@ const BaseMobileReaderProgressBar = ({
                     }}
                 >
                     <IconButton
-                        onClick={() => ReaderControls.openChapter('previous')}
+                        onClick={() =>
+                            ReaderControls.openChapter('previous', {
+                                resumeMode: ReaderResumeMode.START,
+                            })
+                        }
                         disabled={!previousChapter}
                         sx={{
                             backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.85),
@@ -329,7 +333,11 @@ const BaseMobileReaderProgressBar = ({
                         slots={progressBarCurrentPage}
                     />
                     <IconButton
-                        onClick={() => ReaderControls.openChapter('next')}
+                        onClick={() =>
+                            ReaderControls.openChapter('next', {
+                                resumeMode: ReaderResumeMode.START,
+                            })
+                        }
                         disabled={!nextChapter}
                         sx={{
                             backgroundColor: (theme) => theme.alpha(theme.palette.background.paper, 0.85),

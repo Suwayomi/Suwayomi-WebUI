@@ -10,8 +10,7 @@ import { useHotkeys as useHotKeysHook, useHotkeysContext } from 'react-hotkeys-h
 import { useEffect } from 'react';
 import { HOTKEY_SCOPES } from '@/features/hotkeys/Hotkeys.constants.ts';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
-import type { IReaderSettings } from '@/features/reader/Reader.types.ts';
-import { ReaderHotkey } from '@/features/reader/Reader.types.ts';
+import { type IReaderSettings, ReaderHotkey, ReaderResumeMode } from '@/features/reader/Reader.types.ts';
 import {
     AUTO_SCROLL_SPEED,
     CONTINUOUS_READING_MODE_TO_SCROLL_DIRECTION,
@@ -117,12 +116,18 @@ export const ReaderHotkeys = ({
     });
     useHotkeys(
         hotkeys[ReaderHotkey.PREVIOUS_CHAPTER],
-        () => ReaderControls.openChapter(getOptionForDirection('previous', 'next', readerThemeDirection)),
+        () =>
+            ReaderControls.openChapter(getOptionForDirection('previous', 'next', readerThemeDirection), {
+                resumeMode: ReaderResumeMode.START,
+            }),
         [readerThemeDirection],
     );
     useHotkeys(
         hotkeys[ReaderHotkey.NEXT_CHAPTER],
-        () => ReaderControls.openChapter(getOptionForDirection('next', 'previous', readerThemeDirection)),
+        () =>
+            ReaderControls.openChapter(getOptionForDirection('next', 'previous', readerThemeDirection), {
+                resumeMode: ReaderResumeMode.START,
+            }),
         [readerThemeDirection],
     );
     useHotkeys(hotkeys[ReaderHotkey.TOGGLE_MENU], () =>
