@@ -301,7 +301,7 @@ export const useReaderInfiniteScrollUpdateChapter = (
 
             const loadChapter = loadPreviousChapter || loadNextChapter;
             if (loadChapter) {
-                ReaderControls.openChapter(chapterToOpenId, undefined, false);
+                ReaderControls.openChapter(chapterToOpenId, { scrollIntoView: false });
             }
         };
 
@@ -369,12 +369,18 @@ export const useReaderInfiniteScrollUpdateChapter = (
 
                 const openChapterToOpen = initialOpenPreviousChapter || openNextChapter;
                 if (openChapterToOpen) {
-                    ReaderControls.openChapter(chapterToOpenId, !isChapterToOpenVisible, false);
+                    ReaderControls.openChapter(chapterToOpenId, {
+                        doTransitionCheck: !isChapterToOpenVisible,
+                        scrollIntoView: false,
+                    });
                     return;
                 }
 
                 if (openPreviousChapter) {
-                    ReaderControls.openChapter(chapterId, false, false);
+                    ReaderControls.openChapter(chapterId, {
+                        doTransitionCheck: false,
+                        scrollIntoView: false,
+                    });
                 }
             },
             [

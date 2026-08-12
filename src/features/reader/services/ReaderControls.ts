@@ -189,8 +189,13 @@ class ReaderControlsClass {
 
     openChapter(
         offset: 'previous' | 'next' | ChapterIdInfo['id'],
-        doTransitionCheck: boolean = true,
-        scrollIntoView: boolean = true,
+        {
+            doTransitionCheck = true,
+            scrollIntoView = true,
+        }: {
+            doTransitionCheck?: boolean;
+            scrollIntoView?: boolean;
+        } = {},
     ): void {
         const {
             currentChapter,
