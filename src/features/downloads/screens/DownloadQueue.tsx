@@ -25,7 +25,7 @@ import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholde
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { ChapterDownloadReorderInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { DownloaderState } from '@/lib/graphql/generated/graphql-base.types.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { coerceIn, getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
 import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';
 import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
@@ -183,7 +183,7 @@ export const DownloadQueue: React.FC = () => {
 
         const reorders = chapters.map((chapter, index) => ({
             chapterId: chapter.id,
-            to: newIndex + index,
+            to: coerceIn(newIndex + index, 0, queue.length - 1),
         }));
 
         categoryReorder(queue, reorders);

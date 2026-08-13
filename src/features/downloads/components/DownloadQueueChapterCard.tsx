@@ -36,14 +36,16 @@ const ActionMenu = ({
     download,
     reorderDownloads,
     cancelDownloads,
+    anchorEl,
 }: {
     open: boolean;
     download: ChapterDownloadStatus;
+    anchorEl: Element | null;
 } & ActionProps) => {
     const { t } = useLingui();
 
     return (
-        <Menu open={open}>
+        <Menu open={open} anchorEl={anchorEl}>
             <MenuItem onClick={() => reorderDownloads(download, 'top')}>{t`Move to top`}</MenuItem>
             <MenuItem onClick={() => reorderDownloads(download, 'top', true)}>{t`Move series to top`}</MenuItem>
             <MenuItem onClick={() => reorderDownloads(download, 'bottom')}>{t`Move to bottom`}</MenuItem>
@@ -58,6 +60,8 @@ export const DownloadQueueChapterCard = memo(
     ({ item, reorderDownloads, cancelDownloads }: { item: ChapterDownloadStatus } & ActionProps) => {
         const { t } = useLingui();
         const preventMobileContextMenu = MediaQuery.usePreventMobileContextMenu();
+
+        const [anchorEl, setAnchorEl] = useState<Element | null>(null);
 
         const [actionMenuOpen, setActionMenuOpen] = useState(false);
 
@@ -82,6 +86,7 @@ export const DownloadQueueChapterCard = memo(
                         <ChapterDownloadRetryButton chapterId={item.chapter.id} />
                         <CustomTooltip title={t`Delete`}>
                             <IconButton
+                                ref={setAnchorEl}
                                 {...MUIUtil.preventRippleProp()}
                                 onClick={(e) => {
                                     e.preventDefault();
@@ -95,6 +100,7 @@ export const DownloadQueueChapterCard = memo(
                                     download={item}
                                     reorderDownloads={reorderDownloads}
                                     cancelDownloads={cancelDownloads}
+                                    anchorEl={anchorEl}
                                 />
                             </IconButton>
                         </CustomTooltip>
