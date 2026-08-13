@@ -1643,6 +1643,7 @@ msgstr "Entry \"{id}\" not found"
 
 #: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
 #: src/features/settings/Settings.constants.ts
 msgid "Error"
 msgstr "Error"

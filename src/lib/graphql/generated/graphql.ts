@@ -480,6 +480,11 @@ export type ChapterUpdateListFieldsFragment = {
         inLibrary: boolean;
         initialized: boolean;
         sourceId: string;
+        unreadCount: number;
+        downloadCount: number;
+        bookmarkCount: number;
+        hasDuplicateChapters: boolean;
+        chapters: { __typename: 'ChapterNodeList'; totalCount: number };
     };
 };
 
@@ -507,6 +512,11 @@ export type ChapterHistoryListFieldsFragment = {
         inLibrary: boolean;
         initialized: boolean;
         sourceId: string;
+        unreadCount: number;
+        downloadCount: number;
+        bookmarkCount: number;
+        hasDuplicateChapters: boolean;
+        chapters: { __typename: 'ChapterNodeList'; totalCount: number };
     };
 };
 
@@ -811,6 +821,11 @@ export type GetChaptersUpdatesQuery = {
                 inLibrary: boolean;
                 initialized: boolean;
                 sourceId: string;
+                unreadCount: number;
+                downloadCount: number;
+                bookmarkCount: number;
+                hasDuplicateChapters: boolean;
+                chapters: { __typename: 'ChapterNodeList'; totalCount: number };
             };
         }>;
         pageInfo: {
@@ -863,6 +878,11 @@ export type GetChaptersHistoryQuery = {
                 inLibrary: boolean;
                 initialized: boolean;
                 sourceId: string;
+                unreadCount: number;
+                downloadCount: number;
+                bookmarkCount: number;
+                hasDuplicateChapters: boolean;
+                chapters: { __typename: 'ChapterNodeList'; totalCount: number };
             };
         }>;
         pageInfo: {
@@ -929,6 +949,7 @@ export type DownloadTypeFieldsFragment = {
     chapter: {
         __typename: 'ChapterType';
         isDownloaded: boolean;
+        pageCount: number;
         id: number;
         name: string;
         mangaId: number;
@@ -969,6 +990,7 @@ export type DownloadStatusFieldsFragment = {
         chapter: {
             __typename: 'ChapterType';
             isDownloaded: boolean;
+            pageCount: number;
             id: number;
             name: string;
             mangaId: number;
@@ -1015,6 +1037,7 @@ export type DownloadUpdatesFieldsFragment = {
             chapter: {
                 __typename: 'ChapterType';
                 isDownloaded: boolean;
+                pageCount: number;
                 id: number;
                 name: string;
                 mangaId: number;
@@ -1065,6 +1088,7 @@ export type ClearDownloaderMutation = {
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
+                    pageCount: number;
                     id: number;
                     name: string;
                     mangaId: number;
@@ -1150,6 +1174,7 @@ export type DequeueChapterDownloadMutation = {
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
+                    pageCount: number;
                     id: number;
                     name: string;
                     mangaId: number;
@@ -1201,6 +1226,7 @@ export type DequeueChapterDownloadsMutation = {
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
+                    pageCount: number;
                     id: number;
                     name: string;
                     mangaId: number;
@@ -1252,6 +1278,7 @@ export type EnqueueChapterDownloadMutation = {
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
+                    pageCount: number;
                     id: number;
                     name: string;
                     mangaId: number;
@@ -1303,6 +1330,7 @@ export type EnqueueChapterDownloadsMutation = {
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
+                    pageCount: number;
                     id: number;
                     name: string;
                     mangaId: number;
@@ -1354,6 +1382,7 @@ export type ReorderChapterDownloadMutation = {
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
+                    pageCount: number;
                     id: number;
                     name: string;
                     mangaId: number;
@@ -1405,6 +1434,7 @@ export type ReorderChapterDownloadsMutation = {
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
+                    pageCount: number;
                     id: number;
                     name: string;
                     mangaId: number;
@@ -1476,6 +1506,7 @@ export type GetDownloadStatusQuery = {
             chapter: {
                 __typename: 'ChapterType';
                 isDownloaded: boolean;
+                pageCount: number;
                 id: number;
                 name: string;
                 mangaId: number;
@@ -1529,6 +1560,7 @@ export type DownloadStatusSubscription = {
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
+                    pageCount: number;
                     id: number;
                     name: string;
                     mangaId: number;

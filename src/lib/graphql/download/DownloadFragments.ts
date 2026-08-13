@@ -20,6 +20,7 @@ export const DOWNLOAD_TYPE_FIELDS = gql`
         chapter {
             ...CHAPTER_BASE_FIELDS
             isDownloaded
+            pageCount
         }
 
         manga {

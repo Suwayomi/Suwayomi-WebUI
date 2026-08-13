@@ -15,7 +15,6 @@ import { Link } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ChapterDownloadRetryButton } from '@/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
-import { DownloadStateIndicatorCircular } from '@/base/components/downloads/DownloadStateIndicatorCircular.tsx';
 import { ChapterCardMetadata } from '@/features/chapter/components/cards/ChapterCardMetadata.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
@@ -25,6 +24,10 @@ import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import { DownloadStateIndicatorLinear } from '@/base/components/downloads/DownloadStateIndicatorLinear.tsx';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 interface ActionProps {
     reorderDownloads: (download: ChapterDownloadStatus, mode: 'top' | 'bottom', series?: boolean) => void;
@@ -77,12 +80,37 @@ export const DownloadQueueChapterCard = memo(
                         <IconButton {...MUIUtil.preventRippleProp()} sx={{ pointerEvents: 'none' }}>
                             <DragHandle />
                         </IconButton>
-                        <ChapterCardMetadata
-                            title={item.manga.title}
-                            secondaryText={item.chapter.scanlator}
-                            ternaryText={item.chapter.name}
-                        />
-                        <DownloadStateIndicatorCircular chapterId={item.chapter.id} />
+                        <Stack
+                            sx={{
+                                flexGrow: 1,
+                                flexShrink: 1,
+                                gap: 1,
+                            }}
+                        >
+                            <Stack sx={{ flexDirection: 'row', alignItems: 'end', flexWrap: 'wrap' }}>
+                                <ChapterCardMetadata
+                                    title={item.manga.title}
+                                    secondaryText={item.chapter.scanlator}
+                                    ternaryText={item.chapter.name}
+                                />
+                                <Typography sx={{ pb: 1, flexGrow: 1, textAlign: 'end' }} variant="caption">
+                                    {(() => {
+                                        if (item.state === DownloadState.Error) {
+                                            return t`Error`;
+                                        }
+
+                                        const isDownloading =
+                                            item.state === DownloadState.Downloading || item.progress >= 0.1;
+                                        if (!isDownloading) {
+                                            return null;
+                                        }
+
+                                        return `${(item.chapter.pageCount * item.progress).toFixed()}/${item.chapter.pageCount}`;
+                                    })()}
+                                </Typography>
+                            </Stack>
+                            <DownloadStateIndicatorLinear chapterId={item.chapter.id} />
+                        </Stack>
                         <ChapterDownloadRetryButton chapterId={item.chapter.id} />
                         <CustomTooltip title={t`Delete`}>
                             <IconButton
