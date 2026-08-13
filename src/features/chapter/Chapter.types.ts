@@ -31,7 +31,14 @@ export interface ChapterListOptions extends ChapterListFilterSortOptions {
 
 export type TChapterReader = ChapterReaderFieldsFragment;
 
-export type ChapterAction = 'download' | 'delete' | 'bookmark' | 'unbookmark' | 'mark_as_read' | 'mark_as_unread';
+export type ChapterAction =
+    | 'download'
+    | 'download_cancel'
+    | 'delete'
+    | 'bookmark'
+    | 'unbookmark'
+    | 'mark_as_read'
+    | 'mark_as_unread';
 
 export type ChapterDownloadStatus = DownloadStatusFieldsFragment['queue'][number];
 

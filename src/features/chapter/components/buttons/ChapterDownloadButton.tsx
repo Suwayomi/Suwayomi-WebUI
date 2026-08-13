@@ -33,7 +33,7 @@ export const ChapterDownloadButton = ({
             .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
     };
 
-    if (download == null && isDownloaded) {
+    if (download != null || isDownloaded) {
         return null;
     }
 

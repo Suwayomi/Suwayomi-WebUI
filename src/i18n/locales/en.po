@@ -111,11 +111,6 @@ msgstr "{0, plural, one {1 migrating entry} other {# migrating entries}}"
 msgid "{0, plural, one {1 searching} other {# searching}}"
 msgstr "{0, plural, one {1 searching} other {# searching}}"
 
-#. placeholder {0}: chapters.length
-#: src/features/downloads/screens/DownloadQueue.tsx
-msgid "{0, plural, one {Could not cancel download} other {Could not cancel downloads}}"
-msgstr "{0, plural, one {Could not cancel download} other {Could not cancel downloads}}"
-
 #. placeholder {0}: reorders.length
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
@@ -189,6 +184,10 @@ msgstr "{count, plural, one {Could not add the download} other {Could not add do
 msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
 msgstr "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
 
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not cancel the download} other {Could not cancel downloads}}"
+msgstr "{count, plural, one {Could not cancel the download} other {Could not cancel downloads}}"
+
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
 msgstr "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
@@ -229,6 +228,10 @@ msgstr "{count, plural, one {Could not update the extension} other {Could not up
 msgid "{count, plural, one {Download added} other {# downloads added}}"
 msgstr "{count, plural, one {Download added} other {# downloads added}}"
 
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download canceled} other {# downloads canceled}}"
+msgstr "{count, plural, one {Download canceled} other {# downloads canceled}}"
+
 #: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
 msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
 msgstr "{count, plural, one {Next chapter} other {Next # chapters}}"
@@ -264,6 +267,10 @@ msgstr ""
 "Current: {currentChapter}} other {There are # missing chapters.\n"
 "Previous: {nextChapter}\n"
 "Current: {currentChapter}}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to cancel one download} other {You are about to cancel # downloads}}"
+msgstr "{count, plural, one {You are about to cancel one download} other {You are about to cancel # downloads}}"
 
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
@@ -741,6 +748,7 @@ msgid "Can't migrate an entry to itself"
 msgstr "Can't migrate an entry to itself"
 
 #: src/base/collection/components/SelectableCollectionSelectMode.tsx
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
 #: src/base/components/inputs/LanguageSelect.tsx
 #: src/base/components/modals/ConfirmDialog.tsx
 #: src/base/components/modals/LoginDialog.tsx
@@ -774,6 +782,14 @@ msgstr "Cancel"
 #: src/features/downloads/components/DownloadQueueChapterCard.tsx
 msgid "Cancel all for this series"
 msgstr "Cancel all for this series"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel download"
+msgstr "Cancel download"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel downloads of selected"
+msgstr "Cancel downloads of selected"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/tracker/Tracker.constants.ts

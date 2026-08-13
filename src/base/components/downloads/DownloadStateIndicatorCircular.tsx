@@ -15,6 +15,11 @@ import { msg } from '@lingui/core/macro';
 import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import type { ChapterIdInfo } from '@/features/chapter/Chapter.types.ts';
+import { useHover } from '@mantine/hooks';
+import ClearIcon from '@mui/icons-material/Clear';
+import IconButton from '@mui/material/IconButton';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const DOWNLOAD_STATE_TO_TRANSLATION_MAP: { [state in DownloadState]: MessageDescriptor } = {
     DOWNLOADING: msg`Downloading`,
@@ -32,6 +37,8 @@ export const DownloadStateIndicatorCircular = ({
 }) => {
     const { t } = useLingui();
 
+    const { ref, hovered } = useHover();
+
     const download = Chapters.useDownloadStatusFromCache(chapterId);
 
     if (!download) {
@@ -46,6 +53,7 @@ export const DownloadStateIndicatorCircular = ({
 
     return (
         <Box
+            ref={ref}
             sx={{
                 position: 'relative',
                 display: 'inline-flex',
@@ -66,7 +74,11 @@ export const DownloadStateIndicatorCircular = ({
                     justifyContent: 'center',
                 }}
             >
-                <Typography variant="caption" component="div" sx={{ color }}>
+                <Typography
+                    variant="caption"
+                    component="div"
+                    sx={{ color, position: 'absolute', opacity: Number(!hovered) }}
+                >
                     <>
                         {isDownloading && progress}
                         {!isDownloading && (
@@ -77,6 +89,21 @@ export const DownloadStateIndicatorCircular = ({
                         )}
                     </>
                 </Typography>
+                <CustomTooltip title={t`Cancel`}>
+                    <IconButton
+                        sx={{ opacity: Number(hovered) }}
+                        color="inherit"
+                        {...MUIUtil.preventRippleProp()}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            Chapters.cancelDownload([chapterId]);
+                        }}
+                    >
+                        <ClearIcon />
+                    </IconButton>
+                </CustomTooltip>
             </Box>
         </Box>
     );

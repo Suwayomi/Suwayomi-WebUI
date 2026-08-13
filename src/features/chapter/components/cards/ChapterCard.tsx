@@ -184,7 +184,7 @@ export const ChapterCard = memo((props: IProps) => {
                                     }
                                 />
 
-                                <Stack sx={{ minHeight: '48px' }}>
+                                <Stack>
                                     {selected === null ? (
                                         <CustomTooltip title={t`Options`}>
                                             <IconButton

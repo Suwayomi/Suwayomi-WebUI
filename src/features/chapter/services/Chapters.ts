@@ -116,6 +116,10 @@ export class Chapters {
         return activeDownloadStates.includes(downloadStatus?.state as DownloadState);
     }
 
+    static getDownloading<Chapter extends ChapterIdInfo>(chapters: Chapter[]): Chapter[] {
+        return chapters.filter((chapter) => Chapters.isDownloading(chapter.id));
+    }
+
     static isDownloaded({ isDownloaded }: ChapterDownloadInfo): boolean {
         return isDownloaded;
     }
@@ -193,6 +197,15 @@ export class Chapters {
             'download',
             chapterIds.length,
             () => requestManager.addChaptersToDownloadQueue(chapterIds).response,
+            disableConfirmation,
+        );
+    }
+
+    static async cancelDownload(chapterIds: number[], disableConfirmation?: boolean): Promise<void> {
+        return Chapters.executeAction(
+            'download_cancel',
+            chapterIds.length,
+            () => requestManager.removeChaptersFromDownloadQueue(chapterIds).response,
             disableConfirmation,
         );
     }
@@ -329,6 +342,8 @@ export class Chapters {
         switch (action) {
             case 'download':
                 return Chapters.download(chapterIds);
+            case 'download_cancel':
+                return Chapters.cancelDownload(chapterIds);
             case 'delete':
                 return Chapters.delete(chapterIds);
             case 'mark_as_read':

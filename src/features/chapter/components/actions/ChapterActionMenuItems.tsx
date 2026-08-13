@@ -32,7 +32,7 @@ import type { ChapterCard } from '@/features/chapter/components/cards/ChapterCar
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import type { GetChaptersMangaQuery } from '@/lib/graphql/generated/graphql.ts';
 import { GET_CHAPTERS_MANGA } from '@/lib/graphql/chapter/ChapterQuery.ts';
-import { CHAPTER_ACTION_TO_TRANSLATION } from '@/features/chapter/Chapter.constants.ts';
+import { CHAPTER_ACTION_TO_TRANSLATION, FALLBACK_CHAPTER } from '@/features/chapter/Chapter.constants.ts';
 import type {
     ChapterAction,
     ChapterBookmarkInfo,
@@ -44,6 +44,7 @@ import type {
 } from '@/features/chapter/Chapter.types.ts';
 import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 type BaseProps = { onClose: () => void; selectable?: boolean };
 
@@ -100,6 +101,7 @@ export const ChapterActionMenuItems = ({
     const isMenuItemDisabled = createIsMenuItemDisabled(isSingleMode);
 
     const {
+        downloadingChapters,
         downloadableChapters,
         downloadedChapters,
         unbookmarkedChapters,
@@ -108,6 +110,7 @@ export const ChapterActionMenuItems = ({
         readChapters,
     } = useMemo(
         () => ({
+            downloadingChapters: Chapters.getDownloading(selectedChapters),
             downloadableChapters: Chapters.getDownloadable(selectedChapters),
             downloadedChapters: Chapters.getDownloaded(selectedChapters),
             unbookmarkedChapters: Chapters.getNonBookmarked(selectedChapters),
@@ -209,6 +212,14 @@ export const ChapterActionMenuItems = ({
                     disabled={isMenuItemDisabled(!downloadableChapters.length)}
                     onClick={() => performAction('download', downloadableChapters)}
                     title={getMenuItemTitle('download', downloadableChapters.length)}
+                />
+            )}
+            {shouldShowMenuItem(Chapters.isDownloading(chapter?.id ?? FALLBACK_CHAPTER.id)) && (
+                <MenuItem
+                    Icon={CancelIcon}
+                    disabled={isMenuItemDisabled(!downloadingChapters.length)}
+                    onClick={() => performAction('download_cancel', downloadingChapters)}
+                    title={getMenuItemTitle('download_cancel', downloadingChapters.length)}
                 />
             )}
             {shouldShowMenuItem(isDownloaded) && (

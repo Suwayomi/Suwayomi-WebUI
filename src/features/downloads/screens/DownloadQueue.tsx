@@ -192,15 +192,7 @@ export const DownloadQueue: React.FC = () => {
     const cancelDownloads = (download: ChapterDownloadStatus, series?: boolean) => {
         const chapters = series ? chaptersByManga[download.manga.id] : [download.chapter];
 
-        requestManager
-            .removeChaptersFromDownloadQueue(Chapters.getIds(chapters))
-            .response.catch((e) =>
-                makeToast(
-                    plural(chapters.length, { one: 'Could not cancel download', other: 'Could not cancel downloads' }),
-                    'error',
-                    getErrorMessage(e),
-                ),
-            );
+        Chapters.cancelDownload(Chapters.getIds(chapters));
     };
 
     useAppAction(

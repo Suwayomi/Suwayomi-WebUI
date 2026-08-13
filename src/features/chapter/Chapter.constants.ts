@@ -34,6 +34,7 @@ export const CHAPTER_ACTION_TO_CONFIRMATION_REQUIRED: Record<
     { always: boolean; bulkAction: boolean; bulkActionCountForce?: number }
 > = {
     download: { always: false, bulkAction: false, bulkActionCountForce: 300 },
+    download_cancel: { always: false, bulkAction: true },
     delete: { always: true, bulkAction: true },
     bookmark: { always: false, bulkAction: false },
     unbookmark: { always: false, bulkAction: true },
@@ -60,6 +61,15 @@ export const CHAPTER_ACTION_TO_TRANSLATION: {
         confirmation: msg`{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\nSuwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}`,
         success: msg`{count, plural, one {Download added} other {# downloads added}}`,
         error: msg`{count, plural, one {Could not add the download} other {Could not add downloads}}`,
+    },
+    download_cancel: {
+        action: {
+            single: msg`Cancel download`,
+            selected: msg`Cancel downloads of selected`,
+        },
+        confirmation: msg`{count, plural, one {You are about to cancel one download} other {You are about to cancel # downloads}}`,
+        success: msg`{count, plural, one {Download canceled} other {# downloads canceled}}`,
+        error: msg`{count, plural, one {Could not cancel the download} other {Could not cancel downloads}}`,
     },
     delete: {
         action: {
