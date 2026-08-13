@@ -23,7 +23,13 @@ const DOWNLOAD_STATE_TO_TRANSLATION_MAP: { [state in DownloadState]: MessageDesc
     QUEUED: msg`Queued`,
 } as const;
 
-export const DownloadStateIndicator = ({ chapterId, color }: { chapterId: ChapterIdInfo['id']; color?: string }) => {
+export const DownloadStateIndicatorCircular = ({
+    chapterId,
+    color,
+}: {
+    chapterId: ChapterIdInfo['id'];
+    color?: string;
+}) => {
     const { t } = useLingui();
 
     const download = Chapters.useDownloadStatusFromCache(chapterId);

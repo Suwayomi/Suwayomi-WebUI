@@ -11,7 +11,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import Card from '@mui/material/Card';
 import { Link } from 'react-router-dom';
 import { memo } from 'react';
-import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
+import { DownloadStateIndicatorCircular } from '@/base/components/downloads/DownloadStateIndicatorCircular.tsx';
 import type { ChapterHistoryListFieldsFragment } from '@/lib/graphql/generated/graphql.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
@@ -50,7 +50,7 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                             ternaryText={`${chapter.name} — ${timeFormatter.format(epochToDate(Number(chapter.lastReadAt)).valueOf())}`}
                         />
                     </Box>
-                    <DownloadStateIndicator chapterId={chapter.id} />
+                    <DownloadStateIndicatorCircular chapterId={chapter.id} />
                     <ChapterDownloadRetryButton chapterId={chapter.id} />
                     <ChapterDownloadButton chapterId={chapter.id} isDownloaded={chapter.isDownloaded} />
                 </ListCardContent>

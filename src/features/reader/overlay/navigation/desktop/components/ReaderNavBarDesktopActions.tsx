@@ -15,7 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
-import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
+import { DownloadStateIndicatorCircular } from '@/base/components/downloads/DownloadStateIndicatorCircular.tsx';
 import { ReaderLibraryButton } from '@/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx';
 import { ReaderBookmarkButton } from '@/features/reader/overlay/navigation/components/ReaderBookmarkButton.tsx';
 import { CHAPTER_ACTION_TO_TRANSLATION, FALLBACK_CHAPTER } from '@/features/chapter/Chapter.constants.ts';
@@ -51,7 +51,7 @@ const DownloadButton = ({ id = -1, isDownloaded }: ChapterIdInfo & ChapterDownlo
     }
 
     if (downloadStatus) {
-        return <DownloadStateIndicator chapterId={downloadStatus.chapter.id} />;
+        return <DownloadStateIndicatorCircular chapterId={downloadStatus.chapter.id} />;
     }
 
     return (

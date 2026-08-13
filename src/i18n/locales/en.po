@@ -1538,7 +1538,7 @@ msgstr "Download selected"
 msgid "Downloaded"
 msgstr "Downloaded"
 
-#: src/base/components/downloads/DownloadStateIndicator.tsx
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
 #: src/features/settings/Settings.constants.ts
 msgid "Downloading"
 msgstr "Downloading"
@@ -1641,7 +1641,7 @@ msgstr "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
 msgid "Entry \"{id}\" not found"
 msgstr "Entry \"{id}\" not found"
 
-#: src/base/components/downloads/DownloadStateIndicator.tsx
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 #: src/features/settings/Settings.constants.ts
 msgid "Error"
@@ -1810,7 +1810,7 @@ msgstr "Filter manga feed to display only chapters you haven’t read yet."
 msgid "Finish date"
 msgstr "Finish date"
 
-#: src/base/components/downloads/DownloadStateIndicator.tsx
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Finished"
 msgstr "Finished"
@@ -2980,7 +2980,7 @@ msgstr "Pure black dark mode"
 msgid "px"
 msgstr "px"
 
-#: src/base/components/downloads/DownloadStateIndicator.tsx
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
 msgid "Queued"
 msgstr "Queued"
 

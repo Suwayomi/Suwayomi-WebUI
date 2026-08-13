@@ -21,7 +21,7 @@ import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { getDateString } from '@/base/utils/DateHelper.ts';
-import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
+import { DownloadStateIndicatorCircular } from '@/base/components/downloads/DownloadStateIndicatorCircular.tsx';
 import { ChapterActionMenuItems } from '@/features/chapter/components/actions/ChapterActionMenuItems.tsx';
 import { Menu } from '@/base/components/menu/Menu.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
@@ -175,7 +175,7 @@ export const ChapterCard = memo((props: IProps) => {
                                     }}
                                 />
 
-                                <DownloadStateIndicator
+                                <DownloadStateIndicatorCircular
                                     chapterId={chapter.id}
                                     color={
                                         mode === 'reader' && isActiveChapter

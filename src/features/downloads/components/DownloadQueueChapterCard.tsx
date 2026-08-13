@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import { ChapterDownloadRetryButton } from '@/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
-import { DownloadStateIndicator } from '@/base/components/downloads/DownloadStateIndicator.tsx';
+import { DownloadStateIndicatorCircular } from '@/base/components/downloads/DownloadStateIndicatorCircular.tsx';
 import { ChapterCardMetadata } from '@/features/chapter/components/cards/ChapterCardMetadata.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent.tsx';
@@ -82,7 +82,7 @@ export const DownloadQueueChapterCard = memo(
                             secondaryText={item.chapter.scanlator}
                             ternaryText={item.chapter.name}
                         />
-                        <DownloadStateIndicator chapterId={item.chapter.id} />
+                        <DownloadStateIndicatorCircular chapterId={item.chapter.id} />
                         <ChapterDownloadRetryButton chapterId={item.chapter.id} />
                         <CustomTooltip title={t`Delete`}>
                             <IconButton
