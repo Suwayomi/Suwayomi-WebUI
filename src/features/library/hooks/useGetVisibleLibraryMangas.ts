@@ -269,26 +269,31 @@ const useSortedMangas = <Manga extends MangaIdInfo & TMangasFilter & TMangaSort>
     const haveSortOptionsChanged = previousSortBy !== options.sortBy || previousSortDesc !== options.sortDesc;
     const reapplySorting = haveMangaIdsChanged || haveSortOptionsChanged;
 
-    if (reapplySorting) {
-        const { sortBy, sortDesc } = cachedSortOptions ?? options;
-        const sortedMangas = sortManga(mangas, sortBy, sortDesc);
+    const sortedMangas = (() => {
+        if (reapplySorting) {
+            const { sortBy, sortDesc } = options;
 
-        SORT_CACHE.cacheResponse(CACHE_SORT_OPTIONS_KEY, undefined, { sortBy, sortDesc });
-        SORT_CACHE.cacheResponse(CACHE_MANGAS_SORTED_KEY, undefined, sortedMangas);
-    }
+            SORT_CACHE.cacheResponse(CACHE_SORT_OPTIONS_KEY, undefined, { sortBy, sortDesc });
 
-    SORT_CACHE.cacheResponse(CACHE_MANGAS_KEY, undefined, mangas);
-    SORT_CACHE.cacheResponse(CACHE_MANGA_IDS_KEY, undefined, mangaIds);
+            return sortManga(mangas, sortBy, sortDesc);
+        }
 
-    const sortedMangas = SORT_CACHE.getResponseFor<Manga[]>(CACHE_MANGAS_SORTED_KEY, undefined) ?? STABLE_EMPTY_ARRAY;
+        return SORT_CACHE.getResponseFor<Manga[]>(CACHE_MANGAS_SORTED_KEY, undefined) ?? STABLE_EMPTY_ARRAY;
+    })();
 
-    return useMemo(() => {
+    const sortedMangasUpdatedReferences = useMemo(() => {
         if (haveMangasChanged) {
             return sortedMangas.map((sortedManga) => mangas.find((manga) => manga.id === sortedManga.id)!);
         }
 
         return sortedMangas;
-    }, [haveMangasChanged, sortedMangas]);
+    }, [haveMangasChanged, sortedMangas, mangas]);
+
+    SORT_CACHE.cacheResponse(CACHE_MANGAS_KEY, undefined, mangas);
+    SORT_CACHE.cacheResponse(CACHE_MANGA_IDS_KEY, undefined, mangaIds);
+    SORT_CACHE.cacheResponse(CACHE_MANGAS_SORTED_KEY, undefined, sortedMangasUpdatedReferences);
+
+    return sortedMangasUpdatedReferences;
 };
 
 const DEFAULT_CATEGORY: CategoryIdInfo = { id: -1 };
