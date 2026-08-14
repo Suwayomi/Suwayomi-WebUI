@@ -34,6 +34,7 @@ export const DOWNLOAD_TYPE_FIELDS = gql`
         progress
         state
         tries
+        position
     }
 `;
 
@@ -60,7 +61,6 @@ export const DOWNLOAD_UPDATES_FIELDS = gql`
             type
             download {
                 ...DOWNLOAD_TYPE_FIELDS
-                position
             }
         }
     }

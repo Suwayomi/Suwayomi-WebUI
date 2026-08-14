@@ -12,19 +12,23 @@ import { StyledGroupHeader } from '@/base/components/virtuoso/StyledGroupHeader.
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 import DragHandle from '@mui/icons-material/DragHandle';
 import Stack from '@mui/material/Stack';
+import type { Ref } from 'react';
 
 export const DownloadGroupHeader = ({
+    ref,
     sourceIndex,
     title,
     language,
     itemCount,
 }: {
+    ref?: Ref<HTMLDivElement>;
     sourceIndex: number;
     title: string;
     language: string | undefined;
     itemCount: number;
 }) => (
     <StyledGroupHeader
+        ref={ref}
         isFirstItem={!sourceIndex}
         sx={{
             flexDirection: 'row',

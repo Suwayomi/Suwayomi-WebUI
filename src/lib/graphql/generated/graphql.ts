@@ -946,6 +946,7 @@ export type DownloadTypeFieldsFragment = {
     progress: number;
     state: Types.DownloadState;
     tries: number;
+    position: number;
     chapter: {
         __typename: 'ChapterType';
         isDownloaded: boolean;
@@ -987,6 +988,7 @@ export type DownloadStatusFieldsFragment = {
         progress: number;
         state: Types.DownloadState;
         tries: number;
+        position: number;
         chapter: {
             __typename: 'ChapterType';
             isDownloaded: boolean;
@@ -1030,10 +1032,10 @@ export type DownloadUpdatesFieldsFragment = {
         type: Types.DownloadUpdateType;
         download: {
             __typename: 'DownloadType';
-            position: number;
             progress: number;
             state: Types.DownloadState;
             tries: number;
+            position: number;
             chapter: {
                 __typename: 'ChapterType';
                 isDownloaded: boolean;
@@ -1085,6 +1087,7 @@ export type ClearDownloaderMutation = {
                 progress: number;
                 state: Types.DownloadState;
                 tries: number;
+                position: number;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1171,6 +1174,7 @@ export type DequeueChapterDownloadMutation = {
                 progress: number;
                 state: Types.DownloadState;
                 tries: number;
+                position: number;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1223,6 +1227,7 @@ export type DequeueChapterDownloadsMutation = {
                 progress: number;
                 state: Types.DownloadState;
                 tries: number;
+                position: number;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1275,6 +1280,7 @@ export type EnqueueChapterDownloadMutation = {
                 progress: number;
                 state: Types.DownloadState;
                 tries: number;
+                position: number;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1327,6 +1333,7 @@ export type EnqueueChapterDownloadsMutation = {
                 progress: number;
                 state: Types.DownloadState;
                 tries: number;
+                position: number;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1379,6 +1386,7 @@ export type ReorderChapterDownloadMutation = {
                 progress: number;
                 state: Types.DownloadState;
                 tries: number;
+                position: number;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1431,6 +1439,7 @@ export type ReorderChapterDownloadsMutation = {
                 progress: number;
                 state: Types.DownloadState;
                 tries: number;
+                position: number;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;
@@ -1503,6 +1512,7 @@ export type GetDownloadStatusQuery = {
             progress: number;
             state: Types.DownloadState;
             tries: number;
+            position: number;
             chapter: {
                 __typename: 'ChapterType';
                 isDownloaded: boolean;
@@ -1553,10 +1563,10 @@ export type DownloadStatusSubscription = {
             type: Types.DownloadUpdateType;
             download: {
                 __typename: 'DownloadType';
-                position: number;
                 progress: number;
                 state: Types.DownloadState;
                 tries: number;
+                position: number;
                 chapter: {
                     __typename: 'ChapterType';
                     isDownloaded: boolean;

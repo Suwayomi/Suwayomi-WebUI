@@ -10,7 +10,7 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { closestCenter, DndContext } from '@dnd-kit/core';
@@ -45,11 +45,13 @@ import { DownloadGroupHeader } from '@/features/downloads/components/DownloadGro
 import { plural } from '@lingui/core/macro';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import Refresh from '@mui/icons-material/Refresh';
+import { useOffsetComponent } from '@/base/OffsetComponent.tsx';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useLingui();
 
     useAppTitle(t`Download queue`);
+    const { topOffset } = useOffsetComponent();
 
     const [reorderDownloadsMutation] = requestManager.useReorderChaptersInDownloadQueue();
 
@@ -65,6 +67,8 @@ export const DownloadQueue: React.FC = () => {
     const queue = downloaderData?.queue ?? STABLE_EMPTY_ARRAY;
     const status = downloaderData?.state ?? DownloaderState.Started;
     const isQueueEmpty = !queue.length;
+
+    const groupHeaderElementBySourceRef = useRef(new Map<SourceIdInfo['id'], Element | null>());
 
     const dndSensors = DndKitUtil.useSensorsForDevice();
     const [dndActiveSource, setDndActiveSource] = useState<any>(null);
@@ -136,7 +140,7 @@ export const DownloadQueue: React.FC = () => {
             return;
         }
 
-        reorderDownloadsMutation({ variables: { input: { reorders } } }).catch((e) => {
+        return reorderDownloadsMutation({ variables: { input: { reorders } } }).catch((e) => {
             makeToast(
                 plural(reorders.length, {
                     one: 'Could not reorder download',
@@ -180,7 +184,12 @@ export const DownloadQueue: React.FC = () => {
                 chapterId: chapter.id,
                 to: coerceIn(newIndex + index, 0, queue.length - 1),
             })),
-        );
+        )?.then(() => {
+            requestAnimationFrame(() => {
+                groupHeaderElementBySourceRef.current.get(active.id as SourceIdInfo['id'])?.scrollIntoView();
+                window.scrollBy({ top: -topOffset });
+            });
+        });
     };
 
     const reorderDownloads = (download: ChapterDownloadStatus, mode: 'top' | 'bottom', series?: boolean) => {
@@ -289,6 +298,9 @@ export const DownloadQueue: React.FC = () => {
                             isDragging={source.id === dndActiveSource?.id}
                         >
                             <DownloadGroupHeader
+                                ref={(e) => {
+                                    groupHeaderElementBySourceRef.current.set(source.id, e);
+                                }}
                                 sourceIndex={sourceIndex}
                                 title={source.name}
                                 itemCount={chaptersBySource[source.id].length}
