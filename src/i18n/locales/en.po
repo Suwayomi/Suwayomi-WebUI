@@ -1185,6 +1185,10 @@ msgstr "Could not retry \"{title}\""
 msgid "Could not retry failed download."
 msgstr "Could not retry failed download."
 
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Could not retry failed downloads"
+msgstr "Could not retry failed downloads"
+
 #: src/features/settings/screens/Appearance.tsx
 msgid "Could not save changes"
 msgstr "Could not save changes"
@@ -3154,6 +3158,10 @@ msgstr "Resume"
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Retry"
 msgstr "Retry"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Retry all"
+msgstr "Retry all"
 
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
 msgid "Retry errored pages"

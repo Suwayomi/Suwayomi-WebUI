@@ -24,7 +24,7 @@ import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewA
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { ChapterDownloadReorderInput } from '@/lib/graphql/generated/graphql-base.types.ts';
-import { DownloaderState } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { DownloadState, DownloaderState } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { coerceIn, getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { DndSortableItem } from '@/lib/dnd-kit/DndSortableItem.tsx';
 import { DndKitUtil } from '@/lib/dnd-kit/DndKitUtil.ts';
@@ -44,6 +44,7 @@ import { languageCodeToName } from '@/base/utils/Languages.ts';
 import { DownloadGroupHeader } from '@/features/downloads/components/DownloadGroupHeader.tsx';
 import { plural } from '@lingui/core/macro';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
+import Refresh from '@mui/icons-material/Refresh';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useLingui();
@@ -91,6 +92,19 @@ export const DownloadQueue: React.FC = () => {
         () => mapValues((downloads) => downloads.map((download) => download.chapter), downloadsBySource),
         [downloadsBySource],
     );
+
+    const failedDownloadChapterIds = useMemo(
+        () => queue.filter((item) => item.state === DownloadState.Error).map((item) => item.chapter.id),
+        [queue],
+    );
+
+    const retryDownloads = async () => {
+        try {
+            await Chapters.download(failedDownloadChapterIds);
+        } catch (e) {
+            makeToast(t`Could not retry failed downloads`, 'error', getErrorMessage(e));
+        }
+    };
 
     const clearQueue = async () => {
         try {
@@ -197,6 +211,12 @@ export const DownloadQueue: React.FC = () => {
 
     useAppAction(
         <>
+            <CustomTooltip title={t`Retry all`} disabled={!failedDownloadChapterIds.length}>
+                <IconButton onClick={retryDownloads} color="inherit" disabled={!failedDownloadChapterIds.length}>
+                    <Refresh />
+                </IconButton>
+            </CustomTooltip>
+
             <CustomTooltip title={t`Delete all`}>
                 <IconButton onClick={clearQueue} color="inherit">
                     <DeleteSweepIcon />
@@ -209,7 +229,7 @@ export const DownloadQueue: React.FC = () => {
                 </IconButton>
             </CustomTooltip>
         </>,
-        [status, isQueueEmpty],
+        [status, isQueueEmpty, failedDownloadChapterIds.length],
     );
 
     // Virtuoso's resize observer can throw this error,
