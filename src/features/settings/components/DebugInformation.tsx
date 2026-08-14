@@ -66,6 +66,15 @@ const PRIVACY_UNSAFE_SERVER_SETTINGS: (keyof ServerSettings)[] = [
     'databasePassword',
     'syncYomiApiKey',
     'jwtAudience',
+    'socksProxyHost',
+    'socksProxyPort',
+    'electronPath',
+    'downloadsPath',
+    'localSourcePath',
+    'flareSolverrUrl',
+    'flareSolverrSessionName',
+    'databaseUrl',
+    'syncYomiHost',
 ];
 const getBrowserDebugInfo = async (serverAddress: string) => {
     const nav = navigator;
