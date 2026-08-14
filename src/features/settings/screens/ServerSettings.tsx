@@ -117,6 +117,7 @@ export const ServerSettings = () => {
     const [mutateSettings] = requestManager.useUpdateServerSettings();
 
     const koSyncStatus = requestManager.useKoSyncStatus();
+    const clearWebViewCookiesCache = requestManager.useClearWebViewCookiesCache();
 
     const updateSetting = async <Setting extends keyof ServerSettingsType>(
         setting: Setting,
@@ -744,6 +745,18 @@ export const ServerSettings = () => {
                         onChange={(e) => updateSetting('kcefEnabled', e.target.checked)}
                     />
                 </ListItem>
+                <ListItemButton
+                    onClick={() =>
+                        clearWebViewCookiesCache[0]()
+                            .then(() => makeToast(t`Cleared WebView cookies and cache`, 'success'))
+                            .catch((e) =>
+                                makeToast(t`Could not clear WebView cookies and cache`, 'error', getErrorMessage(e)),
+                            )
+                    }
+                    disabled={clearWebViewCookiesCache[1].loading}
+                >
+                    <ListItemText primary={t`Clear cookies and cache`} />
+                </ListItemButton>
             </List>
             <List
                 subheader={

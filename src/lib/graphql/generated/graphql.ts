@@ -5132,3 +5132,10 @@ export type UserRefreshMutation = {
     __typename: 'Mutation';
     refreshToken: { __typename: 'RefreshTokenPayload'; accessToken: string };
 };
+
+export type WebviewClearCacheCookiesMutationVariables = Exact<{ [key: string]: never }>;
+
+export type WebviewClearCacheCookiesMutation = {
+    __typename: 'Mutation';
+    clearCookiesAndCache: { __typename: 'ClearCookiesAndCachePayload'; clientMutationId: string | null };
+};

@@ -349,6 +349,15 @@ export type ClearCachedImagesPayload = {
     downloadedThumbnails?: Maybe<Scalars['Boolean']['output']>;
 };
 
+export type ClearCookiesAndCacheInput = {
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ClearCookiesAndCachePayload = {
+    __typename?: 'ClearCookiesAndCachePayload';
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+};
+
 export type ClearDownloaderInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
 };
@@ -1459,6 +1468,7 @@ export type Mutation = {
     bindTrack: BindTrackPayload;
     bindTrackRecord?: Maybe<BindTrackRecordPayload>;
     clearCachedImages: ClearCachedImagesPayload;
+    clearCookiesAndCache: ClearCookiesAndCachePayload;
     clearDownloader?: Maybe<ClearDownloaderPayload>;
     connectKoSyncAccount: KoSyncConnectPayload;
     createBackup: CreateBackupPayload;
@@ -1554,6 +1564,10 @@ export type MutationBindTrackRecordArgs = {
 
 export type MutationClearCachedImagesArgs = {
     input: ClearCachedImagesInput;
+};
+
+export type MutationClearCookiesAndCacheArgs = {
+    input?: InputMaybe<ClearCookiesAndCacheInput>;
 };
 
 export type MutationClearDownloaderArgs = {

@@ -231,6 +231,10 @@ export type ClearCachedImagesPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
     downloadedThumbnails?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type ClearCookiesAndCachePayloadKeySpecifier = ('clientMutationId' | ClearCookiesAndCachePayloadKeySpecifier)[];
+export type ClearCookiesAndCachePayloadFieldPolicy = {
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type ClearDownloaderPayloadKeySpecifier = (
     | 'clientMutationId'
     | 'downloadStatus'
@@ -967,6 +971,7 @@ export type MutationKeySpecifier = (
     | 'bindTrack'
     | 'bindTrackRecord'
     | 'clearCachedImages'
+    | 'clearCookiesAndCache'
     | 'clearDownloader'
     | 'connectKoSyncAccount'
     | 'createBackup'
@@ -1051,6 +1056,7 @@ export type MutationFieldPolicy = {
     bindTrack?: FieldPolicy<any> | FieldReadFunction<any>;
     bindTrackRecord?: FieldPolicy<any> | FieldReadFunction<any>;
     clearCachedImages?: FieldPolicy<any> | FieldReadFunction<any>;
+    clearCookiesAndCache?: FieldPolicy<any> | FieldReadFunction<any>;
     clearDownloader?: FieldPolicy<any> | FieldReadFunction<any>;
     connectKoSyncAccount?: FieldPolicy<any> | FieldReadFunction<any>;
     createBackup?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -2664,6 +2670,13 @@ export type StrictTypedTypePolicies = {
             | ClearCachedImagesPayloadKeySpecifier
             | (() => undefined | ClearCachedImagesPayloadKeySpecifier);
         fields?: ClearCachedImagesPayloadFieldPolicy;
+    };
+    ClearCookiesAndCachePayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?:
+            | false
+            | ClearCookiesAndCachePayloadKeySpecifier
+            | (() => undefined | ClearCookiesAndCachePayloadKeySpecifier);
+        fields?: ClearCookiesAndCachePayloadFieldPolicy;
     };
     ClearDownloaderPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | ClearDownloaderPayloadKeySpecifier | (() => undefined | ClearDownloaderPayloadKeySpecifier);

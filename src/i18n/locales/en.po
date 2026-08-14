@@ -911,9 +911,17 @@ msgstr "Clear"
 msgid "Clear cache"
 msgstr "Clear cache"
 
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Clear cookies and cache"
+msgstr "Clear cookies and cache"
+
 #: src/features/settings/screens/ImagesSettings.tsx
 msgid "Cleared the cache"
 msgstr "Cleared the cache"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cleared WebView cookies and cache"
+msgstr "Cleared WebView cookies and cache"
 
 #: src/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx
 msgid "Click key to remove binding"
@@ -1067,6 +1075,10 @@ msgstr "Could not check for updates"
 #: src/features/settings/screens/ImagesSettings.tsx
 msgid "Could not clear the cache"
 msgstr "Could not clear the cache"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not clear WebView cookies and cache"
+msgstr "Could not clear WebView cookies and cache"
 
 #: src/lib/HelperFunctions.ts
 msgid "Could not copy to clipboard"

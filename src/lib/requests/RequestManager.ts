@@ -202,6 +202,8 @@ import type {
     ValidateBackupQueryVariables,
     WebuiUpdateSubscription,
     WebuiUpdateSubscriptionVariables,
+    WebviewClearCacheCookiesMutation,
+    WebviewClearCacheCookiesMutationVariables,
 } from '@/lib/graphql/generated/graphql.ts';
 import type {
     CreateBackupInput,
@@ -358,6 +360,7 @@ import { GET_EXTENSION_STORE, GET_EXTENSION_STORES } from '@/lib/graphql/extensi
 import { SYNC_SUBSCRIPTION } from '@/lib/graphql/sync/SyncSubscription.ts';
 import { START_SYNC } from '@/lib/graphql/sync/SyncMutation.ts';
 import { GET_SYNC_STATUS } from '@/lib/graphql/sync/SyncQuery.ts';
+import { WEBVIEW_CLEAR_CACHE_COOKIES } from '@/lib/graphql/web-view/WebViewMutation.ts';
 
 enum GQLMethod {
     QUERY = 'QUERY',
@@ -4015,6 +4018,12 @@ export class RequestManager {
             { refreshToken: refreshToken ?? undefined },
             options,
         );
+    }
+
+    public useClearWebViewCookiesCache(
+        options?: MutationOptions<WebviewClearCacheCookiesMutation, WebviewClearCacheCookiesMutationVariables>,
+    ): AbortableApolloUseMutationResponse<WebviewClearCacheCookiesMutation, WebuiUpdateSubscriptionVariables> {
+        return this.doRequest(GQLMethod.USE_MUTATION, WEBVIEW_CLEAR_CACHE_COOKIES, {}, options);
     }
 }
 
