@@ -218,25 +218,27 @@ const getBrowserDebugInfo = async (serverAddress: string) => {
 };
 const mapObjectToMetadata = (obj: object, tabs: number = 0) => (
     <Stack>
-        {Object.entries(obj).map(([key, value], index, array) =>
-            !!value && typeof value === 'object' && !Array.isArray(value) ? (
-                <Fragment key={key}>
-                    {index >= 1 && <br />}
-                    <TypographyMaxLines component="span">{indent(key, tabs, ' ')}</TypographyMaxLines>
-                    {mapObjectToMetadata(value, tabs + 2)}
-                    {array[index + 1] && typeof array[index + 1]?.[1] !== 'object' && <br />}
-                </Fragment>
-            ) : (
-                <Metadata
-                    key={key}
-                    title={indent(key, tabs, ' ')}
-                    value={indent(JSON.stringify(value), 1, ' ')}
-                    titleProps={{ component: 'span' }}
-                    valueProps={{ component: 'span' }}
-                    stackProps={{ sx: { display: 'inline-block' } }}
-                />
-            ),
-        )}
+        {Object.entries(obj)
+            .filter(([key]) => key !== '__typename')
+            .map(([key, value], index, array) =>
+                !!value && typeof value === 'object' && !Array.isArray(value) ? (
+                    <Fragment key={key}>
+                        {index >= 1 && <br />}
+                        <TypographyMaxLines component="span">{indent(key, tabs, ' ')}</TypographyMaxLines>
+                        {mapObjectToMetadata(value, tabs + 2)}
+                        {array[index + 1] && typeof array[index + 1]?.[1] !== 'object' && <br />}
+                    </Fragment>
+                ) : (
+                    <Metadata
+                        key={key}
+                        title={indent(key, tabs, ' ')}
+                        value={indent(JSON.stringify(value), 1, ' ')}
+                        titleProps={{ component: 'span' }}
+                        valueProps={{ component: 'span' }}
+                        stackProps={{ sx: { display: 'inline-block' } }}
+                    />
+                ),
+            )}
     </Stack>
 );
 
