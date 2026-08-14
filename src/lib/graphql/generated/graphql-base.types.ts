@@ -20,6 +20,7 @@ export type AboutServerPayload = {
     discord: Scalars['String']['output'];
     github: Scalars['String']['output'];
     name: Scalars['String']['output'];
+    platformInfo: PlatformInfo;
     /** @deprecated The version includes the revision as the patch number */
     revision: Scalars['String']['output'];
     version: Scalars['String']['output'];
@@ -1082,6 +1083,14 @@ export type IntFilterInput = {
     notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
+export type JvmInfo = {
+    __typename?: 'JvmInfo';
+    javaVersion: Scalars['String']['output'];
+    vmName: Scalars['String']['output'];
+    vmVendor: Scalars['String']['output'];
+    vmVersion: Scalars['String']['output'];
+};
+
 export type KoSyncConnectPayload = {
     __typename?: 'KoSyncConnectPayload';
     clientMutationId?: Maybe<Scalars['String']['output']>;
@@ -1881,6 +1890,13 @@ export type NodeList = {
     totalCount: Scalars['Int']['output'];
 };
 
+export type OsInfo = {
+    __typename?: 'OSInfo';
+    build?: Maybe<Scalars['String']['output']>;
+    name: Scalars['String']['output'];
+    version: Scalars['String']['output'];
+};
+
 export type PageInfo = {
     __typename?: 'PageInfo';
     /** When paginating forwards, the cursor to continue. */
@@ -2100,6 +2116,14 @@ export type PartialSettingsTypeInput = {
     webUIFlavor?: InputMaybe<WebUiFlavor>;
     webUIInterface?: InputMaybe<WebUiInterface>;
     webUIUpdateCheckInterval?: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type PlatformInfo = {
+    __typename?: 'PlatformInfo';
+    arch: Scalars['String']['output'];
+    headless: Scalars['Boolean']['output'];
+    jvm: JvmInfo;
+    os: OsInfo;
 };
 
 export type Preference =

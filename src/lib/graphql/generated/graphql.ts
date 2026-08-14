@@ -3011,6 +3011,13 @@ export type GetAboutQuery = {
         github: string;
         name: string;
         version: string;
+        platformInfo: {
+            __typename: 'PlatformInfo';
+            arch: string;
+            headless: boolean;
+            os: { __typename: 'OSInfo'; name: string; build: string | null; version: string };
+            jvm: { __typename: 'JvmInfo'; javaVersion: string; vmName: string; vmVendor: string; vmVersion: string };
+        };
     };
     aboutWebUI: { __typename: 'AboutWebUI'; channel: Types.WebUiChannel; tag: string; updateTimestamp: string };
 };

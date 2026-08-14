@@ -5,6 +5,7 @@ export type AboutServerPayloadKeySpecifier = (
     | 'discord'
     | 'github'
     | 'name'
+    | 'platformInfo'
     | 'revision'
     | 'version'
     | AboutServerPayloadKeySpecifier
@@ -15,6 +16,7 @@ export type AboutServerPayloadFieldPolicy = {
     discord?: FieldPolicy<any> | FieldReadFunction<any>;
     github?: FieldPolicy<any> | FieldReadFunction<any>;
     name?: FieldPolicy<any> | FieldReadFunction<any>;
+    platformInfo?: FieldPolicy<any> | FieldReadFunction<any>;
     revision?: FieldPolicy<any> | FieldReadFunction<any>;
     version?: FieldPolicy<any> | FieldReadFunction<any>;
 };
@@ -704,6 +706,13 @@ export type InstallExternalExtensionPayloadFieldPolicy = {
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
     extension?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type JvmInfoKeySpecifier = ('javaVersion' | 'vmName' | 'vmVendor' | 'vmVersion' | JvmInfoKeySpecifier)[];
+export type JvmInfoFieldPolicy = {
+    javaVersion?: FieldPolicy<any> | FieldReadFunction<any>;
+    vmName?: FieldPolicy<any> | FieldReadFunction<any>;
+    vmVendor?: FieldPolicy<any> | FieldReadFunction<any>;
+    vmVersion?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type KoSyncConnectPayloadKeySpecifier = (
     | 'clientMutationId'
     | 'message'
@@ -1127,6 +1136,12 @@ export type NodeListFieldPolicy = {
     pageInfo?: FieldPolicy<any> | FieldReadFunction<any>;
     totalCount?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type OSInfoKeySpecifier = ('build' | 'name' | 'version' | OSInfoKeySpecifier)[];
+export type OSInfoFieldPolicy = {
+    build?: FieldPolicy<any> | FieldReadFunction<any>;
+    name?: FieldPolicy<any> | FieldReadFunction<any>;
+    version?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type PageInfoKeySpecifier = (
     | 'endCursor'
     | 'hasNextPage'
@@ -1336,6 +1351,13 @@ export type PartialSettingsTypeFieldPolicy = {
     webUIFlavor?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIInterface?: FieldPolicy<any> | FieldReadFunction<any>;
     webUIUpdateCheckInterval?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type PlatformInfoKeySpecifier = ('arch' | 'headless' | 'jvm' | 'os' | PlatformInfoKeySpecifier)[];
+export type PlatformInfoFieldPolicy = {
+    arch?: FieldPolicy<any> | FieldReadFunction<any>;
+    headless?: FieldPolicy<any> | FieldReadFunction<any>;
+    jvm?: FieldPolicy<any> | FieldReadFunction<any>;
+    os?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type PullKoSyncProgressPayloadKeySpecifier = (
     | 'chapter'
@@ -2884,6 +2906,10 @@ export type StrictTypedTypePolicies = {
             | (() => undefined | InstallExternalExtensionPayloadKeySpecifier);
         fields?: InstallExternalExtensionPayloadFieldPolicy;
     };
+    JvmInfo?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | JvmInfoKeySpecifier | (() => undefined | JvmInfoKeySpecifier);
+        fields?: JvmInfoFieldPolicy;
+    };
     KoSyncConnectPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | KoSyncConnectPayloadKeySpecifier | (() => undefined | KoSyncConnectPayloadKeySpecifier);
         fields?: KoSyncConnectPayloadFieldPolicy;
@@ -2979,6 +3005,10 @@ export type StrictTypedTypePolicies = {
         keyFields?: false | NodeListKeySpecifier | (() => undefined | NodeListKeySpecifier);
         fields?: NodeListFieldPolicy;
     };
+    OSInfo?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | OSInfoKeySpecifier | (() => undefined | OSInfoKeySpecifier);
+        fields?: OSInfoFieldPolicy;
+    };
     PageInfo?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | PageInfoKeySpecifier | (() => undefined | PageInfoKeySpecifier);
         fields?: PageInfoFieldPolicy;
@@ -2986,6 +3016,10 @@ export type StrictTypedTypePolicies = {
     PartialSettingsType?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | PartialSettingsTypeKeySpecifier | (() => undefined | PartialSettingsTypeKeySpecifier);
         fields?: PartialSettingsTypeFieldPolicy;
+    };
+    PlatformInfo?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | PlatformInfoKeySpecifier | (() => undefined | PlatformInfoKeySpecifier);
+        fields?: PlatformInfoFieldPolicy;
     };
     PullKoSyncProgressPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?:

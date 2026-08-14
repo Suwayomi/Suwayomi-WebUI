@@ -310,19 +310,20 @@ export const DebugInformation = () => {
     const debugInfo = useMemo(
         () => ({
             About: {
-                Server: {
-                    Version: aboutServer?.version,
-                    Channel: aboutServer?.buildType,
-                    'Build time': aboutServer?.buildTime
-                        ? epochToDate(Number(aboutServer.buildTime)).toISOString()
-                        : '-',
-                },
                 WebUI: {
                     Version: aboutWebUI?.tag,
                     Channel: aboutWebUI?.channel,
                     'Update timestamp': aboutWebUI?.updateTimestamp
                         ? dayjs(Number(aboutWebUI.updateTimestamp)).toISOString()
                         : '-',
+                },
+                Server: {
+                    Version: aboutServer?.version,
+                    Channel: aboutServer?.buildType,
+                    'Build time': aboutServer?.buildTime
+                        ? epochToDate(Number(aboutServer.buildTime)).toISOString()
+                        : '-',
+                    'Platform info': aboutServer?.platformInfo,
                 },
             },
             Settings: {

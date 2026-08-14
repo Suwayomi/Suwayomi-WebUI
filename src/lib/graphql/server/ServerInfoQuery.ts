@@ -19,6 +19,21 @@ export const GET_ABOUT = gql`
             github
             name
             version
+            platformInfo {
+                os {
+                    name
+                    build
+                    version
+                }
+                arch
+                headless
+                jvm {
+                    javaVersion
+                    vmName
+                    vmVendor
+                    vmVersion
+                }
+            }
         }
         aboutWebUI {
             ...ABOUT_WEBUI
