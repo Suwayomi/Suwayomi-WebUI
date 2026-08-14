@@ -130,12 +130,14 @@ export const DownloadQueue: React.FC = () => {
             return;
         }
 
-        reorderDownloads({ variables: { input: { reorders } } }).catch(() => {
+        reorderDownloads({ variables: { input: { reorders } } }).catch((e) => {
             makeToast(
                 plural(reorders.length, {
                     one: 'Could not reorder download',
                     other: 'Could not reorder downloads',
                 }),
+                'error',
+                getErrorMessage(e),
             );
         });
     };
@@ -170,7 +172,7 @@ export const DownloadQueue: React.FC = () => {
             queue,
             chaptersBySource[active.id as SourceIdInfo['id']].map((chapter, index) => ({
                 chapterId: chapter.id,
-                to: newIndex + index,
+                to: coerceIn(newIndex + index, 0, queue.length - 1),
             })),
         );
     };
