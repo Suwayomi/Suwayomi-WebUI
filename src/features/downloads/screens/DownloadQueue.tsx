@@ -53,7 +53,13 @@ export const DownloadQueue: React.FC = () => {
 
     const [reorderDownloads] = requestManager.useReorderChaptersInDownloadQueue();
 
-    const { data: downloadStatusData, loading: isLoading, error, refetch } = requestManager.useGetDownloadStatus();
+    const {
+        data: downloadStatusData,
+        loading: isLoading,
+        dataState,
+        error,
+        refetch,
+    } = requestManager.useGetDownloadStatus();
     const downloaderData = downloadStatusData?.downloadStatus;
 
     const queue = downloaderData?.queue ?? STABLE_EMPTY_ARRAY;
@@ -245,7 +251,7 @@ export const DownloadQueue: React.FC = () => {
         }
     });
 
-    if (isLoading) {
+    if (isLoading && dataState !== 'complete') {
         return <LoadingPlaceholder />;
     }
 
