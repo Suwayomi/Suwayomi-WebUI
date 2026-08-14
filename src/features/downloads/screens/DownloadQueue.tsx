@@ -51,7 +51,7 @@ export const DownloadQueue: React.FC = () => {
 
     useAppTitle(t`Download queue`);
 
-    const [reorderDownloads] = requestManager.useReorderChaptersInDownloadQueue();
+    const [reorderDownloadsMutation] = requestManager.useReorderChaptersInDownloadQueue();
 
     const {
         data: downloadStatusData,
@@ -128,7 +128,7 @@ export const DownloadQueue: React.FC = () => {
         }
     };
 
-    const categoryReorder = (list: ChapterDownloadStatus[], reorders: ChapterDownloadReorderInput[]) => {
+    const downloadReorder = (list: ChapterDownloadStatus[], reorders: ChapterDownloadReorderInput[]) => {
         const isOrderUnchanged = reorders.every(
             (reorder) => list.findIndex((item) => item.chapter.id === reorder.chapterId) === reorder.to,
         );
@@ -136,7 +136,7 @@ export const DownloadQueue: React.FC = () => {
             return;
         }
 
-        reorderDownloads({ variables: { input: { reorders } } }).catch((e) => {
+        reorderDownloadsMutation({ variables: { input: { reorders } } }).catch((e) => {
             makeToast(
                 plural(reorders.length, {
                     one: 'Could not reorder download',
@@ -160,7 +160,7 @@ export const DownloadQueue: React.FC = () => {
         const oldIndex = queue.findIndex((download) => download.chapter.id === active.id);
         const newIndex = queue.findIndex((download) => download.chapter.id === over.id);
 
-        categoryReorder(queue, [{ chapterId: queue[oldIndex].chapter.id, to: newIndex }]);
+        downloadReorder(queue, [{ chapterId: queue[oldIndex].chapter.id, to: newIndex }]);
     };
 
     const onDragEndSource = (event: DragEndEvent) => {
@@ -174,7 +174,7 @@ export const DownloadQueue: React.FC = () => {
 
         const newIndex = queue.findIndex((item) => item.manga.sourceId === over.id);
 
-        categoryReorder(
+        downloadReorder(
             queue,
             chaptersBySource[active.id as SourceIdInfo['id']].map((chapter, index) => ({
                 chapterId: chapter.id,
@@ -183,7 +183,7 @@ export const DownloadQueue: React.FC = () => {
         );
     };
 
-    const reorderDownloadss = (download: ChapterDownloadStatus, mode: 'top' | 'bottom', series?: boolean) => {
+    const reorderDownloads = (download: ChapterDownloadStatus, mode: 'top' | 'bottom', series?: boolean) => {
         const chapters = series ? chaptersByManga[download.manga.id] : [download.chapter];
         const sourceDownloads = downloadsBySource[download.manga.sourceId];
 
@@ -208,7 +208,7 @@ export const DownloadQueue: React.FC = () => {
             to: coerceIn(newIndex + index, 0, queue.length - 1),
         }));
 
-        categoryReorder(queue, reorders);
+        downloadReorder(queue, reorders);
     };
 
     const cancelDownloads = (download: ChapterDownloadStatus, series?: boolean) => {
@@ -329,7 +329,7 @@ export const DownloadQueue: React.FC = () => {
                                                 <StyledGroupItemWrapper>
                                                     <DownloadQueueChapterCard
                                                         item={downloadsBySource[source.id][index]}
-                                                        reorderDownloads={reorderDownloadss}
+                                                        reorderDownloads={reorderDownloads}
                                                         cancelDownloads={cancelDownloads}
                                                     />
                                                 </StyledGroupItemWrapper>
@@ -340,7 +340,7 @@ export const DownloadQueue: React.FC = () => {
                                 <DndOverlayItem isActive={!!dndActiveDownload}>
                                     <DownloadQueueChapterCard
                                         item={dndActiveDownload!}
-                                        reorderDownloads={reorderDownloadss}
+                                        reorderDownloads={reorderDownloads}
                                         cancelDownloads={cancelDownloads}
                                     />
                                 </DndOverlayItem>
