@@ -328,6 +328,10 @@ msgstr "{extensionStoreCount, plural, one {# extension store} other {# extension
 msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
 msgstr "{installedExtensionCount, plural, one {# installed} other {# installed}}"
 
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "{libraryMangaCount, plural, one {# entry in library} other {# entries in library}}"
+msgstr "{libraryMangaCount, plural, one {# entry in library} other {# entries in library}}"
+
 #: src/features/chapter/components/ChapterList.tsx
 #: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
 msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"

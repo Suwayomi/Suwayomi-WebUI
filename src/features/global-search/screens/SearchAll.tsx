@@ -60,6 +60,10 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { ReactRouter } from '@/lib/react-router/ReactRouter.ts';
 import type { RouteStateSourcesSearchAll } from '@/features/global-search/SearchAll.types.ts';
+import groupBy from 'lodash/fp/groupBy';
+import mapValues from 'lodash/fp/mapValues';
+import type { TMigratableSource } from '@/features/migration/Migration.types.ts';
+import { plural } from '@lingui/core/macro';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
 type SourceToLoadingStateMap = Map<string, SourceLoadingState>;
@@ -128,12 +132,14 @@ const SourceSearchPreview = React.memo(
         shouldShowOnlySourcesWithResults,
         onMigrateSelect,
         mangaId,
+        libraryMangaCount,
     }: {
         source: SourceIdInfo & SourceDisplayNameInfo & SourceNameInfo & SourceLanguageInfo;
         onSearchRequestFinished: (source: SourceIdInfo, state: SourceLoadingState) => void;
         searchString: string | null | undefined;
         emptyQuery: boolean;
         mangaId?: MangaIdInfo['id'];
+        libraryMangaCount?: number;
     } & Pick<MangaCardProps, 'mode' | 'onMigrateSelect'> &
         Pick<MetadataBrowseSettings, 'shouldShowOnlySourcesWithResults'>) => {
         const { t } = useLingui();
@@ -204,7 +210,14 @@ const SourceSearchPreview = React.memo(
                     >
                         <Box>
                             <Typography variant="h5">{name}</Typography>
-                            <Typography variant="caption">{translateExtensionLanguage(lang)}</Typography>
+                            <Typography variant="caption">
+                                {translateExtensionLanguage(lang)}
+                                {libraryMangaCount &&
+                                    ` — ${plural(libraryMangaCount, {
+                                        one: '# entry in library',
+                                        other: '# entries in library',
+                                    })}`}
+                            </Typography>
                         </Box>
                         <CustomTooltip title={t`Show more`}>
                             <IconButton {...MUIUtil.preventRippleProp()}>
@@ -269,6 +282,7 @@ export const SearchAll = ({
         settings: { showNsfw, shouldShowOnlySourcesWithResults },
     } = useMetadataServerSettings();
 
+    const migratableSourcesRequest = Sources.useGetMigratableSources();
     const { data, loading, error, refetch } = requestManager.useGetSourceList();
     const tmpSources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
     const sources = useMemo(
@@ -286,6 +300,10 @@ export const SearchAll = ({
 
     const hasPinnedSources = useMemo(() => !!Sources.filter(sources, { pinned: true }).length, [sources]);
 
+    const migratableSourceBySourceId = useMemo(
+        () => mapValues((items: TMigratableSource[]) => items[0], groupBy('id', migratableSourcesRequest.sources)),
+        [migratableSourcesRequest.sources],
+    );
     const {
         title = t`Global Search`,
         shouldShowOnlyPinnedSources = hasPinnedSources,
@@ -454,6 +472,7 @@ export const SearchAll = ({
                                   }
                                 : undefined
                         }
+                        libraryMangaCount={migratableSourceBySourceId[source.id]?.mangaCount}
                         mangaId={mangaId ? Number(mangaId) : undefined}
                     />
                 ))}
