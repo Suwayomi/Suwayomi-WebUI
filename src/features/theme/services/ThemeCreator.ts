@@ -192,6 +192,7 @@ export const createTheme = (
     const suwayomiTheme = createMuiTheme(
         deepmerge(appColorTheme, {
             defaultColorScheme: mode,
+            colorSchemeSelector: 'class',
             direction,
             typography: {
                 fontSize: 13,
