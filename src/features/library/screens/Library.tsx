@@ -209,7 +209,7 @@ export function Library() {
             )}
         </TitleWithSizeTag>,
         t`Library`,
-        [t, showTabSize, librarySize],
+        [t, showTabSize, librarySize, theme],
     );
     useAppAction(
         <>
