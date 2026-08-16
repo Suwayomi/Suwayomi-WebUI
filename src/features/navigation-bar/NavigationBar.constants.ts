@@ -19,7 +19,10 @@ import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import SettingsIcon from '@mui/icons-material/Settings';
 import InfoIcon from '@mui/icons-material/Info';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import { useLingui } from '@lingui/react/macro';
+
 import { msg, plural } from '@lingui/core/macro';
 import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { NavBarItemMoreGroup } from '@/features/navigation-bar/NavigationBar.types.ts';
@@ -39,6 +42,15 @@ const NAVIGATION_BAR_BASE_ITEMS = [
         show: 'both',
         moreGroup: NavBarItemMoreGroup.GENERAL,
     },
+    {
+        path: AppRoutes.mangaExplore.path as RestrictedNavBarItem<'both'>['path'],
+        title: msg`Manga`,
+        SelectedIconComponent: AutoStoriesIcon,
+        IconComponent: AutoStoriesOutlinedIcon,
+        show: 'both',
+        moreGroup: NavBarItemMoreGroup.GENERAL,
+    },
+
     {
         path: AppRoutes.updates.path,
         title: msg`Updates`,

@@ -2386,6 +2386,7 @@ msgstr ""
 "This makes it possible to have e.g. different settings on a desktop and a smartphone"
 
 #: src/features/manga/screens/Manga.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manga"

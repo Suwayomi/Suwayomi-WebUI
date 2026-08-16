@@ -198,6 +198,17 @@ export const AppRoutes = {
         match: 'history',
         path: '/history',
     },
+    mangaExplore: {
+        match: 'manga-explore/*',
+        path: '/manga-explore',
+        children: {
+            detail: {
+                match: ':mangaId',
+                path: (mangaId: string | number) => `/manga-explore/${mangaId}`,
+            },
+        },
+    },
+
     recent: {
         match: 'recent',
         path: '/recent',

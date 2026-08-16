@@ -106,6 +106,16 @@ const { ExtensionStores } = loadable(
     lazyLoadFallback,
 );
 
+const { MangaExploreScreen } = loadable(
+    () => import('@/features/manga-explore/screens/MangaExploreScreen.tsx'),
+    lazyLoadFallback,
+);
+
+const { MangaExploreDetailScreen } = loadable(
+    () => import('@/features/manga-explore/screens/MangaExploreDetailScreen.tsx'),
+    lazyLoadFallback,
+);
+
 if (import.meta.env.DEV) {
     // Adds messages only in a dev environment
     loadDevMessages();
@@ -368,7 +378,14 @@ const MainApp = () => {
                         <Route path={AppRoutes.updates.match} element={<Updates />} />
                         {!hideHistory && <Route path={AppRoutes.history.match} element={<History />} />}
                         <Route path={AppRoutes.browse.match} element={<Browse />} />
-                        <Route path={AppRoutes.browse.match} element={<Browse />} />
+                        <Route path={AppRoutes.mangaExplore.match}>
+                            <Route index element={<MangaExploreScreen />} />
+                            <Route
+                                path={AppRoutes.mangaExplore.children.detail.match}
+                                element={<MangaExploreDetailScreen />}
+                            />
+                        </Route>
+
                         <Route path={AppRoutes.migrate.match}>
                             <Route index element={<Migration />} />
                             <Route path={AppRoutes.migrate.children.singleMangaSearch.match} element={<SearchAll />} />
