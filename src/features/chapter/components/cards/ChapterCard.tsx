@@ -43,6 +43,7 @@ import type {
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { ChapterType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { usePress } from '@/base/hooks/usePress.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -131,7 +132,7 @@ export const ChapterCard = memo((props: IProps) => {
                     >
                         <CardActionArea
                             component={Link}
-                            to={Chapters.getReaderUrl(chapter)}
+                            to={AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder)}
                             onContextMenu={preventMobileContextMenu}
                             sx={MediaQuery.preventMobileContextMenuSx()}
                             style={{

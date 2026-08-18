@@ -83,7 +83,7 @@ export class ReaderService {
     }
 
     static navigateToChapter(chapter: TChapterReader, state?: RouteStateReader): void {
-        ReactRouter.navigate(Chapters.getReaderUrl(chapter), {
+        ReactRouter.navigate(AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder), {
             replace: true,
             state,
         });
