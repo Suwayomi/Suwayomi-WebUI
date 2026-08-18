@@ -116,7 +116,7 @@ export const MangaNotesButton = ({
 };
 
 export const MangaNotes = ({ manga, expanded }: { manga: MangaIdInfo & MangaMetaInfo; expanded: boolean }) => {
-    const { notes, setNotes } = useMangaNotes(manga);
+    const { notes } = useGetMangaMetadata(manga);
     const hasNotes = notes.trim().length > 0;
 
     return (
