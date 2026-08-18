@@ -130,10 +130,9 @@ export const ChapterUpdateCard = memo(
                     </ListCardContent>
                 </CardActionArea>
                 {isGroup && (
-                    <Collapse in={isExpanded} unmountOnExit>
+                    <Collapse in={isExpanded}>
                         <Virtuoso
                             useWindowScroll
-                            overscan={window.innerHeight * 0.5}
                             data={otherChapters}
                             computeItemKey={(index) => otherChapters[index].id}
                             itemContent={(_index, otherChapter) => <ChapterUpdateCard chapter={otherChapter} />}
