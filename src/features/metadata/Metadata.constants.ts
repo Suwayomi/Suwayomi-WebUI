@@ -415,6 +415,9 @@ export const APP_METADATA: Record<
     safeAreaInset: {
         convert: convertToObject<SafeAreaInset>,
     },
+    shouldEnterFullscreen: {
+        convert: convertToBoolean,
+    },
 } as const;
 
 export const VALID_APP_METADATA_KEYS = Object.keys(APP_METADATA);

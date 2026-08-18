@@ -16,6 +16,7 @@ import { ReaderSettingOverlayMode } from '@/features/reader/overlay/settings/Rea
 import { CheckboxInput } from '@/base/components/inputs/CheckboxInput.tsx';
 import { ReaderSettingBackgroundColor } from '@/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx';
 import { ReaderSettingSafeAreaInset } from '@/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx';
+import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 
 export const ReaderGeneralSettings = ({
     overlayMode,
@@ -57,6 +58,23 @@ export const ReaderGeneralSettings = ({
                 label={t`Show page number`}
                 checked={settings.shouldShowPageNumber}
                 onChange={(_, checked) => updateSetting('shouldShowPageNumber', checked)}
+            />
+            <CheckboxInput
+                label={t`Fullscreen`}
+                checked={settings.shouldEnterFullscreen}
+                onChange={(_, checked) => {
+                    updateSetting('shouldEnterFullscreen', checked);
+
+                    if (!onDefault) {
+                        return;
+                    }
+
+                    if (checked) {
+                        ReaderService.enterFullscreen();
+                    } else {
+                        ReaderService.exitFullscreen(undefined, true);
+                    }
+                }}
             />
             <ReaderSettingSafeAreaInset
                 safeAreaInset={settings.safeAreaInset}

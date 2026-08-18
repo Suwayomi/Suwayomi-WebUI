@@ -21,6 +21,7 @@ import { ChapterCardMetadata } from '@/features/chapter/components/cards/Chapter
 import { ChapterDownloadButton } from '@/features/chapter/components/buttons/ChapterDownloadButton.tsx';
 import { ChapterDownloadRetryButton } from '@/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent';
+import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 
 export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryListFieldsFragment }) => {
     const { manga } = chapter;
@@ -31,6 +32,11 @@ export const ChapterHistoryCard = memo(({ chapter }: { chapter: ChapterHistoryLi
                 component={Link}
                 to={AppRoutes.reader.path(chapter.manga.id, chapter.sourceOrder)}
                 state={Chapters.getReaderOpenChapterLocationState(chapter)}
+                onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    ReaderService.openReader(chapter);
+                }}
                 sx={{
                     color: (theme) => theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                 }}
