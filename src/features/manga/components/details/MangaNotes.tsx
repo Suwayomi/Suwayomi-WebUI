@@ -68,7 +68,6 @@ export const MangaNotesButton = ({
 
     const hasNotes = notes.trim().length > 0;
     const isUnchanged = draft.trimEnd() === notes;
-    const titleId = 'manga-notes-dialog-title';
 
     return (
         <>
