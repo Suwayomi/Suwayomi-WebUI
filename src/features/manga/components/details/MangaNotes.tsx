@@ -24,19 +24,6 @@ import type { MangaIdInfo, MangaMetaInfo } from '@/features/manga/Manga.types.ts
 import { updateMangaMetadata, useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
-type MangaNotesState = {
-    notes: string;
-    setNotes: (notes: string) => void;
-};
-
-export const useMangaNotes = (manga: MangaIdInfo & MangaMetaInfo): MangaNotesState => {
-    const { notes: storedNotes } = useGetMangaMetadata(manga);
-    const [notes, setNotes] = useState(storedNotes);
-
-    useEffect(() => setNotes(storedNotes), [storedNotes]);
-
-    return { notes, setNotes };
-};
 
 export const MangaNotesButton = ({
     manga,
