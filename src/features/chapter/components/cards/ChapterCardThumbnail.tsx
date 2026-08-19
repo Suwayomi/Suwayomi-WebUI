@@ -27,7 +27,13 @@ export const ChapterCardThumbnail = ({
         listCardAvatar?: Omit<ComponentProps<typeof ListCardAvatar>, 'alt' | 'iconUrl'>;
     };
 }) => (
-    <Link to={AppRoutes.manga.path(mangaId)} style={{ textDecoration: 'none' }}>
+    <Link
+        to={AppRoutes.manga.path(mangaId)}
+        style={{ textDecoration: 'none' }}
+        onClick={(e) => {
+            e.stopPropagation();
+        }}
+    >
         <ListCardAvatar
             iconUrl={Mangas.getThumbnailUrl({ thumbnailUrl, thumbnailUrlLastFetched })}
             alt={mangaTitle}
