@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import Button from '@mui/material/Button';
@@ -24,19 +24,9 @@ import type { MangaIdInfo, MangaMetaInfo } from '@/features/manga/Manga.types.ts
 import { updateMangaMetadata, useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
-
-export const MangaNotesButton = ({
-    manga,
-    notes,
-    onSaved,
-}: {
-    manga: MangaIdInfo & MangaMetaInfo;
-    notes: string;
-    onSaved: (notes: string) => void;
-}) => {
+export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaMetaInfo; notes: string }) => {
     const { t } = useLingui();
     const [isOpen, setIsOpen] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
     const [draft, setDraft] = useState(notes);
 
     const openDialog = () => {
@@ -44,26 +34,15 @@ export const MangaNotesButton = ({
         setIsOpen(true);
     };
 
-    const closeDialog = () => {
-        if (!isSaving) {
-            setIsOpen(false);
-        }
-    };
+    const closeDialog = () => setIsOpen(false);
 
-    const saveNotes = async () => {
+    const saveNotes = () => {
         const nextNotes = draft.trimEnd();
-        setIsSaving(true);
+        setIsOpen(false);
 
-        try {
-            await updateMangaMetadata(manga, 'notes', nextNotes);
-            onSaved(nextNotes);
-            setIsOpen(false);
-            makeToast(t`Notes saved`, 'success');
-        } catch (error) {
-            makeToast(t`Could not save notes`, 'error', getErrorMessage(error));
-        } finally {
-            setIsSaving(false);
-        }
+        void updateMangaMetadata(manga, 'notes', nextNotes)
+            .then(() => makeToast(t`Notes saved`, 'success'))
+            .catch((error) => makeToast(t`Could not save notes`, 'error', getErrorMessage(error)));
     };
 
     const hasNotes = notes.trim().length > 0;
@@ -79,8 +58,8 @@ export const MangaNotesButton = ({
             >
                 {hasNotes ? t`Edit notes` : t`Add notes`}
             </Button>
-            <Dialog open={isOpen} onClose={closeDialog} aria-labelledby={titleId} fullWidth maxWidth="sm">
-                <DialogTitle id={titleId}>{hasNotes ? t`Edit notes` : t`Add notes`}</DialogTitle>
+            <Dialog open={isOpen} onClose={closeDialog} fullWidth maxWidth="sm">
+                <DialogTitle>{hasNotes ? t`Edit notes` : t`Add notes`}</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
@@ -92,7 +71,6 @@ export const MangaNotesButton = ({
                         label={t`Notes`}
                         placeholder={t`Add a private note about this manga`}
                         value={draft}
-                        disabled={isSaving}
                         onChange={(event) => setDraft(event.target.value)}
                         onKeyDown={(event) => {
                             if ((event.ctrlKey || event.metaKey) && event.key === 'Enter' && !isUnchanged) {
@@ -103,11 +81,9 @@ export const MangaNotesButton = ({
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={closeDialog} disabled={isSaving}>
-                        {t`Cancel`}
-                    </Button>
-                    <Button onClick={() => void saveNotes()} disabled={isSaving || isUnchanged} variant="contained">
-                        {isSaving ? t`Saving…` : t`Save`}
+                    <Button onClick={closeDialog}>{t`Cancel`}</Button>
+                    <Button onClick={saveNotes} disabled={isUnchanged} variant="contained">
+                        {t`Save`}
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -115,7 +91,15 @@ export const MangaNotesButton = ({
     );
 };
 
-export const MangaNotes = ({ manga, expanded }: { manga: MangaIdInfo & MangaMetaInfo; expanded: boolean }) => {
+export const MangaNotes = ({
+    manga,
+    expanded,
+    showDivider,
+}: {
+    manga: MangaIdInfo & MangaMetaInfo;
+    expanded: boolean;
+    showDivider: boolean;
+}) => {
     const { notes } = useGetMangaMetadata(manga);
     const hasNotes = notes.trim().length > 0;
 
@@ -131,8 +115,8 @@ export const MangaNotes = ({ manga, expanded }: { manga: MangaIdInfo & MangaMeta
                     {notes}
                 </Typography>
             )}
-            {(!hasNotes || expanded) && <MangaNotesButton manga={manga} notes={notes} onSaved={setNotes} />}
-            {hasNotes && <Divider flexItem />}
+            {(!hasNotes || expanded) && <MangaNotesButton manga={manga} notes={notes} />}
+            {hasNotes && showDivider && <Divider flexItem />}
         </Stack>
     );
 };

@@ -3241,10 +3241,6 @@ msgstr "Saved theme changes"
 msgid "Saving theme changes…"
 msgstr "Saving theme changes…"
 
-#: src/features/manga/components/details/MangaNotes.tsx
-msgid "Saving…"
-msgstr "Saving…"
-
 #: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx
 #: src/features/reader/settings/layout/components/ReaderSettingPageScaleMode.tsx
 msgid "Scale type"
