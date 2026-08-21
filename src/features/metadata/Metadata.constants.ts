@@ -110,6 +110,19 @@ export const APP_METADATA: Record<
     removeMangaFromCategories: {
         convert: convertToBoolean,
     },
+    hiddenCategoryIds: {
+        convert: convertToObject<number[]>,
+    },
+    hiddenCategoryPasswordHash: {
+        convert: convertToString,
+    },
+    hiddenCategoryAutoLockEnabled: {
+        convert: convertToBoolean,
+    },
+    hiddenCategoryAutoLockMinutes: {
+        convert: convertToNumber,
+        toConstrainedValue: (value: number) => (Number.isFinite(value) ? Math.max(1, Math.floor(value)) : 10),
+    },
     showTabSize: {
         convert: convertToBoolean,
     },
@@ -435,6 +448,10 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     'showAddToLibraryCategorySelectDialog',
     'ignoreFilters',
     'removeMangaFromCategories',
+    'hiddenCategoryIds',
+    'hiddenCategoryPasswordHash',
+    'hiddenCategoryAutoLockEnabled',
+    'hiddenCategoryAutoLockMinutes',
     'showTabSize',
 
     // library category options

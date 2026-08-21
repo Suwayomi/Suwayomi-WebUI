@@ -10,11 +10,13 @@ import type { ChipProps } from '@mui/material/Chip';
 import Chip from '@mui/material/Chip';
 import Tab from '@mui/material/Tab';
 import { styled, useTheme } from '@mui/material/styles';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useQueryParam, NumberParam, StringParam } from 'use-query-params';
 import Button from '@mui/material/Button';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useLingui } from '@lingui/react/macro';
 import { plural } from '@lingui/core/macro';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
@@ -51,6 +53,12 @@ import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { SearchParam } from '@/base/Base.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import {
+    HIDDEN_CATEGORIES_SESSION_KEY,
+    HIDDEN_CATEGORIES_UNLOCKED_AT_SESSION_KEY,
+    hashHiddenCategoryPassword,
+} from '@/features/library/HiddenCategories.utils.ts';
 import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 
 const TitleWithSizeTag = styled('span')({
@@ -65,10 +73,91 @@ const TitleSizeTag = ({ sx, ...props }: ChipProps) => (
 export function Library() {
     const { t } = useLingui();
     const theme = useTheme();
+    const [unlockedPasswordHash, setUnlockedPasswordHash] = useState(
+        () => sessionStorage.getItem(HIDDEN_CATEGORIES_SESSION_KEY) ?? '',
+    );
+    const [unlockedAt, setUnlockedAt] = useState(
+        () => Number(sessionStorage.getItem(HIDDEN_CATEGORIES_UNLOCKED_AT_SESSION_KEY)) || 0,
+    );
 
     const {
-        settings: { showTabSize },
+        settings: {
+            hiddenCategoryIds,
+            hiddenCategoryPasswordHash,
+            hiddenCategoryAutoLockEnabled,
+            hiddenCategoryAutoLockMinutes,
+            showTabSize,
+        },
     } = useMetadataServerSettings();
+    const lockHiddenCategories = useCallback(() => {
+        sessionStorage.removeItem(HIDDEN_CATEGORIES_SESSION_KEY);
+        sessionStorage.removeItem(HIDDEN_CATEGORIES_UNLOCKED_AT_SESSION_KEY);
+        setUnlockedPasswordHash('');
+        setUnlockedAt(0);
+    }, []);
+    const hasMatchingUnlockHash = !!hiddenCategoryPasswordHash && unlockedPasswordHash === hiddenCategoryPasswordHash;
+    const areHiddenCategoriesUnlocked =
+        hasMatchingUnlockHash &&
+        (!hiddenCategoryAutoLockEnabled ||
+            (!!unlockedAt && Date.now() < unlockedAt + hiddenCategoryAutoLockMinutes * 60_000));
+
+    useEffect(() => {
+        if (!hasMatchingUnlockHash || !hiddenCategoryAutoLockEnabled) {
+            return undefined;
+        }
+
+        if (!unlockedAt) {
+            const now = Date.now();
+            sessionStorage.setItem(HIDDEN_CATEGORIES_UNLOCKED_AT_SESSION_KEY, String(now));
+            setUnlockedAt(now);
+            return undefined;
+        }
+
+        let timeout: number;
+        const scheduleLock = () => {
+            const remainingTime = unlockedAt + hiddenCategoryAutoLockMinutes * 60_000 - Date.now();
+            if (remainingTime <= 0) {
+                lockHiddenCategories();
+                return;
+            }
+
+            timeout = window.setTimeout(scheduleLock, Math.min(remainingTime, 2_147_483_647));
+        };
+        scheduleLock();
+
+        return () => window.clearTimeout(timeout);
+    }, [
+        hasMatchingUnlockHash,
+        hiddenCategoryAutoLockEnabled,
+        hiddenCategoryAutoLockMinutes,
+        unlockedAt,
+        lockHiddenCategories,
+    ]);
+
+    const handleSearchSubmit = useCallback(
+        async (searchValue: string): Promise<boolean> => {
+            if (!hiddenCategoryIds.length || !hiddenCategoryPasswordHash || areHiddenCategoriesUnlocked) {
+                return false;
+            }
+
+            try {
+                const searchHash = await hashHiddenCategoryPassword(searchValue);
+                if (searchHash !== hiddenCategoryPasswordHash) {
+                    return false;
+                }
+
+                const now = Date.now();
+                sessionStorage.setItem(HIDDEN_CATEGORIES_SESSION_KEY, searchHash);
+                sessionStorage.setItem(HIDDEN_CATEGORIES_UNLOCKED_AT_SESSION_KEY, String(now));
+                setUnlockedPasswordHash(searchHash);
+                setUnlockedAt(now);
+                return true;
+            } catch {
+                return false;
+            }
+        },
+        [hiddenCategoryIds.length, hiddenCategoryPasswordHash, areHiddenCategoriesUnlocked],
+    );
 
     const {
         data: categoriesResponse,
@@ -78,9 +167,9 @@ export function Library() {
     } = requestManager.useGetCategories<GetCategoriesLibraryQuery, GetCategoriesLibraryQueryVariables>(
         GET_CATEGORIES_LIBRARY,
     );
-    const tabsData = categoriesResponse?.categories.nodes.filter(
-        (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
-    );
+    const tabsData = categoriesResponse?.categories.nodes
+        .filter((category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount))
+        .filter((category) => areHiddenCategoriesUnlocked || !hiddenCategoryIds.includes(category.id));
     const tabs = tabsData ?? STABLE_EMPTY_ARRAY;
 
     const librarySizeResponse = requestManager.useGetMangas<GetMangasCountQuery, GetMangasCountQueryVariables>(
@@ -215,7 +304,14 @@ export function Library() {
         <>
             {!isSelectModeActive && activeTab && (
                 <>
-                    <AppbarSearch />
+                    <AppbarSearch onSubmit={handleSearchSubmit} />
+                    {areHiddenCategoriesUnlocked && (
+                        <CustomTooltip title={t`Lock hidden categories`}>
+                            <IconButton onClick={lockHiddenCategories} color="inherit">
+                                <LockOutlinedIcon />
+                            </IconButton>
+                        </CustomTooltip>
+                    )}
                     <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <UpdateChecker categoryId={activeTab?.id} />
                 </>
@@ -240,7 +336,16 @@ export function Library() {
                 />
             )}
         </>,
-        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas],
+        [
+            isSelectModeActive,
+            areNoItemsSelected,
+            areAllItemsSelected,
+            activeTab,
+            mangas,
+            areHiddenCategoriesUnlocked,
+            handleSearchSubmit,
+            lockHiddenCategories,
+        ],
     );
 
     const handleTabChange = (newTab: number) => {

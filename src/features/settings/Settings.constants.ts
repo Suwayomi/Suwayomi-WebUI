@@ -49,6 +49,10 @@ export const SERVER_SETTINGS_METADATA_DEFAULT: MetadataServerSettings = {
     downloadAheadLimit: 0,
 
     // library
+    hiddenCategoryIds: [],
+    hiddenCategoryPasswordHash: '',
+    hiddenCategoryAutoLockEnabled: true,
+    hiddenCategoryAutoLockMinutes: 10,
     showAddToLibraryCategorySelectDialog: true,
     ignoreFilters: false,
     removeMangaFromCategories: false,

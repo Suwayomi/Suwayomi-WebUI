@@ -12,6 +12,10 @@ import type { MangaDescriptionInfo, MangaIdInfo, MangaTitleInfo } from '@/featur
 import type { TrackerIdInfo } from '@/features/tracker/Tracker.types.ts';
 
 export type MetadataLibrarySettings = {
+    hiddenCategoryIds: number[];
+    hiddenCategoryPasswordHash: string;
+    hiddenCategoryAutoLockEnabled: boolean;
+    hiddenCategoryAutoLockMinutes: number;
     showAddToLibraryCategorySelectDialog: boolean;
     ignoreFilters: boolean;
     removeMangaFromCategories: boolean;

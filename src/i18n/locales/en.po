@@ -35,6 +35,11 @@ msgstr "{0, plural, one {# Chapter} other {# Chapters}}"
 msgid "{0, plural, one {# day} other {# days}}"
 msgstr "{0, plural, one {# day} other {# days}}"
 
+#. placeholder {0}: hiddenCategoryIds.length
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "{0, plural, one {# hidden category} other {# hidden categories}}"
+msgstr "{0, plural, one {# hidden category} other {# hidden categories}}"
+
 #. placeholder {0}: selectedItemIds.length
 #: src/features/library/screens/Library.tsx
 msgid "{0, plural, one {# manga} other {# manga}}"
@@ -389,6 +394,18 @@ msgstr "Aborted"
 #: src/features/settings/screens/About.tsx
 msgid "About"
 msgstr "About"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Access code"
+msgstr "Access code"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Access code must contain at least 4 characters"
+msgstr "Access code must contain at least 4 characters"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Access codes do not match"
+msgstr "Access codes do not match"
 
 #: src/features/device/screens/DeviceSetting.tsx
 msgid "Active device"
@@ -769,6 +786,7 @@ msgstr "Can't migrate an entry to itself"
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 #: src/features/downloads/components/DownloadQueueChapterCard.tsx
+#: src/features/library/components/HiddenCategoriesSetting.tsx
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
 #: src/features/migration/components/MigrationOptionsDialog.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
@@ -981,6 +999,10 @@ msgstr "Completed"
 #: src/features/settings/components/images/Processing.tsx
 msgid "Compression level"
 msgstr "Compression level"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Confirm access code"
+msgstr "Confirm access code"
 
 #: src/features/settings/components/images/Processing.tsx
 msgid "Connect timeout"
@@ -1209,6 +1231,10 @@ msgstr "Could not retry failed downloads"
 msgid "Could not save changes"
 msgstr "Could not save changes"
 
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Could not save hidden categories"
+msgstr "Could not save hidden categories"
+
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/library/screens/LibrarySettings.tsx
@@ -1252,6 +1278,10 @@ msgstr "Could not update WebUI"
 msgid "Could not validate backup"
 msgstr "Could not validate backup"
 
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Could not verify access code"
+msgstr "Could not verify access code"
+
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
@@ -1286,6 +1316,10 @@ msgstr "Creating theme…"
 #: src/features/theme/Themes.ts
 msgid "Crimson"
 msgstr "Crimson"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Current access code"
+msgstr "Current access code"
 
 #: src/features/migration/components/MigrationDestinationSourceList.tsx
 msgid "Current source"
@@ -1657,6 +1691,10 @@ msgstr "Enable page read progress"
 msgid "Enable the WebView via CEF (Chromium)"
 msgstr "Enable the WebView via CEF (Chromium)"
 
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Enter a whole number of minutes greater than zero"
+msgstr "Enter a whole number of minutes greater than zero"
+
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
 msgstr "Entries in excluded categories will not be downloaded even if they are also in included categories"
@@ -1989,6 +2027,18 @@ msgstr "Hiatus"
 msgid "Hidden"
 msgstr "Hidden"
 
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Hidden categories"
+msgstr "Hidden categories"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Hidden categories disabled"
+msgstr "Hidden categories disabled"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Hidden categories saved"
+msgstr "Hidden categories saved"
+
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Hide entries already in library"
 msgstr "Hide entries already in library"
@@ -2115,6 +2165,10 @@ msgstr "Include: {includedCategoriesText}"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Include: {includedSyncDataText}"
 msgstr "Include: {includedSyncDataText}"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Incorrect access code"
+msgstr "Incorrect access code"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 msgid "Increase auto scroll speed"
@@ -2388,6 +2442,18 @@ msgstr "Local source guide"
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Local source location"
 msgstr "Local source location"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Lock after (minutes)"
+msgstr "Lock after (minutes)"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Lock automatically"
+msgstr "Lock automatically"
+
+#: src/features/library/screens/Library.tsx
+msgid "Lock hidden categories"
+msgstr "Lock hidden categories"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Log file cleanup"
@@ -2675,6 +2741,10 @@ msgstr "Name"
 msgid "Never"
 msgstr "Never"
 
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "New access code (optional)"
+msgstr "New access code (optional)"
+
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
 msgid "New category"
 msgstr "New category"
@@ -2749,6 +2819,10 @@ msgstr "No sources installed"
 #: src/features/settings/Settings.constants.ts
 msgid "None"
 msgstr "None"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Not configured"
+msgstr "Not configured"
 
 #: src/features/tracker/Tracker.constants.ts
 msgid "Not yet published"
@@ -3205,6 +3279,7 @@ msgstr "Right to left"
 msgid "Rosegold"
 msgstr "Rosegold"
 
+#: src/features/library/components/HiddenCategoriesSetting.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Save"
@@ -3234,6 +3309,10 @@ msgstr "Saved theme changes"
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Saving theme changes…"
 msgstr "Saving theme changes…"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Saving…"
+msgstr "Saving…"
 
 #: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx
 #: src/features/reader/settings/layout/components/ReaderSettingPageScaleMode.tsx
@@ -4072,6 +4151,14 @@ msgstr "Unknown"
 #: src/features/migration/MigrationManager.ts
 msgid "Unknown source"
 msgstr "Unknown source"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Unlock"
+msgstr "Unlock"
+
+#: src/features/library/components/HiddenCategoriesSetting.tsx
+msgid "Unlock hidden category settings"
+msgstr "Unlock hidden category settings"
 
 #: src/features/browse/sources/components/SourceCard.tsx
 msgid "Unpin source"

@@ -38,6 +38,7 @@ import type { MetadataLibrarySettings } from '@/features/library/Library.types.t
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { HiddenCategoriesSetting } from '@/features/library/components/HiddenCategoriesSetting.tsx';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -138,6 +139,13 @@ export function LibrarySettings() {
                         })}
                     />
                 </ListItemLink>
+                <HiddenCategoriesSetting
+                    categories={categories.data!.categories.nodes}
+                    hiddenCategoryIds={settings.hiddenCategoryIds}
+                    passwordHash={settings.hiddenCategoryPasswordHash}
+                    autoLockEnabled={settings.hiddenCategoryAutoLockEnabled}
+                    autoLockMinutes={settings.hiddenCategoryAutoLockMinutes}
+                />
                 <ListItem>
                     <ListItemText
                         primary={t`Category selection dialog`}
