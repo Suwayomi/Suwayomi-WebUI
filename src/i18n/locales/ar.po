@@ -458,10 +458,6 @@ msgstr "تعذر إزالة جميع التنزيلات من قائمة الان
 msgid "Could not remove non library manga from categories"
 msgstr "تعذر إزالة المانجا غير الموجودة في المكتبة من الفئات"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "تعذر إزالة التنزيل من قائمة الانتظار."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

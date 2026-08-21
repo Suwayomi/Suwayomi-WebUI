@@ -661,10 +661,6 @@ msgstr "无法从队列中删除所有下载"
 msgid "Could not remove non library manga from categories"
 msgstr "无法从类别中删除非库漫画"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "无法从队列中删除下载。"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

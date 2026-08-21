@@ -59,10 +59,6 @@ msgstr "Kunne ikke indlæse kategorier"
 msgid "Could not remove all downloads from the queue"
 msgstr "Kunne ikke fjerne alle downloads fra køen"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Kunne ikke fjerne download fra køen."
-
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 msgid "Could not retry failed download."
 msgstr "Kunne ikke genstarte mislykket download."

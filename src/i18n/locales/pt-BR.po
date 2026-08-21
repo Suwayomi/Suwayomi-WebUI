@@ -515,10 +515,6 @@ msgstr "Não pôde remover todas as transferências da fila"
 msgid "Could not remove non library manga from categories"
 msgstr "Não foi possível remover das categorias mangás que não estão na biblioteca"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Não pôde remover a transferências da fila."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

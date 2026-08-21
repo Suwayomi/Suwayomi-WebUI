@@ -378,10 +378,6 @@ msgstr "Tidak dapat menghapus seluruh unduhan dari barisan"
 msgid "Could not remove non library manga from categories"
 msgstr "Gagal menghapus manga yang tidak ada di pustaka dari kategori"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Tidak dapat menghapus unduhan dari antrian."
-
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 msgid "Could not retry failed download."
 msgstr "Tidak dapat mengulang unduhan yang gagal."
@@ -4341,10 +4337,6 @@ msgstr "Tampilkan di daftar sumber dan ekstensi"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Skip chapter metadata feed"
 msgstr "Lewati feed metadata bab"
-
-#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
-msgid "Source entry - {sourceTitle}"
-msgstr "Entri sumber - {sourceTitle}"
 
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Sources"

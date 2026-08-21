@@ -981,10 +981,6 @@ msgstr "Nem sikerült az összes letöltés eltávolítása a várólistáról"
 msgid "Could not remove non library manga from categories"
 msgstr "Nem sikerült a nem könyvtári manga eltávolítása a kategóriákból"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Nem sikerült a letöltés eltávolítása a várólistáról."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

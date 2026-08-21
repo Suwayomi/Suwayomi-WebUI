@@ -646,10 +646,6 @@ msgstr "다운로드 대기열에서 모든 항목을 제거할 수 없습니다
 msgid "Could not remove non library manga from categories"
 msgstr "라이브러리에 없는 만화를 카테고리에서 제거할 수 없습니다"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "대기열에서 다운로드를 제거할 수 없습니다."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

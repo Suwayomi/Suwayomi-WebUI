@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-08-03 10:02+0000\n"
+"PO-Revision-Date: 2026-08-12 09:25+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: updateStatus.progress
@@ -305,7 +305,7 @@ msgstr "ממשק משתמש מבוסס Svelte, עם דגש על מהירות ו�
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "A—Z"
-msgstr "א—ת"
+msgstr "א–ת"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/About.tsx
@@ -469,7 +469,7 @@ msgstr "הורדה אוטומטית של הגרסה העדכנית"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Automatically mark chapters as read when you download them."
-msgstr "פרקים יסומנו כ'נקרא' באופן אוטומטי מיד עם הורדתם."
+msgstr "פרקים יסומנו כנקראו באופן אוטומטי מיד עם הורדתם."
 
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
 msgid "Automatically refresh metadata"
@@ -745,7 +745,7 @@ msgstr "פרקים"
 
 #: src/features/library/screens/LibraryDuplicates.tsx
 msgid "Check description"
-msgstr "השוואת תיאור המנגה"
+msgstr "השוואת תיאורי הפריטים"
 
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
 msgid "Check for new cover and details when updating library"
@@ -807,12 +807,12 @@ msgstr "מצב מיזוג מסנן הצבע"
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Comfortable grid"
-msgstr "פריסה מרווחת"
+msgstr "רשת מרווחת"
 
 #: src/base/components/GridLayouts.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Compact grid"
-msgstr "פריסה דחוסה"
+msgstr "רשת צפופה"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Compatible"
@@ -875,9 +875,9 @@ msgid ""
 msgstr ""
 "קובע את סוג התוכן (MIME-Type) שנשלח על ידי Suwayomi ברשומות OPDS עבור "
 "ארכיוני CBZ. משפיע גם על הורדות CBZ כלליות.\n"
-"האפשרות \"מודרני\" תואמת לתקן IANA העדכני (2017), בעוד ש־\"מיושן\" ו"
-"־\"תואם\" משתמשות בסוגי תוכן מיושנים שעשויים להתאים יותר ללקוחות ישנים. "
-"\"מיושן\" רלוונטי לקובצי CBZ בלבד, ו\"תואם\" מתאים לכלל ארכיוני המנגה."
+"האפשרות \"מודרני\" תואמת לתקן IANA העדכני (2017), בעוד ש\"מיושן\" ו\"תואם\" "
+"משתמשות בסוגי תוכן מיושנים שעשויים להתאים יותר ללקוחות ישנים. \"מיושן\" "
+"רלוונטי לקובצי CBZ בלבד, ו\"תואם\" מתאים לכלל ארכיוני המנגה."
 
 #: src/features/settings/Settings.constants.ts
 #: src/features/settings/Settings.constants.ts
@@ -1088,7 +1088,7 @@ msgstr ""
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "Set as active theme"
-msgstr "הגדר כערכת הנושא הפעילה"
+msgstr "הגדרה כערכת הנושא הפעילה"
 
 #: src/features/theme/components/CreateThemeDialog.tsx
 msgid "The theme name must be unique and has a limit of 16 characters"
@@ -1110,10 +1110,6 @@ msgstr "לא ניתן היה להסיר את כל ההורדות מהתור"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not remove non library manga from categories"
 msgstr "לא ניתן היה להסיר מהקטגוריות מנגות שאינן בספרייה"
-
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "לא ניתן היה להסיר את ההורדה מהתור."
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
@@ -1180,7 +1176,7 @@ msgstr "שירותי המעקב הבאים אינם מחוברים:"
 
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "This will remove the tracking locally."
-msgstr "פעולה זו תנתק ותעצור את עדכוני המעקב עבור המנגה."
+msgstr "פעולה זו תסיר מקומית את חיבור הפריט לשירות המעקב."
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/manga/Manga.constants.ts
@@ -1266,7 +1262,7 @@ msgstr "בחירה"
 #: src/base/collection/components/SelectableCollectionSelectMode.tsx
 #: src/base/components/settings/CheckboxListSetting.tsx
 msgid "Select all"
-msgstr "בחירת הכל"
+msgstr "בחירת הכול"
 
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
@@ -1289,11 +1285,11 @@ msgstr "הורדה מראש ({count})"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Download badges"
-msgstr "מונה פרקים שהורדו"
+msgstr "כמות הפרקים שהורדו"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Unread badges"
-msgstr "מונה פרקים שלא נקראו"
+msgstr "כמות הפרקים שלא נקראו‏"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Download location"
@@ -1641,11 +1637,11 @@ msgstr "מחיקה"
 
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Delete all"
-msgstr "מחיקת הכל"
+msgstr "מחיקת הכול"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Delete chapter after manually marking it as read"
-msgstr "מחיקת פרקים לאחר סימון ידני כ'נקרא'"
+msgstr "מחיקת פרק לאחר שסומן ידנית כ'נקרא'"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Delete chapters"
@@ -1671,7 +1667,7 @@ msgstr "מחשב"
 #. placeholder {0}: entry.sourceTitle
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 msgid "Destination — {0}"
-msgstr "פריט היעד — {0}"
+msgstr "פריט היעד – {0}"
 
 #: src/features/device/screens/DeviceSetting.tsx
 #: src/features/settings/screens/Settings.tsx
@@ -1863,7 +1859,7 @@ msgstr "פריט בעל שם זהה כבר קיים בספרייה."
 
 #: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
 msgid "Source entry — {sourceTitle}"
-msgstr "פריט המקור — {sourceTitle}"
+msgstr "פריט המקור – {sourceTitle}"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
@@ -2723,22 +2719,22 @@ msgstr "הקודם"
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 msgid "Previous chapter"
-msgstr "פרק קודם"
+msgstr "הפרק הקודם"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Previous page"
-msgstr "עמוד קודם"
+msgstr "העמוד הקודם"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
 msgid "Next chapter"
-msgstr "פרק הבא"
+msgstr "הפרק הבא"
 
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
 msgid "Next page"
-msgstr "עמוד הבא"
+msgstr "העמוד הבא"
 
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Previous:"
@@ -3638,7 +3634,7 @@ msgstr "לא ניתן היה להתחיל את הסנכרון"
 #. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "— State: {0}"
-msgstr "— סטטוס: {0}"
+msgstr "– סטטוס: {0}"
 
 #: src/features/backup/component/BackupValidationDialog.tsx
 msgid "The following sources are not installed:"
@@ -3923,15 +3919,15 @@ msgstr "לא נקראו"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Unread chapters"
-msgstr "מספר פרקים שלא נקראו"
+msgstr "כמות הפרקים שלא נקראו"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Total chapters"
-msgstr "מספר פרקים כולל"
+msgstr "כמות הפרקים"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Recently added"
-msgstr "נוספו לאחרונה"
+msgstr "תאריך הוספת הסדרה לספרייה"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Recently read"
@@ -3939,11 +3935,11 @@ msgstr "נקראו לאחרונה"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Latest fetched chapter"
-msgstr "פרקים שהתעדכנו לאחרונה"
+msgstr "תאריך שליפת הפרק מהמקור"
 
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Latest uploaded chapter"
-msgstr "פרקים שהועלו לאחרונה"
+msgstr "תאריך הוספת הפרק במקור"
 
 #: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
 msgid "Latest: {latestChapterNumber}"

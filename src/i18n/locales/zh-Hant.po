@@ -605,10 +605,6 @@ msgstr "無法從隊列中移除所有下載"
 msgid "Could not remove non library manga from categories"
 msgstr "無法從分類中移除非書櫃漫畫"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "無法從隊列中刪除此下載。"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
