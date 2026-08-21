@@ -597,10 +597,6 @@ msgstr "Impossible de supprimer tous les téléchargements de la file d'attente"
 msgid "Could not remove non library manga from categories"
 msgstr "Impossible de supprimer les mangas hors bibliothèque des catégories"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Impossible de supprimer le téléchargement de la file d'attente."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

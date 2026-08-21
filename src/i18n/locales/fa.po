@@ -643,10 +643,6 @@ msgstr "حذف همه دانلود ها از صف انجام نشد"
 msgid "Could not remove non library manga from categories"
 msgstr "حذف مانگا های خارج از کتابخانه از دسته‌بندی‌ ها انجام نشد"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "حذف دانلود از صف انجام نشد."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
