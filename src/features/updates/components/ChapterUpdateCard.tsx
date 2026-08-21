@@ -117,6 +117,7 @@ export const ChapterUpdateCard = memo(
                                         {...MUIUtil.preventRippleProp()}
                                         onClick={(e) => {
                                             e.preventDefault();
+                                            e.stopPropagation();
                                             setIsExpanded(!isExpanded);
                                         }}
                                     >
