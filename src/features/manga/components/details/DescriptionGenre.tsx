@@ -19,23 +19,31 @@ import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import type {
     MangaDescriptionInfo,
     MangaGenreInfo,
+    MangaIdInfo,
     MangaLocationState,
+    MangaMetaInfo,
     MangaSourceIdInfo,
 } from '@/features/manga/Manga.types.ts';
 import { SearchLink } from '@/features/manga/components/details/SearchLink.tsx';
+import { MangaNotes } from '@/features/manga/components/details/MangaNotes.tsx';
+import { useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import uniq from 'lodash/fp/uniq';
 
 const OPEN_CLOSE_BUTTON_HEIGHT = '35px';
 const DESCRIPTION_COLLAPSED_SIZE = 75;
 
 export const DescriptionGenre = ({
-    manga: { description, genre: mangaGenres, sourceId },
+    manga,
     mode,
 }: {
-    manga: MangaDescriptionInfo & MangaGenreInfo & MangaSourceIdInfo;
+    manga: MangaDescriptionInfo & MangaGenreInfo & MangaIdInfo & MangaMetaInfo & MangaSourceIdInfo;
     mode: MangaLocationState['mode'];
 }) => {
-    const [descriptionElement, setDescriptionElement] = useState<HTMLSpanElement | null>(null);
+    const { description, genre: mangaGenres, sourceId } = manga;
+    const { notes } = useGetMangaMetadata(manga);
+    const hasNotes = notes.trim().length > 0;
+    const hasCollapsibleContent = !!description || hasNotes;
+    const [descriptionElement, setDescriptionElement] = useState<HTMLDivElement | null>(null);
     const [descriptionHeight, setDescriptionHeight] = useState<number>();
     useResizeObserver(
         descriptionElement,
@@ -44,27 +52,36 @@ export const DescriptionGenre = ({
 
     const [isCollapsed, setIsCollapsed] = useLocalStorage('isDescriptionGenreCollapsed', true);
 
-    const collapsedSize = description
+    const collapsedSize = hasCollapsibleContent
         ? Math.min(DESCRIPTION_COLLAPSED_SIZE, descriptionHeight ?? DESCRIPTION_COLLAPSED_SIZE)
         : 0;
     const genres = useMemo(() => uniq(mangaGenres.filter(Boolean)), [mangaGenres]);
 
     return (
         <>
-            {description && (
+            {hasCollapsibleContent ? (
                 <Stack sx={{ position: 'relative' }}>
                     <Collapse collapsedSize={collapsedSize} in={!isCollapsed}>
-                        <Typography
+                        <Stack
                             ref={setDescriptionElement}
                             sx={{
-                                whiteSpace: 'pre-line',
-                                textAlign: 'justify',
-                                textJustify: 'inter-word',
+                                gap: 1,
                                 mb: OPEN_CLOSE_BUTTON_HEIGHT,
                             }}
                         >
-                            {description}
-                        </Typography>
+                            <MangaNotes manga={manga} expanded={!isCollapsed} showDivider={!!description} />
+                            {description && (
+                                <Typography
+                                    sx={{
+                                        whiteSpace: 'pre-line',
+                                        textAlign: 'justify',
+                                        textJustify: 'inter-word',
+                                    }}
+                                >
+                                    {description}
+                                </Typography>
+                            )}
+                        </Stack>
                     </Collapse>
                     <Stack
                         onClick={() => setIsCollapsed(!isCollapsed)}
@@ -85,6 +102,8 @@ export const DescriptionGenre = ({
                         </IconButton>
                     </Stack>
                 </Stack>
+            ) : (
+                <MangaNotes manga={manga} expanded showDivider={false} />
             )}
             <Stack
                 sx={{
