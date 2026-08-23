@@ -23,7 +23,11 @@ import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.t
 import { MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
-import { createUpdateCategoryMetadata, useGetCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
+import {
+    batchUpdateCategoryMetadata,
+    createUpdateCategoryMetadata,
+    useGetCategoryMetadata,
+} from '@/features/category/services/CategoryMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -36,6 +40,7 @@ import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts
 import { GridLayout } from '@/base/Base.types';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Collapsable } from '@/base/components/Collapsable.tsx';
+import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 import Replay from '@mui/icons-material/Replay';
 import { Sources } from '@/features/source/services/Sources';
 
@@ -108,6 +113,34 @@ export const LibraryOptionsPanel = ({
         (tracker) => categoryLibraryOptions.hasTrackerBinding[tracker.id] != null,
     );
     const isSourceFilterActive = librarySources.some((source) => categoryLibraryOptions.hasSource[source.id] != null);
+    const areFiltersActive =
+        categoryLibraryOptions.hasUnreadChapters != null ||
+        categoryLibraryOptions.hasReadChapters != null ||
+        categoryLibraryOptions.hasDownloadedChapters != null ||
+        categoryLibraryOptions.hasBookmarkedChapters != null ||
+        categoryLibraryOptions.hasDuplicateChapters != null ||
+        isStatusFilterActive ||
+        isTrackerFilterActive ||
+        isSourceFilterActive;
+
+    const resetFilters = () => {
+        batchUpdateCategoryMetadata([
+            {
+                categories: [category],
+                entries: [
+                    { metadataKey: 'hasUnreadChapters', value: undefined },
+                    { metadataKey: 'hasReadChapters', value: undefined },
+                    { metadataKey: 'hasDownloadedChapters', value: undefined },
+                    { metadataKey: 'hasBookmarkedChapters', value: undefined },
+                    { metadataKey: 'hasDuplicateChapters', value: undefined },
+                    { metadataKey: 'hasStatus', value: {} },
+                    { metadataKey: 'hasTrackerBinding', value: {} },
+                    { metadataKey: 'hasSource', value: {} },
+                ],
+            },
+        ]).catch((e) => makeToast(t`Failed to reset filters`, 'error', getErrorMessage(e)));
+        onClose();
+    };
 
     return (
         <OptionsTabs<'filter' | 'sort' | 'display'>
@@ -119,6 +152,13 @@ export const LibraryOptionsPanel = ({
                 if (key === 'filter') {
                     return (
                         <>
+                            {areFiltersActive && (
+                                <ResetButton
+                                    onClick={resetFilters}
+                                    sx={{ alignSelf: 'flex-start' }}
+                                    variant="outlined"
+                                />
+                            )}
                             <ThreeStateCheckboxInput
                                 label={t`Unread`}
                                 checked={categoryLibraryOptions.hasUnreadChapters}
