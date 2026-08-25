@@ -82,10 +82,18 @@ export const LibraryOptionsPanel = ({
     category,
     open,
     onClose,
+    active,
+    isStatusFilterActive,
+    isTrackerFilterActive,
+    isSourceFilterActive,
 }: {
     category: CategoryMetadataInfo;
     open: boolean;
     onClose: () => void;
+    active: boolean;
+    isStatusFilterActive: boolean;
+    isTrackerFilterActive: boolean;
+    isSourceFilterActive: boolean;
 }) => {
     const { t } = useLingui();
 
@@ -105,23 +113,6 @@ export const LibraryOptionsPanel = ({
     const setSettingValue = createUpdateMetadataServerSettings((e) =>
         makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
-
-    const isStatusFilterActive = Object.values(MangaStatus).some(
-        (status) => categoryLibraryOptions.hasStatus[status] != null,
-    );
-    const isTrackerFilterActive = loggedInTrackers.some(
-        (tracker) => categoryLibraryOptions.hasTrackerBinding[tracker.id] != null,
-    );
-    const isSourceFilterActive = librarySources.some((source) => categoryLibraryOptions.hasSource[source.id] != null);
-    const areFiltersActive =
-        categoryLibraryOptions.hasUnreadChapters != null ||
-        categoryLibraryOptions.hasReadChapters != null ||
-        categoryLibraryOptions.hasDownloadedChapters != null ||
-        categoryLibraryOptions.hasBookmarkedChapters != null ||
-        categoryLibraryOptions.hasDuplicateChapters != null ||
-        isStatusFilterActive ||
-        isTrackerFilterActive ||
-        isSourceFilterActive;
 
     const resetFilters = () => {
         batchUpdateCategoryMetadata([
@@ -153,7 +144,7 @@ export const LibraryOptionsPanel = ({
                     return (
                         <>
                             <ResetButton
-                                disabled={!areFiltersActive}
+                                disabled={!active}
                                 onClick={resetFilters}
                                 sx={{ alignSelf: 'flex-end' }}
                                 variant="outlined"

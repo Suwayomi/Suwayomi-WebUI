@@ -33,15 +33,23 @@ export const LibraryToolbarMenu = ({
 
     const [open, setOpen] = useState(false);
     const options = getCategoryMetadata(category);
+
+    const isStatusFilterActive = Object.values(options.hasStatus).some((hasStatus) => hasStatus != null);
+    const isTrackerFilterActive = Object.values(options.hasTrackerBinding).some(
+        (trackerFilterStatus) => trackerFilterStatus != null,
+    );
+    const isSourceFilterActive = Object.values(options.hasSource).some(
+        (sourceFilterStatus) => sourceFilterStatus != null,
+    );
     const active =
         options.hasDownloadedChapters != null ||
         options.hasUnreadChapters != null ||
         options.hasReadChapters != null ||
         options.hasBookmarkedChapters != null ||
         options.hasDuplicateChapters != null ||
-        Object.values(options.hasStatus).some((hasStatus) => hasStatus != null) ||
-        Object.values(options.hasTrackerBinding).some((trackerFilterStatus) => trackerFilterStatus != null) ||
-        Object.values(options.hasSource).some((sourceFilterStatus) => sourceFilterStatus != null);
+        isSourceFilterActive ||
+        isTrackerFilterActive ||
+        isStatusFilterActive;
 
     return (
         <>
@@ -69,7 +77,15 @@ export const LibraryToolbarMenu = ({
                     <FilterList />
                 </IconButton>
             </CustomTooltip>
-            <LibraryOptionsPanel category={category} open={open} onClose={() => setOpen(false)} />
+            <LibraryOptionsPanel
+                category={category}
+                open={open}
+                onClose={() => setOpen(false)}
+                active={active}
+                isStatusFilterActive={isStatusFilterActive}
+                isTrackerFilterActive={isTrackerFilterActive}
+                isSourceFilterActive={isSourceFilterActive}
+            />
         </>
     );
 };
