@@ -121,7 +121,7 @@ const SourceLanguageSelectDialog = ({
 
                     return {
                         sources: [source],
-                        entries: [{ metadataKey: 'isEnabled' as const, value: enabled }],
+                        update: [{ key: 'isEnabled' as const, value: enabled }],
                     };
                 })
                 .filter((entry) => entry !== null),

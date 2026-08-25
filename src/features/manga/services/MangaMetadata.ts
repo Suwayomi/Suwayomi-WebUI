@@ -14,6 +14,7 @@ import type {
     AllowedMetadataValueTypes,
     GqlMetaHolder,
     Metadata,
+    MetadataBulkParams,
     MetadataHolder,
 } from '@/features/metadata/Metadata.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
@@ -65,10 +66,7 @@ export const useGetMangaMetadata = (
     return useMemo(() => metadata, [metaHolder, defaultMetadata]);
 };
 
-export const updateMangaMetadata = async <
-    MetadataKeys extends MangaMetadataKeys = MangaMetadataKeys,
-    MetadataKey extends MetadataKeys = MetadataKeys,
->(
+export const updateMangaMetadata = async <MetadataKey extends MangaMetadataKeys = MangaMetadataKeys>(
     manga: MangaIdInfo & GqlMetaHolder,
     metadataKey: MetadataKey,
     value: MangaMetadata[MetadataKey],
@@ -77,24 +75,14 @@ export const updateMangaMetadata = async <
         update: [[metadataKey, convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey]]],
     });
 
-export const batchUpdateMangaMetadata = async <
-    MetadataKeys extends MangaMetadataKeys = MangaMetadataKeys,
-    MetadataKey extends MetadataKeys = MetadataKeys,
->(
-    updates: Array<{
-        mangas: (MangaIdInfo & GqlMetaHolder)[];
-        update?: Array<{ metadataKey: MetadataKey; value: MangaMetadata[MetadataKey] }>;
-        delete?: MetadataKey[];
-    }>,
+export const batchUpdateMangaMetadata = async (
+    updates: MetadataBulkParams<'mangas', MangaIdInfo, MangaMetadata>[],
 ): Promise<void> =>
     requestBatchMangaMetadataUpdate(
         updates.map(({ mangas, update, delete: keysToDelete }) => ({
             mangas,
             options: {
-                update: update?.map(({ metadataKey, value }) => [
-                    metadataKey,
-                    convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey],
-                ]),
+                update: update?.map(({ key, value }) => [key, convertAppMetadataToGqlMetadata({ [key]: value })[key]]),
                 delete: keysToDelete,
             },
         })),

@@ -56,3 +56,16 @@ export type AppMetadataKeys =
 export type MetadataKeyValuePair = [AppMetadataKeys, AllowedMetadataValueTypes];
 
 export type MetadataHolderType = 'manga' | 'chapter' | 'category' | 'global' | 'source';
+
+export type MetadataBulkParams<
+    ItemKey extends string,
+    Item extends object,
+    // oxlint-disable-next-line no-shadow
+    Metadata extends object,
+> = {
+    [key in ItemKey]: (Item & GqlMetaHolder)[];
+} & (
+    | { update: KeyValuePairs<Metadata>[]; delete: (keyof Metadata)[] }
+    | { update: KeyValuePairs<Metadata>[]; delete?: never }
+    | { update?: never; delete: (keyof Metadata)[] }
+);
