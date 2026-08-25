@@ -118,7 +118,6 @@ export const LibraryOptionsPanel = ({
         batchUpdateCategoryMetadata([
             {
                 categories: [category],
-                entries: [],
                 delete: [
                     'hasUnreadChapters',
                     'hasReadChapters',
