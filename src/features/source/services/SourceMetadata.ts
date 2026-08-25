@@ -64,17 +64,19 @@ export const batchUpdateSourceMetadata = async <
 >(
     updates: Array<{
         sources: (SourceIdInfo & GqlMetaHolder)[];
-        entries: Array<{ metadataKey: MetadataKey; value: ISourceMetadata[MetadataKey] }>;
+        update?: Array<{ metadataKey: MetadataKey; value: ISourceMetadata[MetadataKey] }>;
+        delete?: MetadataKey[];
     }>,
 ): Promise<void> =>
     requestBatchSourceMetadataUpdate(
-        updates.map(({ sources, entries }) => ({
+        updates.map(({ sources, update, delete: keysToDelete }) => ({
             sources,
             options: {
-                update: entries.map(({ metadataKey, value }) => [
+                update: update?.map(({ metadataKey, value }) => [
                     metadataKey,
                     convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey],
                 ]),
+                delete: keysToDelete,
             },
         })),
     );

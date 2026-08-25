@@ -83,17 +83,19 @@ export const batchUpdateMangaMetadata = async <
 >(
     updates: Array<{
         mangas: (MangaIdInfo & GqlMetaHolder)[];
-        entries: Array<{ metadataKey: MetadataKey; value: MangaMetadata[MetadataKey] }>;
+        update?: Array<{ metadataKey: MetadataKey; value: MangaMetadata[MetadataKey] }>;
+        delete?: MetadataKey[];
     }>,
 ): Promise<void> =>
     requestBatchMangaMetadataUpdate(
-        updates.map(({ mangas, entries }) => ({
+        updates.map(({ mangas, update, delete: keysToDelete }) => ({
             mangas,
             options: {
-                update: entries.map(({ metadataKey, value }) => [
+                update: update?.map(({ metadataKey, value }) => [
                     metadataKey,
                     convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey],
                 ]),
+                delete: keysToDelete,
             },
         })),
     );
