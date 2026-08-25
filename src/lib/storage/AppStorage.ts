@@ -10,7 +10,15 @@
 import { jsonSaveParse } from '@/lib/HelperFunctions.ts';
 import { SubpathUtil } from '@/lib/utils/SubpathUtil.ts';
 
-const getKey = (key: string): string => `suwayomi_webui_${SubpathUtil.getSubpath()}_${key}`;
+const THIRD_PARTY_KEYS = ['mui-mode'];
+
+const getKey = (key: string): string => {
+    if (THIRD_PARTY_KEYS.includes(key)) {
+        return key;
+    }
+
+    return `suwayomi_webui_${SubpathUtil.getSubpath()}_${key}`;
+};
 
 export class Storage {
     constructor(private readonly storage: typeof window.localStorage) {}
