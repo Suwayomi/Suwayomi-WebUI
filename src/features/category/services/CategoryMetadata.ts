@@ -97,16 +97,18 @@ export const batchUpdateCategoryMetadata = async <
     updates: Array<{
         categories: (CategoryIdInfo & GqlMetaHolder)[];
         entries: Array<{ metadataKey: MetadataKey; value: ICategoryMetadata[MetadataKey] }>;
+        delete?: MetadataKeys[];
     }>,
 ): Promise<void> =>
     requestBatchCategoryMetadataUpdate(
-        updates.map(({ categories, entries }) => ({
+        updates.map(({ categories, entries, delete: keysToDelete }) => ({
             categories,
             options: {
                 update: entries.map(({ metadataKey, value }) => [
                     metadataKey,
                     convertAppMetadataToGqlMetadata({ [metadataKey]: value })[metadataKey],
                 ]),
+                delete: keysToDelete,
             },
         })),
     );

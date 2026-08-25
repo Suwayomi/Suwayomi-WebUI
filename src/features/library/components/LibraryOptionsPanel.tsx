@@ -127,19 +127,19 @@ export const LibraryOptionsPanel = ({
         batchUpdateCategoryMetadata([
             {
                 categories: [category],
-                entries: [
-                    { metadataKey: 'hasUnreadChapters', value: undefined },
-                    { metadataKey: 'hasReadChapters', value: undefined },
-                    { metadataKey: 'hasDownloadedChapters', value: undefined },
-                    { metadataKey: 'hasBookmarkedChapters', value: undefined },
-                    { metadataKey: 'hasDuplicateChapters', value: undefined },
-                    { metadataKey: 'hasStatus', value: {} },
-                    { metadataKey: 'hasTrackerBinding', value: {} },
-                    { metadataKey: 'hasSource', value: {} },
+                entries: [],
+                delete: [
+                    'hasUnreadChapters',
+                    'hasReadChapters',
+                    'hasDownloadedChapters',
+                    'hasBookmarkedChapters',
+                    'hasDuplicateChapters',
+                    'hasStatus',
+                    'hasTrackerBinding',
+                    'hasSource',
                 ],
             },
-        ]).catch((e) => makeToast(t`Failed to reset filters`, 'error', getErrorMessage(e)));
-        onClose();
+        ]).catch((e) => makeToast(t`Could not reset filters`, 'error', getErrorMessage(e)));
     };
 
     return (
@@ -152,13 +152,13 @@ export const LibraryOptionsPanel = ({
                 if (key === 'filter') {
                     return (
                         <>
-                            {areFiltersActive && (
-                                <ResetButton
-                                    onClick={resetFilters}
-                                    sx={{ alignSelf: 'flex-start' }}
-                                    variant="outlined"
-                                />
-                            )}
+                            <ResetButton
+                                disabled={!areFiltersActive}
+                                onClick={resetFilters}
+                                sx={{ alignSelf: 'flex-end' }}
+                                variant="outlined"
+                                size="small"
+                            />
                             <ThreeStateCheckboxInput
                                 label={t`Unread`}
                                 checked={categoryLibraryOptions.hasUnreadChapters}

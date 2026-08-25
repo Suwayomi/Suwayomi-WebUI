@@ -1189,6 +1189,10 @@ msgstr "Could not remove extension store \"{name}\""
 msgid "Could not remove non library manga from categories"
 msgstr "Could not remove non library manga from categories"
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Could not reset filters"
+msgstr "Could not reset filters"
+
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
 msgstr "Could not restore backup"
@@ -1766,10 +1770,6 @@ msgstr "Failed to connect to KOReader Sync server."
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to disconnect from KOReader Sync server."
 msgstr "Failed to disconnect from KOReader Sync server."
-
-#: src/features/library/components/LibraryOptionsPanel.tsx
-msgid "Failed to reset filters"
-msgstr "Failed to reset filters"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
