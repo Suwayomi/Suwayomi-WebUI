@@ -55,7 +55,7 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
         'appTheme',
         getTheme(serverAppTheme, customThemes),
     );
-    const [localThemeMode] = useLocalStorage(MUI_THEME_MODE_KEY, themeMode);
+    const [localThemeMode, setLocalThemeMode] = useLocalStorage(MUI_THEME_MODE_KEY, themeMode);
 
     const directionRef = useRef<Direction>('ltr');
 
@@ -130,7 +130,11 @@ export const AppThemeContextProvider = ({ children }: { children: ReactNode }) =
         if (serverAppTheme !== localAppTheme.id) {
             setLocalAppTheme(getTheme(serverAppTheme, customThemes));
         }
-    }, [serverAppTheme, localAppTheme]);
+
+        if (themeMode !== localThemeMode) {
+            setLocalThemeMode(themeMode);
+        }
+    }, [serverAppTheme, localAppTheme, themeMode, localThemeMode]);
 
     useEffect(() => {
         // The set background color is not necessary anymore, since the theme has been loaded
