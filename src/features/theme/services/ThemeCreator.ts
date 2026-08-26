@@ -180,8 +180,14 @@ export const createTheme = (
     const setPureBlackMode = isDarkMode && pureBlackMode;
 
     const appColorTheme = createAppColorTheme(appTheme.muiTheme, dynamicColor, setPureBlackMode, mode);
+    const { colorSchemes, defaultColorScheme: _defaultColorScheme, ...baseAppColorTheme } = appColorTheme;
+    const activeColorScheme = colorSchemes?.[mode];
+    const activeAppColorTheme = deepmerge(
+        baseAppColorTheme,
+        deepmerge(typeof activeColorScheme === 'object' ? activeColorScheme : {}, { palette: { mode } }),
+    );
 
-    const themeForColors = createMuiTheme({ ...appColorTheme, defaultColorScheme: mode });
+    const themeForColors = createMuiTheme(activeAppColorTheme);
 
     // only style scrollbar for devices that support hovering; otherwise, they most likely are touch devices that should
     // use the native scrollbar.
@@ -190,8 +196,7 @@ export const createTheme = (
     const doesDeviceSupportHover = window.matchMedia('hover: hover').matches;
 
     const suwayomiTheme = createMuiTheme(
-        deepmerge(appColorTheme, {
-            defaultColorScheme: mode,
+        deepmerge(activeAppColorTheme, {
             direction,
             typography: {
                 fontSize: 13,

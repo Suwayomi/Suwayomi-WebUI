@@ -13,7 +13,6 @@ import MenuItem from '@mui/material/MenuItem';
 import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
-import { useColorScheme } from '@mui/material/styles';
 import { useLingui } from '@lingui/react/macro';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { Select } from '@/base/components/inputs/Select.tsx';
@@ -41,8 +40,6 @@ import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
 export const Appearance = () => {
     const { t } = useLingui();
     const { themeMode, setThemeMode, shouldUsePureBlackMode, setShouldUsePureBlackMode } = useAppThemeContext();
-    const { mode, setMode } = useColorScheme();
-    const actualThemeMode = (mode ?? themeMode) as ThemeMode;
 
     useAppTitle(t`Appearance`);
 
@@ -54,7 +51,7 @@ export const Appearance = () => {
         makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)),
     );
 
-    const isDarkMode = MediaQuery.getThemeMode(actualThemeMode) === ThemeMode.DARK;
+    const isDarkMode = MediaQuery.getThemeMode(themeMode) === ThemeMode.DARK;
 
     if (loading) {
         return <LoadingPlaceholder />;
@@ -81,13 +78,11 @@ export const Appearance = () => {
             <ListItem>
                 <ListItemText primary={t`Theme mode`} />
                 <Select<ThemeMode>
-                    value={actualThemeMode}
+                    value={themeMode}
                     onChange={(e) => {
                         const newMode = e.target.value as 'system' | 'light' | 'dark';
 
                         setThemeMode(newMode as ThemeMode);
-                        setMode(newMode);
-                        // in case a non "colorSchemes" mui theme is active, "setMode" does not update the mode ("mui-mode") value
                         AppStorage.local.setItem(MUI_THEME_MODE_KEY, newMode, true);
                     }}
                 >
