@@ -619,10 +619,6 @@ msgstr "No se han podido eliminar todas las descargas de la cola"
 msgid "Could not remove non library manga from categories"
 msgstr "No se pudo eliminar de las categorías el manga que no pertenece a la biblioteca"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "No se ha podido eliminar la descarga de la cola."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

@@ -1144,10 +1144,6 @@ msgstr "Δεν ήταν δυνατή η αφαίρεση όλων των λήψ�
 msgid "Could not remove non library manga from categories"
 msgstr "Δεν ήταν δυνατή η αφαίρεση manga εκτός βιβλιοθήκης από τις κατηγορίες"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Δεν ήταν δυνατή η αφαίρεση της λήψης από την ουρά."
-
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
 msgstr "Δεν ήταν δυνατή η επαναφορά αντιγράφου ασφαλείας"

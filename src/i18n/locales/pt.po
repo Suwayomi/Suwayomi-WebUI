@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.902Z\n"
-"PO-Revision-Date: 2026-05-26 10:11+0000\n"
-"Last-Translator: Rodrigo Marques <rodrigomjs10@gmail.com>\n"
+"PO-Revision-Date: 2026-08-27 09:37+0000\n"
+"Last-Translator: Herta <mgp.prates@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/pt/>\n"
 "Language: pt\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -550,10 +550,6 @@ msgstr "Erro ao remover todos os downloads da fila"
 msgid "Could not remove non library manga from categories"
 msgstr "não foi possível remover mangas que não estão na biblioteca de categorias"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Erro ao remover o download da fila."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
@@ -732,19 +728,19 @@ msgstr "Categoria padrão quando adicionar um novo manga a biblioteca"
 #: src/features/source/browse/components/SourceOptions.tsx
 #: src/features/theme/components/ThemePreview.tsx
 msgid "Delete"
-msgstr "Deletar"
+msgstr "Eliminar"
 
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Delete all"
-msgstr "Deletar todos"
+msgstr "Eliminar todos"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Delete chapter after manually marking it as read"
-msgstr "Deletar o capítulo após marcá-lo manualmente como lido"
+msgstr "Eliminar o capítulo após marcá-lo manualmente como lido"
 
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Delete chapters"
-msgstr "Deletar capítulos"
+msgstr "Eliminar capítulos"
 
 #: src/features/migration/components/MigrationSingleMangaDialog.tsx
 msgid "Delete downloaded"
@@ -2867,7 +2863,7 @@ msgstr "{0} / {1}{2}"
 #. placeholder {0}: updateStatus.progress
 #: src/features/app-updates/components/WebUIUpdateChecker.tsx
 msgid "{0}% | Updating…"
-msgstr "{0}% | Atulizando…"
+msgstr "{0}% | Atualizando…"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
@@ -3424,3 +3420,60 @@ msgid "{count, plural, one {Changed categories of manga} other {Changed categori
 msgstr ""
 "{count, plural, one {Changed categories of manga} other {Changed categories "
 "of # manga}}"
+
+#. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "— State: {0}"
+msgstr "— Estado: {0}"
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "Configuração ativa ({title})"
+
+#. placeholder {0}: reorders.length
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
+msgstr ""
+"{0, plural, one {Não foi possível reordenar o download} other {Não foi "
+"possível reordenar os downloads}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr ""
+"{count, plural, one {Capítulo removido dos favoritos} other {# capítulos "
+"removidos dos favoritos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr ""
+"{count, plural, one {Capítulo adicionado aos favoritos} other {# capítulos "
+"adicionados aos favoritos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr ""
+"{count, plural, one {Capítulo eliminado} other {# capítulos eliminados}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr ""
+"{count, plural, one {Capítulo marcado como lido} other {# capítulos marcados "
+"como lidos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr ""
+"{count, plural, one {Capítulo marcado como não lido} other {# capítulos "
+"marcados como não lidos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr ""
+"{count, plural, one {Não foi possível adicionar o download} other {Não foi "
+"possivel adicionar os downloads}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr ""
+"{count, plural, one {Não foi possível apagar o capítulo} other {Não foi "
+"possível apagar os capítulos}}"

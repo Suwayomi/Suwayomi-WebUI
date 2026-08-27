@@ -578,10 +578,6 @@ msgstr "全てのダウンロードをキューから削除できませんでし
 msgid "Could not remove non library manga from categories"
 msgstr "カテゴリーから非ライブラリのマンガを削除できません"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "キューからダウンロードを削除できませんでした。"
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

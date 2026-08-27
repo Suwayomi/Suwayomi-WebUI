@@ -652,10 +652,6 @@ msgstr "Не удалось удалить все загрузки из очер
 msgid "Could not remove non library manga from categories"
 msgstr "Не удалось удалить мангу, не относящуюся к библиотеке, из категорий"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Не удалось удалить загрузку из очереди."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

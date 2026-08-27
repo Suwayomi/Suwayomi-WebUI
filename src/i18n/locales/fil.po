@@ -148,10 +148,6 @@ msgstr "Hindi ma-load ang mga kategorya"
 msgid "Could not remove all downloads from the queue"
 msgstr "Hindi maalis ang lahat ng pag-download mula sa pila"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Hindi maalis ang pag-download mula sa pila."
-
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 msgid "Could not retry failed download."
 msgstr "Hindi masubukang muli ang nabigong pag-download."

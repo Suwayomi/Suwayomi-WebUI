@@ -577,10 +577,6 @@ msgstr "வரிசையில் இருந்து அனைத்து 
 msgid "Could not remove non library manga from categories"
 msgstr "வகைகளிலிருந்து நூலகமற்ற மங்காவை அகற்ற முடியவில்லை"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "வரிசையில் இருந்து பதிவிறக்கத்தை அகற்ற முடியவில்லை."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

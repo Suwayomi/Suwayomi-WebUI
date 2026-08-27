@@ -316,10 +316,6 @@ msgstr "Kan niet alle downloads uit de wachtrij verwijderen"
 msgid "Could not remove non library manga from categories"
 msgstr "Kan manga die niet in de bibliotheek staan, niet uit de categorieën verwijderen"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Kan niet alle downloads uit de wachtrij verwijderen."
-
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 msgid "Could not retry failed download."
 msgstr "Kon de mislukte download niet opnieuw proberen."

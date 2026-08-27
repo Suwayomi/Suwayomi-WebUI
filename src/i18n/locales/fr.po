@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-08-04 01:08+0000\n"
+"PO-Revision-Date: 2026-08-24 10:51+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.8.1.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -596,10 +596,6 @@ msgstr "Impossible de supprimer tous les téléchargements de la file d'attente"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not remove non library manga from categories"
 msgstr "Impossible de supprimer les mangas hors bibliothèque des catégories"
-
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Impossible de supprimer le téléchargement de la file d'attente."
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
@@ -4487,3 +4483,110 @@ msgstr "Manhwa"
 #: src/features/manga/Manga.constants.ts
 msgid "entry-type-detection-webtoon"
 msgstr "Webtoon"
+
+#. placeholder {0}: reorders.length
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
+msgstr ""
+"{0, plural, one {Impossible de réordonner le téléchargement} other "
+"{Impossible de réordonner les téléchargements}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not cancel the download} other {Could not cancel downloads}}"
+msgstr ""
+"{count, plural, one {Impossible d'annuler le téléchargement} other "
+"{Impossible d'annuler les téléchargements}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download canceled} other {# downloads canceled}}"
+msgstr ""
+"{count, plural, one {Téléchargement annulé} other {# téléchargements "
+"annulés}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to cancel one download} other {You are about to cancel # downloads}}"
+msgstr ""
+"{count, plural, one {Vous allez annuler un téléchargement} other {Vous allez "
+"annuler # téléchargements}}"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "{libraryMangaCount, plural, one {# entry in library} other {# entries in library}}"
+msgstr ""
+"{libraryMangaCount, plural, one {# entrée dans la bibliothèque} other {# "
+"entrées dans la bibliothèque}}"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add a private note about this manga"
+msgstr "Ajouter une note personnelle à ce manga"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add notes"
+msgstr "Ajouter des notes"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Cancel all for this series"
+msgstr "Tout annuler pour cette série"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel download"
+msgstr "Annuler le téléchargement"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel downloads of selected"
+msgstr "Annuler les téléchargements de la sélection"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Clear cookies and cache"
+msgstr "Vider les cookies et le cache"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cleared WebView cookies and cache"
+msgstr "Cookies et cache de WebView vidés"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not clear WebView cookies and cache"
+msgstr "Impossible de vider les cookies et cache de WebView"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Could not retry failed downloads"
+msgstr "Impossible de relancer les téléchargements échoués"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Could not save notes"
+msgstr "Impossible d'enregistrer les notes"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Edit notes"
+msgstr "Modifier les notes"
+
+#: src/features/reader/settings/general/ReaderGeneralSettings.tsx
+msgid "Fullscreen"
+msgstr "Plein écran"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to bottom"
+msgstr "Déplacer la série vers le bas"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to top"
+msgstr "Déplacer la série vers le haut"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to bottom"
+msgstr "Déplacer vers le bas"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to top"
+msgstr "Déplacer vers le haut"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes"
+msgstr "Notes"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes saved"
+msgstr "Notes enregistrées"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Retry all"
+msgstr "Tout réessayer"
