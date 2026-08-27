@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.799Z\n"
-"PO-Revision-Date: 2026-07-21 02:01+0000\n"
+"PO-Revision-Date: 2026-08-10 18:51+0000\n"
 "Last-Translator: Constantin Piber <cp.piber@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/de/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -645,10 +645,6 @@ msgstr "Es konnten nicht alle Downloads aus der Warteschlange entfernt werden"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not remove non library manga from categories"
 msgstr "Nicht in Bibliothek gespeicherte Manga konnten aus Kategorie nicht entfernen werden"
-
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Der Download konnte nicht aus der Warteschlange entfernt werden."
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
@@ -4428,3 +4424,39 @@ msgstr "Aktiviere automatische Hintergrundfarbe im kontinuierlichen Lesemodus"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Last sync: {syncDate}"
 msgstr "Letzer Sync: {syncDate}"
+
+#: src/lib/HelperFunctions.ts
+msgid "Copied to clipboard"
+msgstr "In Zwischenablage kopiert"
+
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "Konnte nicht in Zwischenablage kopieren"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Could not load data"
+msgstr "Daten konnten nicht geladen werden"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Could not open random entry"
+msgstr "Konnte zufälligen Eintrag nicht öffnen"
+
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "Debug-Information"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep screen on"
+msgstr "Bildschirm an lassen"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Open random entry"
+msgstr "Zufälligen Eintrag öffnen"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Random"
+msgstr "Zufall"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Show"
+msgstr "Anzeigen"

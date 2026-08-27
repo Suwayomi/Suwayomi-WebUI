@@ -617,10 +617,6 @@ msgstr "Impossibile rimuovere i download dalla coda"
 msgid "Could not remove non library manga from categories"
 msgstr "Impossibile rimuovere i manga non della libreria dalle categorie"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Impossibile rimuovere il download dalla coda."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

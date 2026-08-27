@@ -539,10 +539,6 @@ msgstr "Kuyruktan tüm bölümleri silme işlemi gerçekleştirilemedi"
 msgid "Could not remove non library manga from categories"
 msgstr "Kütüphane dışı mangalar kategorilerden kaldırılamadı"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Kuyruktan silme işlemi gerçekleştirilemedi."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"

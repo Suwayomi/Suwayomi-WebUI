@@ -188,10 +188,6 @@ msgstr "ไม่สามารถโหลดหมวดหมู่ได้
 msgid "Could not remove all downloads from the queue"
 msgstr "ไม่สามารถลบการดาวน์โหลดทั้งหมดออกจากคิวได้"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "ไม่สามารถลบการดาวน์โหลดออกจากคิวได้"
-
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 msgid "Could not retry failed download."
 msgstr "ไม่สามารถดาวน์โหลดที่ล้มเหลวอีกครั้งได้"

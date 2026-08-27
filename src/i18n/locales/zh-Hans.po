@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-07-24 17:01+0000\n"
+"PO-Revision-Date: 2026-08-25 18:23+0000\n"
 "Last-Translator: 無情天 <kofzhanganguo@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -660,10 +660,6 @@ msgstr "无法从队列中删除所有下载"
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not remove non library manga from categories"
 msgstr "无法从类别中删除非库漫画"
-
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "无法从队列中删除下载。"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
@@ -4373,3 +4369,100 @@ msgstr "调试信息"
 #: src/features/settings/components/DebugInformation.tsx
 msgid "Show"
 msgstr "展示"
+
+#. placeholder {0}: reorders.length
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
+msgstr "{0, plural, one {无法重新排序下载} other {无法重新排序下载}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not cancel the download} other {Could not cancel downloads}}"
+msgstr "{count, plural, one {无法取消下载} other {无法取消下载}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download canceled} other {# downloads canceled}}"
+msgstr "{count, plural, one {下载已取消} other {# 下载已取消}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to cancel one download} other {You are about to cancel # downloads}}"
+msgstr "{count, plural, one {您即将取消一次下载} other {您即将取消 # 次下载}}"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "{libraryMangaCount, plural, one {# entry in library} other {# entries in library}}"
+msgstr "{libraryMangaCount, plural, one {# 个条目在书架中} other {# 个条目在书架中}}"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add a private note about this manga"
+msgstr "添加关于这部漫画的私人备注"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add notes"
+msgstr "添加笔记"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Cancel all for this series"
+msgstr "取消此系列的所有订阅"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel download"
+msgstr "取消下载"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel downloads of selected"
+msgstr "取消所选文件的下载"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Clear cookies and cache"
+msgstr "清除 Cookie 和缓存"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cleared WebView cookies and cache"
+msgstr "已清除 WebView cookie 和缓存"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not clear WebView cookies and cache"
+msgstr "无法清除 WebView Cookie 和缓存"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Could not retry failed downloads"
+msgstr "无法重试失败的下载"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Could not save notes"
+msgstr "无法保存笔记"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Edit notes"
+msgstr "编辑笔记"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes"
+msgstr "笔记"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes saved"
+msgstr "已保存的笔记"
+
+#: src/features/reader/settings/general/ReaderGeneralSettings.tsx
+msgid "Fullscreen"
+msgstr "全屏"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to bottom"
+msgstr "将系列移至底部"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to top"
+msgstr "将系列移至顶部"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to bottom"
+msgstr "移至底部"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to top"
+msgstr "移至顶部"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Retry all"
+msgstr "全部重试"

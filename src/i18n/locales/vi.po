@@ -647,10 +647,6 @@ msgstr "Không thể xóa tất cả các mục ra khỏi hàng đợi"
 msgid "Could not remove non library manga from categories"
 msgstr "Không thể xóa truyện không thuộc thư viện khỏi danh mục"
 
-#: src/features/downloads/components/DownloadQueueChapterCard.tsx
-msgid "Could not remove the download from the queue."
-msgstr "Không thể xóa tải xuống khỏi hàng đợi."
-
 #: src/features/backup/screens/Backup.tsx
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
