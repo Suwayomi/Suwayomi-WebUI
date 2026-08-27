@@ -33,11 +33,9 @@ import type {
     ChapterBookmarkInfo,
     ChapterDownloadInfo,
     ChapterIdInfo,
-    ChapterMangaInfo,
     ChapterNumberInfo,
     ChapterReadInfo,
     ChapterScanlatorInfo,
-    ChapterSourceOrderInfo,
 } from '@/features/chapter/Chapter.types.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import { DirectionOffset } from '@/base/Base.types.ts';
@@ -103,10 +101,6 @@ export class Chapters {
         }
 
         return downloadStatus.data;
-    }
-
-    static getReaderUrl<Chapter extends ChapterMangaInfo & ChapterSourceOrderInfo>(chapter: Chapter): string {
-        return AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder);
     }
 
     static isDownloading(id: number): boolean {

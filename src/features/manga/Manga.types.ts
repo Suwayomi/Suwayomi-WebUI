@@ -25,6 +25,7 @@ import type { MigrationMatch } from '@/features/migration/Migration.types.ts';
 import type {
     MangaType as MangaTypeGql,
     Maybe,
+    MetaType,
     SourceType,
     TrackRecordType,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
@@ -60,6 +61,7 @@ export type MangaTitleInfo = Pick<MangaTypeGql, 'title'>;
 export type MangaDescriptionInfo = Pick<MangaTypeGql, 'description'>;
 export type MangaStatusInfo = Pick<MangaTypeGql, 'status'>;
 export type MangaUrlInfo = Pick<MangaTypeGql, 'realUrl'>;
+export type MangaMetaInfo = { meta?: Pick<MetaType, 'key' | 'value'>[] };
 
 type MangaCardSpecificProps = MangaCardBaseProps & MangaThumbnailInfo;
 
@@ -83,7 +85,9 @@ export type SpecificMangaCardProps = Omit<MangaCardProps, 'manga'> &
         mangaBadges: JSX.Element;
     };
 
-export type MangaMetadata = ChapterListOptions;
+export type MangaMetadata = ChapterListOptions & {
+    notes: string;
+};
 
 export type MangaMetadataKeys = keyof MangaMetadata;
 

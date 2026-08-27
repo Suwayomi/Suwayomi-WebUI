@@ -11,7 +11,7 @@ import { useCallback } from 'react';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { useAppPageHistoryContext } from '@/base/contexts/AppPageHistoryContext.tsx';
 
-const READER_REGEX = /\/manga\/[0-9]+\/chapter\/[0-9]+/g;
+export const READER_REGEX = /\/manga\/[0-9]+\/chapter\/[0-9]+/g;
 const PAGES_TO_IGNORE: readonly RegExp[] = [READER_REGEX];
 
 export const useBackButton = () => {

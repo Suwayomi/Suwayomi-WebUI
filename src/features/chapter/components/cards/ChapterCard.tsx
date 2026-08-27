@@ -43,6 +43,8 @@ import type {
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { ChapterType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { usePress } from '@/base/hooks/usePress.ts';
+import { AppRoutes } from '@/base/AppRoute.constants.ts';
+import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -96,6 +98,9 @@ export const ChapterCard = memo((props: IProps) => {
 
     const handleClick = (event: MouseEvent | TouchEvent) => {
         if (!isSelecting) {
+            event.preventDefault();
+            event.stopPropagation();
+            ReaderService.openReader(chapter, true);
             return;
         }
 
@@ -131,13 +136,13 @@ export const ChapterCard = memo((props: IProps) => {
                     >
                         <CardActionArea
                             component={Link}
-                            to={Chapters.getReaderUrl(chapter)}
+                            to={AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder)}
+                            state={Chapters.getReaderOpenChapterLocationState(chapter, true)}
                             onContextMenu={preventMobileContextMenu}
                             sx={MediaQuery.preventMobileContextMenuSx()}
                             style={{
                                 color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                             }}
-                            state={Chapters.getReaderOpenChapterLocationState(chapter, true)}
                             replace={mode === 'reader'}
                             {...longPressBind(popupState.open)}
                         >

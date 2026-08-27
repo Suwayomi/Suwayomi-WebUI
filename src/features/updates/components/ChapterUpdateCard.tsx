@@ -31,6 +31,7 @@ import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { useTheme } from '@mui/material/styles';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { Virtuoso } from 'react-virtuoso';
+import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 
 export const ChapterUpdateCard = memo(
     ({
@@ -54,6 +55,11 @@ export const ChapterUpdateCard = memo(
                     component={Link}
                     to={AppRoutes.reader.path(chapter.manga.id, chapter.sourceOrder)}
                     state={Chapters.getReaderOpenChapterLocationState(chapter)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        ReaderService.openReader(chapter);
+                    }}
                     sx={{
                         color: theme.palette.text[chapter.isRead ? 'disabled' : 'primary'],
                     }}
@@ -111,6 +117,7 @@ export const ChapterUpdateCard = memo(
                                         {...MUIUtil.preventRippleProp()}
                                         onClick={(e) => {
                                             e.preventDefault();
+                                            e.stopPropagation();
                                             setIsExpanded(!isExpanded);
                                         }}
                                     >
@@ -130,10 +137,9 @@ export const ChapterUpdateCard = memo(
                     </ListCardContent>
                 </CardActionArea>
                 {isGroup && (
-                    <Collapse in={isExpanded} unmountOnExit>
+                    <Collapse in={isExpanded}>
                         <Virtuoso
                             useWindowScroll
-                            overscan={window.innerHeight * 0.5}
                             data={otherChapters}
                             computeItemKey={(index) => otherChapters[index].id}
                             itemContent={(_index, otherChapter) => <ChapterUpdateCard chapter={otherChapter} />}

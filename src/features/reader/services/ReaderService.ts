@@ -11,7 +11,13 @@ import { useNavigate } from 'react-router-dom';
 import type { Direction } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 import { t } from '@lingui/core/macro';
-import type { ChapterIdInfo, TChapterReader } from '@/features/chapter/Chapter.types.ts';
+import type {
+    ChapterIdInfo,
+    ChapterMangaInfo,
+    ChapterReadInfo,
+    ChapterSourceOrderInfo,
+    TChapterReader,
+} from '@/features/chapter/Chapter.types.ts';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import type { IReaderSettings, RouteStateReader } from '@/features/reader/Reader.types.ts';
 import { ReaderExitMode, ReaderOverlayMode, ReadingDirection, ReadingMode } from '@/features/reader/Reader.types.ts';
@@ -19,8 +25,11 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { MANGA_META_FIELDS } from '@/lib/graphql/manga/MangaFragments.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
-import { useBackButton } from '@/base/hooks/useBackButton.ts';
-import { GLOBAL_READER_SETTING_KEYS } from '@/features/reader/settings/ReaderSettings.constants.tsx';
+import { READER_REGEX, useBackButton } from '@/base/hooks/useBackButton.ts';
+import {
+    DEFAULT_READER_SETTINGS,
+    GLOBAL_READER_SETTING_KEYS,
+} from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import type { UpdateChapterPatchInput } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import {
@@ -58,6 +67,8 @@ import type {
     MetadataHolderType,
 } from '@/features/metadata/Metadata.types.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
+import { getReaderSettings } from '@/features/reader/settings/ReaderSettingsMetadata.ts';
+import { UrlUtil } from '@/lib/UrlUtil.ts';
 
 const DIRECTION_TO_INVERTED: Record<Direction, Direction> = {
     ltr: 'rtl',
@@ -82,11 +93,54 @@ export class ReaderService {
         return ReaderService.chapterUpdateQueues.get(id)!;
     }
 
-    static navigateToChapter(chapter: TChapterReader, state?: RouteStateReader): void {
-        ReactRouter.navigate(Chapters.getReaderUrl(chapter), {
+    static navigateToChapter(chapter: ChapterMangaInfo & ChapterSourceOrderInfo, state?: RouteStateReader): void {
+        ReactRouter.navigate(AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder), {
             replace: true,
             state,
         });
+    }
+
+    static exitFullscreen(e?: NavigateEvent, force: boolean = false): void {
+        const destinationPath = UrlUtil.asUrl(e?.destination.url ?? window.location.href)?.pathname;
+
+        if (force || !destinationPath?.match(READER_REGEX)) {
+            document.exitFullscreen().catch(defaultPromiseErrorHandler('ReaderService::exitFullscreen'));
+            navigation.removeEventListener('navigate', ReaderService.exitFullscreen);
+        }
+    }
+
+    static enterFullscreen(): void {
+        document.documentElement
+            .requestFullscreen()
+            .catch(defaultPromiseErrorHandler('ReaderService::enterFullscreen'));
+
+        navigation.addEventListener('navigate', ReaderService.exitFullscreen);
+    }
+
+    static async openReader(
+        chapter: ChapterMangaInfo & ChapterSourceOrderInfo & ChapterReadInfo,
+        updateInitialChapter?: boolean,
+    ): Promise<void> {
+        ReactRouter.navigate(AppRoutes.reader.path(chapter.mangaId, chapter.sourceOrder), {
+            state: Chapters.getReaderOpenChapterLocationState(chapter, updateInitialChapter),
+        });
+
+        const shouldEnterFullscreen = await (async () => {
+            try {
+                const globalMetaRequest = await requestManager.getGlobalMeta().response;
+                const settings = getReaderSettings('global', {
+                    meta: convertFromGqlMeta(globalMetaRequest.data?.metas.nodes),
+                });
+
+                return settings.shouldEnterFullscreen;
+            } catch (e) {
+                return DEFAULT_READER_SETTINGS.shouldEnterFullscreen;
+            }
+        })();
+
+        if (shouldEnterFullscreen) {
+            ReaderService.enterFullscreen();
+        }
     }
 
     static downloadAhead(

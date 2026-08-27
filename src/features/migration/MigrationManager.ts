@@ -757,7 +757,7 @@ export class MigrationManager {
         const destinationSourceIds = MigrationManager.getDestinationSourceIds(mangaSourceId);
 
         const sourceIdPriority = destinationSourceIds.indexOf(destSourceId);
-        return destinationSourceIds.slice(0, Math.max(0, sourceIdPriority - 1));
+        return destinationSourceIds.slice(0, Math.max(0, sourceIdPriority));
     }
 
     private static isHigherPrioritySourceUnsettled(

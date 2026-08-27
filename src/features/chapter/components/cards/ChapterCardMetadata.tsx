@@ -66,22 +66,38 @@ export const ChapterCardMetadata = ({
             }}
         >
             {infoIcons}
-            <CustomTooltip title={title} {...TOOLTIP_PREVENT_OVERFLOW}>
+            <CustomTooltip title={title} placement="right" {...TOOLTIP_PREVENT_OVERFLOW}>
                 <TypographyMaxLines variant="h6" component="h3" {...slotProps?.title}>
                     {title}
                 </TypographyMaxLines>
             </CustomTooltip>
         </Stack>
         {secondaryText && (
-            <CustomTooltip title={secondaryText} {...TOOLTIP_PREVENT_OVERFLOW}>
-                <TypographyMaxLines variant="caption" lines={1} {...slotProps?.secondaryText}>
+            <CustomTooltip title={secondaryText} placement="right" {...TOOLTIP_PREVENT_OVERFLOW}>
+                <TypographyMaxLines
+                    variant="caption"
+                    lines={1}
+                    {...slotProps?.secondaryText}
+                    sx={{
+                        width: 'fit-content',
+                        ...slotProps?.secondaryText?.sx,
+                    }}
+                >
                     {secondaryText}
                 </TypographyMaxLines>
             </CustomTooltip>
         )}
         {ternaryText && (
-            <CustomTooltip title={ternaryText} {...TOOLTIP_PREVENT_OVERFLOW}>
-                <TypographyMaxLines variant="caption" lines={1} {...slotProps?.ternaryText}>
+            <CustomTooltip title={ternaryText} placement="right" {...TOOLTIP_PREVENT_OVERFLOW}>
+                <TypographyMaxLines
+                    variant="caption"
+                    lines={1}
+                    {...slotProps?.ternaryText}
+                    sx={{
+                        width: 'fit-content',
+                        ...slotProps?.ternaryText?.sx,
+                    }}
+                >
                     {ternaryText}
                 </TypographyMaxLines>
             </CustomTooltip>
