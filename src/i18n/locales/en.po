@@ -1198,6 +1198,10 @@ msgstr "Could not remove extension store \"{name}\""
 msgid "Could not remove non library manga from categories"
 msgstr "Could not remove non library manga from categories"
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Could not reset filters"
+msgstr "Could not reset filters"
+
 #: src/features/backup/screens/Backup.tsx
 msgid "Could not restore backup"
 msgstr "Could not restore backup"

@@ -23,7 +23,11 @@ import type { GetTrackersSettingsQuery } from '@/lib/graphql/generated/graphql.t
 import { MangaStatus } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { GET_TRACKERS_SETTINGS } from '@/lib/graphql/tracker/TrackerQuery.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
-import { createUpdateCategoryMetadata, useGetCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
+import {
+    batchUpdateCategoryMetadata,
+    createUpdateCategoryMetadata,
+    useGetCategoryMetadata,
+} from '@/features/category/services/CategoryMetadata.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import {
     createUpdateMetadataServerSettings,
@@ -36,6 +40,7 @@ import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts
 import { GridLayout } from '@/base/Base.types';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Collapsable } from '@/base/components/Collapsable.tsx';
+import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 import Replay from '@mui/icons-material/Replay';
 import { Sources } from '@/features/source/services/Sources';
 
@@ -77,10 +82,18 @@ export const LibraryOptionsPanel = ({
     category,
     open,
     onClose,
+    active,
+    isStatusFilterActive,
+    isTrackerFilterActive,
+    isSourceFilterActive,
 }: {
     category: CategoryMetadataInfo;
     open: boolean;
     onClose: () => void;
+    active: boolean;
+    isStatusFilterActive: boolean;
+    isTrackerFilterActive: boolean;
+    isSourceFilterActive: boolean;
 }) => {
     const { t } = useLingui();
 
@@ -101,13 +114,24 @@ export const LibraryOptionsPanel = ({
         makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
 
-    const isStatusFilterActive = Object.values(MangaStatus).some(
-        (status) => categoryLibraryOptions.hasStatus[status] != null,
-    );
-    const isTrackerFilterActive = loggedInTrackers.some(
-        (tracker) => categoryLibraryOptions.hasTrackerBinding[tracker.id] != null,
-    );
-    const isSourceFilterActive = librarySources.some((source) => categoryLibraryOptions.hasSource[source.id] != null);
+    const resetFilters = () => {
+        batchUpdateCategoryMetadata([
+            {
+                categories: [category],
+                entries: [],
+                delete: [
+                    'hasUnreadChapters',
+                    'hasReadChapters',
+                    'hasDownloadedChapters',
+                    'hasBookmarkedChapters',
+                    'hasDuplicateChapters',
+                    'hasStatus',
+                    'hasTrackerBinding',
+                    'hasSource',
+                ],
+            },
+        ]).catch((e) => makeToast(t`Could not reset filters`, 'error', getErrorMessage(e)));
+    };
 
     return (
         <OptionsTabs<'filter' | 'sort' | 'display'>
@@ -119,6 +143,13 @@ export const LibraryOptionsPanel = ({
                 if (key === 'filter') {
                     return (
                         <>
+                            <ResetButton
+                                disabled={!active}
+                                onClick={resetFilters}
+                                sx={{ alignSelf: 'flex-end' }}
+                                variant="outlined"
+                                size="small"
+                            />
                             <ThreeStateCheckboxInput
                                 label={t`Unread`}
                                 checked={categoryLibraryOptions.hasUnreadChapters}
