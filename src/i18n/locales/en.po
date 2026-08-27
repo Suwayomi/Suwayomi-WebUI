@@ -241,28 +241,24 @@ msgid "{count, plural, one {Removed manga from the library} other {Removed # man
 msgstr "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
 
 #: src/features/reader/services/ReaderControls.ts
-msgid ""
-"{count, plural, one {There is # missing chapter.\n"
+msgid "{count, plural, one {There is # missing chapter.\n"
 "Current: {currentChapter}\n"
 "Next: {nextChapter}} other {There are # missing chapters.\n"
 "Current: {currentChapter}\n"
 "Next: {nextChapter}}}"
-msgstr ""
-"{count, plural, one {There is # missing chapter.\n"
+msgstr "{count, plural, one {There is # missing chapter.\n"
 "Current: {currentChapter}\n"
 "Next: {nextChapter}} other {There are # missing chapters.\n"
 "Current: {currentChapter}\n"
 "Next: {nextChapter}}}"
 
 #: src/features/reader/services/ReaderControls.ts
-msgid ""
-"{count, plural, one {There is # missing chapter.\n"
+msgid "{count, plural, one {There is # missing chapter.\n"
 "Previous: {nextChapter}\n"
 "Current: {currentChapter}} other {There are # missing chapters.\n"
 "Previous: {nextChapter}\n"
 "Current: {currentChapter}}}"
-msgstr ""
-"{count, plural, one {There is # missing chapter.\n"
+msgstr "{count, plural, one {There is # missing chapter.\n"
 "Previous: {nextChapter}\n"
 "Current: {currentChapter}} other {There are # missing chapters.\n"
 "Previous: {nextChapter}\n"
@@ -281,11 +277,9 @@ msgid "{count, plural, one {You are about to delete one download} other {You are
 msgstr "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
 
 #: src/features/chapter/Chapter.constants.ts
-msgid ""
-"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+msgid "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
 "Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
-msgstr ""
-"{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+msgstr "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
 "Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
 
 #: src/features/chapter/Chapter.constants.ts
@@ -928,6 +922,10 @@ msgstr "Clear cache"
 msgid "Clear cookies and cache"
 msgstr "Clear cookies and cache"
 
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Clear notes"
+msgstr "Clear notes"
+
 #: src/features/settings/screens/ImagesSettings.tsx
 msgid "Cleared the cache"
 msgstr "Cleared the cache"
@@ -1012,12 +1010,10 @@ msgid "Continue"
 msgstr "Continue"
 
 #: src/features/manga/components/ContinueReadingTooltip.tsx
-msgid ""
-"Continue reading\n"
+msgid "Continue reading\n"
 "#{chapterNumber} — {name}\n"
 "{scanlator}"
-msgstr ""
-"Continue reading\n"
+msgstr "Continue reading\n"
 "#{chapterNumber} — {name}\n"
 "{scanlator}"
 
@@ -1034,11 +1030,9 @@ msgid "Continuous vertical"
 msgstr "Continuous vertical"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+msgid "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
-msgstr ""
-"Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+msgstr "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
 "Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
 
 #: src/features/settings/Settings.constants.ts
@@ -1068,12 +1062,10 @@ msgid "Could not add manga to library!"
 msgstr "Could not add manga to library!"
 
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
-msgid ""
-"Could not check for duplicated manga in your library.\n"
+msgid "Could not check for duplicated manga in your library.\n"
 "\n"
 "Error: {errorMessage}"
-msgstr ""
-"Could not check for duplicated manga in your library.\n"
+msgstr "Could not check for duplicated manga in your library.\n"
 "\n"
 "Error: {errorMessage}"
 
@@ -1822,13 +1814,11 @@ msgid "Failed to save changes"
 msgstr "Failed to save changes"
 
 #: src/features/settings/Settings.constants.ts
-msgid ""
-"Features and changes in this version might not be completely ready yet and can cause bugs.\n"
+msgid "Features and changes in this version might not be completely ready yet and can cause bugs.\n"
 "Make sure that you have automatic backups enabled to prevent loss of your library!\n"
 "\n"
 "After changing this setting go to the \"About\" page and check for a webUI update and install it"
-msgstr ""
-"Features and changes in this version might not be completely ready yet and can cause bugs.\n"
+msgstr "Features and changes in this version might not be completely ready yet and can cause bugs.\n"
 "Make sure that you have automatic backups enabled to prevent loss of your library!\n"
 "\n"
 "After changing this setting go to the \"About\" page and check for a webUI update and install it"
@@ -2047,11 +2037,9 @@ msgid "How much time FlareSolverr has to handle the request"
 msgstr "How much time FlareSolverr has to handle the request"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
-msgid ""
-"If enabled, chooses the match furthest ahead.\n"
+msgid "If enabled, chooses the match furthest ahead.\n"
 "Otherwise, picks the first match by source priority."
-msgstr ""
-"If enabled, chooses the match furthest ahead.\n"
+msgstr "If enabled, chooses the match furthest ahead.\n"
 "Otherwise, picks the first match by source priority."
 
 #: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
@@ -2111,11 +2099,9 @@ msgid "Improves performance, but may cause issues for some installations where d
 msgstr "Improves performance, but may cause issues for some installations where data cannot be read from the database"
 
 #: src/features/settings/screens/ImageProcessingSetting.tsx
-msgid ""
-"In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
+msgid "In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
 "Set the target mode to disabled to prevent processing for a MIME-Type"
-msgstr ""
-"In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
+msgstr "In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
 "Set the target mode to disabled to prevent processing for a MIME-Type"
 
 #: src/features/manga/components/details/MangaDetails.tsx
@@ -2449,12 +2435,10 @@ msgid "entry-type-detection-long-strip"
 msgstr "Long strip"
 
 #: src/features/device/screens/DeviceSetting.tsx
-msgid ""
-"Manage your existing devices.\n"
+msgid "Manage your existing devices.\n"
 "UI specific settings that are stored on the server are per device.\n"
 "This makes it possible to have e.g. different settings on a desktop and a smartphone"
-msgstr ""
-"Manage your existing devices.\n"
+msgstr "Manage your existing devices.\n"
 "UI specific settings that are stored on the server are per device.\n"
 "This makes it possible to have e.g. different settings on a desktop and a smartphone"
 
@@ -2780,10 +2764,6 @@ msgid "Not yet released"
 msgstr "Not yet released"
 
 #: src/features/manga/components/details/MangaNotes.tsx
-msgid "Notes"
-msgstr "Notes"
-
-#: src/features/manga/components/details/MangaNotes.tsx
 msgid "Notes saved"
 msgstr "Notes saved"
 
@@ -2796,11 +2776,9 @@ msgid "NSFW (18+) sources"
 msgstr "NSFW (18+) sources"
 
 #: src/features/settings/screens/ServerSettings.tsx
-msgid ""
-"Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
+msgid "Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
 "Higher values may affect client performance."
-msgstr ""
-"Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
+msgstr "Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
 "Higher values may affect client performance."
 
 #: src/features/downloads/components/DownloadAheadSetting.tsx
@@ -3314,11 +3292,9 @@ msgid "Search for \"{title}\" failed with error:"
 msgstr "Search for \"{title}\" failed with error:"
 
 #: src/features/tracker/components/TrackerSearch.tsx
-msgid ""
-"Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
+msgid "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
 "Limit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
-msgstr ""
-"Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
+msgstr "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
 "Limit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
 
 #: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
@@ -3621,11 +3597,9 @@ msgid "SOCKS version"
 msgstr "SOCKS version"
 
 #: src/base/components/feedback/ErrorBoundary.tsx
-msgid ""
-"Something went wrong\n"
+msgid "Something went wrong\n"
 "An error occurred that we cannot recover from"
-msgstr ""
-"Something went wrong\n"
+msgstr "Something went wrong\n"
 "An error occurred that we cannot recover from"
 
 #: src/features/chapter/components/ChapterOptions.tsx
@@ -3679,12 +3653,10 @@ msgid "Start migration"
 msgstr "Start migration"
 
 #: src/features/manga/components/ContinueReadingTooltip.tsx
-msgid ""
-"Start reading\n"
+msgid "Start reading\n"
 "#{chapterNumber} — {name}\n"
 "{scanlator}"
-msgstr ""
-"Start reading\n"
+msgstr "Start reading\n"
 "#{chapterNumber} — {name}\n"
 "{scanlator}"
 
@@ -3850,22 +3822,18 @@ msgid "The login will be handled by the server."
 msgstr "The login will be handled by the server."
 
 #: src/features/migration/MigrationManager.ts
-msgid ""
-"The migration runs on the client on the current device, NOT the server.\n"
+msgid "The migration runs on the client on the current device, NOT the server.\n"
 "As long as the client is open, the migration will run in the background.\n"
 "The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
-msgstr ""
-"The migration runs on the client on the current device, NOT the server.\n"
+msgstr "The migration runs on the client on the current device, NOT the server.\n"
 "As long as the client is open, the migration will run in the background.\n"
 "The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
 
 #: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The next chapter has a different scanlator then the current one.\n"
+msgid "The next chapter has a different scanlator then the current one.\n"
 "Current: {currentScanlator}\n"
 "Next: {nextScanlator}"
-msgstr ""
-"The next chapter has a different scanlator then the current one.\n"
+msgstr "The next chapter has a different scanlator then the current one.\n"
 "Current: {currentScanlator}\n"
 "Next: {nextScanlator}"
 
@@ -3886,12 +3854,10 @@ msgid "The path to the electron installation on the server"
 msgstr "The path to the electron installation on the server"
 
 #: src/features/reader/services/ReaderControls.ts
-msgid ""
-"The previous chapter has a different scanlator then the current one.\n"
+msgid "The previous chapter has a different scanlator then the current one.\n"
 "Previous: {nextScanlator}\n"
 "Current: {currentScanlator}"
-msgstr ""
-"The previous chapter has a different scanlator then the current one.\n"
+msgstr "The previous chapter has a different scanlator then the current one.\n"
 "Previous: {nextScanlator}\n"
 "Current: {currentScanlator}"
 
@@ -4190,11 +4156,9 @@ msgid "URL"
 msgstr "URL"
 
 #: src/features/settings/Settings.constants.ts
-msgid ""
-"Use a custom WebUI.\n"
+msgid "Use a custom WebUI.\n"
 "To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
-msgstr ""
-"Use a custom WebUI.\n"
+msgstr "Use a custom WebUI.\n"
 "To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
 
 #: src/features/settings/screens/ServerSettings.tsx

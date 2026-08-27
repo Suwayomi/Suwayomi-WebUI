@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
 import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import Button from '@mui/material/Button';
@@ -16,18 +16,42 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import Divider from '@mui/material/Divider';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
 import { makeToast } from '@/base/utils/Toast.ts';
 import type { MangaIdInfo, MangaMetaInfo } from '@/features/manga/Manga.types.ts';
 import { updateMangaMetadata, useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
-import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { getErrorMessage, markdownToSafeHtml } from '@/lib/HelperFunctions.ts';
+import StarterKit from '@tiptap/starter-kit';
+import {
+    MenuButton,
+    MenuButtonBold,
+    MenuButtonBulletedList,
+    MenuButtonItalic,
+    MenuButtonOrderedList,
+    MenuButtonRedo,
+    MenuButtonUndo,
+    MenuControlsContainer,
+    MenuDivider,
+    MenuSelectHeading,
+    RichTextEditor,
+    type RichTextEditorRef,
+    RichTextReadOnly,
+} from 'mui-tiptap';
+import { Markdown } from '@tiptap/markdown';
+import { Placeholder } from '@tiptap/extension-placeholder';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ClearContentShortcut, SaveContentShortcut } from '@/lib/mui-tiptap/MuiTipTap.shortcut.util.ts';
 
 export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaMetaInfo; notes: string }) => {
     const { t } = useLingui();
+
+    const rteRef = useRef<RichTextEditorRef>(null);
+
     const [isOpen, setIsOpen] = useState(false);
     const [draft, setDraft] = useState(notes);
+
+    const hasNotes = notes.trim().length > 0;
+    const isUnchanged = draft.trimEnd() === notes;
 
     const openDialog = () => {
         setDraft(notes);
@@ -36,17 +60,16 @@ export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaM
 
     const closeDialog = () => setIsOpen(false);
 
-    const saveNotes = () => {
-        const nextNotes = draft.trimEnd();
-        setIsOpen(false);
+    const saveNotes = (content: string) => {
+        const nextNotes = content.trimEnd();
 
         void updateMangaMetadata(manga, 'notes', nextNotes)
-            .then(() => makeToast(t`Notes saved`, 'success'))
+            .then(() => {
+                makeToast(t`Notes saved`, 'success');
+                setIsOpen(false);
+            })
             .catch((error) => makeToast(t`Could not save notes`, 'error', getErrorMessage(error)));
     };
-
-    const hasNotes = notes.trim().length > 0;
-    const isUnchanged = draft.trimEnd() === notes;
 
     return (
         <>
@@ -61,28 +84,57 @@ export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaM
             <Dialog open={isOpen} onClose={closeDialog} fullWidth maxWidth="sm">
                 <DialogTitle>{hasNotes ? t`Edit notes` : t`Add notes`}</DialogTitle>
                 <DialogContent>
-                    <TextField
-                        autoFocus
-                        multiline
-                        minRows={5}
-                        maxRows={14}
-                        fullWidth
-                        margin="dense"
-                        label={t`Notes`}
-                        placeholder={t`Add a private note about this manga`}
-                        value={draft}
-                        onChange={(event) => setDraft(event.target.value)}
-                        onKeyDown={(event) => {
-                            if ((event.ctrlKey || event.metaKey) && event.key === 'Enter' && !isUnchanged) {
-                                event.preventDefault();
-                                void saveNotes();
-                            }
+                    <RichTextEditor
+                        ref={rteRef}
+                        extensions={[
+                            StarterKit,
+                            Markdown,
+                            Placeholder.configure({
+                                placeholder: t`Add a private note about this manga`,
+                            }),
+                            ClearContentShortcut.extension,
+                            SaveContentShortcut((editor, unchangedContent) => {
+                                if (unchangedContent) {
+                                    setIsOpen(false);
+                                    return true;
+                                }
+
+                                saveNotes(editor.getMarkdown());
+
+                                return true;
+                            }).extension,
+                        ]}
+                        content={markdownToSafeHtml(notes.trim())}
+                        contentType="markdown"
+                        onUpdate={({ editor }) => {
+                            setDraft(editor.getMarkdown());
                         }}
+                        renderControls={() => (
+                            <MenuControlsContainer>
+                                <MenuButtonUndo />
+                                <MenuButtonRedo />
+                                <MenuDivider />
+                                <MenuSelectHeading />
+                                <MenuDivider />
+                                <MenuButtonBold />
+                                <MenuButtonItalic />
+                                <MenuButtonBulletedList />
+                                <MenuButtonOrderedList />
+                                <MenuDivider />
+                                <MenuButton
+                                    tooltipLabel={t`Clear notes`}
+                                    onClick={() => rteRef.current?.editor?.chain().focus().clearContent().run()}
+                                    tooltipShortcutKeys={ClearContentShortcut.tooltipKeys}
+                                >
+                                    <DeleteIcon color="inherit" />
+                                </MenuButton>
+                            </MenuControlsContainer>
+                        )}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeDialog}>{t`Cancel`}</Button>
-                    <Button onClick={saveNotes} disabled={isUnchanged} variant="contained">
+                    <Button onClick={() => saveNotes(draft)} disabled={isUnchanged} variant="contained">
                         {t`Save`}
                     </Button>
                 </DialogActions>
@@ -106,14 +158,19 @@ export const MangaNotes = ({
     return (
         <Stack sx={{ alignItems: 'flex-start', gap: 1 }}>
             {hasNotes && (
-                <Typography
+                <RichTextReadOnly
+                    key={notes.trim()}
+                    extensions={[StarterKit, Markdown]}
+                    contentType="markdown"
+                    content={markdownToSafeHtml(notes.trim())}
                     sx={{
-                        overflowWrap: 'anywhere',
-                        whiteSpace: 'pre-wrap',
+                        '& .ProseMirror > p:last-child': {
+                            '&:has(br:only-child)': {
+                                display: 'none',
+                            },
+                        },
                     }}
-                >
-                    {notes}
-                </Typography>
+                />
             )}
             {(!hasNotes || expanded) && <MangaNotesButton manga={manga} notes={notes} />}
             {hasNotes && showDivider && <Divider flexItem />}
