@@ -28,6 +28,9 @@ export const MarkdownViewer = ({ markdown }: { markdown: string }) => (
                 display: 'flex',
                 flexDirection: 'column',
                 rowGap: '1rem',
+
+                textAlign: 'justify',
+                textJustify: 'inter-word',
             },
 
             '& .ProseMirror > *': {
