@@ -7,7 +7,6 @@
  */
 
 import { useCallback, useMemo, useState } from 'react';
-import Typography from '@mui/material/Typography';
 import Chip from '@mui/material/Chip';
 import Collapse from '@mui/material/Collapse';
 import Stack from '@mui/material/Stack';
@@ -28,6 +27,7 @@ import { SearchLink } from '@/features/manga/components/details/SearchLink.tsx';
 import { MangaNotes } from '@/features/manga/components/details/MangaNotes.tsx';
 import { useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import uniq from 'lodash/fp/uniq';
+import { MarkdownViewer } from '@/lib/mui-tiptap/MarkdownViewer.tsx';
 
 const OPEN_CLOSE_BUTTON_HEIGHT = '35px';
 const DESCRIPTION_COLLAPSED_SIZE = 75;
@@ -70,17 +70,7 @@ export const DescriptionGenre = ({
                             }}
                         >
                             <MangaNotes manga={manga} expanded={!isCollapsed} showDivider={!!description} />
-                            {description && (
-                                <Typography
-                                    sx={{
-                                        whiteSpace: 'pre-line',
-                                        textAlign: 'justify',
-                                        textJustify: 'inter-word',
-                                    }}
-                                >
-                                    {description}
-                                </Typography>
-                            )}
+                            {description && <MarkdownViewer markdown={description} />}
                         </Stack>
                     </Collapse>
                     <Stack

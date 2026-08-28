@@ -137,6 +137,7 @@ export const getRenderedText = (el: HTMLElement, cssText: string) => {
 export const markdownToSafeHtml = (markdown: string): string => {
     const html = marked.parse(markdown, {
         async: false,
+        breaks: true,
     });
 
     return DOMPurify.sanitize(html, {

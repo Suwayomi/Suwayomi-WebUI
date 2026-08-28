@@ -35,12 +35,12 @@ import {
     MenuSelectHeading,
     RichTextEditor,
     type RichTextEditorRef,
-    RichTextReadOnly,
 } from 'mui-tiptap';
 import { Markdown } from '@tiptap/markdown';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ClearContentShortcut, SaveContentShortcut } from '@/lib/mui-tiptap/MuiTipTap.shortcut.util.ts';
+import { MarkdownViewer } from '@/lib/mui-tiptap/MarkdownViewer.tsx';
 
 export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaMetaInfo; notes: string }) => {
     const { t } = useLingui();
@@ -157,21 +157,7 @@ export const MangaNotes = ({
 
     return (
         <Stack sx={{ alignItems: 'flex-start', gap: 1 }}>
-            {hasNotes && (
-                <RichTextReadOnly
-                    key={notes.trim()}
-                    extensions={[StarterKit, Markdown]}
-                    contentType="markdown"
-                    content={markdownToSafeHtml(notes.trim())}
-                    sx={{
-                        '& .ProseMirror > p:last-child': {
-                            '&:has(br:only-child)': {
-                                display: 'none',
-                            },
-                        },
-                    }}
-                />
-            )}
+            {hasNotes && <MarkdownViewer markdown={notes.trim()} />}
             {(!hasNotes || expanded) && <MangaNotesButton manga={manga} notes={notes} />}
             {hasNotes && showDivider && <Divider flexItem />}
         </Stack>
