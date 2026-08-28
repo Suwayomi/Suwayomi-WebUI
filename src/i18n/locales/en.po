@@ -398,6 +398,7 @@ msgstr "Active setting ({title})"
 
 #: src/base/components/settings/MutableListSetting.tsx
 #: src/features/extension/store/screens/ExtensionStores.tsx
+#: src/features/manga/components/details/MangaNotes.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
 #: src/features/settings/components/images/KeyValueItems.tsx
@@ -1621,6 +1622,7 @@ msgstr "Edge"
 
 #: src/features/category/components/CategorySelect.tsx
 #: src/features/category/components/CategorySettingsCard.tsx
+#: src/features/manga/components/details/MangaNotes.tsx
 #: src/features/theme/components/ThemePreview.tsx
 msgid "Edit"
 msgstr "Edit"
@@ -2762,6 +2764,10 @@ msgstr "Not yet published"
 #: src/features/tracker/Tracker.constants.ts
 msgid "Not yet released"
 msgstr "Not yet released"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes"
+msgstr "Notes"
 
 #: src/features/manga/components/details/MangaNotes.tsx
 msgid "Notes saved"

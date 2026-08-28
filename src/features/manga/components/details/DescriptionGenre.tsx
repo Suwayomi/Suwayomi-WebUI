@@ -30,7 +30,7 @@ import uniq from 'lodash/fp/uniq';
 import { MarkdownViewer } from '@/lib/mui-tiptap/MarkdownViewer.tsx';
 
 const OPEN_CLOSE_BUTTON_HEIGHT = '35px';
-const DESCRIPTION_COLLAPSED_SIZE = 75;
+const DESCRIPTION_COLLAPSED_SIZE = 100;
 
 export const DescriptionGenre = ({
     manga,
@@ -69,7 +69,7 @@ export const DescriptionGenre = ({
                                 mb: OPEN_CLOSE_BUTTON_HEIGHT,
                             }}
                         >
-                            <MangaNotes manga={manga} expanded={!isCollapsed} showDivider={!!description} />
+                            <MangaNotes manga={manga} showDivider={!!description} />
                             {description && <MarkdownViewer markdown={description} />}
                         </Stack>
                     </Collapse>
@@ -93,7 +93,7 @@ export const DescriptionGenre = ({
                     </Stack>
                 </Stack>
             ) : (
-                <MangaNotes manga={manga} expanded showDivider={false} />
+                <MangaNotes manga={manga} showDivider={false} />
             )}
             <Stack
                 sx={{

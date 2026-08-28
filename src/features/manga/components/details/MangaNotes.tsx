@@ -7,8 +7,6 @@
  */
 
 import { useRef, useState } from 'react';
-import NoteAddOutlinedIcon from '@mui/icons-material/NoteAddOutlined';
-import NoteAltOutlinedIcon from '@mui/icons-material/NoteAltOutlined';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -41,6 +39,7 @@ import { Placeholder } from '@tiptap/extension-placeholder';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ClearContentShortcut, SaveContentShortcut } from '@/lib/mui-tiptap/MuiTipTap.shortcut.util.ts';
 import { MarkdownViewer } from '@/lib/mui-tiptap/MarkdownViewer.tsx';
+import Typography from '@mui/material/Typography';
 
 export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaMetaInfo; notes: string }) => {
     const { t } = useLingui();
@@ -73,13 +72,8 @@ export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaM
 
     return (
         <>
-            <Button
-                size="small"
-                onClick={openDialog}
-                variant={hasNotes ? 'text' : 'outlined'}
-                startIcon={hasNotes ? <NoteAltOutlinedIcon /> : <NoteAddOutlinedIcon />}
-            >
-                {hasNotes ? t`Edit notes` : t`Add notes`}
+            <Button size="small" onClick={openDialog} variant="text">
+                {hasNotes ? t`Edit` : t`Add`}
             </Button>
             <Dialog open={isOpen} onClose={closeDialog} fullWidth maxWidth="sm">
                 <DialogTitle>{hasNotes ? t`Edit notes` : t`Add notes`}</DialogTitle>
@@ -143,23 +137,20 @@ export const MangaNotesButton = ({ manga, notes }: { manga: MangaIdInfo & MangaM
     );
 };
 
-export const MangaNotes = ({
-    manga,
-    expanded,
-    showDivider,
-}: {
-    manga: MangaIdInfo & MangaMetaInfo;
-    expanded: boolean;
-    showDivider: boolean;
-}) => {
+export const MangaNotes = ({ manga, showDivider }: { manga: MangaIdInfo & MangaMetaInfo; showDivider: boolean }) => {
+    const { t } = useLingui();
+
     const { notes } = useGetMangaMetadata(manga);
     const hasNotes = notes.trim().length > 0;
 
     return (
         <Stack sx={{ alignItems: 'flex-start', gap: 1 }}>
+            <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 1 }}>
+                <Typography variant="subtitle1">{t`Notes`}</Typography>
+                <MangaNotesButton manga={manga} notes={notes} />
+            </Stack>
             {hasNotes && <MarkdownViewer markdown={notes.trim()} />}
-            {(!hasNotes || expanded) && <MangaNotesButton manga={manga} notes={notes} />}
-            {hasNotes && showDivider && <Divider flexItem />}
+            {showDivider && <Divider flexItem sx={{ my: 1 }} />}
         </Stack>
     );
 };
