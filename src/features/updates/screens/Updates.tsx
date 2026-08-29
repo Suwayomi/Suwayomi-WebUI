@@ -180,7 +180,6 @@ export const Updates: React.FC = () => {
                 components={{
                     Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
                 }}
-                overscan={window.innerHeight * 0.5}
                 endReached={loadMore}
                 groupCounts={firstUnreadUpdatesGroupCounts}
                 groupContent={(index) => (

@@ -325,7 +325,6 @@ export const DownloadQueue: React.FC = () => {
                                     <VirtuosoPersisted
                                         persistKey={`download-queue-${source.id}`}
                                         useWindowScroll
-                                        overscan={window.innerHeight * 0.5}
                                         totalCount={!dndActiveSource ? chaptersBySource[source.id].length : 0}
                                         computeItemKey={(index) =>
                                             `source-${source.id}-chapter-${chaptersBySource[source.id][index].id}`
