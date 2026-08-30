@@ -74,17 +74,24 @@ const SourceLanguageSelectDialog = ({
     const languagesSortedBySelectState = useMemo(
         () =>
             toUniqueLanguageCodes([
-                ...tmpSelectedLanguages
+                ...selectedLanguages
                     .filter((language) => languages.includes(language))
                     .toSorted(languageSortComparator),
                 ...languages.toSorted(languageSortComparator),
             ]),
-        [languages, tmpSelectedLanguages],
+        [languages, selectedLanguages],
     );
 
     const flattenedSourcesByLanguages = useMemo(
-        () => languagesSortedBySelectState.flatMap((language) => sourcesByLanguage[language] ?? []),
-        [languagesSortedBySelectState, sourcesByLanguage],
+        () =>
+            languagesSortedBySelectState
+                .filter((language) =>
+                    tmpSelectedLanguages
+                        .filter((selectedLanguage) => languages.includes(selectedLanguage))
+                        .includes(language),
+                )
+                .flatMap((language) => sourcesByLanguage[language] ?? []),
+        [languagesSortedBySelectState, sourcesByLanguage, tmpSelectedLanguages],
     );
 
     const groupCounts = useMemo(
@@ -99,7 +106,7 @@ const SourceLanguageSelectDialog = ({
 
                 return sourcesByLanguage[language].length;
             }),
-        [sourcesByLanguage, languagesSortedBySelectState, languages],
+        [sourcesByLanguage, languagesSortedBySelectState, languages, tmpSelectedLanguages],
     );
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(

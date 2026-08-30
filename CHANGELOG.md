@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Extension**) Install extension when clicking card of uninstalled extension
 - (**Extension**) Show sources of extension as disabled in case the language itself is disabled. Enabling such a source will enable the language as well
 - (**Updates/History/Downloads**) Show scanlator of chapter
+- (**Extension/Source**) Keep language filter sorting stable while changes are temporary
 - (**Updates**) Improve render performance of the collapsed more updates
 - (**Migration**) Improve render performance of the migration search and execution page
 - (**Migration**) Show source id for missing source title for source entries
