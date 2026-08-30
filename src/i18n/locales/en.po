@@ -1829,8 +1829,8 @@ msgstr "Features and changes in this version might not be completely ready yet a
 "After changing this setting go to the \"About\" page and check for a webUI update and install it"
 
 #: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Feel free to translate the project on"
+msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
+msgstr "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -4223,10 +4223,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Warning"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Webtoon"

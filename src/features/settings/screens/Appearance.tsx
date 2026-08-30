@@ -14,7 +14,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import { useColorScheme } from '@mui/material/styles';
-import { useLingui } from '@lingui/react/macro';
+import { Trans, useLingui } from '@lingui/react/macro';
 import { useAppThemeContext } from '@/features/theme/AppThemeContext.tsx';
 import { Select } from '@/base/components/inputs/Select.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
@@ -123,16 +123,25 @@ export const Appearance = () => {
                     <ListItemText
                         primary={t`Language`}
                         secondary={
-                            <>
-                                <span>{t`Feel free to translate the project on`} </span>
+                            <Trans>
+                                Feel free to translate the project on Weblate (
                                 <Link
                                     href="https://hosted.weblate.org/projects/suwayomi/suwayomi-webui"
                                     target="_blank"
                                     rel="noreferrer"
                                 >
-                                    {t`Weblate`}
+                                    WebUI
+                                </Link>{' '}
+                                and{' '}
+                                <Link
+                                    href="https://hosted.weblate.org/projects/suwayomi/suwayomi-server"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                >
+                                    Server
                                 </Link>
-                            </>
+                                )
+                            </Trans>
                         }
                     />
                     <Select
