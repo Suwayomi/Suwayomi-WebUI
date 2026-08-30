@@ -41,6 +41,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 import { AwaitableComponent, type AwaitableComponentProps } from 'awaitable-component';
+import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
 
 const SourceLanguageSelectDialog = ({
     isVisible,
@@ -168,7 +169,10 @@ const SourceLanguageSelectDialog = ({
                                     backgroundImage: 'var(--Paper-overlay)',
                                 }}
                             >
-                                <ListItemText primary={translateExtensionLanguage(language)} />
+                                <ListItemText
+                                    primary={translateExtensionLanguage(language)}
+                                    secondary={getISOLanguage(language)?.name}
+                                />
                                 <Switch
                                     checked={isEnabled}
                                     onChange={(e) => handleChange(language, e.target.checked)}
