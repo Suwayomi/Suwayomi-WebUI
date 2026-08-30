@@ -37,6 +37,8 @@ import { AppStorage } from '@/lib/storage/AppStorage.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { MANGA_GRID_WIDTH, SERVER_SETTINGS_METADATA_DEFAULT } from '@/features/settings/Settings.constants.ts';
 import { MUI_THEME_MODE_KEY } from '@/lib/mui/MUI.constants.ts';
+import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
+import Typography from '@mui/material/Typography';
 
 export const Appearance = () => {
     const { t } = useLingui();
@@ -154,10 +156,23 @@ export const Appearance = () => {
                                 makeToast(t`Could not load language`, 'error', getErrorMessage(e));
                             });
                         }}
+                        renderValue={(selected) => {
+                            const selectedLanguage =
+                                i18nResources.find((language) => language === selected) ?? selected;
+
+                            return languageCodeToName(selectedLanguage);
+                        }}
                     >
                         {i18nResources.map((language) => (
-                            <MenuItem key={language} value={language}>
+                            <MenuItem
+                                key={language}
+                                value={language}
+                                sx={{ flexDirection: 'column', alignItems: 'flex-start' }}
+                            >
                                 {languageCodeToName(language)}
+                                <Typography color="textSecondary" variant="body2">
+                                    {getISOLanguage(language)?.name}
+                                </Typography>
                             </MenuItem>
                         ))}
                     </Select>

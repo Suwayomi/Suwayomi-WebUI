@@ -29,6 +29,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Download**) Make downloads cancelable outside the download queue page
 - (**Global search**) Show count of entries in the library of each source
 - (**Manga**) Show description as markdown
+- (**Appearance**) Additionally, show the english name of a language in the language select dropdown
 
 ### Fixed
 
