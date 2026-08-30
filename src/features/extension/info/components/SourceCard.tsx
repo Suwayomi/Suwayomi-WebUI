@@ -31,6 +31,8 @@ import type {
     SourceMetaInfo,
 } from '@/features/source/Source.types.ts';
 import { useMemo } from 'react';
+import { getISOLanguage } from '@/lib/ISOLanguageUtil.ts';
+import Stack from '@mui/material/Stack';
 
 export const SourceCard = (source: SourceIdInfo & SourceMetaInfo & SourceLanguageInfo & SourceConfigurableInfo) => {
     const { id, isConfigurable } = source;
@@ -65,9 +67,14 @@ export const SourceCard = (source: SourceIdInfo & SourceMetaInfo & SourceLanguag
                     }}
                 >
                     <ListCardContent>
-                        <Typography variant="h6" component="h3" sx={{ flexGrow: 1 }}>
-                            {translateExtensionLanguage(Sources.getLanguage(source))}
-                        </Typography>
+                        <Stack sx={{ flexGrow: 1 }}>
+                            <Typography variant="h6" component="h3">
+                                {translateExtensionLanguage(Sources.getLanguage(source))}
+                            </Typography>
+                            <Typography variant="body1" color="textSecondary">
+                                {getISOLanguage(Sources.getLanguage(source))?.name}
+                            </Typography>
+                        </Stack>
                         {isConfigurable && (
                             <CustomTooltip title={t`Settings`}>
                                 <IconButton
