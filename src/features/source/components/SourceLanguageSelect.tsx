@@ -138,7 +138,7 @@ const SourceLanguageSelectDialog = ({
 
     return (
         <Dialog fullWidth maxWidth="xs" open={isVisible} onClose={onDismiss} onTransitionExited={onExitComplete}>
-            <DialogTitle>{t`Allowed Languages`}</DialogTitle>
+            <DialogTitle>{t`Enabled languages and sources`}</DialogTitle>
             <DialogContent dividers sx={{ padding: 0 }}>
                 {!languages.length && <Box sx={{ p: 1 }}>{t`No sources installed`}</Box>}
                 <GroupedVirtuoso

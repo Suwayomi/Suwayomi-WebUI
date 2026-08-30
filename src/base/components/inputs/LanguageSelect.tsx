@@ -71,7 +71,7 @@ const LanguageSelectDialog = ({
 
     return (
         <Dialog fullWidth maxWidth="xs" open={isVisible} onClose={onDismiss} onTransitionExited={onExitComplete}>
-            <DialogTitle>{t`Allowed Languages`}</DialogTitle>
+            <DialogTitle>{t`Enabled languages`}</DialogTitle>
             <DialogContent dividers sx={{ padding: 0 }}>
                 <Virtuoso
                     style={{
