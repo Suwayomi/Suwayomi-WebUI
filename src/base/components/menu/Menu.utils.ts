@@ -7,7 +7,7 @@
  */
 
 import type { MessageDescriptor } from '@lingui/core';
-import { i18n } from '@/i18n';
+import { t } from '@lingui/core/macro';
 
 export const createGetMenuItemTitle =
     <Action extends string>(
@@ -26,7 +26,7 @@ export const createGetMenuItemTitle =
     ) =>
     (action: Action, count: number): string => {
         const countSuffix = count > 0 ? ` (${count})` : '';
-        return `${i18n._(actionToTranslation[action].action[isSingleMode ? 'single' : 'selected'])}${countSuffix}`;
+        return `${t(actionToTranslation[action].action[isSingleMode ? 'single' : 'selected'])}${countSuffix}`;
     };
 
 export const createShouldShowMenuItem =

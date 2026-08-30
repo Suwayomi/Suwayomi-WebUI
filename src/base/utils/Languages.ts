@@ -12,8 +12,6 @@ import { msg, t } from '@lingui/core/macro';
 import type { LanguageObject } from '@/lib/ISOLanguageUtil.ts';
 import { getISOLanguage, getPreferredISOLanguageCodes } from '@/lib/ISOLanguageUtil.ts';
 
-import { i18n } from '@/i18n';
-
 export enum DefaultLanguage {
     ALL = 'all',
     OTHER = 'other',
@@ -48,7 +46,7 @@ export function getLanguage(code: string): LanguageObject {
 export function languageCodeToName(code: string): string {
     const isCustomLanguage = Object.keys(DEFAULT_LANGUAGE_TO_TRANSLATION).includes(code);
     if (isCustomLanguage) {
-        return i18n._(DEFAULT_LANGUAGE_TO_TRANSLATION[code as DefaultLanguage]);
+        return t(DEFAULT_LANGUAGE_TO_TRANSLATION[code as DefaultLanguage]);
     }
 
     return getLanguage(code).nativeName;
