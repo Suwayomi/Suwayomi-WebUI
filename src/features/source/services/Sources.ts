@@ -177,6 +177,23 @@ export class Sources {
         return sources.find((source) => source.id === lastUsedSourceId);
     }
 
+    static isLanguageEnabled<Source extends SourceMetaInfo & SourceLanguageInfo>(
+        source: Source,
+        browseLanguage: string[],
+    ): boolean {
+        return toComparableLanguages(toUniqueLanguageCodes(browseLanguage)).includes(source.lang);
+    }
+
+    static isEnabled<Source extends SourceIdInfo & SourceMetaInfo & SourceLanguageInfo>(
+        source: Source,
+        browseLanguages: string[],
+    ): boolean {
+        const isLanguageEnabled = Sources.isLanguageEnabled(source, browseLanguages);
+        const { isEnabled } = getSourceMetadata(source);
+
+        return isEnabled && isLanguageEnabled;
+    }
+
     static useLanguages(): {
         languages: string[];
         setLanguages: (languages: string[]) => Promise<void>;

@@ -34,7 +34,7 @@ import type {
     SourceNameInfo,
 } from '@/features/source/Source.types.ts';
 import { Sources } from '@/features/source/services/Sources';
-import { batchUpdateSourceMetadata, getSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
+import { batchUpdateSourceMetadata } from '@/features/source/services/SourceMetadata.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { makeToast } from '@/base/utils/Toast.ts';
@@ -194,7 +194,8 @@ const SourceLanguageSelectDialog = ({
                                 <ListItemText primary={source.name} />
                                 <Checkbox
                                     checked={
-                                        tmpSourceIdToEnabledState[source.id] ?? getSourceMetadata(source).isEnabled
+                                        tmpSourceIdToEnabledState[source.id] ??
+                                        Sources.isEnabled(source, tmpSelectedLanguages)
                                     }
                                     onChange={(e) =>
                                         setTmpSourceIdToEnabledState({
