@@ -47,9 +47,13 @@ export function SyncButton() {
 
     return (
         <CustomTooltip title={isSyncing ? t(SYNC_STATE_TRANSLATION[syncState]) : t`Sync now`}>
-            <IconButton onClick={startSync} disabled={isSyncing} color="inherit">
-                {isSyncing ? <CircularProgress size={24} color="inherit" /> : <CloudSyncIcon />}
-            </IconButton>
+            {isSyncing ? (
+                <CircularProgress size={24} color="inherit" />
+            ) : (
+                <IconButton onClick={startSync} disabled={isSyncing} color="inherit">
+                    <CloudSyncIcon />
+                </IconButton>
+            )}
         </CustomTooltip>
     );
 }
