@@ -13,6 +13,7 @@ import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
 import { UpdateChecker } from '@/features/updates/components/UpdateChecker.tsx';
+import { SyncButton } from '@/features/sync/components/SyncButton.tsx';
 import { StyledGroupedVirtuoso } from '@/base/components/virtuoso/StyledGroupedVirtuoso.tsx';
 import { StyledGroupHeader } from '@/base/components/virtuoso/StyledGroupHeader.tsx';
 import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
@@ -34,7 +35,13 @@ import { useElementSize } from '@mantine/hooks';
 export const Updates: React.FC = () => {
     const { t } = useLingui();
 
-    useAppTitleAndAction(t`Updates`, <UpdateChecker />);
+    useAppTitleAndAction(
+        t`Updates`,
+        <>
+            <SyncButton />
+            <UpdateChecker />
+        </>,
+    );
 
     const {
         data: chapterUpdateData,

@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Download**) Add button to retry all failed downloads
 - (**Reader**) Add fullscreen setting (does nothing on iOS)
 - (**Library**) Add `reset` button to library filters
+- (**Sync**) Add sync button to the app bar of the library and updates pages
 
 ### Changed
 
