@@ -2072,9 +2072,8 @@ export class RequestManager {
 
         const cachedPages = this.cache.getResponseFor<Set<number>>(CACHE_PAGES_KEY, getVariablesFor(0)) ?? new Set();
         const cachedResults = [...cachedPages]
-            .map(
-                (cachedPage) =>
-                    this.cache.getResponseFor<MutationDataResult>(CACHE_RESULTS_KEY, getVariablesFor(cachedPage))!,
+            .map((cachedPage) =>
+                this.cache.getResponseFor<MutationDataResult>(CACHE_RESULTS_KEY, getVariablesFor(cachedPage))!,
             )
             .sort((a, b) => a.size - b.size);
         const areFetchingInitialPages = !!this.cache.getResponseFor<boolean>(
