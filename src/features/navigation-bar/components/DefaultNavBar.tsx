@@ -24,7 +24,6 @@ import { DesktopSideBar } from '@/features/navigation-bar/components/DesktopSide
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
 import { MobileBottomBar } from '@/features/navigation-bar/components/MobileBottomBar.tsx';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
-import { SyncButton } from '@/features/sync/components/SyncButton.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { NAVIGATION_BAR_ITEMS } from '@/features/navigation-bar/NavigationBar.constants.ts';
 import { NavigationBarUtil } from '@/features/navigation-bar/NavigationBar.util.ts';
@@ -167,7 +166,6 @@ export function DefaultNavBar() {
                         >
                             {title}
                         </Typography>
-                        <SyncButton />
                         {action}
                     </Stack>
                 </Toolbar>
