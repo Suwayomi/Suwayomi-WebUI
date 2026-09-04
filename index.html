@@ -27,7 +27,29 @@
         <script type="module" src="./src/index.tsx"></script>
         <script>
             const backgroundColor = (() => {
-                const storageValue = window.localStorage.getItem('theme_background');
+                let storageValue;
+                try {
+                    const storageKey = 'theme_background';
+                    const viteBaseUrl = '%BASE_URL%';
+                    const subpath = (() => {
+                        if (viteBaseUrl !== './') {
+                            return viteBaseUrl === '/' ? '' : viteBaseUrl;
+                        }
+
+                        const baseTag = document.querySelector('base');
+                        if (!baseTag) {
+                            return '';
+                        }
+
+                        return baseTag.href.replace(window.location.origin, '').slice(0, -1);
+                    })();
+                    const scopedStorageKey = `suwayomi_webui_${subpath}_${storageKey}`;
+                    storageValue = window.localStorage.getItem(scopedStorageKey);
+                } catch (error) {
+                    console.error('Failed to restore the initial theme background from local storage', error);
+                    return null;
+                }
+
                 try {
                     return JSON.parse(storageValue);
                 } catch (e) {
