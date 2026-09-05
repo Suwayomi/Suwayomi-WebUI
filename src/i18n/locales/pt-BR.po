@@ -88,11 +88,6 @@ msgstr "Todos"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Permitir que capítulos marcados sejam apagados"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Idiomas permitidos"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Alpha"
@@ -929,10 +924,6 @@ msgstr "Sair para a página anterior"
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Failed to save changes"
 msgstr "Falhou ao salvar mudanças"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Sinta-se livre para traduzir o projeto em"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -2429,10 +2420,6 @@ msgstr "Vertical"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Aviso"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

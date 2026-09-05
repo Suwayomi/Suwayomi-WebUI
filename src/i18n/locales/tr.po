@@ -103,11 +103,6 @@ msgstr "Hepsi"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Yer imlerine eklenmiş bölümleri silmeye izin ver"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "İzin verilen diller"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Alfa"
@@ -943,10 +938,6 @@ msgstr ""
 "\n"
 "Bu ayarı değiştirdikten sonra \"Hakkında\" sayfasına gidin ve bir webUI güncellemesi olup olmadığını kontrol edin ve yükleyin\n"
 ""
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Projeyi tercüme etmekten çekinmeyin"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -2527,10 +2518,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Uyarı"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

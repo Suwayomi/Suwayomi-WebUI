@@ -77,11 +77,6 @@ msgstr "الجميع"
 msgid "Allow deleting bookmarked chapters"
 msgstr "السماح بحذف الفصول ذات الإشارة المرجعية"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "اللغات المسموح بها"
-
 #: src/features/chapter/services/Chapters.ts
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
@@ -768,10 +763,6 @@ msgstr ""
 "\n"
 "بعد تغيير هذا الإعداد، انتقل إلى صفحة \"حول\" (About) للتحقق من وجود تحديث "
 "لواجهة الويب (WebUI) وتثبيته"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "لا تتردد في المساهمة في ترجمة المشروع عبر"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -1919,10 +1910,6 @@ msgstr "عمودي"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "تحذير"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "ويبلايت (Weblate)"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Webtoon"

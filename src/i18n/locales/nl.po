@@ -74,11 +74,6 @@ msgstr "Alles"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Sta het verwijderen van hoofdstukken met bladwijzers toe"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Toegestane talen"
-
 #: src/features/chapter/services/Chapters.ts
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
@@ -1472,10 +1467,6 @@ msgstr "Verticaal"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Waarschuwing"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 msgid "White"

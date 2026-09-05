@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.965Z\n"
-"PO-Revision-Date: 2026-08-25 18:23+0000\n"
+"PO-Revision-Date: 2026-09-03 13:11+0000\n"
 "Last-Translator: 無情天 <kofzhanganguo@126.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hans/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.9\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: serverSettings.flareSolverrSessionTtl
@@ -118,11 +118,6 @@ msgstr "全部"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Allow deleting bookmarked chapters"
 msgstr "允许删除已添加书签的章节"
-
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "使用语言"
 
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
@@ -1168,10 +1163,6 @@ msgstr ""
 "确保已启用自动备份，以防止你的书架丢失！\n"
 "\n"
 "在更改设置后，前往“关于”页面，查找并安装webUI的更新"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "准确的翻译离不开大家的指正 ->"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -3110,10 +3101,6 @@ msgstr "VUI"
 msgid "Warning"
 msgstr "警告"
 
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
-
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Webtoon"
@@ -4466,3 +4453,27 @@ msgstr "移至顶部"
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Retry all"
 msgstr "全部重试"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Clear notes"
+msgstr "清除笔记"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Could not reset filters"
+msgstr "无法重置筛选器"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+msgid "Enabled languages"
+msgstr "启用语言"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Enabled languages and sources"
+msgstr "启用的语言和源"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
+msgstr "欢迎在 Weblate 上翻译此项目 (<0>WebUI</0> 和 <1>Server</1>)"
+
+#: src/features/sync/components/SyncButton.tsx
+msgid "Sync now"
+msgstr "立即同步"

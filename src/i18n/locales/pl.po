@@ -104,11 +104,6 @@ msgstr "Wszystko"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Zezwól na usuwanie rozdziałów z zakładkami"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Dozwolone Języki"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Alfa"
@@ -1048,10 +1043,6 @@ msgstr ""
 "\n"
 "Po zmianie tego ustawienia przejdź do strony \"O Programie\", sprawdź dostępność aktualizacji webUI i zainstaluj ją\n"
 ""
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Zapraszamy do przetłumaczenia projektu na"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -2809,10 +2800,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Ostrzeżenie"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

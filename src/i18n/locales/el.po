@@ -481,11 +481,6 @@ msgstr "Όλα"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Να επιτρέπεται η διαγραφή κεφαλαίων με σελιδοδείκτη"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Επιτρεπόμενες γλώσσες"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Alpha"
@@ -1703,10 +1698,6 @@ msgstr ""
 "\n"
 "Αφού αλλάξεις αυτή τη ρύθμιση, πήγαινε στη σελίδα «Σχετικά» και έλεγξε για "
 "ενημέρωση webUI και εγκατέστησέ τη"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Μη διστάσεις να μεταφράσεις το project στο"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -4017,10 +4008,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Προειδοποίηση"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

@@ -102,11 +102,6 @@ msgstr "همه"
 msgid "Allow deleting bookmarked chapters"
 msgstr "اجازه حذف چپتر های نشانک‌ گذاری‌ شده"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "زبان‌ های مجاز"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "آلفا"
@@ -1151,10 +1146,6 @@ msgstr ""
 "\n"
 "پس از تغییر این تنظیم، به صفحه «درباره» بروید و به‌روزرسانی WebUI را بررسی و نصب کنید\n"
 ""
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "با خیال راحت پروژه را ترجمه کنید در"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -3091,10 +3082,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "اخطار"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "وب لیت"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

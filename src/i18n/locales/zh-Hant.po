@@ -103,11 +103,6 @@ msgstr "全部"
 msgid "Allow deleting bookmarked chapters"
 msgstr "允許刪除已收藏的章節"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "使用語言"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "透明通道"
@@ -1112,10 +1107,6 @@ msgstr ""
 "請確保您有啟用自動備份，以防止遺失您的書櫃！\n"
 "\n"
 "更改此設定後，轉到“關於”頁面，檢查webUI更新並安裝它。"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "準確的翻譯離不開大家的指正 ->"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -2937,10 +2928,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "警告"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

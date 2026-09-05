@@ -103,11 +103,6 @@ msgstr "모두 다운로드"
 msgid "Allow deleting bookmarked chapters"
 msgstr "북마크된 챕터 삭제 허용"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "허용된 언어"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "알파"
@@ -1155,10 +1150,6 @@ msgstr ""
 "\n"
 "이 설정을 변경한 후 \"정보\" 페이지로 이동하여 webUI 업데이트를 확인하고 "
 "설치하세요"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "프로젝트 번역에 참여하세요"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -3094,10 +3085,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "경고"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

@@ -84,11 +84,6 @@ msgstr "Всі"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Дозволити видалення глав із закладками"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Дозволені мови"
-
 #: src/features/manga/components/details/MangaDetails.tsx
 msgid "Artist"
 msgstr "Художник"
@@ -609,10 +604,6 @@ msgstr ""
 "\n"
 "Після зміни цього налаштування перейдіть на сторінку \"Про застосунок\", перевірте наявність оновлення веб-інтерфейсу та встановіть його"
 "\n"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Не соромтеся перекладати проєкт на"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -1511,10 +1502,6 @@ msgstr "Ім'я користувача"
 #: src/features/settings/Settings.constants.ts
 msgid "VUI"
 msgstr "VUI"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Webtoon"

@@ -103,11 +103,6 @@ msgstr "全て"
 msgid "Allow deleting bookmarked chapters"
 msgstr "ブックマークされた章を削除できるようにする"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "許可された言語"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "不透明度"
@@ -1047,10 +1042,6 @@ msgstr ""
 "\n"
 "この設定を変更した後、\"About\"ページに移動し、WebUI のアップデートを確認してインストールします\n"
 ""
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "プロジェクトの翻訳はお気軽にこちらから"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -2800,10 +2791,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "警告"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx
