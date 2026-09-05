@@ -29,13 +29,7 @@
             const backgroundColor = (() => {
                 let storageValue;
                 try {
-                    const storageKey = 'theme_background';
-                    const viteBaseUrl = '%BASE_URL%';
                     const subpath = (() => {
-                        if (viteBaseUrl !== './') {
-                            return viteBaseUrl === '/' ? '' : viteBaseUrl;
-                        }
-
                         const baseTag = document.querySelector('base');
                         if (!baseTag) {
                             return '';
@@ -43,10 +37,8 @@
 
                         return baseTag.href.replace(window.location.origin, '').slice(0, -1);
                     })();
-                    const scopedStorageKey = `suwayomi_webui_${subpath}_${storageKey}`;
-                    storageValue = window.localStorage.getItem(scopedStorageKey);
+                    storageValue = window.localStorage.getItem(`suwayomi_webui_${subpath}_theme_background`);
                 } catch (error) {
-                    console.error('Failed to restore the initial theme background from local storage', error);
                     return null;
                 }
 
