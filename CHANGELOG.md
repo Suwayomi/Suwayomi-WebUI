@@ -35,7 +35,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- (**Appearance**) Fix restoring the initial background and browser theme color when served from a subpath
 - (**Browse**) Fix filtering with nested group changes
 - (**Library**) Fix source filter potentially causing all manga to get filtered out
 - (**Chapter**) Fix missing chapters before the first available one not being considered in the total missing chapter count (Example: chapters 1-5 are missing, first available chapter is 6. Chapters 1-5 weren't counted as missing in the total missing chapter amount)
