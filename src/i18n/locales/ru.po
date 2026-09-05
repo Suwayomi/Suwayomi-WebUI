@@ -106,11 +106,6 @@ msgstr "Многоязыковое"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Разрешить удаление глав, добавленных в закладки"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Разрешенные языки"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Альфа"
@@ -1162,10 +1157,6 @@ msgstr ""
 "\n"
 "После изменения этого параметра перейдите на страницу «О приложение», "
 "проверьте наличие обновления WebUI и установите его"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Не стесняйтесь переводить проект на"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -3125,10 +3116,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Внимание"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

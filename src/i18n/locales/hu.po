@@ -384,11 +384,6 @@ msgstr "Összes"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Könyvjelzőkhöz adott fejezetek törlésének engedélyezése"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Engedélyezett Nyelvek"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Alfa"
@@ -1483,10 +1478,6 @@ msgstr "Nem sikerült a KOReader Sync szerverről való lecsatlakozás."
 #: src/features/tracker/screens/TrackingSettings.tsx
 msgid "Failed to save changes"
 msgstr "Nem sikerült a változtatások mentése"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Segíts a projekt lefordításában"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -3324,10 +3315,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Figyelmeztetés"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

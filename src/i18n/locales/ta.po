@@ -102,11 +102,6 @@ msgstr "அனைத்தும்"
 msgid "Allow deleting bookmarked chapters"
 msgstr "புக்மார்க்கு செய்யப்பட்ட அத்தியாயங்களை நீக்க அனுமதிக்கவும்"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "அனுமதிக்கப்பட்ட மொழிகள்"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "அகர"
@@ -1046,10 +1041,6 @@ msgstr ""
 "\n"
 "இந்த அமைப்பை மாற்றிய பின் \"பற்றி\" பக்கத்திற்குச் சென்று ஒரு WebUI புதுப்பிப்பைச் சரிபார்த்து நிறுவவும்\n"
 ""
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "திட்டத்தை மொழிபெயர்க்க தயங்க"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -2799,10 +2790,6 @@ msgstr "வேடிக்கை"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "எச்சரிக்கை"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "வலைபெயர்ப்பு"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

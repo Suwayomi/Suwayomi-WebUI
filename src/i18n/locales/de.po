@@ -103,11 +103,6 @@ msgstr "Alle"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Erlaube das Löschen von mit Lesezeichen versehenen Kapiteln"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Aktivierte Sprachen"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Alpha"
@@ -1157,10 +1152,6 @@ msgstr ""
 "\n"
 "Nachdem du diese Einstellung geändert hast, solltest du zur \"Über\"-Seite "
 "gehen, nach einem webUI Update suchen, und es installieren"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "Feel free to translate the project on"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -3114,10 +3105,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Warnung"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

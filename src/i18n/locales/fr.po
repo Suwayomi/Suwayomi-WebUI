@@ -105,11 +105,6 @@ msgstr "Tout"
 msgid "Allow deleting bookmarked chapters"
 msgstr "Autoriser la suppression de chapitres ayant un marque-page"
 
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "Langues activées"
-
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
 msgstr "Alpha"
@@ -1093,10 +1088,6 @@ msgstr ""
 "\n"
 "Après avoir modifié ce paramètre, allez sur la page \"À propos\" et vérifiez "
 "les mises à jour de l'interface web (WebUI) pour les installer"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "N'hésitez pas à traduire le projet sur"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -2913,10 +2904,6 @@ msgstr "VUI"
 #: src/base/components/feedback/SnackbarWithDescription.tsx
 msgid "Warning"
 msgstr "Avertissement"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
 
 #: src/features/manga/Manga.constants.ts
 #: src/features/reader/settings/ReaderSettings.constants.tsx

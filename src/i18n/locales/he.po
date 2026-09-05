@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-08-12 09:25+0000\n"
+"PO-Revision-Date: 2026-09-05 13:51+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.9.1.dev0\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: updateStatus.progress
@@ -376,11 +376,6 @@ msgstr "הכול"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Allow deleting bookmarked chapters"
 msgstr "מחיקת פרקים שנמצאים בסימניות"
-
-#: src/base/components/inputs/LanguageSelect.tsx
-#: src/features/source/components/SourceLanguageSelect.tsx
-msgid "Allowed Languages"
-msgstr "שפות להצגה"
 
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
@@ -1954,10 +1949,6 @@ msgstr ""
 "\n"
 "לאחר שינוי הגדרה זו, יש לעבור לעמוד \"אודות\", לבדוק אם יש עדכון זמין לממשק ה"
 "־WebUI ולהתקין אותו"
-
-#: src/features/settings/screens/Appearance.tsx
-msgid "Feel free to translate the project on"
-msgstr "ניתן להצטרף לתרגום הפרויקט ב־"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fifth to last read chapter"
@@ -4195,10 +4186,6 @@ msgstr "התחלה"
 msgid "Obsolete"
 msgstr "הוסר מהמאגר ולא מתוחזק"
 
-#: src/features/settings/screens/Appearance.tsx
-msgid "Weblate"
-msgstr "Weblate"
-
 #: src/features/settings/components/images/KeyValueItem.tsx
 msgid "Value"
 msgstr "ערך"
@@ -4402,3 +4389,83 @@ msgstr "אקראי"
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Keep screen on"
 msgstr "השארת המסך דולק בזמן הקריאה"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
+msgstr "ניתן להצטרף לתרגום הפרויקט ב־Weblate (<0>WebUI</0> ו־<1>Server</1>)"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add notes"
+msgstr "הוספת הערות"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add a private note about this manga"
+msgstr "הערה אישית לגבי המנגה הזאת"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Clear notes"
+msgstr "ניקוי ההערות"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Could not save notes"
+msgstr "לא ניתן היה לשמור את ההערות"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Edit notes"
+msgstr "עריכת הערות"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes"
+msgstr "הערות"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes saved"
+msgstr "ההערות נשמרו"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to bottom"
+msgstr "העברה הסדרה לסוף התור"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to top"
+msgstr "העברה הסדרה לראש התור"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to bottom"
+msgstr "העברה לסוף התור"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to top"
+msgstr "העברה לראש התור"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Retry all"
+msgstr "ניסיון חוזר לכול"
+
+#: src/features/sync/components/SyncButton.tsx
+msgid "Sync now"
+msgstr "הרצת סנכרון‏"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel downloads of selected"
+msgstr "ביטול הורדת הנבחרים"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel download"
+msgstr "ביטול ההורדה"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Cancel all for this series"
+msgstr "ביטול כל ההורדות של סדרה זו"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Clear cookies and cache"
+msgstr "ניקוי המטמון וקובצי Cookie"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cleared WebView cookies and cache"
+msgstr "ניקוי המטמון וקובצי Cookie של תצוגת WebView הושלם"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not clear WebView cookies and cache"
+msgstr "לא ניתן היה לנקות את המטמון וקובצי Cookie של תצוגת WebView"
