@@ -27,7 +27,21 @@
         <script type="module" src="./src/index.tsx"></script>
         <script>
             const backgroundColor = (() => {
-                const storageValue = window.localStorage.getItem('theme_background');
+                let storageValue;
+                try {
+                    const subpath = (() => {
+                        const baseTag = document.querySelector('base');
+                        if (!baseTag) {
+                            return '';
+                        }
+
+                        return baseTag.href.replace(window.location.origin, '').slice(0, -1);
+                    })();
+                    storageValue = window.localStorage.getItem(`suwayomi_webui_${subpath}_theme_background`);
+                } catch (error) {
+                    return null;
+                }
+
                 try {
                     return JSON.parse(storageValue);
                 } catch (e) {
