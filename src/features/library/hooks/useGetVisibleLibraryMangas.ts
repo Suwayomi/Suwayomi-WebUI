@@ -115,9 +115,10 @@ const listTriStateBooleanFilter = (
         Object.entries(filters),
     );
 
-    const hasIncludedFilter =
-        !includedFilters.length ||
-        includedFilters.map(([key, filterState]) => triStateFilterBoolean(filterState, getStatus(key))).some(Boolean);
+    const includedFilterStates = includedFilters.map(([key, filterState]) =>
+        triStateFilterBoolean(filterState, getStatus(key)),
+    );
+    const hasIncludedFilter = !includedFilters.length || includedFilterStates.some(Boolean);
     const hasExcludedFilter =
         !!excludedFilters.length &&
         excludedFilters
@@ -128,20 +129,10 @@ const listTriStateBooleanFilter = (
 };
 
 type TMangaTrackerFilter = { trackRecords: { nodes: Pick<TrackRecordType, 'id' | 'trackerId'>[] } };
-const trackerFilter = (trackFilters: LibraryOptions['hasTrackerBinding'], manga: TMangaTrackerFilter): boolean =>
-    Object.entries(trackFilters)
-        .map(([trackFilterId, trackFilterState]) => {
-            const isTrackerBound = manga.trackRecords.nodes.some(
-                (trackRecord) => trackRecord.trackerId === Number(trackFilterId),
-            );
-
-            return triStateFilter(
-                trackFilterState,
-                () => isTrackerBound,
-                () => !isTrackerBound,
-            );
-        })
-        .every(Boolean);
+const trackerFilter = (trackFilter: LibraryOptions['hasTrackerBinding'], manga: TMangaTrackerFilter): boolean =>
+    listTriStateBooleanFilter(trackFilter, (trackFilterId) =>
+        manga.trackRecords.nodes.some((trackRecord) => trackRecord.trackerId === Number(trackFilterId)),
+    );
 
 const statusFilter = (statusFilters: LibraryOptions['hasStatus'], manga: MangaStatusInfo): boolean =>
     listTriStateBooleanFilter(statusFilters, (status) => status === manga.status);
