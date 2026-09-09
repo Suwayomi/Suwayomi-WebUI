@@ -23,6 +23,9 @@ import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import uniqBy from 'lodash/fp/uniqBy';
+import mapValues from 'lodash/fp/mapValues';
+import { epochToDate, getDateString } from '@/base/utils/DateHelper.ts';
+import difference from 'lodash/fp/difference';
 
 export const History: React.FC = () => {
     const { t } = useLingui();
@@ -44,21 +47,70 @@ export const History: React.FC = () => {
     const readEntries = useMemo(() => uniqBy('mangaId', allReadEntries), [allReadEntries]);
 
     const [prevReadEntriesLength, setPrevReadEntriesLength] = useState(0);
+
+    const [lastReadEntriesByGroup, otherEntriesByMangaByGroup] = useMemo(() => {
+        const groupedEntries = Chapters.groupByDate(allReadEntries, 'lastReadAt');
+
+        const mangaIdByGroup = mapValues(
+            (groupEntries) => uniqBy('mangaId', groupEntries).map((entry) => entry.mangaId),
+            groupedEntries,
+        );
+
+        const entriesByMangaByGroup = mapValues(
+            (entries) => Object.groupBy(entries!, (entry) => entry.mangaId),
+            groupedEntries,
+        );
+
+        const lastReadEntryByMangaByGroup = mapValues(
+            (entriesByManga) => mapValues((mangaEntries) => [mangaEntries![0]], entriesByManga),
+            entriesByMangaByGroup,
+        );
+
+        const lastReadEntryByGroup = mapValues(
+            (lastReadEntryByManga) =>
+                Object.values(lastReadEntryByManga)
+                    .flat()
+                    .toSorted((a, b) => {
+                        const groupMangaIds = mangaIdByGroup[getDateString(epochToDate(Number(a.lastReadAt)))];
+
+                        return groupMangaIds.indexOf(a.mangaId) - groupMangaIds.indexOf(b.mangaId);
+                    }),
+            lastReadEntryByMangaByGroup,
+        );
+
+        const remainingEntriesByMangaByGroup = mapValues(
+            (entriesByManga) =>
+                mapValues(
+                    (mangaEntries) =>
+                        difference(
+                            mangaEntries!,
+                            lastReadEntryByMangaByGroup[
+                                getDateString(epochToDate(Number(mangaEntries![0].lastReadAt)))
+                            ]![mangaEntries![0].mangaId],
+                        ),
+                    entriesByManga,
+                ),
+            entriesByMangaByGroup,
+        );
+
+        return [Object.entries(lastReadEntryByGroup), remainingEntriesByMangaByGroup];
+    }, [allReadEntries]);
+
     const filteredOutAllItemsOfFetchedPage = allReadEntries.length > 0 && readEntries.length === prevReadEntriesLength;
 
-    const groupedHistory = useMemo(
-        () => Object.entries(Chapters.groupByDate(readEntries, 'lastReadAt')),
-        [readEntries],
+    const lastReadEntriesGroupCounts = useMemo(
+        () => lastReadEntriesByGroup.flatMap((entriesByGroup) => entriesByGroup[VirtuosoUtil.ITEMS].length),
+        [lastReadEntriesByGroup],
     );
-    const groupCounts: number[] = useMemo(
-        () => groupedHistory.map((group) => group[VirtuosoUtil.ITEMS].length),
-        [groupedHistory],
+    const lastReadEntries = useMemo(
+        () => lastReadEntriesByGroup.flatMap((entriesByGroup) => entriesByGroup[VirtuosoUtil.ITEMS]),
+        [lastReadEntriesByGroup],
     );
 
-    const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
-        groupCounts,
-        useCallback((index) => groupedHistory[index][VirtuosoUtil.GROUP], [groupedHistory]),
-        useCallback((index) => readEntries[index].id, [readEntries]),
+    const computeLastReadEntryItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
+        lastReadEntriesGroupCounts,
+        useCallback((index) => lastReadEntriesByGroup[index][VirtuosoUtil.GROUP], [lastReadEntriesByGroup]),
+        useCallback((index) => lastReadEntries[index].id, [lastReadEntries]),
     );
 
     const loadMore = useCallback(() => {
@@ -97,20 +149,26 @@ export const History: React.FC = () => {
             components={{
                 Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
             }}
-            overscan={window.innerHeight * 0.5}
             endReached={loadMore}
-            groupCounts={groupCounts}
+            groupCounts={lastReadEntriesGroupCounts}
             groupContent={(index) => (
                 <StyledGroupHeader isFirstItem={index === 0}>
                     <Typography variant="h5" component="h2">
-                        {groupedHistory[index][VirtuosoUtil.GROUP]}
+                        {lastReadEntriesByGroup[index][VirtuosoUtil.GROUP]}
                     </Typography>
                 </StyledGroupHeader>
             )}
-            computeItemKey={computeItemKey}
+            computeItemKey={computeLastReadEntryItemKey}
             itemContent={(index) => (
                 <StyledGroupItemWrapper>
-                    <ChapterHistoryCard chapter={readEntries[index]} />
+                    <ChapterHistoryCard
+                        chapter={lastReadEntries[index]}
+                        otherChapters={
+                            otherEntriesByMangaByGroup[
+                                getDateString(epochToDate(Number(lastReadEntries[index].lastReadAt)))
+                            ][lastReadEntries[index].mangaId]
+                        }
+                    />
                 </StyledGroupItemWrapper>
             )}
         />

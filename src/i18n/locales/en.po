@@ -121,11 +121,6 @@ msgstr "{0, plural, one {Could not reorder download} other {Could not reorder do
 msgid "{0, plural, one {Second} other {Seconds}}"
 msgstr "{0, plural, one {Second} other {Seconds}}"
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-
 #. placeholder {0}: searchProgress.completed
 #. placeholder {1}: searchProgress.total
 #: src/features/migration/screens/MigrationSearch.tsx
@@ -239,6 +234,10 @@ msgstr "{count, plural, one {Next chapter} other {Next # chapters}}"
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
 msgstr "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+
+#: src/features/chapter/components/buttons/ChapterCardExpandButton.tsx
+msgid "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
 
 #: src/features/reader/services/ReaderControls.ts
 msgid "{count, plural, one {There is # missing chapter.\n"
