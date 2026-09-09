@@ -25,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Migration**) Improve render performance of the migration search and execution page
 - (**Migration**) Show source id for missing source title for source entries
 - (**Library**) Prevent randomizing category sort order everytime category gets opened
+- (**Library**) Apply source/status filter using OR logic. I.e., show entries that are from any of the included sources/status
 - (**Reader**) Open the first page when going to the previous chapter
 - (**Download**) Group downloads by source
 - (**Download**) Add series bulk actions
