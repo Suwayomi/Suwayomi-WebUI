@@ -472,6 +472,10 @@ msgstr "Alpha"
 msgid "Also remove from {0}"
 msgstr "Also remove from {0}"
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "and"
+msgstr "and"
+
 #: src/features/settings/screens/Appearance.tsx
 #: src/features/settings/screens/Settings.tsx
 msgid "Appearance"
@@ -1859,6 +1863,10 @@ msgstr "Filter manga feed to display only chapters you have downloaded."
 msgid "Filter manga feed to display only chapters you haven’t read yet."
 msgstr "Filter manga feed to display only chapters you haven’t read yet."
 
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Filter mode"
+msgstr "Filter mode"
+
 #: src/features/tracker/components/cards/TrackerActiveCard.tsx
 msgid "Finish date"
 msgstr "Finish date"
@@ -2899,6 +2907,10 @@ msgstr "Open website"
 #: src/features/manga/components/MangaOptionButton.tsx
 msgid "Options"
 msgstr "Options"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "or"
+msgstr "or"
 
 #: src/features/theme/Themes.ts
 msgid "Orange Juice"

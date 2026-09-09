@@ -8,11 +8,12 @@
 
 import { useEffect, useMemo } from 'react';
 import {
-    requestCategoryMetadataUpdate,
     requestBatchCategoryMetadataUpdate,
+    requestCategoryMetadataUpdate,
 } from '@/features/metadata/services/MetadataUpdater.ts';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import type { LibraryOptions } from '@/features/library/Library.types.ts';
+import { FilterMode } from '@/features/library/Library.types.ts';
 import type { CategoryIdInfo, CategoryMetadataKeys, ICategoryMetadata } from '@/features/category/Category.types.ts';
 import { convertFromGqlMeta } from '@/features/metadata/services/MetadataConverter.ts';
 import { getMetadataFrom } from '@/features/metadata/services/MetadataReader.ts';
@@ -35,7 +36,10 @@ export const DEFAULT_CATEGORY_METADATA: ICategoryMetadata = {
     hasUnreadChapters: undefined,
     hasReadChapters: undefined,
     hasDuplicateChapters: undefined,
-    hasTrackerBinding: {},
+    hasTrackerBinding: {
+        filters: {},
+        mode: FilterMode.OR,
+    },
     hasStatus: {} as LibraryOptions['hasStatus'],
     hasSource: {},
 };

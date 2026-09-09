@@ -42,7 +42,10 @@ export interface LibraryOptions {
     hasUnreadChapters: NullAndUndefined<boolean>;
     hasReadChapters: NullAndUndefined<boolean>;
     hasDuplicateChapters: NullAndUndefined<boolean>;
-    hasTrackerBinding: Record<TrackerIdInfo['id'], NullAndUndefined<boolean>>;
+    hasTrackerBinding: {
+        filters: Record<TrackerIdInfo['id'], NullAndUndefined<boolean>>;
+        mode: FilterMode;
+    };
     hasStatus: Record<MangaStatus, NullAndUndefined<boolean>>;
     hasSource: Record<string, NullAndUndefined<boolean>>;
 }
@@ -67,3 +70,8 @@ export type LibraryOptionsContextType = {
     options: LibraryOptions;
     setOptions: React.Dispatch<React.SetStateAction<LibraryOptions>>;
 };
+
+export enum FilterMode {
+    AND = 'AND',
+    OR = 'OR',
+}

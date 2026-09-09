@@ -9,6 +9,9 @@
 import type { BaseSyntheticEvent } from 'react';
 import React from 'react';
 import { chainEventHandlers } from 'material-ui-popup-state/chainEventHandlers';
+import type { SxProps, Theme } from '@mui/material/styles';
+
+type SxItem = Exclude<SxProps<Theme>, readonly unknown[]>;
 
 export class MUIUtil {
     static preventRipple(): (e: BaseSyntheticEvent) => void {
@@ -22,5 +25,19 @@ export class MUIUtil {
             onMouseDown: MUIUtil.preventRipple(),
             onTouchStart: MUIUtil.preventRipple(),
         }) as T & Pick<React.DOMAttributes<unknown>, 'onMouseDown' | 'onTouchStart'>;
+    }
+
+    static mergeSx(...sxs: (SxProps<Theme> | undefined | null)[]): Array<SxItem> {
+        return sxs.flatMap((sx) => {
+            if (!sx) {
+                return [];
+            }
+
+            if (Array.isArray(sx)) {
+                return sx;
+            }
+
+            return [sx];
+        });
     }
 }

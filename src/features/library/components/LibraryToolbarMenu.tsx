@@ -35,7 +35,7 @@ export const LibraryToolbarMenu = ({
     const options = getCategoryMetadata(category);
 
     const isStatusFilterActive = Object.values(options.hasStatus).some((hasStatus) => hasStatus != null);
-    const isTrackerFilterActive = Object.values(options.hasTrackerBinding).some(
+    const isTrackerFilterActive = Object.values(options.hasTrackerBinding.filters).some(
         (trackerFilterStatus) => trackerFilterStatus != null,
     );
     const isSourceFilterActive = Object.values(options.hasSource).some(
