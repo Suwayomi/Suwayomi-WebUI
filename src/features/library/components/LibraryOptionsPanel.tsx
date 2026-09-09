@@ -35,7 +35,7 @@ import {
     useMetadataServerSettings,
 } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import type { LibrarySortMode } from '@/features/library/Library.types.ts';
-import type { CategoryMetadataInfo } from '@/features/category/Category.types.ts';
+import type { CategoryMetadataInfo, ICategoryMetadata } from '@/features/category/Category.types.ts';
 import { MANGA_STATUS_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { GridLayout } from '@/base/Base.types';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
@@ -43,6 +43,7 @@ import { Collapsable } from '@/base/components/Collapsable.tsx';
 import { ResetButton } from '@/base/components/buttons/ResetButton.tsx';
 import Replay from '@mui/icons-material/Replay';
 import { Sources } from '@/features/source/services/Sources';
+import Stack from '@mui/material/Stack';
 
 const TITLES: { [key in 'filter' | 'sort' | 'display']: MessageDescriptor } = {
     filter: msg`Filter`,
@@ -61,16 +62,45 @@ const SORT_OPTIONS: [LibrarySortMode, MessageDescriptor][] = [
     ['random', msg`Random`],
 ];
 
-const CollapsableFilter = ({ title, items, isActive }: { title: string; items: ReactNode[]; isActive: boolean }) => (
+const CollapsableFilter = ({
+    title,
+    items,
+    isActive,
+    reset,
+}: {
+    title: string;
+    items: ReactNode[];
+    isActive: boolean;
+    reset: () => void;
+}) => (
     <Collapsable
         header={title}
+        headerEnd={
+            <Stack sx={{ flexGrow: 1 }}>
+                <ResetButton
+                    disabled={!isActive}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        reset();
+                    }}
+                    sx={{ alignSelf: 'flex-end' }}
+                    variant="outlined"
+                    size="small"
+                />
+            </Stack>
+        }
         collapse={items}
         initialState={isActive}
         slots={{
+            headerContainer: {
+                sx: {
+                    mt: 2,
+                },
+            },
             headerWrapper: {
                 component: FormLabel,
                 sx: {
-                    mt: 2,
                     color: isActive ? 'warning.main' : undefined,
                 },
             },
@@ -114,20 +144,22 @@ export const LibraryOptionsPanel = ({
         makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
 
-    const resetFilters = () => {
+    const resetFilters = (
+        deleteKeys: (keyof ICategoryMetadata)[] = [
+            'hasUnreadChapters',
+            'hasReadChapters',
+            'hasDownloadedChapters',
+            'hasBookmarkedChapters',
+            'hasDuplicateChapters',
+            'hasStatus',
+            'hasTrackerBinding',
+            'hasSource',
+        ],
+    ) => {
         batchUpdateCategoryMetadata([
             {
                 categories: [category],
-                delete: [
-                    'hasUnreadChapters',
-                    'hasReadChapters',
-                    'hasDownloadedChapters',
-                    'hasBookmarkedChapters',
-                    'hasDuplicateChapters',
-                    'hasStatus',
-                    'hasTrackerBinding',
-                    'hasSource',
-                ],
+                delete: deleteKeys,
             },
         ]).catch((e) => makeToast(t`Could not reset filters`, 'error', getErrorMessage(e)));
     };
@@ -144,7 +176,7 @@ export const LibraryOptionsPanel = ({
                         <>
                             <ResetButton
                                 disabled={!active}
-                                onClick={resetFilters}
+                                onClick={() => resetFilters()}
                                 sx={{ alignSelf: 'flex-end' }}
                                 variant="outlined"
                                 size="small"
@@ -190,6 +222,7 @@ export const LibraryOptionsPanel = ({
                                     />
                                 ))}
                                 isActive={isStatusFilterActive}
+                                reset={() => resetFilters(['hasStatus'])}
                             />
                             {!!loggedInTrackers.length && (
                                 <CollapsableFilter
@@ -208,6 +241,7 @@ export const LibraryOptionsPanel = ({
                                         />
                                     ))}
                                     isActive={isTrackerFilterActive}
+                                    reset={() => resetFilters(['hasTrackerBinding'])}
                                 />
                             )}
                             {!!librarySources.length && (
@@ -227,6 +261,7 @@ export const LibraryOptionsPanel = ({
                                         />
                                     ))}
                                     isActive={isSourceFilterActive}
+                                    reset={() => resetFilters(['hasSource'])}
                                 />
                             )}
                         </>

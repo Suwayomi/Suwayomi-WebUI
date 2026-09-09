@@ -17,14 +17,17 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 
 export const Collapsable = ({
     header,
+    headerEnd,
     collapse,
     initialState,
     slots,
 }: {
     header: ReactNode;
+    headerEnd?: ReactNode;
     collapse: ReactNode;
     initialState?: boolean;
     slots?: {
+        headerContainer?: StackProps;
         headerWrapper?: StackProps;
         collapse?: CollapseProps;
     };
@@ -34,18 +37,29 @@ export const Collapsable = ({
     return (
         <>
             <Stack
-                {...slots?.headerWrapper}
+                {...slots?.headerContainer}
                 sx={{
                     flexDirection: 'row',
-                    alignItems: 'flex-end',
                     gap: 1,
-                    cursor: 'pointer',
-                    ...slots?.headerWrapper?.sx,
+                    alignItems: 'center',
+                    ...slots?.headerContainer?.sx,
                 }}
-                onClick={() => setIsOpen(!isOpen)}
             >
-                {header}
-                {isOpen ? <ExpandLess /> : <ExpandMore />}
+                <Stack
+                    {...slots?.headerWrapper}
+                    sx={{
+                        flexDirection: 'row',
+                        alignItems: 'flex-end',
+                        gap: 1,
+                        cursor: 'pointer',
+                        ...slots?.headerWrapper?.sx,
+                    }}
+                    onClick={() => setIsOpen(!isOpen)}
+                >
+                    {header}
+                    {isOpen ? <ExpandLess /> : <ExpandMore />}
+                </Stack>
+                {headerEnd}
             </Stack>
             <Collapse
                 {...slots?.collapse}
