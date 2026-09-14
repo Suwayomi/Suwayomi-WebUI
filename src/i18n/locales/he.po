@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2026-09-05 13:51+0000\n"
+"PO-Revision-Date: 2026-09-09 08:51+0000\n"
 "Last-Translator: CyberMageIL <CyberMageIL@Gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/he/>\n"
@@ -10,7 +10,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 2026.9.1.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 "X-Message-Format: ICU\n"
 
 #. placeholder {0}: updateStatus.progress
@@ -4138,11 +4138,6 @@ msgstr "המשך קריאה"
 msgid "Could not retry \"{title}\""
 msgstr "לא ניתן היה לנסות שוב את ההעברה של \"{title}\""
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr "{0, plural, one {הצגת פרק אחד נוסף} other {הצגת # פרקים נוספים}}"
-
 #: src/features/migration/components/migration-entry/MigrationEntry.tsx
 msgid "Matches"
 msgstr "התאמות"
@@ -4469,3 +4464,15 @@ msgstr "ניקוי המטמון וקובצי Cookie של תצוגת WebView הו
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Could not clear WebView cookies and cache"
 msgstr "לא ניתן היה לנקות את המטמון וקובצי Cookie של תצוגת WebView"
+
+#: src/features/reader/settings/general/ReaderGeneralSettings.tsx
+msgid "Fullscreen"
+msgstr "תצוגת מסך מלא"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+msgid "Enabled languages"
+msgstr "שפות פעילות"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Enabled languages and sources"
+msgstr "שפות ומקורות פעילים"

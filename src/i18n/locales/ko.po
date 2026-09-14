@@ -3294,11 +3294,6 @@ msgstr "{0, plural, one {검색 중 1개} other {검색 중 #개}}"
 msgid "{0, plural, one {Second} other {Seconds}}"
 msgstr "{0, plural, one {초} other {초}}"
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr "{0, plural, one {챕터 #개 더 보기} other {챕터 #개 더 보기}}"
-
 #. placeholder {0}: searchProgress.completed
 #. placeholder {1}: searchProgress.total
 #: src/features/migration/screens/MigrationSearch.tsx

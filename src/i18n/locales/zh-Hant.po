@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.973Z\n"
-"PO-Revision-Date: 2026-07-24 17:01+0000\n"
-"Last-Translator: hjd9111202 <hjd9111202@gmail.com>\n"
+"PO-Revision-Date: 2026-09-08 06:53+0000\n"
+"Last-Translator: js850604 <js850604@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/suwayomi/suwayomi-webui/zh_Hant/>\n"
 "Language: zh-Hant\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Message-Format: ICU\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -3368,11 +3368,6 @@ msgstr "{0, plural, one {1 個正在搜索中} other {# 個正在搜索中}}"
 msgid "{0, plural, one {Second} other {Seconds}}"
 msgstr "{0, plural, one {秒} other {秒}}"
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr "{0, plural, one {顯示另外 # 章} other {顯示另外 # 章}}"
-
 #. placeholder {0}: searchProgress.completed
 #. placeholder {1}: searchProgress.total
 #: src/features/migration/screens/MigrationSearch.tsx
@@ -4359,3 +4354,95 @@ msgstr ""
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Shows a dialog in case the version of the server has changed"
 msgstr "當伺服器版本變更時，將顯示提示對話框"
+
+#: src/features/sync/components/SyncButton.tsx
+msgid "Sync now"
+msgstr "立即同步"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not cancel the download} other {Could not cancel downloads}}"
+msgstr "{count, plural, one {無法取消下載} other {無法取消多個下載}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download canceled} other {# downloads canceled}}"
+msgstr "{count, plural, one {下載已取消} other {# 個下載已取消}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to cancel one download} other {You are about to cancel # downloads}}"
+msgstr "{count, plural, one {您將取消一個下載} other {您將取消 # 個下載}}"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add a private note about this manga"
+msgstr "為這部漫畫添加個人備註"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add notes"
+msgstr "添加備註"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel download"
+msgstr "取消下載"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel downloads of selected"
+msgstr "取消所選項目的下載"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Clear cookies and cache"
+msgstr "清除 Cookies 及緩存"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Clear notes"
+msgstr "清除備註"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cleared WebView cookies and cache"
+msgstr "已清除 WebView 的 Cookies 與緩存"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not clear WebView cookies and cache"
+msgstr "無法清除 WebView 的 Cookies 與緩存"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Could not reset filters"
+msgstr "無法重置篩選器"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Could not retry failed downloads"
+msgstr "無法重試失敗的下載"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Could not save notes"
+msgstr "無法保存備註"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Edit notes"
+msgstr "編輯備註"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
+msgstr "歡迎在 Weblate 上翻譯此專案(<0>WebUI</0> and <1>Server</1>)"
+
+#: src/features/reader/settings/general/ReaderGeneralSettings.tsx
+msgid "Fullscreen"
+msgstr "全螢幕"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to bottom"
+msgstr "移至底部"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to top"
+msgstr "移至頂部"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes"
+msgstr "備註"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes saved"
+msgstr "已儲存的備註"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Retry all"
+msgstr "全部重試"

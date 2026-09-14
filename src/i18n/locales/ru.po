@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.916Z\n"
-"PO-Revision-Date: 2026-03-21 11:09+0000\n"
-"Last-Translator: moron1717 <spai8774766@gmail.com>\n"
+"PO-Revision-Date: 2026-09-08 06:53+0000\n"
+"Last-Translator: Sazuru <sazuru@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/suwayomi/"
 "suwayomi-webui/ru/>\n"
 "Language: ru\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Message-Format: ICU\n"
-"X-Generator: Weblate 5.17-dev\n"
+"X-Generator: Weblate 2026.9.1\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 msgid "{count} remaining"
@@ -3742,3 +3742,94 @@ msgstr "WebUI был обновлен до версии {newVersion} ({0})"
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 msgid "You are about to remove \"{0}\" from your library"
 msgstr "Вы собираетесь удалить \"{0}\" из своей библиотеки"
+
+#: src/features/sync/components/SyncButton.tsx
+msgid "Sync now"
+msgstr "Синхронизировать сейчас"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync started"
+msgstr "Синхронизация началась"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#, fuzzy
+msgid "SyncYomi"
+msgstr "SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi API key"
+msgstr "API ключ SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi enabled"
+msgstr "SyncYomi активирован"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi host"
+msgstr "хост SyncYomi"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync disabled"
+msgstr "Синхронизация отключена"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync in progress"
+msgstr "Сихронизация в процессе"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync interval"
+msgstr "Интервал синхронизации"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr "Мигрировано успешно"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr "Начать миграцию"
+
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry — {sourceTitle}"
+msgstr "Запись об источнике — {sourceTitle}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "Источники"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr "Начать поиск"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Start sync"
+msgstr "Начать синхронизацию"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync"
+msgstr "Синхронизировать"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync data"
+msgstr "Синхронизировать данные"
+
+#: src/features/migration/MigrationManager.ts
+msgid "The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"Миграция выполняется на клиенте на текущем устройстве, а НЕ на сервере.\n"
+"Пока клиент открыт, миграция будет выполняться в фоновом режиме.\n"
+"Клиент можно закрыть. Миграция возобновится, как только клиент снова "
+"откроется на том же устройстве, на котором она была начата."
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "These options are slow and dangerous and may lead to restrictions from sources"
+msgstr ""
+"Эти варианты медленные и опасные, они могут привести к ограничениям со "
+"стороны источников"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr ""
+"Это не мешает неофициальным или потенциально неправильно помеченным "
+"расширениям показывать в приложении контент для взрослых (18+)."

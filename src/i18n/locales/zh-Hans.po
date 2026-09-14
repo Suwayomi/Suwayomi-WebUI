@@ -4268,11 +4268,6 @@ msgstr "已开始同步"
 msgid "Uploading"
 msgstr "上传中"
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr "{0, plural, one {显示另外 # 章} other {显示另外 # 章}}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "Automated backup"
 msgstr "自动备份"

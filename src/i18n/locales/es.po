@@ -3758,12 +3758,6 @@ msgstr "Cancelado"
 msgid "— State: {0}"
 msgstr "— Estado: {0}"
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr ""
-"{0, plural, one {mostrar # mas capitulos} other {Mostrar # mas capitulos}}"
-
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
 #: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
 msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
