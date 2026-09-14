@@ -3849,11 +3849,6 @@ msgstr ""
 msgid "{0, plural, one {1 searching} other {# searching}}"
 msgstr "{0, plural, one {Sedang mencari} other {Sedang mencari}}"
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr "{0, plural, one {Tampilkan # bab lagi} other {Tampilkan # bab lagi}}"
-
 #. placeholder {0}: searchProgress.completed
 #. placeholder {1}: searchProgress.total
 #: src/features/migration/screens/MigrationSearch.tsx

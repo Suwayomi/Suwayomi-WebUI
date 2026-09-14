@@ -4,14 +4,15 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: @lingui/cli\n"
+"X-Generator: Weblate 2026.9.1\n"
 "Language: ca\n"
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"PO-Revision-Date: 2026-09-08 06:52+0000\n"
+"Last-Translator: Kisnov <gabrielmarfil0@gmail.com>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/suwayomi/"
+"suwayomi-webui/ca/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
@@ -98,3 +99,4451 @@ msgstr "La categoria està buida"
 #: src/features/category/components/CategorySelect.tsx
 msgid "You don't have any categories yet."
 msgstr "Encara no teniu cap categoria."
+
+#. placeholder {0}: downloadSettings.autoDownloadNewChaptersLimit
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "{0, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{0, plural, one {# Capítol} other {# Capítols}}"
+
+#. placeholder {0}: selectedChapters.length
+#. placeholder {0}: visibleChapters.length
+#: src/features/chapter/components/ChapterList.tsx
+msgid "{0, plural, one {# chapter} other {# chapters}}"
+msgstr "{0, plural, one {# capítol} other {# capítols}}"
+
+#. placeholder {0}: backupSettings.backupInterval
+#: src/features/backup/screens/Backup.tsx
+msgid "{0, plural, one {# day} other {# days}}"
+msgstr "{0, plural, one {# dia} other {# dies}}"
+
+#. placeholder {0}: serverSettings.flareSolverrSessionTtl
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# minute} other {# minutes}}"
+msgstr "{0, plural, one {# minut} other {# minuts}}"
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# manga} other {# manga}}"
+msgstr "{0, plural, one {# manga} other {# manga}}"
+
+#. placeholder {0}: autoScroll.value
+#. placeholder {0}: serverSettings.flareSolverrTimeout
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{0, plural, one {# second} other {# seconds}}"
+msgstr "{0, plural, one {# segon} other {# segons}}"
+
+#. placeholder {0}: autoScroll.value
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+msgid "{0, plural, one {Second} other {Seconds}}"
+msgstr "{0, plural, one {Segon} other {Segons}}"
+
+#. placeholder {0}: serverSettings.maxSourcesInParallel
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{0, plural, one {# Source} other {# Sources}}"
+msgstr "{0, plural, one {# Font} other {# Fonts}}"
+
+#. placeholder {0}: trackersInUse.length
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "{0, plural, one {# Tracker} other {# Tracker}}"
+msgstr "{0, plural, one {# Servei de seguiment} other {# Serveis de seguiment}}"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{availableUpdates, plural, one {# update available} other {# updates available}}"
+msgstr ""
+"{availableUpdates, plural, one {# actualització disponible} other {# "
+"actualitzacions disponibles}}"
+
+#. placeholder {0}: updateStatus.progress
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "{0}% | Updating…"
+msgstr "{0}% | S'està actualitzant…"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "{categoryCount, plural, one {# category} other {# categories}}"
+msgstr "{categoryCount, plural, one {# categoria} other {# categories}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmark removed} other {# chapter bookmarks removed}}"
+msgstr ""
+"{count, plural, one {S'ha eliminat el marcador del capítol} other {S'han "
+"eliminat # marcadors de capítol}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter bookmarked} other {# chapters bookmarked}}"
+msgstr ""
+"{count, plural, one {S'ha afegit un marcador al capítol} other {S'han afegit "
+"marcadors a # capítols}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
+msgstr ""
+"{count, plural, one {S'han canviat les categories del manga} other {S'han "
+"canviat les categories de # manga}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter deleted} other {# chapters deleted}}"
+msgstr ""
+"{count, plural, one {S'ha eliminat el capítol} other {S'han eliminat # "
+"capítols}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as read} other {# chapters marked as read}}"
+msgstr ""
+"{count, plural, one {S'ha marcat el capítol com a llegit} other {S'han "
+"marcat # capítols com a llegits}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Chapter marked as unread} other {# chapters marked as unread}}"
+msgstr ""
+"{count, plural, one {S'ha marcat el capítol com a no llegit} other {S'han "
+"marcat # capítols com a no llegits}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not bookmark the chapter} other {Could not bookmark chapters}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut afegir el marcador al capítol} other {No "
+"s'han pogut afegir marcadors als capítols}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not add the download} other {Could not add downloads}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut afegir la baixada} other {No s'han pogut "
+"afegir les baixades}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not change the categories of the manga} other {Could not change the categories of the manga}}"
+msgstr ""
+"{count, plural, one {No s'han pogut canviar les categories del manga} other "
+"{No s'han pogut canviar les categories del manga}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not install the extension} other {Could not install the extensions}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut instal·lar l'extensió} other {No s'han "
+"pogut instal·lar les extensions}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not delete the chapter} other {Could not delete chapters}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut eliminar el capítol} other {No s'han "
+"pogut eliminar els capítols}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as read} other {Could not mark chapters as read}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut marcar el capítol com a llegit} other {No "
+"s'han pogut marcar els capítols com a llegits}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not remove the bookmark} other {Could not remove the bookmarks}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut eliminar el marcador} other {No s'han "
+"pogut eliminar els marcadors}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Could not remove manga from the library} other {Could not remove manga from the library}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut eliminar el manga de la biblioteca} other "
+"{No s'ha pogut eliminar el manga de la biblioteca}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not mark the chapter as unread} other {Could not mark chapters as unread}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut marcar el capítol com a no llegit} other "
+"{No s'han pogut marcar els capítols com a no llegits}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not update the extension} other {Could not update the extensions}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut actualitzar l'extensió} other {No s'han "
+"pogut actualitzar les extensions}}"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "{count, plural, one {Could not uninstall the extension} other {Could not uninstall the extensions}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut desinstal·lar l'extensió} other {No s'han "
+"pogut desinstal·lar les extensions}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download added} other {# downloads added}}"
+msgstr ""
+"{count, plural, one {S'ha afegit la baixada} other {S'han afegit # baixades}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {Removed manga from the library} other {Removed # manga from the library}}"
+msgstr ""
+"{count, plural, one {S'ha eliminat el manga de la biblioteca} other {S'han "
+"eliminat # manga de la biblioteca}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "{count, plural, one {There is # missing chapter.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}} other {There are # missing chapters.\n"
+"Current: {currentChapter}\n"
+"Next: {nextChapter}}}"
+msgstr ""
+"{count, plural, one {Falta # capítol.\n"
+"Actual: {currentChapter}\n"
+"Següent: {nextChapter}} other {Falten # capítols.\n"
+"Actual: {currentChapter}\n"
+"Següent: {nextChapter}}}"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "{count, plural, one {Next chapter} other {Next # chapters}}"
+msgstr "{count, plural, one {Capítol següent} other {# capítols següents}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to delete one download} other {You are about to delete # downloads}}"
+msgstr ""
+"{count, plural, one {Esteu a punt d'eliminar una baixada} other {Esteu a "
+"punt d'eliminar # baixades}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to change the category of one entry} other {You are about to change the category of # entries}}"
+msgstr ""
+"{count, plural, one {Esteu a punt de canviar la categoria d'una entrada} "
+"other {Esteu a punt de canviar la categoria de # entrades}}"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "{count, plural, one {There is # missing chapter.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}} other {There are # missing chapters.\n"
+"Previous: {nextChapter}\n"
+"Current: {currentChapter}}}"
+msgstr ""
+"{count, plural, one {Falta # capítol.\n"
+"Anterior: {nextChapter}\n"
+"Actual: {currentChapter}} other {Falten # capítols.\n"
+"Anterior: {nextChapter}\n"
+"Actual: {currentChapter}}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to download one chapter} other {You are about to download # chapters.\n"
+"Suwayomi is not a mass downloader and too many downloads can get you banned from sources and/or cause performance issues.}}"
+msgstr ""
+"{count, plural, one {Esteu a punt de baixar un capítol} other {Esteu a punt "
+"de baixar # capítols.\n"
+"Suwayomi no és un baixador massiu i massa baixades us poden fer vetar de les "
+"fonts o causar problemes de rendiment.}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as read} other {You are about to mark # chapters as read}}"
+msgstr ""
+"{count, plural, one {Esteu a punt de marcar un capítol com a llegit} other "
+"{Esteu a punt de marcar # capítols com a llegits}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to mark one chapter as unread} other {You are about to mark # chapters as unread}}"
+msgstr ""
+"{count, plural, one {Esteu a punt de marcar un capítol com a no llegit} "
+"other {Esteu a punt de marcar # capítols com a no llegits}}"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "{count} remaining"
+msgstr "{count} restants"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to remove one bookmark} other {You are about to remove # bookmarks}}"
+msgstr ""
+"{count, plural, one {Esteu a punt d'eliminar un marcador} other {Esteu a "
+"punt d'eliminar # marcadors}}"
+
+#: src/features/manga/Manga.constants.ts
+msgid "{count, plural, one {You are about to remove one entry from your library} other {You are about to remove # entries from your library}}"
+msgstr ""
+"{count, plural, one {Esteu a punt d'eliminar una entrada de la biblioteca} "
+"other {Esteu a punt d'eliminar # entrades de la biblioteca}}"
+
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/chapter/components/MissingChaptersInfoSeparator.tsx
+msgid "{missingChapterCount, plural, one {Missing # chapter} other {Missing # chapters}}"
+msgstr ""
+"{missingChapterCount, plural, one {Falta # capítol} other {Falten # "
+"capítols}}"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "{currentAutoUpdateIntervalHours}h"
+msgstr "{currentAutoUpdateIntervalHours} h"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+msgstr "{currentDownloadAheadLimit, plural, one {# Capítol} other {# Capítols}}"
+
+#: src/features/backup/Backup.utils.ts
+msgid "{ttl, plural, one {Delete backups that are older than # day} other {Delete backups that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Elimina les còpies de seguretat de més de # dia} other "
+"{Elimina les còpies de seguretat de més de # dies}}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "{ttl, plural, one {Delete log files that are older than # day} other {Delete log files that are older than # days}}"
+msgstr ""
+"{ttl, plural, one {Elimina els fitxers de registre de més de # dia} other "
+"{Elimina els fitxers de registre de més de # dies}}"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "{progress}% | Updating…"
+msgstr "{progress}% | S'està actualitzant…"
+
+#: src/features/settings/Settings.constants.ts
+msgid "A preview focused web frontend built with svelte"
+msgstr "Una interfície web centrada en la previsualització, feta amb Svelte"
+
+#: src/features/reader/settings/components/DefaultSettingFootnote.tsx
+msgid "*: Active setting"
+msgstr "*: paràmetre actiu"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Active device"
+msgstr "Dispositiu actiu"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/About.tsx
+msgid "About"
+msgstr "Quant a"
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting"
+msgstr "Paràmetre actiu"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/manga/components/MangaBadges.tsx
+#: src/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx
+msgid "Add To Library"
+msgstr "Afegeix a la biblioteca"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Add bookmark"
+msgstr "Afegeix un marcador"
+
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+#: src/features/manga/components/details/MangaNotes.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/settings/components/images/KeyValueItems.tsx
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+msgid "Add"
+msgstr "Afegeix"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Advanced"
+msgstr "Avançat"
+
+#: src/features/tracker/components/cards/TrackerUntrackedCard.tsx
+msgid "Add tracking"
+msgstr "Afegeix seguiment"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "Added manga to library!"
+msgstr "S'ha afegit el manga a la biblioteca!"
+
+#: src/features/extension/info/components/Meta.tsx
+msgid "Age rating"
+msgstr "Classificació d'edat"
+
+#: src/features/backup/Backup.utils.ts
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "All"
+msgstr "Tot"
+
+#: src/features/settings/Settings.constants.ts
+msgid "After changing this setting go to the \"About\" page and check for a webUI update and install it"
+msgstr ""
+"Després de canviar aquest paràmetre, aneu a la pàgina «Quant a», comproveu "
+"si hi ha una actualització de la interfície web i instal·leu-la"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Also remove from {0}"
+msgstr "Elimina també de {0}"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Allow deleting bookmarked chapters"
+msgstr "Permet eliminar els capítols amb marcador"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Alpha"
+msgstr "Alfa"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Artist"
+msgstr "Artista"
+
+#: src/features/category/components/CategorySettingsCard.tsx
+#: src/features/chapter/services/Chapters.ts
+#: src/features/extension/store/screens/ExtensionStores.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/manga/services/Mangas.ts
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Are you sure?"
+msgstr "N'esteu segur?"
+
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Appearance"
+msgstr "Aparença"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Authentication Mode"
+msgstr "Mode d'autenticació"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Authentication"
+msgstr "Autenticació"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Ascending"
+msgstr "Ascendent"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "Auto download while reading"
+msgstr "Baixa automàticament mentre llegiu"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Auto"
+msgstr "Automàtic"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Author"
+msgstr "Autor"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Auto webtoon mode"
+msgstr "Mode webtoon automàtic"
+
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+msgid "Auto scroll speed"
+msgstr "Velocitat del desplaçament automàtic"
+
+#: src/features/reader/auto-scroll/settings/quick-setting/ReaderNavBarDesktopAutoScroll.tsx
+#: src/features/reader/overlay/navigation/mobile/quick-settings/ReaderBottomBarMobileQuickSettings.tsx
+msgid "Auto scroll"
+msgstr "Desplaçament automàtic"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "Automatic update interval"
+msgstr "Interval d'actualització automàtica"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+msgid "Automatic progress bar vertical position"
+msgstr "Posició vertical automàtica de la barra de progrés"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Auto-download"
+msgstr "Baixada automàtica"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Automatically mark chapters as read when you download them."
+msgstr "Marca automàticament els capítols com a llegits quan els baixeu."
+
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+msgid "Automatically download the latest version"
+msgstr "Baixa automàticament la versió més recent"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+msgid "Automatic updates"
+msgstr "Actualitzacions automàtiques"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Back up library as a Tachiyomi backup"
+msgstr "Fes una còpia de seguretat de la biblioteca com a còpia de Tachiyomi"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Automatically use webtoon mode for entries that are detected to likely use the long strip format"
+msgstr ""
+"Fes servir automàticament el mode webtoon per a les entrades que sembla que "
+"facin servir el format de tira llarga"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Automatically refresh metadata"
+msgstr "Actualitza automàticament les metadades"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup cleanup"
+msgstr "Neteja de còpies de seguretat"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Background color"
+msgstr "Color de fons"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Backup"
+msgstr "Còpia de seguretat"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup data"
+msgstr "Dades de la còpia de seguretat"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup interval"
+msgstr "Interval de còpia de seguretat"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup location"
+msgstr "Ubicació de la còpia de seguretat"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "Backup validation"
+msgstr "Validació de la còpia de seguretat"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup time"
+msgstr "Hora de la còpia de seguretat"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Backup restored."
+msgstr "S'ha restaurat la còpia de seguretat."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Basic Authentication"
+msgstr "Autenticació bàsica"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Behaviour"
+msgstr "Comportament"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Badges"
+msgstr "Distintius"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Binary"
+msgstr "Binari"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Binary file size"
+msgstr "Mida del fitxer binari"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Bookmark selected"
+msgstr "Afegeix un marcador als seleccionats"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Black"
+msgstr "Negre"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Blue"
+msgstr "Blau"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Bookmarked"
+msgstr "Amb marcador"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Both"
+msgstr "Tots dos"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Bottom"
+msgstr "A baix"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Briefly show current mode when reader is opened or mode got changed"
+msgstr ""
+"Mostra breument el mode actual quan s'obre el lector o quan es canvia de mode"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Briefly show tap zone layout preview when reader is opened or layout got changed"
+msgstr ""
+"Mostra breument una vista prèvia de la disposició de zones tàctils quan "
+"s'obre el lector o quan es canvia la disposició"
+
+#: src/features/theme/Themes.ts
+msgid "Bright Pink"
+msgstr "Rosa intens"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "Browse"
+msgstr "Explora"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Browser"
+msgstr "Navegador"
+
+#: src/features/settings/screens/About.tsx
+msgid "Build time"
+msgstr "Hora de compilació"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Bundled"
+msgstr "Inclòs"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By chapter number"
+msgstr "Per número de capítol"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By date fetched"
+msgstr "Per data d'obtenció"
+
+#: src/features/migration/Migration.constants.ts
+msgid "By manga count"
+msgstr "Per nombre de manga"
+
+#: src/features/migration/Migration.constants.ts
+msgid "By source name"
+msgstr "Per nom de la font"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By source"
+msgstr "Per font"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "By upload date"
+msgstr "Per data de pujada"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Call timeout"
+msgstr "Temps d'espera de la crida"
+
+#: src/base/collection/components/SelectableCollectionSelectMode.tsx
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/base/components/modals/ConfirmDialog.tsx
+#: src/base/components/modals/LoginDialog.tsx
+#: src/base/components/settings/CheckboxListSetting.tsx
+#: src/base/components/settings/DateSetting.tsx
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/base/components/settings/NumberSetting.tsx
+#: src/base/components/settings/SelectSetting.tsx
+#: src/base/components/settings/text/TextSettingDialog.tsx
+#: src/base/components/settings/TimeSetting.tsx
+#: src/features/backup/component/BackupFlagInclusionDialog.tsx
+#: src/features/backup/component/BackupValidationDialog.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+#: src/features/manga/components/details/MangaNotes.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+#: src/features/source/configuration/components/EditTextPreference.tsx
+#: src/features/source/configuration/components/ListPreference.tsx
+#: src/features/source/configuration/components/MultiSelectListPreference.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Cancel"
+msgstr "Cancel·la"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/Tracker.constants.ts
+msgid "Cancelled"
+msgstr "Cancel·lat"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/settings/screens/More.tsx
+msgid "Categories"
+msgstr "Categories"
+
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Category"
+msgstr "Categoria"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Category selection dialog"
+msgstr "Diàleg de selecció de categoria"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "CBZ MIME-Type"
+msgstr "Tipus MIME de CBZ"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Change categories"
+msgstr "Canvia les categories"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Change categories of selected"
+msgstr "Canvia les categories dels seleccionats"
+
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Changelog"
+msgstr "Registre de canvis"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Changes the theme colors on the manga page based on the thumbnail"
+msgstr "Canvia els colors del tema a la pàgina del manga segons la miniatura"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Channel"
+msgstr "Canal"
+
+#: src/features/reader/screens/Reader.tsx
+msgid "Chapter does not exist"
+msgstr "El capítol no existeix"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Chapter"
+msgstr "Capítol"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Chapter download limit"
+msgstr "Límit de baixada de capítols"
+
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+msgid "Chapter list"
+msgstr "Llista de capítols"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+msgid "Chapter number"
+msgstr "Número de capítol"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Chapter sort order"
+msgstr "Ordre de classificació dels capítols"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "Chapter transition warning"
+msgstr "Avís de transició de capítol"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Chapters"
+msgstr "Capítols"
+
+#: src/features/library/screens/LibraryDuplicates.tsx
+msgid "Check description"
+msgstr "Comproveu la descripció"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Check for new cover and details when updating library"
+msgstr "Comprova si hi ha portada i detalls nous en actualitzar la biblioteca"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Check out"
+msgstr "Fes-hi un cop d'ull"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "Checking for update"
+msgstr "S'està comprovant si hi ha actualitzacions"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Cleanup database"
+msgstr "Neteja la base de dades"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Choose the order in which chapters are displayed."
+msgstr "Trieu l'ordre en què es mostren els capítols."
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Clear cache"
+msgstr "Esborra la memòria cau"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Cleared the cache"
+msgstr "S'ha esborrat la memòria cau"
+
+#: src/base/collection/components/SelectableCollectionSelectAll.tsx
+msgid "Clear"
+msgstr "Esborra"
+
+#: src/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx
+msgid "Click key to remove binding"
+msgstr "Feu clic a la tecla per eliminar-ne l'assignació"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Client"
+msgstr "Client"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cloudflare bypass"
+msgstr "Elusió de Cloudflare"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Close"
+msgstr "Tanca"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Client data"
+msgstr "Dades del client"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Color filter blend mode"
+msgstr "Mode de fusió del filtre de color"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Comfortable grid"
+msgstr "Graella còmoda"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Compact grid"
+msgstr "Graella compacta"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Compatible"
+msgstr "Compatible"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Completed"
+msgstr "Completat"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Compression level"
+msgstr "Nivell de compressió"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Connect timeout"
+msgstr "Temps d'espera de connexió"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connect to KOReader Sync server"
+msgstr "Connecta al servidor de sincronització de KOReader"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr "Connectat com a {currentUsername} a {currentServerAddress}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr "Connectat com a {initialUsername} a {initialServerAddress}"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid "Continue reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Continua llegint\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Continuous chapter display"
+msgstr "Visualització contínua de capítols"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Continuous horizontal"
+msgstr "Horitzontal continu"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Continuous vertical"
+msgstr "Vertical continu"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
+msgstr ""
+"Controla el tipus MIME que Suwayomi envia a les entrades OPDS per als arxius "
+"CBZ. També afecta la baixada global de CBZ.\n"
+"Modern segueix l'estàndard recent de la IANA (2017), mentre que LEGACY "
+"(tipus MIME obsolet per a .cbz) i COMPATIBLE (tipus MIME obsolet per a tots "
+"els arxius de còmic) poden ser més compatibles amb clients antics."
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Copy"
+msgstr "Copia"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "Could not add manga to library!"
+msgstr "No s'ha pogut afegir el manga a la biblioteca!"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "Could not check for duplicated manga in your library.\n"
+"\n"
+"Error: {errorMessage}"
+msgstr ""
+"No s'ha pogut comprovar si hi ha manga duplicats a la biblioteca.\n"
+"\n"
+"Error: {errorMessage}"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "Could not check for update"
+msgstr "No s'ha pogut comprovar l'actualització"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Could not check for updates"
+msgstr "No s'ha pogut comprovar si hi ha actualitzacions"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Could not clear the cache"
+msgstr "No s'ha pogut esborrar la memòria cau"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Could not create backup"
+msgstr "No s'ha pogut crear la còpia de seguretat"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Could not create theme"
+msgstr "No s'ha pogut crear el tema"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Could not delete theme \"{0}\""
+msgstr "No s'ha pogut eliminar el tema «{0}»"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+msgid "Could not find source. Check your installed extensions."
+msgstr ""
+"No s'ha trobat la font. Comproveu les extensions que teniu instal·lades."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Convert images to different formats"
+msgstr "Converteix les imatges a altres formats"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Could not install the extension"
+msgstr "No s'ha pogut instal·lar l'extensió"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not load language"
+msgstr "No s'ha pogut carregar l'idioma"
+
+#: src/features/tracker/components/TrackManga.tsx
+msgid "Could not load latest track info from tracker"
+msgstr ""
+"No s'ha pogut carregar la informació de seguiment més recent del servei de "
+"seguiment"
+
+#: src/features/library/screens/Library.tsx
+#: src/features/manga/screens/Manga.tsx
+msgid "Could not load manga"
+msgstr "No s'ha pogut carregar el manga"
+
+#: src/features/theme/components/ThemePreview.tsx
+msgid "Could not load theme fonts"
+msgstr "No s'han pogut carregar els tipus de lletra del tema"
+
+#: src/features/manga/components/TrackMangaButton.tsx
+msgid "Could not load track info"
+msgstr "No s'ha pogut carregar la informació de seguiment"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log in to {0}"
+msgstr "No s'ha pogut iniciar la sessió a {0}"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Could not log in to {trackerName}"
+msgstr "No s'ha pogut iniciar la sessió a {trackerName}"
+
+#: src/features/authentication/screens/LoginPage.tsx
+msgid "Could not log in to Suwayomi"
+msgstr "No s'ha pogut iniciar la sessió a Suwayomi"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Could not log out from {0}"
+msgstr "No s'ha pogut tancar la sessió de {0}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Could not log out from KOReader Sync"
+msgstr "No s'ha pogut tancar la sessió de KOReader Sync"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Could not migrate manga"
+msgstr "No s'ha pogut migrar el manga"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Could not remove all downloads from the queue"
+msgstr "No s'han pogut eliminar totes les baixades de la cua"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Could not remove non library manga from categories"
+msgstr ""
+"No s'han pogut eliminar de les categories els manga que no són a la "
+"biblioteca"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Could not restore backup"
+msgstr "No s'ha pogut restaurar la còpia de seguretat"
+
+#: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
+msgid "Could not retry failed download."
+msgstr "No s'ha pogut tornar a provar la baixada fallida."
+
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Could not save the default search settings to the server"
+msgstr "No s'han pogut desar al servidor els paràmetres de cerca predeterminats"
+
+#: src/features/reader/services/ReaderService.ts
+msgid "Could not save the reader settings to the server"
+msgstr "No s'han pogut desar al servidor els paràmetres del lector"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Could not save theme changes"
+msgstr "No s'han pogut desar els canvis del tema"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Could not search source"
+msgstr "No s'ha pogut cercar a la font"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Could not stop global update"
+msgstr "No s'ha pogut aturar l'actualització global"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Could not track manga"
+msgstr "No s'ha pogut fer el seguiment del manga"
+
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Could not update WebUI"
+msgstr "No s'ha pogut actualitzar la interfície web"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Could not untrack manga"
+msgstr "No s'ha pogut deixar de fer el seguiment del manga"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Could not validate backup"
+msgstr "No s'ha pogut validar la còpia de seguretat"
+
+#: src/features/theme/components/CreateThemeButton.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Create theme"
+msgstr "Crea un tema"
+
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Create"
+msgstr "Crea"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Create backup"
+msgstr "Crea una còpia de seguretat"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Creating backup…"
+msgstr "S'està creant la còpia de seguretat…"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Created theme"
+msgstr "S'ha creat el tema"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Creating theme…"
+msgstr "S'està creant el tema…"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Currently publishing"
+msgstr "En publicació"
+
+#: src/features/theme/Themes.ts
+msgid "Crimson"
+msgstr "Carmesí"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Current:"
+msgstr "Actual:"
+
+#: src/features/reader/filters/settings/components/ReaderSettingBrightness.tsx
+msgid "Custom brightness"
+msgstr "Brillantor personalitzada"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Custom color filters"
+msgstr "Filtres de color personalitzats"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Custom"
+msgstr "Personalitzat"
+
+#: src/features/reader/filters/settings/components/ReaderSettingContrast.tsx
+msgid "Custom contrast"
+msgstr "Contrast personalitzat"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Custom filter"
+msgstr "Filtre personalitzat"
+
+#: src/features/reader/filters/settings/components/ReaderSettingHue.tsx
+msgid "Custom hue"
+msgstr "To personalitzat"
+
+#: src/features/reader/filters/settings/components/ReaderSettingSaturate.tsx
+msgid "Custom saturate"
+msgstr "Saturació personalitzada"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Custom scroll amount"
+msgstr "Quantitat de desplaçament personalitzada"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Cycle image scale type"
+msgstr "Canvia el tipus d'escalat de la imatge"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Cycle reading direction"
+msgstr "Canvia la direcció de lectura"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Cycle reading mode"
+msgstr "Canvia el mode de lectura"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Dark"
+msgstr "Fosc"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Database url"
+msgstr "URL de la base de dades"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Darken"
+msgstr "Enfosqueix"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Database"
+msgstr "Base de dades"
+
+#: src/base/components/buttons/SelectButton.tsx
+#: src/base/components/buttons/ValueRotationButton.tsx
+#: src/features/backup/screens/Backup.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/theme/Themes.ts
+msgid "Default"
+msgstr "Predeterminat"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Decrease auto scroll speed"
+msgstr "Redueix la velocitat del desplaçament automàtic"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Day"
+msgstr "Dia"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Delete chapters"
+msgstr "Elimina els capítols"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Delete chapter after manually marking it as read"
+msgstr "Elimina el capítol després de marcar-lo manualment com a llegit"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Delete all"
+msgstr "Elimina-ho tot"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Delete finished chapters while reading"
+msgstr "Elimina els capítols acabats mentre llegiu"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Delete search"
+msgstr "Elimina la cerca"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Delete downloaded"
+msgstr "Elimina els baixats"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleting theme \"{0}\"…"
+msgstr "S'està eliminant el tema «{0}»…"
+
+#. placeholder {0}: theme.getName()
+#: src/features/theme/components/ThemeList.tsx
+msgid "Deleted theme \"{0}\""
+msgstr "S'ha eliminat el tema «{0}»"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Descending"
+msgstr "Descendent"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/manga/components/MangaOptionButton.tsx
+msgid "Deselect"
+msgstr "Desselecciona"
+
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Desktop"
+msgstr "Escriptori"
+
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Device"
+msgstr "Dispositiu"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Disable authentication"
+msgstr "Inhabilita l'autenticació"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Disabled"
+msgstr "Desactivat"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Devices"
+msgstr "Dispositius"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Disconnect from KOReader Sync server"
+msgstr "Desconnecta del servidor de sincronització de KOReader"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Disconnected"
+msgstr "Desconnectat"
+
+#: src/features/settings/screens/About.tsx
+msgid "Discord"
+msgstr "Discord"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/settings/screens/Appearance.tsx
+msgid "Display"
+msgstr "Visualització"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Display mode"
+msgstr "Mode de visualització"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Display file sizes in binary (KiB, MiB, GiB) instead of decimal (KB, MB, GB)"
+msgstr ""
+"Mostra les mides dels fitxers en binari (KiB, MiB, GiB) en lloc de decimal "
+"(KB, MB, GB)"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Document matching method"
+msgstr "Mètode de coincidència de documents"
+
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Does not work when marking multiple manga as read at once"
+msgstr "No funciona quan es marquen diversos manga com a llegits alhora"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "Don't show this dialog again"
+msgstr "No tornis a mostrar aquest diàleg"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Double page"
+msgstr "Pàgina doble"
+
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/chapter/Chapter.constants.ts
+#: src/features/chapter/components/buttons/ChapterDownloadButton.tsx
+#: src/features/chapter/components/ChaptersToolbarMenu.tsx
+msgid "Download"
+msgstr "Baixa"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Download ahead"
+msgstr "Baixa per endavant"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Doujinshi"
+msgstr "Doujinshi"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+msgid "Download ahead ({count})"
+msgstr "Baixa per endavant ({count})"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Download badges"
+msgstr "Distintius de baixada"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Download location"
+msgstr "Ubicació de les baixades"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Download new chapters"
+msgstr "Baixa els capítols nous"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "Download queue"
+msgstr "Cua de baixades"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Download selected"
+msgstr "Baixa els seleccionats"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Downloaded"
+msgstr "Baixat"
+
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Downloading"
+msgstr "S'està baixant"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "Downloads"
+msgstr "Baixades"
+
+#: src/features/library/screens/LibraryDuplicates.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Duplicated entries"
+msgstr "Entrades duplicades"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Duplicate chapters"
+msgstr "Capítols duplicats"
+
+#: src/features/theme/Themes.ts
+msgid "Dune"
+msgstr "Duna"
+
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/category/components/CategorySettingsCard.tsx
+#: src/features/manga/components/details/MangaNotes.tsx
+#: src/features/theme/components/ThemePreview.tsx
+msgid "Edit"
+msgstr "Edita"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "Edge"
+msgstr "Vora"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Dynamic theme colors on manga page"
+msgstr "Colors del tema dinàmics a la pàgina del manga"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+msgid "Edit manga categories"
+msgstr "Edita les categories del manga"
+
+#: src/features/category/screens/CategorySettings.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Edit categories"
+msgstr "Edita les categories"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+msgid "Edit category"
+msgstr "Edita la categoria"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Electron"
+msgstr "Electron"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Edit theme"
+msgstr "Edita el tema"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Electron path"
+msgstr "Camí d'Electron"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable page read progress"
+msgstr "Habilita el progrés de lectura de pàgines"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable debug logs"
+msgstr "Habilita els registres de depuració"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Entries in excluded categories will not be downloaded even if they are also in included categories"
+msgstr ""
+"Les entrades de categories excloses no es baixaran encara que també siguin "
+"en categories incloses"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Entries in excluded categories will not be updated even if they are also in included categories"
+msgstr ""
+"Les entrades de categories excloses no s'actualitzaran encara que també "
+"siguin en categories incloses"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Example for possible values: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), 1GB (gigabytes)"
+msgstr ""
+"Exemple de valors possibles: 1 (bytes), 1KB (kilobytes), 1MB (megabytes), "
+"1GB (gigabytes)"
+
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Error"
+msgstr "Error"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Exit to manga page"
+msgstr "Surt a la pàgina del manga"
+
+#: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
+msgid "Exclude scanlators"
+msgstr "Exclou els scanlators"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/components/ReaderExitButton.tsx
+msgid "Exit reader"
+msgstr "Surt del lector"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Exit to previous page"
+msgstr "Surt a la pàgina anterior"
+
+#: src/features/extension/info/screens/ExtensionInfo.tsx
+msgid "Extension info"
+msgstr "Informació de l'extensió"
+
+#: src/features/browse/screens/Browse.tsx
+msgid "Extension"
+msgstr "Extensió"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Extension installed"
+msgstr "S'ha instal·lat l'extensió"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Failed to connect to KOReader Sync server."
+msgstr "No s'ha pogut connectar al servidor de sincronització de KOReader."
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Failed to disconnect from KOReader Sync server."
+msgstr "No s'ha pogut desconnectar del servidor de sincronització de KOReader."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Features and changes in this version might not be completely ready yet and can cause bugs.\n"
+"Make sure that you have automatic backups enabled to prevent loss of your library!\n"
+"\n"
+"After changing this setting go to the \"About\" page and check for a webUI update and install it"
+msgstr ""
+"Pot ser que les funcions i els canvis d'aquesta versió encara no estiguin "
+"del tot a punt i causin errors.\n"
+"Assegureu-vos de tenir activades les còpies de seguretat automàtiques per "
+"evitar perdre la biblioteca!\n"
+"\n"
+"Després de canviar aquest paràmetre, aneu a la pàgina «Quant a», comproveu "
+"si hi ha una actualització de la interfície web i instal·leu-la"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/browse/sources/components/SourceCard.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/chapter/components/buttons/ChapterDownloadButton.tsx
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/extension/info/components/SourceCard.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+#: src/features/history/screens/HistorySettings.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+#: src/features/source/services/Sources.ts
+#: src/features/theme/AppThemeContext.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Failed to save changes"
+msgstr "No s'han pogut desar els canvis"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Fifth to last read chapter"
+msgstr "Cinquè capítol llegit comptant des del final"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Filter"
+msgstr "Filtre"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Filename"
+msgstr "Nom del fitxer"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Filter manga feed to display only chapters you have downloaded."
+msgstr "Filtra el canal de manga per mostrar només els capítols que heu baixat."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Filter manga feed to display only chapters you haven’t read yet."
+msgstr ""
+"Filtra el canal de manga per mostrar només els capítols que encara no heu "
+"llegit."
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Finish date"
+msgstr "Data d'acabament"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Fit height"
+msgstr "Ajusta a l'alçada"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Finished:"
+msgstr "Acabat:"
+
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
+#: src/features/tracker/Tracker.constants.ts
+msgid "Finished"
+msgstr "Acabat"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Fit screen"
+msgstr "Ajusta a la pantalla"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Fit width"
+msgstr "Ajusta a l'amplada"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr enabled"
+msgstr "FlareSolverr habilitat"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr request timeout"
+msgstr "Temps d'espera de les peticions de FlareSolverr"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr server url"
+msgstr "URL del servidor de FlareSolverr"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr session name"
+msgstr "Nom de la sessió de FlareSolverr"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr session TTL"
+msgstr "TTL de la sessió de FlareSolverr"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Flavor"
+msgstr "Variant"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "FlareSolverr will automatically rotate expired sessions based on the TTL provided in minutes"
+msgstr ""
+"FlareSolverr rotarà automàticament les sessions caducades segons el TTL "
+"indicat en minuts"
+
+#: src/features/theme/Themes.ts
+msgid "Forest Dew"
+msgstr "Rosada del bosc"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Fourth to last read chapter"
+msgstr "Quart capítol llegit comptant des del final"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Forget manga categories"
+msgstr "Oblida les categories del manga"
+
+#: src/features/settings/screens/About.tsx
+msgid "GitHub WebUI"
+msgstr "Interfície web a GitHub"
+
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "General"
+msgstr "General"
+
+#: src/features/settings/screens/About.tsx
+msgid "GitHub Server"
+msgstr "Servidor a GitHub"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Global update (last update: {date})"
+msgstr "Actualització global (última actualització: {date})"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
+msgid "Global update"
+msgstr "Actualització global"
+
+#: src/features/browse/sources/Sources.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Global Search"
+msgstr "Cerca global"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Gray"
+msgstr "Gris"
+
+#: src/features/reader/filters/settings/components/ReaderSettingGrayscale.tsx
+msgid "Grayscale"
+msgstr "Escala de grisos"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Green"
+msgstr "Verd"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "H2"
+msgstr "H2"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Has results"
+msgstr "Té resultats"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsInterval.tsx
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+msgid "h"
+msgstr "h"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/Tracker.constants.ts
+msgid "Hiatus"
+msgstr "En pausa"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Headers"
+msgstr "Capçaleres"
+
+#. placeholder {0}: headers?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Headers ({0})"
+msgstr "Capçaleres ({0})"
+
+#: src/features/history/screens/HistorySettings.tsx
+msgid "Hide history"
+msgstr "Amaga l'historial"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Hide entries already in library"
+msgstr "Amaga les entrades que ja són a la biblioteca"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
+msgid "Hidden"
+msgstr "Amagat"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/history/screens/History.tsx
+#: src/features/history/screens/HistorySettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "History"
+msgstr "Historial"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Hikari connection pool"
+msgstr "Grup de connexions Hikari"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Horizontal"
+msgstr "Horitzontal"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "How many chapters should get downloaded while reading."
+msgstr "Quants capítols s'han de baixar mentre llegiu."
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Hotkey already exists"
+msgstr "Aquesta drecera ja existeix"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "How much time FlareSolverr has to handle the request"
+msgstr "Quant de temps té FlareSolverr per atendre la petició"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Ignore automatic chapter downloads for entries with unread chapters"
+msgstr ""
+"Ignora les baixades automàtiques de capítols per a les entrades amb capítols "
+"no llegits"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Ignore filters when searching"
+msgstr "Ignora els filtres en cercar"
+
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+msgid "Ignore"
+msgstr "Ignora"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Image download processing"
+msgstr "Processament de la baixada d'imatges"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Ignore re-uploaded chapters"
+msgstr "Ignora els capítols tornats a pujar"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Image"
+msgstr "Imatge"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "Image processing"
+msgstr "Processament d'imatges"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Image serve processing"
+msgstr "Processament del servei d'imatges"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Improves performance, but may cause issues for some installations where data cannot be read from the database"
+msgstr ""
+"Millora el rendiment, però pot causar problemes en algunes instal·lacions on "
+"no es poden llegir les dades de la base de dades"
+
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+msgid "In case no MIME-Type is defined, the \"default\" one will be used for the processing.\n"
+"Set the target mode to disabled to prevent processing for a MIME-Type"
+msgstr ""
+"Si no hi ha cap tipus MIME definit, s'utilitzarà el «predeterminat» per al "
+"processament.\n"
+"Poseu el mode de destinació a desactivat per evitar el processament d'un "
+"tipus MIME"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Images"
+msgstr "Imatges"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about available update"
+msgstr "Informa de les actualitzacions disponibles"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Increase auto scroll speed"
+msgstr "Augmenta la velocitat del desplaçament automàtic"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/manga/components/MangaBadges.tsx
+#: src/features/migration/components/migration-entry/MigrationEntryThumbnail.tsx
+msgid "In Library"
+msgstr "A la biblioteca"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Inform about missing chapters on chapter transition"
+msgstr "Informa dels capítols que falten en passar de capítol"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Inform about changing scanlator on chapter transition"
+msgstr "Informa del canvi de scanlator en passar de capítol"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+msgid "Information"
+msgstr "Informació"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Install external extension"
+msgstr "Instal·la una extensió externa"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Installed"
+msgstr "Instal·lada"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+#: src/features/extension/Extensions.constants.ts
+msgid "Install"
+msgstr "Instal·la"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Installing extension file…"
+msgstr "S'està instal·lant el fitxer de l'extensió…"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Interface"
+msgstr "Interfície"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Installing"
+msgstr "S'està instal·lant"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Invalid filetype"
+msgstr "Tipus de fitxer no vàlid"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Invalid json"
+msgstr "JSON no vàlid"
+
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/base/components/settings/NumberSetting.tsx
+#: src/base/components/settings/text/TextSettingDialog.tsx
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/settings/components/images/KeyValueItem.tsx
+#: src/features/settings/components/images/MimeTypeTextField.tsx
+#: src/features/settings/components/images/Processing.tsx
+msgid "Invalid input"
+msgstr "Entrada no vàlida"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Invert tap zones"
+msgstr "Inverteix les zones tàctils"
+
+#: src/features/reader/filters/settings/components/ReaderSettingInvert.tsx
+msgid "Invert"
+msgstr "Inverteix"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "IP"
+msgstr "IP"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT access token expiry"
+msgstr "Caducitat del testimoni d'accés JWT"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Items per page"
+msgstr "Elements per pàgina"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "item"
+msgstr "element"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT refresh token expiry"
+msgstr "Caducitat del testimoni d'actualització JWT"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Keep local"
+msgstr "Conserva el local"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "JWT audience claim"
+msgstr "Declaració d'audiència del JWT"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Keep remote"
+msgstr "Conserva el remot"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Keybinds"
+msgstr "Dreceres de teclat"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep previous and upcoming chapters visible while reading in continuous reading modes, allowing seamless scrolling between chapters."
+msgstr ""
+"Mantén visibles els capítols anteriors i següents mentre llegiu en els modes "
+"de lectura contínua, per poder desplaçar-vos entre capítols sense "
+"interrupcions."
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "KOReader Sync"
+msgstr "KOReader Sync"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "L-Shape"
+msgstr "Forma de L"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "Kindle"
+msgstr "Kindle"
+
+#: src/features/extension/info/components/Meta.tsx
+#: src/features/settings/screens/Appearance.tsx
+msgid "Language"
+msgstr "Idioma"
+
+#: src/base/utils/Languages.ts
+msgid "Language with code: {code}"
+msgstr "Idioma amb el codi: {code}"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Large"
+msgstr "Gran"
+
+#: src/features/updates/screens/Updates.tsx
+msgid "Last update: {date}"
+msgstr "Última actualització: {date}"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Last read chapter"
+msgstr "Últim capítol llegit"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Last used"
+msgstr "Últim ús"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Latest uploaded chapter"
+msgstr "Últim capítol pujat"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Latest fetched chapter"
+msgstr "Últim capítol obtingut"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Latest"
+msgstr "Novetats"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Left"
+msgstr "Esquerra"
+
+#: src/features/theme/Themes.ts
+msgid "Lavender"
+msgstr "Lavanda"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Layout"
+msgstr "Disposició"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "legacy backups are not supported!"
+msgstr "les còpies de seguretat antigues no són compatibles!"
+
+#: src/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Left to right"
+msgstr "D'esquerra a dreta"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Legacy"
+msgstr "Antic"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Library entries"
+msgstr "Entrades de la biblioteca"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/Settings.tsx
+msgid "Library"
+msgstr "Biblioteca"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Light"
+msgstr "Clar"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Lighten"
+msgstr "Aclareix"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Licensed"
+msgstr "Amb llicència"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Limit the amount of new chapters that are going to get downloaded."
+msgstr "Limita la quantitat de capítols nous que es baixaran."
+
+#: src/features/reader/settings/layout/components/ReaderSettingWidth.tsx
+msgid "Limit reader width"
+msgstr "Limita l'amplada del lector"
+
+#: src/features/settings/screens/About.tsx
+msgid "Links"
+msgstr "Enllaços"
+
+#: src/features/theme/components/ThemePreview.tsx
+msgid "Loading theme fonts…"
+msgstr "S'estan carregant els tipus de lletra del tema…"
+
+#: src/base/components/settings/SelectSetting.tsx
+msgid "Loading…"
+msgstr "S'està carregant…"
+
+#: src/base/components/GridLayouts.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "List"
+msgstr "Llista"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Local source location"
+msgstr "Ubicació de la font local"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/migration/components/MigrationCard.tsx
+msgid "Local source"
+msgstr "Font local"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Local source guide"
+msgstr "Guia de la font local"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Log file cleanup"
+msgstr "Neteja dels fitxers de registre"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log in to {0}"
+msgstr "Inicia la sessió a {0}"
+
+#: src/base/components/modals/LoginDialog.tsx
+#: src/features/authentication/screens/LoginPage.tsx
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "Log in"
+msgstr "Inicia la sessió"
+
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Logged in"
+msgstr "Sessió iniciada"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/SettingsTrackerCard.tsx
+msgid "Log out from {0}"
+msgstr "Tanca la sessió de {0}"
+
+#: src/base/components/modals/LoginDialog.tsx
+msgid "Log out"
+msgstr "Tanca la sessió"
+
+#: src/features/tracker/screens/TrackerOAuthLogin.tsx
+msgid "Logging in to {trackerName}…"
+msgstr "S'està iniciant la sessió a {trackerName}…"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Manage your existing devices.\n"
+"UI specific settings that are stored on the server are per device.\n"
+"This makes it possible to have e.g. different settings on a desktop and a smartphone"
+msgstr ""
+"Gestioneu els dispositius que teniu.\n"
+"Els paràmetres d'interfície que es desen al servidor són per dispositiu.\n"
+"Això permet tenir, per exemple, paràmetres diferents en un escriptori i en "
+"un mòbil"
+
+#: src/features/manga/screens/Manga.tsx
+#: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
+#: src/features/tracker/Tracker.constants.ts
+msgid "Manga"
+msgstr "Manga"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Manga item width"
+msgstr "Amplada de l'element de manga"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Manga thumbnail as background"
+msgstr "Miniatura del manga com a fons"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Manhua"
+msgstr "Manhua"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Maximum log file size"
+msgstr "Mida màxima del fitxer de registre"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Mark chapters as read on download"
+msgstr "Marca els capítols com a llegits en baixar-los"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Manhwa"
+msgstr "Manhwa"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Maximum size of all log files"
+msgstr "Mida màxima de tots els fitxers de registre"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Medium"
+msgstr "Mitjà"
+
+#: src/features/reader/tap-zones/ReaderTapZone.constants.ts
+msgid "Menu"
+msgstr "Menú"
+
+#. placeholder {0}: manga.title
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/migration/MigrationManager.ts
+msgid "Migrate \"{0}\""
+msgstr "Migra «{0}»"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Migrating manga…"
+msgstr "S'està migrant el manga…"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/manga/Manga.constants.ts
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
+msgid "Migrate"
+msgstr "Migra"
+
+#: src/features/theme/Themes.ts
+msgid "Minty Miracles"
+msgstr "Miracles de menta"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "MIME-Type"
+msgstr "Tipus MIME"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "MIME-Type target"
+msgstr "Destinació del tipus MIME"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Minute"
+msgstr "Minut"
+
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Mobile"
+msgstr "Mòbil"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Misc"
+msgstr "Divers"
+
+#: src/features/theme/Themes.ts
+msgid "Mountain Sunset"
+msgstr "Posta de sol a la muntanya"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Modern"
+msgstr "Modern"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/settings/screens/More.tsx
+msgid "More"
+msgstr "Més"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Multiply"
+msgstr "Multiplica"
+
+#: src/features/settings/components/images/KeyValueItem.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Name"
+msgstr "Nom"
+
+#: src/features/backup/Backup.utils.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Never"
+msgstr "Mai"
+
+#: src/features/reader/tap-zones/ReaderTapZone.constants.ts
+msgid "Next"
+msgstr "Següent"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+msgid "Next chapter"
+msgstr "Capítol següent"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
+msgid "Next page"
+msgstr "Pàgina següent"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Next:"
+msgstr "Següent:"
+
+#: src/features/chapter/components/ChapterList.tsx
+msgid "No chapters found"
+msgstr "No s'ha trobat cap capítol"
+
+#: src/features/chapter/components/ChapterList.tsx
+msgid "No chapters matching filter"
+msgstr "Cap capítol no coincideix amb el filtre"
+
+#: src/features/global-search/screens/SearchAll.tsx
+#: src/features/manga/components/MangaGrid.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "No manga found"
+msgstr "No s'ha trobat cap manga"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "No downloads"
+msgstr "No hi ha cap baixada"
+
+#: src/features/browse/sources/Sources.tsx
+msgid "No sources found. Install Some extensions first."
+msgstr "No s'ha trobat cap font. Instal·leu primer alguna extensió."
+
+#: src/features/library/components/LibraryMangaGrid.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "No manga matches this filter"
+msgstr "Cap manga no coincideix amb aquest filtre"
+
+#: src/features/reader/viewer/ReaderChapterViewer.tsx
+msgid "No pages found"
+msgstr "No s'ha trobat cap pàgina"
+
+#: src/features/backup/Backup.utils.ts
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "None"
+msgstr "Cap"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Not yet released"
+msgstr "Encara no disponible"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Not yet published"
+msgstr "Encara no publicat"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "Number of unread chapters to download"
+msgstr "Nombre de capítols no llegits que s'han de baixar"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Novel"
+msgstr "Novel·la"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
+"Higher values may affect client performance."
+msgstr ""
+"Nombre d'elements per pàgina als canals OPDS (per exemple, l'historial de la "
+"biblioteca o els capítols d'un manga).\n"
+"Els valors alts poden afectar el rendiment del client."
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopOffsetDoubleSpread.tsx
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Offset double spreads"
+msgstr "Desplaça les pàgines dobles"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "OEL"
+msgstr "OEL"
+
+#: src/features/browse/extensions/components/ExtensionCard.tsx
+#: src/features/extension/Extensions.constants.ts
+msgid "Obsolete"
+msgstr "Obsolet"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Oneshot"
+msgstr "Oneshot"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/base/components/modals/ConfirmDialog.tsx
+#: src/base/components/settings/CheckboxListSetting.tsx
+#: src/base/components/settings/DateSetting.tsx
+#: src/base/components/settings/MutableListSetting.tsx
+#: src/base/components/settings/NumberSetting.tsx
+#: src/base/components/settings/SelectSetting.tsx
+#: src/base/components/settings/text/TextSettingDialog.tsx
+#: src/base/components/settings/TimeSetting.tsx
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+#: src/features/backup/component/BackupFlagInclusionDialog.tsx
+#: src/features/category/components/CategoriesInclusionSetting.tsx
+#: src/features/category/components/CategorySelect.tsx
+#: src/features/chapter/services/Chapters.ts
+#: src/features/manga/services/Mangas.ts
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+#: src/features/source/configuration/components/EditTextPreference.tsx
+#: src/features/source/configuration/components/ListPreference.tsx
+#: src/features/source/configuration/components/MultiSelectListPreference.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Ok"
+msgstr "D'acord"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Ongoing"
+msgstr "En curs"
+
+#: src/features/downloads/components/DownloadAheadSetting.tsx
+msgid "Only works if the current chapter plus the next chapter are already downloaded."
+msgstr "Només funciona si el capítol actual i el següent ja estan baixats."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "OPDS"
+msgstr "OPDS"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "Open"
+msgstr "Obre"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
+msgid "Open page on exit"
+msgstr "Obre la pàgina en sortir"
+
+#: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Open in WebView"
+msgstr "Obre al WebView"
+
+#: src/features/chapter/components/actions/ChapterActionMenuItems.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Open in browser"
+msgstr "Obre al navegador"
+
+#: src/features/theme/Themes.ts
+msgid "Orange Juice"
+msgstr "Suc de taronja"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Open the WebUI when starting the server"
+msgstr "Obre la interfície web en iniciar el servidor"
+
+#: src/features/chapter/components/cards/ChapterCard.tsx
+#: src/features/manga/components/MangaOptionButton.tsx
+msgid "Options"
+msgstr "Opcions"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Original size"
+msgstr "Mida original"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Overlay"
+msgstr "Superposició"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Other"
+msgstr "Altres"
+
+#: src/features/reader/overlay/settings/ReaderSettingOverlayMode.tsx
+msgid "Overlay mode"
+msgstr "Mode de superposició"
+
+#: src/features/reader/settings/layout/components/ReaderSettingPageGap.tsx
+msgid "Page gap"
+msgstr "Separació entre pàgines"
+
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
+msgid "Page"
+msgstr "Pàgina"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "Paused — {count} remaining"
+msgstr "En pausa — en queden {count}"
+
+#: src/base/components/inputs/PasswordTextField.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Password"
+msgstr "Contrasenya"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Parallel source requests"
+msgstr "Peticions simultànies a la font"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Percentage Tolerance"
+msgstr "Tolerància percentual"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+msgid "Pin source"
+msgstr "Fixa la font"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "Pinned"
+msgstr "Fixada"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "PostgreSQL"
+msgstr "PostgreSQL"
+
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Popular"
+msgstr "Populars"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Port"
+msgstr "Port"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Preview"
+msgstr "Vista prèvia"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Preload images"
+msgstr "Precarrega les imatges"
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Press keys"
+msgstr "Premeu tecles"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopPageNavigation.tsx
+msgid "Previous page"
+msgstr "Pàgina anterior"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
+#: src/features/reader/tap-zones/ReaderTapZone.constants.ts
+msgid "Previous"
+msgstr "Anterior"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopChapterNavigation.tsx
+msgid "Previous chapter"
+msgstr "Capítol anterior"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+msgid "Progress bar position"
+msgstr "Posició de la barra de progrés"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "Previous:"
+msgstr "Anterior:"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarSize.tsx
+msgid "Progress bar size"
+msgstr "Mida de la barra de progrés"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
+msgid "Progress bar style"
+msgstr "Estil de la barra de progrés"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Prompt"
+msgstr "Pregunta"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Pure black dark mode"
+msgstr "Mode fosc de negre pur"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarSize.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingPageGap.tsx
+msgid "px"
+msgstr "px"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Publishing finished"
+msgstr "Publicació acabada"
+
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+msgid "Quick settings"
+msgstr "Configuració ràpida"
+
+#: src/base/components/downloads/DownloadStateIndicatorCircular.tsx
+msgid "Queued"
+msgstr "En cua"
+
+#: src/features/reader/settings/screens/GlobalReaderSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Reader"
+msgstr "Lector"
+
+#: src/features/reader/screens/Reader.tsx
+msgid "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
+msgstr "Lector — Manga {mangaId}, capítol {chapterSourceOrder}"
+
+#: src/features/reader/settings/layout/components/ReaderSettingWidth.tsx
+msgid "Reader width"
+msgstr "Amplada del lector"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopReadingDirection.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx
+msgid "Reading direction"
+msgstr "Direcció de lectura"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopReadingMode.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingReadingMode.tsx
+msgid "Reading mode"
+msgstr "Mode de lectura"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Recently added"
+msgstr "Afegits recentment"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Recently read"
+msgstr "Llegits recentment"
+
+#. placeholder {0}: recordedKeys.size ? <Hotkey keys={keys} /> : <Typography>{t`Press keys`}</Typography>
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Recorded hotkeys: {0}"
+msgstr "Dreceres enregistrades: {0}"
+
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+msgid "Record keybind"
+msgstr "Enregistra la drecera"
+
+#: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
+msgid "Red"
+msgstr "Vermell"
+
+#: src/features/tracker/Tracker.constants.ts
+msgid "Releasing"
+msgstr "En publicació"
+
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Refresh"
+msgstr "Actualitza"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+msgid "Reload data from source"
+msgstr "Torna a carregar les dades de la font"
+
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+msgid "Remind later"
+msgstr "Recorda-m'ho més tard"
+
+#: src/base/components/settings/DateSetting.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Remove"
+msgstr "Elimina"
+
+#. placeholder {0}: tracker.name
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Remove {0} tracking?"
+msgstr "Voleu eliminar el seguiment de {0}?"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Remove bookmark"
+msgstr "Elimina el marcador"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Remove bookmarks from selected"
+msgstr "Elimina els marcadors dels seleccionats"
+
+#: src/features/manga/components/MangaBadges.tsx
+#: src/features/manga/Manga.constants.ts
+#: src/features/reader/overlay/navigation/components/ReaderLibraryButton.tsx
+msgid "Remove from the library"
+msgstr "Elimina de la biblioteca"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Remove non library manga from categories"
+msgstr "Elimina de les categories els manga que no són a la biblioteca"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Remove manga from categories when removing them from the library"
+msgstr "Elimina els manga de les categories quan s'eliminin de la biblioteca"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Remove selected from the library"
+msgstr "Elimina els seleccionats de la biblioteca"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Removed non library manga from categories"
+msgstr "S'han eliminat de les categories els manga que no són a la biblioteca"
+
+#: src/base/components/buttons/ResetButton.tsx
+#: src/base/components/settings/CheckboxListSetting.tsx
+#: src/features/reader/hotkeys/settings/components/RecordHotkey.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Reset"
+msgstr "Restableix"
+
+#: src/base/components/settings/DateSetting.tsx
+#: src/base/components/settings/NumberSetting.tsx
+#: src/base/components/settings/TimeSetting.tsx
+msgid "Reset to Default"
+msgstr "Restableix als valors predeterminats"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Response fallback"
+msgstr "Resposta alternativa"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "Restore"
+msgstr "Restaura"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Restore Backup"
+msgstr "Restaura la còpia de seguretat"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Restoring backup…"
+msgstr "S'està restaurant la còpia de seguretat…"
+
+#: src/features/manga/components/ResumeFAB.tsx
+msgid "Resume"
+msgstr "Reprèn"
+
+#: src/base/components/feedback/EmptyView.tsx
+#: src/base/components/SpinnerImage.tsx
+#: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Retry"
+msgstr "Torna-ho a provar"
+
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
+msgid "Retry errored pages"
+msgstr "Torna a provar les pàgines amb error"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Right"
+msgstr "Dreta"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "Right and left"
+msgstr "Dreta i esquerra"
+
+#: src/features/reader/settings/layout/components/ReaderSettingReadingDirection.tsx
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Right to left"
+msgstr "De dreta a esquerra"
+
+#: src/features/theme/Themes.ts
+msgid "Rosegold"
+msgstr "Or rosa"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Save"
+msgstr "Desa"
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "Save as CBZ archive"
+msgstr "Desa com a arxiu CBZ"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Save current search"
+msgstr "Desa la cerca actual"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Save dynamic color theme"
+msgstr "Desa el tema de color dinàmic"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Save search"
+msgstr "Desa la cerca"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Saved theme changes"
+msgstr "S'han desat els canvis del tema"
+
+#: src/features/chapter/components/ChapterExcludeSanlatorsFilter.tsx
+msgid "Scanlator"
+msgstr "Scanlator"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Saving theme changes…"
+msgstr "S'estan desant els canvis del tema…"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingPageScaleMode.tsx
+msgid "Scale type"
+msgstr "Tipus d'escalat"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Scroll amount"
+msgstr "Quantitat de desplaçament"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Screen"
+msgstr "Pantalla"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Score"
+msgstr "Puntuació"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Scroll forward"
+msgstr "Desplaça endavant"
+
+#: src/base/components/AppbarSearch.tsx
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search"
+msgstr "Cerca"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Scroll backward"
+msgstr "Desplaça enrere"
+
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
+"Limit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
+msgstr ""
+"Cerqueu un ID amb «id:<ID>» (per exemple, «id:13»)\n"
+"Limiteu la cerca a les vostres llistes amb «my:<Títol>» (per exemple, «"
+"my:One Piece»)"
+
+#: src/features/library/screens/Library.tsx
+msgid "Search for \"{query}\" globally"
+msgstr "Cerca «{query}» globalment"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Search parameters"
+msgstr "Paràmetres de cerca"
+
+#. placeholder {0}: searchParams?.length ?? 0
+#: src/features/settings/components/images/Processing.tsx
+msgid "Search parameters ({0})"
+msgstr "Paràmetres de cerca ({0})"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Search results will include manga that do not match the current filters"
+msgstr ""
+"Els resultats de la cerca inclouran manga que no coincideixen amb els "
+"filtres actuals"
+
+#: src/features/settings/components/images/Processing.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Second"
+msgstr "Segon"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Select a device to use its server stored UI settings"
+msgstr ""
+"Seleccioneu un dispositiu per fer servir els seus paràmetres d'interfície "
+"desats al servidor"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Second to last read chapter"
+msgstr "Segon capítol llegit comptant des del final"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "See <0>FlareSolverr</0> for information on how to set it up"
+msgstr "Consulteu <0>FlareSolverr</0> per saber com configurar-lo"
+
+#: src/features/reader/filters/settings/components/ReaderSettingSepia.tsx
+msgid "Sepia"
+msgstr "Sèpia"
+
+#: src/base/collection/components/SelectableCollectionSelectAll.tsx
+#: src/base/collection/components/SelectableCollectionSelectMode.tsx
+#: src/base/components/settings/CheckboxListSetting.tsx
+msgid "Select all"
+msgstr "Selecciona-ho tot"
+
+#: src/features/reader/settings/layout/ReaderLayoutSettings.tsx
+msgid "Series settings"
+msgstr "Configuració de la sèrie"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Server bindings"
+msgstr "Vinculacions del servidor"
+
+#: src/base/components/modals/LoginDialog.tsx
+#: src/features/settings/components/ServerAddressSetting.tsx
+msgid "Server address"
+msgstr "Adreça del servidor"
+
+#: src/features/settings/screens/About.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Server"
+msgstr "Servidor"
+
+#. placeholder {0}: selectedServerChannelInfo.tag
+#. placeholder {1}: selectedServerChannelInfo.channel
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server version {0} ({1}) available for download"
+msgstr "La versió {0} ({1}) del servidor està disponible per baixar"
+
+#: src/features/settings/screens/About.tsx
+msgid "Server version"
+msgstr "Versió del servidor"
+
+#: src/features/backup/Backup.constants.ts
+msgid "Server settings"
+msgstr "Configuració del servidor"
+
+#. placeholder {0}: aboutServer?.buildType
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+msgid "Server was updated to version {version} ({0})"
+msgstr "El servidor s'ha actualitzat a la versió {version} ({0})"
+
+#: src/features/category/components/CategorySelect.tsx
+msgid "Set categories"
+msgstr "Estableix les categories"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Set as active theme"
+msgstr "Estableix com a tema actiu"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Setting can not be changed while the reader is opened"
+msgstr "Aquest paràmetre no es pot canviar mentre el lector és obert"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Sets the manga thumbnail as the background image on the manga page"
+msgstr ""
+"Estableix la miniatura del manga com a imatge de fons de la pàgina del manga"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+#: src/features/backup/Backup.constants.ts
+#: src/features/browse/extensions/components/ExtensionCard.tsx
+#: src/features/extension/info/components/SourceCard.tsx
+#: src/features/library/components/LibraryToolbarMenu.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/reader/overlay/navigation/desktop/quick-settings/ReaderNavBarDesktopQuickSettings.tsx
+#: src/features/reader/overlay/navigation/mobile/ReaderBottomBarMobile.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Settings"
+msgstr "Configuració"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Show continue reading button"
+msgstr "Mostra el botó de continuar llegint"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Show all duplicated entries in your library"
+msgstr "Mostra totes les entrades duplicades de la biblioteca"
+
+#: src/features/manga/components/MangaToolbarMenu.tsx
+#: src/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx
+#: src/features/reader/overlay/navigation/desktop/components/ReaderNavBarDesktopActions.tsx
+msgid "Share"
+msgstr "Comparteix"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Show icon in system tray"
+msgstr "Mostra la icona a la safata del sistema"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Show entry"
+msgstr "Mostra l'entrada"
+
+#: src/base/components/feedback/EmptyView.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Show less"
+msgstr "Mostra'n menys"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Show only downloaded chapters"
+msgstr "Mostra només els capítols baixats"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Show number of items"
+msgstr "Mostra el nombre d'elements"
+
+#: src/base/components/feedback/EmptyView.tsx
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Show more"
+msgstr "Mostra'n més"
+
+#: src/features/reader/settings/general/ReaderGeneralSettings.tsx
+msgid "Show page number"
+msgstr "Mostra el número de pàgina"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Show reading mode"
+msgstr "Mostra el mode de lectura"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Show only unread chapters"
+msgstr "Mostra només els capítols no llegits"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Show tap zones overlay"
+msgstr "Mostra la superposició de zones tàctils"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Show the category selection dialog when adding a manga to the library"
+msgstr ""
+"Mostra el diàleg de selecció de categoria en afegir un manga a la biblioteca"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Show transition page"
+msgstr "Mostra la pàgina de transició"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case a new version is available"
+msgstr "Mostra un diàleg si hi ha una versió nova disponible"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Simple Login"
+msgstr "Inici de sessió simple"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Skip filtered chapters"
+msgstr "Omet els capítols filtrats"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Single page"
+msgstr "Pàgina única"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Skip duplicate chapters"
+msgstr "Omet els capítols duplicats"
+
+#: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
+msgid "Skip updating entries"
+msgstr "Omet l'actualització de les entrades"
+
+#: src/features/device/screens/DeviceSetting.tsx
+msgid "Smartphone_Name-1 | length: 16, chars: letters, numbers, -, _"
+msgstr "Nom_Mobil-1 | longitud: 16, caràcters: lletres, xifres, -, _"
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Small"
+msgstr "Petit"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS password"
+msgstr "Contrasenya SOCKS"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS host"
+msgstr "Amfitrió SOCKS"
+
+#: src/features/reader/auto-scroll/settings/ReaderSettingAutoScroll.tsx
+msgid "Smooth auto scrolling"
+msgstr "Desplaçament automàtic suau"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS proxy"
+msgstr "Servidor intermediari SOCKS"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS port"
+msgstr "Port SOCKS"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS username"
+msgstr "Nom d'usuari SOCKS"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SOCKS version"
+msgstr "Versió SOCKS"
+
+#: src/base/components/feedback/ErrorBoundary.tsx
+msgid "Something went wrong\n"
+"An error occurred that we cannot recover from"
+msgstr ""
+"Alguna cosa ha anat malament\n"
+"S'ha produït un error del qual no ens podem recuperar"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Sort"
+msgstr "Ordena"
+
+#: src/features/browse/screens/Browse.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+msgid "Source"
+msgstr "Font"
+
+#: src/features/chapter/components/ChapterOptions.tsx
+msgid "Source title"
+msgstr "Títol de la font"
+
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+msgid "Source Configuration"
+msgstr "Configuració de la font"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Stable"
+msgstr "Estable"
+
+#: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarType.tsx
+msgid "Standard"
+msgstr "Estàndard"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+#: src/features/manga/components/ResumeFAB.tsx
+msgid "Start"
+msgstr "Inicia"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid "Start reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Comença a llegir\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/settings/Settings.constants.ts
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Started"
+msgstr "Iniciat"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Start date"
+msgstr "Data d'inici"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Status"
+msgstr "Estat"
+
+#: src/features/reader/overlay/navigation/desktop/ReaderNavBarDesktop.tsx
+msgid "Static navigation"
+msgstr "Navegació estàtica"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Stop"
+msgstr "Atura"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Stop global update"
+msgstr "Atura l'actualització global"
+
+#: src/features/reader/overlay/navigation/desktop/quick-settings/components/ReaderNavBarDesktopPageScale.tsx
+#: src/features/reader/settings/layout/components/ReaderSettingStretchPage.tsx
+msgid "Stretch small pages"
+msgstr "Estira les pàgines petites"
+
+#: src/features/category/components/CreateOrEditCategoryDialog.tsx
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "Submit"
+msgstr "Envia"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync status"
+msgstr "Estat de la sincronització"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Successfully migrated manga"
+msgstr "S'ha migrat el manga correctament"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "Success"
+msgstr "Èxit"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Sync will not be triggered if the progress difference is within this tolerance."
+msgstr ""
+"La sincronització no s'activarà si la diferència de progrés està dins "
+"d'aquesta tolerància."
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Sync to a newer state"
+msgstr "Sincronitza a un estat més nou"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Sync to an older state"
+msgstr "Sincronitza a un estat més antic"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "System"
+msgstr "Sistema"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneLayout.tsx
+msgid "Tap zones"
+msgstr "Zones de toc"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Tabs"
+msgstr "Pestanyes"
+
+#: src/features/settings/components/images/Processing.tsx
+msgid "Target mode"
+msgstr "Mode de destinació"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "The address of the FlareSolverr server"
+msgstr "L'adreça del servidor FlareSolverr"
+
+#: src/features/settings/Settings.constants.ts
+msgid "That haven't been started"
+msgstr "Que no s'han començat"
+
+#: src/features/settings/screens/ImagesSettings.tsx
+msgid "The cache of the client (browser, electron) should get cleared alongside it, otherwise, the client cache will keep getting used"
+msgstr ""
+"La memòria cau del client (navegador, electron) s'hauria d'esborrar alhora; "
+"altrament, se seguirà utilitzant la memòria cau del client"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "The following trackers are not logged in:"
+msgstr "No heu iniciat sessió als serveis de seguiment següents:"
+
+#: src/features/backup/component/BackupValidationDialog.tsx
+msgid "The following sources are not installed:"
+msgstr "Les fonts següents no estan instal·lades:"
+
+#: src/features/settings/Settings.constants.ts
+msgid "The login will be handled by the server."
+msgstr "L'inici de sessió el gestionarà el servidor."
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "The next chapter has a different scanlator then the current one.\n"
+"Current: {currentScanlator}\n"
+"Next: {nextScanlator}"
+msgstr ""
+"El capítol següent té un scanlator diferent de l'actual.\n"
+"Actual: {currentScanlator}\n"
+"Següent: {nextScanlator}"
+
+#: src/features/settings/Settings.constants.ts
+msgid "The login will be handled by the client."
+msgstr "L'inici de sessió el gestionarà el client."
+
+#: src/features/downloads/screens/DownloadSettings.tsx
+msgid "The path to the directory on the server where downloaded files should get saved in"
+msgstr ""
+"El camí del directori del servidor on s'han de desar els fitxers baixats"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "The path to the directory on the server where automated backups should get saved in"
+msgstr ""
+"El camí del directori del servidor on s'han de desar les còpies de seguretat "
+"automàtiques"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "The path to the electron installation on the server"
+msgstr "El camí de la instal·lació d'electron al servidor"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "The path to the directory on the server where local source files are saved in"
+msgstr ""
+"El camí del directori del servidor on es desen els fitxers de les fonts "
+"locals"
+
+#: src/features/reader/services/ReaderControls.ts
+msgid "The previous chapter has a different scanlator then the current one.\n"
+"Previous: {nextScanlator}\n"
+"Current: {currentScanlator}"
+msgstr ""
+"El capítol anterior té un scanlator diferent de l'actual.\n"
+"Anterior: {nextScanlator}\n"
+"Actual: {currentScanlator}"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Theme mode"
+msgstr "Mode del tema"
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "The theme name must be unique and has a limit of 16 characters"
+msgstr "El nom del tema ha de ser únic i té un límit de 16 caràcters"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "Theme"
+msgstr "Tema"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "There is no previous chapter"
+msgstr "No hi ha cap capítol anterior"
+
+#: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
+msgid "Third to last read chapter"
+msgstr "Tercer capítol llegit comptant des del final"
+
+#: src/features/reader/viewer/components/ReaderTransitionPage.tsx
+msgid "There is no next chapter"
+msgstr "No hi ha cap capítol següent"
+
+#: src/features/source/browse/components/SourceOptions.tsx
+msgid "This will delete the saved search \"{savedSearch}\""
+msgstr "Això suprimirà la cerca desada \"{savedSearch}\""
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "This icon will be shown on the system that is running the server"
+msgstr "Aquesta icona es mostrarà al sistema que executa el servidor"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "This is the latest version"
+msgstr "Aquesta és la darrera versió"
+
+#: src/base/utils/DateHelper.ts
+msgid "Today"
+msgstr "Avui"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "This will remove the tracking locally."
+msgstr "Això eliminarà el seguiment localment."
+
+#: src/features/reader/settings/behaviour/components/ReaderSettingScrollAmount.tsx
+msgid "Tiny"
+msgstr "Molt petit"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Toggle menu"
+msgstr "Commuta el menú"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Toggle auto scroll"
+msgstr "Commuta el desplaçament automàtic"
+
+#: src/base/utils/DateHelper.ts
+msgid "Today at {timeString}"
+msgstr "Avui a les {timeString}"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Toggle stretch image"
+msgstr "Commuta l'estirament de la imatge"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Total chapters"
+msgstr "Capítols totals"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Track"
+msgstr "Segueix"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Track privately"
+msgstr "Segueix en privat"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Track publicly"
+msgstr "Segueix en públic"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Track and update your reading progress by page for each chapter during page streaming"
+msgstr ""
+"Feu un seguiment i actualitzeu el progrés de lectura per pàgina de cada "
+"capítol durant la transmissió de pàgines"
+
+#: src/features/manga/Manga.constants.ts
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Tracked manga"
+msgstr "Manga amb seguiment"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Tracked"
+msgstr "Amb seguiment"
+
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Trackers"
+msgstr "Seguiment"
+
+#: src/features/theme/Themes.ts
+msgid "Tree Frog Green"
+msgstr "Verd granota d'arbre"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/tracker/components/cards/TrackerMangaCard.tsx
+msgid "Type"
+msgstr "Tipus"
+
+#: src/features/backup/Backup.constants.ts
+#: src/features/manga/components/TrackMangaButton.tsx
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Tracking"
+msgstr "Seguiment"
+
+#: src/features/settings/Settings.constants.ts
+msgid "UI Login"
+msgstr "Inici de sessió de la interfície"
+
+#: src/features/backup/screens/Backup.tsx
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/browse/sources/Sources.tsx
+#: src/features/chapter/components/ChapterList.tsx
+#: src/features/device/screens/DeviceSetting.tsx
+#: src/features/downloads/screens/DownloadQueue.tsx
+#: src/features/downloads/screens/DownloadSettings.tsx
+#: src/features/extension/info/screens/ExtensionInfo.tsx
+#: src/features/global-search/screens/SearchAll.tsx
+#: src/features/history/screens/History.tsx
+#: src/features/history/screens/HistorySettings.tsx
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/LibraryDuplicates.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+#: src/features/migration/screens/MigrationSelectMangas.tsx
+#: src/features/migration/screens/MigrationSelectSource.tsx
+#: src/features/reader/screens/Reader.tsx
+#: src/features/reader/settings/screens/GlobalReaderSettings.tsx
+#: src/features/reader/viewer/ReaderChapterViewer.tsx
+#: src/features/settings/screens/About.tsx
+#: src/features/settings/screens/Appearance.tsx
+#: src/features/settings/screens/ImageProcessingSetting.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/source/browse/screens/SourceMangas.tsx
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+#: src/features/theme/components/CreateThemeDialog.tsx
+#: src/features/theme/components/ThemeList.tsx
+#: src/features/tracker/components/TrackerSearch.tsx
+#: src/features/tracker/components/TrackManga.tsx
+#: src/features/tracker/screens/TrackingSettings.tsx
+#: src/features/updates/screens/Updates.tsx
+msgid "Unable to load data"
+msgstr "No s'han pogut carregar les dades"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Uninstall"
+msgstr "Desinstal·la"
+
+#: src/features/browse/sources/components/SourceCard.tsx
+msgid "Unpin source"
+msgstr "Deixa de fixar la font"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Uninstalling"
+msgstr "S'està desinstal·lant"
+
+#: src/features/manga/components/details/MangaDetails.tsx
+#: src/features/manga/Manga.constants.ts
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+#: src/features/tracker/Tracker.constants.ts
+msgid "Unknown"
+msgstr "Desconegut"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Unread badges"
+msgstr "Distintius de no llegits"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Unread chapters"
+msgstr "Capítols no llegits"
+
+#: src/features/chapter/components/actions/ChaptersDownloadActionMenuItems.tsx
+#: src/features/chapter/components/ChapterOptions.tsx
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Unread"
+msgstr "No llegit"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "Update all"
+msgstr "Actualitza-ho tot"
+
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+#: src/features/extension/Extensions.constants.ts
+msgid "Update"
+msgstr "Actualitza"
+
+#: src/features/tracker/components/cards/TrackerActiveCard.tsx
+msgid "Untracked manga"
+msgstr "Manga sense seguiment"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Update category"
+msgstr "Actualitza la categoria"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+msgid "Update failed"
+msgstr "L'actualització ha fallat"
+
+#: src/features/app-updates/components/VersionInfo.tsx
+#: src/features/app-updates/components/VersionUpdateInfoDialog.tsx
+msgid "Update available"
+msgstr "Hi ha una actualització disponible"
+
+#: src/features/updates/components/UpdateChecker.tsx
+msgid "Update library"
+msgstr "Actualitza la biblioteca"
+
+#: src/features/settings/components/webUI/WebUIUpdateIntervalSetting.tsx
+msgid "Update interval"
+msgstr "Interval d'actualització"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Update pending"
+msgstr "Actualització pendent"
+
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Update progress after reading"
+msgstr "Actualitza el progrés després de llegir"
+
+#: src/features/tracker/screens/TrackingSettings.tsx
+msgid "Update progress after manually marking as read"
+msgstr "Actualitza el progrés després de marcar com a llegit manualment"
+
+#: src/features/app-updates/components/ServerUpdateChecker.tsx
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "Updated version"
+msgstr "Versió actualitzada"
+
+#: src/features/extension/Extensions.constants.ts
+msgid "Updating"
+msgstr "S'està actualitzant"
+
+#: src/features/navigation-bar/NavigationBar.constants.ts
+#: src/features/updates/screens/Updates.tsx
+msgid "Updates"
+msgstr "Actualitzacions"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use a custom WebUI.\n"
+"To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
+msgstr ""
+"Utilitzeu una WebUI personalitzada.\n"
+"Per utilitzar una WebUI personalitzada, substituïu el contingut del "
+"directori \"webUI\" del directori arrel del servidor pels fitxers de la "
+"WebUI personalitzada"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Use SOCKS proxy"
+msgstr "Utilitza un servidor intermediari SOCKS"
+
+#: src/features/settings/Settings.constants.ts
+msgid "URL"
+msgstr "URL"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use the default WebUI"
+msgstr "Utilitza la WebUI predeterminada"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Use the FlareSolverr response in case the server runs into a Cloudflare challenge while FlareSolverr does not and is therefore unable to solve the challenge (does not work for images)"
+msgstr ""
+"Utilitza la resposta de FlareSolverr en cas que el servidor es trobi amb un "
+"repte de Cloudflare i FlareSolverr no s'hi trobi i, per tant, no el pugui "
+"resoldre (no funciona amb les imatges)"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use the latest features and help us get them ready for a stable release."
+msgstr ""
+"Utilitzeu les funcions més recents i ajudeu-nos a preparar-les per a una "
+"versió estable."
+
+#: src/base/components/modals/LoginDialog.tsx
+#: src/features/authentication/screens/LoginPage.tsx
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Username"
+msgstr "Nom d'usuari"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use the version that was delivered with the server release"
+msgstr "Utilitza la versió que es va incloure amb la versió del servidor"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use the latest released version."
+msgstr "Utilitzeu la darrera versió publicada."
+
+#: src/features/settings/components/images/KeyValueItem.tsx
+msgid "Value"
+msgstr "Valor"
+
+#: src/features/theme/Themes.ts
+msgid "Veronica"
+msgstr "Verònica"
+
+#: src/features/extension/info/components/Meta.tsx
+msgid "Version"
+msgstr "Versió"
+
+#: src/features/settings/Settings.constants.ts
+msgid "VUI"
+msgstr "VUI"
+
+#: src/features/reader/settings/layout/components/ReaderSettingTapZoneInvertMode.tsx
+msgid "Vertical"
+msgstr "Vertical"
+
+#: src/base/components/feedback/SnackbarWithDescription.tsx
+msgid "Warning"
+msgstr "Avís"
+
+#: src/features/reader/settings/ReaderSettings.constants.tsx
+msgid "Webtoon"
+msgstr "Webtoon"
+
+#: src/features/settings/screens/About.tsx
+#: src/features/settings/screens/Settings.tsx
+#: src/features/settings/screens/WebUISettings.tsx
+#: src/features/settings/Settings.constants.ts
+msgid "WebUI"
+msgstr "WebUI"
+
+#: src/features/settings/screens/About.tsx
+msgid "WebUI channel"
+msgstr "Canal de la WebUI"
+
+#. placeholder {0}: webUIUpdateData?.checkForWebUIUpdate.tag
+#. placeholder {1}: webUIUpdateData?.checkForWebUIUpdate.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI version {0} ({1}) available for download"
+msgstr "La versió {0} ({1}) de la WebUI està disponible per baixar"
+
+#: src/features/settings/Settings.constants.ts
+msgid "When you enable this, you may need to refresh this tab for the login page to appear."
+msgstr ""
+"Quan activeu això, potser haureu d'actualitzar aquesta pestanya perquè "
+"aparegui la pàgina d'inici de sessió."
+
+#: src/features/settings/screens/About.tsx
+msgid "WebUI version"
+msgstr "Versió de la WebUI"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Where to start the WebUI when starting the server"
+msgstr "On s'ha d'iniciar la WebUI en engegar el servidor"
+
+#: src/features/settings/Settings.constants.ts
+msgid "With \"Completed\" status"
+msgstr "Amb l'estat \"Completada\""
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "White"
+msgstr "Blanc"
+
+#: src/base/utils/DateHelper.ts
+msgid "Yesterday at {timeString}"
+msgstr "Ahir a les {timeString}"
+
+#: src/features/settings/Settings.constants.ts
+msgid "With unread chapter(s)"
+msgstr "Amb capítol(s) no llegit(s)"
+
+#: src/base/utils/DateHelper.ts
+msgid "Yesterday"
+msgstr "Ahir"
+
+#. placeholder {0}: manga.title
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "You are about to remove \"{0}\" from your library"
+msgstr "Esteu a punt de suprimir \"{0}\" de la vostra biblioteca"
+
+#: src/features/theme/Themes.ts
+msgid "Ying & Yang"
+msgstr "Ying i Yang"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "You can also drag and drop the backup file here to restore it"
+msgstr ""
+"També podeu arrossegar i deixar anar aquí el fitxer de còpia de seguretat "
+"per restaurar-lo"
+
+#: src/features/updates/screens/Updates.tsx
+msgid "You don't have any updates yet."
+msgstr "Encara no teniu cap actualització."
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "You have an entry in your library with the same name."
+msgstr "Teniu una entrada a la biblioteca amb el mateix nom."
+
+#: src/features/history/screens/History.tsx
+msgid "You have not read any series yet."
+msgstr "Encara no heu llegit cap sèrie."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Your browser will prompt you to enter credentials with a dialog."
+msgstr "El navegador us demanarà les credencials amb un diàleg."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Your library will be accessible. Use this only on private networks or when otherwise securing access."
+msgstr ""
+"La vostra biblioteca serà accessible. Utilitzeu-ho només en xarxes privades "
+"o quan l'accés estigui protegit d'una altra manera."
+
+#: src/features/library/screens/Library.tsx
+msgid "Your library is empty"
+msgstr "La vostra biblioteca és buida"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Inform about updated version"
+msgstr "Informa de la versió actualitzada"
+
+#. placeholder {0}: aboutWebUI?.channel
+#: src/features/app-updates/components/WebUIUpdateChecker.tsx
+msgid "WebUI was updated to version {newVersion} ({0})"
+msgstr "La WebUI s'ha actualitzat a la versió {newVersion} ({0})"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Could not save changes"
+msgstr "No s'han pogut desar els canvis"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "No sources installed"
+msgstr "No hi ha cap font instal·lada"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Inform about version update"
+msgstr "Informa de l'actualització de versió"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr ""
+"Mostra un diàleg en cas que la versió s'hagi actualitzat. Aquest diàleg es "
+"mostrarà si cal actualitzar l'aplicació, independentment d'aquesta opció."
+
+#: src/features/theme/components/CreateThemeDialog.tsx
+msgid "See the official <0>MUI documentation</0> for how to customize the theme.<1/>The palette API is not supported, you have to use the new <2>color schemes API</2>.<3/><4/>You can use theme creators like <5>MUI Theme Creator</5>, however, you have to adjust the created object according to the new color schemes API.<6/><7/>In case no background is defined, a background will be calculated based on the primary color."
+msgstr ""
+"Consulteu la <0>documentació oficial de MUI</0> per saber com personalitzar "
+"el tema.<1/>L'API palette no és compatible; heu d'utilitzar la nova <2>API "
+"de color schemes</2>.<3/><4/>Podeu utilitzar creadors de temes com ara <5>"
+"MUI Theme Creator</5>, però heu d'ajustar l'objecte creat segons la nova API "
+"de color schemes.<6/><7/>Si no s'hi defineix cap fons, se'n calcularà un a "
+"partir del color primari."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Shows a dialog in case the version of the server has changed"
+msgstr "Mostra un diàleg en cas que la versió del servidor hagi canviat"
+
+#: src/features/reader/hotkeys/settings/components/ReaderSettingHotkey.tsx
+msgid "Toggle offset double spreads"
+msgstr "Commuta el desplaçament de les pàgines dobles"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr setup confirmation"
+msgstr "Confirmació de la configuració de Flaresolverr"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr ""
+"Flaresolverr és un programa <0><1>separat</1></0> i <2><3>sense relació</3></"
+"2> amb Suwayomi que cal <4><5>instal·lar</5></4> i <6><7>executar</7></6> "
+"manualment.<8/>Consulteu <9>FlareSolverr</9> per saber com configurar-lo<10/>"
+"<11/>Si <12><13>no</13></12> està ben configurat i en execució, activar "
+"aquesta opció <14><15>no</15></14> tindrà cap efecte"
+
+#. placeholder {0}: failedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 failed entry} other {# failed entries}}"
+msgstr "{0, plural, one {1 entrada fallida} other {# entrades fallides}}"
+
+#. placeholder {0}: noMatchEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with no match} other {# entries with no match}}"
+msgstr ""
+"{0, plural, one {1 entrada sense coincidència} other {# entrades sense "
+"coincidència}}"
+
+#. placeholder {0}: excludedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 excluded entry} other {# excluded entries}}"
+msgstr "{0, plural, one {1 entrada exclosa} other {# entrades excloses}}"
+
+#. placeholder {0}: matchedEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 matched entry} other {# matched entries}}"
+msgstr "{0, plural, one {1 entrada coincident} other {# entrades coincidents}}"
+
+#. placeholder {0}: migratingEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrating entry} other {# migrating entries}}"
+msgstr "{0, plural, one {1 entrada en migració} other {# entrades en migració}}"
+
+#. placeholder {0}: migratedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0, plural, one {1 migrated entry} other {# migrated entries}}"
+msgstr "{0, plural, one {1 entrada migrada} other {# entrades migrades}}"
+
+#. placeholder {0}: progress.completed
+#. placeholder {1}: progress.total
+#. placeholder {2}: progress.failed > 0 ? ` (${progress.failed} failed)` : ''
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "{0} / {1}{2}"
+msgstr "{0} / {1}{2}"
+
+#. placeholder {0}: searchProgress.completed
+#. placeholder {1}: searchProgress.total
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0} / {1}"
+msgstr "{0} / {1}"
+
+#. placeholder {0}: searchingEntries.length
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 searching} other {# searching}}"
+msgstr "{0, plural, one {1 en cerca} other {# en cerca}}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "{otherResultsCount, plural, one {# more match} other {# more matches}}"
+msgstr ""
+"{otherResultsCount, plural, one {# coincidència més} other {# coincidències "
+"més}}"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Abort migration"
+msgstr "Interromp la migració"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Abort"
+msgstr "Interromp"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "Continua"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Are you sure you want to abort the migration?"
+msgstr "Segur que voleu interrompre la migració?"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Available"
+msgstr "Disponible"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Current source"
+msgstr "Font actual"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Done"
+msgstr "Fet"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Drag to prioritize"
+msgstr "Arrossegueu per prioritzar"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Exclude"
+msgstr "Exclou"
+
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Include"
+msgstr "Inclou"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Excluded"
+msgstr "Exclosa"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Match found"
+msgstr "S'ha trobat una coincidència"
+
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Latest: {latestChapterNumber}"
+msgstr "Últim: {latestChapterNumber}"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+#: src/features/migration/components/migration-entry/MigrationEntrySearchExcludeActions.tsx
+msgid "Manual search"
+msgstr "Cerca manual"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Migrating…"
+msgstr "S'està migrant…"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migrating"
+msgstr "En migració"
+
+#: src/features/migration/components/migration-entry/MigrationEntry.tsx
+msgid "Matches"
+msgstr "Coincidències"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Migration for \"{title}\" failed with error:"
+msgstr "La migració de \"{title}\" ha fallat amb l'error:"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Migration failed"
+msgstr "La migració ha fallat"
+
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Migration complete"
+msgstr "Migració completada"
+
+#: src/features/migration/components/MigrationOptionsDialog.tsx
+msgid "Migration options"
+msgstr "Opcions de migració"
+
+#: src/features/migration/Migration.constants.ts
+msgid "No match found"
+msgstr "No s'ha trobat cap coincidència"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Migration information"
+msgstr "Informació de la migració"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Pending…"
+msgstr "Pendent…"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Search for \"{title}\" failed with error:"
+msgstr "La cerca de \"{title}\" ha fallat amb l'error:"
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/migration/Migration.constants.ts
+msgid "Search failed"
+msgstr "La cerca ha fallat"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select destination sources"
+msgstr "Seleccioneu les fonts de destinació"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Search results"
+msgstr "Resultats de la cerca"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Searching…"
+msgstr "S'està cercant…"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select enabled sources"
+msgstr "Seleccioneu les fonts activades"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Select pinned sources"
+msgstr "Seleccioneu les fonts fixades"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "Selected"
+msgstr "Seleccionada"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Successfully migrated"
+msgstr "S'ha migrat correctament"
+
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "Start migration"
+msgstr "Inicia la migració"
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Start Search"
+msgstr "Inicia la cerca"
+
+#: src/features/migration/MigrationManager.ts
+msgid "The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"La migració s'executa al client del dispositiu actual, NO al servidor.\n"
+"Mentre el client estigui obert, la migració s'executarà en segon pla.\n"
+"Es pot tancar el client. La migració es reprendrà quan es torni a obrir al "
+"mateix dispositiu on es va iniciar."
+
+#: src/features/migration/screens/MigrationSelectDestinationSources.tsx
+msgid "Unable to load sources"
+msgstr "No s'han pogut carregar les fonts"
+
+#: src/features/migration/MigrationManager.ts
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Understood"
+msgstr "Entesos"
+
+#: src/features/manga/services/Mangas.ts
+msgid "A migration is already in progress"
+msgstr "Ja hi ha una migració en curs"
+
+#. placeholder {0}: outdatedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 entry with only outdated matches} other {# entries with only outdated matches}}"
+msgstr ""
+"{0, plural, one {1 entrada amb només coincidències obsoletes} other {# "
+"entrades amb només coincidències obsoletes}}"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Advanced search mode"
+msgstr "Mode de cerca avançada"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Breaks down the title into keywords for a wider search"
+msgstr "Descompon el títol en paraules clau per fer una cerca més àmplia"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Apply safe area padding"
+msgstr "Aplica el farciment de l'àrea segura"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches without newer chapters"
+msgstr "Ignora les coincidències sense capítols més nous"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "If enabled, chooses the match furthest ahead.\n"
+"Otherwise, picks the first match by source priority."
+msgstr ""
+"Si s'activa, tria la coincidència més avançada.\n"
+"Altrament, tria la primera coincidència per prioritat de font."
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Match based on chapter number"
+msgstr "Fes coincidir segons el número de capítol"
+
+#: src/features/migration/Migration.constants.ts
+msgid "Only outdated matches found"
+msgstr "Només s'han trobat coincidències obsoletes"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Search options"
+msgstr "Opcions de cerca"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Prevents content from overlapping device cutouts and screen edges"
+msgstr ""
+"Evita que el contingut se superposi als retalls del dispositiu i a les vores "
+"de la pantalla"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "These options are slow and dangerous and may lead to restrictions from sources"
+msgstr ""
+"Aquestes opcions són lentes i perilloses, i poden comportar restriccions per "
+"part de les fonts"
+
+#: src/features/migration/Migration.constants.ts
+#: src/features/migration/screens/MigrationExecute.tsx
+msgid "Aborted"
+msgstr "Interrompuda"
+
+#: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
+msgid "Top"
+msgstr "A dalt"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches that are behind in chapters"
+msgstr "Ignora les coincidències que van endarrerides de capítols"
+
+#: src/features/migration/components/MigrationDestinationSourceList.tsx
+msgid "No sources available to migrate to"
+msgstr "No hi ha cap font disponible per migrar-hi"
+
+#: src/features/manga/Manga.constants.ts
+msgid "Migrate selected"
+msgstr "Migra la selecció"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have at least the same latest chapter"
+msgstr ""
+"Selecciona automàticament les coincidències si tenen com a mínim el mateix "
+"darrer capítol"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have additional chapters"
+msgstr ""
+"Selecciona automàticament les coincidències si tenen capítols addicionals"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Automatically select matches if they have no missing chapters"
+msgstr "Selecciona automàticament les coincidències si no els falta cap capítol"
+
+#: src/features/migration/components/MigrationBulkSearchOptionsDialog.tsx
+msgid "Ignore matches with missing chapters"
+msgstr "Ignora les coincidències a les quals falten capítols"
+
+#. placeholder {0}: entry.missingChapters
+#: src/features/migration/components/migration-entry/MigrationEntryMetadataText.tsx
+msgid "Missing: {0}"
+msgstr "Falten: {0}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "NSFW (18+) sources"
+msgstr "Fonts NSFW (18+)"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Sources"
+msgstr "Fonts"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr ""
+"Això no impedeix que les extensions no oficials o marcades incorrectament "
+"mostrin contingut NSFW (18+) dins l'aplicació."
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "Show in sources and extensions lists"
+msgstr "Mostra a les llistes de fonts i extensions"
+
+#. placeholder {0}: abortedEntries.length
+#: src/features/migration/screens/MigrationExecute.tsx
+#: src/features/migration/screens/MigrationSearch.tsx
+msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
+msgstr ""
+"{0, plural, one {1 entrada interrompuda} other {# entrades interrompudes}}"
+
+#: src/base/components/buttons/SelectButton.tsx
+msgid "Active setting ({title})"
+msgstr "Opció activa ({title})"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Manual migration search for \"{title}\""
+msgstr "Cerca manual de migració per a \"{title}\""
+
+#: src/features/migration/MigrationManager.ts
+msgid "WebUI must be kept open. Migration can't be resumed"
+msgstr "Cal mantenir la WebUI oberta. La migració no es pot reprendre"
+
+#: src/features/migration/MangaMigration.ts
+msgid "Can't migrate an entry to itself"
+msgstr "No es pot migrar una entrada a ella mateixa"
+
+#: src/base/utils/Languages.ts
+#: src/features/extension/Extensions.constants.ts
+msgid "Multi"
+msgstr "Múltiple"
+
+#: src/features/manga/components/cards/MangaCard.tsx
+msgid "Bulk migration manual search"
+msgstr "Cerca manual de migració massiva"
+
+#. placeholder {0}: category.name
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "You are about to delete category \"{0}\""
+msgstr "Esteu a punt de suprimir la categoria \"{0}\""
+
+#: src/features/category/components/CategorySettingsCard.tsx
+msgid "Could not delete category"
+msgstr "No s'ha pogut suprimir la categoria"
+
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{id}\" not found"
+msgstr "No s'ha trobat l'entrada \"{id}\""
+
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Could not retry \"{title}\""
+msgstr "No s'ha pogut reintentar \"{title}\""
+
+#. placeholder {0}: entry.mangaTitle
+#. placeholder {1}: entry.mangaId
+#. placeholder {2}: entry.sourceId
+#. placeholder {3}: entry.status
+#: src/features/migration/MigrationManager.ts
+msgid "Entry \"{0} ({1}; {sourceTitle} ({2}))\" in invalid state \"{3}\""
+msgstr ""
+"L'entrada \"{0} ({1}; {sourceTitle} ({2}))\" té un estat no vàlid \"{3}\""
+
+#: src/features/migration/MigrationManager.ts
+msgid "Unknown source"
+msgstr "Font desconeguda"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
+msgstr "{extensionCount, plural, one {# extensió} other {# extensions}}"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "{extensionStoreCount, plural, one {# extension store} other {# extension stores}}"
+msgstr ""
+"{extensionStoreCount, plural, one {# botiga d'extensions} other {# botigues "
+"d'extensions}}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Copy index url"
+msgstr "Copia l'URL de l'índex"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "{installedExtensionCount, plural, one {# installed} other {# installed}}"
+msgstr ""
+"{installedExtensionCount, plural, one {# instal·lada} other {# instal·lades}}"
+
+#: src/features/browse/extensions/Extensions.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Add extension store"
+msgstr "Afegeix una botiga d'extensions"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not remove extension store \"{name}\""
+msgstr "No s'ha pogut eliminar la botiga d'extensions \"{name}\""
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not add extension store"
+msgstr "No s'ha pogut afegir la botiga d'extensions"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Daily"
+msgstr "Cada dia"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Enable the WebView via CEF (Chromium)"
+msgstr "Activa la WebView mitjançant CEF (Chromium)"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 3 hours"
+msgstr "Cada 3 hores"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 12 hours"
+msgstr "Cada 12 hores"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 30 minutes"
+msgstr "Cada 30 minuts"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every 6 hours"
+msgstr "Cada 6 hores"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Exclude: {excludedSyncDataText}"
+msgstr "Exclou: {excludedSyncDataText}"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Every hour"
+msgstr "Cada hora"
+
+#: src/features/browse/screens/BrowseSettings.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Extension stores"
+msgstr "Botigues d'extensions"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Include: {includedSyncDataText}"
+msgstr "Inclou: {includedSyncDataText}"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open discord"
+msgstr "Obre el Discord"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Open website"
+msgstr "Obre el lloc web"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Skip chapter metadata feed"
+msgstr "Omet el canal de metadades dels capítols"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync data"
+msgstr "Dades de sincronització"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync"
+msgstr "Sincronització"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi API key"
+msgstr "Clau d'API de SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi"
+msgstr "SyncYomi"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Sync interval"
+msgstr "Interval de sincronització"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi enabled"
+msgstr "SyncYomi activat"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "SyncYomi host"
+msgstr "Amfitrió de SyncYomi"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Unable to load extension stores"
+msgstr "No s'han pogut carregar les botigues d'extensions"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"
+msgstr ""
+"Quan s'activa, els enllaços de baixada i de transmissió es proporcionen "
+"directament a la llista de capítols. S'apliquen les estratègies de KoSync, "
+"però els conflictes de tipus PROMPT s'ignoren (es dona prioritat al progrés "
+"local)"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "WebView"
+msgstr "WebView"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Weekly"
+msgstr "Cada setmana"
+
+#: src/features/browse/extensions/Extensions.tsx
+msgid "You have to add a extension store to be able to install extensions"
+msgstr "Heu d'afegir una botiga d'extensions per poder instal·lar extensions"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#: src/features/sync/components/SyncButton.tsx
+msgid "Could not start sync"
+msgstr "No s'ha pogut iniciar la sincronització"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "You are about to remove \"{name}\" from the extension stores"
+msgstr "Esteu a punt d'eliminar \"{name}\" de les botigues d'extensions"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Restoring"
+msgstr "S'està restaurant"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Creating backup"
+msgstr "S'està creant la còpia de seguretat"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Merging"
+msgstr "S'està fusionant"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync in progress"
+msgstr "Sincronització en curs"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync disabled"
+msgstr "Sincronització desactivada"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Start sync"
+msgstr "Inicia la sincronització"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Sync started"
+msgstr "S'ha iniciat la sincronització"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Uploading"
+msgstr "S'està pujant"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-comic"
+msgstr "Còmic"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-long-strip"
+msgstr "Tira llarga"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Automated backup"
+msgstr "Còpia de seguretat automàtica"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhwa"
+msgstr "Manhwa"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manga"
+msgstr "Manga"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-manhua"
+msgstr "Manhua"
+
+#: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
+msgid "Enable auto background color in continuous reading mode"
+msgstr "Activa el color de fons automàtic en el mode de lectura contínua"
+
+#. Used to detect the type of an entry by using it to check if the genre/tags of an entry includes this string. This is NOT shown to any user. Do NOT include any unnecessary text or characters, this will break the type detection (e.g. "MangaInMyLanguage (Manga)")
+#. js-lingui-explicit-id
+#: src/features/manga/Manga.constants.ts
+msgid "entry-type-detection-webtoon"
+msgstr "Webtoon"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Last sync: {syncDate}"
+msgstr "Darrera sincronització: {syncDate}"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Could not open random entry"
+msgstr "No s'ha pogut obrir una entrada a l'atzar"
+
+#: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
+msgid "Keep screen on"
+msgstr "Mantén la pantalla encesa"
+
+#: src/features/library/components/LibraryToolbarMenu.tsx
+msgid "Open random entry"
+msgstr "Obre una entrada a l'atzar"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Could not load data"
+msgstr "No s'han pogut carregar les dades"
+
+#: src/features/settings/screens/About.tsx
+msgid "Debug information"
+msgstr "Informació de depuració"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Random"
+msgstr "A l'atzar"
+
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "No s'ha pogut copiar al porta-retalls"
+
+#: src/lib/HelperFunctions.ts
+msgid "Copied to clipboard"
+msgstr "S'ha copiat al porta-retalls"
+
+#: src/features/settings/components/DebugInformation.tsx
+msgid "Show"
+msgstr "Mostra"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "A—Z"
+msgstr "A—Z"
+
+#. placeholder {0}: t(SYNC_STATE_TRANSLATION[syncState])
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "— State: {0}"
+msgstr "— Estat: {0}"
+
+#. placeholder {0}: entry.sourceTitle
+#: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+msgid "Destination — {0}"
+msgstr "Destinació — {0}"
+
+#: src/features/migration/components/migration-entry/MigrationSourceEntry.tsx
+msgid "Source entry — {sourceTitle}"
+msgstr "Entrada d'origen — {sourceTitle}"
+
+#. placeholder {0}: reorders.length
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
+msgstr ""
+"{0, plural, one {No s'ha pogut reordenar la baixada} other {No s'han pogut "
+"reordenar les baixades}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download canceled} other {# downloads canceled}}"
+msgstr ""
+"{count, plural, one {S'ha cancel·lat la baixada} other {S'han cancel·lat # "
+"baixades}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to cancel one download} other {You are about to cancel # downloads}}"
+msgstr ""
+"{count, plural, one {Esteu a punt de cancel·lar una baixada} other {Esteu a "
+"punt de cancel·lar # baixades}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not cancel the download} other {Could not cancel downloads}}"
+msgstr ""
+"{count, plural, one {No s'ha pogut cancel·lar la baixada} other {No s'han "
+"pogut cancel·lar les baixades}}"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add a private note about this manga"
+msgstr "Afegiu una nota privada sobre aquest manga"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "{libraryMangaCount, plural, one {# entry in library} other {# entries in library}}"
+msgstr ""
+"{libraryMangaCount, plural, one {# entrada a la biblioteca} other {# "
+"entrades a la biblioteca}}"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add notes"
+msgstr "Afegeix notes"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel downloads of selected"
+msgstr "Cancel·la les baixades de la selecció"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel download"
+msgstr "Cancel·la la baixada"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Cancel all for this series"
+msgstr "Cancel·la-ho tot per a aquesta sèrie"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cleared WebView cookies and cache"
+msgstr "S'han esborrat les galetes i la memòria cau de la WebView"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not clear WebView cookies and cache"
+msgstr "No s'han pogut esborrar les galetes i la memòria cau de la WebView"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Clear cookies and cache"
+msgstr "Esborra les galetes i la memòria cau"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Could not retry failed downloads"
+msgstr "No s'han pogut reintentar les baixades fallides"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Could not save notes"
+msgstr "No s'han pogut desar les notes"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Edit notes"
+msgstr "Edita les notes"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to top"
+msgstr "Mou la sèrie al principi"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move series to bottom"
+msgstr "Mou la sèrie al final"
+
+#: src/features/reader/settings/general/ReaderGeneralSettings.tsx
+msgid "Fullscreen"
+msgstr "Pantalla completa"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to top"
+msgstr "Mou al principi"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Move to bottom"
+msgstr "Mou al final"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes"
+msgstr "Notes"
+
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "Retry all"
+msgstr "Reintenta-ho tot"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Notes saved"
+msgstr "S'han desat les notes"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Could not reset filters"
+msgstr "No s'han pogut restablir els filtres"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Enabled languages and sources"
+msgstr "Idiomes i fonts activats"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+msgid "Enabled languages"
+msgstr "Idiomes activats"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Clear notes"
+msgstr "Esborra les notes"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
+msgstr "Podeu traduir el projecte a Weblate (<0>WebUI</0> i <1>Server</1>)"
+
+#: src/features/sync/components/SyncButton.tsx
+msgid "Sync now"
+msgstr "Sincronitza ara"

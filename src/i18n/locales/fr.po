@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-08-24 10:51+0000\n"
+"PO-Revision-Date: 2026-09-09 08:51+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -4384,13 +4384,6 @@ msgstr ""
 "Vous devez ajouter un magasin d'extensions avant de pouvoir installer des "
 "extensions"
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr ""
-"{0, plural, one {Afficher # chapitre de plus} other {Afficher # chapitres de "
-"plus}}"
-
 #: src/features/backup/screens/Backup.tsx
 msgid "Automated backup"
 msgstr "Sauvegarde automatique"
@@ -4577,3 +4570,29 @@ msgstr "Notes enregistrées"
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Retry all"
 msgstr "Tout réessayer"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Clear notes"
+msgstr "Effacer les notes"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Could not reset filters"
+msgstr "Impossible de réinitialiser les filtres"
+
+#: src/base/components/inputs/LanguageSelect.tsx
+msgid "Enabled languages"
+msgstr "Langues activées"
+
+#: src/features/source/components/SourceLanguageSelect.tsx
+msgid "Enabled languages and sources"
+msgstr "Langues et sources activées"
+
+#: src/features/settings/screens/Appearance.tsx
+msgid "Feel free to translate the project on Weblate (<0>WebUI</0> and <1>Server</1>)"
+msgstr ""
+"N'hésitez pas à traduire le projet sur Weblate (<0>Interface web (WebUI)</0> "
+"et <1>Serveur</1>)"
+
+#: src/features/sync/components/SyncButton.tsx
+msgid "Sync now"
+msgstr "Synchroniser maintenant"

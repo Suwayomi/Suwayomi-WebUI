@@ -2984,12 +2984,6 @@ msgstr "— Estado: {0}"
 msgid "{0, plural, one {1 aborted entry} other {# aborted entries}}"
 msgstr "{0, plural, one {1 entrada abortada} other {# entradas abortadas}}"
 
-#. placeholder {0}: otherChapters.length
-#: src/features/updates/components/ChapterUpdateCard.tsx
-msgid "{0, plural, one {Show # more chapter} other {Show # more chapters}}"
-msgstr ""
-"{0, plural, one {Mostrar mais # capítulo} other {Mostrar mais # capítulos}}"
-
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
 msgstr "{extensionCount, plural, one {# extensão} other {# extensões}}"
