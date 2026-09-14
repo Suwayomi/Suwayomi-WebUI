@@ -3623,30 +3623,13 @@ export class RequestManager {
         return this.doRequest<DownloadStatusSubscription, DownloadStatusSubscriptionVariables>(
             GQLMethod.USE_SUBSCRIPTION,
             DOWNLOAD_STATUS_SUBSCRIPTION,
-            { input: { maxUpdates: 30 } },
+            { input: {} },
             {
                 ...options,
                 onData: (onDataOptions) => {
                     const downloadChanged = onDataOptions.data.data?.downloadStatusChanged;
 
                     const { cache } = this.graphQLClient.client;
-
-                    if (downloadChanged?.omittedUpdates) {
-                        const cacheData = (cache as InMemoryCache).extract();
-
-                        this.graphQLClient.client.refetchQueries({
-                            updateCache() {
-                                for (const [id, value] of Object.entries(cacheData)) {
-                                    if ((value as any)?.__typename === 'DownloadType') {
-                                        cache.evict({ id });
-                                    }
-                                }
-                                cache.evict({ id: 'DownloadStatus:{}' });
-                                cache.evict({ fieldName: 'downloadStatus' });
-                            },
-                        });
-                        return;
-                    }
 
                     if (downloadChanged?.state) {
                         cache.modify({
@@ -3730,7 +3713,7 @@ export class RequestManager {
         return this.doRequest<UpdaterSubscription, UpdaterSubscriptionVariables>(
             GQLMethod.USE_SUBSCRIPTION,
             UPDATER_SUBSCRIPTION,
-            { input: { maxUpdates: 30 } },
+            { input: {} },
             {
                 ...options,
                 onData: (onDataOptions) => {
@@ -3738,26 +3721,15 @@ export class RequestManager {
 
                     const cache = this.graphQLClient.client.cache as InMemoryCache;
 
-                    if (!updatesChanged?.omittedUpdates) {
-                        updatesChanged?.mangaUpdates
-                            .filter((update) => update.status === MangaJobStatus.Complete)
-                            .forEach((update) =>
-                                Object.keys(cache.extract().ROOT_QUERY as object)
-                                    .filter(
-                                        (key) =>
-                                            key.includes('chapters') && key.includes(`mangaId":${update.manga.id}`),
-                                    )
-                                    .forEach((key) => cache.evict({ fieldName: key })),
-                            );
-                        return;
-                    }
-
-                    this.graphQLClient.client.refetchQueries({
-                        updateCache() {
-                            cache.evict({ fieldName: 'chapters' });
-                            cache.evict({ fieldName: 'libraryUpdateStatus' });
-                        },
-                    });
+                    updatesChanged?.mangaUpdates
+                        .filter((update) => update.status === MangaJobStatus.Complete)
+                        .forEach((update) =>
+                            Object.keys(cache.extract().ROOT_QUERY as object)
+                                .filter(
+                                    (key) => key.includes('chapters') && key.includes(`mangaId":${update.manga.id}`),
+                                )
+                                .forEach((key) => cache.evict({ fieldName: key })),
+                        );
                 },
             } as SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
         ) as useSubscription.Result<UpdaterSubscription>;
