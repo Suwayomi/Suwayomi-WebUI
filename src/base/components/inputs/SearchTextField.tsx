@@ -21,6 +21,9 @@ export const SearchTextField = ({
     <TextField
         {...textFieldProps}
         slotProps={{
+            // every other slot has to be kept, a caller like "Autocomplete" passes the props that wire up its input,
+            // e.g. the keyboard handling and the ref, via "htmlInput"
+            ...textFieldProps.slotProps,
             input: {
                 ...textFieldProps.slotProps?.input,
                 sx: {

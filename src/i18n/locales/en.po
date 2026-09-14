@@ -1945,6 +1945,10 @@ msgid "Fullscreen"
 msgstr "Fullscreen"
 
 #: src/features/library/screens/LibrarySettings.tsx
+msgid "Fuzzy search"
+msgstr "Fuzzy search"
+
+#: src/features/library/screens/LibrarySettings.tsx
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "General"
 msgstr "General"
@@ -2541,6 +2545,10 @@ msgstr "Match based on chapter number"
 msgid "Match found"
 msgstr "Match found"
 
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Match the library search even with typos or skipped words, and show the closest matches first"
+msgstr "Match the library search even with typos or skipped words, and show the closest matches first"
+
 #: src/features/migration/components/migration-entry/MigrationEntry.tsx
 msgid "Matches"
 msgstr "Matches"
@@ -3084,6 +3092,10 @@ msgstr "Reading direction"
 msgid "Reading mode"
 msgstr "Reading mode"
 
+#: src/base/components/AppbarSearch.tsx
+msgid "Recent searches"
+msgstr "Recent searches"
+
 #: src/features/library/components/LibraryOptionsPanel.tsx
 msgid "Recently added"
 msgstr "Recently added"
@@ -3139,6 +3151,10 @@ msgstr "Remove bookmark"
 #: src/features/chapter/Chapter.constants.ts
 msgid "Remove bookmarks from selected"
 msgstr "Remove bookmarks from selected"
+
+#: src/base/components/AppbarSearch.tsx
+msgid "Remove from search history"
+msgstr "Remove from search history"
 
 #: src/features/manga/components/MangaBadges.tsx
 #: src/features/manga/Manga.constants.ts
@@ -3736,6 +3752,10 @@ msgstr "Successfully migrated"
 #: src/features/manga/Manga.constants.ts
 msgid "Successfully migrated manga"
 msgstr "Successfully migrated manga"
+
+#: src/base/components/AppbarSearch.tsx
+msgid "Suggestions"
+msgstr "Suggestions"
 
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Sync"

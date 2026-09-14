@@ -123,6 +123,8 @@ export function Library() {
     );
 
     const mangaIds = useMemo(() => mangas.map((manga) => manga.id), [mangas]);
+    // the unfiltered list, so that a committed search does not shrink the suggestions to its own results
+    const mangaTitles = useMemo(() => categoryMangas.map((manga) => manga.title), [categoryMangas]);
 
     const [isSelectModeActive, setIsSelectModeActive] = useState(false);
     const {
@@ -216,7 +218,7 @@ export function Library() {
         <>
             {!isSelectModeActive && activeTab && (
                 <>
-                    <AppbarSearch />
+                    <AppbarSearch suggestions={mangaTitles} />
                     <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <SyncButton />
                     <UpdateChecker categoryId={activeTab?.id} />
@@ -242,7 +244,7 @@ export function Library() {
                 />
             )}
         </>,
-        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas],
+        [isSelectModeActive, areNoItemsSelected, areAllItemsSelected, activeTab, mangas, mangaTitles],
     );
 
     const handleTabChange = (newTab: number) => {

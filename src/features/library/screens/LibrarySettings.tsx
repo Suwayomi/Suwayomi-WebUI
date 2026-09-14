@@ -179,6 +179,17 @@ export function LibrarySettings() {
                         onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
                     />
                 </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Fuzzy search`}
+                        secondary={t`Match the library search even with typos or skipped words, and show the closest matches first`}
+                    />
+                    <Switch
+                        edge="end"
+                        checked={settings.fuzzySearch}
+                        onChange={(e) => setSettingValue('fuzzySearch', e.target.checked)}
+                    />
+                </ListItem>
             </List>
             <GlobalUpdateSettings
                 serverSettings={serverSettings.data!.settings}

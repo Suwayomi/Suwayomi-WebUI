@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import type { ChapterType, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { enhancedCleanup } from '@/base/utils/Strings.ts';
+import { getFuzzyScore, MAX_FUZZY_SCORE } from '@/base/utils/FuzzySearch.ts';
 import { useGetCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
 import type { LibraryOptions, LibrarySortMode } from '@/features/library/Library.types.ts';
 import { FilterMode } from '@/features/library/Library.types.ts';
@@ -85,6 +86,98 @@ const performSearch = (
     return cleanedUpQueries.every((query) => cleanedUpStrings.includes(query));
 };
 
+/**
+ * Scores a search against a set of texts. Every query has to match at least one of the texts, and the result is the
+ * average of how well each query matched its best text, which keeps the "all genres of a comma separated query have to
+ * be present" behaviour of {@link performSearch} while still scoring each text on its own.
+ */
+/**
+ * A query normalized once per search instead of once per manga and field, which is what the contract of
+ * {@link getFuzzyScore} asks for and what keeps a search from re-running a Unicode normalization tens of thousands of
+ * times over a large library.
+ */
+type SearchQuery = {
+    /** as typed, for the fields that are still matched as a plain substring */
+    query: string;
+    cleanedUpQuery: string;
+    /** the comma separated parts, all of which have to match for a query like "action, romance" */
+    cleanedUpQueryParts: string[];
+};
+
+const toSearchQuery = (query: string): SearchQuery => ({
+    query,
+    cleanedUpQuery: enhancedCleanup(query),
+    cleanedUpQueryParts: query.split(',').map(enhancedCleanup),
+});
+
+/** Scores an already normalized query against a single text. */
+const getFieldScore = (cleanedUpQuery: string, text: NullAndUndefined<string>): number | null =>
+    text == null ? null : getFuzzyScore(cleanedUpQuery, enhancedCleanup(text));
+
+/**
+ * Scores a search against a set of texts. Every part of the query has to match at least one of them, and the result is
+ * the average of how well each part matched its best text, which keeps the "all genres of a comma separated query have
+ * to be present" behaviour of {@link performSearch} while still scoring each text on its own.
+ */
+const performFuzzySearch = (cleanedUpQueryParts: string[], strings: NullAndUndefined<string>[]): number | null => {
+    let queryCount = 0;
+    let totalScore = 0;
+
+    for (const cleanedUpQueryPart of cleanedUpQueryParts) {
+        // an empty part, e.g. from the trailing comma of "action,", matches everything and therefore says nothing -
+        // counting it would raise the average and make the trailing comma look like the better match
+        if (!cleanedUpQueryPart) {
+            continue;
+        }
+
+        queryCount++;
+
+        let bestScore: number | null = null;
+        for (const str of strings) {
+            const score = getFieldScore(cleanedUpQueryPart, str);
+
+            if (score !== null && (bestScore === null || score > bestScore)) {
+                bestScore = score;
+            }
+        }
+
+        if (bestScore === null) {
+            return null;
+        }
+
+        totalScore += bestScore;
+    }
+
+    if (!queryCount) {
+        return MAX_FUZZY_SCORE;
+    }
+
+    return totalScore / queryCount;
+};
+
+/**
+ * How much a match in a given field says about what the user was actually looking for. Searching the library is almost
+ * always searching for a title, so of two equally good matches the one in the title wins.
+ *
+ * The weights only order matches of comparable quality: an exact hit in a lesser field does outrank a title that only
+ * matched after correcting a typo, the same way a search engine prefers what it is certain about. The description is
+ * the one exception, weighted so that it always loses against a title match of any quality, because it is matched as a
+ * plain substring and a long text contains a short query by coincidence far too easily.
+ */
+const FIELD_WEIGHT = {
+    title: 1,
+    genre: 0.85,
+    author: 0.8,
+    artist: 0.8,
+    source: 0.7,
+    description: 0.34,
+} as const;
+
+/** The best a manga can score without matching in its title, used to stop looking once the title beats it. */
+const MAX_NON_TITLE_WEIGHT = FIELD_WEIGHT.genre;
+
+const weigh = (score: number | null, weight: number): number | null => (score === null ? null : score * weight);
+
 type TMangaQueryFilter = MangaTitleInfo &
     MangaGenreInfo &
     MangaDescriptionInfo &
@@ -106,6 +199,45 @@ const querySearchManga = (
     performSearch([query], [author]) ||
     performSearch([query], [source?.displayName]) ||
     performSearch([query], [sourceId]);
+
+/**
+ * The typo tolerant counterpart of {@link querySearchManga}, returning how relevant the manga is for the query, or null
+ * when it does not match at all.
+ *
+ * The description is deliberately left on an exact substring match: it is by far the longest field, and matching it
+ * fuzzily would both dominate the runtime of a search and match almost every manga in the library.
+ */
+const querySearchMangaScore = (
+    { query, cleanedUpQuery, cleanedUpQueryParts }: SearchQuery,
+    { title, genre: genres, description, artist, author, source, sourceId }: TMangaQueryFilter,
+): number | null => {
+    if (!cleanedUpQuery) {
+        return MAX_FUZZY_SCORE;
+    }
+
+    const titleScore = weigh(getFieldScore(cleanedUpQuery, title), FIELD_WEIGHT.title);
+
+    // no other field can beat this anymore, and the remaining ones are the expensive part of a search
+    if (titleScore !== null && titleScore >= MAX_NON_TITLE_WEIGHT) {
+        return titleScore;
+    }
+
+    let best = titleScore;
+    const considerScore = (score: number | null) => {
+        if (score !== null && (best === null || score > best)) {
+            best = score;
+        }
+    };
+
+    considerScore(weigh(performFuzzySearch(cleanedUpQueryParts, genres), FIELD_WEIGHT.genre));
+    considerScore(weigh(getFieldScore(cleanedUpQuery, author), FIELD_WEIGHT.author));
+    considerScore(weigh(getFieldScore(cleanedUpQuery, artist), FIELD_WEIGHT.artist));
+    considerScore(weigh(getFieldScore(cleanedUpQuery, source?.displayName), FIELD_WEIGHT.source));
+    considerScore(weigh(getFieldScore(cleanedUpQuery, sourceId), FIELD_WEIGHT.source));
+    considerScore(performSearch([query], [description]) ? FIELD_WEIGHT.description : null);
+
+    return best;
+};
 
 const listTriStateBooleanFilter = (
     mode: FilterMode,
@@ -188,16 +320,45 @@ type TMangasFilter = TMangaQueryFilter & TMangaFilter;
 const filterMangas = <Manga extends TMangasFilter>(
     mangas: Manga[],
     query: NullAndUndefined<string>,
-    options: TMangaFilterOptions & { ignoreFilters: boolean },
+    options: TMangaFilterOptions & { ignoreFilters: boolean; fuzzySearch: boolean },
 ): Manga[] => {
     const ignoreFiltersWhileSearching = options.ignoreFilters && query?.length;
 
-    return mangas.filter((manga) => {
-        const matchesSearch = querySearchManga(query, manga);
+    // without a query every manga is equally relevant, so scoring them would only allocate a wrapper per manga of the
+    // whole library to then sort by a constant - which is the state the library is in whenever it is merely browsed
+    if (!options.fuzzySearch || !query?.length) {
+        return mangas.filter((manga) => {
+            const matchesSearch = querySearchManga(query, manga);
+            const matchesFilters = ignoreFiltersWhileSearching || filterManga(manga, options);
+
+            return matchesSearch && matchesFilters;
+        });
+    }
+
+    const searchQuery = toSearchQuery(query);
+
+    const matches: { manga: Manga; score: number }[] = [];
+    mangas.forEach((manga) => {
         const matchesFilters = ignoreFiltersWhileSearching || filterManga(manga, options);
 
-        return matchesSearch && matchesFilters;
+        if (!matchesFilters) {
+            return;
+        }
+
+        const score = querySearchMangaScore(searchQuery, manga);
+
+        if (score === null) {
+            return;
+        }
+
+        matches.push({ manga, score });
     });
+
+    // a fuzzy match is only useful when the closest matches come first - mangas of equal relevance keep the sorting
+    // configured for the library, since "Array#sort" is stable
+    matches.sort((a, b) => b.score - a.score);
+
+    return matches.map(({ manga }) => manga);
 };
 
 const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(a) - Number(b);
@@ -348,6 +509,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
                 ...options,
                 hasSource,
                 ignoreFilters: settings.ignoreFilters,
+                fuzzySearch: settings.fuzzySearch,
             }),
         [
             sortedMangas,
@@ -361,6 +523,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             hasStatus,
             hasSource,
             settings.ignoreFilters,
+            settings.fuzzySearch,
         ],
     );
 
@@ -380,6 +543,6 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     return {
         visibleMangas: filteredMangas,
         showFilteredOutMessage,
-        filterKey: `${JSON.stringify(options)}${settings.ignoreFilters}`,
+        filterKey: `${JSON.stringify(options)}${settings.ignoreFilters}${settings.fuzzySearch}`,
     };
 };
