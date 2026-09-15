@@ -14,6 +14,7 @@ import type { TrackerIdInfo } from '@/features/tracker/Tracker.types.ts';
 export type MetadataLibrarySettings = {
     showAddToLibraryCategorySelectDialog: boolean;
     ignoreFilters: boolean;
+    fuzzySearch: boolean;
     removeMangaFromCategories: boolean;
     showTabSize: boolean;
     showContinueReadingButton: boolean;

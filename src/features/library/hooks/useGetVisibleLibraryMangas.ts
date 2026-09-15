@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import type { ChapterType, MangaType, TrackRecordType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { enhancedCleanup } from '@/base/utils/Strings.ts';
+import { createFuzzySearch, fuzzySearch } from '@/base/utils/FuzzySearch.ts';
 import { useGetCategoryMetadata } from '@/features/category/services/CategoryMetadata.ts';
 import type { LibraryOptions, LibrarySortMode } from '@/features/library/Library.types.ts';
 import { FilterMode } from '@/features/library/Library.types.ts';
@@ -184,20 +185,26 @@ const filterManga = (
     statusFilter(hasStatus, manga) &&
     sourceFilter(hasSource, manga);
 
+const FUZZY_SEARCH_WEIGHTS = [
+    { name: 'title', weight: 10 },
+    { name: 'author', weight: 4 },
+    { name: 'artist', weight: 4 },
+    { name: 'genre', weight: 2.5 },
+    { name: 'source.displayName', weight: 1 },
+    { name: 'sourceId', weight: 1 },
+    { name: 'description', weight: 0.5 },
+];
+
 type TMangasFilter = TMangaQueryFilter & TMangaFilter;
+
 const filterMangas = <Manga extends TMangasFilter>(
     mangas: Manga[],
-    query: NullAndUndefined<string>,
+    isSearching: boolean,
     options: TMangaFilterOptions & { ignoreFilters: boolean },
 ): Manga[] => {
-    const ignoreFiltersWhileSearching = options.ignoreFilters && query?.length;
+    const ignoreFiltersWhileSearching = options.ignoreFilters && isSearching;
 
-    return mangas.filter((manga) => {
-        const matchesSearch = querySearchManga(query, manga);
-        const matchesFilters = ignoreFiltersWhileSearching || filterManga(manga, options);
-
-        return matchesSearch && matchesFilters;
-    });
+    return mangas.filter((manga) => ignoreFiltersWhileSearching || filterManga(manga, options));
 };
 
 const sortByNumber = (a: number | string = 0, b: number | string = 0) => Number(a) - Number(b);
@@ -342,16 +349,19 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
 
     const sortedMangas = useSortedMangas(category?.id, mangas, options);
 
+    const isSearching = !!query?.length;
+    const isFuzzySearchActive = settings.fuzzySearch && isSearching;
+
     const filteredMangas = useMemo(
         () =>
-            filterMangas(sortedMangas, query, {
+            filterMangas(sortedMangas, isSearching, {
                 ...options,
                 hasSource,
                 ignoreFilters: settings.ignoreFilters,
             }),
         [
             sortedMangas,
-            query,
+            isSearching,
             hasUnreadChapters,
             hasReadChapters,
             hasDownloadedChapters,
@@ -364,6 +374,19 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         ],
     );
 
+    const fuzzySearchIndex = useMemo(
+        () => (isFuzzySearchActive ? createFuzzySearch(filteredMangas, FUZZY_SEARCH_WEIGHTS) : null),
+        [isFuzzySearchActive, filteredMangas],
+    );
+
+    const visibleMangas = useMemo(() => {
+        if (fuzzySearchIndex && query) {
+            return fuzzySearch(fuzzySearchIndex, query);
+        }
+
+        return filteredMangas.filter((manga) => querySearchManga(query, manga));
+    }, [fuzzySearchIndex, filteredMangas, query]);
+
     const isATrackFilterActive = Object.values(hasTrackerBinding).some((trackFilterState) => trackFilterState != null);
     const isASourceFilterActive = Object.values(hasSource).some((sourceFilterState) => sourceFilterState != null);
     const showFilteredOutMessage =
@@ -374,12 +397,12 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
             !!query ||
             isATrackFilterActive ||
             isASourceFilterActive) &&
-        filteredMangas.length === 0 &&
+        visibleMangas.length === 0 &&
         mangas.length > 0;
 
     return {
-        visibleMangas: filteredMangas,
+        visibleMangas,
         showFilteredOutMessage,
-        filterKey: `${JSON.stringify(options)}${settings.ignoreFilters}`,
+        filterKey: `${JSON.stringify(options)}${JSON.stringify(hasSource)}${query}${settings.ignoreFilters}${settings.fuzzySearch}`,
     };
 };

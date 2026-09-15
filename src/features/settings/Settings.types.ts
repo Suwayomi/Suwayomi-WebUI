@@ -38,6 +38,7 @@ export type MetadataServerSettings = MetadataDownloadSettings &
 
 export interface ISearchSettings {
     ignoreFilters: boolean;
+    fuzzySearch: boolean;
 }
 
 export type ServerSettings = Omit<GetServerSettingsQuery['settings'], '__typename'>;
