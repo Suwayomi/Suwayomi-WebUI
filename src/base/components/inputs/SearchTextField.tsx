@@ -21,6 +21,7 @@ export const SearchTextField = ({
     <TextField
         {...textFieldProps}
         slotProps={{
+            ...textFieldProps.slotProps,
             input: {
                 ...textFieldProps.slotProps?.input,
                 sx: {
