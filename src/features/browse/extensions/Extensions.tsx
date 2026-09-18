@@ -198,7 +198,7 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
 
     useAppAction(
         <>
-            <AppbarSearch suggestions={visibleExtensionNames} />
+            <AppbarSearch searchHistoryKey="extensions" suggestions={visibleExtensionNames} />
             <CustomTooltip title={t`Install external extension`}>
                 <IconButton
                     onClick={() => {

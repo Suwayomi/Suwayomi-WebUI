@@ -218,7 +218,7 @@ export function Library() {
         <>
             {!isSelectModeActive && activeTab && (
                 <>
-                    <AppbarSearch suggestions={mangaTitles} />
+                    <AppbarSearch searchHistoryKey="library" suggestions={mangaTitles} />
                     <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <SyncButton />
                     <UpdateChecker categoryId={activeTab?.id} />
