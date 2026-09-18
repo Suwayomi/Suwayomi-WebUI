@@ -39,6 +39,9 @@ export type NavbarContextType = {
     title: string | React.ReactNode;
     setTitle: (title: NavbarContextType['title'], browserTitle?: string) => void;
 
+    hideTitle: boolean;
+    setHideTitle: (hide: boolean) => void;
+
     appBarHeight: number;
     setAppBarHeight: React.Dispatch<React.SetStateAction<number>>;
 

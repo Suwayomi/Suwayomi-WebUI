@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import IconButton from '@mui/material/IconButton';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -25,6 +25,7 @@ import { useDebounce } from '@/base/hooks/useDebounce.ts';
 import { createFuzzySearch, fuzzySearch } from '@/base/utils/FuzzySearch.ts';
 import { enhancedCleanup } from '@/base/utils/Strings.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 
 /** Enough to be worth scrolling through, few enough to not cover the whole screen on mobile. */
 const MAX_SUGGESTIONS = 8;
@@ -45,6 +46,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     const theme = useTheme();
     const { t } = useLingui();
+    const { setHideTitle } = useNavBarContext();
 
     const [prevLocationKey, setPrevLocationKey] = useState<string>();
     const location = useLocation();
@@ -131,6 +133,11 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         },
         { preventDefault: true },
     );
+
+    useEffect(() => {
+        setHideTitle(isOpen);
+        return () => setHideTitle(false);
+    }, [isOpen]);
 
     if (isOpen) {
         return (

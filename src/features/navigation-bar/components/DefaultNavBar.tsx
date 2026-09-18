@@ -29,8 +29,17 @@ import { NAVIGATION_BAR_ITEMS } from '@/features/navigation-bar/NavigationBar.co
 import { NavigationBarUtil } from '@/features/navigation-bar/NavigationBar.util.ts';
 
 export function DefaultNavBar() {
-    const { title, action, override, isCollapsed, setIsCollapsed, setAppBarHeight, navBarWidth, setNavBarWidth } =
-        useNavBarContext();
+    const {
+        title,
+        hideTitle,
+        action,
+        override,
+        isCollapsed,
+        setIsCollapsed,
+        setAppBarHeight,
+        navBarWidth,
+        setNavBarWidth,
+    } = useNavBarContext();
 
     const theme = useTheme();
     const getOptionForDirection = useGetOptionForDirection();
@@ -155,17 +164,19 @@ export function DefaultNavBar() {
                                 {getOptionForDirection(<ArrowBack />, <ArrowForwardIcon />)}
                             </IconButton>
                         )}
-                        <Typography
-                            variant="h5"
-                            component="h1"
-                            noWrap
-                            sx={{
-                                textOverflow: 'ellipsis',
-                                flexGrow: 1,
-                            }}
-                        >
-                            {title}
-                        </Typography>
+                        {!hideTitle && (
+                            <Typography
+                                variant="h5"
+                                component="h1"
+                                noWrap
+                                sx={{
+                                    textOverflow: 'ellipsis',
+                                    flexGrow: 1,
+                                }}
+                            >
+                                {title}
+                            </Typography>
+                        )}
                         {action}
                     </Stack>
                 </Toolbar>
