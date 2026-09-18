@@ -164,4 +164,16 @@ export class VirtuosoUtil {
             deleteState,
         };
     }
+
+    static getScrollElement(element: HTMLElement | null | Window): HTMLElement | null {
+        if (!element) {
+            return null;
+        }
+
+        if (element instanceof HTMLElement) {
+            return element;
+        }
+
+        return element.document.documentElement;
+    }
 }
