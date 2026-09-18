@@ -23,7 +23,7 @@ import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.t
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { useDebounce } from '@/base/hooks/useDebounce.ts';
 import { createFuzzySearch, fuzzySearch } from '@/base/utils/FuzzySearch.ts';
-import { enhancedCleanup } from '@/base/utils/Strings.ts';
+import { enhancedCleanup, escapeRegex } from '@/base/utils/Strings.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
@@ -58,6 +58,9 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const inputRef = React.useRef<HTMLInputElement>(undefined);
 
     const [searchString, setSearchString] = useState(query ?? '');
+    const [liveAutoCompletion, setLiveAutoCompletion] = useState<string>();
+
+    const [focused, setFocused] = useState(false);
 
     const {
         settings: { fuzzySearch: isFuzzySearchEnabled },
@@ -81,11 +84,6 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const options = useMemo<string[]>(() => {
         const trimmedSearchString = debouncedSearchString.trim();
 
-        const showSuggestions = isOpen && !!trimmedSearchString;
-        if (!showSuggestions) {
-            return STABLE_EMPTY_ARRAY;
-        }
-
         const matches = fuzzySearchIndex
             ? fuzzySearch(fuzzySearchIndex, trimmedSearchString, { limit: MAX_SUGGESTIONS })
             : getSubstringMatches(enhancedCleanup(trimmedSearchString), suggestions);
@@ -108,12 +106,14 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     };
 
     function handleChange(newQuery: string) {
-        if (newQuery === '') {
+        const normalizedQuery = newQuery.trim();
+
+        if (normalizedQuery === '') {
             return;
         }
-
-        setSearchString(newQuery);
-        setQuery(newQuery);
+        setLiveAutoCompletion(undefined);
+        setSearchString(normalizedQuery);
+        setQuery(normalizedQuery);
         updateSearchOpenState(false);
     }
 
@@ -135,6 +135,23 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         },
         { preventDefault: true },
     );
+    useHotkeys(
+        'tab',
+        (e) => {
+            if (!focused || !liveAutoCompletion || liveAutoCompletion === searchString) {
+                return;
+            }
+
+            e.preventDefault();
+            e.stopPropagation();
+
+            setSearchString(liveAutoCompletion);
+        },
+        {
+            enableOnFormTags: true,
+        },
+        [focused, liveAutoCompletion, searchString],
+    );
 
     useEffect(() => {
         setHideTitle(isOpen);
@@ -148,6 +165,8 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 disableClearable
                 forcePopupIcon={false}
                 fullWidth
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
                 slotProps={{
                     popper: {
                         placement: 'bottom-start',
@@ -167,6 +186,20 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                     // that is kept in sync with the query param
                     if (reason === 'input') {
                         setSearchString(value);
+
+                        const tmpNormalizedValue = value.trimStart().toLowerCase();
+
+                        if (!tmpNormalizedValue) {
+                            setLiveAutoCompletion(undefined);
+                            return;
+                        }
+
+                        const findLiveAutoCompletion = (list: string[]) =>
+                            list.find((item) => item.toLowerCase().startsWith(tmpNormalizedValue));
+
+                        const liveAutoCompletionString =
+                            findLiveAutoCompletion(options) ?? findLiveAutoCompletion(suggestions);
+                        setLiveAutoCompletion(liveAutoCompletionString);
                     }
                 }}
                 onChange={(_, value) => {
@@ -179,31 +212,50 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                     </Box>
                 )}
                 renderInput={(params) => (
-                    <SearchTextField
-                        {...params}
-                        autoFocus
-                        variant="standard"
-                        fullWidth
-                        onCancel={cancelSearch}
-                        onBlur={handleBlur}
-                        inputRef={inputRef}
-                        sx={{
-                            ...theme.applyStyles('light', {
-                                '& .MuiInput-underline:before': {
-                                    borderBottomColor: 'primary.contrastText', // Default color
-                                },
-                                '& .MuiInput-underline:hover:before': {
-                                    borderBottomColor: 'primary.contrastText', // Hover color
-                                },
-                                '& .MuiInput-underline:after': {
-                                    borderBottomColor: 'primary.dark', // Focused color
-                                },
-                            }),
-                        }}
-                        cancelButtonProps={{
-                            sx: { ...theme.applyStyles('light', { color: 'primary.contrastText' }) },
-                        }}
-                    />
+                    <Box sx={{ position: 'relative' }}>
+                        {focused && liveAutoCompletion && (
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    height: '100%',
+                                    color: 'text.secondary',
+                                    whiteSpace: 'pre',
+                                    pointerEvents: 'none',
+                                    zIndex: 0,
+                                }}
+                            >
+                                <span style={{ visibility: 'hidden' }}>{searchString}</span>
+                                {liveAutoCompletion.replace(new RegExp(escapeRegex(searchString).trimStart(), 'i'), '')}
+                            </Box>
+                        )}
+                        <SearchTextField
+                            {...params}
+                            autoFocus
+                            variant="standard"
+                            fullWidth
+                            onCancel={cancelSearch}
+                            onBlur={handleBlur}
+                            inputRef={inputRef}
+                            sx={{
+                                ...theme.applyStyles('light', {
+                                    '& .MuiInput-underline:before': {
+                                        borderBottomColor: 'primary.contrastText', // Default color
+                                    },
+                                    '& .MuiInput-underline:hover:before': {
+                                        borderBottomColor: 'primary.contrastText', // Hover color
+                                    },
+                                    '& .MuiInput-underline:after': {
+                                        borderBottomColor: 'primary.dark', // Focused color
+                                    },
+                                }),
+                            }}
+                            cancelButtonProps={{
+                                sx: { ...theme.applyStyles('light', { color: 'primary.contrastText' }) },
+                            }}
+                        />
+                    </Box>
                 )}
             />
         );
