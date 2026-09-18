@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Reader**) Add fullscreen setting (does nothing on iOS)
 - (**Library**) Add `reset` button to library filters
 - (**Library**) Add option to apply `tracker` filter either with `AND` or `OR` logic
+- (**Library**) Add fuzzy search, which tolerates typos and words in a different order and shows the closest matches first. Can be turned off in the library settings
 - (**Sync**) Add sync button to the app bar of the library and updates pages
 
 ### Changed

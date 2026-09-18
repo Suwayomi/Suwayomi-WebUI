@@ -108,6 +108,9 @@ export const APP_METADATA: Record<
     ignoreFilters: {
         convert: convertToBoolean,
     },
+    fuzzySearch: {
+        convert: convertToBoolean,
+    },
     removeMangaFromCategories: {
         convert: convertToBoolean,
     },
@@ -438,6 +441,7 @@ export const GLOBAL_METADATA_KEYS: AppMetadataKeys[] = [
     // library
     'showAddToLibraryCategorySelectDialog',
     'ignoreFilters',
+    'fuzzySearch',
     'removeMangaFromCategories',
     'showTabSize',
 

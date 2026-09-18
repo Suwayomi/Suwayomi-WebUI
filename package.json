@@ -64,6 +64,7 @@
         "dompurify": "3.4.14",
         "fast-average-color": "9.5.2",
         "file-selector": "5.0.1",
+        "fuse.js": "7.5.0",
         "graphql": "17.0.2",
         "graphql-sock": "1.0.1",
         "graphql-tag": "2.12.7",

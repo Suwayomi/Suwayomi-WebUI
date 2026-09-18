@@ -1945,6 +1945,10 @@ msgid "Fullscreen"
 msgstr "Fullscreen"
 
 #: src/features/library/screens/LibrarySettings.tsx
+msgid "Fuzzy search"
+msgstr "Fuzzy search"
+
+#: src/features/library/screens/LibrarySettings.tsx
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "General"
 msgstr "General"
@@ -2540,6 +2544,10 @@ msgstr "Match based on chapter number"
 #: src/features/migration/Migration.constants.ts
 msgid "Match found"
 msgstr "Match found"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Match the library search even with typos or words in a different order, and show the closest matches first"
+msgstr "Match the library search even with typos or words in a different order, and show the closest matches first"
 
 #: src/features/migration/components/migration-entry/MigrationEntry.tsx
 msgid "Matches"
