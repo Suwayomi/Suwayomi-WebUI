@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - (**Global/Search**) Increase appbar search width when active
+- (**Global/Search**) Remember submitted searches and offer them in the search bar, each removable from the dropdown
 - (**Manga**) Add per-manga notes
 - (**Download**) Add button to retry all failed downloads
 - (**Reader**) Add fullscreen setting (does nothing on iOS)
