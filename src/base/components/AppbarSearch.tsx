@@ -26,6 +26,7 @@ import { createFuzzySearch, fuzzySearch } from '@/base/utils/FuzzySearch.ts';
 import { enhancedCleanup } from '@/base/utils/Strings.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 /** Enough to be worth scrolling through, few enough to not cover the whole screen on mobile. */
 const MAX_SUGGESTIONS = 8;
@@ -46,7 +47,8 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     const theme = useTheme();
     const { t } = useLingui();
-    const { setHideTitle } = useNavBarContext();
+    const { setHideTitle, navBarWidth } = useNavBarContext();
+    const scrollbarYSize = MediaQuery.useGetScrollbarSize('Y');
 
     const [prevLocationKey, setPrevLocationKey] = useState<string>();
     const location = useLocation();
@@ -145,19 +147,14 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 freeSolo
                 disableClearable
                 forcePopupIcon={false}
-                // "Autocomplete" defaults this to true, which would widen the field and push the sibling toolbar
-                // actions out of the appbar. Without it the field collapses to the width of its adornment, so it
-                // needs a width of its own, and grows into whatever the appbar has left over.
-                fullWidth={false}
-                sx={{ flexGrow: 1, minWidth: 0, width: { xs: 180, sm: 260, md: 340 }, maxWidth: 340 }}
+                fullWidth
                 slotProps={{
                     popper: {
+                        placement: 'bottom-start',
                         sx: {
-                            // the popper is pinned to the width of the field it is anchored to, which is far too
-                            // narrow for manga titles - "!important" is what it takes to beat the inline width
-                            width: 'auto !important',
-                            minWidth: { xs: 240, sm: 320, md: 420 },
-                            maxWidth: 'min(560px, calc(100vw - 32px))',
+                            [theme.breakpoints.down('md')]: {
+                                width: `calc(100vw - ${navBarWidth}px - ${scrollbarYSize}px) !important`,
+                            },
                         },
                     },
                 }}
