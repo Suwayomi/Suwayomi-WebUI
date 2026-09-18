@@ -118,6 +118,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     }
 
     const cancelSearch = () => {
+        setLiveAutoCompletion(undefined);
         setSearchString('');
         setQuery(undefined);
         updateSearchOpenState(false);
