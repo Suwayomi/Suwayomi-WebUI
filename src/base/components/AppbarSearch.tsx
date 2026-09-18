@@ -8,6 +8,8 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
+import HistoryIcon from '@mui/icons-material/History';
+import CloseIcon from '@mui/icons-material/Close';
 import IconButton from '@mui/material/IconButton';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
@@ -25,6 +27,7 @@ import { useDebounce } from '@/base/hooks/useDebounce.ts';
 import { createFuzzySearch, fuzzySearch } from '@/base/utils/FuzzySearch.ts';
 import { enhancedCleanup, escapeRegex } from '@/base/utils/Strings.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
+import { useSearchHistory } from '@/base/hooks/useSearchHistory.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
@@ -34,16 +37,25 @@ const MAX_SUGGESTIONS = 8;
 /** Short enough to still feel immediate, long enough to rank a large library only once per pause in the typing. */
 const SUGGESTION_DEBOUNCE_MS = 150;
 
+const MAX_HISTORY_SUGGESTIONS = 5;
+
+type SearchSuggestion = {
+    label: string;
+    isFromHistory: boolean;
+};
+
 const getSubstringMatches = (query: string, suggestions: string[]): string[] =>
     suggestions.filter((suggestion) => enhancedCleanup(suggestion).includes(query));
 
 interface IProps {
+    /** keeps the search history of e.g. the library separate from the one of the source browse */
+    searchHistoryKey: string;
     isClosable?: boolean;
     suggestions?: string[];
 }
 
 export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
-    const { isClosable = true, suggestions = STABLE_EMPTY_ARRAY } = props;
+    const { searchHistoryKey, isClosable = true, suggestions = STABLE_EMPTY_ARRAY } = props;
 
     const theme = useTheme();
     const { t } = useLingui();
@@ -66,6 +78,8 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         settings: { fuzzySearch: isFuzzySearchEnabled },
     } = useMetadataServerSettings();
 
+    const { history, addToHistory, removeFromHistory } = useSearchHistory(searchHistoryKey, MAX_HISTORY_SUGGESTIONS);
+
     if (prevLocationKey !== location.key) {
         setPrevLocationKey(location.key);
         setSearchString(query ?? '');
@@ -81,15 +95,19 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         [isOpen, isFuzzySearchEnabled, suggestions],
     );
 
-    const options = useMemo<string[]>(() => {
+    const options = useMemo<SearchSuggestion[]>(() => {
         const trimmedSearchString = debouncedSearchString.trim();
+
+        if (!trimmedSearchString) {
+            return history.map((label) => ({ label, isFromHistory: true }));
+        }
 
         const matches = fuzzySearchIndex
             ? fuzzySearch(fuzzySearchIndex, trimmedSearchString, { limit: MAX_SUGGESTIONS })
             : getSubstringMatches(enhancedCleanup(trimmedSearchString), suggestions);
 
-        return [...new Set(matches)].slice(0, MAX_SUGGESTIONS);
-    }, [isOpen, debouncedSearchString, fuzzySearchIndex, suggestions]);
+        return [...new Set(matches)].slice(0, MAX_SUGGESTIONS).map((label) => ({ label, isFromHistory: false }));
+    }, [isOpen, debouncedSearchString, fuzzySearchIndex, suggestions, history]);
 
     const updateSearchOpenState = (open: boolean) => {
         if (!isClosable && !open) {
@@ -113,6 +131,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         }
         setLiveAutoCompletion(undefined);
         setSearchString(normalizedQuery);
+        addToHistory(normalizedQuery);
         setQuery(normalizedQuery);
         updateSearchOpenState(false);
     }
@@ -161,10 +180,11 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
 
     if (isOpen) {
         return (
-            <Autocomplete<string, false, true, true>
+            <Autocomplete<SearchSuggestion, false, true, true>
                 freeSolo
                 disableClearable
                 forcePopupIcon={false}
+                openOnFocus
                 fullWidth
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
@@ -181,6 +201,8 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 options={options}
                 // the options are already ranked by relevance, re-filtering them would drop the typo tolerant hits
                 filterOptions={(unfilteredOptions) => unfilteredOptions}
+                getOptionLabel={(option) => (typeof option === 'string' ? option : option.label)}
+                groupBy={(option) => (option.isFromHistory ? t`Recent searches` : '')}
                 inputValue={searchString}
                 onInputChange={(_, value, reason) => {
                     // "reset" fires on mount and after selecting an option, both of which would overwrite the state
@@ -199,17 +221,31 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                             list.find((item) => item.toLowerCase().startsWith(tmpNormalizedValue));
 
                         const liveAutoCompletionString =
-                            findLiveAutoCompletion(options) ?? findLiveAutoCompletion(suggestions);
+                            findLiveAutoCompletion(options.map(({ label }) => label)) ??
+                            findLiveAutoCompletion(suggestions);
                         setLiveAutoCompletion(liveAutoCompletionString);
                     }
                 }}
                 onChange={(_, value) => {
-                    handleChange(value);
+                    handleChange(typeof value === 'string' ? value : value.label);
                 }}
                 renderOption={({ key, ...optionProps }, option) => (
                     <Box key={key} component="li" sx={{ gap: 1 }} {...optionProps}>
-                        <SearchIcon fontSize="small" />
-                        <TypographyMaxLines>{option}</TypographyMaxLines>
+                        {option.isFromHistory ? <HistoryIcon fontSize="small" /> : <SearchIcon fontSize="small" />}
+                        <TypographyMaxLines sx={{ flexGrow: 1 }}>{option.label}</TypographyMaxLines>
+                        {option.isFromHistory && (
+                            <CustomTooltip title={t`Delete`}>
+                                <IconButton
+                                    edge="end"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        removeFromHistory(option.label);
+                                    }}
+                                >
+                                    <CloseIcon fontSize="small" />
+                                </IconButton>
+                            </CustomTooltip>
+                        )}
                     </Box>
                 )}
                 renderInput={(params) => (

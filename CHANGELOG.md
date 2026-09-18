@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Library**) Add autocomplete to the search bar, suggesting the entries of the category that is being searched. Pressing `tab` selects the suggested live auto-completion
 - (**Sync**) Add sync button to the app bar of the library and updates pages
 - (**Browse/Extension**) Add search suggestions to extensions browse tab
+- (**Global/Search**) Remember submitted searches and offer them in the search bar, each removable from the dropdown
 
 ### Changed
 
