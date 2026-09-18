@@ -38,7 +38,7 @@ export class MediaQuery {
         return this.useIsBelowWidth(this.TABLET_WIDTH);
     }
 
-    private static getScrollbarSize(type: 'height' | 'width'): number {
+    private static getScrollbarSize(type: 'X' | 'Y'): number {
         const outer = document.createElement('div');
         outer.style.position = 'absolute';
         outer.style.top = '-9999px';
@@ -51,18 +51,15 @@ export class MediaQuery {
         inner.style.height = '100%';
         outer.appendChild(inner);
 
-        const width = outer.offsetWidth - inner.offsetWidth;
-        const height = outer.offsetHeight - inner.offsetHeight;
+        const y = outer.offsetWidth - inner.offsetWidth;
+        const x = outer.offsetHeight - inner.offsetHeight;
 
         document.body.removeChild(outer);
 
-        return type === 'height' ? height : width;
+        return type === 'X' ? x : y;
     }
 
-    static useGetScrollbarSize(
-        type: 'height' | 'width',
-        element: HTMLElement | null = document.documentElement,
-    ): number {
+    static useGetScrollbarSize(type: 'X' | 'Y', element: HTMLElement | null = document.documentElement): number {
         const [scrollbarSize, setScrollbarSize] = useState(0);
 
         useResizeObserver(
@@ -71,7 +68,7 @@ export class MediaQuery {
                 const hasYScrollbar = !!(element!.scrollHeight - element!.clientHeight);
                 const hasXScrollbar = !!(element!.scrollWidth - element!.clientWidth);
 
-                const hasScrollbar = (type === 'height' && hasYScrollbar) || (type === 'width' && hasXScrollbar);
+                const hasScrollbar = (type === 'X' && hasXScrollbar) || (type === 'Y' && hasYScrollbar);
                 if (hasScrollbar) {
                     setScrollbarSize(this.getScrollbarSize(type));
                     return;

@@ -120,7 +120,7 @@ export const ChapterList = ({
 
     const { ref: chapterListHeaderRef, height: chapterListHeaderHeight } = useElementSize();
 
-    const scrollbarWidth = MediaQuery.useGetScrollbarSize('width');
+    const scrollbarYSize = MediaQuery.useGetScrollbarSize('Y');
 
     const options = useChapterListOptions(manga);
     const updateOption = updateChapterListOptions(manga, (e) =>
@@ -188,7 +188,7 @@ export const ChapterList = ({
                         alignItems: 'center',
                         justifyContent: 'space-between',
                     }}
-                    scrollbarWidth={scrollbarWidth}
+                    scrollbarWidth={scrollbarYSize}
                 >
                     <Stack>
                         <Typography variant="h5" component="h3">

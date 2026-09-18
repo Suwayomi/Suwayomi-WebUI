@@ -125,8 +125,8 @@ const BaseReaderViewer = ({
 
     useEffect(() => getReaderAutoScrollStore().setScrollRef(scrollElementRef.current), []);
 
-    const scrollbarXSize = MediaQuery.useGetScrollbarSize('width', scrollElementRef.current);
-    const scrollbarYSize = MediaQuery.useGetScrollbarSize('height', scrollElementRef.current);
+    const scrollbarXSize = MediaQuery.useGetScrollbarSize('X', scrollElementRef.current);
+    const scrollbarYSize = MediaQuery.useGetScrollbarSize('Y', scrollElementRef.current);
     useLayoutEffect(() => {
         const { scrollbar } = getReaderStore();
         scrollbar.setXSize(scrollbarXSize);
