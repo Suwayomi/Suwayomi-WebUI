@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.843Z\n"
-"PO-Revision-Date: 2026-09-09 08:51+0000\n"
+"PO-Revision-Date: 2026-09-19 10:51+0000\n"
 "Last-Translator: Damien O'Neil <maxiburning@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/suwayomi/suwayomi-"
 "webui/fr/>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -4596,3 +4596,13 @@ msgstr ""
 #: src/features/sync/components/SyncButton.tsx
 msgid "Sync now"
 msgstr "Synchroniser maintenant"
+
+#: src/features/chapter/components/buttons/ChapterCardExpandButton.tsx
+msgid "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr ""
+"{count, plural, one {Afficher # chapitre de plus} other {Afficher # "
+"chapitres de plus}}"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "Filter mode"
+msgstr "Mode de filtrage"
