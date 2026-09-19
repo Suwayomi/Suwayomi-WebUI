@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-01-12T20:43:50.892Z\n"
-"PO-Revision-Date: 2026-07-21 02:01+0000\n"
-"Last-Translator: O Neithan <nathanoliveira2904@gmail.com>\n"
+"PO-Revision-Date: 2026-09-17 17:51+0000\n"
+"Last-Translator: Leonardo de Macedo Sartorello <leo.sartorello98@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "suwayomi/suwayomi-webui/pt_BR/>\n"
 "Language: pt-BR\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.8.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "X-Message-Format: ICU\n"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
@@ -3061,3 +3061,232 @@ msgstr "Quadrinho"
 #: src/features/settings/components/images/Processing.tsx
 msgid "Connect timeout"
 msgstr "Tempo limite de conexão"
+
+#. placeholder {0}: reorders.length
+#: src/features/downloads/screens/DownloadQueue.tsx
+msgid "{0, plural, one {Could not reorder download} other {Could not reorder downloads}}"
+msgstr ""
+"{0, plural, one {Não foi possível reordenar o download} other {Não foi "
+"possível reordenar os downloads}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Could not cancel the download} other {Could not cancel downloads}}"
+msgstr ""
+"{count, plural, one {Não foi possível cancelar o download} other {Não foi "
+"possível cancelar os downloads}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {Download canceled} other {# downloads canceled}}"
+msgstr ""
+"{count, plural, one {Download cancelado} other {# downloads cancelados}}"
+
+#: src/features/chapter/components/buttons/ChapterCardExpandButton.tsx
+msgid "{count, plural, one {Show # more chapter} other {Show # more chapters}}"
+msgstr ""
+"{count, plural, one {mostrar mais # capítulo} other {mostrar mais # "
+"capítulos}}"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "{count, plural, one {You are about to cancel one download} other {You are about to cancel # downloads}}"
+msgstr ""
+"{count, plural, one {Você esta prestes a cancelar o download} other {Você "
+"esta prestes a cancelar # downloads}}"
+
+#: src/features/global-search/screens/SearchAll.tsx
+msgid "{libraryMangaCount, plural, one {# entry in library} other {# entries in library}}"
+msgstr ""
+"{libraryMangaCount, plural, one {# entrada na biblioteca} other {# entradas "
+"na biblioteca}}"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add a private note about this manga"
+msgstr "Adicionar uma nota privada sobre esse manga"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Add notes"
+msgstr "Adicionar notas"
+
+#: src/features/library/components/LibraryOptionsPanel.tsx
+msgid "and"
+msgstr "e"
+
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+msgid "Cancel all for this series"
+msgstr "Cancelar tudo para essa serie"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel download"
+msgstr "Cancelar download"
+
+#: src/features/chapter/Chapter.constants.ts
+msgid "Cancel downloads of selected"
+msgstr "Cancelar downloads dos selecionados"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Clear cookies and cache"
+msgstr "Limpar cookies e cache"
+
+#: src/features/manga/components/details/MangaNotes.tsx
+msgid "Clear notes"
+msgstr "Limpar anotações"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Cleared WebView cookies and cache"
+msgstr "Cookies e cache do WebView limpos"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connect to KOReader Sync server"
+msgstr "Conectar ao servidor KOReader Sync"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {currentUsername} to {currentServerAddress}"
+msgstr "Conectado como {currentUsername} a {currentServerAddress}"
+
+#: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
+msgid "Connected as {initialUsername} to {initialServerAddress}"
+msgstr "Conectado como {initialUsername} a {initialServerAddress}"
+
+#: src/features/migration/components/MigrationContinueButton.tsx
+msgid "Continue"
+msgstr "Continuar"
+
+#: src/features/manga/components/ContinueReadingTooltip.tsx
+msgid "Continue reading\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+msgstr ""
+"Continuar leitura\n"
+"#{chapterNumber} — {name}\n"
+"{scanlator}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+#, fuzzy
+msgid "Controls the MimeType that Suwayomi sends in OPDS entries for CBZ archives. Also affects global CBZ download.\n"
+"Modern follows recent IANA standard (2017), while LEGACY (deprecated mimetype for .cbz) and COMPATIBLE (deprecated mimetype for all comic archives) might be more compatible with older clients."
+msgstr ""
+"Controla o MimeType que o Suwayomi envia nas entradas OPDS para arquivos "
+"CBZ. Também afeta o download global de CBZ.\n"
+"\"Modern\" segue o padrão recente da IANA (2017), enquanto \"LEGACY\" "
+"(mimetype obsoleto para .cbz) e \"COMPATIBLE\" (mimetype obsoleto para todos "
+"os arquivos de quadrinhos) podem ser mais compatíveis com clientes antigos."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Convert images to different formats"
+msgstr "Converter imagens para outros formatos"
+
+#: src/lib/HelperFunctions.ts
+msgid "Copied to clipboard"
+msgstr "Copiado para a área de transferência"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Copy index url"
+msgstr "Copiar URL do índice"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Could not add extension store"
+msgstr "Não foi possível adicionar a loja de extensões"
+
+#: src/features/manga/hooks/useManageMangaLibraryState.tsx
+msgid "Could not check for duplicated manga in your library.\n"
+"\n"
+"Error: {errorMessage}"
+msgstr ""
+"Não foi possível verificar mangás duplicados na sua biblioteca.\n"
+"\n"
+"Erro: {errorMessage}"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Could not clear WebView cookies and cache"
+msgstr "Não foi possível limpar os cookies e o cache do WebView"
+
+#: src/lib/HelperFunctions.ts
+msgid "Could not copy to clipboard"
+msgstr "Não foi possível copiar para a área de transferência"
+
+#: src/features/backup/screens/Backup.tsx
+msgid "Could not create backup"
+msgstr "Não foi possível criar backup"
+
+#: src/features/migration/MigrationManager.ts
+msgid "The migration runs on the client on the current device, NOT the server.\n"
+"As long as the client is open, the migration will run in the background.\n"
+"The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
+msgstr ""
+"A migração roda no cliente do dispositivo atual, NÃO no servidor.\n"
+"Enquanto o cliente estiver aberto, a migração será executada em segundo "
+"plano.\n"
+"O cliente pode ser fechado. A migração será retomada quando ele for aberto "
+"novamente no mesmo dispositivo em que foi iniciada."
+
+#: src/features/settings/Settings.constants.ts
+msgid "Features and changes in this version might not be completely ready yet and can cause bugs.\n"
+"Make sure that you have automatic backups enabled to prevent loss of your library!\n"
+"\n"
+"After changing this setting go to the \"About\" page and check for a webUI update and install it"
+msgstr ""
+"Recursos e mudanças nesta versão podem ainda não estar totalmente prontos e "
+"podem causar bugs.\n"
+"Certifique-se de que os backups automáticos estão ativados para evitar a "
+"perda da sua biblioteca!\n"
+"\n"
+"Depois de alterar esta configuração, vá à página \"Sobre\", verifique se há "
+"uma atualização da webUI e instale-a"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Flaresolverr is a <0><1>separate</1></0>, Suwayomi <2><3>unrelated</3></2> program that needs to be manually <4><5>installed</5></4> and <6><7>run</7></6>.<8/>See <9>FlareSolverr</9> for information on how to set it up<10/><11/>If it is <12><13>not</13></12> properly set up and running, enabling this setting <14><15>won't</15></14> do anything"
+msgstr ""
+"Flaresolverr é um programa <0><1>separado</1></0> e <2><3>sem relação</3></"
+"2> com o Suwayomi que precisa ser manualmente <4><5>instalado</5></4> e <6>"
+"<7>executado</7></6>.<8/>Consulte <9>FlareSolverr</9> para saber como "
+"configurá-lo<10/><11/>Se ele <12><13>não</13></12> estiver corretamente "
+"configurado e em execução, ativar esta configuração <14><15>não</15></14> "
+"terá efeito"
+
+#: src/features/settings/Settings.constants.ts
+msgid "Use a custom WebUI.\n"
+"To use a custom WebUI replace the content of the \"webUI\" directory in the root directory on the server with the files of the custom WebUI"
+msgstr ""
+"Usar uma WebUI personalizada.\n"
+"Para usá-la, substitua o conteúdo do diretório \"webUI\" no diretório raiz "
+"do servidor pelos arquivos da WebUI personalizada"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "When enabled, download and streaming links are provided directly in the chapter list. KoSync strategies are applied, but PROMPT conflicts are ignored (treating local progress as priority)"
+msgstr ""
+"Quando ativado, os links de download e streaming são exibidos diretamente na "
+"lista de capítulos. As estratégias do KoSync são aplicadas, mas conflitos "
+"PROMPT são ignorados (o progresso local tem prioridade)"
+
+#: src/features/settings/screens/WebUISettings.tsx
+msgid "Shows a dialog in case the version got updated. This dialog will be shown in case an app refresh is required, regardless of this setting."
+msgstr ""
+"Mostra um diálogo quando a versão é atualizada. Este diálogo será exibido "
+"caso uma atualização do aplicativo seja necessária, independentemente desta "
+"configuração."
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Number of items per page in OPDS feeds (e.g., Library History, Manga Chapters).\n"
+"Higher values may affect client performance."
+msgstr ""
+"Número de itens por página nos feeds OPDS (ex.: histórico da biblioteca, "
+"capítulos do mangá).\n"
+"Valores maiores podem afetar o desempenho do cliente."
+
+#: src/features/browse/screens/BrowseSettings.tsx
+msgid "This does not prevent unofficial or potentially incorrectly flagged extensions from surfacing NSFW (18+) content within the app."
+msgstr ""
+"Isso não impede que extensões não oficiais ou possivelmente sinalizadas "
+"incorretamente exibam conteúdo NSFW (18+) dentro do aplicativo."
+
+#: src/features/tracker/components/TrackerSearch.tsx
+msgid "Search for a ID via \"id:<ID>\" (e.g. \"id:13\")\n"
+"Limit search to your lists via \"my:<Title>\" (e.g. \"my:One Piece\")"
+msgstr ""
+"Buscar por ID via \"id:<ID>\" (ex.: \"id:13\")\n"
+"Limitar a busca às suas listas via \"my:<Título>\" (ex.: \"my:One Piece\")"
+
+#: src/features/settings/screens/ServerSettings.tsx
+msgid "Improves performance, but may cause issues for some installations where data cannot be read from the database"
+msgstr ""
+"Melhora o desempenho, mas pode causar problemas em algumas instalações onde "
+"os dados não podem ser lidos do banco de dados"
