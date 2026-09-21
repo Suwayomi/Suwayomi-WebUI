@@ -11,7 +11,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import ListSubheader from '@mui/material/ListSubheader';
+import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import { useLingui } from '@lingui/react/macro';
 import { plural, t as translate } from '@lingui/core/macro';
 import { GlobalUpdateSettings } from '@/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx';

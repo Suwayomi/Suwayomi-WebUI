@@ -12,7 +12,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { fromEvent } from 'file-selector';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListSubheader from '@mui/material/ListSubheader';
+import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import { useEventListener, useMergedRef, useWindowEvent } from '@mantine/hooks';
 import { AwaitableComponent } from 'awaitable-component';
 import { useLingui } from '@lingui/react/macro';

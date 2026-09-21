@@ -23,6 +23,7 @@ import { ReaderBehaviourSettings } from '@/features/reader/settings/behaviour/Re
 import { ReaderDefaultLayoutSettings } from '@/features/reader/settings/layout/ReaderDefaultLayoutSettings.tsx';
 import { ReaderHotkeysSettings } from '@/features/reader/hotkeys/settings/ReaderHotkeysSettings.tsx';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
+import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
 
 const BaseReaderSettingsTabs = ({
     activeTab,
@@ -46,34 +47,38 @@ const BaseReaderSettingsTabs = ({
     const isTouchDevice = MediaQuery.useIsTouchDevice();
 
     return (
-        <>
-            <TabsMenu
-                value={activeTab}
-                onChange={(_, newTab) => setActiveTab(newTab)}
-                sx={{
-                    ...applyStyles(!!areDefaultSettings, { zIndex: 2 }),
-                    ...applyStyles(!areDefaultSettings, {
-                        backgroundColor: 'background.paper',
-                        backgroundImage: 'var(--Paper-overlay)',
-                    }),
-                }}
-            >
-                {Object.values(READER_SETTING_TABS).map(({ id, label, supportsTouchDevices }) => {
-                    if (!supportsTouchDevices && isTouchDevice) {
-                        return null;
-                    }
+        <OffsetComponentWithContainer
+            sx={{ zIndex: 2 }}
+            component={
+                <TabsMenu
+                    value={activeTab}
+                    onChange={(_, newTab) => setActiveTab(newTab)}
+                    sx={{
+                        ...applyStyles(!!areDefaultSettings, { zIndex: 2 }),
+                        ...applyStyles(!areDefaultSettings, {
+                            backgroundColor: 'background.paper',
+                            backgroundImage: 'var(--Paper-overlay)',
+                        }),
+                    }}
+                >
+                    {Object.values(READER_SETTING_TABS).map(({ id, label, supportsTouchDevices }) => {
+                        if (!supportsTouchDevices && isTouchDevice) {
+                            return null;
+                        }
 
-                    return (
-                        <Tab
-                            key={id}
-                            value={id}
-                            label={t(label)}
-                            sx={{ flexGrow: 1, maxWidth: 'unset', textTransform: 'none' }}
-                        />
-                    );
-                })}
-            </TabsMenu>
-            <Box sx={{ p: areDefaultSettings ? undefined : 2, overflowX: 'hidden' }}>
+                        return (
+                            <Tab
+                                key={id}
+                                value={id}
+                                label={t(label)}
+                                sx={{ flexGrow: 1, maxWidth: 'unset', textTransform: 'none' }}
+                            />
+                        );
+                    })}
+                </TabsMenu>
+            }
+        >
+            <Box sx={{ p: areDefaultSettings ? undefined : 2 }}>
                 {Object.values(READER_SETTING_TABS).map(({ id, supportsTouchDevices }) => {
                     if (!supportsTouchDevices && isTouchDevice) {
                         return null;
@@ -177,7 +182,7 @@ const BaseReaderSettingsTabs = ({
                     }
                 })}
             </Box>
-        </>
+        </OffsetComponentWithContainer>
     );
 };
 

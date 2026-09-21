@@ -155,6 +155,11 @@
                         "importNames": ["useLongPress"],
                         "message": "Use the wrapper \"usePress\" instead",
                     },
+                    {
+                        "name": "@mui/material/ListSubheader",
+                        "importNames": ["default"],
+                        "message": "Use src/base/lists/ListSubheader instead",
+                    },
                 ],
             },
         ],

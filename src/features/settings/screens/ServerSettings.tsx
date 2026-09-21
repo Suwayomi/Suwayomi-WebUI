@@ -12,7 +12,6 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Switch from '@mui/material/Switch';
-import ListSubheader from '@mui/material/ListSubheader';
 import { d } from 'koration';
 import { Trans, useLingui } from '@lingui/react/macro';
 import { plural, t as translate } from '@lingui/core/macro';
@@ -63,6 +62,7 @@ import { AwaitableComponent } from 'awaitable-component';
 import { convertToAutoBackupFlags, getAutoBackupFlagsInfo } from '@/features/backup/Backup.utils.ts';
 import type { BackupFlagInclusionState } from '@/features/backup/Backup.types.ts';
 import { getDateString } from '@/base/utils/DateHelper.ts';
+import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 
 const convertSyncDataToBackupFlags = (settings: ServerSettingsType): BackupFlagInclusionState => ({
     includeManga: settings.syncDataManga,

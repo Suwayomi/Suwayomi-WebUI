@@ -32,7 +32,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useForceUpdate } from '@mantine/hooks';
 import List from '@mui/material/List';
-import ListSubheader from '@mui/material/ListSubheader';
+import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import Button from '@mui/material/Button';
 
 /** Enough to be worth scrolling through, few enough to not cover the whole screen on mobile. */

@@ -10,7 +10,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import MenuItem from '@mui/material/MenuItem';
-import ListSubheader from '@mui/material/ListSubheader';
+import { ListSubheader } from '@/base/components/lists/ListSubheader.tsx';
 import Switch from '@mui/material/Switch';
 import Link from '@mui/material/Link';
 import { useColorScheme } from '@mui/material/styles';
@@ -73,47 +73,49 @@ export const Appearance = () => {
     }
 
     return (
-        <List
-            subheader={
-                <ListSubheader component="div" id="appearance-theme">
-                    {t`Theme`}
-                </ListSubheader>
-            }
-        >
-            <ListItem>
-                <ListItemText primary={t`Theme mode`} />
-                <Select<ThemeMode>
-                    value={actualThemeMode}
-                    onChange={(e) => {
-                        const newMode = e.target.value as 'system' | 'light' | 'dark';
-
-                        setThemeMode(newMode as ThemeMode);
-                        setMode(newMode);
-                        // in case a non "colorSchemes" mui theme is active, "setMode" does not update the mode ("mui-mode") value
-                        AppStorage.local.setItem(MUI_THEME_MODE_KEY, newMode, true);
-                    }}
-                >
-                    <MenuItem key={ThemeMode.SYSTEM} value={ThemeMode.SYSTEM}>
-                        {t`System`}
-                    </MenuItem>
-                    <MenuItem key={ThemeMode.DARK} value={ThemeMode.DARK}>
-                        {t`Dark`}
-                    </MenuItem>
-                    <MenuItem key={ThemeMode.LIGHT} value={ThemeMode.LIGHT}>
-                        {t`Light`}
-                    </MenuItem>
-                </Select>
-            </ListItem>
-            <ThemeList />
-            {isDarkMode && (
+        <List>
+            <List
+                subheader={
+                    <ListSubheader component="div" id="appearance-theme" customOffsetProps={{ sx: { zIndex: 2 } }}>
+                        {t`Theme`}
+                    </ListSubheader>
+                }
+            >
                 <ListItem>
-                    <ListItemText primary={t`Pure black dark mode`} />
-                    <Switch
-                        checked={shouldUsePureBlackMode}
-                        onChange={(_, enabled) => setShouldUsePureBlackMode(enabled)}
-                    />
+                    <ListItemText primary={t`Theme mode`} />
+                    <Select<ThemeMode>
+                        value={actualThemeMode}
+                        onChange={(e) => {
+                            const newMode = e.target.value as 'system' | 'light' | 'dark';
+
+                            setThemeMode(newMode as ThemeMode);
+                            setMode(newMode);
+                            // in case a non "colorSchemes" mui theme is active, "setMode" does not update the mode ("mui-mode") value
+                            AppStorage.local.setItem(MUI_THEME_MODE_KEY, newMode, true);
+                        }}
+                    >
+                        <MenuItem key={ThemeMode.SYSTEM} value={ThemeMode.SYSTEM}>
+                            {t`System`}
+                        </MenuItem>
+                        <MenuItem key={ThemeMode.DARK} value={ThemeMode.DARK}>
+                            {t`Dark`}
+                        </MenuItem>
+                        <MenuItem key={ThemeMode.LIGHT} value={ThemeMode.LIGHT}>
+                            {t`Light`}
+                        </MenuItem>
+                    </Select>
                 </ListItem>
-            )}
+                <ThemeList />
+                {isDarkMode && (
+                    <ListItem>
+                        <ListItemText primary={t`Pure black dark mode`} />
+                        <Switch
+                            checked={shouldUsePureBlackMode}
+                            onChange={(_, enabled) => setShouldUsePureBlackMode(enabled)}
+                        />
+                    </ListItem>
+                )}
+            </List>
             <List
                 subheader={
                     <ListSubheader component="div" id="appearance-theme">
