@@ -77,6 +77,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const [liveAutoCompletion, setLiveAutoCompletion] = useState<string>();
 
     const [focused, setFocused] = useState(false);
+    const [hideSuggestions, setHideSuggestions] = useState(false);
 
     const {
         settings: { fuzzySearch: isFuzzySearchEnabled },
@@ -136,11 +137,13 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         if (normalizedQuery === '') {
             return;
         }
+
         setLiveAutoCompletion(undefined);
         setSearchString(normalizedQuery);
         addToHistory(normalizedQuery);
         setQuery(normalizedQuery);
         updateSearchOpenState(false);
+        setHideSuggestions(true);
     }
 
     const cancelSearch = () => {
@@ -194,7 +197,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     if (isOpen) {
         return (
             <Autocomplete<SearchSuggestion, false, true, true>
-                open={focused}
+                open={focused && !hideSuggestions}
                 freeSolo
                 disableClearable
                 forcePopupIcon={false}
@@ -223,6 +226,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                     // that is kept in sync with the query param
                     if (reason === 'input') {
                         setSearchString(value);
+                        setHideSuggestions(false);
 
                         const tmpNormalizedValue = value.trimStart().toLowerCase();
 
