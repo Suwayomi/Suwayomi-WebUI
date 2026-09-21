@@ -105,6 +105,7 @@ export function Library() {
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
     const {
         visibleMangas: mangas,
+        searchSuggestions,
         showFilteredOutMessage,
         filterKey,
     } = useGetVisibleLibraryMangas(categoryMangas, activeTab);
@@ -123,8 +124,7 @@ export function Library() {
     );
 
     const mangaIds = useMemo(() => mangas.map((manga) => manga.id), [mangas]);
-    // the unfiltered list, so that a committed search does not shrink the suggestions to its own results
-    const mangaTitles = useMemo(() => categoryMangas.map((manga) => manga.title), [categoryMangas]);
+    const mangaTitles = useMemo(() => searchSuggestions.map((manga) => manga.title), [searchSuggestions]);
 
     const [isSelectModeActive, setIsSelectModeActive] = useState(false);
     const {

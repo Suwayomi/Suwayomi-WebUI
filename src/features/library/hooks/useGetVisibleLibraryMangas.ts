@@ -325,6 +325,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
     category?: CategoryMetadataInfo,
 ): {
     visibleMangas: Manga[];
+    searchSuggestions: Manga[];
     showFilteredOutMessage: boolean;
     filterKey: string;
 } => {
@@ -387,6 +388,12 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
         return filteredMangas.filter((manga) => querySearchManga(query, manga));
     }, [fuzzySearchIndex, filteredMangas, query]);
 
+    // Suggestions are based on the "unsearched" mangas; otherwise, the search query would incorrectly shrink the suggestions
+    const searchSuggestions = useMemo(
+        () => (settings.ignoreFilters ? mangas : filteredMangas),
+        [settings.ignoreFilters, filteredMangas, mangas],
+    );
+
     const isATrackFilterActive = Object.values(hasTrackerBinding).some((trackFilterState) => trackFilterState != null);
     const isASourceFilterActive = Object.values(hasSource).some((sourceFilterState) => sourceFilterState != null);
     const showFilteredOutMessage =
@@ -402,6 +409,7 @@ export const useGetVisibleLibraryMangas = <Manga extends MangaIdInfo & TMangasFi
 
     return {
         visibleMangas,
+        searchSuggestions,
         showFilteredOutMessage,
         filterKey: `${JSON.stringify(options)}${JSON.stringify(hasSource)}${query}${settings.ignoreFilters}${settings.fuzzySearch}`,
     };
