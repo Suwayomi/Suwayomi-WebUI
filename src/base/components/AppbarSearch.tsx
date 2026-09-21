@@ -259,7 +259,11 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 renderOption={({ key, ...optionProps }, option) => (
                     <Box key={key} component="li" sx={{ gap: 1 }} {...optionProps}>
                         {option.isFromHistory ? <HistoryIcon /> : <SearchIcon />}
-                        <TypographyMaxLines sx={{ flexGrow: 1 }}>{option.label}</TypographyMaxLines>
+                        <Box sx={{ flexGrow: 1 }}>
+                            <CustomTooltip title={option.label} placement="right">
+                                <TypographyMaxLines sx={{ width: 'fit-content' }}>{option.label}</TypographyMaxLines>
+                            </CustomTooltip>
+                        </Box>
                         {option.isFromHistory && (
                             <CustomTooltip title={t`Delete`} placement="auto">
                                 <IconButton
