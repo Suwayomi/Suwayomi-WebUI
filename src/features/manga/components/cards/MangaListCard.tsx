@@ -20,6 +20,7 @@ import { MangaOptionButton } from '@/features/manga/components/MangaOptionButton
 import { ListCardAvatar } from '@/base/components/lists/cards/ListCardAvatar.tsx';
 import { ListCardContent } from '@/base/components/lists/cards/ListCardContent';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const MangaListCard = memo(
     ({
@@ -49,8 +50,7 @@ export const MangaListCard = memo(
                     state={Mangas.createLocationState(manga, mode)}
                     {...longPressBind(() => popupState.open(optionButtonRef.current))}
                     onContextMenu={preventMobileContextMenu}
-                    sx={{
-                        ...MediaQuery.preventMobileContextMenuSx(),
+                    sx={MUIUtil.mergeSx(MediaQuery.preventMobileContextMenuSx(), {
                         '@media (hover: hover) and (pointer: fine)': {
                             '&:hover .manga-option-button': {
                                 visibility: 'visible',
@@ -63,7 +63,7 @@ export const MangaListCard = memo(
                                 display: mode === 'source' ? 'none' : 'inline-flex',
                             },
                         },
-                    }}
+                    })}
                 >
                     <ListCardContent
                         sx={{

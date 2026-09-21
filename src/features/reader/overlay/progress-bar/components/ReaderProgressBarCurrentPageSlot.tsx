@@ -14,6 +14,7 @@ import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { getProgressBarPositionInfo } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.utils.tsx';
 import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/features/reader/settings/ReaderSettings.constants.tsx';
 import { coerceIn } from '@/lib/HelperFunctions.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const ReaderProgressBarCurrentPageSlot = ({
     pageName,
@@ -38,21 +39,23 @@ export const ReaderProgressBarCurrentPageSlot = ({
         >
             <Box
                 {...boxProps}
-                sx={{
-                    position: 'absolute',
-                    cursor: isDragging ? 'grabbing' : 'grab',
-                    ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isHorizontal, {
-                        left: `${(coercedCurrentPagesIndex / coercedTotalPages) * 100}%`,
-                        width: `calc(100% / ${coercedTotalPages})`,
-                        height: '100%',
-                    }),
-                    ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isVertical, {
-                        top: `${(coercedCurrentPagesIndex / coercedTotalPages) * 100}%`,
-                        width: '100%',
-                        height: `calc(100% / ${coercedTotalPages})`,
-                    }),
-                    ...boxProps?.sx,
-                }}
+                sx={MUIUtil.mergeSx(
+                    {
+                        position: 'absolute',
+                        cursor: isDragging ? 'grabbing' : 'grab',
+                        ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isHorizontal, {
+                            left: `${(coercedCurrentPagesIndex / coercedTotalPages) * 100}%`,
+                            width: `calc(100% / ${coercedTotalPages})`,
+                            height: '100%',
+                        }),
+                        ...applyStyles(getProgressBarPositionInfo(progressBarPosition).isVertical, {
+                            top: `${(coercedCurrentPagesIndex / coercedTotalPages) * 100}%`,
+                            width: '100%',
+                            height: `calc(100% / ${coercedTotalPages})`,
+                        }),
+                    },
+                    boxProps?.sx,
+                )}
             >
                 {children}
             </Box>

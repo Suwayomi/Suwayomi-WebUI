@@ -27,11 +27,13 @@ export const ChapterCardExpandButton = ({
 
     return (
         <Button
-            sx={{
-                maxWidth: 'fit-content',
-                justifyContent: 'flex-start',
-                ...theme.typography.caption,
-            }}
+            sx={MUIUtil.mergeSx(
+                {
+                    maxWidth: 'fit-content',
+                    justifyContent: 'flex-start',
+                },
+                theme.typography.caption,
+            )}
             variant="text"
             size="small"
             endIcon={expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}

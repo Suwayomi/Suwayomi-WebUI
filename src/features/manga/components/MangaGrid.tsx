@@ -32,6 +32,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { VirtuosoGridPersisted } from '@/lib/virtuoso/Component/VirtuosoGridPersisted.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const GridContainer = ({ children, ref, ...props }: GridTypeMap['props'] & { ref?: Ref<HTMLDivElement> }) => (
     <Grid {...props} ref={ref} container spacing={1}>
@@ -337,7 +338,11 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     }
 
     return (
-        <Box {...gridWrapperProps} ref={gridWrapperRef} sx={{ ...gridWrapperProps?.sx, overflow: 'hidden' }}>
+        <Box
+            {...gridWrapperProps}
+            ref={gridWrapperRef}
+            sx={MUIUtil.mergeSx(gridWrapperProps?.sx, { overflow: 'hidden' })}
+        >
             {horizontal ? (
                 <HorizontalGrid
                     ref={gridRef}

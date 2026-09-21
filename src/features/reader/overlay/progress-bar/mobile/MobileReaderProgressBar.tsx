@@ -269,18 +269,14 @@ const BaseMobileReaderProgressBar = ({
                     >
                         {getOptionForDirection(
                             <SkipPreviousIcon
-                                sx={{
-                                    ...applyStyles(isVertical, {
-                                        transform: 'rotate(90deg)',
-                                    }),
-                                }}
+                                sx={applyStyles(isVertical, {
+                                    transform: 'rotate(90deg)',
+                                })}
                             />,
                             <SkipNextIcon
-                                sx={{
-                                    ...applyStyles(isVertical, {
-                                        transform: 'rotate(90deg)',
-                                    }),
-                                }}
+                                sx={applyStyles(isVertical, {
+                                    transform: 'rotate(90deg)',
+                                })}
                             />,
                             finalReaderDirection,
                         )}
@@ -352,18 +348,14 @@ const BaseMobileReaderProgressBar = ({
                     >
                         {getOptionForDirection(
                             <SkipNextIcon
-                                sx={{
-                                    ...applyStyles(isVertical, {
-                                        transform: 'rotate(90deg)',
-                                    }),
-                                }}
+                                sx={applyStyles(isVertical, {
+                                    transform: 'rotate(90deg)',
+                                })}
                             />,
                             <SkipPreviousIcon
-                                sx={{
-                                    ...applyStyles(isVertical, {
-                                        transform: 'rotate(90deg)',
-                                    }),
-                                }}
+                                sx={applyStyles(isVertical, {
+                                    transform: 'rotate(90deg)',
+                                })}
                             />,
                             finalReaderDirection,
                         )}

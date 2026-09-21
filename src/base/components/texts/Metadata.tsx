@@ -11,6 +11,7 @@ import Stack from '@mui/material/Stack';
 import type { TypographyProps } from '@mui/material/Typography';
 import Typography from '@mui/material/Typography';
 import type { ReactNode } from 'react';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const Metadata = ({
     title,
@@ -27,15 +28,12 @@ export const Metadata = ({
 }) => (
     <Stack
         {...stackProps}
-        sx={{ flexDirection: 'row', columnGap: 1, flexWrap: 'wrap', alignItems: 'baseline', ...stackProps?.sx }}
+        sx={MUIUtil.mergeSx(
+            { flexDirection: 'row', columnGap: 1, flexWrap: 'wrap', alignItems: 'baseline' },
+            stackProps?.sx,
+        )}
     >
-        <Typography
-            {...titleProps}
-            sx={{
-                color: 'text.secondary',
-                ...titleProps?.sx,
-            }}
-        >
+        <Typography {...titleProps} sx={MUIUtil.mergeSx({ color: 'text.secondary' }, titleProps?.sx)}>
             {title}
         </Typography>
         <Typography {...valueProps}>{value}</Typography>

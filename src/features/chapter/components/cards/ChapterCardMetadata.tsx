@@ -11,6 +11,7 @@ import type { ComponentProps, ReactNode } from 'react';
 import Stack from '@mui/material/Stack';
 import { TypographyMaxLines } from '@/base/components/texts/TypographyMaxLines.tsx';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const TOOLTIP_PREVENT_OVERFLOW = {
     slotProps: {
@@ -78,10 +79,12 @@ export const ChapterCardMetadata = ({
                     variant="caption"
                     lines={1}
                     {...slotProps?.secondaryText}
-                    sx={{
-                        width: 'fit-content',
-                        ...slotProps?.secondaryText?.sx,
-                    }}
+                    sx={MUIUtil.mergeSx(
+                        {
+                            width: 'fit-content',
+                        },
+                        slotProps?.secondaryText?.sx,
+                    )}
                 >
                     {secondaryText}
                 </TypographyMaxLines>
@@ -93,10 +96,12 @@ export const ChapterCardMetadata = ({
                     variant="caption"
                     lines={1}
                     {...slotProps?.ternaryText}
-                    sx={{
-                        width: 'fit-content',
-                        ...slotProps?.ternaryText?.sx,
-                    }}
+                    sx={MUIUtil.mergeSx(
+                        {
+                            width: 'fit-content',
+                        },
+                        slotProps?.ternaryText?.sx,
+                    )}
                 >
                     {ternaryText}
                 </TypographyMaxLines>

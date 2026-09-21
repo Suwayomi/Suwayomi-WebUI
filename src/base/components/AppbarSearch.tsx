@@ -313,21 +313,19 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                             onCancel={cancelSearch}
                             onBlur={handleBlur}
                             inputRef={inputRef}
-                            sx={{
-                                ...theme.applyStyles('light', {
-                                    '& .MuiInput-underline:before': {
-                                        borderBottomColor: 'primary.contrastText', // Default color
-                                    },
-                                    '& .MuiInput-underline:hover:before': {
-                                        borderBottomColor: 'primary.contrastText', // Hover color
-                                    },
-                                    '& .MuiInput-underline:after': {
-                                        borderBottomColor: 'primary.dark', // Focused color
-                                    },
-                                }),
-                            }}
+                            sx={theme.applyStyles('light', {
+                                '& .MuiInput-underline:before': {
+                                    borderBottomColor: 'primary.contrastText', // Default color
+                                },
+                                '& .MuiInput-underline:hover:before': {
+                                    borderBottomColor: 'primary.contrastText', // Hover color
+                                },
+                                '& .MuiInput-underline:after': {
+                                    borderBottomColor: 'primary.dark', // Focused color
+                                },
+                            })}
                             cancelButtonProps={{
-                                sx: { ...theme.applyStyles('light', { color: 'primary.contrastText' }) },
+                                sx: theme.applyStyles('light', { color: 'primary.contrastText' }),
                             }}
                         />
                     </Box>

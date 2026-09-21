@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import type { ComponentProps } from 'react';
 import { SuwayomiLogo } from '@/assets/SuwayomiLogo.tsx';
 import { ServerAddressSetting } from '@/features/settings/components/ServerAddressSetting.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const SplashScreen = ({
     slots,
@@ -27,36 +28,42 @@ export const SplashScreen = ({
     return (
         <Stack
             {...slots?.stackProps}
-            sx={{
-                position: 'relative',
-                minWidth: '100vw',
-                minHeight: '100vh',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'background.paper',
-                ...slots?.stackProps?.sx,
-            }}
+            sx={MUIUtil.mergeSx(
+                {
+                    position: 'relative',
+                    minWidth: '100vw',
+                    minHeight: '100vh',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    backgroundColor: 'background.paper',
+                },
+                slots?.stackProps?.sx,
+            )}
         >
             <SuwayomiLogo
                 circleRingColor={theme.palette.primary.light}
                 circleFillColor={theme.palette.primary.dark}
                 {...slots?.logoProps}
-                sx={{
-                    fontSize: 250,
-                    [theme.breakpoints.up('lg')]: {
-                        fontSize: 350,
+                sx={MUIUtil.mergeSx(
+                    {
+                        fontSize: 250,
+                        [theme.breakpoints.up('lg')]: {
+                            fontSize: 350,
+                        },
                     },
-                    ...slots?.logoProps?.sx,
-                }}
+                    slots?.logoProps?.sx,
+                )}
             />
             <Stack
                 {...slots?.serverAddressProps}
-                sx={{
-                    position: 'absolute',
-                    left: 0,
-                    bottom: 0,
-                    ...slots?.serverAddressProps?.sx,
-                }}
+                sx={MUIUtil.mergeSx(
+                    {
+                        position: 'absolute',
+                        left: 0,
+                        bottom: 0,
+                    },
+                    slots?.serverAddressProps?.sx,
+                )}
             >
                 <ServerAddressSetting />
             </Stack>

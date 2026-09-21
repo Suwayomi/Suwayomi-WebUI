@@ -16,6 +16,7 @@ import Stack from '@mui/material/Stack';
 import Collapse from '@mui/material/Collapse';
 import { useLingui } from '@lingui/react/macro';
 import { extractGraphqlExceptionInfo } from '@/lib/HelperFunctions.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const ERROR_FACES = ['(･o･;)', 'Σ(ಠ_ಠ)', 'ಥ_ಥ', '(˘･_･˘)', '(；￣Д￣)', '(･Д･。'];
 
@@ -92,17 +93,19 @@ export function EmptyView({ message, messageExtra, retry, noFaces, sx }: EmptyVi
 
     return (
         <Stack
-            sx={{
-                p: 2,
-                textAlign: 'center',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minWidth: 'fill-available',
-                maxWidth: '100%',
-                minHeight: '100%',
-                pointerEvents: 'none',
-                ...sx,
-            }}
+            sx={MUIUtil.mergeSx(
+                {
+                    p: 2,
+                    textAlign: 'center',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    minWidth: 'fill-available',
+                    maxWidth: '100%',
+                    minHeight: '100%',
+                    pointerEvents: 'none',
+                },
+                sx,
+            )}
         >
             {!noFaces && (
                 <Typography variant="h3" gutterBottom sx={{ pointerEvents: 'all' }}>

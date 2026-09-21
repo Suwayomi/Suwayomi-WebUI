@@ -25,6 +25,7 @@ import type { Priority } from '@/lib/Queue.ts';
 import { applyStyles } from '@/base/utils/ApplyStyles.ts';
 import { useIntersectionObserver } from '@/base/hooks/useIntersectionObserver.tsx';
 import { noOp } from '@/lib/HelperFunctions.ts';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export interface SpinnerImageProps {
     shouldLoad?: boolean;
@@ -174,13 +175,15 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
             {showMissingImageIcon ? (
                 <Stack
                     ref={ref}
-                    sx={{
-                        height: '100%',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: (theme) => theme.palette.background.default,
-                        ...spinnerStyle,
-                    }}
+                    sx={MUIUtil.mergeSx(
+                        {
+                            height: '100%',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: (theme) => theme.palette.background.default,
+                        },
+                        spinnerStyle,
+                    )}
                 >
                     <ImageIcon fontSize="large" />
                 </Stack>
@@ -207,12 +210,14 @@ export const SpinnerImage = ({ ref, ...props }: SpinnerImageProps) => {
             {(!!isLoading || (src && !imageSourceUrl) || hasError) && (
                 <Stack
                     ref={loadingIndicatorRef}
-                    sx={{
-                        height: '100%',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        ...spinnerStyle,
-                    }}
+                    sx={MUIUtil.mergeSx(
+                        {
+                            height: '100%',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        },
+                        spinnerStyle,
+                    )}
                 >
                     <Stack
                         sx={{

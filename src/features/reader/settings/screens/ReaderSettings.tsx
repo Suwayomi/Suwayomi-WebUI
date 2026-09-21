@@ -36,11 +36,9 @@ export const ReaderSettings = ({ isOpen, close }: { isOpen: boolean; close: () =
             fullWidth
             onClose={close}
             hideBackdrop={activeTab === ReaderSettingTab.FILTER}
-            sx={{
-                ...applyStyles(isTransparent, {
-                    opacity: 0.75,
-                }),
-            }}
+            sx={applyStyles(isTransparent, {
+                opacity: 0.75,
+            })}
         >
             <DialogContent sx={{ p: 0 }}>
                 <ReaderSettingsTabs

@@ -20,6 +20,7 @@ import ClickAwayListener from '@mui/material/ClickAwayListener';
 import { assertIsDefined } from '@/base/Asserts.ts';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import { useElementSize } from '@mantine/hooks';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export interface SelectButtonBaseProps<Value extends string | number, MultiValue extends Value | Value[] = Value> {
     value: MultiValue;
@@ -68,7 +69,7 @@ const SelectButtonBase = <Value extends string | number, MultiValue extends Valu
         <Stack
             {...slotProps?.stack}
             ref={ref}
-            sx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 1, ...slotProps?.stack?.sx }}
+            sx={MUIUtil.mergeSx({ flexDirection: 'row', flexWrap: 'wrap', gap: 1 }, slotProps?.stack?.sx)}
         >
             {isDefaultable && (
                 <CustomTooltip title={slotProps?.defaultButton?.hideText ? t`Default` : null}>

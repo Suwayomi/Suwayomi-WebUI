@@ -128,11 +128,9 @@ export const ChapterCard = memo((props: IProps) => {
             {(popupState) => (
                 <Stack sx={{ pt: 1, px: 1 }}>
                     <Card
-                        sx={{
-                            ...applyStyles(mode === 'reader' && isActiveChapter, {
-                                backgroundColor: 'primary.main',
-                            }),
-                        }}
+                        sx={applyStyles(mode === 'reader' && isActiveChapter, {
+                            backgroundColor: 'primary.main',
+                        })}
                     >
                         <CardActionArea
                             component={Link}

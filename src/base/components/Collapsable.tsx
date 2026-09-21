@@ -14,6 +14,7 @@ import type { ReactNode } from 'react';
 import { useState } from 'react';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const Collapsable = ({
     header,
@@ -38,22 +39,26 @@ export const Collapsable = ({
         <>
             <Stack
                 {...slots?.headerContainer}
-                sx={{
-                    flexDirection: 'row',
-                    gap: 1,
-                    alignItems: 'center',
-                    ...slots?.headerContainer?.sx,
-                }}
+                sx={MUIUtil.mergeSx(
+                    {
+                        flexDirection: 'row',
+                        gap: 1,
+                        alignItems: 'center',
+                    },
+                    slots?.headerContainer?.sx,
+                )}
             >
                 <Stack
                     {...slots?.headerWrapper}
-                    sx={{
-                        flexDirection: 'row',
-                        alignItems: 'flex-end',
-                        gap: 1,
-                        cursor: 'pointer',
-                        ...slots?.headerWrapper?.sx,
-                    }}
+                    sx={MUIUtil.mergeSx(
+                        {
+                            flexDirection: 'row',
+                            alignItems: 'flex-end',
+                            gap: 1,
+                            cursor: 'pointer',
+                        },
+                        slots?.headerWrapper?.sx,
+                    )}
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {header}
@@ -72,11 +77,13 @@ export const Collapsable = ({
 
                         return {
                             ...wrapperInnerProps,
-                            sx: {
-                                display: 'flex',
-                                flexDirection: 'column',
-                                ...wrapperInnerProps?.sx,
-                            },
+                            sx: MUIUtil.mergeSx(
+                                {
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                },
+                                wrapperInnerProps?.sx,
+                            ),
                         };
                     },
                 }}

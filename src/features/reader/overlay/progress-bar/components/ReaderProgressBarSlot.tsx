@@ -13,6 +13,7 @@ import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import type { ReaderProgressBarSlotProps } from '@/features/reader/overlay/progress-bar/ReaderProgressBar.types.ts';
 
 import { READER_PROGRESS_BAR_POSITION_TO_PLACEMENT } from '@/features/reader/settings/ReaderSettings.constants.tsx';
+import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 export const ReaderProgressBarSlot = memo(
     ({ pageName, progressBarPosition, slotProps, children }: ReaderProgressBarSlotProps & { children?: ReactNode }) => (
@@ -22,7 +23,7 @@ export const ReaderProgressBarSlot = memo(
             placement={READER_PROGRESS_BAR_POSITION_TO_PLACEMENT[progressBarPosition]}
             disableTouchListener
         >
-            <Box {...slotProps?.box} sx={{ width: '100%', height: '100%', ...slotProps?.box?.sx }}>
+            <Box {...slotProps?.box} sx={MUIUtil.mergeSx({ width: '100%', height: '100%' }, slotProps?.box?.sx)}>
                 {children}
             </Box>
         </CustomTooltip>
