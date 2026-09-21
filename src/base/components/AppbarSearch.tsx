@@ -30,6 +30,7 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 import { useSearchHistory } from '@/base/hooks/useSearchHistory.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
+import { useForceUpdate } from '@mantine/hooks';
 
 /** Enough to be worth scrolling through, few enough to not cover the whole screen on mobile. */
 const MAX_SUGGESTIONS = 8;
@@ -60,6 +61,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     const { t } = useLingui();
     const { setHideTitle, navBarWidth } = useNavBarContext();
     const scrollbarYSize = MediaQuery.useGetScrollbarSize('Y');
+    const forceUpdate = useForceUpdate();
 
     const [prevLocationKey, setPrevLocationKey] = useState<string>();
     const location = useLocation();
@@ -173,6 +175,12 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
     );
 
     useEffect(() => {
+        if (isOpen) {
+            requestAnimationFrame(() => {
+                forceUpdate();
+            });
+        }
+
         setHideTitle(isOpen);
         return () => setHideTitle(false);
     }, [isOpen]);
