@@ -238,7 +238,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 }}
                 renderOption={({ key, ...optionProps }, option) => (
                     <Box key={key} component="li" sx={{ gap: 1 }} {...optionProps}>
-                        {option.isFromHistory ? <HistoryIcon fontSize="small" /> : <SearchIcon fontSize="small" />}
+                        {option.isFromHistory ? <HistoryIcon /> : <SearchIcon />}
                         <TypographyMaxLines sx={{ flexGrow: 1 }}>{option.label}</TypographyMaxLines>
                         {option.isFromHistory && (
                             <CustomTooltip title={t`Delete`}>
@@ -249,7 +249,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                                         removeFromHistory(option.label);
                                     }}
                                 >
-                                    <CloseIcon fontSize="small" />
+                                    <CloseIcon />
                                 </IconButton>
                             </CustomTooltip>
                         )}
