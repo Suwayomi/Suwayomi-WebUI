@@ -289,6 +289,8 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                                     display: 'flex',
                                     alignItems: 'center',
                                     height: '100%',
+                                    width: '100%',
+                                    overflow: 'hidden',
                                     color: 'text.secondary',
                                     whiteSpace: 'pre',
                                     pointerEvents: 'none',
