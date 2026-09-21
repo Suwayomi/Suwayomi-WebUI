@@ -25,6 +25,7 @@ export const useSearchHistory = (
     history: string[];
     addToHistory: (query: string) => void;
     removeFromHistory: (query: string) => void;
+    clearHistory: () => void;
 } => {
     const [history, setHistory] = useLocalStorage<string[]>(
         `${SEARCH_HISTORY_STORAGE_KEY}::${key}`,
@@ -56,5 +57,9 @@ export const useSearchHistory = (
         [setHistory],
     );
 
-    return { history, addToHistory, removeFromHistory };
+    const clearHistory = useCallback(() => {
+        setHistory([]);
+    }, [setHistory]);
+
+    return { history, addToHistory, removeFromHistory, clearHistory };
 };

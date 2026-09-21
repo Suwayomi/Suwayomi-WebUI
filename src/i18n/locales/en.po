@@ -1415,6 +1415,7 @@ msgstr "Default category when adding new manga to the library"
 msgid "Delete"
 msgstr "Delete"
 
+#: src/base/components/AppbarSearch.tsx
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "Delete all"
 msgstr "Delete all"

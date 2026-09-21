@@ -31,6 +31,9 @@ import { useSearchHistory } from '@/base/hooks/useSearchHistory.ts';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import { useForceUpdate } from '@mantine/hooks';
+import List from '@mui/material/List';
+import ListSubheader from '@mui/material/ListSubheader';
+import Button from '@mui/material/Button';
 
 /** Enough to be worth scrolling through, few enough to not cover the whole screen on mobile. */
 const MAX_SUGGESTIONS = 8;
@@ -79,7 +82,10 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         settings: { fuzzySearch: isFuzzySearchEnabled },
     } = useMetadataServerSettings();
 
-    const { history, addToHistory, removeFromHistory } = useSearchHistory(searchHistoryKey, MAX_HISTORY_SUGGESTIONS);
+    const { history, addToHistory, removeFromHistory, clearHistory } = useSearchHistory(
+        searchHistoryKey,
+        MAX_HISTORY_SUGGESTIONS,
+    );
 
     if (prevLocationKey !== location.key) {
         setPrevLocationKey(location.key);
@@ -236,12 +242,26 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 onChange={(_, value) => {
                     handleChange(typeof value === 'string' ? value : value.label);
                 }}
+                renderGroup={(value) => (
+                    <List
+                        subheader={
+                            value.group && (
+                                <ListSubheader sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                                    {value.group}
+                                    <Button onClick={clearHistory}>{t`Delete all`}</Button>
+                                </ListSubheader>
+                            )
+                        }
+                    >
+                        {value.children}
+                    </List>
+                )}
                 renderOption={({ key, ...optionProps }, option) => (
                     <Box key={key} component="li" sx={{ gap: 1 }} {...optionProps}>
                         {option.isFromHistory ? <HistoryIcon /> : <SearchIcon />}
                         <TypographyMaxLines sx={{ flexGrow: 1 }}>{option.label}</TypographyMaxLines>
                         {option.isFromHistory && (
-                            <CustomTooltip title={t`Delete`}>
+                            <CustomTooltip title={t`Delete`} placement="auto">
                                 <IconButton
                                     edge="end"
                                     onClick={(e) => {
