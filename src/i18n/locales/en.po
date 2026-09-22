@@ -3869,10 +3869,10 @@ msgstr "The migration runs on the client on the current device, NOT the server.\
 "The client can be closed. The migration will be resumed once it gets opened again on the same device it got started on."
 
 #: src/features/reader/services/ReaderControls.ts
-msgid "The next chapter has a different scanlator then the current one.\n"
+msgid "The next chapter has a different scanlator than the current one.\n"
 "Current: {currentScanlator}\n"
 "Next: {nextScanlator}"
-msgstr "The next chapter has a different scanlator then the current one.\n"
+msgstr "The next chapter has a different scanlator than the current one.\n"
 "Current: {currentScanlator}\n"
 "Next: {nextScanlator}"
 
@@ -3893,10 +3893,10 @@ msgid "The path to the electron installation on the server"
 msgstr "The path to the electron installation on the server"
 
 #: src/features/reader/services/ReaderControls.ts
-msgid "The previous chapter has a different scanlator then the current one.\n"
+msgid "The previous chapter has a different scanlator than the current one.\n"
 "Previous: {nextScanlator}\n"
 "Current: {currentScanlator}"
-msgstr "The previous chapter has a different scanlator then the current one.\n"
+msgstr "The previous chapter has a different scanlator than the current one.\n"
 "Previous: {nextScanlator}\n"
 "Current: {currentScanlator}"
 

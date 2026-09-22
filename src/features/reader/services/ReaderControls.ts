@@ -314,11 +314,11 @@ class ReaderControlsClass {
 
         const offsetToTranslations: Record<typeof offset, Record<'scanlator' | 'chapter_number', MessageDescriptor>> = {
             previous: {
-                scanlator: msg`The previous chapter has a different scanlator then the current one.\nPrevious: {nextScanlator}\nCurrent: {currentScanlator}`,
+                scanlator: msg`The previous chapter has a different scanlator than the current one.\nPrevious: {nextScanlator}\nCurrent: {currentScanlator}`,
                 chapter_number: msg`{count, plural, one {There is # missing chapter.\nPrevious: {nextChapter}\nCurrent: {currentChapter}} other {There are # missing chapters.\nPrevious: {nextChapter}\nCurrent: {currentChapter}}}`,
             },
             next: {
-                scanlator: msg`The next chapter has a different scanlator then the current one.\nCurrent: {currentScanlator}\nNext: {nextScanlator}`,
+                scanlator: msg`The next chapter has a different scanlator than the current one.\nCurrent: {currentScanlator}\nNext: {nextScanlator}`,
                 chapter_number: msg`{count, plural, one {There is # missing chapter.\nCurrent: {currentChapter}\nNext: {nextChapter}} other {There are # missing chapters.\nCurrent: {currentChapter}\nNext: {nextChapter}}}`,
             },
         };
