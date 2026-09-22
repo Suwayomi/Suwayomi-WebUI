@@ -56,18 +56,34 @@ export const ReaderSettingHotkey = ({
 
     return (
         <>
-            <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 1 }}>
-                <Typography sx={{ flexGrow: 1 }}>{t(READER_HOTKEY_TO_TITLE[hotkey])}</Typography>
-                <Hotkey
-                    keys={keys}
-                    removeKey={(keyToRemove) => updateSetting(keys.filter((key) => key !== keyToRemove))}
-                />
-                <CustomTooltip title={t`Add`}>
-                    <IconButton {...bindTrigger(popupState)} color="inherit">
-                        <AddIcon />
-                    </IconButton>
-                </CustomTooltip>
-                <ResetButton asIconButton onClick={() => updateSetting(DEFAULT_READER_SETTINGS.hotkeys[hotkey])} />
+            <Stack sx={{ flexDirection: 'row', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+                <Typography>{t(READER_HOTKEY_TO_TITLE[hotkey])}</Typography>
+                <Stack
+                    sx={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'flex-end',
+                        gap: 1,
+                        flexGrow: 1,
+                        flexWrap: 'wrap',
+                    }}
+                >
+                    <Hotkey
+                        keys={keys}
+                        removeKey={(keyToRemove) => updateSetting(keys.filter((key) => key !== keyToRemove))}
+                    />
+                    <Stack sx={{ flexDirection: 'row' }}>
+                        <CustomTooltip title={t`Add`}>
+                            <IconButton {...bindTrigger(popupState)} color="inherit">
+                                <AddIcon />
+                            </IconButton>
+                        </CustomTooltip>
+                        <ResetButton
+                            asIconButton
+                            onClick={() => updateSetting(DEFAULT_READER_SETTINGS.hotkeys[hotkey])}
+                        />
+                    </Stack>
+                </Stack>
             </Stack>
             {popupState.isOpen && (
                 <RecordHotkey
