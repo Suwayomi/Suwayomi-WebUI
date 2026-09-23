@@ -15,6 +15,7 @@ import { UrlUtil } from '@/lib/UrlUtil.ts';
 import type { RouteStateSourceBrowse, SourceIdInfo } from '@/features/source/Source.types.ts';
 import type { RouteStateReader } from '@/features/reader/Reader.types.ts';
 import type { RouteStateSourcesSearchAll } from '@/features/global-search/SearchAll.types.ts';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 type AppRouteInfo = {
     match: string;
@@ -58,11 +59,19 @@ export const AppRoutes = {
                 match: 'reader',
                 path: '/settings/reader',
             },
+            lightNovelReader: {
+                match: 'light-novel-reader',
+                path: '/settings/light-novel-reader',
+            },
             library: {
                 match: 'library',
                 path: '/settings/library',
 
                 children: {
+                    categories: {
+                        match: 'categories',
+                        path: '/settings/library/categories',
+                    },
                     duplicates: {
                         match: 'duplicates',
                         path: '/settings/library/duplicates',
@@ -152,7 +161,11 @@ export const AppRoutes = {
             },
             searchAll: {
                 match: 'all/search',
-                path: (query?: string | null | undefined) => UrlUtil.addQueryParam('/sources/all/search', query),
+                path: (query?: string | null | undefined, contentType?: SourceContentType) =>
+                    UrlUtil.addParams('/sources/all/search', {
+                        [SearchParam.QUERY]: query,
+                        contentType,
+                    }),
                 state: (state: RouteStateSourcesSearchAll) => ({ ...state }),
             },
         },
@@ -169,7 +182,10 @@ export const AppRoutes = {
     },
     downloads: {
         match: 'downloads',
-        path: '/downloads',
+        path: (tab?: string) =>
+            UrlUtil.addParams('/downloads', {
+                ...UrlUtil.createTabParam(tab),
+            }),
     },
     manga: {
         match: 'manga/:id',
@@ -185,14 +201,28 @@ export const AppRoutes = {
     library: {
         match: 'library',
         path: (tab?: string, search?: string) =>
-            UrlUtil.addParams('/library', {
+            UrlUtil.addParams('/library/manga', {
                 ...UrlUtil.createTabParam(tab),
                 ...UrlUtil.createQueryParam(search),
             }),
+        children: {
+            manga: { match: 'manga' },
+            lightNovel: {
+                match: 'light-novel',
+                path: (tab?: string, search?: string) =>
+                    UrlUtil.addParams('/library/light-novel', {
+                        ...UrlUtil.createTabParam(tab),
+                        ...UrlUtil.createQueryParam(search),
+                    }),
+            },
+        },
     },
     updates: {
         match: 'updates',
-        path: '/updates',
+        path: (tab?: string) =>
+            UrlUtil.addParams('/updates', {
+                ...UrlUtil.createTabParam(tab),
+            }),
     },
     history: {
         match: 'history',

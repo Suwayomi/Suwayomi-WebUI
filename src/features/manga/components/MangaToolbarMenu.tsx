@@ -34,12 +34,17 @@ import type {
     MangaTitleInfo,
     MangaUrlInfo,
 } from '@/features/manga/Manga.types.ts';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import ShareIcon from '@mui/icons-material/Share';
 import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts';
 import { ShareGuard } from '@/base/components/guard/ShareGuard.tsx';
 
 interface IProps {
-    manga: MangaIdInfo & MangaInLibraryInfo & MangaSourceIdInfo & MangaTitleInfo & MangaUrlInfo;
+    manga: MangaIdInfo &
+        MangaInLibraryInfo &
+        MangaSourceIdInfo &
+        MangaTitleInfo &
+        MangaUrlInfo & { contentType?: SourceContentType };
     onRefresh: () => any;
     refreshing: boolean;
 }
@@ -58,7 +63,10 @@ export const MangaToolbarMenu = ({ manga, onRefresh, refreshing }: IProps) => {
     };
 
     const openCategorySelection = () => {
-        AwaitableComponent.show(CategorySelect, { mangaId: manga.id });
+        AwaitableComponent.show(CategorySelect, {
+            mangaId: manga.id,
+            contentType: manga.contentType,
+        });
     };
 
     // oxlint-disable-next-line unicorn/consistent-function-scoping

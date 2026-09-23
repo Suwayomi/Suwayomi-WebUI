@@ -46,6 +46,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { ChapterListCard } from '@/features/chapter/components/cards/ChapterListCard.tsx';
 import { VirtuosoPersisted } from '@/lib/virtuoso/Component/VirtuosoPersisted.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { isNetworkRequestInFlight } from '@apollo/client/utilities';
 import { useElementSize } from '@mantine/hooks';
 import { VirtuosoUtil } from '@/lib/virtuoso/Virtuoso.util.tsx';
 
@@ -78,10 +79,12 @@ const StyledVirtuoso = styled(VirtuosoPersisted, {
 const ChapterListFAB = ({
     selectedChapters,
     firstUnreadChapter,
+    sourceId,
     onFABMenuClose,
 }: {
     selectedChapters: ChapterListFieldsFragment[];
     firstUnreadChapter: ComponentProps<typeof ResumeFab>['chapter'] | null | undefined;
+    sourceId: string;
     onFABMenuClose?: () => void;
 }) => {
     if (selectedChapters.length) {
@@ -90,6 +93,7 @@ const ChapterListFAB = ({
                 {(handleClose) => (
                     <ChapterActionMenuItems
                         selectedChapters={selectedChapters}
+                        sourceId={sourceId}
                         onClose={() => {
                             onFABMenuClose?.();
                             handleClose();
@@ -111,7 +115,10 @@ export const ChapterList = ({
     manga,
     isRefreshing,
 }: {
-    manga: Pick<MangaScreenFieldsFragment, 'id' | 'firstUnreadChapter' | 'chapters' | 'unreadCount' | 'downloadCount'>;
+    manga: Pick<
+        MangaScreenFieldsFragment,
+        'id' | 'sourceId' | 'firstUnreadChapter' | 'chapters' | 'unreadCount' | 'downloadCount'
+    >;
     isRefreshing: boolean;
 }) => {
     const { t } = useLingui();
@@ -131,13 +138,15 @@ export const ChapterList = ({
     const {
         data: chaptersData,
         loading: isLoading,
+        networkStatus,
         error,
         refetch,
     } = requestManager.useGetMangaChapters<GetChaptersMangaQuery, GetChaptersMangaQueryVariables>(
         GET_CHAPTERS_MANGA,
         manga.id,
     );
-    const chapters = chaptersData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
+    const chapters = chaptersData?.chapters?.nodes ?? STABLE_EMPTY_ARRAY;
+    const isValidating = isNetworkRequestInFlight(networkStatus);
 
     const visibleChapters = useMemo(() => filterAndSortChapters(chapters, options), [chapters, options]);
     const visibleChapterIds = useMemo(() => Chapters.getIds(visibleChapters), [visibleChapters]);
@@ -160,7 +169,12 @@ export const ChapterList = ({
         [handleSelection],
     );
 
-    if (isLoading || (noChaptersFound && isRefreshing)) {
+    const isSlowOrRefetching =
+        isLoading ||
+        (!chaptersData && !error) ||
+        (noChaptersFound && (isValidating || isRefreshing || (manga.chapters.totalCount > 0 && !error)));
+
+    if (isSlowOrRefetching) {
         return (
             <Stack sx={{ justifyContent: 'center', alignItems: 'center', position: 'relative', flexGrow: 1 }}>
                 <LoadingPlaceholder />
@@ -168,7 +182,7 @@ export const ChapterList = ({
         );
     }
 
-    if (error) {
+    if (error && noChaptersFound) {
         return (
             <Stack sx={{ justifyContent: 'center', position: 'relative', flexGrow: 1 }}>
                 <EmptyViewAbsoluteCentered
@@ -249,6 +263,7 @@ export const ChapterList = ({
                             index={index}
                             isSortDesc={options.reverse}
                             chapters={visibleChapters}
+                            sourceId={manga.sourceId}
                             selected={!areNoItemsSelected ? selectedItemIds.includes(visibleChapters[index].id) : null}
                             showChapterNumber={options.showChapterNumber}
                             onSelect={onSelect}
@@ -259,6 +274,7 @@ export const ChapterList = ({
                 />
             </Stack>
             <ChapterListFAB
+                sourceId={manga.sourceId}
                 selectedChapters={selectedItemIds
                     .map((id) => chapters.find((chapter) => chapter.id === id))
                     .filter((chapter) => chapter != null)}

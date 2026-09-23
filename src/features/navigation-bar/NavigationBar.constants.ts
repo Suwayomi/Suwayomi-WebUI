@@ -8,6 +8,8 @@
 
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 import CollectionsOutlinedBookmarkIcon from '@mui/icons-material/CollectionsBookmarkOutlined';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import NewReleasesOutlinedIcon from '@mui/icons-material/NewReleasesOutlined';
 import HistoryIcon from '@mui/icons-material/History';
@@ -33,14 +35,23 @@ type RestrictedNavBarItem<Show extends NavbarItem['show']> = Omit<NavbarItem, 's
 const NAVIGATION_BAR_BASE_ITEMS = [
     {
         path: AppRoutes.library.path() as RestrictedNavBarItem<'both'>['path'],
-        title: msg`Library`,
+        title: msg`Manga`,
         SelectedIconComponent: CollectionsBookmarkIcon,
         IconComponent: CollectionsOutlinedBookmarkIcon,
         show: 'both',
         moreGroup: NavBarItemMoreGroup.GENERAL,
+        additionalMatchPaths: [AppRoutes.library.children.lightNovel.path()],
     },
     {
-        path: AppRoutes.updates.path,
+        path: AppRoutes.library.children.lightNovel.path() as RestrictedNavBarItem<'desktop'>['path'],
+        title: msg`Light Novel`,
+        SelectedIconComponent: AutoStoriesIcon,
+        IconComponent: AutoStoriesOutlinedIcon,
+        show: 'desktop',
+        moreGroup: NavBarItemMoreGroup.GENERAL,
+    },
+    {
+        path: AppRoutes.updates.path() as RestrictedNavBarItem<'both'>['path'],
         title: msg`Updates`,
         SelectedIconComponent: NewReleasesIcon,
         IconComponent: NewReleasesOutlinedIcon,
@@ -86,37 +97,39 @@ const NAVIGATION_BAR_BASE_ITEMS = [
             };
         },
     },
-] as const satisfies RestrictedNavBarItem<'both'>[];
+] as const satisfies readonly (RestrictedNavBarItem<'both'> | RestrictedNavBarItem<'desktop'>)[];
+
+const useDownloadBadge = () => {
+    const { t } = useLingui();
+    const { data } = requestManager.useGetDownloadStatus();
+    const downloadStatus = data?.downloadStatus;
+
+    const isPaused = downloadStatus?.state === DownloaderState.Stopped;
+    const count = downloadStatus?.queue.length ?? 0;
+
+    if (!count) {
+        return {
+            count,
+            title: '',
+        };
+    }
+
+    return {
+        count,
+        title: isPaused ? t`Paused — ${count} remaining` : t`${count} remaining`,
+    };
+};
 
 const NAVIGATION_BAR_DESKTOP_ITEMS = [
     {
-        path: AppRoutes.downloads.path,
+        path: AppRoutes.downloads.path() as RestrictedNavBarItem<'desktop'>['path'],
         title: msg`Downloads`,
         moreTitle: msg`Download queue`,
         SelectedIconComponent: GetAppIcon,
         IconComponent: GetAppOutlinedIcon,
         show: 'desktop',
         moreGroup: NavBarItemMoreGroup.HIDDEN_ITEM,
-        useBadge: () => {
-            const { t } = useLingui();
-            const { data } = requestManager.useGetDownloadStatus();
-            const downloadStatus = data?.downloadStatus;
-
-            const isPaused = downloadStatus?.state === DownloaderState.Stopped;
-            const count = downloadStatus?.queue.length ?? 0;
-
-            if (!count) {
-                return {
-                    count,
-                    title: '',
-                };
-            }
-
-            return {
-                count,
-                title: isPaused ? t`Paused — ${count} remaining` : t`${count} remaining`,
-            };
-        },
+        useBadge: useDownloadBadge,
     },
     {
         path: AppRoutes.settings.path,

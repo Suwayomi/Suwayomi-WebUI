@@ -33,6 +33,7 @@ import { GridLayout } from '@/base/Base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { VirtuosoGridPersisted } from '@/lib/virtuoso/Component/VirtuosoGridPersisted.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 const GridContainer = ({ children, ref, ...props }: GridTypeMap['props'] & { ref?: Ref<HTMLDivElement> }) => (
     <Grid {...props} ref={ref} container spacing={1}>
@@ -152,14 +153,16 @@ const VerticalGrid = ({
     mode,
     ref,
     onMigrateSelect,
+    persistKey,
 }: DefaultGridProps & {
     hasNextPage: boolean;
     loadMore: () => void;
+    persistKey: string;
 }) => (
     <>
         <Box ref={ref}>
             <VirtuosoGridPersisted
-                persistKey={MANGA_GRID_SNAPSHOT_KEY}
+                persistKey={persistKey}
                 useWindowScroll
                 increaseViewportBy={window.innerHeight * 0.5}
                 totalCount={mangas.length}
@@ -205,6 +208,10 @@ export interface IMangaGridProps
     horizontal?: boolean | undefined;
     noFaces?: boolean | undefined;
     gridWrapperProps?: Omit<BoxProps, 'ref'>;
+    persistKey?: string;
+    contentType?: SourceContentType;
+    activeTab?: { id: number } | null;
+    filterQuery?: string;
 }
 
 export const MangaGrid: React.FC<IMangaGridProps> = ({
@@ -225,7 +232,14 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
     retry,
     gridWrapperProps,
     onMigrateSelect,
+    persistKey,
+    contentType,
+    activeTab,
+    filterQuery,
 }) => {
+    const computedPersistKey =
+        persistKey ??
+        `${MANGA_GRID_SNAPSHOT_KEY}-${contentType ?? 'MANGA'}-${activeTab?.id ?? 'all'}-${filterQuery ?? ''}`;
     const { t } = useLingui();
 
     const { navBarWidth } = useNavBarContext();
@@ -360,6 +374,7 @@ export const MangaGrid: React.FC<IMangaGridProps> = ({
             ) : (
                 <VerticalGrid
                     ref={gridRef}
+                    persistKey={computedPersistKey}
                     isLoading={isLoading}
                     mangas={mangas}
                     inLibraryIndicator={inLibraryIndicator}

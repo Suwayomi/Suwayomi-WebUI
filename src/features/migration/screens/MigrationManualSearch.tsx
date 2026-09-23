@@ -8,7 +8,17 @@
 
 import { SearchAll } from '@/features/global-search/screens/SearchAll.tsx';
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
+import { useParams } from 'react-router-dom';
 
-export const MigrationManualSearch = () => (
-    <SearchAll migrationDestinationSourceIds={MigrationManager.getState().destinationSourceIds} />
-);
+export const MigrationManualSearch = () => {
+    const { mangaId } = useParams<{ mangaId: string }>();
+    const migrationState = MigrationManager.getState();
+    const migrationSourceId = mangaId ? migrationState.entries[Number(mangaId)]?.sourceId : undefined;
+
+    return (
+        <SearchAll
+            migrationDestinationSourceIds={migrationState.destinationSourceIds}
+            migrationSourceId={migrationSourceId}
+        />
+    );
+};

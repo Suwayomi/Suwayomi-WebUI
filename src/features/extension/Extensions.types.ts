@@ -43,6 +43,7 @@ export type TExtension = Pick<
     | 'isInstalled'
     | 'isObsolete'
     | 'hasUpdate'
+    | 'runtimeKind'
 > & { extensionStore?: Pick<ExtensionStoreType, 'indexUrl' | 'name'> | null };
 
 export type GroupedExtensionsResult<KEY extends string = string> = [KEY, TExtension[]][];

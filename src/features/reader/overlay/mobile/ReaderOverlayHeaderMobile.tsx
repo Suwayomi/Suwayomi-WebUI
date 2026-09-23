@@ -48,6 +48,7 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
     const scrollbar = useReaderScrollbarStore((state) => state);
 
     const { id: mangaId, title } = manga ?? DEFAULT_MANGA;
+    const sourceId = manga?.sourceId;
     const { id: chapterId, name, realUrl, isBookmarked } = currentChapter ?? FALLBACK_CHAPTER;
 
     return (
@@ -108,7 +109,7 @@ const BaseReaderOverlayHeaderMobile = ({ isVisible, ref }: MobileHeaderProps & {
                     <MenuItem
                         component={Link}
                         disabled={!realUrl}
-                        href={realUrl ? requestManager.getWebviewUrl(realUrl) : ''}
+                        href={realUrl ? requestManager.getWebviewUrl(realUrl, sourceId) : ''}
                         rel="noreferrer"
                         target="_blank"
                     >

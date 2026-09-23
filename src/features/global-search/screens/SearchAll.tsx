@@ -63,6 +63,7 @@ import type { RouteStateSourcesSearchAll } from '@/features/global-search/Search
 import groupBy from 'lodash/fp/groupBy';
 import mapValues from 'lodash/fp/mapValues';
 import type { TMigratableSource } from '@/features/migration/Migration.types.ts';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { plural } from '@lingui/core/macro';
 
 type SourceLoadingState = { isLoading: boolean; hasResults: boolean; emptySearch: boolean; error: any };
@@ -265,15 +266,19 @@ const SourceSearchPreview = React.memo(
 
 export const SearchAll = ({
     migrationDestinationSourceIds,
+    migrationSourceId,
 }: {
     migrationDestinationSourceIds?: SourceIdInfo['id'][];
+    migrationSourceId?: SourceIdInfo['id'];
 }) => {
     const { t } = useLingui();
     const navigate = useNavigate();
     const { state } = useLocation<RouteStateSourcesSearchAll>();
+    const [contentTypeQuery] = useQueryParam('contentType', StringParam);
     const { ref: filterHeaderRef, height: filterHeaderHeight } = useElementSize();
 
-    const { mangaId } = useParams<{ mangaId?: string }>() ?? STABLE_EMPTY_OBJECT;
+    const { mangaId, sourceId: routeSourceId } =
+        useParams<{ mangaId?: string; sourceId?: string }>() ?? STABLE_EMPTY_OBJECT;
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
     const searchString = useDebounce(query, TRIGGER_SEARCH_THRESHOLD);
 
@@ -285,12 +290,20 @@ export const SearchAll = ({
     const migratableSourcesRequest = Sources.useGetMigratableSources();
     const { data, loading, error, refetch } = requestManager.useGetSourceList();
     const tmpSources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
+    const sourceIdForContentType = migrationSourceId ?? routeSourceId;
+    const contentType =
+        state?.contentType ??
+        (contentTypeQuery as SourceContentType) ??
+        tmpSources.find((source) => source.id === sourceIdForContentType)?.contentType ??
+        SourceContentType.Manga;
     const sources = useMemo(
         () =>
             tmpSources.filter(
-                (source) => !migrationDestinationSourceIds || migrationDestinationSourceIds.includes(source.id),
+                (source) =>
+                    (!contentType || (source.contentType ?? SourceContentType.Manga) === contentType) &&
+                    (!migrationDestinationSourceIds || migrationDestinationSourceIds.includes(source.id)),
             ),
-        [tmpSources, migrationDestinationSourceIds],
+        [tmpSources, contentType, migrationDestinationSourceIds],
     );
 
     const [sourceToLoadingStateMap, setSourceToLoadingStateMap] = useState<SourceToLoadingStateMap>(new Map());

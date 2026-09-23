@@ -36,6 +36,7 @@ export type AboutWebUi = {
 export type AddExtensionStoreInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
     indexUrl: Scalars['String']['input'];
+    kind?: InputMaybe<ExtensionKind>;
 };
 
 export type AddExtensionStorePayload = {
@@ -114,6 +115,7 @@ export type BooleanFilterInput = {
 };
 
 export type CategoryConditionInput = {
+    contentType?: InputMaybe<SourceContentType>;
     default?: InputMaybe<Scalars['Boolean']['input']>;
     id?: InputMaybe<Scalars['Int']['input']>;
     name?: InputMaybe<Scalars['String']['input']>;
@@ -176,14 +178,21 @@ export type CategoryOrderInput = {
 
 export type CategoryType = {
     __typename?: 'CategoryType';
+    contentType: SourceContentType;
     default: Scalars['Boolean']['output'];
     id: Scalars['Int']['output'];
     includeInDownload: IncludeOrExclude;
     includeInUpdate: IncludeOrExclude;
+    isDefaultCategory: Scalars['Boolean']['output'];
     mangas: MangaNodeList;
     meta: Array<CategoryMetaType>;
     name: Scalars['String']['output'];
     order: Scalars['Int']['output'];
+};
+
+export type CategoryTypeMangasArgs = {
+    contentType?: InputMaybe<SourceContentType>;
+    inLibrary?: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type CategoryUpdateType = {
@@ -200,6 +209,7 @@ export enum CbzMediaType {
 
 export type ChapterConditionInput = {
     chapterNumber?: InputMaybe<Scalars['Float']['input']>;
+    contentType?: InputMaybe<SourceContentType>;
     fetchedAt?: InputMaybe<Scalars['LongString']['input']>;
     id?: InputMaybe<Scalars['Int']['input']>;
     isBookmarked?: InputMaybe<Scalars['Boolean']['input']>;
@@ -288,6 +298,14 @@ export type ChapterOrderInput = {
     byType?: InputMaybe<SortOrder>;
 };
 
+export type ChapterTextContent = {
+    __typename?: 'ChapterTextContent';
+    customCss?: Maybe<Scalars['String']['output']>;
+    customJs?: Maybe<Scalars['String']['output']>;
+    fromDownload: Scalars['Boolean']['output'];
+    html: Scalars['String']['output'];
+};
+
 export type ChapterType = {
     __typename?: 'ChapterType';
     chapterNumber: Scalars['Float']['output'];
@@ -306,6 +324,8 @@ export type ChapterType = {
     realUrl?: Maybe<Scalars['String']['output']>;
     scanlator?: Maybe<Scalars['String']['output']>;
     sourceOrder: Scalars['Int']['output'];
+    textContent?: Maybe<ChapterTextContent>;
+    textProgress?: Maybe<Scalars['Float']['output']>;
     uploadDate: Scalars['LongString']['output'];
     url: Scalars['String']['output'];
 };
@@ -412,6 +432,7 @@ export type CreateBackupPayload = {
 
 export type CreateCategoryInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    contentType: SourceContentType;
     default?: InputMaybe<Scalars['Boolean']['input']>;
     includeInDownload?: InputMaybe<IncludeOrExclude>;
     includeInUpdate?: InputMaybe<IncludeOrExclude>;
@@ -814,6 +835,11 @@ export type ExtensionFilterInput = {
     versionName?: InputMaybe<StringFilterInput>;
 };
 
+export enum ExtensionKind {
+    Jvm = 'JVM',
+    Lnreader = 'LNREADER',
+}
+
 export type ExtensionNodeList = NodeList & {
     __typename?: 'ExtensionNodeList';
     edges: Array<ExtensionEdge>;
@@ -837,6 +863,7 @@ export type ExtensionOrderInput = {
 export type ExtensionStoreConditionInput = {
     id?: InputMaybe<Scalars['Int']['input']>;
     indexUrl?: InputMaybe<Scalars['String']['input']>;
+    kind?: InputMaybe<ExtensionKind>;
     name?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -881,6 +908,7 @@ export type ExtensionStoreType = {
     extensions: ExtensionNodeList;
     indexUrl: Scalars['String']['output'];
     isLegacy: Scalars['Boolean']['output'];
+    kind: ExtensionKind;
     name: Scalars['String']['output'];
     signingKey: Scalars['String']['output'];
 };
@@ -890,7 +918,10 @@ export type ExtensionType = {
     /** This will be nullable in the future */
     apkName?: Maybe<Scalars['String']['output']>;
     apkUrl?: Maybe<Scalars['String']['output']>;
+    codeUrl?: Maybe<Scalars['String']['output']>;
     contentWarning: ContentWarning;
+    customCssUrl?: Maybe<Scalars['String']['output']>;
+    customJsUrl?: Maybe<Scalars['String']['output']>;
     extensionLib?: Maybe<Scalars['String']['output']>;
     extensionStore?: Maybe<ExtensionStoreType>;
     hasUpdate: Scalars['Boolean']['output'];
@@ -903,8 +934,11 @@ export type ExtensionType = {
     lang: Scalars['String']['output'];
     name: Scalars['String']['output'];
     pkgName: Scalars['String']['output'];
+    pluginId?: Maybe<Scalars['String']['output']>;
     /** @deprecated Removed in extension api v1.6, replace with storeIndexUrl */
     repo?: Maybe<Scalars['String']['output']>;
+    runtimeKind: ExtensionKind;
+    siteUrl?: Maybe<Scalars['String']['output']>;
     source: SourceNodeList;
     storeIndexUrl?: Maybe<Scalars['String']['output']>;
     /** @deprecated Type was changed to Long, will be switched back to this variable name in the future., replace with versionCodeLong */
@@ -940,6 +974,7 @@ export type FetchChaptersPayload = {
 
 export type FetchExtensionsInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    includeLightNovels: Scalars['Boolean']['input'];
 };
 
 export type FetchExtensionsPayload = {
@@ -1147,6 +1182,7 @@ export type LibraryUpdateStatus = {
 };
 
 export type LibraryUpdateStatusChangedInput = {
+    contentType?: InputMaybe<SourceContentType>;
     /** Sets a max number of updates that can be contained in a updater update message.Everything above this limit will be omitted and the "updateStatus" should be re-fetched via the corresponding query. Due to the graphql subscription execution strategy not supporting batching for data loaders, the data loaders run into the n+1 problem, which can cause the server to get unresponsive until the status update has been handled. This is an issue e.g. when starting an update. */
     maxUpdates?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -1249,6 +1285,7 @@ export type MangaConditionInput = {
     author?: InputMaybe<Scalars['String']['input']>;
     categoryIds?: InputMaybe<Array<Scalars['Int']['input']>>;
     chaptersLastFetchedAt?: InputMaybe<Scalars['LongString']['input']>;
+    contentType?: InputMaybe<SourceContentType>;
     description?: InputMaybe<Scalars['String']['input']>;
     genre?: InputMaybe<Array<Scalars['String']['input']>>;
     id?: InputMaybe<Scalars['Int']['input']>;
@@ -1373,6 +1410,7 @@ export type MangaType = {
     chapters: ChapterNodeList;
     chaptersAge?: Maybe<Scalars['LongString']['output']>;
     chaptersLastFetchedAt?: Maybe<Scalars['LongString']['output']>;
+    contentType: SourceContentType;
     description?: Maybe<Scalars['String']['output']>;
     downloadCount: Scalars['Int']['output'];
     firstUnreadChapter?: Maybe<ChapterType>;
@@ -1535,6 +1573,7 @@ export type Mutation = {
     updateCategoryManga?: Maybe<UpdateCategoryMangaPayload>;
     updateCategoryOrder?: Maybe<UpdateCategoryOrderPayload>;
     updateChapter?: Maybe<UpdateChapterPayload>;
+    updateChapterTextProgress?: Maybe<UpdateChapterTextProgressPayload>;
     updateChapters?: Maybe<UpdateChaptersPayload>;
     updateExtension?: Maybe<UpdateExtensionPayload>;
     updateExtensions?: Maybe<UpdateExtensionsPayload>;
@@ -1822,6 +1861,10 @@ export type MutationUpdateChapterArgs = {
     input: UpdateChapterInput;
 };
 
+export type MutationUpdateChapterTextProgressArgs = {
+    input: UpdateChapterTextProgressInput;
+};
+
 export type MutationUpdateChaptersArgs = {
     input: UpdateChaptersInput;
 };
@@ -1973,7 +2016,7 @@ export type PartialSettingsType = Settings & {
     excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
     flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
     flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2004,6 +2047,7 @@ export type PartialSettingsType = Settings & {
     koreaderSyncUserkey?: Maybe<Scalars['String']['output']>;
     /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
     koreaderSyncUsername?: Maybe<Scalars['String']['output']>;
+    lnReaderAllowedLocalOrigins?: Maybe<Scalars['String']['output']>;
     localSourcePath?: Maybe<Scalars['String']['output']>;
     maxLogFileSize?: Maybe<Scalars['String']['output']>;
     maxLogFiles?: Maybe<Scalars['Int']['output']>;
@@ -2092,6 +2136,7 @@ export type PartialSettingsTypeInput = {
     koreaderSyncPercentageTolerance?: InputMaybe<Scalars['Float']['input']>;
     koreaderSyncStrategyBackward?: InputMaybe<KoreaderSyncConflictStrategy>;
     koreaderSyncStrategyForward?: InputMaybe<KoreaderSyncConflictStrategy>;
+    lnReaderAllowedLocalOrigins?: InputMaybe<Scalars['String']['input']>;
     localSourcePath?: InputMaybe<Scalars['String']['input']>;
     maxLogFileSize?: InputMaybe<Scalars['String']['input']>;
     maxLogFiles?: InputMaybe<Scalars['Int']['input']>;
@@ -2188,6 +2233,8 @@ export type Query = {
     extensions: ExtensionNodeList;
     getWebUIUpdateStatus: WebUiUpdateStatus;
     koSyncStatus: KoSyncStatusPayload;
+    lastMangaUpdateTimestamp: LastUpdateTimestampPayload;
+    lastNovelUpdateTimestamp: LastUpdateTimestampPayload;
     lastSyncStatus?: Maybe<SyncStatus>;
     lastUpdateTimestamp: LastUpdateTimestampPayload;
     libraryUpdateStatus: LibraryUpdateStatus;
@@ -2253,6 +2300,7 @@ export type QueryExtensionStoresArgs = {
     condition?: InputMaybe<ExtensionStoreConditionInput>;
     filter?: InputMaybe<ExtensionStoreFilterInput>;
     first?: InputMaybe<Scalars['Int']['input']>;
+    includeLightNovels: Scalars['Boolean']['input'];
     last?: InputMaybe<Scalars['Int']['input']>;
     offset?: InputMaybe<Scalars['Int']['input']>;
     order?: InputMaybe<Array<ExtensionStoreOrderInput>>;
@@ -2264,9 +2312,14 @@ export type QueryExtensionsArgs = {
     condition?: InputMaybe<ExtensionConditionInput>;
     filter?: InputMaybe<ExtensionFilterInput>;
     first?: InputMaybe<Scalars['Int']['input']>;
+    includeLightNovels: Scalars['Boolean']['input'];
     last?: InputMaybe<Scalars['Int']['input']>;
     offset?: InputMaybe<Scalars['Int']['input']>;
     order?: InputMaybe<Array<ExtensionOrderInput>>;
+};
+
+export type QueryLibraryUpdateStatusArgs = {
+    contentType?: InputMaybe<SourceContentType>;
 };
 
 export type QueryMangaArgs = {
@@ -2317,6 +2370,7 @@ export type QuerySourcesArgs = {
     condition?: InputMaybe<SourceConditionInput>;
     filter?: InputMaybe<SourceFilterInput>;
     first?: InputMaybe<Scalars['Int']['input']>;
+    includeLightNovels: Scalars['Boolean']['input'];
     last?: InputMaybe<Scalars['Int']['input']>;
     offset?: InputMaybe<Scalars['Int']['input']>;
     order?: InputMaybe<Array<SourceOrderInput>>;
@@ -2623,7 +2677,7 @@ export type Settings = {
     excludeEntryWithUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
     excludeNotStarted?: Maybe<Scalars['Boolean']['output']>;
     excludeUnreadChapters?: Maybe<Scalars['Boolean']['output']>;
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos?: Maybe<Array<Scalars['String']['output']>>;
     flareSolverrAsResponseFallback?: Maybe<Scalars['Boolean']['output']>;
     flareSolverrEnabled?: Maybe<Scalars['Boolean']['output']>;
@@ -2654,6 +2708,7 @@ export type Settings = {
     koreaderSyncUserkey?: Maybe<Scalars['String']['output']>;
     /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
     koreaderSyncUsername?: Maybe<Scalars['String']['output']>;
+    lnReaderAllowedLocalOrigins?: Maybe<Scalars['String']['output']>;
     localSourcePath?: Maybe<Scalars['String']['output']>;
     maxLogFileSize?: Maybe<Scalars['String']['output']>;
     maxLogFiles?: Maybe<Scalars['Int']['output']>;
@@ -2778,7 +2833,7 @@ export type SettingsType = Settings & {
     excludeEntryWithUnreadChapters: Scalars['Boolean']['output'];
     excludeNotStarted: Scalars['Boolean']['output'];
     excludeUnreadChapters: Scalars['Boolean']['output'];
-    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations */
+    /** @deprecated Replaced with addExtensionStore and removeExtensionStore mutations, replace with extensionStores */
     extensionRepos: Array<Scalars['String']['output']>;
     flareSolverrAsResponseFallback: Scalars['Boolean']['output'];
     flareSolverrEnabled: Scalars['Boolean']['output'];
@@ -2809,6 +2864,7 @@ export type SettingsType = Settings & {
     koreaderSyncUserkey: Scalars['String']['output'];
     /** @deprecated Moved to preference store. User is supposed to use a login/logout mutation, replace with MOVE TO PREFERENCES */
     koreaderSyncUsername: Scalars['String']['output'];
+    lnReaderAllowedLocalOrigins: Scalars['String']['output'];
     localSourcePath: Scalars['String']['output'];
     maxLogFileSize: Scalars['String']['output'];
     maxLogFiles: Scalars['Int']['output'];
@@ -2883,6 +2939,11 @@ export type SourceConditionInput = {
     name?: InputMaybe<Scalars['String']['input']>;
 };
 
+export enum SourceContentType {
+    LightNovel = 'LIGHT_NOVEL',
+    Manga = 'MANGA',
+}
+
 export type SourceEdge = Edge & {
     __typename?: 'SourceEdge';
     cursor: Scalars['Cursor']['output'];
@@ -2945,6 +3006,7 @@ export type SourceType = {
     __typename?: 'SourceType';
     /** @deprecated , replace with homeUrl */
     baseUrl?: Maybe<Scalars['String']['output']>;
+    contentType: SourceContentType;
     contentWarning: ContentWarning;
     displayName: Scalars['String']['output'];
     extension: ExtensionType;
@@ -3110,6 +3172,7 @@ export type SyncConflictInfoType = {
     __typename?: 'SyncConflictInfoType';
     deviceName: Scalars['String']['output'];
     remotePage: Scalars['Int']['output'];
+    remotePercentage?: Maybe<Scalars['Float']['output']>;
 };
 
 export enum SyncState {
@@ -3364,6 +3427,7 @@ export type UpdateCategoryInput = {
 export type UpdateCategoryMangaInput = {
     categories: Array<Scalars['Int']['input']>;
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    contentType?: InputMaybe<SourceContentType>;
 };
 
 export type UpdateCategoryMangaPayload = {
@@ -3415,6 +3479,18 @@ export type UpdateChapterPayload = {
     clientMutationId?: Maybe<Scalars['String']['output']>;
 };
 
+export type UpdateChapterTextProgressInput = {
+    chapterId: Scalars['Int']['input'];
+    clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    progress: Scalars['Float']['input'];
+};
+
+export type UpdateChapterTextProgressPayload = {
+    __typename?: 'UpdateChapterTextProgressPayload';
+    chapter: ChapterType;
+    clientMutationId?: Maybe<Scalars['String']['output']>;
+};
+
 export type UpdateChaptersInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
     ids: Array<Scalars['Int']['input']>;
@@ -3460,6 +3536,7 @@ export type UpdateExtensionsPayload = {
 export type UpdateLibraryInput = {
     categories?: InputMaybe<Array<Scalars['Int']['input']>>;
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    contentType?: InputMaybe<SourceContentType>;
 };
 
 export type UpdateLibraryMangaInput = {
@@ -3580,6 +3657,7 @@ export type UpdateStatusType = {
 
 export type UpdateStopInput = {
     clientMutationId?: InputMaybe<Scalars['String']['input']>;
+    contentType?: InputMaybe<SourceContentType>;
 };
 
 export type UpdateStopPayload = {

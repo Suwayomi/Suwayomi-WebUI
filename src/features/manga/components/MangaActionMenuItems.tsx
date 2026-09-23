@@ -44,8 +44,13 @@ import type {
 import { MANGA_ACTION_TO_TRANSLATION } from '@/features/manga/Manga.constants.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
-type BaseProps = { onClose: () => void; setHideMenu: (hide: boolean) => void };
+type BaseProps = {
+    contentType?: SourceContentType;
+    onClose: () => void;
+    setHideMenu: (hide: boolean) => void;
+};
 
 export type SingleModeProps = {
     manga: MangaIdInfo &
@@ -53,12 +58,14 @@ export type SingleModeProps = {
         MangaSourceIdInfo &
         MangaDownloadInfo &
         MangaUnreadInfo &
-        Pick<MangaInLibraryInfo, 'inLibrary'>;
+        Pick<MangaInLibraryInfo, 'inLibrary'> & {
+            contentType?: SourceContentType;
+        };
     handleSelection?: SelectableCollectionReturnType<MangaIdInfo['id']>['handleSelection'];
 };
 
 type SelectModeProps = {
-    selectedMangas: MangaChapterStatFieldsFragment[];
+    selectedMangas: (MangaChapterStatFieldsFragment & { contentType?: SourceContentType })[];
 };
 
 type Props =
@@ -69,6 +76,7 @@ export const MangaActionMenuItems = ({
     manga,
     handleSelection,
     selectedMangas = STABLE_EMPTY_ARRAY,
+    contentType,
     onClose,
     setHideMenu,
 }: Props) => {
@@ -178,6 +186,7 @@ export const MangaActionMenuItems = ({
                     AwaitableComponent.show(CategorySelect, {
                         mangaId: manga?.id,
                         mangaIds: !isSingleMode ? Mangas.getIds(selectedMangas) : undefined,
+                        contentType: contentType ?? manga?.contentType ?? selectedMangas[0]?.contentType,
                         addToLibrary: false,
                     });
                     setHideMenu(true);

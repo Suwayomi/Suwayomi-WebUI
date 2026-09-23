@@ -37,14 +37,26 @@ import { GET_MANGAS_BASE } from '@/lib/graphql/manga/MangaQuery.ts';
 import type { MetadataLibrarySettings } from '@/features/library/Library.types.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import Tab from '@mui/material/Tab';
+import { useContentTypeTab } from '@/base/hooks/useContentTypeTab.ts';
+import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
+import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
+import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
-const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
+const removeNonLibraryMangasFromCategories = async (contentType: SourceContentType): Promise<void> => {
     try {
         const nonLibraryMangas = await requestManager.getMangas<GetMangasBaseQuery, GetMangasBaseQueryVariables>(
             GET_MANGAS_BASE,
             {
-                filter: { inLibrary: { equalTo: false }, categoryId: { isNull: false } },
+                condition: {
+                    inLibrary: false,
+                    contentType,
+                },
+                filter: {
+                    categoryId: { isNull: false },
+                },
             },
             { fetchPolicy: 'no-cache' },
         ).response;
@@ -60,19 +72,36 @@ const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
                 clearCategories: true,
             }).response;
         }
-        makeToast(translate`Removed non library manga from categories`, 'success');
+        makeToast(
+            contentType === SourceContentType.LightNovel
+                ? translate`Removed non library light novel from categories`
+                : translate`Removed non library manga from categories`,
+            'success',
+        );
     } catch (e) {
-        makeToast(translate`Could not remove non library manga from categories`, 'error', getErrorMessage(e));
+        makeToast(
+            contentType === SourceContentType.LightNovel
+                ? translate`Could not remove non library light novel from categories`
+                : translate`Could not remove non library manga from categories`,
+            'error',
+            getErrorMessage(e),
+        );
     }
 };
 
-export function LibrarySettings() {
-    const { t } = useLingui();
+export interface LibrarySettingsProps {
+    contentType?: SourceContentType;
+}
 
+export function LibrarySettings({ contentType: defaultContentType }: LibrarySettingsProps = {}) {
+    const { t } = useLingui();
     useAppTitle(t`Library`);
+
+    const { activeTab, activeContentType, setTabSearchParam } = useContentTypeTab(defaultContentType);
 
     const categories = requestManager.useGetCategories<GetCategoriesSettingsQuery, GetCategoriesSettingsQueryVariables>(
         GET_CATEGORIES_SETTINGS,
+        { variables: { condition: { contentType: activeContentType } } },
     );
     const serverSettings = requestManager.useGetServerSettings();
     const {
@@ -85,8 +114,16 @@ export function LibrarySettings() {
         makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
 
-    // -1 for the DEFAULT category
-    const categoryCount = (categories.data?.categories.nodes.length ?? 1) - 1;
+    const scopedCategories = categories.data?.categories.nodes ?? [];
+
+    const categoryCount = scopedCategories.filter((c) => c.id !== 0).length;
+
+    const categoryLink = `${AppRoutes.settings.children.categories.path}?tab=${activeTab}`;
+
+    const duplicatesLink =
+        activeContentType === SourceContentType.LightNovel
+            ? `${AppRoutes.settings.children.library.children.duplicates.path}?tab=light-novel`
+            : AppRoutes.settings.children.library.children.duplicates.path;
 
     const loading = serverSettings.loading || areMetadataServerSettingsLoading || categories.loading;
     if (loading) {
@@ -121,100 +158,100 @@ export function LibrarySettings() {
     }
 
     return (
-        <List sx={{ pt: 0 }}>
-            <List
-                subheader={
-                    <ListSubheader component="div" id="library-category-settings">
-                        {t`Categories`}
-                    </ListSubheader>
-                }
-            >
-                <ListItemLink to={AppRoutes.settings.children.categories.path}>
-                    <ListItemText
-                        primary={t`Edit categories`}
-                        secondary={plural(categoryCount, {
-                            one: '# category',
-                            other: '# categories',
-                        })}
-                    />
-                </ListItemLink>
-                <ListItem>
-                    <ListItemText
-                        primary={t`Category selection dialog`}
-                        secondary={t`Show the category selection dialog when adding a manga to the library`}
-                    />
-                    <Switch
-                        edge="end"
-                        checked={settings.showAddToLibraryCategorySelectDialog}
-                        onChange={(e) => setSettingValue('showAddToLibraryCategorySelectDialog', e.target.checked)}
-                    />
-                </ListItem>
-                <ListItem>
-                    <ListItemText
-                        primary={t`Forget manga categories`}
-                        secondary={t`Remove manga from categories when removing them from the library`}
-                    />
-                    <Switch
-                        edge="end"
-                        checked={settings.removeMangaFromCategories}
-                        onChange={(e) => setSettingValue('removeMangaFromCategories', e.target.checked)}
-                    />
-                </ListItem>
+        <TabsWrapper>
+            <OffsetComponent sx={{ zIndex: 2 }}>
+                <TabsMenu
+                    variant="fullWidth"
+                    value={activeTab}
+                    onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}
+                >
+                    <Tab value="manga" sx={{ textTransform: 'none' }} label={t`Manga`} />
+                    <Tab value="light-novel" sx={{ textTransform: 'none' }} label={t`Light Novel`} />
+                </TabsMenu>
+            </OffsetComponent>
+            <List sx={{ pt: 0 }}>
+                <List
+                    subheader={
+                        <ListSubheader component="div" id="library-category-settings">
+                            {t`Categories`}
+                        </ListSubheader>
+                    }
+                >
+                    <ListItemLink to={categoryLink}>
+                        <ListItemText
+                            primary={t`Edit categories`}
+                            secondary={plural(categoryCount, {
+                                one: '# category',
+                                other: '# categories',
+                            })}
+                        />
+                    </ListItemLink>
+                </List>
+                <List
+                    subheader={
+                        <ListSubheader component="div" id="library-general-settings">
+                            {t`General`}
+                        </ListSubheader>
+                    }
+                >
+                    {[
+                        {
+                            key: 'showAddToLibraryCategorySelectDialog' as const,
+                            primary: t`Category selection dialog`,
+                            secondary: t`Show the category selection dialog when adding an item to the library`,
+                        },
+                        {
+                            key: 'removeMangaFromCategories' as const,
+                            primary: t`Forget categories`,
+                            secondary: t`Remove items from categories when removing them from the library`,
+                        },
+                        {
+                            key: 'ignoreFilters' as const,
+                            primary: t`Ignore filters when searching`,
+                            secondary: t`Search results will include items that do not match the current filters`,
+                        },
+                        {
+                            key: 'fuzzySearch' as const,
+                            primary: t`Fuzzy search`,
+                            secondary: t`Match the library search even with typos or words in a different order, and show the closest matches first`,
+                        },
+                    ].map(({ key, primary, secondary }) => (
+                        <ListItem key={key}>
+                            <ListItemText primary={primary} secondary={secondary} />
+                            <Switch
+                                edge="end"
+                                checked={settings[key]}
+                                onChange={(e) => setSettingValue(key, e.target.checked)}
+                            />
+                        </ListItem>
+                    ))}
+                </List>
+                <GlobalUpdateSettings serverSettings={serverSettings.data!.settings} categories={scopedCategories} />
+                <List
+                    subheader={
+                        <ListSubheader component="div" id="library-advanced">
+                            {t`Advanced`}
+                        </ListSubheader>
+                    }
+                >
+                    <ListItemButton onClick={() => removeNonLibraryMangasFromCategories(activeContentType)}>
+                        <ListItemText
+                            primary={t`Cleanup database`}
+                            secondary={
+                                activeContentType === SourceContentType.LightNovel
+                                    ? t`Remove non library light novel from categories`
+                                    : t`Remove non library manga from categories`
+                            }
+                        />
+                    </ListItemButton>
+                    <ListItemLink to={duplicatesLink}>
+                        <ListItemText
+                            primary={t`Duplicated entries`}
+                            secondary={t`Show all duplicated entries in your library`}
+                        />
+                    </ListItemLink>
+                </List>
             </List>
-            <List
-                subheader={
-                    <ListSubheader component="div" id="library-general-settings">
-                        {t`General`}
-                    </ListSubheader>
-                }
-            >
-                <ListItem>
-                    <ListItemText
-                        primary={t`Ignore filters when searching`}
-                        secondary={t`Search results will include manga that do not match the current filters`}
-                    />
-                    <Switch
-                        edge="end"
-                        checked={settings.ignoreFilters}
-                        onChange={(e) => setSettingValue('ignoreFilters', e.target.checked)}
-                    />
-                </ListItem>
-                <ListItem>
-                    <ListItemText
-                        primary={t`Fuzzy search`}
-                        secondary={t`Match the library search even with typos or words in a different order, and show the closest matches first`}
-                    />
-                    <Switch
-                        edge="end"
-                        checked={settings.fuzzySearch}
-                        onChange={(e) => setSettingValue('fuzzySearch', e.target.checked)}
-                    />
-                </ListItem>
-            </List>
-            <GlobalUpdateSettings
-                serverSettings={serverSettings.data!.settings}
-                categories={categories.data!.categories.nodes}
-            />
-            <List
-                subheader={
-                    <ListSubheader component="div" id="library-advanced">
-                        {t`Advanced`}
-                    </ListSubheader>
-                }
-            >
-                <ListItemButton onClick={() => removeNonLibraryMangasFromCategories()}>
-                    <ListItemText
-                        primary={t`Cleanup database`}
-                        secondary={t`Remove non library manga from categories`}
-                    />
-                </ListItemButton>
-                <ListItemLink to={AppRoutes.settings.children.library.children.duplicates.path}>
-                    <ListItemText
-                        primary={t`Duplicated entries`}
-                        secondary={t`Show all duplicated entries in your library`}
-                    />
-                </ListItemLink>
-            </List>
-        </List>
+        </TabsWrapper>
     );
 }

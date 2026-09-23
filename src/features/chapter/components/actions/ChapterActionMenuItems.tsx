@@ -46,7 +46,7 @@ import { IconWebView } from '@/assets/icons/IconWebView.tsx';
 import { IconBrowser } from '@/assets/icons/IconBrowser.tsx';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-type BaseProps = { onClose: () => void; selectable?: boolean };
+type BaseProps = { onClose: () => void; selectable?: boolean; sourceId?: string };
 
 type TChapter = ChapterIdInfo &
     ChapterMangaInfo &
@@ -73,6 +73,7 @@ export const ChapterActionMenuItems = ({
     chapter,
     handleSelection,
     canBeDownloaded = false,
+    sourceId,
     selectedChapters = STABLE_EMPTY_ARRAY,
     onClose,
     selectable = true,
@@ -196,7 +197,7 @@ export const ChapterActionMenuItems = ({
                         disabled={!chapter!.realUrl}
                         onClick={() => {
                             window.open(
-                                requestManager.getWebviewUrl(chapter!.realUrl!),
+                                requestManager.getWebviewUrl(chapter!.realUrl!, sourceId),
                                 '_blank',
                                 'noopener,noreferrer',
                             );

@@ -36,12 +36,23 @@ import type {
     TMangaDuplicate,
     TMangaDuplicates,
 } from '@/features/library/Library.types.ts';
-import { GridLayout } from '@/base/Base.types.ts';
+import { GridLayout, SearchParam } from '@/base/Base.types.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { StringParam, useQueryParam } from 'use-query-params';
 
-export const LibraryDuplicates = () => {
+export interface LibraryDuplicatesProps {
+    contentType?: SourceContentType;
+}
+
+export const LibraryDuplicates: React.FC<LibraryDuplicatesProps> = ({ contentType: propContentType }) => {
     const { t } = useLingui();
+    const [tab] = useQueryParam(SearchParam.TAB, StringParam);
+    const contentType =
+        tab === 'light-novel' || propContentType === SourceContentType.LightNovel
+            ? SourceContentType.LightNovel
+            : SourceContentType.Manga;
 
     const [gridLayout, setGridLayout] = useLocalStorage('libraryDuplicatesGridLayout', GridLayout.List);
     const [checkAlternativeTitles, setCheckAlternativeTitles] = useLocalStorage(
@@ -78,7 +89,7 @@ export const LibraryDuplicates = () => {
     const { data, loading, error, refetch } = requestManager.useGetMangas<
         GetMangasDuplicatesQuery,
         GetMangasDuplicatesQueryVariables
-    >(GET_MANGAS_DUPLICATES, { condition: { inLibrary: true } });
+    >(GET_MANGAS_DUPLICATES, { condition: { inLibrary: true, contentType } });
 
     const [isCheckingForDuplicates, setIsCheckingForDuplicates] = useState(true);
 
@@ -141,7 +152,7 @@ export const LibraryDuplicates = () => {
     if (gridLayout === GridLayout.List) {
         return (
             <StyledGroupedVirtuoso
-                persistKey="library-duplicates"
+                persistKey={`library-duplicates-${contentType}`}
                 groupCounts={mangasCountByTitle}
                 groupContent={(index) => (
                     <StyledGroupHeader isFirstItem={index === 0}>

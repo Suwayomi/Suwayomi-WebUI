@@ -22,6 +22,7 @@ export const EXTENSION_LIST_FIELDS = gql`
         isObsolete
         hasUpdate
         extensionLib
+        runtimeKind
         extensionStore {
             indexUrl
             name

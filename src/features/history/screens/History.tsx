@@ -7,8 +7,11 @@
  */
 
 import Typography from '@mui/material/Typography';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
+import { useContentTypeTab } from '@/base/hooks/useContentTypeTab.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -26,11 +29,23 @@ import uniqBy from 'lodash/fp/uniqBy';
 import mapValues from 'lodash/fp/mapValues';
 import { epochToDate, getDateString } from '@/base/utils/DateHelper.ts';
 import difference from 'lodash/fp/difference';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
+import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
+import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
+import { useElementSize } from '@mantine/hooks';
 
-export const History: React.FC = () => {
+export interface HistoryProps {
+    contentType?: SourceContentType;
+}
+
+export const History: React.FC<HistoryProps> = ({ contentType: defaultContentType }) => {
     const { t } = useLingui();
-
     useAppTitle(t`History`);
+
+    const { ref: headerRef, height: headerHeight } = useElementSize();
+
+    const { activeTab, activeContentType, setTabSearchParam } = useContentTypeTab(defaultContentType);
 
     const {
         data: chapterHistoryData,
@@ -40,6 +55,9 @@ export const History: React.FC = () => {
         refetch,
     } = requestManager.useGetRecentlyReadChapters(undefined, {
         fetchPolicy: 'cache-and-network',
+        variables: {
+            condition: { contentType: activeContentType },
+        },
     });
     const hasNextPage = !!chapterHistoryData?.chapters.pageInfo.hasNextPage;
 
@@ -118,10 +136,13 @@ export const History: React.FC = () => {
             return;
         }
 
-        fetchMore({ variables: { offset: allReadEntries.length } }).then(() =>
-            setPrevReadEntriesLength(readEntries.length),
-        );
-    }, [hasNextPage, allReadEntries.length, readEntries.length]);
+        fetchMore({
+            variables: {
+                offset: allReadEntries.length,
+                condition: { contentType: activeContentType },
+            },
+        }).then(() => setPrevReadEntriesLength(readEntries.length));
+    }, [hasNextPage, allReadEntries.length, readEntries.length, activeContentType]);
 
     useEffect(() => {
         if (filteredOutAllItemsOfFetchedPage && hasNextPage && !isLoading) {
@@ -129,48 +150,72 @@ export const History: React.FC = () => {
         }
     }, [filteredOutAllItemsOfFetchedPage, isLoading, hasNextPage, loadMore]);
 
-    if (error) {
+    const renderContent = () => {
+        if (error) {
+            return (
+                <EmptyViewAbsoluteCentered
+                    message={t`Unable to load data`}
+                    messageExtra={getErrorMessage(error)}
+                    retry={() => refetch().catch(defaultPromiseErrorHandler('History::refetch'))}
+                />
+            );
+        }
+        if (!isLoading && readEntries.length === 0) {
+            return <EmptyViewAbsoluteCentered message={t`You have not read any series yet.`} />;
+        }
         return (
-            <EmptyViewAbsoluteCentered
-                message={t`Unable to load data`}
-                messageExtra={getErrorMessage(error)}
-                retry={() => refetch().catch(defaultPromiseErrorHandler('History::refetch'))}
+            <StyledGroupedVirtuoso
+                key={activeContentType}
+                persistKey={`history-scroll-${activeContentType}`}
+                heightToSubtract={headerHeight}
+                components={{
+                    Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
+                }}
+                endReached={loadMore}
+                groupCounts={lastReadEntriesGroupCounts}
+                groupContent={(index) => (
+                    <StyledGroupHeader isFirstItem={index === 0}>
+                        <Typography variant="h5" component="h2">
+                            {lastReadEntriesByGroup[index][VirtuosoUtil.GROUP]}
+                        </Typography>
+                    </StyledGroupHeader>
+                )}
+                computeItemKey={computeLastReadEntryItemKey}
+                itemContent={(index) => (
+                    <StyledGroupItemWrapper>
+                        <ChapterHistoryCard
+                            chapter={lastReadEntries[index]}
+                            otherChapters={
+                                otherEntriesByMangaByGroup[
+                                    getDateString(epochToDate(Number(lastReadEntries[index].lastReadAt)))
+                                ][lastReadEntries[index].mangaId]
+                            }
+                        />
+                    </StyledGroupItemWrapper>
+                )}
             />
         );
-    }
-
-    if (!isLoading && readEntries.length === 0) {
-        return <EmptyViewAbsoluteCentered message={t`You have not read any series yet.`} />;
-    }
+    };
 
     return (
-        <StyledGroupedVirtuoso
-            persistKey="history"
-            components={{
-                Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
-            }}
-            endReached={loadMore}
-            groupCounts={lastReadEntriesGroupCounts}
-            groupContent={(index) => (
-                <StyledGroupHeader isFirstItem={index === 0}>
-                    <Typography variant="h5" component="h2">
-                        {lastReadEntriesByGroup[index][VirtuosoUtil.GROUP]}
-                    </Typography>
-                </StyledGroupHeader>
-            )}
-            computeItemKey={computeLastReadEntryItemKey}
-            itemContent={(index) => (
-                <StyledGroupItemWrapper>
-                    <ChapterHistoryCard
-                        chapter={lastReadEntries[index]}
-                        otherChapters={
-                            otherEntriesByMangaByGroup[
-                                getDateString(epochToDate(Number(lastReadEntries[index].lastReadAt)))
-                            ][lastReadEntries[index].mangaId]
-                        }
-                    />
-                </StyledGroupItemWrapper>
-            )}
-        />
+        <TabsWrapper>
+            <OffsetComponentWithContainer
+                sx={{ zIndex: 2 }}
+                component={
+                    <Box ref={headerRef} sx={{ backgroundColor: 'background.default' }}>
+                        <TabsMenu
+                            variant="fullWidth"
+                            value={activeTab}
+                            onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}
+                        >
+                            <Tab value="manga" sx={{ textTransform: 'none' }} label={t`Manga History`} />
+                            <Tab value="light-novel" sx={{ textTransform: 'none' }} label={t`Light Novel History`} />
+                        </TabsMenu>
+                    </Box>
+                }
+            >
+                {renderContent()}
+            </OffsetComponentWithContainer>
+        </TabsWrapper>
     );
 };

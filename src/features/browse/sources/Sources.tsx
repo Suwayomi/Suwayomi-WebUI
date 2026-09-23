@@ -31,8 +31,9 @@ import { StyledGroupHeader } from '@/base/components/virtuoso/StyledGroupHeader.
 import { StyledGroupItemWrapper } from '@/base/components/virtuoso/StyledGroupItemWrapper.tsx';
 import { SourceLanguageSelect } from '@/features/source/components/SourceLanguageSelect.tsx';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
-export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
+export function Sources({ tabsMenuHeight, contentType }: { tabsMenuHeight: number; contentType: SourceContentType }) {
     const { t } = useLingui();
 
     const { languages: shownLangs, setLanguages: setShownLangs } = SourceService.useLanguages();
@@ -41,7 +42,11 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     } = useMetadataServerSettings();
 
     const { data, loading: isLoading, error, refetch } = requestManager.useGetSourceList();
-    const sources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
+    const allSources = data?.sources.nodes ?? STABLE_EMPTY_ARRAY;
+    const sources = useMemo(
+        () => allSources.filter((source) => (source.contentType ?? SourceContentType.Manga) === contentType),
+        [allSources, contentType],
+    );
     const filteredSources = useMemo(
         () =>
             SourceService.filter(sources, {
@@ -74,11 +79,11 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         }
 
         return groupedByLanguageTuple;
-    }, [filteredSources]);
+    }, [filteredSources, lastUsedSourceId]);
 
     const sourceLanguages = useMemo(
         () => SourceService.getLanguages(sourcesForLanguageFilter, { excludeLocalSource: true }),
-        [sources],
+        [sourcesForLanguageFilter],
     );
     const areSourcesFromDifferentRepos = useMemo(
         () => SourceService.areFromMultipleStores(filteredSources),
@@ -107,7 +112,16 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     useAppAction(
         <>
             <CustomTooltip title={t`Global Search`}>
-                <IconButton onClick={() => navigate(AppRoutes.sources.children.searchAll.path())} color="inherit">
+                <IconButton
+                    onClick={() =>
+                        navigate(AppRoutes.sources.children.searchAll.path(undefined, contentType), {
+                            state: AppRoutes.sources.children.searchAll.state({
+                                contentType,
+                            }),
+                        })
+                    }
+                    color="inherit"
+                >
                     <TravelExploreIcon />
                 </IconButton>
             </CustomTooltip>
@@ -118,59 +132,60 @@ export function Sources({ tabsMenuHeight }: { tabsMenuHeight: number }) {
                 sources={sourcesForLanguageFilter}
             />
         </>,
-        [t, shownLangs, sourceLanguages, sourcesForLanguageFilter],
+        [t, shownLangs, sourceLanguages, sourcesForLanguageFilter, contentType, navigate],
     );
 
-    if (isLoading) {
-        return <LoadingPlaceholder />;
-    }
-
-    if (error) {
-        return (
-            <EmptyViewAbsoluteCentered
-                message={t`Unable to load data`}
-                messageExtra={getErrorMessage(error)}
-                retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
-            />
-        );
-    }
-
-    if (sources?.length === 0) {
-        return <EmptyViewAbsoluteCentered message={t`No sources found. Install Some extensions first.`} />;
-    }
-
     return (
-        <StyledGroupedVirtuoso
-            persistKey="sources"
-            heightToSubtract={tabsMenuHeight}
-            overscan={window.innerHeight * 0.5}
-            groupCounts={groupCounts}
-            computeItemKey={computeItemKey}
-            groupContent={(index) => {
-                const [language] = sourcesByLanguage[index];
+        <>
+            {isLoading && <LoadingPlaceholder />}
 
-                return (
-                    <StyledGroupHeader isFirstItem={!index}>
-                        <Typography variant="h5" component="h2">
-                            {translateExtensionLanguage(language)}
-                        </Typography>
-                    </StyledGroupHeader>
-                );
-            }}
-            itemContent={(index, groupIndex) => {
-                const [language] = sourcesByLanguage[groupIndex];
-                const source = visibleSources[index];
+            {error && (
+                <EmptyViewAbsoluteCentered
+                    message={t`Unable to load data`}
+                    messageExtra={getErrorMessage(error)}
+                    retry={() => refetch().catch(defaultPromiseErrorHandler('Sources::refetch'))}
+                />
+            )}
 
-                return (
-                    <StyledGroupItemWrapper>
-                        <SourceCard
-                            source={source}
-                            showSourceRepo={areSourcesFromDifferentRepos}
-                            showLanguage={isPinnedOrLastUsedSource(language)}
-                        />
-                    </StyledGroupItemWrapper>
-                );
-            }}
-        />
+            {!isLoading && !error && sources.length === 0 && (
+                <EmptyViewAbsoluteCentered message={t`No sources found. Install Some extensions first.`} />
+            )}
+
+            {!isLoading && !error && sources.length > 0 && (
+                <StyledGroupedVirtuoso
+                    key={contentType}
+                    persistKey={`sources_${contentType}`}
+                    heightToSubtract={tabsMenuHeight}
+                    overscan={window.innerHeight * 0.5}
+                    groupCounts={groupCounts}
+                    computeItemKey={computeItemKey}
+                    groupContent={(index) => {
+                        const [language] = sourcesByLanguage[index];
+
+                        return (
+                            <StyledGroupHeader isFirstItem={!index}>
+                                <Typography variant="h5" component="h2">
+                                    {translateExtensionLanguage(language)}
+                                </Typography>
+                            </StyledGroupHeader>
+                        );
+                    }}
+                    itemContent={(index, groupIndex) => {
+                        const [language] = sourcesByLanguage[groupIndex];
+                        const source = visibleSources[index];
+
+                        return (
+                            <StyledGroupItemWrapper>
+                                <SourceCard
+                                    source={source}
+                                    showSourceRepo={areSourcesFromDifferentRepos}
+                                    showLanguage={isPinnedOrLastUsedSource(language)}
+                                />
+                            </StyledGroupItemWrapper>
+                        );
+                    }}
+                />
+            )}
+        </>
     );
 }

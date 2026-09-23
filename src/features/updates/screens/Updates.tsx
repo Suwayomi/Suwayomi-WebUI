@@ -7,8 +7,11 @@
  */
 
 import Typography from '@mui/material/Typography';
+import Tab from '@mui/material/Tab';
+import Box from '@mui/material/Box';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLingui } from '@lingui/react/macro';
+import { useContentTypeTab } from '@/base/hooks/useContentTypeTab.ts';
 import { requestManager } from '@/lib/requests/RequestManager.ts';
 import { LoadingPlaceholder } from '@/base/components/feedback/LoadingPlaceholder.tsx';
 import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewAbsoluteCentered.tsx';
@@ -24,24 +27,33 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { ChapterUpdateCard } from '@/features/updates/components/ChapterUpdateCard.tsx';
 import { Chapters } from '@/features/chapter/services/Chapters.ts';
 import { useAppTitleAndAction } from '@/features/navigation-bar/hooks/useAppTitleAndAction.ts';
-import { GROUPED_VIRTUOSO_Z_INDEX } from '@/lib/virtuoso/Virtuoso.constants.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import mapValues from 'lodash/fp/mapValues';
 import difference from 'lodash/fp/difference';
 import uniqBy from 'lodash/fp/uniqBy';
 import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
 import { useElementSize } from '@mantine/hooks';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
+import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
 
-export const Updates: React.FC = () => {
+export interface UpdatesProps {
+    contentType?: SourceContentType;
+}
+
+export const Updates: React.FC<UpdatesProps> = ({ contentType: defaultContentType }) => {
     const { t } = useLingui();
+    const { activeTab, activeContentType, setTabSearchParam } = useContentTypeTab(defaultContentType);
 
     useAppTitleAndAction(
         t`Updates`,
         <>
             <SyncButton />
-            <UpdateChecker />
+            <UpdateChecker contentType={activeContentType} />
         </>,
     );
+
+    const { ref: headerRef, height: headerHeight } = useElementSize();
 
     const {
         data: chapterUpdateData,
@@ -51,6 +63,9 @@ export const Updates: React.FC = () => {
         refetch,
     } = requestManager.useGetRecentlyUpdatedChapters(undefined, {
         fetchPolicy: 'cache-and-network',
+        variables: {
+            condition: { contentType: activeContentType },
+        },
     });
     const hasNextPage = !!chapterUpdateData?.chapters.pageInfo.hasNextPage;
     const allUpdateEntries = chapterUpdateData?.chapters.nodes ?? STABLE_EMPTY_ARRAY;
@@ -122,26 +137,18 @@ export const Updates: React.FC = () => {
         useCallback((index) => firstUnreadUpdatesEntries[index].id, [firstUnreadUpdatesEntries]),
     );
 
-    const { ref: lastUpdateTimestampCompRef, height: lastUpdateTimestampCompHeight } = useElementSize();
-
-    const { data: lastUpdateTimestampData } = requestManager.useGetLastGlobalUpdateTimestamp({
-        /**
-         * The {@link UpdateChecker} is responsible for updating the timestamp
-         */
-        fetchPolicy: 'cache-only',
-    });
-    const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
-    const date = lastUpdateTimestamp ? dateTimeFormatter.format(+lastUpdateTimestamp) : '-';
-
     const loadMore = useCallback(() => {
         if (!hasNextPage) {
             return;
         }
 
-        fetchMore({ variables: { offset: allUpdateEntries.length } }).then(() =>
-            setPrevUpdateEntriesCount(firstUnreadUpdatesEntries.length),
-        );
-    }, [hasNextPage, allUpdateEntries.length, firstUnreadUpdatesEntries.length]);
+        fetchMore({
+            variables: {
+                offset: allUpdateEntries.length,
+                condition: { contentType: activeContentType },
+            },
+        }).then(() => setPrevUpdateEntriesCount(firstUnreadUpdatesEntries.length));
+    }, [hasNextPage, allUpdateEntries.length, firstUnreadUpdatesEntries.length, activeContentType]);
 
     const filteredOutAllItemsOfFetchedPage =
         allUpdateEntries.length > 0 && prevUpdateEntriesCount === firstUnreadUpdatesEntries.length;
@@ -151,39 +158,30 @@ export const Updates: React.FC = () => {
         }
     }, [isLoading, hasNextPage, filteredOutAllItemsOfFetchedPage, loadMore]);
 
-    if (error) {
+    const { data: lastUpdateTimestampData } = requestManager.useGetLastContentUpdateTimestamp(activeContentType, {
+        fetchPolicy: 'cache-only',
+    });
+    const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
+    const date = lastUpdateTimestamp ? dateTimeFormatter.format(+lastUpdateTimestamp) : '-';
+
+    const renderContent = () => {
+        if (error) {
+            return (
+                <EmptyViewAbsoluteCentered
+                    message={t`Unable to load data`}
+                    messageExtra={getErrorMessage(error)}
+                    retry={() => refetch().catch(defaultPromiseErrorHandler('Updates::refetch'))}
+                />
+            );
+        }
+        if (!isLoading && firstUnreadUpdatesEntries.length === 0) {
+            return <EmptyViewAbsoluteCentered message={t`You don't have any updates yet.`} />;
+        }
         return (
-            <EmptyViewAbsoluteCentered
-                message={t`Unable to load data`}
-                messageExtra={getErrorMessage(error)}
-                retry={() => refetch().catch(defaultPromiseErrorHandler('Updates::refetch'))}
-            />
-        );
-    }
-
-    if (!isLoading && firstUnreadUpdatesEntries.length === 0) {
-        return <EmptyViewAbsoluteCentered message={t`You don't have any updates yet.`} />;
-    }
-
-    return (
-        <OffsetComponentWithContainer
-            sx={{
-                zIndex: GROUPED_VIRTUOSO_Z_INDEX,
-            }}
-            component={
-                <Typography
-                    ref={lastUpdateTimestampCompRef}
-                    sx={{
-                        backgroundColor: 'background.default',
-                        pl: '10px',
-                        paddingTop: (theme) => ({ [theme.breakpoints.up('sm')]: { paddingTop: '6px' } }),
-                    }}
-                >{t`Last update: ${date}`}</Typography>
-            }
-        >
             <StyledGroupedVirtuoso
-                persistKey="updates"
-                heightToSubtract={lastUpdateTimestampCompHeight}
+                key={activeContentType}
+                persistKey={`updates-scroll-${activeContentType}`}
+                heightToSubtract={headerHeight}
                 components={{
                     Footer: () => (isLoading ? <LoadingPlaceholder usePadding /> : null),
                 }}
@@ -210,6 +208,38 @@ export const Updates: React.FC = () => {
                     </StyledGroupItemWrapper>
                 )}
             />
-        </OffsetComponentWithContainer>
+        );
+    };
+
+    return (
+        <TabsWrapper>
+            <OffsetComponentWithContainer
+                sx={{ zIndex: 2 }}
+                component={
+                    <Box ref={headerRef} sx={{ backgroundColor: 'background.default' }}>
+                        <TabsMenu
+                            variant="fullWidth"
+                            value={activeTab}
+                            onChange={(_, newTab) => setTabSearchParam(newTab, 'replaceIn')}
+                        >
+                            <Tab value="manga" sx={{ textTransform: 'none' }} label={t`Manga Updates`} />
+                            <Tab value="light-novel" sx={{ textTransform: 'none' }} label={t`Light Novel Updates`} />
+                        </TabsMenu>
+                        <Typography
+                            sx={{
+                                pl: '10px',
+                                py: '6px',
+                                color: 'text.secondary',
+                                fontSize: '0.875rem',
+                            }}
+                        >
+                            {t`Last update: ${date}`}
+                        </Typography>
+                    </Box>
+                }
+            >
+                {renderContent()}
+            </OffsetComponentWithContainer>
+        </TabsWrapper>
     );
 };

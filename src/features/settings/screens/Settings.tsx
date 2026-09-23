@@ -7,6 +7,7 @@
  */
 
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 import List from '@mui/material/List';
 import BackupIcon from '@mui/icons-material/Backup';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -43,7 +44,13 @@ export function Settings() {
                 <ListItemIcon>
                     <AutoStoriesIcon />
                 </ListItemIcon>
-                <ListItemText primary={t`Reader`} />
+                <ListItemText primary={t`Manga Reader`} />
+            </ListItemLink>
+            <ListItemLink to={AppRoutes.settings.children.lightNovelReader.path}>
+                <ListItemIcon>
+                    <MenuBookIcon />
+                </ListItemIcon>
+                <ListItemText primary={t`Light Novel Reader`} />
             </ListItemLink>
             <ListItemLink to={AppRoutes.settings.children.library.path}>
                 <ListItemIcon>

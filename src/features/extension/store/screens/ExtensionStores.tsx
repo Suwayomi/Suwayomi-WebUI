@@ -29,7 +29,9 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { DiscordIcon } from '@/assets/icons/svg/DiscordIcon.tsx';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import Box from '@mui/material/Box';
-import { ContentWarning } from '@/lib/graphql/generated/graphql-base.types.ts';
+import Tab from '@mui/material/Tab';
+import { StringParam, useQueryParam } from 'use-query-params';
+import { ContentWarning, ExtensionKind } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { DEFAULT_FULL_FAB_HEIGHT, StyledFab } from '@/base/components/buttons/StyledFab.tsx';
 import AddIcon from '@mui/icons-material/Add';
 import { AwaitableComponent, type AwaitableComponentProps } from 'awaitable-component';
@@ -37,6 +39,8 @@ import { TextSettingDialog } from '@/base/components/settings/text/TextSettingDi
 import { useMemo } from 'react';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { ClipBoardGuard } from '@/base/components/guard/ClipBoardGuard.tsx';
+import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
+import { SearchParam } from '@/base/Base.types.ts';
 
 const ExtensionStoreCard = ({
     indexUrl,
@@ -187,16 +191,18 @@ const AddExtensionStoreDialog = ({
     indexUrl,
     processing = false,
     startCreation,
+    title,
 }: AwaitableComponentProps<void> & {
     indexUrl?: string;
     processing?: boolean;
     startCreation: (indexUrl: string) => void;
+    title?: string;
 }) => {
     const { t } = useLingui();
 
     return (
         <TextSettingDialog
-            settingName={t`Add extension store`}
+            settingName={title ?? t`Add extension store`}
             handleChange={startCreation}
             isDialogOpen={isVisible}
             setIsDialogOpen={noOp}
@@ -213,6 +219,14 @@ export const ExtensionStores = () => {
 
     useAppTitle(t`Extension stores`);
 
+    const [tabParam, setTabParam] = useQueryParam(SearchParam.TAB, StringParam);
+    const [kindParam] = useQueryParam('kind', StringParam);
+    const activeTab =
+        tabParam?.toLowerCase() === 'light-novel' || kindParam?.toUpperCase() === ExtensionKind.Lnreader
+            ? 'light-novel'
+            : 'manga';
+    const activeKind = activeTab === 'light-novel' ? ExtensionKind.Lnreader : ExtensionKind.Jvm;
+
     const [addExtensionStore] = requestManager.useAddExtensionStore();
     const { data, loading, error, refetch, dataState } = requestManager.useGetExtensionStores();
     const [fetchExtensions] = requestManager.useExtensionListFetch();
@@ -224,6 +238,11 @@ export const ExtensionStores = () => {
 
         return data.extensionStores.nodes.toSorted((a, b) => a.name.localeCompare(b.name));
     }, [data?.extensionStores.nodes]);
+
+    const visibleStores = useMemo(
+        () => extensionStores.filter((store) => (store.kind ?? ExtensionKind.Jvm) === activeKind),
+        [extensionStores, activeKind],
+    );
 
     if (loading && dataState !== 'complete') {
         return <LoadingPlaceholder />;
@@ -243,13 +262,22 @@ export const ExtensionStores = () => {
 
     return (
         <Box sx={{ pb: DEFAULT_FULL_FAB_HEIGHT }}>
+            <TabsMenu
+                variant="fullWidth"
+                value={activeTab}
+                onChange={(_, newTab) => setTabParam(newTab, 'replaceIn')}
+                sx={{ mb: 1 }}
+            >
+                <Tab value="manga" sx={{ textTransform: 'none' }} label={t`Manga`} />
+                <Tab value="light-novel" sx={{ textTransform: 'none' }} label={t`Light Novel`} />
+            </TabsMenu>
             <VirtuosoPersisted
-                persistKey="extension-store-list"
+                persistKey={`extension-store-list-${activeTab}`}
                 useWindowScroll
                 overscan={window.innerHeight * 0.5}
-                totalCount={extensionStores.length}
-                computeItemKey={(index) => extensionStores[index].indexUrl}
-                itemContent={(index) => <ExtensionStoreCard {...extensionStores[index]} />}
+                totalCount={visibleStores.length}
+                computeItemKey={(index) => visibleStores[index].indexUrl}
+                itemContent={(index) => <ExtensionStoreCard {...visibleStores[index]} />}
             />
             <StyledFab
                 variant="extended"
@@ -257,8 +285,14 @@ export const ExtensionStores = () => {
                 sx={{ gap: 1 }}
                 onClick={() => {
                     const addStoreDialog = AwaitableComponent.showControlled(AddExtensionStoreDialog, {
+                        title:
+                            activeTab === 'light-novel'
+                                ? t`Add Light Novel extension store`
+                                : t`Add Manga extension store`,
                         startCreation: async (indexUrl) => {
-                            const request = addExtensionStore({ variables: { input: { indexUrl } } });
+                            const request = addExtensionStore({
+                                variables: { input: { indexUrl, kind: activeKind } },
+                            });
 
                             addStoreDialog.update({ indexUrl, processing: true });
 

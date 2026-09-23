@@ -16,7 +16,10 @@ import { useMetadataServerSettings } from '@/features/settings/services/ServerSe
 interface LibraryMangaGridProps
     extends
         Required<Pick<IMangaGridProps, 'isSelectModeActive' | 'selectedMangaIds' | 'handleSelection' | 'mangas'>>,
-        Pick<IMangaGridProps, 'retry' | 'message' | 'messageExtra'> {
+        Pick<
+            IMangaGridProps,
+            'retry' | 'message' | 'messageExtra' | 'contentType' | 'activeTab' | 'filterQuery' | 'persistKey'
+        > {
     showFilteredOutMessage: boolean;
     isLoading: boolean;
 }

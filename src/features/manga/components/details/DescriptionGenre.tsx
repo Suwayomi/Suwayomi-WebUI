@@ -28,6 +28,7 @@ import { MangaNotes } from '@/features/manga/components/details/MangaNotes.tsx';
 import { useGetMangaMetadata } from '@/features/manga/services/MangaMetadata.ts';
 import uniq from 'lodash/fp/uniq';
 import { MarkdownViewer } from '@/lib/mui-tiptap/MarkdownViewer.tsx';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 const OPEN_CLOSE_BUTTON_HEIGHT = '35px';
 const DESCRIPTION_COLLAPSED_SIZE = 100;
@@ -36,7 +37,11 @@ export const DescriptionGenre = ({
     manga,
     mode,
 }: {
-    manga: MangaDescriptionInfo & MangaGenreInfo & MangaIdInfo & MangaMetaInfo & MangaSourceIdInfo;
+    manga: MangaDescriptionInfo &
+        MangaGenreInfo &
+        MangaIdInfo &
+        MangaMetaInfo &
+        MangaSourceIdInfo & { contentType?: SourceContentType };
     mode: MangaLocationState['mode'];
 }) => {
     const { description, genre: mangaGenres, sourceId } = manga;
@@ -104,7 +109,13 @@ export const DescriptionGenre = ({
                 }}
             >
                 {genres.map((genre) => (
-                    <SearchLink key={genre} query={genre} sourceId={sourceId} mode={mode}>
+                    <SearchLink
+                        key={genre}
+                        query={genre}
+                        sourceId={sourceId}
+                        contentType={manga.contentType}
+                        mode={mode}
+                    >
                         <Chip label={genre} variant="outlined" onClick={() => {}} />
                     </SearchLink>
                 ))}

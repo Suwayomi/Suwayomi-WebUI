@@ -21,6 +21,7 @@ import Badge from '@mui/material/Badge';
 import Typography from '@mui/material/Typography';
 import { useLingui } from '@lingui/react/macro';
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
+import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 
 export const NavigationBarItem = ({
     path,
@@ -30,6 +31,7 @@ export const NavigationBarItem = ({
     useBadge,
     slots,
     forceCollapsed,
+    additionalMatchPaths,
 }: NavbarItem & {
     slots?: {
         listItemLink?: Partial<ComponentProps<typeof ListItemLink>>;
@@ -41,10 +43,13 @@ export const NavigationBarItem = ({
     const { isCollapsed: isCollapsedContext } = useNavBarContext();
     const theme = useTheme();
     const badgeInfo = useBadge?.();
+    const isMobileWidth = MediaQuery.useIsMobileWidth();
 
     const isCollapsed = forceCollapsed ?? isCollapsedContext;
 
-    const isActive = location.pathname.startsWith(path);
+    const isActive =
+        location.pathname.startsWith(path) ||
+        (isMobileWidth && Boolean(additionalMatchPaths?.some((p) => location.pathname.startsWith(p))));
     const Icon = isActive ? SelectedIconComponent : IconComponent;
 
     const { listItemProps, listItemIconProps } = useMemo(

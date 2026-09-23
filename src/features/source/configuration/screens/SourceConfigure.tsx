@@ -81,6 +81,15 @@ export function SourceConfigure() {
         );
     }
 
+    if (sourcePreferences.length === 0) {
+        return (
+            <EmptyViewAbsoluteCentered
+                message={t`No configurations available`}
+                messageExtra={t`This source does not have any configurable settings.`}
+            />
+        );
+    }
+
     return (
         <List sx={{ padding: 0 }}>
             {sourcePreferences.map((it, index) => {

@@ -79,6 +79,7 @@ export const MigrationSelectMangas = () => {
             condition: {
                 sourceId,
                 inLibrary: true,
+                contentType: null,
             },
             order: [
                 {

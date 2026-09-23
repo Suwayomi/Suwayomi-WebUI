@@ -32,6 +32,7 @@ export interface NavbarItem {
     show: 'mobile' | 'desktop' | 'both';
     moreGroup: NavBarItemMoreGroup;
     useBadge?: () => { count: number; title: string };
+    additionalMatchPaths?: readonly string[] | string[];
 }
 
 export type NavbarContextType = {

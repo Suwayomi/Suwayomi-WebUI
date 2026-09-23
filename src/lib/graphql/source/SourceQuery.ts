@@ -48,7 +48,7 @@ export const GET_SOURCES_LIST = gql`
     ${SOURCE_LIST_FIELDS}
 
     query GET_SOURCES_LIST {
-        sources {
+        sources(includeLightNovels: true) {
             nodes {
                 ...SOURCE_LIST_FIELDS
             }
@@ -60,7 +60,7 @@ export const GET_MIGRATABLE_SOURCES = gql`
     ${SOURCE_BASE_FIELDS}
 
     query GET_MIGRATABLE_SOURCES {
-        mangas(condition: { inLibrary: true }) {
+        mangas(condition: { inLibrary: true, contentType: null }) {
             nodes {
                 sourceId
                 source {

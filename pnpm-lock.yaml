@@ -288,6 +288,9 @@ importers:
       oxlint:
         specifier: 1.79.0
         version: 1.79.0
+      playwright-core:
+        specifier: 1.63.0
+        version: 1.63.0
       terser:
         specifier: 5.50.0
         version: 5.50.0
@@ -4804,6 +4807,11 @@ packages:
   pkg-dir@5.0.0:
     resolution: {integrity: sha512-NPE8TDbzl/3YQYY7CSS228s3g2ollTFnc+Qi3tqmqJp9Vg2ovUpixcJEo2HJScN2Ez+kEaal6y70c0ehqJBJeA==}
     engines: {node: '>=10'}
+
+  playwright-core@1.63.0:
+    resolution: {integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==}
+    engines: {node: '>=20'}
+    hasBin: true
 
   pngjs@3.4.0:
     resolution: {integrity: sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==}
@@ -10511,6 +10519,8 @@ snapshots:
   pkg-dir@5.0.0:
     dependencies:
       find-up: 5.0.0
+
+  playwright-core@1.63.0: {}
 
   pngjs@3.4.0: {}
 

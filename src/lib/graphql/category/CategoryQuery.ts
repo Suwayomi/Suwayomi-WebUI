@@ -63,6 +63,7 @@ export const GET_CATEGORIES_LIBRARY = gql`
         $last: Int
         $offset: Int
         $order: [CategoryOrderInput!]
+        $contentType: SourceContentType
     ) {
         categories(
             after: $after
@@ -124,10 +125,10 @@ export const GET_CATEGORY_MANGAS = gql`
     ${MANGA_LIBRARY_FIELDS}
     ${PAGE_INFO}
 
-    query GET_CATEGORY_MANGAS($id: Int!) {
+    query GET_CATEGORY_MANGAS($id: Int!, $contentType: SourceContentType) {
         category(id: $id) {
             id
-            mangas {
+            mangas(contentType: $contentType) {
                 nodes {
                     ...MANGA_LIBRARY_FIELDS
                 }

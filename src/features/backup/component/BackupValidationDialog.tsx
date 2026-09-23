@@ -71,7 +71,7 @@ export const BackupValidationDialog = ({
                         <Button
                             onClick={onDismiss}
                             component={Link}
-                            to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)}
+                            to={AppRoutes.browse.path(BrowseTab.MANGA_EXTENSIONS)}
                             autoFocus={!!validationResult?.missingSources.length}
                             variant={validationResult?.missingSources.length ? 'contained' : 'text'}
                         >

@@ -7,9 +7,11 @@
  */
 
 import type { MangaCardMode } from '@/features/manga/Manga.types.ts';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export interface RouteStateSourcesSearchAll {
     title?: string;
     shouldShowOnlyPinnedSources?: boolean;
     mode?: MangaCardMode;
+    contentType?: SourceContentType;
 }

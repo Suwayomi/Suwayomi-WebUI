@@ -54,6 +54,7 @@ import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { OffsetComponent } from '@/base/OffsetComponent.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 const TitleWithSizeTag = styled('span')({
     display: 'flex',
@@ -64,7 +65,7 @@ const TitleSizeTag = ({ sx, ...props }: ChipProps) => (
     <Chip {...props} size="small" sx={MUIUtil.mergeSx(sx, { marginLeft: '5px' })} />
 );
 
-export function Library() {
+export function Library({ contentType = SourceContentType.Manga }: { contentType?: SourceContentType } = {}) {
     const { t } = useLingui();
     const theme = useTheme();
 
@@ -79,18 +80,26 @@ export function Library() {
         refetch: refetchCategories,
     } = requestManager.useGetCategories<GetCategoriesLibraryQuery, GetCategoriesLibraryQueryVariables>(
         GET_CATEGORIES_LIBRARY,
+        { variables: { contentType, condition: { contentType } } },
     );
-    const tabsData = categoriesResponse?.categories.nodes.filter(
-        (category) => category.id !== 0 || (category.id === 0 && category.mangas.totalCount),
-    );
-    const tabs = tabsData ?? STABLE_EMPTY_ARRAY;
 
     const librarySizeResponse = requestManager.useGetMangas<GetMangasCountQuery, GetMangasCountQueryVariables>(
         GET_MANGAS_COUNT,
-        { condition: { inLibrary: true } },
+        { condition: { inLibrary: true, contentType } },
     );
 
     const librarySize = librarySizeResponse.data?.mangas.totalCount ?? 0;
+
+    const tabsData = useMemo(() => {
+        if (!categoriesResponse?.categories.nodes) {
+            return undefined;
+        }
+
+        const { nodes } = categoriesResponse.categories;
+        return nodes.filter((category) => category.id !== 0 || category.mangas.totalCount > 0);
+    }, [categoriesResponse?.categories.nodes]);
+
+    const tabs = tabsData ?? STABLE_EMPTY_ARRAY;
 
     const [tabSearchParam, setTabSearchParam] = useQueryParam(SearchParam.TAB, NumberParam);
     const [query] = useQueryParam(SearchParam.QUERY, StringParam);
@@ -102,7 +111,7 @@ export function Library() {
         error: mangaError,
         loading: mangaLoading,
         refetch: refetchCategoryMangas,
-    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab });
+    } = requestManager.useGetCategoryMangas(activeTab?.id, { skip: !activeTab }, contentType);
     const categoryMangas = categoryMangaResponse?.mangas.nodes ?? STABLE_EMPTY_ARRAY;
     const {
         visibleMangas: mangas,
@@ -168,11 +177,17 @@ export function Library() {
             return null;
         }
 
+        const fabTitle =
+            contentType === SourceContentType.LightNovel
+                ? plural(selectedItemIds.length, { one: '# light novel', other: '# light novels' })
+                : plural(selectedItemIds.length, { one: '# manga', other: '# manga' });
+
         return (
-            <SelectionFAB title={plural(selectedItemIds.length, { one: '# manga', other: '# manga' })}>
+            <SelectionFAB title={fabTitle}>
                 {(handleClose, setHideMenu) => (
                     <MangaActionMenuItems
                         selectedMangas={selectedMangas}
+                        contentType={contentType}
                         onClose={() => {
                             handleClose();
                             setIsSelectModeActive(false);
@@ -183,7 +198,7 @@ export function Library() {
                 )}
             </SelectionFAB>
         );
-    }, [isSelectModeActive, selectedMangas]);
+    }, [isSelectModeActive, selectedMangas, selectedItemIds.length, contentType, activeTab?.id]);
 
     const triggerGlobalSearchButton = useMemo(
         () =>
@@ -192,19 +207,20 @@ export function Library() {
                     <Button
                         size="large"
                         component={Link}
-                        to={AppRoutes.sources.children.searchAll.path(query)}
+                        to={AppRoutes.sources.children.searchAll.path(query, contentType)}
                         sx={{ textTransform: 'none', width: '100%' }}
                     >
                         {t`Search for "${query}" globally`}
                     </Button>
                 </Box>
             ),
-        [query],
+        [query, contentType],
     );
 
+    const titleText = contentType === SourceContentType.LightNovel ? t`Light Novels` : t`Manga`;
     useAppTitle(
         <TitleWithSizeTag>
-            {t`Library`}
+            {titleText}
             {showTabSize && (
                 <TitleSizeTag
                     sx={theme.applyStyles('light', { backgroundColor: 'background.paper' })}
@@ -212,8 +228,8 @@ export function Library() {
                 />
             )}
         </TitleWithSizeTag>,
-        t`Library`,
-        [t, showTabSize, librarySize, theme],
+        titleText,
+        [titleText, showTabSize, librarySize, theme],
     );
     useAppAction(
         <>
@@ -222,7 +238,7 @@ export function Library() {
                     <AppbarSearch searchHistoryKey="library" suggestions={mangaTitles} />
                     <LibraryToolbarMenu category={activeTab} mangas={mangas} />
                     <SyncButton />
-                    <UpdateChecker categoryId={activeTab?.id} />
+                    <UpdateChecker categoryId={activeTab?.id} contentType={contentType} />
                 </>
             )}
             {!!mangas.length && (
@@ -285,6 +301,9 @@ export function Library() {
                 <LibraryMangaGrid
                     // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
                     key={filterKey}
+                    contentType={contentType}
+                    activeTab={activeTab}
+                    filterQuery={query ?? filterKey}
                     mangas={mangas}
                     message={mangaError ? t`Could not load manga` : t`Your library is empty`}
                     messageExtra={mangaError?.message}
@@ -326,6 +345,9 @@ export function Library() {
                         <LibraryMangaGrid
                             // the key needs to include filters and query to force a re-render of the virtuoso grid to prevent https://github.com/petyosi/react-virtuoso/issues/1242
                             key={filterKey}
+                            contentType={contentType}
+                            activeTab={activeTab}
+                            filterQuery={query ?? filterKey}
                             mangas={mangas}
                             message={mangaError ? t`Could not load manga` : t`The category is empty`}
                             messageExtra={mangaError?.message}

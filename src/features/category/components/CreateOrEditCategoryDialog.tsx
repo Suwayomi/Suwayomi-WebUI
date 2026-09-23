@@ -21,12 +21,15 @@ import type { CategoryDefaultInfo, CategoryIdInfo, CategoryNameInfo } from '@/fe
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { makeToast } from '@/base/utils/Toast.ts';
 import { assertIsDefined } from '@/base/Asserts.ts';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export const CreateOrEditCategoryDialog = ({
     category,
+    contentType,
     onClose,
 }: {
     category: (CategoryIdInfo & CategoryNameInfo & CategoryDefaultInfo) | undefined;
+    contentType: SourceContentType;
     onClose: () => void;
 }) => {
     const isEditMode = !!category;
@@ -39,24 +42,28 @@ export const CreateOrEditCategoryDialog = ({
     const isInvalidName = dialogName !== undefined && !dialogName.trim().length;
     const canSubmit = dialogName !== undefined && !isInvalidName;
 
-    const handleDialogSubmit = () => {
+    const handleDialogSubmit = async () => {
         assertIsDefined(dialogName);
 
-        onClose();
-
         const newName = dialogName.trim();
-
         if (isEditMode) {
-            requestManager
-                .updateCategory(category.id, { name: newName, default: dialogDefault })
-                .response.catch((e) => makeToast(t`Failed to save changes`, 'error', getErrorMessage(e)));
+            onClose();
+            try {
+                await requestManager.updateCategory(category.id, { name: newName, default: dialogDefault }).response;
+            } catch (e) {
+                makeToast(t`Failed to save changes`, 'error', getErrorMessage(e));
+            }
 
             return;
         }
 
-        requestManager
-            .createCategory({ name: newName, default: dialogDefault })
-            .response.catch((e) => makeToast(t`Could not create category`, 'error', getErrorMessage(e)));
+        onClose();
+
+        try {
+            await requestManager.createCategory({ name: newName, default: dialogDefault, contentType }).response;
+        } catch (e) {
+            makeToast(t`Could not create category`, 'error', getErrorMessage(e));
+        }
     };
 
     return (
@@ -77,7 +84,7 @@ export const CreateOrEditCategoryDialog = ({
                 />
                 <FormControlLabel
                     control={<Checkbox checked={dialogDefault} onChange={(e) => setDialogDefault(e.target.checked)} />}
-                    label={t`Default category when adding new manga to the library`}
+                    label={t`Default category when adding new titles to the library`}
                 />
             </DialogContent>
             <DialogActions>

@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import { memo, useCallback, useRef, useState } from 'react';
 import { ReaderSettings } from '@/features/reader/settings/screens/ReaderSettings.tsx';
 import { ReaderPageNumber } from '@/features/reader/overlay/components/ReaderPageNumber.tsx';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { StandardReaderProgressBar } from '@/features/reader/overlay/progress-bar/desktop/StandardReaderProgressBar.tsx';
 import { ReaderNavBarDesktop } from '@/features/reader/overlay/navigation/desktop/ReaderNavBarDesktop.tsx';
 import { ReaderOverlayHeaderMobile } from '@/features/reader/overlay/mobile/ReaderOverlayHeaderMobile.tsx';
@@ -17,13 +18,17 @@ import { ReaderBottomBarMobile } from '@/features/reader/overlay/navigation/mobi
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
 import { useResizeObserver } from '@/base/hooks/useResizeObserver.tsx';
-import { useReaderOverlayStore } from '@/features/reader/stores/ReaderStore.ts';
+import { useReaderOverlayStore, useReaderStore } from '@/features/reader/stores/ReaderStore.ts';
+import { NovelReaderSettingsDrawer } from '@/features/novel-reader/components/NovelReaderSettingsDrawer.tsx';
+import { NovelReaderProgressBar } from '@/features/novel-reader/components/NovelReaderProgressBar.tsx';
 
 const BaseReaderOverlay = ({
     isDesktop,
     isMobile,
 }: Pick<ReturnType<typeof ReaderService.useOverlayMode>, 'isDesktop' | 'isMobile'>) => {
     const isVisible = useReaderOverlayStore('isVisible');
+    const manga = useReaderStore('manga');
+    const isNovel = manga?.contentType === SourceContentType.LightNovel;
 
     const [areSettingsOpen, setAreSettingsOpen] = useState(false);
 
@@ -36,9 +41,11 @@ const BaseReaderOverlay = ({
 
     return (
         <Box sx={{ position: 'absolute', width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
+            {isNovel && <NovelReaderProgressBar openSettings={() => setAreSettingsOpen(true)} />}
+
             {isDesktop && (
                 <>
-                    <StandardReaderProgressBar />
+                    {!isNovel && <StandardReaderProgressBar />}
                     <ReaderNavBarDesktop isVisible={isVisible} openSettings={() => setAreSettingsOpen(true)} />
                 </>
             )}
@@ -46,17 +53,23 @@ const BaseReaderOverlay = ({
             {isMobile && (
                 <>
                     <ReaderOverlayHeaderMobile ref={mobileHeaderRef} isVisible={isVisible} />
-                    <ReaderBottomBarMobile
-                        openSettings={() => setAreSettingsOpen(true)}
-                        isVisible={isVisible}
-                        topOffset={mobileHeaderHeight}
-                    />
+                    {!isNovel && (
+                        <ReaderBottomBarMobile
+                            openSettings={() => setAreSettingsOpen(true)}
+                            isVisible={isVisible}
+                            topOffset={mobileHeaderHeight}
+                        />
+                    )}
                 </>
             )}
 
-            <ReaderSettings isOpen={areSettingsOpen} close={() => setAreSettingsOpen(false)} />
+            {isNovel ? (
+                <NovelReaderSettingsDrawer open={areSettingsOpen} onClose={() => setAreSettingsOpen(false)} />
+            ) : (
+                <ReaderSettings isOpen={areSettingsOpen} close={() => setAreSettingsOpen(false)} />
+            )}
 
-            <ReaderPageNumber />
+            {!isNovel && <ReaderPageNumber />}
         </Box>
     );
 };

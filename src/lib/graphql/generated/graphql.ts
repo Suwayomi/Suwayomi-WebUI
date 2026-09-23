@@ -72,6 +72,7 @@ export type CategoryBaseFieldsFragment = {
     name: string;
     default: boolean;
     order: number;
+    meta: Array<{ __typename: 'CategoryMetaType'; categoryId: number; key: string; value: string }>;
 };
 
 export type CategoryLibraryFieldsFragment = {
@@ -80,8 +81,8 @@ export type CategoryLibraryFieldsFragment = {
     name: string;
     default: boolean;
     order: number;
-    meta: Array<{ __typename: 'CategoryMetaType'; categoryId: number; key: string; value: string }>;
     mangas: { __typename: 'MangaNodeList'; totalCount: number };
+    meta: Array<{ __typename: 'CategoryMetaType'; categoryId: number; key: string; value: string }>;
 };
 
 export type CategorySettingFieldsFragment = {
@@ -92,6 +93,7 @@ export type CategorySettingFieldsFragment = {
     name: string;
     default: boolean;
     order: number;
+    meta: Array<{ __typename: 'CategoryMetaType'; categoryId: number; key: string; value: string }>;
 };
 
 export type CreateCategoryMutationVariables = Exact<{
@@ -110,6 +112,7 @@ export type CreateCategoryMutation = {
             name: string;
             default: boolean;
             order: number;
+            meta: Array<{ __typename: 'CategoryMetaType'; categoryId: number; key: string; value: string }>;
         };
     } | null;
 };
@@ -231,7 +234,14 @@ export type GetCategoriesBaseQuery = {
     categories: {
         __typename: 'CategoryNodeList';
         totalCount: number;
-        nodes: Array<{ __typename: 'CategoryType'; id: number; name: string; default: boolean; order: number }>;
+        nodes: Array<{
+            __typename: 'CategoryType';
+            id: number;
+            name: string;
+            default: boolean;
+            order: number;
+            meta: Array<{ __typename: 'CategoryMetaType'; categoryId: number; key: string; value: string }>;
+        }>;
         pageInfo: {
             __typename: 'PageInfo';
             endCursor: string | null;
@@ -251,6 +261,7 @@ export type GetCategoriesLibraryQueryVariables = Exact<{
     last?: number | null | undefined;
     offset?: number | null | undefined;
     order?: Array<Types.CategoryOrderInput> | Types.CategoryOrderInput | null | undefined;
+    contentType?: Types.SourceContentType | null | undefined;
 }>;
 
 export type GetCategoriesLibraryQuery = {
@@ -264,8 +275,8 @@ export type GetCategoriesLibraryQuery = {
             name: string;
             default: boolean;
             order: number;
-            meta: Array<{ __typename: 'CategoryMetaType'; categoryId: number; key: string; value: string }>;
             mangas: { __typename: 'MangaNodeList'; totalCount: number };
+            meta: Array<{ __typename: 'CategoryMetaType'; categoryId: number; key: string; value: string }>;
         }>;
         pageInfo: {
             __typename: 'PageInfo';
@@ -301,6 +312,7 @@ export type GetCategoriesSettingsQuery = {
             name: string;
             default: boolean;
             order: number;
+            meta: Array<{ __typename: 'CategoryMetaType'; categoryId: number; key: string; value: string }>;
         }>;
         pageInfo: {
             __typename: 'PageInfo';
@@ -314,6 +326,7 @@ export type GetCategoriesSettingsQuery = {
 
 export type GetCategoryMangasQueryVariables = Exact<{
     id: number;
+    contentType?: Types.SourceContentType | null | undefined;
 }>;
 
 export type GetCategoryMangasQuery = {
@@ -340,6 +353,7 @@ export type GetCategoryMangasQuery = {
                 inLibrary: boolean;
                 initialized: boolean;
                 sourceId: string;
+                contentType: Types.SourceContentType;
                 unreadCount: number;
                 downloadCount: number;
                 bookmarkCount: number;
@@ -352,6 +366,7 @@ export type GetCategoryMangasQuery = {
                     displayName: string;
                     lang: string;
                     iconUrl: string;
+                    contentType: Types.SourceContentType;
                 } | null;
                 trackRecords: {
                     __typename: 'TrackRecordNodeList';
@@ -427,6 +442,7 @@ export type ChapterReaderFieldsFragment = {
     uploadDate: string;
     lastPageRead: number;
     pageCount: number;
+    textProgress: number | null;
     id: number;
     name: string;
     mangaId: number;
@@ -480,6 +496,7 @@ export type ChapterUpdateListFieldsFragment = {
         inLibrary: boolean;
         initialized: boolean;
         sourceId: string;
+        contentType: Types.SourceContentType;
         unreadCount: number;
         downloadCount: number;
         bookmarkCount: number;
@@ -512,6 +529,7 @@ export type ChapterHistoryListFieldsFragment = {
         inLibrary: boolean;
         initialized: boolean;
         sourceId: string;
+        contentType: Types.SourceContentType;
         unreadCount: number;
         downloadCount: number;
         bookmarkCount: number;
@@ -717,6 +735,7 @@ export type GetChaptersReaderQuery = {
             uploadDate: string;
             lastPageRead: number;
             pageCount: number;
+            textProgress: number | null;
             id: number;
             name: string;
             mangaId: number;
@@ -821,6 +840,7 @@ export type GetChaptersUpdatesQuery = {
                 inLibrary: boolean;
                 initialized: boolean;
                 sourceId: string;
+                contentType: Types.SourceContentType;
                 unreadCount: number;
                 downloadCount: number;
                 bookmarkCount: number;
@@ -878,6 +898,7 @@ export type GetChaptersHistoryQuery = {
                 inLibrary: boolean;
                 initialized: boolean;
                 sourceId: string;
+                contentType: Types.SourceContentType;
                 unreadCount: number;
                 downloadCount: number;
                 bookmarkCount: number;
@@ -969,6 +990,7 @@ export type DownloadTypeFieldsFragment = {
         inLibrary: boolean;
         initialized: boolean;
         sourceId: string;
+        contentType: Types.SourceContentType;
         source: {
             __typename: 'SourceType';
             id: string;
@@ -976,6 +998,7 @@ export type DownloadTypeFieldsFragment = {
             displayName: string;
             lang: string;
             iconUrl: string;
+            contentType: Types.SourceContentType;
         } | null;
     };
 };
@@ -1011,6 +1034,7 @@ export type DownloadStatusFieldsFragment = {
             inLibrary: boolean;
             initialized: boolean;
             sourceId: string;
+            contentType: Types.SourceContentType;
             source: {
                 __typename: 'SourceType';
                 id: string;
@@ -1018,6 +1042,7 @@ export type DownloadStatusFieldsFragment = {
                 displayName: string;
                 lang: string;
                 iconUrl: string;
+                contentType: Types.SourceContentType;
             } | null;
         };
     }>;
@@ -1058,6 +1083,7 @@ export type DownloadUpdatesFieldsFragment = {
                 inLibrary: boolean;
                 initialized: boolean;
                 sourceId: string;
+                contentType: Types.SourceContentType;
                 source: {
                     __typename: 'SourceType';
                     id: string;
@@ -1065,6 +1091,7 @@ export type DownloadUpdatesFieldsFragment = {
                     displayName: string;
                     lang: string;
                     iconUrl: string;
+                    contentType: Types.SourceContentType;
                 } | null;
             };
         };
@@ -1110,6 +1137,7 @@ export type ClearDownloaderMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    contentType: Types.SourceContentType;
                     source: {
                         __typename: 'SourceType';
                         id: string;
@@ -1117,6 +1145,7 @@ export type ClearDownloaderMutation = {
                         displayName: string;
                         lang: string;
                         iconUrl: string;
+                        contentType: Types.SourceContentType;
                     } | null;
                 };
             }>;
@@ -1197,6 +1226,7 @@ export type DequeueChapterDownloadMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    contentType: Types.SourceContentType;
                     source: {
                         __typename: 'SourceType';
                         id: string;
@@ -1204,6 +1234,7 @@ export type DequeueChapterDownloadMutation = {
                         displayName: string;
                         lang: string;
                         iconUrl: string;
+                        contentType: Types.SourceContentType;
                     } | null;
                 };
             }>;
@@ -1250,6 +1281,7 @@ export type DequeueChapterDownloadsMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    contentType: Types.SourceContentType;
                     source: {
                         __typename: 'SourceType';
                         id: string;
@@ -1257,6 +1289,7 @@ export type DequeueChapterDownloadsMutation = {
                         displayName: string;
                         lang: string;
                         iconUrl: string;
+                        contentType: Types.SourceContentType;
                     } | null;
                 };
             }>;
@@ -1303,6 +1336,7 @@ export type EnqueueChapterDownloadMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    contentType: Types.SourceContentType;
                     source: {
                         __typename: 'SourceType';
                         id: string;
@@ -1310,6 +1344,7 @@ export type EnqueueChapterDownloadMutation = {
                         displayName: string;
                         lang: string;
                         iconUrl: string;
+                        contentType: Types.SourceContentType;
                     } | null;
                 };
             }>;
@@ -1356,6 +1391,7 @@ export type EnqueueChapterDownloadsMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    contentType: Types.SourceContentType;
                     source: {
                         __typename: 'SourceType';
                         id: string;
@@ -1363,6 +1399,7 @@ export type EnqueueChapterDownloadsMutation = {
                         displayName: string;
                         lang: string;
                         iconUrl: string;
+                        contentType: Types.SourceContentType;
                     } | null;
                 };
             }>;
@@ -1409,6 +1446,7 @@ export type ReorderChapterDownloadMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    contentType: Types.SourceContentType;
                     source: {
                         __typename: 'SourceType';
                         id: string;
@@ -1416,6 +1454,7 @@ export type ReorderChapterDownloadMutation = {
                         displayName: string;
                         lang: string;
                         iconUrl: string;
+                        contentType: Types.SourceContentType;
                     } | null;
                 };
             }>;
@@ -1462,6 +1501,7 @@ export type ReorderChapterDownloadsMutation = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    contentType: Types.SourceContentType;
                     source: {
                         __typename: 'SourceType';
                         id: string;
@@ -1469,6 +1509,7 @@ export type ReorderChapterDownloadsMutation = {
                         displayName: string;
                         lang: string;
                         iconUrl: string;
+                        contentType: Types.SourceContentType;
                     } | null;
                 };
             }>;
@@ -1535,6 +1576,7 @@ export type GetDownloadStatusQuery = {
                 inLibrary: boolean;
                 initialized: boolean;
                 sourceId: string;
+                contentType: Types.SourceContentType;
                 source: {
                     __typename: 'SourceType';
                     id: string;
@@ -1542,6 +1584,7 @@ export type GetDownloadStatusQuery = {
                     displayName: string;
                     lang: string;
                     iconUrl: string;
+                    contentType: Types.SourceContentType;
                 } | null;
             };
         }>;
@@ -1589,6 +1632,7 @@ export type DownloadStatusSubscription = {
                     inLibrary: boolean;
                     initialized: boolean;
                     sourceId: string;
+                    contentType: Types.SourceContentType;
                     source: {
                         __typename: 'SourceType';
                         id: string;
@@ -1596,6 +1640,7 @@ export type DownloadStatusSubscription = {
                         displayName: string;
                         lang: string;
                         iconUrl: string;
+                        contentType: Types.SourceContentType;
                     } | null;
                 };
             };
@@ -1617,6 +1662,7 @@ export type ExtensionListFieldsFragment = {
     isObsolete: boolean;
     hasUpdate: boolean;
     extensionLib: string | null;
+    runtimeKind: Types.ExtensionKind;
     extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
 };
 
@@ -1642,6 +1688,7 @@ export type GetExtensionsFetchMutation = {
             isObsolete: boolean;
             hasUpdate: boolean;
             extensionLib: string | null;
+            runtimeKind: Types.ExtensionKind;
             extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
         }>;
         extensionStores: Array<{
@@ -1652,6 +1699,7 @@ export type GetExtensionsFetchMutation = {
             extensionListUrl: string | null;
             indexUrl: string;
             isLegacy: boolean;
+            kind: Types.ExtensionKind;
             name: string;
             signingKey: string;
             extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
@@ -1681,6 +1729,7 @@ export type UpdateExtensionMutation = {
             isObsolete: boolean;
             hasUpdate: boolean;
             extensionLib: string | null;
+            runtimeKind: Types.ExtensionKind;
             extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
         } | null;
     } | null;
@@ -1708,6 +1757,7 @@ export type UpdateExtensionsMutation = {
             isObsolete: boolean;
             hasUpdate: boolean;
             extensionLib: string | null;
+            runtimeKind: Types.ExtensionKind;
             extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
         }>;
     } | null;
@@ -1735,6 +1785,7 @@ export type InstallExternalExtensionMutation = {
             isObsolete: boolean;
             hasUpdate: boolean;
             extensionLib: string | null;
+            runtimeKind: Types.ExtensionKind;
             extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
         };
     } | null;
@@ -1760,6 +1811,7 @@ export type GetExtensionQuery = {
         isObsolete: boolean;
         hasUpdate: boolean;
         extensionLib: string | null;
+        runtimeKind: Types.ExtensionKind;
         extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
     };
 };
@@ -1794,6 +1846,7 @@ export type GetExtensionsQuery = {
             isObsolete: boolean;
             hasUpdate: boolean;
             extensionLib: string | null;
+            runtimeKind: Types.ExtensionKind;
             extensionStore: { __typename: 'ExtensionStoreType'; indexUrl: string; name: string } | null;
         }>;
         pageInfo: {
@@ -1814,6 +1867,7 @@ export type ExtensionStoreFieldsFragment = {
     extensionListUrl: string | null;
     indexUrl: string;
     isLegacy: boolean;
+    kind: Types.ExtensionKind;
     name: string;
     signingKey: string;
     extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
@@ -1835,6 +1889,7 @@ export type AddExtensionStoreMutation = {
             extensionListUrl: string | null;
             indexUrl: string;
             isLegacy: boolean;
+            kind: Types.ExtensionKind;
             name: string;
             signingKey: string;
             extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
@@ -1858,6 +1913,7 @@ export type RemoveExtensionStoreMutation = {
             extensionListUrl: string | null;
             indexUrl: string;
             isLegacy: boolean;
+            kind: Types.ExtensionKind;
             name: string;
             signingKey: string;
             extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
@@ -1879,6 +1935,7 @@ export type GetExtensionStoreQuery = {
         extensionListUrl: string | null;
         indexUrl: string;
         isLegacy: boolean;
+        kind: Types.ExtensionKind;
         name: string;
         signingKey: string;
         extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
@@ -1900,6 +1957,7 @@ export type GetExtensionStoresQuery = {
             extensionListUrl: string | null;
             indexUrl: string;
             isLegacy: boolean;
+            kind: Types.ExtensionKind;
             name: string;
             signingKey: string;
             extensions: { __typename: 'ExtensionNodeList'; totalCount: number };
@@ -1993,6 +2051,7 @@ export type MangaBaseFieldsFragment = {
     inLibrary: boolean;
     initialized: boolean;
     sourceId: string;
+    contentType: Types.SourceContentType;
 };
 
 export type MangaChapterStatFieldsFragment = {
@@ -2034,6 +2093,7 @@ export type MangaReaderFieldsFragment = {
     inLibrary: boolean;
     initialized: boolean;
     sourceId: string;
+    contentType: Types.SourceContentType;
     source: {
         __typename: 'SourceType';
         id: string;
@@ -2041,6 +2101,7 @@ export type MangaReaderFieldsFragment = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        contentType: Types.SourceContentType;
     } | null;
     meta: Array<{ __typename: 'MangaMetaType'; mangaId: number; key: string; value: string }>;
     chapters: { __typename: 'ChapterNodeList'; totalCount: number };
@@ -2063,6 +2124,7 @@ export type MangaLibraryFieldsFragment = {
     inLibrary: boolean;
     initialized: boolean;
     sourceId: string;
+    contentType: Types.SourceContentType;
     unreadCount: number;
     downloadCount: number;
     bookmarkCount: number;
@@ -2075,6 +2137,7 @@ export type MangaLibraryFieldsFragment = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        contentType: Types.SourceContentType;
     } | null;
     trackRecords: {
         __typename: 'TrackRecordNodeList';
@@ -2110,6 +2173,7 @@ export type MangaMigrationFieldsFragment = {
     inLibrary: boolean;
     initialized: boolean;
     sourceId: string;
+    contentType: Types.SourceContentType;
     source: { __typename: 'SourceType'; id: string; name: string; displayName: string } | null;
     firstUnreadChapter: {
         __typename: 'ChapterType';
@@ -2145,6 +2209,7 @@ export type MangaScreenFieldsFragment = {
     thumbnailUrlLastFetched: string | null;
     inLibrary: boolean;
     initialized: boolean;
+    contentType: Types.SourceContentType;
     unreadCount: number;
     downloadCount: number;
     bookmarkCount: number;
@@ -2157,6 +2222,7 @@ export type MangaScreenFieldsFragment = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        contentType: Types.SourceContentType;
     } | null;
     trackRecords: {
         __typename: 'TrackRecordNodeList';
@@ -2191,6 +2257,7 @@ export type MangaLibraryDuplicateScreenFieldsFragment = {
     inLibrary: boolean;
     initialized: boolean;
     sourceId: string;
+    contentType: Types.SourceContentType;
     unreadCount: number;
     downloadCount: number;
     bookmarkCount: number;
@@ -2225,6 +2292,7 @@ export type RefreshMangaMutation = {
             thumbnailUrlLastFetched: string | null;
             inLibrary: boolean;
             initialized: boolean;
+            contentType: Types.SourceContentType;
             unreadCount: number;
             downloadCount: number;
             bookmarkCount: number;
@@ -2237,6 +2305,7 @@ export type RefreshMangaMutation = {
                 displayName: string;
                 lang: string;
                 iconUrl: string;
+                contentType: Types.SourceContentType;
             } | null;
             trackRecords: {
                 __typename: 'TrackRecordNodeList';
@@ -2507,6 +2576,7 @@ export type GetMangaScreenQuery = {
         thumbnailUrlLastFetched: string | null;
         inLibrary: boolean;
         initialized: boolean;
+        contentType: Types.SourceContentType;
         unreadCount: number;
         downloadCount: number;
         bookmarkCount: number;
@@ -2519,6 +2589,7 @@ export type GetMangaScreenQuery = {
             displayName: string;
             lang: string;
             iconUrl: string;
+            contentType: Types.SourceContentType;
         } | null;
         trackRecords: {
             __typename: 'TrackRecordNodeList';
@@ -2560,6 +2631,7 @@ export type GetMangaReaderQuery = {
         inLibrary: boolean;
         initialized: boolean;
         sourceId: string;
+        contentType: Types.SourceContentType;
         source: {
             __typename: 'SourceType';
             id: string;
@@ -2567,6 +2639,7 @@ export type GetMangaReaderQuery = {
             displayName: string;
             lang: string;
             iconUrl: string;
+            contentType: Types.SourceContentType;
         } | null;
         meta: Array<{ __typename: 'MangaMetaType'; mangaId: number; key: string; value: string }>;
         chapters: { __typename: 'ChapterNodeList'; totalCount: number };
@@ -2692,6 +2765,7 @@ export type GetMangasBaseQuery = {
             inLibrary: boolean;
             initialized: boolean;
             sourceId: string;
+            contentType: Types.SourceContentType;
         }>;
         pageInfo: {
             __typename: 'PageInfo';
@@ -2735,6 +2809,7 @@ export type GetMangasLibraryQuery = {
             inLibrary: boolean;
             initialized: boolean;
             sourceId: string;
+            contentType: Types.SourceContentType;
             unreadCount: number;
             downloadCount: number;
             bookmarkCount: number;
@@ -2747,6 +2822,7 @@ export type GetMangasLibraryQuery = {
                 displayName: string;
                 lang: string;
                 iconUrl: string;
+                contentType: Types.SourceContentType;
             } | null;
             trackRecords: {
                 __typename: 'TrackRecordNodeList';
@@ -2811,6 +2887,7 @@ export type GetMangasDuplicatesQuery = {
             inLibrary: boolean;
             initialized: boolean;
             sourceId: string;
+            contentType: Types.SourceContentType;
             unreadCount: number;
             downloadCount: number;
             bookmarkCount: number;
@@ -2853,6 +2930,7 @@ export type GetMigratableSourceMangasQuery = {
             inLibrary: boolean;
             initialized: boolean;
             sourceId: string;
+            contentType: Types.SourceContentType;
             source: { __typename: 'SourceType'; id: string; name: string; displayName: string } | null;
             firstUnreadChapter: {
                 __typename: 'ChapterType';
@@ -2955,6 +3033,45 @@ export type GetGlobalMetadatasQuery = {
             hasPreviousPage: boolean;
             startCursor: string | null;
         };
+    };
+};
+
+export type UpdateChapterTextProgressMutationVariables = Exact<{
+    input: Types.UpdateChapterTextProgressInput;
+}>;
+
+export type UpdateChapterTextProgressMutation = {
+    __typename: 'Mutation';
+    updateChapterTextProgress: {
+        __typename: 'UpdateChapterTextProgressPayload';
+        clientMutationId: string | null;
+        chapter: {
+            __typename: 'ChapterType';
+            id: number;
+            textProgress: number | null;
+            isRead: boolean;
+            lastReadAt: string;
+        };
+    } | null;
+};
+
+export type GetChapterTextContentQueryVariables = Exact<{
+    id: number;
+}>;
+
+export type GetChapterTextContentQuery = {
+    __typename: 'Query';
+    chapter: {
+        __typename: 'ChapterType';
+        id: number;
+        textProgress: number | null;
+        textContent: {
+            __typename: 'ChapterTextContent';
+            html: string;
+            fromDownload: boolean;
+            customCss: string | null;
+            customJs: string | null;
+        } | null;
     };
 };
 
@@ -3550,6 +3667,7 @@ export type SourceBaseFieldsFragment = {
     displayName: string;
     lang: string;
     iconUrl: string;
+    contentType: Types.SourceContentType;
 };
 
 export type SourceListFieldsFragment = {
@@ -3562,6 +3680,7 @@ export type SourceListFieldsFragment = {
     id: string;
     name: string;
     displayName: string;
+    contentType: Types.SourceContentType;
     meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
     extension: {
         __typename: 'ExtensionType';
@@ -3622,6 +3741,7 @@ export type SourceBrowseFieldsFragment = {
     displayName: string;
     lang: string;
     iconUrl: string;
+    contentType: Types.SourceContentType;
     meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
     filters: Array<
         | { __typename: 'CheckBoxFilter'; name: string; type: 'CheckBoxFilter'; CheckBoxFilterDefault: boolean }
@@ -3775,6 +3895,7 @@ export type SourceSettingFieldsFragment = {
     displayName: string;
     lang: string;
     iconUrl: string;
+    contentType: Types.SourceContentType;
     preferences: Array<
         | {
               __typename: 'CheckBoxPreference';
@@ -3851,6 +3972,7 @@ export type GetSourceMangasFetchMutation = {
             inLibrary: boolean;
             initialized: boolean;
             sourceId: string;
+            contentType: Types.SourceContentType;
         }>;
     } | null;
 };
@@ -3875,6 +3997,7 @@ export type GetMigrationSourceMangasFetchMutation = {
             inLibrary: boolean;
             initialized: boolean;
             sourceId: string;
+            contentType: Types.SourceContentType;
             source: { __typename: 'SourceType'; id: string; name: string; displayName: string } | null;
             firstUnreadChapter: {
                 __typename: 'ChapterType';
@@ -3915,6 +4038,7 @@ export type UpdateSourcePreferencesMutation = {
             displayName: string;
             lang: string;
             iconUrl: string;
+            contentType: Types.SourceContentType;
             preferences: Array<
                 | {
                       __typename: 'CheckBoxPreference';
@@ -4022,6 +4146,7 @@ export type GetSourceBrowseQuery = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        contentType: Types.SourceContentType;
         meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
         filters: Array<
             | { __typename: 'CheckBoxFilter'; name: string; type: 'CheckBoxFilter'; CheckBoxFilterDefault: boolean }
@@ -4196,6 +4321,7 @@ export type GetSourceSettingsQuery = {
         displayName: string;
         lang: string;
         iconUrl: string;
+        contentType: Types.SourceContentType;
         preferences: Array<
             | {
                   __typename: 'CheckBoxPreference';
@@ -4261,7 +4387,15 @@ export type GetSourceMigratableQueryVariables = Exact<{
 
 export type GetSourceMigratableQuery = {
     __typename: 'Query';
-    source: { __typename: 'SourceType'; id: string; name: string; displayName: string; lang: string; iconUrl: string };
+    source: {
+        __typename: 'SourceType';
+        id: string;
+        name: string;
+        displayName: string;
+        lang: string;
+        iconUrl: string;
+        contentType: Types.SourceContentType;
+    };
 };
 
 export type GetSourcesListQueryVariables = Exact<{ [key: string]: never }>;
@@ -4280,6 +4414,7 @@ export type GetSourcesListQuery = {
             id: string;
             name: string;
             displayName: string;
+            contentType: Types.SourceContentType;
             meta: Array<{ __typename: 'SourceMetaType'; sourceId: string; key: string; value: string }>;
             extension: {
                 __typename: 'ExtensionType';
@@ -4307,6 +4442,7 @@ export type GetMigratableSourcesQuery = {
                 displayName: string;
                 lang: string;
                 iconUrl: string;
+                contentType: Types.SourceContentType;
             } | null;
         }>;
     };
@@ -4990,7 +5126,9 @@ export type StopUpdaterMutation = {
     updateStop: { __typename: 'UpdateStopPayload'; clientMutationId: string | null };
 };
 
-export type GetUpdateStatusQueryVariables = Exact<{ [key: string]: never }>;
+export type GetUpdateStatusQueryVariables = Exact<{
+    contentType?: Types.SourceContentType | null | undefined;
+}>;
 
 export type GetUpdateStatusQuery = {
     __typename: 'Query';
@@ -5055,6 +5193,20 @@ export type GetUpdateStatusQuery = {
 export type GetLastUpdateTimestampQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetLastUpdateTimestampQuery = {
+    __typename: 'Query';
+    lastUpdateTimestamp: { __typename: 'LastUpdateTimestampPayload'; timestamp: string };
+};
+
+export type GetLastMangaUpdateTimestampQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetLastMangaUpdateTimestampQuery = {
+    __typename: 'Query';
+    lastUpdateTimestamp: { __typename: 'LastUpdateTimestampPayload'; timestamp: string };
+};
+
+export type GetLastNovelUpdateTimestampQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetLastNovelUpdateTimestampQuery = {
     __typename: 'Query';
     lastUpdateTimestamp: { __typename: 'LastUpdateTimestampPayload'; timestamp: string };
 };

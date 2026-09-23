@@ -37,6 +37,11 @@ msgstr "{0, plural, one {# day} other {# days}}"
 
 #. placeholder {0}: selectedItemIds.length
 #: src/features/library/screens/Library.tsx
+msgid "{0, plural, one {# light novel} other {# light novels}}"
+msgstr "{0, plural, one {# light novel} other {# light novels}}"
+
+#. placeholder {0}: selectedItemIds.length
+#: src/features/library/screens/Library.tsx
 msgid "{0, plural, one {# manga} other {# manga}}"
 msgstr "{0, plural, one {# manga} other {# manga}}"
 
@@ -417,6 +422,14 @@ msgstr "Add bookmark"
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "Add extension store"
 msgstr "Add extension store"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Add Light Novel extension store"
+msgstr "Add Light Novel extension store"
+
+#: src/features/extension/store/screens/ExtensionStores.tsx
+msgid "Add Manga extension store"
+msgstr "Add Manga extension store"
 
 #: src/features/manga/components/details/MangaNotes.tsx
 msgid "Add notes"
@@ -825,6 +838,10 @@ msgstr "Category selection dialog"
 msgid "CBZ MIME-Type"
 msgstr "CBZ MIME-Type"
 
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Center"
+msgstr "Center"
+
 #: src/features/manga/Manga.constants.ts
 msgid "Change categories"
 msgstr "Change categories"
@@ -1003,6 +1020,10 @@ msgstr "Connected as {currentUsername} to {currentServerAddress}"
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Connected as {initialUsername} to {initialServerAddress}"
 msgstr "Connected as {initialUsername} to {initialServerAddress}"
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Content Width"
+msgstr "Content Width"
 
 #: src/features/migration/components/MigrationContinueButton.tsx
 msgid "Continue"
@@ -1186,6 +1207,10 @@ msgid "Could not remove extension store \"{name}\""
 msgstr "Could not remove extension store \"{name}\""
 
 #: src/features/library/screens/LibrarySettings.tsx
+msgid "Could not remove non library light novel from categories"
+msgstr "Could not remove non library light novel from categories"
+
+#: src/features/library/screens/LibrarySettings.tsx
 msgid "Could not remove non library manga from categories"
 msgstr "Could not remove non library manga from categories"
 
@@ -1300,6 +1325,7 @@ msgstr "Crimson"
 msgid "Current source"
 msgstr "Current source"
 
+#: src/features/novel-reader/components/NovelReaderChapterSeparator.tsx
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Current:"
 msgstr "Current:"
@@ -1398,8 +1424,8 @@ msgid "Default"
 msgstr "Default"
 
 #: src/features/category/components/CreateOrEditCategoryDialog.tsx
-msgid "Default category when adding new manga to the library"
-msgstr "Default category when adding new manga to the library"
+msgid "Default category when adding new titles to the library"
+msgstr "Default category when adding new titles to the library"
 
 #: src/base/components/AppbarSearch.tsx
 #: src/base/components/settings/MutableListSetting.tsx
@@ -1766,10 +1792,6 @@ msgstr "Exit to manga page"
 msgid "Exit to previous page"
 msgstr "Exit to previous page"
 
-#: src/features/browse/screens/Browse.tsx
-msgid "Extension"
-msgstr "Extension"
-
 #: src/features/extension/info/screens/ExtensionInfo.tsx
 msgid "Extension info"
 msgstr "Extension info"
@@ -1790,6 +1812,10 @@ msgstr "Failed to connect to KOReader Sync server."
 #: src/features/settings/components/koreaderSync/KoreaderSyncSettings.tsx
 msgid "Failed to disconnect from KOReader Sync server."
 msgstr "Failed to disconnect from KOReader Sync server."
+
+#: src/features/novel-reader/components/NovelReaderChapterItem.tsx
+msgid "Failed to load chapter text"
+msgstr "Failed to load chapter text"
 
 #: src/features/backup/screens/Backup.tsx
 #: src/features/browse/extensions/Extensions.tsx
@@ -1930,13 +1956,21 @@ msgstr "FlareSolverr will automatically rotate expired sessions based on the TTL
 msgid "Flavor"
 msgstr "Flavor"
 
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Font Family"
+msgstr "Font Family"
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Font Size"
+msgstr "Font Size"
+
 #: src/features/theme/Themes.ts
 msgid "Forest Dew"
 msgstr "Forest Dew"
 
 #: src/features/library/screens/LibrarySettings.tsx
-msgid "Forget manga categories"
-msgstr "Forget manga categories"
+msgid "Forget categories"
+msgstr "Forget categories"
 
 #: src/features/downloads/components/DeleteChaptersWhileReadingSetting.tsx
 msgid "Fourth to last read chapter"
@@ -2235,6 +2269,10 @@ msgstr "item"
 msgid "Items per page"
 msgstr "Items per page"
 
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Justify"
+msgstr "Justify"
+
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "JWT access token expiry"
 msgstr "JWT access token expiry"
@@ -2334,6 +2372,11 @@ msgstr "Lavender"
 msgid "Layout"
 msgstr "Layout"
 
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Layout & Margins"
+msgstr "Layout & Margins"
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
 #: src/features/reader/overlay/progress-bar/settings/components/ReaderSettingProgressBarPosition.tsx
 #: src/features/reader/settings/general/components/ReaderSettingSafeAreaInset.tsx
 msgid "Left"
@@ -2353,9 +2396,7 @@ msgid "legacy backups are not supported!"
 msgstr "legacy backups are not supported!"
 
 #: src/features/backup/Backup.constants.ts
-#: src/features/library/screens/Library.tsx
 #: src/features/library/screens/LibrarySettings.tsx
-#: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/Settings.tsx
 msgid "Library"
 msgstr "Library"
@@ -2372,6 +2413,38 @@ msgstr "Licensed"
 msgid "Light"
 msgstr "Light"
 
+#: src/features/category/screens/CategorySettings.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+#: src/features/library/screens/LibrarySettings.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
+msgid "Light Novel"
+msgstr "Light Novel"
+
+#: src/features/browse/screens/Browse.tsx
+msgid "Light Novel Extensions"
+msgstr "Light Novel Extensions"
+
+#: src/features/history/screens/History.tsx
+msgid "Light Novel History"
+msgstr "Light Novel History"
+
+#: src/features/settings/screens/NovelReaderSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Light Novel Reader"
+msgstr "Light Novel Reader"
+
+#: src/features/browse/screens/Browse.tsx
+msgid "Light Novel Sources"
+msgstr "Light Novel Sources"
+
+#: src/features/updates/screens/Updates.tsx
+msgid "Light Novel Updates"
+msgstr "Light Novel Updates"
+
+#: src/features/library/screens/Library.tsx
+msgid "Light Novels"
+msgstr "Light Novels"
+
 #: src/features/reader/settings/ReaderSettings.constants.tsx
 msgid "Lighten"
 msgstr "Lighten"
@@ -2383,6 +2456,10 @@ msgstr "Limit reader width"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Limit the amount of new chapters that are going to get downloaded."
 msgstr "Limit the amount of new chapters that are going to get downloaded."
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Line Height"
+msgstr "Line Height"
 
 #: src/features/settings/screens/About.tsx
 msgid "Links"
@@ -2461,7 +2538,13 @@ msgstr "Manage your existing devices.\n"
 "UI specific settings that are stored on the server are per device.\n"
 "This makes it possible to have e.g. different settings on a desktop and a smartphone"
 
+#: src/features/category/screens/CategorySettings.tsx
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
+#: src/features/extension/store/screens/ExtensionStores.tsx
+#: src/features/library/screens/Library.tsx
+#: src/features/library/screens/LibrarySettings.tsx
 #: src/features/manga/screens/Manga.tsx
+#: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/reader/settings/behaviour/components/ReaderSettingExitMode.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manga"
@@ -2473,13 +2556,34 @@ msgstr "Manga"
 msgid "entry-type-detection-manga"
 msgstr "Manga"
 
+#: src/features/browse/screens/Browse.tsx
+msgid "Manga Extensions"
+msgstr "Manga Extensions"
+
+#: src/features/history/screens/History.tsx
+msgid "Manga History"
+msgstr "Manga History"
+
 #: src/features/settings/screens/Appearance.tsx
 msgid "Manga item width"
 msgstr "Manga item width"
 
+#: src/features/reader/settings/screens/GlobalReaderSettings.tsx
+#: src/features/settings/screens/Settings.tsx
+msgid "Manga Reader"
+msgstr "Manga Reader"
+
+#: src/features/browse/screens/Browse.tsx
+msgid "Manga Sources"
+msgstr "Manga Sources"
+
 #: src/features/settings/screens/Appearance.tsx
 msgid "Manga thumbnail as background"
 msgstr "Manga thumbnail as background"
+
+#: src/features/updates/screens/Updates.tsx
+msgid "Manga Updates"
+msgstr "Manga Updates"
 
 #: src/features/tracker/Tracker.constants.ts
 msgid "Manhua"
@@ -2575,7 +2679,6 @@ msgstr "Menu"
 msgid "Merging"
 msgstr "Merging"
 
-#: src/features/browse/screens/Browse.tsx
 #: src/features/manga/components/MangaToolbarMenu.tsx
 #: src/features/manga/Manga.constants.ts
 #: src/features/migration/components/MigrationOptionsDialog.tsx
@@ -2604,6 +2707,10 @@ msgstr "Migrating manga…"
 #: src/features/migration/Migration.constants.ts
 msgid "Migrating…"
 msgstr "Migrating…"
+
+#: src/features/browse/screens/Browse.tsx
+msgid "Migration"
+msgstr "Migration"
 
 #: src/features/migration/screens/MigrationExecute.tsx
 msgid "Migration complete"
@@ -2658,6 +2765,10 @@ msgstr "Mobile"
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Modern"
 msgstr "Modern"
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Monospace (Code)"
+msgstr "Monospace (Code)"
 
 #: src/features/navigation-bar/NavigationBar.constants.ts
 #: src/features/settings/screens/More.tsx
@@ -2733,6 +2844,10 @@ msgstr "No chapters found"
 msgid "No chapters matching filter"
 msgstr "No chapters matching filter"
 
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+msgid "No configurations available"
+msgstr "No configurations available"
+
 #: src/features/downloads/screens/DownloadQueue.tsx
 msgid "No downloads"
 msgstr "No downloads"
@@ -2794,6 +2909,7 @@ msgstr "Notes"
 msgid "Notes saved"
 msgstr "Notes saved"
 
+#: src/features/downloads/components/DownloadQueueChapterCard.tsx
 #: src/features/tracker/Tracker.constants.ts
 msgid "Novel"
 msgstr "Novel"
@@ -2913,6 +3029,10 @@ msgstr "Open the WebUI when starting the server"
 msgid "Open website"
 msgstr "Open website"
 
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "OpenDyslexic"
+msgstr "OpenDyslexic"
+
 #: src/features/chapter/components/cards/ChapterCard.tsx
 #: src/features/manga/components/MangaOptionButton.tsx
 msgid "Options"
@@ -2951,6 +3071,10 @@ msgstr "Page"
 #: src/features/reader/settings/layout/components/ReaderSettingPageGap.tsx
 msgid "Page gap"
 msgstr "Page gap"
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Paragraph Spacing"
+msgstr "Paragraph Spacing"
 
 #: src/features/browse/screens/BrowseSettings.tsx
 msgid "Parallel source requests"
@@ -3026,6 +3150,7 @@ msgstr "Previous chapter"
 msgid "Previous page"
 msgstr "Previous page"
 
+#: src/features/novel-reader/components/NovelReaderChapterSeparator.tsx
 #: src/features/reader/viewer/components/ReaderTransitionPage.tsx
 msgid "Previous:"
 msgstr "Previous:"
@@ -3071,14 +3196,13 @@ msgstr "Quick settings"
 msgid "Random"
 msgstr "Random"
 
-#: src/features/reader/settings/screens/GlobalReaderSettings.tsx
-#: src/features/settings/screens/Settings.tsx
-msgid "Reader"
-msgstr "Reader"
-
 #: src/features/reader/screens/Reader.tsx
 msgid "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
 msgstr "Reader — Manga {mangaId} Chapter {chapterSourceOrder}"
+
+#: src/features/novel-reader/components/NovelReaderSettingsDrawer.tsx
+msgid "Reader Settings"
+msgstr "Reader Settings"
 
 #: src/features/reader/settings/layout/components/ReaderSettingWidth.tsx
 msgid "Reader width"
@@ -3161,8 +3285,12 @@ msgid "Remove from the library"
 msgstr "Remove from the library"
 
 #: src/features/library/screens/LibrarySettings.tsx
-msgid "Remove manga from categories when removing them from the library"
-msgstr "Remove manga from categories when removing them from the library"
+msgid "Remove items from categories when removing them from the library"
+msgstr "Remove items from categories when removing them from the library"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Remove non library light novel from categories"
+msgstr "Remove non library light novel from categories"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Remove non library manga from categories"
@@ -3171,6 +3299,10 @@ msgstr "Remove non library manga from categories"
 #: src/features/manga/Manga.constants.ts
 msgid "Remove selected from the library"
 msgstr "Remove selected from the library"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Removed non library light novel from categories"
+msgstr "Removed non library light novel from categories"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Removed non library manga from categories"
@@ -3186,6 +3318,7 @@ msgstr "Reset"
 #: src/base/components/settings/DateSetting.tsx
 #: src/base/components/settings/NumberSetting.tsx
 #: src/base/components/settings/TimeSetting.tsx
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
 msgid "Reset to Default"
 msgstr "Reset to Default"
 
@@ -3218,6 +3351,7 @@ msgstr "Resume"
 #: src/features/chapter/components/buttons/ChapterDownloadRetryButton.tsx
 #: src/features/manga/hooks/useManageMangaLibraryState.tsx
 #: src/features/migration/components/migration-entry/MigrationDestinationEntry.tsx
+#: src/features/novel-reader/components/NovelReaderChapterItem.tsx
 msgid "Retry"
 msgstr "Retry"
 
@@ -3246,6 +3380,10 @@ msgstr "Right to left"
 #: src/features/theme/Themes.ts
 msgid "Rosegold"
 msgstr "Rosegold"
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Sans-Serif (Clean)"
+msgstr "Sans-Serif (Clean)"
 
 #: src/features/manga/components/details/MangaNotes.tsx
 #: src/features/settings/screens/ImageProcessingSetting.tsx
@@ -3350,8 +3488,8 @@ msgid "Search results"
 msgstr "Search results"
 
 #: src/features/library/screens/LibrarySettings.tsx
-msgid "Search results will include manga that do not match the current filters"
-msgstr "Search results will include manga that do not match the current filters"
+msgid "Search results will include items that do not match the current filters"
+msgstr "Search results will include items that do not match the current filters"
 
 #: src/features/migration/Migration.constants.ts
 msgid "Searching…"
@@ -3416,6 +3554,10 @@ msgstr "Sepia"
 #: src/features/reader/settings/layout/ReaderLayoutSettings.tsx
 msgid "Series settings"
 msgstr "Series settings"
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Serif (Literary)"
+msgstr "Serif (Literary)"
 
 #: src/features/settings/screens/About.tsx
 #: src/features/settings/screens/ServerSettings.tsx
@@ -3551,8 +3693,8 @@ msgid "Show tap zones overlay"
 msgstr "Show tap zones overlay"
 
 #: src/features/library/screens/LibrarySettings.tsx
-msgid "Show the category selection dialog when adding a manga to the library"
-msgstr "Show the category selection dialog when adding a manga to the library"
+msgid "Show the category selection dialog when adding an item to the library"
+msgstr "Show the category selection dialog when adding an item to the library"
 
 #: src/features/reader/settings/behaviour/ReaderBehaviourSettings.tsx
 msgid "Show transition page"
@@ -3570,6 +3712,10 @@ msgstr "Shows a dialog in case the version got updated. This dialog will be show
 #: src/features/settings/screens/ServerSettings.tsx
 msgid "Shows a dialog in case the version of the server has changed"
 msgstr "Shows a dialog in case the version of the server has changed"
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Side Margin"
+msgstr "Side Margin"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Simple Login"
@@ -3642,7 +3788,6 @@ msgstr "Something went wrong\n"
 msgid "Sort"
 msgstr "Sort"
 
-#: src/features/browse/screens/Browse.tsx
 #: src/features/browse/screens/BrowseSettings.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
 #: src/features/manga/components/details/MangaDetails.tsx
@@ -3828,6 +3973,10 @@ msgstr "Tap zones"
 msgid "Target mode"
 msgstr "Target mode"
 
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Text Alignment"
+msgstr "Text Alignment"
+
 #: src/features/settings/Settings.constants.ts
 msgid "That haven't been started"
 msgstr "That haven't been started"
@@ -3942,6 +4091,10 @@ msgstr "This icon will be shown on the system that is running the server"
 msgid "This is the latest version"
 msgstr "This is the latest version"
 
+#: src/features/source/configuration/screens/SourceConfigure.tsx
+msgid "This source does not have any configurable settings."
+msgstr "This source does not have any configurable settings."
+
 #: src/features/source/browse/components/SourceOptions.tsx
 msgid "This will delete the saved search \"{savedSearch}\""
 msgstr "This will delete the saved search \"{savedSearch}\""
@@ -4033,6 +4186,14 @@ msgstr "Tree Frog Green"
 #: src/features/tracker/components/cards/TrackerMangaCard.tsx
 msgid "Type"
 msgstr "Type"
+
+#: src/features/novel-reader/components/NovelReaderSettingsForm.tsx
+msgid "Typography"
+msgstr "Typography"
+
+#: src/features/reader/overlay/navigation/desktop/ReaderNavBarDesktop.tsx
+msgid "Typography & Theme"
+msgstr "Typography & Theme"
 
 #: src/features/settings/Settings.constants.ts
 msgid "UI Login"

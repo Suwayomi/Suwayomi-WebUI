@@ -51,6 +51,7 @@ export const CHAPTER_READER_FIELDS = gql`
         uploadDate
         lastPageRead
         pageCount
+        textProgress
     }
 `;
 

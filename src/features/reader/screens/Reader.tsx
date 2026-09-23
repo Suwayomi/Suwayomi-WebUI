@@ -27,6 +27,8 @@ import { ReaderHotkeys } from '@/features/reader/hotkeys/ReaderHotkeys.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import type { NavbarContextType } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { withPropsFrom } from '@/base/hoc/withPropsFrom.tsx';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { NovelReaderViewer } from '@/features/novel-reader/viewer/NovelReaderViewer.tsx';
 import { useReaderResetStates } from '@/features/reader/hooks/useReaderResetStates.ts';
 import { useWakeLock } from '@/base/hooks/useWakeLock.ts';
 import { useReaderSetSettingsState } from '@/features/reader/hooks/useReaderSetSettingsState.ts';
@@ -131,6 +133,8 @@ const BaseReader = ({
         defaultSettingsResponse.loading;
     const error = mangaResponse.error ?? chaptersResponse.error ?? defaultSettingsResponse.error;
 
+    const isNovel = manga?.contentType === SourceContentType.LightNovel;
+
     const page = getPage(currentPageIndex, pages);
     const primaryPageBackground = getReaderBackgroundColor(
         backgroundColor,
@@ -154,6 +158,9 @@ const BaseReader = ({
     );
 
     const direction = READING_DIRECTION_TO_THEME_DIRECTION[readingDirection.value];
+    const mangaBackground = isContinuousReadingMode(readingMode.value)
+        ? primaryPageBackground
+        : `linear-gradient(to right, ${getOptionForDirection(primaryPageBackground, secondaryPageBackground, direction)} 0 50%, ${getOptionForDirection(secondaryPageBackground, primaryPageBackground, direction)} 50% 100%)`;
 
     useEffect(() => {
         getReaderStore().setManga(mangaResponse.data?.manga);
@@ -196,7 +203,7 @@ const BaseReader = ({
                 <Box sx={{ position: 'absolute' }}>
                     <ReaderHotkeys scrollElementRef={scrollElementRef} />
                     <ReaderOverlay />
-                    {!scrollElementRef.current && (
+                    {!isNovel && !scrollElementRef.current && (
                         <Box
                             onClick={() => getReaderOverlayStore().setIsVisible(!getReaderOverlayStore().isVisible)}
                             sx={{
@@ -214,7 +221,7 @@ const BaseReader = ({
         });
 
         return () => setOverride({ status: false, value: null });
-    }, [scrollElementRef.current]);
+    }, [isNovel, scrollElementRef.current]);
 
     if (error) {
         return (
@@ -280,15 +287,19 @@ const BaseReader = ({
                 marginLeft: `${readerNavBarWidth}px`,
                 transition: `width 0.${theme.transitions.duration.shortest}s, margin-left 0.${theme.transitions.duration.shortest}s, background 1.${theme.transitions.duration.shortest}s`,
                 overflow: 'auto',
-                background: isContinuousReadingMode(readingMode.value)
-                    ? primaryPageBackground
-                    : `linear-gradient(to right, ${getOptionForDirection(primaryPageBackground, secondaryPageBackground, direction)} 0 50%, ${getOptionForDirection(secondaryPageBackground, primaryPageBackground, direction)} 50% 100%)`,
+                background: isNovel ? 'transparent' : mangaBackground,
             }}
         >
-            <ReaderViewer ref={scrollElementRef} />
-            <TapZoneLayout />
-            <ReaderRGBAFilter />
-            <ReaderAutoScroll />
+            {isNovel ? (
+                <NovelReaderViewer />
+            ) : (
+                <>
+                    <ReaderViewer ref={scrollElementRef} />
+                    <TapZoneLayout />
+                    <ReaderRGBAFilter />
+                    <ReaderAutoScroll />
+                </>
+            )}
         </Box>
     );
 };

@@ -21,7 +21,7 @@ import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 export const GlobalReaderSettings = () => {
     const { t } = useLingui();
 
-    useAppTitle(t`Reader`);
+    useAppTitle(t`Manga Reader`);
 
     const [activeTab, setActiveTab] = useState(0);
 

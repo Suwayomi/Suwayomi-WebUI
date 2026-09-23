@@ -30,7 +30,7 @@ export const SliderInput = ({
     };
 }) => (
     <Stack sx={{ flexDirection: 'row', gap: 2, alignItems: 'center' }}>
-        <Stack sx={{ flexBasis: '25%' }}>
+        <Stack sx={{ flexBasis: { xs: '35%', sm: '25%' } }}>
             <Typography {...slotProps?.label} sx={slotProps?.label?.sx}>
                 {label}
             </Typography>
@@ -38,7 +38,10 @@ export const SliderInput = ({
                 {value}
             </Typography>
         </Stack>
-        <Slider {...slotProps?.slider} sx={MUIUtil.mergeSx({ flexBasis: '75%' }, slotProps?.slider?.sx)} />
+        <Slider
+            {...slotProps?.slider}
+            sx={MUIUtil.mergeSx({ flexBasis: { xs: '65%', sm: '75%' } }, slotProps?.slider?.sx)}
+        />
         {onDefault && <ResetButton asIconButton onClick={onDefault} />}
     </Stack>
 );

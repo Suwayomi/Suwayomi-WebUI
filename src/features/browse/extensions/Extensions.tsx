@@ -42,6 +42,7 @@ import { EXTENSION_ACTION_TO_FAILURE_TRANSLATION_MAP } from '@/features/extensio
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { ExtensionKind } from '@/lib/graphql/generated/graphql-base.types.ts';
 import {
     createUpdateMetadataServerSettings,
     useMetadataServerSettings,
@@ -113,7 +114,7 @@ const GroupHeader = ({
     );
 };
 
-export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
+export function Extensions({ tabsMenuHeight, runtimeKind }: { tabsMenuHeight: number; runtimeKind: ExtensionKind }) {
     const { t } = useLingui();
 
     const [fetchExtensions, { data, loading: areExtensionsLoading, error: extensionsError }] =
@@ -136,11 +137,21 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const error = extensionStoresRequest.error ?? extensionsError;
 
     const allExtensions = data?.fetchExtensions?.extensions ?? STABLE_EMPTY_ARRAY;
-    const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions), [allExtensions]);
+    const extensionsOfRuntimeKind = useMemo(
+        () => allExtensions.filter((extension) => (extension.runtimeKind ?? ExtensionKind.Jvm) === runtimeKind),
+        [allExtensions, runtimeKind],
+    );
+    const allLangs = useMemo(() => getLanguagesFromExtensions(extensionsOfRuntimeKind), [extensionsOfRuntimeKind]);
 
     const filteredExtensions = useMemo(
-        () => filterExtensions(allExtensions, { selectedLanguages: shownLangs, showNsfw, query }),
-        [allExtensions, shownLangs, showNsfw, query],
+        () =>
+            filterExtensions(extensionsOfRuntimeKind, {
+                runtimeKind,
+                selectedLanguages: shownLangs,
+                showNsfw,
+                query,
+            }),
+        [extensionsOfRuntimeKind, runtimeKind, shownLangs, showNsfw, query],
     );
     const groupedExtensions = useMemo(() => groupExtensionsByLanguage(filteredExtensions), [filteredExtensions]);
     const groupCounts = useMemo(
@@ -157,16 +168,24 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         [visibleExtensions],
     );
 
-    const areReposDefined = !!extensionStoresRequest.data?.extensionStores.totalCount;
+    const areReposDefined = useMemo(
+        () =>
+            Boolean(
+                extensionStoresRequest.data?.extensionStores.nodes.some(
+                    (s) => (s.kind ?? ExtensionKind.Jvm) === runtimeKind,
+                ),
+            ),
+        [extensionStoresRequest.data?.extensionStores.nodes, runtimeKind],
+    );
     const areMultipleReposInUse = useMemo(() => {
-        if (!allExtensions.length) {
+        if (!extensionsOfRuntimeKind.length) {
             return false;
         }
 
-        const store = allExtensions[0].extensionStore?.indexUrl;
+        const store = extensionsOfRuntimeKind[0].extensionStore?.indexUrl;
 
-        return allExtensions.slice(1).some((extension) => extension.extensionStore?.indexUrl !== store);
-    }, [allExtensions]);
+        return extensionsOfRuntimeKind.slice(1).some((extension) => extension.extensionStore?.indexUrl !== store);
+    }, [extensionsOfRuntimeKind]);
 
     const computeItemKey = VirtuosoUtil.useCreateGroupedComputeItemKey(
         groupCounts,
@@ -242,92 +261,94 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
         e.preventDefault();
     });
 
-    if (isLoading) {
-        return <LoadingPlaceholder />;
-    }
-
-    if (error) {
-        return (
-            <EmptyViewAbsoluteCentered
-                message={t`Unable to load data`}
-                messageExtra={getErrorMessage(error)}
-                retry={() => {
-                    if (extensionStoresRequest.error) {
-                        extensionStoresRequest
-                            .refetch()
-                            .catch(defaultPromiseErrorHandler('Extensions::refetchExtensionsStores'));
-                    }
-
-                    if (extensionsError) {
-                        fetchExtensions().catch(defaultPromiseErrorHandler('Extensions::refetchExtensions'));
-                    }
-                }}
-            />
-        );
-    }
-
-    const showAddRepoInfo = !allExtensions?.length && !areReposDefined;
-    if (showAddRepoInfo) {
-        return (
-            <Stack
-                sx={{
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    rowGap: '10px',
-                    paddingTop: '20px',
-                }}
-            >
-                <Typography>{t`You have to add a extension store to be able to install extensions`}</Typography>
-                <Button
-                    component={Link}
-                    variant="contained"
-                    to={AppRoutes.settings.children.browse.children.extensionStores.path}
-                >
-                    {t`Add extension store`}
-                </Button>
-            </Stack>
-        );
-    }
+    const showAddRepoInfo = !extensionsOfRuntimeKind?.length && !areReposDefined;
 
     return (
-        <StyledGroupedVirtuoso
-            persistKey="extensions"
-            heightToSubtract={tabsMenuHeight}
-            overscan={window.innerHeight * 0.5}
-            groupCounts={groupCounts}
-            groupContent={(index) => {
-                const [groupName, groupExtensions] = groupedExtensions[index];
-                const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
+        <>
+            {isLoading && <LoadingPlaceholder />}
 
-                return (
-                    <GroupHeader
-                        groupName={groupName}
-                        isFirstItem={index === 0}
-                        groupExtensionIds={groupExtensions.map((extension) => extension.pkgName)}
-                        isUpdateGroup={isUpdateGroup}
-                        updatingExtensionIds={updatingExtensionIds}
-                        setUpdatingExtensionIds={setUpdatingExtensionIds}
-                        handleExtensionUpdate={handleExtensionUpdate}
-                    />
-                );
-            }}
-            computeItemKey={computeItemKey}
-            itemContent={(index) => {
-                const item = visibleExtensions[index];
+            {error && (
+                <EmptyViewAbsoluteCentered
+                    message={t`Unable to load data`}
+                    messageExtra={getErrorMessage(error)}
+                    retry={() => {
+                        if (extensionStoresRequest.error) {
+                            extensionStoresRequest
+                                .refetch()
+                                .catch(defaultPromiseErrorHandler('Extensions::refetchExtensionsStores'));
+                        }
 
-                return (
-                    <StyledGroupItemWrapper>
-                        <ExtensionCard
-                            extension={item}
-                            handleUpdate={handleExtensionUpdate}
-                            showSourceStore={areMultipleReposInUse}
-                            forcedState={
-                                updatingExtensionIds.includes(item.pkgName) ? ExtensionState.UPDATING : undefined
-                            }
-                        />
-                    </StyledGroupItemWrapper>
-                );
-            }}
-        />
+                        if (extensionsError) {
+                            fetchExtensions().catch(defaultPromiseErrorHandler('Extensions::refetchExtensions'));
+                        }
+                    }}
+                />
+            )}
+
+            {!isLoading && !error && showAddRepoInfo && (
+                <Stack
+                    sx={{
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        rowGap: '10px',
+                        paddingTop: '20px',
+                    }}
+                >
+                    <Typography>{t`You have to add a extension store to be able to install extensions`}</Typography>
+                    <Button
+                        component={Link}
+                        variant="contained"
+                        to={`${AppRoutes.settings.children.browse.children.extensionStores.path}?tab=${runtimeKind === ExtensionKind.Lnreader ? 'light-novel' : 'manga'}`}
+                    >
+                        {t`Add extension store`}
+                    </Button>
+                </Stack>
+            )}
+
+            {!isLoading && !error && !showAddRepoInfo && (
+                <StyledGroupedVirtuoso
+                    key={runtimeKind}
+                    persistKey={`extensions_${runtimeKind}`}
+                    heightToSubtract={tabsMenuHeight}
+                    overscan={window.innerHeight * 0.5}
+                    groupCounts={groupCounts}
+                    groupContent={(index) => {
+                        const [groupName, groupExtensions] = groupedExtensions[index];
+                        const isUpdateGroup = groupName === ExtensionGroupState.UPDATE_PENDING;
+
+                        return (
+                            <GroupHeader
+                                groupName={groupName}
+                                isFirstItem={index === 0}
+                                groupExtensionIds={groupExtensions.map((extension) => extension.pkgName)}
+                                isUpdateGroup={isUpdateGroup}
+                                updatingExtensionIds={updatingExtensionIds}
+                                setUpdatingExtensionIds={setUpdatingExtensionIds}
+                                handleExtensionUpdate={handleExtensionUpdate}
+                            />
+                        );
+                    }}
+                    computeItemKey={computeItemKey}
+                    itemContent={(index) => {
+                        const item = visibleExtensions[index];
+
+                        return (
+                            <StyledGroupItemWrapper>
+                                <ExtensionCard
+                                    extension={item}
+                                    handleUpdate={handleExtensionUpdate}
+                                    showSourceStore={areMultipleReposInUse}
+                                    forcedState={
+                                        updatingExtensionIds.includes(item.pkgName)
+                                            ? ExtensionState.UPDATING
+                                            : undefined
+                                    }
+                                />
+                            </StyledGroupItemWrapper>
+                        );
+                    }}
+                />
+            )}
+        </>
     );
 }

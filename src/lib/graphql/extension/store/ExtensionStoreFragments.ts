@@ -16,6 +16,7 @@ export const EXTENSION_STORE_FIELDS = gql`
         extensionListUrl
         indexUrl
         isLegacy
+        kind
         name
         signingKey
         extensions {

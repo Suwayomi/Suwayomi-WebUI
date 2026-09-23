@@ -36,6 +36,7 @@ export const GET_EXTENSIONS = gql`
         $order: [ExtensionOrderInput!]
     ) {
         extensions(
+            includeLightNovels: true
             after: $after
             before: $before
             condition: $condition

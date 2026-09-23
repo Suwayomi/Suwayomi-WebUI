@@ -27,6 +27,7 @@ export const MANGA_BASE_FIELDS = gql`
         inLibrary
         initialized
         sourceId
+        contentType
     }
 `;
 

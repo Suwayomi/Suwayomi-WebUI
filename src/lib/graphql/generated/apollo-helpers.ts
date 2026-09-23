@@ -92,10 +92,12 @@ export type CategoryNodeListFieldPolicy = {
     totalCount?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type CategoryTypeKeySpecifier = (
+    | 'contentType'
     | 'default'
     | 'id'
     | 'includeInDownload'
     | 'includeInUpdate'
+    | 'isDefaultCategory'
     | 'mangas'
     | 'meta'
     | 'name'
@@ -103,10 +105,12 @@ export type CategoryTypeKeySpecifier = (
     | CategoryTypeKeySpecifier
 )[];
 export type CategoryTypeFieldPolicy = {
+    contentType?: FieldPolicy<any> | FieldReadFunction<any>;
     default?: FieldPolicy<any> | FieldReadFunction<any>;
     id?: FieldPolicy<any> | FieldReadFunction<any>;
     includeInDownload?: FieldPolicy<any> | FieldReadFunction<any>;
     includeInUpdate?: FieldPolicy<any> | FieldReadFunction<any>;
+    isDefaultCategory?: FieldPolicy<any> | FieldReadFunction<any>;
     mangas?: FieldPolicy<any> | FieldReadFunction<any>;
     meta?: FieldPolicy<any> | FieldReadFunction<any>;
     name?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -142,6 +146,19 @@ export type ChapterNodeListFieldPolicy = {
     pageInfo?: FieldPolicy<any> | FieldReadFunction<any>;
     totalCount?: FieldPolicy<any> | FieldReadFunction<any>;
 };
+export type ChapterTextContentKeySpecifier = (
+    | 'customCss'
+    | 'customJs'
+    | 'fromDownload'
+    | 'html'
+    | ChapterTextContentKeySpecifier
+)[];
+export type ChapterTextContentFieldPolicy = {
+    customCss?: FieldPolicy<any> | FieldReadFunction<any>;
+    customJs?: FieldPolicy<any> | FieldReadFunction<any>;
+    fromDownload?: FieldPolicy<any> | FieldReadFunction<any>;
+    html?: FieldPolicy<any> | FieldReadFunction<any>;
+};
 export type ChapterTypeKeySpecifier = (
     | 'chapterNumber'
     | 'fetchedAt'
@@ -159,6 +176,8 @@ export type ChapterTypeKeySpecifier = (
     | 'realUrl'
     | 'scanlator'
     | 'sourceOrder'
+    | 'textContent'
+    | 'textProgress'
     | 'uploadDate'
     | 'url'
     | ChapterTypeKeySpecifier
@@ -180,6 +199,8 @@ export type ChapterTypeFieldPolicy = {
     realUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     scanlator?: FieldPolicy<any> | FieldReadFunction<any>;
     sourceOrder?: FieldPolicy<any> | FieldReadFunction<any>;
+    textContent?: FieldPolicy<any> | FieldReadFunction<any>;
+    textProgress?: FieldPolicy<any> | FieldReadFunction<any>;
     uploadDate?: FieldPolicy<any> | FieldReadFunction<any>;
     url?: FieldPolicy<any> | FieldReadFunction<any>;
 };
@@ -553,6 +574,7 @@ export type ExtensionStoreTypeKeySpecifier = (
     | 'extensions'
     | 'indexUrl'
     | 'isLegacy'
+    | 'kind'
     | 'name'
     | 'signingKey'
     | ExtensionStoreTypeKeySpecifier
@@ -565,13 +587,17 @@ export type ExtensionStoreTypeFieldPolicy = {
     extensions?: FieldPolicy<any> | FieldReadFunction<any>;
     indexUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     isLegacy?: FieldPolicy<any> | FieldReadFunction<any>;
+    kind?: FieldPolicy<any> | FieldReadFunction<any>;
     name?: FieldPolicy<any> | FieldReadFunction<any>;
     signingKey?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type ExtensionTypeKeySpecifier = (
     | 'apkName'
     | 'apkUrl'
+    | 'codeUrl'
     | 'contentWarning'
+    | 'customCssUrl'
+    | 'customJsUrl'
     | 'extensionLib'
     | 'extensionStore'
     | 'hasUpdate'
@@ -583,7 +609,10 @@ export type ExtensionTypeKeySpecifier = (
     | 'lang'
     | 'name'
     | 'pkgName'
+    | 'pluginId'
     | 'repo'
+    | 'runtimeKind'
+    | 'siteUrl'
     | 'source'
     | 'storeIndexUrl'
     | 'versionCode'
@@ -594,7 +623,10 @@ export type ExtensionTypeKeySpecifier = (
 export type ExtensionTypeFieldPolicy = {
     apkName?: FieldPolicy<any> | FieldReadFunction<any>;
     apkUrl?: FieldPolicy<any> | FieldReadFunction<any>;
+    codeUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     contentWarning?: FieldPolicy<any> | FieldReadFunction<any>;
+    customCssUrl?: FieldPolicy<any> | FieldReadFunction<any>;
+    customJsUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     extensionLib?: FieldPolicy<any> | FieldReadFunction<any>;
     extensionStore?: FieldPolicy<any> | FieldReadFunction<any>;
     hasUpdate?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -606,7 +638,10 @@ export type ExtensionTypeFieldPolicy = {
     lang?: FieldPolicy<any> | FieldReadFunction<any>;
     name?: FieldPolicy<any> | FieldReadFunction<any>;
     pkgName?: FieldPolicy<any> | FieldReadFunction<any>;
+    pluginId?: FieldPolicy<any> | FieldReadFunction<any>;
     repo?: FieldPolicy<any> | FieldReadFunction<any>;
+    runtimeKind?: FieldPolicy<any> | FieldReadFunction<any>;
+    siteUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     source?: FieldPolicy<any> | FieldReadFunction<any>;
     storeIndexUrl?: FieldPolicy<any> | FieldReadFunction<any>;
     versionCode?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -858,6 +893,7 @@ export type MangaTypeKeySpecifier = (
     | 'chapters'
     | 'chaptersAge'
     | 'chaptersLastFetchedAt'
+    | 'contentType'
     | 'description'
     | 'downloadCount'
     | 'firstUnreadChapter'
@@ -896,6 +932,7 @@ export type MangaTypeFieldPolicy = {
     chapters?: FieldPolicy<any> | FieldReadFunction<any>;
     chaptersAge?: FieldPolicy<any> | FieldReadFunction<any>;
     chaptersLastFetchedAt?: FieldPolicy<any> | FieldReadFunction<any>;
+    contentType?: FieldPolicy<any> | FieldReadFunction<any>;
     description?: FieldPolicy<any> | FieldReadFunction<any>;
     downloadCount?: FieldPolicy<any> | FieldReadFunction<any>;
     firstUnreadChapter?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1036,6 +1073,7 @@ export type MutationKeySpecifier = (
     | 'updateCategoryManga'
     | 'updateCategoryOrder'
     | 'updateChapter'
+    | 'updateChapterTextProgress'
     | 'updateChapters'
     | 'updateExtension'
     | 'updateExtensions'
@@ -1121,6 +1159,7 @@ export type MutationFieldPolicy = {
     updateCategoryManga?: FieldPolicy<any> | FieldReadFunction<any>;
     updateCategoryOrder?: FieldPolicy<any> | FieldReadFunction<any>;
     updateChapter?: FieldPolicy<any> | FieldReadFunction<any>;
+    updateChapterTextProgress?: FieldPolicy<any> | FieldReadFunction<any>;
     updateChapters?: FieldPolicy<any> | FieldReadFunction<any>;
     updateExtension?: FieldPolicy<any> | FieldReadFunction<any>;
     updateExtensions?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1220,6 +1259,7 @@ export type PartialSettingsTypeKeySpecifier = (
     | 'koreaderSyncStrategyForward'
     | 'koreaderSyncUserkey'
     | 'koreaderSyncUsername'
+    | 'lnReaderAllowedLocalOrigins'
     | 'localSourcePath'
     | 'maxLogFileSize'
     | 'maxLogFiles'
@@ -1319,6 +1359,7 @@ export type PartialSettingsTypeFieldPolicy = {
     koreaderSyncStrategyForward?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncUserkey?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncUsername?: FieldPolicy<any> | FieldReadFunction<any>;
+    lnReaderAllowedLocalOrigins?: FieldPolicy<any> | FieldReadFunction<any>;
     localSourcePath?: FieldPolicy<any> | FieldReadFunction<any>;
     maxLogFileSize?: FieldPolicy<any> | FieldReadFunction<any>;
     maxLogFiles?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1403,6 +1444,8 @@ export type QueryKeySpecifier = (
     | 'extensions'
     | 'getWebUIUpdateStatus'
     | 'koSyncStatus'
+    | 'lastMangaUpdateTimestamp'
+    | 'lastNovelUpdateTimestamp'
     | 'lastSyncStatus'
     | 'lastUpdateTimestamp'
     | 'libraryUpdateStatus'
@@ -1439,6 +1482,8 @@ export type QueryFieldPolicy = {
     extensions?: FieldPolicy<any> | FieldReadFunction<any>;
     getWebUIUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     koSyncStatus?: FieldPolicy<any> | FieldReadFunction<any>;
+    lastMangaUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>;
+    lastNovelUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>;
     lastSyncStatus?: FieldPolicy<any> | FieldReadFunction<any>;
     lastUpdateTimestamp?: FieldPolicy<any> | FieldReadFunction<any>;
     libraryUpdateStatus?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1649,6 +1694,7 @@ export type SettingsKeySpecifier = (
     | 'koreaderSyncStrategyForward'
     | 'koreaderSyncUserkey'
     | 'koreaderSyncUsername'
+    | 'lnReaderAllowedLocalOrigins'
     | 'localSourcePath'
     | 'maxLogFileSize'
     | 'maxLogFiles'
@@ -1748,6 +1794,7 @@ export type SettingsFieldPolicy = {
     koreaderSyncStrategyForward?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncUserkey?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncUsername?: FieldPolicy<any> | FieldReadFunction<any>;
+    lnReaderAllowedLocalOrigins?: FieldPolicy<any> | FieldReadFunction<any>;
     localSourcePath?: FieldPolicy<any> | FieldReadFunction<any>;
     maxLogFileSize?: FieldPolicy<any> | FieldReadFunction<any>;
     maxLogFiles?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -1898,6 +1945,7 @@ export type SettingsTypeKeySpecifier = (
     | 'koreaderSyncStrategyForward'
     | 'koreaderSyncUserkey'
     | 'koreaderSyncUsername'
+    | 'lnReaderAllowedLocalOrigins'
     | 'localSourcePath'
     | 'maxLogFileSize'
     | 'maxLogFiles'
@@ -1997,6 +2045,7 @@ export type SettingsTypeFieldPolicy = {
     koreaderSyncStrategyForward?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncUserkey?: FieldPolicy<any> | FieldReadFunction<any>;
     koreaderSyncUsername?: FieldPolicy<any> | FieldReadFunction<any>;
+    lnReaderAllowedLocalOrigins?: FieldPolicy<any> | FieldReadFunction<any>;
     localSourcePath?: FieldPolicy<any> | FieldReadFunction<any>;
     maxLogFileSize?: FieldPolicy<any> | FieldReadFunction<any>;
     maxLogFiles?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -2068,6 +2117,7 @@ export type SourceNodeListFieldPolicy = {
 };
 export type SourceTypeKeySpecifier = (
     | 'baseUrl'
+    | 'contentType'
     | 'contentWarning'
     | 'displayName'
     | 'extension'
@@ -2087,6 +2137,7 @@ export type SourceTypeKeySpecifier = (
 )[];
 export type SourceTypeFieldPolicy = {
     baseUrl?: FieldPolicy<any> | FieldReadFunction<any>;
+    contentType?: FieldPolicy<any> | FieldReadFunction<any>;
     contentWarning?: FieldPolicy<any> | FieldReadFunction<any>;
     displayName?: FieldPolicy<any> | FieldReadFunction<any>;
     extension?: FieldPolicy<any> | FieldReadFunction<any>;
@@ -2162,10 +2213,16 @@ export type SwitchPreferenceFieldPolicy = {
     title?: FieldPolicy<any> | FieldReadFunction<any>;
     visible?: FieldPolicy<any> | FieldReadFunction<any>;
 };
-export type SyncConflictInfoTypeKeySpecifier = ('deviceName' | 'remotePage' | SyncConflictInfoTypeKeySpecifier)[];
+export type SyncConflictInfoTypeKeySpecifier = (
+    | 'deviceName'
+    | 'remotePage'
+    | 'remotePercentage'
+    | SyncConflictInfoTypeKeySpecifier
+)[];
 export type SyncConflictInfoTypeFieldPolicy = {
     deviceName?: FieldPolicy<any> | FieldReadFunction<any>;
     remotePage?: FieldPolicy<any> | FieldReadFunction<any>;
+    remotePercentage?: FieldPolicy<any> | FieldReadFunction<any>;
 };
 export type SyncStatusKeySpecifier = (
     | 'backupRestoreId'
@@ -2394,6 +2451,15 @@ export type UpdateCategoryPayloadFieldPolicy = {
 };
 export type UpdateChapterPayloadKeySpecifier = ('chapter' | 'clientMutationId' | UpdateChapterPayloadKeySpecifier)[];
 export type UpdateChapterPayloadFieldPolicy = {
+    chapter?: FieldPolicy<any> | FieldReadFunction<any>;
+    clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
+};
+export type UpdateChapterTextProgressPayloadKeySpecifier = (
+    | 'chapter'
+    | 'clientMutationId'
+    | UpdateChapterTextProgressPayloadKeySpecifier
+)[];
+export type UpdateChapterTextProgressPayloadFieldPolicy = {
     chapter?: FieldPolicy<any> | FieldReadFunction<any>;
     clientMutationId?: FieldPolicy<any> | FieldReadFunction<any>;
 };
@@ -2644,6 +2710,10 @@ export type StrictTypedTypePolicies = {
     ChapterNodeList?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | ChapterNodeListKeySpecifier | (() => undefined | ChapterNodeListKeySpecifier);
         fields?: ChapterNodeListFieldPolicy;
+    };
+    ChapterTextContent?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?: false | ChapterTextContentKeySpecifier | (() => undefined | ChapterTextContentKeySpecifier);
+        fields?: ChapterTextContentFieldPolicy;
     };
     ChapterType?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | ChapterTypeKeySpecifier | (() => undefined | ChapterTypeKeySpecifier);
@@ -3301,6 +3371,13 @@ export type StrictTypedTypePolicies = {
     UpdateChapterPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | UpdateChapterPayloadKeySpecifier | (() => undefined | UpdateChapterPayloadKeySpecifier);
         fields?: UpdateChapterPayloadFieldPolicy;
+    };
+    UpdateChapterTextProgressPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
+        keyFields?:
+            | false
+            | UpdateChapterTextProgressPayloadKeySpecifier
+            | (() => undefined | UpdateChapterTextProgressPayloadKeySpecifier);
+        fields?: UpdateChapterTextProgressPayloadFieldPolicy;
     };
     UpdateChaptersPayload?: Omit<TypePolicy, 'fields' | 'keyFields'> & {
         keyFields?: false | UpdateChaptersPayloadKeySpecifier | (() => undefined | UpdateChaptersPayloadKeySpecifier);

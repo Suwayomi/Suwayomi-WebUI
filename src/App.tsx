@@ -38,6 +38,7 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { d } from 'koration';
 import { OffsetContainer } from '@/base/OffsetComponent.tsx';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -96,6 +97,10 @@ const { LibraryDuplicates } = loadable(
 const { Appearance } = loadable(() => import('@/features/settings/screens/Appearance.tsx'), lazyLoadFallback);
 const { GlobalReaderSettings } = loadable(
     () => import('@/features/reader/settings/screens/GlobalReaderSettings.tsx'),
+    lazyLoadFallback,
+);
+const { NovelReaderSettings } = loadable(
+    () => import('@/features/settings/screens/NovelReaderSettings.tsx'),
     lazyLoadFallback,
 );
 const { More } = loadable(() => import('@/features/settings/screens/More.tsx'), lazyLoadFallback);
@@ -198,7 +203,8 @@ const BackgroundSubscriptions = () => {
     const skipConnection = isAuthRequired === null || (isAuthRequired && !accessToken);
 
     requestManager.useDownloadSubscription({ skip: skipConnection });
-    requestManager.useUpdaterSubscription({ skip: skipConnection });
+    requestManager.useUpdaterSubscription(SourceContentType.Manga, { skip: skipConnection });
+    requestManager.useUpdaterSubscription(SourceContentType.LightNovel, { skip: skipConnection });
     requestManager.useWebUIUpdateSubscription({ skip: skipConnection });
     requestManager.useSyncSubscription({ skip: skipConnection });
 
@@ -250,6 +256,19 @@ const PrivateRoutes = () => {
     return <Outlet />;
 };
 
+export const NavigatePreserveQuery = ({ to }: { to: string }) => {
+    const location = useLocation();
+    const [targetPath, targetSearch] = to.split('?');
+    const targetParams = new URLSearchParams(targetSearch ?? '');
+    const currentParams = new URLSearchParams(location.search);
+    for (const [key, value] of currentParams.entries()) {
+        targetParams.set(key, value);
+    }
+    const searchString = targetParams.toString();
+    const search = searchString ? `?${searchString}` : '';
+    return <Navigate to={{ pathname: targetPath, search }} replace />;
+};
+
 const MainApp = () => {
     const { navBarWidth, appBarHeight, bottomBarHeight } = useNavBarContext();
     const isMobileWidth = MediaQuery.useIsMobileWidth();
@@ -295,11 +314,19 @@ const MainApp = () => {
                             <Route index element={<Settings />} />
                             <Route path={AppRoutes.settings.children.categories.match} element={<CategorySettings />} />
                             <Route path={AppRoutes.settings.children.reader.match} element={<GlobalReaderSettings />} />
+                            <Route
+                                path={AppRoutes.settings.children.lightNovelReader.match}
+                                element={<NovelReaderSettings />}
+                            />
                             <Route path={AppRoutes.settings.children.library.match}>
                                 <Route index element={<LibrarySettings />} />
                                 <Route
+                                    path={AppRoutes.settings.children.library.children.categories.match}
+                                    element={<CategorySettings />}
+                                />
+                                <Route
                                     path={AppRoutes.settings.children.library.children.duplicates.match}
-                                    element={<LibraryDuplicates />}
+                                    element={<LibraryDuplicates contentType={SourceContentType.Manga} />}
                                 />
                             </Route>
                             <Route path={AppRoutes.settings.children.download.match}>
@@ -346,7 +373,10 @@ const MainApp = () => {
 
                         <Route path={AppRoutes.sources.match}>
                             {/* TODO: deprecated - "source" and "extension" page got merged into "browse" */}
-                            <Route index element={<Navigate to={AppRoutes.browse.path(BrowseTab.SOURCES)} replace />} />
+                            <Route
+                                index
+                                element={<NavigatePreserveQuery to={AppRoutes.browse.path(BrowseTab.SOURCES)} />}
+                            />
                             <Route path={AppRoutes.sources.children.browse.match} element={<SourceMangas />} />
                             <Route path={AppRoutes.sources.children.configure.match} element={<SourceConfigure />} />
                             <Route path={AppRoutes.sources.children.searchAll.match} element={<SearchAll />} />
@@ -355,19 +385,28 @@ const MainApp = () => {
                             {/* TODO: deprecated - "source" and "extension" page got merged into "browse" */}
                             <Route
                                 index
-                                element={<Navigate to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)} replace />}
+                                element={<NavigatePreserveQuery to={AppRoutes.browse.path(BrowseTab.EXTENSIONS)} />}
                             />
                             <Route path={AppRoutes.extension.children.info.match} element={<ExtensionInfo />} />
                         </Route>
                         <Route path={AppRoutes.downloads.match} element={<DownloadQueue />} />
+                        <Route path={AppRoutes.library.match}>
+                            <Route index element={<NavigatePreserveQuery to={AppRoutes.library.path()} />} />
+                            <Route
+                                path={AppRoutes.library.children.manga.match}
+                                element={<Library contentType={SourceContentType.Manga} />}
+                            />
+                            <Route
+                                path={AppRoutes.library.children.lightNovel.match}
+                                element={<Library contentType={SourceContentType.LightNovel} />}
+                            />
+                        </Route>
                         <Route path={AppRoutes.manga.match}>
                             <Route path={AppRoutes.manga.children.reader.match} element={null} />
                             <Route index element={<Manga />} />
                         </Route>
-                        <Route path={AppRoutes.library.match} element={<Library />} />
                         <Route path={AppRoutes.updates.match} element={<Updates />} />
                         {!hideHistory && <Route path={AppRoutes.history.match} element={<History />} />}
-                        <Route path={AppRoutes.browse.match} element={<Browse />} />
                         <Route path={AppRoutes.browse.match} element={<Browse />} />
                         <Route path={AppRoutes.migrate.match}>
                             <Route index element={<Migration />} />

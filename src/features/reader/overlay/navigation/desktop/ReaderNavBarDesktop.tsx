@@ -11,9 +11,12 @@ import IconButton from '@mui/material/IconButton';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import Divider from '@mui/material/Divider';
+import Button from '@mui/material/Button';
+import FormatSizeIcon from '@mui/icons-material/FormatSize';
 import { memo, useCallback, useLayoutEffect, useRef, useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import { useLingui } from '@lingui/react/macro';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 import { CustomTooltip } from '@/base/components/CustomTooltip.tsx';
 import type { ReaderNavBarDesktopProps } from '@/features/reader/overlay/ReaderOverlay.types.ts';
 import { ReaderNavContainer } from '@/features/reader/overlay/navigation/desktop/components/ReaderNavContainer.tsx';
@@ -60,6 +63,7 @@ const BaseReaderNavBarDesktop = ({
 }: ReaderNavBarDesktopProps & Pick<NavbarContextType, 'setReaderNavBarWidth'>) => {
     const { t } = useLingui();
     const manga = useReaderStore('manga');
+    const isNovel = manga?.contentType === SourceContentType.LightNovel;
     const {
         chapters,
         currentChapterId,
@@ -142,7 +146,7 @@ const BaseReaderNavBarDesktop = ({
                 </Stack>
                 <Stack sx={{ p: 2, gap: 2 }}>
                     <Stack sx={{ gap: 1 }}>
-                        <ReaderNavBarDesktopPageNavigation />
+                        {!isNovel && <ReaderNavBarDesktopPageNavigation />}
                         <ReaderNavBarDesktopChapterNavigation
                             chapters={chapters}
                             currentChapterId={currentChapterId}
@@ -153,7 +157,18 @@ const BaseReaderNavBarDesktop = ({
                         />
                     </Stack>
                     <Divider />
-                    <ReaderNavBarDesktopQuickSettings openSettings={openSettings} />
+                    {!isNovel ? (
+                        <ReaderNavBarDesktopQuickSettings openSettings={openSettings} />
+                    ) : (
+                        <Button
+                            variant="outlined"
+                            startIcon={<FormatSizeIcon />}
+                            onClick={openSettings}
+                            color="inherit"
+                        >
+                            {t`Typography & Theme`}
+                        </Button>
+                    )}
                 </Stack>
             </ReaderNavContainer>
         </Drawer>

@@ -60,6 +60,7 @@ type TChapter = ChapterIdInfo &
 interface IProps {
     mode?: 'manga.page' | 'reader';
     chapter: TChapter;
+    sourceId?: string;
     showChapterNumber: boolean;
     onSelect: (id: number, selected: boolean, isShiftKey?: boolean) => void;
     selected: boolean | null;
@@ -86,6 +87,7 @@ export const ChapterCard = memo((props: IProps) => {
     const {
         mode = 'manga.page',
         chapter,
+        sourceId,
         showChapterNumber,
         onSelect,
         selected,
@@ -221,6 +223,7 @@ export const ChapterCard = memo((props: IProps) => {
                                 <ChapterActionMenuItems
                                     onClose={onClose}
                                     chapter={chapter}
+                                    sourceId={sourceId}
                                     handleSelection={() => onSelect(chapter.id, true)}
                                     canBeDownloaded={Chapters.isDownloadable(chapter)}
                                     selectable={selectable}

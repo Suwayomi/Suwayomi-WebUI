@@ -44,7 +44,23 @@ export const coerceIn = (value: number, min: number, max: number = value): numbe
 
 export const noOp = () => {};
 
-const GRAPHQL_EXCEPTION_MESSAGE_REGEX = /(.*Exception while fetching data \(.*\) : .*)\r\n\r\n(.*)/s;
+const GRAPHQL_EXCEPTION_MESSAGE_REGEX = /(.*Exception while fetching data \(.*\) : .*?)(?:\r?\n\r?\n|\n\n)(.*)/s;
+const STACK_TRACE_FALLBACK_REGEX = /(.*?)(?:\r?\n)+(?=(?:\s*at\s+[\w$./]+|\s*Caused by:))/s;
+
+const cleanGraphqlErrorMessage = (raw: string): string => {
+    let msg = raw.replace(/^.*Exception while fetching data \(.*?\) :\s*/s, '');
+    msg = msg.replace(/^(?:[\w.$]+Exception:\s*)+/, '').trim() || msg;
+
+    if (/cloudflare bypass/i.test(msg)) {
+        return 'Cloudflare protection detected (bypass disabled)';
+    }
+    if (/timed?\s*out|timeout/i.test(msg)) {
+        return 'Connection timed out';
+    }
+
+    return msg;
+};
+
 export const extractGraphqlExceptionInfo = (
     error: ReactNode | string,
 ): {
@@ -56,17 +72,27 @@ export const extractGraphqlExceptionInfo = (
         return { isGraphqlException: false };
     }
 
-    const regexMatch = error.match(GRAPHQL_EXCEPTION_MESSAGE_REGEX);
+    let message: string | undefined;
+    let stackTrace: string | undefined;
 
-    const isGraphqlException = !!regexMatch;
-    if (!isGraphqlException) {
+    const regexMatch = error.match(GRAPHQL_EXCEPTION_MESSAGE_REGEX);
+    if (regexMatch) {
+        [, message, stackTrace] = regexMatch;
+    } else {
+        const fallbackMatch = error.match(STACK_TRACE_FALLBACK_REGEX);
+        if (fallbackMatch) {
+            [, message] = fallbackMatch;
+            stackTrace = error.slice(fallbackMatch[0].length);
+        }
+    }
+
+    if (!message) {
         return { isGraphqlException: false };
     }
 
-    const [, message, stackTrace] = regexMatch;
     return {
         isGraphqlException: true,
-        graphqlError: message,
+        graphqlError: cleanGraphqlErrorMessage(message),
         graphqlStackTrace: stackTrace,
     };
 };

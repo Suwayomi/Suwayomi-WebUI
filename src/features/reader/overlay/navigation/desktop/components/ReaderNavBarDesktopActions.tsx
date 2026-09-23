@@ -69,6 +69,7 @@ const DownloadButton = ({ id = -1, isDownloaded }: ChapterIdInfo & ChapterDownlo
 
 export const ReaderNavBarDesktopActions = memo(() => {
     const mangaTitle = useReaderStore((state) => state.manga?.title);
+    const sourceId = useReaderStore((state) => state.manga?.sourceId);
     const { id, name, isDownloaded, isBookmarked, realUrl } = useReaderChaptersStore((state) => ({
         id: state.currentChapter?.id ?? FALLBACK_CHAPTER.id,
         name: state.currentChapter?.name ?? FALLBACK_CHAPTER.name,
@@ -118,7 +119,7 @@ export const ReaderNavBarDesktopActions = memo(() => {
             <CustomTooltip title={t`Open in WebView`} disabled={!realUrl}>
                 <IconButton
                     disabled={!realUrl}
-                    href={realUrl ? requestManager.getWebviewUrl(realUrl) : ''}
+                    href={realUrl ? requestManager.getWebviewUrl(realUrl, sourceId) : ''}
                     rel="noreferrer"
                     target="_blank"
                     color="inherit"

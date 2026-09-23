@@ -42,4 +42,5 @@ export enum SearchParam {
     TAB = 'tab',
     QUERY = 'query',
     REDIRECT = 'redirect',
+    TYPE = 'type',
 }

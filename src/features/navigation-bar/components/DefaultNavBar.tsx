@@ -26,6 +26,7 @@ import { MobileBottomBar } from '@/features/navigation-bar/components/MobileBott
 import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { NAVIGATION_BAR_ITEMS } from '@/features/navigation-bar/NavigationBar.constants.ts';
+import type { NavbarItem } from '@/features/navigation-bar/NavigationBar.types.ts';
 import { NavigationBarUtil } from '@/features/navigation-bar/NavigationBar.util.ts';
 
 export function DefaultNavBar() {
@@ -53,7 +54,7 @@ export function DefaultNavBar() {
 
     const appBarRef = useRef<HTMLDivElement | null>(null);
 
-    const isMainRoute = NAVIGATION_BAR_ITEMS.some(({ path, show }) => {
+    const isMainRoute = (NAVIGATION_BAR_ITEMS as readonly NavbarItem[]).some(({ path, show, additionalMatchPaths }) => {
         if (isMobileWidth && show === 'desktop') {
             return false;
         }
@@ -62,7 +63,7 @@ export function DefaultNavBar() {
             return false;
         }
 
-        return path === pathname;
+        return path === pathname || Boolean(additionalMatchPaths?.some((p: string) => pathname.startsWith(p)));
     });
     const actualNavBarWidth = isMobileWidth || isCollapsed ? 0 : navBarWidth;
 

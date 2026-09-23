@@ -148,7 +148,7 @@ const MangaButtonsContainer = styled('div')(({ theme }) => ({
     gap: theme.spacing(1),
 }));
 
-const OpenSourceButton = ({ url }: { url?: string | null }) => {
+const OpenSourceButton = ({ url, sourceId }: { url?: string | null; sourceId: string }) => {
     const { t } = useLingui();
 
     return (
@@ -171,7 +171,7 @@ const OpenSourceButton = ({ url }: { url?: string | null }) => {
                     size="medium"
                     disabled={!url}
                     component={Link}
-                    href={url ? requestManager.getWebviewUrl(url) : undefined}
+                    href={url ? requestManager.getWebviewUrl(url, sourceId) : undefined}
                     target="_blank"
                     rel="noreferrer"
                     variant="outlined"
@@ -198,10 +198,13 @@ function getSourceName(source?: Pick<SourceType, 'id' | 'displayName'> | null): 
 const valuesToJoinedSearchLinks = (
     values: string[] | undefined,
     sourceId: SourceIdInfo['id'] | undefined,
+    contentType: MangaType['contentType'],
     mode: MangaLocationState['mode'],
 ) =>
     values
-        ?.map((value) => <SearchLink key={value} query={value} sourceId={sourceId} mode={mode} />)
+        ?.map((value) => (
+            <SearchLink key={value} query={value} sourceId={sourceId} contentType={contentType} mode={mode} />
+        ))
         .reduce((acc, valueLink) => (
             <>
                 {acc}, {valueLink}
@@ -212,7 +215,7 @@ export const MangaDetails = ({
     manga,
     mode,
 }: {
-    manga: Pick<MangaType, 'realUrl'> &
+    manga: Pick<MangaType, 'realUrl' | 'contentType'> &
         MangaIdInfo &
         MangaTitleInfo &
         MangaStatusInfo &
@@ -250,7 +253,12 @@ export const MangaDetails = ({
                     <Thumbnail manga={manga} mangaDynamicColorSchemes={mangaDynamicColorSchemes} />
                     <MetadataContainer>
                         <Stack sx={{ flexDirection: 'row', gap: 1, alignItems: 'flex-start', mb: 1 }}>
-                            <SearchLink query={manga.title} sourceId={manga.sourceId} mode="source.global-search">
+                            <SearchLink
+                                query={manga.title}
+                                sourceId={manga.sourceId}
+                                contentType={manga.contentType}
+                                mode="source.global-search"
+                            >
                                 <Typography variant="h5" component="h2" sx={{ wordBreak: 'break-word' }}>
                                     {manga.title}
                                 </Typography>
@@ -266,13 +274,23 @@ export const MangaDetails = ({
                         {manga.author && (
                             <Metadata
                                 title={t`Author`}
-                                value={valuesToJoinedSearchLinks(Mangas.getAuthors(manga), manga.source?.id, mode)}
+                                value={valuesToJoinedSearchLinks(
+                                    Mangas.getAuthors(manga),
+                                    manga.source?.id,
+                                    manga.contentType,
+                                    mode,
+                                )}
                             />
                         )}
                         {manga.artist && (
                             <Metadata
                                 title={t`Artist`}
-                                value={valuesToJoinedSearchLinks(Mangas.getArtists(manga), manga.source?.id, mode)}
+                                value={valuesToJoinedSearchLinks(
+                                    Mangas.getArtists(manga),
+                                    manga.source?.id,
+                                    manga.contentType,
+                                    mode,
+                                )}
                             />
                         )}
                         <Metadata title={t`Status`} value={t(MANGA_STATUS_TO_TRANSLATION[manga.status])} />
@@ -289,7 +307,7 @@ export const MangaDetails = ({
                         {manga.inLibrary ? t`In Library` : t`Add To Library`}
                     </FlexWrapButton>
                     <TrackMangaButton manga={manga} />
-                    <OpenSourceButton url={manga.realUrl} />
+                    <OpenSourceButton url={manga.realUrl} sourceId={manga.sourceId} />
                 </MangaButtonsContainer>
             </TopContentWrapper>
             <DescriptionGenre manga={manga} mode={mode} />

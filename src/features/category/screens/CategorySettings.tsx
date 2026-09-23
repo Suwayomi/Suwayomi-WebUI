@@ -34,17 +34,23 @@ import { DndOverlayItem } from '@/lib/dnd-kit/DndOverlayItem.tsx';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { CREATE_NEW_CATEGORY_ID } from '@/features/category/Category.constants.ts';
 import { CreateOrEditCategoryDialog } from '@/features/category/components/CreateOrEditCategoryDialog.tsx';
+import { useContentTypeTab } from '@/base/hooks/useContentTypeTab.ts';
+import { TabsWrapper } from '@/base/components/tabs/TabsWrapper.tsx';
+import { TabsMenu } from '@/base/components/tabs/TabsMenu.tsx';
+import { OffsetComponent } from '@/base/OffsetComponent.tsx';
+import Tab from '@mui/material/Tab';
 
 export function CategorySettings() {
     const { t } = useLingui();
     const dndSensors = DndKitUtil.useSensorsForDevice();
+    const { activeTab, activeContentType, setTabSearchParam } = useContentTypeTab();
 
     useAppTitle(t`Edit categories`);
 
     const { data, loading, error, refetch } = requestManager.useGetCategories<
         GetCategoriesSettingsQuery,
         GetCategoriesSettingsQueryVariables
-    >(GET_CATEGORIES_SETTINGS);
+    >(GET_CATEGORIES_SETTINGS, { variables: { condition: { contentType: activeContentType } } });
     const [reorderCategory, { reset: revertReorder }] = requestManager.useReorderCategory();
 
     const [categoryToEdit, setCategoryToEdit] = useState<number>(CREATE_NEW_CATEGORY_ID);
@@ -62,11 +68,7 @@ export function CategorySettings() {
     }, [data]);
 
     const categoryReorder = (list: CategoryIdInfo[], from: number, to: number) => {
-        const reorderedCategory = list[from];
-
-        reorderCategory({ variables: { input: { id: reorderedCategory.id, position: to + 1 } } }).catch(() =>
-            revertReorder(),
-        );
+        reorderCategory({ variables: { input: { id: list[from].id, position: to + 1 } } }).catch(() => revertReorder());
     };
 
     const onDragEnd = (event: DragEndEvent) => {
@@ -109,7 +111,17 @@ export function CategorySettings() {
     }
 
     return (
-        <>
+        <TabsWrapper>
+            <OffsetComponent>
+                <TabsMenu
+                    variant="fullWidth"
+                    value={activeTab}
+                    onChange={(_, tab) => setTabSearchParam(tab, 'replaceIn')}
+                >
+                    <Tab value="manga" label={t`Manga`} />
+                    <Tab value="light-novel" label={t`Light Novel`} />
+                </TabsMenu>
+            </OffsetComponent>
             <DndContext
                 sensors={dndSensors}
                 collisionDetection={closestCenter}
@@ -151,8 +163,12 @@ export function CategorySettings() {
             </Fab>
 
             {dialogOpen && (
-                <CreateOrEditCategoryDialog category={categories[categoryToEdit]} onClose={handleDialogCancel} />
+                <CreateOrEditCategoryDialog
+                    category={categories[categoryToEdit]}
+                    contentType={activeContentType}
+                    onClose={handleDialogCancel}
+                />
             )}
-        </>
+        </TabsWrapper>
     );
 }

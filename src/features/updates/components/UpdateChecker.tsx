@@ -6,7 +6,7 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import PopupState, { bindMenu, bindTrigger } from 'material-ui-popup-state';
@@ -23,65 +23,67 @@ import { defaultPromiseErrorHandler } from '@/lib/DefaultPromiseErrorHandler.ts'
 import { dateTimeFormatter } from '@/base/utils/DateHelper.ts';
 import { MediaQuery } from '@/base/utils/MediaQuery.tsx';
 import type { CategoryIdInfo } from '@/features/category/Category.types.ts';
+import type { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 
-let lastRunningState = false;
-
 export function UpdateChecker({
     categoryId,
+    contentType,
     handleFinishedUpdate,
 }: {
     categoryId?: CategoryIdInfo['id'];
+    contentType?: SourceContentType;
     handleFinishedUpdate?: () => void;
 }) {
     const { t } = useLingui();
     const isTouchDevice = MediaQuery.useIsTouchDevice();
 
     const [isHovered, setIsHovered] = useState(false);
+    const lastRunningState = useRef(false);
 
     const { data: lastUpdateTimestampData, refetch: reFetchLastTimestamp } =
-        requestManager.useGetLastGlobalUpdateTimestamp();
+        requestManager.useGetLastContentUpdateTimestamp(contentType);
 
-    const { data: updaterData } = requestManager.useGetGlobalUpdateSummary();
+    const { data: updaterData } = requestManager.useGetGlobalUpdateSummary(contentType);
     const status = updaterData?.libraryUpdateStatus;
 
     const lastUpdateTimestamp = lastUpdateTimestampData?.lastUpdateTimestamp.timestamp;
     const date = lastUpdateTimestamp ? dateTimeFormatter.format(+lastUpdateTimestamp) : '-';
 
     const isRunning = !!status?.jobsInfo.isRunning;
-    const progress = status ? (status.jobsInfo.finishedJobs / status.jobsInfo.totalJobs) * 100 : 0;
+    const progress = status?.jobsInfo.totalJobs ? (status.jobsInfo.finishedJobs / status.jobsInfo.totalJobs) * 100 : 0;
 
     useEffect(() => {
-        if (!lastRunningState && isRunning) {
-            lastRunningState = true;
+        if (!lastRunningState.current && isRunning) {
+            lastRunningState.current = true;
         }
 
-        const isUpdateFinished = lastRunningState && progress === 100;
+        const isUpdateFinished = lastRunningState.current && !isRunning;
         if (!isUpdateFinished) {
             return;
         }
 
-        lastRunningState = false;
+        lastRunningState.current = false;
         handleFinishedUpdate?.();
         // this re-fetch is necessary since a running update could have been triggered by the server or another client
         reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
-    }, [isRunning]);
+    }, [isRunning, status?.jobsInfo.totalJobs, status?.jobsInfo.finishedJobs]);
 
     const startUpdate = async (category?: CategoryIdInfo['id']) => {
         try {
-            lastRunningState = true;
-            await requestManager.startGlobalUpdate(category !== undefined ? [category] : undefined).response;
+            await requestManager.startGlobalUpdate(category !== undefined ? [category] : undefined, contentType)
+                .response;
             reFetchLastTimestamp().catch(defaultPromiseErrorHandler('UpdateChecker::reFetchLastTimestamp'));
         } catch (e) {
-            lastRunningState = false;
+            lastRunningState.current = false;
             makeToast(t`Could not check for updates`, 'error', getErrorMessage(e));
         }
     };
 
     const stopUpdate = async () => {
         try {
-            await requestManager.resetGlobalUpdate();
+            await requestManager.resetGlobalUpdate(contentType);
         } catch (e) {
             makeToast(t`Could not stop global update`, 'error', getErrorMessage(e));
         }

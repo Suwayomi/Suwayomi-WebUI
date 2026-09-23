@@ -95,7 +95,35 @@ export function getISOLanguageFor(code: string, orgCode: string = code, isoCode:
     return null;
 }
 
+const LANGUAGE_NAME_TO_ISO: Record<string, string> = {
+    english: 'en',
+    español: 'es',
+    spanish: 'es',
+    français: 'fr',
+    french: 'fr',
+    'bahasa indonesia': 'id',
+    indonesian: 'id',
+    polski: 'pl',
+    polish: 'pl',
+    português: 'pt',
+    portuguese: 'pt',
+    русский: 'ru',
+    russian: 'ru',
+    türkçe: 'tr',
+    turkish: 'tr',
+    українська: 'uk',
+    ukrainian: 'uk',
+    'tiếng việt': 'vi',
+    vietnamese: 'vi',
+    multi: 'all',
+};
+
 export function getISOLanguage(code: string): LanguageObject | null {
+    const mappedCode = LANGUAGE_NAME_TO_ISO[code.toLowerCase().trim()];
+    if (mappedCode) {
+        return getISOLanguageFor(mappedCode, code, mappedCode);
+    }
+
     return (
         getISOLanguageFor(code) ??
         getISOLanguageFor(code.toLowerCase(), code) ??

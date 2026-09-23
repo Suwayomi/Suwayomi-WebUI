@@ -68,6 +68,8 @@ import type {
     GetChaptersMangaQueryVariables,
     GetChaptersUpdatesQuery,
     GetChaptersUpdatesQueryVariables,
+    GetChapterTextContentQuery,
+    GetChapterTextContentQueryVariables,
     GetDownloadStatusQuery,
     GetDownloadStatusQueryVariables,
     GetExtensionQuery,
@@ -166,6 +168,8 @@ import type {
     UpdateChapterMutationVariables,
     UpdateChaptersMutation,
     UpdateChaptersMutationVariables,
+    UpdateChapterTextProgressMutation,
+    UpdateChapterTextProgressMutationVariables,
     UpdateExtensionMutation,
     UpdateExtensionMutationVariables,
     UpdateExtensionsMutation,
@@ -228,12 +232,14 @@ import type {
     UpdateMangaCategoriesPatchInput,
     UpdateMangaPatchInput,
     UpdateTrackInput,
+    SourceContentType,
 } from '@/lib/graphql/generated/graphql-base.types.ts';
 import {
     CategoryOrderBy,
     ChapterOrderBy,
     DownloaderState,
     DownloadUpdateType,
+    ExtensionKind,
     FetchSourceMangaType,
     MangaJobStatus,
     SortOrder,
@@ -300,6 +306,8 @@ import {
     UPDATE_CHAPTER_METADATA,
     UPDATE_CHAPTERS,
 } from '@/lib/graphql/chapter/ChapterMutation.ts';
+import { GET_CHAPTER_TEXT_CONTENT } from '@/lib/graphql/novel/NovelQuery.ts';
+import { UPDATE_CHAPTER_TEXT_PROGRESS } from '@/lib/graphql/novel/NovelMutation.ts';
 import {
     CREATE_CATEGORY,
     DELETE_CATEGORY,
@@ -308,7 +316,12 @@ import {
     UPDATE_CATEGORY_ORDER,
 } from '@/lib/graphql/category/CategoryMutation.ts';
 import { STOP_UPDATER, UPDATE_LIBRARY } from '@/lib/graphql/updater/UpdaterMutation.ts';
-import { GET_LAST_UPDATE_TIMESTAMP, GET_UPDATE_STATUS } from '@/lib/graphql/updater/UpdaterQuery.ts';
+import {
+    GET_LAST_MANGA_UPDATE_TIMESTAMP,
+    GET_LAST_NOVEL_UPDATE_TIMESTAMP,
+    GET_LAST_UPDATE_TIMESTAMP,
+    GET_UPDATE_STATUS,
+} from '@/lib/graphql/updater/UpdaterQuery.ts';
 import { CustomCache } from '@/lib/storage/CustomCache.ts';
 import { CREATE_BACKUP, RESTORE_BACKUP } from '@/lib/graphql/backup/BackupMutation.ts';
 import { GET_RESTORE_STATUS, VALIDATE_BACKUP } from '@/lib/graphql/backup/BackupQuery.ts';
@@ -542,8 +555,9 @@ export class RequestManager {
         return `${this.getBaseUrl()}${apiVersion}${endpoint}`;
     }
 
-    public getWebviewUrl(url: string): string {
-        return `${this.getValidUrlFor('webview')}#${url}`;
+    public getWebviewUrl(url: string, sourceId?: string): string {
+        const source = sourceId ? `?sourceId=${encodeURIComponent(sourceId)}` : '';
+        return `${this.getValidUrlFor('webview')}${source}#${url}`;
     }
 
     public clearBrowseCacheFor(sourceId: string) {
@@ -1508,6 +1522,7 @@ export class RequestManager {
                             signingKey: '',
                             name: 'store',
                             isLegacy: false,
+                            kind: ExtensionKind.Jvm,
                             badgeLabel: '',
                             contactWebsite: '',
                             contactDiscord: null,
@@ -2778,6 +2793,37 @@ export class RequestManager {
         );
     }
 
+    public updateChapterTextProgress(
+        chapterId: number,
+        progress: number,
+        options?: MutationOptions<UpdateChapterTextProgressMutation, UpdateChapterTextProgressMutationVariables>,
+    ): AbortableApolloMutationResponse<UpdateChapterTextProgressMutation> {
+        return this.doRequest<UpdateChapterTextProgressMutation, UpdateChapterTextProgressMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_CHAPTER_TEXT_PROGRESS,
+            {
+                input: { chapterId, progress },
+            },
+            options,
+        );
+    }
+
+    public useGetChapterTextContent(
+        chapterId: number,
+        options?: QueryHookOptions<GetChapterTextContentQuery, GetChapterTextContentQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetChapterTextContentQuery, GetChapterTextContentQueryVariables> {
+        return this.doRequest<GetChapterTextContentQuery, GetChapterTextContentQueryVariables>(
+            GQLMethod.USE_QUERY,
+            GET_CHAPTER_TEXT_CONTENT,
+            { id: chapterId },
+            {
+                skip: chapterId < 0,
+                fetchPolicy: 'no-cache',
+                ...options,
+            },
+        );
+    }
+
     public updateChapterMeta(
         {
             preUpdateDeleteInput = { items: [] },
@@ -2958,28 +3004,27 @@ export class RequestManager {
         document: DocumentNode | TypedDocumentNode<Data, Variables>,
         options?: QueryHookOptions<Data, Variables>,
     ): AbortableApolloUseQueryResponse<Data, Variables> {
-        return this.doRequest<Data, Variables>(
-            GQLMethod.USE_QUERY,
-            document,
-            {
-                order: [{ by: CategoryOrderBy.Order }],
-            } satisfies GetCategoriesSettingsQueryVariables as unknown as Variables,
-            options,
-        );
+        const mergedVariables = {
+            order: [{ by: CategoryOrderBy.Order }],
+            ...options?.variables,
+        } satisfies GetCategoriesSettingsQueryVariables as unknown as Variables;
+
+        return this.doRequest<Data, Variables>(GQLMethod.USE_QUERY, document, mergedVariables, {
+            ...options,
+            variables: mergedVariables,
+        });
     }
 
     public getCategories<Data, Variables extends OperationVariables>(
         document: DocumentNode | TypedDocumentNode<Data, Variables>,
         options?: QueryOptions<Variables, Data>,
     ): AbortabaleApolloQueryResponse<Data> {
-        return this.doRequest<Data, Variables>(
-            GQLMethod.QUERY,
-            document,
-            {
-                order: [{ by: CategoryOrderBy.Order }],
-            } satisfies GetCategoriesSettingsQueryVariables as unknown as Variables,
-            options,
-        );
+        const mergedVariables = {
+            order: [{ by: CategoryOrderBy.Order }],
+            ...options?.variables,
+        } satisfies GetCategoriesSettingsQueryVariables as unknown as Variables;
+
+        return this.doRequest(GQLMethod.QUERY, document, mergedVariables, options);
     }
 
     public createCategory(
@@ -2990,7 +3035,15 @@ export class RequestManager {
             GQLMethod.MUTATION,
             CREATE_CATEGORY,
             { input },
-            { refetchQueries: [GET_CATEGORIES_BASE, GET_CATEGORIES_LIBRARY, GET_CATEGORIES_SETTINGS], ...options },
+            {
+                refetchQueries: [
+                    GET_CATEGORIES_BASE,
+                    GET_CATEGORIES_LIBRARY,
+                    GET_CATEGORIES_SETTINGS,
+                    GET_CATEGORY_MANGAS,
+                ],
+                ...options,
+            },
         );
     }
 
@@ -3001,7 +3054,7 @@ export class RequestManager {
             GQLMethod.USE_MUTATION,
             UPDATE_CATEGORY_ORDER,
             undefined,
-            { refetchQueries: [GET_CATEGORIES_BASE, GET_CATEGORIES_LIBRARY], ...options },
+            { refetchQueries: [GET_CATEGORIES_BASE, GET_CATEGORIES_LIBRARY, GET_CATEGORY_MANGAS], ...options },
         );
 
         const wrappedMutate = (mutateOptions: Parameters<typeof mutate>[0]) => {
@@ -3063,6 +3116,7 @@ export class RequestManager {
     public useGetCategoryMangas(
         id: number,
         options?: QueryHookOptions<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>,
+        contentType?: SourceContentType,
     ): AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables> {
         const isDefaultCategory = id === 0;
         if (isDefaultCategory) {
@@ -3071,7 +3125,7 @@ export class RequestManager {
             const { data, ...result } = this.doRequest<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>(
                 GQLMethod.USE_QUERY,
                 GET_CATEGORY_MANGAS,
-                { id },
+                { id, contentType },
                 options as QueryHookOptions<GetCategoryMangasQuery, GetCategoryMangasQueryVariables>,
             );
 
@@ -3086,7 +3140,11 @@ export class RequestManager {
             } as unknown as AbortableApolloUseQueryResponse<GetMangasLibraryQuery, GetMangasLibraryQueryVariables>;
         }
 
-        return this.useGetMangas(GET_MANGAS_LIBRARY, { condition: { inLibrary: true, categoryIds: [id] } }, options);
+        return this.useGetMangas(
+            GET_MANGAS_LIBRARY,
+            { condition: { inLibrary: true, categoryIds: [id], contentType } },
+            options,
+        );
     }
 
     public deleteCategory(
@@ -3104,6 +3162,8 @@ export class RequestManager {
             this.graphQLClient.client.refetchQueries({
                 updateCache(cache) {
                     cache.evict({ id: cache.identify({ __typename: 'CategoryType', id: categoryId.toString() }) });
+                    cache.evict({ fieldName: 'categories' });
+                    cache.evict({ fieldName: 'category' });
                 },
             });
         });
@@ -3508,10 +3568,12 @@ export class RequestManager {
         options?: QueryHookOptions<GetChaptersUpdatesQuery, GetChaptersUpdatesQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetChaptersUpdatesQuery, GetChaptersUpdatesQueryVariables> {
         const PAGE_SIZE = 150;
-        const CACHE_KEY = 'useGetRecentlyUpdatedChapters';
+        const CACHE_KEY = `useGetRecentlyUpdatedChapters_${options?.variables?.condition?.contentType ?? 'all'}`;
 
         const offset = this.cache.getResponseFor<number>(CACHE_KEY, undefined) ?? 0;
         const [lastOffset] = useState(offset);
+
+        const { variables: optionVariables, ...hookOptions } = options ?? {};
 
         const result = this.useGetChapters<GetChaptersUpdatesQuery, GetChaptersUpdatesQueryVariables>(
             GET_CHAPTERS_UPDATES,
@@ -3522,8 +3584,10 @@ export class RequestManager {
                     { by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc },
                 ],
                 first: initialPages * PAGE_SIZE + lastOffset,
+                ...optionVariables,
+                ...(optionVariables?.condition ? { condition: optionVariables.condition } : {}),
             },
-            options,
+            hookOptions,
         );
 
         useEffect(() => {
@@ -3545,7 +3609,11 @@ export class RequestManager {
                 this.cache.cacheResponse(CACHE_KEY, undefined, fetchMoreOptions.variables?.offset);
                 return result.fetchMore({
                     ...fetchMoreOptions,
-                    variables: { first: PAGE_SIZE, ...fetchMoreOptions.variables },
+                    variables: {
+                        first: PAGE_SIZE,
+                        ...(optionVariables?.condition ? { condition: optionVariables.condition } : {}),
+                        ...fetchMoreOptions.variables,
+                    },
                 });
             },
         } as typeof result;
@@ -3556,10 +3624,12 @@ export class RequestManager {
         options?: QueryHookOptions<GetChaptersHistoryQuery, GetChaptersHistoryQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetChaptersHistoryQuery, GetChaptersHistoryQueryVariables> {
         const PAGE_SIZE = 150;
-        const CACHE_KEY = 'useGetRecentlyReadChapters';
+        const CACHE_KEY = `useGetRecentlyReadChapters_${options?.variables?.condition?.contentType ?? 'all'}`;
 
         const offset = this.cache.getResponseFor<number>(CACHE_KEY, undefined) ?? 0;
         const [lastOffset] = useState(offset);
+
+        const { variables: optionVariables, ...hookOptions } = options ?? {};
 
         const result = this.useGetChapters<GetChaptersHistoryQuery, GetChaptersHistoryQueryVariables>(
             GET_CHAPTERS_HISTORY,
@@ -3570,8 +3640,10 @@ export class RequestManager {
                     { by: ChapterOrderBy.SourceOrder, byType: SortOrder.Desc },
                 ],
                 first: initialPages * PAGE_SIZE + lastOffset,
+                ...optionVariables,
+                ...(optionVariables?.condition ? { condition: optionVariables.condition } : {}),
             },
-            options,
+            hookOptions,
         );
 
         return {
@@ -3581,7 +3653,11 @@ export class RequestManager {
                 this.cache.cacheResponse(CACHE_KEY, undefined, fetchMoreOptions.variables?.offset);
                 return result.fetchMore({
                     ...fetchMoreOptions,
-                    variables: { first: PAGE_SIZE, ...fetchMoreOptions.variables },
+                    variables: {
+                        first: PAGE_SIZE,
+                        ...(optionVariables?.condition ? { condition: optionVariables.condition } : {}),
+                        ...fetchMoreOptions.variables,
+                    },
                 });
             },
         } as typeof result;
@@ -3589,26 +3665,38 @@ export class RequestManager {
 
     public startGlobalUpdate(
         categories?: number[],
+        contentTypeOrOptions?:
+            | SourceContentType
+            | MutationOptions<UpdateLibraryMutation, UpdateLibraryMutationVariables>,
         options?: MutationOptions<UpdateLibraryMutation, UpdateLibraryMutationVariables>,
     ): AbortableApolloMutationResponse<UpdateLibraryMutation> {
-        return this.doRequest(GQLMethod.MUTATION, UPDATE_LIBRARY, { input: { categories } }, options);
+        const contentType = typeof contentTypeOrOptions === 'string' ? contentTypeOrOptions : undefined;
+        const mutationOptions = typeof contentTypeOrOptions === 'object' ? contentTypeOrOptions : options;
+        return this.doRequest<UpdateLibraryMutation, UpdateLibraryMutationVariables>(
+            GQLMethod.MUTATION,
+            UPDATE_LIBRARY,
+            { input: { categories, contentType } },
+            mutationOptions,
+        );
     }
 
     public resetGlobalUpdate(
+        contentType?: SourceContentType,
         options?: MutationOptions<StopUpdaterMutation, StopUpdaterMutationVariables>,
     ): AbortableApolloMutationResponse<StopUpdaterMutation> {
         return this.doRequest<StopUpdaterMutation, StopUpdaterMutationVariables>(
             GQLMethod.MUTATION,
             STOP_UPDATER,
-            {},
+            { input: { contentType } },
             options,
         );
     }
 
     public useGetGlobalUpdateSummary(
+        contentType?: SourceContentType,
         options?: QueryHookOptions<GetUpdateStatusQuery, GetUpdateStatusQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetUpdateStatusQuery, GetUpdateStatusQueryVariables> {
-        return this.doRequest(GQLMethod.USE_QUERY, GET_UPDATE_STATUS, {}, options);
+        return this.doRequest(GQLMethod.USE_QUERY, GET_UPDATE_STATUS, { contentType }, options);
     }
 
     public useGetDownloadStatus(
@@ -3708,12 +3796,13 @@ export class RequestManager {
     }
 
     public useUpdaterSubscription(
+        contentType: SourceContentType,
         options?: SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
     ): useSubscription.Result<UpdaterSubscription> {
         return this.doRequest<UpdaterSubscription, UpdaterSubscriptionVariables>(
             GQLMethod.USE_SUBSCRIPTION,
             UPDATER_SUBSCRIPTION,
-            { input: {} },
+            { input: { maxUpdates: 30, contentType } },
             {
                 ...options,
                 onData: (onDataOptions) => {
@@ -3721,15 +3810,33 @@ export class RequestManager {
 
                     const cache = this.graphQLClient.client.cache as InMemoryCache;
 
-                    updatesChanged?.mangaUpdates
-                        .filter((update) => update.status === MangaJobStatus.Complete)
-                        .forEach((update) =>
-                            Object.keys(cache.extract().ROOT_QUERY as object)
-                                .filter(
-                                    (key) => key.includes('chapters') && key.includes(`mangaId":${update.manga.id}`),
-                                )
-                                .forEach((key) => cache.evict({ fieldName: key })),
-                        );
+                    if (!updatesChanged?.omittedUpdates) {
+                        if (updatesChanged) {
+                            cache.writeQuery({
+                                query: GET_UPDATE_STATUS,
+                                variables: { contentType },
+                                data: { libraryUpdateStatus: { ...updatesChanged, __typename: 'LibraryUpdateStatus' } },
+                            });
+                        }
+                        updatesChanged?.mangaUpdates
+                            .filter((update) => update.status === MangaJobStatus.Complete)
+                            .forEach((update) =>
+                                Object.keys(cache.extract().ROOT_QUERY as object)
+                                    .filter(
+                                        (key) =>
+                                            key.includes('chapters') && key.includes(`mangaId":${update.manga.id}`),
+                                    )
+                                    .forEach((key) => cache.evict({ fieldName: key })),
+                            );
+                        return;
+                    }
+
+                    this.graphQLClient.client.refetchQueries({
+                        updateCache() {
+                            cache.evict({ fieldName: 'chapters' });
+                            cache.evict({ fieldName: 'libraryUpdateStatus' });
+                        },
+                    });
                 },
             } as SubscriptionHookOptions<UpdaterSubscription, UpdaterSubscriptionVariables>,
         ) as useSubscription.Result<UpdaterSubscription>;
@@ -3774,6 +3881,19 @@ export class RequestManager {
         options?: QueryHookOptions<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables>,
     ): AbortableApolloUseQueryResponse<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables> {
         return this.doRequest(GQLMethod.USE_QUERY, GET_LAST_UPDATE_TIMESTAMP, {}, options);
+    }
+
+    public useGetLastContentUpdateTimestamp(
+        contentType?: SourceContentType,
+        options?: QueryHookOptions<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables>,
+    ): AbortableApolloUseQueryResponse<GetLastUpdateTimestampQuery, GetLastUpdateTimestampQueryVariables> {
+        let query = GET_LAST_UPDATE_TIMESTAMP;
+        if (contentType === 'LIGHT_NOVEL') {
+            query = GET_LAST_NOVEL_UPDATE_TIMESTAMP;
+        } else if (contentType === 'MANGA') {
+            query = GET_LAST_MANGA_UPDATE_TIMESTAMP;
+        }
+        return this.doRequest(GQLMethod.USE_QUERY, query, {}, options);
     }
 
     public useClearServerCache(

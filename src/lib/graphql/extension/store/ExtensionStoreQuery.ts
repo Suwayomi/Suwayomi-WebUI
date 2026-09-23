@@ -25,7 +25,7 @@ export const GET_EXTENSION_STORES = gql`
     ${PAGE_INFO}
 
     query GET_EXTENSION_STORES {
-        extensionStores {
+        extensionStores(includeLightNovels: true) {
             nodes {
                 ...EXTENSION_STORE_FIELDS
             }

@@ -37,6 +37,7 @@ import { SOURCE_BASE_FIELDS } from '@/lib/graphql/source/SourceFragments.ts';
 import { isNsfw as isNsfwFnc } from '@/features/extension/Extensions.utils.ts';
 import { SortBy, SortOrder, type SortSettings, type TMigratableSource } from '@/features/migration/Migration.types.ts';
 import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export class Sources {
     static readonly LOCAL_SOURCE_ID = '0';
@@ -125,6 +126,7 @@ export class Sources {
             pinned,
             enabled,
             removeLocalSource,
+            contentType,
         }: {
             isNsfw?: boolean;
             languages?: string[];
@@ -132,11 +134,19 @@ export class Sources {
             pinned?: boolean;
             enabled?: boolean;
             removeLocalSource?: boolean;
+            contentType?: SourceContentType;
         } = {},
     ): Source[] {
         const normalizedLanguages = toComparableLanguages(toUniqueLanguageCodes(languages ?? []));
 
         const filters: [Condition: any, CheckKeepLocalSource: boolean, Filter: (source: Source) => boolean][] = [
+            [
+                contentType,
+                false,
+                (source: Source) =>
+                    (((source as any).contentType as SourceContentType | undefined) ?? SourceContentType.Manga) ===
+                    contentType,
+            ],
             [isNsfw, true, (source: Source) => isNsfwFnc(source.contentWarning) === isNsfw],
             [
                 languages,

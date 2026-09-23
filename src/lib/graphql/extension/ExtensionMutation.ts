@@ -15,7 +15,7 @@ export const GET_EXTENSIONS_FETCH = gql`
     ${EXTENSION_LIST_FIELDS}
     ${EXTENSION_STORE_FIELDS}
 
-    mutation GET_EXTENSIONS_FETCH($input: FetchExtensionsInput = {}) {
+    mutation GET_EXTENSIONS_FETCH($input: FetchExtensionsInput = { includeLightNovels: true }) {
         fetchExtensions(input: $input) {
             extensions {
                 ...EXTENSION_LIST_FIELDS

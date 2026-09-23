@@ -49,8 +49,8 @@ import { useOffsetComponent } from '@/base/OffsetComponent.tsx';
 
 export const DownloadQueue: React.FC = () => {
     const { t } = useLingui();
-
     useAppTitle(t`Download queue`);
+
     const { topOffset } = useOffsetComponent();
 
     const [reorderDownloadsMutation] = requestManager.useReorderChaptersInDownloadQueue();
@@ -164,6 +164,10 @@ export const DownloadQueue: React.FC = () => {
         const oldIndex = queue.findIndex((download) => download.chapter.id === active.id);
         const newIndex = queue.findIndex((download) => download.chapter.id === over.id);
 
+        if (oldIndex === -1 || newIndex === -1) {
+            return;
+        }
+
         downloadReorder(queue, [{ chapterId: queue[oldIndex].chapter.id, to: newIndex }]);
     };
 
@@ -176,7 +180,15 @@ export const DownloadQueue: React.FC = () => {
             return;
         }
 
-        const newIndex = queue.findIndex((item) => item.manga.sourceId === over.id);
+        const targetDownload = queue.find((item) => item.manga.sourceId === over.id);
+        if (!targetDownload) {
+            return;
+        }
+
+        const newIndex = queue.findIndex((item) => item.chapter.id === targetDownload.chapter.id);
+        if (newIndex === -1) {
+            return;
+        }
 
         downloadReorder(
             queue,
@@ -200,8 +212,12 @@ export const DownloadQueue: React.FC = () => {
             const [firstSourceDownload] = sourceDownloads;
             const lastSourceDownload = sourceDownloads[sourceDownloads.length - 1];
 
-            const firstSourceDownloadIndex = queue.indexOf(firstSourceDownload);
-            const lastSourceDownloadIndex = queue.indexOf(lastSourceDownload);
+            const firstSourceDownloadIndex = queue.findIndex(
+                (item) => item.chapter.id === firstSourceDownload.chapter.id,
+            );
+            const lastSourceDownloadIndex = queue.findIndex(
+                (item) => item.chapter.id === lastSourceDownload.chapter.id,
+            );
 
             if (mode === 'top') {
                 const isFirstSourceDownloadOfSeries = firstSourceDownload.manga.id === download.manga.id;
@@ -234,8 +250,8 @@ export const DownloadQueue: React.FC = () => {
                 </IconButton>
             </CustomTooltip>
 
-            <CustomTooltip title={t`Delete all`}>
-                <IconButton onClick={clearQueue} color="inherit">
+            <CustomTooltip title={t`Delete all`} disabled={isQueueEmpty}>
+                <IconButton onClick={clearQueue} color="inherit" disabled={isQueueEmpty}>
                     <DeleteSweepIcon />
                 </IconButton>
             </CustomTooltip>

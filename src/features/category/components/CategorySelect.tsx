@@ -37,8 +37,11 @@ import { GET_CATEGORIES_BASE } from '@/lib/graphql/category/CategoryQuery.ts';
 import { GET_MANGA_CATEGORIES } from '@/lib/graphql/manga/MangaQuery.ts';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
-type BaseProps = AwaitableComponentProps<{ addToCategories?: number[]; removeFromCategories?: number[] }>;
+type BaseProps = AwaitableComponentProps<{ addToCategories?: number[]; removeFromCategories?: number[] }> & {
+    contentType?: SourceContentType;
+};
 
 type SingleMangaModeProps = {
     mangaId: number;
@@ -101,6 +104,7 @@ export function CategorySelect(props: CategorySelectProps) {
         mangaId,
         mangaIds: passedMangaIds,
         addToLibrary = false,
+        contentType,
     } = props;
 
     const isSingleSelectionMode = mangaId !== undefined;
@@ -112,6 +116,7 @@ export function CategorySelect(props: CategorySelectProps) {
 
     const { data } = requestManager.useGetCategories<GetCategoriesBaseQuery, GetCategoriesBaseQueryVariables>(
         GET_CATEGORIES_BASE,
+        { variables: { condition: { contentType: contentType ?? SourceContentType.Manga } } },
     );
     const categoriesData = data?.categories.nodes ?? STABLE_EMPTY_ARRAY;
 
@@ -119,7 +124,7 @@ export function CategorySelect(props: CategorySelectProps) {
 
     const defaultCategoryIds = useMemo(
         () => (addToLibrary ? Categories.getIds(Categories.getDefaults(allCategories)) : []),
-        [allCategories],
+        [addToLibrary, allCategories],
     );
 
     const { handleSelection, setSelectionForKey, getSelectionForKey } = useSelectableCollection<
@@ -139,7 +144,7 @@ export function CategorySelect(props: CategorySelectProps) {
     useEffect(() => {
         setSelectionForKey('categoriesToAdd', [...mangaCategoryIds, ...defaultCategoryIds]);
         setSelectionForKey('categoriesToRemove', []);
-    }, [mangaCategoryIds]);
+    }, [mangaCategoryIds, defaultCategoryIds]);
 
     const categoriesToAdd = getSelectionForKey('categoriesToAdd');
     const categoriesToRemove = getSelectionForKey('categoriesToRemove');
@@ -248,7 +253,11 @@ export function CategorySelect(props: CategorySelectProps) {
                             width: '100%',
                         }}
                     >
-                        <Button component={Link} to={AppRoutes.settings.children.categories.path} onClick={onDismiss}>
+                        <Button
+                            component={Link}
+                            to={`${AppRoutes.settings.children.categories.path}?tab=${contentType === SourceContentType.LightNovel ? 'light-novel' : 'manga'}`}
+                            onClick={onDismiss}
+                        >
                             {allCategories.length ? t`Edit` : t`Create`}
                         </Button>
                         <Stack direction="row">

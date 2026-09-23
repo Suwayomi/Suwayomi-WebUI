@@ -10,6 +10,7 @@ import DragHandle from '@mui/icons-material/DragHandle';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import IconButton from '@mui/material/IconButton';
+import Chip from '@mui/material/Chip';
 import { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLingui } from '@lingui/react/macro';
@@ -27,7 +28,7 @@ import Menu from '@mui/material/Menu';
 import { DownloadStateIndicatorLinear } from '@/base/components/downloads/DownloadStateIndicatorLinear.tsx';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { DownloadState } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { DownloadState, SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 interface ActionProps {
     reorderDownloads: (download: ChapterDownloadStatus, mode: 'top' | 'bottom', series?: boolean) => void;
@@ -92,6 +93,23 @@ export const DownloadQueueChapterCard = memo(
                                     title={item.manga.title}
                                     secondaryText={item.chapter.scanlator}
                                     ternaryText={item.chapter.name}
+                                    infoIcons={
+                                        <Chip
+                                            size="small"
+                                            label={
+                                                item.manga.contentType === SourceContentType.LightNovel
+                                                    ? t`Novel`
+                                                    : t`Manga`
+                                            }
+                                            color={
+                                                item.manga.contentType === SourceContentType.LightNovel
+                                                    ? 'secondary'
+                                                    : 'default'
+                                            }
+                                            variant="outlined"
+                                            sx={{ height: 20, fontSize: '0.75rem', mr: 0.5 }}
+                                        />
+                                    }
                                 />
                                 <Typography sx={{ pb: 1, flexGrow: 1, textAlign: 'end' }} variant="caption">
                                     {(() => {
@@ -103,6 +121,10 @@ export const DownloadQueueChapterCard = memo(
                                             item.state === DownloadState.Downloading || item.progress >= 0.1;
                                         if (!isDownloading) {
                                             return null;
+                                        }
+
+                                        if (item.manga.contentType === SourceContentType.LightNovel) {
+                                            return `${(item.progress * 100).toFixed()}%`;
                                         }
 
                                         return `${(item.chapter.pageCount * item.progress).toFixed()}/${item.chapter.pageCount}`;

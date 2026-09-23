@@ -23,9 +23,10 @@ import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { CategorySelect } from '@/features/category/components/CategorySelect';
 import { Confirmation } from '@/base/AppAwaitableComponent.ts';
 import type { MangaIdInfo, MangaInLibraryInfo, MangaTitleInfo } from '@/features/manga/Manga.types.ts';
+import { SourceContentType } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export const useManageMangaLibraryState = (
-    manga: MangaIdInfo & MangaTitleInfo & Partial<MangaInLibraryInfo>,
+    manga: MangaIdInfo & MangaTitleInfo & Partial<MangaInLibraryInfo> & { contentType?: SourceContentType },
     confirmRemoval: boolean = false,
 ) => {
     const { t } = useLingui();
@@ -98,7 +99,9 @@ export const useManageMangaLibraryState = (
                 categories = await requestManager.getCategories<
                     GetCategoriesBaseQuery,
                     GetCategoriesBaseQueryVariables
-                >(GET_CATEGORIES_BASE).response;
+                >(GET_CATEGORIES_BASE, {
+                    variables: { condition: { contentType: manga.contentType ?? SourceContentType.Manga } },
+                }).response;
             } catch (e) {
                 makeToast(t`Could not load categories`, 'error', getErrorMessage(e));
                 return;
@@ -164,9 +167,11 @@ export const useManageMangaLibraryState = (
                 );
             }
 
+            const defaultCategories = Categories.getDefaults(userCreatedCategories!);
+
             const showCategorySelectDialog = showAddToLibraryCategorySelectDialog && !!userCreatedCategories.length;
             if (!showCategorySelectDialog) {
-                addToLibrary(Categories.getIds(Categories.getDefaults(userCreatedCategories!)));
+                addToLibrary(Categories.getIds(defaultCategories));
                 return;
             }
 
@@ -174,6 +179,7 @@ export const useManageMangaLibraryState = (
                 CategorySelect,
                 {
                     mangaId: manga.id,
+                    contentType: manga.contentType,
                     addToLibrary: true,
                 },
                 { id: `manga-library-state-add-categories-${manga.id}` },

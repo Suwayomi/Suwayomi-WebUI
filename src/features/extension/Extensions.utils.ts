@@ -26,7 +26,7 @@ import { makeToast } from '@/base/utils/Toast.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { i18n } from '@/i18n';
 import { t } from '@lingui/core/macro';
-import { ContentWarning } from '@/lib/graphql/generated/graphql-base.types.ts';
+import { ContentWarning, ExtensionKind } from '@/lib/graphql/generated/graphql-base.types.ts';
 
 export const isNsfw = (contentWarning: ContentWarning): boolean => contentWarning !== ContentWarning.Safe;
 
@@ -116,10 +116,12 @@ export const getLanguagesFromExtensions = (extensions: TExtension[]): string[] =
 export const filterExtensions = (
     extensions: TExtension[],
     {
+        runtimeKind,
         selectedLanguages,
         showNsfw,
         query,
     }: {
+        runtimeKind?: ExtensionKind;
         selectedLanguages?: string[];
         showNsfw?: boolean;
         query?: string | null | undefined;
@@ -128,6 +130,7 @@ export const filterExtensions = (
     const normalizedSelectedLanguages = toComparableLanguages(toUniqueLanguageCodes(selectedLanguages ?? []));
 
     return extensions
+        .filter((extension) => !runtimeKind || (extension.runtimeKind ?? ExtensionKind.Jvm) === runtimeKind)
         .filter(
             (extension) =>
                 !selectedLanguages ||
