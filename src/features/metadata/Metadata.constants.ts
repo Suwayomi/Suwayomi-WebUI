@@ -177,6 +177,9 @@ export const APP_METADATA: Record<
     gridLayout: {
         convert: convertToNumber, // GridLayout (enum)
     },
+    notifyNewChapters: {
+        convert: convertToBoolean,
+    },
     sortBy: {
         convert: convertToStringNullAndUndefined, // LibrarySortMode
     },

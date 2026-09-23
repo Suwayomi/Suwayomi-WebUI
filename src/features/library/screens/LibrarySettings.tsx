@@ -38,6 +38,7 @@ import type { MetadataLibrarySettings } from '@/features/library/Library.types.t
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
+import { Notifications } from '@/features/notifications/services/Notifications.ts';
 
 const removeNonLibraryMangasFromCategories = async (): Promise<void> => {
     try {
@@ -84,6 +85,27 @@ export function LibrarySettings() {
     const setSettingValue = createUpdateMetadataServerSettings<keyof MetadataLibrarySettings>((e) =>
         makeToast(t`Could not save the default search settings to the server`, 'error', getErrorMessage(e)),
     );
+
+    const setNotifyNewChapters = async (enable: boolean) => {
+        if (!enable) {
+            setSettingValue('notifyNewChapters', false);
+            return;
+        }
+
+        const permission = await Notifications.requestPermission();
+
+        if (permission === 'denied') {
+            makeToast(t`Notifications are blocked`, 'warning', t`Allow them for this site in your browser settings`);
+            return;
+        }
+
+        if (permission !== 'granted') {
+            makeToast(t`Notifications were not allowed`, 'warning');
+            return;
+        }
+
+        setSettingValue('notifyNewChapters', true);
+    };
 
     // -1 for the DEFAULT category
     const categoryCount = (categories.data?.categories.nodes.length ?? 1) - 1;
@@ -188,6 +210,36 @@ export function LibrarySettings() {
                         edge="end"
                         checked={settings.fuzzySearch}
                         onChange={(e) => setSettingValue('fuzzySearch', e.target.checked)}
+                    />
+                </ListItem>
+                <ListItem>
+                    <ListItemText
+                        primary={t`Notify about new chapters`}
+                        secondary={(() => {
+                            if (!Notifications.isSupported()) {
+                                return t`Your browser does not support notifications`;
+                            }
+
+                            if (settings.notifyNewChapters && Notifications.getPermission() === 'denied') {
+                                return t`Blocked in this browser. Allow them for this site in your browser settings`;
+                            }
+
+                            if (settings.notifyNewChapters && !Notifications.isPermissionGranted()) {
+                                return t`Not allowed in this browser yet. Turn this off and on again to be asked`;
+                            }
+
+                            return t`Show a notification for the chapters found by a library update. Only works while Suwayomi is open`;
+                        })()}
+                    />
+                    <Switch
+                        edge="end"
+                        disabled={!Notifications.isSupported()}
+                        checked={settings.notifyNewChapters}
+                        onChange={(e) =>
+                            setNotifyNewChapters(e.target.checked).catch(
+                                defaultPromiseErrorHandler('LibrarySettings::setNotifyNewChapters'),
+                            )
+                        }
                     />
                 </ListItem>
             </List>

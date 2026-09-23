@@ -147,6 +147,10 @@ msgstr "{availableUpdates, plural, one {# update available} other {# updates ava
 msgid "{categoryCount, plural, one {# category} other {# categories}}"
 msgstr "{categoryCount, plural, one {# category} other {# categories}}"
 
+#: src/features/notifications/hooks/useNewChapterNotifications.ts
+msgid "{count, plural, one {# new chapter} other {# new chapters}}"
+msgstr "{count, plural, one {# new chapter} other {# new chapters}}"
+
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
 msgstr "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
@@ -309,6 +313,10 @@ msgstr "{currentAutoUpdateIntervalHours}h"
 msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 
+#: src/features/notifications/hooks/useNewChapterNotifications.ts
+msgid "{entryCount, plural, one {in # entry} other {in # entries}}"
+msgstr "{entryCount, plural, one {in # entry} other {in # entries}}"
+
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
 msgstr "{extensionCount, plural, one {# extension} other {# extensions}}"
@@ -462,6 +470,10 @@ msgstr "All"
 #: src/features/downloads/screens/DownloadSettings.tsx
 msgid "Allow deleting bookmarked chapters"
 msgstr "Allow deleting bookmarked chapters"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Allow them for this site in your browser settings"
+msgstr "Allow them for this site in your browser settings"
 
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Alpha"
@@ -658,6 +670,10 @@ msgstr "Binary file size"
 #: src/features/reader/settings/general/components/ReaderSettingBackgroundColor.tsx
 msgid "Black"
 msgstr "Black"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Blocked in this browser. Allow them for this site in your browser settings"
+msgstr "Blocked in this browser. Allow them for this site in your browser settings"
 
 #: src/features/reader/filters/settings/components/ReaderSettingRGBA.tsx
 msgid "Blue"
@@ -2778,6 +2794,10 @@ msgstr "No sources installed"
 msgid "None"
 msgstr "None"
 
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Not allowed in this browser yet. Turn this off and on again to be asked"
+msgstr "Not allowed in this browser yet. Turn this off and on again to be asked"
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Not yet published"
 msgstr "Not yet published"
@@ -2793,6 +2813,18 @@ msgstr "Notes"
 #: src/features/manga/components/details/MangaNotes.tsx
 msgid "Notes saved"
 msgstr "Notes saved"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notifications are blocked"
+msgstr "Notifications are blocked"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notifications were not allowed"
+msgstr "Notifications were not allowed"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notify about new chapters"
+msgstr "Notify about new chapters"
 
 #: src/features/tracker/Tracker.constants.ts
 msgid "Novel"
@@ -3490,6 +3522,10 @@ msgstr "Share"
 #: src/features/settings/components/DebugInformation.tsx
 msgid "Show"
 msgstr "Show"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Show a notification for the chapters found by a library update. Only works while Suwayomi is open"
+msgstr "Show a notification for the chapters found by a library update. Only works while Suwayomi is open"
 
 #: src/features/library/screens/LibrarySettings.tsx
 msgid "Show all duplicated entries in your library"
@@ -4375,6 +4411,10 @@ msgstr "You have not read any series yet."
 #: src/features/browse/extensions/Extensions.tsx
 msgid "You have to add a extension store to be able to install extensions"
 msgstr "You have to add a extension store to be able to install extensions"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Your browser does not support notifications"
+msgstr "Your browser does not support notifications"
 
 #: src/features/settings/Settings.constants.ts
 msgid "Your browser will prompt you to enter credentials with a dialog."
