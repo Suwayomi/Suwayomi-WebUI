@@ -147,6 +147,14 @@ msgstr "{availableUpdates, plural, one {# update available} other {# updates ava
 msgid "{categoryCount, plural, one {# category} other {# categories}}"
 msgstr "{categoryCount, plural, one {# category} other {# categories}}"
 
+#: src/features/notifications/services/LibraryUpdateNotifier.ts
+msgid "{count, plural, one {# new chapter} other {# new chapters}}"
+msgstr "{count, plural, one {# new chapter} other {# new chapters}}"
+
+#: src/features/notifications/services/LibraryUpdateNotifier.ts
+msgid "{count, plural, one {#+ new chapter} other {#+ new chapters}}"
+msgstr "{count, plural, one {#+ new chapter} other {#+ new chapters}}"
+
 #: src/features/manga/Manga.constants.ts
 msgid "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
 msgstr "{count, plural, one {Changed categories of manga} other {Changed categories of # manga}}"
@@ -308,6 +316,10 @@ msgstr "{currentAutoUpdateIntervalHours}h"
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
 msgstr "{currentDownloadAheadLimit, plural, one {# Chapter} other {# Chapters}}"
+
+#: src/features/notifications/services/LibraryUpdateNotifier.ts
+msgid "{entryCount, plural, one {in # entry} other {in # entries}}"
+msgstr "{entryCount, plural, one {in # entry} other {in # entries}}"
 
 #: src/features/extension/store/screens/ExtensionStores.tsx
 msgid "{extensionCount, plural, one {# extension} other {# extensions}}"
@@ -1814,6 +1826,7 @@ msgstr "Failed to disconnect from KOReader Sync server."
 #: src/features/global-search/screens/SearchAll.tsx
 #: src/features/history/screens/HistorySettings.tsx
 #: src/features/library/components/LibraryOptionsPanel.tsx
+#: src/features/library/screens/LibrarySettings.tsx
 #: src/features/migration/screens/MigrationSelectSource.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettings.tsx
 #: src/features/settings/components/globalUpdate/GlobalUpdateSettingsEntries.tsx
@@ -2796,6 +2809,14 @@ msgstr "Notes"
 msgid "Notes saved"
 msgstr "Notes saved"
 
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notify about new chapters"
+msgstr "Notify about new chapters"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Notify about new chapters of library entries"
+msgstr "Notify about new chapters of library entries"
+
 #: src/features/tracker/Tracker.constants.ts
 msgid "Novel"
 msgstr "Novel"
@@ -2866,6 +2887,14 @@ msgstr "Ongoing"
 #: src/features/migration/Migration.constants.ts
 msgid "Only outdated matches found"
 msgstr "Only outdated matches found"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Only while Suwayomi is in use, this browser does not allow notifications"
+msgstr "Only while Suwayomi is in use, this browser does not allow notifications"
+
+#: src/features/library/screens/LibrarySettings.tsx
+msgid "Only while Suwayomi is in use. Allow browser notifications"
+msgstr "Only while Suwayomi is in use. Allow browser notifications"
 
 #: src/features/downloads/components/DownloadAheadSetting.tsx
 msgid "Only works if the current chapter plus the next chapter are already downloaded."

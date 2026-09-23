@@ -36,7 +36,7 @@ const UPDATER_CATEGORY_FIELDS = gql`
     }
 `;
 
-const UPDATER_JOB_INFO_FIELDS = gql`
+export const UPDATER_JOB_INFO_FIELDS = gql`
     fragment UPDATER_JOB_INFO_FIELDS on UpdaterJobsInfoType {
         isRunning
         totalJobs
