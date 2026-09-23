@@ -38,6 +38,7 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { d } from 'koration';
 import { OffsetContainer } from '@/base/OffsetComponent.tsx';
+import { useNewChapterNotifications } from '@/features/notifications/hooks/useNewChapterNotifications.ts';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
@@ -201,6 +202,8 @@ const BackgroundSubscriptions = () => {
     requestManager.useUpdaterSubscription({ skip: skipConnection });
     requestManager.useWebUIUpdateSubscription({ skip: skipConnection });
     requestManager.useSyncSubscription({ skip: skipConnection });
+
+    useNewChapterNotifications();
 
     return null;
 };

@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - (**Library**) Add option to apply `tracker` filter either with `AND` or `OR` logic
 - (**Library**) Add fuzzy search, which tolerates typos and words in a different order and shows the closest matches first. Can be turned off in the library settings
 - (**Library**) Add autocomplete to the search bar, suggesting the entries of the category that is being searched. Pressing `tab` selects the suggested live auto-completion
+- (**Library**) Add setting to show a notification for the chapters found by a library update. Only works while Suwayomi is open
 - (**Sync**) Add sync button to the app bar of the library and updates pages
 - (**Browse/Extension**) Add search suggestions to extensions browse tab
 
