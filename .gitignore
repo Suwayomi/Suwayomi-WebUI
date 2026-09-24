@@ -9,3 +9,4 @@ dev-dist/*
 
 src/lib/graphql/schema.json
 .oxlintrc.jsonc
+/.workbuddy
