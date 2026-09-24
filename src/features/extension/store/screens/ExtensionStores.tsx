@@ -37,7 +37,7 @@ import { TextSettingDialog } from '@/base/components/settings/text/TextSettingDi
 import { useMemo } from 'react';
 import { useAppTitle } from '@/features/navigation-bar/hooks/useAppTitle.ts';
 import { ClipBoardGuard } from '@/base/components/guard/ClipBoardGuard.tsx';
-import { getMainScrollHost } from '@/base/utils/ScrollHost.ts';
+import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 const ExtensionStoreCard = ({
     indexUrl,

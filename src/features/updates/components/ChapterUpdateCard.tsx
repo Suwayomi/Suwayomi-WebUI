@@ -26,7 +26,7 @@ import { STABLE_EMPTY_ARRAY } from '@/base/Base.constants.ts';
 import { Virtuoso } from 'react-virtuoso';
 import { ReaderService } from '@/features/reader/services/ReaderService.ts';
 import { ChapterCardExpandButton } from '@/features/chapter/components/buttons/ChapterCardExpandButton.tsx';
-import { getMainScrollHost } from '@/base/utils/ScrollHost.ts';
+import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 export const ChapterUpdateCard = memo(
     ({

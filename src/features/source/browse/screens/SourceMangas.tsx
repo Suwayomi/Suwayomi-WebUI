@@ -51,7 +51,7 @@ import { EmptyViewAbsoluteCentered } from '@/base/components/feedback/EmptyViewA
 import type { MangaIdInfo } from '@/features/manga/Manga.types.ts';
 import { GridLayout, SearchParam } from '@/base/Base.types';
 import { AppRoutes } from '@/base/AppRoute.constants.ts';
-import { scrollMainToTop } from '@/base/utils/ScrollHost.ts';
+import { scrollMainToTop } from '@/base/contexts/ScrollHost.tsx';
 import { getErrorMessage } from '@/lib/HelperFunctions.ts';
 import { Sources } from '@/features/source/services/Sources.ts';
 import { STABLE_EMPTY_ARRAY, STABLE_EMPTY_OBJECT } from '@/base/Base.constants.ts';

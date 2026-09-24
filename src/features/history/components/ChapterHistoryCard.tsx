@@ -27,7 +27,7 @@ import Collapse from '@mui/material/Collapse';
 import { Virtuoso } from 'react-virtuoso';
 import Stack from '@mui/material/Stack';
 import { ChapterCardExpandButton } from '@/features/chapter/components/buttons/ChapterCardExpandButton.tsx';
-import { getMainScrollHost } from '@/base/utils/ScrollHost.ts';
+import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 export const ChapterHistoryCard = memo(
     ({

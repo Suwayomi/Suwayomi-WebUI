@@ -19,7 +19,7 @@ import { MigrationEntry } from '@/features/migration/components/migration-entry/
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
 import { Virtuoso } from 'react-virtuoso';
-import { getMainScrollHost } from '@/base/utils/ScrollHost.ts';
+import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 const VirtuosoListWrapper = memo(({ children, ...props }: { children?: ReactNode }) => (
     <Stack {...props} sx={{ gap: 1 }}>

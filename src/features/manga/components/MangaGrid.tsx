@@ -23,7 +23,7 @@ import { useNavBarContext } from '@/features/navigation-bar/NavbarContext.tsx';
 import { GridLayout } from '@/base/Base.types.ts';
 import { useMetadataServerSettings } from '@/features/settings/services/ServerSettingsMetadata.ts';
 import { VirtuosoGridPersisted } from '@/lib/virtuoso/Component/VirtuosoGridPersisted.tsx';
-import { getMainScrollHost } from '@/base/utils/ScrollHost.ts';
+import { getMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 import { MUIUtil } from '@/lib/mui/MUI.util.ts';
 
 const GridContainer = ({ children, ref, ...props }: GridTypeMap['props'] & { ref?: Ref<HTMLDivElement> }) => (

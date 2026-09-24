@@ -38,7 +38,7 @@ import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { SplashScreen } from '@/features/authentication/components/SplashScreen.tsx';
 import { d } from 'koration';
 import { OffsetContainer } from '@/base/OffsetComponent.tsx';
-import { scrollMainToTop, setMainScrollHost } from '@/base/utils/ScrollHost.ts';
+import { scrollMainToTop, setMainScrollHost } from '@/base/contexts/ScrollHost.tsx';
 
 const { Browse } = loadable(() => import('@/features/browse/screens/Browse.tsx'), lazyLoadFallback);
 const { DownloadQueue } = loadable(() => import('@/features/downloads/screens/DownloadQueue.tsx'), lazyLoadFallback);
