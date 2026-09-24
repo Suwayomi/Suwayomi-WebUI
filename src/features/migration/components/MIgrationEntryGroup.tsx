@@ -19,6 +19,7 @@ import { MigrationEntry } from '@/features/migration/components/migration-entry/
 import { MigrationManager } from '@/features/migration/MigrationManager.ts';
 import { OffsetComponentWithContainer } from '@/base/OffsetComponent.tsx';
 import { Virtuoso } from 'react-virtuoso';
+import { getMainScrollHost } from '@/base/utils/ScrollHost.ts';
 
 const VirtuosoListWrapper = memo(({ children, ...props }: { children?: ReactNode }) => (
     <Stack {...props} sx={{ gap: 1 }}>
@@ -76,7 +77,7 @@ export const MigrationEntryGroup = memo(
                 >
                     <Collapse in={isExpanded}>
                         <Virtuoso
-                            useWindowScroll
+                            customScrollParent={getMainScrollHost()}
                             totalCount={entries.length}
                             components={{
                                 List: VirtuosoListWrapper,

@@ -122,9 +122,9 @@ export function DefaultNavBar() {
                 ref={appBarRef}
                 sx={{
                     position: 'fixed',
-                    marginLeft: actualNavBarWidth,
+                    left: actualNavBarWidth,
                     pt: 'env(safe-area-inset-top)',
-                    width: `calc(100% - ${actualNavBarWidth}px)`,
+                    width: `calc(100vw - ${actualNavBarWidth}px)`,
                     zIndex: theme.zIndex.drawer,
                 }}
             >
