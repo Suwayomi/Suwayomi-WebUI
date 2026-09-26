@@ -152,6 +152,7 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         setSearchString('');
         setQuery(undefined);
         updateSearchOpenState(false);
+        setHideSuggestions(false);
     };
     const handleBlur = () => {
         if (!searchString) {
@@ -192,7 +193,10 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
         }
 
         setHideTitle(isOpen);
-        return () => setHideTitle(false);
+        return () => {
+            setHideTitle(false);
+            setHideSuggestions(false);
+        };
     }, [isOpen]);
 
     if (isOpen) {
@@ -204,7 +208,9 @@ export const AppbarSearch: React.FunctionComponent<IProps> = (props) => {
                 forcePopupIcon={false}
                 openOnFocus
                 fullWidth
-                onFocus={() => setFocused(true)}
+                onFocus={() => {
+                    setFocused(true);
+                }}
                 onBlur={() => setFocused(false)}
                 slotProps={{
                     popper: {
