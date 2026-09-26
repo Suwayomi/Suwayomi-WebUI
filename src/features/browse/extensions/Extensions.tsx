@@ -138,9 +138,14 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     const allExtensions = data?.fetchExtensions?.extensions ?? STABLE_EMPTY_ARRAY;
     const allLangs = useMemo(() => getLanguagesFromExtensions(allExtensions), [allExtensions]);
 
+    const unsearchedFilteredExtensions = useMemo(
+        () => filterExtensions(allExtensions, { selectedLanguages: shownLangs, showNsfw }),
+        [allExtensions, shownLangs, showNsfw],
+    );
+
     const filteredExtensions = useMemo(
-        () => filterExtensions(allExtensions, { selectedLanguages: shownLangs, showNsfw, query }),
-        [allExtensions, shownLangs, showNsfw, query],
+        () => filterExtensions(unsearchedFilteredExtensions, { query }),
+        [unsearchedFilteredExtensions, query],
     );
     const groupedExtensions = useMemo(() => groupExtensionsByLanguage(filteredExtensions), [filteredExtensions]);
     const groupCounts = useMemo(
@@ -153,8 +158,8 @@ export function Extensions({ tabsMenuHeight }: { tabsMenuHeight: number }) {
     );
 
     const visibleExtensionNames = useMemo(
-        () => visibleExtensions.map((extension) => extension.name),
-        [visibleExtensions],
+        () => unsearchedFilteredExtensions.map((extension) => extension.name),
+        [unsearchedFilteredExtensions],
     );
 
     const areReposDefined = !!extensionStoresRequest.data?.extensionStores.totalCount;
